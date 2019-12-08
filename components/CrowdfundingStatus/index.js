@@ -11,7 +11,13 @@ import { chfFormat, countFormat } from '../../lib/utils/format'
 
 import { STATUS_POLL_INTERVAL_MS } from '../../lib/constants'
 
-import { P, Label, fontFamilies, mediaQueries } from '@project-r/styleguide'
+import {
+  P,
+  Label,
+  fontStyles,
+  mediaQueries,
+  pxToRem
+} from '@project-r/styleguide'
 
 import Bar from './Bar'
 
@@ -24,7 +30,7 @@ const styles = {
       marginBottom: -8
     },
     fontSize: 80,
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     lineHeight: 1
   }),
   secondaryNumber: css({
@@ -34,7 +40,7 @@ const styles = {
       marginBottom: -3
     },
     fontSize: 43,
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     lineHeight: 1
   }),
   smallNumber: css({
@@ -44,12 +50,24 @@ const styles = {
       marginBottom: -3
     },
     fontSize: 22,
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     lineHeight: 1
+  }),
+  label: css({
+    display: 'block',
+    color: '#fff',
+    ...fontStyles.sansSerifRegular,
+    fontSize: pxToRem(14),
+    lineHeight: pxToRem(20),
+    paddingTop: 5,
+    paddingBottom: 5,
+    [mediaQueries.mUp]: {
+      paddingTop: 8
+    }
   }),
   hoverGoal: css({
     cursor: 'default',
-    fontFamily: fontFamilies.sansSerifMedium
+    ...fontStyles.sansSerifMedium
   })
 }
 
@@ -165,11 +183,11 @@ class Status extends Component {
         <div style={{ paddingTop: 10 }}>
           <P>
             <span {...styles.smallNumber}>{countFormat(status.people)}</span>
-            <Label style={{ color: '#fff' }}>
+            <span {...styles.label}>
               {t.elements('crowdfunding/status/goal/people', {
                 count: createHoverGoalCount(countFormat, goal.people)
               })}
-            </Label>
+            </span>
           </P>
           <Bar
             goals={goalsByPeople}
@@ -209,7 +227,7 @@ class Status extends Component {
                 >
                   {format(status[accessor])}
                 </span>
-                <Label style={{ color: '#fff' }}>
+                <span {...styles.label}>
                   {t.first.elements(
                     [
                       `crowdfunding/status/goal/${crowdfundingName}/${accessor}`,
@@ -222,7 +240,7 @@ class Status extends Component {
                       )
                     }
                   )}
-                </Label>
+                </span>
               </P>
               <Bar
                 goals={goalsByPeople}
@@ -240,9 +258,9 @@ class Status extends Component {
                 count: status.support
               })}
             </span>
-            <Label style={{ color: '#fff' }}>
+            <span {...styles.label}>
               {t('crowdfunding/status/goal/support/label')}
-            </Label>
+            </span>
           </P>
         )}
         <P>
@@ -278,12 +296,12 @@ class Status extends Component {
                 ])}
           </span>
           {isRunning ? (
-            <Label style={{ color: '#fff' }}>
+            <span {...styles.label}>
               {t.first([
                 `crowdfunding/status/time/label/${crowdfundingName}`,
                 'crowdfunding/status/time/label'
               ])}
-            </Label>
+            </span>
           ) : (
             <br />
           )}

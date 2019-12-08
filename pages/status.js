@@ -367,6 +367,20 @@ Denn die Republik macht nur dann Sinn, wenn sie aus eigener Kraft überlebt. Ers
 
 Doch das braucht Zeit, Nerven, frisches Kapital. 
 
+${(
+  <PrimaryCTA
+    me={me}
+    query={query}
+    questionnaire={questionnaire}
+    shouldBuyProlong={shouldBuyProlong}
+    isReactivating={isReactivating}
+  >
+    <Editorial.A style={{ color: colors.negative.text }}>
+      Sind Sie an Bord?
+    </Editorial.A>
+  </PrimaryCTA>
+)}
+
 ## Warum jetzt gerade?
 
 «Wie geht's?» Diese Frage bringt uns ins Dilemma. Die Redaktion, das Unternehmen sind endlich gut aufgestellt. Alles läuft präziser. Noch nie hatte die gesamte Crew in der Republik so viel Schwung, Entschlossenheit und Klarheit im Kopf.
@@ -415,7 +429,7 @@ Doch dafür brauchen wir Sie. An Bord. Und an Deck.
                 })}
               >
                 <ChartTitle style={{ color: '#fff' }}>
-                  Wie gross ist die Republik Verlegerschaft per 31. März?
+                  Wie viele werden am 31. März definitiv dabei sein?
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
                   Anzahl bestehende, offene und neue Mitgliedschaften und
@@ -491,10 +505,12 @@ Doch dafür brauchen wir Sie. An Bord. Und an Deck.
                   }, [])}
                 />
                 <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
-                  Erneuerungsquoten basierend auf allen Jahresmitgliedschaften
-                  die zwischen dem 1. Dezember und 31. März erneuert werden
-                  könnten. Als offen gelten Jahresmitgliedschaften wo noch keine
-                  Verlängerungszahlung initiiert wurde. Datenstand:{' '}
+                  Als grosszügig gelten alle, die mehr als CHF 240 bezahlt
+                  haben. Erneuerungsquoten basierend auf allen
+                  Jahresmitgliedschaften die zwischen dem 1. Dezember und 31.
+                  März erneuert werden könnten. Als offen gelten
+                  Jahresmitgliedschaften wo noch keine Verlängerungszahlung
+                  initiiert wurde. Datenstand:{' '}
                   {formatDateTime(new Date(evolution.updatedAt))}
                 </Editorial.Note>
               </div>
@@ -511,7 +527,7 @@ ${(
     defaultBenefactor={defaultBenefactor}
   >
     <Editorial.A style={{ color: colors.negative.text }}>
-      Jetzt mitmachen!
+      Jetzt Tank füllen
     </Editorial.A>
   </PrimaryCTA>
 )}
@@ -564,7 +580,7 @@ ${
       params={{ slug: questionnaireCrowdSlug }}
       passHref
     >
-      <Button primary>Jetzt ausfüllen</Button>
+      <Button primary>Komplizin werden</Button>
     </Link>
   )
 }

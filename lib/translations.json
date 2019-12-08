@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-08T00:26:06.764Z",
+  "updated": "2019-12-08T13:20:57.242Z",
   "title": "live",
   "data": [
     {
@@ -4567,14 +4567,6 @@
       "value": "bereits verlängerte Mitgliedschaften. Ziel: {count}."
     },
     {
-      "key": "crowdfunding/status/goal/SURVIVE/people",
-      "value": "von {count} aktiven Verlegerinnen am 31. März"
-    },
-    {
-      "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "von {count} Investitionen und Grosszügigkeit"
-    },
-    {
       "key": "crowdfunding/status/goal/money",
       "value": "von {count}"
     },
@@ -6419,14 +6411,6 @@
       "value": "Republik bei Stromausfall"
     },
     {
-      "key": "prolongNecessary/before",
-      "value": "Der Republik treu bleiben: {link}."
-    },
-    {
-      "key": "prolongNecessary/before/linkText",
-      "value": "jetzt verlängern"
-    },
-    {
       "key": "package/customize/price/payMore",
       "value": "Möchten Sie Ihr Investment erhöhen?"
     },
@@ -6435,12 +6419,20 @@
       "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
     },
     {
-      "key": "package/customize/price/payMore/2",
-      "value": "Tollkühne {formattedCHF}"
-    },
-    {
       "key": "package/customize/price/payMore/thx",
       "value": "Danke!"
+    },
+    {
+      "key": "prolongNecessary/before",
+      "value": "Der Republik treu bleiben: {link}."
+    },
+    {
+      "key": "prolongNecessary/before/linkText",
+      "value": "jetzt verlängern"
+    },
+    {
+      "key": "package/customize/price/payMore/2",
+      "value": "Tollkühne {formattedCHF}"
     },
     {
       "key": "package/customize/price/payMore/thx/2",
@@ -6448,11 +6440,19 @@
     },
     {
       "key": "package/customize/price/payRegular",
-      "value": "Auf den regulären Beitrag zurücksetzten"
+      "value": "Auf den regulären Beitrag zurücksetzen"
     },
     {
       "key": "pledge/title/PROLONG/reactivate",
       "value": "Reaktivieren Sie Ihr Investment."
+    },
+    {
+      "key": "crowdfunding/status/goal/SURVIVE/people",
+      "value": "werden am 31. März definitiv dabei sein. Ziel: {count}."
+    },
+    {
+      "key": "crowdfunding/status/goal/SURVIVE/money",
+      "value": "von Investoren und grosszügigen Verlegerinnen. Ziel: {count}."
     }
   ]
 }

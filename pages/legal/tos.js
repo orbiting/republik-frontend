@@ -15,7 +15,7 @@ export default () => {
       {md(mdComponents)`
 ## Allgemeine Geschäftsbedingungen 
 
-Stand 9. Dezember 2019
+Stand 8. Dezember 2019
 
 ## 1. Geltungsbereich
 

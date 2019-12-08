@@ -259,7 +259,7 @@ const Page = ({
   router: { query }
 }) => {
   const meta = {
-    title: 'Stand der Dinge',
+    title: '🚀 Cockpit',
     description: ''
   }
 

@@ -4,7 +4,7 @@ import { format } from 'url'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Router, Link } from '../../lib/routes'
+import { Router, Link, questionnaireCrowdSlug } from '../../lib/routes'
 
 import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
@@ -26,7 +26,9 @@ import {
   InlineSpinner,
   Button,
   Lead,
-  Loader
+  Loader,
+  Editorial,
+  InfoBoxListItem
 } from '@project-r/styleguide'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
@@ -129,8 +131,6 @@ class Merci extends Component {
       signInError,
       signInLoading
     } = this.state
-    const questionnaireButton =
-      showQuestionnaire(data) && query.package === 'PROLONG'
 
     if (query.claim) {
       return (
@@ -266,6 +266,8 @@ class Merci extends Component {
 
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
     const noNameSuffix = me ? '' : '/noName'
+    const questionnaireLink =
+      showQuestionnaire(data) && query.package === 'PROLONG'
 
     return (
       <Fragment>
@@ -294,20 +296,47 @@ class Merci extends Component {
             />
             <WithMembership
               render={() => (
-                <div style={{ marginTop: 10 }}>
-                  {questionnaireButton && (
-                    <Link route='umfrage/crowd'>
-                      <Button primary style={buttonStyle}>
-                        {t('merci/action/questionnaire')}
-                      </Button>
-                    </Link>
+                <>
+                  {query.package === 'PROLONG' && (
+                    <Editorial.UL>
+                      {questionnaireLink && (
+                        <InfoBoxListItem>
+                          <Link
+                            route='questionnaireCrowd'
+                            params={{ slug: questionnaireCrowdSlug }}
+                            passHref
+                          >
+                            <Editorial.A>
+                              {t('merci/action/questionnaire')}
+                            </Editorial.A>
+                          </Link>
+                        </InfoBoxListItem>
+                      )}
+                      <InfoBoxListItem>
+                        <Link
+                          route='pledge'
+                          params={{ package: 'ABO_GIVE' }}
+                          passHref
+                        >
+                          <Editorial.A>{t('merci/action/give')}</Editorial.A>
+                        </Link>
+                      </InfoBoxListItem>
+                      <InfoBoxListItem>
+                        <Link route='cockpit' passHref>
+                          <Editorial.A>{t('merci/action/cockpit')}</Editorial.A>
+                        </Link>
+                      </InfoBoxListItem>
+                    </Editorial.UL>
                   )}
                   <Link route='index'>
-                    <Button primary={!questionnaireButton} style={buttonStyle}>
+                    <Button
+                      primary={!questionnaireLink}
+                      style={{ ...buttonStyle, marginTop: 10 }}
+                    >
                       {t('merci/action/read')}
                     </Button>
                   </Link>
-                  {me && !me.hasPublicProfile && !questionnaireButton && (
+                  {me && !me.hasPublicProfile && (
                     <Link
                       route='profile'
                       params={{ slug: me.username || me.id }}
@@ -317,7 +346,7 @@ class Merci extends Component {
                       </Button>
                     </Link>
                   )}
-                </div>
+                </>
               )}
             />
           </Content>
@@ -330,7 +359,7 @@ class Merci extends Component {
 
 const questionnaireQuery = gql`
   query getQuestionnaire {
-    questionnaire(slug: "crowd") {
+    questionnaire(slug: "${questionnaireCrowdSlug}") {
       id
       beginDate
       endDate

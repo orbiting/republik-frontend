@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-08T18:49:53.975Z",
+  "updated": "2019-12-08T20:44:21.395Z",
   "title": "live",
   "data": [
     {
@@ -4268,15 +4268,15 @@
     },
     {
       "key": "merci/title/package/PROLONG",
-      "value": "Guten Tag, {name}"
+      "value": "{name}, danke, dass Sie der Republik vertrauen. Danke für Ihre Erneuerung."
     },
     {
       "key": "merci/title/package/PROLONG/noName",
-      "value": "Guten Tag"
+      "value": "Danke, dass Sie der Republik vertrauen. Danke für Ihre Erneuerung."
     },
     {
       "key": "merci/lead/package/PROLONG",
-      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung! <br />"
+      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung.<br />\n<br />\nIhre Treue bedeutet uns viel, und wir freuen uns, dass Sie sich dazu entschieden haben, Ihre Mitgliedschaft zu verlängern. Damit die Republik eine Zukunft hat, müssen wir bis zum 31. März 2020 viele neue Verlegerinnen finden und überzeugen. <br />\n<br />\nDas schaffen wir nur gemeinsam. Helfen Sie mit und werden Sie Komplizin, Komplize, unterstützen Sie uns bei der Bekannt­machung der Republik oder verschenken Sie eine Mitgliedschaft. Danke!"
     },
     {
       "key": "pledge/title/PROLONG/ABO_GIVE_MONTHS",
@@ -6453,6 +6453,14 @@
     {
       "key": "crowdfunding/status/goal/support/label",
       "value": "Personen, die bereit sind, die Republik bekannter zu machen"
+    },
+    {
+      "key": "merci/action/give",
+      "value": "Verschenken Sie ein Abo"
+    },
+    {
+      "key": "merci/action/cockpit",
+      "value": "Lesen Sie mehr über die Kampagne"
     }
   ]
 }

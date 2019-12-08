@@ -4,6 +4,7 @@ import { withRouter } from 'next/router'
 import { NarrowContainer } from '@project-r/styleguide'
 
 import { CROWDFUNDING_PLEDGE } from '../lib/constants'
+import { Router } from '../lib/routes'
 
 import Frame from '../components/Frame'
 import PledgeForm from '../components/Pledge/Form'
@@ -14,11 +15,25 @@ import { PSP_PLEDGE_ID_QUERY_KEYS } from '../components/Payment/constants'
 class PledgePage extends Component {
   render() {
     const {
-      router: { query }
+      router: { query },
+      serverContext
     } = this.props
 
     const queryKey = PSP_PLEDGE_ID_QUERY_KEYS.find(key => query[key])
     const pledgeId = queryKey && query[queryKey].split('_')[0]
+
+    if (query.goto === 'cockpit') {
+      if (serverContext) {
+        serverContext.res.redirect(
+          302,
+          `/cockpit${query.token ? `?token=${query.token}` : ''}`
+        )
+        serverContext.res.end()
+      } else if (process.browser) {
+        // SSR does two two-passes: data (with serverContext) & render (without)
+        Router.replaceRoute('cockpit', { token: query.token })
+      }
+    }
 
     return (
       <Frame>

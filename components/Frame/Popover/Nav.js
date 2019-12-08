@@ -263,6 +263,12 @@ const Nav = ({
             closeHandler={closeHandler}
           />
           <NavLink
+            route='cockpit'
+            translation={t('nav/cockpit')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <NavLink
             route='meta'
             translation={t('nav/meta')}
             active={active}

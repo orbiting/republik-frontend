@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-08T13:20:57.242Z",
+  "updated": "2019-12-08T14:28:53.803Z",
   "title": "live",
   "data": [
     {
@@ -6441,6 +6441,10 @@
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",
       "value": "von Investoren und grosszügigen Verlegerinnen. Ziel: {count}."
+    },
+    {
+      "key": "nav/cockpit",
+      "value": "Cockpit"
     }
   ]
 }

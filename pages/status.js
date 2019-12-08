@@ -1,17 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
-import { csvParse } from 'd3-dsv'
 import { withRouter } from 'next/router'
 
-import {
-  Button,
-  Interaction,
-  Editorial,
-  Loader,
-  colors
-} from '@project-r/styleguide'
+import { Button, Editorial, Loader, colors } from '@project-r/styleguide'
 import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
 
 import md from 'markdown-in-js'
@@ -207,7 +200,6 @@ const PrimaryCTA = ({
   questionnaire,
   shouldBuyProlong,
   isReactivating,
-  defaultBenefactor,
   block,
   query,
   children
@@ -217,7 +209,7 @@ const PrimaryCTA = ({
   if (shouldBuyProlong) {
     target = {
       route: 'pledge',
-      params: { package: 'PROLONG' }
+      params: { package: 'PROLONG', token: query.token }
     }
     text = isReactivating ? 'Zurückkehren' : 'Treu bleiben'
   } else if (!(me && me.activeMembership)) {
@@ -352,7 +344,6 @@ ${(
     questionnaire={questionnaire}
     shouldBuyProlong={shouldBuyProlong}
     isReactivating={isReactivating}
-    defaultBenefactor={defaultBenefactor}
   >
     <Editorial.A style={{ color: colors.negative.text }}>
       Kämpfen Sie mit?
@@ -443,24 +434,24 @@ Doch dafür brauchen wir Sie. An Bord. Und an Deck.
                       '#333333',
                       '#9970ab'
                     ],
-                    padding: 30,
                     x: 'date',
                     timeParse: '%Y-%m',
                     timeFormat: '%b',
                     xTicks: ['2019-12', '2020-01', '2020-02', '2020-03'],
                     height: 300,
+                    padding: 55,
                     xAnnotations: [
                       {
                         x1: '2020-03',
                         x2: '2020-03',
-                        label: 'durch 75% Erneuerung',
+                        label: '75% Erneuerung',
                         value:
                           TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.75
                       },
                       {
                         x1: '2020-03',
                         x2: '2020-03',
-                        label: 'durch 50% Erneuerung',
+                        label: '50% Erneuerung',
                         value:
                           TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.5
                       }

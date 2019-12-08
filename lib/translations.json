@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-08T20:44:21.395Z",
+  "updated": "2019-12-08T21:00:16.543Z",
   "title": "live",
   "data": [
     {
@@ -4324,7 +4324,11 @@
     },
     {
       "key": "memberships/cancel/confirmation",
-      "value": "Sie haben Ihr Abo erfolgreich gekündigt."
+      "value": "Die Republik befindet sich derzeit in einem Kampf um ihre Zukunft und ist auf jedes Abo, jede Verlegerin und jedes Mitglied angewiesen. Haben Sie gekündigt, weil Sie das Gefühl haben, zu wenig Zeit zu haben? Dann geben Sie uns noch eine zweite Chance und bleiben Sie aus ideellen Gründen dabei. Wir brauchen jetzt jede und jeden."
+    },
+    {
+      "key": "memberships/cancel/confirmation/title",
+      "value": "Sie haben erfolgreich gekündigt."
     },
     {
       "key": "memberships/cancel/description",
@@ -6460,7 +6464,11 @@
     },
     {
       "key": "merci/action/cockpit",
-      "value": "Lesen Sie mehr über die Kampagne"
+      "value": "Mehr erfahren"
+    },
+    {
+      "key": "memberships/cancel/confirmation/cockpit",
+      "value": "Mehr erfahren"
     }
   ]
 }

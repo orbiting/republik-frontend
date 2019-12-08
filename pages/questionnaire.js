@@ -24,7 +24,7 @@ const meta = {
 
 export const description = t.elements('pages/meta/questionnaire/unauthorized', {
   buyLink: (
-    <Link key='pledge' route='pledge'>
+    <Link key='pledge' route='pledge' passHref>
       <A>{t('pages/meta/questionnaire/unauthorized/buyText')}</A>
     </Link>
   )

@@ -48,7 +48,13 @@ export default compose(withT)(
             {invalid ? (
               t('questionnaire/invalid')
             ) : (
-              <A href='#' onClick={onReset}>
+              <A
+                href='#'
+                onClick={e => {
+                  e.preventDefault()
+                  onReset()
+                }}
+              >
                 {t('questionnaire/cancel')}
               </A>
             )}

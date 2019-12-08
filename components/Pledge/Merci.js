@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { format } from 'url'
 
 import withT from '../../lib/withT'
@@ -30,6 +30,8 @@ import {
 } from '@project-r/styleguide'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
+import gql from 'graphql-tag'
+import StatusError from '../StatusError'
 
 const { H1, P } = Interaction
 
@@ -75,6 +77,17 @@ const parseSignInResponseQuery = query => {
   }
 }
 
+const showQuestionnaire = data => {
+  const questionnaire = data && data.questionnaire
+  const now = new Date()
+  return (
+    questionnaire &&
+    new Date(questionnaire.beginDate) < now &&
+    now < new Date(questionnaire.endDate) &&
+    !questionnaire.userHasSubmitted
+  )
+}
+
 class Merci extends Component {
   constructor(props) {
     super(props)
@@ -108,7 +121,7 @@ class Merci extends Component {
   }
 
   render() {
-    const { me, t, query } = this.props
+    const { me, t, query, data } = this.props
     const {
       polling,
       email,
@@ -116,6 +129,9 @@ class Merci extends Component {
       signInError,
       signInLoading
     } = this.state
+    const questionnaireButton =
+      showQuestionnaire(data) && query.package === 'PROLONG'
+
     if (query.claim) {
       return (
         <MainContainer>
@@ -279,12 +295,19 @@ class Merci extends Component {
             <WithMembership
               render={() => (
                 <div style={{ marginTop: 10 }}>
+                  {questionnaireButton && (
+                    <Link route='umfrage/crowd'>
+                      <Button primary style={buttonStyle}>
+                        {t('merci/action/questionnaire')}
+                      </Button>
+                    </Link>
+                  )}
                   <Link route='index'>
-                    <Button primary style={buttonStyle}>
+                    <Button primary={!questionnaireButton} style={buttonStyle}>
                       {t('merci/action/read')}
                     </Button>
                   </Link>
-                  {me && !me.hasPublicProfile && (
+                  {me && !me.hasPublicProfile && !questionnaireButton && (
                     <Link
                       route='profile'
                       params={{ slug: me.username || me.id }}
@@ -305,7 +328,19 @@ class Merci extends Component {
   }
 }
 
+const questionnaireQuery = gql`
+  query getQuestionnaire {
+    questionnaire(slug: "crowd") {
+      id
+      beginDate
+      endDate
+      userHasSubmitted
+    }
+  }
+`
+
 export default compose(
+  graphql(questionnaireQuery),
   withMe,
   withT,
   withSignIn

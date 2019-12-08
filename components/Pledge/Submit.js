@@ -15,7 +15,7 @@ import track from '../../lib/piwik'
 import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 
 import { COUNTRIES, fields as getAddressFields } from '../Account/AddressForm'
-import { query as addressQuery } from '../Account/UpdateMe'
+import { query as addressQuery } from '../Account/enhancers'
 
 import FieldSet from '../FieldSet'
 

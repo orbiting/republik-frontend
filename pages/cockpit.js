@@ -25,7 +25,11 @@ import withT from '../lib/withT'
 
 import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
 
-import { CROWDFUNDING, STATUS_POLL_INTERVAL_MS } from '../lib/constants'
+import {
+  CROWDFUNDING,
+  STATUS_POLL_INTERVAL_MS,
+  CDN_FRONTEND_BASE_URL
+} from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
 import { Link, questionnaireCrowdSlug } from '../lib/routes'
 import { swissTime } from '../lib/utils/format'
@@ -304,8 +308,11 @@ const Page = ({
   router: { query }
 }) => {
   const meta = {
-    title: '🚀 Cockpit',
-    description: ''
+    pageTitle: '🚀 Republik Cockpit',
+    title: 'Nehmen Sie Platz im Cockpit',
+    description:
+      'Kämpfen wir gemeinsam um die Zukunft der Republik. Was Sie wissen müssen, wo wir stehen, und warum wir Sie brauchen.',
+    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/cockpit.jpg`
   }
 
   return (

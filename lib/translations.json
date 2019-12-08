@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-08T18:08:32.152Z",
+  "updated": "2019-12-08T18:49:53.975Z",
   "title": "live",
   "data": [
     {
@@ -4076,11 +4076,11 @@
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "1-Minuten-Formular"
+      "value": "Haben Sie eine Minute?"
     },
     {
       "key": "questionnaire/crowd/description",
-      "value": "Werden Sie Komplize der Republik und sagen Sie uns, was Sie tun möchten."
+      "value": "Die Republik muss bekannter werden. Helfen Sie uns, Ihnen zu helfen, uns zu helfen."
     },
     {
       "key": "questionnaire/crowd/intro",

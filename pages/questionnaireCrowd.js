@@ -178,15 +178,6 @@ const ThankYou = compose(withT)(({ t }) => {
       <div>
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
-        <ThankYouItem tKey='questionnaire/crowd/submitted/share' />
-        <div {...styles.socialButtons}>
-          <ShareButtons
-            url={`${PUBLIC_BASE_URL}`}
-            tweet=''
-            socialMediaOnly
-            eventCategory='KomplizenShareButtons'
-          />
-        </div>
       </div>
     </div>
   )
@@ -197,11 +188,12 @@ const NoThanks = compose(withT)(({ t }) => {
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
       <div {...styles.intro}>
-        <P>{t('questionnaire/crowd/submitted/declined/intro')}</P>
-      </div>
-      <div>
-        <ThankYouItem tKey='questionnaire/crowd/submitted/declined/list/1' />
-        <ThankYouItem tKey='questionnaire/crowd/submitted/declined/list/2' />
+        <RawHtml
+          type={P}
+          dangerouslySetInnerHTML={{
+            __html: t('questionnaire/crowd/submitted/declined/intro')
+          }}
+        />
       </div>
     </div>
   )

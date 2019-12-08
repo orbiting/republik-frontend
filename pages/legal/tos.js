@@ -15,7 +15,7 @@ export default () => {
       {md(mdComponents)`
 ## Allgemeine Geschäftsbedingungen 
 
-Stand November 2018, letzte Änderung 8. Dezember 2019
+Stand 9. Dezember 2019
 
 ## 1. Geltungsbereich
 
@@ -70,7 +70,7 @@ Die Datenschutzbestimmungen werden in einer separaten Erklärung festgehalten un
 
 Für Mitgliedschaften bei der Project R Genossenschaft gelten die Statuten der Project R Genossenschaft.
 
-## 8. Pflichten der Unterstützer/-innen und/oder Besucher/-innen
+## 8. Pflichten der die Abonnenten/-innen, Mitglieder, Unterstützer/-innen und/oder Besucher/-innen
 
 Für den Inhalt ihrer Anmeldung und damit für die Informationen, die sie über sich bereitstellen, sind die Abonnenten/-innen, Mitglieder, Unterstützer/-innen und/oder Besucher/-innen allein verantwortlich, und sie sichern zu, dass die von ihnen gemachten Angaben vollständig sind und der Wahrheit entsprechen.
 

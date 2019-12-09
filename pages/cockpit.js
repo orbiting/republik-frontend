@@ -573,7 +573,7 @@ Abgesehen von den Finanzen war 2019 ein gutes Jahr:
 *   Wir haben mit Recherchen einen [entscheidenden Unterschied gemacht](https://republik.ch/2019). 
 *   Wir haben die Redaktion so weiterentwickelt, dass sie beides kann: schnell auf wichtige Ereignisse reagieren und Hintergrund liefern.
 *   Wir haben die Themen­führerschaft in den Bereichen Justiz, Digitalisierung und Klimapolitik aufgebaut.
-*   Wir waren permanent im Dialog mit Ihnen. Bei keinem anderem Medium können Sie direkt mit den Autorinnen debattieren.
+*   Wir waren permanent im Dialog mit Ihnen. Bei keinem anderen Medium können Sie direkt mit den Autorinnen debattieren.
 *   Wir reflektieren wie kein anderes Medien­unternehmen die eigene Arbeit öffentlich und schaffen Transparenz darüber, wie wir uns entwickeln.
 *   Wir haben Nachwuchs ausgebildet – und was für einen!
 *   Wir waren für den deutschen Grimme-Online-Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».

@@ -410,6 +410,7 @@ Schaffen wir es, haben wir eine realistische Chance, ein tragfähiges Geschäfts
 Hier einige unfreundliche Zahlen:
 
 *   Wir haben statt wie budgetiert 8100 in diesem Jahr bisher 4000 neue Mitglieder hinzugewonnen.
+
 *   Wir konnten 2019 neue Investoren gewinnen und haben Förder­beiträge erhalten. Zusammen über eine halbe Million Franken. Das ist wunderbar. Aber weniger als die geplante 1 Million.
 
 Das ist unternehmerisch nicht mehr lange tragbar. 
@@ -417,7 +418,6 @@ Das ist unternehmerisch nicht mehr lange tragbar.
 ## Das sind unsere Ziele
 
 *   Wir müssen bis Ende März 19’000 Verlegerinnen an Bord haben. Das ist zwar nur ein wenig mehr als heute – aber das Ziel ist trotzdem alles andere als trivial: Wir müssen neue Verlegerinnen dazugewinnen, aber auch jene ersetzen, die uns in den nächsten Monaten verlassen.
-
 
 *   Wir brauchen bis Ende März 2,2 Millionen Franken an Investoren­geldern, Spenden und Förder­beiträgen. Davon haben wir 535’000 Franken bereits erhalten.
 
@@ -571,12 +571,19 @@ Jetzt muss die Republik einen stabilen Orbit erreichen. Also selbsttragend werde
 Abgesehen von den Finanzen war 2019 ein gutes Jahr: 
 
 *   Wir haben mit Recherchen einen [entscheidenden Unterschied gemacht](https://republik.ch/2019). 
+
 *   Wir haben die Redaktion so weiterentwickelt, dass sie beides kann: schnell auf wichtige Ereignisse reagieren und Hintergrund liefern.
+
 *   Wir haben die Themen­führerschaft in den Bereichen Justiz, Digitalisierung und Klimapolitik aufgebaut.
+
 *   Wir waren permanent im Dialog mit Ihnen. Bei keinem anderen Medium können Sie direkt mit den Autorinnen debattieren.
+
 *   Wir reflektieren wie kein anderes Medien­unternehmen die eigene Arbeit öffentlich und schaffen Transparenz darüber, wie wir uns entwickeln.
+
 *   Wir haben Nachwuchs ausgebildet – und was für einen!
+
 *   Wir waren für den deutschen Grimme-Online-Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».
+
 *   Wir haben seit knapp einem Jahr ein starkes Gremium im Rücken, das uns trägt, unterstützt – und konstruktiv kritisiert: den Genossenschaftsrat.
 
 ## Die drei Phasen bis Ende März
@@ -586,7 +593,9 @@ Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 **Bis Ende Januar** 
 
 1.  Dass möglichst viele Verleger trotz Risiko an Bord bleiben.
+
 2.  Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
+
 3.  Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](ir@republik.ch))
 
 **Im Februar** wollen wir mit Ihnen darüber reden, wie wir die Republik noch neugieriger und nützlicher machen können.
@@ -596,8 +605,11 @@ Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 ## Was Sie sofort tun können
 
 *   Falls Sie nur eine Sache tun wollen: Erneuern Sie Ihre Mitgliedschaft – wenn möglich grosszügig. Wenn möglich jetzt.
+
 *   Oder – wenn Sie noch nicht an Bord sind – werden Sie Mitglied der Verlagsetage.
+
 *   Verschenken Sie die Republik, zum Beispiel zu Weihnachten – oder unter einem anderen Vorwand.
+
 *   Reden Sie mit Ihren Freunden über uns. Oder teilen Sie unsere interessantesten Geschichten mit ihnen. 
 
 Wir freuen uns, wenn Sie in den nächsten Monaten Seite an Seite mit uns für die Zukunft der Republik kämpfen.

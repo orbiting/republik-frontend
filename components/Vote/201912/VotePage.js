@@ -105,8 +105,6 @@ class VotePage extends Component {
               groupTurnout
             } = this.props.data[VOTING_COOP_201912_REPORT_SLUG] || {}
 
-            console.log(discussion)
-
             const votingStage = getVotingStage(beginDate, endDate)
             if (votingStage === VOTING_STAGES.INFO) {
               return <VoteInfo />
@@ -189,6 +187,31 @@ class VotePage extends Component {
                     />
                   </div>
                 )}
+                {hasResults && (
+                  <Fragment>
+                    <Title>{vt('vote/201907/result/title')}</Title>
+                    <Body dangerousHTML={vt('vote/201912/result/lead')} />
+                    <VoteResult
+                      votings={VOTINGS.map(({ id, slug }) => ({
+                        id,
+                        data: data[slug]
+                      }))}
+                    />
+                    <Body dangerousHTML={vt('vote/201912/result/after')} />
+                    <div style={{ height: 80 }} />
+                  </Fragment>
+                )}
+                {hasEnded && !hasResults && (
+                  <div {...styles.thankyou}>
+                    <RawHtml
+                      type={P}
+                      dangerouslySetInnerHTML={{
+                        __html: vt('vote/201912/ended')
+                      }}
+                    />
+                  </div>
+                )}
+
                 {md(mdComponents)`
 Sehr geehrte Verlegerin, sehr geehrter Verleger
 
@@ -196,10 +219,10 @@ Herzlich willkommen zur dritten Urabstimmung von Project R. Viele von Ihnen habe
 
 Dieses Mal geht es um die Genehmigung des  vergangenen Geschäftsjahres. Oder im Fachjargon: Das sind die Traktanden dieser Urabstimmung: 
 
-Geschäftsbericht 2018/2019 
-Jahresrechnung Project R 2018/2019 
-Entlastung des Vorstandes
-Wahl der Revisionsstelle 2019/2020
+ - Geschäftsbericht 2018/2019 
+ - Jahresrechnung Project R 2018/2019 
+ - Entlastung des Vorstandes
+ - Wahl der Revisionsstelle 2019/2020
 
 Die virtuellen Urnen sind vom 13. bis zum 23. Dezember 2019 geöffnet. **${numVotes} Ihrer Kolleginnen und Kollegen haben bereits abgestimmt.**
 
@@ -218,8 +241,8 @@ Sie haben, wie jedes Mitglied, eine Stimme für jede Abstimmungsfrage. Sie könn
 
 **Wie sieht der Zeitplan aus?**
 
-13. Dezember bis 23. Dezember um Mitternacht: Die Mitglieder von Project R stimmen ab.
-14. Dezember: Wir geben die Abstimmungsresultate bekannt.
+- 13. Dezember bis 23. Dezember um Mitternacht: Die Mitglieder von Project R stimmen ab.
+- 14. Dezember: Wir geben die Abstimmungsresultate bekannt.
 
 **Statuten und Finanzierung**  
 Die detaillierten Abstimmungsbedingungen finden Sie in den [Statuten von Project R](https://www.republik.ch/statuten). Im Newsletter vom November 2017 finden Sie weitere Informationen [zu den beiden Gesellschaften und zur Finanzierung](https://project-r.construction/newsletter/2017-11-22-finanzierung).
@@ -259,7 +282,7 @@ ${(
   />
 )}
 
-<div id="accounts">## Jahresrechnung Project R</div>
+## Jahresrechnung Project R
 
 Die zweite Frage, dreht sich um die Finanzen der Project R Genossenschaft für sich betrachtet. Das wichtigste in Kürze:
 
@@ -335,30 +358,6 @@ ${(
 )}
 
   `}
-                {hasResults && (
-                  <Fragment>
-                    <Title>{vt('vote/201907/result/title')}</Title>
-                    <Body dangerousHTML={vt('vote/201912/result/lead')} />
-                    <VoteResult
-                      votings={VOTINGS.map(({ id, slug }) => ({
-                        id,
-                        data: data[slug]
-                      }))}
-                    />
-                    <Body dangerousHTML={vt('vote/201912/result/after')} />
-                    <div style={{ height: 80 }} />
-                  </Fragment>
-                )}
-                {hasEnded && !hasResults && (
-                  <div {...styles.thankyou}>
-                    <RawHtml
-                      type={P}
-                      dangerouslySetInnerHTML={{
-                        __html: vt('vote/201912/ended')
-                      }}
-                    />
-                  </div>
-                )}
                 {!hasEnded && (
                   <Body dangerousHTML={vt('vote/201912/nextsteps')} />
                 )}

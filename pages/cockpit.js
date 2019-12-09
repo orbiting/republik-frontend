@@ -386,12 +386,15 @@ ${(
   </PrimaryCTA>
 )}
 
-${inNativeIOSApp && (
-  <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
-    {t('cockpit/ios')}
-  </Interaction.P>
-)}
+  `}
 
+              {inNativeIOSApp && (
+                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
+                  {t('cockpit/ios')}
+                </Interaction.P>
+              )}
+
+              {md(mdComponents)`
 ## Darum geht es
 
 Die Republik hat aktuell rund 18’600 Verlegerinnen. Das deckt 70 Prozent der Kosten. Die restlichen 30 Prozent reissen ein tiefes Loch in die Bilanz. Wir sind 2019 langsamer gewachsen als budgetiert. Das hat heftige Folgen: Bis Ende März müssen wir den Rückstand aufholen, sonst hat die Republik keine Zukunft. Dann werden wir die Republik am 31. März 2020 schliessen.

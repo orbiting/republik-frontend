@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-09T14:02:04.931Z",
+  "updated": "2019-12-09T15:15:10.414Z",
   "title": "live",
   "data": [
     {
@@ -6440,7 +6440,7 @@
     },
     {
       "key": "cockpit/ios",
-      "value": "In der iOS-App können Sie aufgrund der Bestimmungen von Apple leider Ihre Mitgliedschaft nicht verwalten oder Zahlungen tätigen."
+      "value": "In der iOS-App können wir Ihnen aufgrund der Bestimmungen von Apple zur Zeit leider keine Möglichkeiten zur Verwaltung der Mitgliedschaft oder zum Bezahlen anbieten."
     },
     {
       "key": "cockpit/ios/cta",

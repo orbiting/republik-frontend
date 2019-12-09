@@ -56,11 +56,15 @@ const Accordion = withInNativeApp(
       isReactivating,
       defaultBenefactor,
       questionnaire,
-      inNativeIOSApp
+      inNativeIOSApp,
+      theEnd
     }) => {
       const [hover, setHover] = React.useState()
 
       if (inNativeIOSApp) {
+        if (!theEnd) {
+          return null
+        }
         return (
           <div style={{ marginTop: 10, marginBottom: 40 }}>
             <Interaction.P style={{ color: '#fff', marginBottom: 10 }}>
@@ -220,16 +224,6 @@ const Accordion = withInNativeApp(
             />
           </Link>
           <PackageBuffer />
-          <br />
-          <PrimaryCTA
-            me={me}
-            query={query}
-            questionnaire={questionnaire}
-            shouldBuyProlong={shouldBuyProlong}
-            isReactivating={isReactivating}
-            defaultBenefactor={defaultBenefactor}
-            block
-          />
         </div>
       )
     }
@@ -395,9 +389,7 @@ ${(
     shouldBuyProlong={shouldBuyProlong}
     isReactivating={isReactivating}
   >
-    <Editorial.A style={{ color: colors.negative.text }}>
-      Kämpfen Sie mit?
-    </Editorial.A>
+    <Button primary>Kämpfen Sie mit?</Button>
   </PrimaryCTA>
 )}
 
@@ -481,14 +473,7 @@ Dafür brauchen wir Sie. An Bord. Und an Deck.
                     type: 'TimeBar',
                     color: 'action',
                     numberFormat: 's',
-                    colorRange: [
-                      '#FFD700',
-                      '#CCAC00',
-                      '#3CAD00',
-                      '#2A7A00',
-                      '#333333',
-                      '#9970ab'
-                    ],
+                    colorRange: ['#3CAD00', '#2A7A00', '#333333', '#9970ab'],
                     x: 'date',
                     timeParse: '%Y-%m',
                     timeFormat: '%b',
@@ -516,26 +501,16 @@ Dafür brauchen wir Sie. An Bord. Und an Deck.
                     return values.concat([
                       {
                         date: month.key,
-                        action: 'grosszügig (bestehende)',
-                        value: String(month.activeEndOfMonthWithDonation)
-                      },
-                      {
-                        date: month.key,
-                        action: 'grosszügig (neue)',
-                        value: String(month.gainingWithDonation)
-                      },
-                      {
-                        date: month.key,
                         action: 'bestehende',
                         value: String(
-                          month.activeEndOfMonthWithoutDonation +
+                          month.activeEndOfMonth +
                             month.pendingSubscriptionsOnly
                         )
                       },
                       {
                         date: month.key,
                         action: 'neue',
-                        value: String(month.gainingWithoutDonation)
+                        value: String(month.gaining)
                       },
                       {
                         date: month.key,

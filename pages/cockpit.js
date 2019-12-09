@@ -555,7 +555,7 @@ Abgesehen von den Finanzen war 2019 ein gutes Jahr:
 *   Wir waren permanent im Dialog mit Ihnen. Bei keinem anderem Medium können Sie direkt mit den Autorinnen debattieren.
 *   Wir reflektieren wie kein anderes Medien­unternehmen die eigene Arbeit öffentlich und schaffen Transparenz darüber, wie wir uns entwickeln.
 *   Wir haben Nachwuchs ausgebildet – und was für einen!
-*   Wir waren für den deutschen Grimme-Online-Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-Up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».
+*   Wir waren für den deutschen Grimme-Online-Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».
 *   Wir haben seit knapp einem Jahr ein starkes Gremium im Rücken, das uns trägt, unterstützt – und konstruktiv kritisiert: den Genossenschaftsrat.
 
 ## Die drei Phasen bis Ende März
@@ -586,7 +586,7 @@ Einfach wird das nicht – aber wir werden guter Laune sein. Und das Unternehmen
 Wie wir hoffen: mit Ihnen. Wem sonst? 
 
 ## ${lastMonth.activeEndOfMonth +
-                lastMonth.pendingSubscriptionsOnly} sind treu`}
+                lastMonth.pendingSubscriptionsOnly} sind treu.`}
 
               <TestimonialList
                 membershipAfter={END_DATE}

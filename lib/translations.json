@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-09T15:15:10.414Z",
+  "updated": "2019-12-09T15:17:34.462Z",
   "title": "live",
   "data": [
     {
@@ -4707,10 +4707,6 @@
       "value": "Ein detaillierter Überblick folgt Ende Monat."
     },
     {
-      "key": "crowdfunding/status/time/label/SURVIVE",
-      "value": "bis zur Entscheidung"
-    },
-    {
       "key": "nav/bookmarks",
       "value": "Lesezeichen"
     },
@@ -6427,12 +6423,16 @@
       "value": "Reaktivieren Sie Ihr Investment."
     },
     {
+      "key": "crowdfunding/status/time/label/SURVIVE",
+      "value": "bis zur Entscheidung."
+    },
+    {
       "key": "crowdfunding/status/goal/SURVIVE/people",
-      "value": "Verleger, die am 31. März dabei sind. Ziel: {count}"
+      "value": "Verleger, die am 31. März dabei sind. Ziel: {count}."
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "von Investoren und grosszügigen Verlegerinnen erhalten. Ziel: {count}"
+      "value": "von Investoren und grosszügigen Verlegerinnen erhalten. Ziel: {count}."
     },
     {
       "key": "nav/cockpit",

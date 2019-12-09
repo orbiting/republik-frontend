@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-08T21:00:16.543Z",
+  "updated": "2019-12-09T11:01:14.865Z",
   "title": "live",
   "data": [
     {
@@ -2360,11 +2360,11 @@
     },
     {
       "key": "package/DONATE/title",
-      "value": "Spenden, sonst nichts"
+      "value": "Spenden"
     },
     {
       "key": "package/DONATE/description",
-      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet."
+      "value": "Sie wollen hervorragenden Journalismus unterstützen. Denn Sie wissen: Guter Journalismus kostet."
     },
     {
       "key": "package/students/price",

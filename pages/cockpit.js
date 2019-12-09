@@ -215,7 +215,6 @@ const Accordion = withInNativeApp(
               dark
               crowdfundingName={CROWDFUNDING}
               name='DONATE'
-              title='Spenden'
               hover={hover}
               setHover={setHover}
             />

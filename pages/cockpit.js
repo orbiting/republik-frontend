@@ -65,7 +65,7 @@ const Accordion = withInNativeApp(
       }
 
       return (
-        <div style={{ marginTop: 10, marginBottom: 40 }}>
+        <div style={{ marginTop: 10, marginBottom: 30 }}>
           <Interaction.P style={{ color: '#fff', marginBottom: 10 }}>
             <strong>So können Sie uns jetzt unterstützen:</strong>
           </Interaction.P>
@@ -464,7 +464,7 @@ ${
               >
                 <ChartTitle style={{ color: '#fff' }}>
                   Die entscheidende Frage: Wie gross ist die
-                  Republik-Verlegerschaft per 31. März?
+                  Republik-Verlegerschaft per 31.{'\u00a0'}März?
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
                   Anzahl bestehende, offene und neue Mitgliedschaften und
@@ -480,7 +480,6 @@ ${
                     timeParse: '%Y-%m',
                     timeFormat: '%b',
                     xTicks: ['2019-12', '2020-01', '2020-02', '2020-03'],
-                    height: 300,
                     padding: 55,
                     xAnnotations: [
                       {

@@ -348,9 +348,8 @@ const Page = ({
                     ],
                     status: {
                       people:
-                        lastMonth.active +
-                        lastMonth.new +
-                        lastMonth.subscriptionsRenewalPending,
+                        lastMonth.activeEndOfMonth +
+                        lastMonth.pendingSubscriptionsOnly,
                       money: data.revenueStats.surplus.total,
                       support: data.questionnaire
                         ? data.questionnaire.turnout.submitted
@@ -516,32 +515,34 @@ Dafür brauchen wir Sie. An Bord. Und an Deck.
                   values={evolution.buckets.reduce((values, month) => {
                     return values.concat([
                       {
-                        date: month.label,
-                        action: 'Grosszügige',
-                        value: String(month.activeWithDonation)
+                        date: month.key,
+                        action: 'grosszügig (bestehende)',
+                        value: String(month.activeEndOfMonthWithDonation)
                       },
                       {
-                        date: month.label,
-                        action: 'Neue grosszügige',
-                        value: String(month.newWithDonation)
+                        date: month.key,
+                        action: 'grosszügig (neue)',
+                        value: String(month.gainingWithDonation)
                       },
                       {
-                        date: month.label,
-                        action: 'Bestehende',
+                        date: month.key,
+                        action: 'bestehende',
                         value: String(
-                          month.activeWithoutDonation +
-                            month.subscriptionsRenewalPending
+                          month.activeEndOfMonthWithoutDonation +
+                            month.pendingSubscriptionsOnly
                         )
                       },
                       {
-                        date: month.label,
-                        action: 'Neue',
-                        value: String(month.newWithoutDonation)
+                        date: month.key,
+                        action: 'neue',
+                        value: String(month.gainingWithoutDonation)
                       },
                       {
-                        date: month.label,
-                        action: 'offen',
-                        value: String(month.renewalPending)
+                        date: month.key,
+                        action: 'offene',
+                        value: String(
+                          month.pending - month.pendingSubscriptionsOnly
+                        )
                       }
                     ])
                   }, [])}
@@ -650,10 +651,8 @@ PS: Falls Sie noch offene Fragen haben: [Wir haben ein rundes Dutzend der wichti
 
 ## Community
 
-## ${lastMonth.active +
-                lastMonth.new +
-                lastMonth.subscriptionsRenewalPending} sind treu
-`}
+## ${lastMonth.activeEndOfMonth +
+                lastMonth.pendingSubscriptionsOnly} sind treu`}
 
               <TestimonialList
                 membershipAfter={END_DATE}
@@ -697,18 +696,23 @@ const statusQuery = gql`
     membershipStats {
       evolution(min: "2019-12", max: "2020-03") {
         buckets {
-          label
-          active
-          activeWithDonation
-          activeWithoutDonation
-          loss
-          lossExpired
-          lossCancelled
-          new
-          newWithDonation
-          newWithoutDonation
-          renewalPending
-          subscriptionsRenewalPending
+          key
+
+          gaining
+          gainingWithDonation
+          gainingWithoutDonation
+
+          ending
+          prolongable
+          expired
+          cancelled
+
+          activeEndOfMonth
+          activeEndOfMonthWithDonation
+          activeEndOfMonthWithoutDonation
+
+          pending
+          pendingSubscriptionsOnly
         }
         updatedAt
       }

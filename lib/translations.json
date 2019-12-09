@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-09T12:28:36.997Z",
+  "updated": "2019-12-09T14:02:04.931Z",
   "title": "live",
   "data": [
     {
@@ -6440,7 +6440,7 @@
     },
     {
       "key": "cockpit/ios",
-      "value": "In der App sind die meisten Unterstützungsmöglichkeiten nicht verfügbar. Für die Verlegerschaft gibt es ein kleines Formular mit dem Sie in einer Minute Komplize werden können."
+      "value": "In der iOS-App können Sie aufgrund der Bestimmungen von Apple leider Ihre Mitgliedschaft nicht verwalten oder Zahlungen tätigen."
     },
     {
       "key": "cockpit/ios/cta",
@@ -6456,7 +6456,7 @@
     },
     {
       "key": "crowdfunding/status/goal/support/label",
-      "value": "Personen, die bereit sind, die Republik bekannter zu machen"
+      "value": "Verlegerinnen, die bereit sind, die Republik bekannter zu machen"
     },
     {
       "key": "merci/action/give",

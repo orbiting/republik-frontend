@@ -204,6 +204,12 @@ const Accordion = withInNativeApp(
             />
           </Link>
           <PackageBuffer />
+          {!me && !shouldBuyProlong && !inNativeIOSApp && (
+            <Interaction.P style={{ color: '#fff', marginTop: 10 }}>
+              Falls Sie bereits Mitglied sind: Melden Sie sich an, um Ihr Abo zu
+              verlängern.
+            </Interaction.P>
+          )}
         </div>
       )
     }

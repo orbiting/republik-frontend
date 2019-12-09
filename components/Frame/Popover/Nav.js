@@ -10,7 +10,6 @@ import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 
 import { withMembership } from '../../Auth/checkRoles'
-import { withEditor } from '../../Auth/checkRoles'
 import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
@@ -141,8 +140,7 @@ const Nav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
-  isMember,
-  isEditor
+  isMember
 }) => {
   const active = matchPath(router.asPath)
   return (
@@ -272,14 +270,12 @@ const Nav = ({
             active={active}
             closeHandler={closeHandler}
           />*/}
-          {isEditor && (
-            <NavLink
-              route='cockpit'
-              translation={t('nav/cockpit')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-          )}
+          <NavLink
+            route='cockpit'
+            translation={t('nav/cockpit')}
+            active={active}
+            closeHandler={closeHandler}
+          />
           <NavLink
             route='meta'
             translation={t('nav/meta')}
@@ -302,6 +298,5 @@ const Nav = ({
 export default compose(
   withT,
   withInNativeApp,
-  withMembership,
-  withEditor
+  withMembership
 )(Nav)

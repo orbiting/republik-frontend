@@ -21,11 +21,11 @@ const CancelMembershipPage = ({ router, me, t }) => {
 
   return (
     <Frame meta={meta}>
-      <Interaction.H1>{meta.title}</Interaction.H1>
       {me ? (
         <Cancel membershipId={membershipId} />
       ) : (
         <Fragment>
+          <Interaction.H1>{meta.title}</Interaction.H1>
           <br />
           <SignIn
             context='cancel'

@@ -527,17 +527,17 @@ Dafür brauchen wir Sie. An Bord. Und an Deck.
                     return values.concat([
                       {
                         date: month.key,
-                        action: 'grosszügig (bestehend)',
+                        action: 'grosszügig (bestehende)',
                         value: String(month.activeEndOfMonthWithDonation)
                       },
                       {
                         date: month.key,
-                        action: 'grosszügig (neu)',
+                        action: 'grosszügig (neue)',
                         value: String(month.gainingWithDonation)
                       },
                       {
                         date: month.key,
-                        action: 'bestehend',
+                        action: 'bestehende',
                         value: String(
                           month.activeEndOfMonthWithoutDonation +
                             month.pendingSubscriptionsOnly
@@ -545,12 +545,12 @@ Dafür brauchen wir Sie. An Bord. Und an Deck.
                       },
                       {
                         date: month.key,
-                        action: 'neu',
+                        action: 'neue',
                         value: String(month.gainingWithoutDonation)
                       },
                       {
                         date: month.key,
-                        action: 'offen',
+                        action: 'offene',
                         value: String(
                           month.pending - month.pendingSubscriptionsOnly
                         )

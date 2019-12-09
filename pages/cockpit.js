@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
@@ -599,7 +599,21 @@ Wie wir hoffen: mit Ihnen. Wem sonst?
 
               {md(mdComponents)`
 
-[Alle anschauen](/community)${'\u00a0'}– [Statement abgeben](/einrichten)
+[Alle anschauen](/community)${
+                me && me.activeMembership ? (
+                  <Fragment>
+                    {'\u00a0– '}
+                    <Editorial.A
+                      style={{ color: colors.negative.text }}
+                      href='/einrichten'
+                    >
+                      Ihr Profil einrichten
+                    </Editorial.A>
+                  </Fragment>
+                ) : (
+                  ''
+                )
+              }
       `}
 
               <br />

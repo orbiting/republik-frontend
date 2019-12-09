@@ -388,7 +388,7 @@ Schaffen wir es, haben wir eine realistische Chance, ein tragfähiges Geschäfts
 
 Hier einige unfreundliche Zahlen:
 
-*   Wir haben statt wie budgetiert 8100 neue Mitglieder in diesem Jahr bisher 4000 neue Mitglieder hinzugewonnen.
+*   Wir haben statt wie budgetiert 8100 in diesem Jahr bisher 4000 neue Mitglieder hinzugewonnen.
 *   Wir konnten 2019 neue Investoren gewinnen und haben Förder­beiträge erhalten. Zusammen über eine halbe Million Franken. Das ist wunderbar. Aber weniger als die geplante 1 Million.
 
 Das ist unternehmerisch nicht mehr lange tragbar. 
@@ -426,7 +426,7 @@ Wir brauchen Reichweite. Die können wir uns jedoch weder kaufen (zu teuer) noch
 
 Wir setzen also auf unsere wichtigste Ressource: Sie. Sie – und Ihr Adressbuch, Ihr Netzwerk, Ihre Begeisterung, Ihre Skepsis. 
 
-Bis Ende März werden eine Kampagne machen müssen, in der Sie als Multiplikatoren, Botschafterinnen, Komplizen – nennen Sie es, wie Sie wollen – eine Hauptrolle spielen. 
+Bis Ende März werden wir eine Kampagne machen müssen, in der Sie als Multiplikatoren, Botschafterinnen, Komplizen – nennen Sie es, wie Sie wollen – eine Hauptrolle spielen. 
 
 Unser Job dabei ist, Sie regelmässig, offen und klar über den Stand der Dinge zu informieren. Und Ihnen die besten Werkzeuge in die Hand zu geben: Argumente, Flyer, Mailkanonen – kurz: Propaganda­material.
 
@@ -565,7 +565,7 @@ Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 **Bis Ende Januar** 
 
 1.  Dass möglichst viele Verleger trotz Risiko an Bord bleiben.
-2.  Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte: Grosszügigkeit und Geld.
+2.  Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
 3.  Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](ir@republik.ch))
 
 **Im Februar** wollen wir mit Ihnen darüber reden, wie wir die Republik noch neugieriger und nützlicher machen können.

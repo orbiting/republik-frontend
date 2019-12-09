@@ -10,7 +10,7 @@ import {
   A
 } from '@project-r/styleguide'
 import withInNativeApp from '../../lib/withInNativeApp'
-import Collapsible from './Collapsible'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 const { H2, Headline } = Interaction
 
@@ -34,8 +34,9 @@ export const Title = ({ children }) => (
   </Headline>
 )
 
-export const Heading = ({ children }) => (
+export const Heading = ({ id, children }) => (
   <H2
+    id={`${id}`}
     {...css({
       marginTop: 100,
       marginBottom: 20
@@ -189,12 +190,35 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular21
     }
+  }),
+  anchor: css({
+    display: 'block',
+    position: 'relative',
+    visibility: 'hidden',
+    top: -HEADER_HEIGHT_MOBILE,
+    [mediaQueries.lUp]: {
+      top: -HEADER_HEIGHT
+    }
   })
 }
 
 export const mdComponents = {
   h1: Title,
-  h2: Heading,
+  h2: ({ children }) => (
+    <div>
+      <a
+        {...styles.anchor}
+        id={React.Children.toArray(children)
+          .join('')
+          .toString()
+          .replace(/ä/, 'a')
+          .replace(/ö/, 'o')
+          .replace(/ü/, 'u')
+          .toLowerCase()}
+      />
+      <Heading>{children}</Heading>
+    </div>
+  ),
   a: A,
   p: PMedium,
   small: PSmall,

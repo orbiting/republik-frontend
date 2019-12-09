@@ -4,7 +4,12 @@ import { css } from 'glamor'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 
-import { fontFamilies, fontStyles, mediaQueries } from '@project-r/styleguide'
+import {
+  fontFamilies,
+  fontStyles,
+  mediaQueries,
+  colors
+} from '@project-r/styleguide'
 import voteT from './voteT'
 
 const styles = {
@@ -35,6 +40,18 @@ const styles = {
     '& strong': {
       fontFamily: fontFamilies.sansSerifMedium,
       fontWeight: 'normal'
+    },
+    '& a': {
+      textDecoration: 'none',
+      color: colors.primary,
+      ':visited': {
+        color: colors.primary
+      },
+      '@media (hover)': {
+        ':hover': {
+          color: colors.secondary
+        }
+      }
     }
   })
 }

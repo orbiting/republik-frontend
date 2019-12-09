@@ -104,6 +104,9 @@ class VotePage extends Component {
               discussion,
               groupTurnout
             } = this.props.data[VOTING_COOP_201912_REPORT_SLUG] || {}
+
+            console.log(discussion)
+
             const votingStage = getVotingStage(beginDate, endDate)
             if (votingStage === VOTING_STAGES.INFO) {
               return <VoteInfo />
@@ -178,7 +181,7 @@ class VotePage extends Component {
                           <RawHtml
                             type={P}
                             dangerouslySetInnerHTML={{
-                              __html: vt('vote/201907/signInBody')
+                              __html: vt('vote/201912/signInBody')
                             }}
                           />
                         </Fragment>
@@ -223,7 +226,7 @@ Die detaillierten Abstimmungsbedingungen finden Sie in den [Statuten von Project
   `}</Collapsible>
 )}
 
-## Geschäftsbericht 
+## Geschäftsbericht
 
 Sie haben uns mit Ihrem Jahresbeitrag viel Geld gegeben. Sie haben ein Recht darauf zu wissen, was damit geschehen ist, und über den Geschäftsbericht abzustimmen. Sie finden darin den Rückblick auf das letzte Geschäftsjahr: Konzernrechnung (Konsolidiert Jahresrechnung von Project R und der Republik), Revisionsbericht und Lagebericht. Über diese drei Teile stimmen Sie ab. Die Lektüre lohnt sich auch wegen den weiteren Teilen: Publizistische Höhepunkte, Impressionen aus der Redaktion und Vorstellung des Teams und des Genossenschaftsrats.
 
@@ -256,7 +259,7 @@ ${(
   />
 )}
 
-## Jahresrechnung Project R
+<div id="accounts">## Jahresrechnung Project R</div>
 
 Die zweite Frage, dreht sich um die Finanzen der Project R Genossenschaft für sich betrachtet. Das wichtigste in Kürze:
 

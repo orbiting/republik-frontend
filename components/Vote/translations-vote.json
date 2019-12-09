@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-04T16:53:32.694Z",
+  "updated": "2019-12-09T12:40:44.497Z",
   "title": "live",
   "data": [
     {
@@ -241,6 +241,10 @@
     {
       "key": "vote/201907/ended",
       "value": "Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 17. Juli."
+    },
+    {
+      "key": "vote/201912/signInBody",
+      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 14.&nbsp;Dezember 2019 ein Jahresabonnement erworben haben."
     },
     {
       "key": "vote/201912/title",

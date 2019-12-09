@@ -66,42 +66,40 @@ class Actions extends Component {
           waitingMemberships && (
             <P>{t('memberships/manage/prolong/awaiting')}</P>
           )}
-        {!membership.renew &&
-          !!membership.periods.length &&
-          !membership.canProlong && (
-            <P>
-              <A
-                href='#reactivate'
-                onClick={e => {
-                  e.preventDefault()
-                  this.setState({
-                    updating: true
+        {!membership.renew && !!membership.periods.length && (
+          <P>
+            <A
+              href='#reactivate'
+              onClick={e => {
+                e.preventDefault()
+                this.setState({
+                  updating: true
+                })
+                this.props
+                  .reactivate({
+                    id: membership.id
                   })
-                  this.props
-                    .reactivate({
-                      id: membership.id
+                  .then(() => {
+                    this.setState({
+                      updating: false,
+                      remoteError: undefined
                     })
-                    .then(() => {
-                      this.setState({
-                        updating: false,
-                        remoteError: undefined
-                      })
+                  })
+                  .catch(error => {
+                    this.setState({
+                      updating: false,
+                      remoteError: errorToString(error)
                     })
-                    .catch(error => {
-                      this.setState({
-                        updating: false,
-                        remoteError: errorToString(error)
-                      })
-                    })
-                }}
-              >
-                {t.first([
-                  `memberships/${membership.type.name}/manage/reactivate`,
-                  'memberships/manage/reactivate'
-                ])}
-              </A>
-            </P>
-          )}
+                  })
+              }}
+            >
+              {t.first([
+                `memberships/${membership.type.name}/manage/reactivate`,
+                'memberships/manage/reactivate'
+              ])}
+            </A>
+          </P>
+        )}
         {membership.canProlong && (
           <P>
             <TokenPackageLink

@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
-import { withRouter } from 'next/router'
+import Router, { withRouter } from 'next/router'
 
 import {
   Button,
@@ -283,11 +283,23 @@ const Page = ({
 }) => {
   const meta = {
     pageTitle: '🚀 Republik Cockpit',
-    title: 'Nehmen Sie Platz im Cockpit',
+    title: 'Wir kämpfen für die Zukunft der Republik. Kämpfen Sie mit?',
     description:
-      'Kämpfen wir gemeinsam um die Zukunft der Republik. Was Sie wissen müssen, wo wir stehen, und warum wir Sie brauchen.',
+      'Alles, was Sie zur Lage des Unternehmens wissen müssen – und wie Sie uns jetzt helfen können.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/cockpit.jpg`
   }
+
+  useEffect(() => {
+    if (query.token) {
+      Router.replace(
+        `/cockpit?token=${encodeURIComponent(query.token)}`,
+        '/cockpit',
+        {
+          shallow: true
+        }
+      )
+    }
+  }, [query.token])
 
   return (
     <Frame meta={meta} dark>

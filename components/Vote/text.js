@@ -210,7 +210,7 @@ export const mdComponents = {
         {...styles.anchor}
         id={React.Children.toArray(children)
           .join('')
-          .toString()
+          .split(' ')[0]
           .replace(/ä/, 'a')
           .replace(/ö/, 'o')
           .replace(/ü/, 'u')
@@ -223,7 +223,7 @@ export const mdComponents = {
   p: PMedium,
   small: PSmall,
   strong: ({ children }) => (
-    <span style={{ fontFamily: fontFamilies.sansSerifBold }}>{children}</span>
+    <span style={{ fontFamily: fontFamilies.sansSerifMedium }}>{children}</span>
   ),
   ul: ({ children }) => <ul {...styles.list}>{children}</ul>,
   ol: ({ children }) => <ol {...styles.list}>{children}</ol>,

@@ -1,6 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
-import { Body, Heading, Section, Small, Title } from '../text'
+import {
+  Body,
+  Heading,
+  Section,
+  Small,
+  Title,
+} from '../text'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import Frame from '../../Frame'
@@ -14,7 +20,9 @@ import {
   linkRule,
   Interaction,
   mediaQueries,
-  RawHtml
+  RawHtml,
+  FigureImage,
+  FigureCaption
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import voteT from '../voteT'
@@ -158,8 +166,39 @@ class VotePage extends Component {
 
             return (
               <Fragment>
+                {hasResults && (
+                  <Fragment>
+                    <Title>{vt('vote/201912/result/title')}</Title>
+                    <Body dangerousHTML={vt('vote/201912/result/lead')} />
+                    <VoteResult
+                      votings={VOTINGS.map(({ id, slug }) => ({
+                        id,
+                        data: data[slug]
+                      }))}
+                    />
+                    <Body dangerousHTML={vt('vote/201912/result/after')} />
+                    <div style={{ height: 80 }} />
+                  </Fragment>
+                )}
+                {hasEnded && !hasResults && (
+                  <div {...styles.thankyou}>
+                    <RawHtml
+                      type={P}
+                      dangerouslySetInnerHTML={{
+                        __html: vt('vote/201912/ended')
+                      }}
+                    />
+                  </div>
+                )}
+
                 <Title>Ihre Stimme - Ihr Segen</Title>
                 {actionBar}
+                <div {...styles.image}>
+                  <FigureImage
+                    src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=780x`}
+                  />
+                  <FigureCaption>{vt('vote/201912/caption')}</FigureCaption>
+                </div>
                 {missingAdress && (
                   <Fragment>
                     <a {...styles.anchor} id='adresse' />
@@ -187,31 +226,6 @@ class VotePage extends Component {
                     />
                   </div>
                 )}
-                {hasResults && (
-                  <Fragment>
-                    <Title>{vt('vote/201907/result/title')}</Title>
-                    <Body dangerousHTML={vt('vote/201912/result/lead')} />
-                    <VoteResult
-                      votings={VOTINGS.map(({ id, slug }) => ({
-                        id,
-                        data: data[slug]
-                      }))}
-                    />
-                    <Body dangerousHTML={vt('vote/201912/result/after')} />
-                    <div style={{ height: 80 }} />
-                  </Fragment>
-                )}
-                {hasEnded && !hasResults && (
-                  <div {...styles.thankyou}>
-                    <RawHtml
-                      type={P}
-                      dangerouslySetInnerHTML={{
-                        __html: vt('vote/201912/ended')
-                      }}
-                    />
-                  </div>
-                )}
-
                 {md(mdComponents)`
 Sehr geehrte Verlegerin, sehr geehrter Verleger
 
@@ -219,14 +233,12 @@ Herzlich willkommen zur dritten Urabstimmung von Project R. Viele von Ihnen habe
 
 Dieses Mal geht es um die Genehmigung des  vergangenen Geschäftsjahres. Oder im Fachjargon: Das sind die Traktanden dieser Urabstimmung: 
 
- - Geschäftsbericht 2018/2019 
- - Jahresrechnung Project R 2018/2019 
- - Entlastung des Vorstandes
- - Wahl der Revisionsstelle 2019/2020
+ - [Geschäftsbericht 2018/2019](#geschaftsbericht)
+ - [Jahresrechnung Project R 2018/2019](#jahresrechnung)
+ - [Entlastung des Vorstandes](#entlastung)
+ - [Wahl der Revisionsstelle 2019/2020](#revisionsstelle)
 
 Die virtuellen Urnen sind vom 13. bis zum 23. Dezember 2019 geöffnet. **${numVotes} Ihrer Kolleginnen und Kollegen haben bereits abgestimmt.**
-
-*Hier kommt vielleicht noch ein Infoteil. In der Art: Wir haben Fragen von Ihnen gehört wie «Was ist der Unterschied zwischen dem Geschäftsbericht und der Jahresrechnung?» oder «Warum ist das alles so kompliziert?» Project R und die Republik sind zwei Organisationen, die eng mit einander Verbunden sind. Wir haben in unseren Newslettern das Konstrukt detailliert in zeitraubender Prosa beschrieben. Bei der letzten Abstimmung haben wir Ihnen zudem gezeigt, wohin das Geld fliesst. Heute haben wir Sie einen schnell erfassbaren Überblick darüber, wie die beiden Unternehmen zusammenhängen und wie Ihr Geld fliesst.*
 
 ${(
   <Collapsible>{md`

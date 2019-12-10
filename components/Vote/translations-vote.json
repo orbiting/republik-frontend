@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-09T12:40:44.497Z",
+  "updated": "2019-12-10T09:59:11.950Z",
   "title": "live",
   "data": [
     {
@@ -265,6 +265,10 @@
     {
       "key": "vote/201912/ended",
       "value": "Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 27. Dezember."
+    },
+    {
+      "key": "vote/201912/caption",
+      "value": "Lorem ipsum dolor"
     },
     {
       "key": "info/description",

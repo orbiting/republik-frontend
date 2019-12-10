@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-09T15:17:34.462Z",
+  "updated": "2019-12-10T16:49:54.211Z",
   "title": "live",
   "data": [
     {
@@ -4412,7 +4412,7 @@
     },
     {
       "key": "pledge/form/statement/share/title",
-      "value": "{name} unterstützt die Republik auch im zweiten Jahr."
+      "value": "{name} bleibt der Republik treu."
     },
     {
       "key": "pledge/form/statement/share/description",
@@ -6456,7 +6456,7 @@
     },
     {
       "key": "crowdfunding/status/goal/support/label",
-      "value": "Verlegerinnen, die bereit sind, die Republik bekannter zu machen"
+      "value": "Verlegerinnen, die bereit sind, die Republik bekannter zu machen."
     },
     {
       "key": "merci/action/give",

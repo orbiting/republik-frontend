@@ -41,9 +41,9 @@ const DiscussionPage = ({ router, data, vt }) => {
             data[DISCUSSION_SLUG] && data[DISCUSSION_SLUG].discussion.id
           return (
             <Fragment>
-              <Title>{vt('vote/201907/discussion/title')}</Title>
+              <Title>{vt('vote/201912/discussion/title')}</Title>
               {md(mdComponents)`
-Während der [Abstimmung](/vote/dez19) vom 12. bis zum 23. Dezember 2019 möchten wir mit Ihnen diskutieren. Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Wir freuen uns auf Ihren Beitrag.
+Während der [Abstimmung](/vote/dez19) vom 13. bis zum 23. Dezember 2019 möchten wir mit Ihnen diskutieren. Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Wir freuen uns auf Ihren Beitrag.
 
  - Haben Sie Verständnisfragen?
  - Was können wir bei der nächsten Abstimmung besser machen?

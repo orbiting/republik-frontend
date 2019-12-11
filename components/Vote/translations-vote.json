@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-11T13:48:42.220Z",
+  "updated": "2019-12-11T14:29:05.202Z",
   "title": "live",
   "data": [
     {
@@ -273,6 +273,10 @@
     {
       "key": "vote/201912/sm/emailBody",
       "value": "Der Geschäftsbericht der Republik und von Project R. Dazu eine Abstimmung: "
+    },
+    {
+      "key": "vote/201912/discussion/title",
+      "value": "Fragen Sie!"
     },
     {
       "key": "vote/201912/signInBody",

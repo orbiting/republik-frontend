@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-11T15:40:51.798Z",
+  "updated": "2019-12-11T17:30:45.901Z",
   "title": "live",
   "data": [
     {
@@ -248,7 +248,7 @@
     },
     {
       "key": "vote/201912/page/description",
-      "value": "tbd (letzes Mal: Wieviel kosten Redaktion, IT und der Community-Bereich? Und was geben wir für unsere Administration aus? Hier finden Sie die Übersicht und Jahresabonnenten können abstimmen."
+      "value": null
     },
     {
       "key": "vote/201912/result/title",
@@ -264,15 +264,15 @@
     },
     {
       "key": "vote/201912/sm/tweet",
-      "value": "Zum dritten Mal Abstimmung über die Finanzen der Republik und von Project R: "
+      "value": null
     },
     {
       "key": "vote/201912/sm/emailSubject",
-      "value": "Unsere Stimme für Project R"
+      "value": null
     },
     {
       "key": "vote/201912/sm/emailBody",
-      "value": "Der Geschäftsbericht der Republik und von Project R. Dazu eine Abstimmung: "
+      "value": null
     },
     {
       "key": "vote/201912/discussion/title",

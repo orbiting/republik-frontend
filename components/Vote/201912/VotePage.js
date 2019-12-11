@@ -90,7 +90,7 @@ class VotePage extends Component {
     const meta = {
       title: vt('vote/201912/page/title'),
       description: vt('vote/201912/page/description'),
-      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote-dez19.png`
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote-dez19.jpg`
     }
 
     return (

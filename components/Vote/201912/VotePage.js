@@ -191,11 +191,11 @@ class VotePage extends Component {
                   </div>
                 )}
 
-                <Title>Ihre Stimme - Ihr Segen</Title>
+                <Title>{vt('vote/201912/title')}</Title>
                 {actionBar}
                 <div {...styles.image}>
                   <FigureImage
-                    src={`${CDN_FRONTEND_BASE_URL}/static/social-media/vote-dez19.png?resize=780x`}
+                    src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/urabstimmung3.jpg?resize=780x`}
                   />
                   <FigureCaption>{vt('vote/201912/caption')}</FigureCaption>
                 </div>

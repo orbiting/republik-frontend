@@ -169,7 +169,7 @@ const styles = {
     }
   }),
   ul: css({
-    marginTop: 5,
+    marginTop: 0,
     marginBottom: 5,
     paddingLeft: 25
   }),
@@ -404,10 +404,15 @@ class CustomizePackage extends Component {
               price >= minPrice &&
               bonusValue && { value: minPrice + bonusValue, key: 'bonus' },
             !userPrice &&
-              price >= minPrice && { value: minPrice * 1.5, key: '1.5' }
+              price >= minPrice && { value: minPrice * 1.5, key: '1.5' },
+            !userPrice && price >= minPrice && { value: minPrice * 2, key: '2' }
           ].filter(Boolean)
+    const payMoreReached = payMoreSuggestions
+      .filter(({ value }) => price >= value)
+      .pop()
     const offerUserPrice =
       !userPrice &&
+      !payMoreReached &&
       pkg.name === 'PROLONG' &&
       pkg.options.every(option => {
         return !getOptionValue(option, values) || option.userPrice
@@ -981,11 +986,13 @@ class CustomizePackage extends Component {
                       )
                     })}
                   </ul>
-                  {price >=
-                    payMoreSuggestions[payMoreSuggestions.length - 1].value && (
+                  {!!payMoreReached && (
                     <div {...styles.ulNote}>
                       <Interaction.Emphasis>
-                        {t('package/customize/price/payMore/thx')}
+                        {t.first([
+                          `package/customize/price/payMore/thx/${payMoreReached.key}`,
+                          'package/customize/price/payMore/thx'
+                        ])}
                       </Interaction.Emphasis>
                     </div>
                   )}
@@ -1099,12 +1106,42 @@ class CustomizePackage extends Component {
                   </ul>
                 </Fragment>
               )}
+              {payMoreReached && (
+                <Fragment>
+                  <Editorial.A
+                    href={format({
+                      pathname: '/angebote',
+                      query: { ...router.query, price: undefined }
+                    })}
+                    onClick={e => {
+                      if (shouldIgnoreClick(e)) {
+                        return
+                      }
+                      e.preventDefault()
+                      this.resetPrice()
+
+                      Router.replaceRoute(
+                        'pledge',
+                        { ...router.query, price: undefined },
+                        { shallow: true }
+                      ).then(() => {
+                        if (this.focusRef && this.focusRef.input) {
+                          this.focusRef.input.focus()
+                        }
+                      })
+                    }}
+                  >
+                    {t('package/customize/price/payRegular')}
+                  </Editorial.A>
+                  <br />
+                </Fragment>
+              )}
               {offerUserPrice && (
                 <Fragment>
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...router.query, userPrice: 1 }
+                      query: { ...router.query, price: undefined, userPrice: 1 }
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
@@ -1136,7 +1173,7 @@ class CustomizePackage extends Component {
 
                       Router.replaceRoute(
                         'pledge',
-                        { ...router.query, userPrice: 1 },
+                        { ...router.query, price: undefined, userPrice: 1 },
                         { shallow: true }
                       ).then(() => {
                         if (this.focusRef && this.focusRef.input) {

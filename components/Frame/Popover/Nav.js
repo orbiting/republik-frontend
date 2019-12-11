@@ -14,7 +14,13 @@ import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
-import { colors, fontStyles, mediaQueries, Label } from '@project-r/styleguide'
+import {
+  colors,
+  fontStyles,
+  mediaQueries,
+  Label,
+  Editorial
+} from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -39,7 +45,7 @@ const styles = {
     }
   }),
   sections: css({
-    ...fontStyles.sansSerifRegular21,
+    ...fontStyles.sansSerifRegular19,
     flexGrow: 1,
     marginBottom: 20,
     paddingTop: 10,
@@ -49,8 +55,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     [mediaQueries.mUp]: {
-      fontSize: 32,
-      lineHeight: '48px'
+      fontSize: 28,
+      lineHeight: '42px'
     }
   }),
   sectionCompact: css({
@@ -86,13 +92,19 @@ const styles = {
       }
     },
     cursor: 'pointer'
+  }),
+  signout: css({
+    color: colors.text,
+    marginTop: 5,
+    fontSize: 16,
+    lineHeight: '24px'
   })
 }
 
 const SignoutLink = ({ children, ...props }) => (
-  <a {...styles.link} {...props}>
-    {children}
-  </a>
+  <div {...styles.signout}>
+    <Editorial.A {...props}>{children}</Editorial.A>
+  </div>
 )
 
 const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
@@ -182,20 +194,25 @@ const Nav = ({
           {!inNativeIOSApp && (
             <NavLink
               route='pledge'
-              params={me ? { group: 'GIVE' } : undefined}
-              translation={t(me ? 'nav/give' : 'nav/offers')}
+              params={isMember ? { group: 'GIVE' } : undefined}
+              translation={t(isMember ? 'nav/give' : 'nav/offers')}
               active={active}
               closeHandler={closeHandler}
             />
           )}
-          <NavLink
-            route='events'
-            translation={t('nav/events')}
-            active={active}
-            closeHandler={closeHandler}
-          />
+          {!inNativeIOSApp && isMember && (
+            <NavLink
+              route='pledge'
+              params={{ package: 'DONATE' }}
+              translation={t('nav/donate')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+          )}
           {me ? (
-            <SignOut Link={SignoutLink} />
+            <>
+              <SignOut Link={SignoutLink} />
+            </>
           ) : (
             <SignIn
               beforeForm={
@@ -209,6 +226,14 @@ const Nav = ({
           )}
         </div>
         <div {...styles.section}>
+          {isMember && (
+            <NavLink
+              route='index'
+              translation={t('navbar/front')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+          )}
           {isMember && (
             <NavLink
               route='feed'
@@ -236,6 +261,18 @@ const Nav = ({
           <NavLink
             route='community'
             translation={t('nav/community')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          {/*<NavLink
+            route='events'
+            translation={t('nav/events')}
+            active={active}
+            closeHandler={closeHandler}
+          />*/}
+          <NavLink
+            route='cockpit'
+            translation={t('nav/cockpit')}
             active={active}
             closeHandler={closeHandler}
           />

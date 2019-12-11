@@ -105,17 +105,27 @@ class CancelMembership extends Component {
           if (isCancelled) {
             return (
               <Fragment>
-                <Interaction.P>
+                <Interaction.H1>
+                  {t('memberships/cancel/confirmation/title')}
+                </Interaction.H1>
+                <Interaction.P style={{ margin: '20px 0' }}>
                   {t('memberships/cancel/confirmation')}
                 </Interaction.P>
-                <Link route='account' passHref>
-                  <A>{t('memberships/cancel/accountLink')}</A>
-                </Link>
+                <Interaction.P style={{ margin: '20px 0' }}>
+                  <Link route='cockpit' passHref>
+                    <A>{t('memberships/cancel/confirmation/cockpit')}</A>
+                  </Link>
+                  <br />
+                  <Link route='account' passHref>
+                    <A>{t('memberships/cancel/accountLink')}</A>
+                  </Link>
+                </Interaction.P>
               </Fragment>
             )
           }
           return (
             <Fragment>
+              <Interaction.H1>{t('memberships/cancel/title')}</Interaction.H1>
               {remoteError && <ErrorMessage error={remoteError} />}
               <Item
                 createdAt={new Date(membership.createdAt)}

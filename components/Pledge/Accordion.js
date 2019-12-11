@@ -38,6 +38,9 @@ const styles = {
     borderBottom: `1px solid ${colors.divider}`,
     borderTop: `1px solid ${colors.divider}`
   }),
+  packageDark: css({
+    color: '#fff'
+  }),
   packageHighlighted: css({
     position: 'relative',
     zIndex: 1,
@@ -57,6 +60,10 @@ const styles = {
     backgroundColor: colors.primaryBg,
     borderBottom: 'none',
     borderTop: 'none'
+  }),
+  packageHighlightedDark: css({
+    backgroundColor: '#fff',
+    color: '#000'
   }),
   groupTitle: css({
     marginTop: 40,
@@ -141,45 +148,59 @@ const query = gql`
   }
 `
 
-const PackageItem = ({
-  t,
-  hover,
-  setHover,
-  crowdfundingName,
-  name,
-  title,
-  price,
-  onClick,
-  href
-}) => (
-  <a
-    {...merge(styles.package, hover === name && styles.packageHighlighted)}
-    onMouseOver={() => setHover(name)}
-    onMouseOut={() => setHover(undefined)}
-    onClick={onClick}
-    href={href}
-  >
-    <div {...styles.packageHeader}>
-      <div {...styles.packageTitle}>
-        {title ||
-          t.first([
-            `package/${crowdfundingName}/${name}/title`,
-            `package/${name}/title`
-          ])}
-      </div>
-      {!!price && (
-        <div {...styles.packagePrice}>
-          {t.first([`package/${name}/price`, 'package/price'], {
-            formattedCHF: `CHF ${price / 100}`
-          })}
-        </div>
+export const PackageItem = React.forwardRef(
+  (
+    {
+      t,
+      hover,
+      setHover,
+      crowdfundingName,
+      name,
+      title,
+      price,
+      onClick,
+      href,
+      dark
+    },
+    ref
+  ) => (
+    <a
+      {...merge(
+        styles.package,
+        dark && styles.packageDark,
+        hover === name && styles.packageHighlighted,
+        hover === name && dark && styles.packageHighlightedDark
       )}
-      <span {...styles.packageIcon}>
-        <ChevronRightIcon size={24} />
-      </span>
-    </div>
-  </a>
+      onMouseOver={() => setHover(name)}
+      onMouseOut={() => setHover(undefined)}
+      onClick={onClick}
+      href={href}
+      ref={ref}
+    >
+      <div {...styles.packageHeader}>
+        <div {...styles.packageTitle}>
+          {title ||
+            t.first([
+              `package/${crowdfundingName}/${name}/title`,
+              `package/${name}/title`
+            ])}
+        </div>
+        {!!price && (
+          <div {...styles.packagePrice}>
+            {t.first([`package/${name}/price`, 'package/price'], {
+              formattedCHF: `CHF ${price / 100}`
+            })}
+          </div>
+        )}
+        <span {...styles.packageIcon}>
+          <ChevronRightIcon size={24} />
+        </span>
+      </div>
+    </a>
+  )
 )
+
+export const PackageBuffer = () => <div {...styles.buffer} />
 
 class Accordion extends Component {
   constructor(props) {
@@ -285,7 +306,7 @@ class Accordion extends Component {
                   />
                 </Link>
               ))}
-              <div {...styles.buffer} />
+              <PackageBuffer />
               {!!links.length && (
                 <div {...styles.links}>
                   {links.map((link, i) => (

@@ -15,7 +15,7 @@ import track from '../../lib/piwik'
 import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 
 import { COUNTRIES, fields as getAddressFields } from '../Account/AddressForm'
-import { query as addressQuery } from '../Account/UpdateMe'
+import { query as addressQuery } from '../Account/enhancers'
 
 import FieldSet from '../FieldSet'
 
@@ -464,7 +464,7 @@ class Submit extends Component {
       signInError,
       loading
     } = this.state
-    const { me, user, t, paymentMethods } = this.props
+    const { me, user, t, query, paymentMethods } = this.props
 
     const errorMessages = this.getErrorMessages()
 
@@ -474,7 +474,8 @@ class Submit extends Component {
           key={me && me.id}
           ref={this.paymentRef}
           t={t}
-          loadSources={!!me}
+          loadSources={!!me || !!query.token}
+          accessToken={query.token}
           onlyChargable
           withoutAddress={this.withoutAddress()}
           payload={{

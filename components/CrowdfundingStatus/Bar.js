@@ -3,7 +3,7 @@ import { css, merge } from 'glamor'
 
 import { colors, fontFamilies, RawHtml } from '@project-r/styleguide'
 
-const BAR_COLOR = '#EAEDEB'
+const BAR_COLOR = '#333333'
 const HEIGHT = 8
 
 const styles = {

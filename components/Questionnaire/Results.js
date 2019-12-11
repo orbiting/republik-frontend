@@ -82,7 +82,7 @@ const query = gql`
           }
         }
         ... on QuestionTypeChoice {
-          results: result(min: 3) {
+          results: result {
             count
             option {
               label
@@ -189,6 +189,7 @@ const RankedBars = withT(({ t, question, canDownload }) => {
     )
   }
 
+  const hasCategories = question.results.filter(r => r.category).length > 0
   const numberPerColumn = question.results.length / 3
   const mapResult = (result, i) => ({
     label: result.option.label,
@@ -201,7 +202,7 @@ const RankedBars = withT(({ t, question, canDownload }) => {
     <DownloadableChart
       t={t}
       canDownload={canDownload}
-      config={RANKED_CATEGORY_BAR_CONFIG}
+      config={hasCategories ? RANKED_CATEGORY_BAR_CONFIG : RANKED_BAR_CONFIG}
       values={question.results.map(mapResult)}
     />
   )
@@ -270,6 +271,9 @@ const Results = ({ data, t, canDownload, Wrapper = DefaultWrapper }) => {
       render={() => {
         return data.questionnaire.questions.map(question => {
           const { id, text } = question
+          if (!question.result && !question.results) {
+            return null
+          }
 
           if (question.__typename === 'QuestionTypeText') {
             return null

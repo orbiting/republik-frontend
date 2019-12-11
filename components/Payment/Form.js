@@ -664,6 +664,7 @@ class PaymentForm extends Component {
 PaymentForm.propTypes = {
   t: PropTypes.func.isRequired,
   loadSources: PropTypes.bool.isRequired,
+  accessToken: PropTypes.string,
   allowedMethods: PropTypes.arrayOf(
     PropTypes.oneOf(PAYMENT_METHODS.map(method => method.key))
   ),
@@ -699,8 +700,8 @@ PaymentForm.propTypes = {
 // - context
 
 export const query = gql`
-  query myPaymentSources {
-    me {
+  query myPaymentSources($accessToken: ID) {
+    me(accessToken: $accessToken) {
       id
       paymentSources {
         id
@@ -721,10 +722,11 @@ export default compose(
   graphql(query, {
     skip: props => !props.loadSources,
     withRef: true,
-    options: {
+    options: ({ accessToken }) => ({
       fetchPolicy: 'network-only',
-      ssr: false
-    },
+      ssr: false,
+      variables: { accessToken }
+    }),
     props: ({ data }) => ({
       paymentSources: data.me && data.me.paymentSources,
       loadingPaymentSources: data.loading

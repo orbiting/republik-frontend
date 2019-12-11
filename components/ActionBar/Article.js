@@ -47,9 +47,9 @@ class ArticleActionBar extends Component {
       inNativeApp,
       inIOS,
       grandSharing,
-      fontSize
+      fontSize,
+      userBookmark
     } = this.props
-    const { userBookmark } = this.context
     const {
       discussionId,
       discussionPath,
@@ -80,11 +80,11 @@ class ArticleActionBar extends Component {
           inNativeApp={inNativeApp}
           inIOS={inIOS}
           onGalleryClick={onGalleryClick}
-          showBookmark={alive && showBookmark}
+          showBookmark={showBookmark}
           showShare={!grandSharing}
           fontSize={fontSize}
           documentId={documentId}
-          bookmarked={alive ? !!userBookmark : undefined}
+          bookmarked={!!userBookmark}
           estimatedReadingMinutes={estimatedReadingMinutes}
           estimatedConsumptionMinutes={estimatedConsumptionMinutes}
         />
@@ -116,10 +116,6 @@ class ArticleActionBar extends Component {
       </Fragment>
     )
   }
-}
-
-ArticleActionBar.contextTypes = {
-  userBookmark: PropTypes.object
 }
 
 ArticleActionBar.defaultProps = {

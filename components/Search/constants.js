@@ -5,8 +5,8 @@ export const SUPPORTED_FILTER = {
     'article',
     'discussion',
     'editorialNewsletter',
-    'format',
-    'dossier'
+    'dossier',
+    'section'
   ],
   kind: ['meta', 'scribble'],
   textLength: ['short', 'medium', 'long', 'epic'],

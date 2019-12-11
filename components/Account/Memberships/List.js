@@ -22,7 +22,6 @@ class MembershipsList extends Component {
       loading,
       error,
       highlightId,
-      prolongIds,
       waitingMemberships
     } = this.props
 
@@ -51,7 +50,6 @@ class MembershipsList extends Component {
                 <Manage
                   key={membership.id}
                   membership={membership}
-                  prolong={prolongIds.includes(membership.id)}
                   highlighted={highlightId === membership.pledge.id}
                   waitingMemberships={waitingMemberships}
                 />
@@ -68,11 +66,6 @@ export default compose(
   withMe,
   graphql(query, {
     props: ({ data, ownProps: { me } }) => {
-      const prolongPackage =
-        data.me &&
-        data.me.customPackages &&
-        data.me.customPackages.find(p => p.name === 'PROLONG')
-
       const memberships =
         (!data.loading &&
           !data.error &&
@@ -87,12 +80,6 @@ export default compose(
       return {
         loading: data.loading,
         error: data.error,
-        prolongIds:
-          (prolongPackage &&
-            prolongPackage.options
-              .filter(option => option.membership)
-              .map(option => option.membership.id)) ||
-          [],
         memberships,
         waitingMemberships: memberships.some(
           m => !m.active && !m.periods.length

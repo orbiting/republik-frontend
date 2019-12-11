@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { format } from 'url'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Router, Link } from '../../lib/routes'
+import { Router, Link, questionnaireCrowdSlug } from '../../lib/routes'
 
 import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
@@ -26,10 +26,14 @@ import {
   InlineSpinner,
   Button,
   Lead,
-  Loader
+  Loader,
+  Editorial,
+  InfoBoxListItem
 } from '@project-r/styleguide'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
+import gql from 'graphql-tag'
+import StatusError from '../StatusError'
 
 const { H1, P } = Interaction
 
@@ -75,6 +79,17 @@ const parseSignInResponseQuery = query => {
   }
 }
 
+const showQuestionnaire = data => {
+  const questionnaire = data && data.questionnaire
+  const now = new Date()
+  return (
+    questionnaire &&
+    new Date(questionnaire.beginDate) < now &&
+    now < new Date(questionnaire.endDate) &&
+    !questionnaire.userHasSubmitted
+  )
+}
+
 class Merci extends Component {
   constructor(props) {
     super(props)
@@ -108,7 +123,7 @@ class Merci extends Component {
   }
 
   render() {
-    const { me, t, query } = this.props
+    const { me, t, query, data } = this.props
     const {
       polling,
       email,
@@ -116,6 +131,7 @@ class Merci extends Component {
       signInError,
       signInLoading
     } = this.state
+
     if (query.claim) {
       return (
         <MainContainer>
@@ -250,6 +266,8 @@ class Merci extends Component {
 
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
     const noNameSuffix = me ? '' : '/noName'
+    const questionnaireLink =
+      showQuestionnaire(data) && query.package === 'PROLONG'
 
     return (
       <Fragment>
@@ -278,9 +296,43 @@ class Merci extends Component {
             />
             <WithMembership
               render={() => (
-                <div style={{ marginTop: 10 }}>
+                <>
+                  {query.package === 'PROLONG' && (
+                    <Editorial.UL>
+                      {questionnaireLink && (
+                        <InfoBoxListItem>
+                          <Link
+                            route='questionnaireCrowd'
+                            params={{ slug: questionnaireCrowdSlug }}
+                            passHref
+                          >
+                            <Editorial.A>
+                              {t('merci/action/questionnaire')}
+                            </Editorial.A>
+                          </Link>
+                        </InfoBoxListItem>
+                      )}
+                      <InfoBoxListItem>
+                        <Link
+                          route='pledge'
+                          params={{ package: 'ABO_GIVE' }}
+                          passHref
+                        >
+                          <Editorial.A>{t('merci/action/give')}</Editorial.A>
+                        </Link>
+                      </InfoBoxListItem>
+                      <InfoBoxListItem>
+                        <Link route='cockpit' passHref>
+                          <Editorial.A>{t('merci/action/cockpit')}</Editorial.A>
+                        </Link>
+                      </InfoBoxListItem>
+                    </Editorial.UL>
+                  )}
                   <Link route='index'>
-                    <Button primary style={buttonStyle}>
+                    <Button
+                      primary={!questionnaireLink}
+                      style={{ ...buttonStyle, marginTop: 10 }}
+                    >
                       {t('merci/action/read')}
                     </Button>
                   </Link>
@@ -294,7 +346,7 @@ class Merci extends Component {
                       </Button>
                     </Link>
                   )}
-                </div>
+                </>
               )}
             />
           </Content>
@@ -305,7 +357,19 @@ class Merci extends Component {
   }
 }
 
+const questionnaireQuery = gql`
+  query getQuestionnaire {
+    questionnaire(slug: "${questionnaireCrowdSlug}") {
+      id
+      beginDate
+      endDate
+      userHasSubmitted
+    }
+  }
+`
+
 export default compose(
+  graphql(questionnaireQuery),
   withMe,
   withT,
   withSignIn

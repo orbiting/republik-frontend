@@ -17,7 +17,8 @@ import {
   CommentBodyParagraph,
   Editorial,
   Interaction,
-  HR
+  HR,
+  mediaQueries
 } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
@@ -26,13 +27,17 @@ const { P, A, Emphasis, Cursive, StrikeThrough } = Editorial
 
 const styles = {
   table: css({
+    width: '100%',
     '& th': {
       borderBottom: `1px solid ${colors.divider}`,
       padding: '0 40px 20px 0',
       textAlign: 'left'
     },
     '& td': {
-      padding: '20px 40px 0 0'
+      padding: '20px 10px 0 0',
+      [mediaQueries.mUp]: {
+        paddingRight: 40
+      }
     }
   })
 }
@@ -74,6 +79,16 @@ export default compose(
             <td>
               <Cursive>kursiv</Cursive>
             </td>
+          </tr>
+          <tr>
+            <td colSpan='2'>
+              Benutzen Sie ein Backslash vor dem Gendersternchen damit es nicht
+              mit kursiv verwechselt wird:
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingTop: 10 }}>Leser\*in</td>
+            <td style={{ paddingTop: 10 }}>Leser*in</td>
           </tr>
           <tr>
             <td>~~durchgestrichen~~</td>

@@ -96,7 +96,7 @@ class VotePage extends Component {
     const meta = {
       title: vt('vote/201912/page/title'),
       description: vt('vote/201912/page/description'),
-      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote-juli19.png`
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote-dez19.png`
     }
 
     return (
@@ -195,7 +195,7 @@ class VotePage extends Component {
                 {actionBar}
                 <div {...styles.image}>
                   <FigureImage
-                    src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=780x`}
+                    src={`${CDN_FRONTEND_BASE_URL}/static/social-media/vote-dez19.png?resize=780x`}
                   />
                   <FigureCaption>{vt('vote/201912/caption')}</FigureCaption>
                 </div>

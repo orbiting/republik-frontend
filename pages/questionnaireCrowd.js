@@ -412,22 +412,21 @@ class QuestionnaireCrowdPage extends Component {
               submitting={submitting}
               leftAlign
             />
-            {showResults && (
-              <>
-                <P
-                  style={{
-                    marginTop: 100,
-                    marginBottom: 20,
-                    color: colors.error
-                  }}
-                >
-                  Diese Resultate werden{' '}
-                  <Interaction.Emphasis>nur intern</Interaction.Emphasis>{' '}
-                  angezeigt.
-                </P>
-                <Results canDownload slug={router.query.slug} />
-              </>
-            )}
+          </>
+        )}
+        {showResults && (
+          <>
+            <P
+              style={{
+                marginTop: 100,
+                marginBottom: 20,
+                color: colors.error
+              }}
+            >
+              Diese Resultate werden{' '}
+              <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
+            </P>
+            <Results canDownload slug={router.query.slug} />
           </>
         )}
       </Frame>

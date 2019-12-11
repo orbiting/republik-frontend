@@ -271,6 +271,9 @@ const Results = ({ data, t, canDownload, Wrapper = DefaultWrapper }) => {
       render={() => {
         return data.questionnaire.questions.map(question => {
           const { id, text } = question
+          if (!question.result) {
+            return null
+          }
 
           if (question.__typename === 'QuestionTypeText') {
             return null

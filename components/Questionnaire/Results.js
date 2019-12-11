@@ -271,7 +271,7 @@ const Results = ({ data, t, canDownload, Wrapper = DefaultWrapper }) => {
       render={() => {
         return data.questionnaire.questions.map(question => {
           const { id, text } = question
-          if (!question.result) {
+          if (!question.result && !question.results) {
             return null
           }
 

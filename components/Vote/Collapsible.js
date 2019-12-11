@@ -8,7 +8,8 @@ import {
   fontFamilies,
   fontStyles,
   mediaQueries,
-  colors
+  colors,
+  Interaction
 } from '@project-r/styleguide'
 import voteT from './voteT'
 
@@ -29,17 +30,13 @@ const styles = {
     marginLeft: -6,
     display: 'inline-block'
   }),
-  text: css({
+  text: css(Interaction.fontRule, {
     marginTop: 10,
     marginLeft: 20,
     ...fontStyles.sansSerifRegular16,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular16,
       lineHeight: 1.4
-    },
-    '& strong': {
-      fontFamily: fontFamilies.sansSerifMedium,
-      fontWeight: 'normal'
     },
     '& a': {
       textDecoration: 'none',

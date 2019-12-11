@@ -94,8 +94,8 @@ class VotePage extends Component {
     const { vt, data } = this.props
 
     const meta = {
-      title: vt('vote/201907/page/title'),
-      description: vt('vote/201907/page/description'),
+      title: vt('vote/201912/page/title'),
+      description: vt('vote/201912/page/description'),
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote-juli19.png`
     }
 
@@ -145,9 +145,9 @@ class VotePage extends Component {
                 <ActionBar
                   url={`${PUBLIC_BASE_URL}/vote/dez19`}
                   title={vt('vote/201912/page/title')}
-                  tweet={vt('vote/201907/sm/tweet')}
-                  emailSubject={vt('vote/201907/sm/emailSubject')}
-                  emailBody={vt('vote/201907/sm/emailBody')}
+                  tweet={vt('vote/201912/sm/tweet')}
+                  emailSubject={vt('vote/201912/sm/emailSubject')}
+                  emailBody={vt('vote/201912/sm/emailBody')}
                 />
                 {discussion && (
                   <DiscussionIconLinkWithoutEnhancer

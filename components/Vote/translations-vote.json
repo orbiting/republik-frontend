@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-10T09:59:11.950Z",
+  "updated": "2019-12-11T13:26:33.251Z",
   "title": "live",
   "data": [
     {
@@ -243,12 +243,36 @@
       "value": "Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 17. Juli."
     },
     {
+      "key": "vote/201912/page/title",
+      "value": "Dritte Urabstimmung - Project R"
+    },
+    {
+      "key": "vote/201912/page/description",
+      "value": "tbd (letzes Mal: Wieviel kosten Redaktion, IT und der Community-Bereich? Und was geben wir für unsere Administration aus? Hier finden Sie die Übersicht und Jahresabonnenten können abstimmen."
+    },
+    {
+      "key": "vote/201912/result/title",
+      "value": null
+    },
+    {
+      "key": "vote/201912/sm/tweet",
+      "value": "Zum dritten Mal Abstimmung über die Finanzen der Republik und von Project R: "
+    },
+    {
+      "key": "vote/201912/sm/emailSubject",
+      "value": "Unsere Stimme für Project R"
+    },
+    {
+      "key": "vote/201912/sm/emailBody",
+      "value": "Der Geschäftsbericht der Republik und von Project R. Dazu eine Abstimmung: "
+    },
+    {
       "key": "vote/201912/signInBody",
-      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 14.&nbsp;Dezember 2019 ein Jahresabonnement erworben haben."
+      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 14.&nbsp;Dezember 2019 eine Jahresmitgliedschaft erworben haben."
     },
     {
       "key": "vote/201912/title",
-      "value": "Ihr Geld – Ihre Stimme!"
+      "value": "Ihre Stimme für Project R"
     },
     {
       "key": "vote/201912/thankyou",
@@ -264,7 +288,7 @@
     },
     {
       "key": "vote/201912/ended",
-      "value": "Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 27. Dezember."
+      "value": "Die Urnen sind geschlossen. Die Resultate der Abstimmung finden Sie hier ab dem 27. Dezember."
     },
     {
       "key": "vote/201912/caption",

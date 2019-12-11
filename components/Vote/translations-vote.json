@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-11T13:26:33.251Z",
+  "updated": "2019-12-11T13:48:42.220Z",
   "title": "live",
   "data": [
     {
@@ -252,7 +252,15 @@
     },
     {
       "key": "vote/201912/result/title",
-      "value": null
+      "value": "So haben Sie entschieden"
+    },
+    {
+      "key": "vote/201912/result/lead",
+      "value": "Die Ergebnisse der dritten Urabstimmung von Project R sind da. Die Verlegerinnen und Verleger der Republik waren eingeladen, vom 13. bis zum 23.&nbsp;Dezember 2019 ihre Stimme abzugeben."
+    },
+    {
+      "key": "vote/201912/result/after",
+      "value": "Vielen Dank für Ihr Vertrauen, Ihre <a href=\"/vote/dez19/diskutieren\">Fragen und Ihre Vorschläge</a>."
     },
     {
       "key": "vote/201912/sm/tweet",

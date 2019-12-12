@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-12T12:09:41.250Z",
+  "updated": "2019-12-12T14:38:55.480Z",
   "title": "live",
   "data": [
     {
@@ -696,11 +696,11 @@
     },
     {
       "key": "vote/voting/notSignedIn",
-      "value": "Sie müssen sich anmelden, um an dieser Abstimmung teilnehmen zu können. (Und vor dem 4.&nbsp;Juli ein Jahresabonnement erworben haben.)"
+      "value": "Um an dieser Abstimmung teilnehmen zu können, müssen Sie sich anmelden und eine Jahresmitgliedschaft haben."
     },
     {
       "key": "vote/voting/notEligible",
-      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die vor dem 4.&nbsp;Juli ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 17.&nbsp;Juli."
+      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können nur Personen teilnehmen, die vor dem Abstimmungsbeginn eine Jahresmitgliedschaft erworben haben."
     },
     {
       "key": "vote/voting/ended",

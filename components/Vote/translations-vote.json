@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-11T17:30:45.901Z",
+  "updated": "2019-12-12T12:09:41.250Z",
   "title": "live",
   "data": [
     {
@@ -244,11 +244,11 @@
     },
     {
       "key": "vote/201912/page/title",
-      "value": "Dritte Urabstimmung - Project R"
+      "value": "Der zweite Geschäftsbericht: Stimmen Sie ab!"
     },
     {
       "key": "vote/201912/page/description",
-      "value": null
+      "value": "Wie haben sich die Republik und Project R entwickelt? Wir stellen das Team vor und präsentieren Fakten, Höhepunkte und Hürden des zweiten Geschäftsjahres. Mitglieder können zudem abstimmen."
     },
     {
       "key": "vote/201912/result/title",
@@ -264,15 +264,15 @@
     },
     {
       "key": "vote/201912/sm/tweet",
-      "value": null
+      "value": "Der zweite Geschäftsbericht der Republik und von Project R: "
     },
     {
       "key": "vote/201912/sm/emailSubject",
-      "value": null
+      "value": "Der zweite Geschäftsbericht"
     },
     {
       "key": "vote/201912/sm/emailBody",
-      "value": null
+      "value": "Wie sich die Republik und Project R im zweiten Jahr entwickelt haben. Dazu eine Abstimmung: "
     },
     {
       "key": "vote/201912/discussion/title",
@@ -280,7 +280,7 @@
     },
     {
       "key": "vote/201912/signInBody",
-      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 14.&nbsp;Dezember 2019 eine Jahresmitgliedschaft erworben haben."
+      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 13.&nbsp;Dezember 2019 eine Jahresmitgliedschaft erworben haben."
     },
     {
       "key": "vote/201912/title",
@@ -304,7 +304,7 @@
     },
     {
       "key": "vote/201912/caption",
-      "value": "Die R-Crew im Austausch mit Komplizen am Donnerstag, 5. Dezember 2019."
+      "value": "Die R-Crew im Austausch mit Komplizinnen am 5. Dezember 2019. Bild: Republik"
     },
     {
       "key": "info/description",

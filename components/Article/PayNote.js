@@ -107,12 +107,12 @@ const getNoteVariation = (seed, noteType, variations) => {
   const variation = getElementFromSeed(variations, seed, MAX_PAYNOTE_SEED)
   return {
     keyShort: variation,
-    key: `article/${noteType === 'buy' ? 'pay' : 'buy'}Note/${variation}`,
+    key: `article/${noteType === 'buy' ? 'pay' : noteType}Note/${variation}`,
     cta: noteType
   }
 }
 
-const getTryVariation = (seed, { query, customNotes }) => {
+const getTryNote = (seed, { query, customNotes }) => {
   if (customNotes) {
     return getCustomNote(seed, 'try', customNotes)
   }
@@ -122,7 +122,7 @@ const getTryVariation = (seed, { query, customNotes }) => {
   return getNoteVariation(seed, 'try', variations)
 }
 
-const getBuyVariation = (seed, { isSeries, customNotes }) => {
+const getBuyNote = (seed, { isSeries, customNotes }) => {
   if (customNotes) {
     return getCustomNote(seed, 'buy', customNotes)
   }
@@ -151,11 +151,11 @@ const getPayNote = ({
     }
   }
   return isEligibleForTrial && (inNativeIOSApp || trial)
-    ? getTryVariation(seed, {
+    ? getTryNote(seed, {
         query,
         customNotes: getTryNotes(customPayNotes)
       })
-    : getBuyVariation(seed, {
+    : getBuyNote(seed, {
         isSeries,
         customNotes: getBuyNotes(customPayNotes)
       })

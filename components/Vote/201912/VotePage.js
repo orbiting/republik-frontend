@@ -232,7 +232,9 @@ Heute geht es um die Genehmigung des vergangenen Geschäftsjahres. Oder im Fachj
  - [Entlastung des Vorstandes](#entlastung)
  - [Wahl der Revisionsstelle 2019/2020](#revisionsstelle)
 
-Die virtuellen Urnen sind vom 13. bis zum 23. Dezember 2019 geöffnet. **${numVotes} Ihrer Kolleginnen und Kollegen haben bereits abgestimmt.**
+Die virtuellen Urnen sind vom 13. bis zum 23. Dezember 2019 geöffnet. 
+
+**${numVotes} Ihrer Kolleginnen und Kollegen haben bereits abgestimmt.**
 `}
                 <Collapsible>{md`
 **Wer kann abstimmen?**  

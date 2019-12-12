@@ -609,6 +609,11 @@ class ArticlePage extends Component {
       )
     }
 
+    const customPayNotes =
+      article &&
+      article.content &&
+      article.content.meta &&
+      article.content.meta.paynotes
     const payNote = !hasActiveMembership && (
       <PayNote
         seed={payNoteSeed}
@@ -616,6 +621,7 @@ class ArticlePage extends Component {
         documentId={documentId}
         repoId={repoId}
         series={series}
+        customPayNotes={customPayNotes}
         position='before'
       />
     )

@@ -88,8 +88,11 @@ export const MAX_PAYNOTE_SEED = Math.max(
 
 const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
-const filterNotes = (payNotes, filterFn) =>
-  payNotes && payNotes.length && payNotes.filter(filterFn)
+const filterNotes = (payNotes, filterFn) => {
+  if (!payNotes || !payNotes.length) return
+  const filtered = payNotes.filter(filterFn)
+  return filtered.length && filtered
+}
 
 const getTryNotes = payNotes => filterNotes(payNotes, note => note.isTrynote)
 

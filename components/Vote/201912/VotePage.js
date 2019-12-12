@@ -249,7 +249,7 @@ Sie haben, wie jedes Mitglied, eine Stimme für jede Abstimmungsfrage. Sie könn
 **Wie sieht der Zeitplan aus?**
 
 13. Dezember bis 23. Dezember um Mitternacht: Die Mitglieder von Project R stimmen ab.
-14. Dezember: Wir geben die Abstimmungsresultate bekannt.
+27. Dezember: Wir geben die Abstimmungsresultate bekannt.
 
 **Statuten und Finanzierung**  
 Die detaillierten Abstimmungsbedingungen finden Sie in den [Statuten von Project R](https://www.republik.ch/statuten). Im Newsletter vom November 2017 finden Sie weitere Informationen [zu den beiden Organisationen und zur Finanzierung](https://project-r.construction/newsletter/2017-11-22-finanzierung).

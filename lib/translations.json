@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-11T13:26:31.779Z",
+  "updated": "2019-12-13T16:57:49.550Z",
   "title": "live",
   "data": [
     {
@@ -6451,15 +6451,15 @@
       "value": "Komplizin werden"
     },
     {
-      "key": "crowdfunding/status/goal/support/other",
+      "key": "crowdfunding/status/support/other",
       "value": "{count} Komplizen"
     },
     {
-      "key": "crowdfunding/status/goal/support/1",
+      "key": "crowdfunding/status/support/1",
       "value": "{count} Komplize"
     },
     {
-      "key": "crowdfunding/status/goal/support/label",
+      "key": "crowdfunding/status/support/label",
       "value": "Verlegerinnen, die bereit sind, die Republik bekannter zu machen."
     },
     {
@@ -6473,6 +6473,18 @@
     {
       "key": "memberships/cancel/confirmation/cockpit",
       "value": "Mehr erfahren"
+    },
+    {
+      "key": "crowdfunding/status/current/other",
+      "value": "{count} Verlegerinnen"
+    },
+    {
+      "key": "crowdfunding/status/current/1",
+      "value": "{count} Verlegerin"
+    },
+    {
+      "key": "crowdfunding/status/current/label",
+      "value": "haben wir aktuell. Aber bis zum 31. März sind noch <strong>{openPeople}</strong> Erneuerungen fällig."
     }
   ]
 }

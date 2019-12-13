@@ -17,6 +17,7 @@ import md from 'markdown-in-js'
 
 import Frame from '../components/Frame'
 import { light as mdComponents } from '../lib/utils/mdComponents'
+import { countFormat } from '../lib/utils/format'
 
 import { PackageItem, PackageBuffer } from '../components/Pledge/Accordion'
 
@@ -314,7 +315,8 @@ const Page = ({
         error={data.error}
         style={{ minHeight: `calc(90vh)` }}
         render={() => {
-          const { evolution } = data.membershipStats
+          const { evolution, count } = data.membershipStats
+          const firstMonth = evolution.buckets[0]
           const lastMonth = evolution.buckets[evolution.buckets.length - 1]
 
           const shouldBuyProlong =
@@ -331,6 +333,11 @@ const Page = ({
                   people
                   money
                   crowdfundingName='SURVIVE'
+                  labelReplacements={{
+                    openPeople: countFormat(
+                      lastMonth.pending - lastMonth.pendingSubscriptionsOnly
+                    )
+                  }}
                   crowdfunding={{
                     endDate: END_DATE,
                     goals: [
@@ -340,6 +347,7 @@ const Page = ({
                       }
                     ],
                     status: {
+                      current: count,
                       people:
                         lastMonth.activeEndOfMonth +
                         lastMonth.pendingSubscriptionsOnly,
@@ -702,6 +710,7 @@ const statusQuery = gql`
       }
     }
     membershipStats {
+      count
       evolution(min: "2019-12", max: "2020-03") {
         buckets {
           key

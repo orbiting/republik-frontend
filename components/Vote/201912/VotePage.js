@@ -292,7 +292,7 @@ Der Vorstand und der Genossenschaftsrat von Project R legen Ihnen den [Geschäft
 Dann wird es richtig kompliziert. Zum Beispiel könnte der Vorstand nicht entlastet werden. Natürlich ist es Ihr gutes Recht, den Geschäftsbericht abzulehnen. Aber wir würden uns sehr wünschen, dass Sie uns in der [Abstimmungsdebatte](/vote/dez19/diskutieren) dazu vorher kurz anschreiben. Vielleicht finden wir einen gemeinsamen Weg.
 
 **Warum haben wir kein vollständig dokumentiertes internes Kontrollsystem?**  
-Als junges Unternehmen verändern sich unsere Prozesse und Verantwortlichkeiten immer noch relativ schnell – und damit auch das Kontrollsystem. Die Dokumentation müsste dann laufend angepasst werden, was kein verhältnismässiger Einsatz von Zeit und Geld wäre. Sobald wir genug Kontinuität im Laden haben, werden wir das Kontrollsystem auch ordnungsgemäss dokumentieren.
+Als junges Unternehmen verändern sich unsere Prozesse und Verantwortlichkeiten immer noch relativ schnell – und damit auch das Kontrollsystem. Die Dokumentation müsste dann laufend angepasst werden, was kein verhältnismässiger Einsatz von Zeit und Geld wäre. Sobald wir genug Kontinuität haben, werden wir das Kontrollsystem auch ordnungsgemäss dokumentieren.
 
 **Warum besteht eine wesentliche Unsicherheit an der Fortführungsfähigkeit?**  
 Ganz einfach: weil uns das Geld ausgeht. Wenn wir im laufenden Geschäftsjahr gleich wirtschaften wie im letzten, können wir die Republik nicht fortführen. Deshalb haben wir uns ambitionierte [Ziele bis Ende März gesetzt, die Fortführung der Republik an diese Ziele geknüpft – und das transparent an alle Mitglieder kommuniziert](https://www.republik.ch/cockpit).

@@ -271,6 +271,12 @@ const Nav = ({
             closeHandler={closeHandler}
           />*/}
           <NavLink
+            route='vote201912'
+            translation={t('nav/vote201912')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <NavLink
             route='cockpit'
             translation={t('nav/cockpit')}
             active={active}

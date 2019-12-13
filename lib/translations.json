@@ -27,10 +27,6 @@
       "value": "Urabstimmung"
     },
     {
-      "key": "nav/vote201912",
-      "value": "Urabstimmung"
-    },
-    {
       "key": "nav/community",
       "value": "Community"
     },
@@ -57,6 +53,10 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
+    },
+    {
+      "key": "nav/vote201912",
+      "value": "Urabstimmung"
     },
     {
       "key": "navbar/front",
@@ -6376,15 +6376,15 @@
     },
     {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Versandstart für «Republik bei Stromausfall» ist am 13. Dezember. Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden."
+      "value": "Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden. Bücher liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Versandstart für «Republik bei Stromausfall» ist am 13. Dezember. Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden. Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden. Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",
-      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "option/TABLEBOOK/label/other",

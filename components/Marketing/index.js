@@ -356,17 +356,31 @@ const MarketingPage = props => {
             <Interaction.H3 style={{ marginBottom: '17px' }}>
               {t('marketing/offers/title')}
             </Interaction.H3>
-            <Interaction.P>
-              <img
-                {...styles.packageImage}
-                src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
-              />
-              Für begrenzte Zeit haben Sie die Möglichkeit, mit
-              Jahresmitgliedschaften unser Buch «Republik bei Stromausfall»
-              (limitierte Edition, CHF 58) mitzubestellen.
-            </Interaction.P>
+
             <Accordion
               compact
+              renderIntro={({ packages }) => {
+                const hasTablebook = packages.some(pkg =>
+                  pkg.options.some(
+                    option =>
+                      option.reward && option.reward.name === 'TABLEBOOK'
+                  )
+                )
+                if (hasTablebook) {
+                  return (
+                    <Interaction.P>
+                      <img
+                        {...styles.packageImage}
+                        src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
+                      />
+                      Für begrenzte Zeit haben Sie die Möglichkeit, bei
+                      Jahresmitgliedschaften unser Buch «Republik bei
+                      Stromausfall» (limitierte Edition, CHF 58) mitzubestellen.
+                    </Interaction.P>
+                  )
+                }
+                return null
+              }}
               crowdfundingName={CROWDFUNDING}
               filter={[
                 'ABO',

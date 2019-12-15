@@ -210,7 +210,7 @@ class Accordion extends Component {
     }
   }
   render() {
-    const { loading, error } = this.props
+    const { loading, error, compact } = this.props
     if (loading || error) {
       return (
         <Loader loading={loading} error={error} style={{ minHeight: 400 }} />
@@ -291,7 +291,11 @@ class Accordion extends Component {
           return (
             <Fragment key={group}>
               {groups.length > 1 && (
-                <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>
+                <div
+                  {...css(styles.groupTitle, compact && styles.packageTitle)}
+                >
+                  {t(`package/group/${group}`)}
+                </div>
               )}
               {pkgItems.map(({ name, title, price, route, params }) => (
                 <Link key={name} route={route} params={params} passHref>

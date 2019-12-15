@@ -274,5 +274,59 @@ export default {
       </Highlight>
       .
     </Fragment>
+  ),
+  Oktober: p => (
+    <Fragment>
+      Die Schweiz hat ein neues Parlament gewählt: die{' '}
+      <Highlight {...p} ids={['8et6Ay9-G']}>
+        Wahltagsreportage «Grünsonntag»
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['RzILkcOeo']}>
+        Was die Neuen in Bern erwartet,
+      </Highlight>{' '}
+      <Highlight {...p} ids={['MLyPnMi0t']}>
+        warum Influencer in der Schweiz so apolitisch sind
+      </Highlight>
+      {'. '}
+      Ausserdem: Warum die{' '}
+      <Highlight {...p} ids={['1j-sxpDsD']}>
+        Sehnsucht nach dem Weltkrieg den Brexit erklärt,
+      </Highlight>{' '}
+      wie der{' '}
+      <Highlight {...p} series='republik/article-edz-intro-global'>
+        Energiemix der Zukunft
+      </Highlight>{' '}
+      aussehen muss und wie ein schnell süchtig machendes{' '}
+      <Highlight {...p} ids={['uswelgYCy']}>
+        Schmerzmittel in der Schweiz auf dem Vormarsch
+      </Highlight>{' '}
+      ist. Sowie Hintergründiges zu arabischer Küche, Überwachung und Freerun.
+    </Fragment>
+  ),
+  November: p => (
+    <Fragment>
+      Hat die Atomenergie einen Platz im{' '}
+      <Highlight {...p} series='republik/article-edz-intro-global'>
+        Kampf gegen den Klimawandel?
+      </Highlight>{' '}
+      Hat die «
+      <Highlight {...p} series='republik/article-auftakt-p-r'>
+        gefährlichste Frau der Schweiz
+      </Highlight>
+      » vielleicht gar nicht begangen, was ihr vorgeworfen wird? Und was hat der{' '}
+      <Highlight {...p} ids={['bwyUGHYEm']}>
+        Joker mit den Massenprotesten in Chile zu tun?
+      </Highlight>{' '}
+      Ausserdem: Interviews mit{' '}
+      <Highlight {...p} ids={['dc8-HH-Tr']}>
+        ETH-Klimaforscher Reto Knutti
+      </Highlight>
+      , Bestsellerautor Salman Rushdie und Journalist Deniz Yücel. Und wie der{' '}
+      <Highlight {...p} ids={['18ngwhDpY']}>
+        Fichenskandal die Schweizer Kunstszene
+      </Highlight>{' '}
+      getroffen hat.
+    </Fragment>
   )
 }

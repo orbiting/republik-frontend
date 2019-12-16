@@ -94,7 +94,6 @@ const styles = {
       display: 'none'
     },
     position: 'absolute',
-    overflow: 'hidden',
     top: 0,
     right: 0,
     display: 'inline-block',

@@ -22,8 +22,6 @@ import {
   Editorial
 } from '@project-r/styleguide'
 
-import GiftIcon from './GiftIcon'
-
 const styles = {
   container: css({
     minHeight: '100%',
@@ -209,14 +207,7 @@ const Nav = ({
               active={active}
               closeHandler={closeHandler}
             >
-              {t('nav/give')}{' '}
-              {gift && (
-                <GiftIcon
-                  size={20}
-                  fill='goldenrod'
-                  style={{ marginTop: -2 }}
-                />
-              )}
+              {t('nav/give')} 🎁
             </NavLink>
           )}
           {!inNativeIOSApp && isMember && (

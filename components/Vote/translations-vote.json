@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-16T11:24:20.648Z",
+  "updated": "2019-12-12T14:38:55.480Z",
   "title": "live",
   "data": [
     {
@@ -241,6 +241,70 @@
     {
       "key": "vote/201907/ended",
       "value": "Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 17. Juli."
+    },
+    {
+      "key": "vote/201912/page/title",
+      "value": "Der zweite Geschäftsbericht: Stimmen Sie ab!"
+    },
+    {
+      "key": "vote/201912/page/description",
+      "value": "Wie haben sich die Republik und Project R entwickelt? Wir stellen das Team vor und präsentieren Fakten, Höhepunkte und Hürden des zweiten Geschäftsjahres. Mitglieder können zudem abstimmen."
+    },
+    {
+      "key": "vote/201912/result/title",
+      "value": "So haben Sie entschieden"
+    },
+    {
+      "key": "vote/201912/result/lead",
+      "value": "Die Ergebnisse der dritten Urabstimmung von Project R sind da. Die Verlegerinnen und Verleger der Republik waren eingeladen, vom 13. bis zum 23.&nbsp;Dezember 2019 ihre Stimme abzugeben."
+    },
+    {
+      "key": "vote/201912/result/after",
+      "value": "Vielen Dank für Ihr Vertrauen, Ihre <a href=\"/vote/dez19/diskutieren\">Fragen und Ihre Vorschläge</a>."
+    },
+    {
+      "key": "vote/201912/sm/tweet",
+      "value": "Der zweite Geschäftsbericht der Republik und von Project R: "
+    },
+    {
+      "key": "vote/201912/sm/emailSubject",
+      "value": "Der zweite Geschäftsbericht"
+    },
+    {
+      "key": "vote/201912/sm/emailBody",
+      "value": "Wie sich die Republik und Project R im zweiten Jahr entwickelt haben. Dazu eine Abstimmung: "
+    },
+    {
+      "key": "vote/201912/discussion/title",
+      "value": "Fragen Sie!"
+    },
+    {
+      "key": "vote/201912/signInBody",
+      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 13.&nbsp;Dezember 2019 eine Jahresmitgliedschaft erworben haben."
+    },
+    {
+      "key": "vote/201912/title",
+      "value": "Ihre Stimme für Project R"
+    },
+    {
+      "key": "vote/201912/thankyou",
+      "value": "Alles erledigt. Vielen Dank für Ihre Stimme!"
+    },
+    {
+      "key": "vote/201912/nextsteps",
+      "value": "Die Resultate der Abstimmung werden am 27. Dezember hier publiziert. Für Fragen und Rückmeldungen schreiben Sie uns in der <a href='/vote/dez19/diskutieren'>Abstimmungsdebatte</a>."
+    },
+    {
+      "key": "vote/201912/back",
+      "value": "Zur Verlagsetage"
+    },
+    {
+      "key": "vote/201912/ended",
+      "value": "Die Urnen sind geschlossen. Die Resultate der Abstimmung finden Sie hier ab dem 27. Dezember."
+    },
+    {
+      "key": "vote/201912/caption",
+      "value": "Die R-Crew im Austausch mit Komplizinnen am 5. Dezember 2019. Bild: Republik"
     },
     {
       "key": "info/description",
@@ -632,11 +696,11 @@
     },
     {
       "key": "vote/voting/notSignedIn",
-      "value": "Sie müssen sich anmelden, um an dieser Abstimmung teilnehmen zu können. (Und vor dem 4.&nbsp;Juli ein Jahresabonnement erworben haben.)"
+      "value": "Um an dieser Abstimmung teilnehmen zu können, müssen Sie sich anmelden und eine Jahresmitgliedschaft haben."
     },
     {
       "key": "vote/voting/notEligible",
-      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die vor dem 4.&nbsp;Juli ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 17.&nbsp;Juli."
+      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können nur Personen teilnehmen, die vor dem Abstimmungsbeginn eine Jahresmitgliedschaft erworben haben."
     },
     {
       "key": "vote/voting/ended",

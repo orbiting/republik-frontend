@@ -318,6 +318,9 @@ class CustomizePackage extends Component {
     const hasTotebag = !!pkg.options.find(
       option => option.reward && option.reward.name === 'TOTEBAG'
     )
+    const hasTablebook = !!pkg.options.find(
+      option => option.reward && option.reward.name === 'TABLEBOOK'
+    )
     const goodies = pkg.options
       .filter(
         option =>
@@ -477,6 +480,13 @@ class CustomizePackage extends Component {
         null
       )
     const goodiesImage =
+      (hasNotebook && hasTotebag && hasTablebook && (
+        <img
+          {...styles.packageImage}
+          style={{ maxWidth: 180, paddingLeft: 10 }}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_tablebook_totebag.jpg`}
+        />
+      )) ||
       (hasNotebook && hasTotebag && (
         <img
           {...styles.packageImage}
@@ -487,6 +497,12 @@ class CustomizePackage extends Component {
         <img
           {...styles.packageImage}
           src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
+        />
+      )) ||
+      (hasTablebook && !hasNotebook && !hasTotebag && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
         />
       ))
 

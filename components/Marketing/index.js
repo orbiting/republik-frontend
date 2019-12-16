@@ -19,7 +19,11 @@ import withInNativeApp from '../../lib/withInNativeApp'
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
-import { CROWDFUNDING, TRIAL_CAMPAIGN } from '../../lib/constants'
+import {
+  CROWDFUNDING,
+  TRIAL_CAMPAIGN,
+  CDN_FRONTEND_BASE_URL
+} from '../../lib/constants'
 import VbzPoster from './VbzPoster'
 
 import { List as TestimonialList, testimonialFields } from '../Testimonial/List'
@@ -169,6 +173,15 @@ const styles = {
       position: 'static',
       width: 'calc(100% - 270px)',
       height: 420
+    }
+  }),
+  packageImage: css({
+    float: 'right',
+    maxWidth: 150,
+    maxHeight: 170,
+    paddingLeft: 10,
+    [mediaQueries.mUp]: {
+      paddingLeft: 30
     }
   })
 }
@@ -343,9 +356,39 @@ const MarketingPage = props => {
             <Interaction.H3 style={{ marginBottom: '17px' }}>
               {t('marketing/offers/title')}
             </Interaction.H3>
+
             <Accordion
+              compact
+              renderIntro={({ packages }) => {
+                const hasTablebook = packages.some(pkg =>
+                  pkg.options.some(
+                    option =>
+                      option.reward && option.reward.name === 'TABLEBOOK'
+                  )
+                )
+                if (hasTablebook) {
+                  return (
+                    <Interaction.P>
+                      <img
+                        {...styles.packageImage}
+                        src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
+                      />
+                      Für begrenzte Zeit haben Sie die Möglichkeit, bei
+                      Jahresmitgliedschaften unser Buch «Republik bei
+                      Stromausfall» (limitierte Edition, CHF 58) mitzubestellen.
+                    </Interaction.P>
+                  )
+                }
+                return null
+              }}
               crowdfundingName={CROWDFUNDING}
-              filter={['ABO', 'BENEFACTOR', 'MONTHLY_ABO']}
+              filter={[
+                'ABO',
+                'BENEFACTOR',
+                'MONTHLY_ABO',
+                'ABO_GIVE',
+                'ABO_GIVE_MONTHS'
+              ]}
             />
 
             <div {...sharedStyles.spacer} />

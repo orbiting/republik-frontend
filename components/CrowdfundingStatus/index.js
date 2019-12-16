@@ -16,7 +16,8 @@ import {
   Label,
   fontStyles,
   mediaQueries,
-  pxToRem
+  pxToRem,
+  Interaction
 } from '@project-r/styleguide'
 
 import Bar from './Bar'
@@ -53,10 +54,9 @@ const styles = {
     ...fontStyles.sansSerifRegular,
     lineHeight: 1
   }),
-  label: css({
+  label: css(Interaction.fontRule, {
     display: 'block',
     color: '#fff',
-    ...fontStyles.sansSerifRegular,
     fontSize: pxToRem(14),
     lineHeight: pxToRem(20),
     paddingTop: 5,
@@ -121,6 +121,7 @@ class Status extends Component {
     const {
       crowdfundingName,
       crowdfunding: { goals, status },
+      labelReplacements,
       t,
       money,
       people,
@@ -204,6 +205,24 @@ class Status extends Component {
 
     return (
       <Fragment>
+        {status.current !== undefined && (
+          <P style={{ marginBottom: -10 }}>
+            <span {...styles.smallNumber}>
+              {t.pluralize('crowdfunding/status/current', {
+                count: countFormat(status.current)
+              })}
+            </span>
+            <span
+              {...styles.label}
+              dangerouslySetInnerHTML={{
+                __html: t(
+                  'crowdfunding/status/current/label',
+                  labelReplacements
+                )
+              }}
+            />
+          </P>
+        )}
         {[
           people && {
             accessor: 'people',
@@ -254,12 +273,12 @@ class Status extends Component {
         {status.support !== undefined && (
           <P>
             <span {...styles.smallNumber}>
-              {t.pluralize('crowdfunding/status/goal/support', {
-                count: status.support
+              {t.pluralize('crowdfunding/status/support', {
+                count: countFormat(status.support)
               })}
             </span>
             <span {...styles.label}>
-              {t('crowdfunding/status/goal/support/label')}
+              {t('crowdfunding/status/support/label')}
             </span>
           </P>
         )}

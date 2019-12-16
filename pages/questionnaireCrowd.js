@@ -4,6 +4,7 @@ import { compose, graphql } from 'react-apollo'
 import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../lib/constants'
 import withT, { t } from '../lib/withT'
 
+import withAuthorization from '../components/Auth/withAuthorization'
 import { enforceMembership } from '../components/Auth/withMembership'
 import {
   withQuestionnaire,
@@ -14,6 +15,7 @@ import { description } from './questionnaire'
 import { withRouter } from 'next/router'
 import QuestionnaireActions from '../components/Questionnaire/QuestionnaireActions'
 import Frame from '../components/Frame'
+import Results from '../components/Questionnaire/Results'
 import Questionnaire from '../components/Questionnaire/Questionnaire'
 import {
   userDetailsFragment,
@@ -335,7 +337,7 @@ class QuestionnaireCrowdPage extends Component {
   }
 
   render() {
-    const { detailsData, questionnaireData, router } = this.props
+    const { detailsData, questionnaireData, router, showResults } = this.props
     const {
       serverError,
       updating,
@@ -412,6 +414,21 @@ class QuestionnaireCrowdPage extends Component {
             />
           </>
         )}
+        {showResults && (
+          <>
+            <P
+              style={{
+                marginTop: 100,
+                marginBottom: 20,
+                color: colors.error
+              }}
+            >
+              Diese Resultate werden{' '}
+              <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
+            </P>
+            <Results canDownload slug={router.query.slug} />
+          </>
+        )}
       </Frame>
     )
   }
@@ -424,5 +441,6 @@ export default compose(
   withMutation,
   withQuestionnaireMutation,
   withQuestionnaireReset,
+  withAuthorization(['supporter', 'editor'], 'showResults'),
   enforceMembership(meta, { title: t('questionnaire/title'), description })
 )(QuestionnaireCrowdPage)

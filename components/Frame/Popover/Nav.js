@@ -107,7 +107,7 @@ const SignoutLink = ({ children, ...props }) => (
   </div>
 )
 
-const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
+const NavLink = ({ route, children, params = {}, active, closeHandler }) => {
   if (active && active.route === route) {
     return (
       <a
@@ -121,13 +121,13 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
           })
         }}
       >
-        {translation}
+        {children}
       </a>
     )
   }
   return (
     <Link route={route} params={params}>
-      <a {...styles.link}>{translation}</a>
+      <a {...styles.link}>{children}</a>
     </Link>
   )
 }
@@ -140,6 +140,7 @@ const Nav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
+  gift,
   isMember
 }) => {
   const active = matchPath(router.asPath)
@@ -152,26 +153,29 @@ const Nav = ({
             <>
               <NavLink
                 route='account'
-                translation={t('Frame/Popover/myaccount')}
                 active={active}
                 closeHandler={closeHandler}
-              />
+              >
+                {t('Frame/Popover/myaccount')}
+              </NavLink>
               {(!inNativeIOSApp || isMember) && (
                 <NavLink
                   route='profile'
                   params={{ slug: me.username || me.id }}
-                  translation={t('Frame/Popover/myprofile')}
                   active={active}
                   closeHandler={closeHandler}
-                />
+                >
+                  {t('Frame/Popover/myprofile')}
+                </NavLink>
               )}
               {isMember && (
                 <NavLink
                   route='bookmarks'
-                  translation={t('nav/bookmarks')}
                   active={active}
                   closeHandler={closeHandler}
-                />
+                >
+                  {t('nav/bookmarks')}
+                </NavLink>
               )}
               {me.accessCampaigns.length > 0 && (
                 <a
@@ -191,23 +195,30 @@ const Nav = ({
               )}
             </>
           )}
+          {!inNativeIOSApp && !isMember && (
+            <NavLink route='pledge' active={active} closeHandler={closeHandler}>
+              {t('nav/offers')}
+            </NavLink>
+          )}
           {!inNativeIOSApp && (
             <NavLink
               route='pledge'
-              params={isMember ? { group: 'GIVE' } : undefined}
-              translation={t(isMember ? 'nav/give' : 'nav/offers')}
+              params={{ group: 'GIVE' }}
               active={active}
               closeHandler={closeHandler}
-            />
+            >
+              {t('nav/give')} 🎁
+            </NavLink>
           )}
           {!inNativeIOSApp && isMember && (
             <NavLink
               route='pledge'
               params={{ package: 'DONATE' }}
-              translation={t('nav/donate')}
               active={active}
               closeHandler={closeHandler}
-            />
+            >
+              {t('nav/donate')}
+            </NavLink>
           )}
           {me ? (
             <>
@@ -227,67 +238,65 @@ const Nav = ({
         </div>
         <div {...styles.section}>
           {isMember && (
-            <NavLink
-              route='index'
-              translation={t('navbar/front')}
-              active={active}
-              closeHandler={closeHandler}
-            />
+            <NavLink route='index' active={active} closeHandler={closeHandler}>
+              {t('navbar/front')}
+            </NavLink>
           )}
           {isMember && (
-            <NavLink
-              route='feed'
-              translation={t('navbar/feed')}
-              active={active}
-              closeHandler={closeHandler}
-            />
+            <NavLink route='feed' active={active} closeHandler={closeHandler}>
+              {t('navbar/feed')}
+            </NavLink>
           )}
           {isMember && (
             <NavLink
               route='discussion'
-              translation={t('navbar/discussion')}
               active={active}
               closeHandler={closeHandler}
-            />
+            >
+              {t('navbar/discussion')}
+            </NavLink>
           )}
           {isMember && (
             <NavLink
               route='formats'
-              translation={t('nav/formats')}
               active={active}
               closeHandler={closeHandler}
-            />
+            >
+              {t('nav/formats')}
+            </NavLink>
           )}
           <NavLink
             route='community'
-            translation={t('nav/community')}
             active={active}
             closeHandler={closeHandler}
-          />
+          >
+            {t('nav/community')}
+          </NavLink>
           {/*<NavLink
             route='events'
-            translation={t('nav/events')}
             active={active}
             closeHandler={closeHandler}
-          />*/}
+          >{t('nav/events')}</NavLink>*/}
           <NavLink
-            route='cockpit'
-            translation={t('nav/cockpit')}
+            route='vote201912'
             active={active}
             closeHandler={closeHandler}
-          />
-          <NavLink
-            route='meta'
-            translation={t('nav/meta')}
-            active={active}
-            closeHandler={closeHandler}
-          />
+          >
+            {t('nav/vote201912')}
+          </NavLink>
+          <NavLink route='cockpit' active={active} closeHandler={closeHandler}>
+            {t('nav/cockpit')}
+          </NavLink>
+          <NavLink route='meta' active={active} closeHandler={closeHandler}>
+            {t('nav/meta')}
+          </NavLink>
           <NavLink
             route='legal/imprint'
-            translation={t('nav/team')}
             active={active}
             closeHandler={closeHandler}
-          />
+          >
+            {t('nav/team')}
+          </NavLink>
         </div>
       </div>
       {inNativeApp && <Footer />}

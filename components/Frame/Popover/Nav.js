@@ -14,8 +14,6 @@ import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
-import GiftIcon from 'react-icons/lib/md/card-giftcard'
-
 import {
   colors,
   fontStyles,
@@ -23,6 +21,8 @@ import {
   Label,
   Editorial
 } from '@project-r/styleguide'
+
+import GiftIcon from './GiftIcon'
 
 const styles = {
   container: css({
@@ -142,6 +142,7 @@ const Nav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
+  gift,
   isMember
 }) => {
   const active = matchPath(router.asPath)
@@ -209,7 +210,13 @@ const Nav = ({
               closeHandler={closeHandler}
             >
               {t('nav/give')}{' '}
-              <GiftIcon size={28} fill='chocolate' style={{ marginTop: -5 }} />
+              {gift && (
+                <GiftIcon
+                  size={20}
+                  fill='goldenrod'
+                  style={{ marginTop: -2 }}
+                />
+              )}
             </NavLink>
           )}
           {!inNativeIOSApp && isMember && (

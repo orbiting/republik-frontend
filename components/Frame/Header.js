@@ -382,6 +382,8 @@ class Header extends Component {
                 <User
                   dark={dark}
                   me={me}
+                  expanded={expanded}
+                  gift={!inNativeIOSApp}
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
                   onClick={toggleExpanded}
                 />
@@ -450,6 +452,7 @@ class Header extends Component {
                 <Toggle
                   dark={dark}
                   expanded={expanded}
+                  gift={!inNativeIOSApp}
                   id='primary-menu'
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
                   onClick={toggleExpanded}
@@ -486,7 +489,12 @@ class Header extends Component {
           />
         )}
         <Popover expanded={expanded}>
-          <NavPopover me={me} router={router} closeHandler={this.close} />
+          <NavPopover
+            gift={!inNativeIOSApp}
+            me={me}
+            router={router}
+            closeHandler={this.close}
+          />
         </Popover>
         <LoadingBar
           onRouteChangeStart={() => {

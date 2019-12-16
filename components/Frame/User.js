@@ -4,6 +4,9 @@ import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import PersonIcon from 'react-icons/lib/md/person-outline'
 import withT from '../../lib/withT'
+import { shouldIgnoreClick } from '../Link/utils'
+
+import GiftIcon from './Popover/GiftIcon'
 
 const BUTTON_SIZE = 40
 const BUTTON_SIZE_MOBILE = 30
@@ -35,9 +38,29 @@ const styles = {
     padding: `${BUTTON_PADDING_MOBILE}px`,
     [mediaQueries.mUp]: {
       padding: `${BUTTON_PADDING}px`
+    },
+    '& > svg': {
+      position: 'absolute',
+      top: 23,
+      right: -4,
+      [mediaQueries.mUp]: {
+        top: 35,
+        right: -1
+      },
+      transition:
+        'transform .25s ease-in-out, opacity .25s ease-in-out, top .25s ease-in-out, right .25s ease-in-out, width .25s ease-in-out',
+      transform: 'rotate(9deg)',
+      transformOrigin: 'right center'
+    },
+    '[aria-expanded=true] > svg': {
+      opacity: 0,
+      transform: 'rotate(95deg)',
+      right: -6,
+      top: 55
     }
   }),
   portrait: css({
+    position: 'relative',
     display: 'inline-block',
     verticalAlign: 'top',
     backgroundColor: '#E1E7E5',
@@ -85,21 +108,31 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, onClick, title, dark }) => {
+const User = ({ t, me, onClick, title, dark, expanded, gift }) => {
   const color = dark ? colors.negative.text : colors.text
   return (
     <div {...styles.user}>
       <a
         {...styles.button}
+        aria-expanded={expanded}
         style={{ color }}
         role='button'
         title={title}
-        href='/'
+        href={me ? `/~${me.username}` : '/anmelden'}
         onClick={e => {
+          if (shouldIgnoreClick(e)) {
+            return
+          }
           e.preventDefault()
           onClick()
         }}
       >
+        {me && gift && (
+          <GiftIcon
+            size='16'
+            fill={dark ? colors.negative.text : 'goldenrod'}
+          />
+        )}
         {me &&
           (me.portrait ? (
             <img src={me.portrait} {...styles.portrait} />

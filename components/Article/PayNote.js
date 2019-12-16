@@ -88,9 +88,13 @@ export const MAX_PAYNOTE_SEED = Math.max(
 
 const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
+const addKeyShort = (note, index) => {
+  return { ...note, keyShort: `custom-${index}` }
+}
+
 const filterNotes = (payNotes, filterFn) => {
   if (!payNotes || !payNotes.length) return
-  const filtered = payNotes.filter(filterFn)
+  const filtered = payNotes.map(addKeyShort).filter(filterFn)
   return filtered.length && filtered
 }
 
@@ -99,9 +103,10 @@ const getTryNotes = payNotes => filterNotes(payNotes, note => note.isTrynote)
 const getBuyNotes = payNotes => filterNotes(payNotes, note => !note.isTrynote)
 
 const getCustomNote = (seed, noteType, customNotes) => {
+  const note = getElementFromSeed(customNotes, seed, MAX_PAYNOTE_SEED)
   return {
-    keyShort: `custom-${noteType}note`,
-    payNote: getElementFromSeed(customNotes, seed, MAX_PAYNOTE_SEED),
+    keyShort: note.keyShort,
+    custom: note,
     cta: noteType
   }
 }
@@ -172,11 +177,13 @@ const Translation = compose(
     ? [payNote.key, position, element].filter(el => el).join('/')
     : `${position}${capitalize(element) || 'Body'}`
   const count = countFormat((membershipStats && membershipStats.count) || 20000)
-  const missingKey = payNote.payNote ? payNote.payNote[key] : ''
+  const customText = payNote.custom && payNote.custom[key]
   return (
     <RawHtml
       dangerouslySetInnerHTML={{
-        __html: t(key, { count: count }, missingKey)
+        __html: customText
+          ? customText.replace('{count}', count)
+          : t(key, { count: count }, '')
       }}
     />
   )
@@ -301,7 +308,7 @@ export const PayNote = compose(
     const payload = {
       documentId,
       repoId,
-      payNote: payNote.keyShort,
+      variation: payNote.keyShort,
       position
     }
     const isBefore = position === 'before'

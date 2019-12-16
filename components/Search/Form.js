@@ -10,6 +10,7 @@ import { withAggregations } from './enhancers'
 import { DEFAULT_AGGREGATION_KEYS } from './constants'
 import { preselectFilter } from './Filters'
 import track from '../../lib/piwik'
+import InitState from './InitState'
 
 const trackSearch = (query, data) => {
   if (data.loading || data.error) return
@@ -64,19 +65,28 @@ const Form = compose(
     }
 
     return (
-      <form onSubmit={submit}>
-        <Field
-          ref={setFocusRef}
-          label={t('search/input/label')}
-          value={searchQuery}
-          onChange={update}
-          icon={
-            searchQuery && (
-              <Close style={{ cursor: 'pointer' }} size={30} onClick={reset} />
-            )
-          }
-        />
-      </form>
+      <>
+        <form onSubmit={submit}>
+          <Field
+            ref={setFocusRef}
+            label={t('search/input/label')}
+            value={searchQuery}
+            onChange={update}
+            icon={
+              searchQuery && (
+                <Close
+                  style={{ cursor: 'pointer' }}
+                  size={30}
+                  onClick={reset}
+                />
+              )
+            }
+          />
+        </form>
+        {!urlQuery && (
+          <InitState query={searchQuery} dataAggregations={dataAggregations} />
+        )}
+      </>
     )
   }
 )

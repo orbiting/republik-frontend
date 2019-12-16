@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-05T15:52:03.290Z",
+  "updated": "2019-12-16T16:10:07.604Z",
   "title": "live",
   "data": [
     {
@@ -53,6 +53,10 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
+    },
+    {
+      "key": "nav/vote201912",
+      "value": "Urabstimmung"
     },
     {
       "key": "navbar/front",
@@ -840,7 +844,7 @@
     },
     {
       "key": "Account/Update/details/title",
-      "value": "Bitte überprüfen Sie Ihre Angaben und fügen Sie hinzu:"
+      "value": "Bitte überprüfen Sie Ihre Angaben und korrigieren beziehungs­weise ergänzen Sie."
     },
     {
       "key": "Account/noActiveMembership",
@@ -2360,11 +2364,11 @@
     },
     {
       "key": "package/DONATE/title",
-      "value": "Spenden, sonst nichts"
+      "value": "Spenden"
     },
     {
       "key": "package/DONATE/description",
-      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet."
+      "value": "Sie wollen hervorragenden Journalismus unterstützen. Denn Sie wissen: Guter Journalismus kostet."
     },
     {
       "key": "package/students/price",
@@ -3023,7 +3027,7 @@
       "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
-      "key": "article/payNote/series/before/buy/button",
+      "key": "article/payNote/series/before/button",
       "value": "Ja, ich will!"
     },
     {
@@ -3035,7 +3039,7 @@
       "value": "Dieser Beitrag ist Teil einer Serie. Wollen Sie die ganze Geschichte? Dann kommen Sie an Bord! Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität."
     },
     {
-      "key": "article/payNote/series/after/buy/button",
+      "key": "article/payNote/series/after/button",
       "value": "An Bord kommen!"
     },
     {
@@ -3911,6 +3915,10 @@
       "value": "mehr laden"
     },
     {
+      "key": "search/pageInfo/total/0",
+      "value": "Keine Ergebnisse"
+    },
+    {
       "key": "search/pageInfo/total/1",
       "value": "{count} Ergebnis"
     },
@@ -4076,23 +4084,23 @@
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "Komplizen Formular"
+      "value": "Haben Sie eine Minute?"
     },
     {
       "key": "questionnaire/crowd/description",
-      "value": "Werden Sie Komplize der Republik und sagen Sie uns, was Sie tun möchten."
+      "value": "Die Republik muss bekannter werden. Helfen Sie uns, Ihnen zu helfen, uns zu helfen."
     },
     {
       "key": "questionnaire/crowd/intro",
-      "value": "Schön, sind Sie hier! Wir kämpfen bis Ende März für die Republik - und brauchen dabei Ihre Hilfe. Dieses kleine Formular hilft uns, ihnen die passende Unterstützungsmöglichkeit vorzuschlagen."
+      "value": "Schön, sind Sie hier! Wir kämpfen bis Ende März für die Republik – und brauchen dabei Ihre Hilfe. Dieses kleine Formular hilft uns, Ihnen die passende Unterstützungs­möglichkeit vorzuschlagen."
     },
     {
       "key": "questionnaire/crowd/question1",
-      "value": "Um das Überleben der Republik sicher zu stellen, muss sie bekannter werden und mehr Menschen müssen sie abonnieren. Helfen Sie mit, für die Republik zu kämpfen?"
+      "value": "Um die Zukunft der Republik sicherzustellen, muss sie bekannter werden, und mehr Menschen müssen sie abonnieren. Helfen Sie mit?"
     },
     {
       "key": "questionnaire/crowd/question1/alt",
-      "value": "Nur um sicher zu gehen: Haben Sie sich vertippt?"
+      "value": "Nur um sicherzugehen: Haben Sie sich vertippt?"
     },
     {
       "key": "questionnaire/crowd/submitted/title",
@@ -4100,31 +4108,19 @@
     },
     {
       "key": "questionnaire/crowd/submitted/intro",
-      "value": "Vielen Dank für Ihre Bereitschaft mit zu helfen für die Republik zu kämpfen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekanntmachung der Republik starten: "
+      "value": "Vielen Dank für Ihre Bereitschaft, mitzuhelfen und für die Republik zu kämpfen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekannt­machung der Republik starten:"
     },
     {
       "key": "questionnaire/crowd/submitted/list/1",
-      "value": "Teilen Sie Ihren Lieblingsartikel mit Freunden und sprechen Sie darüber."
+      "value": "Teilen Sie Ihren Lieblings­artikel mit Freunden und sprechen Sie darüber."
     },
     {
       "key": "questionnaire/crowd/submitted/list/2",
-      "value": "Sie haben Ihr Abo noch nicht erneuert? Hier geht es zur <a href='https://www.republik.ch/angebote?package=PROLONG'>Erneuerung Ihres Jahresabos</a>."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/share",
-      "value": "Teilen Sie Ihre Erneuerung auf sozialen Medien."
+      "value": "Auf der Kampagnen­seite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten zur Mithilfe</a>."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",
-      "value": "Vielen Dank für Ihre Zeit. Wir verstehen, dass Sie keine Zeit haben, aktiv mitzumachen die Republik bekannter zu machen. Sie können das Überleben des Projektes auch durch eine Spende sichern."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/declined/list/1",
-      "value": "Werden Sie jetzt <a href='https://www.republik.ch/angebote?package=BENEFACTOR'>Gönnerin</a>."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/declined/list/2",
-      "value": "Oder <a href='https://www.republik.ch/angebote?package=ABO_GIVE'>verschenken Sie eine Abo</a>."
+      "value": "Vielen Dank! Wir verstehen, dass Sie keine Zeit haben, aktiv dabei mitzuhelfen, die Republik bekannter zu machen. Sie können die Zukunft der Republik auch durch eine Spende sichern. Auf der Kampagnenseite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten für Ihre Unterstützung</a>."
     },
     {
       "key": "pages/meta/questionnaire/counterText",
@@ -4280,15 +4276,15 @@
     },
     {
       "key": "merci/title/package/PROLONG",
-      "value": "Guten Tag, {name}"
+      "value": "{name}, danke, dass Sie der Republik vertrauen. Danke für Ihre Erneuerung."
     },
     {
       "key": "merci/title/package/PROLONG/noName",
-      "value": "Guten Tag"
+      "value": "Danke, dass Sie der Republik vertrauen. Danke für Ihre Erneuerung."
     },
     {
       "key": "merci/lead/package/PROLONG",
-      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung! <br />"
+      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung.<br />\n<br />\nIhre Treue bedeutet uns viel, und wir freuen uns, dass Sie sich dazu entschieden haben, Ihre Mitgliedschaft zu verlängern. Damit die Republik eine Zukunft hat, müssen wir bis zum 31. März 2020 viele neue Verlegerinnen finden und überzeugen. <br />\n<br />\nDas schaffen wir nur gemeinsam. Helfen Sie mit und werden Sie Komplizin, Komplize, unterstützen Sie uns bei der Bekannt­machung der Republik oder verschenken Sie eine Mitgliedschaft. Danke!"
     },
     {
       "key": "pledge/title/PROLONG/ABO_GIVE_MONTHS",
@@ -4303,24 +4299,12 @@
       "value": "Das Angebot"
     },
     {
-      "key": "package/customize/price/payMore",
-      "value": "Möchten Sie Ihr Investment erhöhen?"
-    },
-    {
       "key": "package/customize/price/payMore/normal",
       "value": "Reguläre {formattedCHF}"
     },
     {
       "key": "package/customize/price/payMore/bonus",
       "value": "Keine Geschenke! Ich zahle die zusätzlichen Tage: {formattedCHF}"
-    },
-    {
-      "key": "package/customize/price/payMore/1.5",
-      "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
-    },
-    {
-      "key": "package/customize/price/payMore/thx",
-      "value": "Danke!"
     },
     {
       "key": "package/customize/price/payLess",
@@ -4348,7 +4332,11 @@
     },
     {
       "key": "memberships/cancel/confirmation",
-      "value": "Sie haben Ihr Abo erfolgreich gekündigt."
+      "value": "Die Republik befindet sich derzeit in einem Kampf um ihre Zukunft und ist auf jedes Abo, jede Verlegerin und jedes Mitglied angewiesen. Haben Sie gekündigt, weil Sie das Gefühl haben, zu wenig Zeit zu haben? Dann geben Sie uns noch eine zweite Chance und bleiben Sie aus ideellen Gründen dabei. Wir brauchen jetzt jede und jeden."
+    },
+    {
+      "key": "memberships/cancel/confirmation/title",
+      "value": "Sie haben erfolgreich gekündigt."
     },
     {
       "key": "memberships/cancel/description",
@@ -4432,7 +4420,7 @@
     },
     {
       "key": "pledge/form/statement/share/title",
-      "value": "{name} unterstützt die Republik auch im zweiten Jahr."
+      "value": "{name} bleibt der Republik treu."
     },
     {
       "key": "pledge/form/statement/share/description",
@@ -4515,14 +4503,6 @@
       "value": "Ist das nicht Ihre E-Mail-Adresse?"
     },
     {
-      "key": "prolongNecessary/before",
-      "value": "Mit der Republik ins zweite Jahr: {link}."
-    },
-    {
-      "key": "prolongNecessary/before/linkText",
-      "value": "jetzt verlängern"
-    },
-    {
       "key": "pledge/option/PROLONG/ABO/label",
       "value": "Jahresmitgliedschaft"
     },
@@ -4585,14 +4565,6 @@
     {
       "key": "crowdfunding/status/goal/PROLONG/memberships",
       "value": "bereits verlängerte Mitgliedschaften. Ziel: {count}."
-    },
-    {
-      "key": "crowdfunding/status/goal/SURVIVE/people",
-      "value": "von {count} aktive Verlegerinnen am 31. März"
-    },
-    {
-      "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "von {count} Investitionen und Grosszügigkeit "
     },
     {
       "key": "crowdfunding/status/goal/money",
@@ -4741,10 +4713,6 @@
     {
       "key": "crowdfunding/status/time/ended/PROLONG",
       "value": "Ein detaillierter Überblick folgt Ende Monat."
-    },
-    {
-      "key": "crowdfunding/status/time/label/SURVIVE",
-      "value": "bis zur Entscheidung"
     },
     {
       "key": "nav/bookmarks",
@@ -6252,11 +6220,11 @@
     },
     {
       "key": "marketing/vbz/poster/hint",
-      "value": "Die Republik entdecken: Lesen Sie jetzt 9 ausgewählte Beiträge kostenlos."
+      "value": "Die Republik entdecken: Lesen Sie jetzt 5 ausgewählte Beiträge kostenlos."
     },
     {
       "key": "marketing/vbz/overlay/title",
-      "value": "9 ausgewählte Beiträge für Sie"
+      "value": "5 ausgewählte Beiträge für Sie"
     },
     {
       "key": "marketing/vbz/overlay/footnote",
@@ -6271,7 +6239,7 @@
       "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
     },
     {
-      "key": "article/payNote/191108-v1/before/buy/button",
+      "key": "article/payNote/191108-v1/before/button",
       "value": "Ich bin dabei."
     },
     {
@@ -6283,7 +6251,7 @@
       "value": "Wollen auch Sie, dass die noch junge Republik weiterhin unabhängigen, transparenten Journalismus betreiben kann? Dann kommen Sie als Mitglied oder Abonnentin an Bord! "
     },
     {
-      "key": "article/payNote/191108-v1/after/buy/button",
+      "key": "article/payNote/191108-v1/after/button",
       "value": "Ja – ich bin dabei!"
     },
     {
@@ -6295,7 +6263,7 @@
       "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur – und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
-      "key": "article/payNote/191108-v2/before/buy/button",
+      "key": "article/payNote/191108-v2/before/button",
       "value": "Natürlich!"
     },
     {
@@ -6307,7 +6275,7 @@
       "value": "Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
     },
     {
-      "key": "article/payNote/191108-v2/after/buy/button",
+      "key": "article/payNote/191108-v2/after/button",
       "value": "Ich bin an Bord."
     },
     {
@@ -6412,19 +6380,115 @@
     },
     {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Versandstart für «Republik bei Stromausfall» ist am 13. Dezember. Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden."
+      "value": "Bestellungen vor 19. Dezember um 23:59 Uhr können noch vor Weihnachten geliefert werden. Bücher liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Versandstart für «Republik bei Stromausfall» ist am 13. Dezember. Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden. Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Bestellungen vor 19. Dezember um 23:59 Uhr können noch vor Weihnachten geliefert werden. Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",
-      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "option/TABLEBOOK/label/other",
       "value": "Republik bei Stromausfall"
+    },
+    {
+      "key": "package/customize/price/payMore",
+      "value": "Möchten Sie Ihr Investment erhöhen?"
+    },
+    {
+      "key": "package/customize/price/payMore/1.5",
+      "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/thx",
+      "value": "Danke!"
+    },
+    {
+      "key": "prolongNecessary/before",
+      "value": "Der Republik treu bleiben: {link}."
+    },
+    {
+      "key": "prolongNecessary/before/linkText",
+      "value": "jetzt verlängern"
+    },
+    {
+      "key": "package/customize/price/payMore/2",
+      "value": "Tollkühne {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/thx/2",
+      "value": "Herzlichen Dank!"
+    },
+    {
+      "key": "package/customize/price/payRegular",
+      "value": "Auf den regulären Beitrag zurücksetzen"
+    },
+    {
+      "key": "pledge/title/PROLONG/reactivate",
+      "value": "Reaktivieren Sie Ihr Investment."
+    },
+    {
+      "key": "crowdfunding/status/time/label/SURVIVE",
+      "value": "bis zur Entscheidung."
+    },
+    {
+      "key": "crowdfunding/status/goal/SURVIVE/people",
+      "value": "Verleger, die am 31. März dabei sind. Ziel: {count}."
+    },
+    {
+      "key": "crowdfunding/status/goal/SURVIVE/money",
+      "value": "von Investoren und grosszügigen Verlegerinnen erhalten. Ziel: {count}."
+    },
+    {
+      "key": "nav/cockpit",
+      "value": "Cockpit"
+    },
+    {
+      "key": "cockpit/ios",
+      "value": "In der iOS-App können wir Ihnen aufgrund der Bestimmungen von Apple zur Zeit leider keine Möglichkeiten zur Verwaltung der Mitgliedschaft oder zum Bezahlen anbieten."
+    },
+    {
+      "key": "cockpit/ios/cta",
+      "value": "Komplizin werden"
+    },
+    {
+      "key": "crowdfunding/status/support/other",
+      "value": "{count} Komplizen"
+    },
+    {
+      "key": "crowdfunding/status/support/1",
+      "value": "{count} Komplize"
+    },
+    {
+      "key": "crowdfunding/status/support/label",
+      "value": "Verlegerinnen, die bereit sind, die Republik bekannter zu machen."
+    },
+    {
+      "key": "merci/action/give",
+      "value": "Verschenken Sie ein Abo"
+    },
+    {
+      "key": "merci/action/cockpit",
+      "value": "Mehr erfahren"
+    },
+    {
+      "key": "memberships/cancel/confirmation/cockpit",
+      "value": "Mehr erfahren"
+    },
+    {
+      "key": "crowdfunding/status/current/other",
+      "value": "{count} Verlegerinnen"
+    },
+    {
+      "key": "crowdfunding/status/current/1",
+      "value": "{count} Verlegerin"
+    },
+    {
+      "key": "crowdfunding/status/current/label",
+      "value": "haben wir aktuell. Aber bis zum 31. März sind noch <strong>{openPeople}</strong> Erneuerungen fällig."
     }
   ]
 }

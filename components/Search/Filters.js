@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { withAggregations } from './enhancers'
 import { compose } from 'react-apollo'
-import withSearchRouter from './withSearchRouter'
+import withSearchRouter, { isDefaultFilter } from './withSearchRouter'
 import {
   DEFAULT_AGGREGATION_KEYS,
   DEFAULT_FILTER,
@@ -50,12 +50,6 @@ const findFilterWithResults = aggregations =>
   SUPPORTED_FILTERS.find(filter => hasResults(aggregations, filter)) ||
   DEFAULT_FILTER
 
-export const preselectFilter = dataAggregations => {
-  const aggregations =
-    dataAggregations.search && dataAggregations.search.aggregations
-  return aggregations ? findFilterWithResults(aggregations) : DEFAULT_FILTER
-}
-
 const Filters = compose(withAggregations)(
   ({ dataAggregations, urlFilter, updateUrlFilter }) => {
     const { search } = dataAggregations
@@ -64,11 +58,18 @@ const Filters = compose(withAggregations)(
     const { totalCount, aggregations } = search
     if (totalCount === 0 || !aggregations) return <EmptyState />
 
+    const updateFilter = () =>
+      isDefaultFilter(urlFilter) &&
+      updateUrlFilter(findFilterWithResults(aggregations))
+
+    useEffect(() => {
+      updateFilter()
+    }, [aggregations])
+
     return (
       <ul {...styles.list}>
         {SUPPORTED_FILTERS.map((filter, key) => {
           const agg = findAggregation(aggregations, filter)
-          // TODO: handle case where agg is undefined (maybe in backend?)
           return agg ? (
             <li
               key={key}

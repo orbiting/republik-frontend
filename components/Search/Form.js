@@ -5,10 +5,9 @@ import Close from 'react-icons/lib/md/close'
 
 import { Field } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
-import withSearchRouter, { isDefaultFilter } from './withSearchRouter'
+import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
 import { DEFAULT_AGGREGATION_KEYS } from './constants'
-import { preselectFilter } from './Filters'
 import track from '../../lib/piwik'
 import InitState from './InitState'
 import { useDebounce } from '../../lib/hooks/useDebounce'
@@ -27,8 +26,6 @@ const Form = compose(
   ({
     urlQuery,
     updateUrlQuery,
-    urlFilter,
-    updateUrlFilter,
     resetUrl,
     dataAggregations,
     t,
@@ -36,7 +33,7 @@ const Form = compose(
     setSearchQuery
   }) => {
     const [focusRef, setFocusRef] = useState(null)
-    const [formValue, setFormValue] = useState(searchQuery)
+    const [formValue, setFormValue] = useState(urlQuery)
     const [slowFormValue] = useDebounce(formValue, 200)
 
     useEffect(() => {
@@ -51,15 +48,9 @@ const Form = compose(
       setSearchQuery(slowFormValue)
     }, [slowFormValue])
 
-    const updateFilter = () =>
-      isDefaultFilter(urlFilter) &&
-      updateUrlFilter(preselectFilter(dataAggregations))
-
     const submit = e => {
       e.preventDefault()
-      formValue &&
-        formValue !== urlQuery &&
-        updateUrlQuery(formValue).then(updateFilter)
+      formValue && formValue !== urlQuery && updateUrlQuery(formValue)
     }
 
     const update = (_, value) => {

@@ -66,7 +66,13 @@ const ResultCount = compose(withT)(({ t, query, dataAggregations }) => {
   return (
     <Interaction.P>
       {!totalCount || !query || !query.length ? (
-        <span style={{ color: colors.lightText }}>{results}</span>
+        <span style={{ color: colors.lightText }}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: !query || !query.length ? '&nbsp;' : results
+            }}
+          />
+        </span>
       ) : (
         <ResultLink query={query} text={results} />
       )}

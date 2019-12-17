@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-16T16:10:07.604Z",
+  "updated": "2019-12-17T15:51:42.794Z",
   "title": "live",
   "data": [
     {
@@ -3949,6 +3949,14 @@
     {
       "key": "search/sort/DESC/aria",
       "value": "absteigend"
+    },
+    {
+      "key": "search/docs/title",
+      "value": "Cheatsheet"
+    },
+    {
+      "key": "search/docs/text",
+      "value": "Match all of the words: <i>default</i>\n      <br />\n      <a href='/suche?q=Vogelsterben 5G'>Vogelsterben 5G</a>\n      <br />\n      <br />\n      Match any of the words: <b>|</b>\n      <br />\n      <a href='/suche?q=Klimawandel | Energie'>Klimawandel | Energie</a>\n      <br />\n      <br />\n      Match exact phrase: <b>\"&nbsp;\"</b>\n      <br />\n      <a href='/suche?q=\"Ignazio Cassis\"'>\"Ignazio Cassis\"</a>\n      <br />\n      <br />\n      Exclude a word: <b>-</b>\n      <br />\n      <a href='/suche?q=ETH -Skandal'>ETH -Skandal</a>\n      <br />\n      <br />\n      Combine queries: <b>(&nbsp;)</b>\n      <br />\n      <a href='/suche?q=Daniel (Graf | Binswanger)'>\n        Daniel (Graf | Binswanger)\n      </a>"
     },
     {
       "key": "styleguide/video/dnt/note",

@@ -23,7 +23,8 @@ const RESULT_COMPONENTS = {
 
 const styles = {
   container: css({
-    paddingTop: 0
+    paddingTop: 0,
+    paddingBottom: 120
   }),
   results: css({
     paddingTop: 5

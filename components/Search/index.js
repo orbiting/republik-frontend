@@ -10,9 +10,11 @@ import { Center, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   container: css({
-    padding: '15px 15px 120px',
+    paddingRight: 15,
+    paddingLeft: 15,
     [mediaQueries.mUp]: {
-      padding: '40px 0 120px'
+      paddingRight: 0,
+      paddingLeft: 0
     }
   })
 }

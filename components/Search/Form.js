@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import withT from '../../lib/withT'
 import Close from 'react-icons/lib/md/close'
-import { Field } from '@project-r/styleguide'
+import { Field, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
 import { DEFAULT_AGGREGATION_KEYS } from './constants'
 import InitState from './InitState'
 import { useDebounce } from '../../lib/hooks/useDebounce'
+import { css } from 'glamor'
+
+const styles = css({
+  paddingTop: 15,
+  [mediaQueries.mUp]: {
+    paddingTop: 40
+  }
+})
 
 const Form = compose(
   withSearchRouter,
@@ -50,7 +58,7 @@ const Form = compose(
     }
 
     return (
-      <>
+      <div {...styles}>
         <form onSubmit={submit}>
           <Field
             ref={setFocusRef}
@@ -71,7 +79,7 @@ const Form = compose(
         {!urlQuery && (
           <InitState query={searchQuery} dataAggregations={dataAggregations} />
         )}
-      </>
+      </div>
     )
   }
 )

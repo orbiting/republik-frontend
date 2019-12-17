@@ -11,6 +11,7 @@ import { DEFAULT_AGGREGATION_KEYS } from './constants'
 import { preselectFilter } from './Filters'
 import track from '../../lib/piwik'
 import InitState from './InitState'
+import { useDebounce } from '../../lib/hooks/useDebounce'
 
 const trackSearch = (query, data) => {
   if (data.loading || data.error) return
@@ -35,6 +36,8 @@ const Form = compose(
     setSearchQuery
   }) => {
     const [focusRef, setFocusRef] = useState(null)
+    const [formValue, setFormValue] = useState(searchQuery)
+    const [slowFormValue] = useDebounce(formValue, 200)
 
     useEffect(() => {
       focusRef && focusRef.input && focusRef.input.focus()
@@ -44,23 +47,27 @@ const Form = compose(
       trackSearch(urlQuery, dataAggregations)
     }, [urlQuery])
 
+    useEffect(() => {
+      setSearchQuery(slowFormValue)
+    }, [slowFormValue])
+
     const updateFilter = () =>
       isDefaultFilter(urlFilter) &&
       updateUrlFilter(preselectFilter(dataAggregations))
 
     const submit = e => {
       e.preventDefault()
-      searchQuery &&
-        searchQuery !== urlQuery &&
-        updateUrlQuery(searchQuery).then(updateFilter)
+      formValue &&
+        formValue !== urlQuery &&
+        updateUrlQuery(formValue).then(updateFilter)
     }
 
     const update = (_, value) => {
-      setSearchQuery(value)
+      setFormValue(value)
     }
 
     const reset = () => {
-      setSearchQuery(undefined)
+      setFormValue(undefined)
       resetUrl()
     }
 
@@ -70,10 +77,10 @@ const Form = compose(
           <Field
             ref={setFocusRef}
             label={t('search/input/label')}
-            value={searchQuery}
+            value={formValue}
             onChange={update}
             icon={
-              searchQuery && (
+              formValue && (
                 <Close
                   style={{ cursor: 'pointer' }}
                   size={30}

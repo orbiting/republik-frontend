@@ -2,15 +2,11 @@ import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-
 import Loader from '../../components/Loader'
-
 import UserResult from './UserResult'
 import DocumentResult from './DocumentResult'
 import CommentResult from './CommentResult'
-
 import { withResults } from './enhancers'
-
 import {
   colors,
   fontStyles,
@@ -97,7 +93,7 @@ const ResultsFooter = compose(withT)(
   }
 )
 
-const Results = compose(withResults)(({ data, fetchMore, searchQuery }) => {
+const Results = compose(withResults)(({ data, fetchMore }) => {
   return (
     <div {...styles.container}>
       <Loader

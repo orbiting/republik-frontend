@@ -11,6 +11,7 @@ import { css, merge } from 'glamor'
 import { fontStyles, mediaQueries } from '@project-r/styleguide'
 import { findByKey } from '../../lib/utils/helpers'
 import EmptyState from './EmptyState'
+import track from '../../lib/piwik'
 
 const styles = {
   list: css({
@@ -33,6 +34,15 @@ const styles = {
   })
 }
 
+const trackSearch = (query, filter, resultCount) => {
+  track([
+    'trackSiteSearch',
+    query.toLowerCase(),
+    `${filter.key}:${filter.value}`,
+    resultCount
+  ])
+}
+
 export const findAggregation = (aggregations, filter) => {
   const agg = findByKey(aggregations, 'key', filter.key)
   return !agg || !agg.buckets
@@ -51,20 +61,31 @@ const findFilterWithResults = aggregations =>
   DEFAULT_FILTER
 
 const Filters = compose(withAggregations)(
-  ({ dataAggregations, urlFilter, updateUrlFilter }) => {
-    const { search } = dataAggregations
+  ({ dataAggregations, searchQuery, urlFilter, updateUrlFilter }) => {
+    const { search, loading, error } = dataAggregations
+    if (loading || error) return null
     if (!search) return <EmptyState />
 
     const { totalCount, aggregations } = search
     if (totalCount === 0 || !aggregations) return <EmptyState />
 
-    const updateFilter = () =>
-      isDefaultFilter(urlFilter) &&
-      updateUrlFilter(findFilterWithResults(aggregations))
+    const updateFilter = () => {
+      if (!isDefaultFilter(urlFilter)) {
+        return trackSearch(searchQuery, urlFilter, totalCount)
+      }
+      const newFilter = findFilterWithResults(aggregations)
+      updateUrlFilter(newFilter)
+      trackSearch(searchQuery, newFilter, totalCount)
+    }
 
     useEffect(() => {
       updateFilter()
     }, [aggregations])
+
+    const onFilterClick = filter => {
+      updateUrlFilter(filter)
+      trackSearch(searchQuery, filter, totalCount)
+    }
 
     return (
       <ul {...styles.list}>
@@ -73,7 +94,7 @@ const Filters = compose(withAggregations)(
           return agg ? (
             <li
               key={key}
-              onClick={() => updateUrlFilter(filter)}
+              onClick={() => onFilterClick(filter)}
               {...merge(
                 styles.listItem,
                 isSameFilter(filter, urlFilter) && styles.listItemSelected

@@ -14,6 +14,7 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
+import { DEFAULT_FILTERS } from './constants'
 
 const RESULT_COMPONENTS = {
   Document: DocumentResult,
@@ -122,7 +123,11 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
 const ResultsWrapper = compose(withSearchRouter)(
   ({ urlQuery, urlFilter, urlSort }) => {
     return urlQuery && urlFilter && urlSort ? (
-      <Results searchQuery={urlQuery} filters={[urlFilter]} sort={urlSort} />
+      <Results
+        searchQuery={urlQuery}
+        filters={DEFAULT_FILTERS.concat(urlFilter)}
+        sort={urlSort}
+      />
     ) : null
   }
 )

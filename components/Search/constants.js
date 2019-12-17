@@ -1,3 +1,5 @@
+export const DEFAULT_FILTERS = [{ key: 'template', value: 'front', not: true }]
+
 export const SUPPORTED_FILTERS = [
   {
     key: 'type',

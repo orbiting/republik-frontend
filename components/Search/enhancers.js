@@ -1,14 +1,21 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { documentFragment } from '../Feed/DocumentListContainer'
+import { DEFAULT_FILTERS } from './constants'
 
 const getSearchAggregations = gql`
   query getSearchAggregations(
     $searchQuery: String
     $keys: [String!]
     $trackingId: ID
+    $filters: [SearchGenericFilterInput!]
   ) {
-    search(first: 1, search: $searchQuery, trackingId: $trackingId) {
+    search(
+      first: 1
+      search: $searchQuery
+      filters: $filters
+      trackingId: $trackingId
+    ) {
       totalCount
       trackingId
       aggregations(keys: $keys) {
@@ -131,6 +138,14 @@ const getSearchResults = gql`
 `
 
 export const withAggregations = graphql(getSearchAggregations, {
+  options: props => {
+    return {
+      variables: {
+        ...props,
+        filters: DEFAULT_FILTERS
+      }
+    }
+  },
   props: ({ data }) => ({
     dataAggregations: data
   })

@@ -26,7 +26,8 @@ const styles = {
   highlight: css({
     '& em': {
       background: colors.highlight,
-      fontStyle: 'inherit'
+      fontStyle: 'inherit',
+      fontFamily: 'inherit'
     }
   }),
   profilePicture: css({

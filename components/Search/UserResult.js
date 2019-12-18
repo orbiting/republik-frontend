@@ -25,7 +25,7 @@ const styles = {
   }),
   highlight: css({
     '& em': {
-      background: colors.primaryBg,
+      background: colors.highlight,
       fontStyle: 'inherit'
     }
   }),

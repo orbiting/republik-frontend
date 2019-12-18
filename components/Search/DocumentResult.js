@@ -1,15 +1,15 @@
 import React from 'react'
-import { colors, fontStyles, TeaserFeed } from '@project-r/styleguide'
+import { fontStyles, TeaserFeed, colors } from '@project-r/styleguide'
 import ActionBar from '../ActionBar/Feed'
 import Link from '../Link/Href'
-import { css, merge } from 'glamor'
+import { css } from 'glamor'
 import { findHighlight } from '../../lib/utils/mdast'
 import withT from '../../lib/withT'
 
 const styles = {
   highlight: css({
     '& em': {
-      background: colors.primaryBg,
+      background: colors.highlight,
       fontStyle: 'inherit'
     }
   }),

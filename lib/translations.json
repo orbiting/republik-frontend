@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-16T14:19:01.844Z",
+  "updated": "2019-12-18T13:06:05.526Z",
   "title": "live",
   "data": [
     {
@@ -3915,6 +3915,10 @@
       "value": "mehr laden"
     },
     {
+      "key": "search/pageInfo/total/0",
+      "value": "Keine Ergebnisse"
+    },
+    {
       "key": "search/pageInfo/total/1",
       "value": "{count} Ergebnis"
     },
@@ -3945,6 +3949,14 @@
     {
       "key": "search/sort/DESC/aria",
       "value": "absteigend"
+    },
+    {
+      "key": "search/docs/title",
+      "value": "Cheatsheet"
+    },
+    {
+      "key": "search/docs/text",
+      "value": "Match all of the words: <i>default</i>\n      <br />\n      <a href='/suche?q=Vogelsterben 5G'>Vogelsterben 5G</a>\n      <br />\n      <br />\n      Match any of the words: <b>|</b>\n      <br />\n      <a href='/suche?q=Klimawandel | Energie'>Klimawandel | Energie</a>\n      <br />\n      <br />\n      Match exact phrase: <b>\"&nbsp;\"</b>\n      <br />\n      <a href='/suche?q=\"Ignazio Cassis\"'>\"Ignazio Cassis\"</a>\n      <br />\n      <br />\n      Exclude a word: <b>-</b>\n      <br />\n      <a href='/suche?q=ETH -Skandal'>ETH -Skandal</a>\n      <br />\n      <br />\n      Combine queries: <b>(&nbsp;)</b>\n      <br />\n      <a href='/suche?q=Daniel (Graf | Binswanger)'>\n        Daniel (Graf | Binswanger)\n      </a>"
     },
     {
       "key": "styleguide/video/dnt/note",
@@ -6332,7 +6344,7 @@
     },
     {
       "key": "package/ABO/description/goodies/TABLEBOOK",
-      "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen."
+      "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
       "key": "package/ABO_GIVE/description",
@@ -6352,7 +6364,7 @@
     },
     {
       "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",
-      "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen."
+      "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
       "key": "package/PROLONG/description",
@@ -6360,7 +6372,7 @@
     },
     {
       "key": "package/PROLONG/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
+      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
@@ -6368,7 +6380,7 @@
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
+      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
       "key": "package/TABLEBOOK/description",

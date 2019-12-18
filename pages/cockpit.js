@@ -3,6 +3,7 @@ import { css } from 'glamor'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
+import { max } from 'd3-array'
 
 import {
   Button,
@@ -46,6 +47,9 @@ const TOTAL_CAN_QUIT = 12896
 const END_DATE = '2020-03-31T10:00:00.000Z'
 
 const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
+
+const YEAR_MONTH_FORMAT = '%Y-%m'
+const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
 
 const Accordion = withInNativeApp(
   withT(
@@ -324,6 +328,7 @@ const Page = ({
             (!me ||
               (me.activeMembership &&
                 new Date(me.activeMembership.endDate) <= new Date(END_DATE)))
+          const currentYearMonth = formatYearMonth(new Date())
 
           return (
             <>
@@ -506,57 +511,108 @@ ${
                     numberFormat: 's',
                     colorRange: ['#3CAD00', '#2A7A00', '#333333', '#9970ab'],
                     x: 'date',
-                    timeParse: '%Y-%m',
+                    timeParse: YEAR_MONTH_FORMAT,
                     timeFormat: '%b',
                     xTicks: ['2019-12', '2020-01', '2020-02', '2020-03'],
+                    domain: [
+                      0,
+                      max(
+                        evolution.buckets
+                          .map(
+                            month =>
+                              month.activeEndOfMonth +
+                              month.pendingSubscriptionsOnly -
+                              month.gaining +
+                              month.pending -
+                              month.pendingSubscriptionsOnly
+                          )
+                          .concat([20000, count * 1.05])
+                      )
+                    ],
+                    yTicks: [0, 10000, 20000],
                     padding: 55,
                     xAnnotations: [
-                      {
-                        x1: '2020-03',
-                        x2: '2020-03',
-                        label: '75% Erneuerung',
-                        value:
-                          TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.75
+                      '2020-03' !== currentYearMonth && {
+                        x1: currentYearMonth,
+                        x2: currentYearMonth,
+                        label: 'Stand jetzt',
+                        value: count
                       },
                       {
                         x1: '2020-03',
                         x2: '2020-03',
-                        label: '50% Erneuerung',
+                        label: 'bereits dabei',
                         value:
-                          TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.5
+                          lastMonth.activeEndOfMonth +
+                          lastMonth.pendingSubscriptionsOnly
+                      },
+                      {
+                        x1: '2020-03',
+                        x2: '2020-03',
+                        label: 'Ziel per 31. März',
+                        value: 19000
                       }
-                    ]
+                      // (lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly) * 1.2 < TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT && {
+                      //   x1: '2020-03',
+                      //   x2: '2020-03',
+                      //   label: '100% Erneuerung',
+                      //   value:
+                      //     TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 1
+                      // },
+                      // (lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly) * 1.2 < TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.65 && {
+                      //   x1: '2020-03',
+                      //   x2: '2020-03',
+                      //   label: '65% Erneuerung',
+                      //   value:
+                      //     TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.65
+                      // }
+                    ].filter(Boolean)
                   }}
-                  values={evolution.buckets.reduce((values, month) => {
-                    return values.concat([
-                      {
-                        date: month.key,
-                        action: 'bestehende',
-                        value: String(
-                          month.activeEndOfMonth +
-                            month.pendingSubscriptionsOnly
-                        )
+                  values={
+                    evolution.buckets.reduce(
+                      (agg, month) => {
+                        agg.gaining += month.gaining
+                        // agg.exit += month.expired + month.cancelled
+                        agg.values = agg.values.concat([
+                          {
+                            date: month.key,
+                            action: 'bestehende',
+                            value: String(
+                              month.activeEndOfMonth -
+                                agg.gaining +
+                                month.pendingSubscriptionsOnly
+                            )
+                          },
+                          {
+                            date: month.key,
+                            action: 'neue',
+                            value: String(agg.gaining)
+                          },
+                          {
+                            date: month.key,
+                            action: 'offene',
+                            value: String(
+                              month.pending - month.pendingSubscriptionsOnly
+                            )
+                          }
+                          // {
+                          //   date: month.key,
+                          //   action: 'Abgänge',
+                          //   value: String(
+                          //     agg.exit
+                          //   )
+                          // }
+                        ])
+                        return agg
                       },
-                      {
-                        date: month.key,
-                        action: 'neue',
-                        value: String(month.gaining)
-                      },
-                      {
-                        date: month.key,
-                        action: 'offene',
-                        value: String(
-                          month.pending - month.pendingSubscriptionsOnly
-                        )
-                      }
-                    ])
-                  }, [])}
+                      { gaining: 0, exit: 0, values: [] }
+                    ).values
+                  }
                 />
                 <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
-                  Erneuerungsquoten basierend auf allen Jahres­mitgliedschaften,
-                  die zwischen dem 1. Dezember und dem 31. März erneuert werden
-                  könnten. Als offen gelten Jahres­mitgliedschaften ohne
-                  Verlängerungszahlung. Datenstand:{' '}
+                  Als offen gelten Jahres­mitgliedschaften ohne
+                  Verlängerungszahlung. Als neue gelten alle die nach dem 1.
+                  Dezember an Bord gekommen sind. Datenstand:{' '}
                   {formatDateTime(new Date(evolution.updatedAt))}
                 </Editorial.Note>
               </div>
@@ -716,17 +772,12 @@ const statusQuery = gql`
           key
 
           gaining
-          gainingWithDonation
-          gainingWithoutDonation
 
           ending
-          prolongable
           expired
           cancelled
 
           activeEndOfMonth
-          activeEndOfMonthWithDonation
-          activeEndOfMonthWithoutDonation
 
           pending
           pendingSubscriptionsOnly

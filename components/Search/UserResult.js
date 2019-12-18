@@ -75,9 +75,6 @@ const styles = {
   link: css({
     color: 'inherit',
     textDecoration: 'none'
-  }),
-  textHighlight: css({
-    ...fontStyles.serifItalic
   })
 }
 
@@ -137,9 +134,9 @@ export const UserResult = ({ node }) => {
       {!nameHighlight && textHighlight && (
         <Editorial.P style={{ margin: '-20px 0 10px' }}>
           <span
-            {...merge(styles.textHighlight, styles.highlight)}
+            {...styles.highlight}
             dangerouslySetInnerHTML={{
-              __html: textHighlight.fragments[0]
+              __html: '... ' + textHighlight.fragments[0] + '...'
             }}
           />
         </Editorial.P>

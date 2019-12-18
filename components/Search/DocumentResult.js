@@ -1,5 +1,5 @@
 import React from 'react'
-import { fontStyles, TeaserFeed, colors } from '@project-r/styleguide'
+import { TeaserFeed, colors } from '@project-r/styleguide'
 import ActionBar from '../ActionBar/Feed'
 import Link from '../Link/Href'
 import { css } from 'glamor'
@@ -12,9 +12,6 @@ const styles = {
       background: colors.highlight,
       fontStyle: 'inherit'
     }
-  }),
-  textHighlight: css({
-    ...fontStyles.serifItalic
   })
 }
 

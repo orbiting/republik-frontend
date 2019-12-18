@@ -61,6 +61,27 @@ const styles = {
   })
 }
 
+/*
+const addPaynote = e => {
+    e.preventDefault()
+    const templatePaynote = {
+      title: '',
+      body: '',
+      cta: 'trialForm',
+      button: {
+        label: '',
+        link: '/angebote'
+      }
+    }
+    onPaynotesChange(
+      paynotes.concat({
+        before: templatePaynote,
+        after: templatePaynote
+      })
+    )
+  }
+*/
+
 const memberShipQuery = gql`
   query payNoteMembershipStats {
     membershipStats {
@@ -88,54 +109,44 @@ export const MAX_PAYNOTE_SEED = Math.max(
 
 const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
+const buildKey = (payNote, position, element) =>
+  [payNote.key, position, element].filter(el => el).join('/')
+
 const addKeyShort = (note, index) => {
   return { ...note, keyShort: `custom-${index}` }
 }
 
-const filterNotes = (payNotes, filterFn) => {
-  if (!payNotes || !payNotes.length) return
-  const filtered = payNotes.map(addKeyShort).filter(filterFn)
-  return filtered.length && filtered
-}
-
-const getTryNotes = payNotes => filterNotes(payNotes, note => note.isTrynote)
-
-const getBuyNotes = payNotes => filterNotes(payNotes, note => !note.isTrynote)
-
-const getCustomNote = (seed, noteType, customNotes) => {
-  const note = getElementFromSeed(customNotes, seed, MAX_PAYNOTE_SEED)
-  return {
-    keyShort: note.keyShort,
-    custom: note,
-    cta: noteType
-  }
-}
-
-const getNoteVariation = (seed, noteType, variations) => {
+const getNoteVariation = (seed, noteType, cta, variations) => {
   const variation = getElementFromSeed(variations, seed, MAX_PAYNOTE_SEED)
   return {
     keyShort: variation,
-    key: `article/${noteType === 'buy' ? 'pay' : noteType}Note/${variation}`,
-    cta: noteType
+    key: `article/${noteType}Note/${variation}`,
+    cta: cta
   }
 }
 
-const getTryNote = (seed, { query, customNotes }) => {
-  if (customNotes) {
-    return getCustomNote(seed, 'try', customNotes)
-  }
+const getTryNote = (seed, { query }) => {
   const variations =
     TRY_VARIATIONS_CAMPAIGN[query.campaign || query.utm_campaign] ||
     TRY_VARIATIONS
-  return getNoteVariation(seed, 'try', variations)
+  return getNoteVariation(seed, 'try', 'trialForm', variations)
 }
 
-const getBuyNote = (seed, { isSeries, customNotes }) => {
-  if (customNotes) {
-    return getCustomNote(seed, 'buy', customNotes)
-  }
+const getBuyNote = (seed, { isSeries }) => {
   const variations = isSeries ? BUY_SERIES : BUY_VARIATIONS
-  return getNoteVariation(seed, 'buy', variations)
+  return getNoteVariation(seed, 'pay', 'button', variations)
+}
+
+const getCustomNote = (seed, customNotes) => {
+  const note = getElementFromSeed(
+    customNotes.map(addKeyShort),
+    seed,
+    MAX_PAYNOTE_SEED
+  )
+  return {
+    keyShort: note.keyShort,
+    custom: note
+  }
 }
 
 const getPayNote = ({
@@ -150,7 +161,7 @@ const getPayNote = ({
   if (query.trialSignup && !isEligibleForTrial) {
     return {
       key: 'article/tryNote/thankYou',
-      cta: 'try'
+      cta: 'trialForm'
     }
   }
   if (inNativeIOSApp && !isEligibleForTrial) {
@@ -158,14 +169,15 @@ const getPayNote = ({
       key: 'article/payNote/ios'
     }
   }
+  if (customPayNotes) {
+    return getCustomNote(seed, customPayNotes)
+  }
   return isEligibleForTrial && (inNativeIOSApp || trial)
     ? getTryNote(seed, {
-        query,
-        customNotes: getTryNotes(customPayNotes)
+        query
       })
     : getBuyNote(seed, {
-        isSeries,
-        customNotes: getBuyNotes(customPayNotes)
+        isSeries
       })
 }
 
@@ -174,10 +186,10 @@ const Translation = compose(
   graphql(memberShipQuery)
 )(({ t, data: { membershipStats }, payNote, position, element }) => {
   const key = payNote.key
-    ? [payNote.key, position, element].filter(el => el).join('/')
-    : `${position}${capitalize(element) || 'Body'}`
+    ? buildKey(payNote, position, element)
+    : element || 'body'
   const count = countFormat((membershipStats && membershipStats.count) || 20000)
-  const customText = payNote.custom && payNote.custom[key]
+  const customText = payNote.custom && payNote.custom[position][key]
   return (
     <RawHtml
       dangerouslySetInnerHTML={{
@@ -189,19 +201,22 @@ const Translation = compose(
   )
 })
 
-const BuyButton = ({ payNote, position }) => {
+const BuyButton = compose(withT)(({ t, payNote, position }) => {
   return (
     <Button
       primary
       onClick={trackEventOnClick(
         ['PayNote', `pledge ${position}`, payNote.keyShort],
-        () => goTo('pledge')
+        () =>
+          goTo(payNote.custom ? payNote.custom[position].button.link : 'pledge')
       )}
     >
-      <Translation payNote={payNote} position={position} element='button' />
+      {payNote.custom
+        ? payNote.custom[position].button.label
+        : t(buildKey(payNote, position, 'button'))}
     </Button>
   )
-}
+})
 
 const TrialLink = compose(withT)(({ t, payNote }) => {
   const tKey = 'article/payNote/secondaryAction'
@@ -264,9 +279,12 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode, payload }) => {
 })
 
 const PayNoteCta = ({ payNote, payload, position, darkMode }) => {
+  const cta =
+    payNote && payNote.custom ? payNote.custom[position].cta : payNote.cta
+  if (!cta) return null
   return (
     <div {...styles.cta}>
-      {payNote.cta === 'try' ? (
+      {cta === 'trialForm' ? (
         <TryNoteCta darkMode={darkMode} payload={payload} />
       ) : (
         <BuyNoteCta payNote={payNote} position={position} />
@@ -312,7 +330,7 @@ export const PayNote = compose(
       position
     }
     const isBefore = position === 'before'
-    const cta = !!payNote.cta && (
+    const cta = (
       <PayNoteCta
         darkMode={isBefore}
         payNote={payNote}

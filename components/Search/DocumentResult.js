@@ -4,6 +4,7 @@ import ActionBar from '../ActionBar/Feed'
 import Link from '../Link/Href'
 import { css, merge } from 'glamor'
 import { findHighlight } from '../../lib/utils/mdast'
+import withT from '../../lib/withT'
 
 const styles = {
   highlight: css({
@@ -17,11 +18,15 @@ const styles = {
   })
 }
 
-export default ({ node }) => {
+export default withT(({ t, node }) => {
   const titleHighlight = findHighlight(node, 'meta.title')
   const descHighlight = findHighlight(node, 'meta.description')
   const authorHighlight = findHighlight(node, 'meta.authors')
   const textHighlight = findHighlight(node, 'contentString')
+
+  const showDescHighlight = !titleHighlight && !authorHighlight && descHighlight
+  const showTextHighlight =
+    !titleHighlight && !authorHighlight && !descHighlight && textHighlight
 
   const actionBar = node.entity.meta ? (
     <ActionBar
@@ -48,18 +53,29 @@ export default ({ node }) => {
         )
       }
       description={
-        !titleHighlight && !authorHighlight ? (
+        (showDescHighlight || !showTextHighlight) &&
+        (descHighlight ? (
           <span
-            {...merge(styles.highlight, !descHighlight && styles.textHighlight)}
+            {...styles.highlight}
             dangerouslySetInnerHTML={{
-              __html: (descHighlight ? descHighlight : textHighlight)
-                .fragments[0]
+              __html: descHighlight.fragments[0]
             }}
           />
         ) : (
           !node.entity.meta.shortTitle && node.entity.meta.description
+        ))
+      }
+      highlight={
+        showTextHighlight && (
+          <span
+            {...styles.highlight}
+            dangerouslySetInnerHTML={{
+              __html: '... ' + textHighlight.fragments[0] + '...'
+            }}
+          />
         )
       }
+      highlightLabel={t('search/excerpt')}
       kind={
         node.entity.meta.template === 'editorialNewsletter'
           ? 'meta'
@@ -75,4 +91,4 @@ export default ({ node }) => {
       bar={actionBar}
     />
   )
-}
+})

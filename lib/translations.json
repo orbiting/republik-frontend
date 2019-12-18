@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-17T15:51:42.794Z",
+  "updated": "2019-12-18T16:27:04.795Z",
   "title": "live",
   "data": [
     {
@@ -3951,6 +3951,10 @@
       "value": "absteigend"
     },
     {
+      "key": "search/excerpt",
+      "value": "Auszug"
+    },
+    {
       "key": "search/docs/title",
       "value": "Cheatsheet"
     },
@@ -6344,7 +6348,7 @@
     },
     {
       "key": "package/ABO/description/goodies/TABLEBOOK",
-      "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen."
+      "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
       "key": "package/ABO_GIVE/description",
@@ -6364,7 +6368,7 @@
     },
     {
       "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",
-      "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen."
+      "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
       "key": "package/PROLONG/description",
@@ -6372,7 +6376,7 @@
     },
     {
       "key": "package/PROLONG/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
+      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
@@ -6380,7 +6384,7 @@
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
+      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
       "key": "package/TABLEBOOK/description",

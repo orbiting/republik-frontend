@@ -57,6 +57,19 @@ export default WrappedComponent =>
 
     const resetUrl = () => Router.pushRoute('search')
 
+    const cleanupUrl = () =>
+      Router.pushRoute(
+        'search',
+        {
+          [QUERY_PARAM]: query[QUERY_PARAM],
+          [FILTER_KEY_PARAM]: query[FILTER_KEY_PARAM],
+          [FILTER_VALUE_PARAM]: query[FILTER_VALUE_PARAM],
+          [SORT_KEY_PARAM]: query[SORT_KEY_PARAM],
+          [SORT_DIRECTION_PARAM]: query[SORT_DIRECTION_PARAM]
+        },
+        { shallow: true }
+      )
+
     return (
       <WrappedComponent
         urlQuery={urlQuery}
@@ -66,6 +79,7 @@ export default WrappedComponent =>
         updateUrlFilter={updateUrlFilter}
         updateUrlSort={updateUrlSort}
         resetUrl={resetUrl}
+        cleanupUrl={cleanupUrl}
         {...props}
       />
     )

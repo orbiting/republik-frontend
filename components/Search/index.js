@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { css } from 'glamor'
 
 import Form from './Form'
@@ -7,6 +7,7 @@ import Sort from './Sort'
 import Results from './Results'
 
 import { Center, mediaQueries } from '@project-r/styleguide'
+import withSearchRouter from './withSearchRouter'
 
 const styles = {
   container: css({
@@ -19,11 +20,17 @@ const styles = {
   })
 }
 
-export default () => (
-  <Center {...styles.container}>
-    <Form />
-    <Filters />
-    <Sort />
-    <Results />
-  </Center>
-)
+export default withSearchRouter(({ cleanupUrl }) => {
+  useEffect(() => {
+    cleanupUrl()
+  }, [])
+
+  return (
+    <Center {...styles.container}>
+      <Form />
+      <Filters />
+      <Sort />
+      <Results />
+    </Center>
+  )
+})

@@ -10,6 +10,7 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import { findHighlight } from '../../lib/utils/mdast'
+import { formatExcerpt } from '../../lib/utils/format'
 
 export const profilePictureSize = 70
 export const profilePictureMargin = 10
@@ -137,7 +138,7 @@ export const UserResult = ({ node }) => {
           <span
             {...styles.highlight}
             dangerouslySetInnerHTML={{
-              __html: '... ' + textHighlight.fragments[0] + '...'
+              __html: formatExcerpt(textHighlight.fragments[0])
             }}
           />
         </Editorial.P>

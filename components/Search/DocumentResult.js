@@ -5,6 +5,7 @@ import Link from '../Link/Href'
 import { css } from 'glamor'
 import { findHighlight } from '../../lib/utils/mdast'
 import withT from '../../lib/withT'
+import { formatExcerpt } from '../../lib/utils/format'
 
 const styles = {
   highlight: css({
@@ -67,7 +68,7 @@ export default withT(({ t, node }) => {
           <span
             {...styles.highlight}
             dangerouslySetInnerHTML={{
-              __html: '... ' + textHighlight.fragments[0] + '...'
+              __html: formatExcerpt(textHighlight.fragments[0])
             }}
           />
         )

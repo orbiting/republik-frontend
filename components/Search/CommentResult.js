@@ -11,7 +11,11 @@ export default compose(withT)(({ t, node }) => {
       context={{
         title: node.entity.discussion.title
       }}
-      highlights={node.highlights}
+      highlights={
+        node.highlights &&
+        // ToDo: support all path in styleguide
+        node.highlights.filter(h => h.path === 'contentString')
+      }
       Link={CommentLink}
       t={t}
     />

@@ -9,7 +9,6 @@ import {
 } from './constants'
 import { css, merge } from 'glamor'
 import { fontStyles, mediaQueries } from '@project-r/styleguide'
-import { findByKey } from '../../lib/utils/helpers'
 import EmptyState from './EmptyState'
 import track from '../../lib/piwik'
 
@@ -44,10 +43,10 @@ const trackSearch = (query, filter, resultCount) => {
 }
 
 export const findAggregation = (aggregations, filter) => {
-  const agg = findByKey(aggregations, 'key', filter.key)
+  const agg = aggregations.find(d => d.key === filter.key)
   return !agg || !agg.buckets
     ? agg
-    : findByKey(agg.buckets, 'value', filter.value)
+    : agg.buckets.find(d => d.value === filter.value)
 }
 
 const isSameFilter = (filterA, filterB) =>

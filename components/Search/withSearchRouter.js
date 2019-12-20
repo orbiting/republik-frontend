@@ -58,7 +58,7 @@ export default WrappedComponent =>
     const resetUrl = () => Router.pushRoute('search')
 
     const cleanupUrl = () =>
-      Router.pushRoute(
+      Router.replaceRoute(
         'search',
         {
           [QUERY_PARAM]: query[QUERY_PARAM],

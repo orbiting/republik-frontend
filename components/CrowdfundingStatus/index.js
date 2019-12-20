@@ -11,42 +11,63 @@ import { chfFormat, countFormat } from '../../lib/utils/format'
 
 import { STATUS_POLL_INTERVAL_MS } from '../../lib/constants'
 
-import { P, Label, fontFamilies, mediaQueries } from '@project-r/styleguide'
+import {
+  P,
+  Label,
+  fontStyles,
+  mediaQueries,
+  pxToRem,
+  Interaction
+} from '@project-r/styleguide'
 
 import Bar from './Bar'
 
 const styles = {
   primaryNumber: css({
+    color: '#fff',
     display: 'block',
     marginBottom: -3,
     [mediaQueries.mUp]: {
       marginBottom: -8
     },
     fontSize: 80,
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     lineHeight: 1
   }),
   secondaryNumber: css({
+    color: '#fff',
     display: 'block',
     [mediaQueries.mUp]: {
       marginBottom: -3
     },
     fontSize: 43,
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     lineHeight: 1
   }),
   smallNumber: css({
+    color: '#fff',
     display: 'block',
     [mediaQueries.mUp]: {
       marginBottom: -3
     },
     fontSize: 22,
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     lineHeight: 1
+  }),
+  label: css(Interaction.fontRule, {
+    display: 'block',
+    color: '#fff',
+    fontSize: pxToRem(14),
+    lineHeight: pxToRem(20),
+    paddingTop: 5,
+    paddingBottom: 5,
+    [mediaQueries.mUp]: {
+      paddingTop: 8
+    }
   }),
   hoverGoal: css({
     cursor: 'default',
-    fontFamily: fontFamilies.sansSerifMedium
+    ...fontStyles.sansSerifMedium
   })
 }
 
@@ -100,6 +121,7 @@ class Status extends Component {
     const {
       crowdfundingName,
       crowdfunding: { goals, status },
+      labelReplacements,
       t,
       money,
       people,
@@ -162,11 +184,11 @@ class Status extends Component {
         <div style={{ paddingTop: 10 }}>
           <P>
             <span {...styles.smallNumber}>{countFormat(status.people)}</span>
-            <Label>
+            <span {...styles.label}>
               {t.elements('crowdfunding/status/goal/people', {
                 count: createHoverGoalCount(countFormat, goal.people)
               })}
-            </Label>
+            </span>
           </P>
           <Bar
             goals={goalsByPeople}
@@ -183,6 +205,24 @@ class Status extends Component {
 
     return (
       <Fragment>
+        {status.current !== undefined && (
+          <P style={{ marginBottom: -10 }}>
+            <span {...styles.smallNumber}>
+              {t.pluralize('crowdfunding/status/current', {
+                count: countFormat(status.current)
+              })}
+            </span>
+            <span
+              {...styles.label}
+              dangerouslySetInnerHTML={{
+                __html: t(
+                  'crowdfunding/status/current/label',
+                  labelReplacements
+                )
+              }}
+            />
+          </P>
+        )}
         {[
           people && {
             accessor: 'people',
@@ -204,9 +244,9 @@ class Status extends Component {
                 <span
                   {...styles[i === 0 ? 'primaryNumber' : 'secondaryNumber']}
                 >
-                  {countFormat(status[accessor])}
+                  {format(status[accessor])}
                 </span>
-                <Label>
+                <span {...styles.label}>
                   {t.first.elements(
                     [
                       `crowdfunding/status/goal/${crowdfundingName}/${accessor}`,
@@ -219,17 +259,29 @@ class Status extends Component {
                       )
                     }
                   )}
-                </Label>
+                </span>
               </P>
               <Bar
                 goals={goalsByPeople}
-                showLast={this.state.showGoal}
+                showLast={this.state.showGoal && i === 0}
                 status={status}
                 accessor={accessor}
                 format={format}
               />
             </Fragment>
           ))}
+        {status.support !== undefined && (
+          <P>
+            <span {...styles.smallNumber}>
+              {t.pluralize('crowdfunding/status/support', {
+                count: countFormat(status.support)
+              })}
+            </span>
+            <span {...styles.label}>
+              {t('crowdfunding/status/support/label')}
+            </span>
+          </P>
+        )}
         <P>
           <span
             {...styles.smallNumber}
@@ -263,7 +315,12 @@ class Status extends Component {
                 ])}
           </span>
           {isRunning ? (
-            <Label>{t('crowdfunding/status/time/label')}</Label>
+            <span {...styles.label}>
+              {t.first([
+                `crowdfunding/status/time/label/${crowdfundingName}`,
+                'crowdfunding/status/time/label'
+              ])}
+            </span>
           ) : (
             <br />
           )}

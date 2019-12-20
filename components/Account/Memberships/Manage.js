@@ -32,7 +32,7 @@ class Actions extends Component {
     }
   }
   render() {
-    const { t, membership, prolong, waitingMemberships } = this.props
+    const { t, membership, waitingMemberships } = this.props
     const { updating, remoteError } = this.state
 
     if (updating) {
@@ -60,13 +60,13 @@ class Actions extends Component {
               </Interaction.Cursive>
             </P>
           )}
-        {!prolong &&
+        {!membership.canProlong &&
           membership.active &&
           membership.renew &&
           waitingMemberships && (
             <P>{t('memberships/manage/prolong/awaiting')}</P>
           )}
-        {!membership.renew && !!membership.periods.length && !prolong && (
+        {!membership.renew && !!membership.periods.length && (
           <P>
             <A
               href='#reactivate'
@@ -100,7 +100,7 @@ class Actions extends Component {
             </A>
           </P>
         )}
-        {prolong && (
+        {membership.canProlong && (
           <P>
             <TokenPackageLink
               params={{
@@ -179,7 +179,6 @@ const Manage = ({
   t,
   membership,
   highlighted,
-  prolong,
   waitingMemberships,
   title,
   compact,
@@ -250,7 +249,6 @@ const Manage = ({
       {actions && (
         <ManageActions
           membership={membership}
-          prolong={prolong}
           waitingMemberships={waitingMemberships}
         />
       )}
@@ -261,8 +259,7 @@ const Manage = ({
 Manage.propTypes = {
   title: PropTypes.string,
   membership: PropTypes.object.isRequired,
-  actions: PropTypes.bool.isRequired,
-  prolong: PropTypes.bool
+  actions: PropTypes.bool.isRequired
 }
 
 Manage.defaultProps = {

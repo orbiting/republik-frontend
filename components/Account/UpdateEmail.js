@@ -6,7 +6,7 @@ import isEmail from 'validator/lib/isEmail'
 import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { query } from './UpdateMe'
+import { query } from './enhancers'
 
 import {
   Loader,

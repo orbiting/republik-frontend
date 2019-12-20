@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-18T16:27:04.795Z",
+  "updated": "2019-12-20T18:07:15.745Z",
   "title": "live",
   "data": [
     {
@@ -3956,11 +3956,11 @@
     },
     {
       "key": "search/docs/title",
-      "value": "Cheatsheet"
+      "value": "Spickzettel"
     },
     {
       "key": "search/docs/text",
-      "value": "Match all of the words: <i>default</i>\n      <br />\n      <a href='/suche?q=Vogelsterben 5G'>Vogelsterben 5G</a>\n      <br />\n      <br />\n      Match any of the words: <b>|</b>\n      <br />\n      <a href='/suche?q=Klimawandel | Energie'>Klimawandel | Energie</a>\n      <br />\n      <br />\n      Match exact phrase: <b>\"&nbsp;\"</b>\n      <br />\n      <a href='/suche?q=\"Ignazio Cassis\"'>\"Ignazio Cassis\"</a>\n      <br />\n      <br />\n      Exclude a word: <b>-</b>\n      <br />\n      <a href='/suche?q=ETH -Skandal'>ETH -Skandal</a>\n      <br />\n      <br />\n      Combine queries: <b>(&nbsp;)</b>\n      <br />\n      <a href='/suche?q=Daniel (Graf | Binswanger)'>\n        Daniel (Graf | Binswanger)\n      </a>"
+      "value": "Enthält alle diese Wörter:\n<br />\n<a href='/suche?q=Energie Klima CO2'>Energie Klima CO2</a>\n<br />\n<br />\nEnthält einige dieser Wörter: <b>Wort | Wort | …</b>\n<br />\n<a href='/suche?q=Bundesrat | Zauberformel | Parlament'>Bundesrat | Zauberformel | Parlament</a>\n<br />\n<br />\nEnthält den exakten Ausdruck: <b>\"Ausdruck\"</b>\n<br />\n<a href='/suche?q=\"Europäische Union\"'>\"Europäische Union\"</a>\n<br />\n<br />\nEin Wort ausschliessen: <b>-Wort</b>\n<br />\n<a href='/suche?q=\"Fake News\" -Russland'>\"Fake News\" -Russland</a>\n<br />\n<br />\nKombinierte Suche: <b>( … )</b>\n<br />\n<a href='/suche?q=Daniel ( Binswanger | Ryser | Graf )'>\n  Daniel ( Binswanger | Ryser | Graf )\n</a>\n"
     },
     {
       "key": "styleguide/video/dnt/note",

@@ -4,6 +4,7 @@ import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import PersonIcon from 'react-icons/lib/md/person-outline'
 import withT from '../../lib/withT'
+import { shouldIgnoreClick } from '../Link/utils'
 
 const BUTTON_SIZE = 40
 const BUTTON_SIZE_MOBILE = 30
@@ -38,6 +39,7 @@ const styles = {
     }
   }),
   portrait: css({
+    position: 'relative',
     display: 'inline-block',
     verticalAlign: 'top',
     backgroundColor: '#E1E7E5',
@@ -85,17 +87,21 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, onClick, title, dark }) => {
+const User = ({ t, me, onClick, title, dark, expanded }) => {
   const color = dark ? colors.negative.text : colors.text
   return (
     <div {...styles.user}>
       <a
         {...styles.button}
+        aria-expanded={expanded}
         style={{ color }}
         role='button'
         title={title}
-        href='/'
+        href={me ? `/~${me.username}` : '/anmelden'}
         onClick={e => {
+          if (shouldIgnoreClick(e)) {
+            return
+          }
           e.preventDefault()
           onClick()
         }}

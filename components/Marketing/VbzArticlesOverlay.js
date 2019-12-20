@@ -53,46 +53,27 @@ const styles = {
 const articles = [
   {
     headline:
-      'Was China mit seinen 60 Milliarden in der Schweiz schon so alles gekauft hat.',
-    path: '/2019/09/16/das-china-dilemma'
+      'Welche Parlamentarier ohne Regeln und Transparenz lobbyieren dürfen.',
+    path: '/2019/10/03/sie-haben-das-recht-zu-schweigen'
   },
   {
     headline:
-      'Schwirrt der Kopf bei Quantenphysik? Gut, dann gehen wir jetzt einen Schritt weiter.',
-    path: '/2019/09/07/die-physiker'
+      'Kinder leiden, wenn Mütter arbeiten – glauben immer noch fast die Hälfte aller Schweizer Männer.',
+    path: '/2019/11/11/mama-verdient-geld'
+  },
+  {
+    headline: 'Brauchen wir Atomenergie, um das Klima zu retten?',
+    path: '/2019/11/12/atomkraft-eine-alte-neue-hoffnung'
   },
   {
     headline:
-      'Google-Software im Klassenzimmer: Totalüberwachung von Minderjährigen?',
-    path: '/2019/07/02/der-spion-im-schulzimmer'
-  },
-  {
-    headline: 'Grossbritannien: We have not even begun to fuck ourselves.',
-    path: '/2019/10/05/die-schlacht-um-england'
+      'Warum britische Premierminister schon im Internat ihre Empathie verlieren.',
+    path: '/2019/09/24/britische-politiker-verhalten-sich-nicht-wie-erwachsene'
   },
   {
     headline:
-      'Keine kommende Katastrophe wurde je so gründlich untersucht wie die Klimaerwärmung. Und keine wurde so gründlich ignoriert. Wieso?',
-    path: '/2019/08/24/die-grosse-ueberforderung'
-  },
-  {
-    headline:
-      'Neu im Nationalrat? Für wen lobbyieren Sie – und was ist Ihr Preis?',
-    path: '/2019/10/02/interessen-vertreten'
-  },
-  {
-    headline: 'Hat Facebook Sie schon radikalisiert?',
-    path:
-      '/2019/10/03/die-infrastruktur-des-netzes-spielt-den-extremisten-in-die-haende'
-  },
-  {
-    headline:
-      'Deutschlands Autobauer haben die E-Mobilität lange ignoriert, jetzt kommt die Retourkutsche.',
-    path: '/2019/09/20/die-retourkutsche'
-  },
-  {
-    headline: 'Die Swisscom braucht dringend ein Näxt Big Sing.',
-    path: '/2019/08/15/se-naext-big-sing'
+      'Schmerzmittel stürzten die USA in eine Opioidkrise. Was geht uns in der Schweiz das an?',
+    path: '/2019/10/30/schmerz-sucht-und-profit'
   }
 ]
 

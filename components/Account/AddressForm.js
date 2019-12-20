@@ -4,6 +4,8 @@ import { FieldSet } from '@project-r/styleguide'
 
 export const COUNTRIES = ['Schweiz', 'Deutschland', 'Österreich']
 
+export const DEFAULT_COUNTRY = COUNTRIES[0]
+
 export const fields = t => [
   {
     label: t('Account/AddressForm/name/label'),
@@ -36,6 +38,22 @@ export const fields = t => [
     validator: value => !value && t('Account/AddressForm/country/error/empty')
   }
 ]
+
+export const isEmptyAddress = (values, me) => {
+  const addressString = [
+    values.name,
+    values.line1,
+    values.line2,
+    values.postalCode,
+    values.city,
+    values.country
+  ]
+    .join('')
+    .trim()
+  const emptyAddressString = [me.name, DEFAULT_COUNTRY].join('').trim()
+
+  return addressString === emptyAddressString
+}
 
 const Form = ({ t, values, errors, dirty, onChange }) => (
   <FieldSet

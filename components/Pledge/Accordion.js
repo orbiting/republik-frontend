@@ -38,6 +38,9 @@ const styles = {
     borderBottom: `1px solid ${colors.divider}`,
     borderTop: `1px solid ${colors.divider}`
   }),
+  packageDark: css({
+    color: '#fff'
+  }),
   packageHighlighted: css({
     position: 'relative',
     zIndex: 1,
@@ -57,6 +60,10 @@ const styles = {
     backgroundColor: colors.primaryBg,
     borderBottom: 'none',
     borderTop: 'none'
+  }),
+  packageHighlightedDark: css({
+    backgroundColor: '#fff',
+    color: '#000'
   }),
   groupTitle: css({
     marginTop: 40,
@@ -141,45 +148,59 @@ const query = gql`
   }
 `
 
-const PackageItem = ({
-  t,
-  hover,
-  setHover,
-  crowdfundingName,
-  name,
-  title,
-  price,
-  onClick,
-  href
-}) => (
-  <a
-    {...merge(styles.package, hover === name && styles.packageHighlighted)}
-    onMouseOver={() => setHover(name)}
-    onMouseOut={() => setHover(undefined)}
-    onClick={onClick}
-    href={href}
-  >
-    <div {...styles.packageHeader}>
-      <div {...styles.packageTitle}>
-        {title ||
-          t.first([
-            `package/${crowdfundingName}/${name}/title`,
-            `package/${name}/title`
-          ])}
-      </div>
-      {!!price && (
-        <div {...styles.packagePrice}>
-          {t.first([`package/${name}/price`, 'package/price'], {
-            formattedCHF: `CHF ${price / 100}`
-          })}
-        </div>
+export const PackageItem = React.forwardRef(
+  (
+    {
+      t,
+      hover,
+      setHover,
+      crowdfundingName,
+      name,
+      title,
+      price,
+      onClick,
+      href,
+      dark
+    },
+    ref
+  ) => (
+    <a
+      {...merge(
+        styles.package,
+        dark && styles.packageDark,
+        hover === name && styles.packageHighlighted,
+        hover === name && dark && styles.packageHighlightedDark
       )}
-      <span {...styles.packageIcon}>
-        <ChevronRightIcon size={24} />
-      </span>
-    </div>
-  </a>
+      onMouseOver={() => setHover(name)}
+      onMouseOut={() => setHover(undefined)}
+      onClick={onClick}
+      href={href}
+      ref={ref}
+    >
+      <div {...styles.packageHeader}>
+        <div {...styles.packageTitle}>
+          {title ||
+            t.first([
+              `package/${crowdfundingName}/${name}/title`,
+              `package/${name}/title`
+            ])}
+        </div>
+        {!!price && (
+          <div {...styles.packagePrice}>
+            {t.first([`package/${name}/price`, 'package/price'], {
+              formattedCHF: `CHF ${price / 100}`
+            })}
+          </div>
+        )}
+        <span {...styles.packageIcon}>
+          <ChevronRightIcon size={24} />
+        </span>
+      </div>
+    </a>
+  )
 )
+
+export const PackageBuffer = () => <div {...styles.buffer} />
 
 class Accordion extends Component {
   constructor(props) {
@@ -189,7 +210,7 @@ class Accordion extends Component {
     }
   }
   render() {
-    const { loading, error } = this.props
+    const { loading, error, compact } = this.props
     if (loading || error) {
       return (
         <Loader loading={loading} error={error} style={{ minHeight: 400 }} />
@@ -198,7 +219,14 @@ class Accordion extends Component {
 
     const { hover } = this.state
 
-    const { t, packages, filter, group, crowdfundingName } = this.props
+    const {
+      t,
+      packages,
+      filter,
+      group,
+      crowdfundingName,
+      renderIntro
+    } = this.props
 
     const groups = nest()
       .key(d => d.group)
@@ -216,97 +244,104 @@ class Accordion extends Component {
     }
 
     return (
-      <div style={{ marginTop: 20 }}>
-        {groups.map(({ key: group, values: pkgs }) => {
-          const links = [
-            group === 'ME' && {
-              route: 'pledge',
-              params: { package: 'ABO', userPrice: 1 },
-              text: t('package/ABO/userPrice/teaser')
-            }
-          ].filter(Boolean)
-
-          const setHover = hover => this.setState({ hover })
-
-          let pkgItems = pkgs.map((pkg, i) => {
-            const price = pkg.options.reduce(
-              (amount, option) => amount + option.price * option.minAmount,
-              0
-            )
-            return {
-              route: 'pledge',
-              params: { package: pkg.name },
-              name: pkg.name,
-              price
-            }
-          })
-
-          if (group === 'ME') {
-            const benefactorIndex = pkgItems.findIndex(
-              item => item.name === 'BENEFACTOR'
-            )
-            // TMP Marketing Trial for Students
-            if (benefactorIndex !== -1) {
-              pkgItems.splice(benefactorIndex + 1, 0, {
+      <>
+        {renderIntro && renderIntro({ packages })}
+        <div style={{ marginTop: 20 }}>
+          {groups.map(({ key: group, values: pkgs }) => {
+            const links = [
+              group === 'ME' && {
                 route: 'pledge',
-                params: {
-                  package: 'ABO',
-                  userPrice: 1,
-                  price: 14000,
-                  reason: t('marketing/offers/students/reasonTemplate')
-                },
-                name: 'students',
-                title: t('marketing/offers/students'),
-                price: 14000
+                params: { package: 'ABO', userPrice: 1 },
+                text: t('package/ABO/userPrice/teaser')
+              }
+            ].filter(Boolean)
+
+            const setHover = hover => this.setState({ hover })
+
+            let pkgItems = pkgs.map((pkg, i) => {
+              const price = pkg.options.reduce(
+                (amount, option) => amount + option.price * option.minAmount,
+                0
+              )
+              return {
+                route: 'pledge',
+                params: { package: pkg.name },
+                name: pkg.name,
+                price
+              }
+            })
+
+            if (group === 'ME') {
+              const benefactorIndex = pkgItems.findIndex(
+                item => item.name === 'BENEFACTOR'
+              )
+              // TMP Marketing Trial for Students
+              if (benefactorIndex !== -1) {
+                pkgItems.splice(benefactorIndex + 1, 0, {
+                  route: 'pledge',
+                  params: {
+                    package: 'ABO',
+                    userPrice: 1,
+                    price: 14000,
+                    reason: t('marketing/offers/students/reasonTemplate')
+                  },
+                  name: 'students',
+                  title: t('marketing/offers/students'),
+                  price: 14000
+                })
+              }
+              pkgItems.push({
+                route: 'claim',
+                name: 'claim',
+                title: t('marketing/offers/claim')
               })
             }
-            pkgItems.push({
-              route: 'claim',
-              name: 'claim',
-              title: t('marketing/offers/claim')
-            })
-          }
 
-          return (
-            <Fragment key={group}>
-              {groups.length > 1 && (
-                <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>
-              )}
-              {pkgItems.map(({ name, title, price, route, params }) => (
-                <Link key={name} route={route} params={params} passHref>
-                  <PackageItem
-                    t={t}
-                    hover={hover}
-                    setHover={setHover}
-                    name={name}
-                    title={title}
-                    crowdfundingName={crowdfundingName}
-                    price={price}
-                  />
-                </Link>
-              ))}
-              <div {...styles.buffer} />
-              {!!links.length && (
-                <div {...styles.links}>
-                  {links.map((link, i) => (
-                    <Link
-                      key={i}
-                      route={link.route}
-                      params={link.params}
-                      passHref
-                    >
-                      <Editorial.A>
-                        {link.text}
-                        <br />
-                      </Editorial.A>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </Fragment>
-          )
-        })}
-      </div>
+            return (
+              <Fragment key={group}>
+                {groups.length > 1 && (
+                  <div
+                    {...css(styles.groupTitle, compact && styles.packageTitle)}
+                  >
+                    {t(`package/group/${group}`)}
+                  </div>
+                )}
+                {pkgItems.map(({ name, title, price, route, params }) => (
+                  <Link key={name} route={route} params={params} passHref>
+                    <PackageItem
+                      t={t}
+                      hover={hover}
+                      setHover={setHover}
+                      name={name}
+                      title={title}
+                      crowdfundingName={crowdfundingName}
+                      price={price}
+                    />
+                  </Link>
+                ))}
+                <PackageBuffer />
+                {!!links.length && (
+                  <div {...styles.links}>
+                    {links.map((link, i) => (
+                      <Link
+                        key={i}
+                        route={link.route}
+                        params={link.params}
+                        passHref
+                      >
+                        <Editorial.A>
+                          {link.text}
+                          <br />
+                        </Editorial.A>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </Fragment>
+            )
+          })}
+        </div>
+      </>
     )
   }
 }

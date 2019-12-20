@@ -57,18 +57,25 @@ export default WrappedComponent =>
 
     const resetUrl = () => Router.pushRoute('search')
 
-    const cleanupUrl = () =>
-      Router.replaceRoute(
-        'search',
-        {
-          [QUERY_PARAM]: query[QUERY_PARAM],
-          [FILTER_KEY_PARAM]: query[FILTER_KEY_PARAM],
-          [FILTER_VALUE_PARAM]: query[FILTER_VALUE_PARAM],
-          [SORT_KEY_PARAM]: query[SORT_KEY_PARAM],
-          [SORT_DIRECTION_PARAM]: query[SORT_DIRECTION_PARAM]
-        },
-        { shallow: true }
-      )
+    const cleanupUrl = () => {
+      const cleanQuery = {}
+
+      const keys = [
+        QUERY_PARAM,
+        FILTER_KEY_PARAM,
+        FILTER_VALUE_PARAM,
+        SORT_KEY_PARAM,
+        SORT_DIRECTION_PARAM
+      ]
+      keys.forEach(key => {
+        // prevent empty keys (leading to an tailing ? in the url)
+        if (query[key]) {
+          cleanQuery[key] = query[key]
+        }
+      })
+
+      Router.replaceRoute('search', cleanQuery, { shallow: true })
+    }
 
     return (
       <WrappedComponent

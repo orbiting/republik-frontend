@@ -66,7 +66,7 @@ const Form = compose(
             value={formValue}
             onChange={update}
             icon={
-              formValue && (
+              urlQuery && (
                 <Close
                   style={{ cursor: 'pointer' }}
                   size={30}

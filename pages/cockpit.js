@@ -660,7 +660,7 @@ Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 
 2.  Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
 
-3.  Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](ir@republik.ch))
+3.  Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](mailto:ir@republik.ch))
 
 **Im Februar** wollen wir mit Ihnen darüber reden, wie wir die Republik noch neugieriger und nützlicher machen können.
 

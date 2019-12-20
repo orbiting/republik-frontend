@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-18T10:03:25.015Z",
+  "updated": "2019-12-20T18:07:15.745Z",
   "title": "live",
   "data": [
     {
@@ -3915,6 +3915,10 @@
       "value": "mehr laden"
     },
     {
+      "key": "search/pageInfo/total/0",
+      "value": "Keine Ergebnisse"
+    },
+    {
       "key": "search/pageInfo/total/1",
       "value": "{count} Ergebnis"
     },
@@ -3945,6 +3949,18 @@
     {
       "key": "search/sort/DESC/aria",
       "value": "absteigend"
+    },
+    {
+      "key": "search/excerpt",
+      "value": "Auszug"
+    },
+    {
+      "key": "search/docs/title",
+      "value": "Spickzettel"
+    },
+    {
+      "key": "search/docs/text",
+      "value": "Enthält alle diese Wörter:\n<br />\n<a href='/suche?q=Energie Klima CO2'>Energie Klima CO2</a>\n<br />\n<br />\nEnthält einige dieser Wörter: <b>Wort | Wort | …</b>\n<br />\n<a href='/suche?q=Bundesrat | Zauberformel | Parlament'>Bundesrat | Zauberformel | Parlament</a>\n<br />\n<br />\nEnthält den exakten Ausdruck: <b>\"Ausdruck\"</b>\n<br />\n<a href='/suche?q=\"Europäische Union\"'>\"Europäische Union\"</a>\n<br />\n<br />\nEin Wort ausschliessen: <b>-Wort</b>\n<br />\n<a href='/suche?q=\"Fake News\" -Russland'>\"Fake News\" -Russland</a>\n<br />\n<br />\nKombinierte Suche: <b>( … )</b>\n<br />\n<a href='/suche?q=Daniel ( Binswanger | Ryser | Graf )'>\n  Daniel ( Binswanger | Ryser | Graf )\n</a>\n"
     },
     {
       "key": "styleguide/video/dnt/note",

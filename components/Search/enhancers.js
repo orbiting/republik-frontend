@@ -1,22 +1,24 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { documentFragment } from '../Feed/DocumentListContainer'
+import { DEFAULT_FILTERS } from './constants'
 
 const getSearchAggregations = gql`
   query getSearchAggregations(
-    $search: String
-    $filters: [SearchGenericFilterInput!]
+    $searchQuery: String
+    $keys: [String!]
     $trackingId: ID
+    $filters: [SearchGenericFilterInput!]
   ) {
     search(
       first: 1
-      search: $search
+      search: $searchQuery
       filters: $filters
       trackingId: $trackingId
     ) {
       totalCount
       trackingId
-      aggregations {
+      aggregations(keys: $keys) {
         key
         count
         label
@@ -32,7 +34,7 @@ const getSearchAggregations = gql`
 
 const getSearchResults = gql`
   query getSearchResults(
-    $search: String
+    $searchQuery: String
     $after: String
     $sort: SearchSortInput
     $filters: [SearchGenericFilterInput!]
@@ -41,7 +43,7 @@ const getSearchResults = gql`
     search(
       first: 100
       after: $after
-      search: $search
+      search: $searchQuery
       sort: $sort
       filters: $filters
       trackingId: $trackingId
@@ -136,40 +138,30 @@ const getSearchResults = gql`
 `
 
 export const withAggregations = graphql(getSearchAggregations, {
-  skip: props => props.searchQuery === props.filterQuery,
-  options: props => ({
-    variables: {
-      search: props.filterQuery,
-      filters: props.filters,
-      trackingId: props.trackingId
+  options: props => {
+    return {
+      variables: {
+        ...props,
+        filters: DEFAULT_FILTERS
+      }
     }
-  }),
-  props: ({ data, ownProps }) => ({
+  },
+  props: ({ data }) => ({
     dataAggregations: data
   })
 })
 
 export const withResults = graphql(getSearchResults, {
-  options: props => ({
-    variables: {
-      search: props.searchQuery,
-      sort: props.sort,
-      filters: props.filters,
-      trackingId: props.trackingId
-    }
-  }),
   props: ({ data, ownProps }) => ({
     data,
     fetchMore: ({ after }) =>
       data.fetchMore({
         variables: {
           after,
-          search: ownProps.searchQuery,
           sort: ownProps.sort,
-          filters: ownProps.filters,
           trackingId: ownProps.trackingId
         },
-        updateQuery: (previousResult, { fetchMoreResult, queryVariables }) => {
+        updateQuery: (previousResult, { fetchMoreResult }) => {
           const nodes = [
             ...previousResult.search.nodes,
             ...fetchMoreResult.search.nodes

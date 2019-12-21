@@ -7,17 +7,10 @@ const getSearchAggregations = gql`
   query getSearchAggregations(
     $searchQuery: String
     $keys: [String!]
-    $trackingId: ID
     $filters: [SearchGenericFilterInput!]
   ) {
-    search(
-      first: 1
-      search: $searchQuery
-      filters: $filters
-      trackingId: $trackingId
-    ) {
+    search(first: 0, search: $searchQuery, filters: $filters) {
       totalCount
-      trackingId
       aggregations(keys: $keys) {
         key
         count
@@ -38,18 +31,15 @@ const getSearchResults = gql`
     $after: String
     $sort: SearchSortInput
     $filters: [SearchGenericFilterInput!]
-    $trackingId: ID
   ) {
     search(
-      first: 100
+      first: 25
       after: $after
       search: $searchQuery
       sort: $sort
       filters: $filters
-      trackingId: $trackingId
     ) {
       totalCount
-      trackingId
       aggregations {
         key
         count
@@ -158,8 +148,7 @@ export const withResults = graphql(getSearchResults, {
       data.fetchMore({
         variables: {
           after,
-          sort: ownProps.sort,
-          trackingId: ownProps.trackingId
+          sort: ownProps.sort
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const nodes = [

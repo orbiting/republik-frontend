@@ -98,7 +98,6 @@ class FeedbackPage extends Component {
     this.state = {
       loading: false,
       isMobile: true,
-      trackingId: undefined,
       searchValue: undefined
     }
 

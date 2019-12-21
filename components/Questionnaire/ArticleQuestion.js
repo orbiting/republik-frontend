@@ -203,7 +203,6 @@ const query = gql`
     $after: String
     $sort: SearchSortInput
     $filters: [SearchGenericFilterInput!]
-    $trackingId: ID
   ) {
     search(
       first: 5
@@ -211,7 +210,6 @@ const query = gql`
       search: $search
       sort: $sort
       filters: $filters
-      trackingId: $trackingId
     ) {
       nodes {
         entity {

@@ -10,6 +10,10 @@ export const SUPPORTED_FILTERS = [
     value: 'true'
   },
   {
+    key: 'hasVideo',
+    value: 'true'
+  },
+  {
     key: 'type',
     value: 'User'
   },
@@ -29,12 +33,6 @@ export const SUPPORTED_SORT = [
   }
 ]
 
-export const DEFAULT_AGGREGATION_KEYS = ['type', 'hasAudio']
+export const DEFAULT_AGGREGATION_KEYS = ['type', 'hasAudio', 'hasVideo']
 export const DEFAULT_FILTER = SUPPORTED_FILTERS[0]
 export const DEFAULT_SORT = 'relevance'
-
-export const QUERY_PARAM = 'q'
-export const FILTER_KEY_PARAM = 'fkey'
-export const FILTER_VALUE_PARAM = 'fvalue'
-export const SORT_KEY_PARAM = 'skey'
-export const SORT_DIRECTION_PARAM = 'sdir'

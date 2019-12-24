@@ -122,13 +122,13 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
 
 const ResultsWrapper = compose(withSearchRouter)(
   ({ urlQuery, urlFilter, urlSort }) => {
-    return urlQuery && urlFilter && urlSort ? (
+    return (
       <Results
         searchQuery={urlQuery}
         filters={DEFAULT_FILTERS.concat(urlFilter)}
         sort={urlSort}
       />
-    ) : null
+    )
   }
 )
 

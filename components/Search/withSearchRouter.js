@@ -99,6 +99,11 @@ export default WrappedComponent =>
 
     return (
       <WrappedComponent
+        empty={
+          !urlQuery &&
+          isDefaultFilter(urlFilter) &&
+          DEFAULT_SORT === urlSort.key
+        }
         urlQuery={urlQuery}
         urlFilter={urlFilter}
         urlSort={urlSort}

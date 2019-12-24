@@ -109,15 +109,15 @@ const Filters = compose(withAggregations)(
 )
 
 const FiltersWrapper = compose(withSearchRouter)(
-  ({ urlQuery, urlFilter, updateUrlFilter }) => {
-    return urlQuery ? (
+  ({ urlQuery = '', urlFilter, updateUrlFilter }) => {
+    return (
       <Filters
         searchQuery={urlQuery}
         keys={DEFAULT_AGGREGATION_KEYS}
         urlFilter={urlFilter}
         updateUrlFilter={updateUrlFilter}
       />
-    ) : null
+    )
   }
 )
 

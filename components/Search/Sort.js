@@ -113,7 +113,7 @@ const Sort = compose(withAggregations)(
 
 const SortWrapper = compose(withSearchRouter)(
   ({ urlQuery, urlFilter, urlSort, updateUrlSort }) => {
-    return urlQuery && urlFilter ? (
+    return (
       <Sort
         searchQuery={urlQuery}
         keys={DEFAULT_AGGREGATION_KEYS}
@@ -121,7 +121,7 @@ const SortWrapper = compose(withSearchRouter)(
         urlSort={urlSort}
         updateUrlSort={updateUrlSort}
       />
-    ) : null
+    )
   }
 )
 

@@ -76,8 +76,12 @@ const Form = compose(
             }
           />
         </form>
-        {!urlQuery && (
-          <InitState query={searchQuery} dataAggregations={dataAggregations} />
+        {(!urlQuery || urlQuery !== formValue) && (
+          <InitState
+            query={searchQuery}
+            urlQuery={urlQuery}
+            dataAggregations={dataAggregations}
+          />
         )}
       </div>
     )

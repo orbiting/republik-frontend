@@ -69,23 +69,6 @@ const styles = {
       transform: 'rotate(-45deg)',
       top: 20,
       left: 2
-    },
-    '& .gift': {
-      fontSize: 16,
-      position: 'absolute',
-      bottom: -3,
-      left: -8,
-      opacity: 1,
-      transition:
-        'transform .25s ease-in-out, opacity .25s ease-in-out, bottom .25s ease-in-out, left .25s ease-in-out, width .25s ease-in-out',
-      transform: 'rotate(-9deg)',
-      transformOrigin: 'left center'
-    },
-    '[aria-expanded=true] > & .gift': {
-      opacity: 0,
-      transform: 'rotate(-95deg)',
-      left: -6,
-      bottom: -20
     }
   }),
   light: css({
@@ -110,7 +93,7 @@ const styles = {
   })
 }
 
-export default ({ expanded, onClick, id, title, dark, gift }) => {
+export default ({ expanded, onClick, id, title, dark }) => {
   return (
     <button
       {...styles.button}
@@ -123,7 +106,6 @@ export default ({ expanded, onClick, id, title, dark, gift }) => {
         <span />
         <span />
         <span />
-        {gift && <div className='gift'>🎁</div>}
       </div>
     </button>
   )

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-20T18:07:15.745Z",
+  "updated": "2019-12-25T23:21:45.313Z",
   "title": "live",
   "data": [
     {
@@ -3908,7 +3908,7 @@
     },
     {
       "key": "search/results/empty",
-      "value": "Schande! Wir haben dieses Wort nicht gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
+      "value": "Schande! Wir haben nichts gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
     },
     {
       "key": "search/pageInfo/loadMore",
@@ -6392,11 +6392,11 @@
     },
     {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Bestellungen vor 19. Dezember um 23:59 Uhr können noch vor Weihnachten geliefert werden. Bücher liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Bestellungen vor 19. Dezember um 23:59 Uhr können noch vor Weihnachten geliefert werden. Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",

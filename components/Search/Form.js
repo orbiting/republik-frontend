@@ -45,7 +45,7 @@ const Form = compose(
 
     const submit = e => {
       e.preventDefault()
-      formValue && formValue !== urlQuery && updateUrlQuery(formValue)
+      updateUrlQuery(formValue)
     }
 
     const update = (_, value) => {
@@ -78,8 +78,7 @@ const Form = compose(
         </form>
         {(!urlQuery || urlQuery !== formValue) && (
           <InitState
-            query={searchQuery}
-            urlQuery={urlQuery}
+            searchQuery={searchQuery}
             dataAggregations={dataAggregations}
           />
         )}
@@ -88,17 +87,10 @@ const Form = compose(
   }
 )
 
-const FormWrapper = compose(withSearchRouter)(({ urlQuery, urlFilter }) => {
-  const [searchQuery, setSearchQuery] = useState(urlQuery)
+const FormWrapper = () => {
+  const [searchQuery, setSearchQuery] = useState()
 
-  return (
-    <Form
-      searchQuery={searchQuery}
-      setSearchQuery={setSearchQuery}
-      keys={DEFAULT_AGGREGATION_KEYS}
-      urlFilter={urlFilter}
-    />
-  )
-})
+  return <Form searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+}
 
 export default FormWrapper

@@ -4,11 +4,11 @@ import withT from '../../lib/withT'
 import { Interaction, linkRule, colors, RawHtml } from '@project-r/styleguide'
 import Link from 'next/link'
 
-const ResultLink = ({ query, text }) => (
+const ResultLink = ({ searchQuery, text }) => (
   <Link
     href={{
       pathname: '/suche',
-      query: { q: query }
+      query: { q: searchQuery }
     }}
     passHref
   >
@@ -16,7 +16,7 @@ const ResultLink = ({ query, text }) => (
   </Link>
 )
 
-const ResultCount = compose(withT)(({ t, query, dataAggregations }) => {
+const ResultCount = compose(withT)(({ t, searchQuery, dataAggregations }) => {
   const totalCount =
     dataAggregations.search && dataAggregations.search.totalCount
   const results = t.pluralize('search/pageInfo/total', {
@@ -25,7 +25,7 @@ const ResultCount = compose(withT)(({ t, query, dataAggregations }) => {
 
   return (
     <Interaction.P>
-      {!totalCount || !query || !query.length ? (
+      {!totalCount || !searchQuery || !searchQuery.length ? (
         <span style={{ color: colors.lightText }}>
           <RawHtml
             dangerouslySetInnerHTML={{
@@ -34,15 +34,18 @@ const ResultCount = compose(withT)(({ t, query, dataAggregations }) => {
           />
         </span>
       ) : (
-        <ResultLink query={query} text={results} />
+        <ResultLink searchQuery={searchQuery} text={results} />
       )}
     </Interaction.P>
   )
 })
 
-export default ({ query, urlQuery, dataAggregations }) => (
+export default ({ searchQuery, dataAggregations }) => (
   <div>
-    <ResultCount query={query} dataAggregations={dataAggregations} />
+    <ResultCount
+      searchQuery={searchQuery}
+      dataAggregations={dataAggregations}
+    />
     <br />
   </div>
 )

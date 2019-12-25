@@ -9,7 +9,6 @@ import {
 } from './constants'
 import { css, merge } from 'glamor'
 import { fontStyles, mediaQueries } from '@project-r/styleguide'
-import EmptyState from './EmptyState'
 
 const styles = {
   list: css({
@@ -49,64 +48,51 @@ const findFilterWithResults = aggregations =>
   SUPPORTED_FILTERS.find(filter => hasResults(aggregations, filter)) ||
   DEFAULT_FILTER
 
-const Filters = compose(withAggregations)(
-  ({ dataAggregations, searchQuery, urlFilter, updateUrlFilter }) => {
-    const { search, loading, error } = dataAggregations
-    if (loading || error) return null
-    if (!search) return <EmptyState />
+const Filters = compose(
+  withSearchRouter,
+  withAggregations
+)(({ dataAggregations, searchQuery, urlFilter, updateUrlFilter }) => {
+  const { search, loading, error } = dataAggregations
+  if (loading || error) return null
 
-    const { totalCount, aggregations } = search
-    if (totalCount === 0 || !aggregations) return <EmptyState />
+  const { totalCount, aggregations } = search
+  if (totalCount === 0 || !aggregations) return null
 
-    const updateFilter = () => {
-      if (!isDefaultFilter(urlFilter)) {
-        return
-      }
-      const newFilter = findFilterWithResults(aggregations)
-      updateUrlFilter(newFilter)
+  const updateFilter = () => {
+    if (!isDefaultFilter(urlFilter)) {
+      return
     }
-
-    useEffect(() => {
-      updateFilter()
-    }, [aggregations])
-
-    const onFilterClick = filter => {
-      updateUrlFilter(filter)
-    }
-
-    return (
-      <ul {...styles.list}>
-        {SUPPORTED_FILTERS.map((filter, key) => {
-          const agg = findAggregation(aggregations, filter)
-          return agg ? (
-            <li
-              key={key}
-              onClick={() => onFilterClick(filter)}
-              {...merge(
-                styles.listItem,
-                isSameFilter(filter, urlFilter) && styles.listItemSelected
-              )}
-            >
-              {agg.label} <small>{agg.count}</small>
-            </li>
-          ) : null
-        })}
-      </ul>
-    )
+    const newFilter = findFilterWithResults(aggregations)
+    updateUrlFilter(newFilter)
   }
-)
 
-const FiltersWrapper = compose(withSearchRouter)(
-  ({ urlQuery = '', urlFilter, updateUrlFilter }) => {
-    return (
-      <Filters
-        searchQuery={urlQuery}
-        keys={DEFAULT_AGGREGATION_KEYS}
-        urlFilter={urlFilter}
-        updateUrlFilter={updateUrlFilter}
-      />
-    )
+  useEffect(() => {
+    updateFilter()
+  }, [aggregations])
+
+  const onFilterClick = filter => {
+    updateUrlFilter(filter)
   }
-)
 
-export default FiltersWrapper
+  return (
+    <ul {...styles.list}>
+      {SUPPORTED_FILTERS.map((filter, key) => {
+        const agg = findAggregation(aggregations, filter)
+        return agg ? (
+          <li
+            key={key}
+            onClick={() => onFilterClick(filter)}
+            {...merge(
+              styles.listItem,
+              isSameFilter(filter, urlFilter) && styles.listItemSelected
+            )}
+          >
+            {agg.label} <small>{agg.count}</small>
+          </li>
+        ) : null
+      })}
+    </ul>
+  )
+})
+
+export default Filters

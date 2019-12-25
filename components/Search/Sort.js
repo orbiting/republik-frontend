@@ -84,45 +84,32 @@ const SortButton = compose(withT)(({ t, sort, urlSort, updateUrlSort }) => {
   )
 })
 
-const Sort = compose(withAggregations)(
-  ({ dataAggregations, urlFilter, urlSort, updateUrlSort }) => {
-    const { search } = dataAggregations
-    if (!search) return null
+const Sort = compose(
+  withSearchRouter,
+  withAggregations
+)(({ dataAggregations, urlFilter, urlSort, updateUrlSort }) => {
+  const { search } = dataAggregations
+  if (!search) return null
 
-    const { aggregations } = search
-    const currentAgg = findAggregation(aggregations, urlFilter)
-    if (!currentAgg || currentAgg.count === 0) return null
+  const { aggregations } = search
+  const currentAgg = findAggregation(aggregations, urlFilter)
+  if (!currentAgg || currentAgg.count === 0) return null
 
-    return (
-      <div {...styles.container}>
-        {SUPPORTED_SORT.map((sort, key) => {
-          return (
-            <Fragment key={key}>
-              <SortButton
-                sort={sort}
-                urlSort={urlSort}
-                updateUrlSort={updateUrlSort}
-              />
-            </Fragment>
-          )
-        })}
-      </div>
-    )
-  }
-)
+  return (
+    <div {...styles.container}>
+      {SUPPORTED_SORT.map((sort, key) => {
+        return (
+          <Fragment key={key}>
+            <SortButton
+              sort={sort}
+              urlSort={urlSort}
+              updateUrlSort={updateUrlSort}
+            />
+          </Fragment>
+        )
+      })}
+    </div>
+  )
+})
 
-const SortWrapper = compose(withSearchRouter)(
-  ({ urlQuery, urlFilter, urlSort, updateUrlSort }) => {
-    return (
-      <Sort
-        searchQuery={urlQuery}
-        keys={DEFAULT_AGGREGATION_KEYS}
-        urlFilter={urlFilter}
-        urlSort={urlSort}
-        updateUrlSort={updateUrlSort}
-      />
-    )
-  }
-)
-
-export default SortWrapper
+export default Sort

@@ -11,7 +11,8 @@ import CheatSheet from './CheatSheet'
 import { Center, mediaQueries } from '@project-r/styleguide'
 
 import withSearchRouter from './withSearchRouter'
-import { withAggregations } from './enhancers'
+import { withResults } from './enhancers'
+import ZeroResults from './ZeroResults'
 
 import track from '../../lib/piwik'
 
@@ -28,43 +29,37 @@ const styles = {
 
 export default compose(
   withSearchRouter,
-  withAggregations
-)(
-  ({
-    cleanupUrl,
-    urlQuery,
-    urlFilter,
-    empty,
-    dataAggregations: { search }
-  }) => {
-    useEffect(() => {
-      cleanupUrl()
-    }, [])
+  withResults
+)(({ cleanupUrl, urlQuery = '', urlFilter, empty, data: { search } }) => {
+  useEffect(() => {
+    cleanupUrl()
+  }, [])
 
-    // calc outside of effect to ensure it only runs when changing
-    const keyword = urlQuery.toLowerCase()
-    const category = `${urlFilter.key}:${urlFilter.value}`
-    const searchCount = search && search.totalCount
+  // calc outside of effect to ensure it only runs when changing
+  const keyword = urlQuery.toLowerCase()
+  const category = `${urlFilter.key}:${urlFilter.value}`
+  const searchCount = search && search.totalCount
 
-    useEffect(() => {
-      if (searchCount !== undefined && !empty) {
-        track(['trackSiteSearch', keyword, category, searchCount])
-      }
-    }, [empty, keyword, category, searchCount])
+  useEffect(() => {
+    if (searchCount !== undefined && !empty) {
+      track(['trackSiteSearch', keyword, category, searchCount])
+    }
+  }, [empty, keyword, category, searchCount])
 
-    return (
-      <Center {...styles.container}>
-        <Form />
-        {empty ? (
-          <CheatSheet />
-        ) : (
-          <>
-            <Filters />
-            <Sort />
-            <Results />
-          </>
-        )}
-      </Center>
-    )
-  }
-)
+  return (
+    <Center {...styles.container}>
+      <Form />
+      {empty ? (
+        <CheatSheet />
+      ) : searchCount === 0 ? (
+        <ZeroResults />
+      ) : (
+        <>
+          <Filters />
+          <Sort />
+          <Results />
+        </>
+      )}
+    </Center>
+  )
+})

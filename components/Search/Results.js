@@ -95,7 +95,10 @@ const ResultsFooter = compose(withT)(
   }
 )
 
-const Results = compose(withResults)(({ data, fetchMore }) => {
+const Results = compose(
+  withSearchRouter,
+  withResults
+)(({ data, fetchMore }) => {
   return (
     <div {...styles.container}>
       <Loader
@@ -120,16 +123,4 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
   )
 })
 
-const ResultsWrapper = compose(withSearchRouter)(
-  ({ urlQuery, urlFilter, urlSort }) => {
-    return (
-      <Results
-        searchQuery={urlQuery}
-        filters={DEFAULT_FILTERS.concat(urlFilter)}
-        sort={urlSort}
-      />
-    )
-  }
-)
-
-export default ResultsWrapper
+export default Results

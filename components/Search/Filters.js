@@ -56,7 +56,7 @@ const Filters = compose(
   if (loading || error) return null
 
   const { totalCount, aggregations } = search
-  if (totalCount === 0 || !aggregations) return null
+  if (!aggregations) return null
 
   const updateFilter = () => {
     if (!isDefaultFilter(urlFilter)) {

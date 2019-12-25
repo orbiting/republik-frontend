@@ -51,13 +51,17 @@ export default compose(
       <Form />
       {empty ? (
         <CheatSheet />
-      ) : searchCount === 0 ? (
-        <ZeroResults />
       ) : (
         <>
           <Filters />
-          <Sort />
-          <Results />
+          {searchCount === 0 ? (
+            <ZeroResults />
+          ) : (
+            <>
+              <Sort />
+              <Results />
+            </>
+          )}
         </>
       )}
     </Center>

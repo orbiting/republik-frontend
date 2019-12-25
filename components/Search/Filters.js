@@ -10,7 +10,6 @@ import {
 import { css, merge } from 'glamor'
 import { fontStyles, mediaQueries } from '@project-r/styleguide'
 import EmptyState from './EmptyState'
-import track from '../../lib/piwik'
 
 const styles = {
   list: css({
@@ -31,15 +30,6 @@ const styles = {
   listItemSelected: css({
     textDecoration: 'underline'
   })
-}
-
-const trackSearch = (query, filter, resultCount) => {
-  track([
-    'trackSiteSearch',
-    query.toLowerCase(),
-    `${filter.key}:${filter.value}`,
-    resultCount
-  ])
 }
 
 export const findAggregation = (aggregations, filter) => {
@@ -70,11 +60,10 @@ const Filters = compose(withAggregations)(
 
     const updateFilter = () => {
       if (!isDefaultFilter(urlFilter)) {
-        return trackSearch(searchQuery, urlFilter, totalCount)
+        return
       }
       const newFilter = findFilterWithResults(aggregations)
       updateUrlFilter(newFilter)
-      trackSearch(searchQuery, newFilter, totalCount)
     }
 
     useEffect(() => {
@@ -83,7 +72,6 @@ const Filters = compose(withAggregations)(
 
     const onFilterClick = filter => {
       updateUrlFilter(filter)
-      trackSearch(searchQuery, filter, totalCount)
     }
 
     return (

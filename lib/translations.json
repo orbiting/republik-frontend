@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-13T16:57:49.550Z",
+  "updated": "2019-12-25T23:21:45.313Z",
   "title": "live",
   "data": [
     {
@@ -3908,11 +3908,15 @@
     },
     {
       "key": "search/results/empty",
-      "value": "Schande! Wir haben dieses Wort nicht gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
+      "value": "Schande! Wir haben nichts gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
     },
     {
       "key": "search/pageInfo/loadMore",
       "value": "mehr laden"
+    },
+    {
+      "key": "search/pageInfo/total/0",
+      "value": "Keine Ergebnisse"
     },
     {
       "key": "search/pageInfo/total/1",
@@ -3945,6 +3949,18 @@
     {
       "key": "search/sort/DESC/aria",
       "value": "absteigend"
+    },
+    {
+      "key": "search/excerpt",
+      "value": "Auszug"
+    },
+    {
+      "key": "search/docs/title",
+      "value": "Spickzettel"
+    },
+    {
+      "key": "search/docs/text",
+      "value": "Enthält alle diese Wörter:\n<br />\n<a href='/suche?q=Energie Klima CO2'>Energie Klima CO2</a>\n<br />\n<br />\nEnthält einige dieser Wörter: <b>Wort | Wort | …</b>\n<br />\n<a href='/suche?q=Bundesrat | Zauberformel | Parlament'>Bundesrat | Zauberformel | Parlament</a>\n<br />\n<br />\nEnthält den exakten Ausdruck: <b>\"Ausdruck\"</b>\n<br />\n<a href='/suche?q=\"Europäische Union\"'>\"Europäische Union\"</a>\n<br />\n<br />\nEin Wort ausschliessen: <b>-Wort</b>\n<br />\n<a href='/suche?q=\"Fake News\" -Russland'>\"Fake News\" -Russland</a>\n<br />\n<br />\nKombinierte Suche: <b>( … )</b>\n<br />\n<a href='/suche?q=Daniel ( Binswanger | Ryser | Graf )'>\n  Daniel ( Binswanger | Ryser | Graf )\n</a>\n"
     },
     {
       "key": "styleguide/video/dnt/note",
@@ -6332,7 +6348,7 @@
     },
     {
       "key": "package/ABO/description/goodies/TABLEBOOK",
-      "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen."
+      "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
       "key": "package/ABO_GIVE/description",
@@ -6352,7 +6368,7 @@
     },
     {
       "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",
-      "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen."
+      "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
       "key": "package/PROLONG/description",
@@ -6360,7 +6376,7 @@
     },
     {
       "key": "package/PROLONG/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
+      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
@@ -6368,7 +6384,7 @@
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
+      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
       "key": "package/TABLEBOOK/description",
@@ -6376,11 +6392,11 @@
     },
     {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Bestellungen vor 19. Dezember um 23:59 Uhr können noch vor Weihnachten geliefert werden. Bücher liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Bestellungen vor 19. Dezember um 23:59 Uhr können noch vor Weihnachten geliefert werden. Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",

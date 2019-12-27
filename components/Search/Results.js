@@ -1,49 +1,34 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-
-import ActionBar from '../ActionBar/Feed'
-import CommentLink from '../Discussion/CommentLink'
 import Loader from '../../components/Loader'
-import Link from '../Link/Href'
-
-import Filter from './Filter'
-import Sort from './Sort'
-import UserTeaser from './UserTeaser'
-
-import { withAggregations, withResults } from './enhancers'
-
+import UserResult from './UserResult'
+import DocumentResult from './DocumentResult'
+import CommentResult from './CommentResult'
+import { withResults } from './enhancers'
 import {
   colors,
   fontStyles,
   linkRule,
-  mediaQueries,
-  CommentTeaser,
-  RawHtml,
-  TeaserFeed
+  mediaQueries
 } from '@project-r/styleguide'
+import withSearchRouter from './withSearchRouter'
+import { DEFAULT_FILTERS } from './constants'
+
+const RESULT_COMPONENTS = {
+  Document: DocumentResult,
+  Comment: CommentResult,
+  User: UserResult
+}
 
 const styles = {
   container: css({
-    paddingTop: 0
+    paddingTop: 0,
+    paddingBottom: 120
   }),
   results: css({
-    paddingTop: 60
-  }),
-  empty: css({
-    ...fontStyles.sansSerifRegular16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular19
-    }
-  }),
-  countPreloaded: css({
-    paddingBottom: '15px',
-    ...fontStyles.sansSerifRegular16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular21
-    }
+    paddingTop: 5
   }),
   countLoaded: css({
     borderTop: `1px solid ${colors.text}`,
@@ -63,408 +48,88 @@ const styles = {
     border: 'none',
     cursor: 'pointer',
     padding: 0
-  }),
-  highlight: css({
-    '& em': {
-      background: colors.primaryBg,
-      fontStyle: 'normal'
-    }
   })
 }
 
-const FilterSortPanel = ({
-  aggregations,
-  filterQuery,
-  filters,
-  loadingFilters,
-  minHeight,
-  isFilterEnabled,
-  searchQuery,
-  setPanelRef,
-  sort,
-  t,
-  totalCount,
-  onFilterClick,
-  onSearch,
-  onSortClick
-}) => {
-  const resultsOutdated = searchQuery !== filterQuery
-  const showResults = !!searchQuery || isFilterEnabled
+const ResultsList = ({ nodes }) => {
+  const nodeType = nodes[0].entity.__typename
+
   return (
-    <div ref={setPanelRef} style={{ minHeight }}>
-      <Filter
-        aggregations={aggregations}
-        searchQuery={filterQuery || searchQuery}
-        filters={filters}
-        loadingFilters={loadingFilters}
-        allowCompact={showResults}
-        onClickHandler={onFilterClick}
-      />
-      {filterQuery && (
-        <div {...styles.countPreloaded} aria-live='assertive'>
-          {totalCount > 0 && (
-            <Fragment>
-              {resultsOutdated && (
-                <button {...styles.button} {...linkRule} onClick={onSearch}>
-                  {t.pluralize('search/preloaded/showresults', {
-                    count: totalCount
-                  })}
-                </button>
-              )}
-              {!resultsOutdated && (
-                <Fragment>
-                  {t.pluralize('search/preloaded/results', {
-                    count: totalCount
-                  })}
-                </Fragment>
-              )}
-            </Fragment>
-          )}
-          {resultsOutdated && totalCount === 0 && (
-            <Fragment>{t('search/preloaded/results/0')}</Fragment>
-          )}
-        </div>
-      )}
-      {!resultsOutdated && showResults && totalCount > 1 && (
-        <Sort
-          sort={sort}
-          searchQuery={searchQuery}
-          isFilterEnabled={isFilterEnabled}
-          onClickHandler={onSortClick}
-        />
-      )}
-    </div>
+    <>
+      {nodes.map((node, index) => {
+        return (
+          <Fragment key={index}>
+            {React.createElement(RESULT_COMPONENTS[nodeType], {
+              node: node
+            })}
+          </Fragment>
+        )
+      })}
+    </>
   )
 }
 
-class Results extends Component {
-  constructor(props, ...args) {
-    super(props, ...args)
-
-    this.state = {
-      minHeight: null
-    }
-
-    this.setPanelRef = ref => {
-      this.panelRef = ref
-    }
-
-    this.measure = () => {
-      if (this.panelRef) {
-        const { searchQuery, filterQuery } = this.props
-        const shouldMeasure = searchQuery === filterQuery
-        const currentMinHeight = this.panelRef.style.minHeight
-        this.panelRef.style.minHeight = 0
-        const minHeight = this.panelRef.getBoundingClientRect().height
-        this.panelRef.style.minHeight = currentMinHeight
-        if (shouldMeasure && minHeight !== this.state.minHeight) {
-          this.setState({ minHeight })
-        }
-      }
-    }
-  }
-
-  componentDidMount() {
-    this.measure()
-  }
-
-  componentDidUpdate() {
-    this.measure()
-  }
-
-  UNSAFE_componentWillReceiveProps(props) {
-    if (props.data && props.data.search) {
-      this.props.onSearchLoaded && this.props.onSearchLoaded(props.data.search)
-    }
-    if (!props.dataAggregations || !props.dataAggregations.search) return
-
-    const { search: nextSearchAggs } = props.dataAggregations
-    const { search: searchAggs = {} } = this.props.dataAggregations || {}
-
-    if (searchAggs.totalCount !== nextSearchAggs.totalCount) {
-      this.props.onTotalCountLoaded &&
-        this.props.onTotalCountLoaded(nextSearchAggs.totalCount)
-    }
-    if (searchAggs.aggregations !== nextSearchAggs.aggregations) {
-      this.props.onAggregationsLoaded &&
-        this.props.onAggregationsLoaded(nextSearchAggs.aggregations)
-    }
-  }
-
-  render() {
-    const {
-      t,
-      data,
-      dataAggregations,
-      searchQuery,
-      filterQuery,
-      sort,
-      onSearch,
-      onSortClick,
-      filters,
-      onFilterClick,
-      loadingFilters,
-      onLoadMoreClick,
-      preloadedTotalCount,
-      preloadedAggregations
-    } = this.props
-
-    const isFilterEnabled =
-      filters &&
-      !!filters.length &&
-      !!filters.find(
-        filter => !(filter.key === 'template' && filter.value === 'front')
-      )
-
-    const resultsOutdated = searchQuery !== filterQuery
-    const opacity = resultsOutdated ? 0.5 : 1
-    const { minHeight } = this.state
-    const keepCachedAggregations =
-      preloadedTotalCount !== 0 && preloadedAggregations !== null
-
+const ResultsFooter = compose(withT)(
+  ({ t, search: { nodes, totalCount, pageInfo }, fetchMore }) => {
     return (
-      <div {...styles.container}>
-        {resultsOutdated && !keepCachedAggregations && (
-          <Loader
-            loading={dataAggregations && dataAggregations.loading}
-            error={dataAggregations && dataAggregations.error}
-            render={() => {
-              const { search } = dataAggregations
-              const { aggregations, totalCount } = search
-
-              return (
-                <FilterSortPanel
-                  aggregations={aggregations}
-                  filterQuery={filterQuery}
-                  filters={filters}
-                  loadingFilters={loadingFilters}
-                  minHeight={minHeight}
-                  isFilterEnabled={isFilterEnabled}
-                  searchQuery={searchQuery}
-                  setPanelRef={this.setPanelRef}
-                  sort={sort}
-                  t={t}
-                  totalCount={totalCount}
-                  onFilterClick={onFilterClick}
-                  onSearch={onSearch}
-                  onSortClick={onSortClick}
-                />
-              )
-            }}
-          />
+      <div {...styles.countLoaded}>
+        {nodes.length === totalCount
+          ? t.pluralize('search/pageInfo/total', {
+              count: totalCount
+            })
+          : t('search/pageInfo/loadedTotal', {
+              loaded: nodes.length,
+              total: totalCount
+            })}
+        {pageInfo.hasNextPage && (
+          <button
+            {...styles.button}
+            {...linkRule}
+            onClick={() => fetchMore({ after: pageInfo.endCursor })}
+          >
+            {t('search/pageInfo/loadMore')}
+          </button>
         )}
-        {keepCachedAggregations && (
-          <FilterSortPanel
-            aggregations={preloadedAggregations}
-            filterQuery={filterQuery}
-            filters={filters}
-            loadingFilters={loadingFilters}
-            minHeight={minHeight}
-            isFilterEnabled={isFilterEnabled}
-            searchQuery={searchQuery}
-            setPanelRef={this.setPanelRef}
-            sort={sort}
-            t={t}
-            totalCount={preloadedTotalCount}
-            onFilterClick={onFilterClick}
-            onSearch={onSearch}
-            onSortClick={onSortClick}
-          />
-        )}
-        <Loader
-          loading={data.loading}
-          error={data.error}
-          render={() => {
-            const { data, fetchMore } = this.props
-            const { search } = data
-
-            if (!search) {
-              return null
-            }
-            const { aggregations, nodes, totalCount, pageInfo } = search
-
-            if (totalCount === 0 && !resultsOutdated) {
-              return (
-                <div {...styles.empty}>
-                  <RawHtml
-                    dangerouslySetInnerHTML={{
-                      __html: t('search/results/empty')
-                    }}
-                  />
-                </div>
-              )
-            }
-
-            return (
-              <Fragment>
-                {!resultsOutdated && !keepCachedAggregations && (
-                  <FilterSortPanel
-                    aggregations={aggregations}
-                    filterQuery={filterQuery}
-                    filters={filters}
-                    loadingFilters={loadingFilters}
-                    minHeight={minHeight}
-                    isFilterEnabled={isFilterEnabled}
-                    searchQuery={searchQuery}
-                    setPanelRef={this.setPanelRef}
-                    sort={sort}
-                    t={t}
-                    totalCount={totalCount}
-                    onFilterClick={onFilterClick}
-                    onSearch={onSearch}
-                    onSortClick={onSortClick}
-                  />
-                )}
-                {(!!searchQuery || isFilterEnabled) && (
-                  <div {...styles.results} style={{ opacity }}>
-                    {nodes &&
-                      nodes.map((node, index) => {
-                        const titleHighlight =
-                          node.entity.__typename === 'Document' &&
-                          node.highlights.find(
-                            highlight => highlight.path === 'meta.title'
-                          )
-                        const descHighlight =
-                          node.entity.__typename === 'Document' &&
-                          node.highlights.find(
-                            highlight => highlight.path === 'meta.description'
-                          )
-                        const bar = node.entity.meta ? (
-                          <ActionBar
-                            documentId={node.entity.id}
-                            userBookmark={node.entity.userBookmark}
-                            userProgress={node.entity.userProgress}
-                            {...node.entity.meta}
-                          />
-                        ) : null
-                        return (
-                          <Fragment key={index}>
-                            {node.entity.__typename === 'Document' && (
-                              <TeaserFeed
-                                {...node.entity.meta}
-                                title={
-                                  titleHighlight ? (
-                                    <span
-                                      {...styles.highlight}
-                                      dangerouslySetInnerHTML={{
-                                        __html: titleHighlight.fragments[0]
-                                      }}
-                                    />
-                                  ) : (
-                                    node.entity.meta.shortTitle ||
-                                    node.entity.meta.title
-                                  )
-                                }
-                                description={
-                                  descHighlight ? (
-                                    <span
-                                      {...styles.highlight}
-                                      dangerouslySetInnerHTML={{
-                                        __html: descHighlight.fragments[0]
-                                      }}
-                                    />
-                                  ) : (
-                                    !node.entity.meta.shortTitle &&
-                                    node.entity.meta.description
-                                  )
-                                }
-                                kind={
-                                  node.entity.meta.template ===
-                                  'editorialNewsletter'
-                                    ? 'meta'
-                                    : node.entity.meta.kind
-                                }
-                                publishDate={
-                                  node.entity.meta.template === 'format'
-                                    ? null
-                                    : node.entity.meta.publishDate
-                                }
-                                Link={Link}
-                                key={node.entity.meta.path}
-                                bar={bar}
-                              />
-                            )}
-                            {node.entity.__typename === 'Comment' && (
-                              <CommentTeaser
-                                {...node.entity}
-                                context={{
-                                  title: node.entity.discussion.title
-                                }}
-                                highlights={node.highlights}
-                                Link={CommentLink}
-                                t={t}
-                              />
-                            )}
-                            {node.entity.__typename === 'User' && (
-                              <UserTeaser {...node.entity} />
-                            )}
-                          </Fragment>
-                        )
-                      })}
-                    {totalCount > 0 && (
-                      <div {...styles.countLoaded}>
-                        {nodes && nodes.length === totalCount
-                          ? t.pluralize('search/pageInfo/total', {
-                              count: totalCount
-                            })
-                          : t('search/pageInfo/loadedTotal', {
-                              loaded: nodes.length,
-                              total: totalCount
-                            })}
-                        {pageInfo.hasNextPage && (
-                          <button
-                            {...styles.button}
-                            {...linkRule}
-                            onClick={() => {
-                              onLoadMoreClick && onLoadMoreClick()
-                              fetchMore({ after: pageInfo.endCursor })
-                            }}
-                          >
-                            {t('search/pageInfo/loadMore')}
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </Fragment>
-            )
-          }}
-        />
       </div>
     )
   }
-}
+)
 
-Results.propTypes = {
-  t: PropTypes.func,
-  data: PropTypes.object,
-  dataAggregations: PropTypes.object,
-  searchQuery: PropTypes.string,
-  filterQuery: PropTypes.string,
-  sort: PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    direction: PropTypes.oneOf(['ASC', 'DESC'])
-  }),
-  onSearch: PropTypes.func,
-  onSortClick: PropTypes.func,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      not: PropTypes.bool
-    })
-  ),
-  onFilterClick: PropTypes.func,
-  loadingFilters: PropTypes.bool,
-  onLoadMoreClick: PropTypes.func,
-  fetchMore: PropTypes.func,
-  onSearchLoaded: PropTypes.func,
-  trackingId: PropTypes.string
-}
+const Results = compose(withResults)(({ data, fetchMore }) => {
+  return (
+    <div {...styles.container}>
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          const { search } = data
 
-export default compose(
-  withT,
-  withAggregations,
-  withResults
-)(Results)
+          if (!search) return null
+
+          const { nodes, totalCount } = search
+
+          return !nodes || !totalCount ? null : (
+            <div {...styles.results}>
+              <ResultsList nodes={nodes} />
+              <ResultsFooter search={search} fetchMore={fetchMore} />
+            </div>
+          )
+        }}
+      />
+    </div>
+  )
+})
+
+const ResultsWrapper = compose(withSearchRouter)(
+  ({ urlQuery, urlFilter, urlSort }) => {
+    return urlQuery && urlFilter && urlSort ? (
+      <Results
+        searchQuery={urlQuery}
+        filters={DEFAULT_FILTERS.concat(urlFilter)}
+        sort={urlSort}
+      />
+    ) : null
+  }
+)
+
+export default ResultsWrapper

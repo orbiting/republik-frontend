@@ -140,7 +140,6 @@ const Nav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
-  gift,
   isMember
 }) => {
   const active = matchPath(router.asPath)
@@ -207,7 +206,7 @@ const Nav = ({
               active={active}
               closeHandler={closeHandler}
             >
-              {t('nav/give')} 🎁
+              {t('nav/give')}
             </NavLink>
           )}
           {!inNativeIOSApp && isMember && (

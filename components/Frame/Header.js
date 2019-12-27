@@ -105,12 +105,6 @@ const styles = {
     }
   }),
   search: css({
-    outline: 'none',
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    padding: '0',
-    cursor: 'pointer',
     '@media print': {
       display: 'none'
     },
@@ -382,7 +376,6 @@ class Header extends Component {
                   dark={dark}
                   me={me}
                   expanded={expanded}
-                  gift={!inNativeIOSApp}
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
                   onClick={toggleExpanded}
                 />
@@ -428,15 +421,21 @@ class Header extends Component {
                 </div>
               )}
               {isMember && (
-                <button
+                <a
                   {...styles.search}
-                  role='button'
                   title={t('header/nav/search/aria')}
+                  href='/suche'
                   onClick={e => {
+                    if (shouldIgnoreClick(e)) {
+                      return
+                    }
                     e.preventDefault()
                     e.stopPropagation()
                     if (router.pathname === '/search') {
                       window.scrollTo(0, 0)
+                      if (expanded) {
+                        toggleExpanded()
+                      }
                     } else {
                       Router.pushRoute('search').then(() =>
                         window.scrollTo(0, 0)
@@ -445,13 +444,12 @@ class Header extends Component {
                   }}
                 >
                   <Search fill={textFill} size={28} />
-                </button>
+                </a>
               )}
               <div {...styles.hamburger} style={bgStyle}>
                 <Toggle
                   dark={dark}
                   expanded={expanded}
-                  gift={!inNativeIOSApp}
                   id='primary-menu'
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
                   onClick={toggleExpanded}
@@ -488,12 +486,7 @@ class Header extends Component {
           />
         )}
         <Popover expanded={expanded}>
-          <NavPopover
-            gift={!inNativeIOSApp}
-            me={me}
-            router={router}
-            closeHandler={this.close}
-          />
+          <NavPopover me={me} router={router} closeHandler={this.close} />
         </Popover>
         <LoadingBar
           onRouteChangeStart={() => {

@@ -5,7 +5,7 @@ import { Field, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
-import { DEFAULT_AGGREGATION_KEYS } from './constants'
+import { DEFAULT_AGGREGATION_KEYS, DEFAULT_SORT } from './constants'
 import LiveState from './LiveState'
 import { useDebounce } from '../../lib/hooks/useDebounce'
 import { css } from 'glamor'
@@ -25,7 +25,7 @@ const Form = compose(
   ({
     startState,
     urlQuery,
-    updateUrlQuery,
+    pushParams,
     resetUrl,
     dataAggregations,
     t,
@@ -46,7 +46,7 @@ const Form = compose(
 
     const submit = e => {
       e.preventDefault()
-      updateUrlQuery(formValue)
+      pushParams({ q: formValue, sort: urlQuery ? undefined : DEFAULT_SORT })
     }
 
     const update = (_, value) => {
@@ -67,7 +67,7 @@ const Form = compose(
             value={formValue}
             onChange={update}
             icon={
-              urlQuery && (
+              !startState && (
                 <Close
                   style={{ cursor: 'pointer' }}
                   size={30}

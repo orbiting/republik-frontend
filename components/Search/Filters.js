@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { withAggregations } from './enhancers'
 import { compose } from 'react-apollo'
-import withSearchRouter, { isDefaultFilter } from './withSearchRouter'
+import withSearchRouter from './withSearchRouter'
 import {
   DEFAULT_AGGREGATION_KEYS,
   DEFAULT_FILTER,
   SUPPORTED_FILTERS,
-  isSameFilter
+  isSameFilter,
+  findAggregation
 } from './constants'
 import { css, merge } from 'glamor'
 import {
@@ -53,17 +54,10 @@ const styles = {
   })
 }
 
-export const findAggregation = (aggregations, filter) => {
-  const agg = aggregations.find(d => d.key === filter.key)
-  return !agg || !agg.buckets
-    ? agg
-    : agg.buckets.find(d => d.value === filter.value)
-}
-
 const Filters = compose(
   withSearchRouter,
   withAggregations
-)(({ dataAggregations, searchQuery, urlFilter, getSearchParams }) => {
+)(({ dataAggregations, searchQuery, urlFilter, getSearchParams, sort }) => {
   const { search, loading, error } = dataAggregations
   if (loading || error) return null
 
@@ -89,13 +83,15 @@ const Filters = compose(
             {agg.count ? (
               <Link
                 route='search'
-                params={getSearchParams({ filter })}
+                params={getSearchParams({ filter, sort })}
                 passHref
               >
                 <a
                   {...merge(
                     styles.link,
-                    isSameFilter(filter, urlFilter) && styles.linkSelected
+                    !sort &&
+                      isSameFilter(filter, urlFilter) &&
+                      styles.linkSelected
                   )}
                 >
                   {text}

@@ -1,10 +1,9 @@
 import React from 'react'
 import { compose } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
-import { DEFAULT_FILTER, DEFAULT_SORT } from './constants'
+import { DEFAULT_FILTER, DEFAULT_SORT, isSameFilter } from './constants'
 
-export const isDefaultFilter = filter =>
-  filter.key === DEFAULT_FILTER.key && filter.value === DEFAULT_FILTER.value
+const isDefaultFilter = filter => isSameFilter(filter, DEFAULT_FILTER)
 
 const QUERY_PARAM = 'q'
 const FILTER_KEY_PARAM = 'fkey'
@@ -20,7 +19,7 @@ export default WrappedComponent =>
       value: query[FILTER_VALUE_PARAM] || DEFAULT_FILTER.value
     }
     const urlSort = {
-      key: query[SORT_KEY_PARAM] || DEFAULT_SORT,
+      key: query[SORT_KEY_PARAM] || DEFAULT_SORT.key,
       direction: query[SORT_DIRECTION_PARAM]
     }
 
@@ -46,7 +45,9 @@ export default WrappedComponent =>
       return getCleanQuery(query)
     }
 
-    const updateUrlQuery = q => pushRoute(getSearchParams({ q }))
+    const pushParams = params => {
+      return pushRoute(getSearchParams(params))
+    }
 
     const updateUrlFilter = filter => {
       return pushRoute(getSearchParams({ filter }))
@@ -85,7 +86,7 @@ export default WrappedComponent =>
         key: baseQuery[FILTER_KEY_PARAM],
         value: baseQuery[FILTER_VALUE_PARAM]
       })
-      const defaultSort = DEFAULT_SORT === baseQuery[SORT_KEY_PARAM]
+      const defaultSort = DEFAULT_SORT.key === baseQuery[SORT_KEY_PARAM]
 
       const transferKeys = [
         QUERY_PARAM,
@@ -112,13 +113,13 @@ export default WrappedComponent =>
         startState={
           !urlQuery &&
           isDefaultFilter(urlFilter) &&
-          DEFAULT_SORT === urlSort.key
+          DEFAULT_SORT.key === urlSort.key
         }
         urlQuery={urlQuery}
         urlFilter={urlFilter}
         urlSort={urlSort}
+        pushParams={pushParams}
         getSearchParams={getSearchParams}
-        updateUrlQuery={updateUrlQuery}
         updateUrlFilter={updateUrlFilter}
         updateUrlSort={updateUrlSort}
         resetUrl={resetUrl}

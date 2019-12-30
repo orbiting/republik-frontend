@@ -16,7 +16,13 @@ import ZeroResults from './ZeroResults'
 
 import track from '../../lib/piwik'
 
-import { DEFAULT_FILTER, SUPPORTED_FILTERS, isSameFilter } from './constants'
+import {
+  DEFAULT_FILTER,
+  SUPPORTED_FILTERS,
+  LATEST_SORT,
+  isSameFilter,
+  findAggregation
+} from './constants'
 
 const styles = {
   container: css({
@@ -27,13 +33,6 @@ const styles = {
       paddingLeft: 0
     }
   })
-}
-
-const findAggregation = (aggregations, filter) => {
-  const agg = aggregations.find(d => d.key === filter.key)
-  return !agg || !agg.buckets
-    ? agg
-    : agg.buckets.find(d => d.value === filter.value)
 }
 
 const hasResults = (aggregations, filter) =>
@@ -96,7 +95,10 @@ export default compose(
       <Center {...styles.container}>
         <Form />
         {startState ? (
-          <CheatSheet />
+          <>
+            <Filters sort={LATEST_SORT} />
+            <CheatSheet />
+          </>
         ) : (
           <>
             <Filters />

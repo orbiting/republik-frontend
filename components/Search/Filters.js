@@ -5,7 +5,8 @@ import withSearchRouter, { isDefaultFilter } from './withSearchRouter'
 import {
   DEFAULT_AGGREGATION_KEYS,
   DEFAULT_FILTER,
-  SUPPORTED_FILTERS
+  SUPPORTED_FILTERS,
+  isSameFilter
 } from './constants'
 import { css, merge } from 'glamor'
 import {
@@ -59,89 +60,55 @@ export const findAggregation = (aggregations, filter) => {
     : agg.buckets.find(d => d.value === filter.value)
 }
 
-const isSameFilter = (filterA, filterB) =>
-  filterA.key === filterB.key && filterA.value === filterB.value
-
-const hasResults = (aggregations, filter) =>
-  !!findAggregation(aggregations, filter).count
-
-const findFilterWithResults = aggregations =>
-  SUPPORTED_FILTERS.find(filter => hasResults(aggregations, filter)) ||
-  DEFAULT_FILTER
-
 const Filters = compose(
   withSearchRouter,
   withAggregations
-)(
-  ({
-    dataAggregations,
-    searchQuery,
-    urlFilter,
-    updateUrlFilter,
-    getSearchParams
-  }) => {
-    const { search, loading, error } = dataAggregations
-    if (loading || error) return null
+)(({ dataAggregations, searchQuery, urlFilter, getSearchParams }) => {
+  const { search, loading, error } = dataAggregations
+  if (loading || error) return null
 
-    const { totalCount, aggregations } = search
-    if (!aggregations) return null
+  const { totalCount, aggregations } = search
+  if (!aggregations) return null
 
-    const updateFilter = () => {
-      if (!isDefaultFilter(urlFilter)) {
-        return
-      }
-      const newFilter = findFilterWithResults(aggregations)
-      updateUrlFilter(newFilter)
-    }
+  return (
+    <ul {...styles.list}>
+      {SUPPORTED_FILTERS.map((filter, key) => {
+        const agg = findAggregation(aggregations, filter)
+        if (!agg) {
+          return null
+        }
 
-    useEffect(() => {
-      updateFilter()
-    }, [aggregations])
+        const text = (
+          <>
+            {agg.label} <small>{agg.count}</small>
+          </>
+        )
 
-    const onFilterClick = filter => {
-      updateUrlFilter(filter)
-    }
-
-    return (
-      <ul {...styles.list}>
-        {SUPPORTED_FILTERS.map((filter, key) => {
-          const agg = findAggregation(aggregations, filter)
-          if (!agg) {
-            return null
-          }
-
-          const text = (
-            <>
-              {agg.label} <small>{agg.count}</small>
-            </>
-          )
-
-          return (
-            <li key={key} {...styles.listItem}>
-              {agg.count ? (
-                <Link
-                  route='search'
-                  params={getSearchParams({ filter })}
-                  passHref
+        return (
+          <li key={key} {...styles.listItem}>
+            {agg.count ? (
+              <Link
+                route='search'
+                params={getSearchParams({ filter })}
+                passHref
+              >
+                <a
+                  {...merge(
+                    styles.link,
+                    isSameFilter(filter, urlFilter) && styles.linkSelected
+                  )}
                 >
-                  <a
-                    {...merge(
-                      styles.link,
-                      isSameFilter(filter, urlFilter) && styles.linkSelected
-                    )}
-                  >
-                    {text}
-                  </a>
-                </Link>
-              ) : (
-                text
-              )}
-            </li>
-          )
-        })}
-      </ul>
-    )
-  }
-)
+                  {text}
+                </a>
+              </Link>
+            ) : (
+              text
+            )}
+          </li>
+        )
+      })}
+    </ul>
+  )
+})
 
 export default Filters

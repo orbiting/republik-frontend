@@ -98,20 +98,20 @@ const ResultsFooter = compose(withT)(
 const Results = compose(
   withSearchRouter,
   withResults
-)(({ data, fetchMore }) => {
+)(({ data: { loading, error, search } = {}, fetchMore }) => {
   return (
     <div {...styles.container}>
       <Loader
-        loading={data.loading}
-        error={data.error}
+        loading={
+          loading ||
+          // wait for index to switch tab
+          (search && search.totalCount === 0)
+        }
+        error={error}
         render={() => {
-          const { search } = data
-
-          if (!search) return null
-
           const { nodes, totalCount } = search
 
-          return !nodes || !totalCount ? null : (
+          return (
             <div {...styles.results}>
               <ResultsList nodes={nodes} />
               <ResultsFooter search={search} fetchMore={fetchMore} />

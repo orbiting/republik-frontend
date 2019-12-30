@@ -36,3 +36,6 @@ export const SUPPORTED_SORT = [
 export const DEFAULT_AGGREGATION_KEYS = ['type', 'hasAudio', 'hasVideo']
 export const DEFAULT_FILTER = SUPPORTED_FILTERS[0]
 export const DEFAULT_SORT = 'relevance'
+
+export const isSameFilter = (filterA, filterB) =>
+  filterA.key === filterB.key && filterA.value === filterB.value

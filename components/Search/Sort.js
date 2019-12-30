@@ -8,9 +8,7 @@ import ArrowUp from 'react-icons/lib/md/arrow-upward'
 import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
-import { DEFAULT_AGGREGATION_KEYS, SUPPORTED_SORT } from './constants'
-import { withAggregations } from './enhancers'
-import { findAggregation } from './Filters'
+import { SUPPORTED_SORT } from './constants'
 
 const styles = {
   container: css({
@@ -84,32 +82,21 @@ const SortButton = compose(withT)(({ t, sort, urlSort, updateUrlSort }) => {
   )
 })
 
-const Sort = compose(
-  withSearchRouter,
-  withAggregations
-)(({ dataAggregations, urlFilter, urlSort, updateUrlSort }) => {
-  const { search } = dataAggregations
-  if (!search) return null
-
-  const { aggregations } = search
-  const currentAgg = findAggregation(aggregations, urlFilter)
-  if (!currentAgg || currentAgg.count === 0) return null
-
-  return (
-    <div {...styles.container}>
-      {SUPPORTED_SORT.map((sort, key) => {
-        return (
-          <Fragment key={key}>
-            <SortButton
-              sort={sort}
-              urlSort={urlSort}
-              updateUrlSort={updateUrlSort}
-            />
-          </Fragment>
-        )
-      })}
-    </div>
-  )
-})
+const Sort = compose(withSearchRouter)(
+  ({ urlFilter, urlSort, updateUrlSort }) => {
+    return (
+      <div {...styles.container}>
+        {SUPPORTED_SORT.map((sort, key) => (
+          <SortButton
+            key={key}
+            sort={sort}
+            urlSort={urlSort}
+            updateUrlSort={updateUrlSort}
+          />
+        ))}
+      </div>
+    )
+  }
+)
 
 export default Sort

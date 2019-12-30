@@ -18,6 +18,7 @@ import {
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
+import { countFormat } from '../../lib/utils/format'
 
 const styles = {
   list: css({
@@ -74,7 +75,7 @@ const Filters = compose(
 
         const text = (
           <>
-            {agg.label} <small>{agg.count}</small>
+            {agg.label} <small>{countFormat(agg.count)}</small>
           </>
         )
 

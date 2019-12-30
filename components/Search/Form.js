@@ -28,6 +28,7 @@ const Form = compose(
     startState,
     urlQuery,
     pushSearchParams,
+    getSearchParams,
     resetUrl,
     dataAggregations,
     t,
@@ -87,6 +88,7 @@ const Form = compose(
             formValue={formValue}
             searchQuery={searchQuery}
             dataAggregations={dataAggregations}
+            getSearchParams={getSearchParams}
           />
         )}
       </div>

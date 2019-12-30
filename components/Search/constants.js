@@ -25,7 +25,8 @@ export const SUPPORTED_FILTERS = [
 
 export const SUPPORTED_SORT = [
   {
-    key: 'relevance'
+    key: 'relevance',
+    needsQuery: true
   },
   {
     key: 'publishedAt',

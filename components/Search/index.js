@@ -51,7 +51,7 @@ export default compose(
     cleanupUrl,
     urlQuery = '',
     urlFilter,
-    updateUrlFilter,
+    pushSearchParams,
     startState,
     data: { search } = {},
     dataAggregations
@@ -87,7 +87,7 @@ export default compose(
       }
       const newFilter = findFilterWithResults(aggregations)
       if (newFilter && !isSameFilter(newFilter, urlFilter)) {
-        updateUrlFilter(newFilter)
+        pushSearchParams({ filter: newFilter })
       }
     }, [dataAggregations, urlFilter])
 

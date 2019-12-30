@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import withT from '../../lib/withT'
 import Close from 'react-icons/lib/md/close'
 import { Field, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
@@ -7,8 +6,11 @@ import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
 import { DEFAULT_AGGREGATION_KEYS, DEFAULT_SORT } from './constants'
 import LiveState from './LiveState'
-import { useDebounce } from '../../lib/hooks/useDebounce'
 import { css } from 'glamor'
+
+import withT from '../../lib/withT'
+import { Router } from '../../lib/routes'
+import { useDebounce } from '../../lib/hooks/useDebounce'
 
 const styles = css({
   paddingTop: 15,
@@ -25,7 +27,7 @@ const Form = compose(
   ({
     startState,
     urlQuery,
-    pushParams,
+    pushSearchParams,
     resetUrl,
     dataAggregations,
     t,
@@ -46,7 +48,10 @@ const Form = compose(
 
     const submit = e => {
       e.preventDefault()
-      pushParams({ q: formValue, sort: urlQuery ? undefined : DEFAULT_SORT })
+      pushSearchParams({
+        q: formValue,
+        sort: urlQuery ? undefined : DEFAULT_SORT
+      })
     }
 
     const update = (_, value) => {
@@ -55,7 +60,7 @@ const Form = compose(
 
     const reset = () => {
       setFormValue(undefined)
-      resetUrl()
+      Router.pushRoute('search')
     }
 
     return (

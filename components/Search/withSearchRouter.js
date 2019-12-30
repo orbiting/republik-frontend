@@ -1,7 +1,9 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import Router, { withRouter } from 'next/router'
+import { withRouter } from 'next/router'
+
 import { DEFAULT_FILTER, DEFAULT_SORT, isSameFilter } from './constants'
+import { Router } from '../../lib/routes'
 
 const isDefaultFilter = filter => isSameFilter(filter, DEFAULT_FILTER)
 
@@ -45,19 +47,9 @@ export default WrappedComponent =>
       return getCleanQuery(query)
     }
 
-    const pushParams = params => {
+    const pushSearchParams = params => {
       return pushRoute(getSearchParams(params))
     }
-
-    const updateUrlFilter = filter => {
-      return pushRoute(getSearchParams({ filter }))
-    }
-
-    const updateUrlSort = sort => {
-      return pushRoute(getSearchParams({ sort }))
-    }
-
-    const resetUrl = () => Router.pushRoute('search')
 
     const getCleanQuery = (newQuery = {}) => {
       const baseQuery = {
@@ -118,11 +110,8 @@ export default WrappedComponent =>
         urlQuery={urlQuery}
         urlFilter={urlFilter}
         urlSort={urlSort}
-        pushParams={pushParams}
+        pushSearchParams={pushSearchParams}
         getSearchParams={getSearchParams}
-        updateUrlFilter={updateUrlFilter}
-        updateUrlSort={updateUrlSort}
-        resetUrl={resetUrl}
         cleanupUrl={cleanupUrl}
         {...props}
       />

@@ -48,7 +48,7 @@ const getNextDirection = (sort, directions) => {
   return index === directions.length - 1 ? directions[0] : directions[index + 1]
 }
 
-const SortButton = compose(withT)(({ t, sort, urlSort, updateUrlSort }) => {
+const SortButton = compose(withT)(({ t, sort, urlSort, pushSearchParams }) => {
   const selected = urlSort.key === sort.key
   const color = selected ? colors.primary : null
   const label = t(`search/sort/${sort.key}`)
@@ -59,12 +59,14 @@ const SortButton = compose(withT)(({ t, sort, urlSort, updateUrlSort }) => {
       {...styles.button}
       style={{ color }}
       onClick={() => {
-        updateUrlSort({
-          key: sort.key,
-          direction:
-            selected && direction
-              ? getNextDirection(urlSort, sort.directions)
-              : direction
+        pushSearchParams({
+          sort: {
+            key: sort.key,
+            direction:
+              selected && direction
+                ? getNextDirection(urlSort, sort.directions)
+                : direction
+          }
         })
       }}
     >
@@ -83,17 +85,19 @@ const SortButton = compose(withT)(({ t, sort, urlSort, updateUrlSort }) => {
 })
 
 const Sort = compose(withSearchRouter)(
-  ({ urlFilter, urlSort, updateUrlSort }) => {
+  ({ urlQuery, urlFilter, urlSort, pushSearchParams }) => {
     return (
       <div {...styles.container}>
-        {SUPPORTED_SORT.map((sort, key) => (
-          <SortButton
-            key={key}
-            sort={sort}
-            urlSort={urlSort}
-            updateUrlSort={updateUrlSort}
-          />
-        ))}
+        {SUPPORTED_SORT.filter(sort => urlQuery || !sort.needsQuery).map(
+          (sort, key) => (
+            <SortButton
+              key={key}
+              sort={sort}
+              urlSort={urlSort}
+              pushSearchParams={pushSearchParams}
+            />
+          )
+        )}
       </div>
     )
   }

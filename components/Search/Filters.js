@@ -117,13 +117,7 @@ const Filters = compose(
           )
 
           return (
-            <li
-              key={key}
-              {...merge(
-                styles.listItem,
-                isSameFilter(filter, urlFilter) && styles.listItemSelected
-              )}
-            >
+            <li key={key} {...styles.listItem}>
               {agg.count ? (
                 <Link
                   route='search'

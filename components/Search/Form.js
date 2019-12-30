@@ -23,6 +23,7 @@ const Form = compose(
   withT
 )(
   ({
+    startState,
     urlQuery,
     updateUrlQuery,
     resetUrl,
@@ -36,8 +37,8 @@ const Form = compose(
     const [slowFormValue] = useDebounce(formValue, 200)
 
     useEffect(() => {
-      focusRef && focusRef.input && focusRef.input.focus()
-    }, [focusRef])
+      startState && focusRef && focusRef.input && focusRef.input.focus()
+    }, [startState, focusRef])
 
     useEffect(() => {
       setSearchQuery(slowFormValue)

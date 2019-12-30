@@ -141,6 +141,7 @@ export const withAggregations = graphql(getSearchAggregations, {
 })
 
 export const withResults = graphql(getSearchResults, {
+  skip: props => props.startState,
   options: props => ({
     variables: {
       searchQuery: props.urlQuery,

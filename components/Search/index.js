@@ -30,40 +30,48 @@ const styles = {
 export default compose(
   withSearchRouter,
   withResults
-)(({ cleanupUrl, urlQuery = '', urlFilter, empty, data: { search } }) => {
-  useEffect(() => {
-    cleanupUrl()
-  }, [])
+)(
+  ({
+    cleanupUrl,
+    urlQuery = '',
+    urlFilter,
+    startState,
+    data: { search } = {}
+  }) => {
+    useEffect(() => {
+      cleanupUrl()
+    }, [])
 
-  // calc outside of effect to ensure it only runs when changing
-  const keyword = urlQuery.toLowerCase()
-  const category = `${urlFilter.key}:${urlFilter.value}`
-  const searchCount = search && search.totalCount
+    // calc outside of effect to ensure it only runs when changing
+    const keyword = urlQuery.toLowerCase()
+    const category = `${urlFilter.key}:${urlFilter.value}`
+    const searchCount = search && search.totalCount
 
-  useEffect(() => {
-    if (searchCount !== undefined && !empty) {
-      track(['trackSiteSearch', keyword, category, searchCount])
-    }
-  }, [empty, keyword, category, searchCount])
+    useEffect(() => {
+      if (searchCount !== undefined && !startState) {
+        track(['trackSiteSearch', keyword, category, searchCount])
+      }
+    }, [startState, keyword, category, searchCount])
 
-  return (
-    <Center {...styles.container}>
-      <Form />
-      {empty ? (
-        <CheatSheet />
-      ) : (
-        <>
-          <Filters />
-          {searchCount === 0 ? (
-            <ZeroResults />
-          ) : (
-            <>
-              <Sort />
-              <Results />
-            </>
-          )}
-        </>
-      )}
-    </Center>
-  )
-})
+    return (
+      <Center {...styles.container}>
+        <Form />
+        {startState ? (
+          <CheatSheet />
+        ) : (
+          <>
+            <Filters />
+            {searchCount === 0 ? (
+              <ZeroResults />
+            ) : (
+              <>
+                <Sort />
+                <Results />
+              </>
+            )}
+          </>
+        )}
+      </Center>
+    )
+  }
+)

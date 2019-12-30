@@ -109,7 +109,7 @@ export default WrappedComponent =>
 
     return (
       <WrappedComponent
-        empty={
+        startState={
           !urlQuery &&
           isDefaultFilter(urlFilter) &&
           DEFAULT_SORT === urlSort.key

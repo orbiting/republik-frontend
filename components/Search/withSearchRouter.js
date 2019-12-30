@@ -24,26 +24,36 @@ export default WrappedComponent =>
       direction: query[SORT_DIRECTION_PARAM]
     }
 
-    const updateURL = newQuery => {
-      return Router.pushRoute('search', getCleanQuery(newQuery), {
+    const pushRoute = newParams => {
+      return Router.pushRoute('search', newParams, {
         shallow: true
       })
     }
 
-    const updateUrlQuery = q => updateURL({ [QUERY_PARAM]: q })
+    const getSearchParams = ({ filter, sort, q }) => {
+      const query = {}
+      if (filter) {
+        query[FILTER_KEY_PARAM] = filter.key
+        query[FILTER_VALUE_PARAM] = filter.value
+      }
+      if (sort) {
+        query[SORT_KEY_PARAM] = sort.key
+        query[SORT_DIRECTION_PARAM] = sort.direction
+      }
+      if (q) {
+        query[QUERY_PARAM] = q
+      }
+      return getCleanQuery(query)
+    }
+
+    const updateUrlQuery = q => pushRoute(getSearchParams({ q }))
 
     const updateUrlFilter = filter => {
-      return updateURL({
-        [FILTER_KEY_PARAM]: filter.key,
-        [FILTER_VALUE_PARAM]: filter.value
-      })
+      return pushRoute(getSearchParams({ filter }))
     }
 
     const updateUrlSort = sort => {
-      return updateURL({
-        [SORT_KEY_PARAM]: sort.key,
-        [SORT_DIRECTION_PARAM]: sort.direction
-      })
+      return pushRoute(getSearchParams({ sort }))
     }
 
     const resetUrl = () => Router.pushRoute('search')
@@ -107,6 +117,7 @@ export default WrappedComponent =>
         urlQuery={urlQuery}
         urlFilter={urlFilter}
         urlSort={urlSort}
+        getSearchParams={getSearchParams}
         updateUrlQuery={updateUrlQuery}
         updateUrlFilter={updateUrlFilter}
         updateUrlSort={updateUrlSort}

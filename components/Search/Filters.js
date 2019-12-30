@@ -8,7 +8,14 @@ import {
   SUPPORTED_FILTERS
 } from './constants'
 import { css, merge } from 'glamor'
-import { fontStyles, mediaQueries } from '@project-r/styleguide'
+import {
+  colors,
+  fontStyles,
+  mediaQueries,
+  Editorial
+} from '@project-r/styleguide'
+
+import { Link } from '../../lib/routes'
 
 const styles = {
   list: css({
@@ -18,16 +25,30 @@ const styles = {
   }),
   listItem: css({
     display: 'inline-block',
-    marginRight: 30,
-    cursor: 'pointer',
+    marginRight: 25,
     ...fontStyles.sansSerifRegular16,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular18,
-      marginRight: 50
+      marginRight: 40
     }
   }),
-  listItemSelected: css({
-    textDecoration: 'underline'
+  link: css({
+    color: colors.text,
+    '@media (hover)': {
+      ':hover': {
+        color: colors.lightText
+      }
+    },
+    textDecoration: 'none'
+  }),
+  linkSelected: css({
+    textDecoration: 'underline',
+    textDecorationSkip: 'ink',
+    '@media (hover)': {
+      ':hover': {
+        color: colors.text
+      }
+    }
   })
 }
 
@@ -51,48 +72,82 @@ const findFilterWithResults = aggregations =>
 const Filters = compose(
   withSearchRouter,
   withAggregations
-)(({ dataAggregations, searchQuery, urlFilter, updateUrlFilter }) => {
-  const { search, loading, error } = dataAggregations
-  if (loading || error) return null
+)(
+  ({
+    dataAggregations,
+    searchQuery,
+    urlFilter,
+    updateUrlFilter,
+    getSearchParams
+  }) => {
+    const { search, loading, error } = dataAggregations
+    if (loading || error) return null
 
-  const { totalCount, aggregations } = search
-  if (!aggregations) return null
+    const { totalCount, aggregations } = search
+    if (!aggregations) return null
 
-  const updateFilter = () => {
-    if (!isDefaultFilter(urlFilter)) {
-      return
+    const updateFilter = () => {
+      if (!isDefaultFilter(urlFilter)) {
+        return
+      }
+      const newFilter = findFilterWithResults(aggregations)
+      updateUrlFilter(newFilter)
     }
-    const newFilter = findFilterWithResults(aggregations)
-    updateUrlFilter(newFilter)
+
+    useEffect(() => {
+      updateFilter()
+    }, [aggregations])
+
+    const onFilterClick = filter => {
+      updateUrlFilter(filter)
+    }
+
+    return (
+      <ul {...styles.list}>
+        {SUPPORTED_FILTERS.map((filter, key) => {
+          const agg = findAggregation(aggregations, filter)
+          if (!agg) {
+            return null
+          }
+
+          const text = (
+            <>
+              {agg.label} <small>{agg.count}</small>
+            </>
+          )
+
+          return (
+            <li
+              key={key}
+              {...merge(
+                styles.listItem,
+                isSameFilter(filter, urlFilter) && styles.listItemSelected
+              )}
+            >
+              {agg.count ? (
+                <Link
+                  route='search'
+                  params={getSearchParams({ filter })}
+                  passHref
+                >
+                  <a
+                    {...merge(
+                      styles.link,
+                      isSameFilter(filter, urlFilter) && styles.linkSelected
+                    )}
+                  >
+                    {text}
+                  </a>
+                </Link>
+              ) : (
+                text
+              )}
+            </li>
+          )
+        })}
+      </ul>
+    )
   }
-
-  useEffect(() => {
-    updateFilter()
-  }, [aggregations])
-
-  const onFilterClick = filter => {
-    updateUrlFilter(filter)
-  }
-
-  return (
-    <ul {...styles.list}>
-      {SUPPORTED_FILTERS.map((filter, key) => {
-        const agg = findAggregation(aggregations, filter)
-        return agg ? (
-          <li
-            key={key}
-            onClick={() => onFilterClick(filter)}
-            {...merge(
-              styles.listItem,
-              isSameFilter(filter, urlFilter) && styles.listItemSelected
-            )}
-          >
-            {agg.label} <small>{agg.count}</small>
-          </li>
-        ) : null
-      })}
-    </ul>
-  )
-})
+)
 
 export default Filters

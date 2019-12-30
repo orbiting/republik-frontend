@@ -6,7 +6,7 @@ import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
 import { DEFAULT_AGGREGATION_KEYS } from './constants'
-import InitState from './InitState'
+import LiveState from './LiveState'
 import { useDebounce } from '../../lib/hooks/useDebounce'
 import { css } from 'glamor'
 
@@ -76,8 +76,9 @@ const Form = compose(
             }
           />
         </form>
-        {(!urlQuery || urlQuery !== formValue) && (
-          <InitState
+        {formValue && urlQuery !== formValue && (
+          <LiveState
+            formValue={formValue}
             searchQuery={searchQuery}
             dataAggregations={dataAggregations}
           />

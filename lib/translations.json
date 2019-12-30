@@ -5175,6 +5175,14 @@
       "value": "Lesen Sie zwei Wochen kostenlos die «Republik». Einlösbar bis 30.11.2019."
     },
     {
+      "key": "Trial/Page/unauthorized/21/heading",
+      "value": "Sie wollen es wirklich wissen?"
+    },
+    {
+      "key": "Trial/Page/unauthorized/21/intro",
+      "value": "Unser Januar-Angebot: Lesen Sie 21 Tage kostenlos die «Republik». Einlösbar bis 31.01.2020."
+    },
+    {
       "key": "pages/cardGroups/description",
       "value": "Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },

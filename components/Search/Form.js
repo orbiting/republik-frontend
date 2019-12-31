@@ -4,7 +4,7 @@ import { Field, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
-import { DEFAULT_AGGREGATION_KEYS, DEFAULT_SORT } from './constants'
+import { DEFAULT_SORT } from './constants'
 import LiveState from './LiveState'
 import { css } from 'glamor'
 
@@ -29,7 +29,6 @@ const Form = compose(
     urlQuery,
     pushSearchParams,
     getSearchParams,
-    resetUrl,
     dataAggregations,
     t,
     searchQuery,

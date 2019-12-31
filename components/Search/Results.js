@@ -14,7 +14,6 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
-import { DEFAULT_FILTERS } from './constants'
 import { countFormat } from '../../lib/utils/format'
 
 const RESULT_COMPONENTS = {
@@ -110,11 +109,9 @@ const Results = compose(
         }
         error={error}
         render={() => {
-          const { nodes, totalCount } = search
-
           return (
             <div {...styles.results}>
-              <ResultsList nodes={nodes} />
+              <ResultsList nodes={search.nodes} />
               <ResultsFooter search={search} fetchMore={fetchMore} />
             </div>
           )

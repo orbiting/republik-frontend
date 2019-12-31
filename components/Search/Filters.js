@@ -1,21 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { withAggregations } from './enhancers'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
-import {
-  DEFAULT_AGGREGATION_KEYS,
-  DEFAULT_FILTER,
-  SUPPORTED_FILTERS,
-  isSameFilter,
-  findAggregation
-} from './constants'
+import { SUPPORTED_FILTERS, isSameFilter, findAggregation } from './constants'
 import { css, merge } from 'glamor'
-import {
-  colors,
-  fontStyles,
-  mediaQueries,
-  Editorial
-} from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
@@ -58,11 +47,11 @@ const styles = {
 const Filters = compose(
   withSearchRouter,
   withAggregations
-)(({ dataAggregations, searchQuery, urlFilter, getSearchParams, sort }) => {
+)(({ dataAggregations, urlFilter, getSearchParams, sort }) => {
   const { search, loading, error } = dataAggregations
   if (loading || error) return null
 
-  const { totalCount, aggregations } = search
+  const { aggregations } = search
   if (!aggregations) return null
 
   return (

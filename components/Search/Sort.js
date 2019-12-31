@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 
@@ -85,7 +85,7 @@ const SortButton = compose(withT)(({ t, sort, urlSort, pushSearchParams }) => {
 })
 
 const Sort = compose(withSearchRouter)(
-  ({ urlQuery, urlFilter, urlSort, pushSearchParams }) => {
+  ({ urlQuery, urlSort, pushSearchParams }) => {
     return (
       <div {...styles.container}>
         {SUPPORTED_SORT.filter(sort => urlQuery || !sort.needsQuery).map(

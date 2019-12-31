@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
-import { Interaction, linkRule, colors, RawHtml } from '@project-r/styleguide'
+import { Interaction, linkRule, colors } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
 

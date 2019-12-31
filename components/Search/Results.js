@@ -15,6 +15,7 @@ import {
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
 import { DEFAULT_FILTERS } from './constants'
+import { countFormat } from '../../lib/utils/format'
 
 const RESULT_COMPONENTS = {
   Document: DocumentResult,
@@ -75,11 +76,11 @@ const ResultsFooter = compose(withT)(
       <div {...styles.countLoaded}>
         {nodes.length === totalCount
           ? t.pluralize('search/pageInfo/total', {
-              count: totalCount
+              count: countFormat(totalCount)
             })
           : t('search/pageInfo/loadedTotal', {
-              loaded: nodes.length,
-              total: totalCount
+              loaded: countFormat(nodes.length),
+              total: countFormat(totalCount)
             })}
         {pageInfo.hasNextPage && (
           <button

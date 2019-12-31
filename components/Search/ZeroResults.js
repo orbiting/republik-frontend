@@ -4,15 +4,18 @@ import { css } from 'glamor'
 import { fontStyles, mediaQueries, RawHtml } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 
-const styles = css({
-  ...fontStyles.sansSerifRegular16,
-  [mediaQueries.mUp]: {
-    ...fontStyles.sansSerifRegular19
-  }
-})
+const styles = {
+  container: css({
+    margin: '40px 0 100px',
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular19
+    }
+  })
+}
 
 export default compose(withT)(({ t }) => (
-  <div {...styles}>
+  <div {...styles.container}>
     <RawHtml
       dangerouslySetInnerHTML={{
         __html: t('search/results/empty')

@@ -1,10 +1,11 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import Router, { withRouter } from 'next/router'
-import { DEFAULT_FILTER, DEFAULT_SORT } from './constants'
+import { withRouter } from 'next/router'
 
-export const isDefaultFilter = filter =>
-  filter.key === DEFAULT_FILTER.key && filter.value === DEFAULT_FILTER.value
+import { DEFAULT_FILTER, DEFAULT_SORT, isSameFilter } from './constants'
+import { Router } from '../../lib/routes'
+
+const isDefaultFilter = filter => isSameFilter(filter, DEFAULT_FILTER)
 
 const QUERY_PARAM = 'q'
 const FILTER_KEY_PARAM = 'fkey'
@@ -20,33 +21,35 @@ export default WrappedComponent =>
       value: query[FILTER_VALUE_PARAM] || DEFAULT_FILTER.value
     }
     const urlSort = {
-      key: query[SORT_KEY_PARAM] || DEFAULT_SORT,
+      key: query[SORT_KEY_PARAM] || DEFAULT_SORT.key,
       direction: query[SORT_DIRECTION_PARAM]
     }
 
-    const updateURL = newQuery => {
-      return Router.pushRoute('search', getCleanQuery(newQuery), {
+    const pushRoute = newParams => {
+      return Router.pushRoute('search', newParams, {
         shallow: true
       })
     }
 
-    const updateUrlQuery = q => updateURL({ [QUERY_PARAM]: q })
-
-    const updateUrlFilter = filter => {
-      return updateURL({
-        [FILTER_KEY_PARAM]: filter.key,
-        [FILTER_VALUE_PARAM]: filter.value
-      })
+    const getSearchParams = ({ filter, sort, q }) => {
+      const query = {}
+      if (filter) {
+        query[FILTER_KEY_PARAM] = filter.key
+        query[FILTER_VALUE_PARAM] = filter.value
+      }
+      if (sort) {
+        query[SORT_KEY_PARAM] = sort.key
+        query[SORT_DIRECTION_PARAM] = sort.direction
+      }
+      if (q) {
+        query[QUERY_PARAM] = q
+      }
+      return getCleanQuery(query)
     }
 
-    const updateUrlSort = sort => {
-      return updateURL({
-        [SORT_KEY_PARAM]: sort.key,
-        [SORT_DIRECTION_PARAM]: sort.direction
-      })
+    const pushSearchParams = params => {
+      return pushRoute(getSearchParams(params))
     }
-
-    const resetUrl = () => Router.pushRoute('search')
 
     const getCleanQuery = (newQuery = {}) => {
       const baseQuery = {
@@ -75,7 +78,7 @@ export default WrappedComponent =>
         key: baseQuery[FILTER_KEY_PARAM],
         value: baseQuery[FILTER_VALUE_PARAM]
       })
-      const defaultSort = DEFAULT_SORT === baseQuery[SORT_KEY_PARAM]
+      const defaultSort = DEFAULT_SORT.key === baseQuery[SORT_KEY_PARAM]
 
       const transferKeys = [
         QUERY_PARAM,
@@ -99,13 +102,16 @@ export default WrappedComponent =>
 
     return (
       <WrappedComponent
+        startState={
+          !urlQuery &&
+          isDefaultFilter(urlFilter) &&
+          DEFAULT_SORT.key === urlSort.key
+        }
         urlQuery={urlQuery}
         urlFilter={urlFilter}
         urlSort={urlSort}
-        updateUrlQuery={updateUrlQuery}
-        updateUrlFilter={updateUrlFilter}
-        updateUrlSort={updateUrlSort}
-        resetUrl={resetUrl}
+        pushSearchParams={pushSearchParams}
+        getSearchParams={getSearchParams}
         cleanupUrl={cleanupUrl}
         {...props}
       />

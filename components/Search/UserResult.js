@@ -1,5 +1,5 @@
 import React from 'react'
-import { css, merge } from 'glamor'
+import { css } from 'glamor'
 import MdCheck from 'react-icons/lib/md/check'
 import { Link } from '../../lib/routes'
 

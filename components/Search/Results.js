@@ -14,7 +14,7 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
-import { DEFAULT_FILTERS } from './constants'
+import { countFormat } from '../../lib/utils/format'
 
 const RESULT_COMPONENTS = {
   Document: DocumentResult,
@@ -75,11 +75,11 @@ const ResultsFooter = compose(withT)(
       <div {...styles.countLoaded}>
         {nodes.length === totalCount
           ? t.pluralize('search/pageInfo/total', {
-              count: totalCount
+              count: countFormat(totalCount)
             })
           : t('search/pageInfo/loadedTotal', {
-              loaded: nodes.length,
-              total: totalCount
+              loaded: countFormat(nodes.length),
+              total: countFormat(totalCount)
             })}
         {pageInfo.hasNextPage && (
           <button
@@ -95,22 +95,23 @@ const ResultsFooter = compose(withT)(
   }
 )
 
-const Results = compose(withResults)(({ data, fetchMore }) => {
+const Results = compose(
+  withSearchRouter,
+  withResults
+)(({ data: { loading, error, search } = {}, fetchMore }) => {
   return (
     <div {...styles.container}>
       <Loader
-        loading={data.loading}
-        error={data.error}
+        loading={
+          loading ||
+          // wait for index to switch tab
+          (search && search.totalCount === 0)
+        }
+        error={error}
         render={() => {
-          const { search } = data
-
-          if (!search) return null
-
-          const { nodes, totalCount } = search
-
-          return !nodes || !totalCount ? null : (
+          return (
             <div {...styles.results}>
-              <ResultsList nodes={nodes} />
+              <ResultsList nodes={search.nodes} />
               <ResultsFooter search={search} fetchMore={fetchMore} />
             </div>
           )
@@ -120,16 +121,4 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
   )
 })
 
-const ResultsWrapper = compose(withSearchRouter)(
-  ({ urlQuery, urlFilter, urlSort }) => {
-    return urlQuery && urlFilter && urlSort ? (
-      <Results
-        searchQuery={urlQuery}
-        filters={DEFAULT_FILTERS.concat(urlFilter)}
-        sort={urlSort}
-      />
-    ) : null
-  }
-)
-
-export default ResultsWrapper
+export default Results

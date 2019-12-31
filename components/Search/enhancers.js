@@ -1,7 +1,7 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { documentFragment } from '../Feed/DocumentListContainer'
-import { DEFAULT_FILTERS } from './constants'
+import { DEFAULT_FILTERS, DEFAULT_AGGREGATION_KEYS } from './constants'
 
 const getSearchAggregations = gql`
   query getSearchAggregations(
@@ -128,20 +128,27 @@ const getSearchResults = gql`
 `
 
 export const withAggregations = graphql(getSearchAggregations, {
-  options: props => {
-    return {
-      variables: {
-        ...props,
-        filters: DEFAULT_FILTERS
-      }
+  options: props => ({
+    variables: {
+      searchQuery: props.searchQuery || props.urlQuery,
+      keys: DEFAULT_AGGREGATION_KEYS,
+      filters: DEFAULT_FILTERS
     }
-  },
+  }),
   props: ({ data }) => ({
     dataAggregations: data
   })
 })
 
 export const withResults = graphql(getSearchResults, {
+  skip: props => props.startState,
+  options: props => ({
+    variables: {
+      searchQuery: props.urlQuery,
+      sort: props.urlSort,
+      filters: DEFAULT_FILTERS.concat(props.urlFilter)
+    }
+  }),
   props: ({ data, ownProps }) => ({
     data,
     fetchMore: ({ after }) =>

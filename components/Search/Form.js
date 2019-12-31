@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import withT from '../../lib/withT'
 import Close from 'react-icons/lib/md/close'
 import { Field, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
-import { DEFAULT_AGGREGATION_KEYS } from './constants'
-import InitState from './InitState'
-import { useDebounce } from '../../lib/hooks/useDebounce'
+import { DEFAULT_SORT } from './constants'
+import LiveState from './LiveState'
 import { css } from 'glamor'
+
+import withT from '../../lib/withT'
+import { Router } from '../../lib/routes'
+import { useDebounce } from '../../lib/hooks/useDebounce'
 
 const styles = css({
   paddingTop: 15,
@@ -23,9 +25,10 @@ const Form = compose(
   withT
 )(
   ({
+    startState,
     urlQuery,
-    updateUrlQuery,
-    resetUrl,
+    pushSearchParams,
+    getSearchParams,
     dataAggregations,
     t,
     searchQuery,
@@ -36,8 +39,8 @@ const Form = compose(
     const [slowFormValue] = useDebounce(formValue, 200)
 
     useEffect(() => {
-      focusRef && focusRef.input && focusRef.input.focus()
-    }, [focusRef])
+      startState && focusRef && focusRef.input && focusRef.input.focus()
+    }, [startState, focusRef])
 
     useEffect(() => {
       setSearchQuery(slowFormValue)
@@ -45,7 +48,10 @@ const Form = compose(
 
     const submit = e => {
       e.preventDefault()
-      formValue && formValue !== urlQuery && updateUrlQuery(formValue)
+      pushSearchParams({
+        q: formValue,
+        sort: urlQuery ? undefined : DEFAULT_SORT
+      })
     }
 
     const update = (_, value) => {
@@ -54,7 +60,7 @@ const Form = compose(
 
     const reset = () => {
       setFormValue(undefined)
-      resetUrl()
+      Router.pushRoute('search')
     }
 
     return (
@@ -66,7 +72,7 @@ const Form = compose(
             value={formValue}
             onChange={update}
             icon={
-              urlQuery && (
+              !startState && (
                 <Close
                   style={{ cursor: 'pointer' }}
                   size={30}
@@ -76,25 +82,23 @@ const Form = compose(
             }
           />
         </form>
-        {!urlQuery && (
-          <InitState query={searchQuery} dataAggregations={dataAggregations} />
+        {formValue && urlQuery !== formValue && (
+          <LiveState
+            formValue={formValue}
+            searchQuery={searchQuery}
+            dataAggregations={dataAggregations}
+            getSearchParams={getSearchParams}
+          />
         )}
       </div>
     )
   }
 )
 
-const FormWrapper = compose(withSearchRouter)(({ urlQuery, urlFilter }) => {
-  const [searchQuery, setSearchQuery] = useState(urlQuery)
+const FormWrapper = () => {
+  const [searchQuery, setSearchQuery] = useState()
 
-  return (
-    <Form
-      searchQuery={searchQuery}
-      setSearchQuery={setSearchQuery}
-      keys={DEFAULT_AGGREGATION_KEYS}
-      urlFilter={urlFilter}
-    />
-  )
-})
+  return <Form searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+}
 
 export default FormWrapper

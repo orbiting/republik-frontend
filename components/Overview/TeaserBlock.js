@@ -7,7 +7,7 @@ import { LazyLoad } from '@project-r/styleguide'
 import TeaserHover from './TeaserHover'
 import TeaserNodes from './TeaserNodes'
 import QueuedImg from './QueuedImg'
-import { getSmallImgSrc } from './utils'
+import { getImgSrc } from './utils'
 
 const SIZES = [
   { minWidth: 0, columns: 3 },
@@ -225,7 +225,7 @@ class TeaserBlock extends Component {
                 <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                   <Image
                     onLoad={this.measure}
-                    src={getSmallImgSrc(teaser, path)}
+                    src={getImgSrc(teaser, path)}
                     style={{
                       display: 'inline-block',
                       // unbreakable margin

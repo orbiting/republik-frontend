@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { css } from 'glamor'
 
 import TeaserNodes from './TeaserNodes'
-import { renderWidth, getSmallImgSrc } from './utils'
+import { renderWidth, getImgSrc } from './utils'
 
 import { ZINDEX_POPOVER } from '../constants'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 const styles = {
   preview: css({
@@ -15,7 +16,7 @@ const styles = {
     width: '100%',
     imageRendering: 'smooth'
   }),
-  iframe: css({
+  big: css({
     position: 'relative',
     width: '100%',
     height: '100%',
@@ -38,7 +39,8 @@ class TeaserHover extends Component {
       measurement,
       teaser,
       contextWidth,
-      highlight
+      highlight,
+      inNativeApp
     } = this.props
     const { loading } = this.state
 
@@ -87,19 +89,26 @@ class TeaserHover extends Component {
               transformOrigin: '0% 0%'
             })}
           >
-            <img {...styles.preview} src={getSmallImgSrc(teaser, path)} />
-            <iframe
-              frameBorder='0'
-              scrolling='no'
-              sandbox=''
-              onLoad={onLoadEnd}
-              onError={onLoadEnd}
-              src={`${path}?extractId=${teaser.id}`}
-              {...styles.iframe}
-              style={{
-                opacity: loading ? 0 : 1
-              }}
-            />
+            <img {...styles.preview} src={getImgSrc(teaser, path)} />
+            {/* avoid iframe of own domain in app
+             * - it would trigger a navigation to the iframe src
+             */}
+            {inNativeApp ? (
+              <img {...styles.big} src={getImgSrc(teaser, path, 800)} />
+            ) : (
+              <iframe
+                frameBorder='0'
+                scrolling='no'
+                sandbox=''
+                onLoad={onLoadEnd}
+                onError={onLoadEnd}
+                src={`${path}?extractId=${teaser.id}`}
+                {...styles.big}
+                style={{
+                  opacity: loading ? 0 : 1
+                }}
+              />
+            )}
             <TeaserNodes nodes={teaser.nodes} highlight={highlight} />
           </div>
         </div>
@@ -108,4 +117,4 @@ class TeaserHover extends Component {
   }
 }
 
-export default TeaserHover
+export default withInNativeApp(TeaserHover)

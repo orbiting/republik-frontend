@@ -4,10 +4,10 @@ import {
 } from '../../lib/constants'
 
 export const renderWidth = 1200
-export const getSmallImgSrc = (teaser, path = '/') =>
+export const getImgSrc = (teaser, path = '/', size = 200) =>
   `${ASSETS_SERVER_BASE_URL}/render?viewport=${renderWidth}x1&url=${encodeURIComponent(
     `${RENDER_FRONTEND_BASE_URL}${path}?extractId=${teaser.id}`
-  )}&resize=200${
+  )}&resize=${size}${
     teaser.contentHash
       ? `&permanentCacheKey=${encodeURIComponent(teaser.contentHash)}`
       : ''

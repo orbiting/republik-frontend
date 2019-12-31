@@ -1,6 +1,5 @@
 import React from 'react'
 import { css } from 'glamor'
-import withT from '../../lib/withT'
 
 import ArrowDown from 'react-icons/lib/md/arrow-downward'
 import ArrowUp from 'react-icons/lib/md/arrow-upward'
@@ -10,24 +9,27 @@ import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { SUPPORTED_SORT } from './constants'
 
+import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
+
 const styles = {
   container: css({
     paddingTop: '3px'
   }),
-  button: css({
+  link: css({
     ...fontStyles.sansSerifRegular14,
-    outline: 'none',
-    color: colors.text,
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    padding: '0',
-    cursor: 'pointer',
     marginRight: '17px',
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular16,
       marginRight: '30px'
-    }
+    },
+    color: colors.text,
+    '@media (hover)': {
+      ':hover': {
+        color: colors.lightText
+      }
+    },
+    textDecoration: 'none'
   }),
   icon: css({
     display: 'inline-block',
@@ -48,53 +50,53 @@ const getNextDirection = (sort, directions) => {
   return index === directions.length - 1 ? directions[0] : directions[index + 1]
 }
 
-const SortButton = compose(withT)(({ t, sort, urlSort, pushSearchParams }) => {
+const SortToggle = compose(withT)(({ t, sort, urlSort, getSearchParams }) => {
   const selected = urlSort.key === sort.key
-  const color = selected ? colors.primary : null
+  const color = selected ? colors.primary : undefined
   const label = t(`search/sort/${sort.key}`)
   const direction = selected ? urlSort.direction : getDefaultDirection(sort)
 
   return (
-    <button
-      {...styles.button}
-      style={{ color }}
-      onClick={() => {
-        pushSearchParams({
-          sort: {
-            key: sort.key,
-            direction:
-              selected && direction
-                ? getNextDirection(urlSort, sort.directions)
-                : direction
-          }
-        })
-      }}
+    <Link
+      route='search'
+      params={getSearchParams({
+        sort: {
+          key: sort.key,
+          direction:
+            selected && direction
+              ? getNextDirection(urlSort, sort.directions)
+              : direction
+        }
+      })}
+      passHref
     >
-      {label}
-      {direction && (
-        <span
-          {...styles.icon}
-          role='button'
-          title={t(`search/sort/${direction}/aria`)}
-        >
-          {React.createElement(SORT_DIRECTION_ICONS[direction])}
-        </span>
-      )}
-    </button>
+      <a {...styles.link} style={{ color }}>
+        {label}
+        {direction && (
+          <span
+            {...styles.icon}
+            role='button'
+            title={t(`search/sort/${direction}/aria`)}
+          >
+            {React.createElement(SORT_DIRECTION_ICONS[direction])}
+          </span>
+        )}
+      </a>
+    </Link>
   )
 })
 
 const Sort = compose(withSearchRouter)(
-  ({ urlQuery, urlSort, pushSearchParams }) => {
+  ({ urlQuery, urlSort, getSearchParams }) => {
     return (
       <div {...styles.container}>
         {SUPPORTED_SORT.filter(sort => urlQuery || !sort.needsQuery).map(
           (sort, key) => (
-            <SortButton
+            <SortToggle
               key={key}
               sort={sort}
               urlSort={urlSort}
-              pushSearchParams={pushSearchParams}
+              getSearchParams={getSearchParams}
             />
           )
         )}

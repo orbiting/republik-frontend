@@ -3,13 +3,14 @@ import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import { Interaction, linkRule, colors, RawHtml } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
+import { countFormat } from '../../lib/utils/format'
 
 const ResultCount = compose(withT)(
   ({ t, formValue, searchQuery, getSearchParams, dataAggregations }) => {
     const totalCount =
       dataAggregations.search && dataAggregations.search.totalCount
     const results = t.pluralize('search/pageInfo/total', {
-      count: totalCount
+      count: countFormat(totalCount)
     })
 
     return (

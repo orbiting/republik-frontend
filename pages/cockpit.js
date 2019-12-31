@@ -66,7 +66,7 @@ const Accordion = withInNativeApp(
       const [hover, setHover] = React.useState()
 
       if (inNativeIOSApp) {
-        return null
+        return <br />
       }
 
       return (

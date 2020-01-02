@@ -171,8 +171,7 @@ class ActionBar extends Component {
           href: `${PUBLIKATOR_BASE_URL}/repo/${repoId}/tree`,
           title: t('feed/actionbar/edit'),
           size: 23,
-          target: '_blank',
-          fill: colors.social
+          target: '_blank'
         }
     ]
 
@@ -217,7 +216,7 @@ class ActionBar extends Component {
             editorIcons
               .filter(Boolean)
               .map((props, i) => (
-                <IconLink key={props.icon} fill={fill} {...props} />
+                <IconLink key={props.icon} fill={colors.social} {...props} />
               ))}
         </span>
       </Fragment>

@@ -2951,6 +2951,10 @@
       "value": "ungefähr {minutes} Minuten"
     },
     {
+      "key": "feed/actionbar/edit",
+      "value": "Im Publikator bearbeiten"
+    },
+    {
       "key": "format/feed/title/1",
       "value": "Ein Beitrag"
     },

@@ -25,6 +25,7 @@ import KeyIcon from 'react-icons/lib/fa/key'
 import VideoIcon from './Icons/Video'
 import MarkdownIcon from './Icons/Markdown'
 import EtiquetteIcon from './Icons/Etiquette'
+import EditIcon from 'react-icons/lib/fa/edit'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -137,7 +138,8 @@ const ICONS = {
   time: TimeIcon,
   video: VideoIcon,
   etiquette: EtiquetteIcon,
-  fontSize: FontSizeIcon
+  fontSize: FontSizeIcon,
+  edit: EditIcon
 }
 
 const IconLink = ({

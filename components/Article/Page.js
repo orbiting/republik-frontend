@@ -393,7 +393,8 @@ class ArticlePage extends Component {
       inNativeIOSApp,
       inIOS,
       router,
-      isMember
+      isMember,
+      isEditor
     },
     state
   ) {
@@ -427,6 +428,8 @@ class ArticlePage extends Component {
         inNativeApp={inNativeApp}
         inIOS={inIOS}
         documentId={article.id}
+        repoId={article.repoId}
+        isEditor={isEditor}
         userBookmark={article.userBookmark}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}

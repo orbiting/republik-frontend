@@ -16,6 +16,8 @@ import { colors } from '@project-r/styleguide'
 
 import { shouldIgnoreClick } from '../Link/utils'
 
+import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
+
 const styles = {
   buttonGroup: css({
     '@media print': {
@@ -69,6 +71,8 @@ class ActionBar extends Component {
       showBookmark,
       showShare,
       documentId,
+      repoId,
+      isEditor,
       bookmarked,
       inNativeApp,
       animate,
@@ -160,6 +164,18 @@ class ActionBar extends Component {
       }
     ]
 
+    const editorIcons = [
+      repoId &&
+        PUBLIKATOR_BASE_URL && {
+          icon: 'edit',
+          href: `${PUBLIKATOR_BASE_URL}/repo/${repoId}/tree`,
+          title: t('feed/actionbar/edit'),
+          size: 23,
+          target: '_blank',
+          fill: colors.social
+        }
+    ]
+
     const displayConsumptionMinutes =
       estimatedConsumptionMinutes > estimatedReadingMinutes
         ? estimatedConsumptionMinutes
@@ -197,6 +213,12 @@ class ActionBar extends Component {
           {displayConsumptionMinutes > 1 && (
             <ReadingTime minutes={displayConsumptionMinutes} />
           )}
+          {isEditor &&
+            editorIcons
+              .filter(Boolean)
+              .map((props, i) => (
+                <IconLink key={props.icon} fill={fill} {...props} />
+              ))}
         </span>
       </Fragment>
     )

@@ -34,6 +34,8 @@ class ArticleActionBar extends Component {
       linkedDiscussion,
       ownDiscussion,
       documentId,
+      repoId,
+      isEditor,
       dossierUrl,
       estimatedReadingMinutes,
       estimatedConsumptionMinutes,
@@ -84,6 +86,8 @@ class ArticleActionBar extends Component {
           showShare={!grandSharing}
           fontSize={fontSize}
           documentId={documentId}
+          repoId={repoId}
+          isEditor={isEditor}
           bookmarked={!!userBookmark}
           estimatedReadingMinutes={estimatedReadingMinutes}
           estimatedConsumptionMinutes={estimatedConsumptionMinutes}

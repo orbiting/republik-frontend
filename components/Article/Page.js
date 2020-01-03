@@ -39,6 +39,7 @@ import {
   Center,
   colors,
   Interaction,
+  Editorial,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -126,7 +127,7 @@ const getDocument = gql`
             path
             color
           }
-          linkedDocuments {
+          linkedDocuments(feed: true) {
             totalCount
           }
         }
@@ -163,6 +164,15 @@ const getDocument = gql`
         }
         color
         format {
+          id
+          meta {
+            path
+            title
+            color
+            kind
+          }
+        }
+        section {
           id
           meta {
             path
@@ -603,7 +613,8 @@ class ArticlePage extends Component {
                 unpack={router.query.unpack}
                 mdast={{
                   ...article.content,
-                  format: meta.format
+                  format: meta.format,
+                  section: meta.section
                 }}
               />
             )
@@ -630,7 +641,8 @@ class ArticlePage extends Component {
       renderMdast(
         {
           ...content,
-          format: meta.format
+          format: meta.format,
+          section: meta.section
         },
         schema,
         { MissingNode }
@@ -786,6 +798,7 @@ class ArticlePage extends Component {
                 {isSection && (
                   <SectionFeed
                     formats={article.linkedDocuments.nodes.map(n => n.id)}
+                    variablesAsString={article.content.meta.feedQueryVariables}
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.id} />}

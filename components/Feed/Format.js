@@ -1,13 +1,11 @@
 import React from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Center, TeaserFeed, Interaction, Loader } from '@project-r/styleguide'
-import Link from '../Link/Href'
+import { Center, Interaction } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 
-import ActionBar from '../ActionBar/Feed'
 import Box from '../Frame/Box'
 import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/fragments'
 import { WithoutMembership } from '../Auth/withMembership'

@@ -53,7 +53,7 @@ const getFormats = gql`
           color
           publishDate
         }
-        linkedDocuments {
+        linkedDocuments(feed: true) {
           totalCount
         }
       }

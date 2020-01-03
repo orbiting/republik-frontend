@@ -127,7 +127,7 @@ const getDocument = gql`
             path
             color
           }
-          linkedDocuments {
+          linkedDocuments(feed: true) {
             totalCount
           }
         }

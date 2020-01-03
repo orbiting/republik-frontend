@@ -71,6 +71,10 @@ const getFeedDocuments = gql`
 const mapNodes = node => node.entity
 
 const SectionFeed = ({ t, formats, variablesAsString }) => {
+  if (!variablesAsString && !(formats && formats.length)) {
+    return null
+  }
+
   const help = (
     <WithoutMembership
       render={() => (

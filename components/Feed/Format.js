@@ -12,10 +12,16 @@ import Box from '../Frame/Box'
 import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/fragments'
 import { WithoutMembership } from '../Auth/withMembership'
 
+import DocumentListContainer from './DocumentListContainer'
+
 const getFeedDocuments = gql`
-  query getFeedDocuments($formatId: String!) {
-    documents(format: $formatId, first: 100) {
+  query getFeedDocuments($formatId: String!, $cursor: String) {
+    documents(format: $formatId, first: 30, after: $cursor, feed: true) {
       totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
       nodes {
         id
         ...BookmarkOnDocument
@@ -46,49 +52,26 @@ const getFeedDocuments = gql`
   ${bookmarkOnDocumentFragment}
 `
 
-const Feed = ({ t, data: { loading, error, documents } }) => (
-  <Loader
-    loading={loading}
-    error={error}
-    render={() => {
-      return (
-        <Center>
-          <Interaction.H2>
-            {t.pluralize('format/feed/title', { count: documents.totalCount })}
-          </Interaction.H2>
-          <br />
-          <br />
-          <WithoutMembership
-            render={() => (
-              <Box style={{ padding: '15px 20px' }}>
-                <Interaction.P>{t('format/feed/payNote')}</Interaction.P>
-              </Box>
-            )}
-          />
-          {documents &&
-            documents.nodes.map(doc => (
-              <TeaserFeed
-                {...doc.meta}
-                title={doc.meta.shortTitle || doc.meta.title}
-                description={!doc.meta.shortTitle && doc.meta.description}
-                Link={Link}
-                key={doc.meta.path}
-                bar={
-                  <ActionBar
-                    documentId={doc.id}
-                    userBookmark={doc.userBookmark}
-                    {...doc.meta}
-                  />
-                }
-              />
-            ))}
-        </Center>
-      )
-    }}
-  />
+const Feed = ({ t, formatId }) => (
+  <Center>
+    <DocumentListContainer
+      feedProps={{ showHeader: false }}
+      help={
+        <WithoutMembership
+          render={() => (
+            <Box style={{ padding: '15px 20px' }}>
+              <Interaction.P>{t('format/feed/payNote')}</Interaction.P>
+            </Box>
+          )}
+        />
+      }
+      showTotal={true}
+      query={getFeedDocuments}
+      variables={{
+        formatId
+      }}
+    />
+  </Center>
 )
 
-export default compose(
-  withT,
-  graphql(getFeedDocuments)
-)(Feed)
+export default compose(withT)(Feed)

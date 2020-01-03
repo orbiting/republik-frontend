@@ -786,6 +786,7 @@ class ArticlePage extends Component {
                 {isSection && (
                   <SectionFeed
                     formats={article.linkedDocuments.nodes.map(n => n.id)}
+                    variablesAsString={article.content.meta.feedQueryVariables}
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.id} />}

@@ -29,6 +29,7 @@ const query = gql`
     }
     documents: search(
       filters: [
+        { key: "template", not: true, value: "section" }
         { key: "template", not: true, value: "format" }
         { key: "template", not: true, value: "front" }
       ]

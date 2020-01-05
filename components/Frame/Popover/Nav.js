@@ -255,15 +255,9 @@ const Nav = ({
               {t('navbar/discussion')}
             </NavLink>
           )}
-          {isMember && (
-            <NavLink
-              route='formats'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/formats')}
-            </NavLink>
-          )}
+          <NavLink route='sections' active={active} closeHandler={closeHandler}>
+            {t('nav/sections')}
+          </NavLink>
           <NavLink
             route='community'
             active={active}

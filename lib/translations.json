@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-25T23:21:45.313Z",
+  "updated": "2020-01-05T17:02:26.889Z",
   "title": "live",
   "data": [
     {
@@ -11,7 +11,7 @@
       "value": "Feed"
     },
     {
-      "key": "nav/formats",
+      "key": "nav/sections",
       "value": "Rubriken"
     },
     {
@@ -635,8 +635,12 @@
       "value": "Weitere Fragen"
     },
     {
-      "key": "formats/pageTitle",
+      "key": "sections/pageTitle",
       "value": "Rubriken"
+    },
+    {
+      "key": "sections/description",
+      "value": "Hier finden Sie alles, was regelmässig in der Republik auftaucht: Briefings, Kolumnen, Formate, Audio und Kleinzeug."
     },
     {
       "key": "formats/title",

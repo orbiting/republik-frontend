@@ -270,13 +270,13 @@ const Nav = ({
             active={active}
             closeHandler={closeHandler}
           >{t('nav/events')}</NavLink>*/}
-          <NavLink
+          {/*<NavLink
             route='vote201912'
             active={active}
             closeHandler={closeHandler}
           >
             {t('nav/vote201912')}
-          </NavLink>
+          </NavLink>*/}
           <NavLink route='cockpit' active={active} closeHandler={closeHandler}>
             {t('nav/cockpit')}
           </NavLink>

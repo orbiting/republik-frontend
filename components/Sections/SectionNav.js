@@ -51,9 +51,6 @@ const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => {
       {linkedDocuments.nodes
         .filter(d => d.meta.template === 'format')
         .map(d => {
-          if (d.linkedDocuments.totalCount < 1) {
-            return null
-          }
           return (
             <div key={d.id} {...styles.item}>
               <Link route={d.meta.path} passHref key={d.meta.path}>
@@ -61,7 +58,7 @@ const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => {
                   <FormatTag
                     color={d.meta.color || color}
                     label={d.meta.title}
-                    count={d.linkedDocuments.totalCount}
+                    count={d.linkedDocuments.totalCount || null}
                   />
                 </a>
               </Link>

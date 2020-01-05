@@ -22,6 +22,9 @@ import {
   Editorial
 } from '@project-r/styleguide'
 
+import NavLink from './NavLink'
+import Sections from './Sections'
+
 const styles = {
   container: css({
     minHeight: '100%',
@@ -65,6 +68,14 @@ const styles = {
       ...fontStyles.sansSerifRegular21
     }
   }),
+  sectionsBlock: css({
+    marginTop: 0,
+    maxWidth: 230,
+    [mediaQueries.mUp]: {
+      maxWidth: 300
+    },
+    display: 'inline-block'
+  }),
   section: css({
     padding: '0 10px',
     [mediaQueries.mUp]: {
@@ -107,34 +118,10 @@ const SignoutLink = ({ children, ...props }) => (
   </div>
 )
 
-const NavLink = ({ route, children, params = {}, active, closeHandler }) => {
-  if (active && active.route === route) {
-    return (
-      <a
-        {...styles.link}
-        style={{ cursor: 'pointer' }}
-        onClick={e => {
-          e.preventDefault()
-          Router.replaceRoute(route, params).then(() => {
-            window.scroll(0, 0)
-            closeHandler()
-          })
-        }}
-      >
-        {children}
-      </a>
-    )
-  }
-  return (
-    <Link route={route} params={params}>
-      <a {...styles.link}>{children}</a>
-    </Link>
-  )
-}
-
 const Nav = ({
   me,
   router,
+  expanded,
   closeHandler,
   children,
   t,
@@ -258,42 +245,41 @@ const Nav = ({
           <NavLink route='sections' active={active} closeHandler={closeHandler}>
             {t('nav/sections')}
           </NavLink>
-          <div {...styles.sectionCompact} style={{ marginTop: 10 }}>
-            <NavLink
-              route='community'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/community')}
-            </NavLink>
-            <NavLink route='events' active={active} closeHandler={closeHandler}>
-              {t('nav/events')}
-            </NavLink>
-            {/*<NavLink
-              route='vote201912'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/vote201912')}
-            </NavLink>*/}
-            <NavLink
-              route='cockpit'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/cockpit')}
-            </NavLink>
-            <NavLink route='meta' active={active} closeHandler={closeHandler}>
-              {t('nav/meta')}
-            </NavLink>
-            <NavLink
-              route='legal/imprint'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/team')}
-            </NavLink>
-          </div>
+          {expanded && (
+            <div {...styles.sectionCompact} {...styles.sectionsBlock}>
+              <Sections active={active} closeHandler={closeHandler} />
+            </div>
+          )}
+          <NavLink
+            route='community'
+            active={active}
+            closeHandler={closeHandler}
+          >
+            {t('nav/community')}
+          </NavLink>
+          <NavLink route='events' active={active} closeHandler={closeHandler}>
+            {t('nav/events')}
+          </NavLink>
+          {/*<NavLink
+            route='vote201912'
+            active={active}
+            closeHandler={closeHandler}
+          >
+            {t('nav/vote201912')}
+          </NavLink>*/}
+          <NavLink route='cockpit' active={active} closeHandler={closeHandler}>
+            {t('nav/cockpit')}
+          </NavLink>
+          <NavLink route='meta' active={active} closeHandler={closeHandler}>
+            {t('nav/meta')}
+          </NavLink>
+          <NavLink
+            route='legal/imprint'
+            active={active}
+            closeHandler={closeHandler}
+          >
+            {t('nav/team')}
+          </NavLink>
         </div>
       </div>
       {inNativeApp && <Footer />}

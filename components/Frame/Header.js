@@ -328,6 +328,11 @@ class Header extends Component {
         this.setState({ expanded: !expanded })
       }
     }
+    const closeHandler = () => {
+      if (expanded) {
+        toggleExpanded()
+      }
+    }
 
     return (
       <Fragment>
@@ -353,9 +358,7 @@ class Header extends Component {
                     e.preventDefault()
                     if (router.pathname === '/') {
                       window.scrollTo(0, 0)
-                      if (expanded) {
-                        toggleExpanded()
-                      }
+                      closeHandler()
                     } else {
                       Router.pushRoute('index').then(() =>
                         window.scrollTo(0, 0)
@@ -433,9 +436,7 @@ class Header extends Component {
                     e.stopPropagation()
                     if (router.pathname === '/search') {
                       window.scrollTo(0, 0)
-                      if (expanded) {
-                        toggleExpanded()
-                      }
+                      closeHandler()
                     } else {
                       Router.pushRoute('search').then(() =>
                         window.scrollTo(0, 0)
@@ -486,7 +487,12 @@ class Header extends Component {
           />
         )}
         <Popover expanded={expanded}>
-          <NavPopover me={me} router={router} closeHandler={this.close} />
+          <NavPopover
+            me={me}
+            router={router}
+            expanded={expanded}
+            closeHandler={closeHandler}
+          />
         </Popover>
         <LoadingBar
           onRouteChangeStart={() => {

@@ -258,38 +258,42 @@ const Nav = ({
           <NavLink route='sections' active={active} closeHandler={closeHandler}>
             {t('nav/sections')}
           </NavLink>
-          <NavLink
-            route='community'
-            active={active}
-            closeHandler={closeHandler}
-          >
-            {t('nav/community')}
-          </NavLink>
-          {/*<NavLink
-            route='events'
-            active={active}
-            closeHandler={closeHandler}
-          >{t('nav/events')}</NavLink>*/}
-          {/*<NavLink
-            route='vote201912'
-            active={active}
-            closeHandler={closeHandler}
-          >
-            {t('nav/vote201912')}
-          </NavLink>*/}
-          <NavLink route='cockpit' active={active} closeHandler={closeHandler}>
-            {t('nav/cockpit')}
-          </NavLink>
-          <NavLink route='meta' active={active} closeHandler={closeHandler}>
-            {t('nav/meta')}
-          </NavLink>
-          <NavLink
-            route='legal/imprint'
-            active={active}
-            closeHandler={closeHandler}
-          >
-            {t('nav/team')}
-          </NavLink>
+          <div {...styles.sectionCompact} style={{ marginTop: 10 }}>
+            <NavLink
+              route='community'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/community')}
+            </NavLink>
+            <NavLink route='events' active={active} closeHandler={closeHandler}>
+              {t('nav/events')}
+            </NavLink>
+            {/*<NavLink
+              route='vote201912'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/vote201912')}
+            </NavLink>*/}
+            <NavLink
+              route='cockpit'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/cockpit')}
+            </NavLink>
+            <NavLink route='meta' active={active} closeHandler={closeHandler}>
+              {t('nav/meta')}
+            </NavLink>
+            <NavLink
+              route='legal/imprint'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/team')}
+            </NavLink>
+          </div>
         </div>
       </div>
       {inNativeApp && <Footer />}

@@ -99,9 +99,15 @@ const SectionIndex = ({ data: { loading, error, sections }, t }) => {
                     }}
                   >
                     <Link href={meta.path} passHref>
-                      <TeaserSectionTitle small>
-                        {meta.title}
-                      </TeaserSectionTitle>
+                      {hasFormats ? (
+                        <TeaserSectionTitle small>
+                          {meta.title}
+                        </TeaserSectionTitle>
+                      ) : (
+                        <a {...styles.link}>
+                          <FormatTag label={meta.title} count={null} />
+                        </a>
+                      )}
                     </Link>
                   </div>
                   {formats.nodes.map(

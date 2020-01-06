@@ -14,15 +14,9 @@ import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
-import {
-  colors,
-  fontStyles,
-  mediaQueries,
-  Label,
-  Editorial
-} from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries, Label } from '@project-r/styleguide'
 
-import NavLink from './NavLink'
+import NavLink, { NavA } from './NavLink'
 import Sections from './Sections'
 
 const styles = {
@@ -90,20 +84,6 @@ const styles = {
       textAlign: 'right'
     }
   }),
-  link: css({
-    display: 'block',
-    textDecoration: 'none',
-    color: colors.text,
-    ':visited': {
-      color: colors.text
-    },
-    '@media (hover)': {
-      ':hover': {
-        color: colors.primary
-      }
-    },
-    cursor: 'pointer'
-  }),
   signout: css({
     color: colors.text,
     marginTop: 5,
@@ -114,7 +94,7 @@ const styles = {
 
 const SignoutLink = ({ children, ...props }) => (
   <div {...styles.signout}>
-    <Editorial.A {...props}>{children}</Editorial.A>
+    <NavA {...props}>{children}</NavA>
   </div>
 )
 
@@ -164,20 +144,21 @@ const Nav = ({
                 </NavLink>
               )}
               {me.accessCampaigns.length > 0 && (
-                <a
-                  {...styles.link}
-                  style={{ cursor: 'pointer' }}
+                <NavA
                   href='/konto#teilen'
                   onClick={e => {
                     if (shouldIgnoreClick(e)) {
                       return
                     }
-
-                    Router.pushRoute('/konto#teilen').then(closeHandler)
+                    if (active && active.route === 'account') {
+                      e.preventDefault()
+                      window.location = '#teilen'
+                      closeHandler()
+                    }
                   }}
                 >
                   {t('nav/share')}
-                </a>
+                </NavA>
               )}
             </>
           )}

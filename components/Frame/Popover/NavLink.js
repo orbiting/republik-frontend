@@ -2,7 +2,7 @@ import React from 'react'
 import { compose } from 'react-apollo'
 
 import { css } from 'glamor'
-import { Link, Router } from '../../../lib/routes'
+import { routes, Link, Router } from '../../../lib/routes'
 
 import { shouldIgnoreClick } from '../../Link/utils'
 
@@ -33,6 +33,17 @@ const styles = {
   })
 }
 
+export const NavA = React.forwardRef(({ inline, children, ...props }, ref) => (
+  <a
+    ref={ref}
+    {...styles.link}
+    {...(inline ? styles.inline : styles.block)}
+    {...props}
+  >
+    {children}
+  </a>
+))
+
 const NavLink = ({
   route,
   children,
@@ -43,38 +54,32 @@ const NavLink = ({
   inline
 }) => {
   if (active && active.route === route) {
+    const r = routes.find(r => r.name === route)
     return (
-      <a
-        {...styles.link}
-        {...(inline ? styles.inline : styles.block)}
-        style={{
-          cursor: 'pointer',
-          ...style
-        }}
+      <NavA
+        inline={inline}
+        style={style}
+        href={r && r.getAs(params)}
         onClick={e => {
           if (shouldIgnoreClick(e)) {
             return
           }
           e.preventDefault()
-          Router.replaceRoute(route, params).then(() => {
+          Router.pushRoute(route, params).then(() => {
             window.scroll(0, 0)
             closeHandler()
           })
         }}
       >
         {children}
-      </a>
+      </NavA>
     )
   }
   return (
-    <Link route={route} params={params}>
-      <a
-        {...styles.link}
-        {...(inline ? styles.inline : styles.block)}
-        style={style}
-      >
+    <Link route={route} params={params} passHref>
+      <NavA inline={inline} style={style}>
         {children}
-      </a>
+      </NavA>
     </Link>
   )
 }

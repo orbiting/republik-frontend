@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { compose } from 'react-apollo'
 
 import { css } from 'glamor'
@@ -111,6 +111,10 @@ const Nav = ({
   isMember
 }) => {
   const active = matchPath(router.asPath)
+  const hasExpandedRef = useRef(expanded)
+  if (expanded) {
+    hasExpandedRef.current = true
+  }
   return (
     <div {...styles.container} id='nav'>
       <hr {...styles.hr} {...styles.hrFixed} />
@@ -229,7 +233,7 @@ const Nav = ({
           <NavLink route='sections' active={active} closeHandler={closeHandler}>
             {t('nav/sections')}
           </NavLink>
-          {expanded && (
+          {hasExpandedRef.current && (
             <div {...styles.sectionCompact} {...styles.sectionsBlock}>
               <Sections active={active} closeHandler={closeHandler} />
             </div>

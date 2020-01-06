@@ -34,9 +34,10 @@ const SectionNav = ({
 }) => {
   return (
     <Loader
+      delay={1000}
       loading={loading}
       error={error}
-      style={{ minHeight: 90 }}
+      style={{ minHeight: 110 }}
       render={() => {
         let lastColor
         return (

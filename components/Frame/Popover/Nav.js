@@ -64,11 +64,12 @@ const styles = {
   }),
   sectionsBlock: css({
     marginTop: 0,
-    maxWidth: 230,
+    marginBottom: 15,
+    display: 'inline-block',
+    maxWidth: 190,
     [mediaQueries.mUp]: {
-      maxWidth: 300
-    },
-    display: 'inline-block'
+      maxWidth: 230
+    }
   }),
   section: css({
     padding: '0 10px',
@@ -205,23 +206,25 @@ const Nav = ({
         </div>
         <div {...styles.section}>
           {isMember && (
-            <NavLink route='index' active={active} closeHandler={closeHandler}>
-              {t('navbar/front')}
-            </NavLink>
-          )}
-          {isMember && (
-            <NavLink route='feed' active={active} closeHandler={closeHandler}>
-              {t('navbar/feed')}
-            </NavLink>
-          )}
-          {isMember && (
-            <NavLink
-              route='discussion'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('navbar/discussion')}
-            </NavLink>
+            <>
+              <NavLink
+                route='index'
+                active={active}
+                closeHandler={closeHandler}
+              >
+                {t('navbar/front')}
+              </NavLink>
+              <NavLink route='feed' active={active} closeHandler={closeHandler}>
+                {t('navbar/feed')}
+              </NavLink>
+              <NavLink
+                route='discussion'
+                active={active}
+                closeHandler={closeHandler}
+              >
+                {t('navbar/discussion')}
+              </NavLink>
+            </>
           )}
           <NavLink route='sections' active={active} closeHandler={closeHandler}>
             {t('nav/sections')}
@@ -241,20 +244,24 @@ const Nav = ({
           <NavLink route='events' active={active} closeHandler={closeHandler}>
             {t('nav/events')}
           </NavLink>
-          {/*<NavLink
-            route='vote201912'
+          <NavLink
+            inline
+            route='cockpit'
             active={active}
             closeHandler={closeHandler}
           >
-            {t('nav/vote201912')}
-          </NavLink>*/}
-          <NavLink route='cockpit' active={active} closeHandler={closeHandler}>
             {t('nav/cockpit')}
           </NavLink>
-          <NavLink route='meta' active={active} closeHandler={closeHandler}>
+          <NavLink
+            inline
+            route='meta'
+            active={active}
+            closeHandler={closeHandler}
+          >
             {t('nav/meta')}
           </NavLink>
           <NavLink
+            inline
             route='legal/imprint'
             active={active}
             closeHandler={closeHandler}

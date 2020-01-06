@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { ascending } from 'd3-array'
 import { css } from 'glamor'
@@ -38,6 +38,7 @@ const SectionNav = ({
       error={error}
       style={{ minHeight: 90 }}
       render={() => {
+        let lastColor
         return (
           <>
             {sections.nodes.map(({ id, meta }) => {
@@ -45,20 +46,25 @@ const SectionNav = ({
               if (!match) {
                 return null
               }
+              const color = meta.color || colors[meta.kind]
+              const changed = lastColor && color !== lastColor
+              lastColor = color
               return (
-                <NavLink
-                  route={match.route}
-                  params={match.params}
-                  active={active}
-                  closeHandler={closeHandler}
-                  key={id}
-                  style={{
-                    color: meta.color || colors[meta.kind]
-                  }}
-                  inline
-                >
-                  {meta.title}
-                </NavLink>
+                <Fragment key={id}>
+                  {changed && <br />}
+                  <NavLink
+                    route={match.route}
+                    params={match.params}
+                    active={active}
+                    closeHandler={closeHandler}
+                    style={{
+                      color
+                    }}
+                    inline
+                  >
+                    {meta.title}
+                  </NavLink>
+                </Fragment>
               )
             })}
           </>

@@ -28,6 +28,7 @@ import ShadowQueryLink from '../Link/ShadowQuery'
 
 import Badge from './Badge'
 import Comments from './Comments'
+import Documents from './Documents'
 import Contact from './Contact'
 import Portrait from './Portrait'
 import Statement from './Statement'
@@ -49,6 +50,7 @@ import {
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
+import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 
 const SIDEBAR_TOP = 20
 
@@ -138,7 +140,13 @@ export const DEFAULT_VALUES = {
 }
 
 const getPublicUser = gql`
-  query getPublicUser($slug: String!) {
+  query getPublicUser(
+    $slug: String!
+    $firstDocuments: Int!
+    $firstComments: Int!
+    $afterDocument: String
+    $afterComment: String
+  ) {
     user(slug: $slug) {
       id
       slug
@@ -171,11 +179,15 @@ const getPublicUser = gql`
       twitterHandle
       publicUrl
       badges
-      documents(first: 150) {
+      documents(first: $firstDocuments, after: $afterDocument) {
         ...DocumentListConnection
       }
-      comments(first: 150) {
+      comments(first: $firstComments, after: $afterComment) {
         totalCount
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
         nodes {
           id
           content
@@ -362,7 +374,7 @@ class Profile extends Component {
     const {
       t,
       me,
-      data: { loading, error, user }
+      data: { loading, error, user, fetchMore }
     } = this.props
 
     const card = user && user.cards && user.cards.nodes && user.cards.nodes[0]
@@ -653,37 +665,82 @@ class Profile extends Component {
                             )}
                         </div>
                       ))}
-                      <div>
-                        {user.documents && !!user.documents.totalCount && (
-                          <Interaction.H3 style={{ marginBottom: 20 }}>
-                            {t.pluralize('profile/documents/title', {
-                              count: user.documents.totalCount
-                            })}
-                          </Interaction.H3>
-                        )}
-                        {user.documents &&
-                          user.documents.nodes.map(doc => (
-                            <TeaserFeed
-                              {...doc.meta}
-                              title={doc.meta.shortTitle || doc.meta.title}
-                              description={
-                                !doc.meta.shortTitle && doc.meta.description
+                      <Documents
+                        documents={user.documents}
+                        loadMore={() =>
+                          fetchMore({
+                            updateQuery: (
+                              previousResult,
+                              { fetchMoreResult }
+                            ) => {
+                              const getConnection = data => data.user.documents
+                              const prevCon = getConnection(previousResult)
+                              const moreCon = getConnection(fetchMoreResult)
+                              const nodes = [
+                                ...prevCon.nodes,
+                                ...moreCon.nodes
+                              ].filter(
+                                // deduplicating due to off by one in pagination API
+                                (node, index, all) =>
+                                  all.findIndex(n => n.id === node.id) === index
+                              )
+                              return {
+                                ...previousResult,
+                                user: {
+                                  ...previousResult.user,
+                                  documents: {
+                                    ...fetchMoreResult.user.documents,
+                                    nodes
+                                  }
+                                }
                               }
-                              Link={HrefLink}
-                              key={doc.meta.path}
-                              bar={
-                                <FeedActionBar
-                                  documentId={doc.id}
-                                  userBookmark={doc.userBookmark}
-                                  userProgress={doc.userProgress}
-                                  {...doc.meta}
-                                  meta={doc.meta}
-                                />
+                            },
+                            variables: {
+                              firstComments: 0,
+                              firstDocuments: 20,
+                              afterDocument: user.documents.pageInfo.endCursor
+                            }
+                          })
+                        }
+                      />
+                      <Comments
+                        comments={user.comments}
+                        loadMore={() =>
+                          fetchMore({
+                            updateQuery: (
+                              previousResult,
+                              { fetchMoreResult }
+                            ) => {
+                              const getConnection = data => data.user.comments
+                              const prevCon = getConnection(previousResult)
+                              const moreCon = getConnection(fetchMoreResult)
+                              const nodes = [
+                                ...prevCon.nodes,
+                                ...moreCon.nodes
+                              ].filter(
+                                // deduplicating due to off by one in pagination API
+                                (node, index, all) =>
+                                  all.findIndex(n => n.id === node.id) === index
+                              )
+                              return {
+                                ...previousResult,
+                                user: {
+                                  ...previousResult.user,
+                                  comments: {
+                                    ...fetchMoreResult.user.comments,
+                                    nodes
+                                  }
+                                }
                               }
-                            />
-                          ))}
-                      </div>
-                      <Comments comments={user.comments} />
+                            },
+                            variables: {
+                              firstDocuments: 0,
+                              firstComments: 40,
+                              afterComment: user.comments.pageInfo.endCursor
+                            }
+                          })
+                        }
+                      />
                     </div>
                     <div style={{ clear: 'both' }} />
                   </div>
@@ -704,7 +761,9 @@ export default compose(
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {
-        slug: router.query.slug
+        slug: router.query.slug,
+        firstDocuments: 10,
+        firstComments: 10
       }
     }),
     props: ({ data, ownProps: { serverContext, router, me } }) => {

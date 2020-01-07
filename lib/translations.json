@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-05T17:02:26.889Z",
+  "updated": "2020-01-07T12:51:12.867Z",
   "title": "live",
   "data": [
     {
@@ -21,10 +21,6 @@
     {
       "key": "nav/discussion",
       "value": "Dialog"
-    },
-    {
-      "key": "nav/vote201907",
-      "value": "Urabstimmung"
     },
     {
       "key": "nav/community",
@@ -53,10 +49,6 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
-    },
-    {
-      "key": "nav/vote201912",
-      "value": "Urabstimmung"
     },
     {
       "key": "navbar/front",
@@ -641,46 +633,6 @@
     {
       "key": "sections/description",
       "value": "Hier finden Sie alles, was regelmässig in der Republik auftaucht: Briefings, Kolumnen, Formate, Audio und Kleinzeug."
-    },
-    {
-      "key": "formats/title",
-      "value": "Rubriken"
-    },
-    {
-      "key": "formats/lead",
-      "value": "Hier finden Sie alles, was regelmässig in der Republik auftaucht: Kolumnen, Unternehmensnachrichten, Debatten und Kleinzeug."
-    },
-    {
-      "key": "formats/title/weekly",
-      "value": "Durch die Woche"
-    },
-    {
-      "key": "formats/title/opinion",
-      "value": "Kolumnen"
-    },
-    {
-      "key": "formats/title/scribble",
-      "value": "Formate"
-    },
-    {
-      "key": "formats/title/meta",
-      "value": "Rund um die Republik"
-    },
-    {
-      "key": "formats/title/social",
-      "value": "Mit der Community"
-    },
-    {
-      "key": "formats/title/newsletter",
-      "value": "Die Newsletter"
-    },
-    {
-      "key": "formats/additionalLinks/events",
-      "value": "Veranstaltungen"
-    },
-    {
-      "key": "formats/additionalLinks/project-r-newsletter",
-      "value": "Project-R-Newsletter"
     },
     {
       "key": "crew/pageTitle",
@@ -1340,11 +1292,11 @@
     },
     {
       "key": "profile/comments/title/other",
-      "value": "{count} Diskussionsbeiträge"
+      "value": "{count} Debattenbeiträge"
     },
     {
       "key": "profile/comments/title/1",
-      "value": "Ein Diskussionsbeitrag"
+      "value": "Ein Debattenbeitrag"
     },
     {
       "key": "profile/edit/start",
@@ -2925,6 +2877,10 @@
     {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
+    },
+    {
+      "key": "feed/loadMore/comments",
+      "value": "Das waren die neuesten {count} Debattenbeiträge. Weitere {remaining} anschauen?"
     },
     {
       "key": "feed/actionbar/dossier",

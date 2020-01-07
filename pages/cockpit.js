@@ -25,7 +25,10 @@ import { PackageItem, PackageBuffer } from '../components/Pledge/Accordion'
 import { RawStatus } from '../components/CrowdfundingStatus'
 import withT from '../lib/withT'
 
-import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
+import {
+  ListWithQuery as TestimonialList,
+  generateSeed
+} from '../components/Testimonial/List'
 
 import {
   CROWDFUNDING,
@@ -290,6 +293,7 @@ const Page = ({
   canProlongOwn,
   isReactivating,
   defaultBenefactor,
+  communitySeed,
   router: { query }
 }) => {
   const meta = {
@@ -380,12 +384,13 @@ const Page = ({
 
               {md(mdComponents)`
 
-## ${lastMonth.activeEndOfMonth +
-                lastMonth.pendingSubscriptionsOnly} sind treu.`}
+## ${countFormat(
+                lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
+              )} sind schon dabei`}
 
               <TestimonialList
+                seed={communitySeed.start}
                 membershipAfter={END_DATE}
-                ssr={false}
                 singleRow
                 minColumns={3}
                 dark
@@ -393,22 +398,6 @@ const Page = ({
               <br />
 
               {md(mdComponents)`
-
-[Alle anschauen](/community)${
-                me && me.activeMembership ? (
-                  <Fragment>
-                    {'\u00a0– '}
-                    <Editorial.A
-                      style={{ color: colors.negative.text }}
-                      href='/einrichten'
-                    >
-                      Ihr Profil einrichten
-                    </Editorial.A>
-                  </Fragment>
-                ) : (
-                  ''
-                )
-              }
 
 Seit zwei Jahren ist die Republik jetzt da – als digitales Magazin, als Labor für den Journalismus des 21. Jahrhunderts.
 
@@ -677,7 +666,37 @@ Wir freuen uns, wenn Sie in den nächsten Monaten Seite an Seite mit uns für di
 
 Wie wir hoffen: mit Ihnen. Wem sonst?
 
-`}
+## ${countFormat(
+                lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
+              )} sind treu.`}
+
+              <TestimonialList
+                seed={communitySeed.end}
+                membershipAfter={END_DATE}
+                ssr={false}
+                singleRow
+                minColumns={3}
+                dark
+              />
+              <br />
+
+              {md(mdComponents)`
+[Alle anschauen](/community)${
+                me && me.activeMembership ? (
+                  <Fragment>
+                    {'\u00a0– '}
+                    <Editorial.A
+                      style={{ color: colors.negative.text }}
+                      href='/einrichten'
+                    >
+                      Ihr Profil einrichten
+                    </Editorial.A>
+                  </Fragment>
+                ) : (
+                  ''
+                )
+              }
+      `}
 
               <br />
               <Accordion
@@ -790,7 +809,7 @@ const actionsQuery = gql`
   }
 `
 
-export default compose(
+const EnhancedPage = compose(
   withT,
   withMe,
   withRouter,
@@ -836,3 +855,14 @@ export default compose(
     })
   })
 )(Page)
+
+EnhancedPage.getInitialProps = () => {
+  return {
+    communitySeed: {
+      start: generateSeed(),
+      end: generateSeed()
+    }
+  }
+}
+
+export default EnhancedPage

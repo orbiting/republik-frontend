@@ -689,7 +689,9 @@ class Profile extends Component {
                         loadMore={makeLoadMore('documents', {
                           firstComments: 0,
                           firstDocuments: 20,
-                          afterDocument: user.documents.pageInfo.endCursor
+                          afterDocument:
+                            user.documents.pageInfo &&
+                            user.documents.pageInfo.endCursor
                         })}
                       />
                       <Comments
@@ -697,7 +699,9 @@ class Profile extends Component {
                         loadMore={makeLoadMore('comments', {
                           firstDocuments: 0,
                           firstComments: 40,
-                          afterComment: user.comments.pageInfo.endCursor
+                          afterComment:
+                            user.comments.pageInfo &&
+                            user.comments.pageInfo.endCursor
                         })}
                       />
                     </div>

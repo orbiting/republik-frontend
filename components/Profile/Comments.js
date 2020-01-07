@@ -9,7 +9,7 @@ const Comments = ({ t, comments, loadMore }) => {
     return null
   }
 
-  const hasMore = comments.pageInfo.hasNextPage
+  const hasMore = comments.pageInfo && comments.pageInfo.hasNextPage
   const totalCount = comments.totalCount
   const currentCount = comments.nodes.length
 

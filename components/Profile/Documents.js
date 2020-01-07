@@ -18,7 +18,7 @@ const Documents = ({ t, documents, loadMore }) => {
     return null
   }
 
-  const hasMore = documents.pageInfo.hasNextPage
+  const hasMore = documents.pageInfo && documents.pageInfo.hasNextPage
   const totalCount = documents.totalCount
   const currentCount = documents.nodes.length
 

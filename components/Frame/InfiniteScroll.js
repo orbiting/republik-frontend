@@ -3,7 +3,7 @@ import { A, Spinner } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 import ErrorMessage from '../ErrorMessage'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 
 const styles = {
   more: css({
@@ -19,6 +19,7 @@ const InfiniteScroll = ({
   loadMore,
   totalCount,
   currentCount,
+  loadMoreStyles,
   children
 }) => {
   const [
@@ -32,7 +33,7 @@ const InfiniteScroll = ({
   return (
     <>
       <div ref={containerRef}>{children}</div>
-      <div {...styles.more}>
+      <div {...merge(styles.more, loadMoreStyles)}>
         {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
         {loadingMore && <Spinner />}
         {!infiniteScroll && hasMore && (

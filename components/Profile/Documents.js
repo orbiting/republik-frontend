@@ -4,6 +4,14 @@ import withT from '../../lib/withT'
 import HrefLink from '../Link/Href'
 import FeedActionBar from '../ActionBar/Feed'
 import InfiniteScroll from '../Frame/InfiniteScroll'
+import { css } from 'glamor'
+
+const styles = {
+  loadMore: css({
+    marginTop: -30,
+    marginBottom: 40
+  })
+}
 
 const Documents = ({ t, documents, loadMore }) => {
   if (!documents || !documents.totalCount) {
@@ -20,6 +28,7 @@ const Documents = ({ t, documents, loadMore }) => {
       loadMore={loadMore}
       totalCount={totalCount}
       currentCount={currentCount}
+      loadMoreStyles={styles.loadMore}
     >
       <Interaction.H3 style={{ marginBottom: 20 }}>
         {t.pluralize('profile/documents/title', {

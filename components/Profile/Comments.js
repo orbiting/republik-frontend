@@ -19,6 +19,7 @@ const Comments = ({ t, comments, loadMore }) => {
       loadMore={loadMore}
       totalCount={totalCount}
       currentCount={currentCount}
+      loadMoreKey={'feed/loadMore/comments'}
     >
       <Interaction.H3 style={{ marginBottom: 20 }}>
         {t.pluralize('profile/comments/title', {

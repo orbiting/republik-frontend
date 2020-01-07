@@ -20,6 +20,7 @@ const InfiniteScroll = ({
   totalCount,
   currentCount,
   loadMoreStyles,
+  loadMoreKey,
   children
 }) => {
   const [
@@ -44,7 +45,7 @@ const InfiniteScroll = ({
               setInfiniteScroll(true)
             }}
           >
-            {t('feed/loadMore', {
+            {t(loadMoreKey || 'feed/loadMore', {
               count: currentCount,
               remaining: totalCount - currentCount
             })}

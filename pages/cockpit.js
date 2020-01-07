@@ -379,17 +379,43 @@ const Page = ({
               />
 
               {md(mdComponents)`
+
+## ${lastMonth.activeEndOfMonth +
+                lastMonth.pendingSubscriptionsOnly} sind treu.`}
+
+              <TestimonialList
+                membershipAfter={END_DATE}
+                ssr={false}
+                singleRow
+                minColumns={3}
+                dark
+              />
+              <br />
+
+              {md(mdComponents)`
+
+[Alle anschauen](/community)${
+                me && me.activeMembership ? (
+                  <Fragment>
+                    {'\u00a0– '}
+                    <Editorial.A
+                      style={{ color: colors.negative.text }}
+                      href='/einrichten'
+                    >
+                      Ihr Profil einrichten
+                    </Editorial.A>
+                  </Fragment>
+                ) : (
+                  ''
+                )
+              }
+
 Seit zwei Jahren ist die Republik jetzt da – als digitales Magazin, als Labor für den Journalismus des 21. Jahrhunderts.
 
-Drei entscheidende Ziele haben wir uns gesetzt: eine Startfinanzierung zu finden, eine funktionierende Redaktion mit Schlag­kraft aufzubauen und ein Geschäfts­modell für unabhängigen, werbefreien und leser­finanzierten Journalismus zu entwickeln.
-
 Sie haben uns bis hierhin begleitet: mit Ihrer Neugier, Ihrer Unterstützung, Ihrem Lob und Ihrer Kritik. Dafür ein grosses Danke! Ohne Sie wären wir nicht hier.
+Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
-Unser erstes Ziel – die Startfinanzierung – haben wir gemeinsam mit Ihnen und unerschrockenen Investoren erreicht. Das zweite Ziel ebenfalls: eine funktionierende Redaktion aufzubauen, die ordentlichen und immer öfter auch ausserordentlichen Journalismus liefert und sich weiterentwickeln will. Das dritte Ziel leider noch nicht: ein funktionierendes Geschäfts­modell für werbefreien, unabhängigen, leserfinanzierten Journalismus zu etablieren.
-
-An der Notwendigkeit unseres gemeinsamen Projekts hat sich nichts geändert. Die grossen Verlage haben wenig Ideen ausser Fusionen. Und in der Politik sind Institutionen und Fakten weiter unter Beschuss.
-
-Unsere Aufgabe ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
+Dafür haben wir eine funktionierende Redaktion aufgebaut, die ordentlichen und immer öfter auch ausserordentlichen Journalismus liefert und sich weiterentwickeln will. Was wir leider nicht geschafft haben: diesen werbefreien, unabhängigen, leserfinanzierten Journalismus nachhaltig zu finanzieren.
 
 Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb kämpfen wir für die Republik.
 
@@ -416,25 +442,18 @@ ${(
               {md(mdComponents)`
 ## Darum geht es
 
-Die Republik hat aktuell rund 18’600 Verlegerinnen. Das deckt 70 Prozent der Kosten. Die restlichen 30 Prozent reissen ein tiefes Loch in die Bilanz. Wir sind 2019 langsamer gewachsen als budgetiert. Das hat heftige Folgen: Bis Ende März müssen wir den Rückstand aufholen, sonst hat die Republik keine Zukunft. Dann werden wir die Republik am 31. März 2020 schliessen.
+Die Republik hatte 2019 im Schnitt 18’220 Verlegerinnen. Das deckt 70 Prozent der Kosten. Die restlichen 30 Prozent reissen ein tiefes Loch in die Bilanz. Defizite sind in der Aufbauphase eines Start-ups normal. Ein wachsendes Defizit ist für ein junges Unternehmen aber schnell tödlich.
 
-Schaffen wir es, haben wir eine realistische Chance, ein tragfähiges Geschäfts­modell zu etablieren.
+Im vergangenen Jahr haben wir weniger neue Verlegerinnen dazugewonnen, als uns verlassen haben. Oder anders: Wir haben unser Budgetziel verfehlt. Das hat heftige Folgen: Bis Ende März müssen wir den Rückstand von 2019 aufholen, sonst hat die Republik keine Zukunft. 
 
-Hier einige unfreundliche Zahlen:
+Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten und zusätzlich 2,2 Millionen Franken an Investoren­geldern, Spenden und Förder­beiträgen. Schaffen wir das nicht, werden wir die Republik ab dem 31. März 2020 abwickeln. Schaffen wir es, haben wir eine realistische Chance, langfristig ein tragfähiges Geschäfts­modell zu etablieren.
 
-*   Wir haben statt wie budgetiert 8100 in diesem Jahr bisher 4000 neue Mitglieder hinzugewonnen.
+## Aktuelles
 
-*   Wir konnten 2019 neue Investoren gewinnen und haben Förder­beiträge erhalten. Zusammen über eine halbe Million Franken. Das ist wunderbar. Aber weniger als die geplante 1 Million.
-
-Das ist unternehmerisch nicht mehr lange tragbar. 
-
-## Das sind unsere Ziele
-
-*   Wir müssen bis Ende März 19’000 Verlegerinnen an Bord haben. Das ist zwar nur ein wenig mehr als heute – aber das Ziel ist trotzdem alles andere als trivial: Wir müssen neue Verlegerinnen dazugewinnen, aber auch jene ersetzen, die uns in den nächsten Monaten verlassen.
-
-*   Wir brauchen bis Ende März 2,2 Millionen Franken an Investoren­geldern, Spenden und Förder­beiträgen. Davon haben wir 535’000 Franken bereits erhalten.
-
-Dafür brauchen wir Sie. An Bord. Und an Deck.
+- Video Newsletter
+- Langes Video-Gespräch
+- Was wir gehört haben
+- Link auf Q&A 
 
 ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
   <PrimaryCTA
@@ -458,9 +477,9 @@ ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
 
 Wir brauchen Reichweite. Die können wir uns jedoch weder kaufen (zu teuer) noch allein mit Journalismus erarbeiten.
 
-Wir setzen also auf unsere wichtigste Ressource: Sie. Sie – und Ihr Adressbuch, Ihr Netzwerk, Ihre Begeisterung, Ihre Skepsis. 
+Wir setzen also auf unsere wichtigste Ressource: Sie. Sie – und Ihr Adressbuch, Ihr Netzwerk, Ihre Begeisterung, Ihre Skepsis.
 
-Bis Ende März werden wir eine Kampagne machen müssen, in der Sie als Multiplikatoren, Botschafterinnen, Komplizen – nennen Sie es, wie Sie wollen – eine Hauptrolle spielen. 
+Bis Ende März werden wir eine Kampagne machen müssen, in der Sie als Multiplikatoren, Botschafterinnen, Komplizen – nennen Sie es, wie Sie wollen – eine Hauptrolle spielen.
 
 Unser Job dabei ist, Sie regelmässig, offen und klar über den Stand der Dinge zu informieren. Und Ihnen die besten Werkzeuge in die Hand zu geben: Argumente, Flyer, Mailkanonen – kurz: Propaganda­material.
 
@@ -618,100 +637,47 @@ ${
               </div>
 
               {md(mdComponents)`
-## Warum das alles hart ist, aber machbar
-
-Falls Sie sich jetzt fragen: Ist es nicht übertrieben, gleich die Republik zu schliessen, wenn wir die Ziele nicht erreichen? Und warum nicht einfach sparen? [Die wichtigsten Antworten auf Ihre Fragen](/cockpit/faq "Was Sie zur Lage der Republik wissen müssen").
-
-Die Kurzversion: Im Prinzip funktioniert die Republik wie eine Rakete.
-
-Um abzuheben braucht sie Treibstoff. Den haben wir von Investoren und fast 14’000 Menschen 2017 beim Crowdfunding bekommen.
-
-Einmal in der Luft, zünden weitere Brennstufen, damit die Rakete auf den richtigen Kurs kommt. Wir haben mehr als ein Jahr gebraucht, bis Produkt, Crew und Organisation vernünftig funktioniert haben.
-
-Jetzt muss die Republik einen stabilen Orbit erreichen. Also selbsttragend werden. Denn die Republik ist nur dann sinnvoll, wenn sie aus eigener Kraft überlebt. Das heisst, wenn wir ein neues Modell für den Schweizer Medien­markt etablieren können. Und den Beweis liefern, dass kompromiss­loser Journalismus ohne Werbung funktioniert.
-
 ## Gemeinsam sind wir weit gekommen
 
-Abgesehen von den Finanzen war 2019 ein gutes Jahr: 
+Abgesehen von den Finanzen war 2019 ein gutes Jahr:
 
-*   Wir haben mit Recherchen einen [entscheidenden Unterschied gemacht](https://republik.ch/2019). 
+- Wir haben mit Recherchen einen [entscheidenden Unterschied gemacht](https://republik.ch/2019).
 
-*   Wir haben die Redaktion so weiterentwickelt, dass sie beides kann: schnell auf wichtige Ereignisse reagieren und Hintergrund liefern.
+- Wir haben die Redaktion so weiterentwickelt, dass sie beides kann: schnell auf wichtige Ereignisse reagieren und Hintergrund liefern.
 
-*   Wir haben die Themen­führerschaft in den Bereichen Justiz, Digitalisierung und Klimapolitik aufgebaut.
+- Wir haben die Themen­führerschaft in den Bereichen Justiz, Digitalisierung und Klimapolitik aufgebaut.
 
-*   Wir waren permanent im Dialog mit Ihnen. Bei keinem anderen Medium können Sie direkt mit den Autorinnen debattieren.
+- Wir waren permanent im Dialog mit Ihnen. Bei keinem anderen Medium können Sie direkt mit den Autorinnen debattieren.
 
-*   Wir reflektieren wie kein anderes Medien­unternehmen die eigene Arbeit öffentlich und schaffen Transparenz darüber, wie wir uns entwickeln.
+- Wir reflektieren wie kein anderes Medien­unternehmen die eigene Arbeit öffentlich und schaffen Transparenz darüber, wie wir uns entwickeln.
 
-*   Wir haben Nachwuchs ausgebildet – und was für einen!
+- Wir haben Nachwuchs ausgebildet – und was für einen!
 
-*   Wir waren für den deutschen Grimme-Online-Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».
+- Wir waren für den deutschen Grimme Online Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».
 
-*   Wir haben seit knapp einem Jahr ein starkes Gremium im Rücken, das uns trägt, unterstützt – und konstruktiv kritisiert: den Genossenschaftsrat.
+- Wir haben seit einem Jahr ein starkes Gremium im Rücken, das uns trägt, unterstützt – und konstruktiv kritisiert: den Genossenschaftsrat.
 
 ## Die drei Phasen bis Ende März
 
-Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen: 
+Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 
 **Bis Ende Januar** 
 
-1.  Dass möglichst viele Verleger trotz Risiko an Bord bleiben.
+1.  Dass möglichst viele Verlegerinnen trotz Risiko an Bord bleiben.
 
 2.  Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
 
 3.  Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](mailto:ir@republik.ch))
 
-**Im Februar** wollen wir mit Ihnen darüber reden, wie wir die Republik noch neugieriger und nützlicher machen können.
+**Im Februar** wollen wir an ein paar Schrauben drehen, bevor wir in den entscheidenden Monat gehen. Wir wollen die Republik nicht neu erfinden. Aber sie gemeinsam mit Ihnen noch ein wenig nützlicher, transparenter und interaktiver machen.
 
-**Im März** werden wir mit einer grossen und lauten Kampagne ein paar tausend neue Verlegerinnen gewinnen müssen. Jetzt geht es um: Wachstum. 
-
-## Was Sie sofort tun können
-
-*   Falls Sie nur eine Sache tun wollen: Erneuern Sie Ihre Mitgliedschaft – wenn möglich grosszügig. Wenn möglich jetzt.
-
-*   Oder – wenn Sie noch nicht an Bord sind – werden Sie Mitglied der Verlagsetage.
-
-*   Verschenken Sie die Republik, zum Beispiel zu Weihnachten – oder unter einem anderen Vorwand.
-
-*   Reden Sie mit Ihren Freunden über uns. Oder teilen Sie unsere interessantesten Geschichten mit ihnen. 
+**Im März** werden wir mit einer grossen und lauten Kampagne ein paar tausend neue Verlegerinnen gewinnen müssen. Jetzt geht es um: Wachstum.
 
 Wir freuen uns, wenn Sie in den nächsten Monaten Seite an Seite mit uns für die Zukunft der Republik kämpfen.
 
-Einfach wird das nicht – aber wir werden guter Laune sein. Und das Unternehmen Richtung stabilen Orbit steuern.
+Wie wir hoffen: mit Ihnen. Wem sonst?
 
-Wie wir hoffen: mit Ihnen. Wem sonst? 
-
-## ${lastMonth.activeEndOfMonth +
-                lastMonth.pendingSubscriptionsOnly} sind treu.`}
-
-              <TestimonialList
-                membershipAfter={END_DATE}
-                ssr={false}
-                singleRow
-                minColumns={3}
-                dark
-              />
-              <br />
-
-              {md(mdComponents)`
-
-[Alle anschauen](/community)${
-                me && me.activeMembership ? (
-                  <Fragment>
-                    {'\u00a0– '}
-                    <Editorial.A
-                      style={{ color: colors.negative.text }}
-                      href='/einrichten'
-                    >
-                      Ihr Profil einrichten
-                    </Editorial.A>
-                  </Fragment>
-                ) : (
-                  ''
-                )
-              }
-      `}
+`}
 
               <br />
               <Accordion

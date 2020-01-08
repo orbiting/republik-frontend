@@ -12,7 +12,11 @@ import { swissNumbers } from '../../../lib/utils/format'
 
 import sharedStyles from '../../sharedStyles'
 
-import { ProgressCircle, colors, mediaQueries } from '@project-r/styleguide'
+import {
+  ProgressCircle,
+  mediaQueries,
+  useColorContext
+} from '@project-r/styleguide'
 
 const RADIUS = 16
 const formatPercent = swissNumbers.format('.0%')
@@ -24,10 +28,7 @@ const styles = {
     '@media print': {
       display: 'none'
     },
-    background: '#fff',
-    borderTop: `1px solid ${colors.divider}`,
     cursor: 'pointer',
-    color: colors.text,
     position: 'fixed',
     zIndex: 10,
     bottom: 0,
@@ -40,7 +41,6 @@ const styles = {
     }
   }),
   button: css({
-    backgroundColor: '#fff',
     boxShadow: '0 0 0px 1px rgba(255, 255, 255, .25)',
     display: 'flex',
     flexDirection: 'column',
@@ -87,7 +87,6 @@ const styles = {
     }
   }),
   note: css({
-    color: colors.lightText,
     fontSize: 16,
     [mediaQueries.mUp]: {
       fontSize: 19
@@ -95,41 +94,60 @@ const styles = {
   })
 }
 
-class RestoreButton extends React.Component {
-  render() {
-    const { t, onClick, onClose, opacity, userProgress } = this.props
-
-    const title = t('progress/restore/title', {
-      percent: formatPercent(userProgress.percentage)
+const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
+  const [colorScheme] = useColorContext()
+  const colors = {
+    container: css({
+      background: colorScheme.containerBg,
+      borderTop: `1px solid ${colorScheme.divider}`,
+      color: colorScheme.text
+    }),
+    button: css({
+      backgroundColor: colorScheme.containerBg
+    }),
+    note: css({
+      color: colorScheme.lightText
     })
-
-    return (
-      <div {...styles.container} style={{ opacity }} onClick={onClick}>
-        <button {...sharedStyles.plainButton} {...styles.button}>
-          <ProgressCircle
-            progress={userProgress.percentage * 100}
-            stroke='#000'
-            strokePlaceholder='#e9e9e9'
-            radius={RADIUS}
-            strokeWidth={3}
-          />
-          <DownIcon {...styles.buttonIcon} fill='#000' />
-        </button>
-        <div {...styles.label}>{title}</div>
-        <div {...styles.note}>
-          {datetime(t, new Date(userProgress.updatedAt), 'progress/restore')}
-        </div>
-        <button
-          {...styles.close}
-          {...sharedStyles.plainButton}
-          onClick={onClose}
-          title={t('progress/restore/close')}
-        >
-          <Close fill='#ccc' />
-        </button>
-      </div>
-    )
   }
+  const title = t('progress/restore/title', {
+    percent: formatPercent(userProgress.percentage)
+  })
+
+  return (
+    <div
+      {...styles.container}
+      {...colors.container}
+      style={{ opacity }}
+      onClick={onClick}
+    >
+      <button
+        {...sharedStyles.plainButton}
+        {...styles.button}
+        {...colors.button}
+      >
+        <ProgressCircle
+          progress={userProgress.percentage * 100}
+          stroke={colorScheme.fill}
+          strokePlaceholder={colorScheme.lightFill}
+          radius={RADIUS}
+          strokeWidth={3}
+        />
+        <DownIcon {...styles.buttonIcon} fill={colorScheme.fill} />
+      </button>
+      <div {...styles.label}>{title}</div>
+      <div {...styles.note} {...colors.note}>
+        {datetime(t, new Date(userProgress.updatedAt), 'progress/restore')}
+      </div>
+      <button
+        {...styles.close}
+        {...sharedStyles.plainButton}
+        onClick={onClose}
+        title={t('progress/restore/close')}
+      >
+        <Close fill='#ccc' />
+      </button>
+    </div>
+  )
 }
 
 RestoreButton.propTypes = {

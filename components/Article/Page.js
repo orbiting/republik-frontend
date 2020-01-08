@@ -39,7 +39,6 @@ import {
   Center,
   colors,
   Interaction,
-  Editorial,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -572,6 +571,11 @@ class ArticlePage extends Component {
 
     const series = meta && meta.series
     const episodes = series && series.episodes
+    const darkMode =
+      article &&
+      article.content &&
+      article.content.meta &&
+      article.content.meta.darkMode
 
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
@@ -650,6 +654,7 @@ class ArticlePage extends Component {
 
     return (
       <Frame
+        dark={darkMode}
         raw
         // Meta tags for a focus comment are rendered in Discussion/Commments.js
         meta={

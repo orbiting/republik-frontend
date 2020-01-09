@@ -10,7 +10,9 @@ import {
   Editorial,
   Interaction,
   Loader,
-  colors
+  colors,
+  VideoPlayer,
+  FigureCaption
 } from '@project-r/styleguide'
 import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
 
@@ -53,6 +55,15 @@ const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 
 const YEAR_MONTH_FORMAT = '%Y-%m'
 const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
+
+const jan10Video = {
+  hls:
+    'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
+  mp4:
+    'https://player.vimeo.com/external/383482958.hd.mp4?s=9c0f53b63b0a1851bc401fd60fb7d2e8f31c0319&profile_id=175',
+  // subtitles: '/static/subtitles/main_en.vtt',
+  thumbnail: 'https://i.vimeocdn.com/video/844932499_1920x1080.jpg?r=pad'
+}
 
 const Accordion = withInNativeApp(
   withT(
@@ -440,10 +451,23 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
 
 ## Aktuelles
 
-- Video Newsletter
-- Langes Video-Gespräch
-- Was wir gehört haben
-- Link auf Q&A 
+${(
+  <Fragment>
+    <VideoPlayer src={jan10Video} />
+    <FigureCaption>
+      Kurze Statusmeldung aus dem Rothaus vom 10.01.2020
+    </FigureCaption>
+  </Fragment>
+)}
+
+- _10.01.2020, Gespräch im Rothaus_  
+  [TK: Langes Video](/cockpit/tk)
+
+- _24.12.2019, Rückmeldungen_  
+  [Was wir gehört haben](https://www.republik.ch/2019/12/24/was-wir-gehoert-haben)
+
+- _09.12.2019, Q&A_  
+  [Was Sie zur Lage der Republik wissen müssen](https://www.republik.ch/2019/12/09/lage-der-republik)
 
 ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
   <PrimaryCTA

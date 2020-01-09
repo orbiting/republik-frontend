@@ -37,9 +37,9 @@ import { userProgressFragment } from './Progress/api'
 import {
   AudioPlayer,
   Center,
+  ColorContext,
   colors,
   Interaction,
-  Editorial,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -572,6 +572,11 @@ class ArticlePage extends Component {
 
     const series = meta && meta.series
     const episodes = series && series.episodes
+    const darkMode =
+      article &&
+      article.content &&
+      article.content.meta &&
+      article.content.meta.darkMode
 
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
@@ -650,6 +655,7 @@ class ArticlePage extends Component {
 
     return (
       <Frame
+        dark={darkMode}
         raw
         // Meta tags for a focus comment are rendered in Discussion/Commments.js
         meta={
@@ -757,7 +763,13 @@ class ArticlePage extends Component {
                     <SSRCachingBoundary
                       cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
                     >
-                      {() => renderSchema(splitContent.main)}
+                      {() => (
+                        <ColorContext.Provider
+                          value={darkMode && colors.negative}
+                        >
+                          {renderSchema(splitContent.main)}
+                        </ColorContext.Provider>
+                      )}
                     </SSRCachingBoundary>
                   </ProgressComponent>
                 </ArticleGallery>

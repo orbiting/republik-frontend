@@ -241,7 +241,6 @@ ActionBar.propTypes = {
 }
 
 ActionBar.defaultProps = {
-  fill: colors.secondary,
   tweet: '',
   emailBody: '',
   emailAttachUrl: true,

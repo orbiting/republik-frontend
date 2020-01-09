@@ -73,7 +73,6 @@ class ArticleActionBar extends Component {
           title={title}
           shareOverlayTitle={t('article/share/title')}
           animate={animate}
-          fill={colors.text}
           dossierUrl={dossierUrl}
           onPdfClick={onPdfClick}
           pdfUrl={pdfUrl}

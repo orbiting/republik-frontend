@@ -53,7 +53,7 @@ const jan10Video = {
   hls:
     'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
   mp4:
-    'https://player.vimeo.com/external/383482958.hd.mp4?s=9c0f53b63b0a1851bc401fd60fb7d2e8f31c0319&profile_id=175',
+    'https://player.vimeo.com/external/383482958.sd.mp4?s=443c5d6623f8270065425ce9306a11dfd9b27207&profile_id=165',
   // subtitles: '/static/subtitles/main_en.vtt',
   thumbnail: 'https://i.vimeocdn.com/video/844932499_1920x1080.jpg?r=pad'
 }

@@ -37,6 +37,7 @@ import { userProgressFragment } from './Progress/api'
 import {
   AudioPlayer,
   Center,
+  ColorContext,
   colors,
   Interaction,
   mediaQueries
@@ -762,7 +763,13 @@ class ArticlePage extends Component {
                     <SSRCachingBoundary
                       cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
                     >
-                      {() => renderSchema(splitContent.main)}
+                      {() => (
+                        <ColorContext.Provider
+                          value={darkMode && colors.negative}
+                        >
+                          {renderSchema(splitContent.main)}
+                        </ColorContext.Provider>
+                      )}
                     </SSRCachingBoundary>
                   </ProgressComponent>
                 </ArticleGallery>

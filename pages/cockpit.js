@@ -42,13 +42,6 @@ import { Link, questionnaireCrowdSlug } from '../lib/routes'
 import { swissTime } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
 
-// Quelle «Mitglieder- und Abonnementzahlen» Dashboard
-// Stand Verlauf Mitgliedschaften und Verlauf Monatsabonnements per 31.11.2019
-// Abgerufen am 07.12.19 um 14:27
-const TOTAL_NOV19 = 16799 + 1730
-// Question 405 «Can Quite»
-const TOTAL_CAN_QUIT = 12896
-
 const END_DATE = '2020-03-31T10:00:00.000Z'
 
 const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
@@ -585,20 +578,6 @@ ${
                         label: 'Ziel per 31. März',
                         value: 19000
                       }
-                      // (lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly) * 1.2 < TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT && {
-                      //   x1: '2020-03',
-                      //   x2: '2020-03',
-                      //   label: '100% Erneuerung',
-                      //   value:
-                      //     TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 1
-                      // },
-                      // (lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly) * 1.2 < TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.65 && {
-                      //   x1: '2020-03',
-                      //   x2: '2020-03',
-                      //   label: '65% Erneuerung',
-                      //   value:
-                      //     TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.65
-                      // }
                     ].filter(Boolean)
                   }}
                   values={

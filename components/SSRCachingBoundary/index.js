@@ -9,13 +9,15 @@ if (!process.browser) {
     max: 1000 * 1000 * 200, // 200mb
     length: d => d.length
   })
-
+  const enabled = process.env.SSR_CACHE !== 'false'
   getHtml = (key, children) => {
-    if (cache.has(key)) {
+    if (cache.has(key) && enabled) {
       return cache.get(key)
     }
     const html = ReactDOMServer.renderToStaticMarkup(children())
-    cache.set(key, html)
+    if (enabled) {
+      cache.set(key, html)
+    }
     return html
   }
 }

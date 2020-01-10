@@ -390,7 +390,7 @@ const Page = ({
 
 ## ${countFormat(
                 lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
-              )} sind schon dabei`}
+              )} Verlegerinnen sind weiterhin dabei`}
 
               <TestimonialList
                 seed={communitySeed.start}
@@ -411,19 +411,19 @@ Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die
 
 Dafür haben wir eine funktionierende Redaktion aufgebaut, die ordentlichen und immer öfter auch ausserordentlichen Journalismus liefert und sich weiterentwickeln will. Was wir leider noch nicht geschafft haben: ein funktionierendes Geschäftsmodell für diesen werbefreien, unabhängigen, leserfinanzierten Journalismus zu etablieren.
 
-Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb kämpfen wir für die Republik.
-
-${(
-  <PrimaryCTA
-    me={me}
-    query={query}
-    questionnaire={questionnaire}
-    shouldBuyProlong={shouldBuyProlong}
-    isReactivating={isReactivating}
-  >
-    <Button primary>Ich kämpfe mit</Button>
-  </PrimaryCTA>
-)}
+Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb kämpfen wir für die Republik. ${(
+                <PrimaryCTA
+                  me={me}
+                  query={query}
+                  questionnaire={questionnaire}
+                  shouldBuyProlong={shouldBuyProlong}
+                  isReactivating={isReactivating}
+                >
+                  <Editorial.A style={{ color: colors.negative.text }}>
+                    Kämpfen Sie mit.
+                  </Editorial.A>
+                </PrimaryCTA>
+              )}
 
   `}
 
@@ -442,7 +442,7 @@ Im vergangenen Jahr haben wir weniger neue Verlegerinnen dazugewonnen, als uns v
 
 Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten und zusätzlich 2,2 Millionen Franken an Investoren­geldern, Spenden und Förder­beiträgen. Schaffen wir das nicht, werden wir die Republik ab dem 31. März 2020 abwickeln. Schaffen wir es, haben wir eine realistische Chance, langfristig ein tragfähiges Geschäfts­modell zu etablieren.
 
-## Aktuelles
+## Updates
 
 ${(
   <Fragment>
@@ -470,13 +470,13 @@ ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
     shouldBuyProlong={shouldBuyProlong}
     isReactivating={isReactivating}
   >
-    <Editorial.A style={{ color: colors.negative.text }}>
+    <Button primary>
       {shouldBuyProlong
         ? isReactivating
           ? 'Jetzt zurückkehren'
           : 'Jetzt verlängern'
         : 'Mitglied werden'}
-    </Editorial.A>
+    </Button>
   </PrimaryCTA>
 )}
 
@@ -668,11 +668,30 @@ Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 
 Wir freuen uns, wenn Sie in den nächsten Monaten Seite an Seite mit uns für die Zukunft der Republik kämpfen.
 
-Wie wir hoffen: mit Ihnen. Wem sonst?
+`}
+              <br />
+              <Accordion
+                me={me}
+                query={query}
+                shouldBuyProlong={shouldBuyProlong}
+                isReactivating={isReactivating}
+                defaultBenefactor={defaultBenefactor}
+                questionnaire={questionnaire}
+              />
+
+              {inNativeIOSApp && (
+                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
+                  {t('cockpit/ios')}
+                </Interaction.P>
+              )}
+
+              {md(mdComponents)`
+
+
 
 ## ${countFormat(
                 lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
-              )} sind treu.`}
+              )} sind dabei.`}
 
               <TestimonialList
                 seed={communitySeed.end}
@@ -703,20 +722,7 @@ Wie wir hoffen: mit Ihnen. Wem sonst?
       `}
 
               <br />
-              <Accordion
-                me={me}
-                query={query}
-                shouldBuyProlong={shouldBuyProlong}
-                isReactivating={isReactivating}
-                defaultBenefactor={defaultBenefactor}
-                questionnaire={questionnaire}
-              />
-
-              {inNativeIOSApp && (
-                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
-                  {t('cockpit/ios')}
-                </Interaction.P>
-              )}
+              <br />
 
               {questionnaire &&
                 questionnaire.userIsEligible &&
@@ -734,10 +740,6 @@ Wie wir hoffen: mit Ihnen. Wem sonst?
 
               <br />
               <br />
-              {md(mdComponents)`
-
-PS: Falls Sie noch offene Fragen haben: [Wir haben fast zwei Dutzend der wichtigsten hier beantwortet](/cockpit/faq "Warum nur? Das Briefing").
-      `}
             </>
           )
         }}

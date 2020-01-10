@@ -71,7 +71,7 @@ const memberShipQuery = gql`
 
 export const TRY_TO_BUY_RATIO = 0.5
 
-const TRY_VARIATIONS = ['191106-v1', '191106-v2', '191106-v3', '191106-v4']
+const TRY_VARIATIONS = ['191106-v2', '191106-v3', '191106-v4']
 // make sure to include in MAX_PAYNOTE_SEED if you add one with more
 const TRY_VARIATIONS_CAMPAIGN = {
   wseww: ['191106-v1', '191106-v2-campaign-wseww', '191106-v3', '191106-v4']

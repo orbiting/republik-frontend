@@ -478,7 +478,7 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
                 <div style={{ marginTop: 20, marginBottom: 20 }}>
                   {videos.map(v => (
                     <a
-                      href='#'
+                      href={v !== activeVideo ? '#' : undefined}
                       key={v.hls}
                       onClick={e => {
                         e.preventDefault()

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
@@ -12,7 +12,8 @@ import {
   Loader,
   colors,
   VideoPlayer,
-  FigureCaption
+  FigureCaption,
+  fontStyles
 } from '@project-r/styleguide'
 import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
 
@@ -49,14 +50,30 @@ const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 const YEAR_MONTH_FORMAT = '%Y-%m'
 const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
 
-const jan10Video = {
-  hls:
-    'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
-  mp4:
-    'https://player.vimeo.com/external/383482958.sd.mp4?s=443c5d6623f8270065425ce9306a11dfd9b27207&profile_id=165',
-  // subtitles: '/static/subtitles/main_en.vtt',
-  thumbnail: 'https://i.vimeocdn.com/video/844932499_1920x1080.jpg?r=pad'
-}
+const videos = [
+  {
+    hls:
+      'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
+    mp4:
+      'https://player.vimeo.com/external/383482958.hd.mp4?s=9c0f53b63b0a1851bc401fd60fb7d2e8f31c0319&profile_id=175',
+    // subtitles: '/static/subtitles/main_en.vtt',
+    // thumbnail: 'https://i.vimeocdn.com/video/844932499_1920x1080.jpg?r=pad'
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status.jpg`,
+    caption: 'Kurze Statusmeldung aus dem Rothaus',
+    title: 'Statusmeldung',
+    duration: '2 Minuten'
+  },
+  {
+    hls:
+      'https://player.vimeo.com/external/383817204.m3u8?s=378b858bc9da83ee40c3f573e42b5101a298e4e8',
+    mp4:
+      'https://player.vimeo.com/external/383817204.hd.mp4?s=c73ce0e53c9e457931d4760fbae1e983dd1dd6ee&profile_id=174',
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/talk.jpg`,
+    caption: 'Gesprächsrunde vom 8. Januar 2020 im Rothaus',
+    title: 'Gesprächsrunde',
+    duration: '60 Minutem'
+  }
+]
 
 const Accordion = withInNativeApp(
   withT(
@@ -70,7 +87,7 @@ const Accordion = withInNativeApp(
       questionnaire,
       inNativeIOSApp
     }) => {
-      const [hover, setHover] = React.useState()
+      const [hover, setHover] = useState()
 
       if (inNativeIOSApp) {
         return <br />
@@ -319,6 +336,8 @@ const Page = ({
       )
     }
   }, [query.token])
+  const [activeVideo, setActiveVideo] = useState(videos[0])
+  const [autoPlay, setAutoPlay] = useState(false)
 
   return (
     <Frame meta={meta} dark>
@@ -444,23 +463,67 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
 
 ## Updates
 
-${(
-  <Fragment>
-    <VideoPlayer src={jan10Video} />
-    <FigureCaption>
-      Kurze Statusmeldung aus dem Rothaus vom 10.01.2020
-    </FigureCaption>
-  </Fragment>
-)}
 
-- _10.01.2020, Gespräch im Rothaus_  
-  [TK: Langes Video](/cockpit/tk)
+`}
+              <Fragment>
+                <VideoPlayer
+                  key={activeVideo.hls}
+                  autoPlay={autoPlay}
+                  src={activeVideo}
+                />
+                <div style={{ marginTop: 10 }}>
+                  <FigureCaption>{activeVideo.caption}</FigureCaption>
+                </div>
 
-- _24.12.2019, Rückmeldungen_  
-  [Was wir gehört haben](https://www.republik.ch/2019/12/24/was-wir-gehoert-haben)
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  {videos.map(v => (
+                    <a
+                      href='#'
+                      key={v.hls}
+                      onClick={e => {
+                        e.preventDefault()
+                        setActiveVideo(v)
+                        setAutoPlay(true)
+                      }}
+                      style={{
+                        display: 'inline-block',
+                        width: 130,
+                        marginRight: 10,
+                        color: '#fff',
+                        verticalAlign: 'top',
+                        backgroundColor:
+                          v === activeVideo
+                            ? colors.primary
+                            : colors.negative.primaryBg
+                      }}
+                    >
+                      <img src={v.thumbnail} width='100%' />
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          minHeight: 38,
+                          padding: '2px 5px 5px',
+                          ...fontStyles.sansSerifRegular12
+                        }}
+                      >
+                        {v.title}
+                        <br />
+                        {v.duration}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </Fragment>
+              {md(mdComponents)`
 
-- _09.12.2019, Q&A_  
-  [Was Sie zur Lage der Republik wissen müssen](https://www.republik.ch/2019/12/09/lage-der-republik)
+_10.01.2020, Gesprächsrunde im Rothaus:_  
+[TK: Langes Video](/cockpit/tk)
+
+_24.12.2019, Rückmeldungen:_  
+[Was wir gehört haben](https://www.republik.ch/2019/12/24/was-wir-gehoert-haben)
+
+_09.12.2019, Fragen und Antworten:_  
+[Was Sie zur Lage der Republik wissen müssen](https://www.republik.ch/2019/12/09/lage-der-republik)
 
 ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
   <PrimaryCTA

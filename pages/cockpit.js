@@ -56,8 +56,6 @@ const videos = [
       'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
     mp4:
       'https://player.vimeo.com/external/383482958.hd.mp4?s=9c0f53b63b0a1851bc401fd60fb7d2e8f31c0319&profile_id=175',
-    // subtitles: '/static/subtitles/main_en.vtt',
-    // thumbnail: 'https://i.vimeocdn.com/video/844932499_1920x1080.jpg?r=pad'
     thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status.jpg`,
     caption: 'Kurze Statusmeldung aus dem Rothaus',
     title: 'Statusmeldung',
@@ -65,13 +63,13 @@ const videos = [
   },
   {
     hls:
-      'https://player.vimeo.com/external/383817204.m3u8?s=378b858bc9da83ee40c3f573e42b5101a298e4e8',
+      'https://player.vimeo.com/external/384007770.m3u8?s=c482cb6edf4b5a6fa2ba3bb5a68564f932889db2',
     mp4:
-      'https://player.vimeo.com/external/383817204.hd.mp4?s=c73ce0e53c9e457931d4760fbae1e983dd1dd6ee&profile_id=174',
+      'https://player.vimeo.com/external/384007770.hd.mp4?s=98e5b8f524fd43ca773d8db99a73673713b122e4&profile_id=174',
     thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/talk.jpg`,
     caption: 'Gesprächsrunde vom 8. Januar 2020 im Rothaus',
     title: 'Gesprächsrunde',
-    duration: '60 Minutem'
+    duration: '53 Minuten'
   }
 ]
 

@@ -515,7 +515,7 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
               {md(mdComponents)`
 
 _10.01.2020, Gesprächsrunde im Rothaus:_  
-[TK: Langes Video](/cockpit/tk)
+[«Ihr braucht mehr Einnahmen. Woher sollen die kommen?»](https://www.republik.ch/2020/01/10/lage-der-republik)
 
 _24.12.2019, Rückmeldungen:_  
 [Was wir gehört haben](https://www.republik.ch/2019/12/24/was-wir-gehoert-haben)

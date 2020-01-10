@@ -67,7 +67,15 @@ const videos = [
     mp4:
       'https://player.vimeo.com/external/384007770.hd.mp4?s=98e5b8f524fd43ca773d8db99a73673713b122e4&profile_id=174',
     thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/talk.jpg`,
-    caption: 'Gesprächsrunde vom 8. Januar 2020 im Rothaus',
+    caption: (
+      <>
+        Gesprächsrunde vom 8. Januar 2020 im Rothaus
+        {', '}
+        <Editorial.A href='https://www.republik.ch/2020/01/11/zur-lage-der-republik'>
+          Übersicht der Fragen
+        </Editorial.A>
+      </>
+    ),
     title: 'Gesprächsrunde',
     duration: '53 Minuten'
   }
@@ -514,8 +522,8 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
               </Fragment>
               {md(mdComponents)`
 
-_10.01.2020, Gesprächsrunde im Rothaus:_  
-[«Ihr braucht mehr Einnahmen. Woher sollen die kommen?»](https://www.republik.ch/2020/01/10/lage-der-republik)
+_11.01.2020, Gesprächsrunde im Rothaus:_  
+[«Ihr braucht mehr Einnahmen. Woher sollen die kommen?»](https://www.republik.ch/2020/01/11/zur-lage-der-republik)
 
 _24.12.2019, Rückmeldungen:_  
 [Was wir gehört haben](https://www.republik.ch/2019/12/24/was-wir-gehoert-haben)

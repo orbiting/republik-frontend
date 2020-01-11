@@ -7,7 +7,7 @@ import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router, matchPath } from '../../lib/routes'
 
-import { Logo, colors, mediaQueries } from '@project-r/styleguide'
+import { Logo, colors, mediaQueries, ColorContext } from '@project-r/styleguide'
 
 import { withMembership } from '../Auth/checkRoles'
 
@@ -335,7 +335,7 @@ class Header extends Component {
     }
 
     return (
-      <Fragment>
+      <ColorContext.Provider value={dark ? colors.negative : colors}>
         <div
           {...barStyle}
           ref={inNativeIOSApp ? forceRefRedraw : undefined}
@@ -514,7 +514,7 @@ class Header extends Component {
             }}
           />
         )}
-      </Fragment>
+      </ColorContext.Provider>
     )
   }
 }

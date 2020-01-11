@@ -26,7 +26,9 @@ class PledgePage extends Component {
       if (serverContext) {
         serverContext.res.redirect(
           302,
-          `/cockpit${query.token ? `?token=${query.token}` : ''}`
+          `/cockpit${query.token ? `?token=${query.token}` : ''}${
+            query.hash ? `#${query.hash}` : ''
+          }`
         )
         serverContext.res.end()
       } else if (process.browser) {

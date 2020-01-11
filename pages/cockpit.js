@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
@@ -10,7 +10,10 @@ import {
   Editorial,
   Interaction,
   Loader,
-  colors
+  colors,
+  VideoPlayer,
+  FigureCaption,
+  fontStyles
 } from '@project-r/styleguide'
 import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
 
@@ -25,7 +28,10 @@ import { PackageItem, PackageBuffer } from '../components/Pledge/Accordion'
 import { RawStatus } from '../components/CrowdfundingStatus'
 import withT from '../lib/withT'
 
-import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
+import {
+  ListWithQuery as TestimonialList,
+  generateSeed
+} from '../components/Testimonial/List'
 
 import {
   CROWDFUNDING,
@@ -37,19 +43,43 @@ import { Link, questionnaireCrowdSlug } from '../lib/routes'
 import { swissTime } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
 
-// Quelle «Mitglieder- und Abonnementzahlen» Dashboard
-// Stand Verlauf Mitgliedschaften und Verlauf Monatsabonnements per 31.11.2019
-// Abgerufen am 07.12.19 um 14:27
-const TOTAL_NOV19 = 16799 + 1730
-// Question 405 «Can Quite»
-const TOTAL_CAN_QUIT = 12896
-
 const END_DATE = '2020-03-31T10:00:00.000Z'
 
 const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 
 const YEAR_MONTH_FORMAT = '%Y-%m'
 const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
+
+const videos = [
+  {
+    hls:
+      'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
+    mp4:
+      'https://player.vimeo.com/external/383482958.hd.mp4?s=9c0f53b63b0a1851bc401fd60fb7d2e8f31c0319&profile_id=175',
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status.jpg`,
+    caption: 'Kurze Statusmeldung aus dem Rothaus',
+    title: 'Statusmeldung',
+    duration: '2 Minuten'
+  },
+  {
+    hls:
+      'https://player.vimeo.com/external/384007770.m3u8?s=c482cb6edf4b5a6fa2ba3bb5a68564f932889db2',
+    mp4:
+      'https://player.vimeo.com/external/384007770.hd.mp4?s=98e5b8f524fd43ca773d8db99a73673713b122e4&profile_id=174',
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/talk.jpg`,
+    caption: (
+      <>
+        Gesprächsrunde vom 8. Januar 2020 im Rothaus
+        {', '}
+        <Editorial.A href='https://www.republik.ch/2020/01/11/zur-lage-der-republik'>
+          Übersicht der Fragen
+        </Editorial.A>
+      </>
+    ),
+    title: 'Gesprächsrunde',
+    duration: '53 Minuten'
+  }
+]
 
 const Accordion = withInNativeApp(
   withT(
@@ -63,7 +93,7 @@ const Accordion = withInNativeApp(
       questionnaire,
       inNativeIOSApp
     }) => {
-      const [hover, setHover] = React.useState()
+      const [hover, setHover] = useState()
 
       if (inNativeIOSApp) {
         return <br />
@@ -290,6 +320,7 @@ const Page = ({
   canProlongOwn,
   isReactivating,
   defaultBenefactor,
+  communitySeed,
   router: { query }
 }) => {
   const meta = {
@@ -311,6 +342,8 @@ const Page = ({
       )
     }
   }, [query.token])
+  const [activeVideo, setActiveVideo] = useState(videos[0])
+  const [autoPlay, setAutoPlay] = useState(false)
 
   return (
     <Frame meta={meta} dark>
@@ -379,31 +412,43 @@ const Page = ({
               />
 
               {md(mdComponents)`
-Seit zwei Jahren ist die Republik jetzt da – als digitales Magazin, als Labor für den Journalismus des 21. Jahrhunderts.
 
-Drei entscheidende Ziele haben wir uns gesetzt: eine Startfinanzierung zu finden, eine funktionierende Redaktion mit Schlag­kraft aufzubauen und ein Geschäfts­modell für unabhängigen, werbefreien und leser­finanzierten Journalismus zu entwickeln.
+## ${countFormat(
+                lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
+              )} Verlegerinnen sind weiterhin dabei`}
+
+              <TestimonialList
+                seed={communitySeed.start}
+                membershipAfter={END_DATE}
+                singleRow
+                minColumns={3}
+                dark
+              />
+              <br />
+
+              {md(mdComponents)`
+
+Seit zwei Jahren ist die Republik jetzt da – als digitales Magazin, als Labor für den Journalismus des 21. Jahrhunderts.
 
 Sie haben uns bis hierhin begleitet: mit Ihrer Neugier, Ihrer Unterstützung, Ihrem Lob und Ihrer Kritik. Dafür ein grosses Danke! Ohne Sie wären wir nicht hier.
 
-Unser erstes Ziel – die Startfinanzierung – haben wir gemeinsam mit Ihnen und unerschrockenen Investoren erreicht. Das zweite Ziel ebenfalls: eine funktionierende Redaktion aufzubauen, die ordentlichen und immer öfter auch ausserordentlichen Journalismus liefert und sich weiterentwickeln will. Das dritte Ziel leider noch nicht: ein funktionierendes Geschäfts­modell für werbefreien, unabhängigen, leserfinanzierten Journalismus zu etablieren.
+Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
-An der Notwendigkeit unseres gemeinsamen Projekts hat sich nichts geändert. Die grossen Verlage haben wenig Ideen ausser Fusionen. Und in der Politik sind Institutionen und Fakten weiter unter Beschuss.
+Dafür haben wir eine funktionierende Redaktion aufgebaut, die ordentlichen und immer öfter auch ausserordentlichen Journalismus liefert und sich weiterentwickeln will. Was wir leider noch nicht geschafft haben: ein funktionierendes Geschäftsmodell für diesen werbefreien, unabhängigen, leserfinanzierten Journalismus zu etablieren.
 
-Unsere Aufgabe ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
-
-Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb kämpfen wir für die Republik.
-
-${(
-  <PrimaryCTA
-    me={me}
-    query={query}
-    questionnaire={questionnaire}
-    shouldBuyProlong={shouldBuyProlong}
-    isReactivating={isReactivating}
-  >
-    <Button primary>Ich kämpfe mit</Button>
-  </PrimaryCTA>
-)}
+Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb kämpfen wir für die Republik. ${(
+                <PrimaryCTA
+                  me={me}
+                  query={query}
+                  questionnaire={questionnaire}
+                  shouldBuyProlong={shouldBuyProlong}
+                  isReactivating={isReactivating}
+                >
+                  <Editorial.A style={{ color: colors.negative.text }}>
+                    Kämpfen Sie mit.
+                  </Editorial.A>
+                </PrimaryCTA>
+              )}
 
   `}
 
@@ -416,25 +461,75 @@ ${(
               {md(mdComponents)`
 ## Darum geht es
 
-Die Republik hat aktuell rund 18’600 Verlegerinnen. Das deckt 70 Prozent der Kosten. Die restlichen 30 Prozent reissen ein tiefes Loch in die Bilanz. Wir sind 2019 langsamer gewachsen als budgetiert. Das hat heftige Folgen: Bis Ende März müssen wir den Rückstand aufholen, sonst hat die Republik keine Zukunft. Dann werden wir die Republik am 31. März 2020 schliessen.
+Die Republik hatte 2019 im Schnitt 18’220 Verlegerinnen. Das deckt 70 Prozent der Kosten. Die restlichen 30 Prozent reissen ein tiefes Loch in die Bilanz. Defizite sind in der Aufbauphase eines Start-ups normal. Ein wachsendes Defizit ist für ein junges Unternehmen aber schnell tödlich.
 
-Schaffen wir es, haben wir eine realistische Chance, ein tragfähiges Geschäfts­modell zu etablieren.
+Im vergangenen Jahr haben wir weniger neue Verlegerinnen dazugewonnen, als uns verlassen haben. Oder anders: Wir haben unser Budgetziel verfehlt. Das hat heftige Folgen: Bis Ende März müssen wir den Rückstand von 2019 aufholen, sonst hat die Republik keine Zukunft. 
 
-Hier einige unfreundliche Zahlen:
+Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten und zusätzlich 2,2 Millionen Franken an Investoren­geldern, Spenden und Förder­beiträgen. Schaffen wir das nicht, werden wir die Republik ab dem 31. März 2020 abwickeln. Schaffen wir es, haben wir eine realistische Chance, langfristig ein tragfähiges Geschäfts­modell zu etablieren.
 
-*   Wir haben statt wie budgetiert 8100 in diesem Jahr bisher 4000 neue Mitglieder hinzugewonnen.
+## Updates
 
-*   Wir konnten 2019 neue Investoren gewinnen und haben Förder­beiträge erhalten. Zusammen über eine halbe Million Franken. Das ist wunderbar. Aber weniger als die geplante 1 Million.
 
-Das ist unternehmerisch nicht mehr lange tragbar. 
+`}
+              <Fragment>
+                <VideoPlayer
+                  key={activeVideo.hls}
+                  autoPlay={autoPlay}
+                  src={activeVideo}
+                />
+                <div style={{ marginTop: 10 }}>
+                  <FigureCaption>{activeVideo.caption}</FigureCaption>
+                </div>
 
-## Das sind unsere Ziele
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  {videos.map(v => (
+                    <a
+                      href={v !== activeVideo ? '#' : undefined}
+                      key={v.hls}
+                      onClick={e => {
+                        e.preventDefault()
+                        setActiveVideo(v)
+                        setAutoPlay(true)
+                      }}
+                      style={{
+                        display: 'inline-block',
+                        width: 130,
+                        marginRight: 10,
+                        color: '#fff',
+                        verticalAlign: 'top',
+                        backgroundColor:
+                          v === activeVideo
+                            ? colors.primary
+                            : colors.negative.primaryBg
+                      }}
+                    >
+                      <img src={v.thumbnail} width='100%' />
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          minHeight: 38,
+                          padding: '2px 5px 5px',
+                          ...fontStyles.sansSerifRegular12
+                        }}
+                      >
+                        {v.title}
+                        <br />
+                        {v.duration}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </Fragment>
+              {md(mdComponents)`
 
-*   Wir müssen bis Ende März 19’000 Verlegerinnen an Bord haben. Das ist zwar nur ein wenig mehr als heute – aber das Ziel ist trotzdem alles andere als trivial: Wir müssen neue Verlegerinnen dazugewinnen, aber auch jene ersetzen, die uns in den nächsten Monaten verlassen.
+_11.01.2020, Gesprächsrunde im Rothaus:_  
+[«Ihr braucht mehr Einnahmen. Woher sollen die kommen?»](https://www.republik.ch/2020/01/11/zur-lage-der-republik)
 
-*   Wir brauchen bis Ende März 2,2 Millionen Franken an Investoren­geldern, Spenden und Förder­beiträgen. Davon haben wir 535’000 Franken bereits erhalten.
+_24.12.2019, Rückmeldungen:_  
+[Was wir gehört haben](https://www.republik.ch/2019/12/24/was-wir-gehoert-haben)
 
-Dafür brauchen wir Sie. An Bord. Und an Deck.
+_09.12.2019, Fragen und Antworten:_  
+[Was Sie zur Lage der Republik wissen müssen](https://www.republik.ch/2019/12/09/lage-der-republik)
 
 ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
   <PrimaryCTA
@@ -444,13 +539,13 @@ ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
     shouldBuyProlong={shouldBuyProlong}
     isReactivating={isReactivating}
   >
-    <Editorial.A style={{ color: colors.negative.text }}>
+    <Button primary>
       {shouldBuyProlong
         ? isReactivating
           ? 'Jetzt zurückkehren'
           : 'Jetzt verlängern'
         : 'Mitglied werden'}
-    </Editorial.A>
+    </Button>
   </PrimaryCTA>
 )}
 
@@ -458,9 +553,9 @@ ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
 
 Wir brauchen Reichweite. Die können wir uns jedoch weder kaufen (zu teuer) noch allein mit Journalismus erarbeiten.
 
-Wir setzen also auf unsere wichtigste Ressource: Sie. Sie – und Ihr Adressbuch, Ihr Netzwerk, Ihre Begeisterung, Ihre Skepsis. 
+Wir setzen also auf unsere wichtigste Ressource: Sie. Sie – und Ihr Adressbuch, Ihr Netzwerk, Ihre Begeisterung, Ihre Skepsis.
 
-Bis Ende März werden wir eine Kampagne machen müssen, in der Sie als Multiplikatoren, Botschafterinnen, Komplizen – nennen Sie es, wie Sie wollen – eine Hauptrolle spielen. 
+Bis Ende März werden wir eine Kampagne machen müssen, in der Sie als Multiplikatoren, Botschafterinnen, Komplizen – nennen Sie es, wie Sie wollen – eine Hauptrolle spielen.
 
 Unser Job dabei ist, Sie regelmässig, offen und klar über den Stand der Dinge zu informieren. Und Ihnen die besten Werkzeuge in die Hand zu geben: Argumente, Flyer, Mailkanonen – kurz: Propaganda­material.
 
@@ -552,20 +647,6 @@ ${
                         label: 'Ziel per 31. März',
                         value: 19000
                       }
-                      // (lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly) * 1.2 < TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT && {
-                      //   x1: '2020-03',
-                      //   x2: '2020-03',
-                      //   label: '100% Erneuerung',
-                      //   value:
-                      //     TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 1
-                      // },
-                      // (lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly) * 1.2 < TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.65 && {
-                      //   x1: '2020-03',
-                      //   x2: '2020-03',
-                      //   label: '65% Erneuerung',
-                      //   value:
-                      //     TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.65
-                      // }
                     ].filter(Boolean)
                   }}
                   values={
@@ -618,74 +699,71 @@ ${
               </div>
 
               {md(mdComponents)`
-## Warum das alles hart ist, aber machbar
-
-Falls Sie sich jetzt fragen: Ist es nicht übertrieben, gleich die Republik zu schliessen, wenn wir die Ziele nicht erreichen? Und warum nicht einfach sparen? [Die wichtigsten Antworten auf Ihre Fragen](/cockpit/faq "Was Sie zur Lage der Republik wissen müssen").
-
-Die Kurzversion: Im Prinzip funktioniert die Republik wie eine Rakete.
-
-Um abzuheben braucht sie Treibstoff. Den haben wir von Investoren und fast 14’000 Menschen 2017 beim Crowdfunding bekommen.
-
-Einmal in der Luft, zünden weitere Brennstufen, damit die Rakete auf den richtigen Kurs kommt. Wir haben mehr als ein Jahr gebraucht, bis Produkt, Crew und Organisation vernünftig funktioniert haben.
-
-Jetzt muss die Republik einen stabilen Orbit erreichen. Also selbsttragend werden. Denn die Republik ist nur dann sinnvoll, wenn sie aus eigener Kraft überlebt. Das heisst, wenn wir ein neues Modell für den Schweizer Medien­markt etablieren können. Und den Beweis liefern, dass kompromiss­loser Journalismus ohne Werbung funktioniert.
-
 ## Gemeinsam sind wir weit gekommen
 
-Abgesehen von den Finanzen war 2019 ein gutes Jahr: 
+Abgesehen von den Finanzen war 2019 ein gutes Jahr:
 
-*   Wir haben mit Recherchen einen [entscheidenden Unterschied gemacht](https://republik.ch/2019). 
+- Wir haben mit Recherchen einen [entscheidenden Unterschied gemacht](https://republik.ch/2019).
 
-*   Wir haben die Redaktion so weiterentwickelt, dass sie beides kann: schnell auf wichtige Ereignisse reagieren und Hintergrund liefern.
+- Wir haben die Redaktion so weiterentwickelt, dass sie beides kann: schnell auf wichtige Ereignisse reagieren und Hintergrund liefern.
 
-*   Wir haben die Themen­führerschaft in den Bereichen Justiz, Digitalisierung und Klimapolitik aufgebaut.
+- Wir haben die Themen­führerschaft in den Bereichen Justiz, Digitalisierung und Klimapolitik aufgebaut.
 
-*   Wir waren permanent im Dialog mit Ihnen. Bei keinem anderen Medium können Sie direkt mit den Autorinnen debattieren.
+- Wir waren permanent im Dialog mit Ihnen. Bei keinem anderen Medium können Sie direkt mit den Autorinnen debattieren.
 
-*   Wir reflektieren wie kein anderes Medien­unternehmen die eigene Arbeit öffentlich und schaffen Transparenz darüber, wie wir uns entwickeln.
+- Wir reflektieren wie kein anderes Medien­unternehmen die eigene Arbeit öffentlich und schaffen Transparenz darüber, wie wir uns entwickeln.
 
-*   Wir haben Nachwuchs ausgebildet – und was für einen!
+- Wir haben Nachwuchs ausgebildet – und was für einen!
 
-*   Wir waren für den deutschen Grimme-Online-Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».
+- Wir waren für den deutschen Grimme Online Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».
 
-*   Wir haben seit knapp einem Jahr ein starkes Gremium im Rücken, das uns trägt, unterstützt – und konstruktiv kritisiert: den Genossenschaftsrat.
+- Wir haben seit einem Jahr ein starkes Gremium im Rücken, das uns trägt, unterstützt – und konstruktiv kritisiert: den Genossenschaftsrat.
 
 ## Die drei Phasen bis Ende März
 
-Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen: 
+Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 
 **Bis Ende Januar** 
 
-1.  Dass möglichst viele Verleger trotz Risiko an Bord bleiben.
+1.  Dass möglichst viele Verlegerinnen trotz Risiko an Bord bleiben.
 
 2.  Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
 
 3.  Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](mailto:ir@republik.ch))
 
-**Im Februar** wollen wir mit Ihnen darüber reden, wie wir die Republik noch neugieriger und nützlicher machen können.
+**Im Februar** wollen wir an ein paar Schrauben drehen, bevor wir in den entscheidenden Monat gehen. Wir wollen die Republik nicht neu erfinden. Aber sie gemeinsam mit Ihnen noch ein wenig nützlicher, transparenter und interaktiver machen.
 
-**Im März** werden wir mit einer grossen und lauten Kampagne ein paar tausend neue Verlegerinnen gewinnen müssen. Jetzt geht es um: Wachstum. 
-
-## Was Sie sofort tun können
-
-*   Falls Sie nur eine Sache tun wollen: Erneuern Sie Ihre Mitgliedschaft – wenn möglich grosszügig. Wenn möglich jetzt.
-
-*   Oder – wenn Sie noch nicht an Bord sind – werden Sie Mitglied der Verlagsetage.
-
-*   Verschenken Sie die Republik, zum Beispiel zu Weihnachten – oder unter einem anderen Vorwand.
-
-*   Reden Sie mit Ihren Freunden über uns. Oder teilen Sie unsere interessantesten Geschichten mit ihnen. 
+**Im März** werden wir mit einer grossen und lauten Kampagne ein paar tausend neue Verlegerinnen gewinnen müssen. Jetzt geht es um: Wachstum.
 
 Wir freuen uns, wenn Sie in den nächsten Monaten Seite an Seite mit uns für die Zukunft der Republik kämpfen.
 
-Einfach wird das nicht – aber wir werden guter Laune sein. Und das Unternehmen Richtung stabilen Orbit steuern.
+`}
+              <br />
+              <Accordion
+                me={me}
+                query={query}
+                shouldBuyProlong={shouldBuyProlong}
+                isReactivating={isReactivating}
+                defaultBenefactor={defaultBenefactor}
+                questionnaire={questionnaire}
+              />
 
-Wie wir hoffen: mit Ihnen. Wem sonst? 
+              {inNativeIOSApp && (
+                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
+                  {t('cockpit/ios')}
+                </Interaction.P>
+              )}
 
-## ${lastMonth.activeEndOfMonth +
-                lastMonth.pendingSubscriptionsOnly} sind treu.`}
+              {md(mdComponents)`
+
+
+
+## ${countFormat(
+                lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
+              )} sind dabei.`}
 
               <TestimonialList
+                seed={communitySeed.end}
                 membershipAfter={END_DATE}
                 ssr={false}
                 singleRow
@@ -695,7 +773,6 @@ Wie wir hoffen: mit Ihnen. Wem sonst?
               <br />
 
               {md(mdComponents)`
-
 [Alle anschauen](/community)${
                 me && me.activeMembership ? (
                   <Fragment>
@@ -714,20 +791,7 @@ Wie wir hoffen: mit Ihnen. Wem sonst?
       `}
 
               <br />
-              <Accordion
-                me={me}
-                query={query}
-                shouldBuyProlong={shouldBuyProlong}
-                isReactivating={isReactivating}
-                defaultBenefactor={defaultBenefactor}
-                questionnaire={questionnaire}
-              />
-
-              {inNativeIOSApp && (
-                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
-                  {t('cockpit/ios')}
-                </Interaction.P>
-              )}
+              <br />
 
               {questionnaire &&
                 questionnaire.userIsEligible &&
@@ -745,10 +809,6 @@ Wie wir hoffen: mit Ihnen. Wem sonst?
 
               <br />
               <br />
-              {md(mdComponents)`
-
-PS: Falls Sie noch offene Fragen haben: [Wir haben fast zwei Dutzend der wichtigsten hier beantwortet](/cockpit/faq "Warum nur? Das Briefing").
-      `}
             </>
           )
         }}
@@ -824,7 +884,7 @@ const actionsQuery = gql`
   }
 `
 
-export default compose(
+const EnhancedPage = compose(
   withT,
   withMe,
   withRouter,
@@ -870,3 +930,14 @@ export default compose(
     })
   })
 )(Page)
+
+EnhancedPage.getInitialProps = () => {
+  return {
+    communitySeed: {
+      start: generateSeed(),
+      end: generateSeed()
+    }
+  }
+}
+
+export default EnhancedPage

@@ -148,6 +148,7 @@ app.prepare().then(() => {
     )
   })
 
+  server.use(express.static('public'))
   server.use(handler)
 
   server.listen(PORT, err => {

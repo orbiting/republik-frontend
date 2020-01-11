@@ -4084,7 +4084,7 @@
     },
     {
       "key": "questionnaire/crowd/submitted/intro",
-      "value": "Vielen Dank für Ihre Bereitschaft, mitzuhelfen und für die Republik zu kämpfen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekannt­machung der Republik starten:"
+      "value": "Vielen Dank für Ihre Bereitschaft mitzuhelfen, die Republik bekannter zu machen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekanntmachung der Republik starten oder an einem Komplizentreffen teilnehmen: "
     },
     {
       "key": "questionnaire/crowd/submitted/list/1",
@@ -4093,6 +4093,10 @@
     {
       "key": "questionnaire/crowd/submitted/list/2",
       "value": "Auf der Kampagnen­seite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten zur Mithilfe</a>."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/0",
+      "value": "<a href=\"/veranstaltungen\">Veranstaltungen</a>"
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",

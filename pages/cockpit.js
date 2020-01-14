@@ -413,16 +413,14 @@ const Page = ({
 
               {md(mdComponents)`
 
-## ${countFormat(
-                lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
-              )} Verlegerinnen sind weiterhin dabei`}
+## Unsere Verlegerinnen – Sie!`}
 
               <TestimonialList
                 seed={communitySeed.start}
                 membershipAfter={END_DATE}
                 singleRow
                 minColumns={3}
-                dark
+                share={false}
               />
               <br />
 
@@ -453,7 +451,9 @@ Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb
   `}
 
               {inNativeIOSApp && (
-                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
+                <Interaction.P
+                  style={{ color: '#ef4533', marginBottom: 15, marginTop: 15 }}
+                >
                   {t('cockpit/ios')}
                 </Interaction.P>
               )}
@@ -774,7 +774,7 @@ Wir freuen uns, wenn Sie in den nächsten Monaten Seite an Seite mit uns für di
                 ssr={false}
                 singleRow
                 minColumns={3}
-                dark
+                share={false}
               />
               <br />
 

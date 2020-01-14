@@ -522,6 +522,9 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
               </Fragment>
               {md(mdComponents)`
 
+_12.01.2020, Project-R-Newsletter_  
+[Das Update zum Zustand der Republik](https://project-r.construction/newsletter/2020-01-12-zustand)
+
 _11.01.2020, Gesprächsrunde im Rothaus:_  
 [«Ihr braucht mehr Einnahmen. Woher sollen die kommen?»](https://www.republik.ch/2020/01/11/zur-lage-der-republik)
 
@@ -530,6 +533,9 @@ _24.12.2019, Rückmeldungen:_
 
 _09.12.2019, Fragen und Antworten:_  
 [Was Sie zur Lage der Republik wissen müssen](https://www.republik.ch/2019/12/09/lage-der-republik)
+
+_09.12.2019, Project-R-Newsletter_  
+[Der wichtigste Newsletter seit dem Start der Republik](https://project-r.construction/newsletter/2019-12-09-der-wichtigste-newsletter)
 
 ${(shouldBuyProlong || (!me || !me.activeMembership)) && (
   <PrimaryCTA

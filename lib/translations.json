@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-15T20:01:43.865Z",
+  "updated": "2020-01-15T18:00:10.065Z",
   "title": "live",
   "data": [
     {
@@ -3731,8 +3731,8 @@
       "value": "Dialog"
     },
     {
-      "key": "feedback/title",
-      "value": "Dialog"
+      "key": "feedback/unauthorized/title",
+      "value": "Republik-Dialog"
     },
     {
       "key": "feedback/unauthorized",
@@ -3744,19 +3744,15 @@
     },
     {
       "key": "feedback/lead",
-      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive."
+      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir miteinander über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
     },
     {
-      "key": "feedback/general/title",
-      "value": "Allgemeines Feedback"
+      "key": "feedback/general/button",
+      "value": "Allgemeines"
     },
     {
-      "key": "feedback/link/overview",
-      "value": "Zur Übersicht."
-    },
-    {
-      "key": "feedback/link/general",
-      "value": "Allgemeines Feedback zur Republik."
+      "key": "feedback/article/button",
+      "value": "Unsere Stücke"
     },
     {
       "key": "feedback/article/headline",

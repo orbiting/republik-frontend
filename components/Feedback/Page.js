@@ -30,11 +30,14 @@ import {
   Button,
   Center,
   Interaction,
+  Editorial,
   Label,
   mediaQueries
 } from '@project-r/styleguide'
 import FontSizeSync from '../FontSize/Sync'
 import FontSizeAdjust from '../FontSize/Adjust'
+
+import { ListWithQuery as TestimonialList } from '../Testimonial/List'
 
 const tabMq = '@media only screen and (min-width: 468px)'
 
@@ -337,6 +340,24 @@ class FeedbackPage extends Component {
             t={t}
             style={{ display: 'block', textAlign: 'right' }}
           />
+          {!tab && (
+            <>
+              <Interaction.H3 style={{ marginTop: 10, marginBottom: 10 }}>
+                {t('marketing/community/title/plain')}
+              </Interaction.H3>
+              <TestimonialList
+                singleRow
+                minColumns={3}
+                first={5}
+                share={false}
+              />
+              <div style={{ marginTop: 10 }}>
+                <Link route='community' passHref>
+                  <Editorial.A>{t('marketing/community/link')}</Editorial.A>
+                </Link>
+              </div>
+            </>
+          )}
           {activeDiscussionId && (
             <Discussion
               discussionId={activeDiscussionId}

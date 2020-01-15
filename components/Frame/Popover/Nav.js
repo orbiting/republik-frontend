@@ -238,13 +238,13 @@ const Nav = ({
               <Sections active={active} closeHandler={closeHandler} />
             </div>
           )}
-          <NavLink
+          {/*<NavLink
             route='community'
             active={active}
             closeHandler={closeHandler}
           >
             {t('nav/community')}
-          </NavLink>
+          </NavLink>*/}
           <NavLink route='events' active={active} closeHandler={closeHandler}>
             {t('nav/events')}
           </NavLink>

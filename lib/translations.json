@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-10T22:49:02.263Z",
+  "updated": "2020-01-15T18:00:10.065Z",
   "title": "live",
   "data": [
     {
@@ -349,6 +349,10 @@
     {
       "key": "marketing/claim",
       "value": "Sie haben einen Gutschein? {claimLink}"
+    },
+    {
+      "key": "marketing/community/title/plain",
+      "value": "Unsere Verlegerinnen und Verleger"
     },
     {
       "key": "marketing/community/title",

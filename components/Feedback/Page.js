@@ -166,10 +166,6 @@ class FeedbackPage extends Component {
       )
     }
 
-    this.setArticleRef = ref => {
-      this.articleRef = ref
-    }
-
     this.scrollToArticleDiscussion = () => {
       const {
         router: { query }
@@ -238,19 +234,16 @@ class FeedbackPage extends Component {
         <FontSizeSync />
         <Center {...styles.container}>
           <div {...styles.intro}>
-            <WithMembership
-              render={() => <Interaction.P>{t('feedback/lead')}</Interaction.P>}
-            />
             <WithoutMembership
               render={() => (
                 <UnauthorizedMessage
                   {...{
                     me,
                     unauthorizedTexts: {
-                      title: t('feedback/unauthorized/title'),
+                      title: t('feedback/title'),
                       description: t.elements('feedback/unauthorized', {
                         buyLink: (
-                          <Link key='pledge' route='pledge'>
+                          <Link key='pledge' route='pledge' passHref>
                             <A>{t('feedback/unauthorized/buyText')}</A>
                           </Link>
                         )
@@ -260,86 +253,59 @@ class FeedbackPage extends Component {
                 />
               )}
             />
+            <WithMembership
+              render={() => (
+                <>
+                  <Interaction.H1>{t('feedback/title')}</Interaction.H1>
+                  <br />
+                  <Interaction.P>
+                    {t('feedback/lead')}
+                    {!!tab && (
+                      <>
+                        {' '}
+                        <Link route='discussion' passHref>
+                          <A>{t('feedback/link/overview')}</A>
+                        </Link>
+                      </>
+                    )}
+                    {tab !== 'general' && (
+                      <>
+                        {' '}
+                        <Link
+                          route='discussion'
+                          params={{ t: 'general' }}
+                          passHref
+                        >
+                          <A>{t('feedback/link/general')}</A>
+                        </Link>
+                      </>
+                    )}
+                  </Interaction.P>
+                </>
+              )}
+            />
           </div>
-          <WithMembership
-            render={() => (
-              <Fragment>
-                <div {...styles.tab}>
-                  <div
-                    {...styles.tabButton}
-                    {...styles.tabButton2}
-                    style={{ zIndex: 1 }}
-                  >
-                    <Button
-                      block
-                      dimmed={tab && tab !== 'article'}
-                      onClick={this.selectArticleTab}
-                    >
-                      {t('feedback/article/button')}
-                    </Button>
-                  </div>
-                  <div
-                    {...styles.tabButton}
-                    {...styles.tabButton2}
-                    style={{
-                      zIndex: tab === 'general' ? 1 : undefined
-                    }}
-                  >
-                    <Button
-                      block
-                      dimmed={tab && tab !== 'general'}
-                      onClick={this.selectGeneralTab}
-                    >
-                      {t('feedback/general/button')}
-                    </Button>
-                  </div>
-                </div>
-                {!GENERAL_FEEDBACK_DISCUSSION_ID && (
-                  <div style={{ color: 'red', marginTop: 20 }}>
-                    GENERAL_FEEDBACK_DISCUSSION_ID is undefined in .env
-                  </div>
-                )}
-              </Fragment>
-            )}
-          />
-          {tab === 'article' && (
-            <Fragment>
-              <WithMembership
-                render={() => (
-                  <Fragment>
-                    <div {...styles.articleHeadline}>
-                      <Interaction.H3>
-                        {t('feedback/article/headline')}
-                      </Interaction.H3>
-                    </div>
-                    <ArticleSearch
-                      value={searchValue}
-                      onChange={this.onChangeFromSearch}
-                      onReset={this.onReset}
-                    />
-                    <div {...styles.activeDiscussions}>
-                      <Label style={{ display: 'block', marginBottom: 10 }}>
-                        {t('feedback/activeDiscussions/label')}
-                      </Label>
-                      <ActiveDiscussions
-                        discussionId={activeDiscussionId}
-                        onChange={this.onChangeFromActiveDiscussions}
-                        onReset={this.onReset}
-                        ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
-                      />
-                    </div>
-                  </Fragment>
-                )}
-              />
-              <div {...styles.selectedHeadline} ref={this.setArticleRef}>
-                <ArticleDiscussionHeadline discussionId={activeDiscussionId} />
+          {!!tab && (
+            <div {...styles.selectedHeadline}>
+              <div
+                style={{
+                  display: 'block',
+                  textAlign: 'right',
+                  marginTop: 3,
+                  float: 'right',
+                  width: 50
+                }}
+              >
+                <FontSizeAdjust t={t} />
               </div>
-            </Fragment>
+              {tab === 'article' && (
+                <ArticleDiscussionHeadline discussionId={activeDiscussionId} />
+              )}
+              {tab === 'general' && (
+                <Interaction.H3>{t('feedback/general/title')}</Interaction.H3>
+              )}
+            </div>
           )}
-          <FontSizeAdjust
-            t={t}
-            style={{ display: 'block', textAlign: 'right' }}
-          />
           {!tab && (
             <>
               <Interaction.H3 style={{ marginTop: 10, marginBottom: 10 }}>
@@ -356,6 +322,36 @@ class FeedbackPage extends Component {
                   <Editorial.A>{t('marketing/community/link')}</Editorial.A>
                 </Link>
               </div>
+
+              <WithMembership
+                render={() => (
+                  <Fragment>
+                    {/*<div {...styles.articleHeadline}>
+                      <Interaction.H3>
+                        {t('feedback/article/headline')}
+                      </Interaction.H3>
+                    </div>
+                    <ArticleSearch
+                      value={searchValue}
+                      onChange={this.onChangeFromSearch}
+                      onReset={this.onReset}
+                    />*/}
+                    <div {...styles.activeDiscussions}>
+                      <Interaction.H3
+                        style={{ display: 'block', marginBottom: 10 }}
+                      >
+                        {t('feedback/activeDiscussions/label')}
+                      </Interaction.H3>
+                      <ActiveDiscussions
+                        discussionId={activeDiscussionId}
+                        onChange={this.onChangeFromActiveDiscussions}
+                        onReset={this.onReset}
+                        ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
+                      />
+                    </div>
+                  </Fragment>
+                )}
+              />
             </>
           )}
           {activeDiscussionId && (

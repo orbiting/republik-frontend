@@ -59,6 +59,8 @@ const ActiveDiscussionItem = ({
   onClick,
   label,
   selected,
+  count,
+  countIcon,
   path
 }) => (
   <DiscussionLink discussion={discussion} passHref>
@@ -71,6 +73,8 @@ const ActiveDiscussionItem = ({
         newPage={!!path}
         selected={selected}
         iconSize={24}
+        count={count}
+        countIcon={countIcon}
         Wrapper={Interaction.P}
       />
     </a>
@@ -98,7 +102,7 @@ class ActiveDiscussions extends Component {
           return (
             <div>
               {activeDiscussions &&
-                activeDiscussions.map(activeDiscussion => {
+                activeDiscussions.map((activeDiscussion, i) => {
                   const discussion = activeDiscussion.discussion
                   const selected =
                     discussionId && discussionId === discussion.id
@@ -114,6 +118,8 @@ class ActiveDiscussions extends Component {
                       selected={selected}
                       discussion={discussion}
                       path={path}
+                      count={activeDiscussion.count}
+                      countIcon={i === 0}
                     />
                   )
                 })}

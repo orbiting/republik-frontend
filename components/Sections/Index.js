@@ -110,8 +110,10 @@ const SectionIndex = ({ data: { loading, error, sections }, t }) => {
                       )}
                     </Link>
                   </div>
-                  {formats.nodes.map(
-                    ({ id, meta: formatMeta, linkedDocuments }) => (
+                  {[]
+                    .concat(formats.nodes)
+                    .sort((a, b) => ascending(a.meta.title, b.meta.title))
+                    .map(({ id, meta: formatMeta, linkedDocuments }) => (
                       <Link href={formatMeta.path} passHref key={id}>
                         <a {...styles.link}>
                           <FormatTag
@@ -121,8 +123,7 @@ const SectionIndex = ({ data: { loading, error, sections }, t }) => {
                           />
                         </a>
                       </Link>
-                    )
-                  )}
+                    ))}
                 </section>
               )
             })}

@@ -587,11 +587,12 @@ class ArticlePage extends Component {
       />
     )
 
-    const formatMeta =
+    const colorMeta =
       meta &&
-      (meta.template === 'format' ? meta : meta.format && meta.format.meta)
-    const formatColor =
-      formatMeta && (formatMeta.color || colors[formatMeta.kind])
+      (meta.template === 'format' || meta.template === 'section'
+        ? meta
+        : meta.format && meta.format.meta)
+    const formatColor = colorMeta && (colorMeta.color || colors[colorMeta.kind])
 
     const sectionColor = meta && meta.template === 'section' && meta.color
     const MissingNode = isEditor ? undefined : ({ children }) => children

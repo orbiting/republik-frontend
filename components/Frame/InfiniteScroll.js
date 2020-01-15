@@ -1,6 +1,7 @@
 import React from 'react'
 import { A, Spinner } from '@project-r/styleguide'
 import withT from '../../lib/withT'
+import { countFormat } from '../../lib/utils/format'
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 import ErrorMessage from '../ErrorMessage'
 import { css, merge } from 'glamor'
@@ -46,8 +47,8 @@ const InfiniteScroll = ({
             }}
           >
             {t(loadMoreKey || 'feed/loadMore', {
-              count: currentCount,
-              remaining: totalCount - currentCount
+              count: countFormat(currentCount),
+              remaining: countFormat(totalCount - currentCount)
             })}
           </A>
         )}

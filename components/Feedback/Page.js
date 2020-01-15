@@ -33,7 +33,8 @@ import {
   Editorial,
   Label,
   mediaQueries,
-  colors
+  colors,
+  InfoBoxListItem
 } from '@project-r/styleguide'
 import FontSizeSync from '../FontSize/Sync'
 import FontSizeAdjust from '../FontSize/Adjust'
@@ -48,18 +49,6 @@ const styles = {
     [mediaQueries.mUp]: {
       padding: '55px 0 120px 0'
     }
-  }),
-  intro: css({
-    marginBottom: 30,
-    [mediaQueries.mUp]: {
-      marginBottom: 40
-    }
-  }),
-  tab: css({
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginBottom: 20,
-    position: 'relative'
   }),
   h3: css({
     marginTop: 30,
@@ -138,40 +127,44 @@ class FeedbackPage extends Component {
       <Frame raw meta={pageMeta} formatColor={colors.primary}>
         <FontSizeSync />
         <Center {...styles.container}>
-          <div {...styles.intro}>
-            <WithoutMembership
-              render={() => (
-                <UnauthorizedMessage
-                  {...{
-                    me,
-                    unauthorizedTexts: {
-                      title: t('feedback/title'),
-                      description: t.elements('feedback/unauthorized', {
-                        buyLink: (
-                          <Link key='pledge' route='pledge' passHref>
-                            <A>{t('feedback/unauthorized/buyText')}</A>
-                          </Link>
-                        )
-                      })
-                    }
-                  }}
-                />
-              )}
-            />
-            {!tab && (
+          {!tab && (
+            <>
+              <Interaction.Headline>{t('feedback/title')}</Interaction.Headline>
+              <br />
               <WithMembership
                 render={() => (
                   <>
-                    <Interaction.Headline>
-                      {t('feedback/title')}
-                    </Interaction.Headline>
-                    <br />
                     <Interaction.P>{t('feedback/lead')}</Interaction.P>
+
+                    <Editorial.UL compact>
+                      <InfoBoxListItem>
+                        <p>
+                          <Link
+                            route='discussion'
+                            params={{ t: 'general' }}
+                            passHref
+                          >
+                            <A>{t('feedback/link/general')}</A>
+                          </Link>
+                        </p>
+                      </InfoBoxListItem>
+                      <InfoBoxListItem>
+                        <p>
+                          <Link
+                            route='format'
+                            params={{ slug: 'debatte' }}
+                            passHref
+                          >
+                            <A>{t('feedback/link/format')}</A>
+                          </Link>
+                        </p>
+                      </InfoBoxListItem>
+                    </Editorial.UL>
                   </>
                 )}
               />
-            )}
-          </div>
+            </>
+          )}
           {!!tab && (
             <div style={{ marginBottom: 30 }}>
               <Editorial.Format color={colors.primary}>
@@ -191,23 +184,32 @@ class FeedbackPage extends Component {
               <FontSizeAdjust t={t} />
             </div>
           )}
+          <WithoutMembership
+            render={() => (
+              <>
+                <UnauthorizedMessage
+                  {...{
+                    me,
+                    unauthorizedTexts: {
+                      title: ' ',
+                      description: t.elements('feedback/unauthorized', {
+                        buyLink: (
+                          <Link key='pledge' route='pledge' passHref>
+                            <A>{t('feedback/unauthorized/buyText')}</A>
+                          </Link>
+                        )
+                      })
+                    }
+                  }}
+                />
+                <br />
+                <br />
+                <br />
+              </>
+            )}
+          />
           {!tab && (
             <>
-              <Interaction.H3 {...styles.h3}>
-                {t('marketing/community/title/plain')}
-              </Interaction.H3>
-              <TestimonialList
-                singleRow
-                minColumns={3}
-                first={5}
-                share={false}
-              />
-              <div style={{ marginTop: 10 }}>
-                <Link route='community' passHref>
-                  <Editorial.A>{t('marketing/community/link')}</Editorial.A>
-                </Link>
-              </div>
-
               <WithMembership
                 render={() => (
                   <Fragment>
@@ -232,6 +234,21 @@ class FeedbackPage extends Component {
                   </Fragment>
                 )}
               />
+
+              <Interaction.H3 {...styles.h3}>
+                {t('marketing/community/title/plain')}
+              </Interaction.H3>
+              <TestimonialList
+                singleRow
+                minColumns={3}
+                first={5}
+                share={false}
+              />
+              <div style={{ marginTop: 10 }}>
+                <Link route='community' passHref>
+                  <A>{t('marketing/community/link')}</A>
+                </Link>
+              </div>
             </>
           )}
           {activeDiscussionId && (

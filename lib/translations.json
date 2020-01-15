@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-15T20:01:43.865Z",
+  "updated": "2020-01-15T22:38:19.624Z",
   "title": "live",
   "data": [
     {
@@ -3744,19 +3744,19 @@
     },
     {
       "key": "feedback/lead",
-      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive."
+      "value": "Die Republik ist nur so stark wie Ihre Community. Teilen Sie Ihr Wissen und Ihre Perspektive."
     },
     {
       "key": "feedback/general/title",
       "value": "Allgemeines Feedback"
     },
     {
-      "key": "feedback/link/overview",
-      "value": "Zur Übersicht."
+      "key": "feedback/link/general",
+      "value": "Allgemeines Feedback zur Republik"
     },
     {
-      "key": "feedback/link/general",
-      "value": "Allgemeines Feedback zur Republik."
+      "key": "feedback/link/format",
+      "value": "Kuratierten Debatte"
     },
     {
       "key": "feedback/article/headline",

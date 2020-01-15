@@ -3,6 +3,7 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
+import { Router } from '../../lib/routes'
 
 import { isAdmin } from './graphql/enhancers/isAdmin'
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
@@ -13,7 +14,7 @@ import { withDiscussionComments } from './graphql/enhancers/withDiscussionCommen
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
-import CommentLink, { getFocusUrl } from './CommentLink'
+import CommentLink, { getFocusUrl, getFocusRoute } from './CommentLink'
 
 import {
   Loader,
@@ -201,11 +202,6 @@ const Comments = props => {
     fetchFocus()
   })
 
-  const onReload = e => {
-    e.preventDefault()
-    props.discussionComments.refetch()
-  }
-
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 
   return (
@@ -221,6 +217,20 @@ const Comments = props => {
 
         if (discussion.comments.totalCount === 0) {
           return <EmptyDiscussion t={t} />
+        }
+
+        const onReload = e => {
+          e.preventDefault()
+          const result = getFocusRoute(discussion)
+          if (result) {
+            Router.replaceRoute(result.route, result.params).then(() => {
+              props.discussionComments.refetch({
+                focusId: undefined
+              })
+            })
+          } else {
+            props.discussionComments.refetch()
+          }
         }
 
         /*
@@ -321,7 +331,11 @@ const Comments = props => {
                 setOrderBy={setOrderBy}
                 value='REPLIES'
               />
-              <A {...styles.reloadLink} href='' onClick={onReload}>
+              <A
+                {...styles.reloadLink}
+                href={getFocusUrl(discussion)}
+                onClick={onReload}
+              >
                 {t('components/Discussion/reload')}
               </A>
               <br style={{ clear: 'both' }} />

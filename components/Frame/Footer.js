@@ -178,8 +178,16 @@ class Footer extends Component {
                 <a>{t('footer/jobs')}</a>
               </Link>
               <br />
+              <Link route='community'>
+                <a>{t('nav/community')}</a>
+              </Link>
+              <br />
               <Link route='events'>
                 <a>{t('footer/events')}</a>
+              </Link>
+              <br />
+              <Link route='cockpit'>
+                <a>{t('nav/cockpit')}</a>
               </Link>
               <br />
               <a href='/manifest' target={!inNativeApp ? '_blank' : undefined}>
@@ -193,10 +201,10 @@ class Footer extends Component {
               >
                 {t('footer/about/projecR')}
               </a>
-              <br />
-              <a href='/etat'>{t('footer/researchBudget')}</a>
-              <br />
-              <a href='/whistleblower'>{t('footer/whistleblower')}</a>
+              {/*
+                <br />
+                <a href='/etat'>{t('footer/researchBudget')}</a>
+              */}
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/legal/title')}</div>

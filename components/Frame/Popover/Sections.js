@@ -39,20 +39,17 @@ const SectionNav = ({
       error={error}
       style={{ minHeight: 110 }}
       render={() => {
-        let lastColor
         return (
           <>
-            {sections.nodes.map(({ id, meta }) => {
+            {sections.nodes.map(({ id, meta }, i) => {
               const match = matchPath(meta.path)
               if (!match) {
                 return null
               }
               const color = meta.color || colors[meta.kind]
-              const changed = lastColor && color !== lastColor
-              lastColor = color
               return (
                 <Fragment key={id}>
-                  {changed && <br />}
+                  {i > 0 && <br />}
                   <NavLink
                     route={match.route}
                     params={match.params}

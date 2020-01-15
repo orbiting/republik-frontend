@@ -221,15 +221,15 @@ const Nav = ({
               <NavLink route='feed' active={active} closeHandler={closeHandler}>
                 {t('navbar/feed')}
               </NavLink>
-              <NavLink
-                route='discussion'
-                active={active}
-                closeHandler={closeHandler}
-              >
-                {t('navbar/discussion')}
-              </NavLink>
             </>
           )}
+          <NavLink
+            route='discussion'
+            active={active}
+            closeHandler={closeHandler}
+          >
+            {t('navbar/discussion')}
+          </NavLink>
           <NavLink route='sections' active={active} closeHandler={closeHandler}>
             {t('nav/sections')}
           </NavLink>

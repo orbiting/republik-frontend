@@ -24,7 +24,7 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
   )
 
   return (
-    <Interaction.H3>
+    <>
       <WithMembership
         render={() => (
           <Fragment>
@@ -43,7 +43,7 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
           </Fragment>
         )}
       />
-    </Interaction.H3>
+    </>
   )
 }
 

@@ -20,7 +20,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import Frame from '../Frame'
 
 import ActiveDiscussions from './ActiveDiscussions'
-import ArticleDiscussionHeadline from './ArticleDiscussionHeadline'
+import DiscussionTitle from './DiscussionTitle'
 import ArticleSearch from './ArticleSearch'
 import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
@@ -32,7 +32,8 @@ import {
   Interaction,
   Editorial,
   Label,
-  mediaQueries
+  mediaQueries,
+  colors
 } from '@project-r/styleguide'
 import FontSizeSync from '../FontSize/Sync'
 import FontSizeAdjust from '../FontSize/Adjust'
@@ -60,37 +61,12 @@ const styles = {
     marginBottom: 20,
     position: 'relative'
   }),
-  tabButton: css({
-    flexGrow: 1,
-    width: '100%',
-    [tabMq]: {
-      width: '50%'
-    }
-  }),
-  tabButton2: css({
-    marginTop: -1,
-    [tabMq]: {
-      marginTop: 0,
-      marginLeft: -1
-    }
-  }),
-  articleHeadline: css({
-    margin: '30px 0 20px 0',
-    [mediaQueries.mUp]: {
-      margin: '40px 0 20px 0'
-    }
-  }),
-  activeDiscussions: css({
+  h3: css({
     marginTop: 30,
     [mediaQueries.mUp]: {
-      marginTop: 40
-    }
-  }),
-  selectedHeadline: css({
-    margin: '40px 0 26px 0',
-    [mediaQueries.mUp]: {
-      margin: '60px 0 30px 0'
-    }
+      marginTop: 60
+    },
+    marginBottom: 20
   })
 }
 
@@ -100,7 +76,6 @@ class FeedbackPage extends Component {
 
     this.state = {
       loading: false,
-      isMobile: true,
       searchValue: undefined
     }
 
@@ -134,76 +109,6 @@ class FeedbackPage extends Component {
         searchValue: null
       })
     }
-
-    this.handleResize = () => {
-      const isMobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (isMobile !== this.state.isMobile) {
-        this.setState({ isMobile })
-      }
-    }
-
-    this.selectArticleTab = () => {
-      const {
-        router: { query }
-      } = this.props
-      const isSelected = query.t === 'article'
-      Router.pushRoute(
-        'discussion',
-        isSelected ? undefined : { t: 'article' },
-        { shallow: true }
-      )
-    }
-
-    this.selectGeneralTab = () => {
-      const {
-        router: { query }
-      } = this.props
-      const isSelected = query.t === 'general'
-      Router.pushRoute(
-        'discussion',
-        isSelected ? undefined : { t: 'general' },
-        { shallow: true }
-      )
-    }
-
-    this.scrollToArticleDiscussion = () => {
-      const {
-        router: { query }
-      } = this.props
-      if (
-        !query.focus &&
-        this.articleRef &&
-        query.t === 'article' &&
-        query.id
-      ) {
-        const headerHeight =
-          window.innerWidth < mediaQueries.mBreakPoint
-            ? HEADER_HEIGHT_MOBILE
-            : HEADER_HEIGHT
-        setTimeout(() => {
-          const { top } = this.articleRef.getBoundingClientRect()
-          window.scrollTo({
-            top: top - headerHeight - 20,
-            left: 0,
-            behavior: 'smooth'
-          })
-        }, 100)
-      }
-    }
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
-    this.scrollToArticleDiscussion()
-  }
-
-  componentDidUpdate() {
-    this.scrollToArticleDiscussion()
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize)
   }
 
   render() {
@@ -230,7 +135,7 @@ class FeedbackPage extends Component {
         }
 
     return (
-      <Frame raw meta={pageMeta}>
+      <Frame raw meta={pageMeta} formatColor={colors.primary}>
         <FontSizeSync />
         <Center {...styles.container}>
           <div {...styles.intro}>
@@ -253,62 +158,42 @@ class FeedbackPage extends Component {
                 />
               )}
             />
-            <WithMembership
-              render={() => (
-                <>
-                  <Interaction.H1>{t('feedback/title')}</Interaction.H1>
-                  <br />
-                  <Interaction.P>
-                    {t('feedback/lead')}
-                    {!!tab && (
-                      <>
-                        {' '}
-                        <Link route='discussion' passHref>
-                          <A>{t('feedback/link/overview')}</A>
-                        </Link>
-                      </>
-                    )}
-                    {tab !== 'general' && (
-                      <>
-                        {' '}
-                        <Link
-                          route='discussion'
-                          params={{ t: 'general' }}
-                          passHref
-                        >
-                          <A>{t('feedback/link/general')}</A>
-                        </Link>
-                      </>
-                    )}
-                  </Interaction.P>
-                </>
-              )}
-            />
+            {!tab && (
+              <WithMembership
+                render={() => (
+                  <>
+                    <Interaction.Headline>
+                      {t('feedback/title')}
+                    </Interaction.Headline>
+                    <br />
+                    <Interaction.P>{t('feedback/lead')}</Interaction.P>
+                  </>
+                )}
+              />
+            )}
           </div>
           {!!tab && (
-            <div {...styles.selectedHeadline}>
-              <div
-                style={{
-                  display: 'block',
-                  textAlign: 'right',
-                  marginTop: 3,
-                  float: 'right',
-                  width: 50
-                }}
-              >
-                <FontSizeAdjust t={t} />
-              </div>
-              {tab === 'article' && (
-                <ArticleDiscussionHeadline discussionId={activeDiscussionId} />
-              )}
-              {tab === 'general' && (
-                <Interaction.H3>{t('feedback/general/title')}</Interaction.H3>
-              )}
+            <div style={{ marginBottom: 30 }}>
+              <Editorial.Format color={colors.primary}>
+                <Link route='discussion' passHref>
+                  <a style={{ color: 'inherit', textDecoration: 'none' }}>
+                    {t('feedback/title')}
+                  </a>
+                </Link>
+              </Editorial.Format>
+              <Interaction.H1>
+                {tab === 'article' && (
+                  <DiscussionTitle discussionId={activeDiscussionId} />
+                )}
+                {tab === 'general' && t('feedback/general/title')}
+              </Interaction.H1>
+              <br />
+              <FontSizeAdjust t={t} />
             </div>
           )}
           {!tab && (
             <>
-              <Interaction.H3 style={{ marginTop: 10, marginBottom: 10 }}>
+              <Interaction.H3 {...styles.h3}>
                 {t('marketing/community/title/plain')}
               </Interaction.H3>
               <TestimonialList
@@ -336,19 +221,14 @@ class FeedbackPage extends Component {
                       onChange={this.onChangeFromSearch}
                       onReset={this.onReset}
                     />*/}
-                    <div {...styles.activeDiscussions}>
-                      <Interaction.H3
-                        style={{ display: 'block', marginBottom: 10 }}
-                      >
-                        {t('feedback/activeDiscussions/label')}
-                      </Interaction.H3>
-                      <ActiveDiscussions
-                        discussionId={activeDiscussionId}
-                        onChange={this.onChangeFromActiveDiscussions}
-                        onReset={this.onReset}
-                        ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
-                      />
-                    </div>
+                    <Interaction.H3 {...styles.h3}>
+                      {t('feedback/activeDiscussions/label')}
+                    </Interaction.H3>
+                    <ActiveDiscussions
+                      discussionId={activeDiscussionId}
+                      first={5}
+                      ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
+                    />
                   </Fragment>
                 )}
               />
@@ -366,11 +246,9 @@ class FeedbackPage extends Component {
             <WithMembership
               render={() => (
                 <Fragment>
-                  <div {...styles.selectedHeadline}>
-                    <Interaction.H3>
-                      {t('feedback/latestComments/headline')}
-                    </Interaction.H3>
-                  </div>
+                  <Interaction.H3 {...styles.h3}>
+                    {t('feedback/latestComments/headline')}
+                  </Interaction.H3>
                   <LatestComments />
                 </Fragment>
               )}

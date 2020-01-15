@@ -84,13 +84,11 @@ class ActiveDiscussions extends Component {
     const activeDiscussions =
       data &&
       data.activeDiscussions &&
-      data.activeDiscussions
-        .filter(
-          activeDiscussion =>
-            activeDiscussion.discussion.id !== ignoreDiscussionId &&
-            !activeDiscussion.discussion.closed
-        )
-        .slice(0, 10)
+      data.activeDiscussions.filter(
+        activeDiscussion =>
+          activeDiscussion.discussion.id !== ignoreDiscussionId &&
+          !activeDiscussion.discussion.closed
+      )
 
     return (
       <Loader
@@ -129,8 +127,7 @@ class ActiveDiscussions extends Component {
 
 ActiveDiscussions.propTypes = {
   discussionId: PropTypes.string,
-  ignoreDiscussionId: PropTypes.string,
-  onChange: PropTypes.func
+  ignoreDiscussionId: PropTypes.string
 }
 
 export default compose(withActiveDiscussions)(ActiveDiscussions)

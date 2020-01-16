@@ -2,8 +2,8 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const getActiveDiscussions = gql`
-  query getActiveDiscussions($lastDays: Int!) {
-    activeDiscussions(lastDays: $lastDays) {
+  query getActiveDiscussions($lastDays: Int!, $first: Int) {
+    activeDiscussions(lastDays: $lastDays, first: $first) {
       count
       discussion {
         id
@@ -159,7 +159,8 @@ const getDiscussionDocumentMeta = gql`
 export const withActiveDiscussions = graphql(getActiveDiscussions, {
   options: props => ({
     variables: {
-      lastDays: props.lastDays || 3
+      lastDays: props.lastDays || 3,
+      first: props.first
     }
   })
 })

@@ -3,9 +3,9 @@ import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 
-import NewPage from 'react-icons/lib/md/open-in-new'
-
 import { Interaction, colors } from '@project-r/styleguide'
+
+import Icon from '../Icons/Discussion'
 
 const { P } = Interaction
 
@@ -13,10 +13,14 @@ const styles = {
   container: css({
     display: 'inline-block',
     position: 'relative',
-    maxWidth: '100%',
+    width: '100%',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
+  }),
+  count: css({
+    fontFeatureSettings: '"tnum" 1, "kern" 1',
+    color: colors.primary
   }),
   icon: css({
     position: 'absolute',
@@ -36,23 +40,29 @@ const DefaultWrapper = ({ children, ...props }) => (
 const ArticleItem = ({
   t,
   title,
-  newPage,
   selected,
   iconSize,
+  count,
+  countIcon,
   Wrapper = DefaultWrapper
 }) => (
   <Wrapper
     {...styles.container}
     style={{
-      paddingRight: newPage && iconSize ? `${iconSize * 1.5}px` : undefined
+      paddingRight:
+        countIcon && count
+          ? iconSize + 6
+          : 0 + count
+          ? 5 + String(count).length * 15
+          : 0
     }}
   >
     <span style={{ color: selected ? colors.primary : undefined }}>
       {title}
     </span>
-    {newPage && (
-      <span {...styles.icon} title={t('feedback/articleItem/newPage/title')}>
-        <NewPage size={iconSize} fill={colors.disabled} />
+    {count && (
+      <span {...styles.icon} {...styles.count}>
+        {countIcon && <Icon size={iconSize} fill={colors.primary} />} {count}
       </span>
     )}
   </Wrapper>

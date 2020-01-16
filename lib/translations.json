@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-15T18:00:10.065Z",
+  "updated": "2020-01-16T13:00:00.503Z",
   "title": "live",
   "data": [
     {
@@ -3731,8 +3731,8 @@
       "value": "Dialog"
     },
     {
-      "key": "feedback/unauthorized/title",
-      "value": "Republik-Dialog"
+      "key": "feedback/title",
+      "value": "Dialog"
     },
     {
       "key": "feedback/unauthorized",
@@ -3744,15 +3744,19 @@
     },
     {
       "key": "feedback/lead",
-      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir miteinander über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
+      "value": "Die Republik ist nur so stark wie Ihre Community. Teilen Sie Ihr Wissen und Ihre Perspektive."
     },
     {
-      "key": "feedback/general/button",
-      "value": "Allgemeines"
+      "key": "feedback/general/title",
+      "value": "Allgemeines Feedback"
     },
     {
-      "key": "feedback/article/button",
-      "value": "Unsere Stücke"
+      "key": "feedback/general/lead",
+      "value": "Hier können Sie Wünsche, Kritik und Lob an die Adresse der Republik einbringen."
+    },
+    {
+      "key": "feedback/link/general",
+      "value": "Ich möchte ein allgemeines Feedback zur Republik abgeben."
     },
     {
       "key": "feedback/article/headline",
@@ -3781,10 +3785,6 @@
     {
       "key": "feedback/articleItem/newPage/title",
       "value": "Zur Debattenseite"
-    },
-    {
-      "key": "feedback/fetchMore",
-      "value": "Mehr Beiträge"
     },
     {
       "key": "tokenAuthorization/error",

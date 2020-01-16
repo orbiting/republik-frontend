@@ -27,45 +27,6 @@ const getActiveDiscussions = gql`
   }
 `
 
-export const getArticleSearchResults = gql`
-  query getArticleSearchResults(
-    $search: String
-    $after: String
-    $sort: SearchSortInput
-    $filters: [SearchGenericFilterInput!]
-  ) {
-    search(
-      first: 5
-      after: $after
-      search: $search
-      sort: $sort
-      filters: $filters
-    ) {
-      nodes {
-        entity {
-          __typename
-          ... on Document {
-            meta {
-              title
-              path
-              credits
-              ownDiscussion {
-                id
-                closed
-              }
-              linkedDiscussion {
-                id
-                path
-                closed
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`
-
 const getComments = gql`
   query getComments(
     $first: Int!

@@ -62,8 +62,6 @@ const LatestComments = ({ t, data, fetchMore }) => {
                   discussion.document &&
                   discussion.document.meta) ||
                 {}
-              const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
-              const newPage = !isGeneral && meta.template === 'discussion'
 
               return (
                 <CommentTeaser
@@ -78,7 +76,6 @@ const LatestComments = ({ t, data, fetchMore }) => {
                   parentIds={parentIds}
                   Link={CommentLink}
                   discussion={discussion}
-                  newPage={newPage}
                 />
               )
             })}

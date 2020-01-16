@@ -153,7 +153,6 @@ class ArticleSearch extends Component {
                 text: (
                   <ArticleItem
                     title={meta.title}
-                    newPage={!!linkedDiscussion}
                     iconSize={24}
                     Wrapper={Interaction.P}
                   />

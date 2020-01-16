@@ -3,8 +3,6 @@ import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 
-import NewPage from 'react-icons/lib/md/open-in-new'
-
 import { Interaction, colors } from '@project-r/styleguide'
 
 import Icon from '../Icons/Discussion'
@@ -42,7 +40,6 @@ const DefaultWrapper = ({ children, ...props }) => (
 const ArticleItem = ({
   t,
   title,
-  newPage,
   selected,
   iconSize,
   count,
@@ -54,11 +51,9 @@ const ArticleItem = ({
     style={{
       paddingRight:
         countIcon && count
-          ? 30
+          ? iconSize + 6
           : 0 + count
           ? 5 + String(count).length * 15
-          : 0 + newPage && iconSize
-          ? iconSize * 1.5
           : 0
     }}
   >
@@ -67,12 +62,7 @@ const ArticleItem = ({
     </span>
     {count && (
       <span {...styles.icon} {...styles.count}>
-        {countIcon && <Icon size={24} fill={colors.primary} />} {count}
-      </span>
-    )}
-    {newPage && (
-      <span {...styles.icon} title={t('feedback/articleItem/newPage/title')}>
-        <NewPage size={iconSize} fill={colors.disabled} />
+        {countIcon && <Icon size={iconSize} fill={colors.primary} />} {count}
       </span>
     )}
   </Wrapper>

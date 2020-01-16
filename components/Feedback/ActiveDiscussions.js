@@ -70,7 +70,6 @@ const ActiveDiscussionItem = ({
     >
       <ArticleItem
         title={label}
-        newPage={!!path}
         selected={selected}
         iconSize={24}
         count={count}

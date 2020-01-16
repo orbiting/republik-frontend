@@ -167,10 +167,7 @@ const FeedbackPage = props => {
                   <Interaction.H3 {...styles.h3}>
                     {t('feedback/activeDiscussions/label')}
                   </Interaction.H3>
-                  <ActiveDiscussions
-                    discussionId={activeDiscussionId}
-                    first={5}
-                  />
+                  <ActiveDiscussions first={5} />
                 </Fragment>
               )}
             />

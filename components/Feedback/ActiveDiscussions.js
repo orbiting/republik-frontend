@@ -82,15 +82,13 @@ const ActiveDiscussionItem = ({
 
 class ActiveDiscussions extends Component {
   render() {
-    const { discussionId, ignoreDiscussionId, data } = this.props
+    const { data } = this.props
 
     const activeDiscussions =
       data &&
       data.activeDiscussions &&
       data.activeDiscussions.filter(
-        activeDiscussion =>
-          activeDiscussion.discussion.id !== ignoreDiscussionId &&
-          !activeDiscussion.discussion.closed
+        activeDiscussion => !activeDiscussion.discussion.closed
       )
 
     return (
@@ -103,8 +101,6 @@ class ActiveDiscussions extends Component {
               {activeDiscussions &&
                 activeDiscussions.map((activeDiscussion, i) => {
                   const discussion = activeDiscussion.discussion
-                  const selected =
-                    discussionId && discussionId === discussion.id
                   const meta = discussion.document
                     ? discussion.document.meta
                     : {}
@@ -114,7 +110,6 @@ class ActiveDiscussions extends Component {
                     <ActiveDiscussionItem
                       key={discussion.id}
                       label={discussion.title}
-                      selected={selected}
                       discussion={discussion}
                       path={path}
                       count={activeDiscussion.count}
@@ -128,11 +123,6 @@ class ActiveDiscussions extends Component {
       />
     )
   }
-}
-
-ActiveDiscussions.propTypes = {
-  discussionId: PropTypes.string,
-  ignoreDiscussionId: PropTypes.string
 }
 
 export default compose(withActiveDiscussions)(ActiveDiscussions)

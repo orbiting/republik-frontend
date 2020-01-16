@@ -9,15 +9,20 @@ const DiscussionLink = ({ children, discussion }) => {
     const meta = discussion.document.meta || {}
     const ownDiscussion = meta.ownDiscussion && !meta.ownDiscussion.closed
     const template = meta.template
-    tab =
-      (ownDiscussion && template === 'article' && 'article') ||
-      (discussion &&
-        discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID &&
-        'general')
+    tab = ownDiscussion && template === 'article' && 'article'
   }
+  tab =
+    tab ||
+    (discussion &&
+      discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID &&
+      'general')
   if (tab) {
     return (
-      <Link route='discussion' params={{ t: tab, id: discussion.id }} passHref>
+      <Link
+        route='discussion'
+        params={{ t: tab, id: tab === 'general' ? undefined : discussion.id }}
+        passHref
+      >
         {children}
       </Link>
     )

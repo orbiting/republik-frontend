@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-16T12:33:05.191Z",
+  "updated": "2020-01-16T13:00:00.503Z",
   "title": "live",
   "data": [
     {
@@ -3749,6 +3749,10 @@
     {
       "key": "feedback/general/title",
       "value": "Allgemeines Feedback"
+    },
+    {
+      "key": "feedback/general/lead",
+      "value": "Hier können Sie Wünsche, Kritik und Lob an die Adresse der Republik einbringen."
     },
     {
       "key": "feedback/link/general",

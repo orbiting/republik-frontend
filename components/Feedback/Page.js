@@ -164,6 +164,11 @@ class FeedbackPage extends Component {
                 )}
                 {tab === 'general' && t('feedback/general/title')}
               </Interaction.H1>
+              {tab === 'general' && (
+                <Interaction.P style={{ marginTop: 10 }}>
+                  {t('feedback/general/lead')}
+                </Interaction.P>
+              )}
               <br />
               <FontSizeAdjust t={t} />
             </div>

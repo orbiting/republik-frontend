@@ -94,7 +94,7 @@ const Comments = props => {
    * Fetching comment that is in focus.
    */
   const [
-    { currentFocus, focusLoading, focusError },
+    { currentFocusId, focusLoading, focusError },
     setFocusState
   ] = React.useState({})
   const fetchFocus = () => {
@@ -147,8 +147,8 @@ const Comments = props => {
        * To make sure we don't run 'focusSelector()' multiple times, we store
        * the focused comment in the component state.
        */
-      if (currentFocus !== focus) {
-        setFocusState(p => ({ ...p, currentFocus: focus }))
+      if (currentFocusId !== focus.id) {
+        setFocusState(p => ({ ...p, currentFocusId: focus.id }))
 
         /*
          * Wrap 'focusSelector()' in a timeout to work around a bug. See

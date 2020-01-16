@@ -227,6 +227,7 @@ const Nav = ({
             route='discussion'
             active={active}
             closeHandler={closeHandler}
+            hoverColor={colors.primary}
           >
             {t('navbar/discussion')}
           </NavLink>

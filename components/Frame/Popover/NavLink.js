@@ -33,16 +33,28 @@ const styles = {
   })
 }
 
-export const NavA = React.forwardRef(({ inline, children, ...props }, ref) => (
-  <a
-    ref={ref}
-    {...styles.link}
-    {...(inline ? styles.inline : styles.block)}
-    {...props}
-  >
-    {children}
-  </a>
-))
+export const NavA = React.forwardRef(
+  ({ inline, hoverColor, children, ...props }, ref) => (
+    <a
+      ref={ref}
+      {...styles.link}
+      {...(hoverColor &&
+        css({
+          transition: 'color 200ms ease-in-out',
+          transitionDelay: '33ms',
+          '@media (hover)': {
+            ':hover': {
+              color: hoverColor
+            }
+          }
+        }))}
+      {...(inline ? styles.inline : styles.block)}
+      {...props}
+    >
+      {children}
+    </a>
+  )
+)
 
 const NavLink = ({
   route,
@@ -51,7 +63,8 @@ const NavLink = ({
   active,
   closeHandler,
   style,
-  inline
+  inline,
+  hoverColor
 }) => {
   if (active && active.route === route) {
     const r = routes.find(r => r.name === route)
@@ -59,6 +72,7 @@ const NavLink = ({
       <NavA
         inline={inline}
         style={style}
+        hoverColor={hoverColor}
         href={r && r.getAs(params)}
         onClick={e => {
           if (shouldIgnoreClick(e)) {
@@ -77,7 +91,7 @@ const NavLink = ({
   }
   return (
     <Link route={route} params={params} passHref>
-      <NavA inline={inline} style={style}>
+      <NavA inline={inline} style={style} hoverColor={hoverColor}>
         {children}
       </NavA>
     </Link>

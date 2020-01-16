@@ -55,9 +55,7 @@ const SectionNav = ({
                     params={match.params}
                     active={active}
                     closeHandler={closeHandler}
-                    style={{
-                      color
-                    }}
+                    hoverColor={color}
                     inline
                   >
                     {meta.title}

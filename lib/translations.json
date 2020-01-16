@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-16T08:51:18.369Z",
+  "updated": "2020-01-16T12:33:05.191Z",
   "title": "live",
   "data": [
     {
@@ -3752,11 +3752,7 @@
     },
     {
       "key": "feedback/link/general",
-      "value": "Allgemeines Feedback zur Republik"
-    },
-    {
-      "key": "feedback/link/format",
-      "value": "Kuratierte Debatten"
+      "value": "Ich möchte ein allgemeines Feedback zur Republik abgeben."
     },
     {
       "key": "feedback/article/headline",

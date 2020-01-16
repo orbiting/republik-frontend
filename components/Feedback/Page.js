@@ -135,31 +135,15 @@ class FeedbackPage extends Component {
                 render={() => (
                   <>
                     <Interaction.P>{t('feedback/lead')}</Interaction.P>
-
-                    <Editorial.UL compact>
-                      <InfoBoxListItem>
-                        <p>
-                          <Link
-                            route='discussion'
-                            params={{ t: 'general' }}
-                            passHref
-                          >
-                            <A>{t('feedback/link/general')}</A>
-                          </Link>
-                        </p>
-                      </InfoBoxListItem>
-                      <InfoBoxListItem>
-                        <p>
-                          <Link
-                            route='format'
-                            params={{ slug: 'debatte' }}
-                            passHref
-                          >
-                            <A>{t('feedback/link/format')}</A>
-                          </Link>
-                        </p>
-                      </InfoBoxListItem>
-                    </Editorial.UL>
+                    <Interaction.P style={{ marginTop: 10 }}>
+                      <Link
+                        route='discussion'
+                        params={{ t: 'general' }}
+                        passHref
+                      >
+                        <A>{t('feedback/link/general')}</A>
+                      </Link>
+                    </Interaction.P>
                   </>
                 )}
               />
@@ -210,6 +194,20 @@ class FeedbackPage extends Component {
           />
           {!tab && (
             <>
+              <Interaction.H3 {...styles.h3}>
+                {t('marketing/community/title/plain')}
+              </Interaction.H3>
+              <TestimonialList
+                singleRow
+                minColumns={3}
+                first={5}
+                share={false}
+              />
+              <div style={{ marginTop: 10 }}>
+                <Link route='community' passHref>
+                  <A>{t('marketing/community/link')}</A>
+                </Link>
+              </div>
               <WithMembership
                 render={() => (
                   <Fragment>
@@ -234,21 +232,6 @@ class FeedbackPage extends Component {
                   </Fragment>
                 )}
               />
-
-              <Interaction.H3 {...styles.h3}>
-                {t('marketing/community/title/plain')}
-              </Interaction.H3>
-              <TestimonialList
-                singleRow
-                minColumns={3}
-                first={5}
-                share={false}
-              />
-              <div style={{ marginTop: 10 }}>
-                <Link route='community' passHref>
-                  <A>{t('marketing/community/link')}</A>
-                </Link>
-              </div>
             </>
           )}
           {activeDiscussionId && (

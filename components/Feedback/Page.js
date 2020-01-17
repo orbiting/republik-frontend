@@ -23,6 +23,7 @@ import ActiveDiscussions from './ActiveDiscussions'
 import DiscussionTitle from './DiscussionTitle'
 import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
+import DiscussionIcon from '../Icons/Discussion'
 
 import {
   A,
@@ -164,8 +165,17 @@ const FeedbackPage = props => {
             <WithMembership
               render={() => (
                 <Fragment>
-                  <Interaction.H3 {...styles.h3}>
+                  <Interaction.H3
+                    {...styles.h3}
+                    style={{
+                      position: 'relative',
+                      paddingRight: 40
+                    }}
+                  >
                     {t('feedback/activeDiscussions/label')}
+                    <span style={{ position: 'absolute', right: 0, top: -1 }}>
+                      <DiscussionIcon size={24} fill={colors.primary} />
+                    </span>
                   </Interaction.H3>
                   <ActiveDiscussions first={5} />
                 </Fragment>

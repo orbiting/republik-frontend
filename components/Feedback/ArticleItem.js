@@ -5,8 +5,6 @@ import withT from '../../lib/withT'
 
 import { Interaction, colors } from '@project-r/styleguide'
 
-import Icon from '../Icons/Discussion'
-
 const { P } = Interaction
 
 const styles = {
@@ -20,12 +18,9 @@ const styles = {
   }),
   count: css({
     fontFeatureSettings: '"tnum" 1, "kern" 1',
-    color: colors.primary
-  }),
-  icon: css({
+    color: colors.primary,
     position: 'absolute',
-    right: 0,
-    marginTop: '-2px'
+    right: 0
   })
 }
 
@@ -43,28 +38,18 @@ const ArticleItem = ({
   selected,
   iconSize,
   count,
-  countIcon,
   Wrapper = DefaultWrapper
 }) => (
   <Wrapper
     {...styles.container}
     style={{
-      paddingRight:
-        countIcon && count
-          ? iconSize + 6
-          : 0 + count
-          ? 5 + String(count).length * 15
-          : 0
+      paddingRight: count ? 10 + String(count).length * 12 : 0
     }}
   >
     <span style={{ color: selected ? colors.primary : undefined }}>
       {title}
     </span>
-    {count && (
-      <span {...styles.icon} {...styles.count}>
-        {countIcon && <Icon size={iconSize} fill={colors.primary} />} {count}
-      </span>
-    )}
+    {count && <span {...styles.count}>{count}</span>}
   </Wrapper>
 )
 

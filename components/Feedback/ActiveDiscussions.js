@@ -60,7 +60,6 @@ const ActiveDiscussionItem = ({
   label,
   selected,
   count,
-  countIcon,
   path
 }) => (
   <DiscussionLink discussion={discussion} passHref>
@@ -73,8 +72,7 @@ const ActiveDiscussionItem = ({
         selected={selected}
         iconSize={24}
         count={count}
-        countIcon={countIcon}
-        Wrapper={Interaction.P}
+        wrapper={Interaction.P}
       />
     </a>
   </DiscussionLink>
@@ -113,7 +111,6 @@ class ActiveDiscussions extends Component {
                       discussion={discussion}
                       path={path}
                       count={activeDiscussion.count}
-                      countIcon={i === 0}
                     />
                   )
                 })}

@@ -27,7 +27,7 @@ const Comments = ({ t, comments, loadMore }) => {
         })}
       </Interaction.H3>
       {comments.nodes
-        .filter(comment => comment.content)
+        .filter(comment => comment.preview)
         .map(comment => {
           const discussion = comment.discussion || {}
           const context = {
@@ -38,7 +38,18 @@ const Comments = ({ t, comments, loadMore }) => {
               key={comment.id}
               id={comment.id}
               context={context}
-              preview={comment.preview}
+              preview={
+                !comment.published
+                  ? {
+                      string:
+                        t('styleguide/comment/unpublished') +
+                        (comment.adminUnpublished
+                          ? ' ' + t('styleguide/comment/adminUnpublished')
+                          : ''),
+                      more: false
+                    }
+                  : comment.preview
+              }
               createdAt={comment.createdAt}
               tags={comment.tags}
               parentIds={comment.parentIds}

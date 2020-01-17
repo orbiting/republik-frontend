@@ -185,7 +185,8 @@ const getPublicUser = gql`
         }
         nodes {
           id
-          content
+          published
+          adminUnpublished
           preview(length: 210) {
             string
             more

@@ -22,6 +22,9 @@ const styles = {
     linkRule,
     css({
       color: colors.text,
+      ':visited': {
+        color: colors.text
+      },
       textDecoration: 'none',
       display: 'flex',
       alignItems: 'center',

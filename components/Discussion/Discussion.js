@@ -4,15 +4,18 @@ import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
 
-const depth = 3
-const parentId = null
+const DEFAULT_DEPTH = 3
 
 const Discussion = ({
   discussionId,
   focusId = null,
   mute,
   meta,
-  sharePath
+  sharePath,
+  board,
+  parent,
+  parentId = null,
+  rootCommentOverlay
 }) => {
   /*
    * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
@@ -31,18 +34,23 @@ const Discussion = ({
     return () => clearInterval(intervalId)
   }, [setNow])
 
+  const depth = board ? 1 : DEFAULT_DEPTH
+
   return (
     <div data-discussion-id={discussionId}>
-      <DiscussionCommentComposer
-        discussionId={discussionId}
-        orderBy={orderBy}
-        focusId={focusId}
-        depth={depth}
-        parentId={parentId}
-        now={now}
-      />
-
-      <NotificationOptions discussionId={discussionId} mute={mute} />
+      {!rootCommentOverlay && (
+        <>
+          <DiscussionCommentComposer
+            discussionId={discussionId}
+            orderBy={orderBy}
+            focusId={focusId}
+            depth={depth}
+            parentId={parentId}
+            now={now}
+          />
+          <NotificationOptions discussionId={discussionId} mute={mute} />
+        </>
+      )}
 
       <div style={{ margin: '20px 0' }}>
         <Comments
@@ -55,6 +63,8 @@ const Discussion = ({
           now={now}
           meta={meta}
           setOrderBy={setOrderBy}
+          board={board}
+          parent={parent}
         />
       </div>
     </div>

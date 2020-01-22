@@ -32,6 +32,8 @@ import {
 
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
+import Overlay from '../FontSize/Overlay'
+import { RootCommentOverlay } from './RootCommentOverlay'
 
 const styles = {
   orderByContainer: css({
@@ -74,7 +76,10 @@ const Comments = props => {
     orderBy,
     discussionComments: { loading, error, discussion, fetchMore },
     meta,
-    setOrderBy
+    setOrderBy,
+    board,
+    parent,
+    parentId
   } = props
 
   /*
@@ -236,7 +241,7 @@ const Comments = props => {
         /*
          * Convert the flat comments list into a tree.
          */
-        const comments = asTree(discussion.comments)
+        const comments = asTree(discussion.comments, parentId ? 1 : undefined)
 
         /*
          * Construct the value for the DiscussionContext.
@@ -275,6 +280,13 @@ const Comments = props => {
               }
             },
             fetchMoreComments: ({ parentId, after, appendAfter }) => {
+              if (board) {
+                const result = getFocusRoute(discussion)
+                if (result) {
+                  result.params.parent = parentId
+                  return Router.pushRoute(result.route, result.params)
+                }
+              }
               return fetchMore({ parentId, after, appendAfter })
             },
             shareComment: comment => {
@@ -379,6 +391,19 @@ const Comments = props => {
                 />
               )}
 
+              {!!parent && (
+                <RootCommentOverlay
+                  discussionId={discussion.id}
+                  parent={parent}
+                  onClose={() => {
+                    const result = getFocusRoute(discussion)
+                    return (
+                      result && Router.pushRoute(result.route, result.params)
+                    )
+                  }}
+                />
+              )}
+
               {!!shareUrl && (
                 <ShareOverlay
                   discussionId={discussion.id}
@@ -406,7 +431,10 @@ export default compose(
   withDiscussionComments
 )(Comments)
 
-const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
+const asTree = (
+  { totalCount, directTotalCount, pageInfo, nodes },
+  startDepth = 0
+) => {
   const convertComment = node => ({
     ...node,
     comments: {
@@ -424,7 +452,9 @@ const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
     totalCount,
     directTotalCount,
     pageInfo,
-    nodes: nodes.filter(n => n.parentIds.length === 0).map(convertComment)
+    nodes: nodes
+      .filter(n => n.parentIds.length === startDepth)
+      .map(convertComment)
   }
 }
 

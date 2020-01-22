@@ -32,7 +32,6 @@ import {
 
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
-import Overlay from '../FontSize/Overlay'
 import { RootCommentOverlay } from './RootCommentOverlay'
 
 const styles = {

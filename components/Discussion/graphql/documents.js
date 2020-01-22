@@ -113,6 +113,24 @@ export const discussionQuery = gql`
   ${fragments.comment}
 `
 
+export const commentPreviewQuery = gql`
+  query commentPreview($discussionId: ID!, $content: String) {
+    commentPreview(content: $content, discussionId: $discussionId) {
+      id
+      content
+      linkPreview {
+        url
+        title
+        description
+        imageUrl
+        siteName
+        siteImageUrl
+        updatedAt
+      }
+    }
+  }
+`
+
 /*
  * MUTATIONS
  */

@@ -252,6 +252,7 @@ const Comments = props => {
           discussion,
 
           actions: {
+            previewComment: props.previewComment,
             submitComment: (parentComment, content, tags) =>
               props
                 .submitComment(parentComment, content, tags)

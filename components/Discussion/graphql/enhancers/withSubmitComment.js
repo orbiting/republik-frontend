@@ -1,11 +1,15 @@
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import uuid from 'uuid/v4'
 import produce from 'immer'
 
 import withT from '../../../../lib/withT'
 
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'
-import { discussionQuery, submitCommentMutation } from '../documents'
+import {
+  discussionQuery,
+  submitCommentMutation,
+  commentPreviewQuery
+} from '../documents'
 import { toRejectedString } from '../utils'
 import { mergeComment, optimisticContent, submittedComments } from '../store'
 import { debug } from '../../debug'
@@ -21,6 +25,7 @@ import { debug } from '../../debug'
 export const withSubmitComment = compose(
   withT,
   withDiscussionDisplayAuthor,
+  withApollo,
   graphql(submitCommentMutation, {
     props: ({
       ownProps: {
@@ -31,10 +36,24 @@ export const withSubmitComment = compose(
         depth,
         focusId,
         discussionDisplayAuthor: displayAuthor,
-        discussionUserPreference: userPreference
+        discussionUserPreference: userPreference,
+        client
       },
       mutate
     }) => ({
+      previewComment: ({ content, discussionId }) => {
+        return client
+          .query({
+            commentPreviewQuery,
+            variables: {
+              content,
+              discussionId
+            }
+          })
+          .then(({ data }) => {
+            return data.commentPreview
+          })
+      },
       submitComment: (parent, content, tags = []) => {
         if (!displayAuthor) {
           return Promise.reject(t('submitComment/noDisplayAuthor'))

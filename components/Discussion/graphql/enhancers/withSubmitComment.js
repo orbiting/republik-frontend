@@ -44,7 +44,7 @@ export const withSubmitComment = compose(
       previewComment: ({ content, discussionId }) => {
         return client
           .query({
-            commentPreviewQuery,
+            query: commentPreviewQuery,
             variables: {
               content,
               discussionId

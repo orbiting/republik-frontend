@@ -114,7 +114,7 @@ export const discussionQuery = gql`
 `
 
 export const commentPreviewQuery = gql`
-  query commentPreview($discussionId: ID!, $content: String) {
+  query commentPreview($discussionId: ID!, $content: String!) {
     commentPreview(content: $content, discussionId: $discussionId) {
       id
       content

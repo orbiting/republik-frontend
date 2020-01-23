@@ -113,7 +113,7 @@ class ActiveDiscussions extends Component {
                       label={discussion.title}
                       discussion={discussion}
                       path={path}
-                      count={activeDiscussion.count}
+                      count={discussion.comments.totalCount}
                     />
                   )
                 })}

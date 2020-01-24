@@ -12,7 +12,7 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
 export const RootCommentOverlay = compose(withRouter)(
-  ({ router, discussionId, parent, onClose }) => {
+  ({ router, discussionId, parent, parentComment, discussion, onClose }) => {
     return (
       <Overlay onClose={onClose}>
         <OverlayToolbar>
@@ -29,6 +29,8 @@ export const RootCommentOverlay = compose(withRouter)(
             discussionId={discussionId}
             focusId={router.query.focus}
             parentId={parent}
+            parentComment={parentComment}
+            discussion={discussion}
             rootCommentOverlay
           />
         </OverlayBody>

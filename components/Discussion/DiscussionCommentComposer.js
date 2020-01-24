@@ -36,7 +36,8 @@ const DiscussionCommentComposer = props => {
     discussionUserCanComment,
     discussionPreferences,
     now,
-    parentId
+    parentId,
+    parent
   } = props
 
   /*
@@ -136,7 +137,7 @@ const DiscussionCommentComposer = props => {
                 autoCredential.description
               )
             }
-            return props.submitComment(null, text, tags).then(
+            return props.submitComment(parent, text, tags).then(
               () => {
                 setActive(false)
                 return { ok: true }

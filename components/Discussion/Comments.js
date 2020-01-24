@@ -395,6 +395,10 @@ const Comments = props => {
                 <RootCommentOverlay
                   discussionId={discussion.id}
                   parent={parent}
+                  parentComment={discussion.comments.nodes.find(
+                    c => c.id === parent
+                  )}
+                  discussion={discussion}
                   onClose={() => {
                     const result = getFocusRoute(discussion)
                     return (

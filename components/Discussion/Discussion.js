@@ -15,6 +15,7 @@ const Discussion = ({
   board,
   parent,
   parentId = null,
+  includeParent,
   rootCommentOverlay
 }) => {
   /*
@@ -65,6 +66,7 @@ const Discussion = ({
           setOrderBy={setOrderBy}
           board={board}
           parent={parent}
+          includeParent={includeParent}
         />
       </div>
     </div>

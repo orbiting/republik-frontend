@@ -62,6 +62,7 @@ export const discussionQuery = gql`
     $orderBy: DiscussionOrder!
     $depth: Int!
     $focusId: ID
+    $includeParent: Boolean
   ) {
     me {
       id
@@ -77,6 +78,7 @@ export const discussionQuery = gql`
         first: 100
         flatDepth: $depth
         focusId: $focusId
+        includeParent: $includeParent
       ) {
         totalCount
         directTotalCount

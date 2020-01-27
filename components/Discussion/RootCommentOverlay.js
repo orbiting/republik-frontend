@@ -30,6 +30,7 @@ export const RootCommentOverlay = compose(withRouter)(
             focusId={router.query.focus}
             parentId={parent}
             rootCommentOverlay
+            includeParent
           />
         </OverlayBody>
       </Overlay>

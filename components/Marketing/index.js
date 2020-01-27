@@ -350,6 +350,7 @@ const MarketingPage = props => {
         <Editorial.P>{t('marketing/lead/p1')}</Editorial.P>
         <Editorial.P>{t('marketing/lead/p2')}</Editorial.P>
         <Editorial.P>{t('marketing/lead/p3')}</Editorial.P>
+        <Editorial.P>{t('marketing/lead/p4')}</Editorial.P>
 
         {!inNativeIOSApp && (
           <>

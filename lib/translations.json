@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-23T10:46:12.515Z",
+  "updated": "2020-01-27T15:27:52.055Z",
   "title": "live",
   "data": [
     {
@@ -6301,6 +6301,10 @@
     {
       "key": "marketing/lead/p3",
       "value": "Die Republik steht für Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor den Menschen."
+    },
+    {
+      "key": "marketing/lead/p4",
+      "value": "Die Schweiz ist erfolgreich, wenn Liberale und Linke, Progressive und Konservative gemeinsam um Lösungen ringen. Deshalb ist die Republik politisch nicht festgelegt, aber keineswegs neutral."
     },
     {
       "key": "marketing/overview/title",

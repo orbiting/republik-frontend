@@ -75,6 +75,15 @@ export const comment = gql`
       }
       profilePicture
     }
+    linkPreview {
+      url
+      title
+      description
+      imageUrl
+      siteName
+      siteImageUrl
+      updatedAt
+    }
     updatedAt
     createdAt
     parentIds

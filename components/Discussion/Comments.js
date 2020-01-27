@@ -379,7 +379,7 @@ const Comments = props => {
                 />
               )}
 
-              <CommentList t={t} comments={comments} />
+              <CommentList t={t} comments={comments} board={board} />
 
               {showPreferences && (
                 <DiscussionPreferences

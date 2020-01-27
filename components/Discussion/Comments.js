@@ -78,7 +78,8 @@ const Comments = props => {
     setOrderBy,
     board,
     parent,
-    parentId
+    parentId,
+    rootCommentOverlay
   } = props
 
   /*
@@ -240,7 +241,7 @@ const Comments = props => {
         /*
          * Convert the flat comments list into a tree.
          */
-        const comments = asTree(discussion.comments, parentId ? 1 : undefined)
+        const comments = asTree(discussion.comments)
 
         /*
          * Construct the value for the DiscussionContext.
@@ -324,34 +325,36 @@ const Comments = props => {
 
         return (
           <>
-            <div {...styles.orderByContainer}>
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='DATE'
-              />
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='VOTES'
-              />
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='REPLIES'
-              />
-              <A
-                {...styles.reloadLink}
-                href={getFocusUrl(discussion)}
-                onClick={onReload}
-              >
-                {t('components/Discussion/reload')}
-              </A>
-              <br style={{ clear: 'both' }} />
-            </div>
+            {!rootCommentOverlay && (
+              <div {...styles.orderByContainer}>
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='DATE'
+                />
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='VOTES'
+                />
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='REPLIES'
+                />
+                <A
+                  {...styles.reloadLink}
+                  href={getFocusUrl(discussion)}
+                  onClick={onReload}
+                >
+                  {t('components/Discussion/reload')}
+                </A>
+                <br style={{ clear: 'both' }} />
+              </div>
+            )}
 
             <DiscussionContext.Provider value={discussionContextValue}>
               {focus && (
@@ -379,7 +382,12 @@ const Comments = props => {
                 />
               )}
 
-              <CommentList t={t} comments={comments} board={board} />
+              <CommentList
+                t={t}
+                comments={comments}
+                board={board}
+                rootCommentOverlay={rootCommentOverlay}
+              />
 
               {showPreferences && (
                 <DiscussionPreferences
@@ -431,10 +439,7 @@ export default compose(
   withDiscussionComments
 )(Comments)
 
-const asTree = (
-  { totalCount, directTotalCount, pageInfo, nodes },
-  startDepth = 0
-) => {
+const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
   const convertComment = node => ({
     ...node,
     comments: {
@@ -452,9 +457,7 @@ const asTree = (
     totalCount,
     directTotalCount,
     pageInfo,
-    nodes: nodes
-      .filter(n => n.parentIds.length === startDepth)
-      .map(convertComment)
+    nodes: nodes.filter(n => n.parentIds.length === 0).map(convertComment)
   }
 }
 

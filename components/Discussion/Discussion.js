@@ -53,7 +53,7 @@ const Discussion = ({
         </>
       )}
 
-      <div style={{ margin: '20px 0' }}>
+      <div style={{ margin: rootCommentOverlay ? 0 : '20px 0' }}>
         <Comments
           key={orderBy /* To remount of the whole component on change */}
           discussionId={discussionId}
@@ -67,6 +67,7 @@ const Discussion = ({
           board={board}
           parent={parent}
           includeParent={includeParent}
+          rootCommentOverlay={rootCommentOverlay}
         />
       </div>
     </div>

@@ -125,6 +125,7 @@ export const commentPreviewQuery = gql`
         title
         description
         imageUrl
+        imageAlt
         siteName
         siteImageUrl
         updatedAt

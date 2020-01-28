@@ -80,6 +80,7 @@ export const comment = gql`
       title
       description
       imageUrl
+      imageAlt
       siteName
       siteImageUrl
       updatedAt

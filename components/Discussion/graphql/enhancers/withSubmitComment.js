@@ -37,7 +37,8 @@ export const withSubmitComment = compose(
         focusId,
         discussionDisplayAuthor: displayAuthor,
         discussionUserPreference: userPreference,
-        client
+        client,
+        includeParent
       },
       mutate
     }) => ({
@@ -92,6 +93,7 @@ export const withSubmitComment = compose(
               updatedAt: new Date().toISOString(),
               parentIds,
               tags,
+              linkPreview: null,
               discussion: {
                 __typename: 'Discussion',
                 id: discussionId,
@@ -110,7 +112,8 @@ export const withSubmitComment = compose(
               parentId: ownParentId,
               orderBy,
               depth,
-              focusId
+              focusId,
+              includeParent
             }
 
             proxy.writeQuery({

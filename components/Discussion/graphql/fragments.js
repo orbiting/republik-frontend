@@ -89,6 +89,14 @@ export const comment = gql`
     createdAt
     parentIds
     tags
+    mentioningDocument {
+      document {
+        meta {
+          path
+        }
+      }
+      fragmentId
+    }
   }
 `
 

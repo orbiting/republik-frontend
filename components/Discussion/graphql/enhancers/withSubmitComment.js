@@ -93,7 +93,7 @@ export const withSubmitComment = compose(
               updatedAt: new Date().toISOString(),
               parentIds,
               tags,
-              linkPreview: null,
+              embed: null,
               discussion: {
                 __typename: 'Discussion',
                 id: discussionId,

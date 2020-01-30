@@ -120,15 +120,29 @@ export const commentPreviewQuery = gql`
     commentPreview(content: $content, discussionId: $discussionId) {
       id
       content
-      linkPreview {
-        url
-        title
-        description
-        imageUrl
-        imageAlt
-        siteName
-        siteImageUrl
-        updatedAt
+      embed {
+        ... on LinkPreview {
+          url
+          title
+          description
+          imageUrl
+          imageAlt
+          siteName
+          siteImageUrl
+          updatedAt
+          __typename
+        }
+        ... on TwitterEmbed {
+          id
+          url
+          text
+          html
+          userScreenName
+          userProfileImageUrl
+          image
+          createdAt
+          __typename
+        }
       }
     }
   }

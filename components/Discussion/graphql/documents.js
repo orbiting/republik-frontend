@@ -137,6 +137,7 @@ export const commentPreviewQuery = gql`
           url
           text
           html
+          userName
           userScreenName
           userProfileImageUrl
           image

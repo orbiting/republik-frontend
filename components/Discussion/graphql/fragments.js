@@ -92,6 +92,7 @@ export const comment = gql`
         url
         text
         html
+        userName
         userScreenName
         userProfileImageUrl
         image

@@ -327,6 +327,13 @@ ${meta.url}
               <A href={PAYPAL_DONATE_LINK}>Donate with PayPal</A>
             </IP>
           )}
+          <IP style={{ marginBottom: 10 }}>
+            <Label>
+              If you&apos;d like to donate in excess of CHF 5000, please{' '}
+              <A href='mailto:kontakt@republik.ch'>get in touch with us</A>{' '}
+              first.
+            </Label>
+          </IP>
           <Label>Banking Account</Label>
           <br />
           <table style={{ borderSpacing: '10px 5px', marginLeft: -10 }}>

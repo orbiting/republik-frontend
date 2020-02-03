@@ -522,6 +522,11 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
               </Fragment>
               {md(mdComponents)`
 
+Am 1. März findet der Tag der Bekanntmachung, Feier und Debatte in der Gessnerallee in Zürich statt: [Jetzt anmelden](https://www.eventbrite.de/e/zur-zukunft-der-republik-registrierung-92171500439).
+
+_04.02.2020, Project-R-Newsletter_  
+[Bla bla](https://project-r.construction/newsletter/2020-01-12-zustand)
+
 _12.01.2020, Project-R-Newsletter_  
 [Das Update zum Zustand der Republik](https://project-r.construction/newsletter/2020-01-12-zustand)
 
@@ -580,6 +585,14 @@ ${
     </Link>
   )
 }
+
+[BILD]
+
+Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probe-Abo-Kärtchen, Sticker und Plakate bestellen. Es wären uns eine Ehre wenn Sie die Republik bekannter machen.
+
+[Jetzt bestellen](https://docs.google.com/forms/d/e/1FAIpQLScV8mIr0mllc5ImdNUZg6xYV0rV8zy2sAVThVXAS1nA4oTJVw/viewform)
+
+Die Bestellung werden über ein Google-Formular vom Züriwerk abgewickelt. (KLEIN)
 
 `}
 
@@ -731,17 +744,17 @@ Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 
 **Bis Ende Januar** 
 
-1.  Dass möglichst viele Verlegerinnen trotz Risiko an Bord bleiben.
+✅ Dass möglichst viele Verlegerinnen trotz Risiko an Bord bleiben.
 
-2.  Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
+✅ Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
 
-3.  Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](mailto:ir@republik.ch))
+⏳ Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](mailto:ir@republik.ch))
 
 **Im Februar** wollen wir an ein paar Schrauben drehen, bevor wir in den entscheidenden Monat gehen. Wir wollen die Republik nicht neu erfinden. Aber sie gemeinsam mit Ihnen noch ein wenig nützlicher, transparenter und interaktiver machen.
 
 **Im März** werden wir mit einer grossen und lauten Kampagne ein paar tausend neue Verlegerinnen gewinnen müssen. Jetzt geht es um: Wachstum.
 
-Wir freuen uns, wenn Sie in den nächsten Monaten Seite an Seite mit uns für die Zukunft der Republik kämpfen.
+Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik kämpfen.
 
 `}
               <br />

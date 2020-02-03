@@ -51,7 +51,8 @@ export const withSubmitComment = compose(
               discussionId,
               parentId,
               id
-            }
+            },
+            fetchPolicy: 'no-cache'
           })
           .then(({ data }) => {
             return data.commentPreview

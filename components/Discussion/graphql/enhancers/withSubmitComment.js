@@ -42,13 +42,15 @@ export const withSubmitComment = compose(
       },
       mutate
     }) => ({
-      previewComment: ({ content, discussionId }) => {
+      previewComment: ({ content, discussionId, parentId, id }) => {
         return client
           .query({
             query: commentPreviewQuery,
             variables: {
               content,
-              discussionId
+              discussionId,
+              parentId,
+              id
             }
           })
           .then(({ data }) => {

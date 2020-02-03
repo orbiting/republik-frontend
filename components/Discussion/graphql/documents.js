@@ -116,8 +116,18 @@ export const discussionQuery = gql`
 `
 
 export const commentPreviewQuery = gql`
-  query commentPreview($discussionId: ID!, $content: String!) {
-    commentPreview(content: $content, discussionId: $discussionId) {
+  query commentPreview(
+    $discussionId: ID!
+    $content: String!
+    $parentId: ID
+    $id: ID
+  ) {
+    commentPreview(
+      content: $content
+      discussionId: $discussionId
+      parentId: $parentId
+      id: $id
+    ) {
       id
       content
       embed {

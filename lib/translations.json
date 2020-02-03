@@ -1,5 +1,5 @@
 {
-  "updated": "2020-01-27T15:27:52.055Z",
+  "updated": "2020-02-03T01:36:41.954Z",
   "title": "live",
   "data": [
     {
@@ -3053,6 +3053,14 @@
     {
       "key": "article/actionbar/email/label",
       "value": "E-Mail"
+    },
+    {
+      "key": "article/actionbar/pocket/title",
+      "value": "In Pocket speichern"
+    },
+    {
+      "key": "article/actionbar/pocket/label",
+      "value": "Pocket"
     },
     {
       "key": "article/actionbar/dossier",

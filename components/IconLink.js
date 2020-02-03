@@ -21,6 +21,7 @@ import PdfIcon from 'react-icons/lib/md/picture-as-pdf'
 import ShareIcon from 'react-icons/lib/md/share'
 import TwitterIcon from 'react-icons/lib/fa/twitter'
 import WhatsappIcon from 'react-icons/lib/fa/whatsapp'
+import PocketIcon from 'react-icons/lib/fa/get-pocket'
 import KeyIcon from 'react-icons/lib/fa/key'
 import VideoIcon from './Icons/Video'
 import MarkdownIcon from './Icons/Markdown'
@@ -132,6 +133,7 @@ const ICONS = {
   shareIOS: ShareIOSIcon,
   twitter: TwitterIcon,
   whatsapp: WhatsappIcon,
+  pocket: PocketIcon,
   key: KeyIcon,
   pdf: PdfIcon,
   gallery: GalleryIcon,

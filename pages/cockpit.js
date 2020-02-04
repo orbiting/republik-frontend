@@ -12,6 +12,7 @@ import {
   Loader,
   colors,
   VideoPlayer,
+  FigureImage,
   FigureCaption,
   fontStyles
 } from '@project-r/styleguide'
@@ -596,15 +597,36 @@ ${
   )
 }
 
-[BILD]
+`}
+
+              <div style={{ width: '50%', margin: '20px 0' }}>
+                <FigureImage
+                  {...FigureImage.utils.getResizedSrcs(
+                    `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/swag.jpg`,
+                    405
+                  )}
+                  alt='Flyer, Visitenkarten, Kleber und Poster'
+                />
+              </div>
+
+              {md(mdComponents)`
 
 Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probe-Abo-Kärtchen, Sticker und Plakate bestellen. Es wären uns eine Ehre wenn Sie die Republik bekannter machen.
 
-[Jetzt bestellen](https://docs.google.com/forms/d/e/1FAIpQLScV8mIr0mllc5ImdNUZg6xYV0rV8zy2sAVThVXAS1nA4oTJVw/viewform)
-
-Die Bestellung werden über ein Google-Formular vom Züriwerk abgewickelt. (KLEIN)
-
 `}
+
+              <Button
+                style={{ marginTop: 20 }}
+                href='https://docs.google.com/forms/d/e/1FAIpQLScV8mIr0mllc5ImdNUZg6xYV0rV8zy2sAVThVXAS1nA4oTJVw/viewform'
+                primary
+              >
+                Material anfordern
+              </Button>
+
+              <Editorial.Note>
+                Die Bestellung werden über ein Google-Formular vom Züriwerk
+                abgewickelt.
+              </Editorial.Note>
 
               <div
                 {...css({

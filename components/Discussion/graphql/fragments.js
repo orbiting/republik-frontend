@@ -65,6 +65,9 @@ export const comment = gql`
     upVotes
     userVote
     userCanEdit
+    userCanReport
+    userReportedAt
+    numReports
     displayAuthor {
       id
       name
@@ -105,7 +108,9 @@ export const comment = gql`
     parentIds
     tags
     mentioningDocument {
+      iconUrl
       document {
+        id
         meta {
           path
         }

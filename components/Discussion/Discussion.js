@@ -19,9 +19,9 @@ const Discussion = ({
   rootCommentOverlay
 }) => {
   /*
-   * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
+   * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
    */
-  const [orderBy, setOrderBy] = React.useState('DATE')
+  const [orderBy, setOrderBy] = React.useState(board ? 'HOT' : 'DATE')
 
   /*
    * This component manages the 'current time'. It is incremented in descrete intervals

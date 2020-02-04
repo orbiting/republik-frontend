@@ -97,6 +97,10 @@ export const withSubmitComment = compose(
               parentIds,
               tags,
               embed: null,
+              mentioningDocument: null,
+              userCanReport: false,
+              userReportedAt: null,
+              numReports: 0,
               discussion: {
                 __typename: 'Discussion',
                 id: discussionId,

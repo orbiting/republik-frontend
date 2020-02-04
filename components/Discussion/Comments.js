@@ -265,6 +265,7 @@ const Comments = props => {
             upvoteComment: props.upvoteComment,
             downvoteComment: props.downvoteComment,
             unvoteComment: props.unvoteComment,
+            reportComment: props.reportComment,
             unpublishComment: comment => {
               const message = t(
                 `styleguide/CommentActions/unpublish/confirm${
@@ -327,6 +328,14 @@ const Comments = props => {
           <>
             {!rootCommentOverlay && (
               <div {...styles.orderByContainer}>
+                {board && (
+                  <OrderBy
+                    t={t}
+                    orderBy={orderBy}
+                    setOrderBy={setOrderBy}
+                    value='HOT'
+                  />
+                )}
                 <OrderBy
                   t={t}
                   orderBy={orderBy}

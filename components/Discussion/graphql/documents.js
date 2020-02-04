@@ -130,6 +130,7 @@ export const commentPreviewQuery = gql`
     ) {
       id
       content
+      contentLength
       embed {
         ... on LinkPreview {
           url
@@ -194,6 +195,15 @@ export const submitCommentMutation = gql`
 export const upvoteCommentMutation = gql`
   mutation upvoteCommentMutation($commentId: ID!) {
     upvoteComment(id: $commentId) {
+      ...Comment
+    }
+  }
+  ${fragments.comment}
+`
+
+export const reportCommentMutation = gql`
+  mutation reportCommentMutation($commentId: ID!) {
+    reportComment(id: $commentId) {
       ...Comment
     }
   }

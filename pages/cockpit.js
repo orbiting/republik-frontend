@@ -611,7 +611,7 @@ ${
 
               {md(mdComponents)`
 
-Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probe-Abo-Kärtchen, Sticker und Plakate bestellen. Es wären uns eine Ehre wenn Sie die Republik bekannter machen.
+Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probe-Abo-Kärtchen, Sticker und Plakate bestellen. Es wäre uns eine Ehre, wenn Sie die Republik bekannter machen.
 
 `}
 

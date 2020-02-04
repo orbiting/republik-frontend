@@ -624,8 +624,8 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtch
               </Button>
 
               <Editorial.Note>
-                Die Bestellungen werden über ein Google-Formular von Züriwerk
-                abgewickelt.
+                Die Bestellungen laufen über ein Google-Formular und werden von
+                Züriwerk verschickt.
               </Editorial.Note>
 
               <div

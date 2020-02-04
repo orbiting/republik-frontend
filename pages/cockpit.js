@@ -53,12 +53,12 @@ const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
 const videos = [
   {
     hls:
-      'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
+      'https://player.vimeo.com/external/388987697.m3u8?s=8c23d87742613a058d6934b0631f6e33075a4b65',
     mp4:
-      'https://player.vimeo.com/external/383482958.hd.mp4?s=9c0f53b63b0a1851bc401fd60fb7d2e8f31c0319&profile_id=175',
-    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status.jpg`,
-    caption: 'Kurze Statusmeldung aus dem Rothaus',
-    title: 'Statusmeldung',
+      'https://player.vimeo.com/external/388987697.hd.mp4?s=696f80ae1ac1a950dbf3652ef7a28e8f7ffdca5c&profile_id=175',
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status2.jpg`,
+    caption: 'Statusmeldung Anfang Februar aus dem Rothaus',
+    title: 'Februar Status',
     duration: '2 Minuten'
   },
   {
@@ -78,6 +78,16 @@ const videos = [
     ),
     title: 'Gesprächsrunde',
     duration: '53 Minuten'
+  },
+  {
+    hls:
+      'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
+    mp4:
+      'https://player.vimeo.com/external/383482958.hd.mp4?s=9c0f53b63b0a1851bc401fd60fb7d2e8f31c0319&profile_id=175',
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status.jpg`,
+    caption: 'Statusmeldung Anfang Januar aus dem Rothaus',
+    title: 'Januar Status',
+    duration: '2 Minuten'
   }
 ]
 

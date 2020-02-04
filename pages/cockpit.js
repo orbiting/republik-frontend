@@ -57,8 +57,8 @@ const videos = [
       'https://player.vimeo.com/external/388987697.m3u8?s=8c23d87742613a058d6934b0631f6e33075a4b65',
     mp4:
       'https://player.vimeo.com/external/388987697.hd.mp4?s=696f80ae1ac1a950dbf3652ef7a28e8f7ffdca5c&profile_id=175',
-    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status2.jpg`,
-    caption: 'Statusmeldung Anfang Februar aus dem Rothaus',
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status_feb.jpg`,
+    caption: 'Statusmeldung Anfang Februar',
     title: 'Februar Status',
     duration: '2 Minuten'
   },
@@ -533,7 +533,7 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
               </Fragment>
               {md(mdComponents)`
 
-Am 1. März findet der Tag der Bekanntmachung, Feier und Debatte in der Gessnerallee in Zürich statt: [Jetzt anmelden](https://www.eventbrite.de/e/zur-zukunft-der-republik-registrierung-92171500439).
+Am 1. März findet der Tag der Bekanntmachung mit Feier und Debatte in der Gessnerallee in Zürich statt: [Jetzt anmelden](https://www.eventbrite.de/e/zur-zukunft-der-republik-registrierung-92171500439).
 
 _04.02.2020, Project-R-Newsletter_  
 [Bla bla](https://project-r.construction/newsletter/2020-01-12-zustand)
@@ -611,7 +611,7 @@ ${
 
               {md(mdComponents)`
 
-Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probe-Abo-Kärtchen, Sticker und Plakate bestellen. Es wäre uns eine Ehre, wenn Sie die Republik bekannter machen.
+Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtchen, Sticker und Plakate bestellen. Es wäre uns eine Ehre, wenn Sie die Republik bekannter machen.
 
 `}
 
@@ -624,7 +624,7 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probe-Abo-Kärtc
               </Button>
 
               <Editorial.Note>
-                Die Bestellung werden über ein Google-Formular vom Züriwerk
+                Die Bestellungen werden über ein Google-Formular von Züriwerk
                 abgewickelt.
               </Editorial.Note>
 

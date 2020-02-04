@@ -690,7 +690,8 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probe-Abo-Kärtc
                         label: 'bereits dabei',
                         value:
                           lastMonth.activeEndOfMonth +
-                          lastMonth.pendingSubscriptionsOnly
+                          lastMonth.pendingSubscriptionsOnly,
+                        position: 'bottom'
                       },
                       {
                         x1: '2020-03',

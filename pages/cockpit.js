@@ -536,7 +536,7 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
 Am 1. März findet der Tag der Bekanntmachung mit Feier und Debatte in der Gessnerallee in Zürich statt: [Jetzt anmelden](https://www.eventbrite.de/e/zur-zukunft-der-republik-registrierung-92171500439).
 
 _04.02.2020, Project-R-Newsletter_  
-[Danke für 75 Prozent!](https://project-r.construction/newsletter/2020-01-12-zustand)
+[Danke für 75 Prozent!](https://project-r.construction/newsletter/2020-02-04-75-prozent)
 
 _12.01.2020, Project-R-Newsletter_  
 [Das Update zum Zustand der Republik](https://project-r.construction/newsletter/2020-01-12-zustand)

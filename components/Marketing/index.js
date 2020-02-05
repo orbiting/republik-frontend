@@ -193,6 +193,7 @@ const MarketingPage = props => {
                       highlight={highlight}
                       onHighlight={onHighlight}
                       maxHeight={500}
+                      maxColumns={8}
                     />
                   )}
                 />

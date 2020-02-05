@@ -24,7 +24,7 @@ export const RootCommentOverlay = compose(withRouter)(
             label={<MdClose size={24} fill='#000' />}
           />
         </OverlayToolbar>
-        <OverlayBody style={{ paddingTop: 38 }}>
+        <OverlayBody style={{ paddingTop: 58 }}>
           <Discussion
             discussionId={discussionId}
             focusId={router.query.focus}

@@ -1,32 +1,35 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { css } from 'glamor'
-import withT from '../../lib/withT'
 
 import ArrowDown from 'react-icons/lib/md/arrow-downward'
 import ArrowUp from 'react-icons/lib/md/arrow-upward'
 
 import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
+import { compose } from 'react-apollo'
+import withSearchRouter from './withSearchRouter'
+import { SUPPORTED_SORT } from './constants'
+
+import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
 
 const styles = {
   container: css({
-    borderTop: `1px solid ${colors.text}`,
     paddingTop: '3px'
   }),
-  button: css({
+  link: css({
     ...fontStyles.sansSerifRegular14,
-    outline: 'none',
-    color: colors.text,
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    padding: '0',
-    cursor: 'pointer',
     marginRight: '17px',
     [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular18,
+      ...fontStyles.sansSerifRegular16,
       marginRight: '30px'
-    }
+    },
+    color: colors.text,
+    '@media (hover)': {
+      ':hover': {
+        color: colors.lightText
+      }
+    },
+    textDecoration: 'none'
   }),
   icon: css({
     display: 'inline-block',
@@ -35,139 +38,71 @@ const styles = {
   })
 }
 
-class SortButton extends Component {
-  constructor(props, ...args) {
-    super(props, ...args)
+const SORT_DIRECTION_ICONS = {
+  ASC: ArrowUp,
+  DESC: ArrowDown
+}
 
-    this.state = {
-      internalDirection: null
-    }
-  }
+const getDefaultDirection = sort => sort.directions && sort.directions[0]
 
-  render() {
-    const {
-      t,
-      sortKey,
-      label,
-      direction,
-      selected,
-      disabled,
-      onClickHandler
-    } = this.props
-    const { internalDirection } = this.state
-    const resolvedDirection = internalDirection || direction
-    const DirectionIcon =
-      resolvedDirection === 'ASC'
-        ? ArrowUp
-        : resolvedDirection === 'DESC'
-        ? ArrowDown
-        : null
-    const color = selected ? colors.primary : null
-    const visibility = disabled ? 'hidden' : null
+const getNextDirection = (sort, directions) => {
+  const index = directions.indexOf(sort.direction)
+  return index === directions.length - 1 ? directions[0] : directions[index + 1]
+}
 
-    return (
-      <button
-        {...styles.button}
-        style={{ color, visibility }}
-        onClick={() => {
-          if (disabled) return
-          const toggledDirection = !selected
-            ? resolvedDirection
-            : resolvedDirection === 'ASC'
-            ? 'DESC'
-            : resolvedDirection === 'DESC'
-            ? 'ASC'
-            : null
-          onClickHandler && onClickHandler(sortKey, toggledDirection)
-          this.setState({
-            internalDirection: toggledDirection
-          })
-        }}
-      >
+const SortToggle = compose(withT)(({ t, sort, urlSort, getSearchParams }) => {
+  const selected = urlSort.key === sort.key
+  const color = selected ? colors.primary : undefined
+  const label = t(`search/sort/${sort.key}`)
+  const direction = selected ? urlSort.direction : getDefaultDirection(sort)
+
+  return (
+    <Link
+      route='search'
+      params={getSearchParams({
+        sort: {
+          key: sort.key,
+          direction:
+            selected && direction
+              ? getNextDirection(urlSort, sort.directions)
+              : direction
+        }
+      })}
+      passHref
+    >
+      <a {...styles.link} style={{ color }}>
         {label}
-        {DirectionIcon && (
+        {direction && (
           <span
             {...styles.icon}
             role='button'
-            title={t(`search/sort/${resolvedDirection}/aria`)}
+            title={t(`search/sort/${direction}/aria`)}
           >
-            <DirectionIcon />
+            {React.createElement(SORT_DIRECTION_ICONS[direction])}
           </span>
         )}
-      </button>
-    )
-  }
-}
+      </a>
+    </Link>
+  )
+})
 
-SortButton.propTypes = {
-  sortKey: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  selected: PropTypes.bool,
-  direction: PropTypes.oneOf(['ASC', 'DESC']),
-  onClickHandler: PropTypes.func
-}
-
-SortButton.defaultProps = {
-  selected: false
-}
-
-class Sort extends Component {
-  render() {
-    const { t, sort, searchQuery, isFilterEnabled, onClickHandler } = this.props
-    const sortKey = sort ? sort.key : 'publishedAt'
-    const buttons = [
-      {
-        sortKey: 'publishedAt',
-        label: 'Zeit',
-        direction:
-          sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
-        disabled: !searchQuery && !isFilterEnabled,
-        selected: sortKey === 'publishedAt'
-      },
-      {
-        sortKey: 'relevance',
-        label: 'Relevanz',
-        disabled: !searchQuery,
-        selected: sortKey === 'relevance'
-      }
-      // TODO: enable these sort keys once backend supports them.
-      /*
-      {
-        sortKey: 'mostRead',
-        label: 'meistgelesen'
-      },
-      {
-        sortKey: 'mostDebated',
-        label: 'meistdebattiert'
-      } */
-    ]
+const Sort = compose(withSearchRouter)(
+  ({ urlQuery, urlSort, getSearchParams }) => {
     return (
       <div {...styles.container}>
-        {buttons.map(({ sortKey, label, direction, selected, disabled }) => (
-          <SortButton
-            t={t}
-            disabled={disabled}
-            key={sortKey}
-            sortKey={sortKey}
-            selected={selected}
-            label={label}
-            direction={direction}
-            onClickHandler={onClickHandler}
-          />
-        ))}
+        {SUPPORTED_SORT.filter(sort => urlQuery || !sort.needsQuery).map(
+          (sort, key) => (
+            <SortToggle
+              key={key}
+              sort={sort}
+              urlSort={urlSort}
+              getSearchParams={getSearchParams}
+            />
+          )
+        )}
       </div>
     )
   }
-}
+)
 
-Sort.propTypes = {
-  sort: PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    direction: PropTypes.oneOf(['ASC', 'DESC'])
-  }),
-  searchQuery: PropTypes.string,
-  isFilterEnabled: PropTypes.bool,
-  onClickHandler: PropTypes.func
-}
-
-export default withT(Sort)
+export default Sort

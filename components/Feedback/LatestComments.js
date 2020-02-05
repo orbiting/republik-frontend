@@ -3,6 +3,7 @@ import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { withComments } from './enhancers'
 import withT from '../../lib/withT'
+import InfiniteScroll from '../Frame/InfiniteScroll'
 
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
@@ -36,59 +37,49 @@ const LatestComments = ({ t, data, fetchMore }) => {
       error={data.error}
       render={() => {
         const { comments } = data
-        const { pageInfo } = comments
+        const { pageInfo, totalCount } = comments
         return (
-          <div>
-            {comments &&
-              comments.nodes.map(node => {
-                const {
-                  id,
-                  discussion,
-                  preview,
-                  displayAuthor,
-                  createdAt,
-                  updatedAt,
-                  tags,
-                  parentIds
-                } = node
-                const meta =
-                  (discussion &&
-                    discussion.document &&
-                    discussion.document.meta) ||
-                  {}
-                const isGeneral =
-                  discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
-                const newPage = !isGeneral && meta.template === 'discussion'
+          <InfiniteScroll
+            hasMore={pageInfo.hasNextPage}
+            loadMore={() => fetchMore({ after: pageInfo.endCursor })}
+            totalCount={totalCount}
+            currentCount={comments.nodes.length}
+            loadMoreKey={'feed/loadMore/comments'}
+          >
+            {comments.nodes.map(node => {
+              const {
+                id,
+                discussion,
+                preview,
+                displayAuthor,
+                createdAt,
+                updatedAt,
+                tags,
+                parentIds
+              } = node
+              const meta =
+                (discussion &&
+                  discussion.document &&
+                  discussion.document.meta) ||
+                {}
 
-                return (
-                  <CommentTeaser
-                    key={id}
-                    id={id}
-                    t={t}
-                    displayAuthor={displayAuthor}
-                    preview={preview}
-                    createdAt={createdAt}
-                    updatedAt={updatedAt}
-                    tags={tags}
-                    parentIds={parentIds}
-                    Link={CommentLink}
-                    discussion={discussion}
-                    newPage={newPage}
-                  />
-                )
-              })}
-            {pageInfo.hasNextPage && (
-              <button
-                {...styles.button}
-                {...linkRule}
-                onClick={() => {
-                  fetchMore({ after: pageInfo.endCursor })
-                }}
-              >
-                {t('feedback/fetchMore')}
-              </button>
-            )}
-          </div>
+              return (
+                <CommentTeaser
+                  key={id}
+                  id={id}
+                  t={t}
+                  displayAuthor={displayAuthor}
+                  preview={preview}
+                  createdAt={createdAt}
+                  updatedAt={updatedAt}
+                  tags={tags}
+                  parentIds={parentIds}
+                  Link={CommentLink}
+                  discussion={discussion}
+                />
+              )
+            })}
+          </InfiniteScroll>
         )
       }}
     />

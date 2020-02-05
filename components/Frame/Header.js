@@ -7,7 +7,7 @@ import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router, matchPath } from '../../lib/routes'
 
-import { Logo, colors, mediaQueries } from '@project-r/styleguide'
+import { Logo, colors, mediaQueries, ColorContext } from '@project-r/styleguide'
 
 import { withMembership } from '../Auth/checkRoles'
 
@@ -105,12 +105,6 @@ const styles = {
     }
   }),
   search: css({
-    outline: 'none',
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    padding: '0',
-    cursor: 'pointer',
     '@media print': {
       display: 'none'
     },
@@ -334,9 +328,14 @@ class Header extends Component {
         this.setState({ expanded: !expanded })
       }
     }
+    const closeHandler = () => {
+      if (expanded) {
+        toggleExpanded()
+      }
+    }
 
     return (
-      <Fragment>
+      <ColorContext.Provider value={dark ? colors.negative : colors}>
         <div
           {...barStyle}
           ref={inNativeIOSApp ? forceRefRedraw : undefined}
@@ -359,9 +358,7 @@ class Header extends Component {
                     e.preventDefault()
                     if (router.pathname === '/') {
                       window.scrollTo(0, 0)
-                      if (expanded) {
-                        toggleExpanded()
-                      }
+                      closeHandler()
                     } else {
                       Router.pushRoute('index').then(() =>
                         window.scrollTo(0, 0)
@@ -382,7 +379,6 @@ class Header extends Component {
                   dark={dark}
                   me={me}
                   expanded={expanded}
-                  gift={!inNativeIOSApp}
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
                   onClick={toggleExpanded}
                 />
@@ -428,15 +424,19 @@ class Header extends Component {
                 </div>
               )}
               {isMember && (
-                <button
+                <a
                   {...styles.search}
-                  role='button'
                   title={t('header/nav/search/aria')}
+                  href='/suche'
                   onClick={e => {
+                    if (shouldIgnoreClick(e)) {
+                      return
+                    }
                     e.preventDefault()
                     e.stopPropagation()
                     if (router.pathname === '/search') {
                       window.scrollTo(0, 0)
+                      closeHandler()
                     } else {
                       Router.pushRoute('search').then(() =>
                         window.scrollTo(0, 0)
@@ -445,13 +445,12 @@ class Header extends Component {
                   }}
                 >
                   <Search fill={textFill} size={28} />
-                </button>
+                </a>
               )}
               <div {...styles.hamburger} style={bgStyle}>
                 <Toggle
                   dark={dark}
                   expanded={expanded}
-                  gift={!inNativeIOSApp}
                   id='primary-menu'
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
                   onClick={toggleExpanded}
@@ -489,10 +488,10 @@ class Header extends Component {
         )}
         <Popover expanded={expanded}>
           <NavPopover
-            gift={!inNativeIOSApp}
             me={me}
             router={router}
-            closeHandler={this.close}
+            expanded={expanded}
+            closeHandler={closeHandler}
           />
         </Popover>
         <LoadingBar
@@ -515,7 +514,7 @@ class Header extends Component {
             }}
           />
         )}
-      </Fragment>
+      </ColorContext.Provider>
     )
   }
 }

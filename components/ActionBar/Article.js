@@ -34,6 +34,8 @@ class ArticleActionBar extends Component {
       linkedDiscussion,
       ownDiscussion,
       documentId,
+      repoId,
+      isEditor,
       dossierUrl,
       estimatedReadingMinutes,
       estimatedConsumptionMinutes,
@@ -71,7 +73,6 @@ class ArticleActionBar extends Component {
           title={title}
           shareOverlayTitle={t('article/share/title')}
           animate={animate}
-          fill={colors.text}
           dossierUrl={dossierUrl}
           onPdfClick={onPdfClick}
           pdfUrl={pdfUrl}
@@ -84,6 +85,8 @@ class ArticleActionBar extends Component {
           showShare={!grandSharing}
           fontSize={fontSize}
           documentId={documentId}
+          repoId={repoId}
+          isEditor={isEditor}
           bookmarked={!!userBookmark}
           estimatedReadingMinutes={estimatedReadingMinutes}
           estimatedConsumptionMinutes={estimatedConsumptionMinutes}

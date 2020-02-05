@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { css } from 'glamor'
 
 import Link from '../Link/Href'
@@ -31,6 +31,29 @@ const styles = {
   })
 }
 
+const IconWithCount = ({ count, small }) => {
+  const size = small ? 22 : 24
+  const fontSize = small ? '15px' : undefined
+  const lineHeight = small ? '20px' : undefined
+
+  return (
+    <>
+      <span {...styles.icon}>
+        <Icon size={size} fill={colors.primary} />
+      </span>
+      {count > 0 && (
+        <span
+          {...iconLinkStyles.text}
+          {...styles.text}
+          style={{ fontSize, lineHeight }}
+        >
+          {count}
+        </span>
+      )}
+    </>
+  )
+}
+
 class IconLink extends Component {
   render() {
     const {
@@ -42,30 +65,10 @@ class IconLink extends Component {
       style,
       small
     } = this.props
-    const size = small ? 22 : 24
-    const fontSize = small ? '15px' : undefined
-    const lineHeight = small ? '20px' : undefined
     const patchedStyle = {
       marginLeft: small ? 0 : 20,
       ...style
     }
-
-    const content = (
-      <Fragment>
-        <span {...styles.icon}>
-          <Icon size={size} fill={colors.primary} />
-        </span>
-        {discussionCommentsCount > 0 && (
-          <span
-            {...iconLinkStyles.text}
-            {...styles.text}
-            style={{ fontSize, lineHeight }}
-          >
-            {discussionCommentsCount}
-          </span>
-        )}
-      </Fragment>
-    )
 
     if (discussionPage) {
       return (
@@ -79,7 +82,7 @@ class IconLink extends Component {
           {...styles.a}
           style={patchedStyle}
         >
-          {content}
+          <IconWithCount small={small} count={discussionCommentsCount} />
         </a>
       )
     }
@@ -87,7 +90,7 @@ class IconLink extends Component {
     return (
       <Link href={path} query={query} passHref>
         <a {...iconLinkStyles.link} {...styles.a} style={patchedStyle}>
-          {content}
+          <IconWithCount small={small} count={discussionCommentsCount} />
         </a>
       </Link>
     )

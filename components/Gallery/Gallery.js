@@ -56,8 +56,10 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
 
       gallery.listen('gettingData', function(index, item) {
         const sizeInfo = imageSizeInfo(item.src)
-        const maxWidth =
+        const maxWidth = Math.min(
+          sizeInfo.width,
           Math.ceil((window.innerWidth * MAX_SPREAD_ZOOM) / 500) * 500
+        )
         const resizeUrl = imageResizeUrl(item.src, maxWidth)
         const aspectRatio = sizeInfo.height / sizeInfo.width
         item.src = resizeUrl

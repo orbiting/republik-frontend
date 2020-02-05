@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-12T14:38:55.480Z",
+  "updated": "2019-12-27T07:52:06.690Z",
   "title": "live",
   "data": [
     {
@@ -244,11 +244,11 @@
     },
     {
       "key": "vote/201912/page/title",
-      "value": "Der zweite Geschäftsbericht: Stimmen Sie ab!"
+      "value": "Der zweite Geschäftsbericht: So haben Sie entschieden"
     },
     {
       "key": "vote/201912/page/description",
-      "value": "Wie haben sich die Republik und Project R entwickelt? Wir stellen das Team vor und präsentieren Fakten, Höhepunkte und Hürden des zweiten Geschäftsjahres. Mitglieder können zudem abstimmen."
+      "value": "Project R hat zum dritten Mal abgestimmt: Das sind die Resultate. Danke an alle, die teilgenommen haben!"
     },
     {
       "key": "vote/201912/result/title",
@@ -256,11 +256,11 @@
     },
     {
       "key": "vote/201912/result/lead",
-      "value": "Die Ergebnisse der dritten Urabstimmung von Project R sind da. Die Verlegerinnen und Verleger der Republik waren eingeladen, vom 13. bis zum 23.&nbsp;Dezember 2019 ihre Stimme abzugeben."
+      "value": "Die Ergebnisse der dritten Urabstimmung von Project&nbsp;R sind da. 17’228&nbsp;Verlegerinnen der Republik waren eingeladen, vom 13. bis zum 23.&nbsp;Dezember 2019 ihre Stimme abzugeben. 3345 von Ihnen haben teilgenommen, was eine Stimmbeteiligung von 19,4&nbsp;Prozent bedeutet. Herzlichen Dank!"
     },
     {
       "key": "vote/201912/result/after",
-      "value": "Vielen Dank für Ihr Vertrauen, Ihre <a href=\"/vote/dez19/diskutieren\">Fragen und Ihre Vorschläge</a>."
+      "value": "Vielen Dank für Ihr Vertrauen, Ihre <a href=\"/vote/dez19/diskutieren\">Fragen und Ihre Vorschläge</a>. Lesen Sie zu den Resultaten auch unseren <a href=\"https://project-r.construction/newsletter/2019-12-27-resultate-urabstimmung\">Newsletter</a>."
     },
     {
       "key": "vote/201912/sm/tweet",

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-18T13:06:05.526Z",
+  "updated": "2020-02-05T22:59:07.839Z",
   "title": "live",
   "data": [
     {
@@ -11,7 +11,7 @@
       "value": "Feed"
     },
     {
-      "key": "nav/formats",
+      "key": "nav/sections",
       "value": "Rubriken"
     },
     {
@@ -21,10 +21,6 @@
     {
       "key": "nav/discussion",
       "value": "Dialog"
-    },
-    {
-      "key": "nav/vote201907",
-      "value": "Urabstimmung"
     },
     {
       "key": "nav/community",
@@ -53,10 +49,6 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
-    },
-    {
-      "key": "nav/vote201912",
-      "value": "Urabstimmung"
     },
     {
       "key": "navbar/front",
@@ -359,6 +351,10 @@
       "value": "Sie haben einen Gutschein? {claimLink}"
     },
     {
+      "key": "marketing/community/title/plain",
+      "value": "Unsere Verlegerinnen und Verleger"
+    },
+    {
       "key": "marketing/community/title",
       "value": "{count} Verlegerinnen und Verleger"
     },
@@ -635,48 +631,12 @@
       "value": "Weitere Fragen"
     },
     {
-      "key": "formats/pageTitle",
+      "key": "sections/pageTitle",
       "value": "Rubriken"
     },
     {
-      "key": "formats/title",
-      "value": "Rubriken"
-    },
-    {
-      "key": "formats/lead",
-      "value": "Hier finden Sie alles, was regelmässig in der Republik auftaucht: Kolumnen, Unternehmensnachrichten, Debatten und Kleinzeug."
-    },
-    {
-      "key": "formats/title/weekly",
-      "value": "Durch die Woche"
-    },
-    {
-      "key": "formats/title/opinion",
-      "value": "Kolumnen"
-    },
-    {
-      "key": "formats/title/scribble",
-      "value": "Formate"
-    },
-    {
-      "key": "formats/title/meta",
-      "value": "Rund um die Republik"
-    },
-    {
-      "key": "formats/title/social",
-      "value": "Mit der Community"
-    },
-    {
-      "key": "formats/title/newsletter",
-      "value": "Die Newsletter"
-    },
-    {
-      "key": "formats/additionalLinks/events",
-      "value": "Veranstaltungen"
-    },
-    {
-      "key": "formats/additionalLinks/project-r-newsletter",
-      "value": "Project-R-Newsletter"
+      "key": "sections/description",
+      "value": "Hier finden Sie alles, was regelmässig in der Republik auftaucht: Briefings, Kolumnen, Formate, Audio und Kleinzeug."
     },
     {
       "key": "crew/pageTitle",
@@ -1336,11 +1296,11 @@
     },
     {
       "key": "profile/comments/title/other",
-      "value": "{count} Diskussionsbeiträge"
+      "value": "{count} Debattenbeiträge"
     },
     {
       "key": "profile/comments/title/1",
-      "value": "Ein Diskussionsbeitrag"
+      "value": "Ein Debattenbeitrag"
     },
     {
       "key": "profile/edit/start",
@@ -2037,6 +1997,10 @@
     {
       "key": "styleguide/CommentActions/upvote",
       "value": "+1"
+    },
+    {
+      "key": "styleguide/CommentActions/report",
+      "value": "Anstössigen Inhalt melden"
     },
     {
       "key": "styleguide/CommentActions/upvote/count/0",
@@ -2923,6 +2887,10 @@
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
     },
     {
+      "key": "feed/loadMore/comments",
+      "value": "Das waren die neuesten {count} Debattenbeiträge. Weitere {remaining} anschauen?"
+    },
+    {
       "key": "feed/actionbar/dossier",
       "value": "In einem Dossier"
     },
@@ -2949,6 +2917,10 @@
     {
       "key": "feed/actionbar/readingTime/other",
       "value": "ungefähr {minutes} Minuten"
+    },
+    {
+      "key": "feed/actionbar/edit",
+      "value": "Im Publikator bearbeiten"
     },
     {
       "key": "format/feed/title/1",
@@ -3027,7 +2999,7 @@
       "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
-      "key": "article/payNote/series/before/button",
+      "key": "article/payNote/series/before/buy/button",
       "value": "Ja, ich will!"
     },
     {
@@ -3039,7 +3011,7 @@
       "value": "Dieser Beitrag ist Teil einer Serie. Wollen Sie die ganze Geschichte? Dann kommen Sie an Bord! Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität."
     },
     {
-      "key": "article/payNote/series/after/button",
+      "key": "article/payNote/series/after/buy/button",
       "value": "An Bord kommen!"
     },
     {
@@ -3085,6 +3057,14 @@
     {
       "key": "article/actionbar/email/label",
       "value": "E-Mail"
+    },
+    {
+      "key": "article/actionbar/pocket/title",
+      "value": "In Pocket speichern"
+    },
+    {
+      "key": "article/actionbar/pocket/label",
+      "value": "Pocket"
     },
     {
       "key": "article/actionbar/dossier",
@@ -3763,8 +3743,8 @@
       "value": "Dialog"
     },
     {
-      "key": "feedback/unauthorized/title",
-      "value": "Republik-Dialog"
+      "key": "feedback/title",
+      "value": "Dialog"
     },
     {
       "key": "feedback/unauthorized",
@@ -3776,15 +3756,19 @@
     },
     {
       "key": "feedback/lead",
-      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir miteinander über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
+      "value": "Die Republik ist nur so stark wie Ihre Community. Teilen Sie Ihr Wissen und Ihre Perspektive."
     },
     {
-      "key": "feedback/general/button",
-      "value": "Allgemeines"
+      "key": "feedback/general/title",
+      "value": "Allgemeines Feedback"
     },
     {
-      "key": "feedback/article/button",
-      "value": "Unsere Stücke"
+      "key": "feedback/general/lead",
+      "value": "Hier können Sie Wünsche, Kritik und Lob an die Adresse der Republik einbringen."
+    },
+    {
+      "key": "feedback/link/general",
+      "value": "Ich möchte Wünsche, Kritik oder Lob zur Republik abgeben."
     },
     {
       "key": "feedback/article/headline",
@@ -3813,10 +3797,6 @@
     {
       "key": "feedback/articleItem/newPage/title",
       "value": "Zur Debattenseite"
-    },
-    {
-      "key": "feedback/fetchMore",
-      "value": "Mehr Beiträge"
     },
     {
       "key": "tokenAuthorization/error",
@@ -3908,7 +3888,7 @@
     },
     {
       "key": "search/results/empty",
-      "value": "Schande! Wir haben dieses Wort nicht gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
+      "value": "Schande! Wir haben nichts gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
     },
     {
       "key": "search/pageInfo/loadMore",
@@ -3951,12 +3931,16 @@
       "value": "absteigend"
     },
     {
+      "key": "search/excerpt",
+      "value": "Auszug"
+    },
+    {
       "key": "search/docs/title",
-      "value": "Cheatsheet"
+      "value": "Spickzettel"
     },
     {
       "key": "search/docs/text",
-      "value": "Match all of the words: <i>default</i>\n      <br />\n      <a href='/suche?q=Vogelsterben 5G'>Vogelsterben 5G</a>\n      <br />\n      <br />\n      Match any of the words: <b>|</b>\n      <br />\n      <a href='/suche?q=Klimawandel | Energie'>Klimawandel | Energie</a>\n      <br />\n      <br />\n      Match exact phrase: <b>\"&nbsp;\"</b>\n      <br />\n      <a href='/suche?q=\"Ignazio Cassis\"'>\"Ignazio Cassis\"</a>\n      <br />\n      <br />\n      Exclude a word: <b>-</b>\n      <br />\n      <a href='/suche?q=ETH -Skandal'>ETH -Skandal</a>\n      <br />\n      <br />\n      Combine queries: <b>(&nbsp;)</b>\n      <br />\n      <a href='/suche?q=Daniel (Graf | Binswanger)'>\n        Daniel (Graf | Binswanger)\n      </a>"
+      "value": "Enthält alle diese Wörter:\n<br />\n<a href='/suche?q=Energie Klima CO2'>Energie Klima CO2</a>\n<br />\n<br />\nEnthält einige dieser Wörter: <b>Wort | Wort | …</b>\n<br />\n<a href='/suche?q=Bundesrat | Zauberformel | Parlament'>Bundesrat | Zauberformel | Parlament</a>\n<br />\n<br />\nEnthält den exakten Ausdruck: <b>\"Ausdruck\"</b>\n<br />\n<a href='/suche?q=\"Europäische Union\"'>\"Europäische Union\"</a>\n<br />\n<br />\nEin Wort ausschliessen: <b>-Wort</b>\n<br />\n<a href='/suche?q=\"Fake News\" -Russland'>\"Fake News\" -Russland</a>\n<br />\n<br />\nKombinierte Suche: <b>( … )</b>\n<br />\n<a href='/suche?q=Daniel ( Binswanger | Ryser | Graf )'>\n  Daniel ( Binswanger | Ryser | Graf )\n</a>\n"
     },
     {
       "key": "styleguide/video/dnt/note",
@@ -4116,7 +4100,7 @@
     },
     {
       "key": "questionnaire/crowd/submitted/intro",
-      "value": "Vielen Dank für Ihre Bereitschaft, mitzuhelfen und für die Republik zu kämpfen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekannt­machung der Republik starten:"
+      "value": "Vielen Dank für Ihre Bereitschaft mitzuhelfen, die Republik bekannter zu machen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekanntmachung der Republik starten oder an einem Komplizentreffen teilnehmen: "
     },
     {
       "key": "questionnaire/crowd/submitted/list/1",
@@ -4125,6 +4109,10 @@
     {
       "key": "questionnaire/crowd/submitted/list/2",
       "value": "Auf der Kampagnen­seite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten zur Mithilfe</a>."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/0",
+      "value": "<a href=\"/veranstaltungen\">Veranstaltungen</a>"
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",
@@ -5171,6 +5159,14 @@
       "value": "Lesen Sie zwei Wochen kostenlos die «Republik». Einlösbar bis 30.11.2019."
     },
     {
+      "key": "Trial/Page/unauthorized/21/heading",
+      "value": "Sie wollen es wirklich wissen?"
+    },
+    {
+      "key": "Trial/Page/unauthorized/21/intro",
+      "value": "Unser Januar-Angebot: Lesen Sie 21 Tage kostenlos die «Republik». Einlösbar bis 31.01.2020."
+    },
+    {
       "key": "pages/cardGroups/description",
       "value": "Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },
@@ -6163,22 +6159,6 @@
       "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
     },
     {
-      "key": "article/tryNote/191106-v1/before/title",
-      "value": "Schon {count} Menschen abonnieren kompromisslosen Journalismus mit Tiefe und Witz. Und Sie?"
-    },
-    {
-      "key": "article/tryNote/191106-v1/before",
-      "value": "Kommen Sie zur Republik! Unser digitales Magazin berichtet sechsmal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. <b>Testen Sie die Republik 14 Tage lang gratis</b> – und wenn Sie überzeugt sind, kommen Sie an Bord."
-    },
-    {
-      "key": "article/tryNote/191106-v1/after/title",
-      "value": "Wirklich kompromisslosen Journalismus gibt es nur mit Ihnen!"
-    },
-    {
-      "key": "article/tryNote/191106-v1/after",
-      "value": "Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b> Leserinnenfinanziert und ohne Werbung."
-    },
-    {
       "key": "article/tryNote/191106-v2/before/title",
       "value": "Testen Sie die Republik 14 Tage lang gratis und unverbindlich."
     },
@@ -6247,7 +6227,7 @@
       "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
     },
     {
-      "key": "article/payNote/191108-v1/before/button",
+      "key": "article/payNote/191108-v1/before/buy/button",
       "value": "Ich bin dabei."
     },
     {
@@ -6259,7 +6239,7 @@
       "value": "Wollen auch Sie, dass die noch junge Republik weiterhin unabhängigen, transparenten Journalismus betreiben kann? Dann kommen Sie als Mitglied oder Abonnentin an Bord! "
     },
     {
-      "key": "article/payNote/191108-v1/after/button",
+      "key": "article/payNote/191108-v1/after/buy/button",
       "value": "Ja – ich bin dabei!"
     },
     {
@@ -6271,7 +6251,7 @@
       "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur – und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
-      "key": "article/payNote/191108-v2/before/button",
+      "key": "article/payNote/191108-v2/before/buy/button",
       "value": "Natürlich!"
     },
     {
@@ -6283,7 +6263,7 @@
       "value": "Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
     },
     {
-      "key": "article/payNote/191108-v2/after/button",
+      "key": "article/payNote/191108-v2/after/buy/button",
       "value": "Ich bin an Bord."
     },
     {
@@ -6333,6 +6313,10 @@
     {
       "key": "marketing/lead/p3",
       "value": "Die Republik steht für Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor den Menschen."
+    },
+    {
+      "key": "marketing/lead/p4",
+      "value": "Die Schweiz ist erfolgreich, wenn Liberale und Linke, Progressive und Konservative gemeinsam um Lösungen ringen. Deshalb ist die Republik politisch nicht festgelegt, aber keineswegs neutral."
     },
     {
       "key": "marketing/overview/title",
@@ -6388,11 +6372,11 @@
     },
     {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Bestellungen vor 19. Dezember um 23:59 Uhr können noch vor Weihnachten geliefert werden. Bücher liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Bestellungen vor 19. Dezember um 23:59 Uhr können noch vor Weihnachten geliefert werden. Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",

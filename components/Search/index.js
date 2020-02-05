@@ -1,336 +1,118 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { css } from 'glamor'
-import debounce from 'lodash/debounce'
+import { compose } from 'react-apollo'
 
-import { Router } from '../../lib/routes'
-import track from '../../lib/piwik'
-
-import { DEFAULT_FILTERS } from './constants'
-import {
-  deserializeFilters,
-  serializeFilters,
-  deserializeSort,
-  serializeSort
-} from './serialize'
-
-import Input from './Input'
+import Form from './Form'
+import Filters from './Filters'
+import Sort from './Sort'
 import Results from './Results'
+import CheatSheet from './CheatSheet'
 
 import { Center, mediaQueries } from '@project-r/styleguide'
 
+import withSearchRouter from './withSearchRouter'
+import { withResults, withAggregations } from './enhancers'
+import ZeroResults from './ZeroResults'
+
+import track from '../../lib/piwik'
+
+import {
+  DEFAULT_FILTER,
+  SUPPORTED_FILTERS,
+  LATEST_SORT,
+  isSameFilter,
+  findAggregation
+} from './constants'
+
 const styles = {
   container: css({
-    padding: '15px 15px 120px',
+    paddingRight: 15,
+    paddingLeft: 15,
     [mediaQueries.mUp]: {
-      padding: '40px 0 120px'
+      paddingRight: 0,
+      paddingLeft: 0
     }
   })
 }
 
-class Search extends Component {
-  constructor(props, ...args) {
-    super(props, ...args)
+const hasResults = (aggregations, filter) =>
+  !!findAggregation(aggregations, filter).count
 
-    this.state = {
-      loading: false,
-      loadingFilters: false,
-      searchQuery: '',
-      filterQuery: '',
-      submittedQuery: '',
-      filters: DEFAULT_FILTERS,
-      serializedFilters: '',
-      sort: {
-        key: 'publishedAt'
-      },
-      serializedSort: '',
-      totalCount: 0,
-      isMobile: true,
-      allowFocus: true,
-      trackingId: undefined
-    }
+const findFilterWithResults = aggregations =>
+  SUPPORTED_FILTERS.find(filter => hasResults(aggregations, filter)) ||
+  DEFAULT_FILTER
 
-    this.loadFilters = debounce(() => {
-      this.setState({
-        filters:
-          this.state.filterQuery !== this.state.searchQuery
-            ? DEFAULT_FILTERS
-            : this.state.filters,
-        filterQuery: this.state.searchQuery,
-        loadingFilters: false,
-        preloadedAggregations: null
-      })
-    }, 200)
+export default compose(
+  withSearchRouter,
+  withAggregations,
+  withResults
+)(
+  ({
+    cleanupUrl,
+    urlQuery = '',
+    urlFilter,
+    pushSearchParams,
+    startState,
+    data: { search } = {},
+    dataAggregations
+  }) => {
+    useEffect(() => {
+      cleanupUrl()
+    }, [])
 
-    this.onInputChange = (_, value) => {
-      if (value === this.state.searchQuery) {
+    // calc outside of effect to ensure it only runs when changing
+    const keyword = urlQuery.toLowerCase()
+    const category = `${urlFilter.key}:${urlFilter.value}`
+    const searchCount = search && search.totalCount
+    const aggCount =
+      dataAggregations &&
+      dataAggregations.search &&
+      dataAggregations.search.totalCount
+
+    useEffect(() => {
+      if (searchCount !== undefined && !startState) {
+        track(['trackSiteSearch', keyword, category, searchCount])
+      }
+    }, [startState, keyword, category, searchCount])
+
+    // switch to first tab with results
+    useEffect(() => {
+      if (!dataAggregations || dataAggregations.loading) {
         return
       }
-      this.setState({
-        searchQuery: value,
-        loadingFilters: true,
-        allowFocus: true
-      })
-      this.loadFilters()
-    }
-
-    this.onSearch = () => {
-      const sort = {
-        key: 'relevance'
+      const { aggregations } = dataAggregations.search
+      const currentAgg = findAggregation(aggregations, urlFilter)
+      if (currentAgg && currentAgg.count) {
+        return
       }
-      this.setState({
-        submittedQuery: this.state.searchQuery,
-        filterQuery: this.state.searchQuery,
-        filters: DEFAULT_FILTERS,
-        sort,
-        allowFocus: !this.state.isMobile
-      })
-      this.updateUrl(undefined, serializeSort(sort))
-      track([
-        'trackSiteSearch',
-        this.state.searchQuery,
-        false,
-        this.state.totalCount
-      ])
-    }
-
-    this.onReset = () => {
-      this.clearUrl()
-      this.setState({
-        searchQuery: '',
-        submittedQuery: '',
-        filterQuery: '',
-        filters: DEFAULT_FILTERS,
-        allowFocus: true,
-        preloadedAggregations: null
-      })
-    }
-
-    this.onSubmit = e => {
-      e.preventDefault()
-      e.stopPropagation()
-      this.onSearch()
-    }
-
-    this.onSearchLoaded = search => {
-      const { trackingId } = search
-      if (!!trackingId && trackingId !== this.state.trackingId) {
-        this.setState({
-          trackingId
-        })
+      const newFilter = findFilterWithResults(aggregations)
+      if (newFilter && !isSameFilter(newFilter, urlFilter)) {
+        pushSearchParams({ filter: newFilter })
       }
-    }
-
-    this.onTotalCountLoaded = totalCount => {
-      this.setState({
-        totalCount
-      })
-    }
-
-    this.onAggregationsLoaded = aggregations => {
-      this.setState({
-        preloadedAggregations: aggregations
-      })
-    }
-
-    this.onLoadMoreClick = () => {
-      this.setState({
-        allowFocus: false
-      })
-    }
-
-    this.onSortClick = (sortKey, sortDirection) => {
-      let sort = {
-        key: sortKey
-      }
-      if (sortDirection) {
-        sort.direction = sortDirection
-      }
-      const serializedSort = serializeSort(sort)
-      this.setState({ sort, serializedSort })
-      this.updateUrl(this.state.serializedFilters, serializedSort)
-    }
-
-    this.onFilterClick = (
-      filterBucketKey,
-      filterBucketValue,
-      selected,
-      count
-    ) => {
-      const filter = {
-        key: filterBucketKey,
-        value: filterBucketValue
-      }
-
-      let filters = [...this.state.filters].filter(
-        filter => !(filter.key === 'template' && filter.value === 'front')
-      )
-
-      if (selected) {
-        filters = filters.filter(filter => filter.key !== filterBucketKey)
-      } else {
-        if (
-          !filters.find(
-            filter =>
-              filter.key === filterBucketKey &&
-              filter.value === filterBucketValue
-          )
-        ) {
-          filters.push(filter)
-        }
-      }
-
-      const serializedFilters = serializeFilters(filters)
-      this.setState({
-        filters: filters.concat(DEFAULT_FILTERS),
-        serializedFilters,
-        submittedQuery: this.state.searchQuery,
-        filterQuery: this.state.searchQuery,
-        allowFocus: !this.state.isMobile,
-        preloadedAggregations: null
-      })
-      this.updateUrl(serializedFilters, this.state.serializedSort)
-      if (!selected) {
-        track([
-          'trackSiteSearch',
-          this.state.searchQuery,
-          decodeURIComponent(serializedFilters),
-          count
-        ])
-      }
-    }
-
-    this.pushUrl = params => {
-      Router.replaceRoute('search', params, { shallow: true })
-    }
-
-    this.updateUrl = (filters, sort) => {
-      const searchQuery = encodeURIComponent(this.state.searchQuery)
-      this.pushUrl({ q: searchQuery, filters, sort })
-    }
-
-    this.clearUrl = () => {
-      this.pushUrl({})
-    }
-
-    this.handleResize = () => {
-      const isMobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (isMobile !== this.state.isMobile) {
-        this.setState({ isMobile })
-      }
-    }
-
-    this.setStateFromQuery = query => {
-      let filters = DEFAULT_FILTERS
-      let newState = {}
-      const decodedQuery = !!query.q && decodeURIComponent(query.q)
-
-      if (decodedQuery && decodedQuery !== this.state.searchQuery) {
-        newState = {
-          ...newState,
-          searchQuery: decodedQuery,
-          submittedQuery: decodedQuery,
-          filterQuery: decodedQuery
-        }
-      }
-
-      if (query.filters) {
-        const rawFilters =
-          typeof query.filters === 'string' ? query.filters : query.filters[0]
-        const sanitizedFilters = deserializeFilters(rawFilters)
-        const serializedFilters = serializeFilters(sanitizedFilters)
-
-        if (serializedFilters !== this.state.serializedFilters) {
-          newState = {
-            ...newState,
-            filters: filters.concat(sanitizedFilters),
-            serializedFilters
-          }
-        }
-      }
-
-      if (query.sort) {
-        const rawSort =
-          typeof query.sort === 'string' ? query.sort : query.sort[0]
-        const sanitizedSort = deserializeSort(rawSort)
-        const serializedSort = serializeSort(sanitizedSort)
-
-        if (serializedSort !== this.state.serializedSort) {
-          newState = {
-            ...newState,
-            sort: sanitizedSort,
-            serializedSort
-          }
-        }
-      }
-
-      if (newState.submittedQuery || newState.filters || newState.sort) {
-        this.setState(newState)
-      }
-    }
-  }
-
-  UNSAFE_componentWillReceiveProps({ query }) {
-    this.setStateFromQuery(query)
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
-    if (this.props.query) {
-      this.setStateFromQuery(this.props.query)
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize)
-  }
-
-  render() {
-    const {
-      searchQuery,
-      filterQuery,
-      submittedQuery,
-      preloadedAggregations,
-      totalCount,
-      filters,
-      sort,
-      loadingFilters,
-      allowFocus,
-      trackingId
-    } = this.state
+    }, [dataAggregations, urlFilter])
 
     return (
       <Center {...styles.container}>
-        <form onSubmit={this.onSubmit}>
-          <Input
-            value={searchQuery}
-            allowSearch={searchQuery !== submittedQuery}
-            allowFocus={allowFocus}
-            onChange={this.onInputChange}
-            onSearch={this.onSearch}
-            onReset={this.onReset}
-          />
-        </form>
-        <Results
-          searchQuery={submittedQuery}
-          filterQuery={filterQuery}
-          sort={sort}
-          loadingFilters={loadingFilters}
-          filters={filters}
-          preloadedTotalCount={totalCount}
-          preloadedAggregations={preloadedAggregations}
-          onSearch={this.onSearch}
-          onSortClick={this.onSortClick}
-          onFilterClick={this.onFilterClick}
-          onTotalCountLoaded={this.onTotalCountLoaded}
-          onAggregationsLoaded={this.onAggregationsLoaded}
-          onLoadMoreClick={this.onLoadMoreClick}
-          onSearchLoaded={this.onSearchLoaded}
-          trackingId={trackingId}
-        />
+        <Form />
+        {startState ? (
+          <>
+            <Filters sort={LATEST_SORT} />
+            <CheatSheet />
+          </>
+        ) : (
+          <>
+            <Filters />
+            {searchCount === 0 && aggCount === 0 ? (
+              <ZeroResults />
+            ) : (
+              <>
+                {searchCount > 0 && <Sort />}
+                <Results />
+              </>
+            )}
+          </>
+        )}
       </Center>
     )
   }
-}
-
-export default Search
+)

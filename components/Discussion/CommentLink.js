@@ -7,7 +7,7 @@ import {
   PUBLIC_BASE_URL
 } from '../../lib/constants'
 
-const getFocusRoute = (discussion, commentId) => {
+export const getFocusRoute = (discussion, commentId) => {
   if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
     return {
       route: 'discussion',

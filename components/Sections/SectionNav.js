@@ -7,6 +7,7 @@ import {
   FormatTag
 } from '@project-r/styleguide'
 import { css } from 'glamor'
+import { ascending } from 'd3-array'
 import { Link } from '../../lib/routes'
 
 const styles = {
@@ -50,10 +51,8 @@ const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => {
     <div {...styles.container}>
       {linkedDocuments.nodes
         .filter(d => d.meta.template === 'format')
+        .sort((a, b) => ascending(a.meta.title, b.meta.title))
         .map(d => {
-          if (d.linkedDocuments.totalCount < 1) {
-            return null
-          }
           return (
             <div key={d.id} {...styles.item}>
               <Link route={d.meta.path} passHref key={d.meta.path}>
@@ -61,7 +60,7 @@ const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => {
                   <FormatTag
                     color={d.meta.color || color}
                     label={d.meta.title}
-                    count={d.linkedDocuments.totalCount}
+                    count={d.linkedDocuments.totalCount || null}
                   />
                 </a>
               </Link>

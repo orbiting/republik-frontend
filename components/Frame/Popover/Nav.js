@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { compose } from 'react-apollo'
 
 import { css } from 'glamor'
@@ -14,13 +14,10 @@ import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
-import {
-  colors,
-  fontStyles,
-  mediaQueries,
-  Label,
-  Editorial
-} from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries, Label } from '@project-r/styleguide'
+
+import NavLink, { NavA } from './NavLink'
+import Sections from './Sections'
 
 const styles = {
   container: css({
@@ -65,6 +62,15 @@ const styles = {
       ...fontStyles.sansSerifRegular21
     }
   }),
+  sectionsBlock: css({
+    marginTop: 0,
+    marginBottom: 15,
+    display: 'inline-block',
+    maxWidth: 190,
+    [mediaQueries.mUp]: {
+      maxWidth: 230
+    }
+  }),
   section: css({
     padding: '0 10px',
     [mediaQueries.mUp]: {
@@ -79,20 +85,6 @@ const styles = {
       textAlign: 'right'
     }
   }),
-  link: css({
-    display: 'block',
-    textDecoration: 'none',
-    color: colors.text,
-    ':visited': {
-      color: colors.text
-    },
-    '@media (hover)': {
-      ':hover': {
-        color: colors.primary
-      }
-    },
-    cursor: 'pointer'
-  }),
   signout: css({
     color: colors.text,
     marginTop: 5,
@@ -103,47 +95,26 @@ const styles = {
 
 const SignoutLink = ({ children, ...props }) => (
   <div {...styles.signout}>
-    <Editorial.A {...props}>{children}</Editorial.A>
+    <NavA {...props}>{children}</NavA>
   </div>
 )
-
-const NavLink = ({ route, children, params = {}, active, closeHandler }) => {
-  if (active && active.route === route) {
-    return (
-      <a
-        {...styles.link}
-        style={{ cursor: 'pointer' }}
-        onClick={e => {
-          e.preventDefault()
-          Router.replaceRoute(route, params).then(() => {
-            window.scroll(0, 0)
-            closeHandler()
-          })
-        }}
-      >
-        {children}
-      </a>
-    )
-  }
-  return (
-    <Link route={route} params={params}>
-      <a {...styles.link}>{children}</a>
-    </Link>
-  )
-}
 
 const Nav = ({
   me,
   router,
+  expanded,
   closeHandler,
   children,
   t,
   inNativeApp,
   inNativeIOSApp,
-  gift,
   isMember
 }) => {
   const active = matchPath(router.asPath)
+  const hasExpandedRef = useRef(expanded)
+  if (expanded) {
+    hasExpandedRef.current = true
+  }
   return (
     <div {...styles.container} id='nav'>
       <hr {...styles.hr} {...styles.hrFixed} />
@@ -178,20 +149,21 @@ const Nav = ({
                 </NavLink>
               )}
               {me.accessCampaigns.length > 0 && (
-                <a
-                  {...styles.link}
-                  style={{ cursor: 'pointer' }}
+                <NavA
                   href='/konto#teilen'
                   onClick={e => {
                     if (shouldIgnoreClick(e)) {
                       return
                     }
-
-                    Router.pushRoute('/konto#teilen').then(closeHandler)
+                    if (active && active.route === 'account') {
+                      e.preventDefault()
+                      window.location = '#teilen'
+                      closeHandler()
+                    }
                   }}
                 >
                   {t('nav/share')}
-                </a>
+                </NavA>
               )}
             </>
           )}
@@ -207,7 +179,7 @@ const Nav = ({
               active={active}
               closeHandler={closeHandler}
             >
-              {t('nav/give')} 🎁
+              {t('nav/give')}
             </NavLink>
           )}
           {!inNativeIOSApp && isMember && (
@@ -238,59 +210,63 @@ const Nav = ({
         </div>
         <div {...styles.section}>
           {isMember && (
-            <NavLink route='index' active={active} closeHandler={closeHandler}>
-              {t('navbar/front')}
-            </NavLink>
-          )}
-          {isMember && (
-            <NavLink route='feed' active={active} closeHandler={closeHandler}>
-              {t('navbar/feed')}
-            </NavLink>
-          )}
-          {isMember && (
-            <NavLink
-              route='discussion'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('navbar/discussion')}
-            </NavLink>
-          )}
-          {isMember && (
-            <NavLink
-              route='formats'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/formats')}
-            </NavLink>
+            <>
+              <NavLink
+                route='index'
+                active={active}
+                closeHandler={closeHandler}
+              >
+                {t('navbar/front')}
+              </NavLink>
+              <NavLink route='feed' active={active} closeHandler={closeHandler}>
+                {t('navbar/feed')}
+              </NavLink>
+            </>
           )}
           <NavLink
+            route='discussion'
+            active={active}
+            closeHandler={closeHandler}
+            hoverColor={colors.primary}
+          >
+            {t('navbar/discussion')}
+          </NavLink>
+          <NavLink route='sections' active={active} closeHandler={closeHandler}>
+            {t('nav/sections')}
+          </NavLink>
+          {hasExpandedRef.current && (
+            <div {...styles.sectionCompact} {...styles.sectionsBlock}>
+              <Sections active={active} closeHandler={closeHandler} />
+            </div>
+          )}
+          {/*<NavLink
             route='community'
             active={active}
             closeHandler={closeHandler}
           >
             {t('nav/community')}
+          </NavLink>*/}
+          <NavLink route='events' active={active} closeHandler={closeHandler}>
+            {t('nav/events')}
           </NavLink>
-          {/*<NavLink
-            route='events'
-            active={active}
-            closeHandler={closeHandler}
-          >{t('nav/events')}</NavLink>*/}
           <NavLink
-            route='vote201912'
+            inline
+            route='cockpit'
             active={active}
             closeHandler={closeHandler}
           >
-            {t('nav/vote201912')}
-          </NavLink>
-          <NavLink route='cockpit' active={active} closeHandler={closeHandler}>
             {t('nav/cockpit')}
           </NavLink>
-          <NavLink route='meta' active={active} closeHandler={closeHandler}>
+          <NavLink
+            inline
+            route='meta'
+            active={active}
+            closeHandler={closeHandler}
+          >
             {t('nav/meta')}
           </NavLink>
           <NavLink
+            inline
             route='legal/imprint'
             active={active}
             closeHandler={closeHandler}

@@ -7,15 +7,15 @@ import { LazyLoad } from '@project-r/styleguide'
 import TeaserHover from './TeaserHover'
 import TeaserNodes from './TeaserNodes'
 import QueuedImg from './QueuedImg'
-import { getSmallImgSrc } from './utils'
+import { getImgSrc } from './utils'
 
 const SIZES = [
   { minWidth: 0, columns: 3 },
-  { minWidth: 330, columns: 3 },
-  { minWidth: 450, columns: 3 },
   { minWidth: 570, columns: 4 },
   { minWidth: 690, columns: 5 },
-  { minWidth: 810, columns: 6 }
+  { minWidth: 810, columns: 6 },
+  { minWidth: 930, columns: 7 },
+  { minWidth: 1150, columns: 8 }
 ]
 
 export const GAP = 10
@@ -24,16 +24,6 @@ const styles = {
   container: css({
     display: 'block',
     columnGap: GAP,
-    ...SIZES.reduce((styles, size) => {
-      if (size.minWidth) {
-        styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
-          columns: `${size.columns} auto`
-        }
-      } else {
-        styles.columns = `${size.columns} auto`
-      }
-      return styles
-    }, {}),
     width: '100%',
     lineHeight: 0
   })
@@ -87,7 +77,14 @@ class TeaserBlock extends Component {
   }
   render() {
     const { hover, width } = this.state
-    const { path, highlight, onHighlight, lazy, maxHeight } = this.props
+    const {
+      path,
+      highlight,
+      onHighlight,
+      lazy,
+      maxHeight,
+      maxColumns = 6
+    } = this.props
 
     const teasers = this.props.teasers.filter(
       teaser =>
@@ -123,20 +120,25 @@ class TeaserBlock extends Component {
           attributes={{
             ...styles.container,
             ...css({
-              ...SIZES.reduce((styles, size) => {
-                // SSR approximation
-                const minHeight = (teasers.length / size.columns) * 50
-                if (size.minWidth) {
-                  styles[
-                    `@media only screen and (min-width: ${size.minWidth}px)`
-                  ] = {
-                    minHeight
+              ...SIZES.filter(s => s.columns <= maxColumns).reduce(
+                (styles, size) => {
+                  // SSR approximation
+                  const minHeight = (teasers.length / size.columns) * 50
+                  if (size.minWidth) {
+                    styles[
+                      `@media only screen and (min-width: ${size.minWidth}px)`
+                    ] = {
+                      minHeight,
+                      columns: `${size.columns} auto`
+                    }
+                  } else {
+                    styles.minHeight = minHeight
+                    styles.columns = `${size.columns} auto`
                   }
-                } else {
-                  styles.minHeight = minHeight
-                }
-                return styles
-              }, {})
+                  return styles
+                },
+                {}
+              )
             })
           }}
           style={{
@@ -225,7 +227,7 @@ class TeaserBlock extends Component {
                 <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                   <Image
                     onLoad={this.measure}
-                    src={getSmallImgSrc(teaser, path)}
+                    src={getImgSrc(teaser, path)}
                     style={{
                       display: 'inline-block',
                       // unbreakable margin

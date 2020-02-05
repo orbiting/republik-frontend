@@ -2,9 +2,8 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const getActiveDiscussions = gql`
-  query getActiveDiscussions($lastDays: Int!) {
-    activeDiscussions(lastDays: $lastDays) {
-      count
+  query getActiveDiscussions($lastDays: Int!, $first: Int) {
+    activeDiscussions(lastDays: $lastDays, first: $first) {
       discussion {
         id
         title
@@ -22,46 +21,8 @@ const getActiveDiscussions = gql`
             }
           }
         }
-      }
-    }
-  }
-`
-
-export const getArticleSearchResults = gql`
-  query getArticleSearchResults(
-    $search: String
-    $after: String
-    $sort: SearchSortInput
-    $filters: [SearchGenericFilterInput!]
-    $trackingId: ID
-  ) {
-    search(
-      first: 5
-      after: $after
-      search: $search
-      sort: $sort
-      filters: $filters
-      trackingId: $trackingId
-    ) {
-      nodes {
-        entity {
-          __typename
-          ... on Document {
-            meta {
-              title
-              path
-              credits
-              ownDiscussion {
-                id
-                closed
-              }
-              linkedDiscussion {
-                id
-                path
-                closed
-              }
-            }
-          }
+        comments {
+          totalCount
         }
       }
     }
@@ -161,7 +122,8 @@ const getDiscussionDocumentMeta = gql`
 export const withActiveDiscussions = graphql(getActiveDiscussions, {
   options: props => ({
     variables: {
-      lastDays: props.lastDays || 3
+      lastDays: props.lastDays || 3,
+      first: props.first
     }
   })
 })

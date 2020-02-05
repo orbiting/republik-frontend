@@ -8,19 +8,7 @@ import withT from '../../lib/withT'
 import jsonp from '../../lib/utils/jsonp'
 import { PIWIK_URL_BASE } from '../../lib/constants'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
-
-const styles = {
-  anchor: css({
-    display: 'block',
-    visibility: 'hidden',
-    position: 'relative',
-    top: -(HEADER_HEIGHT_MOBILE + 5),
-    [mediaQueries.mUp]: {
-      top: -(HEADER_HEIGHT + 5)
-    }
-  })
-}
+import Anchor from '../Anchor'
 
 class OptOut extends Component {
   constructor(...args) {
@@ -70,7 +58,7 @@ class OptOut extends Component {
 
     return (
       <span>
-        <a {...styles.anchor} id='tracking' />
+        <Anchor id='tracking' />
         <Label>{t('piwik/optOut/label')}</Label>
         <br />
         {!!status && t(`piwik/optOut/status/${status}`)}

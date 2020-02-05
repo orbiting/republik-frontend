@@ -18,13 +18,12 @@ import NativeRouter, { withRouter } from 'next/router'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
-import { Router, Link } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 import {
   CROWDFUNDING,
   TRIAL_CAMPAIGN,
   CDN_FRONTEND_BASE_URL
 } from '../../lib/constants'
-import VbzPoster from './VbzPoster'
 
 import { List as TestimonialList, testimonialFields } from '../Testimonial/List'
 
@@ -143,46 +142,6 @@ const styles = {
     [mediaQueries.mUp]: {
       margin: '50px 0'
     }
-  }),
-  heroContainer: css({
-    position: 'relative',
-    height: 600,
-    [mediaQueries.mUp]: {
-      display: 'flex',
-      flexDirection: 'row',
-      height: 'auto'
-    }
-  }),
-  poster: css({
-    position: 'absolute',
-    top: 30,
-    left: 0,
-    right: 0,
-    margin: '0 auto',
-    zIndex: 3,
-    [mediaQueries.mUp]: {
-      width: 270,
-      margin: '0 0  0 10px',
-      position: 'static'
-    }
-  }),
-  teasers: css({
-    position: 'absolute',
-    top: 100,
-    [mediaQueries.mUp]: {
-      position: 'static',
-      width: 'calc(100% - 270px)',
-      height: 420
-    }
-  }),
-  packageImage: css({
-    float: 'right',
-    maxWidth: 150,
-    maxHeight: 170,
-    paddingLeft: 10,
-    [mediaQueries.mUp]: {
-      paddingLeft: 30
-    }
   })
 }
 
@@ -224,27 +183,19 @@ const MarketingPage = props => {
                   }}
                 />
               </h1>
-              <div {...styles.heroContainer}>
-                <div {...styles.poster}>
-                  <VbzPoster />
-                </div>
-                <div {...styles.overviewTopShadow} />
-                <div {...styles.teasers}>
-                  <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
-                    <Loader
-                      loading={loading}
-                      style={{ minHeight: 420 }}
-                      render={() => (
-                        <TeaserBlock
-                          teasers={getTeasersFromDocument(front)}
-                          highlight={highlight}
-                          onHighlight={onHighlight}
-                          maxHeight={500}
-                        />
-                      )}
+              <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
+                <Loader
+                  loading={loading}
+                  style={{ minHeight: 420 }}
+                  render={() => (
+                    <TeaserBlock
+                      teasers={getTeasersFromDocument(front)}
+                      highlight={highlight}
+                      onHighlight={onHighlight}
+                      maxHeight={500}
                     />
-                  </div>
-                </div>
+                  )}
+                />
               </div>
               <div {...styles.overviewBottomShadow} />
             </Container>
@@ -360,28 +311,6 @@ const MarketingPage = props => {
 
             <Accordion
               compact
-              renderIntro={({ packages }) => {
-                const hasTablebook = packages.some(pkg =>
-                  pkg.options.some(
-                    option =>
-                      option.reward && option.reward.name === 'TABLEBOOK'
-                  )
-                )
-                if (hasTablebook) {
-                  return (
-                    <Interaction.P>
-                      <img
-                        {...styles.packageImage}
-                        src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
-                      />
-                      Für begrenzte Zeit haben Sie die Möglichkeit, bei
-                      Jahresmitgliedschaften unser Buch «Republik bei
-                      Stromausfall» (limitierte Edition, CHF 58) mitzubestellen.
-                    </Interaction.P>
-                  )
-                }
-                return null
-              }}
               crowdfundingName={CROWDFUNDING}
               filter={[
                 'ABO',

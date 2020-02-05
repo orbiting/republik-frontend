@@ -506,6 +506,7 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
                         display: 'inline-block',
                         width: 130,
                         marginRight: 10,
+                        marginBottom: 10,
                         color: '#fff',
                         verticalAlign: 'top',
                         backgroundColor:
@@ -681,7 +682,7 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtch
                       '2020-03' !== currentYearMonth && {
                         x1: currentYearMonth,
                         x2: currentYearMonth,
-                        label: 'Stand jetzt',
+                        label: 'Jetzt',
                         value: count
                       },
                       {

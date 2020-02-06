@@ -233,7 +233,7 @@ const Nav = ({
           </NavLink>
           <div {...styles.sectionCompact} {...styles.sectionsBlock}>
             <NavLink
-              route='top-stories'
+              route='top-storys'
               active={active}
               closeHandler={closeHandler}
             >

@@ -127,7 +127,7 @@ const FeedbackPage = props => {
             >
               {t('feedback/link/topStories/badgeText')}
             </a>
-            <Link route='top-stories' passHref>
+            <Link route='top-storys' passHref>
               <A>{t('feedback/link/topStories/text')}</A>
             </Link>
           </Interaction.P>

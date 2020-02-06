@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-06T14:56:40.763Z",
+  "updated": "2020-02-06T18:32:40.640Z",
   "title": "live",
   "data": [
     {
@@ -24,7 +24,7 @@
     },
     {
       "key": "nav/discussion/topStories",
-      "value": "Top Stories"
+      "value": "Top-Storys"
     },
     {
       "key": "nav/community",

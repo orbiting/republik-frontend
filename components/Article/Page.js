@@ -150,6 +150,7 @@ const getDocument = gql`
         ownDiscussion {
           id
           closed
+          isBoard
           comments {
             totalCount
           }
@@ -790,7 +791,9 @@ class ArticlePage extends Component {
                     <Discussion
                       discussionId={ownDiscussion.id}
                       focusId={router.query.focus}
+                      parent={router.query.parent}
                       mute={!!router.query.mute}
+                      board={ownDiscussion.isBoard}
                     />
                   </Center>
                 )}

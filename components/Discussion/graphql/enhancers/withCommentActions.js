@@ -10,6 +10,7 @@ import * as docs from '../documents'
  *   {
  *     upvoteComment(commentId: ID)
  *     downvoteComment(commentId: ID)
+ *     reportComment(commentId: ID)
  *     unpublishComment(commentId: ID)
  *     editComment(comment: Comment, content: string, tags?: string[])
  *   }
@@ -31,6 +32,12 @@ export const withCommentActions = compose(
   graphql(docs.unvoteCommentMutation, {
     props: ({ mutate }) => ({
       unvoteComment: comment =>
+        mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
+    })
+  }),
+  graphql(docs.reportCommentMutation, {
+    props: ({ mutate }) => ({
+      reportComment: comment =>
         mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
     })
   }),

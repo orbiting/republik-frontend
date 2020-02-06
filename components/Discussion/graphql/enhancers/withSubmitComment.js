@@ -1,11 +1,15 @@
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import uuid from 'uuid/v4'
 import produce from 'immer'
 
 import withT from '../../../../lib/withT'
 
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'
-import { discussionQuery, submitCommentMutation } from '../documents'
+import {
+  discussionQuery,
+  submitCommentMutation,
+  commentPreviewQuery
+} from '../documents'
 import { toRejectedString } from '../utils'
 import { mergeComment, optimisticContent, submittedComments } from '../store'
 import { debug } from '../../debug'
@@ -21,6 +25,7 @@ import { debug } from '../../debug'
 export const withSubmitComment = compose(
   withT,
   withDiscussionDisplayAuthor,
+  withApollo,
   graphql(submitCommentMutation, {
     props: ({
       ownProps: {
@@ -31,10 +36,28 @@ export const withSubmitComment = compose(
         depth,
         focusId,
         discussionDisplayAuthor: displayAuthor,
-        discussionUserPreference: userPreference
+        discussionUserPreference: userPreference,
+        client,
+        includeParent
       },
       mutate
     }) => ({
+      previewComment: ({ content, discussionId, parentId, id }) => {
+        return client
+          .query({
+            query: commentPreviewQuery,
+            variables: {
+              content,
+              discussionId,
+              parentId,
+              id
+            },
+            fetchPolicy: 'no-cache'
+          })
+          .then(({ data }) => {
+            return data.commentPreview
+          })
+      },
       submitComment: (parent, content, tags = []) => {
         if (!displayAuthor) {
           return Promise.reject(t('submitComment/noDisplayAuthor'))
@@ -73,6 +96,11 @@ export const withSubmitComment = compose(
               updatedAt: new Date().toISOString(),
               parentIds,
               tags,
+              embed: null,
+              mentioningDocument: null,
+              userCanReport: false,
+              userReportedAt: null,
+              numReports: 0,
               discussion: {
                 __typename: 'Discussion',
                 id: discussionId,
@@ -91,7 +119,8 @@ export const withSubmitComment = compose(
               parentId: ownParentId,
               orderBy,
               depth,
-              focusId
+              focusId,
+              includeParent
             }
 
             proxy.writeQuery({

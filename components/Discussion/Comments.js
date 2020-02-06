@@ -32,6 +32,7 @@ import {
 
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
+import { RootCommentOverlay } from './RootCommentOverlay'
 
 const styles = {
   orderByContainer: css({
@@ -74,7 +75,11 @@ const Comments = props => {
     orderBy,
     discussionComments: { loading, error, discussion, fetchMore },
     meta,
-    setOrderBy
+    setOrderBy,
+    board,
+    parent,
+    parentId,
+    rootCommentOverlay
   } = props
 
   /*
@@ -248,6 +253,7 @@ const Comments = props => {
           discussion,
 
           actions: {
+            previewComment: props.previewComment,
             submitComment: (parentComment, content, tags) =>
               props
                 .submitComment(parentComment, content, tags)
@@ -259,6 +265,7 @@ const Comments = props => {
             upvoteComment: props.upvoteComment,
             downvoteComment: props.downvoteComment,
             unvoteComment: props.unvoteComment,
+            reportComment: props.reportComment,
             unpublishComment: comment => {
               const message = t(
                 `styleguide/CommentActions/unpublish/confirm${
@@ -275,6 +282,13 @@ const Comments = props => {
               }
             },
             fetchMoreComments: ({ parentId, after, appendAfter }) => {
+              if (board) {
+                const result = getFocusRoute(discussion)
+                if (result) {
+                  result.params.parent = parentId
+                  return Router.pushRoute(result.route, result.params)
+                }
+              }
               return fetchMore({ parentId, after, appendAfter })
             },
             shareComment: comment => {
@@ -312,34 +326,44 @@ const Comments = props => {
 
         return (
           <>
-            <div {...styles.orderByContainer}>
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='DATE'
-              />
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='VOTES'
-              />
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='REPLIES'
-              />
-              <A
-                {...styles.reloadLink}
-                href={getFocusUrl(discussion)}
-                onClick={onReload}
-              >
-                {t('components/Discussion/reload')}
-              </A>
-              <br style={{ clear: 'both' }} />
-            </div>
+            {!rootCommentOverlay && (
+              <div {...styles.orderByContainer}>
+                {board && (
+                  <OrderBy
+                    t={t}
+                    orderBy={orderBy}
+                    setOrderBy={setOrderBy}
+                    value='HOT'
+                  />
+                )}
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='DATE'
+                />
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='VOTES'
+                />
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='REPLIES'
+                />
+                <A
+                  {...styles.reloadLink}
+                  href={getFocusUrl(discussion)}
+                  onClick={onReload}
+                >
+                  {t('components/Discussion/reload')}
+                </A>
+                <br style={{ clear: 'both' }} />
+              </div>
+            )}
 
             <DiscussionContext.Provider value={discussionContextValue}>
               {focus && (
@@ -367,7 +391,12 @@ const Comments = props => {
                 />
               )}
 
-              <CommentList t={t} comments={comments} />
+              <CommentList
+                t={t}
+                comments={comments}
+                board={board}
+                rootCommentOverlay={rootCommentOverlay}
+              />
 
               {showPreferences && (
                 <DiscussionPreferences
@@ -375,6 +404,19 @@ const Comments = props => {
                   discussionId={discussion.id}
                   onClose={() => {
                     setShowPreferences(false)
+                  }}
+                />
+              )}
+
+              {!!parent && (
+                <RootCommentOverlay
+                  discussionId={discussion.id}
+                  parent={parent}
+                  onClose={() => {
+                    const result = getFocusRoute(discussion)
+                    return (
+                      result && Router.pushRoute(result.route, result.params)
+                    )
                   }}
                 />
               )}

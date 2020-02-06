@@ -4,20 +4,24 @@ import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
 
-const depth = 3
-const parentId = null
+const DEFAULT_DEPTH = 3
 
 const Discussion = ({
   discussionId,
   focusId = null,
   mute,
   meta,
-  sharePath
+  sharePath,
+  board,
+  parent,
+  parentId = null,
+  includeParent,
+  rootCommentOverlay
 }) => {
   /*
-   * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
+   * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
    */
-  const [orderBy, setOrderBy] = React.useState('DATE')
+  const [orderBy, setOrderBy] = React.useState(board ? 'HOT' : 'DATE')
 
   /*
    * This component manages the 'current time'. It is incremented in descrete intervals
@@ -31,20 +35,25 @@ const Discussion = ({
     return () => clearInterval(intervalId)
   }, [setNow])
 
+  const depth = board ? 1 : DEFAULT_DEPTH
+
   return (
     <div data-discussion-id={discussionId}>
-      <DiscussionCommentComposer
-        discussionId={discussionId}
-        orderBy={orderBy}
-        focusId={focusId}
-        depth={depth}
-        parentId={parentId}
-        now={now}
-      />
+      {!rootCommentOverlay && (
+        <>
+          <DiscussionCommentComposer
+            discussionId={discussionId}
+            orderBy={orderBy}
+            focusId={focusId}
+            depth={depth}
+            parentId={parentId}
+            now={now}
+          />
+          <NotificationOptions discussionId={discussionId} mute={mute} />
+        </>
+      )}
 
-      <NotificationOptions discussionId={discussionId} mute={mute} />
-
-      <div style={{ margin: '20px 0' }}>
+      <div style={{ margin: rootCommentOverlay ? 0 : '20px 0' }}>
         <Comments
           key={orderBy /* To remount of the whole component on change */}
           discussionId={discussionId}
@@ -55,6 +64,10 @@ const Discussion = ({
           now={now}
           meta={meta}
           setOrderBy={setOrderBy}
+          board={board}
+          parent={parent}
+          includeParent={includeParent}
+          rootCommentOverlay={rootCommentOverlay}
         />
       </div>
     </div>

@@ -29,14 +29,21 @@ export const withDiscussionComments = graphql(discussionQuery, {
   }) => ({
     discussionComments: {
       ...data,
-      fetchMore: ({ parentId, after, appendAfter, depth } = {}) => {
+      fetchMore: ({
+        parentId,
+        after,
+        appendAfter,
+        depth,
+        includeParent
+      } = {}) => {
         return fetchMore({
           variables: {
             discussionId,
             parentId,
             after,
             orderBy,
-            depth: depth || 3
+            depth: depth || 3,
+            includeParent
           },
           updateQuery: (
             previousResult,

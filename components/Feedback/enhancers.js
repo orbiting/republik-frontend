@@ -4,7 +4,6 @@ import gql from 'graphql-tag'
 const getActiveDiscussions = gql`
   query getActiveDiscussions($lastDays: Int!, $first: Int) {
     activeDiscussions(lastDays: $lastDays, first: $first) {
-      count
       discussion {
         id
         title
@@ -21,6 +20,9 @@ const getActiveDiscussions = gql`
               closed
             }
           }
+        }
+        comments {
+          totalCount
         }
       }
     }

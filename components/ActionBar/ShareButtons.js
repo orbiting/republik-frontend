@@ -86,6 +86,12 @@ const ShareButtons = ({
       label: t('article/actionbar/email/label')
     },
     {
+      href: `https://getpocket.com/save?url=${encodeURIComponent(url)}`,
+      icon: 'pocket',
+      title: t('article/actionbar/pocket/title'),
+      label: t('article/actionbar/pocket/label')
+    },
+    {
       href: url,
       icon: 'copyLink',
       title: t('article/actionbar/link/title'),

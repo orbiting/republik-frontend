@@ -12,6 +12,7 @@ import {
   Loader,
   colors,
   VideoPlayer,
+  FigureImage,
   FigureCaption,
   fontStyles
 } from '@project-r/styleguide'
@@ -53,12 +54,22 @@ const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
 const videos = [
   {
     hls:
+      'https://player.vimeo.com/external/388987697.m3u8?s=8c23d87742613a058d6934b0631f6e33075a4b65',
+    mp4:
+      'https://player.vimeo.com/external/388987697.hd.mp4?s=696f80ae1ac1a950dbf3652ef7a28e8f7ffdca5c&profile_id=175',
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status_feb.jpg`,
+    caption: 'Statusmeldung Anfang Februar',
+    title: 'Februar Status',
+    duration: '2 Minuten'
+  },
+  {
+    hls:
       'https://player.vimeo.com/external/383482958.m3u8?s=5068dc339a5bc2b819ca2f3fc0b97660656c746b',
     mp4:
       'https://player.vimeo.com/external/383482958.hd.mp4?s=9c0f53b63b0a1851bc401fd60fb7d2e8f31c0319&profile_id=175',
     thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/status.jpg`,
-    caption: 'Kurze Statusmeldung aus dem Rothaus',
-    title: 'Statusmeldung',
+    caption: 'Statusmeldung Anfang Januar aus dem Rothaus',
+    title: 'Januar Status',
     duration: '2 Minuten'
   },
   {
@@ -495,6 +506,7 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
                         display: 'inline-block',
                         width: 130,
                         marginRight: 10,
+                        marginBottom: 10,
                         color: '#fff',
                         verticalAlign: 'top',
                         backgroundColor:
@@ -521,6 +533,11 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
                 </div>
               </Fragment>
               {md(mdComponents)`
+
+Am 1. März findet der Tag der Bekanntmachung mit Feier und Debatte in der Gessnerallee in Zürich statt: [Jetzt anmelden](https://www.eventbrite.de/e/zur-zukunft-der-republik-registrierung-92171500439).
+
+_04.02.2020, Project-R-Newsletter_  
+[Danke für 75 Prozent!](https://project-r.construction/newsletter/2020-02-04-75-prozent)
 
 _12.01.2020, Project-R-Newsletter_  
 [Das Update zum Zustand der Republik](https://project-r.construction/newsletter/2020-01-12-zustand)
@@ -583,6 +600,35 @@ ${
 
 `}
 
+              <div style={{ width: '50%', margin: '20px 0' }}>
+                <FigureImage
+                  {...FigureImage.utils.getResizedSrcs(
+                    `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/swag.jpg`,
+                    405
+                  )}
+                  alt='Flyer, Visitenkarten, Kleber und Poster'
+                />
+              </div>
+
+              {md(mdComponents)`
+
+Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtchen, Sticker und Plakate bestellen. Es wäre uns eine Ehre, wenn Sie die Republik bekannter machen.
+
+`}
+
+              <Button
+                style={{ marginTop: 20 }}
+                href='https://docs.google.com/forms/d/e/1FAIpQLScV8mIr0mllc5ImdNUZg6xYV0rV8zy2sAVThVXAS1nA4oTJVw/viewform'
+                primary
+              >
+                Material anfordern
+              </Button>
+
+              <Editorial.Note>
+                Die Bestellungen laufen über ein Google-Formular und werden von
+                Züriwerk verschickt.
+              </Editorial.Note>
+
               <div
                 {...css({
                   marginTop: 20,
@@ -636,7 +682,7 @@ ${
                       '2020-03' !== currentYearMonth && {
                         x1: currentYearMonth,
                         x2: currentYearMonth,
-                        label: 'Stand jetzt',
+                        label: 'Jetzt',
                         value: count
                       },
                       {
@@ -645,7 +691,8 @@ ${
                         label: 'bereits dabei',
                         value:
                           lastMonth.activeEndOfMonth +
-                          lastMonth.pendingSubscriptionsOnly
+                          lastMonth.pendingSubscriptionsOnly,
+                        position: 'bottom'
                       },
                       {
                         x1: '2020-03',
@@ -731,17 +778,17 @@ Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 
 **Bis Ende Januar** 
 
-1.  Dass möglichst viele Verlegerinnen trotz Risiko an Bord bleiben.
+✅ Dass möglichst viele Verlegerinnen trotz Risiko an Bord bleiben.
 
-2.  Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
+✅ Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
 
-3.  Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](mailto:ir@republik.ch))
+⏳ Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](mailto:ir@republik.ch))
 
 **Im Februar** wollen wir an ein paar Schrauben drehen, bevor wir in den entscheidenden Monat gehen. Wir wollen die Republik nicht neu erfinden. Aber sie gemeinsam mit Ihnen noch ein wenig nützlicher, transparenter und interaktiver machen.
 
 **Im März** werden wir mit einer grossen und lauten Kampagne ein paar tausend neue Verlegerinnen gewinnen müssen. Jetzt geht es um: Wachstum.
 
-Wir freuen uns, wenn Sie in den nächsten Monaten Seite an Seite mit uns für die Zukunft der Republik kämpfen.
+Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik kämpfen.
 
 `}
               <br />

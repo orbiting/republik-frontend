@@ -733,46 +733,48 @@ class ArticlePage extends Component {
                   ref={this.galleryRef}
                 >
                   <ProgressComponent article={article}>
-                    {splitContent.title && (
-                      <div {...styles.titleBlock}>
-                        {renderSchema(splitContent.title)}
-                        <Center>
-                          <div
-                            ref={this.barRef}
-                            {...styles.actionBar}
-                            style={{
-                              textAlign: titleAlign,
-                              marginTop: isSection || isFormat ? 20 : 0
-                            }}
-                          >
-                            {actionBar}
-                          </div>
-                          {isSection && (
-                            <Breakout size='breakout'>
-                              <SectionNav
-                                color={sectionColor}
-                                linkedDocuments={article.linkedDocuments}
-                              />
-                            </Breakout>
-                          )}
-                        </Center>
-                        {!isSection &&
-                          !isFormat &&
-                          !isNewsletterSource &&
-                          payNote}
-                      </div>
-                    )}
-                    <SSRCachingBoundary
-                      cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
-                    >
-                      {() => (
-                        <ColorContext.Provider
-                          value={darkMode && colors.negative}
-                        >
-                          {renderSchema(splitContent.main)}
-                        </ColorContext.Provider>
+                    <article style={{ display: 'block' }}>
+                      {splitContent.title && (
+                        <div {...styles.titleBlock}>
+                          {renderSchema(splitContent.title)}
+                          <Center>
+                            <div
+                              ref={this.barRef}
+                              {...styles.actionBar}
+                              style={{
+                                textAlign: titleAlign,
+                                marginTop: isSection || isFormat ? 20 : 0
+                              }}
+                            >
+                              {actionBar}
+                            </div>
+                            {isSection && (
+                              <Breakout size='breakout'>
+                                <SectionNav
+                                  color={sectionColor}
+                                  linkedDocuments={article.linkedDocuments}
+                                />
+                              </Breakout>
+                            )}
+                          </Center>
+                          {!isSection &&
+                            !isFormat &&
+                            !isNewsletterSource &&
+                            payNote}
+                        </div>
                       )}
-                    </SSRCachingBoundary>
+                      <SSRCachingBoundary
+                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
+                      >
+                        {() => (
+                          <ColorContext.Provider
+                            value={darkMode && colors.negative}
+                          >
+                            {renderSchema(splitContent.main)}
+                          </ColorContext.Provider>
+                        )}
+                      </SSRCachingBoundary>
+                    </article>
                   </ProgressComponent>
                 </ArticleGallery>
                 {meta.template === 'article' &&

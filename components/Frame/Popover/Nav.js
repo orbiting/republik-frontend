@@ -231,6 +231,15 @@ const Nav = ({
           >
             {t('navbar/discussion')}
           </NavLink>
+          <div {...styles.sectionCompact} {...styles.sectionsBlock}>
+            <NavLink
+              route='top-stories'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/discussion/topStories')}
+            </NavLink>
+          </div>
           <NavLink route='sections' active={active} closeHandler={closeHandler}>
             {t('nav/sections')}
           </NavLink>

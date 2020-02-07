@@ -79,6 +79,7 @@ const getComments = gql`
           id
           title
           path
+          isBoard
           document {
             id
             meta {

@@ -207,6 +207,20 @@ const Comments = props => {
     fetchFocus()
   })
 
+  // stable component function identities to avoid unnecessary rerender
+  const links = React.useMemo(() => {
+    return {
+      Profile: ({ displayAuthor, ...props }) => {
+        return <CommentLink {...props} displayAuthor={displayAuthor} />
+      },
+      Comment: ({ comment, ...props }) => {
+        return (
+          <CommentLink {...props} discussion={discussion} comment={comment} />
+        )
+      }
+    }
+  }, [CommentLink, discussion])
+
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 
   return (
@@ -307,20 +321,7 @@ const Comments = props => {
             t
           },
 
-          links: {
-            Profile: ({ displayAuthor, ...props }) => {
-              return <CommentLink {...props} displayAuthor={displayAuthor} />
-            },
-            Comment: ({ comment, ...props }) => {
-              return (
-                <CommentLink
-                  {...props}
-                  discussion={discussion}
-                  commentId={comment.id}
-                />
-              )
-            }
-          },
+          links,
           composerSecondaryActions: <SecondaryActions />
         }
 

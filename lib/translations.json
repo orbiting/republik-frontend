@@ -2039,6 +2039,10 @@
       "value": "{count} Gegenstimmen"
     },
     {
+      "key": "styleguide/CommentActions/expand",
+      "value": "Kommentare anschauen"
+    },
+    {
       "key": "styleguide/Collapsable/expand",
       "value": "Alles lesen"
     },

@@ -127,7 +127,7 @@ const FeedbackPage = props => {
             >
               {t('feedback/link/topStories/badgeText')}
             </a>
-            <Link route='top-storys' passHref>
+            <Link route='section' params={{ slug: 'top-storys' }} passHref>
               <A>{t('feedback/link/topStories/text')}</A>
             </Link>
           </Interaction.P>

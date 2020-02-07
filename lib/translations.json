@@ -6489,6 +6489,10 @@
     {
       "key": "crowdfunding/status/current/label",
       "value": "haben wir aktuell. Aber bis zum 31. März sind noch <strong>{openPeople}</strong> Erneuerungen fällig."
+    },
+    {
+      "key": "RootCommentOverlay/title",
+      "value": "Kommentare"
     }
   ]
 }

@@ -11,29 +11,32 @@ import Discussion from './Discussion'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
-export const RootCommentOverlay = compose(withRouter)(
-  ({ router, discussionId, parent, onClose }) => {
-    return (
-      <Overlay onClose={onClose}>
-        <OverlayToolbar>
-          <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-            Replies
-          </Interaction.Emphasis>
-          <OverlayToolbarConfirm
-            onClick={onClose}
-            label={<MdClose size={24} fill='#000' />}
-          />
-        </OverlayToolbar>
-        <OverlayBody style={{ paddingTop: 58 }}>
-          <Discussion
-            discussionId={discussionId}
-            focusId={router.query.focus}
-            parentId={parent}
-            rootCommentOverlay
-            includeParent
-          />
-        </OverlayBody>
-      </Overlay>
-    )
-  }
-)
+import withT from '../../lib/withT'
+
+export const RootCommentOverlay = compose(
+  withRouter,
+  withT
+)(({ t, router, discussionId, parent, onClose }) => {
+  return (
+    <Overlay onClose={onClose}>
+      <OverlayToolbar>
+        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
+          {t('RootCommentOverlay/title')}
+        </Interaction.Emphasis>
+        <OverlayToolbarConfirm
+          onClick={onClose}
+          label={<MdClose size={24} fill='#000' />}
+        />
+      </OverlayToolbar>
+      <OverlayBody style={{ paddingTop: 58 }}>
+        <Discussion
+          discussionId={discussionId}
+          focusId={router.query.focus}
+          parentId={parent}
+          rootCommentOverlay
+          includeParent
+        />
+      </OverlayBody>
+    </Overlay>
+  )
+})

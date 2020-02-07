@@ -103,35 +103,35 @@ const FeedbackPage = props => {
                 </>
               )}
             />
+            <div style={{ marginTop: 10, display: 'flex' }}>
+              <Interaction.P>
+                <a
+                  {...css({
+                    cursor: 'pointer',
+                    background: colors.primary,
+                    color: '#fff',
+                    padding: '3px 7px 5px 7px',
+                    borderRadius: 30,
+                    marginRight: 5,
+                    verticalAlign: '0.1rem',
+                    textDecoration: 'none',
+                    ...fontStyles.sansSerifRegular12,
+                    [mediaQueries.mUp]: {
+                      marginRight: 10,
+                      padding: '5px 10px 7px 10px',
+                      ...fontStyles.sansSerifRegular14
+                    }
+                  })}
+                >
+                  {t('feedback/link/topStories/badgeText')}
+                </a>
+                <Link route='section' params={{ slug: 'top-storys' }} passHref>
+                  <A>{t('feedback/link/topStories/text')}</A>
+                </Link>
+              </Interaction.P>
+            </div>
           </>
         )}
-        <div style={{ marginTop: 10, display: 'flex' }}>
-          <Interaction.P>
-            <a
-              {...css({
-                cursor: 'pointer',
-                background: colors.primary,
-                color: '#fff',
-                padding: '3px 7px 5px 7px',
-                borderRadius: 30,
-                marginRight: 5,
-                verticalAlign: '0.1rem',
-                textDecoration: 'none',
-                ...fontStyles.sansSerifRegular12,
-                [mediaQueries.mUp]: {
-                  marginRight: 10,
-                  padding: '5px 10px 7px 10px',
-                  ...fontStyles.sansSerifRegular14
-                }
-              })}
-            >
-              {t('feedback/link/topStories/badgeText')}
-            </a>
-            <Link route='section' params={{ slug: 'top-storys' }} passHref>
-              <A>{t('feedback/link/topStories/text')}</A>
-            </Link>
-          </Interaction.P>
-        </div>
         {!!tab && (
           <div style={{ marginBottom: 30 }}>
             <Editorial.Format color={colors.primary}>

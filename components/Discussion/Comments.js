@@ -215,11 +215,7 @@ const Comments = props => {
       },
       Comment: ({ comment, ...props }) => {
         return (
-          <CommentLink
-            {...props}
-            discussion={discussion}
-            commentId={comment.id}
-          />
+          <CommentLink {...props} discussion={discussion} comment={comment} />
         )
       }
     }

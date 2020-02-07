@@ -6,6 +6,7 @@ export const discussion = gql`
     closed
     title
     path
+    isBoard
     userPreference {
       anonymity
       credential {

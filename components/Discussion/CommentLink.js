@@ -7,11 +7,16 @@ import {
   PUBLIC_BASE_URL
 } from '../../lib/constants'
 
-export const getFocusRoute = (discussion, commentId) => {
+export const getFocusRoute = (discussion, comment) => {
+  const focusParams = comment
+    ? discussion.isBoard && comment.parentIds && comment.parentIds.length
+      ? { parent: comment.parentIds[0], focus: comment.id }
+      : { focus: comment.id }
+    : {}
   if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
     return {
       route: 'discussion',
-      params: { t: 'general', focus: commentId }
+      params: { t: 'general', ...focusParams }
     }
   } else if (
     discussion.document &&
@@ -22,21 +27,21 @@ export const getFocusRoute = (discussion, commentId) => {
   ) {
     return {
       route: 'discussion',
-      params: { t: 'article', id: discussion.id, focus: commentId }
+      params: { t: 'article', id: discussion.id, ...focusParams }
     }
   } else if (discussion.path) {
     const result = matchPath(discussion.path)
     if (result) {
       return {
         route: result.route,
-        params: { ...result.params, focus: commentId }
+        params: { ...result.params, ...focusParams }
       }
     }
   }
 }
 
-export const getFocusUrl = (discussion, commentId) => {
-  const focusRoute = getFocusRoute(discussion, commentId)
+export const getFocusUrl = (discussion, comment) => {
+  const focusRoute = getFocusRoute(discussion, comment)
   if (focusRoute) {
     return `${PUBLIC_BASE_URL}${routes
       .find(r => r.name === focusRoute.route)
@@ -44,7 +49,7 @@ export const getFocusUrl = (discussion, commentId) => {
   }
 }
 
-const CommentLink = ({ displayAuthor, commentId, discussion, ...props }) => {
+const CommentLink = ({ displayAuthor, comment, discussion, ...props }) => {
   if (displayAuthor) {
     /*
      * If the slug is not available, it means the profile is not accessible.
@@ -59,7 +64,7 @@ const CommentLink = ({ displayAuthor, commentId, discussion, ...props }) => {
       )
     }
   } else if (discussion) {
-    const focusRoute = getFocusRoute(discussion, commentId)
+    const focusRoute = getFocusRoute(discussion, comment)
     if (focusRoute) {
       return (
         <Link {...props} route={focusRoute.route} params={focusRoute.params} />

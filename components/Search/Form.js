@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Close from 'react-icons/lib/md/close'
-import { Field, mediaQueries } from '@project-r/styleguide'
+import { Field, mediaQueries, useDebounce } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
@@ -10,7 +10,6 @@ import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 import { Router } from '../../lib/routes'
-import { useDebounce } from '../../lib/hooks/useDebounce'
 
 const styles = css({
   paddingTop: 15,

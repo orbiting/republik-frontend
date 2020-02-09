@@ -306,7 +306,7 @@ const Comments = props => {
               return fetchMore({ parentId, after, appendAfter })
             },
             shareComment: comment => {
-              setShareUrl(getFocusUrl(discussion, comment.id))
+              setShareUrl(getFocusUrl(discussion, comment))
               return Promise.resolve({ ok: true })
             },
             openDiscussionPreferences: () => {
@@ -377,7 +377,7 @@ const Comments = props => {
                     description: focus.preview
                       ? focus.preview.string
                       : undefined,
-                    url: getFocusUrl(discussion, focus.id)
+                    url: getFocusUrl(discussion, focus)
                   }}
                 />
               )}

@@ -6,8 +6,9 @@ import gql from 'graphql-tag'
 import withT from '../lib/withT'
 import withMe from '../lib/apollo/withMe'
 import { routes } from '../lib/routes'
-import { useDebounce } from '../lib/hooks/useDebounce'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+
+import { useDebounce } from '@project-r/styleguide'
 
 import Frame from '../components/Frame'
 import Meta from '../components/Frame/Meta'

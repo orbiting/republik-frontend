@@ -9,8 +9,10 @@ import {
 
 export const getFocusRoute = (discussion, comment) => {
   const focusParams = comment
-    ? discussion.isBoard && comment.parentIds && comment.parentIds.length
-      ? { parent: comment.parentIds[0], focus: comment.id }
+    ? discussion.isBoard
+      ? comment.parentIds && comment.parentIds.length
+        ? { parent: comment.parentIds[0], focus: comment.id }
+        : { parent: comment.id }
       : { focus: comment.id }
     : {}
   if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {

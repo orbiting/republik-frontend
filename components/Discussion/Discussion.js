@@ -57,7 +57,7 @@ const Discussion = ({
         <Comments
           key={orderBy /* To remount of the whole component on change */}
           discussionId={discussionId}
-          focusId={focusId}
+          focusId={board ? undefined : focusId}
           depth={depth}
           parentId={parentId}
           orderBy={orderBy}
@@ -65,7 +65,7 @@ const Discussion = ({
           meta={meta}
           setOrderBy={setOrderBy}
           board={board}
-          parent={parent}
+          parent={board ? parent || focusId : undefined}
           includeParent={includeParent}
           rootCommentOverlay={rootCommentOverlay}
         />

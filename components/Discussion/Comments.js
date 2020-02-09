@@ -79,6 +79,7 @@ const Comments = props => {
     board,
     parent,
     parentId: initialParentId,
+    includeParent,
     discussionId,
     rootCommentOverlay
   } = props
@@ -221,6 +222,11 @@ const Comments = props => {
       }
       render={() => {
         const { focus } = discussion.comments
+        const metaFocus =
+          focus ||
+          (includeParent &&
+            initialParentId &&
+            discussion.comments.nodes.find(n => n.id === initialParentId))
 
         if (discussion.comments.totalCount === 0) {
           return <EmptyDiscussion t={t} />
@@ -359,21 +365,21 @@ const Comments = props => {
             )}
 
             <DiscussionContext.Provider value={discussionContextValue}>
-              {focus && (
+              {metaFocus && (
                 <Meta
                   data={{
                     title: t('discussion/meta/focus/title', {
-                      authorName: focus.displayAuthor.name,
+                      authorName: metaFocus.displayAuthor.name,
                       quotedDiscussionTitle: inQuotes(discussion.title)
                     }),
-                    description: focus.preview
-                      ? focus.preview.string
+                    description: metaFocus.preview
+                      ? metaFocus.preview.string
                       : undefined,
-                    url: getFocusUrl(discussion, focus)
+                    url: getFocusUrl(discussion, metaFocus)
                   }}
                 />
               )}
-              {!focus && meta && (
+              {!metaFocus && meta && (
                 <Meta
                   data={{
                     title: t('discussion/meta/title', {

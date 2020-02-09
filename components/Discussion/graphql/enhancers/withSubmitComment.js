@@ -11,7 +11,7 @@ import {
   commentPreviewQuery
 } from '../documents'
 import { toRejectedString } from '../utils'
-import { mergeComment, optimisticContent, submittedComments } from '../store'
+import { mergeComment, optimisticContent } from '../store'
 import { debug } from '../../debug'
 
 /**
@@ -31,7 +31,7 @@ export const withSubmitComment = compose(
       ownProps: {
         t,
         discussionId,
-        parentId: ownParentId,
+        parentId: initialParentId,
         orderBy,
         depth,
         focusId,
@@ -68,7 +68,6 @@ export const withSubmitComment = compose(
          * properly handle subscription notifications.
          */
         const id = uuid()
-        submittedComments.add(id)
 
         const { parentId, parentIds } = parent
           ? {
@@ -82,6 +81,8 @@ export const withSubmitComment = compose(
           optimisticResponse: {
             __typename: 'Mutation',
             submitComment: {
+              // allows to detect
+              isOptimisticResponse: true,
               __typename: 'Comment',
               id,
               ...optimisticContent(content),
@@ -116,7 +117,7 @@ export const withSubmitComment = compose(
             debug('submitComment', comment)
             const variables = {
               discussionId,
-              parentId: ownParentId,
+              parentId: initialParentId,
               orderBy,
               depth,
               focusId,
@@ -128,7 +129,11 @@ export const withSubmitComment = compose(
               variables,
               data: produce(
                 proxy.readQuery({ query: discussionQuery, variables }),
-                mergeComment({ displayAuthor, comment })
+                mergeComment({
+                  comment,
+                  initialParentId,
+                  isOptimisticUpdate: comment.isOptimisticResponse
+                })
               )
             })
           }

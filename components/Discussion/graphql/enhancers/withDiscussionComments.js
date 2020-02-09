@@ -2,12 +2,7 @@ import { graphql } from 'react-apollo'
 import produce from 'immer'
 
 import { debug } from '../../debug'
-import {
-  bumpCounts,
-  mergeComments,
-  submittedComments,
-  mergeComment
-} from '../store'
+import { bumpCounts, mergeComments, mergeComment } from '../store'
 import { discussionQuery, commentsSubscription } from '../documents'
 
 /**
@@ -24,7 +19,7 @@ import { discussionQuery, commentsSubscription } from '../documents'
 
 export const withDiscussionComments = graphql(discussionQuery, {
   props: ({
-    ownProps: { discussionId, orderBy },
+    ownProps: { discussionId, orderBy, parentId: initialParentId },
     data: { fetchMore, subscribeToMore, ...data }
   }) => ({
     discussionComments: {
@@ -82,17 +77,28 @@ export const withDiscussionComments = graphql(discussionQuery, {
             ) {
               const comment = subscriptionData.data.comment.node
 
+              if (
+                initialParentId &&
+                !comment.parentIds.includes(initialParentId)
+              ) {
+                return previousResult
+              }
+
               /*
                * Ignore updates related to comments we created in the current client session.
                * If this is the first comment in the discussion, show it immediately. Otherwise
                * just bump the counts and let the user click the "Load More" buttons.
                */
-              if (submittedComments.has(comment.id)) {
-                return previousResult
-              } else if (previousResult.discussion.comments.totalCount === 0) {
-                return produce(previousResult, mergeComment({ comment }))
+              if (previousResult.discussion.comments.totalCount === 0) {
+                return produce(
+                  previousResult,
+                  mergeComment({ comment, initialParentId })
+                )
               } else {
-                return produce(previousResult, bumpCounts({ comment }))
+                return produce(
+                  previousResult,
+                  bumpCounts({ comment, initialParentId })
+                )
               }
             } else {
               return previousResult

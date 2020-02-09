@@ -78,7 +78,8 @@ const Comments = props => {
     setOrderBy,
     board,
     parent,
-    parentId,
+    parentId: initialParentId,
+    discussionId,
     rootCommentOverlay
   } = props
 
@@ -86,7 +87,8 @@ const Comments = props => {
    * Subscribe to GraphQL updates of the dicsussion query.
    */
   React.useEffect(() => props.discussionComments.subscribe(), [
-    props.discussionComments.subscribe
+    initialParentId,
+    discussionId
   ])
 
   /*
@@ -296,14 +298,18 @@ const Comments = props => {
               }
             },
             fetchMoreComments: ({ parentId, after, appendAfter }) => {
-              if (board) {
+              if (board && parentId) {
                 const result = getFocusRoute(discussion)
                 if (result) {
                   result.params.parent = parentId
                   return Router.pushRoute(result.route, result.params)
                 }
               }
-              return fetchMore({ parentId, after, appendAfter })
+              return fetchMore({
+                parentId: parentId || initialParentId,
+                after,
+                appendAfter
+              })
             },
             shareComment: comment => {
               setShareUrl(getFocusUrl(discussion, comment))

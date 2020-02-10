@@ -20,13 +20,15 @@ import TeaserBlock from '../components/Overview/TeaserBlock'
 import { P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
 import text19 from '../components/Overview/2019'
+import text20 from '../components/Overview/2020'
 import { getTeasersFromDocument, getImgSrc } from '../components/Overview/utils'
 
 import { Button, Interaction, Loader, colors } from '@project-r/styleguide'
 
 const texts = {
   2018: text18,
-  2019: text19
+  2019: text19,
+  2020: text20
 }
 
 const knownYears = {

@@ -5,7 +5,11 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { InlineSpinner, colors } from '@project-r/styleguide'
+import {
+  InlineSpinner,
+  colors,
+  isBodyScrollLocked
+} from '@project-r/styleguide'
 
 import DownIcon from 'react-icons/lib/md/arrow-downward'
 
@@ -173,7 +177,7 @@ Pullable.defaultProps = {
   refreshDuration: 1000,
   resetDuration: 400,
   resetEase: 'cubic-bezier(0.215, 0.61, 0.355, 1)',
-  shouldPullToRefresh: () => window.scrollY <= 0,
+  shouldPullToRefresh: () => window.scrollY <= 0 && !isBodyScrollLocked(),
   disabled: false
 }
 

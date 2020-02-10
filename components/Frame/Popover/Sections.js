@@ -41,28 +41,29 @@ const SectionNav = ({
       render={() => {
         return (
           <>
-            {sections.nodes.map(({ id, meta }, i) => {
-              const match = matchPath(meta.path)
-              if (!match) {
-                return null
-              }
-              const color = meta.color || colors[meta.kind]
-              return (
-                <Fragment key={id}>
-                  {i > 0 && <br />}
-                  <NavLink
-                    route={match.route}
-                    params={match.params}
-                    active={active}
-                    closeHandler={closeHandler}
-                    hoverColor={color}
-                    inline
-                  >
-                    {meta.title}
-                  </NavLink>
-                </Fragment>
-              )
-            })}
+            {sections &&
+              sections.nodes.map(({ id, meta }, i) => {
+                const match = matchPath(meta.path)
+                if (!match) {
+                  return null
+                }
+                const color = meta.color || colors[meta.kind]
+                return (
+                  <Fragment key={id}>
+                    {i > 0 && <br />}
+                    <NavLink
+                      route={match.route}
+                      params={match.params}
+                      active={active}
+                      closeHandler={closeHandler}
+                      hoverColor={color}
+                      inline
+                    >
+                      {meta.title}
+                    </NavLink>
+                  </Fragment>
+                )
+              })}
           </>
         )
       }}

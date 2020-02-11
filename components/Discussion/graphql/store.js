@@ -14,7 +14,11 @@ import { debug } from '../debug'
  * from the submitComment mutation update function to merge the just created comment
  * into the discussion.
  */
-export const mergeComment = ({ comment }) => draft => {
+export const mergeComment = ({
+  comment,
+  initialParentId,
+  isOptimisticUpdate
+}) => draft => {
   const parentId = comment.parentIds[comment.parentIds.length - 1]
   const nodes = draft.discussion.comments.nodes
 
@@ -22,29 +26,48 @@ export const mergeComment = ({ comment }) => draft => {
    * Insert the new comment just after its parent in the nodes list. This ensures
    * that the comment shows up as the first reply to the parent.
    */
+  const existingIndex = nodes.findIndex(n => n.id === comment.id)
+  if (existingIndex !== -1) {
+    draft.discussion.comments.nodes.splice(existingIndex, 1)
+  }
+
   const insertIndex = 1 + nodes.findIndex(n => n.id === parentId)
   draft.discussion.comments.nodes.splice(insertIndex, 0, {
     ...comment,
     comments: emptyCommentsConnection
   })
 
-  bumpCounts({ comment })(draft)
+  bumpCounts({ comment, initialParentId, isOptimisticUpdate })(draft)
 }
+
+// we keep track of which cache keys we've already bumped
+// - avoid double bumps for subscriptions and submit responses
+const bumpedKeys = new Set()
 
 /**
  * Give a new comment, bump the counts (totalCount, directTotalCount)
  */
-export const bumpCounts = ({ comment }) => draft => {
+export const bumpCounts = ({
+  comment,
+  initialParentId,
+  isOptimisticUpdate
+}) => draft => {
   const parentId = comment.parentIds[comment.parentIds.length - 1]
   const nodes = draft.discussion.comments.nodes
 
-  /*
-   * We definitely have one more comment in this discussion. Also
-   * increment 'directTotalCount' if it was a root comment.
-   */
-  draft.discussion.comments.totalCount += 1
-  if (!parentId) {
-    draft.discussion.comments.directTotalCount += 1
+  const discussionCommentsKey = `dc-${comment.id}-${initialParentId}`
+  if (!bumpedKeys.has(discussionCommentsKey)) {
+    /*
+     * We definitely have one more comment in this discussion. Also
+     * increment 'directTotalCount' if it was a root comment.
+     */
+    draft.discussion.comments.totalCount += 1
+    if (!parentId) {
+      draft.discussion.comments.directTotalCount += 1
+    }
+  }
+  if (!isOptimisticUpdate) {
+    bumpedKeys.add(discussionCommentsKey)
   }
 
   /*
@@ -53,9 +76,15 @@ export const bumpCounts = ({ comment }) => draft => {
   for (const ancestorId of comment.parentIds) {
     const node = nodes.find(n => n.id === ancestorId)
     if (node) {
-      node.comments.totalCount += 1
-      if (node.id === parentId) {
-        node.comments.directTotalCount += 1
+      const commentCommentsKey = `c-${comment.id}-${node.id}`
+      if (!bumpedKeys.has(commentCommentsKey)) {
+        node.comments.totalCount += 1
+        if (node.id === parentId) {
+          node.comments.directTotalCount += 1
+        }
+      }
+      if (!isOptimisticUpdate) {
+        bumpedKeys.add(commentCommentsKey)
       }
     }
   }
@@ -155,15 +184,3 @@ const emptyCommentsConnection = {
   pageInfo: emptyPageInfo,
   nodes: []
 }
-
-/**
- * UUIDs of comment which we submitted from the current client session. We store
- * this so we can ignore updates which come through the discussion subscription.
- *
- * We only add to this set, we never remove elements from it. This is fine, each
- * element is really small (a UUID string) and users will not submit that many
- * comments in a single session.
- *
- * @see withDiscussionComments and withSubmitComment
- */
-export const submittedComments = new Set()

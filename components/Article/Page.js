@@ -37,6 +37,7 @@ import { userProgressFragment } from './Progress/api'
 import {
   AudioPlayer,
   Center,
+  ColorContext,
   colors,
   Interaction,
   mediaQueries
@@ -126,7 +127,7 @@ const getDocument = gql`
             path
             color
           }
-          linkedDocuments {
+          linkedDocuments(feed: true) {
             totalCount
           }
         }
@@ -149,6 +150,7 @@ const getDocument = gql`
         ownDiscussion {
           id
           closed
+          isBoard
           comments {
             totalCount
           }
@@ -163,6 +165,15 @@ const getDocument = gql`
         }
         color
         format {
+          id
+          meta {
+            path
+            title
+            color
+            kind
+          }
+        }
+        section {
           id
           meta {
             path
@@ -393,7 +404,8 @@ class ArticlePage extends Component {
       inNativeIOSApp,
       inIOS,
       router,
-      isMember
+      isMember,
+      isEditor
     },
     state
   ) {
@@ -427,6 +439,8 @@ class ArticlePage extends Component {
         inNativeApp={inNativeApp}
         inIOS={inIOS}
         documentId={article.id}
+        repoId={article.repoId}
+        isEditor={isEditor}
         userBookmark={article.userBookmark}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
@@ -559,6 +573,11 @@ class ArticlePage extends Component {
 
     const series = meta && meta.series
     const episodes = series && series.episodes
+    const darkMode =
+      article &&
+      article.content &&
+      article.content.meta &&
+      article.content.meta.darkMode
 
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
@@ -569,11 +588,12 @@ class ArticlePage extends Component {
       />
     )
 
-    const formatMeta =
+    const colorMeta =
       meta &&
-      (meta.template === 'format' ? meta : meta.format && meta.format.meta)
-    const formatColor =
-      formatMeta && (formatMeta.color || colors[formatMeta.kind])
+      (meta.template === 'format' || meta.template === 'section'
+        ? meta
+        : meta.format && meta.format.meta)
+    const formatColor = colorMeta && (colorMeta.color || colors[colorMeta.kind])
 
     const sectionColor = meta && meta.template === 'section' && meta.color
     const MissingNode = isEditor ? undefined : ({ children }) => children
@@ -600,7 +620,8 @@ class ArticlePage extends Component {
                 unpack={router.query.unpack}
                 mdast={{
                   ...article.content,
-                  format: meta.format
+                  format: meta.format,
+                  section: meta.section
                 }}
               />
             )
@@ -633,7 +654,8 @@ class ArticlePage extends Component {
       renderMdast(
         {
           ...content,
-          format: meta.format
+          format: meta.format,
+          section: meta.section
         },
         schema,
         { MissingNode }
@@ -641,6 +663,7 @@ class ArticlePage extends Component {
 
     return (
       <Frame
+        dark={darkMode}
         raw
         // Meta tags for a focus comment are rendered in Discussion/Commments.js
         meta={
@@ -716,40 +739,48 @@ class ArticlePage extends Component {
                   ref={this.galleryRef}
                 >
                   <ProgressComponent article={article}>
-                    {splitContent.title && (
-                      <div {...styles.titleBlock}>
-                        {renderSchema(splitContent.title)}
-                        <Center>
-                          <div
-                            ref={this.barRef}
-                            {...styles.actionBar}
-                            style={{
-                              textAlign: titleAlign,
-                              marginTop: isSection || isFormat ? 20 : 0
-                            }}
+                    <article style={{ display: 'block' }}>
+                      {splitContent.title && (
+                        <div {...styles.titleBlock}>
+                          {renderSchema(splitContent.title)}
+                          <Center>
+                            <div
+                              ref={this.barRef}
+                              {...styles.actionBar}
+                              style={{
+                                textAlign: titleAlign,
+                                marginTop: isSection || isFormat ? 20 : 0
+                              }}
+                            >
+                              {actionBar}
+                            </div>
+                            {isSection && (
+                              <Breakout size='breakout'>
+                                <SectionNav
+                                  color={sectionColor}
+                                  linkedDocuments={article.linkedDocuments}
+                                />
+                              </Breakout>
+                            )}
+                          </Center>
+                          {!isSection &&
+                            !isFormat &&
+                            !isNewsletterSource &&
+                            payNote}
+                        </div>
+                      )}
+                      <SSRCachingBoundary
+                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
+                      >
+                        {() => (
+                          <ColorContext.Provider
+                            value={darkMode && colors.negative}
                           >
-                            {actionBar}
-                          </div>
-                          {isSection && (
-                            <Breakout size='breakout'>
-                              <SectionNav
-                                color={sectionColor}
-                                linkedDocuments={article.linkedDocuments}
-                              />
-                            </Breakout>
-                          )}
-                        </Center>
-                        {!isSection &&
-                          !isFormat &&
-                          !isNewsletterSource &&
-                          payNote}
-                      </div>
-                    )}
-                    <SSRCachingBoundary
-                      cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
-                    >
-                      {() => renderSchema(splitContent.main)}
-                    </SSRCachingBoundary>
+                            {renderSchema(splitContent.main)}
+                          </ColorContext.Provider>
+                        )}
+                      </SSRCachingBoundary>
+                    </article>
                   </ProgressComponent>
                 </ArticleGallery>
                 {meta.template === 'article' &&
@@ -766,7 +797,9 @@ class ArticlePage extends Component {
                     <Discussion
                       discussionId={ownDiscussion.id}
                       focusId={router.query.focus}
+                      parent={router.query.parent}
                       mute={!!router.query.mute}
+                      board={ownDiscussion.isBoard}
                     />
                   </Center>
                 )}
@@ -789,6 +822,7 @@ class ArticlePage extends Component {
                 {isSection && (
                   <SectionFeed
                     formats={article.linkedDocuments.nodes.map(n => n.id)}
+                    variablesAsString={article.content.meta.feedQueryVariables}
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.id} />}

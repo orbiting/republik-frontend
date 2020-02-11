@@ -3,6 +3,7 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
+import { Router } from '../../lib/routes'
 
 import { isAdmin } from './graphql/enhancers/isAdmin'
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
@@ -13,7 +14,7 @@ import { withDiscussionComments } from './graphql/enhancers/withDiscussionCommen
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
-import CommentLink, { getFocusUrl } from './CommentLink'
+import CommentLink, { getFocusUrl, getFocusRoute } from './CommentLink'
 
 import {
   Loader,
@@ -31,6 +32,7 @@ import {
 
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
+import { RootCommentOverlay } from './RootCommentOverlay'
 
 const styles = {
   orderByContainer: css({
@@ -73,14 +75,21 @@ const Comments = props => {
     orderBy,
     discussionComments: { loading, error, discussion, fetchMore },
     meta,
-    setOrderBy
+    setOrderBy,
+    board,
+    parent,
+    parentId: initialParentId,
+    includeParent,
+    discussionId,
+    rootCommentOverlay
   } = props
 
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
    */
   React.useEffect(() => props.discussionComments.subscribe(), [
-    props.discussionComments.subscribe
+    initialParentId,
+    discussionId
   ])
 
   /*
@@ -93,7 +102,7 @@ const Comments = props => {
    * Fetching comment that is in focus.
    */
   const [
-    { currentFocus, focusLoading, focusError },
+    { currentFocusId, focusLoading, focusError },
     setFocusState
   ] = React.useState({})
   const fetchFocus = () => {
@@ -146,8 +155,8 @@ const Comments = props => {
        * To make sure we don't run 'focusSelector()' multiple times, we store
        * the focused comment in the component state.
        */
-      if (currentFocus !== focus) {
-        setFocusState(p => ({ ...p, currentFocus: focus }))
+      if (currentFocusId !== focus.id) {
+        setFocusState(p => ({ ...p, currentFocusId: focus.id }))
 
         /*
          * Wrap 'focusSelector()' in a timeout to work around a bug. See
@@ -201,11 +210,6 @@ const Comments = props => {
     fetchFocus()
   })
 
-  const onReload = e => {
-    e.preventDefault()
-    props.discussionComments.refetch()
-  }
-
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 
   return (
@@ -218,9 +222,28 @@ const Comments = props => {
       }
       render={() => {
         const { focus } = discussion.comments
+        const metaFocus =
+          focus ||
+          (includeParent &&
+            initialParentId &&
+            discussion.comments.nodes.find(n => n.id === initialParentId))
 
         if (discussion.comments.totalCount === 0) {
           return <EmptyDiscussion t={t} />
+        }
+
+        const onReload = e => {
+          e.preventDefault()
+          const result = getFocusRoute(discussion)
+          if (result) {
+            Router.replaceRoute(result.route, result.params).then(() => {
+              props.discussionComments.refetch({
+                focusId: undefined
+              })
+            })
+          } else {
+            props.discussionComments.refetch()
+          }
         }
 
         /*
@@ -238,6 +261,7 @@ const Comments = props => {
           discussion,
 
           actions: {
+            previewComment: props.previewComment,
             submitComment: (parentComment, content, tags) =>
               props
                 .submitComment(parentComment, content, tags)
@@ -249,6 +273,7 @@ const Comments = props => {
             upvoteComment: props.upvoteComment,
             downvoteComment: props.downvoteComment,
             unvoteComment: props.unvoteComment,
+            reportComment: props.reportComment,
             unpublishComment: comment => {
               const message = t(
                 `styleguide/CommentActions/unpublish/confirm${
@@ -265,10 +290,21 @@ const Comments = props => {
               }
             },
             fetchMoreComments: ({ parentId, after, appendAfter }) => {
-              return fetchMore({ parentId, after, appendAfter })
+              if (board && parentId) {
+                const result = getFocusRoute(discussion)
+                if (result) {
+                  result.params.parent = parentId
+                  return Router.pushRoute(result.route, result.params)
+                }
+              }
+              return fetchMore({
+                parentId: parentId || initialParentId,
+                after,
+                appendAfter
+              })
             },
             shareComment: comment => {
-              setShareUrl(getFocusUrl(discussion, comment.id))
+              setShareUrl(getFocusUrl(discussion, comment))
               return Promise.resolve({ ok: true })
             },
             openDiscussionPreferences: () => {
@@ -283,66 +319,67 @@ const Comments = props => {
             t
           },
 
-          links: {
-            Profile: ({ displayAuthor, ...props }) => {
-              return <CommentLink {...props} displayAuthor={displayAuthor} />
-            },
-            Comment: ({ comment, ...props }) => {
-              return (
-                <CommentLink
-                  {...props}
-                  discussion={discussion}
-                  commentId={comment.id}
-                />
-              )
-            }
-          },
+          Link: CommentLink,
           composerSecondaryActions: <SecondaryActions />
         }
 
         return (
           <>
-            <div {...styles.orderByContainer}>
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='DATE'
-              />
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='VOTES'
-              />
-              <OrderBy
-                t={t}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                value='REPLIES'
-              />
-              <A {...styles.reloadLink} href='' onClick={onReload}>
-                {t('components/Discussion/reload')}
-              </A>
-              <br style={{ clear: 'both' }} />
-            </div>
+            {!rootCommentOverlay && (
+              <div {...styles.orderByContainer}>
+                {board && (
+                  <OrderBy
+                    t={t}
+                    orderBy={orderBy}
+                    setOrderBy={setOrderBy}
+                    value='HOT'
+                  />
+                )}
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='DATE'
+                />
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='VOTES'
+                />
+                <OrderBy
+                  t={t}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  value='REPLIES'
+                />
+                <A
+                  {...styles.reloadLink}
+                  href={getFocusUrl(discussion)}
+                  onClick={onReload}
+                >
+                  {t('components/Discussion/reload')}
+                </A>
+                <br style={{ clear: 'both' }} />
+              </div>
+            )}
 
             <DiscussionContext.Provider value={discussionContextValue}>
-              {focus && (
+              {metaFocus && (
                 <Meta
                   data={{
                     title: t('discussion/meta/focus/title', {
-                      authorName: focus.displayAuthor.name,
+                      authorName: metaFocus.displayAuthor.name,
                       quotedDiscussionTitle: inQuotes(discussion.title)
                     }),
-                    description: focus.preview
-                      ? focus.preview.string
+                    description: metaFocus.preview
+                      ? metaFocus.preview.string
                       : undefined,
-                    url: getFocusUrl(discussion, focus.id)
+                    url: getFocusUrl(discussion, metaFocus)
                   }}
                 />
               )}
-              {!focus && meta && (
+              {!metaFocus && meta && (
                 <Meta
                   data={{
                     title: t('discussion/meta/title', {
@@ -353,7 +390,12 @@ const Comments = props => {
                 />
               )}
 
-              <CommentList t={t} comments={comments} />
+              <CommentList
+                t={t}
+                comments={comments}
+                board={board}
+                rootCommentOverlay={rootCommentOverlay}
+              />
 
               {showPreferences && (
                 <DiscussionPreferences
@@ -361,6 +403,19 @@ const Comments = props => {
                   discussionId={discussion.id}
                   onClose={() => {
                     setShowPreferences(false)
+                  }}
+                />
+              )}
+
+              {!!parent && (
+                <RootCommentOverlay
+                  discussionId={discussion.id}
+                  parent={parent}
+                  onClose={() => {
+                    const result = getFocusRoute(discussion)
+                    return (
+                      result && Router.pushRoute(result.route, result.params)
+                    )
                   }}
                 />
               )}

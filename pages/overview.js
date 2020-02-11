@@ -20,13 +20,15 @@ import TeaserBlock from '../components/Overview/TeaserBlock'
 import { P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
 import text19 from '../components/Overview/2019'
-import { getTeasersFromDocument } from '../components/Overview/utils'
+import text20 from '../components/Overview/2020'
+import { getTeasersFromDocument, getImgSrc } from '../components/Overview/utils'
 
 import { Button, Interaction, Loader, colors } from '@project-r/styleguide'
 
 const texts = {
   2018: text18,
-  2019: text19
+  2019: text19,
+  2020: text20
 }
 
 const knownYears = {
@@ -158,6 +160,21 @@ class FrontOverview extends Component {
       },
       [[]]
     )[0]
+
+    // // WANT ALL TEASERS AS HIGH RES IMAGES?
+    //     let curls = ''
+    //     teasersByMonth.forEach(({ key: month, values }) => {
+    //       const path = (knownYears[year] && knownYears[year].path) || '/'
+    //       let m = `\n# ${month}\n`
+    //       m += values.map((t, i) => (
+    //         `curl -o "pngs/${swissTime.format('%Y-%m-%dT%H')(t.publishDate)}-${t.id}-${i}.png" "${getImgSrc(t, path, null, false).replace('https://cdn.repub.ch/', 'https://assets.republik.space/') + '&zoomFactor=2'}"; sleep 1;`
+    //       )).join('\n')
+    //
+    //       // console.log(m)
+    //       curls += m
+    //     })
+    //     if (typeof window !== 'undefined') { window.curls = curls }
+    //     // use copy(curls)
 
     if (
       !knownYears[year] ||

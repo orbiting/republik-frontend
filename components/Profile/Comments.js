@@ -2,20 +2,32 @@ import React from 'react'
 import { CommentTeaser, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import CommentLink from '../Discussion/CommentLink'
+import InfiniteScroll from '../Frame/InfiniteScroll'
 
-const Comments = ({ t, comments }) => {
+const Comments = ({ t, comments, loadMore }) => {
   if (!comments || !comments.totalCount) {
     return null
   }
+
+  const hasMore = comments.pageInfo && comments.pageInfo.hasNextPage
+  const totalCount = comments.totalCount
+  const currentCount = comments.nodes.length
+
   return (
-    <div>
+    <InfiniteScroll
+      hasMore={hasMore}
+      loadMore={loadMore}
+      totalCount={totalCount}
+      currentCount={currentCount}
+      loadMoreKey={'feed/loadMore/comments'}
+    >
       <Interaction.H3 style={{ marginBottom: 20 }}>
         {t.pluralize('profile/comments/title', {
           count: comments.totalCount
         })}
       </Interaction.H3>
       {comments.nodes
-        .filter(comment => comment.content)
+        .filter(comment => comment.preview)
         .map(comment => {
           const discussion = comment.discussion || {}
           const context = {
@@ -26,7 +38,18 @@ const Comments = ({ t, comments }) => {
               key={comment.id}
               id={comment.id}
               context={context}
-              preview={comment.preview}
+              preview={
+                !comment.published
+                  ? {
+                      string:
+                        t('styleguide/comment/unpublished') +
+                        (comment.adminUnpublished
+                          ? ' ' + t('styleguide/comment/adminUnpublished')
+                          : ''),
+                      more: false
+                    }
+                  : comment.preview
+              }
               createdAt={comment.createdAt}
               tags={comment.tags}
               parentIds={comment.parentIds}
@@ -36,7 +59,7 @@ const Comments = ({ t, comments }) => {
             />
           )
         })}
-    </div>
+    </InfiniteScroll>
   )
 }
 

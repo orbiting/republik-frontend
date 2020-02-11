@@ -82,7 +82,7 @@ const gifLink = `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/crowd/scha
 
 const styles = {
   intro: css({
-    margin: '35px 0 70px'
+    margin: '35px 0'
   }),
   arrow: css({
     marginRight: 15,
@@ -178,6 +178,7 @@ const ThankYou = compose(withT)(({ t }) => {
         <P>{t('questionnaire/crowd/submitted/intro')}</P>
       </div>
       <div>
+        <ThankYouItem tKey='questionnaire/crowd/submitted/list/0' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
       </div>

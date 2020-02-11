@@ -90,7 +90,7 @@ class VotePage extends Component {
     const meta = {
       title: vt('vote/201912/page/title'),
       description: vt('vote/201912/page/description'),
-      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote-dez19.jpg`
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote-dez19-result.png`
     }
 
     return (
@@ -244,7 +244,7 @@ Abstimmen können alle Personen, die am 13. Dezember 2019 Mitglied der Genossens
 Wenn Sie Ihre Stimme einmal abgegeben und bestätigt haben, können Sie sie nicht mehr zurücknehmen. Für die Abstimmungen wählen Sie «Ja» oder «Nein», oder Sie legen sie leer ein, indem Sie keine Antwort auswählen. Dann klicken Sie auf «Abstimmen» und «Stimme bestätigen».
 
 **Wie werden die Abstimmungen ausgezählt?**  
-Sie haben, wie jedes Mitglied, eine Stimme für jede Abstimmungsfrage. Sie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht beantworten können oder wollen. Wir weisen die leeren Stimmen aus, für die Stimmbeteiligung zählen sie jedoch nicht. Mit anderen Worten: Ein Traktandum gilt als angenommen, wenn mehr als die Hälfte der Personen, die teilgenommen haben, «Ja» gestimmt haben – ohne Berücksichtigung der Enthaltungen.
+Sie haben, wie jedes Mitglied, eine Stimme für jede Abstimmungsfrage. Sie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht beantworten können oder wollen. Wir weisen die leeren Stimmen aus, sie zählen für die Stimmbeteiligung, für die Beschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ein Traktandum gilt als angenommen, wenn mehr als die Hälfte der Personen, die teilgenommen haben, «Ja» gestimmt haben – ohne Berücksichtigung der Enthaltungen.
 
 **Wie sieht der Zeitplan aus?**
 

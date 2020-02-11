@@ -156,6 +156,7 @@ const DiscussionCommentComposer = props => {
               }),
 
               actions: {
+                previewComment: props.previewComment,
                 openDiscussionPreferences: () => {
                   setShowPreferences(true)
                 }

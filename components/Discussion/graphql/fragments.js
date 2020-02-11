@@ -6,6 +6,7 @@ export const discussion = gql`
     closed
     title
     path
+    isBoard
     userPreference {
       anonymity
       credential {
@@ -65,6 +66,9 @@ export const comment = gql`
     upVotes
     userVote
     userCanEdit
+    userCanReport
+    userReportedAt
+    numReports
     displayAuthor {
       id
       name
@@ -75,10 +79,45 @@ export const comment = gql`
       }
       profilePicture
     }
+    embed {
+      ... on LinkPreview {
+        url
+        title
+        description
+        imageUrl
+        imageAlt
+        siteName
+        siteImageUrl
+        updatedAt
+        __typename
+      }
+      ... on TwitterEmbed {
+        id
+        url
+        text
+        html
+        userName
+        userScreenName
+        userProfileImageUrl
+        image
+        createdAt
+        __typename
+      }
+    }
     updatedAt
     createdAt
     parentIds
     tags
+    mentioningDocument {
+      iconUrl
+      document {
+        id
+        meta {
+          path
+        }
+      }
+      fragmentId
+    }
   }
 `
 

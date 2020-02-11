@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
-import { mediaQueries, colors } from '@project-r/styleguide'
+import { mediaQueries, colors, useColorContext } from '@project-r/styleguide'
 
 import AudioIcon from 'react-icons/lib/md/volume-up'
 import ChartIcon from './Icons/Chart'
@@ -21,10 +21,12 @@ import PdfIcon from 'react-icons/lib/md/picture-as-pdf'
 import ShareIcon from 'react-icons/lib/md/share'
 import TwitterIcon from 'react-icons/lib/fa/twitter'
 import WhatsappIcon from 'react-icons/lib/fa/whatsapp'
+import PocketIcon from 'react-icons/lib/fa/get-pocket'
 import KeyIcon from 'react-icons/lib/fa/key'
 import VideoIcon from './Icons/Video'
 import MarkdownIcon from './Icons/Markdown'
 import EtiquetteIcon from './Icons/Etiquette'
+import EditIcon from 'react-icons/lib/fa/edit'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -131,13 +133,15 @@ const ICONS = {
   shareIOS: ShareIOSIcon,
   twitter: TwitterIcon,
   whatsapp: WhatsappIcon,
+  pocket: PocketIcon,
   key: KeyIcon,
   pdf: PdfIcon,
   gallery: GalleryIcon,
   time: TimeIcon,
   video: VideoIcon,
   etiquette: EtiquetteIcon,
-  fontSize: FontSizeIcon
+  fontSize: FontSizeIcon,
+  edit: EditIcon
 }
 
 const IconLink = ({
@@ -154,9 +158,11 @@ const IconLink = ({
   onClick,
   stacked
 }) => {
+  const [colorScheme] = useColorContext()
   const Icon = ICONS[icon]
   const [shouldAnimate, setShouldAnimate] = useState(false)
   const ref = useRef()
+  const computedFill = fill || colorScheme.text
 
   useEffect(() => {
     if (
@@ -199,15 +205,15 @@ const IconLink = ({
           <span {...styles.solid} style={{ width: size, height: size }} />
         )}
         <Icon
-          fill={fill}
+          fill={computedFill}
           size={size}
           {...(shouldAnimate &&
             css({
               position: 'relative',
               animation: `${css.keyframes({
-                '0%': { fill: fill || colors.text },
+                '0%': { fill: computedFill },
                 '33%': { fill: colors.primary },
-                '100%': { fill: fill || colors.text }
+                '100%': { fill: computedFill }
               })} 2.5s cubic-bezier(0.6, 0, 0.6, 1) alternate`
             }))}
         />

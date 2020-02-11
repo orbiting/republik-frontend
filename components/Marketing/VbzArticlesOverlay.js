@@ -50,21 +50,8 @@ const styles = {
     padding: 20
   })
 }
+
 const articles = [
-  {
-    headline:
-      'Welche Parlamentarier ohne Regeln und Transparenz lobbyieren dürfen.',
-    path: '/2019/10/03/sie-haben-das-recht-zu-schweigen'
-  },
-  {
-    headline:
-      'Kinder leiden, wenn Mütter arbeiten – glauben immer noch fast die Hälfte aller Schweizer Männer.',
-    path: '/2019/11/11/mama-verdient-geld'
-  },
-  {
-    headline: 'Brauchen wir Atomenergie, um das Klima zu retten?',
-    path: '/2019/11/12/atomkraft-eine-alte-neue-hoffnung'
-  },
   {
     headline:
       'Warum britische Premierminister schon im Internat ihre Empathie verlieren.',
@@ -72,8 +59,23 @@ const articles = [
   },
   {
     headline:
-      'Schmerzmittel stürzten die USA in eine Opioidkrise. Was geht uns in der Schweiz das an?',
-    path: '/2019/10/30/schmerz-sucht-und-profit'
+      'Welche Parlamentarier ohne Regeln und Transparenz lobbyieren dürfen.',
+    path: '/2019/10/03/sie-haben-das-recht-zu-schweigen'
+  },
+  {
+    headline:
+      'Was China mit seinen 60 Milliarden in der Schweiz schon so alles gekauft hat.',
+    path: '/2019/09/16/das-china-dilemma'
+  },
+  {
+    headline:
+      'Kinder leiden, wenn Mütter arbeiten – glauben immer noch fast die Hälfte aller Schweizer Männer.',
+    path: '/2019/11/11/mama-verdient-geld'
+  },
+  {
+    headline:
+      'Google-Software im Klassenzimmer: Totalüberwachung von Minderjährigen?',
+    path: '/2019/07/02/der-spion-im-schulzimmer'
   }
 ]
 

@@ -5,7 +5,8 @@ import {
   RawHtml,
   fontFamilies,
   mediaQueries,
-  colors
+  colors,
+  ColorContext
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
@@ -95,58 +96,60 @@ const Index = ({
   pullable,
   dark
 }) => (
-  <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
-    {/* body growing only needed when rendering a footer */}
-    <div
-      {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-      {...(!cover ? styles.padHeader : undefined)}
-    >
-      {dark && (
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `html, body { background-color: ${colors.negative.containerBg}; color: ${colors.negative.text}; }`
-          }}
-        />
-      )}
-      {!!meta && <Meta data={meta} />}
-      <Header
-        dark={dark && !inNativeIOSApp}
-        me={me}
-        cover={cover}
-        onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
-        primaryNavExpanded={primaryNavExpanded}
-        secondaryNav={secondaryNav}
-        showSecondary={showSecondary}
-        formatColor={formatColor}
-        headerAudioPlayer={headerAudioPlayer}
-        pullable={pullable}
-      />
-      <noscript>
-        <Box style={{ padding: 30 }}>
-          <RawHtml
+  <ColorContext.Provider value={dark && colors.negative}>
+    <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
+      {/* body growing only needed when rendering a footer */}
+      <div
+        {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
+        {...(!cover ? styles.padHeader : undefined)}
+      >
+        {dark && (
+          <style
             dangerouslySetInnerHTML={{
-              __html: t('noscript')
+              __html: `html, body { background-color: ${colors.negative.containerBg}; color: ${colors.negative.text}; }`
             }}
           />
-        </Box>
-      </noscript>
-      {me && me.prolongBeforeDate !== null && (
-        <ProlongBox
-          t={t}
-          prolongBeforeDate={me.prolongBeforeDate}
-          dark={dark}
+        )}
+        {!!meta && <Meta data={meta} />}
+        <Header
+          dark={dark && !inNativeIOSApp}
+          me={me}
+          cover={cover}
+          onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
+          primaryNavExpanded={primaryNavExpanded}
+          secondaryNav={secondaryNav}
+          showSecondary={showSecondary}
+          formatColor={formatColor}
+          headerAudioPlayer={headerAudioPlayer}
+          pullable={pullable}
         />
-      )}
-      {raw ? (
-        children
-      ) : (
-        <MainContainer>
-          <Content>{children}</Content>
-        </MainContainer>
-      )}
+        <noscript>
+          <Box style={{ padding: 30 }}>
+            <RawHtml
+              dangerouslySetInnerHTML={{
+                __html: t('noscript')
+              }}
+            />
+          </Box>
+        </noscript>
+        {me && me.prolongBeforeDate !== null && (
+          <ProlongBox
+            t={t}
+            prolongBeforeDate={me.prolongBeforeDate}
+            dark={dark}
+          />
+        )}
+        {raw ? (
+          children
+        ) : (
+          <MainContainer>
+            <Content>{children}</Content>
+          </MainContainer>
+        )}
+      </div>
+      {!inNativeApp && footer && <Footer />}
     </div>
-    {!inNativeApp && footer && <Footer />}
-  </div>
+  </ColorContext.Provider>
 )
 
 export default compose(

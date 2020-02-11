@@ -19,7 +19,7 @@ const Claim = ({ router: { query }, t }) => {
   context = ALLOWED_CONTEXT.includes(context) && context
   email = email && maybeDecode(email)
   email = email && isEmail(email) ? email : ''
-  code = code && sanitizeVoucherCode(maybeDecode(code))
+  code = code && sanitizeVoucherCode(code)
 
   const meta = {
     title: t.first([

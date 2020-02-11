@@ -8,7 +8,7 @@ import withT from '../../lib/withT'
 import { styles as iconLinkStyles } from '../IconLink'
 import IconDefault from 'react-icons/lib/md/bookmark-outline'
 import IconBookmarked from 'react-icons/lib/md/bookmark'
-import { colors } from '@project-r/styleguide'
+import { useColorContext } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 
 import {
@@ -28,6 +28,25 @@ const styles = {
     cursor: 'pointer',
     marginBottom: '-1px'
   })
+}
+
+const BookmarkIcon = ({ error, mutating, bookmarked, small }) => {
+  const [colorScheme] = useColorContext()
+  const Icon = bookmarked ? IconBookmarked : IconDefault
+  const size = small ? 23 : 27
+
+  return (
+    <Icon
+      size={size}
+      fill={
+        error
+          ? colorScheme.error
+          : mutating
+          ? colorScheme.disabled
+          : colorScheme.text
+      }
+    />
+  )
 }
 
 class Bookmark extends Component {
@@ -81,9 +100,7 @@ class Bookmark extends Component {
       return null
     }
     const { mutating, error } = this.state
-    const Icon = bookmarked ? IconBookmarked : IconDefault
     const title = t(`bookmark/title/${bookmarked ? 'bookmarked' : 'default'}`)
-    const size = small ? 23 : 27
 
     return (
       <button
@@ -93,9 +110,11 @@ class Bookmark extends Component {
         title={title}
         onClick={this.toggle}
       >
-        <Icon
-          size={size}
-          fill={error ? colors.error : mutating ? colors.disabled : colors.text}
+        <BookmarkIcon
+          small={small}
+          bookmarked={bookmarked}
+          error={error}
+          mutating={mutating}
         />
       </button>
     )

@@ -1,20 +1,10 @@
-const withBundleAnalyzer = require('@zeit/next-bundle-analyzer')
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true'
+})
 
 const { BUNDLE_ANALYZE, NODE_ENV, CDN_FRONTEND_BASE_URL } = process.env
 
 module.exports = withBundleAnalyzer({
-  analyzeServer: ['server', 'both'].includes(BUNDLE_ANALYZE),
-  analyzeBrowser: ['browser', 'both'].includes(BUNDLE_ANALYZE),
-  bundleAnalyzerConfig: {
-    server: {
-      analyzerMode: 'static',
-      reportFilename: '../bundles/server.html'
-    },
-    browser: {
-      analyzerMode: 'static',
-      reportFilename: './bundles/client.html'
-    }
-  },
   webpack: (config, { dev }) => {
     config.externals = config.externals || {}
     config.externals['lru-cache'] = 'lru-cache'

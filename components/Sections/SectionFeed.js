@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import { Center, Interaction } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
+import { parseJSONObject } from '../../lib/safeJSON'
 
 import Box from '../Frame/Box'
 import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/fragments'
@@ -13,37 +14,52 @@ import { WithoutMembership, WithActiveMembership } from '../Auth/withMembership'
 import DocumentListContainer from '../Feed/DocumentListContainer'
 
 const getFeedDocuments = gql`
-  query getSectionDocuments($cursor: String, $formats: [String!]) {
-    documents(formats: $formats, feed: true, first: 30, after: $cursor) {
+  query getSectionDocuments(
+    $cursor: String
+    $filter: SearchFilterInput
+    $filters: [SearchGenericFilterInput!]
+  ) {
+    documents: search(
+      filters: $filters
+      filter: $filter
+      sort: { key: publishedAt, direction: DESC }
+      first: 30
+      after: $cursor
+    ) {
       totalCount
       pageInfo {
         endCursor
         hasNextPage
       }
       nodes {
-        id
-        ...BookmarkOnDocument
-        meta {
-          credits
-          title
-          description
-          publishDate
-          path
-          format {
+        entity {
+          ... on Document {
             id
+            ...BookmarkOnDocument
             meta {
-              kind
-              color
+              credits
               title
+              description
+              publishDate
+              path
+              format {
+                id
+                meta {
+                  kind
+                  color
+                  title
+                  path
+                }
+              }
+              estimatedReadingMinutes
+              estimatedConsumptionMinutes
+              indicateChart
+              indicateGallery
+              indicateVideo
+              audioSource {
+                mp3
+              }
             }
-          }
-          estimatedReadingMinutes
-          estimatedConsumptionMinutes
-          indicateChart
-          indicateGallery
-          indicateVideo
-          audioSource {
-            mp3
           }
         }
       }
@@ -52,7 +68,13 @@ const getFeedDocuments = gql`
   ${bookmarkOnDocumentFragment}
 `
 
-const SectionFeed = ({ t, formats }) => {
+const mapNodes = node => node.entity
+
+const SectionFeed = ({ t, formats, variablesAsString }) => {
+  if (!variablesAsString && !(formats && formats.length)) {
+    return null
+  }
+
   const help = (
     <WithoutMembership
       render={() => (
@@ -63,6 +85,12 @@ const SectionFeed = ({ t, formats }) => {
     />
   )
 
+  const variables = variablesAsString
+    ? parseJSONObject(variablesAsString)
+    : {
+        filter: { formats, feed: true }
+      }
+
   return (
     <Center>
       <DocumentListContainer
@@ -70,7 +98,8 @@ const SectionFeed = ({ t, formats }) => {
         help={help}
         showTotal={true}
         query={getFeedDocuments}
-        variables={{ formats }}
+        variables={variables}
+        mapNodes={mapNodes}
       />
     </Center>
   )

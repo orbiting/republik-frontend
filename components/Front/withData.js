@@ -73,6 +73,7 @@ export const withFeedData = graphql(feedQuery, {
           from
         },
         filters: [
+          { key: 'template', not: true, value: 'section' },
           { key: 'template', not: true, value: 'format' },
           { key: 'template', not: true, value: 'front' }
         ].concat(

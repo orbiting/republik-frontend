@@ -6,7 +6,12 @@ import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
 import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
-import { mediaQueries, fontFamilies, colors } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  fontFamilies,
+  colors,
+  useBodyScrollLock
+} from '@project-r/styleguide'
 
 const plainStyle = {
   backgroundColor: 'transparent',
@@ -95,26 +100,30 @@ const SeriesNavButton = ({
   series,
   onSecondaryNavExpandedChange,
   expanded
-}) => (
-  <Fragment>
-    <button
-      {...styles.button}
-      onClick={() => {
-        onSecondaryNavExpandedChange(!expanded)
-      }}
-    >
-      <span {...styles.title}>
-        {series.title}
-        <span {...styles.arrow}>
-          {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
-          {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
+}) => {
+  const [ref] = useBodyScrollLock(expanded)
+
+  return (
+    <Fragment>
+      <button
+        {...styles.button}
+        onClick={() => {
+          onSecondaryNavExpandedChange(!expanded)
+        }}
+      >
+        <span {...styles.title}>
+          {series.title}
+          <span {...styles.arrow}>
+            {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
+            {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
+          </span>
         </span>
-      </span>
-    </button>
-    <div {...styles.menu} aria-expanded={expanded}>
-      <SeriesNavPanel t={t} series={series} />
-    </div>
-  </Fragment>
-)
+      </button>
+      <div {...styles.menu} aria-expanded={expanded} ref={ref}>
+        <SeriesNavPanel t={t} series={series} />
+      </div>
+    </Fragment>
+  )
+}
 
 export default SeriesNavButton

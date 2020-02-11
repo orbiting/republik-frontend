@@ -3,7 +3,7 @@ import Head from 'next/head'
 
 import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
 
-export default ({ data, data: { image } }) => {
+export default ({ data, data: { url, image } }) => {
   const title = data.pageTitle || `${data.title} – Republik`
 
   const facebookImage = data.facebookImage || image
@@ -17,7 +17,8 @@ export default ({ data, data: { image } }) => {
       <meta name='description' content={data.description} />
 
       <meta property='og:type' content='website' />
-      <meta property='og:url' content={data.url} />
+      {url && <meta property='og:url' content={url} />}
+      {url && <link rel='canonical' href={url} />}
       <meta property='og:title' content={data.facebookTitle || data.title} />
       <meta
         property='og:description'
@@ -31,7 +32,6 @@ export default ({ data, data: { image } }) => {
         <meta property='og:image:height' content={fbSizeInfo.height} />
       )}
 
-      <meta name='twitter:card' content='summary_large_image' />
       <meta
         name='twitter:card'
         content={twitterImage ? 'summary_large_image' : 'summary'}

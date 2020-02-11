@@ -62,6 +62,7 @@ export const discussionQuery = gql`
     $orderBy: DiscussionOrder!
     $depth: Int!
     $focusId: ID
+    $includeParent: Boolean
   ) {
     me {
       id
@@ -77,6 +78,7 @@ export const discussionQuery = gql`
         first: 100
         flatDepth: $depth
         focusId: $focusId
+        includeParent: $includeParent
       ) {
         totalCount
         directTotalCount
@@ -111,6 +113,51 @@ export const discussionQuery = gql`
   }
   ${fragments.discussion}
   ${fragments.comment}
+`
+
+export const commentPreviewQuery = gql`
+  query commentPreview(
+    $discussionId: ID!
+    $content: String!
+    $parentId: ID
+    $id: ID
+  ) {
+    commentPreview(
+      content: $content
+      discussionId: $discussionId
+      parentId: $parentId
+      id: $id
+    ) {
+      id
+      content
+      contentLength
+      embed {
+        ... on LinkPreview {
+          url
+          title
+          description
+          imageUrl
+          imageAlt
+          siteName
+          siteImageUrl
+          updatedAt
+          __typename
+        }
+        ... on TwitterEmbed {
+          id
+          url
+          text
+          html
+          userName
+          userScreenName
+          userProfileImageUrl
+          image
+          createdAt
+          __typename
+        }
+      }
+    }
+  }
 `
 
 /*
@@ -148,6 +195,15 @@ export const submitCommentMutation = gql`
 export const upvoteCommentMutation = gql`
   mutation upvoteCommentMutation($commentId: ID!) {
     upvoteComment(id: $commentId) {
+      ...Comment
+    }
+  }
+  ${fragments.comment}
+`
+
+export const reportCommentMutation = gql`
+  mutation reportCommentMutation($commentId: ID!) {
+    reportComment(id: $commentId) {
       ...Comment
     }
   }

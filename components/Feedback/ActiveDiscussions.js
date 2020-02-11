@@ -22,6 +22,9 @@ const styles = {
     linkRule,
     css({
       color: colors.text,
+      ':visited': {
+        color: colors.text
+      },
       textDecoration: 'none',
       display: 'flex',
       alignItems: 'center',
@@ -59,6 +62,7 @@ const ActiveDiscussionItem = ({
   onClick,
   label,
   selected,
+  count,
   path
 }) => (
   <DiscussionLink discussion={discussion} passHref>
@@ -68,10 +72,10 @@ const ActiveDiscussionItem = ({
     >
       <ArticleItem
         title={label}
-        newPage={!!path}
         selected={selected}
         iconSize={24}
-        Wrapper={Interaction.P}
+        count={count}
+        wrapper={Interaction.P}
       />
     </a>
   </DiscussionLink>
@@ -79,18 +83,14 @@ const ActiveDiscussionItem = ({
 
 class ActiveDiscussions extends Component {
   render() {
-    const { discussionId, ignoreDiscussionId, data } = this.props
+    const { data } = this.props
 
     const activeDiscussions =
       data &&
       data.activeDiscussions &&
-      data.activeDiscussions
-        .filter(
-          activeDiscussion =>
-            activeDiscussion.discussion.id !== ignoreDiscussionId &&
-            !activeDiscussion.discussion.closed
-        )
-        .slice(0, 10)
+      data.activeDiscussions.filter(
+        activeDiscussion => !activeDiscussion.discussion.closed
+      )
 
     return (
       <Loader
@@ -100,10 +100,8 @@ class ActiveDiscussions extends Component {
           return (
             <div>
               {activeDiscussions &&
-                activeDiscussions.map(activeDiscussion => {
+                activeDiscussions.map((activeDiscussion, i) => {
                   const discussion = activeDiscussion.discussion
-                  const selected =
-                    discussionId && discussionId === discussion.id
                   const meta = discussion.document
                     ? discussion.document.meta
                     : {}
@@ -113,9 +111,9 @@ class ActiveDiscussions extends Component {
                     <ActiveDiscussionItem
                       key={discussion.id}
                       label={discussion.title}
-                      selected={selected}
                       discussion={discussion}
                       path={path}
+                      count={discussion.comments.totalCount}
                     />
                   )
                 })}
@@ -125,12 +123,6 @@ class ActiveDiscussions extends Component {
       />
     )
   }
-}
-
-ActiveDiscussions.propTypes = {
-  discussionId: PropTypes.string,
-  ignoreDiscussionId: PropTypes.string,
-  onChange: PropTypes.func
 }
 
 export default compose(withActiveDiscussions)(ActiveDiscussions)

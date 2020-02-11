@@ -328,5 +328,42 @@ export default {
       </Highlight>{' '}
       getroffen hat.
     </Fragment>
+  ),
+  Dezember: p => (
+    <Fragment>
+      Die{' '}
+      <Highlight {...p} ids={['v0AUVa73z']}>
+        Schadensbilanz von Aussenminister Ignazio Cassis
+      </Highlight>
+      . Der{' '}
+      <Highlight {...p} ids={['IbpSp_01-']}>
+        Notstand in der Pflege
+      </Highlight>
+      . Reise in die arabische Welt – die grosse{' '}
+      <Highlight {...p} series='republik/article-auftaktnahost'>
+        Reportageserie aus dem Libanon, dem Irak, dem Sudan und aus Ägypten
+      </Highlight>
+      . Recherche zu den{' '}
+      <Highlight {...p} ids={['PcxVOMXKn', 'Ueh1J2JTtl', '-UP8xCBL_']}>
+        Missständen bei der grössten Kita-Kette
+      </Highlight>{' '}
+      der Schweiz. Die letzten Festtage der Menschheit – Rezept für ein{' '}
+      <Highlight {...p} ids={['dvrE8QRHz']}>
+        veganes Festmenü
+      </Highlight>
+      . Die Serie «
+      <Highlight {...p} series='republik/article-mein-vater-der-gangster-1'>
+        Mein Vater, der Gangster
+      </Highlight>
+      ». Vom{' '}
+      <Highlight {...p} ids={['G1riy9_0D']}>
+        Aufstieg des politischen Trolls
+      </Highlight>
+      . Und: «Wo ist die gute linke Politik?» – das grosse{' '}
+      <Highlight {...p} ids={['-QzfE_C1b']}>
+        Gespräch mit Schriftsteller Lukas Bärfuss
+      </Highlight>
+      .
+    </Fragment>
   )
 }

@@ -26,7 +26,7 @@ import {
   fontFamilies,
   Field,
   A,
-  colors
+  useColorContext
 } from '@project-r/styleguide'
 
 const { P } = Interaction
@@ -123,11 +123,7 @@ const styles = {
     width: 0,
     height: 0,
     borderStyle: 'solid',
-    borderWidth: '0 12.5px 17px 12.5px',
-    borderColor: 'transparent transparent #ffffff transparent'
-  }),
-  itemArrowDark: css({
-    borderColor: `transparent transparent ${colors.negative.containerBg} transparent`
+    borderWidth: '0 12.5px 17px 12.5px'
   }),
   name: css({
     position: 'absolute',
@@ -167,15 +163,17 @@ export const Item = ({
   singleRow,
   minColumns,
   maxColumns,
-  style,
-  dark
+  style
 }) => {
+  const [colorScheme] = useColorContext()
+
   const itemStyles = minColumns
     ? getItemStyles(singleRow, minColumns, maxColumns)
     : singleRow
     ? styles.singleRowItem
     : styles.item
   const Element = href ? 'a' : 'span'
+
   return (
     <Element
       href={href}
@@ -201,7 +199,12 @@ export const Item = ({
       </span>
       {!isActive && <span {...styles.name}>{name}</span>}
       {isActive && (
-        <span {...merge(styles.itemArrow, dark && styles.itemArrowDark)} />
+        <span
+          {...merge(styles.itemArrow)}
+          style={{
+            borderColor: `transparent transparent ${colorScheme.containerBg} transparent`
+          }}
+        />
       )}
     </Element>
   )
@@ -315,8 +318,7 @@ export class List extends Component {
       singleRow,
       minColumns,
       showCredentials,
-      share,
-      dark
+      share
     } = this.props
     const { columns, open } = this.state
 
@@ -356,7 +358,6 @@ export class List extends Component {
                     share={share}
                     t={t}
                     data={openItem}
-                    dark={dark}
                   />
                 )
               }
@@ -379,7 +380,6 @@ export class List extends Component {
                 singleRow={singleRow}
                 minColumns={minColumns}
                 maxColumns={this.getMaxColumns()}
-                dark={dark}
                 href={id && `/community?id=${id}`}
                 onClick={e => {
                   if (shouldIgnoreClick(e)) {
@@ -410,7 +410,6 @@ export class List extends Component {
                     key={`detail${row}`}
                     share={share}
                     t={t}
-                    dark={dark}
                     data={openItem}
                   />
                 )
@@ -481,12 +480,7 @@ export class List extends Component {
                 )}
               </div>
               {singleRowOpenItem && (
-                <Detail
-                  t={t}
-                  share={share}
-                  data={singleRowOpenItem}
-                  dark={dark}
-                />
+                <Detail t={t} share={share} data={singleRowOpenItem} />
               )}
             </Fragment>
           )

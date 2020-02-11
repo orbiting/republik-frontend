@@ -24,26 +24,11 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
   )
 
   return (
-    <Interaction.H3>
-      <WithMembership
-        render={() => (
-          <Fragment>
-            {t.elements('feedback/autoArticle/selected/headline', {
-              link: ArticleLink
-            })}
-          </Fragment>
-        )}
-      />
-      <WithoutMembership
-        render={() => (
-          <Fragment>
-            {t.elements('feedback/autoArticle/selected/headline', {
-              link: <Fragment>{inQuotes(articleMeta.title)}</Fragment>
-            })}
-          </Fragment>
-        )}
-      />
-    </Interaction.H3>
+    <>
+      {t.elements('feedback/autoArticle/selected/headline', {
+        link: ArticleLink
+      })}
+    </>
   )
 }
 

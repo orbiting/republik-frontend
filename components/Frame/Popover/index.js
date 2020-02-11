@@ -2,7 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
-import { mediaQueries, fontFamilies } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  fontFamilies,
+  useBodyScrollLock
+} from '@project-r/styleguide'
 import {
   ZINDEX_POPOVER,
   HEADER_HEIGHT,
@@ -38,11 +42,15 @@ const menuStyle = css({
   }
 })
 
-const Popover = ({ items, expanded, id, children }) => (
-  <div id={id} aria-expanded={expanded} {...menuStyle}>
-    {children}
-  </div>
-)
+const Popover = ({ items, expanded, id, children }) => {
+  const [ref] = useBodyScrollLock(expanded)
+
+  return (
+    <div id={id} aria-expanded={expanded} {...menuStyle} ref={ref}>
+      {children}
+    </div>
+  )
+}
 
 Popover.propTypes = {
   expanded: PropTypes.bool

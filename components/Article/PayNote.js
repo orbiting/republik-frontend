@@ -6,20 +6,19 @@ import {
   Button,
   colors,
   fontStyles,
-  linkRule,
-  RawHtml
+  linkRule
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
 import { css } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
-import { Router, routes } from '../../lib/routes'
+import { Router } from '../../lib/routes'
 import NativeRouter, { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
-import { capitalize, countFormat } from '../../lib/utils/format'
+import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
 import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
 import { parseJSONObject } from '../../lib/safeJSON'
@@ -102,7 +101,7 @@ const generatePositionedNote = (variation, target, cta, position) => {
       body: t(`article/${variation}/${position}`, undefined, ''),
       cta: cta,
       button: {
-        label: t(`article/${variation}/${position}/button`, undefined, ''),
+        label: t(`article/${variation}/${position}/buy/button`, undefined, ''),
         link: DEFAULT_BUTTON_TARGET
       },
       secondary: undefined
@@ -125,6 +124,7 @@ const generateNotes = (variations, target, cta) =>
 const predefinedNotes = generateNotes(
   TRY_VARIATIONS,
   {
+    trialSignup: 'any',
     hasActiveMembership: false,
     isEligibleForTrial: true
   },
@@ -137,7 +137,8 @@ const predefinedNotes = generateNotes(
       {
         hasActiveMembership: false,
         isEligibleForTrial: true,
-        campaignId: 'wseww'
+        campaignId: 'wseww',
+        trialSignup: 'any'
       },
       'trialForm',
       t
@@ -169,8 +170,9 @@ const predefinedNotes = generateNotes(
     generateNotes(
       THANK_YOU_VARIATIONS,
       {
-        isEligibleForTrial: false,
-        isTrialSignup: true
+        trialSignup: '1',
+        campaignId: 'any',
+        isEligibleForTrial: false
       },
       'trialForm',
       t
@@ -178,10 +180,14 @@ const predefinedNotes = generateNotes(
   )
 
 const meetTarget = target => payNote => {
-  return Object.keys(payNote.target).every(
+  const targetKeys = new Set(Object.keys(payNote.target))
+  if (target.trialSignup) targetKeys.add('trialSignup')
+  if (target.campaignId) targetKeys.add('campaignId')
+  return Array.from(targetKeys).every(
     key =>
+      payNote.target[key] === 'any' ||
       payNote.target[key] ===
-      (typeof payNote.target[key] === 'boolean' ? !!target[key] : target[key])
+        (typeof payNote.target[key] === 'boolean' ? !!target[key] : target[key])
   )
 }
 
@@ -191,20 +197,45 @@ const generateKey = (note, index) => {
   return { ...note, key: `custom-${index}` }
 }
 
-const getPayNote = (target, seed, tryOrBuy, customPayNotes) => {
-  const processedCustomPaynotes = customPayNotes
+const disableForIOS = note => {
+  return { ...note, target: { ...note.target, inNativeIOSApp: false } }
+}
+
+const enableForTrialSignup = note => {
+  return note.before.cta === 'trialForm'
+    ? { ...note, target: { ...note.target, trialSignup: 'any' } }
+    : note
+}
+
+const hasCta = cta => note => note.before.cta === cta
+
+const hasTryAndBuyCtas = notes =>
+  notes.some(hasCta('button')) &&
+  notes.some(hasCta('trialForm')) &&
+  notes.every(n => n.before.cta === 'trialForm' || n.before.cta === 'button')
+
+const getPayNote = (target, seed, tryOrBuy, customPayNotes = []) => {
+  const targetedCustomPaynotes = customPayNotes
     .map(generateKey)
+    .map(disableForIOS)
+    .map(enableForTrialSignup)
     .filter(meetTarget(target))
 
-  if (processedCustomPaynotes.length)
-    return getElementFromSeed(processedCustomPaynotes, seed, MAX_PAYNOTE_SEED)
+  if (targetedCustomPaynotes.length)
+    return getElementFromSeed(targetedCustomPaynotes, seed, MAX_PAYNOTE_SEED)
 
-  const processedPredefinedNotes = predefinedNotes.filter(meetTarget(target))
+  const targetedPredefinedNotes = predefinedNotes.filter(meetTarget(target))
 
-  // TODO: try vs buy ratio (filter based on cta?)
+  if (targetedPredefinedNotes.length)
+    if (hasTryAndBuyCtas(targetedPredefinedNotes)) {
+      const desiredCta = tryOrBuy < TRY_TO_BUY_RATIO ? 'trialForm' : 'button'
+      const abPredefinedNotes = targetedPredefinedNotes.filter(
+        hasCta(desiredCta)
+      )
+      return getElementFromSeed(abPredefinedNotes, seed, MAX_PAYNOTE_SEED)
+    }
 
-  if (processedPredefinedNotes.length)
-    return getElementFromSeed(processedPredefinedNotes, seed, MAX_PAYNOTE_SEED)
+  return getElementFromSeed(targetedPredefinedNotes, seed, MAX_PAYNOTE_SEED)
 }
 
 const withCount = (text, membershipStats) =>
@@ -306,10 +337,10 @@ export const PayNote = compose(
     customPayNotes
   }) => {
     const target = {
-      inNativeIOSApp: inNativeIOSApp,
+      inNativeIOSApp,
       isEligibleForTrial,
       hasActiveMembership,
-      isTrialSignup: query.trial,
+      trialSignup: query.trialSignup,
       campaignId: query.campaign || query.utm_campaign
     }
     const payNote = getPayNote(target, seed, tryOrBuy, customPayNotes)

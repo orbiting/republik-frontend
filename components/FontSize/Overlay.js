@@ -18,13 +18,14 @@ import {
 } from '@project-r/styleguide'
 
 import MdClose from 'react-icons/lib/md/close'
+import PlusIcon from 'react-icons/lib/md/add'
+import MinusIcon from 'react-icons/lib/md/remove'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 
 import { useFontSize } from '../../lib/fontSize'
 import { css } from 'glamor'
 import track from '../../lib/piwik'
-import IconLink from '../IconLink'
 
 const FONT_SIZE_STEP = 3.2
 const MIN_FONT_SIZE = 8
@@ -64,11 +65,17 @@ const FontSizeOverlay = ({ t, onClose }) => {
         fontSize: '1.1875em'
       }
     }),
+    iconButton: css({
+      fontSize: 24,
+      padding: '20px 20px 10px'
+    }),
     reset: css({
-      float: 'right',
-      marginTop: 25,
       ...fontStyles.sansSerifRegular13,
-      color: colors.lightText
+      color: colors.lightText,
+      padding: '0 20px 20px'
+    }),
+    container: css({
+      textAlign: 'center'
     })
   }
 
@@ -92,7 +99,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
   const resetFontSize = () => setFontSize(DEFAULT_FONT_SIZE)
 
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 375, minHeight: 'none' }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/actionbar/fontSize/title')}
@@ -103,32 +110,34 @@ const FontSizeOverlay = ({ t, onClose }) => {
         />
       </OverlayToolbar>
       <OverlayBody>
-        <div>
-          <IconLink
-            icon='minus'
-            onClick={decreaseFontSize}
-            style={{ padding: '20px 20px 20px 0' }}
-            href='#'
-            fill={colors.text}
-            title={t('article/actionbar/fontSize/increase')}
-          />
-          <label {...styles.label}>{fontPercentage.current}</label>
-          <IconLink
-            icon='plus'
-            onClick={increaseFontSize}
-            style={{ padding: '20px 0 20px 20px' }}
-            href='#'
-            fill={colors.text}
-            title={t('article/actionbar/fontSize/decrease')}
-          />
+        <div {...styles.container}>
           <button
             {...plainButtonRule}
-            {...styles.reset}
-            onClick={resetFontSize}
-            title={t('article/actionbar/fontSize/reset')}
+            {...styles.iconButton}
+            title={t('article/actionbar/fontSize/decrease')}
+            onClick={decreaseFontSize}
           >
-            {t('article/actionbar/fontSize/reset')}
+            <MinusIcon />
           </button>
+          <label {...styles.label}>{fontPercentage.current}</label>
+          <button
+            {...plainButtonRule}
+            {...styles.iconButton}
+            title={t('article/actionbar/fontSize/increase')}
+            onClick={increaseFontSize}
+          >
+            <PlusIcon />
+          </button>
+          <div {...styles.container}>
+            <button
+              {...plainButtonRule}
+              {...styles.reset}
+              onClick={resetFontSize}
+              title={t('article/actionbar/fontSize/reset')}
+            >
+              {t('article/actionbar/fontSize/reset')}
+            </button>
+          </div>
         </div>
         <div>
           <p>{t('article/actionbar/fontSize/example')}</p>

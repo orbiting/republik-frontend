@@ -27,8 +27,6 @@ import VideoIcon from './Icons/Video'
 import MarkdownIcon from './Icons/Markdown'
 import EtiquetteIcon from './Icons/Etiquette'
 import EditIcon from 'react-icons/lib/fa/edit'
-import PlusIcon from 'react-icons/lib/md/add'
-import MinusIcon from 'react-icons/lib/md/remove'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -143,9 +141,7 @@ const ICONS = {
   video: VideoIcon,
   etiquette: EtiquetteIcon,
   fontSize: FontSizeIcon,
-  edit: EditIcon,
-  plus: PlusIcon,
-  minus: MinusIcon
+  edit: EditIcon
 }
 
 const IconLink = ({

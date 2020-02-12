@@ -12,7 +12,9 @@ import {
   fontStyles,
   colors,
   Editorial,
-  Collapsable
+  Collapsable,
+  Button,
+  plainButtonRule
 } from '@project-r/styleguide'
 
 import MdClose from 'react-icons/lib/md/close'
@@ -22,6 +24,11 @@ import { compose } from 'react-apollo'
 import { useFontSize } from '../../lib/fontSize'
 import { css } from 'glamor'
 import track from '../../lib/piwik'
+import IconLink from '../IconLink'
+
+const FONT_SIZE_STEP = 3.2
+const MIN_FONT_SIZE = 8
+const MAX_FONT_SIZE = 48
 
 const FontSizeOverlay = ({ t, onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
@@ -32,8 +39,8 @@ const FontSizeOverlay = ({ t, onClose }) => {
 
   const styles = {
     label: css({
-      ...fontStyles.sansSerifRegular14,
-      color: colors.secondary
+      ...fontStyles.sansSerifRegular17,
+      color: colors.text
     }),
     preview: css({
       borderTop: `1px solid ${colors.text}`,
@@ -56,6 +63,12 @@ const FontSizeOverlay = ({ t, onClose }) => {
       [mediaQueries.mUp]: {
         fontSize: '1.1875em'
       }
+    }),
+    reset: css({
+      float: 'right',
+      marginTop: 25,
+      ...fontStyles.sansSerifRegular13,
+      color: colors.lightText
     })
   }
 
@@ -70,6 +83,14 @@ const FontSizeOverlay = ({ t, onClose }) => {
     }
   }, [])
 
+  const increaseFontSize = () =>
+    fontSize < MAX_FONT_SIZE && setFontSize(fontSize + FONT_SIZE_STEP)
+
+  const decreaseFontSize = () =>
+    fontSize > MIN_FONT_SIZE && setFontSize(fontSize - FONT_SIZE_STEP)
+
+  const resetFontSize = () => setFontSize(DEFAULT_FONT_SIZE)
+
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
@@ -83,19 +104,31 @@ const FontSizeOverlay = ({ t, onClose }) => {
       </OverlayToolbar>
       <OverlayBody>
         <div>
-          <label {...styles.label}>{fontPercentage.current}</label>
-          <Slider
-            value={fontSize}
-            min='8'
-            max='48'
-            step='0.8'
-            title={fontPercentage.current}
-            onChange={(e, newValue) => {
-              setFontSize(newValue)
-            }}
-            fullWidth
+          <IconLink
+            icon='minus'
+            onClick={decreaseFontSize}
+            style={{ padding: '20px 20px 20px 0' }}
+            href='#'
+            fill={colors.text}
+            title={t('article/actionbar/fontSize/increase')}
           />
-          <br />
+          <label {...styles.label}>{fontPercentage.current}</label>
+          <IconLink
+            icon='plus'
+            onClick={increaseFontSize}
+            style={{ padding: '20px 0 20px 20px' }}
+            href='#'
+            fill={colors.text}
+            title={t('article/actionbar/fontSize/decrease')}
+          />
+          <button
+            {...plainButtonRule}
+            {...styles.reset}
+            onClick={resetFontSize}
+            title={t('article/actionbar/fontSize/reset')}
+          >
+            {t('article/actionbar/fontSize/reset')}
+          </button>
         </div>
         <div>
           <p>{t('article/actionbar/fontSize/example')}</p>

@@ -128,8 +128,7 @@ const predefinedNotes = generateNotes(
     hasActiveMembership: false,
     isEligibleForTrial: true
   },
-  'trialForm',
-  t
+  'trialForm'
 )
   .concat(
     generateNotes(
@@ -140,8 +139,7 @@ const predefinedNotes = generateNotes(
         campaignId: 'wseww',
         trialSignup: 'any'
       },
-      'trialForm',
-      t
+      'trialForm'
     )
   )
   .concat(
@@ -151,8 +149,7 @@ const predefinedNotes = generateNotes(
         hasActiveMembership: false,
         inNativeIOSApp: false
       },
-      'button',
-      t
+      'button'
     )
   )
   .concat(
@@ -162,8 +159,7 @@ const predefinedNotes = generateNotes(
         isEligibleForTrial: false,
         inNativeIOSApp: true
       },
-      null,
-      t
+      null
     )
   )
   .concat(
@@ -174,8 +170,7 @@ const predefinedNotes = generateNotes(
         campaignId: 'any',
         isEligibleForTrial: false
       },
-      'trialForm',
-      t
+      'trialForm'
     )
   )
 

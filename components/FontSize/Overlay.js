@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import {
   DEFAULT_FONT_SIZE,
@@ -25,9 +25,12 @@ import track from '../../lib/piwik'
 
 const FontSizeOverlay = ({ t, onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
+  const [testFontSize, setTestFontSize] = useState(fontSize)
+  const testFontSizeRef = useRef()
+  testFontSizeRef.current = testFontSize
   const fontPercentage = useRef()
   fontPercentage.current = `${Math.round(
-    (100 * fontSize) / DEFAULT_FONT_SIZE
+    (100 * testFontSize) / DEFAULT_FONT_SIZE
   )}%`
 
   const styles = {
@@ -37,7 +40,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
     }),
     preview: css({
       borderTop: `1px solid ${colors.text}`,
-      fontSize: fontSize
+      fontSize: testFontSize
     }),
     subhead: css({
       marginTop: 12,
@@ -70,14 +73,22 @@ const FontSizeOverlay = ({ t, onClose }) => {
     }
   }, [])
 
+  const closeOverlay = () => {
+    setFontSize(testFontSizeRef.current)
+    setTimeout(onClose, 0)
+  }
+
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+    <Overlay
+      onClose={closeOverlay}
+      mUpStyle={{ maxWidth: 400, minHeight: 'none' }}
+    >
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/actionbar/fontSize/title')}
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
-          onClick={onClose}
+          onClick={closeOverlay}
           label={<MdClose size={24} fill='#000' />}
         />
       </OverlayToolbar>
@@ -85,13 +96,13 @@ const FontSizeOverlay = ({ t, onClose }) => {
         <div>
           <label {...styles.label}>{fontPercentage.current}</label>
           <Slider
-            value={fontSize}
+            value={testFontSize}
             min='8'
             max='48'
             step='0.8'
             title={fontPercentage.current}
             onChange={(e, newValue) => {
-              setFontSize(newValue)
+              setTestFontSize(newValue)
             }}
             fullWidth
           />

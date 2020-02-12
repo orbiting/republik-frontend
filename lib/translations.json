@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-11T14:05:51.034Z",
+  "updated": "2020-02-12T16:27:11.597Z",
   "title": "live",
   "data": [
     {
@@ -3117,6 +3117,18 @@
     {
       "key": "article/actionbar/fontSize/title",
       "value": "Schriftgrösse anpassen"
+    },
+    {
+      "key": "article/actionbar/fontSize/increase",
+      "value": "Schriftgrösse vergrössern\n"
+    },
+    {
+      "key": "article/actionbar/fontSize/decrease",
+      "value": "Schriftgrösse verkleinern\n"
+    },
+    {
+      "key": "article/actionbar/fontSize/reset",
+      "value": "zurücksetzen\n"
     },
     {
       "key": "article/actionbar/fontSize/example",

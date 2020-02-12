@@ -12,16 +12,24 @@ import {
   fontStyles,
   colors,
   Editorial,
-  Collapsable
+  Collapsable,
+  Button,
+  plainButtonRule
 } from '@project-r/styleguide'
 
 import MdClose from 'react-icons/lib/md/close'
+import PlusIcon from 'react-icons/lib/md/add'
+import MinusIcon from 'react-icons/lib/md/remove'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 
 import { useFontSize } from '../../lib/fontSize'
 import { css } from 'glamor'
 import track from '../../lib/piwik'
+
+const FONT_SIZE_STEP = 3.2
+const MIN_FONT_SIZE = 8
+const MAX_FONT_SIZE = 48
 
 const FontSizeOverlay = ({ t, onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
@@ -32,8 +40,8 @@ const FontSizeOverlay = ({ t, onClose }) => {
 
   const styles = {
     label: css({
-      ...fontStyles.sansSerifRegular14,
-      color: colors.secondary
+      ...fontStyles.sansSerifRegular17,
+      color: colors.text
     }),
     preview: css({
       borderTop: `1px solid ${colors.text}`,
@@ -56,6 +64,18 @@ const FontSizeOverlay = ({ t, onClose }) => {
       [mediaQueries.mUp]: {
         fontSize: '1.1875em'
       }
+    }),
+    iconButton: css({
+      fontSize: 24,
+      padding: '20px 20px 10px'
+    }),
+    reset: css({
+      ...fontStyles.sansSerifRegular13,
+      color: colors.lightText,
+      padding: '0 20px 20px'
+    }),
+    container: css({
+      textAlign: 'center'
     })
   }
 
@@ -70,8 +90,16 @@ const FontSizeOverlay = ({ t, onClose }) => {
     }
   }, [])
 
+  const increaseFontSize = () =>
+    fontSize < MAX_FONT_SIZE && setFontSize(fontSize + FONT_SIZE_STEP)
+
+  const decreaseFontSize = () =>
+    fontSize > MIN_FONT_SIZE && setFontSize(fontSize - FONT_SIZE_STEP)
+
+  const resetFontSize = () => setFontSize(DEFAULT_FONT_SIZE)
+
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 375, minHeight: 'none' }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/actionbar/fontSize/title')}
@@ -82,20 +110,34 @@ const FontSizeOverlay = ({ t, onClose }) => {
         />
       </OverlayToolbar>
       <OverlayBody>
-        <div>
+        <div {...styles.container}>
+          <button
+            {...plainButtonRule}
+            {...styles.iconButton}
+            title={t('article/actionbar/fontSize/decrease')}
+            onClick={decreaseFontSize}
+          >
+            <MinusIcon />
+          </button>
           <label {...styles.label}>{fontPercentage.current}</label>
-          <Slider
-            value={fontSize}
-            min='8'
-            max='48'
-            step='0.8'
-            title={fontPercentage.current}
-            onChange={(e, newValue) => {
-              setFontSize(newValue)
-            }}
-            fullWidth
-          />
-          <br />
+          <button
+            {...plainButtonRule}
+            {...styles.iconButton}
+            title={t('article/actionbar/fontSize/increase')}
+            onClick={increaseFontSize}
+          >
+            <PlusIcon />
+          </button>
+          <div {...styles.container}>
+            <button
+              {...plainButtonRule}
+              {...styles.reset}
+              onClick={resetFontSize}
+              title={t('article/actionbar/fontSize/reset')}
+            >
+              {t('article/actionbar/fontSize/reset')}
+            </button>
+          </div>
         </div>
         <div>
           <p>{t('article/actionbar/fontSize/example')}</p>

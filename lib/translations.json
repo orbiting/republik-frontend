@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-12T11:20:09.603Z",
+  "updated": "2020-02-13T10:51:18.309Z",
   "title": "live",
   "data": [
     {
@@ -1621,6 +1621,10 @@
     {
       "key": "header/nav/search/aria",
       "value": "Suche"
+    },
+    {
+      "key": "header/nav/notifications/aria",
+      "value": "Benachrichtigungen\n"
     },
     {
       "key": "header/back",

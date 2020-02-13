@@ -19,6 +19,7 @@ import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
 
 import Search from 'react-icons/lib/md/search'
+import Notifications from 'react-icons/lib/md/notifications-none'
 import BackIcon from '../Icons/Back'
 
 import { shouldIgnoreClick } from '../Link/utils'
@@ -33,7 +34,7 @@ import {
   LOGO_PADDING_MOBILE
 } from '../constants'
 
-const SEARCH_BUTTON_WIDTH = 28
+const ICON_BUTTON_WIDTH = 22
 const TRANSITION_MS = 200
 
 const styles = {
@@ -104,7 +105,7 @@ const styles = {
       width: HEADER_HEIGHT - 2 + 5
     }
   }),
-  search: css({
+  menuIcons: css({
     '@media print': {
       display: 'none'
     },
@@ -114,13 +115,40 @@ const styles = {
     position: 'absolute',
     overflow: 'hidden',
     top: 0,
-    right: HEADER_HEIGHT_MOBILE - 1,
     height: HEADER_HEIGHT_MOBILE - 2,
-    width: SEARCH_BUTTON_WIDTH,
+    width: ICON_BUTTON_WIDTH,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT - 2,
-      width: HEADER_HEIGHT - 2 - 10,
-      right: HEADER_HEIGHT - 2 + 5
+      width: HEADER_HEIGHT - 2 - 10
+    }
+  }),
+  notifications: css({
+    right: HEADER_HEIGHT_MOBILE + ICON_BUTTON_WIDTH,
+    [mediaQueries.mUp]: {
+      right: HEADER_HEIGHT + ICON_BUTTON_WIDTH + 5
+    }
+  }),
+  unreadNotifications: css({
+    '&:after': {
+      content: ' ',
+      width: 8,
+      height: 8,
+      borderRadius: 8,
+      border: `1px solid ${colors.containerBg}`,
+      background: colors.scribble,
+      position: 'absolute',
+      top: (HEADER_HEIGHT_MOBILE - ICON_BUTTON_WIDTH) / 2 + 1,
+      right: 2,
+      [mediaQueries.mUp]: {
+        top: (HEADER_HEIGHT - ICON_BUTTON_WIDTH) / 2 + 2,
+        right: 15
+      }
+    }
+  }),
+  search: css({
+    right: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      right: HEADER_HEIGHT - 12 + 5
     }
   }),
   secondary: css({
@@ -129,7 +157,7 @@ const styles = {
     left: 15,
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
-    right: `${HEADER_HEIGHT_MOBILE + SEARCH_BUTTON_WIDTH}px`,
+    right: `${HEADER_HEIGHT_MOBILE + ICON_BUTTON_WIDTH}px`,
     paddingTop: '10px',
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT,
@@ -293,7 +321,8 @@ class Header extends Component {
       inNativeIOSApp,
       isMember,
       headerAudioPlayer: HeaderAudioPlayer,
-      pullable = true
+      pullable = true,
+      unreadNotifications = true
     } = this.props
     const { backButton, renderSecondaryNav } = this.state
 
@@ -334,6 +363,19 @@ class Header extends Component {
       }
     }
 
+    const goTo = (pathName, route) => e => {
+      if (shouldIgnoreClick(e)) {
+        return
+      }
+      e.preventDefault()
+      if (router.pathname === pathName) {
+        window.scrollTo(0, 0)
+        closeHandler()
+      } else {
+        Router.pushRoute(route).then(() => window.scrollTo(0, 0))
+      }
+    }
+
     return (
       <ColorContext.Provider value={dark ? colors.negative : colors}>
         <div
@@ -351,20 +393,7 @@ class Header extends Component {
                   {...styles.logo}
                   aria-label={t('header/logo/magazine/aria')}
                   href={'/'}
-                  onClick={e => {
-                    if (shouldIgnoreClick(e)) {
-                      return
-                    }
-                    e.preventDefault()
-                    if (router.pathname === '/') {
-                      window.scrollTo(0, 0)
-                      closeHandler()
-                    } else {
-                      Router.pushRoute('index').then(() =>
-                        window.scrollTo(0, 0)
-                      )
-                    }
-                  }}
+                  onClick={goTo('/', 'index')}
                 >
                   <Logo fill={logoFill} />
                 </a>
@@ -424,28 +453,31 @@ class Header extends Component {
                 </div>
               )}
               {isMember && (
-                <a
-                  {...styles.search}
-                  title={t('header/nav/search/aria')}
-                  href='/suche'
-                  onClick={e => {
-                    if (shouldIgnoreClick(e)) {
-                      return
-                    }
-                    e.preventDefault()
-                    e.stopPropagation()
-                    if (router.pathname === '/search') {
-                      window.scrollTo(0, 0)
-                      closeHandler()
-                    } else {
-                      Router.pushRoute('search').then(() =>
-                        window.scrollTo(0, 0)
-                      )
-                    }
-                  }}
-                >
-                  <Search fill={textFill} size={28} />
-                </a>
+                <>
+                  <a
+                    {...merge(
+                      styles.menuIcons,
+                      styles.notifications,
+                      unreadNotifications && styles.unreadNotifications
+                    )}
+                    title={t('header/nav/notifications/aria')}
+                    href='/notifications'
+                    onClick={goTo('/notifications', 'notifications')}
+                  >
+                    <Notifications
+                      fill={textFill}
+                      size={ICON_BUTTON_WIDTH - 1}
+                    />
+                  </a>
+                  <a
+                    {...merge(styles.menuIcons, styles.search)}
+                    title={t('header/nav/search/aria')}
+                    href='/suche'
+                    onClick={goTo('/search', 'search')}
+                  >
+                    <Search fill={textFill} size={ICON_BUTTON_WIDTH} />
+                  </a>
+                </>
               )}
               <div {...styles.hamburger} style={bgStyle}>
                 <Toggle

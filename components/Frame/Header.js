@@ -135,7 +135,7 @@ const styles = {
       height: 8,
       borderRadius: 8,
       border: `1px solid ${colors.containerBg}`,
-      background: colors.opposite3[2],
+      background: 'red',
       position: 'absolute',
       top: (HEADER_HEIGHT_MOBILE - ICON_BUTTON_WIDTH) / 2 + 1,
       right: 2,
@@ -462,7 +462,7 @@ class Header extends Component {
                     )}
                     title={t('header/nav/notifications/aria')}
                     href='/notifications'
-                    onClick={goTo('/notifications', 'notifications')}
+                    onClick={goTo('/benachrichtigungen', 'notifications')}
                   >
                     <Notifications
                       fill={textFill}

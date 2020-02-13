@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-13T10:51:18.309Z",
+  "updated": "2020-02-13T12:21:37.810Z",
   "title": "live",
   "data": [
     {
@@ -109,6 +109,10 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
+    },
+    {
+      "key": "pages/notifications/title",
+      "value": "Benachrichtigungen"
     },
     {
       "key": "pages/search/title",

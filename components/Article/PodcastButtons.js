@@ -54,8 +54,6 @@ const PodcastButtons = ({
     ? 'catalina'
     : headers.userAgent && headers.userAgent.match(/android/i)
     ? 'android'
-    : headers.userAgent && headers.userAgent.match(/Chrome/)
-    ? 'chrome'
     : null
 
   const shareOptions = [

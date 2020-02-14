@@ -452,6 +452,9 @@ class ArticlePage extends Component {
       meta &&
       getSchemaCreator(meta.template)({
         t,
+        plattformUnauthorizedZoneText: inNativeIOSApp
+          ? t('plattformUnauthorizedZoneText/ios')
+          : undefined,
         dynamicComponentRequire,
         titleMargin: false,
         onAudioCoverClick: this.toggleAudio,

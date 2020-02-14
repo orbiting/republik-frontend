@@ -3995,8 +3995,8 @@
       "value": "Diese Visualisierung kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
     },
     {
-      "key": "styleguide/templates/unauthorizedZone",
-      "value": "Inhalt nur für Mitglieder."
+      "key": "plattformUnauthorizedZoneText/ios",
+      "value": "Inhalt nur für Mitglieder. <a href=\"/probelesen\">Probelesen?</a>"
     },
     {
       "key": "piwik/optOut/label",

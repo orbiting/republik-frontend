@@ -94,7 +94,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^9.1.6",
-    "@project-r/styleguide": "^9.1.3",
+    "@project-r/styleguide": "^9.2.0",
     "@use-it/event-listener": "^0.1.3",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",

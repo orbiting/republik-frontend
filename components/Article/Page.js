@@ -808,6 +808,11 @@ class ArticlePage extends Component {
                     />
                   </Center>
                 )}
+                {!!podigeeSlug && (
+                  <Center>
+                    <PodcastButtons podigeeSlug={podigeeSlug} />
+                  </Center>
+                )}
                 {isMember && (
                   <Fragment>
                     {meta.template === 'article' && (
@@ -816,11 +821,6 @@ class ArticlePage extends Component {
                       </Center>
                     )}
                   </Fragment>
-                )}
-                {!!podigeeSlug && (
-                  <Center>
-                    <PodcastButtons podigeeSlug={podigeeSlug} />
-                  </Center>
                 )}
                 {isMember && episodes && (
                   <RelatedEpisodes

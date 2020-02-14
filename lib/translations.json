@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-14T22:23:23.784Z",
+  "updated": "2020-02-14T22:57:36.587Z",
   "title": "live",
   "data": [
     {
@@ -3036,7 +3036,7 @@
     },
     {
       "key": "article/share/title",
-      "value": "Artikel teilen"
+      "value": "Beitrag teilen"
     },
     {
       "key": "article/share/emailSubject",

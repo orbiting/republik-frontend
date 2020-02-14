@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-12T11:20:09.603Z",
+  "updated": "2020-02-14T22:23:23.784Z",
   "title": "live",
   "data": [
     {
@@ -109,6 +109,10 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
+    },
+    {
+      "key": "pages/notifications/title",
+      "value": "Benachrichtigungen"
     },
     {
       "key": "pages/search/title",
@@ -1621,6 +1625,10 @@
     {
       "key": "header/nav/search/aria",
       "value": "Suche"
+    },
+    {
+      "key": "header/nav/notifications/aria",
+      "value": "Benachrichtigungen\n"
     },
     {
       "key": "header/back",
@@ -6517,6 +6525,30 @@
     {
       "key": "RootCommentOverlay/title",
       "value": "Kommentare"
+    },
+    {
+      "key": "PodcastButtons/title",
+      "value": "Jetzt abonnieren:"
+    },
+    {
+      "key": "PodcastButtons/app",
+      "value": "Podcast-App"
+    },
+    {
+      "key": "PodcastButtons/rss",
+      "value": "RSS-Feed"
+    },
+    {
+      "key": "PodcastButtons/copy",
+      "value": "URL kopieren"
+    },
+    {
+      "key": "PodcastButtons/copy/success",
+      "value": "URL kopiert!"
+    },
+    {
+      "key": "PodcastButtons/copy/error",
+      "value": "Nicht unterstützt :("
     }
   ]
 }

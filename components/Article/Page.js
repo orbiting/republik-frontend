@@ -34,6 +34,8 @@ import SectionFeed from '../Sections/SectionFeed'
 import Progress from './Progress'
 import { userProgressFragment } from './Progress/api'
 
+import PodcastButtons from './PodcastButtons'
+
 import {
   AudioPlayer,
   Center,
@@ -582,6 +584,12 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
+    const podigeeSlug =
+      article &&
+      article.content &&
+      article.content.meta &&
+      article.content.meta.podigeeSlug
+
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
         t={t}
@@ -808,6 +816,11 @@ class ArticlePage extends Component {
                       </Center>
                     )}
                   </Fragment>
+                )}
+                {!!podigeeSlug && (
+                  <Center>
+                    <PodcastButtons podigeeSlug={podigeeSlug} />
+                  </Center>
                 )}
                 {isMember && episodes && (
                   <RelatedEpisodes

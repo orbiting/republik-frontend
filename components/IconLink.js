@@ -27,6 +27,8 @@ import VideoIcon from './Icons/Video'
 import MarkdownIcon from './Icons/Markdown'
 import EtiquetteIcon from './Icons/Etiquette'
 import EditIcon from 'react-icons/lib/fa/edit'
+import LaunchIcon from 'react-icons/lib/md/launch'
+import RSSIcon from 'react-icons/lib/md/rss-feed'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -141,7 +143,9 @@ const ICONS = {
   video: VideoIcon,
   etiquette: EtiquetteIcon,
   fontSize: FontSizeIcon,
-  edit: EditIcon
+  edit: EditIcon,
+  launch: LaunchIcon,
+  rss: RSSIcon
 }
 
 const IconLink = ({

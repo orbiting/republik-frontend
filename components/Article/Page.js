@@ -587,11 +587,11 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
-    const podigeeSlug =
+    const podcast =
       article &&
       article.content &&
       article.content.meta &&
-      article.content.meta.podigeeSlug
+      article.content.meta.podcast
 
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
@@ -772,10 +772,10 @@ class ArticlePage extends Component {
                                 />
                               </Breakout>
                             )}
-                            {!!podigeeSlug && meta.template === 'article' && (
+                            {!!podcast && meta.template === 'article' && (
                               <>
                                 <PodcastButtons
-                                  podigeeSlug={podigeeSlug}
+                                  {...podcast}
                                   audioSource={audioSource}
                                   onAudioClick={this.toggleAudio}
                                 />
@@ -785,7 +785,7 @@ class ArticlePage extends Component {
                           {!isSection &&
                             !isFormat &&
                             !isNewsletterSource &&
-                            !podigeeSlug &&
+                            !podcast &&
                             payNote}
                         </div>
                       )}
@@ -828,16 +828,14 @@ class ArticlePage extends Component {
                     {meta.template === 'article' && (
                       <Center>
                         <div ref={this.bottomBarRef}>{actionBarEnd}</div>
-                        {podigeeSlug && (
-                          <PodcastButtons podigeeSlug={podigeeSlug} />
-                        )}
+                        {!!podcast && <PodcastButtons {...podcast} />}
                       </Center>
                     )}
                   </Fragment>
                 )}
-                {!!podigeeSlug && meta.template !== 'article' && (
+                {!!podcast && meta.template !== 'article' && (
                   <Center>
-                    <PodcastButtons podigeeSlug={podigeeSlug} />
+                    <PodcastButtons {...podcast} />
                   </Center>
                 )}
                 {isMember && episodes && (

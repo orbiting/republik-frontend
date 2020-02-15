@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-15T02:36:44.606Z",
+  "updated": "2020-02-15T04:20:14.080Z",
   "title": "live",
   "data": [
     {
@@ -6557,6 +6557,10 @@
     {
       "key": "PodcastButtons/copy/error",
       "value": "Nicht unterstützt :("
+    },
+    {
+      "key": "PodcastButtons/spotify",
+      "value": "Spotify"
     }
   ]
 }

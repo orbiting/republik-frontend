@@ -39,6 +39,7 @@ const styles = {
 const PodcastButtons = ({
   t,
   podigeeSlug,
+  spotifyUrl,
   eventCategory = 'PodcastButtons',
   audioSource,
   onAudioClick,
@@ -54,6 +55,10 @@ const PodcastButtons = ({
       return () => clearTimeout(timeout)
     }
   }, [copyLinkSuffix])
+
+  if (!podigeeSlug) {
+    return
+  }
 
   const mainFeed = `https://${podigeeSlug}.podigee.io/feed/mp3`
 
@@ -92,6 +97,12 @@ const PodcastButtons = ({
           : `podcast://${podigeeSlug}.podigee.io/feed/aac`,
       icon: 'launch',
       label: t('PodcastButtons/app')
+    },
+    spotifyUrl && {
+      href: spotifyUrl,
+      target: '_blank',
+      icon: 'spotify',
+      label: t('PodcastButtons/spotify')
     },
     {
       href: `https://${podigeeSlug}.podigee.io/feed/mp3`,

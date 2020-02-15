@@ -30,6 +30,7 @@ import EditIcon from 'react-icons/lib/fa/edit'
 import LaunchIcon from 'react-icons/lib/md/launch'
 import RSSIcon from 'react-icons/lib/md/rss-feed'
 import PlayIcon from 'react-icons/lib/md/play-circle-outline'
+import SpotifyIcon from 'react-icons/lib/fa/spotify'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -147,7 +148,8 @@ const ICONS = {
   edit: EditIcon,
   launch: LaunchIcon,
   rss: RSSIcon,
-  play: PlayIcon
+  play: PlayIcon,
+  spotify: SpotifyIcon
 }
 
 const IconLink = ({

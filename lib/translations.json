@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-14T22:57:36.587Z",
+  "updated": "2020-02-15T02:36:44.606Z",
   "title": "live",
   "data": [
     {
@@ -304,7 +304,7 @@
     },
     {
       "key": "cookies/disabled/error/explanation",
-      "value": "Es scheint, als könnten wir Ihnen keinen Keks (Cookie) unterjubeln. Bitte erlauben Sie uns in Ihrem Browser ein Cookie zu hinterlegen. Nur damit gestatten Sie uns, Sie wiederzuerkennen und entsprechenden Zugriff auf Artikel und Diskussionen zu ermöglichen.<br />\n<ul>\n<li><a href=\"https://wiki.selfhtml.org/wiki/Sicherheit/Cookies_erlauben\" target=\"_blank\">Cookies für republik.ch erlauben?</a></li>\n<li><a href=\"/datenschutz\" target=\"_blank\">Mehr über Datenschutz bei der Republik AG erfahren?</a></li>\n</ul>\nWir helfen Ihnen per E-Mail unter <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a> gerne weiter."
+      "value": "Es scheint, als könnten wir Ihnen keinen Keks (Cookie) unterjubeln. Bitte erlauben Sie uns in Ihrem Browser ein Cookie zu hinterlegen. Nur damit gestatten Sie uns, Sie wiederzuerkennen und entsprechenden Zugriff auf Beiträge und Diskussionen zu ermöglichen.<br />\n<ul>\n<li><a href=\"https://wiki.selfhtml.org/wiki/Sicherheit/Cookies_erlauben\" target=\"_blank\">Cookies für republik.ch erlauben?</a></li>\n<li><a href=\"/datenschutz\" target=\"_blank\">Mehr über Datenschutz bei der Republik AG erfahren?</a></li>\n</ul>\nWir helfen Ihnen per E-Mail unter <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a> gerne weiter."
     },
     {
       "key": "signOut/label",
@@ -2968,7 +2968,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/ios/before/title",
@@ -2976,7 +2976,7 @@
     },
     {
       "key": "article/payNote/ios/before",
-      "value": "Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
+      "value": "Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -3000,7 +3000,7 @@
     },
     {
       "key": "article/payNote/after/series",
-      "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
+      "value": "Dieser Beitrag ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
     },
     {
       "key": "article/payNote/secondaryAction/text",
@@ -3096,7 +3096,7 @@
     },
     {
       "key": "article/actionbar/audio",
-      "value": "Artikel anhören"
+      "value": "Beitrag anhören"
     },
     {
       "key": "article/actionbar/pdf/open",
@@ -4524,7 +4524,7 @@
     },
     {
       "key": "statement/share/PROLONG/emailBody",
-      "value": "Hallo\n\nEine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern Menschen, die bereit sind, langfristig in unabhängigen Journalismus zu investieren.\n\nIch habe soeben mein Republik-Abo verlängert.\nJetzt Abo verlängern oder Mitglied werden: {url}\n\nHerzliche Grüsse,  {backerName}"
+      "value": "Hallo\n\nEine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern Menschen, die bereit sind, langfristig in unabhängigen Journalismus zu investieren.\n\nIch habe soeben meine Republik-Mitgliedschaft verlängert.\n\nJetzt Mitgliedschaft verlängern oder Mitglied werden: {url}\n\nHerzliche Grüsse,  {backerName}"
     },
     {
       "key": "package/customize/price/label/total",
@@ -4768,11 +4768,11 @@
     },
     {
       "key": "pages/bookmarks/placeholder",
-      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
+      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Beitrag auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
     },
     {
       "key": "pages/bookmarks/help",
-      "value": "Neu hinzugefügte Artikel erscheinen zuoberst."
+      "value": "Neu hinzugefügte Beiträge erscheinen zuoberst."
     },
     {
       "key": "pages/bookmarks/placeholder/feedText",
@@ -6296,7 +6296,7 @@
     },
     {
       "key": "article/payNote/191108-v2/after/title",
-      "value": "Sie haben in diesem Artikel viele Worte gelesen, aber die wichtigsten drei fehlten."
+      "value": "Sie haben in diesem Beitrag viele Worte gelesen, aber die wichtigsten drei fehlten."
     },
     {
       "key": "article/payNote/191108-v2/after",
@@ -6312,7 +6312,7 @@
     },
     {
       "key": "Trial/Page/authorized/withoutAccess/intro",
-      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Artikel, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
     },
     {
       "key": "Trial/Page/unauthorized/heading",
@@ -6320,7 +6320,7 @@
     },
     {
       "key": "Trial/Page/unauthorized/intro",
-      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Artikel, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
     },
     {
       "key": "Trial/Page/authorized/withoutAccess/wseww/heading",
@@ -6527,8 +6527,16 @@
       "value": "Kommentare"
     },
     {
+      "key": "PodcastButtons/title/play",
+      "value": "Anhören und abonnieren"
+    },
+    {
       "key": "PodcastButtons/title",
-      "value": "Jetzt abonnieren:"
+      "value": "Abonnieren"
+    },
+    {
+      "key": "PodcastButtons/play",
+      "value": "Abspielen"
     },
     {
       "key": "PodcastButtons/app",

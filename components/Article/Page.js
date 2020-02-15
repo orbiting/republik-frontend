@@ -269,7 +269,10 @@ class ArticlePage extends Component {
         postMessage({
           type: 'play-audio',
           payload: {
-            url: audioSource.aac || audioSource.mp3 || audioSource.ogg,
+            url:
+              (this.props.inNativeIOSApp && audioSource.aac) ||
+              audioSource.mp3 ||
+              audioSource.ogg,
             title,
             sourcePath: path,
             mediaId: audioSource.mediaId
@@ -703,6 +706,8 @@ class ArticlePage extends Component {
             const linkedDiscussion =
               meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
+            const { audioSource } = meta
+
             const ProgressComponent =
               isMember &&
               !isSection &&
@@ -767,10 +772,20 @@ class ArticlePage extends Component {
                                 />
                               </Breakout>
                             )}
+                            {!!podigeeSlug && meta.template === 'article' && (
+                              <>
+                                <PodcastButtons
+                                  podigeeSlug={podigeeSlug}
+                                  audioSource={audioSource}
+                                  onAudioClick={this.toggleAudio}
+                                />
+                              </>
+                            )}
                           </Center>
                           {!isSection &&
                             !isFormat &&
                             !isNewsletterSource &&
+                            !podigeeSlug &&
                             payNote}
                         </div>
                       )}
@@ -808,19 +823,22 @@ class ArticlePage extends Component {
                     />
                   </Center>
                 )}
-                {!!podigeeSlug && (
-                  <Center>
-                    <PodcastButtons podigeeSlug={podigeeSlug} />
-                  </Center>
-                )}
                 {isMember && (
                   <Fragment>
                     {meta.template === 'article' && (
                       <Center>
                         <div ref={this.bottomBarRef}>{actionBarEnd}</div>
+                        {podigeeSlug && (
+                          <PodcastButtons podigeeSlug={podigeeSlug} />
+                        )}
                       </Center>
                     )}
                   </Fragment>
+                )}
+                {!!podigeeSlug && meta.template !== 'article' && (
+                  <Center>
+                    <PodcastButtons podigeeSlug={podigeeSlug} />
+                  </Center>
                 )}
                 {isMember && episodes && (
                   <RelatedEpisodes

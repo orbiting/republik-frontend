@@ -12,12 +12,12 @@ import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 import { fontStyles } from '@project-r/styleguide'
 
 import copyToClipboard from 'clipboard-copy'
+import { shouldIgnoreClick } from '../Link/utils'
 
 const styles = {
   buttonGroup: css({
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
     '& > a': {
       flex: 'auto',
       marginTop: 15,
@@ -27,6 +27,12 @@ const styles = {
     '@media print': {
       display: 'none'
     }
+  }),
+  buttonGroupLeft: css({
+    justifyContent: 'flex-start'
+  }),
+  buttonGroupCenter: css({
+    justifyContent: 'center'
   })
 }
 
@@ -34,7 +40,10 @@ const PodcastButtons = ({
   t,
   podigeeSlug,
   eventCategory = 'PodcastButtons',
-  headers
+  audioSource,
+  onAudioClick,
+  headers,
+  center
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
   useEffect(() => {
@@ -56,7 +65,26 @@ const PodcastButtons = ({
     ? 'android'
     : null
 
+  const canPlay = !!(audioSource && onAudioClick)
+
+  const copyMinWidth = 105
   const shareOptions = [
+    canPlay && {
+      href: audioSource.mp3,
+      icon: 'play',
+      title: t('PodcastButtons/play'),
+      label: t('PodcastButtons/play'),
+      // label: audioSource.durationMs
+      // ? getFormattedTime(audioSource.durationMs / 1000)
+      // : t('PodcastButtons/play'),
+      onClick: e => {
+        if (shouldIgnoreClick(e)) {
+          return
+        }
+        e.preventDefault()
+        onAudioClick()
+      }
+    },
     plattformWithApp && {
       href:
         plattformWithApp === 'android' || plattformWithApp === 'chrome'
@@ -85,17 +113,26 @@ const PodcastButtons = ({
           .catch(() => setLinkCopySuffix('error'))
       },
       style: {
-        minWidth: 105
+        minWidth: copyMinWidth
       }
     }
   ].filter(Boolean)
 
   return (
-    <div style={{ marginBottom: 20, marginTop: 20 }}>
-      <h3 style={{ marginBottom: 10, ...fontStyles.sansSerifMedium16 }}>
-        {t('PodcastButtons/title')}
+    <>
+      <h3
+        style={{
+          textAlign: center ? 'center' : 'left',
+          marginBottom: 0,
+          ...fontStyles.sansSerifMedium16
+        }}
+      >
+        {t(`PodcastButtons/title${canPlay ? '/play' : ''}`)}
       </h3>
-      <div {...styles.buttonGroup}>
+      <div
+        {...styles.buttonGroup}
+        {...(center ? styles.buttonGroupCenter : styles.buttonGroupLeft)}
+      >
         {shareOptions.map(props => (
           <IconLink
             key={props.icon}
@@ -114,7 +151,15 @@ const PodcastButtons = ({
               }
             }}
             style={{
-              marginRight: 20,
+              ...(center
+                ? {
+                    marginLeft: 10,
+                    marginRight: 10,
+                    minWidth: copyMinWidth
+                  }
+                : {
+                    marginRight: 20
+                  }),
               ...props.style
             }}
           >
@@ -122,7 +167,7 @@ const PodcastButtons = ({
           </IconLink>
         ))}
       </div>
-    </div>
+    </>
   )
 }
 

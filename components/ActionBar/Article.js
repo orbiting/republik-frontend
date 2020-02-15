@@ -103,7 +103,7 @@ class ArticleActionBar extends Component {
         )}
         {!!grandSharing && (
           <div style={{ marginBottom: 20, marginTop: 20 }}>
-            <h3 style={{ marginBottom: 10, ...fontStyles.sansSerifMedium16 }}>
+            <h3 style={{ marginBottom: 0, ...fontStyles.sansSerifMedium16 }}>
               {t('article/share/title')}
             </h3>
             <ShareButtons

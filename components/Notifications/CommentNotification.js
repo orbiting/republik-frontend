@@ -15,7 +15,6 @@ export default compose(withT)(({ t, node }) => {
       preview={{ string: node.object.preview.string, more: true }}
       Link={CommentLink}
       t={t}
-      dialogHeader
     />
   )
 })

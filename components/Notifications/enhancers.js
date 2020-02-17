@@ -2,7 +2,8 @@ import gql from 'graphql-tag'
 
 export const notificationsQuery = gql`
   query {
-    notifications {
+    notifications(first: 3) {
+      totalCount
       pageInfo {
         hasNextPage
         endCursor

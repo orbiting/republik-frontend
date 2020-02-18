@@ -221,14 +221,13 @@ const getPayNote = (target, seed, tryOrBuy, customPayNotes = []) => {
 
   const targetedPredefinedNotes = predefinedNotes.filter(meetTarget(target))
 
-  if (targetedPredefinedNotes.length)
-    if (hasTryAndBuyCtas(targetedPredefinedNotes)) {
-      const desiredCta = tryOrBuy < TRY_TO_BUY_RATIO ? 'trialForm' : 'button'
-      const abPredefinedNotes = targetedPredefinedNotes.filter(
-        hasCta(desiredCta)
-      )
-      return getElementFromSeed(abPredefinedNotes, seed, MAX_PAYNOTE_SEED)
-    }
+  if (!targetedPredefinedNotes.length) return null
+
+  if (hasTryAndBuyCtas(targetedPredefinedNotes)) {
+    const desiredCta = tryOrBuy < TRY_TO_BUY_RATIO ? 'trialForm' : 'button'
+    const abPredefinedNotes = targetedPredefinedNotes.filter(hasCta(desiredCta))
+    return getElementFromSeed(abPredefinedNotes, seed, MAX_PAYNOTE_SEED)
+  }
 
   return getElementFromSeed(targetedPredefinedNotes, seed, MAX_PAYNOTE_SEED)
 }

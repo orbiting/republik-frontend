@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-12T16:27:11.597Z",
+  "updated": "2020-02-18T10:02:16.977Z",
   "title": "live",
   "data": [
     {
@@ -109,6 +109,10 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
+    },
+    {
+      "key": "pages/notifications/title",
+      "value": "Benachrichtigungen"
     },
     {
       "key": "pages/search/title",
@@ -300,7 +304,7 @@
     },
     {
       "key": "cookies/disabled/error/explanation",
-      "value": "Es scheint, als könnten wir Ihnen keinen Keks (Cookie) unterjubeln. Bitte erlauben Sie uns in Ihrem Browser ein Cookie zu hinterlegen. Nur damit gestatten Sie uns, Sie wiederzuerkennen und entsprechenden Zugriff auf Artikel und Diskussionen zu ermöglichen.<br />\n<ul>\n<li><a href=\"https://wiki.selfhtml.org/wiki/Sicherheit/Cookies_erlauben\" target=\"_blank\">Cookies für republik.ch erlauben?</a></li>\n<li><a href=\"/datenschutz\" target=\"_blank\">Mehr über Datenschutz bei der Republik AG erfahren?</a></li>\n</ul>\nWir helfen Ihnen per E-Mail unter <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a> gerne weiter."
+      "value": "Es scheint, als könnten wir Ihnen keinen Keks (Cookie) unterjubeln. Bitte erlauben Sie uns in Ihrem Browser ein Cookie zu hinterlegen. Nur damit gestatten Sie uns, Sie wiederzuerkennen und entsprechenden Zugriff auf Beiträge und Diskussionen zu ermöglichen.<br />\n<ul>\n<li><a href=\"https://wiki.selfhtml.org/wiki/Sicherheit/Cookies_erlauben\" target=\"_blank\">Cookies für republik.ch erlauben?</a></li>\n<li><a href=\"/datenschutz\" target=\"_blank\">Mehr über Datenschutz bei der Republik AG erfahren?</a></li>\n</ul>\nWir helfen Ihnen per E-Mail unter <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a> gerne weiter."
     },
     {
       "key": "signOut/label",
@@ -1621,6 +1625,10 @@
     {
       "key": "header/nav/search/aria",
       "value": "Suche"
+    },
+    {
+      "key": "header/nav/notifications/aria",
+      "value": "Benachrichtigungen\n"
     },
     {
       "key": "header/back",
@@ -2960,15 +2968,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
-    },
-    {
-      "key": "article/payNote/ios/before/title",
-      "value": "Danke für Ihre Neugier!"
+      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/ios/before",
-      "value": "Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2979,12 +2983,8 @@
       "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
     },
     {
-      "key": "article/payNote/ios/after/title",
-      "value": "Schön, Sie hier unten wieder zu sehen!"
-    },
-    {
       "key": "article/payNote/ios/after",
-      "value": "Wir hoffen, es hat Ihnen gefallen."
+      "value": "<b>Schön, Sie hier unten wieder zu sehen!</b> Wir hoffen, es hat Ihnen gefallen."
     },
     {
       "key": "article/payNote/after/buyText",
@@ -2992,7 +2992,7 @@
     },
     {
       "key": "article/payNote/after/series",
-      "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
+      "value": "Dieser Beitrag ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
     },
     {
       "key": "article/payNote/secondaryAction/text",
@@ -3003,24 +3003,16 @@
       "value": "Jetzt probelesen"
     },
     {
-      "key": "article/payNote/series/before/title",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
-    },
-    {
       "key": "article/payNote/series/before",
-      "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "<b>Wir sind die Republik – ein neues Modell im Schweizer Journalismus.</b> Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/series/before/buy/button",
       "value": "Ja, ich will!"
     },
     {
-      "key": "article/payNote/series/after/title",
-      "value": "Wollen Sie mehr lesen?"
-    },
-    {
       "key": "article/payNote/series/after",
-      "value": "Dieser Beitrag ist Teil einer Serie. Wollen Sie die ganze Geschichte? Dann kommen Sie an Bord! Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität."
+      "value": "<b>Wollen Sie mehr lesen?</b> Dieser Beitrag ist Teil einer Serie. Wollen Sie die ganze Geschichte? Dann kommen Sie an Bord! Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität."
     },
     {
       "key": "article/payNote/series/after/buy/button",
@@ -3028,7 +3020,7 @@
     },
     {
       "key": "article/share/title",
-      "value": "Artikel teilen"
+      "value": "Beitrag teilen"
     },
     {
       "key": "article/share/emailSubject",
@@ -3088,7 +3080,7 @@
     },
     {
       "key": "article/actionbar/audio",
-      "value": "Artikel anhören"
+      "value": "Beitrag anhören"
     },
     {
       "key": "article/actionbar/pdf/open",
@@ -3995,8 +3987,8 @@
       "value": "Diese Visualisierung kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
     },
     {
-      "key": "styleguide/templates/unauthorizedZone",
-      "value": "Inhalt nur für Mitglieder."
+      "key": "plattformUnauthorizedZoneText/ios",
+      "value": "Inhalt nur für Mitglieder. <a href=\"/probelesen\">Probelesen?</a>"
     },
     {
       "key": "piwik/optOut/label",
@@ -4516,7 +4508,7 @@
     },
     {
       "key": "statement/share/PROLONG/emailBody",
-      "value": "Hallo\n\nEine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern Menschen, die bereit sind, langfristig in unabhängigen Journalismus zu investieren.\n\nIch habe soeben mein Republik-Abo verlängert.\nJetzt Abo verlängern oder Mitglied werden: {url}\n\nHerzliche Grüsse,  {backerName}"
+      "value": "Hallo\n\nEine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern Menschen, die bereit sind, langfristig in unabhängigen Journalismus zu investieren.\n\nIch habe soeben meine Republik-Mitgliedschaft verlängert.\n\nJetzt Mitgliedschaft verlängern oder Mitglied werden: {url}\n\nHerzliche Grüsse,  {backerName}"
     },
     {
       "key": "package/customize/price/label/total",
@@ -4760,11 +4752,11 @@
     },
     {
       "key": "pages/bookmarks/placeholder",
-      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
+      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Beitrag auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
     },
     {
       "key": "pages/bookmarks/help",
-      "value": "Neu hinzugefügte Artikel erscheinen zuoberst."
+      "value": "Neu hinzugefügte Beiträge erscheinen zuoberst."
     },
     {
       "key": "pages/bookmarks/placeholder/feedText",
@@ -6175,68 +6167,44 @@
       "value": "Sie haben alle auf Ihre Präferenzen Passenden durchgeswipt."
     },
     {
-      "key": "article/tryNote/thankYou/before/title",
-      "value": "Herzlich willkommen!"
-    },
-    {
       "key": "article/tryNote/thankYou/before",
-      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
-    },
-    {
-      "key": "article/tryNote/thankYou/after/title",
-      "value": "Herzlich willkommen!"
+      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
     },
     {
       "key": "article/tryNote/thankYou/after",
-      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
+      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
     },
     {
-      "key": "article/tryNote/191106-v2/before/title",
-      "value": "Testen Sie die Republik 14 Tage lang gratis und unverbindlich."
+      "key": "article/tryNote/191106-v2/before",
+      "value": "<b>Testen Sie die Republik 14 Tage lang gratis und unverbindlich.</b>"
     },
     {
-      "key": "article/tryNote/191106-v2/after/title",
-      "value": "Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich."
+      "key": "article/tryNote/191106-v2/after",
+      "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich.</b>"
     },
     {
-      "key": "article/tryNote/191106-v2-campaign-wseww/before/title",
-      "value": "Wollen Sie es wirklich wissen? Dann testen Sie die Republik einfach 14 Tage lang gratis und unverbindlich."
+      "key": "article/tryNote/191106-v2-campaign-wseww/before",
+      "value": "<b>Wollen Sie es wirklich wissen? Dann testen Sie die Republik einfach 14 Tage lang gratis und unverbindlich.</b>"
     },
     {
-      "key": "article/tryNote/191106-v2-campaign-wseww/after/title",
-      "value": "Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich."
-    },
-    {
-      "key": "article/tryNote/191106-v3/before/title",
-      "value": "Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?"
+      "key": "article/tryNote/191106-v2-campaign-wseww/after",
+      "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich.</b>"
     },
     {
       "key": "article/tryNote/191106-v3/before",
-      "value": "Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191106-v3/after/title",
-      "value": "{count} Menschen machen die Republik heute schon möglich. Und Sie?"
+      "value": "<b>Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?</b> Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
     },
     {
       "key": "article/tryNote/191106-v3/after",
-      "value": "Sind Sie noch nicht überzeugt und wollen Sie mehr wissen? Dann <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich. "
-    },
-    {
-      "key": "article/tryNote/191106-v4/before/title",
-      "value": "Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!"
+      "value": "<b>{count} Menschen machen die Republik heute schon möglich. Und Sie?</b> Sind Sie noch nicht überzeugt und wollen Sie mehr wissen? Dann <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich. "
     },
     {
       "key": "article/tryNote/191106-v4/before",
-      "value": "Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> – und entscheiden Sie anschliessend."
-    },
-    {
-      "key": "article/tryNote/191106-v4/after/title",
-      "value": "Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!"
+      "value": "<b>Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!</b> Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> – und entscheiden Sie anschliessend."
     },
     {
       "key": "article/tryNote/191106-v4/after",
-      "value": "Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
+      "value": "<b>Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!</b> Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
     },
     {
       "key": "marketing/vbz/poster/hint",
@@ -6251,48 +6219,32 @@
       "value": "Diese Beiträge sind Teil unserer <a href='https://www.republik.ch/2019/11/12/wollen-sie-es-wirklich-wissen'>aktuellen Bekanntmachungskampagne</a> im ÖV und digital."
     },
     {
-      "key": "article/payNote/191108-v1/before/title",
-      "value": "Kommen Sie zur Republik!"
-    },
-    {
       "key": "article/payNote/191108-v1/before",
-      "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
+      "value": "<b>Kommen Sie zur Republik!</b> Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
     },
     {
       "key": "article/payNote/191108-v1/before/buy/button",
       "value": "Ich bin dabei."
     },
     {
-      "key": "article/payNote/191108-v1/after/title",
-      "value": "{count} Menschen machen die Republik heute schon möglich. "
-    },
-    {
       "key": "article/payNote/191108-v1/after",
-      "value": "Wollen auch Sie, dass die noch junge Republik weiterhin unabhängigen, transparenten Journalismus betreiben kann? Dann kommen Sie als Mitglied oder Abonnentin an Bord! "
+      "value": "<b>{count} Menschen machen die Republik heute schon möglich. </b> Wollen auch Sie, dass die noch junge Republik weiterhin unabhängigen, transparenten Journalismus betreiben kann? Dann kommen Sie als Mitglied oder Abonnentin an Bord! "
     },
     {
       "key": "article/payNote/191108-v1/after/buy/button",
       "value": "Ja – ich bin dabei!"
     },
     {
-      "key": "article/payNote/191108-v2/before/title",
-      "value": "Wir sind die Republik."
-    },
-    {
       "key": "article/payNote/191108-v2/before",
-      "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur – und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
+      "value": "<b>Wir sind die Republik.</b> Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur – und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
       "key": "article/payNote/191108-v2/before/buy/button",
       "value": "Natürlich!"
     },
     {
-      "key": "article/payNote/191108-v2/after/title",
-      "value": "Sie haben in diesem Artikel viele Worte gelesen, aber die wichtigsten drei fehlten."
-    },
-    {
       "key": "article/payNote/191108-v2/after",
-      "value": "Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
+      "value": "<b>Sie haben in diesem Beitrag viele Worte gelesen, aber die wichtigsten drei fehlten.</b> Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
     },
     {
       "key": "article/payNote/191108-v2/after/buy/button",
@@ -6304,7 +6256,7 @@
     },
     {
       "key": "Trial/Page/authorized/withoutAccess/intro",
-      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Artikel, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
     },
     {
       "key": "Trial/Page/unauthorized/heading",
@@ -6312,7 +6264,7 @@
     },
     {
       "key": "Trial/Page/unauthorized/intro",
-      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Artikel, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
     },
     {
       "key": "Trial/Page/authorized/withoutAccess/wseww/heading",
@@ -6517,6 +6469,42 @@
     {
       "key": "RootCommentOverlay/title",
       "value": "Kommentare"
+    },
+    {
+      "key": "PodcastButtons/title/play",
+      "value": "Anhören und abonnieren"
+    },
+    {
+      "key": "PodcastButtons/title",
+      "value": "Abonnieren"
+    },
+    {
+      "key": "PodcastButtons/play",
+      "value": "Abspielen"
+    },
+    {
+      "key": "PodcastButtons/app",
+      "value": "Podcast-App"
+    },
+    {
+      "key": "PodcastButtons/rss",
+      "value": "RSS-Feed"
+    },
+    {
+      "key": "PodcastButtons/copy",
+      "value": "URL kopieren"
+    },
+    {
+      "key": "PodcastButtons/copy/success",
+      "value": "URL kopiert!"
+    },
+    {
+      "key": "PodcastButtons/copy/error",
+      "value": "Nicht unterstützt :("
+    },
+    {
+      "key": "PodcastButtons/spotify",
+      "value": "Spotify"
     }
   ]
 }

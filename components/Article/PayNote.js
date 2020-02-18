@@ -209,17 +209,17 @@ const hasTryAndBuyCtas = notes =>
   notes.some(hasCta('trialForm')) &&
   notes.every(n => n.before.cta === 'trialForm' || n.before.cta === 'button')
 
-const getPayNote = (target, seed, tryOrBuy, customPayNotes = []) => {
+const getPayNote = (subject, seed, tryOrBuy, customPayNotes = []) => {
   const targetedCustomPaynotes = customPayNotes
     .map(generateKey)
     .map(disableForIOS)
     .map(enableForTrialSignup)
-    .filter(meetTarget(target))
+    .filter(meetTarget(subject))
 
   if (targetedCustomPaynotes.length)
     return getElementFromSeed(targetedCustomPaynotes, seed, MAX_PAYNOTE_SEED)
 
-  const targetedPredefinedNotes = predefinedNotes.filter(meetTarget(target))
+  const targetedPredefinedNotes = predefinedNotes.filter(meetTarget(subject))
 
   if (!targetedPredefinedNotes.length) return null
 
@@ -330,14 +330,14 @@ export const PayNote = compose(
     position,
     customPayNotes
   }) => {
-    const target = {
+    const subject = {
       inNativeIOSApp,
       isEligibleForTrial,
       hasActiveMembership,
       trialSignup: query.trialSignup,
       campaignId: query.campaign || query.utm_campaign
     }
-    const payNote = getPayNote(target, seed, tryOrBuy, customPayNotes)
+    const payNote = getPayNote(subject, seed, tryOrBuy, customPayNotes)
 
     if (!payNote) return null
 

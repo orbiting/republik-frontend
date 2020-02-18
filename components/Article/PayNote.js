@@ -32,7 +32,7 @@ const styles = {
   banner: css({
     padding: '5px 0'
   }),
-  body: css({
+  content: css({
     margin: 0,
     paddingBottom: 0
   }),
@@ -97,8 +97,7 @@ export const MAX_PAYNOTE_SEED = Math.max(
 const generatePositionedNote = (variation, target, cta, position) => {
   return {
     [position]: {
-      title: t(`article/${variation}/${position}/title`, undefined, ''),
-      body: t(`article/${variation}/${position}`, undefined, ''),
+      content: t(`article/${variation}/${position}`, undefined, ''),
       cta: cta,
       button: {
         label: t(`article/${variation}/${position}/buy/button`, undefined, ''),
@@ -174,8 +173,7 @@ const predefinedNotes = generateNotes(
     )
   )
 
-const isEmpty = positionedNote =>
-  !positionedNote.cta && !positionedNote.title && !positionedNote.body
+const isEmpty = positionedNote => !positionedNote.cta && !positionedNote.content
 
 const meetTarget = target => payNote => {
   const targetKeys = new Set(Object.keys(payNote.target))
@@ -375,20 +373,12 @@ export const PayNote = compose(
       >
         <Center>
           <Interaction.P
-            {...styles.body}
+            {...styles.content}
             style={{ color: isBefore ? colors.negative.text : '#000000' }}
-          >
-            <Interaction.Emphasis
-              dangerouslySetInnerHTML={{
-                __html: withCount(positionedNote.title, membershipStats)
-              }}
-            />{' '}
-            <span
-              dangerouslySetInnerHTML={{
-                __html: withCount(positionedNote.body, membershipStats)
-              }}
-            />
-          </Interaction.P>
+            dangerouslySetInnerHTML={{
+              __html: withCount(positionedNote.content, membershipStats)
+            }}
+          />
           {cta}
         </Center>
       </div>

@@ -34,8 +34,14 @@ const styles = {
     padding: '5px 0'
   }),
   content: css({
-    margin: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
+    margin: '1rem 0 1rem 0',
+    ':first-of-type': {
+      marginTop: 0
+    },
+    ':last-of-type': {
+      marginBottom: 0
+    }
   }),
   cta: css({
     marginTop: 10

@@ -33,6 +33,8 @@ import SectionFeed from '../Sections/SectionFeed'
 import Progress from './Progress'
 import { userProgressFragment } from './Progress/api'
 
+import PodcastButtons from './PodcastButtons'
+
 import {
   AudioPlayer,
   Center,
@@ -266,7 +268,10 @@ class ArticlePage extends Component {
         postMessage({
           type: 'play-audio',
           payload: {
-            url: audioSource.aac || audioSource.mp3 || audioSource.ogg,
+            url:
+              (this.props.inNativeIOSApp && audioSource.aac) ||
+              audioSource.mp3 ||
+              audioSource.ogg,
             title,
             sourcePath: path,
             mediaId: audioSource.mediaId
@@ -451,6 +456,9 @@ class ArticlePage extends Component {
       meta &&
       getSchemaCreator(meta.template)({
         t,
+        plattformUnauthorizedZoneText: inNativeIOSApp
+          ? t('plattformUnauthorizedZoneText/ios')
+          : undefined,
         dynamicComponentRequire,
         titleMargin: false,
         onAudioCoverClick: this.toggleAudio,
@@ -578,6 +586,12 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
+    const podcast =
+      article &&
+      article.content &&
+      article.content.meta &&
+      article.content.meta.podcast
+
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
         t={t}
@@ -697,6 +711,8 @@ class ArticlePage extends Component {
             const linkedDiscussion =
               meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
+            const { audioSource } = meta
+
             const ProgressComponent =
               isMember &&
               !isSection &&
@@ -761,10 +777,20 @@ class ArticlePage extends Component {
                                 />
                               </Breakout>
                             )}
+                            {!!podcast && meta.template === 'article' && (
+                              <>
+                                <PodcastButtons
+                                  {...podcast}
+                                  audioSource={audioSource}
+                                  onAudioClick={this.toggleAudio}
+                                />
+                              </>
+                            )}
                           </Center>
                           {!isSection &&
                             !isFormat &&
                             !isNewsletterSource &&
+                            !podcast &&
                             payNote}
                         </div>
                       )}
@@ -807,9 +833,15 @@ class ArticlePage extends Component {
                     {meta.template === 'article' && (
                       <Center>
                         <div ref={this.bottomBarRef}>{actionBarEnd}</div>
+                        {!!podcast && <PodcastButtons {...podcast} />}
                       </Center>
                     )}
                   </Fragment>
+                )}
+                {!!podcast && meta.template !== 'article' && (
+                  <Center>
+                    <PodcastButtons {...podcast} />
+                  </Center>
                 )}
                 {isMember && episodes && (
                   <RelatedEpisodes

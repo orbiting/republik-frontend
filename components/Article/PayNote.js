@@ -174,6 +174,9 @@ const predefinedNotes = generateNotes(
     )
   )
 
+const isEmpty = positionedNote =>
+  !positionedNote.cta && !positionedNote.title && !positionedNote.body
+
 const meetTarget = target => payNote => {
   const targetKeys = new Set(Object.keys(payNote.target))
   if (target.trialSignup) targetKeys.add('trialSignup')
@@ -342,6 +345,8 @@ export const PayNote = compose(
     if (!payNote) return null
 
     const positionedNote = payNote[position]
+
+    if (isEmpty(positionedNote)) return null
 
     const payload = {
       documentId,

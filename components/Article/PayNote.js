@@ -332,7 +332,7 @@ const PayNoteP = ({ content, darkMode }) => (
 const PayNoteContent = ({ content, darkMode }) =>
   content ? (
     <>
-      {content.split(String.raw`\n\n`).map((c, i) => (
+      {content.split('\n\n').map((c, i) => (
         <PayNoteP key={i} content={c} darkMode={darkMode} />
       ))}
     </>

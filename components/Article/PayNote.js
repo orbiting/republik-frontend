@@ -6,7 +6,8 @@ import {
   Button,
   colors,
   fontStyles,
-  linkRule
+  linkRule,
+  RawHtml
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
 import { css } from 'glamor'
@@ -312,6 +313,25 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
     </div>
   ) : null
 
+const PayNoteP = ({ content, darkMode }) => (
+  <Interaction.P
+    {...styles.content}
+    style={{ color: darkMode ? colors.negative.text : '#000000' }}
+    dangerouslySetInnerHTML={{
+      __html: content
+    }}
+  />
+)
+
+const PayNoteContent = ({ content, darkMode }) =>
+  content ? (
+    <>
+      {content.split(String.raw`\n\n`).map((c, i) => (
+        <PayNoteP key={i} content={c} darkMode={darkMode} />
+      ))}
+    </>
+  ) : null
+
 export const PayNote = compose(
   withRouter,
   withInNativeApp,
@@ -354,14 +374,6 @@ export const PayNote = compose(
     }
     const isBefore = position === 'before'
 
-    const cta = (
-      <PayNoteCta
-        darkMode={isBefore}
-        payNote={positionedNote}
-        payload={payload}
-      />
-    )
-
     return (
       <div
         {...styles.banner}
@@ -372,14 +384,15 @@ export const PayNote = compose(
         }}
       >
         <Center>
-          <Interaction.P
-            {...styles.content}
-            style={{ color: isBefore ? colors.negative.text : '#000000' }}
-            dangerouslySetInnerHTML={{
-              __html: withCount(positionedNote.content, membershipStats)
-            }}
+          <PayNoteContent
+            content={withCount(positionedNote.content, membershipStats)}
+            darkMode={isBefore}
           />
-          {cta}
+          <PayNoteCta
+            darkMode={isBefore}
+            payNote={positionedNote}
+            payload={payload}
+          />
         </Center>
       </div>
     )

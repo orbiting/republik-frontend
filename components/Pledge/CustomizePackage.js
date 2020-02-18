@@ -1080,6 +1080,9 @@ class CustomizePackage extends Component {
                                       oYears.reward.__typename &&
                                     d.reward.name === oYears.reward.name
                                 )
+                                if (!oMonths) {
+                                  return
+                                }
                                 onChange(
                                   FieldSet.utils.fieldsState({
                                     field: getOptionFieldKey(oYears),

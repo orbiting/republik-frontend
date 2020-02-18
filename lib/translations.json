@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-18T12:36:58.163Z",
+  "updated": "2020-02-18T19:30:00.475Z",
   "title": "live",
   "data": [
     {
@@ -2472,7 +2472,7 @@
     },
     {
       "key": "package/customize/ABO_GIVE_MONTHS/years/other",
-      "value": "Verschenken Sie eine Mitgliedschaft statt Monate"
+      "value": "Verschenken Sie Jahresmitgliedschaften statt Monate"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/periods/notice/reachedMax",

@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
 
@@ -11,7 +10,7 @@ import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
-import { PayNote, MAX_PAYNOTE_SEED, TRY_TO_BUY_RATIO } from './PayNote'
+import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
@@ -547,7 +546,7 @@ class ArticlePage extends Component {
       isEditor,
       inNativeApp,
       payNoteSeed,
-      payNoteTrial,
+      payNoteTryOrBuy,
       hasActiveMembership
     } = this.props
 
@@ -644,16 +643,22 @@ class ArticlePage extends Component {
       )
     }
 
-    const payNote = !hasActiveMembership && (
+    const customPayNotes =
+      article &&
+      article.content &&
+      article.content.meta &&
+      article.content.meta.paynotes
+    const payNote = (
       <PayNote
         seed={payNoteSeed}
-        trial={payNoteTrial}
+        tryOrBuy={payNoteTryOrBuy}
         documentId={documentId}
         repoId={repoId}
-        series={series}
+        customPayNotes={customPayNotes}
         position='before'
       />
     )
+
     const payNoteAfter =
       payNote && React.cloneElement(payNote, { position: 'after' })
 
@@ -888,7 +893,7 @@ const ComposedPage = compose(
 
 ComposedPage.getInitialProps = () => {
   return {
-    payNoteTrial: Math.random() > TRY_TO_BUY_RATIO,
+    payNoteTryOrBuy: Math.random(),
     payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
   }
 }

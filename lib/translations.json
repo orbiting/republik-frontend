@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-15T04:20:14.080Z",
+  "updated": "2020-02-18T12:36:58.163Z",
   "title": "live",
   "data": [
     {
@@ -2971,12 +2971,8 @@
       "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
-      "key": "article/payNote/ios/before/title",
-      "value": "Danke für Ihre Neugier!"
-    },
-    {
       "key": "article/payNote/ios/before",
-      "value": "Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2987,12 +2983,8 @@
       "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
     },
     {
-      "key": "article/payNote/ios/after/title",
-      "value": "Schön, Sie hier unten wieder zu sehen!"
-    },
-    {
       "key": "article/payNote/ios/after",
-      "value": "Wir hoffen, es hat Ihnen gefallen."
+      "value": "<b>Schön, Sie hier unten wieder zu sehen!</b> Wir hoffen, es hat Ihnen gefallen."
     },
     {
       "key": "article/payNote/after/buyText",
@@ -3011,24 +3003,16 @@
       "value": "Jetzt probelesen"
     },
     {
-      "key": "article/payNote/series/before/title",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
-    },
-    {
       "key": "article/payNote/series/before",
-      "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "<b>Wir sind die Republik – ein neues Modell im Schweizer Journalismus.</b> Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/series/before/buy/button",
       "value": "Ja, ich will!"
     },
     {
-      "key": "article/payNote/series/after/title",
-      "value": "Wollen Sie mehr lesen?"
-    },
-    {
       "key": "article/payNote/series/after",
-      "value": "Dieser Beitrag ist Teil einer Serie. Wollen Sie die ganze Geschichte? Dann kommen Sie an Bord! Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität."
+      "value": "<b>Wollen Sie mehr lesen?</b> Dieser Beitrag ist Teil einer Serie. Wollen Sie die ganze Geschichte? Dann kommen Sie an Bord! Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität."
     },
     {
       "key": "article/payNote/series/after/buy/button",
@@ -6183,68 +6167,44 @@
       "value": "Sie haben alle auf Ihre Präferenzen Passenden durchgeswipt."
     },
     {
-      "key": "article/tryNote/thankYou/before/title",
-      "value": "Herzlich willkommen!"
-    },
-    {
       "key": "article/tryNote/thankYou/before",
-      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
-    },
-    {
-      "key": "article/tryNote/thankYou/after/title",
-      "value": "Herzlich willkommen!"
+      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
     },
     {
       "key": "article/tryNote/thankYou/after",
-      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
+      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
     },
     {
-      "key": "article/tryNote/191106-v2/before/title",
-      "value": "Testen Sie die Republik 14 Tage lang gratis und unverbindlich."
+      "key": "article/tryNote/191106-v2/before",
+      "value": "<b>Testen Sie die Republik 14 Tage lang gratis und unverbindlich.</b>"
     },
     {
-      "key": "article/tryNote/191106-v2/after/title",
-      "value": "Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich."
+      "key": "article/tryNote/191106-v2/after",
+      "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich.</b>"
     },
     {
-      "key": "article/tryNote/191106-v2-campaign-wseww/before/title",
-      "value": "Wollen Sie es wirklich wissen? Dann testen Sie die Republik einfach 14 Tage lang gratis und unverbindlich."
+      "key": "article/tryNote/191106-v2-campaign-wseww/before",
+      "value": "<b>Wollen Sie es wirklich wissen? Dann testen Sie die Republik einfach 14 Tage lang gratis und unverbindlich.</b>"
     },
     {
-      "key": "article/tryNote/191106-v2-campaign-wseww/after/title",
-      "value": "Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich."
-    },
-    {
-      "key": "article/tryNote/191106-v3/before/title",
-      "value": "Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?"
+      "key": "article/tryNote/191106-v2-campaign-wseww/after",
+      "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich.</b>"
     },
     {
       "key": "article/tryNote/191106-v3/before",
-      "value": "Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191106-v3/after/title",
-      "value": "{count} Menschen machen die Republik heute schon möglich. Und Sie?"
+      "value": "<b>Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?</b> Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
     },
     {
       "key": "article/tryNote/191106-v3/after",
-      "value": "Sind Sie noch nicht überzeugt und wollen Sie mehr wissen? Dann <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich. "
-    },
-    {
-      "key": "article/tryNote/191106-v4/before/title",
-      "value": "Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!"
+      "value": "<b>{count} Menschen machen die Republik heute schon möglich. Und Sie?</b> Sind Sie noch nicht überzeugt und wollen Sie mehr wissen? Dann <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich. "
     },
     {
       "key": "article/tryNote/191106-v4/before",
-      "value": "Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> – und entscheiden Sie anschliessend."
-    },
-    {
-      "key": "article/tryNote/191106-v4/after/title",
-      "value": "Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!"
+      "value": "<b>Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!</b> Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> – und entscheiden Sie anschliessend."
     },
     {
       "key": "article/tryNote/191106-v4/after",
-      "value": "Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
+      "value": "<b>Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!</b> Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
     },
     {
       "key": "marketing/vbz/poster/hint",
@@ -6259,48 +6219,32 @@
       "value": "Diese Beiträge sind Teil unserer <a href='https://www.republik.ch/2019/11/12/wollen-sie-es-wirklich-wissen'>aktuellen Bekanntmachungskampagne</a> im ÖV und digital."
     },
     {
-      "key": "article/payNote/191108-v1/before/title",
-      "value": "Kommen Sie zur Republik!"
-    },
-    {
       "key": "article/payNote/191108-v1/before",
-      "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
+      "value": "<b>Kommen Sie zur Republik!</b> Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
     },
     {
       "key": "article/payNote/191108-v1/before/buy/button",
       "value": "Ich bin dabei."
     },
     {
-      "key": "article/payNote/191108-v1/after/title",
-      "value": "{count} Menschen machen die Republik heute schon möglich. "
-    },
-    {
       "key": "article/payNote/191108-v1/after",
-      "value": "Wollen auch Sie, dass die noch junge Republik weiterhin unabhängigen, transparenten Journalismus betreiben kann? Dann kommen Sie als Mitglied oder Abonnentin an Bord! "
+      "value": "<b>{count} Menschen machen die Republik heute schon möglich. </b> Wollen auch Sie, dass die noch junge Republik weiterhin unabhängigen, transparenten Journalismus betreiben kann? Dann kommen Sie als Mitglied oder Abonnentin an Bord! "
     },
     {
       "key": "article/payNote/191108-v1/after/buy/button",
       "value": "Ja – ich bin dabei!"
     },
     {
-      "key": "article/payNote/191108-v2/before/title",
-      "value": "Wir sind die Republik."
-    },
-    {
       "key": "article/payNote/191108-v2/before",
-      "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur – und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
+      "value": "<b>Wir sind die Republik.</b> Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur – und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
       "key": "article/payNote/191108-v2/before/buy/button",
       "value": "Natürlich!"
     },
     {
-      "key": "article/payNote/191108-v2/after/title",
-      "value": "Sie haben in diesem Beitrag viele Worte gelesen, aber die wichtigsten drei fehlten."
-    },
-    {
       "key": "article/payNote/191108-v2/after",
-      "value": "Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
+      "value": "<b>Sie haben in diesem Beitrag viele Worte gelesen, aber die wichtigsten drei fehlten.</b> Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
     },
     {
       "key": "article/payNote/191108-v2/after/buy/button",

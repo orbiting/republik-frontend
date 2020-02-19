@@ -162,6 +162,7 @@ const predefinedNotes = generateNotes(
     generateNotes(
       IOS_VARIATIONS,
       {
+        hasActiveMembership: false,
         isEligibleForTrial: false,
         inNativeIOSApp: true
       },

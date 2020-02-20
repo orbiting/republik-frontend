@@ -42,6 +42,7 @@ const getFeedDocuments = gql`
               description
               publishDate
               path
+              template
               format {
                 id
                 meta {

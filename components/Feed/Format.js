@@ -43,6 +43,21 @@ const getFeedDocuments = gql`
           audioSource {
             mp3
           }
+          ownDiscussion {
+            id
+            closed
+            comments {
+              totalCount
+            }
+          }
+          linkedDiscussion {
+            id
+            path
+            closed
+            comments {
+              totalCount
+            }
+          }
         }
       }
     }

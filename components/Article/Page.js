@@ -29,6 +29,7 @@ import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
+import HrefLink from '../Link/Href'
 
 import Progress from './Progress'
 import { userProgressFragment } from './Progress/api'
@@ -456,6 +457,7 @@ class ArticlePage extends Component {
       meta &&
       getSchemaCreator(meta.template)({
         t,
+        Link: HrefLink,
         plattformUnauthorizedZoneText: inNativeIOSApp
           ? t('plattformUnauthorizedZoneText/ios')
           : undefined,

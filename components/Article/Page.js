@@ -13,7 +13,6 @@ import withT from '../../lib/withT'
 import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
-import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import FontSizeSync from '../FontSize/Sync'
 import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
@@ -67,8 +66,7 @@ import { onDocumentFragment } from '../Bookmarks/fragments'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import * as reactApollo from 'react-apollo'
-import * as graphqlTag from 'graphql-tag'
+import { dynamicComponentRequire } from '../../lib/dynamicComponent'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
 /* eslint-enable */
 
@@ -82,11 +80,6 @@ const schemaCreators = {
   editorialNewsletter: createNewsletterSchema,
   section: createSectionSchema
 }
-
-const dynamicComponentRequire = createRequire().alias({
-  'react-apollo': reactApollo,
-  'graphql-tag': graphqlTag
-})
 
 const getSchemaCreator = template => {
   const key = template || Object.keys(schemaCreators)[0]

@@ -35,6 +35,8 @@ import { intersperse } from '../../lib/utils/helpers'
 
 import * as withData from './withData'
 
+import { dynamicComponentRequire } from '../../lib/dynamicComponent'
+
 const getDocument = gql`
   query getFront(
     $path: String!
@@ -124,7 +126,8 @@ const Front = ({
         CommentLink,
         DiscussionLink,
         ...withData,
-        t
+        t,
+        dynamicComponentRequire
       }),
     []
   )

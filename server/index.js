@@ -116,10 +116,6 @@ app.prepare().then(() => {
   server.use(pgp)
 
   // tmp unavailable
-  server.get('/crowdfunding', (req, res) => {
-    res.statusCode = 503
-    return app.render(req, res, '/503', req.query)
-  })
   server.get('/vote', (req, res) => {
     res.statusCode = 503
     return app.render(req, res, '/503', req.query)

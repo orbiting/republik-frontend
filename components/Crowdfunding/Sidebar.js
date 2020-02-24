@@ -5,7 +5,6 @@ import { compose } from 'react-apollo'
 import { errorToString } from '../../lib/utils/errors'
 import { Link } from '../../lib/routes'
 
-import Accordion from '../Pledge/Accordion'
 import { PackageItem, PackageBuffer } from '../Pledge/Accordion'
 
 import { withStatus, RawStatus } from './Status'
@@ -199,7 +198,13 @@ class Sidebar extends Component {
 
     return (
       <div>
-        <RawStatus people money t={t} crowdfunding={crowdfunding} />
+        <RawStatus
+          people
+          money
+          t={t}
+          crowdfundingName={crowdfunding.name}
+          crowdfunding={crowdfunding}
+        />
 
         <div
           ref={this.innerRef}

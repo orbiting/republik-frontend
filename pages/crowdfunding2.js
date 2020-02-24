@@ -80,19 +80,24 @@ export const Page = ({ router, crowdfunding }) => {
   ]
   const packages = [
     {
-      name: 'ABO',
-      title: 'Für mich',
-      price: 24000
+      name: 'MONTHLY_ABO',
+      title: 'Monats-Abo',
+      price: 2200
     },
     {
-      name: 'ABO_GIVE',
-      title: 'Für andere',
+      name: 'ABO',
+      title: 'Jahresmitgliedschaft',
       price: 24000
     },
     {
       name: 'BENEFACTOR',
-      title: 'Für Gönner',
+      title: 'Gönner-Mitgliedschaft',
       price: 100000
+    },
+    {
+      name: 'ABO_GIVE',
+      title: 'Wachstum schenken',
+      price: 24000
     },
     {
       name: 'DONATE',

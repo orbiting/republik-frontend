@@ -26,7 +26,7 @@ import { countFormat } from '../lib/utils/format'
 
 import { PackageItem, PackageBuffer } from '../components/Pledge/Accordion'
 
-import { RawStatus } from '../components/CrowdfundingStatus'
+import { RawStatus } from '../components/Crowdfunding/Status'
 import withT from '../lib/withT'
 
 import {
@@ -379,6 +379,8 @@ const Page = ({
               <div style={{ marginBottom: 60 }}>
                 <RawStatus
                   t={t}
+                  color='#fff'
+                  barColor='#333'
                   people
                   money
                   crowdfundingName='SURVIVE'

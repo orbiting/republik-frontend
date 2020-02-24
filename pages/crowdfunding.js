@@ -12,6 +12,7 @@ import VideoCover from '../components/VideoCover'
 import ActionBar from '../components/ActionBar'
 import List, { Highlight } from '../components/List'
 import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
+import ContainerWithSidebar from '../components/Crowdfunding/ContainerWithSidebar'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -73,8 +74,7 @@ export const Page = ({ router }) => {
 
   return (
     <Frame
-      indented
-      forceStatus
+      raw
       meta={{
         pageTitle: 'Republik – das digitale Magazin von Project R',
         title: 'Republik – das digitale Magazin von Project R',
@@ -83,7 +83,7 @@ export const Page = ({ router }) => {
       }}
       cover={<VideoCover src={VIDEOS.main} cursor endScroll={0.97} />}
     >
-      <div>
+      <ContainerWithSidebar crowdfundingName='REPUBLIK'>
         <Lead>
           Willkommen zum Crowdfunding für das digitale Magazin Republik von
           Project&nbsp;R
@@ -185,6 +185,7 @@ Entscheiden Sie sich, mitzumachen, werden Sie Abonnentin. Sie erhalten ab Anfang
 Ihr Risiko beträgt dabei 240 Franken pro Jahr. Also der Preis, den man pro Jahr wöchentlich für einen Kaffee im Restaurant ausgibt.
 
 Mit diesem Betrag können Sie einen echten Unterschied machen. Denn es ist Zeit, dem Journalismus ein neues Fundament zu bauen. Und das schafft niemand allein. Sondern nur viele gemeinsam: wir mit Ihnen. Willkommen an Bord!
+
 ${pledgeLink}
 
 # Wer wir sind
@@ -300,10 +301,13 @@ Es ist uns klar, dass unsere Aufgabe aus mehr als nur Worten besteht. Dass nicht
 ![](/static/crowdfunding1/vernetzt.jpg)
 
 Last, not least ist die Republik ausbaufähig. Wir wünschen der Konkurrenz nur das Beste. Aber sollten die Zeitungen weiter ins Graue gespart oder an politische Akteure verkauft werden, können wir das Projekt ausbauen: in Richtung Feuilleton, in Richtung Lokalredaktionen oder Romandie. Oder wohin immer es nötig ist. Wir sind unabhängig von Verlegern, Börse und Werbung. Und wir werden das nutzen. Unsere Verpflichtung gilt niemandem ausser unseren Leserinnen und Lesern. Denn wir gehören keinem Verlag, machen keine Werbung. Wir gehören nur – ein wenig – Ihnen.
-So weit unser Versprechen. Jetzt ist es Zeit für Ihre Entscheidung.
-Willkommen an Bord!
-  `}
 
+So weit unser Versprechen. Jetzt ist es Zeit für Ihre Entscheidung.
+
+Willkommen an Bord!
+
+  `}
+        <br />
         <Link route='pledge' passHref>
           <Button primary style={{ minWidth: 300 }}>
             Jetzt mitmachen!
@@ -339,7 +343,11 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
         <Link route='community'>
           <a {...linkRule}>Alle ansehen</a>
         </Link>
-      </div>
+
+        <br />
+        <br />
+        <br />
+      </ContainerWithSidebar>
     </Frame>
   )
 }

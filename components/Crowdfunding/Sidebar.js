@@ -72,46 +72,12 @@ const styles = {
 
 class SidebarInner extends Component {
   render() {
-    const { t, onChange, crowdfunding } = this.props
-
-    const links = [
-      {
-        route: 'pledge',
-        params: { package: 'ABO', userPrice: 1 },
-        text: 'Sie können sich den Betrag nicht leisten?'
-      },
-      {
-        href: `mailto:ir@republik.ch?subject=${encodeURIComponent(
-          'Investitionsmöglichkeiten bei der Republik AG'
-        )}`,
-        text: 'Sie wollen Investor/Investorin werden?'
-      }
-    ]
+    const { t, onChange, crowdfunding, links, packages } = this.props
 
     return (
       <div {...styles.container}>
         <div {...styles.packages}>Abo und Mitgliedschaft für ein Jahr</div>
-        {[
-          {
-            name: 'ABO',
-            title: 'Für mich',
-            price: 24000
-          },
-          {
-            name: 'ABO_GIVE',
-            title: 'Für andere',
-            price: 24000
-          },
-          {
-            name: 'BENEFACTOR',
-            title: 'Für Gönner',
-            price: 100000
-          },
-          {
-            name: 'DONATE',
-            title: 'Spenden, sonst nichts'
-          }
-        ].map(pack => {
+        {packages.map(pack => {
           return (
             <Link
               key={pack.name}
@@ -223,7 +189,7 @@ class Sidebar extends Component {
   }
   render() {
     const { right } = this.state
-    const { sticky, t, crowdfunding } = this.props
+    const { sticky, t, crowdfunding, links, packages } = this.props
 
     const onChange = state => this.setState(() => state)
 
@@ -242,6 +208,8 @@ class Sidebar extends Component {
           }}
         >
           <SidebarInner
+            links={links}
+            packages={packages}
             t={t}
             crowdfunding={crowdfunding}
             onChange={onChange}
@@ -252,6 +220,8 @@ class Sidebar extends Component {
         {!!sticky.sidebar && (
           <div {...styles.sticky} style={{ right: right }}>
             <SidebarInner
+              links={links}
+              packages={packages}
               t={t}
               crowdfunding={crowdfunding}
               onChange={onChange}

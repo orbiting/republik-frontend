@@ -72,6 +72,41 @@ export const Page = ({ router }) => {
     </Link>
   )
 
+  const links = [
+    {
+      route: 'pledge',
+      params: { package: 'ABO', userPrice: 1 },
+      text: 'Sie können sich den Betrag nicht leisten?'
+    },
+    {
+      href: `mailto:ir@republik.ch?subject=${encodeURIComponent(
+        'Investitionsmöglichkeiten bei der Republik AG'
+      )}`,
+      text: 'Sie wollen Investor/Investorin werden?'
+    }
+  ]
+  const packages = [
+    {
+      name: 'ABO',
+      title: 'Für mich',
+      price: 24000
+    },
+    {
+      name: 'ABO_GIVE',
+      title: 'Für andere',
+      price: 24000
+    },
+    {
+      name: 'BENEFACTOR',
+      title: 'Für Gönner',
+      price: 100000
+    },
+    {
+      name: 'DONATE',
+      title: 'Spenden, sonst nichts'
+    }
+  ]
+
   return (
     <Frame
       raw
@@ -83,7 +118,10 @@ export const Page = ({ router }) => {
       }}
       cover={<VideoCover src={VIDEOS.main} cursor endScroll={0.97} />}
     >
-      <ContainerWithSidebar crowdfundingName='REPUBLIK'>
+      <ContainerWithSidebar
+        sidebarProps={{ links, packages }}
+        crowdfundingName='REPUBLIK'
+      >
         <Lead>
           Willkommen zum Crowdfunding für das digitale Magazin Republik von
           Project&nbsp;R

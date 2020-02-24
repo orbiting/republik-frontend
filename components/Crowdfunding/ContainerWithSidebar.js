@@ -36,18 +36,13 @@ const Content = ({ children, indented, ...props }) => (
   </div>
 )
 
-const ContainerWithSidebar = ({ crowdfundingName, sidebarProps, children }) => {
+const ContainerWithSidebar = ({ sidebarProps, children }) => {
   const [sticky, setSticky] = React.useState({})
 
   return (
     <Container>
       <div {...styles.sidebar}>
-        <Sidebar
-          {...sidebarProps}
-          crowdfundingName={crowdfundingName}
-          sticky={sticky}
-          setSticky={setSticky}
-        />
+        <Sidebar {...sidebarProps} sticky={sticky} setSticky={setSticky} />
       </div>
       <Content indented>{children}</Content>
     </Container>

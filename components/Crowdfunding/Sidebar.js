@@ -115,7 +115,7 @@ class SidebarInner extends Component {
                 </A>
               </Link>
             ) : (
-              <A href={link.href}>
+              <A key={i} href={link.href}>
                 {link.text}
                 <br />
               </A>

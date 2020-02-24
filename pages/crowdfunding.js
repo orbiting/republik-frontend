@@ -119,8 +119,7 @@ export const Page = ({ router }) => {
       cover={<VideoCover src={VIDEOS.main} cursor endScroll={0.97} />}
     >
       <ContainerWithSidebar
-        sidebarProps={{ links, packages }}
-        crowdfundingName='REPUBLIK'
+        sidebarProps={{ links, packages, crowdfundingName: 'REPUBLIK' }}
       >
         <Lead>
           Willkommen zum Crowdfunding für das digitale Magazin Republik von
@@ -368,7 +367,7 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
   `}
         <div style={{ margin: '20px 0' }}>
           <TestimonialList
-            limit={10}
+            first={10}
             onSelect={id => {
               Router.push(`/community?id=${id}`).then(() => {
                 window.scrollTo(0, 0)

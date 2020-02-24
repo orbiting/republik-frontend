@@ -364,6 +364,7 @@ const query = gql`
 
 export const withStatus = Component =>
   graphql(query, {
+    skip: props => props.crowdfunding || !props.crowdfundingName,
     options: {
       pollInterval: +STATUS_POLL_INTERVAL_MS
     },

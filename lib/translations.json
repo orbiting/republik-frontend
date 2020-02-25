@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-25T12:52:48.581Z",
+  "updated": "2020-02-25T13:48:13.153Z",
   "title": "live",
   "data": [
     {
@@ -6187,14 +6187,6 @@
       "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich.</b>"
     },
     {
-      "key": "article/tryNote/191106-v2-campaign-wseww/before",
-      "value": "<b>Wollen Sie es wirklich wissen? Dann testen Sie die Republik einfach 14 Tage lang gratis und unverbindlich.</b>"
-    },
-    {
-      "key": "article/tryNote/191106-v2-campaign-wseww/after",
-      "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich.</b>"
-    },
-    {
       "key": "article/tryNote/191106-v3/before",
       "value": "<b>Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?</b> Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
     },
@@ -6516,7 +6508,7 @@
     },
     {
       "key": "Trial/Page/disabled/body",
-      "value": "Wie Sie vielleicht wissen befindet sich die Republik momentan inmitten einer Kampagne um ihre Zukunft. Erreichen wir bis Ende März das Ziel von 19’000 Verlegerinnen und CHF 2’200’000 Spenden und Investitionen nicht, werden wir die Publikation einstellen und das Unternehmen geordnet auflösen müssen. \n\nBisher läuft es <a href=\"https://project-r.construction/newsletter/2020-02-04-75-prozent\">sehr erfreulich und besser als geplant</a>. Dennoch sind wir nicht am Ziel. Wir müssen im März noch über tausend neue Leser gewinnen. \n\nEs geht um alles. Deswegen gibt es im März nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
+      "value": "Wie Sie vielleicht wissen befindet sich die Republik momentan inmitten einer Kampagne um ihre Zukunft. Erreichen wir bis Ende März <a href=\"/\">das Ziel von 19’000 Verlegerinnen und CHF 2’200’000 Spenden und Investitionen</a> nicht, werden wir die Publikation einstellen und das Unternehmen geordnet auflösen müssen. \n\nBisher läuft es sehr erfreulich und besser als geplant. Dennoch sind wir nicht am Ziel. Wir müssen im März noch über tausend neue Leser gewinnen. \n\nEs geht um alles. Deswegen gibt es im März nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
     },
     {
       "key": "Trial/Page/disabled/button",
@@ -6524,6 +6516,46 @@
     },
     {
       "key": "Trial/Page/disabled/note",
+      "value": "Falls wir die Ziele am 31. März nicht erreichen, erhalten Sie Ihr Geld zurück."
+    },
+    {
+      "key": "article/payNote/200225-v1/before",
+      "value": "Journalismus kostet. Die Republik ist werbefrei und wird von ihren Leserinnen und Spendern finanziert. Schon {count} Personen unterstützen die Republik.\n\nUm auch nach März weiter publizieren zu können, fehlen uns jedoch noch 1675 Abonnenten (Counter).\n\nErreichen wir dieses Ziel nicht, wird die Republik in 14 Tagen (Counter) geordnet aufgelöst. \n\nWenn Sie weiterhin unabhängige Berichterstattung wie diese lesen wollen, handeln Sie jetzt! Kommen Sie an Bord."
+    },
+    {
+      "key": "article/payNote/200225-v1/before/buy/button",
+      "value": "Jahresmitgliedschaft"
+    },
+    {
+      "key": "article/payNote/200225-v1/before/secondary/label",
+      "value": "Monatsabo lösen"
+    },
+    {
+      "key": "article/payNote/200225-v1/before/secondary/link",
+      "value": "/angebote?package=MONTHLY_ABO"
+    },
+    {
+      "key": "article/payNote/200225-v1/before/note",
+      "value": "Falls wir die Ziele am 31. März nicht erreichen, erhalten Sie Ihr Geld zurück."
+    },
+    {
+      "key": "article/payNote/200225-v1/after",
+      "value": "Um auch in Zukunft weiter publizieren zu können, fehlen uns jedoch noch 1675 Abonnenten (Counter).\n\nWenn Sie weiterhin unabhängigen Journalismus wie diese lesen wollen, handeln Sie jetzt! Kommen Sie an Bord."
+    },
+    {
+      "key": "article/payNote/200225-v1/after/buy/button",
+      "value": "Jahresmitgliedschaft"
+    },
+    {
+      "key": "article/payNote/200225-v1/after/secondary/label",
+      "value": "Monatsabo lösen"
+    },
+    {
+      "key": "article/payNote/200225-v1/after/secondary/link",
+      "value": "/angebote?package=MONTHLY_ABO"
+    },
+    {
+      "key": "article/payNote/200225-v1/after/note",
       "value": "Falls wir die Ziele am 31. März nicht erreichen, erhalten Sie Ihr Geld zurück."
     }
   ]

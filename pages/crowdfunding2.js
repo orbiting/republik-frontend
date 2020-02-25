@@ -161,11 +161,11 @@ ${pledgeLink}
         <div {...styles.stretchLead}>
           <Interaction.P {...styles.stretchP} style={{ marginBottom: 10 }}>
             Damit das digitale Magazin Republik die Trendwende schafft müssen
-            wir bis am 31.&nbsp;März noch 1{thousandSeparator}000 aktive
-            Verlegerinnen und 500{thousandSeparator}000 Franken sammeln. Um
-            beide Ziele zu erreichen wollen wir diesen Monat{' '}
-            <Highlight>3000 Mitgliedschaften</Highlight> verkaufen. Denn eine
-            möglichst grosse Verlegerschaft ist langfristig die beste Option.
+            wir bis am 31.&nbsp;März noch 1000 aktive Verlegerinnen und 500
+            {thousandSeparator}000 Franken finden. Um beide Ziele zu erreichen
+            wollen wir diesen Monat <Highlight>3000 Mitgliedschaften</Highlight>{' '}
+            verkaufen. Denn eine möglichst grosse Verlegerschaft ist langfristig
+            die beste Option.
           </Interaction.P>
           <Interaction.P {...styles.stretchP}>
             [Sobald erreicht] Dieses Ziel haben wir zusammen mit Ihnen am

@@ -39,6 +39,9 @@ const styles = {
     margin: '0.8rem 0 0.8rem 0',
     ':first-of-type': {
       marginTop: 0
+    },
+    ':last-child': {
+      marginBottom: 0
     }
   }),
   cta: css({

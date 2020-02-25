@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-25T14:16:21.590Z",
+  "updated": "2020-02-25T16:55:20.305Z",
   "title": "live",
   "data": [
     {
@@ -6520,7 +6520,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before",
-      "value": "Journalismus kostet. Die Republik ist werbefrei und wird von ihren Leserinnen und Spendern finanziert. Schon {count} Personen unterstützen die Republik.\n\nUm auch nach März weiter publizieren zu können, fehlen uns jedoch noch 1675 Abonnenten [TK: live].\n\nErreichen wir dieses Ziel nicht, wird die Republik in 14 Tagen [TK: live] geordnet aufgelöst. \n\nWenn Sie weiterhin unabhängige Berichterstattung wie diese lesen wollen, handeln Sie jetzt! Kommen Sie an Bord."
+      "value": "Journalismus kostet. Die Republik ist werbefrei und leserinnenfinanziert. Schon {count} Personen unterstützen die Republik.\n\nUm auch nach März weiter bestehen zu können, müssen wir diesen Monat 3000 neue Mitglieder [TK: live] gewinnen.\n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
     },
     {
       "key": "article/payNote/200225-v1/before/buy/button",
@@ -6528,7 +6528,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before/secondary/label",
-      "value": "Monatsabo lösen"
+      "value": "Einen Monat für 22.-"
     },
     {
       "key": "article/payNote/200225-v1/before/secondary/link",
@@ -6540,7 +6540,7 @@
     },
     {
       "key": "article/payNote/200225-v1/after",
-      "value": "Um auch in Zukunft weiter publizieren zu können, fehlen uns jedoch noch 1675 Abonnenten (Counter).\n\nWenn Sie weiterhin unabhängigen Journalismus wie diese lesen wollen, handeln Sie jetzt! Kommen Sie an Bord."
+      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat 3000 neue Mitglieder [TK: live] gewinnen.\n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
     },
     {
       "key": "article/payNote/200225-v1/after/buy/button",
@@ -6548,7 +6548,7 @@
     },
     {
       "key": "article/payNote/200225-v1/after/secondary/label",
-      "value": "Monatsabo lösen"
+      "value": "Einen Monat für 22.-"
     },
     {
       "key": "article/payNote/200225-v1/after/secondary/link",

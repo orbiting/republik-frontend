@@ -323,7 +323,7 @@ const PrimaryCTA = withInNativeApp(
 )
 
 const Page = ({
-  data,
+  surviveData,
   t,
   me,
   inNativeIOSApp,
@@ -361,11 +361,11 @@ const Page = ({
   return (
     <Frame meta={meta} dark>
       <Loader
-        loading={data.loading || actionsLoading}
-        error={data.error}
+        loading={surviveData.loading || actionsLoading}
+        error={surviveData.error}
         style={{ minHeight: `calc(90vh)` }}
         render={() => {
-          const { evolution, count } = data.membershipStats
+          const { evolution, count } = surviveData.membershipStats
           const lastMonth = evolution.buckets[evolution.buckets.length - 1]
 
           const currentYearMonth = formatYearMonth(new Date())

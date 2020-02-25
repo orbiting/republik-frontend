@@ -92,7 +92,7 @@ const withSurviveStatus = compose(
       const lastMonth = evolution.buckets[evolution.buckets.length - 1]
 
       return {
-        data,
+        surviveData: data,
         crowdfunding: lastMonth &&
           data.revenueStats && {
             name: CROWDFUNDING_NAME,

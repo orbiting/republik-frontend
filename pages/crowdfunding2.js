@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import md from 'markdown-in-js'
 import Router, { withRouter } from 'next/router'
 import { css } from 'glamor'
+
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
+
 import { Link } from '../lib/routes'
 
 import mdComponents from '../lib/utils/mdComponents'
@@ -13,12 +17,23 @@ import VideoCover from '../components/VideoCover'
 import ActionBar from '../components/ActionBar'
 import List, { Highlight } from '../components/List'
 import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
-import ContainerWithSidebar from '../components/Crowdfunding/ContainerWithSidebar'
+import ContainerWithSidebar, {
+  Content
+} from '../components/Crowdfunding/ContainerWithSidebar'
 import withSurviveStatus from '../components/Crowdfunding/withSurviveStatus'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
+import TeaserBlock, {
+  GAP as TEASER_BLOCK_GAP
+} from '../components/Overview/TeaserBlock'
+import { getTeasersFromDocument } from '../components/Overview/utils'
+
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../components/constants'
+
 import {
+  Loader,
+  Container,
   Label,
   Button,
   Lead,
@@ -27,10 +42,61 @@ import {
   A,
   linkRule,
   Interaction,
-  VideoPlayer
+  VideoPlayer,
+  mediaQueries
 } from '@project-r/styleguide'
 
+const query = gql`
+  query cf2 {
+    front: document(path: "/") {
+      id
+      children(first: 60) {
+        nodes {
+          body
+        }
+      }
+    }
+  }
+`
+
 const styles = {
+  overviewOverflow: css({
+    position: 'relative',
+    zIndex: 1,
+    overflow: 'hidden',
+
+    paddingTop: 420,
+    marginTop: -400
+  }),
+  overviewContainer: css({
+    padding: '30px 0 0',
+    backgroundColor: colors.negative.containerBg,
+    color: colors.negative.text
+  }),
+  overviewBottomShadow: css({
+    position: 'absolute',
+    bottom: 0,
+    height: 100,
+    left: 0,
+    right: 0,
+    background:
+      'linear-gradient(0deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0) 100%)',
+    pointerEvents: 'none'
+  }),
+  overviewTopShadow: css({
+    position: 'absolute',
+    top: 100,
+    height: 350,
+    zIndex: 2,
+    left: 0,
+    right: 0,
+    background:
+      'linear-gradient(180deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.8) 67%, rgba(17,17,17,0) 100%)',
+    pointerEvents: 'none',
+    [mediaQueries.mUp]: {
+      display: 'none'
+    }
+  }),
   mediaDiversity: css({
     margin: '20px 0',
     '& img': {
@@ -48,7 +114,7 @@ const styles = {
   })
 }
 
-export const VIDEOS = {
+const VIDEOS = {
   main: {
     hls:
       'https://player.vimeo.com/external/213080233.m3u8?s=40bdb9917fa47b39119a9fe34b9d0fb13a10a92e',
@@ -59,7 +125,11 @@ export const VIDEOS = {
   }
 }
 
-export const Page = ({ router, crowdfunding }) => {
+const Page = ({ router, crowdfunding, data }) => {
+  const [highlight, setHighlight] = useState()
+  // ensure the highlighFunction is not dedected as an state update function
+  const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
+
   const pledgeLink = (
     <Link route='pledge'>
       <a {...linkRule}>Jetzt mitmachen!</a>
@@ -134,6 +204,7 @@ export const Page = ({ router, crowdfunding }) => {
             memberships: true
           }
         }}
+        raw
       >
         <Lead>
           Unterstützen Sie unabhängigen Journalismus und leisten Sie sich ein
@@ -232,6 +303,40 @@ Deshalb haben wir von Anfang an die Stellschrauben so eingestellt, dass wir ihr 
 
 **Ständige Weiterentwicklung ist in unserer DNA.** Wir sind so neugierig, wie wir es uns von unseren Leserinnen auch wünschen. Und damit wir uns in die richtige Richtung entwickeln, sind wir ständig im Dialog mit Ihnen.
 
+        `}
+      </ContainerWithSidebar>
+      <div {...styles.overviewOverflow}>
+        <div {...styles.overviewContainer}>
+          <Container
+            style={{
+              maxWidth: 1200,
+              padding: 0
+            }}
+          >
+            <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
+              <Loader
+                loading={data.loading}
+                error={data.error}
+                style={{ minHeight: 420 }}
+                render={() => (
+                  <TeaserBlock
+                    teasers={getTeasersFromDocument(data.front)}
+                    highlight={highlight}
+                    onHighlight={onHighlight}
+                    maxHeight={500}
+                    maxColumns={8}
+                  />
+                )}
+              />
+            </div>
+            <div {...styles.overviewBottomShadow} />
+          </Container>
+        </div>
+      </div>
+      <Container>
+        <Content>
+          {md(mdComponents)`
+
 ## Und was bekommen ich für mein Abo?
 
 Sie erhalten täglich eine bis drei neue Geschichten. Das Konzept:  Einordnung und Vertiefung anstelle einer Flut von Nachrichten. Unser Journalismus dreht sich in der Regel nicht um das Ereignis, sondern das System dahinter.
@@ -258,17 +363,17 @@ Unsere Redaktion besteht aus kompetenten Profis. Den besten, die wir finden konn
 
 `}
 
-        <Employees
-          ssr={false}
-          withBoosted
-          shuffle={15}
-          slice={10}
-          filter={e =>
-            e.group !== 'Verwaltungsrat' && e.group !== 'Gründerinnenteam'
-          }
-        />
+          <Employees
+            ssr={false}
+            withBoosted
+            shuffle={15}
+            slice={10}
+            filter={e =>
+              e.group !== 'Verwaltungsrat' && e.group !== 'Gründerinnenteam'
+            }
+          />
 
-        {md(mdComponents)`
+          {md(mdComponents)`
 
 ## Warum das alles wichtig ist
 
@@ -291,59 +396,70 @@ Einerseits als konkreten Beitrag zur Vielfalt. Andererseits ist die Republik auc
 Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
 
   `}
-        <br />
-        <Link route='pledge' passHref>
-          <Button primary style={{ minWidth: 300 }}>
-            Jetzt mitmachen!
-          </Button>
-        </Link>
+          <br />
+          <Link route='pledge' passHref>
+            <Button primary style={{ minWidth: 300 }}>
+              Jetzt mitmachen!
+            </Button>
+          </Link>
 
-        <div style={{ margin: '15px 0 40px' }}>
-          <Label style={{ display: 'block', marginBottom: 5 }}>
-            Jetzt andere auf die Republik aufmerksam machen:
-          </Label>
-          <ActionBar
-            url={PUBLIC_BASE_URL + router.pathname}
-            emailSubject={'Es ist Zeit.'}
-          />
-        </div>
+          <div style={{ margin: '15px 0 40px' }}>
+            <Label style={{ display: 'block', marginBottom: 5 }}>
+              Jetzt andere auf die Republik aufmerksam machen:
+            </Label>
+            <ActionBar
+              url={PUBLIC_BASE_URL + router.pathname}
+              emailSubject={'Es ist Zeit.'}
+            />
+          </div>
 
-        {md(mdComponents)`
+          {md(mdComponents)`
 
-Noch nicht überzeugt? Wir haben zusammen mit unseren Komplizen 101 Gründe gesammelt, warum es sich lohnt, Mitglied der Republik zu werden.
+## 19’566 Verlegerinnen und Verleger
+
+  `}
+          {crowdfunding && (
+            <div style={{ margin: '20px 0' }}>
+              <TestimonialList
+                first={10}
+                membershipAfter={crowdfunding.endDate}
+                onSelect={id => {
+                  Router.push(`/community?id=${id}`).then(() => {
+                    window.scrollTo(0, 0)
+                  })
+                  return false
+                }}
+              />
+            </div>
+          )}
+
+          <Link route='community'>
+            <a {...linkRule}>Alle ansehen</a>
+          </Link>
+
+          <br />
+          <br />
+          <br />
+
+          {md(mdComponents)`
+
+Noch nicht überzeugt? [Wir haben zusammen mit unseren Komplizen 101 Gründe gesammelt, warum es sich lohnt, Mitglied der Republik zu werden.](/game/101)
 
 Und danach ist es wirklich Zeit für eine Entscheidung. 
 
-TK: 101-Gründe-Link
-
-## 19'566 Verlegerinnen und Verleger
-
   `}
-        {crowdfunding && (
-          <div style={{ margin: '20px 0' }}>
-            <TestimonialList
-              first={10}
-              membershipAfter={crowdfunding.endDate}
-              onSelect={id => {
-                Router.push(`/community?id=${id}`).then(() => {
-                  window.scrollTo(0, 0)
-                })
-                return false
-              }}
-            />
-          </div>
-        )}
 
-        <Link route='community'>
-          <a {...linkRule}>Alle ansehen</a>
-        </Link>
-
-        <br />
-        <br />
-        <br />
-      </ContainerWithSidebar>
+          <br />
+          <br />
+          <br />
+        </Content>
+      </Container>
     </Frame>
   )
 }
 
-export default withSurviveStatus(withRouter(Page))
+export default compose(
+  withRouter,
+  withSurviveStatus,
+  graphql(query)
+)(Page)

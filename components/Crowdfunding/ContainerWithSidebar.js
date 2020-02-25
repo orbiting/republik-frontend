@@ -17,23 +17,17 @@ const styles = {
   content: css({
     paddingTop: 20,
     [mediaQueries.mUp]: {
+      paddingLeft: CONTENT_PADDING,
       paddingRight: CONTENT_PADDING + SIDEBAR_WIDTH
     },
     [mediaQueries.lUp]: {
       paddingRight: CONTENT_PADDING * 2 + SIDEBAR_WIDTH
     }
-  }),
-  indention: css({
-    [mediaQueries.mUp]: {
-      paddingLeft: CONTENT_PADDING
-    }
   })
 }
 
-const Content = ({ children, indented, ...props }) => (
-  <div {...props} {...styles.content} {...(indented ? styles.indention : {})}>
-    {children}
-  </div>
+export const Content = ({ children }) => (
+  <div {...styles.content}>{children}</div>
 )
 
 const ContainerWithSidebar = ({ sidebarProps, children }) => {
@@ -44,7 +38,7 @@ const ContainerWithSidebar = ({ sidebarProps, children }) => {
       <div {...styles.sidebar}>
         <Sidebar {...sidebarProps} sticky={sticky} setSticky={setSticky} />
       </div>
-      <Content indented>{children}</Content>
+      <Content>{children}</Content>
     </Container>
   )
 }

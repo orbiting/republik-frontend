@@ -292,11 +292,7 @@ const PrimaryCTA = withInNativeApp(
         params: { package: 'ABO' }
       }
       text = 'Mitglied werden'
-    } else if (
-      questionnaire &&
-      questionnaire.userIsEligible &&
-      !questionnaire.userHasSubmitted
-    ) {
+    } else if (questionnaire && questionnaire.shouldAnswer) {
       target = {
         route: 'questionnaireCrowd',
         params: { slug: questionnaireCrowdSlug }
@@ -567,6 +563,8 @@ Falls Sie sich vorstellen können, dabei zu sein, haben wir ein kleines Formular
 ${
   questionnaire && questionnaire.userHasSubmitted ? (
     'Vielen Dank fürs Ausfüllen.'
+  ) : questionnaire && questionnaire.hasEnded ? (
+    'Nicht mehr verfügbar.'
   ) : (
     <Link
       route='questionnaireCrowd'
@@ -826,19 +824,17 @@ Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik k�
               <br />
               <br />
 
-              {questionnaire &&
-                questionnaire.userIsEligible &&
-                !questionnaire.userHasSubmitted && (
-                  <Link
-                    route='questionnaireCrowd'
-                    params={{ slug: questionnaireCrowdSlug }}
-                    passHref
-                  >
-                    <Button white block>
-                      Komplizin werden
-                    </Button>
-                  </Link>
-                )}
+              {questionnaire && questionnaire.shouldAnswer && (
+                <Link
+                  route='questionnaireCrowd'
+                  params={{ slug: questionnaireCrowdSlug }}
+                  passHref
+                >
+                  <Button white block>
+                    Komplizin werden
+                  </Button>
+                </Link>
+              )}
 
               <br />
               <br />
@@ -849,73 +845,6 @@ Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik k�
     </Frame>
   )
 }
-
-const statusQuery = gql`
-  query StatusPage {
-    revenueStats {
-      surplus(min: "2019-11-30T23:00:00Z") {
-        total
-        updatedAt
-      }
-    }
-    membershipStats {
-      count
-      evolution(min: "2019-12", max: "2020-03") {
-        buckets {
-          key
-
-          gaining
-
-          ending
-          expired
-          cancelled
-
-          activeEndOfMonth
-
-          pending
-          pendingSubscriptionsOnly
-        }
-        updatedAt
-      }
-    }
-    questionnaire(slug: "${questionnaireCrowdSlug}") {
-      id
-      turnout {
-        submitted
-      }
-    }
-  }
-`
-
-const actionsQuery = gql`
-  query StatusPageActions($accessToken: ID) {
-    me(accessToken: $accessToken) {
-      id
-      customPackages {
-        options {
-          membership {
-            id
-            user {
-              id
-            }
-            graceEndDate
-          }
-          defaultAmount
-          reward {
-            ... on MembershipType {
-              name
-            }
-          }
-        }
-      }
-    }
-    questionnaire(slug: "${questionnaireCrowdSlug}") {
-      id
-      userIsEligible
-      userHasSubmitted
-    }
-  }
-`
 
 const EnhancedPage = compose(
   withT,

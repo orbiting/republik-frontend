@@ -75,6 +75,7 @@ const actionsQuery = gql`
       id
       userIsEligible
       userHasSubmitted
+      endDate
     }
   }
 `
@@ -139,9 +140,20 @@ const withSurviveStatus = compose(
           (me.activeMembership &&
             new Date(me.activeMembership.endDate) <= new Date(END_DATE)))
 
+      const qHasEnded =
+        questionnaire && new Date() > new Date(questionnaire.endDate)
+
       return {
         actionsLoading: loading,
-        questionnaire,
+        questionnaire: {
+          ...questionnaire,
+          hasEnded: qHasEnded,
+          shouldAnswer:
+            questionnaire &&
+            questionnaire.userIsEligible &&
+            !questionnaire.userHasSubmitted &&
+            !qHasEnded
+        },
         shouldBuyProlong,
         isReactivating:
           ownMembership && new Date(ownMembership.graceEndDate) < new Date(),

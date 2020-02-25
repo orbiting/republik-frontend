@@ -129,7 +129,7 @@ class Questionnaire extends Component {
       questionnaireData,
       t,
       showResults,
-      pageClosed,
+      submittedMessage,
       questionnaireName,
       externalSubmit,
       hideCount,
@@ -167,10 +167,12 @@ class Questionnaire extends Component {
           const submitting = this.state.submitting || this.props.submitting
           const updating = this.state.updating || this.props.updating
 
+          if (!submitting && userHasSubmitted && submittedMessage) {
+            return submittedMessage
+          }
+
           if (!submitting && (hasEnded || userHasSubmitted)) {
-            return pageClosed ? (
-              pageClosed
-            ) : (
+            return (
               <QuestionnaireClosed
                 submitted={userHasSubmitted}
                 showResults={showResults}

@@ -119,6 +119,7 @@ export const Page = ({ router, crowdfunding }) => {
     >
       <ContainerWithSidebar
         sidebarProps={{
+          title: 'Jetzt unterstützen',
           crowdfunding: {
             ...crowdfunding,
             status: crowdfunding.status && {

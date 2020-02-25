@@ -119,7 +119,12 @@ export const Page = ({ router }) => {
       cover={<VideoCover src={VIDEOS.main} cursor endScroll={0.97} />}
     >
       <ContainerWithSidebar
-        sidebarProps={{ links, packages, crowdfundingName: 'REPUBLIK' }}
+        sidebarProps={{
+          links,
+          packages,
+          crowdfundingName: 'REPUBLIK',
+          title: 'Abo und Mitgliedschaft für ein Jahr'
+        }}
       >
         <Lead>
           Willkommen zum Crowdfunding für das digitale Magazin Republik von

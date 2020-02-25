@@ -71,11 +71,11 @@ const styles = {
 
 class SidebarInner extends Component {
   render() {
-    const { t, onChange, crowdfunding, links, packages } = this.props
+    const { t, onChange, crowdfunding, title, links, packages } = this.props
 
     return (
       <div {...styles.container}>
-        <div {...styles.packages}>Abo und Mitgliedschaft für ein Jahr</div>
+        <div {...styles.packages}>{title}</div>
         {packages.map(pack => {
           return (
             <Link
@@ -188,7 +188,15 @@ class Sidebar extends Component {
   }
   render() {
     const { right } = this.state
-    const { sticky, t, crowdfunding, links, packages, statusProps } = this.props
+    const {
+      sticky,
+      t,
+      crowdfunding,
+      title,
+      links,
+      packages,
+      statusProps
+    } = this.props
 
     const onChange = state => this.setState(() => state)
 
@@ -214,6 +222,7 @@ class Sidebar extends Component {
           }}
         >
           <SidebarInner
+            title={title}
             links={links}
             packages={packages}
             t={t}
@@ -226,6 +235,7 @@ class Sidebar extends Component {
         {!!sticky.sidebar && (
           <div {...styles.sticky} style={{ right: right }}>
             <SidebarInner
+              title={title}
               links={links}
               packages={packages}
               t={t}

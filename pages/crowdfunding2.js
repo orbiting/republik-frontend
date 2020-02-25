@@ -7,6 +7,7 @@ import { Link } from '../lib/routes'
 import mdComponents from '../lib/utils/mdComponents'
 import { thousandSeparator } from '../lib/utils/format'
 
+import Employees from '../components/Imprint/Employees'
 import Frame from '../components/Frame'
 import VideoCover from '../components/VideoCover'
 import ActionBar from '../components/ActionBar'
@@ -254,7 +255,19 @@ ${pledgeLink}
 
 Unsere Redaktion besteht aus kompetenten Profis. Den besten, die wir finden konnten. Sehen Sie selbst und blättern Sie durch unsere Autorinnen und Redakteure.
 
-TK: Element mit dem man sich durch Autorinnen und wichtige Exponenten der Republik swipen/klicken kann. Fotos, Namen und 1-Satz Beschreibungen
+`}
+
+        <Employees
+          ssr={false}
+          withBoosted
+          shuffle={15}
+          slice={10}
+          filter={e =>
+            e.group !== 'Verwaltungsrat' && e.group !== 'Gründerinnenteam'
+          }
+        />
+
+        {md(mdComponents)`
 
 ## Warum das alles wichtig ist
 

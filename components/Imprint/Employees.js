@@ -49,8 +49,8 @@ const styles = {
 }
 
 const getEmployees = gql`
-  query {
-    employees {
+  query getEmployees($shuffle: Int, $withBoosted: Boolean) {
+    employees(withBoosted: $withBoosted, shuffle: $shuffle) {
       title
       name
       group
@@ -66,42 +66,59 @@ const getEmployees = gql`
 
 const renderEmployee = (employee, i) => <Employee {...employee} key={i} />
 
-const Employees = compose(graphql(getEmployees, {}))(
-  ({ data: { loading, error, employees } }) => (
-    <Loader
-      loading={loading}
-      error={error}
-      render={() => {
-        const employeeGroups = nest()
-          .key(d => d['group'])
-          .key(d => d['subgroup'] || 'group')
-          .object(employees)
+const Employees = compose(
+  graphql(getEmployees, {
+    options: ({ ssr = true }) => ({
+      ssr
+    })
+  })
+)(({ data: { loading, error, employees }, filter, slice }) => (
+  <Loader
+    loading={loading}
+    error={error}
+    render={() => {
+      if (filter) {
         return (
           <div {...styles.container}>
-            {entries(employeeGroups).map(group => (
-              <section {...styles.group} key={group.key}>
-                <H2 {...styles.groupHeading}>{group.key}</H2>
-                {group.value.group ? (
-                  <div {...styles.tiles}>
-                    {group.value.group.map(renderEmployee)}
-                  </div>
-                ) : (
-                  entries(group.value).map(subgroup => (
-                    <section {...styles.subgroup} key={subgroup.key}>
-                      <H3 {...styles.subgroupHeading}>{subgroup.key}</H3>
-                      <div {...styles.tiles}>
-                        {subgroup.value.map(renderEmployee)}
-                      </div>
-                    </section>
-                  ))
-                )}
-              </section>
-            ))}
+            <div {...styles.tiles}>
+              {employees
+                .filter(filter)
+                .slice(0, slice)
+                .map(renderEmployee)}
+            </div>
           </div>
         )
-      }}
-    />
-  )
-)
+      }
+
+      const employeeGroups = nest()
+        .key(d => d['group'])
+        .key(d => d['subgroup'] || 'group')
+        .object(employees)
+      return (
+        <div {...styles.container}>
+          {entries(employeeGroups).map(group => (
+            <section {...styles.group} key={group.key}>
+              <H2 {...styles.groupHeading}>{group.key}</H2>
+              {group.value.group ? (
+                <div {...styles.tiles}>
+                  {group.value.group.map(renderEmployee)}
+                </div>
+              ) : (
+                entries(group.value).map(subgroup => (
+                  <section {...styles.subgroup} key={subgroup.key}>
+                    <H3 {...styles.subgroupHeading}>{subgroup.key}</H3>
+                    <div {...styles.tiles}>
+                      {subgroup.value.map(renderEmployee)}
+                    </div>
+                  </section>
+                ))
+              )}
+            </section>
+          ))}
+        </div>
+      )
+    }}
+  />
+))
 
 export default Employees

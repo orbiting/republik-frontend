@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-18T19:30:00.475Z",
+  "updated": "2020-02-25T00:06:06.767Z",
   "title": "live",
   "data": [
     {
@@ -4585,6 +4585,10 @@
     {
       "key": "crowdfunding/status/goal/PROLONG/memberships",
       "value": "bereits verlängerte Mitgliedschaften. Ziel: {count}."
+    },
+    {
+      "key": "crowdfunding/status/goal/SURVIVE/memberships",
+      "value": "im März verkaufte Mitgliedschaften. Ambition: {count}."
     },
     {
       "key": "crowdfunding/status/goal/money",

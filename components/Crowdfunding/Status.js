@@ -225,12 +225,12 @@ class Status extends Component {
           </P>
         )}
         {[
-          people && {
-            accessor: 'people',
-            format: countFormat
-          },
           memberships && {
             accessor: 'memberships',
+            format: countFormat
+          },
+          people && {
+            accessor: 'people',
             format: countFormat
           },
           money && {

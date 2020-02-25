@@ -121,12 +121,16 @@ export const Page = ({ router, crowdfunding }) => {
           crowdfunding: {
             ...crowdfunding,
             status: crowdfunding.status && {
+              memberships: crowdfunding.status.memberships,
               people: crowdfunding.status.people,
               money: crowdfunding.status.money
             }
           },
           links,
-          packages
+          packages,
+          statusProps: {
+            memberships: true
+          }
         }}
       >
         <Lead>
@@ -154,25 +158,27 @@ ${pledgeLink}
 
         <div {...styles.stretchLead}>
           <Interaction.P {...styles.stretchP} style={{ marginBottom: 10 }}>
-            Damit das digitale Magazin Republik an den Start gehen kann, haben
-            wir 3000 Abonnentinnen und Abonnenten sowie 750{thousandSeparator}
-            000 Franken gesucht. Dieses Ziel haben wir zusammen mit Ihnen am
-            ersten Tag des Crowdfundings nach sieben Stunden und 49 Minuten
-            erreicht. Herzlichen Dank!
+            Damit das digitale Magazin Republik die Trendwende schafft müssen
+            wir bis am 31.&nbsp;März noch 1{thousandSeparator}000 aktive
+            Verlegerinnen und 500{thousandSeparator}000 Franken sammeln. Um
+            beide Ziele zu erreichen wollen wir diesen Monat{' '}
+            <Highlight>3000 Mitgliedschaften</Highlight> verkaufen. Denn eine
+            möglichst grosse Verlegerschaft ist langfristig die beste Option.
           </Interaction.P>
           <Interaction.P {...styles.stretchP}>
-            Republik will das Mediensystem entscheidend verändern – deshalb
-            sammeln wir weiter!
+            [Sobald erreicht] Dieses Ziel haben wir zusammen mit Ihnen am
+            2.&nbsp;März erreicht. Herzlichen Dank! Republik will das
+            Mediensystem entscheidend verändern – deshalb sammeln wir weiter!
           </Interaction.P>
           <List>
             <List.Item>
-              <Highlight>Bei 5000</Highlight> Unterstützerinnen und
-              Unterstützern haben wir zwei weitere Ausbildungsplätze für junge
-              Journalistinnen und Journalisten geschaffen.
+              <Highlight>Bei 6000</Highlight> verkauften Mitgliedschaften sind
+              wir zum ersten Mal kurzfristig selbsttragend.
             </List.Item>
             <List.Item>
-              <Highlight>Bei 7000</Highlight> Mitgliedern haben wir die
-              Redaktion um einen zusätzlichen Kopf vergrössert.
+              <Highlight>Bei 9000</Highlight> sind wir für mindestens die
+              nächsten zwei Jahre selbsttragend. Sofern wir die heutigen
+              Erneuerungsraten halten können.
             </List.Item>
           </List>
         </div>

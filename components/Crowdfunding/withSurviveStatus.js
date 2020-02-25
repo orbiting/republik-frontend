@@ -99,11 +99,13 @@ const withSurviveStatus = compose(
             endDate: END_DATE,
             goals: [
               {
+                memberships: 3000,
                 people: 19000,
                 money: 220000000
               }
             ],
             status: {
+              memberships: 123, // ToDo: wire up
               current: count,
               people:
                 lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly,

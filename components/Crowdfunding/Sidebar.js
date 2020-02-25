@@ -188,7 +188,7 @@ class Sidebar extends Component {
   }
   render() {
     const { right } = this.state
-    const { sticky, t, crowdfunding, links, packages } = this.props
+    const { sticky, t, crowdfunding, links, packages, statusProps } = this.props
 
     const onChange = state => this.setState(() => state)
 
@@ -204,6 +204,7 @@ class Sidebar extends Component {
           t={t}
           crowdfundingName={crowdfunding.name}
           crowdfunding={crowdfunding}
+          {...statusProps}
         />
 
         <div

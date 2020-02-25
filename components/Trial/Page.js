@@ -5,13 +5,15 @@ import { withRouter } from 'next/router'
 import Form from './Form'
 import withTrialEligibility from './withTrialEligibility'
 import { withSignIn } from '../Auth/SignIn'
+import { Link } from '../../lib/routes'
 import { parseJSONObject } from '../../lib/safeJSON'
 import { timeFormat } from '../../lib/utils/format'
 import { TRIAL_CAMPAIGN, TRIAL_CAMPAIGNS } from '../../lib/constants'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
 
-import { Interaction } from '@project-r/styleguide'
+import { Button, Label, Interaction, RawHtml } from '@project-r/styleguide'
 
 const { H1, P } = Interaction
 
@@ -44,7 +46,8 @@ const Page = props => {
     trialEligibility,
     me,
     router: { query },
-    t
+    t,
+    inNativeIOSApp
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
   const campaign = query.campaign || query.utm_campaign
@@ -56,6 +59,39 @@ const Page = props => {
   const accessCampaignId =
     (trailCampaignes[campaign] && trailCampaignes[campaign].accessCampaignId) ||
     TRIAL_CAMPAIGN
+
+  // tmp: no trial in March
+  if (!hasAccess) {
+    return (
+      <>
+        <H1 style={{ marginBottom: 40 }}>{t('Trial/Page/disabled/title')}</H1>
+
+        {t('Trial/Page/disabled/body')
+          .split('\n\n')
+          .map((c, i) => (
+            <P key={i} style={{ marginTop: 30, marginBottom: 30 }}>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: c
+                }}
+              />
+            </P>
+          ))}
+
+        {!inNativeIOSApp && (
+          <>
+            <Link route='pledge'>
+              <Button primary>{t('Trial/Page/disabled/button')}</Button>
+            </Link>
+
+            <div style={{ marginTop: 10 }}>
+              <Label>{t('Trial/Page/disabled/note')}</Label>
+            </div>
+          </>
+        )}
+      </>
+    )
+  }
 
   return (
     <Fragment>
@@ -79,6 +115,7 @@ const Page = props => {
 }
 
 export default compose(
+  withInNativeApp,
   withTrialEligibility,
   withSignIn,
   withMe,

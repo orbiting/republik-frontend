@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-25T00:06:06.767Z",
+  "updated": "2020-02-25T12:52:48.581Z",
   "title": "live",
   "data": [
     {
@@ -6509,6 +6509,22 @@
     {
       "key": "PodcastButtons/spotify",
       "value": "Spotify"
+    },
+    {
+      "key": "Trial/Page/disabled/title",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Trial/Page/disabled/body",
+      "value": "Wie Sie vielleicht wissen befindet sich die Republik momentan inmitten einer Kampagne um ihre Zukunft. Erreichen wir bis Ende März das Ziel von 19’000 Verlegerinnen und CHF 2’200’000 Spenden und Investitionen nicht, werden wir die Publikation einstellen und das Unternehmen geordnet auflösen müssen. \n\nBisher läuft es <a href=\"https://project-r.construction/newsletter/2020-02-04-75-prozent\">sehr erfreulich und besser als geplant</a>. Dennoch sind wir nicht am Ziel. Wir müssen im März noch über tausend neue Leser gewinnen. \n\nEs geht um alles. Deswegen gibt es im März nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
+    },
+    {
+      "key": "Trial/Page/disabled/button",
+      "value": "Mitglied werden"
+    },
+    {
+      "key": "Trial/Page/disabled/note",
+      "value": "Falls wir die Ziele am 31. März nicht erreichen, erhalten Sie Ihr Geld zurück."
     }
   ]
 }

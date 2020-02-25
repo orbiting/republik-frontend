@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-25T13:48:13.153Z",
+  "updated": "2020-02-25T14:16:21.590Z",
   "title": "live",
   "data": [
     {
@@ -6520,7 +6520,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before",
-      "value": "Journalismus kostet. Die Republik ist werbefrei und wird von ihren Leserinnen und Spendern finanziert. Schon {count} Personen unterstützen die Republik.\n\nUm auch nach März weiter publizieren zu können, fehlen uns jedoch noch 1675 Abonnenten (Counter).\n\nErreichen wir dieses Ziel nicht, wird die Republik in 14 Tagen (Counter) geordnet aufgelöst. \n\nWenn Sie weiterhin unabhängige Berichterstattung wie diese lesen wollen, handeln Sie jetzt! Kommen Sie an Bord."
+      "value": "Journalismus kostet. Die Republik ist werbefrei und wird von ihren Leserinnen und Spendern finanziert. Schon {count} Personen unterstützen die Republik.\n\nUm auch nach März weiter publizieren zu können, fehlen uns jedoch noch 1675 Abonnenten [TK: live].\n\nErreichen wir dieses Ziel nicht, wird die Republik in 14 Tagen [TK: live] geordnet aufgelöst. \n\nWenn Sie weiterhin unabhängige Berichterstattung wie diese lesen wollen, handeln Sie jetzt! Kommen Sie an Bord."
     },
     {
       "key": "article/payNote/200225-v1/before/buy/button",
@@ -6557,6 +6557,26 @@
     {
       "key": "article/payNote/200225-v1/after/note",
       "value": "Falls wir die Ziele am 31. März nicht erreichen, erhalten Sie Ihr Geld zurück."
+    },
+    {
+      "key": "article/donateNote/200225-v1/after",
+      "value": "<b>Schenken Sie der Republik Wachstum</b><br />\nDie Republik braucht noch 431'000 Franken [TK: live] um zu überleben. Am besten in Form von Mitgliedschaften die früher oder später zu treuen Verlegerinnen werden. Sind Sie bereit für eine Patenschaft? Zusammen mit unseren 1000 Komplizen finden wir Ihnen ein Täufling und lassen Sie wissen wem Sie die Republik ermöglicht haben. "
+    },
+    {
+      "key": "article/donateNote/200225-v1/after/buy/button",
+      "value": "Patenschaft für 240.-"
+    },
+    {
+      "key": "article/donateNote/200225-v1/after/secondary/prefix",
+      "value": "Lieber anonym bleiben?"
+    },
+    {
+      "key": "article/donateNote/200225-v1/after/secondary/label",
+      "value": "Beliebiger Geld-Beitrag leisten"
+    },
+    {
+      "key": "article/donateNote/200225-v1/after/secondary/link",
+      "value": "/angebote?package=DONATE&price=6000"
     }
   ]
 }

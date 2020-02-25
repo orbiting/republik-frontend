@@ -56,12 +56,15 @@ const styles = {
     }
   }),
   aside: css({
+    maxWidth: '50%',
     marginTop: 15,
     color: colors.lightText,
     ...fontStyles.sansSerifRegular16,
+    lineHeight: 1.4,
     '& a': linkRule,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular18,
+      lineHeight: 1.4,
       marginLeft: 30,
       marginTop: 0
     }
@@ -178,6 +181,16 @@ const predefinedNotes = generateNotes(
   )
   .concat(
     generateNotes(
+      ['donateNote/200225-v1'],
+      {
+        hasActiveMembership: true,
+        inNativeIOSApp: false
+      },
+      'button'
+    )
+  )
+  .concat(
+    generateNotes(
       IOS_VARIATIONS,
       {
         hasActiveMembership: false,
@@ -199,7 +212,10 @@ const predefinedNotes = generateNotes(
     )
   )
 
-const isEmpty = positionedNote => !positionedNote.cta && !positionedNote.content
+const isEmpty = positionedNote =>
+  (!positionedNote.cta ||
+    (positionedNote.cta === 'button' && !positionedNote.button.label)) &&
+  !positionedNote.content
 
 const meetTarget = target => payNote => {
   const targetKeys = new Set(Object.keys(payNote.target))
@@ -337,7 +353,7 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
         <BuyNoteCta darkMode={darkMode} payNote={payNote} payload={payload} />
       )}
       {payNote.note && (
-        <div style={{ marginTop: 10 }}>
+        <div style={{ marginTop: 10, marginBottom: 5 }}>
           <Label style={{ color: darkMode ? colors.negative.text : '#000000' }}>
             {payNote.note}
           </Label>

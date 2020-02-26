@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-26T10:10:57.825Z",
+  "updated": "2020-02-26T10:24:38.824Z",
   "title": "live",
   "data": [
     {
@@ -6585,6 +6585,14 @@
     {
       "key": "option/ABO/accessGranted/label/1",
       "value": "Patenmitgliedschaft"
+    },
+    {
+      "key": "package/DONATE_POT/title",
+      "value": "Mitgliedschafts-Topf-Spende"
+    },
+    {
+      "key": "package/DONATE_POT/description",
+      "value": "Schenke der Republik Wachstum. Pro 240 Franken die zusammen kommen schenken wir, mit unseren über 1000 Komplizen, sorgfältig ausgewählten Personen eine Mitgliedschaft."
     }
   ]
 }

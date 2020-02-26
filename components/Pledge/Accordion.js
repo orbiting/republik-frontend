@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import { nest } from 'd3-collection'
-import { ascending } from 'd3-array'
+import { min, ascending } from 'd3-array'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -133,6 +133,7 @@ const query = gql`
           maxAmount
           defaultAmount
           reward {
+            __typename
             ... on MembershipType {
               id
               name
@@ -259,10 +260,25 @@ class Accordion extends Component {
             const setHover = hover => this.setState({ hover })
 
             let pkgItems = pkgs.map((pkg, i) => {
-              const price = pkg.options.reduce(
+              let price = pkg.options.reduce(
                 (amount, option) => amount + option.price * option.minAmount,
                 0
               )
+              if (!price) {
+                price =
+                  min(
+                    pkg.options
+                      .filter(
+                        o =>
+                          o.reward && o.reward.__typename === 'MembershipType'
+                      )
+                      .map(
+                        option =>
+                          option.price *
+                          (option.minAmount || option.defaultAmount)
+                      )
+                  ) || 0
+              }
               return {
                 route: 'pledge',
                 params: { package: pkg.name },

@@ -38,19 +38,23 @@ const styles = {
   })
 }
 
-export const isMembershipVoucherCode = voucherCode => {
+const isMembershipVoucherCode = voucherCode => {
   return voucherCode.length === 6
 }
 
-export const isAccessGrantVoucherCode = voucherCode => {
-  return voucherCode.length === 5
+const voucherCodeNeedsStatutes = voucherCode => {
+  return voucherCode.length === 6 || voucherCode.length === 7
+}
+
+const isAccessGrantVoucherCode = voucherCode => {
+  return voucherCode.length === 5 || voucherCode.length === 7
 }
 
 export const sanitizeVoucherCode = value => {
   return value
     .replace(/[^a-zA-Z0-9]/g, '')
     .trim()
-    .substr(0, 6)
+    .substr(0, 7)
     .toUpperCase()
 }
 
@@ -243,7 +247,7 @@ class ClaimMembership extends Component {
 
     const requiredConsents = ['PRIVACY', 'TOS']
 
-    if (values.voucherCode && isMembershipVoucherCode(values.voucherCode)) {
+    if (values.voucherCode && voucherCodeNeedsStatutes(values.voucherCode)) {
       requiredConsents.push('STATUTE')
     }
 

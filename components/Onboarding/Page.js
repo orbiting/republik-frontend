@@ -82,12 +82,9 @@ class Page extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      expandedSection: null,
-      hasOnceVisitedAll: false
-    }
     const {
       router: {
+        query,
         query: { context }
       }
     } = props
@@ -118,6 +115,13 @@ class Page extends Component {
         visited: false
       }
     ].filter(Boolean)
+
+    this.state = {
+      expandedSection: this.sections.find(s => s.name === query.section)
+        ? query.section
+        : null,
+      hasOnceVisitedAll: false
+    }
 
     this.onExpand = props => {
       this.setState(({ expandedSection }) => ({

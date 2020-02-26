@@ -11,7 +11,7 @@ import { format } from 'url'
 
 import withT from '../../lib/withT'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
-import { Router, Link } from '../../lib/routes'
+import { Router } from '../../lib/routes'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
@@ -270,13 +270,15 @@ class CustomizePackage extends Component {
       userPrice,
       customMe,
       ownMembership,
-      router,
+      router: { query },
       crowdfundingName,
       values,
       errors,
       dirty,
       onChange
     } = this.props
+
+    const accessGrantedOnly = query.filter === 'pot'
 
     const price = getPrice(this.props)
     const configurableFields = pkg.options.reduce((fields, option) => {
@@ -312,26 +314,32 @@ class CustomizePackage extends Component {
     const regularMinPrice = calculateMinPrice(pkg, values, false)
     const fixedPrice = pkg.name === 'MONTHLY_ABO'
 
-    const hasNotebook = !!pkg.options.find(
+    const goodies = pkg.options.filter(
+      option =>
+        option.reward &&
+        option.reward.__typename === 'Goodie' &&
+        option.maxAmount > 0
+    )
+    const hasNotebook = !!goodies.find(
       option => option.reward && option.reward.name === 'NOTEBOOK'
     )
-    const hasTotebag = !!pkg.options.find(
+    const hasTotebag = !!goodies.find(
       option => option.reward && option.reward.name === 'TOTEBAG'
     )
-    const hasTablebook = !!pkg.options.find(
+    const hasTablebook = !!goodies.find(
       option => option.reward && option.reward.name === 'TABLEBOOK'
     )
-    const goodies = pkg.options
-      .filter(
-        option =>
-          option.reward &&
-          option.reward.__typename === 'Goodie' &&
-          option.maxAmount > 0
-      )
+    const goodieNames = goodies
       .map(option => option.reward.name)
       .sort((a, b) => ascending(a, b))
     const deliveryNote = t(
-      `pledge/notice/goodies/delivery/${goodies.join('_')}`,
+      `pledge/notice/goodies/delivery/${goodieNames.join('_')}`,
+      undefined,
+      null
+    )
+
+    const membershipNote = t(
+      `package/${pkg.name}/membershipNote`,
       undefined,
       null
     )
@@ -399,7 +407,9 @@ class CustomizePackage extends Component {
         })
     )
     const payMoreSuggestions =
-      pkg.name === 'DONATE' || pkg.name === 'ABO_GIVE_MONTHS'
+      pkg.name === 'DONATE' ||
+      pkg.name === 'ABO_GIVE_MONTHS' ||
+      pkg.name === 'ABO_GIVE'
         ? []
         : [
             userPrice && { value: regularMinPrice, key: 'normal' },
@@ -468,14 +478,15 @@ class CustomizePackage extends Component {
         `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
       ownMembership &&
         `package/${pkg.name}/${ownMembership.type.name}/description`,
+      accessGrantedOnly && `package/${pkg.name}/accessGranted/description`,
       `package/${crowdfundingName}/${pkg.name}/description`,
       `package/${pkg.name}/description`
     ].filter(Boolean)
     const description = t.first(descriptionKeys)
     const goodiesDescription =
-      !!goodies.length &&
+      !!goodieNames.length &&
       t.first(
-        descriptionKeys.map(key => `${key}/goodies/${goodies.join('_')}`),
+        descriptionKeys.map(key => `${key}/goodies/${goodieNames.join('_')}`),
         undefined,
         null
       )
@@ -506,10 +517,20 @@ class CustomizePackage extends Component {
         />
       ))
 
+    const queryWithoutFilter = { ...query }
+    delete queryWithoutFilter.filter
+
     return (
       <div>
         <div style={{ marginTop: 20, marginBottom: 10 }}>
-          <span {...styles.packageTitle}>{t(`package/${pkg.name}/title`)}</span>{' '}
+          <span {...styles.packageTitle}>
+            {t.first(
+              [
+                accessGrantedOnly && `package/${pkg.name}/accessGranted/title`,
+                `package/${pkg.name}/title`
+              ].filter(Boolean)
+            )}
+          </span>{' '}
           <A
             href='/angebote'
             onClick={event => {
@@ -527,10 +548,68 @@ class CustomizePackage extends Component {
             {t('package/customize/changePackage')}
           </A>
         </div>
-        <P style={{ marginBottom: 10 }}>
-          {!goodiesDescription && goodiesImage}
-          {description}
-        </P>
+        {description.split('\n\n').map((text, i) => (
+          <P style={{ marginBottom: 10 }} key={i}>
+            {i === 0 && !goodiesDescription && goodiesImage}
+            {text}
+          </P>
+        ))}
+        {accessGrantedOnly && (
+          <div {...styles.smallP} style={{ marginTop: -5, marginBottom: 15 }}>
+            <Editorial.A
+              href={format({
+                pathname: '/angebote',
+                query: queryWithoutFilter
+              })}
+              onClick={e => {
+                if (shouldIgnoreClick(e)) {
+                  return
+                }
+                e.preventDefault()
+                this.resetPrice()
+
+                const fullPackages = this.props.packages.find(
+                  p => p.name === pkg.name
+                )
+                if (fullPackages) {
+                  fullPackages.options.forEach(optionFull => {
+                    const optionFiltered = pkg.options.find(
+                      d =>
+                        d.reward &&
+                        d.reward.__typename === optionFull.reward.__typename &&
+                        d.reward.name === optionFull.reward.name
+                    )
+                    if (!optionFiltered) {
+                      return
+                    }
+                    onChange(
+                      FieldSet.utils.fieldsState({
+                        field: getOptionFieldKey(optionFull),
+                        value: Math.min(
+                          Math.max(
+                            optionFull.accessGranted
+                              ? 0
+                              : getOptionValue(optionFiltered, values),
+                            optionFull.minAmount
+                          ),
+                          optionFull.maxAmount
+                        ),
+                        error: undefined,
+                        dirty: true
+                      })
+                    )
+                  })
+                }
+
+                Router.pushRoute('pledge', queryWithoutFilter, {
+                  shallow: true
+                })
+              }}
+            >
+              {t('package/customize/rmAccessGrantedOnly')}
+            </Editorial.A>
+          </div>
+        )}
         {optionGroups.map(
           (
             {
@@ -905,6 +984,11 @@ class CustomizePackage extends Component {
                 {isAboGive && (!nextGroup || !nextGroup.isAboGive) && (
                   <div style={{ height: 30 }} />
                 )}
+                {groupKey === 'MembershipType' && !!membershipNote && (
+                  <div style={{ marginBottom: 20 }}>
+                    <Label>{membershipNote}</Label>
+                  </div>
+                )}
               </Fragment>
             )
           }
@@ -1140,7 +1224,7 @@ class CustomizePackage extends Component {
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...router.query, price: undefined }
+                      query: { ...query, price: undefined }
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
@@ -1151,7 +1235,7 @@ class CustomizePackage extends Component {
 
                       Router.replaceRoute(
                         'pledge',
-                        { ...router.query, price: undefined },
+                        { ...query, price: undefined },
                         { shallow: true }
                       ).then(() => {
                         if (this.focusRef && this.focusRef.input) {
@@ -1170,7 +1254,7 @@ class CustomizePackage extends Component {
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...router.query, price: undefined, userPrice: 1 }
+                      query: { ...query, price: undefined, userPrice: 1 }
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
@@ -1202,7 +1286,7 @@ class CustomizePackage extends Component {
 
                       Router.replaceRoute(
                         'pledge',
-                        { ...router.query, price: undefined, userPrice: 1 },
+                        { ...query, price: undefined, userPrice: 1 },
                         { shallow: true }
                       ).then(() => {
                         if (this.focusRef && this.focusRef.input) {

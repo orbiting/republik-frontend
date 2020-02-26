@@ -162,6 +162,18 @@ class Pledge extends Component {
         )
       }
     }
+    if (pkg && query.filter === 'pot') {
+      // do not offer goodies unless userPrice true
+      pkg = {
+        ...pkg,
+        options: pkg.options
+          .filter(option => option.accessGranted)
+          .map(option => ({
+            ...option,
+            defaultAmount: Math.min(option.maxAmount, 1)
+          }))
+      }
+    }
 
     return pkg
   }

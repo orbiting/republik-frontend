@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-26T10:24:38.824Z",
+  "updated": "2020-02-26T16:22:40.414Z",
   "title": "live",
   "data": [
     {
@@ -2369,14 +2369,6 @@
     {
       "key": "package/ABO/title",
       "value": "Jahresmitgliedschaft"
-    },
-    {
-      "key": "package/ABO_GIVE/price",
-      "value": "{formattedCHF} pro Jahr"
-    },
-    {
-      "key": "package/ABO_GIVE/title",
-      "value": "Mitgliedschaft als Geschenk"
     },
     {
       "key": "package/ABO_GIVE_MONTHS/price",
@@ -6311,18 +6303,6 @@
       "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
-      "key": "package/ABO_GIVE/description",
-      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik."
-    },
-    {
-      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazuschenken? Für begrenzte Zeit ist jetzt unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) für Verlegerinnen bestellbar. Ausserdem gibt es die Republik-Tasche oder das Republik-Notizbuch für je CHF 20."
-    },
-    {
-      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je CHF 20."
-    },
-    {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold sowie ein signiertes «Handbuch für Journalismus im 21. Jahrhundert»."
     },
@@ -6580,11 +6560,19 @@
     },
     {
       "key": "option/ABO/accessGranted/label/other",
-      "value": "Patenmitgliedschaften"
+      "value": "Topf-Mitgliedschaften"
     },
     {
       "key": "option/ABO/accessGranted/label/1",
-      "value": "Patenmitgliedschaft"
+      "value": "Topf-Mitgliedschaft"
+    },
+    {
+      "key": "option/ABO_GIVE/ABO/label/other",
+      "value": "Mitgliedschaften"
+    },
+    {
+      "key": "option/ABO_GIVE/ABO/label/1",
+      "value": "Mitgliedschaft"
     },
     {
       "key": "package/DONATE_POT/title",
@@ -6593,6 +6581,42 @@
     {
       "key": "package/DONATE_POT/description",
       "value": "Schenke der Republik Wachstum. Pro 240 Franken die zusammen kommen schenken wir, mit unseren über 1000 Komplizen, sorgfältig ausgewählten Personen eine Mitgliedschaft."
+    },
+    {
+      "key": "package/ABO_GIVE/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
+      "key": "package/ABO_GIVE/title",
+      "value": "Mitgliedschaft als Geschenk"
+    },
+    {
+      "key": "package/ABO_GIVE/description",
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik.\n\nSie wissen gerade nicht wem schenken? Oder wollen der Republik zusätzlich Wachstum schenken? Kaufen Sie Topf-Mitgliedschaften und überlassen Sie das Schenken uns und unseren über 1000 Komplizen."
+    },
+    {
+      "key": "package/ABO_GIVE/accessGranted/title",
+      "value": "Wachstum schenken"
+    },
+    {
+      "key": "package/ABO_GIVE/accessGranted/description",
+      "value": "Kaufen Sie eine Topf-Mitgliedschaft und vertrauen Sie die Aufgabe, einen passenden Empfänger für Ihr Geschenk zu finden, uns und unseren Komplizen an."
+    },
+    {
+      "key": "package/customize/rmAccessGrantedOnly",
+      "value": "Lieber selber verschenken?"
+    },
+    {
+      "key": "package/ABO_GIVE/membershipNote",
+      "value": "Die Beschenkte erfährt Ihren Namen und Sie erhalten den Namen des Empfänger-Konto sobald die Mitgliedschaft eingelöst wurde."
+    },
+    {
+      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
+      "value": "Etwas Handfestes dazuschenken? Zur Auswahl steht das Buch «Republik bei Stromausfall» für CHF 58, die Republik-Tasche oder das Republik-Notizbuch für je CHF 20. Die Objekte werden Ihnen geschickt."
+    },
+    {
+      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TOTEBAG",
+      "value": "Etwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je CHF 20. Die Objekte werden Ihnen geschickt."
     }
   ]
 }

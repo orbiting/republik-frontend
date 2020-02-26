@@ -259,7 +259,7 @@ class Accordion extends Component {
 
             const setHover = hover => this.setState({ hover })
 
-            let pkgItems = pkgs.map((pkg, i) => {
+            let pkgItems = pkgs.map(pkg => {
               let price = pkg.options.reduce(
                 (amount, option) => amount + option.price * option.minAmount,
                 0
@@ -275,7 +275,9 @@ class Accordion extends Component {
                       .map(
                         option =>
                           option.price *
-                          (option.minAmount || option.defaultAmount)
+                          (option.minAmount ||
+                            option.defaultAmount ||
+                            Math.min(1, option.maxAmount))
                       )
                   ) || 0
               }

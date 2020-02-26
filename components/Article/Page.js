@@ -706,9 +706,14 @@ class ArticlePage extends Component {
 
             const isFormat = meta.template === 'format'
             const isSection = meta.template === 'section'
-            const isNewsletterSource =
-              router.query.utm_source &&
-              router.query.utm_source === 'newsletter'
+            const suppressPayNotes = isSection || isFormat
+            const suppressFirstPayNote =
+              suppressPayNotes ||
+              podcast ||
+              (router.query.utm_source &&
+                router.query.utm_source === 'newsletter') ||
+              (router.query.utm_source &&
+                router.query.utm_source === 'flyer-v1')
             const ownDiscussion = meta.ownDiscussion
             const linkedDiscussion =
               meta.linkedDiscussion && !meta.linkedDiscussion.closed
@@ -789,11 +794,7 @@ class ArticlePage extends Component {
                               </>
                             )}
                           </Center>
-                          {!isSection &&
-                            !isFormat &&
-                            !isNewsletterSource &&
-                            !podcast &&
-                            payNote}
+                          {!suppressFirstPayNote && payNote}
                         </div>
                       )}
                       <SSRCachingBoundary
@@ -867,7 +868,7 @@ class ArticlePage extends Component {
                     <br />
                   </Fragment>
                 )}
-                {!isSection && !isFormat && payNoteAfter}
+                {!suppressPayNotes && payNoteAfter}
               </Fragment>
             )
           }}

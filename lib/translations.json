@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-26T16:22:40.414Z",
+  "updated": "2020-02-26T17:11:12.021Z",
   "title": "live",
   "data": [
     {
@@ -6617,6 +6617,26 @@
     {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TOTEBAG",
       "value": "Etwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je CHF 20. Die Objekte werden Ihnen geschickt."
+    },
+    {
+      "key": "package/customize/price/payMore/threemonth",
+      "value": "Drei Monate {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/halfayear",
+      "value": "Ein halbes Jahr {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/ayear",
+      "value": "Ein ganzes Jahr {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payRegular/DONATE_POT",
+      "value": "Betrag zurücksetzen"
+    },
+    {
+      "key": "package/customize/price/payMore/thx/ayear",
+      "value": "Herzlichen Dank!"
     }
   ]
 }

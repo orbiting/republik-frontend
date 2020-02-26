@@ -264,7 +264,7 @@ class Accordion extends Component {
                 (amount, option) => amount + option.price * option.minAmount,
                 0
               )
-              if (!price) {
+              if (!price && pkg.name !== 'PROLONG') {
                 price =
                   min(
                     pkg.options

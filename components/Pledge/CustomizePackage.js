@@ -407,9 +407,15 @@ class CustomizePackage extends Component {
         })
     )
     const payMoreSuggestions =
-      pkg.name === 'DONATE' ||
-      pkg.name === 'ABO_GIVE_MONTHS' ||
-      pkg.name === 'ABO_GIVE'
+      pkg.name === 'DONATE_POT'
+        ? [
+            { value: 6000, key: 'threemonth' },
+            { value: 12000, key: 'halfayear' },
+            { value: 24000, key: 'ayear' }
+          ]
+        : pkg.name === 'DONATE' ||
+          pkg.name === 'ABO_GIVE_MONTHS' ||
+          pkg.name === 'ABO_GIVE'
         ? []
         : [
             userPrice && { value: regularMinPrice, key: 'normal' },
@@ -1244,7 +1250,10 @@ class CustomizePackage extends Component {
                       })
                     }}
                   >
-                    {t('package/customize/price/payRegular')}
+                    {t.first([
+                      `package/customize/price/payRegular/${pkg.name}`,
+                      'package/customize/price/payRegular'
+                    ])}
                   </Editorial.A>
                   <br />
                 </Fragment>

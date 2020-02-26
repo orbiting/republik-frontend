@@ -6,6 +6,7 @@ export default gql`
       id
       memberships {
         id
+        accessGranted
         claimerName
         voucherCode
         createdAt
@@ -92,6 +93,7 @@ export default gql`
           amount
           periods
           price
+          accessGranted
           membership {
             id
             user {

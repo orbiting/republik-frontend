@@ -85,6 +85,12 @@ class PledgeList extends Component {
                             `pledge/option/${pledge.package.name}/${option.reward.name}/label/${option.amount}`,
                             `pledge/option/${pledge.package.name}/${option.reward.name}/label/other`,
                             `pledge/option/${pledge.package.name}/${option.reward.name}/label`,
+                            option.accessGranted &&
+                              `option/${pledge.package.name}/${option.reward.name}/accessGranted/label/${option.amount}`,
+                            option.accessGranted &&
+                              `option/${pledge.package.name}/${option.reward.name}/accessGranted/label/other`,
+                            option.accessGranted &&
+                              `option/${pledge.package.name}/${option.reward.name}/accessGranted/label`,
                             `option/${option.reward.name}/label/${option.amount}`,
                             `option/${option.reward.name}/label/other`,
                             `option/${option.reward.name}/label`

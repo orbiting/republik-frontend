@@ -408,8 +408,7 @@ export const PayNote = compose(
       inNativeIOSApp,
       isEligibleForTrial,
       hasActiveMembership,
-      trialSignup: query.trialSignup,
-      campaignId: query.campaign || query.utm_campaign
+      trialSignup: query.trialSignup
     }
     const payNote = getPayNote(subject, seed, tryOrBuy, customPayNotes)
 

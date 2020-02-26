@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-25T16:55:20.305Z",
+  "updated": "2020-02-26T10:10:57.825Z",
   "title": "live",
   "data": [
     {
@@ -6577,6 +6577,14 @@
     {
       "key": "article/donateNote/200225-v1/after/secondary/link",
       "value": "/angebote?package=DONATE&price=6000"
+    },
+    {
+      "key": "option/ABO/accessGranted/label/other",
+      "value": "Patenmitgliedschaften"
+    },
+    {
+      "key": "option/ABO/accessGranted/label/1",
+      "value": "Patenmitgliedschaft"
     }
   ]
 }

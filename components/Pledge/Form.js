@@ -668,6 +668,7 @@ const query = gql`
           maxAmount
           defaultAmount
           templateId
+          accessGranted
           reward {
             __typename
             ... on MembershipType {
@@ -715,6 +716,8 @@ const query = gql`
           maxAmount
           defaultAmount
           templateId
+          optionGroup
+          accessGranted
           reward {
             __typename
             ... on MembershipType {
@@ -730,7 +733,6 @@ const query = gql`
               name
             }
           }
-          optionGroup
           membership {
             id
             user {

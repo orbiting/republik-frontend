@@ -641,6 +641,16 @@ class CustomizePackage extends Component {
                               `option/${option.reward.name}/label/give`
                             ]
                           : []),
+                        ...(option.accessGranted
+                          ? [
+                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/${value}`,
+                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/other`,
+                              `option/${pkg.name}/${option.reward.name}/accessGranted/label`,
+                              `option/${option.reward.name}/accessGranted/label/${value}`,
+                              `option/${option.reward.name}/accessGranted/label/other`,
+                              `option/${option.reward.name}/accessGranted/label`
+                            ]
+                          : []),
                         ...(field.interval
                           ? [
                               `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${value}`,

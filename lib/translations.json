@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-26T17:11:12.021Z",
+  "updated": "2020-02-26T17:15:36.344Z",
   "title": "live",
   "data": [
     {
@@ -6547,6 +6547,10 @@
       "value": "Patenschaft für 240.-"
     },
     {
+      "key": "article/donateNote/200225-v1/after/buy/button/link",
+      "value": "/angebote?package=ABO_GIVE&filter=pot"
+    },
+    {
       "key": "article/donateNote/200225-v1/after/secondary/prefix",
       "value": "Lieber anonym bleiben?"
     },
@@ -6556,7 +6560,7 @@
     },
     {
       "key": "article/donateNote/200225-v1/after/secondary/link",
-      "value": "/angebote?package=DONATE&price=6000"
+      "value": "/angebote?package=DONATE_POT&price=6000"
     },
     {
       "key": "option/ABO/accessGranted/label/other",

@@ -120,7 +120,11 @@ const generatePositionedNote = (variation, target, cta, position) => {
       cta: cta,
       button: {
         label: t(`article/${variation}/${position}/buy/button`, undefined, ''),
-        link: DEFAULT_BUTTON_TARGET
+        link: t(
+          `article/${variation}/${position}/buy/button/link`,
+          undefined,
+          DEFAULT_BUTTON_TARGET
+        )
       },
       secondary: t(
         `article/${variation}/${position}/secondary/label`,

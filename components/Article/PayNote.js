@@ -82,14 +82,6 @@ const TRY_VARIATIONS = [
   'tryNote/191106-v3',
   'tryNote/191106-v4'
 ]
-const TRY_VARIATIONS_CAMPAIGN = {
-  wseww: [
-    'tryNote/191106-v1',
-    'tryNote/191106-v2-campaign-wseww',
-    'tryNote/191106-v3',
-    'tryNote/191106-v4'
-  ]
-}
 const BUY_VARIATIONS = ['payNote/191108-v1', 'payNote/191108-v2']
 const THANK_YOU_VARIATIONS = ['tryNote/thankYou']
 const IOS_VARIATIONS = ['payNote/ios']
@@ -136,18 +128,6 @@ const predefinedNotes = generateNotes(
   },
   'trialForm'
 )
-  .concat(
-    generateNotes(
-      TRY_VARIATIONS_CAMPAIGN.wseww,
-      {
-        hasActiveMembership: false,
-        isEligibleForTrial: true,
-        campaignId: 'wseww',
-        trialSignup: 'any'
-      },
-      'trialForm'
-    )
-  )
   .concat(
     generateNotes(
       BUY_VARIATIONS,
@@ -362,8 +342,7 @@ export const PayNote = compose(
       inNativeIOSApp,
       isEligibleForTrial,
       hasActiveMembership,
-      trialSignup: query.trialSignup,
-      campaignId: query.campaign || query.utm_campaign
+      trialSignup: query.trialSignup
     }
     const payNote = getPayNote(subject, seed, tryOrBuy, customPayNotes)
 

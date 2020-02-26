@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-26T17:15:36.344Z",
+  "updated": "2020-02-26T22:07:05.078Z",
   "title": "live",
   "data": [
     {
@@ -6611,8 +6611,16 @@
       "value": "Lieber selber verschenken?"
     },
     {
-      "key": "package/ABO_GIVE/membershipNote",
-      "value": "Die Beschenkte erfährt Ihren Namen und Sie erhalten den Namen des Empfänger-Konto sobald die Mitgliedschaft eingelöst wurde."
+      "key": "package/customize/messageToClaimers/before",
+      "value": "Sie können optional eine Nachricht zu Ihren Topf-Mitgliedschaften hinterlegen. So oder so erhalten Sie eine E-Mail mit dem Namen der Beschenkten und sie erhält Ihren Namen."
+    },
+    {
+      "key": "package/customize/messageToClaimers/label",
+      "value": "Nachricht für Empfänger"
+    },
+    {
+      "key": "package/customize/messageToClaimers/note",
+      "value": "Geben Sie einen Lesetipp, eine Plädoyer für die Republik oder äusseren Sie einen Wunsch. Der Beschenkte erhält automatisch keine Kontaktdaten von Ihnen. Falls Sie lieber komplett anonym bleiben wollen können Sie auch einfach <a href=\"/angebote?package=DONATE_POT\">Geld in den Topf zahlen</a>."
     },
     {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",

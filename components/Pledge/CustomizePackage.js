@@ -27,7 +27,8 @@ import {
   Label,
   mediaQueries,
   Editorial,
-  fontStyles
+  fontStyles,
+  RawHtml
 } from '@project-r/styleguide'
 
 import ManageMembership from '../Account/Memberships/Manage'
@@ -338,12 +339,6 @@ class CustomizePackage extends Component {
       null
     )
 
-    const membershipNote = t(
-      `package/${pkg.name}/membershipNote`,
-      undefined,
-      null
-    )
-
     const onPriceChange = (_, value, shouldValidate) => {
       const price = String(value).length
         ? Math.round(parseInt(value, 10)) * 100 || 0
@@ -437,9 +432,17 @@ class CustomizePackage extends Component {
         return !getOptionValue(option, values) || option.userPrice
       })
 
+    const showMessageToClaimers =
+      pkg.name === 'ABO_GIVE' &&
+      (accessGrantedOnly ||
+        getOptionValue(pkg.options.find(o => o.accessGranted), values) > 0)
+
     const optionGroups = nest()
-      .key(d =>
-        d.option.optionGroup ? d.option.optionGroup : d.option.reward.__typename
+      .key(
+        d =>
+          d.option.optionGroup
+            ? d.option.optionGroup
+            : d.option.reward.__typename // [d.option.reward.__typename, d.option.accessGranted].filter(Boolean).join()
       )
       .entries(configurableFields)
       .map(({ key: groupKey, values: fields }) => {
@@ -470,6 +473,7 @@ class CustomizePackage extends Component {
           fields,
           selectedGroupOption,
           membership,
+          groupWithAccessGranted: options.some(o => o.accessGranted),
           isAboGive,
           isGoodies: groupKey === 'Goodie',
           additionalPeriods
@@ -626,6 +630,7 @@ class CustomizePackage extends Component {
               options,
               selectedGroupOption,
               membership,
+              groupWithAccessGranted,
               isAboGive,
               isGoodies,
               additionalPeriods
@@ -990,9 +995,35 @@ class CustomizePackage extends Component {
                 {isAboGive && (!nextGroup || !nextGroup.isAboGive) && (
                   <div style={{ height: 30 }} />
                 )}
-                {groupKey === 'MembershipType' && !!membershipNote && (
+                {groupWithAccessGranted && showMessageToClaimers && (
                   <div style={{ marginBottom: 20 }}>
-                    <Label>{membershipNote}</Label>
+                    <P>{t('package/customize/messageToClaimers/before')}</P>
+                    <Field
+                      label={t('package/customize/messageToClaimers/label')}
+                      value={values.messageToClaimers}
+                      renderInput={({ ref, ...inputProps }) => (
+                        <AutosizeInput
+                          {...inputProps}
+                          {...fieldSetStyles.autoSize}
+                          inputRef={ref}
+                        />
+                      )}
+                      onChange={(_, value, shouldValidate) => {
+                        onChange(
+                          FieldSet.utils.fieldsState({
+                            field: 'messageToClaimers',
+                            value,
+                            dirty: shouldValidate
+                          })
+                        )
+                      }}
+                    />
+                    <RawHtml
+                      type={Label}
+                      dangerouslySetInnerHTML={{
+                        __html: t('package/customize/messageToClaimers/note')
+                      }}
+                    />
                   </div>
                 )}
               </Fragment>

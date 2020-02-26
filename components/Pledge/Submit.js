@@ -602,6 +602,7 @@ const submitPledge = gql`
     $options: [PackageOptionInput!]!
     $user: UserInput!
     $reason: String
+    $messageToClaimers: String
     $consents: [String!]
     $accessToken: ID
   ) {
@@ -611,6 +612,7 @@ const submitPledge = gql`
         options: $options
         user: $user
         reason: $reason
+        messageToClaimers: $messageToClaimers
         accessToken: $accessToken
       }
       consents: $consents

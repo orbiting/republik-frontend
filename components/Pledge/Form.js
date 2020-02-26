@@ -117,6 +117,7 @@ class Pledge extends Component {
       values.firstName = pledge.user.firstName
       values.lastName = pledge.user.lastName
       values.reason = pledge.reason
+      values.messageToClaimers = pledge.messageToClaimers
       values.price = pledge.total
       pledge.options.forEach(option => {
         values[getOptionFieldKey(option)] = option.amount
@@ -182,6 +183,44 @@ class Pledge extends Component {
     const pkg = this.getPkg({ query })
     const userPrice = !!query.userPrice
 
+    let hasAccessGranted
+    const options = pkg
+      ? pkg.options.map(option => {
+          const fieldKey = getOptionFieldKey(option)
+          const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
+
+          const amount =
+            values[fieldKey] === undefined
+              ? option.defaultAmount
+              : // can be '', but PackageOptionInput needs Int! here
+                +values[fieldKey]
+          if (option.accessGranted && amount) {
+            hasAccessGranted = true
+          }
+
+          return {
+            amount,
+            periods:
+              values[fieldKeyPeriods] !== undefined
+                ? // can be '', but PackageOptionInput needs Int here
+                  +values[fieldKeyPeriods]
+                : option.reward && option.reward.defaultPeriods,
+            price: option.price,
+            templateId: option.templateId,
+            membershipId: option.membership ? option.membership.id : undefined,
+            /* ToDo: move logic to backend? */
+            autoPay:
+              option.reward &&
+              option.reward.__typename === 'MembershipType' &&
+              pkg.group !== 'GIVE' &&
+              (!option.membership ||
+                option.membership.user.id === (customMe && customMe.id))
+                ? true /* ToDo: check base pledge value once supported in backend */
+                : undefined
+          }
+        })
+      : []
+
     return {
       accessToken: query.token,
       packageName: pkg ? pkg.name : undefined,
@@ -196,40 +235,11 @@ class Pledge extends Component {
         lastName: values.lastName,
         email: values.email
       },
-      options: pkg
-        ? pkg.options.map(option => {
-            const fieldKey = getOptionFieldKey(option)
-            const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
-
-            return {
-              amount:
-                values[fieldKey] === undefined
-                  ? option.defaultAmount
-                  : // can be '', but PackageOptionInput needs Int! here
-                    +values[fieldKey],
-              periods:
-                values[fieldKeyPeriods] !== undefined
-                  ? // can be '', but PackageOptionInput needs Int here
-                    +values[fieldKeyPeriods]
-                  : option.reward && option.reward.defaultPeriods,
-              price: option.price,
-              templateId: option.templateId,
-              membershipId: option.membership
-                ? option.membership.id
-                : undefined,
-              /* ToDo: move logic to backend? */
-              autoPay:
-                option.reward &&
-                option.reward.__typename === 'MembershipType' &&
-                pkg.group !== 'GIVE' &&
-                (!option.membership ||
-                  option.membership.user.id === (customMe && customMe.id))
-                  ? true /* ToDo: check base pledge value once supported in backend */
-                  : undefined
-            }
-          })
-        : [],
+      options,
       reason: userPrice ? values.reason : undefined,
+      messageToClaimers: hasAccessGranted
+        ? values.messageToClaimers
+        : undefined,
       id: pledge ? pledge.id : undefined
     }
   }

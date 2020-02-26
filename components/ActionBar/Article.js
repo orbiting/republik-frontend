@@ -70,6 +70,7 @@ class ArticleActionBar extends Component {
       <Fragment>
         <ActionBar
           url={url}
+          pocket
           title={title}
           shareOverlayTitle={t('article/share/title')}
           animate={animate}
@@ -108,6 +109,7 @@ class ArticleActionBar extends Component {
             </h3>
             <ShareButtons
               url={url}
+              pocket
               tweet={tweet}
               emailSubject={emailSubject}
               emailBody={emailBody}

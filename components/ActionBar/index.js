@@ -52,6 +52,7 @@ class ActionBar extends Component {
     const {
       t,
       url,
+      pocket,
       title,
       tweet,
       emailSubject,
@@ -186,6 +187,7 @@ class ActionBar extends Component {
           <ShareOverlay
             onClose={this.toggleShare}
             url={url}
+            pocket={pocket}
             title={shareOverlayTitle || t('article/actionbar/share')}
             tweet={tweet}
             emailSubject={emailSubject}

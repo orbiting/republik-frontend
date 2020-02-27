@@ -227,7 +227,11 @@ const Cards = ({ employees, filter, slice }) => {
                 {cards[i].name}
               </Editorial.Subhead>
               <Editorial.P>{cards[i].title}</Editorial.P>
-              <img width='100%' src={cards[i].user.portrait} />
+              <img
+                alt={cards[i].name}
+                width='100%'
+                src={cards[i].user.portrait}
+              />
             </animated.div>
           </animated.div>
         ))}

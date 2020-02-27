@@ -40,7 +40,9 @@ const Notifications = compose(graphql(notificationsQuery))(
             const { nodes } = notifications
             if (!nodes) return null
 
+            nodes[0].readAt = false
             nodes[1].readAt = true
+            nodes[2].readAt = false
             const unread = nodes.filter(n => !n.readAt)
             const hasUnread = unread.length
 
@@ -48,7 +50,7 @@ const Notifications = compose(graphql(notificationsQuery))(
               <>
                 <Interaction.H1 style={{ marginBottom: '40px' }}>
                   {hasUnread
-                    ? `${unread.length} neue Benarichtugen`
+                    ? `${unread.length} neue Benarichtigungen`
                     : 'Alles gelesen!'}
                 </Interaction.H1>
 

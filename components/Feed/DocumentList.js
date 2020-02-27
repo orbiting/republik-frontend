@@ -11,6 +11,7 @@ import Feed from './Feed'
 import ErrorMessage from '../ErrorMessage'
 
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
+import SubscribeButton from '../Notifications/SubscribeButton'
 
 const styles = {
   more: css({
@@ -42,15 +43,16 @@ const DocumentList = ({
   return (
     <>
       {showTotal && (
-        <>
+        <div>
           <Interaction.H2>
             {t.pluralize('feed/title', {
               count: totalCount
             })}
+            <SubscribeButton formatName='Binswanger' />
           </Interaction.H2>
           <br />
           <br />
-        </>
+        </div>
       )}
       {help}
       <div ref={containerRef}>

@@ -251,6 +251,13 @@ const Nav = ({
             {t('nav/events')}
           </NavLink>
           <NavLink
+            route='crowdfunding2'
+            active={active}
+            closeHandler={closeHandler}
+          >
+            {t('nav/crowdfunding2')}
+          </NavLink>
+          <NavLink
             inline
             route='cockpit'
             active={active}

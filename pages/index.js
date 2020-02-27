@@ -14,7 +14,6 @@ import CF2 from './crowdfunding2'
 
 const IndexPage = ({ t, isMember, router }) => {
   if (
-    router.query.show !== 'kampagne' &&
     router.query.stale !== 'marketing' &&
     (isMember || router.query.extractId)
   ) {

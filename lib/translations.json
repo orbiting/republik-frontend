@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-27T10:37:09.987Z",
+  "updated": "2020-02-27T16:12:12.909Z",
   "title": "live",
   "data": [
     {
@@ -151,7 +151,7 @@
       "value": "Gutschein einlösen"
     },
     {
-      "key": "Zugriff teilen",
+      "key": "pages/claim/meta/description",
       "value": "Lösen Sie hier Ihren Gutschein ein."
     },
     {
@@ -1175,10 +1175,6 @@
       "value": "Ein eigenes Abonnement kaufen"
     },
     {
-      "key": "Account/Access/Page/title",
-      "value": "Die Republik teilen\n"
-    },
-    {
       "key": "Account/Access/Campaigns/title",
       "value": "Zugriff teilen"
     },
@@ -1297,14 +1293,6 @@
     {
       "key": "Account/Onboarding/link",
       "value": "Einrichtungsassistent"
-    },
-    {
-      "key": "Account/Access/Legacy/text",
-      "value": "{link} um die Republik bekannt zu machen."
-    },
-    {
-      "key": "Account/Access/Legacy/link",
-      "value": "Neue Seite"
     },
     {
       "key": "profile/documents/title/other",
@@ -4771,10 +4759,6 @@
       "value": "Feed"
     },
     {
-      "key": "pages/access/title",
-      "value": "Zugriff teilen\n"
-    },
-    {
       "key": "styleguide/TeaserFeed/InternalOnlyTag",
       "value": "Interne Publikation (Editoren-Vorschau)"
     },
@@ -6665,6 +6649,34 @@
     {
       "key": "package/customize/price/payMore/thx/ayear",
       "value": "Herzlichen Dank!"
+    },
+    {
+      "key": "Account/Access/Page/title",
+      "value": "Die Republik teilen\n"
+    },
+    {
+      "key": "Account/Access/Legacy/text",
+      "value": "{link}"
+    },
+    {
+      "key": "Account/Access/Legacy/link",
+      "value": "Laden Sie Ihre Freunde auf eine Tour durch die Republik ein."
+    },
+    {
+      "key": "pages/access/title",
+      "value": "Republik teilen"
+    },
+    {
+      "key": "DB/accessCampaigns/title",
+      "value": "Mitgliedschaften verschenken"
+    },
+    {
+      "key": "DB/accessCampaigns/description",
+      "value": null
+    },
+    {
+      "key": "nav/crowdfunding2",
+      "value": "Märzkampagne"
     }
   ]
 }

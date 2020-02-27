@@ -200,6 +200,7 @@ const Page = ({ router, crowdfunding, data }) => {
     <Frame
       raw
       meta={{
+        url: `${PUBLIC_BASE_URL}/`,
         pageTitle: 'Republik – das digitale Magazin von Project R',
         title: 'Republik – das digitale Magazin von Project R',
         description: 'Das war unser Crowdfunding.',

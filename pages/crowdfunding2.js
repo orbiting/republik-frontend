@@ -187,12 +187,8 @@ const Page = ({ router, crowdfunding, data }) => {
     },
     {
       name: 'ABO_GIVE',
-      title: 'Wachstum schenken',
-      price: 24000
-    },
-    {
-      name: 'DONATE',
-      title: 'Spenden, sonst nichts'
+      params: { filter: 'pot' },
+      title: 'Wachstum schenken'
     }
   ]
 

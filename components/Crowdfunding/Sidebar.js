@@ -81,7 +81,7 @@ class SidebarInner extends Component {
             <Link
               key={pack.name}
               route='pledge'
-              params={{ package: pack.name }}
+              params={{ package: pack.name, ...pack.params }}
               passHref
             >
               <PackageItem

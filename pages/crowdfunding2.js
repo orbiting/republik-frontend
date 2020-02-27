@@ -456,12 +456,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
               <TestimonialList
                 first={10}
                 membershipAfter={crowdfunding.endDate}
-                onSelect={id => {
-                  Router.push(`/community?id=${id}`).then(() => {
-                    window.scrollTo(0, 0)
-                  })
-                  return false
-                }}
+                share={false}
               />
             </div>
           )}

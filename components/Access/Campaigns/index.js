@@ -5,10 +5,15 @@ import gql from 'graphql-tag'
 import Campaign from './Campaign'
 
 import query from '../../Account/belongingsQuery'
+import { Interaction } from '@project-r/styleguide'
+import withT from '../../../lib/withT'
 
-const Campaigns = ({ accessCampaigns, grantAccess, revokeAccess }) => {
+const Campaigns = ({ t, accessCampaigns, grantAccess, revokeAccess }) => {
   return (
     <>
+      <Interaction.H1 style={{ marginBottom: 40 }}>
+        {t('Account/Access/title')}
+      </Interaction.H1>
       {accessCampaigns &&
         accessCampaigns.map((campaign, key) => (
           <Campaign
@@ -38,6 +43,7 @@ const revokeMutation = gql`
 `
 
 export default compose(
+  withT,
   graphql(grantMutation, {
     props: ({ mutate }) => ({
       grantAccess: variables =>

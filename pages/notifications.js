@@ -113,15 +113,29 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const { H1, P } = Interaction
 
-const Page = ({
-  router: {
-    query,
-    query: { context, token, tokenType, noAutoAuthorize }
-  },
-  t,
-  me,
-  inNativeApp
-}) => {
+const fixAmpsInQuery = rawQuery => {
+  let query = {}
+
+  Object.keys(rawQuery).forEach(key => {
+    query[key.replace(/^amp;/, '')] = rawQuery[key]
+  })
+
+  return query
+}
+
+const knownTypes = [
+  'token-authorization',
+  'newsletter-subscription',
+  'email-confirmed',
+  'session-denied',
+  'invalid-email',
+  'invalid-token',
+  'unavailable'
+]
+
+const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
+  const query = fixAmpsInQuery(rawQuery)
+  const { context, token, tokenType, noAutoAuthorize } = query
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -136,7 +150,12 @@ const Page = ({
     }
   }
 
-  const title = t(`notifications/${type}/title`, undefined, '')
+  let isUnkownType = false
+  let title = t(`notifications/${type}/title`, undefined, '')
+  if (!title && !knownTypes.includes(type)) {
+    title = t('notifications/unkown/title')
+    isUnkownType = true
+  }
   let logoTarget
   let content
   if (type === 'token-authorization') {
@@ -177,13 +196,13 @@ const Page = ({
               `notifications/${type}/text`
             ]}
             replacements={query}
-            missingValue=''
+            missingValue={isUnkownType ? t('notifications/unkown/text') : ''}
           />
         </P>
         {afterTokenAuth && displayCloseNote ? (
           <P>{t('notifications/closeNote')}</P>
         ) : (
-          (!hasCurtain || inNativeApp) && (
+          ((!hasCurtain && !isUnkownType) || inNativeApp) && (
             <div {...styles.button}>
               <Link route='index'>
                 <Button block primary>

@@ -150,7 +150,7 @@ const Nav = ({
               )}
               {me.accessCampaigns.length > 0 && (
                 <NavA
-                  href='/konto#teilen'
+                  href='/teilen'
                   onClick={e => {
                     if (shouldIgnoreClick(e)) {
                       return

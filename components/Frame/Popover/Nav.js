@@ -10,7 +10,6 @@ import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 
 import { withMembership } from '../../Auth/checkRoles'
-import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -149,21 +148,13 @@ const Nav = ({
                 </NavLink>
               )}
               {me.accessCampaigns.length > 0 && (
-                <NavA
-                  href='/teilen'
-                  onClick={e => {
-                    if (shouldIgnoreClick(e)) {
-                      return
-                    }
-                    if (active && active.route === 'account') {
-                      e.preventDefault()
-                      window.location = '#teilen'
-                      closeHandler()
-                    }
-                  }}
+                <NavLink
+                  route='access'
+                  active={active}
+                  closeHandler={closeHandler}
                 >
                   {t('nav/share')}
-                </NavA>
+                </NavLink>
               )}
             </>
           )}

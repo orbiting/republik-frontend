@@ -56,6 +56,17 @@ const query = gql`
         }
       }
     }
+    employees(withBoosted: true, shuffle: 15) {
+      title
+      name
+      group
+      subgroup
+      user {
+        id
+        portrait
+        slug
+      }
+    }
   }
 `
 
@@ -372,6 +383,7 @@ Unsere Redaktion besteht aus kompetenten Profis. Den besten, die wir finden konn
               e.group !== 'Verwaltungsrat' && e.group !== 'Gründerinnenteam'
             }
           />
+          {/* with loader data.employees */}
 
           {md(mdComponents)`
 

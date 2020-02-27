@@ -11,7 +11,7 @@ import { Link } from '../lib/routes'
 import mdComponents from '../lib/utils/mdComponents'
 import { thousandSeparator } from '../lib/utils/format'
 
-import Employees from '../components/Imprint/Employees'
+import Employees from '../components/Marketing/Employees'
 import Frame from '../components/Frame'
 import VideoCover from '../components/VideoCover'
 import ActionBar from '../components/ActionBar'
@@ -56,7 +56,7 @@ const query = gql`
         }
       }
     }
-    employees(withBoosted: true, shuffle: 15) {
+    employees(withBoosted: true, shuffle: 25) {
       title
       name
       group
@@ -122,6 +122,15 @@ const styles = {
   stretchP: css({
     fontSize: 17,
     lineHeight: '25px'
+  }),
+  cards: css({
+    position: 'relative',
+    zIndex: 1,
+    background: colors.negative.primaryBg,
+    margin: '30px 0',
+    [mediaQueries.mUp]: {
+      margin: '50px 0'
+    }
   })
 }
 
@@ -376,37 +385,22 @@ Unsere Redaktion besteht aus kompetenten Profis. Den besten, die wir finden konn
         </Content>
       </Container>
 
-      <div {...styles.overviewOverflow}>
-        <div {...styles.overviewContainer}>
-          <Container
-            style={{
-              maxWidth: 1200,
-              padding: 0
-            }}
-          >
-            <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
-              <Loader
-                loading={data.loading}
-                error={data.error}
-                style={{ minHeight: 420 }}
-                render={() => (
-                  <Employees
-                    ssr={false}
-                    withBoosted
-                    shuffle={15}
-                    slice={10}
-                    filter={e =>
-                      e.group !== 'Verwaltungsrat' &&
-                      e.group !== 'Gründerinnenteam'
-                    }
-                  />
-                )}
-              />
-            </div>
-            <div {...styles.overviewBottomShadow} />
-          </Container>
-        </div>
+      <div {...styles.cards}>
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          style={{ minHeight: 420 }}
+          render={() => (
+            <Employees
+              employees={data.employees}
+              filter={e =>
+                e.group !== 'Verwaltungsrat' && e.group !== 'Gründerinnenteam'
+              }
+            />
+          )}
+        />
       </div>
+
       {/* with loader data.employees */}
 
       <Container>

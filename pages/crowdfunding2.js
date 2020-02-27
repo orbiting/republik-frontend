@@ -373,18 +373,44 @@ ${pledgeLink}
 Unsere Redaktion besteht aus kompetenten Profis. Den besten, die wir finden konnten. Sehen Sie selbst und blättern Sie durch unsere Autorinnen und Redakteure.
 
 `}
+        </Content>
+      </Container>
 
-          <Employees
-            ssr={false}
-            withBoosted
-            shuffle={15}
-            slice={10}
-            filter={e =>
-              e.group !== 'Verwaltungsrat' && e.group !== 'Gründerinnenteam'
-            }
-          />
-          {/* with loader data.employees */}
+      <div {...styles.overviewOverflow}>
+        <div {...styles.overviewContainer}>
+          <Container
+            style={{
+              maxWidth: 1200,
+              padding: 0
+            }}
+          >
+            <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
+              <Loader
+                loading={data.loading}
+                error={data.error}
+                style={{ minHeight: 420 }}
+                render={() => (
+                  <Employees
+                    ssr={false}
+                    withBoosted
+                    shuffle={15}
+                    slice={10}
+                    filter={e =>
+                      e.group !== 'Verwaltungsrat' &&
+                      e.group !== 'Gründerinnenteam'
+                    }
+                  />
+                )}
+              />
+            </div>
+            <div {...styles.overviewBottomShadow} />
+          </Container>
+        </div>
+      </div>
+      {/* with loader data.employees */}
 
+      <Container>
+        <Content>
           {md(mdComponents)`
 
 ## Warum das alles wichtig ist

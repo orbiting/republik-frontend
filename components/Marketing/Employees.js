@@ -2,12 +2,7 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { css } from 'glamor'
-import {
-  Editorial,
-  FigureImage,
-  mediaQueries,
-  usePrevious
-} from '@project-r/styleguide'
+import { Editorial, mediaQueries, usePrevious } from '@project-r/styleguide'
 import { t } from '../../lib/withT'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import { shuffle } from 'd3-array'
@@ -25,7 +20,7 @@ const styles = {
     width: '100%',
     height: 960,
     [mediaQueries.mUp]: {
-      height: 765
+      height: 840
     },
     textAlign: 'center',
     '& > div': {
@@ -101,13 +96,11 @@ const Cards = ({ employees, filter, slice }) => {
   const to = isDesktop ? toDesktop : toMobile
   const [gone] = useState(() => new Set())
   const [zIndexes, setZIndexes] = useState([])
-  const [cards, setCards] = useState([])
   const shuffleCards = () =>
-    setCards(
-      shuffle(employees)
-        .filter(filter)
-        .slice(0, CARD_NUMBER)
-    )
+    shuffle(employees)
+      .filter(filter)
+      .slice(0, CARD_NUMBER)
+  const [cards, setCards] = useState(shuffleCards())
   const setTopIndex = topIndex => {
     setZIndexes(indexes => [...indexes.filter(i => i !== topIndex), topIndex])
   }
@@ -122,7 +115,6 @@ const Cards = ({ employees, filter, slice }) => {
 
     gone.clear()
     setZIndexes([])
-    shuffleCards()
     set(i => ({
       ...to(i, window.innerWidth, cardWidth),
       ...(prevWidth !== width
@@ -179,7 +171,7 @@ const Cards = ({ employees, filter, slice }) => {
       setTimeout(() => {
         gone.clear()
         setZIndexes([])
-        shuffleCards()
+        setCards(shuffleCards())
         set(i => to(i, window.innerWidth, cardWidth))
       }, 600)
     }
@@ -235,10 +227,7 @@ const Cards = ({ employees, filter, slice }) => {
                 {cards[i].name}
               </Editorial.Subhead>
               <Editorial.P>{cards[i].title}</Editorial.P>
-              <FigureImage
-                src={cards[i].user.portrait}
-                attributes={{ draggable: false }}
-              />
+              <img width='100%' src={cards[i].user.portrait} />
             </animated.div>
           </animated.div>
         ))}

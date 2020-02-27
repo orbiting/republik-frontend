@@ -112,7 +112,15 @@ class VideoCover extends Component {
     }
   }
   render() {
-    const { src, cursor, limited, backgroundAutoPlay, muted, loop } = this.props
+    const {
+      src,
+      cursor,
+      limited,
+      backgroundAutoPlay,
+      muted,
+      loop,
+      playTop
+    } = this.props
     const {
       playing,
       ended,
@@ -151,7 +159,7 @@ class VideoCover extends Component {
           <div {...styles.maxWidth}>
             <img src={src.thumbnail} {...styles.poster} style={heightStyle} />
             {!!cursor && <div {...styles.cursor} />}
-            <div {...styles.play} style={{ top: !cursor ? '60%' : undefined }}>
+            <div {...styles.play} style={{ top: playTop }}>
               <Play />
             </div>
           </div>

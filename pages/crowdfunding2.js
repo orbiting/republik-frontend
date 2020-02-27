@@ -137,11 +137,10 @@ const styles = {
 const VIDEOS = {
   main: {
     hls:
-      'https://player.vimeo.com/external/213080233.m3u8?s=40bdb9917fa47b39119a9fe34b9d0fb13a10a92e',
+      'https://player.vimeo.com/external/394299161.m3u8?s=04b073df4a9a2e46dbf3bb030a81d7b233b70e10',
     mp4:
-      'https://player.vimeo.com/external/213080233.hd.mp4?s=ab84df0ac9134c86bb68bd9ea7ac6b9df0c35774&profile_id=175',
-    subtitles: '/static/subtitles/main.vtt',
-    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/main.jpg`
+      'https://player.vimeo.com/external/394299161.hd.mp4?s=52bbb16e068387bd4e44683de01cbfebdcbc95e1&profile_id=175',
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cf2.png`
   }
 }
 
@@ -202,7 +201,7 @@ const Page = ({ router, crowdfunding, data }) => {
         description: 'Das war unser Crowdfunding.',
         image: `${CDN_FRONTEND_BASE_URL}/static/social-media/main.jpg`
       }}
-      cover={<VideoCover src={VIDEOS.main} cursor endScroll={0.97} />}
+      cover={<VideoCover src={VIDEOS.main} playTop='75%' endScroll={0.97} />}
     >
       <ContainerWithSidebar
         sidebarProps={{

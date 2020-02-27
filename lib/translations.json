@@ -3619,6 +3619,14 @@
       "value": "Leider kann unser System Ihre Anfrage zur Zeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>."
     },
     {
+      "key": "notifications/unkown/title",
+      "value": "Unbekannte Mitteilung"
+    },
+    {
+      "key": "notifications/unkown/text",
+      "value": "Das System konnte Ihre Anfrage nicht erkennen. Es könnte sein, dass ein Übertragungsfehler vorliegt: melden Sie sich bei <a href=\"mailto:kontakt@republik.ch?subject=Kaputter%20Link\">kontakt@republik.ch</a> mit einem Screenshot."
+    },
+    {
       "key": "notifications/newsletter-subscription/title",
       "value": "Newsletter-Anmeldung"
     },

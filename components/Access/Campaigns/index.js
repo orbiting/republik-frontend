@@ -11,8 +11,8 @@ import withT from '../../../lib/withT'
 const Campaigns = ({ t, accessCampaigns, grantAccess, revokeAccess }) => {
   return (
     <>
-      <Interaction.H1 style={{ marginBottom: 40 }}>
-        {t('Account/Access/title')}
+      <Interaction.H1 style={{ marginBottom: 60 }}>
+        {t('Account/Access/Page/title')}
       </Interaction.H1>
       {accessCampaigns &&
         accessCampaigns.map((campaign, key) => (

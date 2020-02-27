@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-26T22:07:05.078Z",
+  "updated": "2020-02-27T10:37:09.987Z",
   "title": "live",
   "data": [
     {
@@ -151,7 +151,7 @@
       "value": "Gutschein einlösen"
     },
     {
-      "key": "pages/claim/meta/description",
+      "key": "Zugriff teilen",
       "value": "Lösen Sie hier Ihren Gutschein ein."
     },
     {
@@ -1175,6 +1175,10 @@
       "value": "Ein eigenes Abonnement kaufen"
     },
     {
+      "key": "Account/Access/Page/title",
+      "value": "Die Republik teilen\n"
+    },
+    {
       "key": "Account/Access/Campaigns/title",
       "value": "Zugriff teilen"
     },
@@ -1293,6 +1297,14 @@
     {
       "key": "Account/Onboarding/link",
       "value": "Einrichtungsassistent"
+    },
+    {
+      "key": "Account/Access/Legacy/text",
+      "value": "{link} um die Republik bekannt zu machen."
+    },
+    {
+      "key": "Account/Access/Legacy/link",
+      "value": "Neue Seite"
     },
     {
       "key": "profile/documents/title/other",
@@ -4757,6 +4769,10 @@
     {
       "key": "pages/bookmarks/placeholder/feedText",
       "value": "Feed"
+    },
+    {
+      "key": "pages/access/title",
+      "value": "Zugriff teilen\n"
     },
     {
       "key": "styleguide/TeaserFeed/InternalOnlyTag",

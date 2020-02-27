@@ -9,7 +9,7 @@ const { H2, P } = Interaction
 
 export default withT(({ t }) => (
   <Fragment>
-    <H2>{t('Account/Access/Legacy/title')}</H2>
+    <H2>{t('Account/Access/Campaigns/title')}</H2>
     <P>
       {t.elements('Account/Access/Legacy/text', {
         link: (

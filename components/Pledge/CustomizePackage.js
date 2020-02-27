@@ -432,10 +432,13 @@ class CustomizePackage extends Component {
         return !getOptionValue(option, values) || option.userPrice
       })
 
-    const showMessageToClaimers =
-      pkg.name === 'ABO_GIVE' &&
-      (accessGrantedOnly ||
-        getOptionValue(pkg.options.find(o => o.accessGranted), values) > 0)
+    let showMessageToClaimers = false
+    if (pkg.name === 'ABO_GIVE') {
+      const hasAccessGrantedValue = pkg.options
+        .filter(o => o.accessGranted)
+        .some(o => getOptionValue(o, values) > 0)
+      showMessageToClaimers = accessGrantedOnly || hasAccessGrantedValue
+    }
 
     const optionGroups = nest()
       .key(

@@ -11,10 +11,10 @@ import {
   colors
 } from '@project-r/styleguide'
 
-import ErrorMessage from '../../../ErrorMessage'
-import FieldSet from '../../../FieldSet'
-import withT from '../../../../lib/withT'
-import { Link } from '../../../../lib/routes'
+import ErrorMessage from '../../ErrorMessage'
+import FieldSet from '../../FieldSet'
+import withT from '../../../lib/withT'
+import { Link } from '../../../lib/routes'
 
 const { H3, P } = Interaction
 

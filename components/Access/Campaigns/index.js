@@ -4,21 +4,21 @@ import gql from 'graphql-tag'
 
 import Campaign from './Campaign'
 
-import query from '../../belongingsQuery'
+import query from '../../Account/belongingsQuery'
 
 const Campaigns = ({ accessCampaigns, grantAccess, revokeAccess }) => {
   return (
-    accessCampaigns &&
-    accessCampaigns.map((campaign, key) => {
-      return (
-        <Campaign
-          key={`campaign-${key}`}
-          campaign={campaign}
-          grantAccess={grantAccess}
-          revokeAccess={revokeAccess}
-        />
-      )
-    })
+    <>
+      {accessCampaigns &&
+        accessCampaigns.map((campaign, key) => (
+          <Campaign
+            key={`campaign-${key}`}
+            campaign={campaign}
+            grantAccess={grantAccess}
+            revokeAccess={revokeAccess}
+          />
+        ))}
+    </>
   )
 }
 

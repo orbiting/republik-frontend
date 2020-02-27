@@ -7,11 +7,26 @@ import CommentNotification from './CommentNotification'
 import StickySection from '../Feed/StickySection'
 import { timeFormat } from '../../lib/utils/format'
 import { nest } from 'd3-collection'
+import { css } from 'glamor'
 
 const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 
 const groupByDate = nest().key(n => {
   return dateFormat(new Date(n.createdAt))
+})
+
+const fadeIn = css.keyframes({
+  from: {
+    opacity: 0.3
+  },
+  to: {
+    opacity: 1
+  }
+})
+
+export const fadeInStyle = css({
+  opacity: 0.3,
+  animation: `1s ${fadeIn} 10s forwards`
 })
 
 const Notifications = compose(graphql(notificationsQuery))(
@@ -25,18 +40,19 @@ const Notifications = compose(graphql(notificationsQuery))(
             const { nodes } = notifications
             if (!nodes) return null
 
-            const read = nodes.filter(n => n.readAt)
+            nodes[1].readAt = true
             const unread = nodes.filter(n => !n.readAt)
+            const hasUnread = unread.length
 
             return (
               <>
                 <Interaction.H1 style={{ marginBottom: '40px' }}>
-                  {unread.length
+                  {hasUnread
                     ? `${unread.length} neue Benarichtugen`
-                    : 'keine neue Benachrichtigung'}
+                    : 'Alles gelesen!'}
                 </Interaction.H1>
 
-                {groupByDate.entries(unread).map(({ key, values }, i, all) => {
+                {groupByDate.entries(nodes).map(({ key, values }, i, all) => {
                   return (
                     <StickySection
                       key={i}
@@ -44,21 +60,11 @@ const Notifications = compose(graphql(notificationsQuery))(
                       label={key}
                     >
                       {values.map((node, j) => (
-                        <CommentNotification node={node} key={j} />
-                      ))}
-                    </StickySection>
-                  )
-                })}
-
-                {groupByDate.entries(read).map(({ key, values }, i, all) => {
-                  return (
-                    <StickySection
-                      key={i}
-                      hasSpaceAfter={i < all.length - 1}
-                      label={key}
-                    >
-                      {values.map((node, j) => (
-                        <CommentNotification read node={node} key={j} />
+                        <CommentNotification
+                          fadeIn={hasUnread && node.readAt}
+                          node={node}
+                          key={j}
+                        />
                       ))}
                     </StickySection>
                   )

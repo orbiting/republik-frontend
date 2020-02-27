@@ -206,7 +206,7 @@ const Page = ({ router, crowdfunding, data }) => {
       <ContainerWithSidebar
         sidebarProps={{
           title: 'Jetzt unterstützen',
-          crowdfunding: {
+          crowdfunding: crowdfunding && {
             ...crowdfunding,
             status: crowdfunding.status && {
               memberships: crowdfunding.status.memberships,

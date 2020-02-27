@@ -90,7 +90,8 @@ const withSurviveStatus = compose(
     },
     props: ({ data }) => {
       const { evolution, count } = data.membershipStats || {}
-      const lastMonth = evolution.buckets[evolution.buckets.length - 1]
+      const lastMonth =
+        evolution && evolution.buckets[evolution.buckets.length - 1]
 
       return {
         surviveData: data,

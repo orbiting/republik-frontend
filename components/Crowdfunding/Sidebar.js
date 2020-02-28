@@ -72,7 +72,15 @@ const styles = {
 
 class SidebarInner extends Component {
   render() {
-    const { t, onChange, crowdfunding, title, links, packages } = this.props
+    const {
+      t,
+      onChange,
+      crowdfunding,
+      title,
+      links,
+      packages,
+      primaryParams
+    } = this.props
 
     return (
       <div {...styles.container}>
@@ -98,7 +106,7 @@ class SidebarInner extends Component {
         <PackageBuffer />
         <div style={{ margin: '20px 0' }}>
           <div {...styles.button}>
-            <Link route='pledge' passHref>
+            <Link route='pledge' params={primaryParams} passHref>
               <Button block primary>
                 Mitmachen
               </Button>
@@ -197,6 +205,7 @@ class Sidebar extends Component {
       sticky,
       t,
       crowdfunding,
+      primaryParams,
       title,
       links,
       packages,
@@ -233,6 +242,7 @@ class Sidebar extends Component {
                 title={title}
                 links={links}
                 packages={packages}
+                primaryParams={primaryParams}
                 t={t}
                 crowdfunding={crowdfunding}
                 onChange={onChange}
@@ -246,6 +256,7 @@ class Sidebar extends Component {
                   title={title}
                   links={links}
                   packages={packages}
+                  primaryParams={primaryParams}
                   t={t}
                   crowdfunding={crowdfunding}
                   onChange={onChange}

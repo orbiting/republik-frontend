@@ -165,8 +165,13 @@ const Page = ({
   // ensure the highlighFunction is not dedected as an state update function
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
 
+  const primaryParams = shouldBuyProlong
+    ? { package: 'PROLONG' }
+    : activeMembership
+    ? { package: 'ABO_GIVE', filter: 'pot' }
+    : { package: 'ABO' }
   const pledgeLink = inNativeIOSApp ? null : (
-    <Link route='pledge'>
+    <Link route='pledge' params={primaryParams}>
       <a {...linkRule}>Jetzt mitmachen!</a>
     </Link>
   )
@@ -275,6 +280,7 @@ const Page = ({
             },
           links,
           packages,
+          primaryParams,
           statusProps: {
             memberships: true
           }

@@ -96,11 +96,14 @@ const Cards = ({ employees, filter, slice }) => {
   const to = isDesktop ? toDesktop : toMobile
   const [gone] = useState(() => new Set())
   const [zIndexes, setZIndexes] = useState([])
-  const shuffleCards = () =>
-    shuffle(employees)
+  const shuffleCards = promi =>
+    employees
+      .slice(0, promi) // promis get returned first by backend
+      .concat(shuffle(employees.slice(promi)))
       .filter(filter)
       .slice(0, CARD_NUMBER)
-  const [cards, setCards] = useState(shuffleCards())
+      .reverse()
+  const [cards, setCards] = useState(shuffleCards(4))
   const setTopIndex = topIndex => {
     setZIndexes(indexes => [...indexes.filter(i => i !== topIndex), topIndex])
   }

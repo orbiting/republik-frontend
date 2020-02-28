@@ -56,7 +56,7 @@ const query = gql`
         }
       }
     }
-    employees(withBoosted: true, shuffle: 25) {
+    employees(withBoosted: true, shuffle: 50) {
       title
       name
       group
@@ -391,7 +391,9 @@ Unsere Redaktion besteht aus kompetenten Profis. Den besten, die wir finden konn
             <Employees
               employees={data.employees}
               filter={e =>
-                e.group !== 'Verwaltungsrat' && e.group !== 'Gründerinnenteam'
+                e.group !== 'Verwaltungsrat' &&
+                e.group !== 'Gründerinnenteam' &&
+                e.group !== 'Gestaltung'
               }
             />
           )}

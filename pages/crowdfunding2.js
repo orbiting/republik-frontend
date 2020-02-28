@@ -559,7 +559,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
               {t('cockpit/ios')}
             </Interaction.P>
           ) : (
-            <Link route='pledge' passHref>
+            <Link route='pledge' params={primaryParams} passHref>
               <Button primary style={{ minWidth: 300 }}>
                 Jetzt mitmachen!
               </Button>

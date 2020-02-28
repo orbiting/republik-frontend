@@ -423,18 +423,18 @@ export const PayNote = compose(
   withMemberStatus,
   graphql(memberShipQuery, {
     props: ({ data: { membershipStats, revenueStats, crowdfunding } }) => {
-      const endGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
+      const latestGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
 
       return {
         statReplacements:
-          membershipStats.count && endGoal
+          membershipStats.count && latestGoal
             ? {
                 count: countFormat(membershipStats.count),
                 remainingMemberships: countFormat(
-                  endGoal.memberships - membershipStats.marchCount
+                  latestGoal.memberships - membershipStats.marchCount
                 ),
                 remainingMoney: countFormat(
-                  (endGoal.money - revenueStats.surplus.total) / 100
+                  (latestGoal.money - revenueStats.surplus.total) / 100
                 )
               }
             : {

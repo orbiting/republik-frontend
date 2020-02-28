@@ -105,7 +105,8 @@ const withSurviveStatus = compose(
 
       return {
         surviveData: data,
-        crowdfunding: lastMonth &&
+        crowdfunding: data.crowdfunding &&
+          lastMonth &&
           data.revenueStats && {
             name: CROWDFUNDING_NAME,
             endDate: END_DATE,

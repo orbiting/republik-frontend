@@ -12,8 +12,17 @@ const END_DATE = '2020-03-31T10:00:00.000Z'
 
 const CROWDFUNDING_NAME = 'SURVIVE'
 
+// ToDo: change countRange min to 2020-02-29T23:00:00Z
 const statusQuery = gql`
   query StatusPage {
+    crowdfunding(name: "MARCH20") {
+      goals {
+        people
+        memberships
+        money
+        description
+      }
+    }
     revenueStats {
       surplus(min: "2019-11-30T23:00:00Z") {
         total
@@ -22,6 +31,7 @@ const statusQuery = gql`
     }
     membershipStats {
       count
+      marchCount: countRange(min: "2020-02-27T23:00:00Z" max: "2020-03-31T23:00:00Z")
       evolution(min: "2019-12", max: "2020-03") {
         buckets {
           key
@@ -89,7 +99,7 @@ const withSurviveStatus = compose(
       pollInterval: +STATUS_POLL_INTERVAL_MS
     },
     props: ({ data }) => {
-      const { evolution, count } = data.membershipStats || {}
+      const { evolution, count, marchCount } = data.membershipStats || {}
       const lastMonth =
         evolution && evolution.buckets[evolution.buckets.length - 1]
 
@@ -99,15 +109,9 @@ const withSurviveStatus = compose(
           data.revenueStats && {
             name: CROWDFUNDING_NAME,
             endDate: END_DATE,
-            goals: [
-              {
-                memberships: 3000,
-                people: 19000,
-                money: 220000000
-              }
-            ],
+            goals: data.crowdfunding.goals,
             status: {
-              memberships: 123, // ToDo: wire up
+              memberships: marchCount,
               current: count,
               people:
                 lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly,

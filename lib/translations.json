@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T09:17:29.818Z",
+  "updated": "2020-02-28T09:43:03.992Z",
   "title": "live",
   "data": [
     {
@@ -6520,7 +6520,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge finden Sie hier.</a>"
+      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
     },
     {
       "key": "article/payNote/200225-v1/after",
@@ -6540,7 +6540,7 @@
     },
     {
       "key": "article/payNote/200225-v1/after/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge finden Sie hier.</a>"
+      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
     },
     {
       "key": "article/donateNote/200225-v1/after",

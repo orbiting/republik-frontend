@@ -195,6 +195,7 @@ const Page = ({ router, crowdfunding, data }) => {
     <Frame
       raw
       meta={{
+        // ToDo: change once no longer in index
         url: `${PUBLIC_BASE_URL}/`,
         pageTitle: 'Republik – das digitale Magazin von Project R',
         title: 'Republik – das digitale Magazin von Project R',

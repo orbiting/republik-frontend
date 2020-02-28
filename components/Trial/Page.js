@@ -83,10 +83,6 @@ const Page = props => {
             <Link route='pledge'>
               <Button primary>{t('Trial/Page/disabled/button')}</Button>
             </Link>
-
-            <div style={{ marginTop: 10 }}>
-              <Label>{t('Trial/Page/disabled/note')}</Label>
-            </div>
           </>
         )}
       </>

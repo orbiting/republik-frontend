@@ -21,6 +21,7 @@ const IndexPage = ({ t, isMember, router }) => {
     return <Front extractId={router.query.extractId} finite />
   }
   // does it's own meta
+  // ToDo: change url in CF2 once rm here
   return <CF2 />
   // const meta = {
   //   pageTitle: t('pages/index/pageTitle'),

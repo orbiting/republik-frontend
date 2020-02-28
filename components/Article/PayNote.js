@@ -358,9 +358,13 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
       )}
       {payNote.note && (
         <div style={{ marginTop: 10, marginBottom: 5 }}>
-          <Label style={{ color: darkMode ? colors.negative.text : '#000000' }}>
-            {payNote.note}
-          </Label>
+          <RawHtml
+            type={Label}
+            white={darkMode}
+            dangerouslySetInnerHTML={{
+              __html: payNote.note
+            }}
+          />
         </div>
       )}
     </div>

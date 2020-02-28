@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-27T16:12:12.909Z",
+  "updated": "2020-02-28T09:17:29.818Z",
   "title": "live",
   "data": [
     {
@@ -6496,19 +6496,15 @@
     },
     {
       "key": "Trial/Page/disabled/body",
-      "value": "Wie Sie vielleicht wissen befindet sich die Republik momentan inmitten einer Kampagne um ihre Zukunft. Erreichen wir bis Ende März <a href=\"/\">das Ziel von 19’000 Verlegerinnen und CHF 2’200’000 Spenden und Investitionen</a> nicht, werden wir die Publikation einstellen und das Unternehmen geordnet auflösen müssen. \n\nBisher läuft es sehr erfreulich und besser als geplant. Dennoch sind wir nicht am Ziel. Wir müssen im März noch über tausend neue Leser gewinnen. \n\nEs geht um alles. Deswegen gibt es im März nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
+      "value": "Wie Sie vielleicht wissen befindet sich die Republik momentan inmitten einer Kampagne um ihre Zukunft. Erreichen wir bis Ende März das Ziel von 19’000 Verlegerinnen und CHF 2’200’000 Spenden und Investitionen nicht, werden wir die Publikation einstellen und das Unternehmen geordnet auflösen müssen. \n\nBisher läuft es sehr erfreulich. Dennoch sind wir noch nicht am Ziel. <a href=\"/maerzkampagne\">Mehr Informationen und den aktuellen Stand der Dinge.</a>\n\nEs geht um alles. Deswegen gibt es im März nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
     },
     {
       "key": "Trial/Page/disabled/button",
       "value": "Mitglied werden"
     },
     {
-      "key": "Trial/Page/disabled/note",
-      "value": "Falls wir die Ziele am 31. März nicht erreichen, erhalten Sie Ihr Geld zurück."
-    },
-    {
       "key": "article/payNote/200225-v1/before",
-      "value": "Journalismus kostet. Die Republik ist werbefrei und leserinnenfinanziert. Schon {count} Personen unterstützen die Republik.\n\nUm auch nach März weiter bestehen zu können, müssen wir diesen Monat 3000 neue Mitglieder [TK: live] gewinnen.\n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
+      "value": "Unabhängiger Jouranlismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\nDas reicht nicht. Damit die Republik eine Zukunft hat, müssen wir bis Ende März ehrgeizige Ziele erreichen und wollen dafür noch 3000 [TK: live] Mitglieder gewinnen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
     },
     {
       "key": "article/payNote/200225-v1/before/buy/button",
@@ -6524,11 +6520,11 @@
     },
     {
       "key": "article/payNote/200225-v1/before/note",
-      "value": "Falls wir die Ziele am 31. März nicht erreichen, erhalten Sie Ihr Geld zurück."
+      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge finden Sie hier.</a>"
     },
     {
       "key": "article/payNote/200225-v1/after",
-      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat 3000 neue Mitglieder [TK: live] gewinnen.\n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
+      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat ehrgeizige Ziele erreichen und wollen dafür noch 3000 [TK: live] Mitglieder gewinnen. \n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
     },
     {
       "key": "article/payNote/200225-v1/after/buy/button",
@@ -6544,11 +6540,11 @@
     },
     {
       "key": "article/payNote/200225-v1/after/note",
-      "value": "Falls wir die Ziele am 31. März nicht erreichen, erhalten Sie Ihr Geld zurück."
+      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge finden Sie hier.</a>"
     },
     {
       "key": "article/donateNote/200225-v1/after",
-      "value": "<b>Schenken Sie der Republik Wachstum</b><br />\nDie Republik braucht noch 431'000 Franken [TK: live] um zu überleben. Am besten in Form von Mitgliedschaften die früher oder später zu treuen Verlegerinnen werden. Sind Sie bereit für eine Patenschaft? Zusammen mit unseren 1000 Komplizen finden wir Ihnen ein Täufling und lassen Sie wissen wem Sie die Republik ermöglicht haben. "
+      "value": "<b>Schenken Sie der Republik Wachstum</b><br />\nDie Republik braucht bis Ende Monat noch 431'000 Franken [TK: live] um zu überleben. Am besten in Form von Mitgliedschaften die früher oder später zu treuen Verlegerinnen werden. Sind Sie bereit für eine Patenschaft? Zusammen mit unseren 1000 Komplizen finden wir Ihnen ein Täufling und lassen Sie wissen wem Sie die Republik ermöglicht haben. "
     },
     {
       "key": "article/donateNote/200225-v1/after/buy/button",
@@ -6572,11 +6568,11 @@
     },
     {
       "key": "option/ABO/accessGranted/label/other",
-      "value": "Topf-Mitgliedschaften"
+      "value": "Paten-Mitgliedschaften"
     },
     {
       "key": "option/ABO/accessGranted/label/1",
-      "value": "Topf-Mitgliedschaft"
+      "value": "Paten-Mitgliedschaft"
     },
     {
       "key": "option/ABO_GIVE/ABO/label/other",
@@ -6604,7 +6600,7 @@
     },
     {
       "key": "package/ABO_GIVE/description",
-      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik.\n\nSie wissen gerade nicht wem schenken? Oder wollen der Republik zusätzlich Wachstum schenken? Kaufen Sie Topf-Mitgliedschaften und überlassen Sie das Schenken uns und unseren über 1000 Komplizen."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik.\n\nSie wissen gerade nicht wem schenken? Oder wollen der Republik zusätzlich Wachstum schenken? Kaufen Sie Paten-Mitgliedschaften und überlassen Sie das Schenken uns und unseren über 1000 Komplizen."
     },
     {
       "key": "package/ABO_GIVE/accessGranted/title",
@@ -6612,7 +6608,7 @@
     },
     {
       "key": "package/ABO_GIVE/accessGranted/description",
-      "value": "Kaufen Sie eine Topf-Mitgliedschaft und vertrauen Sie die Aufgabe, einen passenden Empfänger für Ihr Geschenk zu finden, uns und unseren Komplizen an."
+      "value": "Kaufen Sie eine Paten-Mitgliedschaft und vertrauen Sie die Aufgabe, einen passenden Empfänger für Ihr Geschenk zu finden, uns und unseren Komplizen an."
     },
     {
       "key": "package/customize/rmAccessGrantedOnly",
@@ -6620,7 +6616,7 @@
     },
     {
       "key": "package/customize/messageToClaimers/before",
-      "value": "Sie können optional eine Nachricht zu Ihren Topf-Mitgliedschaften hinterlegen. So oder so erhalten Sie eine E-Mail mit dem Namen der Beschenkten und sie erhält Ihren Namen."
+      "value": "Sie können optional eine Nachricht zu Ihren Paten-Mitgliedschaften hinterlegen. So oder so erhalten Sie eine E-Mail mit dem Namen der Beschenkten und sie erhält Ihren Namen."
     },
     {
       "key": "package/customize/messageToClaimers/label",

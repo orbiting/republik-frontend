@@ -145,7 +145,7 @@ const VIDEOS = {
       'https://player.vimeo.com/external/394299161.m3u8?s=04b073df4a9a2e46dbf3bb030a81d7b233b70e10',
     mp4:
       'https://player.vimeo.com/external/394299161.hd.mp4?s=52bbb16e068387bd4e44683de01cbfebdcbc95e1&profile_id=175',
-    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/cf2.png`
+    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/manifest.png`
   }
 }
 
@@ -255,10 +255,11 @@ const Page = ({
         url: `${PUBLIC_BASE_URL}/`,
         pageTitle: 'Republik – das digitale Magazin von Project R',
         title: 'Republik – das digitale Magazin von Project R',
-        description: 'Das war unser Crowdfunding.',
-        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/main.jpg`
+        description:
+          'Unabhängiger Journalismus für vernünftige Entscheide: Willkommen bei der Republik.',
+        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/manifest.jpg`
       }}
-      cover={<VideoCover src={VIDEOS.main} playTop='75%' endScroll={0.97} />}
+      cover={<VideoCover src={VIDEOS.main} playTop='65%' endScroll={0.97} />}
     >
       <ContainerWithSidebar
         sidebarProps={{

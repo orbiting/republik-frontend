@@ -314,6 +314,23 @@ class Accordion extends Component {
                 title: t('marketing/offers/claim')
               })
             }
+            if (group === 'GIVE') {
+              const donatePotIndex = pkgItems.findIndex(
+                item => item.name === 'DONATE_POT'
+              )
+              if (donatePotIndex !== -1) {
+                pkgItems.splice(donatePotIndex, 0, {
+                  route: 'pledge',
+                  params: {
+                    package: 'ABO_GIVE',
+                    filter: 'pot'
+                  },
+                  name: 'ABO_GIVE_POT',
+                  title: t('package/ABO_GIVE/accessGrantedOnly/title'),
+                  price: 24000
+                })
+              }
+            }
 
             return (
               <Fragment key={group}>

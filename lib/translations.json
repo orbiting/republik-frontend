@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T14:33:23.067Z",
+  "updated": "2020-02-28T18:11:06.957Z",
   "title": "live",
   "data": [
     {
@@ -6507,6 +6507,10 @@
       "value": "Unabhängiger Jouranlismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\nDas reicht nicht. Damit die Republik eine Zukunft hat, müssen wir bis Ende März ehrgeizige Ziele erreichen und wollen dafür noch {remainingMemberships} Mitglieder gewinnen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
     },
     {
+      "key": "article/payNote/200225-v1/before/reached",
+      "value": "Unabhängiger Jouranlismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
+    },
+    {
       "key": "article/payNote/200225-v1/before/buy/button",
       "value": "Jahresmitgliedschaft"
     },
@@ -6527,6 +6531,10 @@
       "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat ehrgeizige Ziele erreichen und wollen dafür noch {remainingMemberships} Mitglieder gewinnen. \n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
     },
     {
+      "key": "article/payNote/200225-v1/after/reached",
+      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat ehrgeizige Ziele erreichen.\n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
+    },
+    {
       "key": "article/payNote/200225-v1/after/buy/button",
       "value": "Jahresmitgliedschaft"
     },
@@ -6541,30 +6549,6 @@
     {
       "key": "article/payNote/200225-v1/after/note",
       "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
-    },
-    {
-      "key": "article/donateNote/200225-v1/after",
-      "value": "<b>Schenken Sie der Republik Wachstum</b><br />\nDie Republik braucht bis Ende Monat noch {remainingMoney} Franken um zu überleben. Am besten in Form von Mitgliedschaften die früher oder später zu treuen Verlegerinnen werden. Sind Sie bereit für eine Patenschaft? Zusammen mit unseren 1000 Komplizen finden wir Ihnen ein Täufling und lassen Sie wissen wem Sie die Republik ermöglicht haben. "
-    },
-    {
-      "key": "article/donateNote/200225-v1/after/buy/button",
-      "value": "Patenschaft für 240.-"
-    },
-    {
-      "key": "article/donateNote/200225-v1/after/buy/button/link",
-      "value": "/angebote?package=ABO_GIVE&filter=pot"
-    },
-    {
-      "key": "article/donateNote/200225-v1/after/secondary/prefix",
-      "value": "Lieber anonym bleiben?"
-    },
-    {
-      "key": "article/donateNote/200225-v1/after/secondary/label",
-      "value": "Beliebiger Geld-Beitrag leisten"
-    },
-    {
-      "key": "article/donateNote/200225-v1/after/secondary/link",
-      "value": "/angebote?package=DONATE_POT&price=6000"
     },
     {
       "key": "option/ABO/accessGranted/label/other",

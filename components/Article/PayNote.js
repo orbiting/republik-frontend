@@ -141,6 +141,11 @@ const generatePositionedNote = (variation, target, cta, position) => {
   return {
     [position]: {
       content: t(`article/${variation}/${position}`, undefined, ''),
+      contentReached: t(
+        `article/${variation}/${position}/reached`,
+        undefined,
+        ''
+      ),
       cta: cta,
       button: {
         label: t(`article/${variation}/${position}/buy/button`, undefined, ''),
@@ -202,16 +207,6 @@ const predefinedNotes = generateNotes(
       BUY_VARIATIONS,
       {
         hasActiveMembership: false,
-        inNativeIOSApp: false
-      },
-      'button'
-    )
-  )
-  .concat(
-    generateNotes(
-      ['donateNote/200225-v1'],
-      {
-        hasActiveMembership: true,
         inNativeIOSApp: false
       },
       'button'
@@ -425,25 +420,34 @@ export const PayNote = compose(
     props: ({ data: { membershipStats, revenueStats, crowdfunding } }) => {
       const latestGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
 
+      if (membershipStats && membershipStats.count && latestGoal) {
+        const remainingMemberships = Math.max(
+          0,
+          latestGoal.memberships - membershipStats.marchCount
+        )
+        const remainingMoney = Math.max(
+          0,
+          (latestGoal.money - revenueStats.surplus.total) / 100
+        )
+
+        return {
+          statReplacements: {
+            reached: remainingMemberships === 0,
+            count: countFormat(membershipStats.count),
+            remainingMemberships: countFormat(remainingMemberships),
+            remainingMoney: countFormat(remainingMoney)
+          }
+        }
+      }
+
       return {
-        statReplacements:
-          membershipStats && membershipStats.count && latestGoal
-            ? {
-                count: countFormat(membershipStats.count),
-                remainingMemberships: countFormat(
-                  latestGoal.memberships - membershipStats.marchCount
-                ),
-                remainingMoney: countFormat(
-                  (latestGoal.money - revenueStats.surplus.total) / 100
-                )
-              }
-            : {
-                count: countFormat(
-                  (membershipStats && membershipStats.count) || 19500
-                ),
-                remainingMemberships: 'viele',
-                remainingMoney: 'viele'
-              }
+        statReplacements: {
+          count: countFormat(
+            (membershipStats && membershipStats.count) || 19500
+          ),
+          remainingMemberships: 'viele',
+          remainingMoney: 'viele'
+        }
       }
     }
   })
@@ -494,7 +498,11 @@ export const PayNote = compose(
       >
         <Center>
           <PayNoteContent
-            content={withCounts(positionedNote.content, statReplacements)}
+            content={withCounts(
+              (statReplacements.reached && positionedNote.contentReached) ||
+                positionedNote.content,
+              statReplacements
+            )}
             darkMode={darkMode}
           />
           <PayNoteCta

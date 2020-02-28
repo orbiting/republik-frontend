@@ -567,7 +567,7 @@ class CustomizePackage extends Component {
             {text}
           </P>
         ))}
-        {accessGrantedOnly && (
+        {accessGrantedOnly && pkg.name === 'ABO_GIVE' && (
           <div {...styles.smallP} style={{ marginTop: -5, marginBottom: 15 }}>
             <Editorial.A
               href={format({
@@ -619,7 +619,30 @@ class CustomizePackage extends Component {
                 })
               }}
             >
-              {t('package/customize/rmAccessGrantedOnly')}
+              {t('package/customize/ABO_GIVE/rmAccessGrantedOnly')}
+            </Editorial.A>{' '}
+            <Editorial.A
+              href={format({
+                pathname: '/angebote',
+                query: { package: 'DONATE_POT' }
+              })}
+              onClick={e => {
+                if (shouldIgnoreClick(e)) {
+                  return
+                }
+                e.preventDefault()
+                this.resetPrice()
+
+                Router.pushRoute(
+                  'pledge',
+                  { package: 'DONATE_POT' },
+                  {
+                    shallow: true
+                  }
+                )
+              }}
+            >
+              {t('package/customize/ABO_GIVE/donate')}
             </Editorial.A>
           </div>
         )}
@@ -1105,7 +1128,10 @@ class CustomizePackage extends Component {
               {payMoreSuggestions.length > 0 && (
                 <Fragment>
                   <Interaction.Emphasis>
-                    {t('package/customize/price/payMore')}
+                    {t.first([
+                      `package/customize/price/payMore/${pkg.name}`,
+                      'package/customize/price/payMore'
+                    ])}
                   </Interaction.Emphasis>
                   <ul {...styles.ul}>
                     {payMoreSuggestions.map(({ value, key }) => {

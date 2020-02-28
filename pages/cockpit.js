@@ -369,6 +369,16 @@ const Page = ({
           return (
             <>
               <div style={{ marginBottom: 60 }}>
+                {md(mdComponents)`
+
+${t('cockpit/march20/prefix')} ${(
+                  <Link route='crowdfunding2' passHref>
+                    <Editorial.A>{t('cockpit/march20/link')}</Editorial.A>
+                  </Link>
+                )}
+
+                `}
+                <br />
                 <RawStatus
                   t={t}
                   color='#fff'

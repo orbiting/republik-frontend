@@ -6,8 +6,10 @@ import { Link } from '../lib/routes'
 
 import mdComponents from '../lib/utils/mdComponents'
 import { thousandSeparator } from '../lib/utils/format'
+import withT from '../lib/withT'
 
 import Frame from '../components/Frame'
+import Box from '../components/Frame/Box'
 import VideoCover from '../components/VideoCover'
 import ActionBar from '../components/ActionBar'
 import List, { Highlight } from '../components/List'
@@ -65,7 +67,7 @@ export const VIDEOS = {
   }
 }
 
-export const Page = ({ router }) => {
+export const Page = ({ router, t }) => {
   const pledgeLink = (
     <Link route='pledge'>
       <a {...linkRule}>Jetzt mitmachen!</a>
@@ -127,6 +129,15 @@ export const Page = ({ router }) => {
           title: 'Abo und Mitgliedschaft für ein Jahr'
         }}
       >
+        <Box style={{ padding: 14, marginBottom: 20 }}>
+          <Interaction.P>
+            {t('crowdfunding/beforeNote')}{' '}
+            <Link route='crowdfunding2' passHref>
+              <A>{t('crowdfunding/march20/link')}</A>
+            </Link>
+          </Interaction.P>
+        </Box>
+
         <Lead>
           Willkommen zum Crowdfunding für das digitale Magazin Republik von
           Project&nbsp;R
@@ -395,4 +406,4 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
   )
 }
 
-export default withRouter(Page)
+export default withRouter(withT(Page))

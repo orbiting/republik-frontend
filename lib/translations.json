@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T11:07:22.451Z",
+  "updated": "2020-02-28T13:29:31.869Z",
   "title": "live",
   "data": [
     {
@@ -6676,11 +6676,27 @@
     },
     {
       "key": "DB/accessCampaigns/description",
-      "value": null
+      "value": "Als Komplizin können Sie Paten-Mitgliedschaften vergeben. Diese dauern ein ganze Jahr. Wählen Sie die Empfänger sorgfällig aus."
     },
     {
       "key": "nav/crowdfunding2",
       "value": "Märzkampagne"
+    },
+    {
+      "key": "cockpit/march20/prefix",
+      "value": "Das Cockpit richtet sich primär an unsere Verlegerschaft."
+    },
+    {
+      "key": "cockpit/march20/link",
+      "value": "Zur aktuellen Märzkampagne."
+    },
+    {
+      "key": "crowdfunding/beforeNote",
+      "value": "Das ist unser Crowdfunding aus dem Jahr 2017."
+    },
+    {
+      "key": "crowdfunding/march20/link",
+      "value": "Zur aktuellen Märzkampagne."
     }
   ]
 }

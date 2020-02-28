@@ -7,7 +7,6 @@ import {
   colors,
   fontStyles,
   linkRule,
-  RawHtml,
   Label
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
@@ -55,24 +54,16 @@ const styles = {
       flexDirection: 'row'
     }
   }),
-  aside: css({
-    maxWidth: '50%',
-    marginTop: 15,
-    color: colors.lightText,
-    ...fontStyles.sansSerifRegular16,
-    lineHeight: 1.4,
-    '& a': linkRule,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular18,
-      lineHeight: 1.4,
-      marginLeft: 30,
-      marginTop: 0
-    }
+  links: css({
+    '& a': linkRule
   }),
-  asideDark: css({
-    color: colors.negative.text,
+  linksDark: css({
     '& a': {
+      textDecoration: 'none',
       color: colors.negative.text,
+      ':visited': {
+        color: colors.negative.text
+      },
       '@media (hover)': {
         ':hover': {
           color: colors.negative.text,
@@ -81,6 +72,22 @@ const styles = {
         }
       }
     }
+  }),
+  aside: css({
+    maxWidth: '50%',
+    marginTop: 15,
+    color: colors.lightText,
+    ...fontStyles.sansSerifRegular16,
+    lineHeight: 1.4,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular18,
+      lineHeight: 1.4,
+      marginLeft: 30,
+      marginTop: 0
+    }
+  }),
+  asideDark: css({
+    color: colors.negative.text
   })
 }
 
@@ -358,9 +365,7 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
       )}
       {payNote.note && (
         <div style={{ marginTop: 10, marginBottom: 5 }}>
-          <RawHtml
-            type={Label}
-            white={darkMode}
+          <Label
             dangerouslySetInnerHTML={{
               __html: payNote.note
             }}
@@ -429,6 +434,7 @@ export const PayNote = compose(
       position
     }
     const isBefore = position === 'before'
+    const darkMode = isBefore
 
     return (
       <div
@@ -436,14 +442,15 @@ export const PayNote = compose(
         style={{
           backgroundColor: isBefore ? colors.error : colors.primaryBg
         }}
+        {...(darkMode ? styles.linksDark : styles.links)}
       >
         <Center>
           <PayNoteContent
             content={withCount(positionedNote.content, membershipStats)}
-            darkMode={isBefore}
+            darkMode={darkMode}
           />
           <PayNoteCta
-            darkMode={isBefore}
+            darkMode={darkMode}
             payNote={positionedNote}
             payload={payload}
           />

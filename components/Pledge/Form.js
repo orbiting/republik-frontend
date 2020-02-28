@@ -427,6 +427,21 @@ class Pledge extends Component {
               )
             const ownMembership =
               ownMembershipOption && ownMembershipOption.membership
+            const title = t.first(
+              [
+                ownMembership &&
+                  `pledge/title/${pkg.name}/${ownMembership.type.name}`,
+                ownMembership &&
+                  new Date(ownMembership.graceEndDate) < new Date() &&
+                  `pledge/title/${pkg.name}/reactivate`,
+                pkg && isMember && `pledge/title/${pkg.name}/member`,
+                pkg && `pledge/title/${pkg.name}`,
+                !pkg && isMember && 'pledge/title/member',
+                !pkg && 'pledge/title'
+              ].filter(Boolean),
+              undefined,
+              ''
+            )
 
             return (
               <div>
@@ -451,21 +466,7 @@ class Pledge extends Component {
                     )}
                   </div>
                 )}
-                <H1>
-                  {t.first(
-                    [
-                      ownMembership &&
-                        `pledge/title/${pkg.name}/${ownMembership.type.name}`,
-                      ownMembership &&
-                        new Date(ownMembership.graceEndDate) < new Date() &&
-                        `pledge/title/${pkg.name}/reactivate`,
-                      pkg && isMember && `pledge/title/${pkg.name}/member`,
-                      pkg && `pledge/title/${pkg.name}`,
-                      isMember && 'pledge/title/member',
-                      'pledge/title'
-                    ].filter(Boolean)
-                  )}
-                </H1>
+                <H1>{title}</H1>
 
                 {!!receiveError && (
                   <P style={{ color: colors.error, marginBottom: 40 }}>

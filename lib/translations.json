@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T21:03:57.481Z",
+  "updated": "2020-02-28T21:34:20.854Z",
   "title": "live",
   "data": [
     {
@@ -2307,10 +2307,6 @@
       "value": "Noch nicht bereit, versuchen sie es erneut in einigen Sekunden."
     },
     {
-      "key": "package/customize/changePackage",
-      "value": "(ändern)"
-    },
-    {
       "key": "package/customize/price/label",
       "value": "Betrag in CHF"
     },
@@ -4199,6 +4195,10 @@
       "value": "Verlängern"
     },
     {
+      "key": "package/PROLONG/pageTitle",
+      "value": "Verlängern Sie Ihr Investment."
+    },
+    {
       "key": "package/PROLONG/price",
       "value": "{formattedCHF} pro Jahr"
     },
@@ -4319,12 +4319,8 @@
       "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung.<br />\n<br />\nIhre Treue bedeutet uns viel, und wir freuen uns, dass Sie sich dazu entschieden haben, Ihre Mitgliedschaft zu verlängern. Damit die Republik eine Zukunft hat, müssen wir bis zum 31. März 2020 viele neue Verlegerinnen finden und überzeugen. <br />\n<br />\nDas schaffen wir nur gemeinsam. Helfen Sie mit, unterstützen Sie uns bei der Bekannt­machung der Republik oder verschenken Sie eine Mitgliedschaft. Danke!"
     },
     {
-      "key": "pledge/title/PROLONG/ABO_GIVE_MONTHS",
+      "key": "package/PROLONG/ABO_GIVE_MONTHS/pageTitle",
       "value": "Willkommen an Bord!"
-    },
-    {
-      "key": "pledge/title/PROLONG",
-      "value": "Verlängern Sie Ihr Investment."
     },
     {
       "key": "pledge/title/member",
@@ -6399,7 +6395,7 @@
       "value": "Auf den regulären Beitrag zurücksetzen"
     },
     {
-      "key": "pledge/title/PROLONG/reactivate",
+      "key": "package/PROLONG/pageTitle/reactivate",
       "value": "Reaktivieren Sie Ihr Investment."
     },
     {
@@ -6620,7 +6616,7 @@
     },
     {
       "key": "package/customize/messageToClaimers/before",
-      "value": "Fall Sie möchten können Sie eine Nachricht hinterlegen. So oder so erhalten Sie eine E-Mail mit dem Namen des Empfängers und er erhält Ihren Namen."
+      "value": "Falls Sie möchten können Sie eine Nachricht hinterlegen. So oder so erhalten Sie eine E-Mail mit dem Namen des Empfängers und er erhält Ihren Namen."
     },
     {
       "key": "package/customize/messageToClaimers/label",
@@ -6628,7 +6624,7 @@
     },
     {
       "key": "package/customize/messageToClaimers/note",
-      "value": "Geben Sie einen Lesetipp, eine Plädoyer für die Republik oder äusseren Sie einen Wunsch. Die Beschenkte erhält automatisch keine Kontaktdaten von Ihnen."
+      "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder äusseren Sie einen Wunsch. Die Beschenkte erhält automatisch keine Kontaktdaten von Ihnen."
     },
     {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
@@ -6705,6 +6701,10 @@
     {
       "key": "package/customize/price/payMore/DONATE_POT",
       "value": "Vorschläge"
+    },
+    {
+      "key": "package/customize/changePackage",
+      "value": "Zum gesamte Angebot"
     }
   ]
 }

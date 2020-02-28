@@ -155,11 +155,6 @@ const styles = {
     fontSize: 19,
     lineHeight: '28px'
   }),
-  packageTitle: css({
-    fontFamily: fontFamilies.sansSerifMedium,
-    fontSize: 21,
-    lineHeight: '32px'
-  }),
   packageImage: css({
     float: 'right',
     maxWidth: 150,
@@ -537,15 +532,21 @@ class CustomizePackage extends Component {
     return (
       <div>
         <div style={{ marginTop: 20, marginBottom: 10 }}>
-          <span {...styles.packageTitle}>
+          <Interaction.H2 style={{ marginBottom: 10 }}>
             {t.first(
               [
+                ownMembership &&
+                  `package/${pkg.name}/${ownMembership.type.name}/pageTitle`,
+                ownMembership &&
+                  new Date(ownMembership.graceEndDate) < new Date() &&
+                  `package/${pkg.name}/reactivate/pageTitle`,
                 accessGrantedOnly &&
                   `package/${pkg.name}/accessGrantedOnly/title`,
+                `package/${pkg.name}/pageTitle`,
                 `package/${pkg.name}/title`
               ].filter(Boolean)
             )}
-          </span>{' '}
+          </Interaction.H2>
           <A
             href='/angebote'
             onClick={event => {

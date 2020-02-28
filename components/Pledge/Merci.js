@@ -4,7 +4,7 @@ import { format } from 'url'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Router, Link, questionnaireCrowdSlug } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 
 import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
@@ -77,17 +77,6 @@ const parseSignInResponseQuery = query => {
       alternativeFirstFactors: query.aff ? query.aff.split(',') : []
     }
   }
-}
-
-const showQuestionnaire = data => {
-  const questionnaire = data && data.questionnaire
-  const now = new Date()
-  return (
-    questionnaire &&
-    new Date(questionnaire.beginDate) < now &&
-    now < new Date(questionnaire.endDate) &&
-    !questionnaire.userHasSubmitted
-  )
 }
 
 class Merci extends Component {
@@ -266,8 +255,6 @@ class Merci extends Component {
 
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
     const noNameSuffix = me ? '' : '/noName'
-    const questionnaireLink =
-      showQuestionnaire(data) && query.package === 'PROLONG'
 
     return (
       <Fragment>
@@ -299,19 +286,6 @@ class Merci extends Component {
                 <>
                   {query.package === 'PROLONG' && (
                     <Editorial.UL>
-                      {questionnaireLink && (
-                        <InfoBoxListItem>
-                          <Link
-                            route='questionnaireCrowd'
-                            params={{ slug: questionnaireCrowdSlug }}
-                            passHref
-                          >
-                            <Editorial.A>
-                              {t('merci/action/questionnaire')}
-                            </Editorial.A>
-                          </Link>
-                        </InfoBoxListItem>
-                      )}
                       <InfoBoxListItem>
                         <Link
                           route='pledge'
@@ -322,17 +296,14 @@ class Merci extends Component {
                         </Link>
                       </InfoBoxListItem>
                       <InfoBoxListItem>
-                        <Link route='cockpit' passHref>
-                          <Editorial.A>{t('merci/action/cockpit')}</Editorial.A>
+                        <Link route='crowdfunding2' passHref>
+                          <Editorial.A>{t('merci/action/cf2')}</Editorial.A>
                         </Link>
                       </InfoBoxListItem>
                     </Editorial.UL>
                   )}
                   <Link route='index'>
-                    <Button
-                      primary={!questionnaireLink}
-                      style={{ ...buttonStyle, marginTop: 10 }}
-                    >
+                    <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
                       {t('merci/action/read')}
                     </Button>
                   </Link>
@@ -357,19 +328,7 @@ class Merci extends Component {
   }
 }
 
-const questionnaireQuery = gql`
-  query getQuestionnaire {
-    questionnaire(slug: "${questionnaireCrowdSlug}") {
-      id
-      beginDate
-      endDate
-      userHasSubmitted
-    }
-  }
-`
-
 export default compose(
-  graphql(questionnaireQuery),
   withMe,
   withT,
   withSignIn

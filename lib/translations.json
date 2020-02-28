@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T20:15:10.697Z",
+  "updated": "2020-02-28T20:39:30.459Z",
   "title": "live",
   "data": [
     {
@@ -3323,6 +3323,10 @@
       "value": "Guten Tag, {name}"
     },
     {
+      "key": "merci/title/package/DONATE_POT",
+      "value": "Guten Tag, {name}"
+    },
+    {
       "key": "merci/title/package/ABO_GIVE/noName",
       "value": "Guten Tag"
     },
@@ -3339,12 +3343,16 @@
       "value": "Guten Tag"
     },
     {
+      "key": "merci/title/package/DONATE_POT/noName",
+      "value": "Guten Tag"
+    },
+    {
       "key": "merci/lead",
       "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br /><br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br />"
     },
     {
       "key": "merci/lead/package/ABO_GIVE_MONTHS",
@@ -3353,6 +3361,10 @@
     {
       "key": "merci/lead/package/DONATE",
       "value": "Vielen Dank für Ihre Grosszügigkeit!<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+    },
+    {
+      "key": "merci/lead/package/DONATE_POT",
+      "value": "Vielen Dank für Ihre Grosszügigkeit!<br />"
     },
     {
       "key": "merci/lead/package/TABLEBOOK",
@@ -4304,7 +4316,7 @@
     },
     {
       "key": "merci/lead/package/PROLONG",
-      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung.<br />\n<br />\nIhre Treue bedeutet uns viel, und wir freuen uns, dass Sie sich dazu entschieden haben, Ihre Mitgliedschaft zu verlängern. Damit die Republik eine Zukunft hat, müssen wir bis zum 31. März 2020 viele neue Verlegerinnen finden und überzeugen. <br />\n<br />\nDas schaffen wir nur gemeinsam. Helfen Sie mit und werden Sie Komplizin, Komplize, unterstützen Sie uns bei der Bekannt­machung der Republik oder verschenken Sie eine Mitgliedschaft. Danke!"
+      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung.<br />\n<br />\nIhre Treue bedeutet uns viel, und wir freuen uns, dass Sie sich dazu entschieden haben, Ihre Mitgliedschaft zu verlängern. Damit die Republik eine Zukunft hat, müssen wir bis zum 31. März 2020 viele neue Verlegerinnen finden und überzeugen. <br />\n<br />\nDas schaffen wir nur gemeinsam. Helfen Sie mit, unterstützen Sie uns bei der Bekannt­machung der Republik oder verschenken Sie eine Mitgliedschaft. Danke!"
     },
     {
       "key": "pledge/title/PROLONG/ABO_GIVE_MONTHS",
@@ -6431,8 +6443,8 @@
       "value": "Verschenken Sie ein Abo"
     },
     {
-      "key": "merci/action/cockpit",
-      "value": "Mehr erfahren"
+      "key": "merci/action/cf2",
+      "value": "Märzkampagne"
     },
     {
       "key": "memberships/cancel/confirmation/cockpit",

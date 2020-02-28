@@ -427,7 +427,7 @@ Das ist eine heikle Aufgabe. Denn Journalismus ist alles andere als harmlos: Es 
 
 Und weil Vertrauen im Journalismus die härteste Währung ist, haben wir die Republik so aufgestellt, dass wir genau diese Aufgabe für Sie bestmöglich erledigen können:
 
-**Wir sind unabhängig.** Und komplett werbefrei. So können wir uns auf unseren einzigen Kunden konzentrieren: Sie. Und müssen weder möglichst viele Klicks generieren noch Sie mit nervigen Anzeigen belästigen. Und wir geben auch Ihre persönlichen Daten niemals weiter.
+**Wir sind unabhängig.** Und komplett werbefrei. So können wir uns auf unseren einzigen Kunden konzentrieren: Sie. Und müssen weder möglichst viele Klicks generieren noch Sie mit nervigen Anzeigen belästigen. Und wir verkaufen Ihre persönlichen Daten niemals weiter.
 
 **Wir sind das transparenteste Medienunternehmen (das wir kennen).** Wir legen alles offen: unsere Finanzen, Besitzverhältnisse, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass es wichtig ist zu zeigen, unter welchen Bedingungen Journalismus hergestellt wird. 
 

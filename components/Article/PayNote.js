@@ -91,10 +91,27 @@ const styles = {
   })
 }
 
+// ToDo: change countRange min to 2020-02-29T23:00:00Z
 const memberShipQuery = gql`
-  query payNoteMembershipStats {
+  query payNoteStats {
+    crowdfunding(name: "MARCH20") {
+      goals {
+        people
+        memberships
+        money
+      }
+    }
+    revenueStats {
+      surplus(min: "2019-11-30T23:00:00Z") {
+        total
+      }
+    }
     membershipStats {
       count
+      marchCount: countRange(
+        min: "2020-02-27T23:00:00Z"
+        max: "2020-03-31T23:00:00Z"
+      )
     }
   }
 `
@@ -286,12 +303,18 @@ const getPayNote = (subject, seed, tryOrBuy, customPayNotes = []) => {
   return getElementFromSeed(targetedPredefinedNotes, seed, MAX_PAYNOTE_SEED)
 }
 
-const withCount = (text, membershipStats) =>
-  text &&
-  text.replace(
-    '{count}',
-    countFormat((membershipStats && membershipStats.count) || 20000)
-  )
+const withCounts = (text, replacements) => {
+  let message = text
+  if (replacements) {
+    Object.keys(replacements).forEach(replacementKey => {
+      message = message.replace(
+        `{${replacementKey}}`,
+        replacements[replacementKey]
+      )
+    })
+  }
+  return message
+}
 
 const BuyButton = ({ payNote, payload, darkMode }) => (
   <Button
@@ -398,14 +421,39 @@ export const PayNote = compose(
   withRouter,
   withInNativeApp,
   withMemberStatus,
-  graphql(memberShipQuery)
+  graphql(memberShipQuery, {
+    props: ({ data: { membershipStats, revenueStats, crowdfunding } }) => {
+      const endGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
+
+      return {
+        statReplacements:
+          membershipStats.count && endGoal
+            ? {
+                count: countFormat(membershipStats.count),
+                remainingMemberships: countFormat(
+                  endGoal.memberships - membershipStats.marchCount
+                ),
+                remainingMoney: countFormat(
+                  (endGoal.money - revenueStats.surplus.total) / 100
+                )
+              }
+            : {
+                count: countFormat(
+                  (membershipStats && membershipStats.count) || 19500
+                ),
+                remainingMemberships: 'viele',
+                remainingMoney: 'viele'
+              }
+      }
+    }
+  })
 )(
   ({
     router: { query },
     inNativeIOSApp,
     isEligibleForTrial,
     hasActiveMembership,
-    data: { membershipStats },
+    statReplacements,
     seed,
     tryOrBuy,
     documentId,
@@ -446,7 +494,7 @@ export const PayNote = compose(
       >
         <Center>
           <PayNoteContent
-            content={withCount(positionedNote.content, membershipStats)}
+            content={withCounts(positionedNote.content, statReplacements)}
             darkMode={darkMode}
           />
           <PayNoteCta

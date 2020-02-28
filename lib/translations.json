@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T13:29:31.869Z",
+  "updated": "2020-02-28T14:33:23.067Z",
   "title": "live",
   "data": [
     {
@@ -6592,7 +6592,7 @@
     },
     {
       "key": "package/ABO_GIVE/price",
-      "value": "{formattedCHF} pro Jahr"
+      "value": "{formattedCHF}"
     },
     {
       "key": "package/ABO_GIVE/title",

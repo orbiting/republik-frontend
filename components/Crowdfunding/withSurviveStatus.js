@@ -1,6 +1,7 @@
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import { withRouter } from 'next/router'
+import { timeDay } from 'd3-time'
 
 import { questionnaireCrowdSlug } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
@@ -126,7 +127,10 @@ const withSurviveStatus = compose(
     }
   }),
   graphql(actionsQuery, {
-    props: ({ data: { loading, me: meWithToken, questionnaire }, me }) => {
+    props: ({
+      data: { loading, me: meWithToken, questionnaire },
+      ownProps: { me }
+    }) => {
       const isOptionWithOwn = o =>
         o.membership &&
         o.membership.user &&
@@ -140,12 +144,12 @@ const withSurviveStatus = compose(
         customPackageWithOwn.options.find(isOptionWithOwn).membership
 
       const canProlongOwn = !!customPackageWithOwn
-      const shouldBuyProlong =
+      const activeMembership = me && me.activeMembership
+      const numberOfDaysLeft =
         canProlongOwn &&
-        (!me ||
-          (me.activeMembership &&
-            new Date(me.activeMembership.endDate) <= new Date(END_DATE)))
-
+        activeMembership &&
+        timeDay.count(new Date(), new Date(me.activeMembership.endDate))
+      const shouldBuyProlong = canProlongOwn && (!me || numberOfDaysLeft < 31)
       const qHasEnded =
         questionnaire && new Date() > new Date(questionnaire.endDate)
 
@@ -160,6 +164,7 @@ const withSurviveStatus = compose(
             !questionnaire.userHasSubmitted &&
             !qHasEnded
         },
+        activeMembership,
         shouldBuyProlong,
         isReactivating:
           ownMembership && new Date(ownMembership.graceEndDate) < new Date(),

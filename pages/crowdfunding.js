@@ -7,6 +7,7 @@ import { Link } from '../lib/routes'
 import mdComponents from '../lib/utils/mdComponents'
 import { thousandSeparator } from '../lib/utils/format'
 import withT from '../lib/withT'
+import withInNativeApp from '../lib/withInNativeApp'
 
 import Frame from '../components/Frame'
 import Box from '../components/Frame/Box'
@@ -67,8 +68,8 @@ export const VIDEOS = {
   }
 }
 
-export const Page = ({ router, t }) => {
-  const pledgeLink = (
+export const Page = ({ router, t, inNativeIOSApp }) => {
+  const pledgeLink = inNativeIOSApp ? null : (
     <Link route='pledge'>
       <a {...linkRule}>Jetzt mitmachen!</a>
     </Link>
@@ -362,11 +363,13 @@ Willkommen an Bord!
 
   `}
         <br />
-        <Link route='pledge' passHref>
-          <Button primary style={{ minWidth: 300 }}>
-            Jetzt mitmachen!
-          </Button>
-        </Link>
+        {!inNativeIOSApp && (
+          <Link route='pledge' passHref>
+            <Button primary style={{ minWidth: 300 }}>
+              Jetzt mitmachen!
+            </Button>
+          </Link>
+        )}
 
         <div style={{ margin: '15px 0 40px' }}>
           <Label style={{ display: 'block', marginBottom: 5 }}>
@@ -406,4 +409,4 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
   )
 }
 
-export default withRouter(withT(Page))
+export default withRouter(withT(withInNativeApp(Page)))

@@ -11,6 +11,9 @@ import { countFormat } from '../lib/utils/format'
 
 import mdComponents from '../lib/utils/mdComponents'
 import { thousandSeparator } from '../lib/utils/format'
+import withInNativeApp from '../lib/withInNativeApp'
+import withMe from '../lib/apollo/withMe'
+import withT from '../lib/withT'
 
 import Employees from '../components/Marketing/Employees'
 import Frame from '../components/Frame'
@@ -146,12 +149,23 @@ const VIDEOS = {
   }
 }
 
-const Page = ({ router, crowdfunding, data }) => {
+const Page = ({
+  router,
+  crowdfunding,
+  data,
+  shouldBuyProlong,
+  inNativeIOSApp,
+  isReactivating,
+  defaultBenefactor,
+  activeMembership,
+  actionsLoading,
+  t
+}) => {
   const [highlight, setHighlight] = useState()
   // ensure the highlighFunction is not dedected as an state update function
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
 
-  const pledgeLink = (
+  const pledgeLink = inNativeIOSApp ? null : (
     <Link route='pledge'>
       <a {...linkRule}>Jetzt mitmachen!</a>
     </Link>
@@ -170,28 +184,68 @@ const Page = ({ router, crowdfunding, data }) => {
       text: 'Sie wollen investieren?'
     }
   ]
-  const packages = [
-    {
-      name: 'MONTHLY_ABO',
-      title: 'Monats-Abo',
-      price: 2200
-    },
-    {
-      name: 'ABO',
-      title: 'Jahresmitgliedschaft',
-      price: 24000
-    },
-    {
-      name: 'BENEFACTOR',
-      title: 'Gönner-Mitgliedschaft',
-      price: 100000
-    },
-    {
-      name: 'ABO_GIVE',
-      params: { filter: 'pot' },
-      title: 'Wachstum schenken'
-    }
-  ]
+  const packages = actionsLoading
+    ? []
+    : shouldBuyProlong
+    ? [
+        {
+          name: 'PROLONG',
+          title: isReactivating ? 'Zurückkehren' : 'Verlängern',
+          price: 24000
+        },
+        {
+          name: 'PROLONG-BEN',
+          params: {
+            package: 'PROLONG',
+            membershipType: 'BENEFACTOR_ABO'
+          },
+          title: defaultBenefactor ? 'Gönner bleiben' : 'Gönner werden',
+          price: 100000
+        },
+        {
+          name: 'ABO_GIVE',
+          params: { filter: 'pot' },
+          title: 'Wachstum schenken',
+          price: 24000
+        }
+      ]
+    : activeMembership
+    ? [
+        {
+          name: 'ABO_GIVE',
+          params: { filter: 'pot' },
+          title: 'Wachstum schenken: Patenschaft',
+          price: 24000
+        },
+        {
+          name: 'DONATE_POT',
+          params: { price: 6000 },
+          title: 'Wachstum schenken: Geld',
+          price: 6000
+        }
+      ]
+    : [
+        {
+          name: 'MONTHLY_ABO',
+          title: 'Monats-Abo',
+          price: 2200
+        },
+        {
+          name: 'ABO',
+          title: 'Jahresmitgliedschaft',
+          price: 24000
+        },
+        {
+          name: 'BENEFACTOR',
+          title: 'Gönner-Mitgliedschaft',
+          price: 100000
+        },
+        {
+          name: 'ABO_GIVE',
+          params: { filter: 'pot' },
+          title: 'Wachstum schenken'
+        }
+      ]
 
   return (
     <Frame
@@ -209,14 +263,15 @@ const Page = ({ router, crowdfunding, data }) => {
       <ContainerWithSidebar
         sidebarProps={{
           title: 'Jetzt unterstützen',
-          crowdfunding: crowdfunding && {
-            ...crowdfunding,
-            status: crowdfunding.status && {
-              memberships: crowdfunding.status.memberships,
-              people: crowdfunding.status.people,
-              money: crowdfunding.status.money
-            }
-          },
+          crowdfunding: !actionsLoading &&
+            crowdfunding && {
+              ...crowdfunding,
+              status: crowdfunding.status && {
+                memberships: crowdfunding.status.memberships,
+                people: crowdfunding.status.people,
+                money: crowdfunding.status.money
+              }
+            },
           links,
           packages,
           statusProps: {
@@ -483,11 +538,19 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
 
   `}
           <br />
-          <Link route='pledge' passHref>
-            <Button primary style={{ minWidth: 300 }}>
-              Jetzt mitmachen!
-            </Button>
-          </Link>
+          {inNativeIOSApp ? (
+            <Interaction.P
+              style={{ color: colors.error, marginBottom: 15, marginTop: 15 }}
+            >
+              {t('cockpit/ios')}
+            </Interaction.P>
+          ) : (
+            <Link route='pledge' passHref>
+              <Button primary style={{ minWidth: 300 }}>
+                Jetzt mitmachen!
+              </Button>
+            </Link>
+          )}
 
           <div style={{ margin: '15px 0 40px' }}>
             <Label style={{ display: 'block', marginBottom: 5 }}>
@@ -532,5 +595,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
 export default compose(
   withRouter,
   withSurviveStatus,
-  graphql(query)
+  graphql(query),
+  withInNativeApp,
+  withT
 )(Page)

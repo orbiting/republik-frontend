@@ -3,6 +3,7 @@ import { gql, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import { errorToString } from '../../lib/utils/errors'
+import withInNativeApp from '../../lib/withInNativeApp'
 import { Link } from '../../lib/routes'
 
 import { PackageItem, PackageBuffer } from '../Pledge/Accordion'
@@ -137,6 +138,10 @@ class Sidebar extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
       const { sticky, setSticky } = this.props
 
+      if (!this.inner) {
+        return
+      }
+
       let status = false
       let sidebar = false
       if (y + HEADER_HEIGHT > this.y) {
@@ -195,7 +200,8 @@ class Sidebar extends Component {
       title,
       links,
       packages,
-      statusProps
+      statusProps,
+      inNativeIOSApp
     } = this.props
 
     const onChange = state => this.setState(() => state)
@@ -215,35 +221,39 @@ class Sidebar extends Component {
           {...statusProps}
         />
 
-        <div
-          ref={this.innerRef}
-          style={{
-            visibility: sticky.sidebar ? 'hidden' : 'visible'
-          }}
-        >
-          <SidebarInner
-            title={title}
-            links={links}
-            packages={packages}
-            t={t}
-            crowdfunding={crowdfunding}
-            onChange={onChange}
-            state={this.state}
-          />
-        </div>
+        {!inNativeIOSApp && (
+          <>
+            <div
+              ref={this.innerRef}
+              style={{
+                visibility: sticky.sidebar ? 'hidden' : 'visible'
+              }}
+            >
+              <SidebarInner
+                title={title}
+                links={links}
+                packages={packages}
+                t={t}
+                crowdfunding={crowdfunding}
+                onChange={onChange}
+                state={this.state}
+              />
+            </div>
 
-        {!!sticky.sidebar && (
-          <div {...styles.sticky} style={{ right: right }}>
-            <SidebarInner
-              title={title}
-              links={links}
-              packages={packages}
-              t={t}
-              crowdfunding={crowdfunding}
-              onChange={onChange}
-              state={this.state}
-            />
-          </div>
+            {!!sticky.sidebar && (
+              <div {...styles.sticky} style={{ right: right }}>
+                <SidebarInner
+                  title={title}
+                  links={links}
+                  packages={packages}
+                  t={t}
+                  crowdfunding={crowdfunding}
+                  onChange={onChange}
+                  state={this.state}
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
     )
@@ -251,6 +261,7 @@ class Sidebar extends Component {
 }
 
 export default compose(
+  withInNativeApp,
   withStatus,
   withT
 )(Sidebar)

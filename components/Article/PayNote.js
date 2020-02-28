@@ -427,7 +427,7 @@ export const PayNote = compose(
 
       return {
         statReplacements:
-          membershipStats.count && latestGoal
+          membershipStats && membershipStats.count && latestGoal
             ? {
                 count: countFormat(membershipStats.count),
                 remainingMemberships: countFormat(

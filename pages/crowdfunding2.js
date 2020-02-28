@@ -418,6 +418,12 @@ Wenn Sie mitmachen und wir es nicht schaffen, bekommen Sie Ihr Geld zurück. Wen
 
 ${pledgeLink}
 
+${(
+  <Label style={{ display: 'block', lineHeight: 1.3 }}>
+    {t('cf2/payback/disclaimer')}
+  </Label>
+)}
+
 ## Was ist die Republik?
 
 Die Republik ist eine Dienstleistung für interessierte Menschen in einer grossen, faszinierenden und komplexen Welt. Wir kämpfen uns durch den Lärm der Welt, damit Sie es nicht tun müssen. 

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T21:34:20.854Z",
+  "updated": "2020-02-28T22:11:23.013Z",
   "title": "live",
   "data": [
     {
@@ -6512,7 +6512,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before",
-      "value": "Unabhängiger Jouranlismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\nDas reicht nicht. Damit die Republik eine Zukunft hat, müssen wir bis Ende März ehrgeizige Ziele erreichen und wollen dafür noch {remainingMemberships} Mitglieder gewinnen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
+      "value": "Unabhängiger Jouranlismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\nDas reicht nicht. Damit die Republik eine Zukunft hat, müssen wir bis Ende März ehrgeizige Ziele erreichen und dafür noch {remainingMemberships} Mitglieder gewinnen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
     },
     {
       "key": "article/payNote/200225-v1/before/reached",
@@ -6536,7 +6536,7 @@
     },
     {
       "key": "article/payNote/200225-v1/after",
-      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat ehrgeizige Ziele erreichen und wollen dafür noch {remainingMemberships} Mitglieder gewinnen. \n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
+      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat ehrgeizige Ziele erreichen und dafür noch {remainingMemberships} Mitglieder gewinnen. \n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
     },
     {
       "key": "article/payNote/200225-v1/after/reached",
@@ -6596,7 +6596,7 @@
     },
     {
       "key": "package/ABO_GIVE/accessGranted/before",
-      "value": "Sie wissen gerade nicht an wen noch? Schenken Sie der Republik Wachstum und überlassen Sie das Auswählen einer würdigen Empfängerin uns."
+      "value": "Sie wissen gerade nicht an wen noch? Schenken Sie der Republik Wachstum und überlassen Sie die Auswahl einer würdigen Empfängerin uns."
     },
     {
       "key": "package/ABO_GIVE/accessGrantedOnly/title",
@@ -6604,7 +6604,7 @@
     },
     {
       "key": "package/ABO_GIVE/accessGrantedOnly/description",
-      "value": "Kaufen Sie eine Mitgliedschaft und vertrauen Sie die Aufgabe, eine passende Empfängerin für Ihr Geschenk zu finden, uns und unseren über 1000 Komplizen an."
+      "value": "Kaufen Sie eine Mitgliedschaft und vertrauen Sie uns die Aufgabe an, eine passende Empfängerin für Ihr Geschenk zu finden."
     },
     {
       "key": "package/customize/ABO_GIVE/rmAccessGrantedOnly",
@@ -6705,6 +6705,10 @@
     {
       "key": "package/customize/changePackage",
       "value": "Zum gesamte Angebot"
+    },
+    {
+      "key": "cf2/payback/disclaimer",
+      "value": "Falls wir die Ziele nicht erreichen, schliessen wir das Unternehmen geordnet. Die Rückzahlungen erfolgen soweit rechtlich zulässig. Im unwahrscheinlichen Fall eines Konkurses, muss eine allfällige unzulässige Gläubigerbevorzugung verhindert werden. Bei einer geordneten Liquidation darf das Geld zurückbezahlt werden."
     }
   ]
 }

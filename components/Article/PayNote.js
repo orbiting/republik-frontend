@@ -314,6 +314,7 @@ const withCounts = (text, replacements) => {
 const BuyButton = ({ payNote, payload, darkMode }) => (
   <Button
     primary
+    href={payNote.button.link}
     white={darkMode}
     onClick={trackEventOnClick(
       ['PayNote', `pledge ${payload.position}`, payload.variation],
@@ -326,7 +327,10 @@ const BuyButton = ({ payNote, payload, darkMode }) => (
 
 const SecondaryCta = ({ payNote, payload, darkMode }) =>
   payNote.secondary && payNote.secondary.link ? (
-    <div {...merge(styles.aside, darkMode && styles.asideDark)}>
+    <div
+      {...merge(styles.aside, darkMode && styles.asideDark)}
+      {...(darkMode ? styles.linksDark : styles.links)}
+    >
       <span>{payNote.secondary.prefix} </span>
       <a
         key='secondary'
@@ -382,7 +386,10 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
         <BuyNoteCta darkMode={darkMode} payNote={payNote} payload={payload} />
       )}
       {payNote.note && (
-        <div style={{ marginTop: 10, marginBottom: 5 }}>
+        <div
+          style={{ marginTop: 10, marginBottom: 5 }}
+          {...(darkMode ? styles.linksDark : styles.links)}
+        >
           <Label
             dangerouslySetInnerHTML={{
               __html: payNote.note
@@ -396,6 +403,7 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
 const PayNoteP = ({ content, darkMode }) => (
   <Interaction.P
     {...styles.content}
+    {...(darkMode ? styles.linksDark : styles.links)}
     style={{ color: darkMode ? colors.negative.text : '#000000' }}
     dangerouslySetInnerHTML={{
       __html: content
@@ -494,7 +502,6 @@ export const PayNote = compose(
         style={{
           backgroundColor: isBefore ? colors.error : colors.primaryBg
         }}
-        {...(darkMode ? styles.linksDark : styles.links)}
       >
         <Center>
           <PayNoteContent

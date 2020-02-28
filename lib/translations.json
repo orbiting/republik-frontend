@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T18:41:57.948Z",
+  "updated": "2020-02-28T20:15:10.697Z",
   "title": "live",
   "data": [
     {
@@ -6552,27 +6552,27 @@
     },
     {
       "key": "option/ABO/accessGranted/label/other",
-      "value": "Paten-Mitgliedschaften"
+      "value": "Wachstums-Mitgliedschaften"
     },
     {
       "key": "option/ABO/accessGranted/label/1",
-      "value": "Paten-Mitgliedschaft"
+      "value": "Wachstums-Mitgliedschaft"
     },
     {
       "key": "option/ABO_GIVE/ABO/label/other",
-      "value": "Mitgliedschaften"
+      "value": "Geschenk-Mitgliedschaften"
     },
     {
       "key": "option/ABO_GIVE/ABO/label/1",
-      "value": "Mitgliedschaft"
+      "value": "Geschenk-Mitgliedschaft"
     },
     {
       "key": "package/DONATE_POT/title",
-      "value": "Mitgliedschafts-Topf-Spende"
+      "value": "Wachstum spenden"
     },
     {
       "key": "package/DONATE_POT/description",
-      "value": "Schenke der Republik Wachstum. Pro 240 Franken die zusammen kommen schenken wir, mit unseren über 1000 Komplizen, sorgfältig ausgewählten Personen eine Mitgliedschaft."
+      "value": "Spenden Sie der Republik Wachstum. Pro 240 Franken die zusammen kommen schenken wir sorgfältig ausgewählten Personen, eine Mitgliedschaft für ein Jahr."
     },
     {
       "key": "package/ABO_GIVE/price",
@@ -6584,15 +6584,19 @@
     },
     {
       "key": "package/ABO_GIVE/description",
-      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik.\n\nSie wissen gerade nicht wem schenken? Oder wollen der Republik zusätzlich Wachstum schenken? Kaufen Sie Paten-Mitgliedschaften und überlassen Sie das Schenken uns und unseren über 1000 Komplizen."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik."
     },
     {
-      "key": "package/ABO_GIVE/accessGranted/title",
+      "key": "package/ABO_GIVE/accessGranted/before",
+      "value": "Sie wissen gerade nicht an wen noch? Schenken Sie der Republik Wachstum und überlassen Sie das Auswählen einer würdigen Empfängerin uns."
+    },
+    {
+      "key": "package/ABO_GIVE/accessGrantedOnly/title",
       "value": "Wachstum schenken"
     },
     {
-      "key": "package/ABO_GIVE/accessGranted/description",
-      "value": "Kaufen Sie eine Paten-Mitgliedschaft und vertrauen Sie die Aufgabe, einen passenden Empfänger für Ihr Geschenk zu finden, uns und unseren Komplizen an."
+      "key": "package/ABO_GIVE/accessGrantedOnly/description",
+      "value": "Kaufen Sie eine Mitgliedschaft und vertrauen Sie die Aufgabe, eine passende Empfängerin für Ihr Geschenk zu finden, uns und unseren über 1000 Komplizen an."
     },
     {
       "key": "package/customize/ABO_GIVE/rmAccessGrantedOnly",
@@ -6604,7 +6608,7 @@
     },
     {
       "key": "package/customize/messageToClaimers/before",
-      "value": "Sie können optional eine Nachricht zu Ihren Paten-Mitgliedschaften hinterlegen. So oder so erhalten Sie eine E-Mail mit dem Namen der Beschenkten und sie erhält Ihren Namen."
+      "value": "Fall Sie möchten können Sie eine Nachricht hinterlegen. So oder so erhalten Sie eine E-Mail mit dem Namen des Empfängers und er erhält Ihren Namen."
     },
     {
       "key": "package/customize/messageToClaimers/label",
@@ -6612,7 +6616,7 @@
     },
     {
       "key": "package/customize/messageToClaimers/note",
-      "value": "Geben Sie einen Lesetipp, eine Plädoyer für die Republik oder äusseren Sie einen Wunsch. Der Beschenkte erhält automatisch keine Kontaktdaten von Ihnen."
+      "value": "Geben Sie einen Lesetipp, eine Plädoyer für die Republik oder äusseren Sie einen Wunsch. Die Beschenkte erhält automatisch keine Kontaktdaten von Ihnen."
     },
     {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
@@ -6664,7 +6668,7 @@
     },
     {
       "key": "DB/accessCampaigns/description",
-      "value": "Als Komplizin können Sie Paten-Mitgliedschaften vergeben. Diese dauern ein ganze Jahr. Wählen Sie die Empfänger sorgfällig aus."
+      "value": "Als Komplizin können Sie Wachstums-Mitgliedschaften vergeben. Diese dauern ein ganze Jahr. Wählen Sie die Empfänger sorgfällig aus."
     },
     {
       "key": "nav/crowdfunding2",

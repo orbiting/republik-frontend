@@ -441,11 +441,12 @@ class CustomizePackage extends Component {
     }
 
     const optionGroups = nest()
-      .key(
-        d =>
-          d.option.optionGroup
-            ? d.option.optionGroup
-            : d.option.reward.__typename // [d.option.reward.__typename, d.option.accessGranted].filter(Boolean).join()
+      .key(d =>
+        d.option.optionGroup
+          ? d.option.optionGroup
+          : [d.option.reward.__typename, d.option.accessGranted]
+              .filter(Boolean)
+              .join()
       )
       .entries(configurableFields)
       .map(({ key: groupKey, values: fields }) => {
@@ -491,7 +492,7 @@ class CustomizePackage extends Component {
         `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
       ownMembership &&
         `package/${pkg.name}/${ownMembership.type.name}/description`,
-      accessGrantedOnly && `package/${pkg.name}/accessGranted/description`,
+      accessGrantedOnly && `package/${pkg.name}/accessGrantedOnly/description`,
       `package/${crowdfundingName}/${pkg.name}/description`,
       `package/${pkg.name}/description`
     ].filter(Boolean)
@@ -539,7 +540,8 @@ class CustomizePackage extends Component {
           <span {...styles.packageTitle}>
             {t.first(
               [
-                accessGrantedOnly && `package/${pkg.name}/accessGranted/title`,
+                accessGrantedOnly &&
+                  `package/${pkg.name}/accessGrantedOnly/title`,
                 `package/${pkg.name}/title`
               ].filter(Boolean)
             )}
@@ -740,6 +742,13 @@ class CustomizePackage extends Component {
                     compact
                   />
                 )}
+                {groupWithAccessGranted &&
+                  !accessGrantedOnly &&
+                  pkg.name === 'ABO_GIVE' && (
+                    <div>
+                      <P>{t('package/ABO_GIVE/accessGranted/before')}</P>
+                    </div>
+                  )}
                 <div {...styles[group ? 'group' : 'grid']}>
                   {fields.map((field, i) => {
                     const option = field.option

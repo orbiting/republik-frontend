@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-29T13:03:25.155Z",
+  "updated": "2020-02-29T16:05:03.530Z",
   "title": "live",
   "data": [
     {
@@ -92,7 +92,7 @@
     },
     {
       "key": "pages/feuilleton/pageTitle",
-      "value": "Republik Feuilleton"
+      "value": "Republik-Feuilleton"
     },
     {
       "key": "pages/feuilleton/title",
@@ -304,7 +304,7 @@
     },
     {
       "key": "cookies/disabled/error/explanation",
-      "value": "Es scheint, als könnten wir Ihnen keinen Keks (Cookie) unterjubeln. Bitte erlauben Sie uns in Ihrem Browser ein Cookie zu hinterlegen. Nur damit gestatten Sie uns, Sie wiederzuerkennen und entsprechenden Zugriff auf Beiträge und Diskussionen zu ermöglichen.<br />\n<ul>\n<li><a href=\"https://wiki.selfhtml.org/wiki/Sicherheit/Cookies_erlauben\" target=\"_blank\">Cookies für republik.ch erlauben?</a></li>\n<li><a href=\"/datenschutz\" target=\"_blank\">Mehr über Datenschutz bei der Republik AG erfahren?</a></li>\n</ul>\nWir helfen Ihnen per E-Mail unter <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a> gerne weiter."
+      "value": "Es scheint, als könnten wir Ihnen keinen Keks (Cookie) unterjubeln. Bitte erlauben Sie uns, in Ihrem Browser ein Cookie zu hinterlegen. Nur damit gestatten Sie uns, Sie wiederzuerkennen und entsprechenden Zugriff auf Beiträge und Diskussionen zu ermöglichen.<br />\n<ul>\n<li><a href=\"https://wiki.selfhtml.org/wiki/Sicherheit/Cookies_erlauben\" target=\"_blank\">Cookies für republik.ch erlauben?</a></li>\n<li><a href=\"/datenschutz\" target=\"_blank\">Mehr über Datenschutz bei der Republik AG erfahren?</a></li>\n</ul>\nWir helfen Ihnen per E-Mail unter <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a> gerne weiter."
     },
     {
       "key": "signOut/label",
@@ -404,19 +404,19 @@
     },
     {
       "key": "marketing/preview/prestitial/hasPreview",
-      "value": "Schön, Sie wiederzusehen. Diese Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit hunderten von Artikeln, Tendenz steigend. Willkommen!"
+      "value": "Schön, Sie wiederzusehen. Diese Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit Hunderten von Artikeln, Tendenz steigend. Willkommen!"
     },
     {
       "key": "marketing/preview/prestitial/hasPreview/link",
-      "value": "Wie wär’s mit einem Abonnement"
+      "value": "Wie wärs mit einem Abonnement"
     },
     {
       "key": "marketing/preview/page/pageTitle",
-      "value": "Die Republik probelesen"
+      "value": "Die Republik Probe lesen"
     },
     {
       "key": "marketing/preview/page/title",
-      "value": "Die Republik probelesen"
+      "value": "Die Republik Probe lesen"
     },
     {
       "key": "marketing/preview/page/description",
@@ -556,7 +556,7 @@
     },
     {
       "key": "marketing/feuilleton/title",
-      "value": "Kultur-Journalismus mit&nbsp;Relevanz<br />Für eine Kritik der Gegenwart"
+      "value": "Kulturjournalismus mit&nbsp;Relevanz<br />Für eine Kritik der Gegenwart"
     },
     {
       "key": "marketing/feuilleton/lead",
@@ -767,10 +767,6 @@
       "value": "ändern"
     },
     {
-      "key": "api/email/change/exists",
-      "value": "Diese E-Mail ist schon besetzt. Sie können nur E-Mail-Adressen eingeben, die in unserem System noch nicht verwendet werden."
-    },
-    {
       "key": "Account/Update/email/edit",
       "value": "ändern"
     },
@@ -788,7 +784,7 @@
     },
     {
       "key": "Account/Update/email/hint",
-      "value": "Achtung: Wenn Sie Ihre E-Mail-Adresse ändern, werden Sie auf allen Geräten abgemeldet und können sich danach ausschliesslich mit der neuen E-Mail anmelden!"
+      "value": "Achtung: Wenn Sie Ihre E-Mail-Adresse ändern, werden Sie auf allen Geräten abgemeldet und Sie können sich danach ausschliesslich mit der neuen E-Mail anmelden!"
     },
     {
       "key": "Account/Update/email/error/invalid",
@@ -816,7 +812,7 @@
     },
     {
       "key": "Account/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n<br /><br />\n<ul>\n<li>Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben.<br /><b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)</li>\n<li>Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.<br /><b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)</li>\n<li>Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. {pledgeLink}<br />\n<li>Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> {pledgeLink}</li>\n</ul>\n<br /><br />\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Team: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n<br /><br />\nDanke für Ihre Mühe!"
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n<br /><br />\n<ul>\n<li>Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur die E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.<br /><b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse, auf der Sie auch unseren Newsletter erhalten.)</li>\n<li>Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.<br /><b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)</li>\n<li>Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. {pledgeLink}<br />\n<li>Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender – das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> {pledgeLink}</li>\n</ul>\n<br /><br />\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserem Erste-Hilfe-Team: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiterzuhelfen. \n<br /><br />\nDanke für Ihre Mühe!"
     },
     {
       "key": "Account/noActiveMembership/before",
@@ -828,7 +824,7 @@
     },
     {
       "key": "Account/noActiveMembership/issue1",
-      "value": "Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben."
+      "value": "Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur die E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben."
     },
     {
       "key": "Account/noActiveMembership/solution1",
@@ -836,7 +832,7 @@
     },
     {
       "key": "Account/noActiveMembership/signOutLink",
-      "value": "anderen E-Mail-Adressen neu an"
+      "value": "anderen E-Mail-Adresse neu an"
     },
     {
       "key": "Account/noActiveMembership/issue2",
@@ -1428,11 +1424,11 @@
     },
     {
       "key": "profile/settings/isListed/true/note",
-      "value": "Ihr Name, Profilbild und Statement erscheinen auf {communityLink} und sind für alle sichtbar."
+      "value": "Ihr Name, Ihr Profilbild und Ihr Statement erscheinen auf {communityLink} und sind für alle sichtbar."
     },
     {
       "key": "profile/settings/isListed/false/note",
-      "value": "Ihr Name, Profilbild und Statement erscheinen nicht auf {communityLink}."
+      "value": "Ihr Name, Ihr Profilbild und Ihr Statement erscheinen nicht auf {communityLink}."
     },
     {
       "key": "profile/settings/isAdminUnlisted/note",
@@ -1577,18 +1573,6 @@
     {
       "key": "testimonial/infinite/endless",
       "value": "Das waren {count} Verleger und Verlegerinnen. Weitere {remaining} anschauen?"
-    },
-    {
-      "key": "api/testimonial/image/required",
-      "value": "Ein neues Testimonial braucht ein Bild."
-    },
-    {
-      "key": "api/testimonial/pledge/required",
-      "value": "Sie müssen Verleger oder Verlegerin sein, um ein Testimonial abgeben können."
-    },
-    {
-      "key": "api/testimonial/mail/subject",
-      "value": "Vielen Dank für das Testimonial"
     },
     {
       "key": "badge/crowdfunder",
@@ -2376,7 +2360,7 @@
     },
     {
       "key": "package/ABO_GIVE_MONTHS/description",
-      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazuschenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
     },
     {
       "key": "package/BENEFACTOR/title",
@@ -2776,7 +2760,7 @@
     },
     {
       "key": "pledge/recievePayment/pf/mailto/body",
-      "value": "Liebe Republik,\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPostFinance:\n{payload}"
+      "value": "Liebe Republik\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPostFinance:\n{payload}"
     },
     {
       "key": "pledge/recievePayment/pf/92",
@@ -2824,7 +2808,7 @@
     },
     {
       "key": "pledge/recievePayment/paypal/mailto/body",
-      "value": "Liebe Republik,\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPayPal:\n{payload}"
+      "value": "Liebe Republik\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPayPal:\n{payload}"
     },
     {
       "key": "pledge/recievePayment/3dsecure/failed",
@@ -3268,7 +3252,7 @@
     },
     {
       "key": "merci/postpay/signInError/text",
-      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an {contactEmailLink}."
+      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zurzeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an {contactEmailLink}."
     },
     {
       "key": "merci/postpay/signInError/email/subject",
@@ -3616,7 +3600,7 @@
     },
     {
       "key": "notifications/unavailable/text",
-      "value": "Leider kann unser System Ihre Anfrage zur Zeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>."
+      "value": "Leider kann unser System Ihre Anfrage zurzeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>."
     },
     {
       "key": "notifications/unkown/title",
@@ -3624,7 +3608,7 @@
     },
     {
       "key": "notifications/unkown/text",
-      "value": "Das System konnte Ihre Anfrage nicht erkennen. Es könnte sein, dass ein Übertragungsfehler vorliegt: melden Sie sich bei <a href=\"mailto:kontakt@republik.ch?subject=Kaputter%20Link\">kontakt@republik.ch</a> mit einem Screenshot."
+      "value": "Das System konnte Ihre Anfrage nicht erkennen. Es könnte sein, dass ein Übertragungsfehler vorliegt: Melden Sie sich bei <a href=\"mailto:kontakt@republik.ch?subject=Kaputter%20Link\">kontakt@republik.ch</a> mit einem Screenshot."
     },
     {
       "key": "notifications/newsletter-subscription/title",
@@ -4184,7 +4168,7 @@
     },
     {
       "key": "pages/meta/questionnaire/crowd/socialTitle",
-      "value": "Das 1-Minuten Formular"
+      "value": "Das 1-Minuten-Formular"
     },
     {
       "key": "pages/meta/behind/gallery",
@@ -6416,7 +6400,7 @@
     },
     {
       "key": "cockpit/ios",
-      "value": "In der iOS-App können wir Ihnen aufgrund der Bestimmungen von Apple zur Zeit leider keine Möglichkeiten zur Verwaltung der Mitgliedschaft oder zum Bezahlen anbieten."
+      "value": "In der iOS-App können wir Ihnen aufgrund der Bestimmungen von Apple zurzeit leider keine Möglichkeiten zur Verwaltung der Mitgliedschaft oder zum Bezahlen anbieten."
     },
     {
       "key": "cockpit/ios/cta",
@@ -6504,7 +6488,7 @@
     },
     {
       "key": "Trial/Page/disabled/body",
-      "value": "Wie Sie vielleicht wissen befindet sich die Republik momentan inmitten einer Kampagne um ihre Zukunft. Erreichen wir bis Ende März das Ziel von 19’000 Verlegerinnen und CHF 2’200’000 Spenden und Investitionen nicht, werden wir die Publikation einstellen und das Unternehmen geordnet auflösen müssen. \n\nBisher läuft es sehr erfreulich. Dennoch sind wir noch nicht am Ziel. <a href=\"/maerzkampagne\">Mehr Informationen und den aktuellen Stand der Dinge.</a>\n\nEs geht um alles. Deswegen gibt es im März nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
+      "value": "Wie Sie vielleicht wissen, befindet sich die Republik momentan inmitten einer Kampagne um ihre Zukunft. Erreichen wir bis Ende März das Ziel von 19’000 Verlegerinnen und CHF 2’200’000 Spenden und Investitionen nicht, werden wir die Publikation einstellen und das Unternehmen geordnet auflösen müssen. \n\nBisher läuft es sehr erfreulich. Dennoch sind wir noch nicht am Ziel. <a href=\"/maerzkampagne\">Mehr Informationen und den aktuellen Stand der Dinge.</a>\n\nEs geht um alles. Deswegen gibt es im März nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
     },
     {
       "key": "Trial/Page/disabled/button",
@@ -6524,7 +6508,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before/secondary/label",
-      "value": "Einen Monat für 22.-"
+      "value": "Einen Monat für 22.–"
     },
     {
       "key": "article/payNote/200225-v1/before/secondary/link",
@@ -6548,7 +6532,7 @@
     },
     {
       "key": "article/payNote/200225-v1/after/secondary/label",
-      "value": "Einen Monat für 22.-"
+      "value": "Einen Monat für 22.–"
     },
     {
       "key": "article/payNote/200225-v1/after/secondary/link",
@@ -6580,7 +6564,7 @@
     },
     {
       "key": "package/DONATE_POT/description",
-      "value": "Spenden Sie der Republik Wachstum. Pro 240 Franken die zusammen kommen schenken wir sorgfältig ausgewählten Personen, eine Mitgliedschaft für ein Jahr."
+      "value": "Spenden Sie der Republik Wachstum. Pro 240 Franken, die zusammenkommen, schenken wir sorgfältig ausgewählten Personen eine Mitgliedschaft für ein Jahr."
     },
     {
       "key": "package/ABO_GIVE/price",
@@ -6596,7 +6580,7 @@
     },
     {
       "key": "package/ABO_GIVE/accessGranted/before",
-      "value": "Sie wissen gerade nicht an wen noch? Schenken Sie der Republik Wachstum und überlassen Sie die Auswahl einer würdigen Empfängerin uns."
+      "value": "Sie wollen, dass die Republik-Leserschaft wächst, haben aber gerade keine Idee, wem Sie sie schenken könnten? Bezahlen Sie eine Mitgliedschaft und überlassen Sie die Auswahl einer würdigen Empfängerin uns."
     },
     {
       "key": "package/ABO_GIVE/accessGrantedOnly/title",
@@ -6612,11 +6596,11 @@
     },
     {
       "key": "package/customize/ABO_GIVE/donate",
-      "value": "Oder beliebiger Betrag beitragen?"
+      "value": "Oder beliebigen Betrag beitragen?"
     },
     {
       "key": "package/customize/messageToClaimers/before",
-      "value": "Falls Sie möchten können Sie eine Nachricht hinterlegen. So oder so erhalten Sie eine E-Mail mit dem Namen des Empfängers und er erhält Ihren Namen."
+      "value": "Sie können eine Nachricht für den Empfänger hinterlegen. Dieser erfährt so oder so Ihren Namen und Sie werden darüber benachrichtigt, wer Ihr Geschenk erhalten hat."
     },
     {
       "key": "package/customize/messageToClaimers/label",
@@ -6624,7 +6608,7 @@
     },
     {
       "key": "package/customize/messageToClaimers/note",
-      "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder übermitteln Sie Ihre Grüsse. Falls Sie mit dem Beschenkten in Kontakt treten möchten, teilen Sie hier Ihre E-Mail Adresse."
+      "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder übermitteln Sie Ihre Grüsse. Falls Sie mit dem Beschenkten in Kontakt treten möchten, geben Sie hier Ihre E-Mail Adresse an."
     },
     {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
@@ -6632,7 +6616,7 @@
     },
     {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je CHF 20. Die Objekte werden Ihnen geschickt."
+      "value": "Etwas Handfestes dazuschenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je CHF 20. Die Objekte werden Ihnen geschickt."
     },
     {
       "key": "package/customize/price/payMore/threemonth",
@@ -6671,14 +6655,6 @@
       "value": "Republik teilen"
     },
     {
-      "key": "DB/accessCampaigns/title",
-      "value": "Mitgliedschaften verschenken"
-    },
-    {
-      "key": "DB/accessCampaigns/description",
-      "value": "Als Komplizin können Sie Wachstums-Mitgliedschaften vergeben. Diese dauern ein ganze Jahr. Wählen Sie die Empfänger sorgfällig aus."
-    },
-    {
       "key": "nav/crowdfunding2",
       "value": "Märzkampagne"
     },
@@ -6708,7 +6684,7 @@
     },
     {
       "key": "cf2/payback/disclaimer",
-      "value": "Falls wir die Ziele nicht erreichen, schliessen wir das Unternehmen geordnet. Die Rückzahlungen erfolgen soweit rechtlich zulässig. Im unwahrscheinlichen Fall eines Konkurses, muss eine allfällige unzulässige Gläubigerbevorzugung verhindert werden."
+      "value": "Falls wir die Ziele nicht erreichen, schliessen wir das Unternehmen geordnet. Die Rückzahlungen erfolgen soweit rechtlich zulässig. Im unwahrscheinlichen Fall eines Konkurses muss eine allfällige unzulässige Gläubigerbevorzugung verhindert werden."
     }
   ]
 }

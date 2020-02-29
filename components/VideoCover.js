@@ -8,6 +8,8 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_HEADER } from './constants'
 
 import { VideoPlayer, mediaQueries } from '@project-r/styleguide'
 
+import ReasonCover from './101-reasons-cover'
+
 const blinkBg = css.keyframes({
   'from, to': {
     backgroundColor: 'transparent'
@@ -158,6 +160,7 @@ class VideoCover extends Component {
         >
           <div {...styles.maxWidth}>
             <img src={src.thumbnail} {...styles.poster} style={heightStyle} />
+            <ReasonCover {...styles.poster} />
             {!!cursor && <div {...styles.cursor} />}
             <div {...styles.play} style={{ top: playTop }}>
               <Play />

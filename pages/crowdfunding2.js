@@ -178,7 +178,7 @@ const Page = ({
   )
 
   const links = [
-    {
+    !activeMembership && {
       route: 'pledge',
       params: { package: 'ABO', userPrice: 1 },
       text: 'Sie können sich den Betrag nicht leisten?'
@@ -189,7 +189,7 @@ const Page = ({
       )}`,
       text: 'Sie wollen investieren?'
     }
-  ]
+  ].filter(Boolean)
   const packages = actionsLoading
     ? []
     : shouldBuyProlong

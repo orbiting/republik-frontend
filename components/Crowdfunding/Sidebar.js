@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { gql, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
@@ -72,69 +72,69 @@ const styles = {
   })
 }
 
-class SidebarInner extends Component {
-  render() {
-    const {
-      t,
-      onChange,
-      crowdfunding,
-      title,
-      links,
-      packages,
-      primaryParams
-    } = this.props
+const SidebarInner = props => {
+  const {
+    t,
+    onChange,
+    crowdfunding,
+    title,
+    links,
+    packages,
+    primaryParams
+  } = props
 
-    return (
-      <div {...styles.container}>
-        <div {...styles.packages}>{title}</div>
-        {packages.map(pack => {
-          return (
-            <Link
-              key={pack.name}
-              route='pledge'
-              params={{ package: pack.name, ...pack.params }}
-              passHref
-            >
-              <PackageItem
-                t={t}
-                crowdfundingName={crowdfunding.name}
-                {...pack}
-                hover={undefined}
-                setHover={() => {}}
-              />
-            </Link>
-          )
-        })}
-        <PackageBuffer />
-        <div style={{ margin: '20px 0' }}>
-          <div {...styles.button}>
-            <Link route='pledge' params={primaryParams} passHref>
-              <Button block primary>
-                Mitmachen
-              </Button>
-            </Link>
-          </div>
+  const [hover, setHover] = useState()
+
+  return (
+    <div {...styles.container}>
+      <div {...styles.packages}>{title}</div>
+      {packages.map(pack => {
+        return (
+          <Link
+            key={pack.name}
+            route='pledge'
+            params={{ package: pack.name, ...pack.params }}
+            passHref
+          >
+            <PackageItem
+              t={t}
+              crowdfundingName={crowdfunding.name}
+              {...pack}
+              hover={hover}
+              setHover={setHover}
+            />
+          </Link>
+        )
+      })}
+      <PackageBuffer />
+      <div style={{ margin: '20px 0' }}>
+        <div {...styles.button}>
+          <Link route='pledge' params={primaryParams} passHref>
+            <Button block primary>
+              Mitmachen
+            </Button>
+          </Link>
         </div>
-        <div {...styles.links}>
-          {links.map((link, i) =>
-            link.route ? (
-              <Link key={i} route={link.route} params={link.params} passHref>
-                <A>
-                  {link.text}
-                  <br />
-                </A>
-              </Link>
-            ) : (
-              <A key={i} href={link.href}>
+      </div>
+      <div {...styles.links}>
+        {links.map((link, i) =>
+          link.route ? (
+            <Link key={i} route={link.route} params={link.params} passHref>
+              <A>
                 {link.text}
                 <br />
               </A>
-            )
-          )}
-        </div>
+            </Link>
+          ) : (
+            <A key={i} href={link.href}>
+              {link.text}
+              <br />
+            </A>
+          )
+        )}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 class Sidebar extends Component {

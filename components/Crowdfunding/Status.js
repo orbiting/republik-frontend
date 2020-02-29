@@ -180,21 +180,28 @@ class Status extends Component {
     const colorStyle = { color }
 
     if (this.props.compact) {
+      const accessor = memberships ? 'memberships' : 'people'
       return (
         <div style={{ paddingTop: 10 }}>
           <P style={colorStyle}>
-            <span {...styles.smallNumber}>{countFormat(status.people)}</span>
+            <span {...styles.smallNumber}>{countFormat(status[accessor])}</span>
             <span {...styles.label}>
-              {t.elements('crowdfunding/status/goal/people', {
-                count: createHoverGoalCount(countFormat, goal.people)
-              })}
+              {t.first.elements(
+                [
+                  `crowdfunding/status/goal/${crowdfundingName}/${accessor}`,
+                  `crowdfunding/status/goal/${accessor}`
+                ],
+                {
+                  count: createHoverGoalCount(countFormat, goal[accessor])
+                }
+              )}
             </span>
           </P>
           <Bar
             goals={goalsByPeople}
             showLast={this.state.showGoal}
             status={status}
-            accessor='people'
+            accessor={accessor}
             format={countFormat}
             color={barColor}
           />

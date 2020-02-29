@@ -15,7 +15,7 @@ const CROWDFUNDING_NAME = 'SURVIVE'
 
 // ToDo: change countRange min to 2020-02-29T23:00:00Z
 const statusQuery = gql`
-  query StatusPage {
+  query SurviveStatus {
     crowdfunding(name: "MARCH20") {
       goals {
         people
@@ -61,7 +61,7 @@ const statusQuery = gql`
 `
 
 const actionsQuery = gql`
-  query StatusPageActions($accessToken: ID) {
+  query SurviveStatusActions($accessToken: ID) {
     me(accessToken: $accessToken) {
       id
       customPackages {

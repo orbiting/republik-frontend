@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-29T16:05:03.530Z",
+  "updated": "2020-02-29T18:07:40.501Z",
   "title": "live",
   "data": [
     {
@@ -6685,6 +6685,18 @@
     {
       "key": "cf2/payback/disclaimer",
       "value": "Falls wir die Ziele nicht erreichen, schliessen wir das Unternehmen geordnet. Die Rückzahlungen erfolgen soweit rechtlich zulässig. Im unwahrscheinlichen Fall eines Konkurses muss eine allfällige unzulässige Gläubigerbevorzugung verhindert werden."
+    },
+    {
+      "key": "crowdfunding/SurviveStatus/title",
+      "value": "Aktueller Stand der Märzkampagne"
+    },
+    {
+      "key": "crowdfunding/SurviveStatus/link/crowdfunding2",
+      "value": "Zur Märzkampagne"
+    },
+    {
+      "key": "crowdfunding/SurviveStatus/link/shareTemplates",
+      "value": "Republik bekannter machen"
     }
   ]
 }

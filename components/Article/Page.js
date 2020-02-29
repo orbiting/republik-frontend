@@ -31,6 +31,8 @@ import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
 
+import SurviveStatus from '../Crowdfunding/SurviveStatus'
+
 import Progress from './Progress'
 import { userProgressFragment } from './Progress/api'
 
@@ -860,6 +862,11 @@ class ArticlePage extends Component {
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.id} />}
+                {!suppressPayNotes && hasActiveMembership && (
+                  <Center>
+                    <SurviveStatus />
+                  </Center>
+                )}
                 {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />

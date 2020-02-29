@@ -181,7 +181,11 @@ const Page = ({
     : { package: 'ABO' }
   const pledgeLink = inNativeIOSApp ? null : (
     <Link route='pledge' params={primaryParams}>
-      <a {...linkRule}>Jetzt mitmachen!</a>
+      <a {...linkRule}>
+        {activeMembership && !shouldBuyProlong
+          ? 'Wachstum schenken'
+          : 'Jetzt mitmachen!'}
+      </a>
     </Link>
   )
 
@@ -266,7 +270,7 @@ const Page = ({
     tweet: '',
     emailBody: '',
     emailAttachUrl: true,
-    emailSubject: 'Es ist Zeit.',
+    emailSubject: '101 Gründe, die Republik jetzt zu unterstützen.',
     eventCategory: 'March2020'
   }
 
@@ -277,12 +281,17 @@ const Page = ({
         // ToDo: change once no longer in index
         url: `${PUBLIC_BASE_URL}/`,
         pageTitle: 'Republik – das digitale Magazin von Project R',
-        title: 'Republik – das digitale Magazin von Project R',
+        title:
+          '101 Gründe, die Republik jetzt zu unterstützen. Kommen Sie an Bord.',
         description:
-          'Unabhängiger Journalismus für vernünftige Entscheide: Willkommen bei der Republik.',
-        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/manifest.jpg`
+          'Unabhängiger Journalismus ohne Bullshit. Transparent. Werbefrei. Finanziert von den Leserinnen und Lesern.',
+        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/march20.jpg`
       }}
-      cover={<VideoCover src={VIDEOS.main} playTop='65%' endScroll={0.97} />}
+      cover={
+        <>
+          <VideoCover src={VIDEOS.main} playTop='65%' endScroll={0.97} />
+        </>
+      }
     >
       <ContainerWithSidebar
         sidebarProps={{
@@ -413,7 +422,7 @@ ${pledgeLink}
 
 ## Was ist die Republik?
 
-Die Republik ist eine Dienstleistung für interessierte Menschen in einer grossen, faszinierenden und komplexen Welt. Wir kämpfen uns durch den Lärm der Aktualität, damit Sie es nicht tun müssen. 
+Die Republik ist eine Dienstleistung für interessierte Menschen in einer grossen, faszinierenden und komplexen Welt.
 
 Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen.
 
@@ -430,6 +439,8 @@ Weil Vertrauen im Journalismus die härteste Währung ist, haben wir die Republi
 **Wir sind kompromisslos in der Qualität.** Unsere Reporter und Journalistinnen haben Zeit, um ein Thema mit der angebrachten Sorgfalt und Hartnäckigkeit zu recherchieren. Und es gibt drei Dinge, an denen uns besonders viel liegt: Gute Sprache. Gute Bilder. Und gutes Design.
 
 **Wir stehen mit Ihnen im Dialog.** Und lieben es! Das Internet ermöglicht nicht nur viele neue Formen, wie wir Geschichten erzählen können, sondern auch den direkten Dialog mit Ihnen. Damit die Republik mit Ihrer Stimme vielfältiger, interessanter und reflektierter wird.
+
+${!activeMembership ? pledgeLink : ''}
 
 ## Worum geht es?
 
@@ -455,13 +466,7 @@ Den grösseren Teil des Geldes haben wir durch die Grosszügigkeit unserer Mitgl
 
 Wenn Sie mitmachen und wir es nicht schaffen, bekommen Sie Ihr Geld zurück. Wenn wir es schaffen, bekommen Sie nicht nur vernünftigen Journalismus, sondern haben auch einen entscheidenden Beitrag zur Medienvielfalt in der Schweiz geleistet.
 
-${pledgeLink}
-
-${(
-  <Label style={{ display: 'block', lineHeight: 1.3 }}>
-    {t('cf2/payback/disclaimer')}
-  </Label>
-)}
+${!activeMembership ? pledgeLink : ''}
 
         `}
       </ContainerWithSidebar>
@@ -513,7 +518,7 @@ Sie können Beiträge, die Sie besonders freuen oder ärgern, jederzeit mit Ihre
 
 Und einen entscheidenden Unterschied machen kann. Die Republik ist politisch nicht festgelegt, aber keineswegs neutral: Sie steht gegen die Diktatur der Angst. Und für die Werte der Aufklärung: für Klarheit im Stil, Treue zu Fakten, für Lösungen von Fall zu Fall, für Offenheit gegenüber Kritik, Respektlosigkeit vor der Macht und Respekt vor dem Menschen.
 
-${pledgeLink}
+${!activeMembership ? pledgeLink : ''}
 
 ## Wer macht die Republik?
 
@@ -576,7 +581,9 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
           ) : (
             <Link route='pledge' params={primaryParams} passHref>
               <Button primary style={{ minWidth: 300 }}>
-                Jetzt mitmachen!
+                {activeMembership && !shouldBuyProlong
+                  ? 'Wachstum schenken'
+                  : 'Jetzt mitmachen!'}
               </Button>
             </Link>
           )}

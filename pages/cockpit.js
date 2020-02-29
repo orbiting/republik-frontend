@@ -520,7 +520,14 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
               </Fragment>
               {md(mdComponents)`
 
-Am 1. März findet der Tag der Bekanntmachung mit Feier und Debatte in der Gessnerallee in Zürich statt: [Jetzt anmelden](https://www.eventbrite.de/e/zur-zukunft-der-republik-registrierung-92171500439).
+_01.03.2020, Project-R-Newsletter_  
+[Ein Wachstumsschub für die Zukunft der Republik](https://project-r.construction/newsletter/2020-03-01-wachstum)
+
+_15.02.2020, Experiment 2_  
+[Eine Woche Republik in 10 Minuten](https://www.republik.ch/2020/02/15/schon-gehoert-eine-woche-republik-in-zehn-minuten)
+
+_07.02.2020, Experiment 1_  
+[Ein «Zettelbrett» für journalistische Glanzstücke](https://www.republik.ch/2020/02/07/die-welt-ist-voll-mit-gutem-journalismus-teilen-sie-ihn-mit-der-community)
 
 _04.02.2020, Project-R-Newsletter_  
 [Danke für 75 Prozent!](https://project-r.construction/newsletter/2020-02-04-75-prozent)

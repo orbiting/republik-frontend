@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-29T21:14:21.896Z",
+  "updated": "2020-02-29T23:33:38.331Z",
   "title": "live",
   "data": [
     {
@@ -4580,7 +4580,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/memberships",
-      "value": "im März verkaufte Mitgliedschaften. Ambition: {count}."
+      "value": "im März neu gewonnene Mitgliedschaften. Ambition: {count}."
     },
     {
       "key": "crowdfunding/status/goal/money",
@@ -6388,7 +6388,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/people",
-      "value": "Mitglieder und Abonnenten, die am 31. März dabei sind. Ziel: {count}."
+      "value": "Mitglieder und Abonnenten am 31. März. Ziel: {count}."
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",

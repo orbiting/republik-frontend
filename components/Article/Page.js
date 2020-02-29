@@ -862,7 +862,7 @@ class ArticlePage extends Component {
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.id} />}
-                {!suppressPayNotes && hasActiveMembership && !darkMode && (
+                {!suppressPayNotes && !darkMode && (
                   <Center>
                     <SurviveStatus />
                   </Center>

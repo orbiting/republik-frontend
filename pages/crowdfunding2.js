@@ -299,8 +299,7 @@ const Page = ({
         // ToDo: change once no longer in index
         url: `${PUBLIC_BASE_URL}/`,
         pageTitle: 'Republik – das digitale Magazin von Project R',
-        title:
-          '101 Gründe, die Republik jetzt zu unterstützen. Kommen Sie an Bord.',
+        title: '101 Gründe, die Republik jetzt zu unterstützen.',
         description:
           'Unabhängiger Journalismus ohne Bullshit. Transparent. Werbefrei. Finanziert von den Leserinnen und Lesern.',
         image: `${CDN_FRONTEND_BASE_URL}/static/social-media/march20.jpg`

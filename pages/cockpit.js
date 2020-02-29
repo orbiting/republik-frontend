@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { css } from 'glamor'
-import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { compose } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
 import { max } from 'd3-array'
 
@@ -37,11 +36,7 @@ import {
   generateSeed
 } from '../components/Testimonial/List'
 
-import {
-  CROWDFUNDING,
-  STATUS_POLL_INTERVAL_MS,
-  CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { CROWDFUNDING, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
 import { Link, questionnaireCrowdSlug } from '../lib/routes'
 import { swissTime } from '../lib/utils/format'
@@ -104,7 +99,6 @@ const Accordion = withInNativeApp(
       shouldBuyProlong,
       isReactivating,
       defaultBenefactor,
-      questionnaire,
       inNativeIOSApp
     }) => {
       const [hover, setHover] = useState()

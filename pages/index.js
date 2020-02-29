@@ -2,13 +2,13 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
-import Frame from '../components/Frame'
+// import Frame from '../components/Frame'
 import Front from '../components/Front'
 // import Marketing from '../components/Marketing'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
 
-import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+// import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 import CF2 from './crowdfunding2'
 

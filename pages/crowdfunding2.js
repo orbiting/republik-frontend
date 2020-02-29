@@ -532,13 +532,7 @@ Unsere Crew besteht aus kompetenten Profis. Den besten, die wir finden konnten. 
             data.employees ? (
               <Employees
                 employees={data.employees}
-                filter={e =>
-                  e.group !== 'Departement des Inneren' &&
-                  e.group !== 'Geschäftsleitung' &&
-                  e.group !== 'Verwaltungsrat' &&
-                  e.group !== 'Gründerinnenteam' &&
-                  e.group !== 'Gestaltung'
-                }
+                filter={e => e.group === 'Redaktion'}
               />
             ) : null
           }

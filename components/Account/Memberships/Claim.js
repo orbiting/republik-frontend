@@ -42,7 +42,7 @@ const isMembershipVoucherCode = voucherCode => {
   return voucherCode.length === 6
 }
 
-const voucherCodeNeedsStatutes = voucherCode => {
+const voucherCodeForMembership = voucherCode => {
   return voucherCode.length === 6 || voucherCode.length === 7
 }
 
@@ -199,6 +199,7 @@ class ClaimMembership extends Component {
 
     const claim = () => {
       const code = sanitizeVoucherCode(values.voucherCode)
+      const context = voucherCodeForMembership(code) ? 'claim' : 'access'
 
       const claimWith = (mutation, { code, context = 'unknown' }) =>
         mutation(code)
@@ -209,9 +210,9 @@ class ClaimMembership extends Component {
           .catch(catchError)
 
       if (isAccessGrantVoucherCode(code)) {
-        claimWith(this.props.claimAccess, { code, context: 'access' })
+        claimWith(this.props.claimAccess, { code, context })
       } else {
-        claimWith(this.props.claimMembership, { code, context: 'claim' })
+        claimWith(this.props.claimMembership, { code, context })
       }
     }
 
@@ -247,7 +248,7 @@ class ClaimMembership extends Component {
 
     const requiredConsents = ['PRIVACY', 'TOS']
 
-    if (values.voucherCode && voucherCodeNeedsStatutes(values.voucherCode)) {
+    if (values.voucherCode && voucherCodeForMembership(values.voucherCode)) {
       requiredConsents.push('STATUTE')
     }
 

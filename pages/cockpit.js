@@ -26,7 +26,9 @@ import { countFormat } from '../lib/utils/format'
 
 import { PackageItem, PackageBuffer } from '../components/Pledge/Accordion'
 
-import withSurviveStatus from '../components/Crowdfunding/withSurviveStatus'
+import withSurviveStatus, {
+  withSurviveActions
+} from '../components/Crowdfunding/withSurviveStatus'
 import { RawStatus } from '../components/Crowdfunding/Status'
 import withT from '../lib/withT'
 
@@ -868,6 +870,7 @@ const EnhancedPage = compose(
   withMe,
   withRouter,
   withInNativeApp,
+  withSurviveActions,
   withSurviveStatus
 )(Page)
 

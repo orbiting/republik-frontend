@@ -24,7 +24,10 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 import ContainerWithSidebar, {
   Content
 } from '../components/Crowdfunding/ContainerWithSidebar'
-import withSurviveStatus from '../components/Crowdfunding/withSurviveStatus'
+import withSurviveStatus, {
+  userSurviveActionsFragment,
+  mapActionData
+} from '../components/Crowdfunding/withSurviveStatus'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -71,7 +74,12 @@ const query = gql`
         slug
       }
     }
+    actionMe: me {
+      id
+      ...SurviveActionsOnUser
+    }
   }
+  ${userSurviveActionsFragment}
 `
 
 const styles = {
@@ -612,7 +620,15 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
 export default compose(
   withRouter,
   withSurviveStatus,
-  graphql(query),
+  withMe,
+  graphql(query, {
+    props: args => {
+      return {
+        ...mapActionData(args),
+        data: args.data
+      }
+    }
+  }),
   withInNativeApp,
   withT
 )(Page)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import md from 'markdown-in-js'
-import Router, { withRouter } from 'next/router'
+import { withRouter } from 'next/router'
 import { css } from 'glamor'
 
 import { graphql, compose } from 'react-apollo'
@@ -10,7 +10,6 @@ import { Link } from '../lib/routes'
 import { countFormat } from '../lib/utils/format'
 
 import mdComponents from '../lib/utils/mdComponents'
-import { thousandSeparator } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
@@ -28,6 +27,7 @@ import withSurviveStatus, {
   userSurviveActionsFragment,
   mapActionData
 } from '../components/Crowdfunding/withSurviveStatus'
+import ReasonsCover from '../components/Crowdfunding/ReasonsCover'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -36,8 +36,6 @@ import TeaserBlock, {
 } from '../components/Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../components/Overview/utils'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../components/constants'
-
 import {
   Loader,
   Container,
@@ -45,11 +43,8 @@ import {
   Button,
   Lead,
   colors,
-  P,
-  A,
   linkRule,
   Interaction,
-  VideoPlayer,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -77,6 +72,17 @@ const query = gql`
     actionMe: me {
       id
       ...SurviveActionsOnUser
+    }
+    reasons: questionnaire(slug: "101-reasons") {
+      id
+      nodes: questions(shuffle: 1) {
+        ... on QuestionTypeChoice {
+          id
+          order
+          text
+          metadata
+        }
+      }
     }
   }
   ${userSurviveActionsFragment}
@@ -159,7 +165,6 @@ const VIDEOS = {
 }
 
 const Page = ({
-  router,
   crowdfunding,
   data,
   shouldBuyProlong,
@@ -289,7 +294,20 @@ const Page = ({
       }}
       cover={
         <>
-          <VideoCover src={VIDEOS.main} playTop='65%' endScroll={0.97} />
+          {/*data.reasons && data.reasons.nodes.slice(1).map(r =>
+            <ReasonsCover reason={r} />
+          )*/}
+          <VideoCover
+            src={VIDEOS.main}
+            customCover={
+              <ReasonsCover
+                loading={data.loading}
+                reason={data.reasons && data.reasons.nodes[0]}
+              />
+            }
+            playTop='65%'
+            endScroll={0.97}
+          />
         </>
       }
     >

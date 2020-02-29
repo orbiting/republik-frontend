@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { css } from 'glamor'
-import { Editorial, mediaQueries, usePrevious } from '@project-r/styleguide'
+import { Interaction, mediaQueries, usePrevious } from '@project-r/styleguide'
 import { t } from '../../lib/withT'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import { shuffle } from 'd3-array'
@@ -96,7 +96,7 @@ const Cards = ({ employees, filter, slice }) => {
   const to = isDesktop ? toDesktop : toMobile
   const [gone] = useState(() => new Set())
   const [zIndexes, setZIndexes] = useState([])
-  const shuffleCards = promi =>
+  const shuffleCards = (promi = 0) =>
     employees
       .slice(0, promi) // promis get returned first by backend
       .concat(shuffle(employees.slice(promi)))
@@ -226,10 +226,12 @@ const Cards = ({ employees, filter, slice }) => {
                 maybeRestoreCards()
               }}
             >
-              <Editorial.Subhead style={{ marginTop: 0 }}>
+              <Interaction.H3 style={{ marginTop: 5, marginBottom: 0 }}>
                 {cards[i].name}
-              </Editorial.Subhead>
-              <Editorial.P>{cards[i].title}</Editorial.P>
+              </Interaction.H3>
+              <Interaction.P style={{ marginBottom: 20 }}>
+                {cards[i].title || cards[i].group}
+              </Interaction.P>
               <img
                 alt={cards[i].name}
                 width='100%'

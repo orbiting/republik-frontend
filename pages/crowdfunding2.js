@@ -306,8 +306,7 @@ const Page = ({
         raw
       >
         <Lead>
-          Unabhängiger Journalismus für vernünftige Entscheide: Willkommen bei
-          der Republik.
+          Unabhängiger Journalismus ohne Bullshit: Willkommen bei der Republik.
         </Lead>
         {md(mdComponents)`
 
@@ -351,29 +350,29 @@ ${pledgeLink}
                 <Interaction.P {...styles.stretchP}>
                   {initialGoalsReached && (
                     <>
-                      Wir sind überwältigt! Wir haben unsere Ziele zusammen mit
-                      Ihnen erreicht. Die Republik hat definitiv eine Zukunft.
-                      Herzlichen Dank!
+                      Wir sind dankbar und erfreut! Wir haben unsere Ziele
+                      gemeinsam mit Ihnen erreicht. Die Republik hat definitiv
+                      eine Zukunft. Herzlichen Dank!
                     </>
                   )}
                   {remainingMoney > 0 && remainingPeople > 0 && (
                     <>
-                      Damit die Republik eine Zukunft hat, müssen wir bis am
-                      31.&nbsp;März noch {countFormat(remainingPeople)} neue
-                      Verlegerinnen und {countFormat(remainingMoney)} Franken
-                      finden. Um beide Ziele zu erreichen, wollen wir diesen
-                      Monat{' '}
+                      Damit die Republik in Zukunft bestehen kann, brauchen wir
+                      bis am 31.&nbsp;März noch {countFormat(remainingPeople)}{' '}
+                      Mitglieder und Abonnenten und{' '}
+                      {countFormat(remainingMoney)} Franken. Um die Ziele zu
+                      erreichen, wollen wir diesen Monat um{' '}
                       <Highlight>3000 Mitgliedschaften und Abos</Highlight>{' '}
-                      verkaufen. Denn eine möglichst grosse Verlegerschaft
-                      sichert die Republik langfristig am besten.
+                      wachsen. Denn eine möglichst grosse Verlegerschaft sichert
+                      die Republik langfristig am besten.
                     </>
                   )}
                   {remainingMoney > 0 && remainingPeople <= 0 && (
                     <>
-                      Damit die Republik eine Zukunft hat, müssen wir bis am
-                      31.&nbsp;März noch {countFormat(remainingMoney)} Franken
-                      finden. Um dieses Ziel zu erreichen, wollen wir diesen
-                      Monat 3000 Mitgliedschaften und Abos verkaufen. Denn eine
+                      Damit die Republik in Zukunft bestehen kann, brauchen wir
+                      bis am 31.&nbsp;März noch {countFormat(remainingMoney)}{' '}
+                      Franken. Um das Ziel zu erreichen, wollen wir diesen Monat
+                      um 3000 Mitgliedschaften und Abos wachsen. Denn eine
                       möglichst grosse Verlegerschaft sichert die Republik
                       langfristig am besten.
                     </>
@@ -385,9 +384,9 @@ ${pledgeLink}
                       {...styles.stretchP}
                       style={{ marginTop: 10 }}
                     >
-                      Die Republik will das Mediensystem mit einem
-                      leserfinanzierten Modell für unabhängigen Journalismus
-                      entscheidend verändern – deshalb sammeln wir weiter.
+                      Die Republik will das Mediensystem mit einem neuen Modell
+                      für unabhängigen Journalismus entscheidend verändern –
+                      deshalb sammeln wir weiter.
                     </Interaction.P>
                     <List>
                       {goals
@@ -396,6 +395,12 @@ ${pledgeLink}
                           <List.Item key={i}>{goal.description}</List.Item>
                         ))}
                     </List>
+                    <Interaction.P
+                      {...styles.stretchP}
+                      style={{ marginTop: 10 }}
+                    >
+                      Danke fürs Weitersagen!
+                    </Interaction.P>
                   </>
                 )}
               </div>
@@ -422,9 +427,9 @@ Wir sind überzeugt, das zu schaffen. Weil wir schon weit gekommen sind:
 
 3. Wir sind von einer starken Community getragen. Von unseren Leserinnen lernen wir jeden Tag, wie wir besser werden können. Und über 1000 Freunde und Komplizen helfen mit, unseren Journalismus in jeden Winkel der Schweiz zu bringen.
 
-Damit die Republik in Zukunft bestehen kann und wir sie erfolgreich weiterentwickeln können, brauchen wir einen Wachstumsschub. Deshalb haben wir uns ehrgeizige Ziele gesetzt: Bis Ende März mindestens 19’000 Mitglieder zu haben und 2,2 Millionen Franken zu finden. 
+Damit die Republik in Zukunft bestehen kann, brauchen wir einen Wachstumsschub. Deshalb haben wir uns überlebenswichtige Ziele gesetzt: Bis Ende März mindestens 19’000 Mitglieder zu haben und 2,2 Millionen Franken zu finden.
 
-Erreichen wir die ehrgeizigen Ziele nicht, beenden wir das Projekt.
+Erreichen wir die Ziele nicht, beenden wir das Projekt.
 
 Den grösseren Teil des Geldes haben wir durch die Grosszügigkeit unserer Mitglieder und Investorinnen bereits gefunden. Jetzt geht es darum, möglichst viele neue Leute von der Republik zu begeistern.
 
@@ -440,23 +445,23 @@ ${(
 
 ## Was ist die Republik?
 
-Die Republik ist eine Dienstleistung für interessierte Menschen in einer grossen, faszinierenden und komplexen Welt. Wir kämpfen uns durch den Lärm der Welt, damit Sie es nicht tun müssen. 
+Die Republik ist eine Dienstleistung für interessierte Menschen in einer grossen, faszinierenden und komplexen Welt. Wir kämpfen uns durch den Lärm der Aktualität, damit Sie es nicht tun müssen. 
 
 Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen.
 
 Das ist eine heikle Aufgabe. Denn Journalismus ist alles andere als harmlos: Es ist entscheidend, welche Geschichten erzählt werden.
 
-Und weil Vertrauen im Journalismus die härteste Währung ist, haben wir die Republik so aufgestellt, dass wir genau diese Aufgabe für Sie bestmöglich erledigen können:
+Weil Vertrauen im Journalismus die härteste Währung ist, haben wir die Republik so aufgestellt, dass wir diese Aufgabe für Sie bestmöglich erledigen können:
 
 **Wir sind unabhängig.** Und komplett werbefrei. So können wir uns auf unseren einzigen Kunden konzentrieren: Sie. Und müssen weder möglichst viele Klicks generieren noch Sie mit nervigen Anzeigen belästigen. Und wir verkaufen Ihre persönlichen Daten niemals weiter.
 
 **Wir sind das transparenteste Medienunternehmen (das wir kennen).** Wir legen alles offen: unsere Finanzen, Besitzverhältnisse, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass es wichtig ist zu zeigen, unter welchen Bedingungen Journalismus hergestellt wird. 
 
-**Wir stehen mit Ihnen im Dialog.** Und lieben es! Das Internet ermöglicht nicht nur viele neue Formen, wie wir Geschichten erzählen können, sondern auch den direkten Dialog mit Ihnen. Damit die Republik mit Ihrer Stimme vielfältiger, interessanter und reflektierter wird.
+**Wir gehören niemandem – aber Ihnen ein bisschen.** Mit einer Mitgliedschaft werden Sie auch Genossenschafter und damit Verlegerin der Republik. Das ist für Sie ohne Risiko, dafür mit Einblick und Einfluss verbunden: Wir erklären, was wir tun – und Sie können mitentscheiden.
 
 **Wir sind kompromisslos in der Qualität.** Unsere Reporter und Journalistinnen haben Zeit, um ein Thema mit der angebrachten Sorgfalt und Hartnäckigkeit zu recherchieren. Und es gibt drei Dinge, an denen uns besonders viel liegt: Gute Sprache. Gute Bilder. Und gutes Design.
 
-**Wir gehören niemandem – aber Ihnen ein bisschen.** Mit einer Mitgliedschaft werden Sie auch Genossenschafter und damit Verlegerin der Republik. Das ist für Sie ohne Risiko, dafür mit Einblick und Einfluss verbunden: Wir erklären, was wir tun – und Sie können mitentscheiden.
+**Wir stehen mit Ihnen im Dialog.** Und lieben es! Das Internet ermöglicht nicht nur viele neue Formen, wie wir Geschichten erzählen können, sondern auch den direkten Dialog mit Ihnen. Damit die Republik mit Ihrer Stimme vielfältiger, interessanter und reflektierter wird.
 
         `}
       </ContainerWithSidebar>
@@ -494,15 +499,13 @@ Und weil Vertrauen im Journalismus die härteste Währung ist, haben wir die Rep
 
 ## Was bekomme ich für mein Geld?
 
-Sie erhalten täglich eine bis drei neue Geschichten. Als Newsletter, im Web oder in der App.
+Sie erhalten täglich eine bis drei neue Geschichten. Als Newsletter, im Web oder in der App. Das Konzept ist einfach: Einordnung und Vertiefung statt einer Flut von Nachrichten.
 
-Das Konzept ist einfach: Einordnung und Vertiefung statt einer Flut von Nachrichten.
-
-Sie lesen und hören in der Republik zu allem, was aktuell, verworren, komplex – und für viele gerade wichtig ist. Derzeit beschäftigen uns Klima, Digitalisierung, Kinderbetreuung und besonders intensiv die Folgen des Aufstiegs autoritärer Politik für Demokratie und Rechtsstaat.
+Sie lesen und hören in der Republik zu allem, was aktuell, verworren, komplex – und für viele gerade wichtig ist. Derzeit beschäftigen uns Klima, Digitalisierung, Kinderbetreuung und besonders intensiv die Folgen des Aufstiegs autoritärer Politik für Demokratie.
 
 Wir liefern Ihnen Recherchen, Analysen, Reportagen und Erklärartikel. Aufgemacht als digitales Magazin, mit ausgewählten Bildern, Illustrationen, Grafiken. Manchmal interaktiv. Manchmal als Podcast. Oder auch als Veranstaltung.
 
-Statt täglichen News fassen wir einmal pro Woche in Briefings das Wichtigste aus der Schweiz, Europa und der Welt zusammen, kompakt und übersichtlich – damit Sie nichts verpassen.
+Statt täglichen News fassen wir einmal pro Woche in Briefings das Wichtigste aus der Schweiz und der Welt zusammen, kompakt und übersichtlich – damit Sie nichts verpassen.
 
 Die Republik bietet ein vielfältiges Programm an Themen, Autorinnen und Formaten. Und Sie entscheiden selbst, wie Sie die Republik nutzen möchten: täglich, wöchentlich oder unregelmässig; alles oder nur ausgewählte Beiträge, aktiv im Dialog mit anderen oder einfach ganz für sich allein einen Podcast geniessen.
 
@@ -525,16 +528,20 @@ Unsere Crew besteht aus kompetenten Profis. Den besten, die wir finden konnten. 
           loading={data.loading}
           error={data.error}
           style={{ minHeight: 420 }}
-          render={() => (
-            <Employees
-              employees={data.employees}
-              filter={e =>
-                e.group !== 'Verwaltungsrat' &&
-                e.group !== 'Gründerinnenteam' &&
-                e.group !== 'Gestaltung'
-              }
-            />
-          )}
+          render={() =>
+            data.employees ? (
+              <Employees
+                employees={data.employees}
+                filter={e =>
+                  e.group !== 'Departement des Inneren' &&
+                  e.group !== 'Geschäftsleitung' &&
+                  e.group !== 'Verwaltungsrat' &&
+                  e.group !== 'Gründerinnenteam' &&
+                  e.group !== 'Gestaltung'
+                }
+              />
+            ) : null
+          }
         />
       </div>
 
@@ -548,19 +555,19 @@ Unsere Crew besteht aus kompetenten Profis. Den besten, die wir finden konnten. 
 
 Bei der Republik und beim Journalismus überhaupt geht es nicht nur um den individuellen Nutzen. Es geht auch darum, eine wichtige Funktion in einer Demokratie auszuüben: den Mächtigen auf die Finger zu schauen, unabhängig zu recherchieren und Missstände aufzudecken.
 
-Traditionelle Medien haben das Problem, dass mit dem Internet ihr Geschäftsmodell zusammengebrochen ist. Sie verloren ihre Monopolstellung, fast alles ist gratis im Netz verfügbar. Die Bereitschaft, für Journalismus zu bezahlen, sank. Parallel dazu wanderten die Werbeeinnahmen fast vollständig zu Google, Facebook und Co. ins Silicon Valley ab.
+Traditionelle Medien haben das Problem, dass mit dem Internet ihr Geschäftsmodell zusammengebrochen ist. Sie haben ihre Monopolstellung verloren, fast alles ist gratis im Netz verfügbar. Die Bereitschaft, für Journalismus zu bezahlen, ist gesunken. Parallel dazu wanderten die Werbeeinnahmen fast vollständig zu Google, Facebook und Co. ab.
 
 Die Folgen davon sind unübersehbar: ein massiver Abbau bei Redaktionen auf Kosten der Qualität und Vielfalt. Seit 2011 sind in der Schweiz unter dem Strich mehr als 3000 Stellen im Journalismus verschwunden. (Das ist viel: damit könnte man 100 Republiken machen.)
 
 Zeitungen fusionieren, Redaktionen werden zusammengelegt, es gibt immer weniger Vielfalt im Schweizer Medienmarkt. In der Deutschschweiz verfügen Tamedia, Ringier und die NZZ mit ihren Zeitungen bereits über 80% Marktanteil.
 
-Und als neueste Entwicklung, um den sinkenden Werbeeinnahmen entgegenzuwirken, gehen die Verlage immer dreistere Deals mit Werbekunden ein. Die Grenze zwischen redaktionellen Beiträgen und Werbung verwischt. Der Presserat sah sich letztes Jahr zu einem Leiturteil gezwungen, um die Grenzüberschreitungen der Verlage zu verurteilen.
+Und als neueste Entwicklung, um den sinkenden Werbeeinnahmen entgegenzuwirken, gehen die Verlage immer dreistere Deals mit Werbekunden ein. Die Grenze zwischen redaktionellen Beiträgen und Werbung verwischt. Der Presserat kritisiert in einem Leiturteil diese Grenzüberschreitungen der Verlage. Damit werde das Publikum getäuscht und irregeführt. Die Medien schaden so ihrer eigenen Glaubwürdigkeit als unabhängige Berichterstatter.
 
 Kurz: Es steht nicht unbedingt gut um die Medienbranche und die Zukunft des Journalismus.
 
 Als Antwort auf diese Entwicklungen – und aus Leidenschaft für guten Journalismus – bauen wir die Republik auf.
 
-Einerseits als konkreten Beitrag zur Vielfalt. Andererseits ist die Republik auch ein Experiment für einen Journalismus, der Unabhängigkeit konsequent ernst nimmt. Dazu müssen wir ein neues Geschäftsmodell entwickeln, das intakte Chancen auf eine erfolgreiche Zukunft hat. 
+Einerseits als konkreten Beitrag zur Vielfalt. Mit einem Medium, das Unabhängigkeit konsequent ernst nimmt. Andererseits auch als Labor für den Journalismus des 21. Jahrhunderts. Dafür ist es notwendig, ein funktionierendes Geschäftsmodell zu entwickeln.
 
 Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
 

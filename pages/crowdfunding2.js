@@ -220,13 +220,13 @@ const Page = ({
         {
           name: 'ABO_GIVE',
           params: { filter: 'pot' },
-          title: 'Wachstum schenken: Patenschaft',
+          title: 'Wachstum schenken',
           price: 24000
         },
         {
           name: 'DONATE_POT',
           params: { price: 6000 },
-          title: 'Wachstum schenken: Geld',
+          title: 'Wachstum spenden',
           price: 6000
         }
       ]

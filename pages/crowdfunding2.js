@@ -18,7 +18,7 @@ import withT from '../lib/withT'
 import Employees from '../components/Marketing/Employees'
 import Frame from '../components/Frame'
 import VideoCover from '../components/VideoCover'
-import ActionBar from '../components/ActionBar'
+import ShareButtons from '../components/ActionBar/ShareButtons'
 import List, { Highlight } from '../components/List'
 import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
 import ContainerWithSidebar, {
@@ -253,6 +253,15 @@ const Page = ({
         }
       ]
 
+  const shareProps = {
+    url: `${PUBLIC_BASE_URL}/`,
+    tweet: '',
+    emailBody: '',
+    emailAttachUrl: true,
+    emailSubject: 'Es ist Zeit.',
+    eventCategory: 'March2020'
+  }
+
   return (
     <Frame
       raw
@@ -305,10 +314,7 @@ ${pledgeLink}
           <Label style={{ display: 'block', marginBottom: 5 }}>
             Teilen Sie diese Seite mit Ihren Freunden:
           </Label>
-          <ActionBar
-            url={PUBLIC_BASE_URL + router.pathname}
-            emailSubject={'Es ist Zeit.'}
-          />
+          <ShareButtons {...shareProps} />
         </div>
 
         <Loader
@@ -570,10 +576,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
             <Label style={{ display: 'block', marginBottom: 5 }}>
               Jetzt andere auf die Republik aufmerksam machen:
             </Label>
-            <ActionBar
-              url={PUBLIC_BASE_URL + router.pathname}
-              emailSubject={'Es ist Zeit.'}
-            />
+            <ShareButtons {...shareProps} />
           </div>
 
           {md(mdComponents)`

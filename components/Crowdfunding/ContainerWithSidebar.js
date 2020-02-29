@@ -3,24 +3,27 @@ import { css } from 'glamor'
 
 import { Container, mediaQueries } from '@project-r/styleguide'
 
-import Sidebar from './Sidebar'
+import Sidebar, { minWindowHeight } from './Sidebar'
 import { CONTENT_PADDING, SIDEBAR_WIDTH } from './constants'
+
+const mUp = `@media only screen and (min-width: ${mediaQueries.mBreakPoint}px) and (min-height: ${minWindowHeight}px)`
+const lUp = `@media only screen and (min-width: ${mediaQueries.lBreakPoint}px) and (min-height: ${minWindowHeight}px)`
 
 const styles = {
   sidebar: css({
     paddingTop: 25,
-    [mediaQueries.mUp]: {
+    [mUp]: {
       float: 'right',
       width: SIDEBAR_WIDTH
     }
   }),
   content: css({
     paddingTop: 20,
-    [mediaQueries.mUp]: {
+    [mUp]: {
       paddingLeft: CONTENT_PADDING,
       paddingRight: CONTENT_PADDING + SIDEBAR_WIDTH
     },
-    [mediaQueries.lUp]: {
+    [lUp]: {
       paddingRight: CONTENT_PADDING * 2 + SIDEBAR_WIDTH
     }
   })

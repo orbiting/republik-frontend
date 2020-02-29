@@ -24,6 +24,8 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
+export const minWindowHeight = 400
+
 const styles = {
   container: css({
     paddingTop: 10,
@@ -154,7 +156,11 @@ class Sidebar extends Component {
       let sidebar = false
       if (y + HEADER_HEIGHT > this.y) {
         status = true
-        if (!mobile && height - HEADER_HEIGHT > this.innerHeight) {
+        if (
+          !mobile &&
+          height - HEADER_HEIGHT > this.innerHeight &&
+          height >= minWindowHeight
+        ) {
           sidebar = true
         }
       }

@@ -72,12 +72,13 @@ const ReasonCover = ({ reason, loading }) => {
 
   const textHeight = fontSize * 1.1 * lines.length + 100
   const remainingSpace = HEIGHT - textHeight - 100 - 120
+  const topOffset = 80 + remainingSpace / 2
 
   return (
     <div {...styles.container}>
       <svg {...styles.svg} viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
         <rect x='0' y='0' width={WIDTH} height={HEIGHT} fill='#000' />
-        <text fill='#fff' y={80 + remainingSpace / 2}>
+        <text fill='#fff' y={topOffset}>
           <tspan
             style={fontStyles.sansSerifRegular}
             fontSize={20}
@@ -114,7 +115,9 @@ const ReasonCover = ({ reason, loading }) => {
         </text>
 
         <g
-          transform={`translate(${WIDTH / 2 - 13} ${HEIGHT - 150}) scale(1.5)`}
+          transform={`translate(${WIDTH / 2 - 13} ${topOffset +
+            textHeight +
+            20}) scale(1.5)`}
         >
           <path d='M25.956 18.188L.894 35.718V.66' fill='#fff' />
         </g>

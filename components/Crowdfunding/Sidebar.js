@@ -33,16 +33,6 @@ const styles = {
       marginBottom: 30
     }
   }),
-  link: css({
-    textDecoration: 'none',
-    color: colors.text,
-    ':visited': {
-      color: colors.text
-    },
-    ':hover': {
-      color: '#ccc'
-    }
-  }),
   sticky: css({
     display: 'none',
     [mediaQueries.mUp]: {

@@ -33,7 +33,7 @@ class Form extends Component {
       dirty: {}
     }
 
-    this.hasMutated = ({ data }) => {
+    this.hasMutated = () => {
       this.setState({
         isMutating: false,
         hideForm: true,

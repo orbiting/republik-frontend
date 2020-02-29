@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import ActionBar from './'
 import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
 
-import { colors, fontStyles } from '@project-r/styleguide'
+import { fontStyles } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
 
 class ArticleActionBar extends Component {

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-02-28T22:29:57.133Z",
+  "updated": "2020-02-29T13:03:25.155Z",
   "title": "live",
   "data": [
     {
@@ -6624,7 +6624,7 @@
     },
     {
       "key": "package/customize/messageToClaimers/note",
-      "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder äusseren Sie einen Wunsch. Die Beschenkte erhält automatisch keine Kontaktdaten von Ihnen."
+      "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder übermitteln Sie Ihre Grüsse. Falls Sie mit dem Beschenkten in Kontakt treten möchten, teilen Sie hier Ihre E-Mail Adresse."
     },
     {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",

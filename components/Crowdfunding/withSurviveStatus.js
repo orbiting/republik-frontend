@@ -13,7 +13,6 @@ const END_DATE = '2020-03-31T10:00:00.000Z'
 
 const CROWDFUNDING_NAME = 'SURVIVE'
 
-// ToDo: change countRange min to 2020-02-29T23:00:00Z
 const statusQuery = gql`
   query SurviveStatus {
     crowdfunding(name: "MARCH20") {
@@ -33,7 +32,7 @@ const statusQuery = gql`
     membershipStats {
       count
       marchCount: countRange(
-        min: "2020-02-27T23:00:00Z"
+        min: "2020-02-29T23:00:00Z"
         max: "2020-03-31T23:00:00Z"
       )
       evolution(min: "2019-12", max: "2020-03") {

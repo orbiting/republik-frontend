@@ -91,7 +91,6 @@ const styles = {
   })
 }
 
-// ToDo: change countRange min to 2020-02-29T23:00:00Z
 const memberShipQuery = gql`
   query payNoteStats {
     crowdfunding(name: "MARCH20") {
@@ -109,7 +108,7 @@ const memberShipQuery = gql`
     membershipStats {
       count
       marchCount: countRange(
-        min: "2020-02-27T23:00:00Z"
+        min: "2020-02-29T23:00:00Z"
         max: "2020-03-31T23:00:00Z"
       )
     }

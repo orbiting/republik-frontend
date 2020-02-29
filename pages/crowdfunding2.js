@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import md from 'markdown-in-js'
-import { withRouter } from 'next/router'
+import Router, { withRouter } from 'next/router'
 import { css } from 'glamor'
 
 import { graphql, compose } from 'react-apollo'
@@ -49,7 +49,7 @@ import {
 } from '@project-r/styleguide'
 
 const query = gql`
-  query cf2 {
+  query cf2($accessToken: ID) {
     front: document(path: "/") {
       id
       children(first: 60) {
@@ -69,7 +69,7 @@ const query = gql`
         slug
       }
     }
-    actionMe: me {
+    actionMe: me(accessToken: $accessToken) {
       id
       ...SurviveActionsOnUser
     }
@@ -165,6 +165,7 @@ const VIDEOS = {
 }
 
 const Page = ({
+  router: { query },
   crowdfunding,
   data,
   shouldBuyProlong,
@@ -175,6 +176,18 @@ const Page = ({
   actionsLoading,
   t
 }) => {
+  useEffect(() => {
+    if (query.token) {
+      Router.replace(
+        `/crowdfunding2?token=${encodeURIComponent(query.token)}`,
+        '/maerzkampagne',
+        {
+          shallow: true
+        }
+      )
+    }
+  }, [query.token])
+
   const [highlight, setHighlight] = useState()
   // ensure the highlighFunction is not dedected as an state update function
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
@@ -653,7 +666,12 @@ export default compose(
         ...mapActionData(args),
         data: args.data
       }
-    }
+    },
+    options: ({ router: { query } }) => ({
+      variables: {
+        accessToken: query.token
+      }
+    })
   }),
   withInNativeApp,
   withT

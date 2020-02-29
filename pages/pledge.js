@@ -36,6 +36,20 @@ class PledgePage extends Component {
         Router.replaceRoute('cockpit', { token: query.token })
       }
     }
+    if (query.goto === 'crowdfunding2') {
+      if (serverContext) {
+        serverContext.res.redirect(
+          302,
+          `/maerzkampagne${query.token ? `?token=${query.token}` : ''}${
+            query.hash ? `#${query.hash}` : ''
+          }`
+        )
+        serverContext.res.end()
+      } else if (process.browser) {
+        // SSR does two two-passes: data (with serverContext) & render (without)
+        Router.replaceRoute('crowdfunding2', { token: query.token })
+      }
+    }
 
     return (
       <Frame>

@@ -7,12 +7,13 @@ import Front from '../components/Front'
 // import Marketing from '../components/Marketing'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
+import { getRandomReason } from '../components/Crowdfunding/reasonData'
 
 // import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 import CF2 from './crowdfunding2'
 
-const IndexPage = ({ t, isMember, router }) => {
+const IndexPage = ({ t, isMember, router, reason }) => {
   if (
     router.query.stale !== 'marketing' &&
     (isMember || router.query.extractId)
@@ -22,7 +23,7 @@ const IndexPage = ({ t, isMember, router }) => {
   }
   // does it's own meta
   // ToDo: change url in CF2 once rm here
-  return <CF2 />
+  return <CF2 reason={reason} />
   // const meta = {
   //   pageTitle: t('pages/index/pageTitle'),
   //   title: t('pages/index/title'),
@@ -37,8 +38,16 @@ const IndexPage = ({ t, isMember, router }) => {
   // )
 }
 
-export default compose(
+const EnhancedPage = compose(
   withMembership,
   withT,
   withRouter
 )(IndexPage)
+
+EnhancedPage.getInitialProps = () => {
+  return {
+    reason: getRandomReason()
+  }
+}
+
+export default EnhancedPage

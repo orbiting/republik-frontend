@@ -813,6 +813,11 @@ class ArticlePage extends Component {
                     </article>
                   </ProgressComponent>
                 </ArticleGallery>
+                {!suppressPayNotes && !darkMode && (
+                  <Center>
+                    <SurviveStatus />
+                  </Center>
+                )}
                 {meta.template === 'article' &&
                   ownDiscussion &&
                   !ownDiscussion.closed &&
@@ -862,11 +867,6 @@ class ArticlePage extends Component {
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.id} />}
-                {!suppressPayNotes && !darkMode && (
-                  <Center>
-                    <SurviveStatus />
-                  </Center>
-                )}
                 {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />

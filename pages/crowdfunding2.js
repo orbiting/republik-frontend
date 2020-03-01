@@ -74,17 +74,6 @@ const query = gql`
       id
       ...SurviveActionsOnUser
     }
-    reasons: questionnaire(slug: "101-reasons") {
-      id
-      nodes: questions(shuffle: 1) {
-        ... on QuestionTypeChoice {
-          id
-          order
-          text
-          metadata
-        }
-      }
-    }
   }
   ${userSurviveActionsFragment}
 `

@@ -378,7 +378,7 @@ class QuestionnaireCrowdPage extends Component {
           externalSubmit
           hideCount
           questionnaireName='crowd'
-          pageClosed={thankYou}
+          submittedMessage={thankYou}
           error={serverError}
           updating={updating}
           submitting={submitting}

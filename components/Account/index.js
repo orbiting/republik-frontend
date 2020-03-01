@@ -14,14 +14,14 @@ import UpdateMe from './UpdateMe'
 import UpdateEmail from './UpdateEmail'
 
 import Anchors from './Anchors'
-import AccessGrants from './Access/Grants'
-import AccessCampaigns from './Access/Campaigns'
+import AccessGrants from '../Access/Grants'
 import AuthSettings from './AuthSettings'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
 import ProgressSettings from './ProgressSettings'
 import PledgeList from './PledgeList'
 import Onboarding from './Onboarding'
+import Access from './Access'
 import SignIn from '../Auth/SignIn'
 import withMembership from '../Auth/withMembership'
 import Box from '../Frame/Box'
@@ -36,7 +36,6 @@ import PaymentSources from './PaymentSources'
 import { APP_OPTIONS } from '../../lib/constants'
 
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
-import { withMyDetails } from './enhancers'
 
 const { H2, P } = Interaction
 
@@ -79,7 +78,6 @@ class Account extends Component {
       me,
       t,
       query,
-      detailsData,
       hasMemberships,
       hasActiveMemberships,
       hasAccessGrants,
@@ -146,7 +144,7 @@ class Account extends Component {
                   )}
 
                   <AccountAnchor id='teilen'>
-                    <AccessCampaigns />
+                    <Access />
                   </AccountAnchor>
 
                   <AccountAnchor id='email'>
@@ -155,7 +153,6 @@ class Account extends Component {
 
                   <AccountAnchor id='account'>
                     <UpdateMe
-                      detailsData={detailsData}
                       acceptedStatue={acceptedStatue}
                       hasMemberships={hasMemberships}
                     />

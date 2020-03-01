@@ -112,7 +112,16 @@ class VideoCover extends Component {
     }
   }
   render() {
-    const { src, cursor, limited, backgroundAutoPlay, muted, loop } = this.props
+    const {
+      src,
+      cursor,
+      limited,
+      backgroundAutoPlay,
+      muted,
+      loop,
+      playTop,
+      customCover
+    } = this.props
     const {
       playing,
       ended,
@@ -149,16 +158,32 @@ class VideoCover extends Component {
           }}
         >
           <div {...styles.maxWidth}>
-            <img src={src.thumbnail} {...styles.poster} style={heightStyle} />
+            {customCover ? (
+              <div {...styles.poster} style={heightStyle}>
+                {customCover}
+              </div>
+            ) : (
+              <img src={src.thumbnail} {...styles.poster} style={heightStyle} />
+            )}
             {!!cursor && <div {...styles.cursor} />}
-            <div {...styles.play} style={{ top: !cursor ? '60%' : undefined }}>
-              <Play />
-            </div>
+            {!customCover && (
+              <div {...styles.play} style={{ top: playTop }}>
+                <Play />
+              </div>
+            )}
           </div>
         </div>
         <VideoPlayer
           ref={this.ref}
-          src={src}
+          src={
+            customCover
+              ? {
+                  ...src,
+                  thumbnail:
+                    'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+                }
+              : src
+          }
           showPlay={!cover && playing !== undefined}
           autoPlay={backgroundAutoPlay}
           attributes={

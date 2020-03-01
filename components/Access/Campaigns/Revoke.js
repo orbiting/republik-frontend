@@ -3,7 +3,7 @@ import { compose } from 'react-apollo'
 
 import { A, InlineSpinner } from '@project-r/styleguide'
 
-import withT from '../../../../lib/withT'
+import withT from '../../../lib/withT'
 
 class Revoke extends Component {
   constructor(props) {

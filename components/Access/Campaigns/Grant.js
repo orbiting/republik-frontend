@@ -3,10 +3,10 @@ import { compose } from 'react-apollo'
 
 import { Interaction } from '@project-r/styleguide'
 
-import { Item } from '../../../List'
-import { timeFormat } from '../../../../lib/utils/format'
+import { Item } from '../../List'
+import { timeFormat } from '../../../lib/utils/format'
 import Revoke from './Revoke'
-import withT from '../../../../lib/withT'
+import withT from '../../../lib/withT'
 
 const { Emphasis } = Interaction
 

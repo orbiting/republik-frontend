@@ -117,6 +117,7 @@ class Pledge extends Component {
       values.firstName = pledge.user.firstName
       values.lastName = pledge.user.lastName
       values.reason = pledge.reason
+      values.messageToClaimers = pledge.messageToClaimers
       values.price = pledge.total
       pledge.options.forEach(option => {
         values[getOptionFieldKey(option)] = option.amount
@@ -162,6 +163,18 @@ class Pledge extends Component {
         )
       }
     }
+    if (pkg && query.filter === 'pot') {
+      // do not offer goodies unless userPrice true
+      pkg = {
+        ...pkg,
+        options: pkg.options
+          .filter(option => option.accessGranted)
+          .map(option => ({
+            ...option,
+            defaultAmount: Math.min(option.maxAmount, 1)
+          }))
+      }
+    }
 
     return pkg
   }
@@ -169,6 +182,44 @@ class Pledge extends Component {
     const { customMe } = this.props
     const pkg = this.getPkg({ query })
     const userPrice = !!query.userPrice
+
+    let hasAccessGranted
+    const options = pkg
+      ? pkg.options.map(option => {
+          const fieldKey = getOptionFieldKey(option)
+          const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
+
+          const amount =
+            values[fieldKey] === undefined
+              ? option.defaultAmount
+              : // can be '', but PackageOptionInput needs Int! here
+                +values[fieldKey]
+          if (option.accessGranted && amount) {
+            hasAccessGranted = true
+          }
+
+          return {
+            amount,
+            periods:
+              values[fieldKeyPeriods] !== undefined
+                ? // can be '', but PackageOptionInput needs Int here
+                  +values[fieldKeyPeriods]
+                : option.reward && option.reward.defaultPeriods,
+            price: option.price,
+            templateId: option.templateId,
+            membershipId: option.membership ? option.membership.id : undefined,
+            /* ToDo: move logic to backend? */
+            autoPay:
+              option.reward &&
+              option.reward.__typename === 'MembershipType' &&
+              pkg.group !== 'GIVE' &&
+              (!option.membership ||
+                option.membership.user.id === (customMe && customMe.id))
+                ? true /* ToDo: check base pledge value once supported in backend */
+                : undefined
+          }
+        })
+      : []
 
     return {
       accessToken: query.token,
@@ -184,40 +235,11 @@ class Pledge extends Component {
         lastName: values.lastName,
         email: values.email
       },
-      options: pkg
-        ? pkg.options.map(option => {
-            const fieldKey = getOptionFieldKey(option)
-            const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
-
-            return {
-              amount:
-                values[fieldKey] === undefined
-                  ? option.defaultAmount
-                  : // can be '', but PackageOptionInput needs Int! here
-                    +values[fieldKey],
-              periods:
-                values[fieldKeyPeriods] !== undefined
-                  ? // can be '', but PackageOptionInput needs Int here
-                    +values[fieldKeyPeriods]
-                  : option.reward && option.reward.defaultPeriods,
-              price: option.price,
-              templateId: option.templateId,
-              membershipId: option.membership
-                ? option.membership.id
-                : undefined,
-              /* ToDo: move logic to backend? */
-              autoPay:
-                option.reward &&
-                option.reward.__typename === 'MembershipType' &&
-                pkg.group !== 'GIVE' &&
-                (!option.membership ||
-                  option.membership.user.id === (customMe && customMe.id))
-                  ? true /* ToDo: check base pledge value once supported in backend */
-                  : undefined
-            }
-          })
-        : [],
+      options,
       reason: userPrice ? values.reason : undefined,
+      messageToClaimers: hasAccessGranted
+        ? values.messageToClaimers
+        : undefined,
       id: pledge ? pledge.id : undefined
     }
   }
@@ -405,6 +427,21 @@ class Pledge extends Component {
               )
             const ownMembership =
               ownMembershipOption && ownMembershipOption.membership
+            const title = t.first(
+              [
+                ownMembership &&
+                  `pledge/title/${pkg.name}/${ownMembership.type.name}`,
+                ownMembership &&
+                  new Date(ownMembership.graceEndDate) < new Date() &&
+                  `pledge/title/${pkg.name}/reactivate`,
+                pkg && isMember && `pledge/title/${pkg.name}/member`,
+                pkg && `pledge/title/${pkg.name}`,
+                !pkg && isMember && 'pledge/title/member',
+                !pkg && 'pledge/title'
+              ].filter(Boolean),
+              undefined,
+              ''
+            )
 
             return (
               <div>
@@ -429,21 +466,7 @@ class Pledge extends Component {
                     )}
                   </div>
                 )}
-                <H1>
-                  {t.first(
-                    [
-                      ownMembership &&
-                        `pledge/title/${pkg.name}/${ownMembership.type.name}`,
-                      ownMembership &&
-                        new Date(ownMembership.graceEndDate) < new Date() &&
-                        `pledge/title/${pkg.name}/reactivate`,
-                      pkg && isMember && `pledge/title/${pkg.name}/member`,
-                      pkg && `pledge/title/${pkg.name}`,
-                      isMember && 'pledge/title/member',
-                      'pledge/title'
-                    ].filter(Boolean)
-                  )}
-                </H1>
+                <H1>{title}</H1>
 
                 {!!receiveError && (
                   <P style={{ color: colors.error, marginBottom: 40 }}>
@@ -668,6 +691,7 @@ const query = gql`
           maxAmount
           defaultAmount
           templateId
+          accessGranted
           reward {
             __typename
             ... on MembershipType {
@@ -715,6 +739,8 @@ const query = gql`
           maxAmount
           defaultAmount
           templateId
+          optionGroup
+          accessGranted
           reward {
             __typename
             ... on MembershipType {
@@ -730,7 +756,6 @@ const query = gql`
               name
             }
           }
-          optionGroup
           membership {
             id
             user {

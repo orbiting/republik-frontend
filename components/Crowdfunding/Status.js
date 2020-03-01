@@ -24,7 +24,6 @@ import Bar from './Bar'
 
 const styles = {
   primaryNumber: css({
-    color: '#fff',
     display: 'block',
     marginBottom: -3,
     [mediaQueries.mUp]: {
@@ -35,7 +34,6 @@ const styles = {
     lineHeight: 1
   }),
   secondaryNumber: css({
-    color: '#fff',
     display: 'block',
     [mediaQueries.mUp]: {
       marginBottom: -3
@@ -45,7 +43,6 @@ const styles = {
     lineHeight: 1
   }),
   smallNumber: css({
-    color: '#fff',
     display: 'block',
     [mediaQueries.mUp]: {
       marginBottom: -3
@@ -56,7 +53,6 @@ const styles = {
   }),
   label: css(Interaction.fontRule, {
     display: 'block',
-    color: '#fff',
     fontSize: pxToRem(14),
     lineHeight: pxToRem(20),
     paddingTop: 5,
@@ -125,7 +121,9 @@ class Status extends Component {
       t,
       money,
       people,
-      memberships
+      memberships,
+      color,
+      barColor
     } = this.props
     const now = new Date()
     const nextMinute = timeMinute.ceil(new Date())
@@ -179,23 +177,33 @@ class Status extends Component {
       </a>
     )
 
+    const colorStyle = { color }
+
     if (this.props.compact) {
+      const accessor = memberships ? 'memberships' : 'people'
       return (
         <div style={{ paddingTop: 10 }}>
-          <P>
-            <span {...styles.smallNumber}>{countFormat(status.people)}</span>
+          <P style={colorStyle}>
+            <span {...styles.smallNumber}>{countFormat(status[accessor])}</span>
             <span {...styles.label}>
-              {t.elements('crowdfunding/status/goal/people', {
-                count: createHoverGoalCount(countFormat, goal.people)
-              })}
+              {t.first.elements(
+                [
+                  `crowdfunding/status/goal/${crowdfundingName}/${accessor}`,
+                  `crowdfunding/status/goal/${accessor}`
+                ],
+                {
+                  count: createHoverGoalCount(countFormat, goal[accessor])
+                }
+              )}
             </span>
           </P>
           <Bar
             goals={goalsByPeople}
             showLast={this.state.showGoal}
             status={status}
-            accessor='people'
+            accessor={accessor}
             format={countFormat}
+            color={barColor}
           />
         </div>
       )
@@ -206,7 +214,7 @@ class Status extends Component {
     return (
       <Fragment>
         {status.current !== undefined && (
-          <P style={{ marginBottom: -10 }}>
+          <P style={{ marginBottom: -10, ...colorStyle }}>
             <span {...styles.smallNumber}>
               {t.pluralize('crowdfunding/status/current', {
                 count: countFormat(status.current)
@@ -224,12 +232,12 @@ class Status extends Component {
           </P>
         )}
         {[
-          people && {
-            accessor: 'people',
-            format: countFormat
-          },
           memberships && {
             accessor: 'memberships',
+            format: countFormat
+          },
+          people && {
+            accessor: 'people',
             format: countFormat
           },
           money && {
@@ -240,7 +248,7 @@ class Status extends Component {
           .filter(Boolean)
           .map(({ accessor, goalAccessor, format }, i) => (
             <Fragment key={accessor}>
-              <P>
+              <P style={colorStyle}>
                 <span
                   {...styles[i === 0 ? 'primaryNumber' : 'secondaryNumber']}
                 >
@@ -267,11 +275,12 @@ class Status extends Component {
                 status={status}
                 accessor={accessor}
                 format={format}
+                color={barColor}
               />
             </Fragment>
           ))}
         {status.support !== undefined && (
-          <P>
+          <P style={colorStyle}>
             <span {...styles.smallNumber}>
               {t.pluralize('crowdfunding/status/support', {
                 count: countFormat(status.support)
@@ -282,7 +291,7 @@ class Status extends Component {
             </span>
           </P>
         )}
-        <P>
+        <P style={colorStyle}>
           <span
             {...styles.smallNumber}
             style={isRunning ? undefined : { lineHeight: 1.3 }}
@@ -362,6 +371,7 @@ const query = gql`
 
 export const withStatus = Component =>
   graphql(query, {
+    skip: props => props.crowdfunding || !props.crowdfundingName,
     options: {
       pollInterval: +STATUS_POLL_INTERVAL_MS
     },

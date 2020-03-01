@@ -7,10 +7,10 @@ import {
   colors,
   fontStyles,
   linkRule,
-  RawHtml
+  Label
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
 import { Router } from '../../lib/routes'
@@ -35,11 +35,11 @@ const styles = {
   }),
   content: css({
     paddingBottom: 0,
-    margin: '1rem 0 1rem 0',
+    margin: '0.8rem 0 0.8rem 0',
     ':first-of-type': {
       marginTop: 0
     },
-    ':last-of-type': {
+    ':last-child': {
       marginBottom: 0
     }
   }),
@@ -54,23 +54,63 @@ const styles = {
       flexDirection: 'row'
     }
   }),
+  links: css({
+    '& a': linkRule
+  }),
+  linksDark: css({
+    '& a': {
+      textDecoration: 'none',
+      color: colors.negative.text,
+      ':visited': {
+        color: colors.negative.text
+      },
+      '@media (hover)': {
+        ':hover': {
+          color: colors.negative.text,
+          textDecoration: 'underline',
+          textDecorationSkip: 'ink'
+        }
+      }
+    }
+  }),
   aside: css({
+    maxWidth: '50%',
     marginTop: 15,
     color: colors.lightText,
     ...fontStyles.sansSerifRegular16,
-    '& a': linkRule,
+    lineHeight: 1.4,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular18,
+      lineHeight: 1.4,
       marginLeft: 30,
       marginTop: 0
     }
+  }),
+  asideDark: css({
+    color: colors.negative.text
   })
 }
 
 const memberShipQuery = gql`
-  query payNoteMembershipStats {
+  query payNoteStats {
+    crowdfunding(name: "MARCH20") {
+      goals {
+        people
+        memberships
+        money
+      }
+    }
+    revenueStats {
+      surplus(min: "2019-11-30T23:00:00Z") {
+        total
+      }
+    }
     membershipStats {
       count
+      marchCount: countRange(
+        min: "2020-02-29T23:00:00Z"
+        max: "2020-03-31T23:00:00Z"
+      )
     }
   }
 `
@@ -82,7 +122,10 @@ const TRY_VARIATIONS = [
   'tryNote/191106-v3',
   'tryNote/191106-v4'
 ]
-const BUY_VARIATIONS = ['payNote/191108-v1', 'payNote/191108-v2']
+// old ones
+// ['payNote/191108-v1', 'payNote/191108-v2']
+// tmp: march
+const BUY_VARIATIONS = ['payNote/200225-v1']
 const THANK_YOU_VARIATIONS = ['tryNote/thankYou']
 const IOS_VARIATIONS = ['payNote/ios']
 
@@ -97,12 +140,42 @@ const generatePositionedNote = (variation, target, cta, position) => {
   return {
     [position]: {
       content: t(`article/${variation}/${position}`, undefined, ''),
+      contentReached: t(
+        `article/${variation}/${position}/reached`,
+        undefined,
+        ''
+      ),
       cta: cta,
       button: {
         label: t(`article/${variation}/${position}/buy/button`, undefined, ''),
-        link: DEFAULT_BUTTON_TARGET
+        link: t(
+          `article/${variation}/${position}/buy/button/link`,
+          undefined,
+          DEFAULT_BUTTON_TARGET
+        )
       },
-      secondary: undefined
+      secondary: t(
+        `article/${variation}/${position}/secondary/label`,
+        undefined,
+        ''
+      ) && {
+        prefix: t(
+          `article/${variation}/${position}/secondary/prefix`,
+          undefined,
+          ''
+        ),
+        label: t(
+          `article/${variation}/${position}/secondary/label`,
+          undefined,
+          ''
+        ),
+        link: t(
+          `article/${variation}/${position}/secondary/link`,
+          undefined,
+          ''
+        )
+      },
+      note: t(`article/${variation}/${position}/note`, undefined, '')
     }
   }
 }
@@ -161,7 +234,10 @@ const predefinedNotes = generateNotes(
     )
   )
 
-const isEmpty = positionedNote => !positionedNote.cta && !positionedNote.content
+const isEmpty = positionedNote =>
+  (!positionedNote.cta ||
+    (positionedNote.cta === 'button' && !positionedNote.button.label)) &&
+  !positionedNote.content
 
 const meetTarget = target => payNote => {
   const targetKeys = new Set(Object.keys(payNote.target))
@@ -221,16 +297,24 @@ const getPayNote = (subject, seed, tryOrBuy, customPayNotes = []) => {
   return getElementFromSeed(targetedPredefinedNotes, seed, MAX_PAYNOTE_SEED)
 }
 
-const withCount = (text, membershipStats) =>
-  text &&
-  text.replace(
-    '{count}',
-    countFormat((membershipStats && membershipStats.count) || 20000)
-  )
+const withCounts = (text, replacements) => {
+  let message = text
+  if (replacements) {
+    Object.keys(replacements).forEach(replacementKey => {
+      message = message.replace(
+        `{${replacementKey}}`,
+        replacements[replacementKey]
+      )
+    })
+  }
+  return message
+}
 
-const BuyButton = ({ payNote, payload }) => (
+const BuyButton = ({ payNote, payload, darkMode }) => (
   <Button
     primary
+    href={payNote.button.link}
+    white={darkMode}
     onClick={trackEventOnClick(
       ['PayNote', `pledge ${payload.position}`, payload.variation],
       () => goTo(payNote.button.link)
@@ -240,10 +324,13 @@ const BuyButton = ({ payNote, payload }) => (
   </Button>
 )
 
-const SecondaryCta = ({ payNote, payload }) =>
+const SecondaryCta = ({ payNote, payload, darkMode }) =>
   payNote.secondary && payNote.secondary.link ? (
-    <div {...styles.aside}>
-      <span>{payNote.secondary.prefix}</span>
+    <div
+      {...merge(styles.aside, darkMode && styles.asideDark)}
+      {...(darkMode ? styles.linksDark : styles.links)}
+    >
+      <span>{payNote.secondary.prefix} </span>
       <a
         key='secondary'
         href={payNote.secondary.link}
@@ -252,15 +339,15 @@ const SecondaryCta = ({ payNote, payload }) =>
           () => goTo(payNote.secondary.link)
         )}
       >
-        {` ${payNote.secondary.label}`}
+        {payNote.secondary.label}
       </a>
     </div>
   ) : null
 
-const BuyNoteCta = ({ payNote, payload }) => (
+const BuyNoteCta = ({ payNote, payload, darkMode }) => (
   <div {...styles.actions}>
-    <BuyButton payNote={payNote} payload={payload} />
-    <SecondaryCta payNote={payNote} payload={payload} />
+    <BuyButton darkMode={darkMode} payNote={payNote} payload={payload} />
+    <SecondaryCta darkMode={darkMode} payNote={payNote} payload={payload} />
   </div>
 )
 
@@ -295,7 +382,19 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
       {payNote.cta === 'trialForm' ? (
         <TryNoteCta darkMode={darkMode} payload={payload} />
       ) : (
-        <BuyNoteCta payNote={payNote} payload={payload} />
+        <BuyNoteCta darkMode={darkMode} payNote={payNote} payload={payload} />
+      )}
+      {payNote.note && (
+        <div
+          style={{ marginTop: 10, marginBottom: 5 }}
+          {...(darkMode ? styles.linksDark : styles.links)}
+        >
+          <Label
+            dangerouslySetInnerHTML={{
+              __html: payNote.note
+            }}
+          />
+        </div>
       )}
     </div>
   ) : null
@@ -303,6 +402,7 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
 const PayNoteP = ({ content, darkMode }) => (
   <Interaction.P
     {...styles.content}
+    {...(darkMode ? styles.linksDark : styles.links)}
     style={{ color: darkMode ? colors.negative.text : '#000000' }}
     dangerouslySetInnerHTML={{
       __html: content
@@ -323,14 +423,48 @@ export const PayNote = compose(
   withRouter,
   withInNativeApp,
   withMemberStatus,
-  graphql(memberShipQuery)
+  graphql(memberShipQuery, {
+    props: ({ data: { membershipStats, revenueStats, crowdfunding } }) => {
+      const latestGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
+
+      if (membershipStats && membershipStats.count && latestGoal) {
+        const remainingMemberships = Math.max(
+          0,
+          latestGoal.memberships - membershipStats.marchCount
+        )
+        const remainingMoney = Math.max(
+          0,
+          (latestGoal.money - revenueStats.surplus.total) / 100
+        )
+
+        return {
+          statReplacements: {
+            reached: remainingMemberships === 0,
+            count: countFormat(membershipStats.count),
+            remainingMemberships: countFormat(remainingMemberships),
+            remainingMoney: countFormat(remainingMoney)
+          }
+        }
+      }
+
+      return {
+        statReplacements: {
+          count: countFormat(
+            (membershipStats && membershipStats.count) || 19500
+          ),
+          remainingMemberships: 'viele',
+          remainingMoney: 'viele'
+        }
+      }
+    }
+  })
 )(
   ({
     router: { query },
     inNativeIOSApp,
     isEligibleForTrial,
     hasActiveMembership,
-    data: { membershipStats },
+    statReplacements,
     seed,
     tryOrBuy,
     documentId,
@@ -359,23 +493,26 @@ export const PayNote = compose(
       position
     }
     const isBefore = position === 'before'
+    const darkMode = isBefore
 
     return (
       <div
         {...styles.banner}
         style={{
-          backgroundColor: isBefore
-            ? colors.negative.primaryBg
-            : colors.primaryBg
+          backgroundColor: isBefore ? colors.error : colors.primaryBg
         }}
       >
         <Center>
           <PayNoteContent
-            content={withCount(positionedNote.content, membershipStats)}
-            darkMode={isBefore}
+            content={withCounts(
+              (statReplacements.reached && positionedNote.contentReached) ||
+                positionedNote.content,
+              statReplacements
+            )}
+            darkMode={darkMode}
           />
           <PayNoteCta
-            darkMode={isBefore}
+            darkMode={darkMode}
             payNote={positionedNote}
             payload={payload}
           />

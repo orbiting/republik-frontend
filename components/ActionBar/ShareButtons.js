@@ -37,7 +37,7 @@ const ShareButtons = ({
   fill,
   onClose,
   grid,
-  socialMediaOnly
+  pocket = false
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
   useEffect(() => {
@@ -85,7 +85,8 @@ const ShareButtons = ({
       title: t('article/actionbar/email/title'),
       label: t('article/actionbar/email/label')
     },
-    {
+    pocket && {
+      target: '_blank',
       href: `https://getpocket.com/save?url=${encodeURIComponent(url)}`,
       icon: 'pocket',
       title: t('article/actionbar/pocket/title'),
@@ -110,42 +111,40 @@ const ShareButtons = ({
         minWidth: 105
       }
     }
-  ]
+  ].filter(Boolean)
 
   return (
     <div {...styles.buttonGroup}>
-      {shareOptions
-        .slice(0, socialMediaOnly ? 2 : shareOptions.length)
-        .map(props => (
-          <IconLink
-            key={props.icon}
-            fill={fill}
-            size={32}
-            stacked
-            {...props}
-            onClick={e => {
-              track(['trackEvent', eventCategory, props.icon, url])
-              if (props.onClick) {
-                return props.onClick(e)
-              }
-              onClose && onClose()
-            }}
-            style={
-              grid
-                ? {
-                    padding: 0,
-                    width: '33%',
-                    ...props.style
-                  }
-                : {
-                    marginRight: 20,
-                    ...props.style
-                  }
+      {shareOptions.map(props => (
+        <IconLink
+          key={props.icon}
+          fill={fill}
+          size={32}
+          stacked
+          {...props}
+          onClick={e => {
+            track(['trackEvent', eventCategory, props.icon, url])
+            if (props.onClick) {
+              return props.onClick(e)
             }
-          >
-            {props.label}
-          </IconLink>
-        ))}
+            onClose && onClose()
+          }}
+          style={
+            grid
+              ? {
+                  padding: 0,
+                  width: '33%',
+                  ...props.style
+                }
+              : {
+                  marginRight: 20,
+                  ...props.style
+                }
+          }
+        >
+          {props.label}
+        </IconLink>
+      ))}
     </div>
   )
 }

@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import ActionBar from './'
 import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
 
-import { colors, fontStyles } from '@project-r/styleguide'
+import { fontStyles } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
 
 class ArticleActionBar extends Component {
@@ -70,6 +69,7 @@ class ArticleActionBar extends Component {
       <Fragment>
         <ActionBar
           url={url}
+          pocket
           title={title}
           shareOverlayTitle={t('article/share/title')}
           animate={animate}
@@ -108,6 +108,7 @@ class ArticleActionBar extends Component {
             </h3>
             <ShareButtons
               url={url}
+              pocket
               tweet={tweet}
               emailSubject={emailSubject}
               emailBody={emailBody}

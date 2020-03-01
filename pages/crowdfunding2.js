@@ -141,6 +141,9 @@ const styles = {
     [mediaQueries.mUp]: {
       margin: '50px 0'
     }
+  }),
+  tnum: css({
+    fontFeatureSettings: '"tnum" 1, "kern" 1'
   })
 }
 
@@ -387,10 +390,16 @@ ${pledgeLink}
                   {remainingMoney > 0 && remainingPeople > 0 && (
                     <>
                       Damit die Republik in Zukunft bestehen kann, brauchen wir
-                      bis am 31.&nbsp;März noch {countFormat(remainingPeople)}{' '}
-                      Mitglieder und Abonnenten und{' '}
-                      {countFormat(remainingMoney)} Franken. Um die Ziele zu
-                      erreichen, wollen wir diesen Monat um{' '}
+                      bis am 31.&nbsp;März noch{' '}
+                      <span {...styles.tnum}>
+                        {countFormat(remainingPeople)}
+                      </span>
+                      &nbsp;Mitglieder und Abonnenten und{' '}
+                      <span {...styles.tnum}>
+                        {countFormat(remainingMoney)}
+                      </span>{' '}
+                      Franken. Um die Ziele zu erreichen, wollen wir diesen
+                      Monat um{' '}
                       <Highlight>3000 Mitgliedschaften und Abos</Highlight>{' '}
                       wachsen. Denn eine möglichst grosse Verlegerschaft sichert
                       die Republik langfristig am besten.

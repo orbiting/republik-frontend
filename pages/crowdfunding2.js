@@ -28,6 +28,7 @@ import withSurviveStatus, {
   mapActionData
 } from '../components/Crowdfunding/withSurviveStatus'
 import ReasonsCover from '../components/Crowdfunding/ReasonsCover'
+import { getRandomReason } from '../components/Crowdfunding/reasonData'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -164,6 +165,7 @@ const Page = ({
   defaultBenefactor,
   activeMembership,
   actionsLoading,
+  reason,
   t
 }) => {
   useEffect(() => {
@@ -304,12 +306,7 @@ const Page = ({
           )*/}
           <VideoCover
             src={VIDEOS.main}
-            customCover={
-              <ReasonsCover
-                loading={data.loading}
-                reason={data.reasons && data.reasons.nodes[0]}
-              />
-            }
+            customCover={<ReasonsCover reason={reason} />}
             playTop='65%'
             endScroll={0.97}
           />
@@ -652,7 +649,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
   )
 }
 
-export default compose(
+const EnhancedPage = compose(
   withRouter,
   withSurviveStatus,
   withMe,
@@ -672,3 +669,11 @@ export default compose(
   withInNativeApp,
   withT
 )(Page)
+
+EnhancedPage.getInitialProps = () => {
+  return {
+    reason: getRandomReason()
+  }
+}
+
+export default EnhancedPage

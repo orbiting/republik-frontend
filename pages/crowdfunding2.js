@@ -192,8 +192,9 @@ const Page = ({
   // ensure the highlighFunction is not dedected as an state update function
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
 
+  const tokenParams = query.token ? { token: query.token } : {}
   const primaryParams = shouldBuyProlong
-    ? { package: 'PROLONG' }
+    ? { package: 'PROLONG', ...tokenParams }
     : activeMembership
     ? { package: 'ABO_GIVE', filter: 'pot' }
     : { package: 'ABO' }
@@ -227,13 +228,15 @@ const Page = ({
         {
           name: 'PROLONG',
           title: isReactivating ? 'Zurückkehren' : 'Verlängern',
+          params: tokenParams,
           price: 24000
         },
         {
           name: 'PROLONG-BEN',
           params: {
             package: 'PROLONG',
-            membershipType: 'BENEFACTOR_ABO'
+            membershipType: 'BENEFACTOR_ABO',
+            ...tokenParams
           },
           title: defaultBenefactor ? 'Gönner bleiben' : 'Gönner werden',
           price: 100000

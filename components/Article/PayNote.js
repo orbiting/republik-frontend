@@ -424,6 +424,7 @@ export const PayNote = compose(
   withInNativeApp,
   withMemberStatus,
   graphql(memberShipQuery, {
+    skip: props => props.hasActiveMembership,
     props: ({ data: { membershipStats, revenueStats, crowdfunding } }) => {
       const latestGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
 

@@ -713,6 +713,7 @@ class ArticlePage extends Component {
             const suppressFirstPayNote =
               suppressPayNotes ||
               podcast ||
+              meta.path === '/top-storys' ||
               (router.query.utm_source &&
                 router.query.utm_source === 'newsletter') ||
               (router.query.utm_source &&
@@ -814,13 +815,6 @@ class ArticlePage extends Component {
                     </article>
                   </ProgressComponent>
                 </ArticleGallery>
-                {!suppressPayNotes && !darkMode && (
-                  <Center>
-                    <LazyLoad>
-                      <SurviveStatus />
-                    </LazyLoad>
-                  </Center>
-                )}
                 {meta.template === 'article' &&
                   ownDiscussion &&
                   !ownDiscussion.closed &&
@@ -839,6 +833,13 @@ class ArticlePage extends Component {
                       mute={!!router.query.mute}
                       board={ownDiscussion.isBoard}
                     />
+                  </Center>
+                )}
+                {!suppressPayNotes && !darkMode && (
+                  <Center>
+                    <LazyLoad style={{ display: 'block', minHeight: 120 }}>
+                      <SurviveStatus />
+                    </LazyLoad>
                   </Center>
                 )}
                 {isMember && (

@@ -44,7 +44,8 @@ import {
   ColorContext,
   colors,
   Interaction,
-  mediaQueries
+  mediaQueries,
+  LazyLoad
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -815,7 +816,9 @@ class ArticlePage extends Component {
                 </ArticleGallery>
                 {!suppressPayNotes && !darkMode && (
                   <Center>
-                    <SurviveStatus />
+                    <LazyLoad>
+                      <SurviveStatus />
+                    </LazyLoad>
                   </Center>
                 )}
                 {meta.template === 'article' &&

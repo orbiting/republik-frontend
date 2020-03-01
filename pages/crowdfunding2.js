@@ -45,7 +45,8 @@ import {
   colors,
   linkRule,
   Interaction,
-  mediaQueries
+  mediaQueries,
+  LazyLoad
 } from '@project-r/styleguide'
 
 const query = gql`
@@ -638,11 +639,14 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
   `}
           {crowdfunding && (
             <div style={{ margin: '20px 0' }}>
-              <TestimonialList
-                first={10}
-                membershipAfter={crowdfunding.endDate}
-                share={false}
-              />
+              <LazyLoad>
+                <TestimonialList
+                  first={10}
+                  ssr={false}
+                  membershipAfter={crowdfunding.endDate}
+                  share={false}
+                />
+              </LazyLoad>
             </div>
           )}
 

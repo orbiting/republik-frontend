@@ -523,6 +523,7 @@ ${!activeMembership ? pledgeLink : ''}
                     onHighlight={onHighlight}
                     maxHeight={500}
                     maxColumns={8}
+                    lazy
                   />
                 )}
               />

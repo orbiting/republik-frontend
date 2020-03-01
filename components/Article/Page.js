@@ -835,13 +835,6 @@ class ArticlePage extends Component {
                     />
                   </Center>
                 )}
-                {!suppressPayNotes && !darkMode && (
-                  <Center>
-                    <LazyLoad style={{ display: 'block', minHeight: 120 }}>
-                      <SurviveStatus />
-                    </LazyLoad>
-                  </Center>
-                )}
                 {isMember && (
                   <Fragment>
                     {meta.template === 'article' && (
@@ -855,6 +848,13 @@ class ArticlePage extends Component {
                 {!!podcast && meta.template !== 'article' && (
                   <Center>
                     <PodcastButtons {...podcast} />
+                  </Center>
+                )}
+                {!suppressPayNotes && !darkMode && (
+                  <Center>
+                    <LazyLoad style={{ display: 'block', minHeight: 120 }}>
+                      <SurviveStatus />
+                    </LazyLoad>
                   </Center>
                 )}
                 {isMember && episodes && (

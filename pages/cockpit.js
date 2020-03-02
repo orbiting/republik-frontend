@@ -359,6 +359,9 @@ const Page = ({
         render={() => {
           const { evolution, count } = surviveData.membershipStats
           const lastMonth = evolution.buckets[evolution.buckets.length - 1]
+          const reachedMemberGoal =
+            lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly >
+            19000
 
           const currentYearMonth = formatYearMonth(new Date())
 
@@ -683,13 +686,14 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtch
                         value:
                           lastMonth.activeEndOfMonth +
                           lastMonth.pendingSubscriptionsOnly,
-                        position: 'bottom'
+                        position: reachedMemberGoal ? 'top' : 'bottom'
                       },
                       {
                         x1: '2020-03',
                         x2: '2020-03',
                         label: 'Ziel per 31. März',
-                        value: 19000
+                        value: 19000,
+                        position: reachedMemberGoal ? 'bottom' : 'top'
                       }
                     ].filter(Boolean)
                   }}

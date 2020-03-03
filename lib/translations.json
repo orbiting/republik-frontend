@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-02T16:43:58.474Z",
+  "updated": "2020-03-03T16:58:54.756Z",
   "title": "live",
   "data": [
     {
@@ -1172,15 +1172,7 @@
     },
     {
       "key": "Account/Access/Campaigns/title",
-      "value": "Zugriff teilen"
-    },
-    {
-      "key": "Account/Access/Campaigns/Campaign/claimNotice",
-      "value": "(Gutscheincodes können auf {linkClaim} eingelöst werden.)"
-    },
-    {
-      "key": "Account/Access/Campaigns/Campaign/claimNotice/linkClaim",
-      "value": "republik.ch/abholen"
+      "value": "Republik teilen"
     },
     {
       "key": "Account/Access/Campaigns/Form/title/0",
@@ -1192,11 +1184,11 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation",
-      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}, auf dem der Gutscheincode eingelöst werden kann."
+      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}, mit dem der Gutscheincode eingelöst werden kann."
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation/linkClaim",
-      "value": "Link zur /abholen-Seite"
+      "value": "republik.ch/abholen-Link"
     },
     {
       "key": "Account/Access/Campaigns/Form/reset",

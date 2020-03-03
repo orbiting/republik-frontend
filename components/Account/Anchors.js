@@ -6,7 +6,7 @@ import { linkRule } from '@project-r/styleguide'
 
 import { APP_OPTIONS } from '../../lib/constants'
 import { focusSelector } from '../../lib/utils/scroll'
-import { Router } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 import query from './belongingsQuery'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
@@ -58,9 +58,9 @@ const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
     )}
     {accessCampaigns && accessCampaigns.length > 0 && (
       <li {...styles.anchorListItem}>
-        <AnchorLink id='teilen'>
-          {t('Account/Access/Campaigns/title')}
-        </AnchorLink>
+        <Link route='access' passHref>
+          <a {...linkRule}>{t('Account/Access/Campaigns/title')}</a>
+        </Link>
       </li>
     )}
     <li {...styles.anchorListItem}>

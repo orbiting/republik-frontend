@@ -1,6 +1,14 @@
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
+const notification = gql`
+  fragment Notification on Notification {
+    id
+    readAt
+    createdAt
+  }
+`
+
 export const notificationsQuery = gql`
   query getNotifications($after: String) {
     notifications(first: 7, after: $after) {
@@ -12,7 +20,7 @@ export const notificationsQuery = gql`
         startCursor
       }
       nodes {
-        id
+        ...Notification
         object {
           ... on Document {
             id
@@ -75,28 +83,42 @@ export const notificationsQuery = gql`
           id
           status
         }
-        readAt
-        createdAt
       }
     }
   }
+  ${notification}
+`
+
+const notificationCountQuery = gql`
+  query getNotificationCount {
+    notifications {
+      nodes {
+        ...Notification
+      }
+    }
+  }
+  ${notification}
 `
 
 const markAsReadMutation = gql`
   mutation cancelMembership($id: ID!) {
     markNotificationAsRead(id: $id) {
-      id
+      ...Notification
     }
   }
+  ${notification}
 `
 
-export const notificationSubscription = gql`
+const notificationSubscription = gql`
   subscription {
     notification {
-      id
+      ...Notification
     }
   }
+  ${notification}
 `
+
+export const withNotificationCount = graphql(notificationCountQuery)
 
 export const withMarkAsReadMutation = graphql(markAsReadMutation, {
   props: ({ mutate }) => ({

@@ -662,8 +662,6 @@ class ArticlePage extends Component {
       />
     )
 
-    console.log(meta, article)
-
     const payNoteAfter =
       payNote && React.cloneElement(payNote, { position: 'after' })
 

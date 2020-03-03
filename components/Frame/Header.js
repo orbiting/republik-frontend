@@ -19,7 +19,6 @@ import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
 
 import Search from 'react-icons/lib/md/search'
-import Notifications from 'react-icons/lib/md/notifications-none'
 import BackIcon from '../Icons/Back'
 
 import { shouldIgnoreClick } from '../Link/utils'
@@ -31,11 +30,30 @@ import {
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE
+  LOGO_PADDING_MOBILE,
+  ICON_BUTTON_WIDTH
 } from '../constants'
+import NotificationIcon from '../Notifications/NotificationIcon'
 
-const ICON_BUTTON_WIDTH = 22
 const TRANSITION_MS = 200
+
+export const menuIconStyle = css({
+  '@media print': {
+    display: 'none'
+  },
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  overflow: 'hidden',
+  top: 0,
+  height: HEADER_HEIGHT_MOBILE - 2,
+  width: ICON_BUTTON_WIDTH,
+  [mediaQueries.mUp]: {
+    height: HEADER_HEIGHT - 2,
+    width: HEADER_HEIGHT - 2 - 10
+  }
+})
 
 const styles = {
   bar: css({
@@ -105,46 +123,7 @@ const styles = {
       width: HEADER_HEIGHT - 2 + 5
     }
   }),
-  menuIcons: css({
-    '@media print': {
-      display: 'none'
-    },
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    overflow: 'hidden',
-    top: 0,
-    height: HEADER_HEIGHT_MOBILE - 2,
-    width: ICON_BUTTON_WIDTH,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT - 2,
-      width: HEADER_HEIGHT - 2 - 10
-    }
-  }),
-  notifications: css({
-    right: HEADER_HEIGHT_MOBILE + ICON_BUTTON_WIDTH,
-    [mediaQueries.mUp]: {
-      right: HEADER_HEIGHT + ICON_BUTTON_WIDTH + 5
-    }
-  }),
-  unreadNotifications: css({
-    '&:after': {
-      content: ' ',
-      width: 8,
-      height: 8,
-      borderRadius: 8,
-      border: `1px solid ${colors.containerBg}`,
-      background: 'red',
-      position: 'absolute',
-      top: (HEADER_HEIGHT_MOBILE - ICON_BUTTON_WIDTH) / 2 + 1,
-      right: 2,
-      [mediaQueries.mUp]: {
-        top: (HEADER_HEIGHT - ICON_BUTTON_WIDTH) / 2 + 2,
-        right: 15
-      }
-    }
-  }),
+  menuIcons: menuIconStyle,
   search: css({
     right: HEADER_HEIGHT_MOBILE - 1,
     [mediaQueries.mUp]: {
@@ -454,21 +433,7 @@ class Header extends Component {
               )}
               {isMember && (
                 <>
-                  <a
-                    {...merge(
-                      styles.menuIcons,
-                      styles.notifications,
-                      unreadNotifications && styles.unreadNotifications
-                    )}
-                    title={t('header/nav/notifications/aria')}
-                    href='/notifications'
-                    onClick={goTo('/benachrichtigungen', 'notifications')}
-                  >
-                    <Notifications
-                      fill={textFill}
-                      size={ICON_BUTTON_WIDTH - 1}
-                    />
-                  </a>
+                  <NotificationIcon fill={textFill} />
                   <a
                     {...merge(styles.menuIcons, styles.search)}
                     title={t('header/nav/search/aria')}

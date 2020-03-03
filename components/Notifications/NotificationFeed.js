@@ -59,7 +59,9 @@ export default ({ notifications, loadedAt, fetchMore }) => {
     <>
       <Interaction.H1 style={{ marginBottom: '40px' }}>
         {hasNewNodes
-          ? `${hasNewNodes} neue Benarichtigungen`
+          ? `${hasNewNodes} neue Benarichtigung${
+              newNodes.length > 1 ? 'en' : ''
+            }`
           : 'Alles gelesen!'}
       </Interaction.H1>
 
@@ -78,11 +80,7 @@ export default ({ notifications, loadedAt, fetchMore }) => {
               label={key}
             >
               {values.map((node, j) => (
-                <CommentNotification
-                  highlight={isNew(node)}
-                  node={node}
-                  key={j}
-                />
+                <CommentNotification isNew={isNew(node)} node={node} key={j} />
               ))}
             </StickySection>
           )

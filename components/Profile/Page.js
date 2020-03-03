@@ -404,6 +404,7 @@ class Profile extends Component {
             // deduplicating due to off by one in pagination API
             (node, index, all) => all.findIndex(n => n.id === node.id) === index
           )
+          console.log('fetchMore')
           return {
             ...previousResult,
             user: {

@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
 export const notificationsQuery = gql`
-  query {
-    notifications(first: 3) {
+  query getNotifications($after: String) {
+    notifications(first: 3, after: $after) {
       totalCount
       pageInfo {
         hasNextPage

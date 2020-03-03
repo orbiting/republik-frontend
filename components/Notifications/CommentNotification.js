@@ -4,11 +4,11 @@ import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import CommentLink from '../Discussion/CommentLink'
 import { merge } from 'glamor'
-import { fadeInStyle } from './index'
+import { isNewStyle } from './index'
 
-export default compose(withT)(({ t, node, fadeIn }) => {
+export default compose(withT)(({ t, node, isNew }) => {
   return (
-    <div {...merge({}, fadeIn && fadeInStyle)}>
+    <div {...merge({}, isNew && isNewStyle)}>
       <CommentTeaser
         {...node.object}
         context={{

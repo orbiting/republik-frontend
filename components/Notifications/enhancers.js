@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 
 export const notificationsQuery = gql`
   query {
@@ -80,3 +81,31 @@ export const notificationsQuery = gql`
     }
   }
 `
+
+const markAsReadMutation = gql`
+  mutation cancelMembership($id: ID!) {
+    markNotificationAsRead(id: $id) {
+      id
+    }
+  }
+`
+
+export const notificationSubscription = gql`
+  subscription {
+    notification {
+      id
+    }
+  }
+`
+
+export const withMarkAsReadMutation = graphql(markAsReadMutation, {
+  props: ({ mutate }) => ({
+    markAsReadMutation: id => {
+      return mutate({
+        variables: {
+          id
+        }
+      })
+    }
+  })
+})

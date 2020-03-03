@@ -1,6 +1,6 @@
 import { css, merge } from 'glamor'
 import Notifications from 'react-icons/lib/md/notifications-none'
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { menuIconStyle } from '../Frame/Header'
 import {
   HEADER_HEIGHT,
@@ -10,7 +10,7 @@ import {
 import { colors, mediaQueries } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
-import { withNotificationCount } from './enhancers'
+import { notificationSubscription, withNotificationCount } from './enhancers'
 
 const styles = {
   notifications: css({
@@ -41,11 +41,38 @@ const styles = {
 export default compose(
   withT,
   withNotificationCount
-)(({ t, data: { notifications }, fill }) => {
-  const hasUnread =
-    notifications &&
-    notifications.nodes &&
-    notifications.nodes.filter(n => !n.readAt).length
+)(({ t, data: { notifications, subscribeToMore }, fill }) => {
+  const [hasUnread, setUnread] = useState(false)
+
+  const subscribe = () =>
+    subscribeToMore({
+      document: notificationSubscription,
+      updateQuery: (prev = {}, { subscriptionData }) => {
+        if (!subscriptionData.data || !subscriptionData.data.notification) {
+          return prev
+        }
+        return {
+          ...prev,
+          notifications: {
+            ...prev.notifications,
+            nodes: [subscriptionData.data.notification].concat(
+              prev.notifications.nodes
+            )
+          }
+        }
+      }
+    })
+
+  useEffect(() => {
+    setUnread(
+      notifications &&
+        notifications.nodes &&
+        notifications.nodes.filter(n => !n.readAt).length
+    )
+    const unsubscribe = subscribe()
+    return () => unsubscribe()
+  }, [notifications])
+
   return (
     <a
       {...merge(

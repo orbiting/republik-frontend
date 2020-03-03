@@ -109,7 +109,7 @@ const markAsReadMutation = gql`
   ${notification}
 `
 
-const notificationSubscription = gql`
+export const notificationSubscription = gql`
   subscription {
     notification {
       ...Notification

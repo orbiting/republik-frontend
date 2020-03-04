@@ -1,5 +1,5 @@
 import React from 'react'
-import { Interaction } from '@project-r/styleguide'
+import { colors, Interaction, A, Center } from '@project-r/styleguide'
 import StickySection from '../Feed/StickySection'
 import CommentNotification from './CommentNotification'
 import InfiniteScroll from '../Frame/InfiniteScroll'
@@ -18,14 +18,36 @@ const styles = {
     position: 'relative',
     height: 50,
     padding: '20px 0 0 0'
+  }),
+  reloadBanner: css({
+    backgroundColor: colors.primaryBg
+  }),
+  reloadBannerButton: css({
+    cursor: 'pointer',
+    textDecoration: 'underline'
   })
 }
+
+const ReloadBanner = ({ futureNotifications, onReload }) =>
+  futureNotifications ? (
+    <div {...styles.reloadBanner}>
+      <Center>
+        <Interaction.P>
+          You have {futureNotifications} new notification
+          {futureNotifications > 1 ? 's' : ''}.{' '}
+          <span {...styles.reloadBannerButton} onClick={() => onReload()}>
+            Refresh?
+          </span>
+        </Interaction.P>
+      </Center>
+    </div>
+  ) : null
 
 export default ({
   notifications,
   loadedAt,
   fetchMore,
-  shouldReload,
+  futureNotifications,
   onReload
 }) => {
   const { nodes, totalCount, pageInfo } = notifications
@@ -63,36 +85,45 @@ export default ({
 
   return (
     <>
-      {shouldReload ? <span onClick={() => onReload()}>Reload</span> : null}
-      <Interaction.H1 style={{ marginBottom: '40px' }}>
-        {hasNewNodes
-          ? `${hasNewNodes} neue Benarichtigung${
-              newNodes.length > 1 ? 'en' : ''
-            }`
-          : 'Alles gelesen!'}
-      </Interaction.H1>
+      <ReloadBanner
+        futureNotifications={futureNotifications}
+        onReload={onReload}
+      />
+      <Center>
+        <Interaction.H1 style={{ marginBottom: '40px' }}>
+          {hasNewNodes
+            ? `${hasNewNodes} neue Benarichtigung${
+                newNodes.length > 1 ? 'en' : ''
+              }`
+            : 'Alles gelesen!'}
+        </Interaction.H1>
 
-      <InfiniteScroll
-        hasMore={hasNextPage}
-        loadMore={loadMore}
-        totalCount={totalCount}
-        currentCount={nodes.length}
-        loadMoreStyles={styles.more}
-      >
-        {groupByDate.entries(nodes).map(({ key, values }, i, all) => {
-          return (
-            <StickySection
-              key={i}
-              hasSpaceAfter={i < all.length - 1}
-              label={key}
-            >
-              {values.map((node, j) => (
-                <CommentNotification isNew={isNew(node)} node={node} key={j} />
-              ))}
-            </StickySection>
-          )
-        })}
-      </InfiniteScroll>
+        <InfiniteScroll
+          hasMore={hasNextPage}
+          loadMore={loadMore}
+          totalCount={totalCount}
+          currentCount={nodes.length}
+          loadMoreStyles={styles.more}
+        >
+          {groupByDate.entries(nodes).map(({ key, values }, i, all) => {
+            return (
+              <StickySection
+                key={i}
+                hasSpaceAfter={i < all.length - 1}
+                label={key}
+              >
+                {values.map((node, j) => (
+                  <CommentNotification
+                    isNew={isNew(node)}
+                    node={node}
+                    key={j}
+                  />
+                ))}
+              </StickySection>
+            )
+          })}
+        </InfiniteScroll>
+      </Center>
     </>
   )
 }

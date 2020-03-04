@@ -230,7 +230,7 @@ const Front = ({
                 <div style={{ marginBottom: 10 }}>
                   {t.elements('front/chronology', {
                     years: intersperse(
-                      [2019, 2018].map(year => (
+                      [2020, 2019, 2018].map(year => (
                         <Link
                           key={year}
                           route='overview'

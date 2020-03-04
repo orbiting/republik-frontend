@@ -127,7 +127,7 @@ class StickySection extends Component {
 
 StickySection.propTypes = {
   hasSpaceAfter: PropTypes.bool,
-  label: PropTypes.string
+  label: PropTypes.string.isRequired
 }
 
 StickySection.defaultProps = {

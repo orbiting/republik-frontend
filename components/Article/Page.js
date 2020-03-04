@@ -74,7 +74,6 @@ import gql from 'graphql-tag'
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
-import SubscribeButton from "../Notifications/SubscribeButton";
 /* eslint-enable */
 
 const schemaCreators = {

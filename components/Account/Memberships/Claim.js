@@ -38,19 +38,23 @@ const styles = {
   })
 }
 
-export const isMembershipVoucherCode = voucherCode => {
+const isMembershipVoucherCode = voucherCode => {
   return voucherCode.length === 6
 }
 
-export const isAccessGrantVoucherCode = voucherCode => {
-  return voucherCode.length === 5
+const voucherCodeForMembership = voucherCode => {
+  return voucherCode.length === 6 || voucherCode.length === 7
+}
+
+const isAccessGrantVoucherCode = voucherCode => {
+  return voucherCode.length === 5 || voucherCode.length === 7
 }
 
 export const sanitizeVoucherCode = value => {
   return value
     .replace(/[^a-zA-Z0-9]/g, '')
     .trim()
-    .substr(0, 6)
+    .substr(0, 7)
     .toUpperCase()
 }
 
@@ -195,6 +199,7 @@ class ClaimMembership extends Component {
 
     const claim = () => {
       const code = sanitizeVoucherCode(values.voucherCode)
+      const context = voucherCodeForMembership(code) ? 'claim' : 'access'
 
       const claimWith = (mutation, { code, context = 'unknown' }) =>
         mutation(code)
@@ -205,9 +210,9 @@ class ClaimMembership extends Component {
           .catch(catchError)
 
       if (isAccessGrantVoucherCode(code)) {
-        claimWith(this.props.claimAccess, { code, context: 'access' })
+        claimWith(this.props.claimAccess, { code, context })
       } else {
-        claimWith(this.props.claimMembership, { code, context: 'claim' })
+        claimWith(this.props.claimMembership, { code, context })
       }
     }
 
@@ -243,7 +248,7 @@ class ClaimMembership extends Component {
 
     const requiredConsents = ['PRIVACY', 'TOS']
 
-    if (values.voucherCode && isMembershipVoucherCode(values.voucherCode)) {
+    if (values.voucherCode && voucherCodeForMembership(values.voucherCode)) {
       requiredConsents.push('STATUTE')
     }
 

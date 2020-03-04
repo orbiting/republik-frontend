@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { css } from 'glamor'
-import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { compose } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
 import { max } from 'd3-array'
 
@@ -26,7 +25,10 @@ import { countFormat } from '../lib/utils/format'
 
 import { PackageItem, PackageBuffer } from '../components/Pledge/Accordion'
 
-import { RawStatus } from '../components/CrowdfundingStatus'
+import withSurviveStatus, {
+  withSurviveActions
+} from '../components/Crowdfunding/withSurviveStatus'
+import { RawStatus } from '../components/Crowdfunding/Status'
 import withT from '../lib/withT'
 
 import {
@@ -34,11 +36,7 @@ import {
   generateSeed
 } from '../components/Testimonial/List'
 
-import {
-  CROWDFUNDING,
-  STATUS_POLL_INTERVAL_MS,
-  CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { CROWDFUNDING, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
 import { Link, questionnaireCrowdSlug } from '../lib/routes'
 import { swissTime } from '../lib/utils/format'
@@ -101,7 +99,6 @@ const Accordion = withInNativeApp(
       shouldBuyProlong,
       isReactivating,
       defaultBenefactor,
-      questionnaire,
       inNativeIOSApp
     }) => {
       const [hover, setHover] = useState()
@@ -291,11 +288,7 @@ const PrimaryCTA = withInNativeApp(
         params: { package: 'ABO' }
       }
       text = 'Mitglied werden'
-    } else if (
-      questionnaire &&
-      questionnaire.userIsEligible &&
-      !questionnaire.userHasSubmitted
-    ) {
+    } else if (questionnaire && questionnaire.shouldAnswer) {
       target = {
         route: 'questionnaireCrowd',
         params: { slug: questionnaireCrowdSlug }
@@ -322,16 +315,17 @@ const PrimaryCTA = withInNativeApp(
 )
 
 const Page = ({
-  data,
+  surviveData,
   t,
   me,
   inNativeIOSApp,
   actionsLoading,
   questionnaire,
-  canProlongOwn,
+  shouldBuyProlong,
   isReactivating,
   defaultBenefactor,
   communitySeed,
+  crowdfunding,
   router: { query }
 }) => {
   const meta = {
@@ -359,53 +353,44 @@ const Page = ({
   return (
     <Frame meta={meta} dark>
       <Loader
-        loading={data.loading || actionsLoading}
-        error={data.error}
+        loading={surviveData.loading || actionsLoading}
+        error={surviveData.error}
         style={{ minHeight: `calc(90vh)` }}
         render={() => {
-          const { evolution, count } = data.membershipStats
-          const firstMonth = evolution.buckets[0]
+          const { evolution, count } = surviveData.membershipStats
           const lastMonth = evolution.buckets[evolution.buckets.length - 1]
+          const reachedMemberGoal =
+            lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly >
+            19000
 
-          const shouldBuyProlong =
-            canProlongOwn &&
-            (!me ||
-              (me.activeMembership &&
-                new Date(me.activeMembership.endDate) <= new Date(END_DATE)))
           const currentYearMonth = formatYearMonth(new Date())
 
           return (
             <>
               <div style={{ marginBottom: 60 }}>
+                {md(mdComponents)`
+
+${t('cockpit/march20/prefix')} ${(
+                  <Link route='crowdfunding2' passHref>
+                    <Editorial.A>{t('cockpit/march20/link')}</Editorial.A>
+                  </Link>
+                )}
+
+                `}
+                <br />
                 <RawStatus
                   t={t}
+                  color='#fff'
+                  barColor='#333'
                   people
                   money
-                  crowdfundingName='SURVIVE'
+                  crowdfundingName={crowdfunding.name}
                   labelReplacements={{
                     openPeople: countFormat(
                       lastMonth.pending - lastMonth.pendingSubscriptionsOnly
                     )
                   }}
-                  crowdfunding={{
-                    endDate: END_DATE,
-                    goals: [
-                      {
-                        people: 19000,
-                        money: 220000000
-                      }
-                    ],
-                    status: {
-                      current: count,
-                      people:
-                        lastMonth.activeEndOfMonth +
-                        lastMonth.pendingSubscriptionsOnly,
-                      money: data.revenueStats.surplus.total,
-                      support: data.questionnaire
-                        ? data.questionnaire.turnout.submitted
-                        : undefined
-                    }
-                  }}
+                  crowdfunding={crowdfunding}
                 />
               </div>
               {md(mdComponents)`
@@ -534,7 +519,14 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
               </Fragment>
               {md(mdComponents)`
 
-Am 1. März findet der Tag der Bekanntmachung mit Feier und Debatte in der Gessnerallee in Zürich statt: [Jetzt anmelden](https://www.eventbrite.de/e/zur-zukunft-der-republik-registrierung-92171500439).
+_01.03.2020, Project-R-Newsletter_  
+[Ein Wachstumsschub für die Zukunft der Republik](https://project-r.construction/newsletter/2020-03-01-wachstum)
+
+_15.02.2020, Experiment 2_  
+[Eine Woche Republik in 10 Minuten](https://www.republik.ch/2020/02/15/schon-gehoert-eine-woche-republik-in-zehn-minuten)
+
+_07.02.2020, Experiment 1_  
+[Ein «Zettelbrett» für journalistische Glanzstücke](https://www.republik.ch/2020/02/07/die-welt-ist-voll-mit-gutem-journalismus-teilen-sie-ihn-mit-der-community)
 
 _04.02.2020, Project-R-Newsletter_  
 [Danke für 75 Prozent!](https://project-r.construction/newsletter/2020-02-04-75-prozent)
@@ -587,6 +579,8 @@ Falls Sie sich vorstellen können, dabei zu sein, haben wir ein kleines Formular
 ${
   questionnaire && questionnaire.userHasSubmitted ? (
     'Vielen Dank fürs Ausfüllen.'
+  ) : questionnaire && questionnaire.hasEnded ? (
+    'Nicht mehr verfügbar.'
   ) : (
     <Link
       route='questionnaireCrowd'
@@ -692,13 +686,14 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtch
                         value:
                           lastMonth.activeEndOfMonth +
                           lastMonth.pendingSubscriptionsOnly,
-                        position: 'bottom'
+                        position: reachedMemberGoal ? 'top' : 'bottom'
                       },
                       {
                         x1: '2020-03',
                         x2: '2020-03',
                         label: 'Ziel per 31. März',
-                        value: 19000
+                        value: 19000,
+                        position: reachedMemberGoal ? 'bottom' : 'top'
                       }
                     ].filter(Boolean)
                   }}
@@ -846,19 +841,17 @@ Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik k�
               <br />
               <br />
 
-              {questionnaire &&
-                questionnaire.userIsEligible &&
-                !questionnaire.userHasSubmitted && (
-                  <Link
-                    route='questionnaireCrowd'
-                    params={{ slug: questionnaireCrowdSlug }}
-                    passHref
-                  >
-                    <Button white block>
-                      Komplizin werden
-                    </Button>
-                  </Link>
-                )}
+              {questionnaire && questionnaire.shouldAnswer && (
+                <Link
+                  route='questionnaireCrowd'
+                  params={{ slug: questionnaireCrowdSlug }}
+                  passHref
+                >
+                  <Button white block>
+                    Komplizin werden
+                  </Button>
+                </Link>
+              )}
 
               <br />
               <br />
@@ -870,118 +863,13 @@ Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik k�
   )
 }
 
-const statusQuery = gql`
-  query StatusPage {
-    revenueStats {
-      surplus(min: "2019-11-30T23:00:00Z") {
-        total
-        updatedAt
-      }
-    }
-    membershipStats {
-      count
-      evolution(min: "2019-12", max: "2020-03") {
-        buckets {
-          key
-
-          gaining
-
-          ending
-          expired
-          cancelled
-
-          activeEndOfMonth
-
-          pending
-          pendingSubscriptionsOnly
-        }
-        updatedAt
-      }
-    }
-    questionnaire(slug: "${questionnaireCrowdSlug}") {
-      id
-      turnout {
-        submitted
-      }
-    }
-  }
-`
-
-const actionsQuery = gql`
-  query StatusPageActions($accessToken: ID) {
-    me(accessToken: $accessToken) {
-      id
-      customPackages {
-        options {
-          membership {
-            id
-            user {
-              id
-            }
-            graceEndDate
-          }
-          defaultAmount
-          reward {
-            ... on MembershipType {
-              name
-            }
-          }
-        }
-      }
-    }
-    questionnaire(slug: "${questionnaireCrowdSlug}") {
-      id
-      userIsEligible
-      userHasSubmitted
-    }
-  }
-`
-
 const EnhancedPage = compose(
   withT,
   withMe,
   withRouter,
   withInNativeApp,
-  graphql(statusQuery, {
-    options: {
-      pollInterval: +STATUS_POLL_INTERVAL_MS
-    }
-  }),
-  graphql(actionsQuery, {
-    props: ({ data: { loading, me, questionnaire } }) => {
-      const isOptionWithOwn = o =>
-        o.membership && o.membership.user && o.membership.user.id === me.id
-      const customPackageWithOwn =
-        me &&
-        me.customPackages &&
-        me.customPackages.find(p => p.options.some(isOptionWithOwn))
-      const ownMembership =
-        customPackageWithOwn &&
-        customPackageWithOwn.options.find(isOptionWithOwn).membership
-      return {
-        actionsLoading: loading,
-        questionnaire,
-        canProlongOwn: !!customPackageWithOwn,
-        isReactivating:
-          ownMembership && new Date(ownMembership.graceEndDate) < new Date(),
-        defaultBenefactor:
-          !!customPackageWithOwn &&
-          me.customPackages.some(p =>
-            p.options.some(
-              o =>
-                isOptionWithOwn(o) &&
-                o.defaultAmount === 1 &&
-                o.reward.name === 'BENEFACTOR_ABO'
-            )
-          )
-      }
-    },
-    options: ({ router: { query } }) => ({
-      variables: {
-        accessToken: query.token
-      }
-    })
-  })
+  withSurviveActions,
+  withSurviveStatus
 )(Page)
 
 EnhancedPage.getInitialProps = () => {

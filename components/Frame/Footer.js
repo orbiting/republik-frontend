@@ -237,13 +237,13 @@ class Footer extends Component {
               {me && me.accessCampaigns.length > 0 && (
                 <Fragment>
                   <a
-                    href='/konto#teilen'
+                    href='/teilen'
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
                         return
                       }
 
-                      Router.pushRoute('/konto#teilen')
+                      Router.pushRoute('/teilen')
                     }}
                   >
                     {t('footer/me/share')}

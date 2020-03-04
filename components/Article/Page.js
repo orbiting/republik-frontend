@@ -31,6 +31,8 @@ import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
 
+import SurviveStatus from '../Crowdfunding/SurviveStatus'
+
 import Progress from './Progress'
 import { userProgressFragment } from './Progress/api'
 
@@ -42,7 +44,8 @@ import {
   ColorContext,
   colors,
   Interaction,
-  mediaQueries
+  mediaQueries,
+  LazyLoad
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -707,9 +710,15 @@ class ArticlePage extends Component {
 
             const isFormat = meta.template === 'format'
             const isSection = meta.template === 'section'
-            const isNewsletterSource =
-              router.query.utm_source &&
-              router.query.utm_source === 'newsletter'
+            const suppressPayNotes = isSection || isFormat
+            const suppressFirstPayNote =
+              suppressPayNotes ||
+              podcast ||
+              meta.path === '/top-storys' ||
+              (router.query.utm_source &&
+                router.query.utm_source === 'newsletter') ||
+              (router.query.utm_source &&
+                router.query.utm_source === 'flyer-v1')
             const ownDiscussion = meta.ownDiscussion
             const linkedDiscussion =
               meta.linkedDiscussion && !meta.linkedDiscussion.closed
@@ -790,11 +799,7 @@ class ArticlePage extends Component {
                               </>
                             )}
                           </Center>
-                          {!isSection &&
-                            !isFormat &&
-                            !isNewsletterSource &&
-                            !podcast &&
-                            payNote}
+                          {!suppressFirstPayNote && payNote}
                         </div>
                       )}
                       <SSRCachingBoundary
@@ -846,6 +851,13 @@ class ArticlePage extends Component {
                     <PodcastButtons {...podcast} />
                   </Center>
                 )}
+                {!suppressPayNotes && !darkMode && (
+                  <Center>
+                    <LazyLoad style={{ display: 'block', minHeight: 120 }}>
+                      <SurviveStatus />
+                    </LazyLoad>
+                  </Center>
+                )}
                 {isMember && episodes && (
                   <RelatedEpisodes
                     title={series.title}
@@ -868,7 +880,7 @@ class ArticlePage extends Component {
                     <br />
                   </Fragment>
                 )}
-                {!isSection && !isFormat && payNoteAfter}
+                {!suppressPayNotes && payNoteAfter}
               </Fragment>
             )
           }}

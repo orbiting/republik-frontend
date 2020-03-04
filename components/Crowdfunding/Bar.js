@@ -3,7 +3,6 @@ import { css, merge } from 'glamor'
 
 import { colors, fontFamilies, RawHtml } from '@project-r/styleguide'
 
-const BAR_COLOR = '#333333'
 const HEIGHT = 8
 
 const styles = {
@@ -11,7 +10,6 @@ const styles = {
     height: 8,
     marginTop: -20,
     marginBottom: 20,
-    backgroundColor: BAR_COLOR,
     position: 'relative'
   }),
   barInner: css({
@@ -25,7 +23,7 @@ const styles = {
     height: HEIGHT,
     backgroundColor: 'transparent',
     boxSizing: 'content-box',
-    borderRight: `2px solid ${BAR_COLOR}`
+    borderRight: `2px solid transparent`
   }),
   currentGoal: css({
     borderRight: 'none'
@@ -92,7 +90,14 @@ class GoalBar extends Component {
     this.state = {}
   }
   render() {
-    const { status, goals, accessor, format, showLast } = this.props
+    const {
+      status,
+      goals,
+      accessor,
+      format,
+      showLast,
+      color = '#EAEDEB'
+    } = this.props
     const goal = goals[goals.length - 1]
 
     const uniqueGoals = goals
@@ -102,7 +107,13 @@ class GoalBar extends Component {
     const hover = this.state.hover || (showLast && uniqueGoals[0])
 
     return (
-      <div {...styles.bar} style={{ zIndex: hover ? 1 : 0 }}>
+      <div
+        {...styles.bar}
+        style={{
+          zIndex: hover ? 1 : 0,
+          backgroundColor: color
+        }}
+      >
         <div
           {...styles.barInner}
           style={{
@@ -119,7 +130,8 @@ class GoalBar extends Component {
                 i > 0 && status[accessor] < goal[accessor] && styles.lowerGoal
               )}
               style={{
-                width: widthForGoal(goal, uniqueGoal, accessor)
+                width: widthForGoal(goal, uniqueGoal, accessor),
+                borderBottomColor: color
               }}
               onTouchStart={e => {
                 e.preventDefault()

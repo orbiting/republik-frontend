@@ -11,7 +11,7 @@ import { format } from 'url'
 
 import withT from '../../lib/withT'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
-import { Router, Link } from '../../lib/routes'
+import { Router } from '../../lib/routes'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
@@ -27,7 +27,8 @@ import {
   Label,
   mediaQueries,
   Editorial,
-  fontStyles
+  fontStyles,
+  RawHtml
 } from '@project-r/styleguide'
 
 import ManageMembership from '../Account/Memberships/Manage'
@@ -154,11 +155,6 @@ const styles = {
     fontSize: 19,
     lineHeight: '28px'
   }),
-  packageTitle: css({
-    fontFamily: fontFamilies.sansSerifMedium,
-    fontSize: 21,
-    lineHeight: '32px'
-  }),
   packageImage: css({
     float: 'right',
     maxWidth: 150,
@@ -270,13 +266,15 @@ class CustomizePackage extends Component {
       userPrice,
       customMe,
       ownMembership,
-      router,
+      router: { query },
       crowdfundingName,
       values,
       errors,
       dirty,
       onChange
     } = this.props
+
+    const accessGrantedOnly = query.filter === 'pot'
 
     const price = getPrice(this.props)
     const configurableFields = pkg.options.reduce((fields, option) => {
@@ -312,26 +310,26 @@ class CustomizePackage extends Component {
     const regularMinPrice = calculateMinPrice(pkg, values, false)
     const fixedPrice = pkg.name === 'MONTHLY_ABO'
 
-    const hasNotebook = !!pkg.options.find(
+    const goodies = pkg.options.filter(
+      option =>
+        option.reward &&
+        option.reward.__typename === 'Goodie' &&
+        option.maxAmount > 0
+    )
+    const hasNotebook = !!goodies.find(
       option => option.reward && option.reward.name === 'NOTEBOOK'
     )
-    const hasTotebag = !!pkg.options.find(
+    const hasTotebag = !!goodies.find(
       option => option.reward && option.reward.name === 'TOTEBAG'
     )
-    const hasTablebook = !!pkg.options.find(
+    const hasTablebook = !!goodies.find(
       option => option.reward && option.reward.name === 'TABLEBOOK'
     )
-    const goodies = pkg.options
-      .filter(
-        option =>
-          option.reward &&
-          option.reward.__typename === 'Goodie' &&
-          option.maxAmount > 0
-      )
+    const goodieNames = goodies
       .map(option => option.reward.name)
       .sort((a, b) => ascending(a, b))
     const deliveryNote = t(
-      `pledge/notice/goodies/delivery/${goodies.join('_')}`,
+      `pledge/notice/goodies/delivery/${goodieNames.join('_')}`,
       undefined,
       null
     )
@@ -399,7 +397,15 @@ class CustomizePackage extends Component {
         })
     )
     const payMoreSuggestions =
-      pkg.name === 'DONATE' || pkg.name === 'ABO_GIVE_MONTHS'
+      pkg.name === 'DONATE_POT'
+        ? [
+            { value: 6000, key: 'threemonth' },
+            { value: 12000, key: 'halfayear' },
+            { value: 24000, key: 'ayear' }
+          ]
+        : pkg.name === 'DONATE' ||
+          pkg.name === 'ABO_GIVE_MONTHS' ||
+          pkg.name === 'ABO_GIVE'
         ? []
         : [
             userPrice && { value: regularMinPrice, key: 'normal' },
@@ -421,9 +427,21 @@ class CustomizePackage extends Component {
         return !getOptionValue(option, values) || option.userPrice
       })
 
+    let showMessageToClaimers = false
+    if (pkg.name === 'ABO_GIVE') {
+      const hasAccessGrantedValue = pkg.options
+        .filter(o => o.accessGranted)
+        .some(o => getOptionValue(o, values) > 0)
+      showMessageToClaimers = accessGrantedOnly || hasAccessGrantedValue
+    }
+
     const optionGroups = nest()
       .key(d =>
-        d.option.optionGroup ? d.option.optionGroup : d.option.reward.__typename
+        d.option.optionGroup
+          ? d.option.optionGroup
+          : [d.option.reward.__typename, d.option.accessGranted]
+              .filter(Boolean)
+              .join()
       )
       .entries(configurableFields)
       .map(({ key: groupKey, values: fields }) => {
@@ -454,6 +472,7 @@ class CustomizePackage extends Component {
           fields,
           selectedGroupOption,
           membership,
+          groupWithAccessGranted: options.some(o => o.accessGranted),
           isAboGive,
           isGoodies: groupKey === 'Goodie',
           additionalPeriods
@@ -468,14 +487,15 @@ class CustomizePackage extends Component {
         `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
       ownMembership &&
         `package/${pkg.name}/${ownMembership.type.name}/description`,
+      accessGrantedOnly && `package/${pkg.name}/accessGrantedOnly/description`,
       `package/${crowdfundingName}/${pkg.name}/description`,
       `package/${pkg.name}/description`
     ].filter(Boolean)
     const description = t.first(descriptionKeys)
     const goodiesDescription =
-      !!goodies.length &&
+      !!goodieNames.length &&
       t.first(
-        descriptionKeys.map(key => `${key}/goodies/${goodies.join('_')}`),
+        descriptionKeys.map(key => `${key}/goodies/${goodieNames.join('_')}`),
         undefined,
         null
       )
@@ -506,10 +526,27 @@ class CustomizePackage extends Component {
         />
       ))
 
+    const queryWithoutFilter = { ...query }
+    delete queryWithoutFilter.filter
+
     return (
       <div>
         <div style={{ marginTop: 20, marginBottom: 10 }}>
-          <span {...styles.packageTitle}>{t(`package/${pkg.name}/title`)}</span>{' '}
+          <Interaction.H2 style={{ marginBottom: 10 }}>
+            {t.first(
+              [
+                ownMembership &&
+                  `package/${pkg.name}/${ownMembership.type.name}/pageTitle`,
+                ownMembership &&
+                  new Date(ownMembership.graceEndDate) < new Date() &&
+                  `package/${pkg.name}/reactivate/pageTitle`,
+                accessGrantedOnly &&
+                  `package/${pkg.name}/accessGrantedOnly/title`,
+                `package/${pkg.name}/pageTitle`,
+                `package/${pkg.name}/title`
+              ].filter(Boolean)
+            )}
+          </Interaction.H2>
           <A
             href='/angebote'
             onClick={event => {
@@ -527,10 +564,91 @@ class CustomizePackage extends Component {
             {t('package/customize/changePackage')}
           </A>
         </div>
-        <P style={{ marginBottom: 10 }}>
-          {!goodiesDescription && goodiesImage}
-          {description}
-        </P>
+        {description.split('\n\n').map((text, i) => (
+          <P style={{ marginBottom: 10 }} key={i}>
+            {i === 0 && !goodiesDescription && goodiesImage}
+            {text}
+          </P>
+        ))}
+        {accessGrantedOnly && pkg.name === 'ABO_GIVE' && (
+          <div {...styles.smallP} style={{ marginTop: -5, marginBottom: 15 }}>
+            <Editorial.A
+              href={format({
+                pathname: '/angebote',
+                query: queryWithoutFilter
+              })}
+              onClick={e => {
+                if (shouldIgnoreClick(e)) {
+                  return
+                }
+                e.preventDefault()
+                this.resetPrice()
+
+                const fullPackages = this.props.packages.find(
+                  p => p.name === pkg.name
+                )
+                if (fullPackages) {
+                  fullPackages.options.forEach(optionFull => {
+                    const optionFiltered = pkg.options.find(
+                      d =>
+                        d.reward &&
+                        d.reward.__typename === optionFull.reward.__typename &&
+                        d.reward.name === optionFull.reward.name
+                    )
+                    if (!optionFiltered) {
+                      return
+                    }
+                    onChange(
+                      FieldSet.utils.fieldsState({
+                        field: getOptionFieldKey(optionFull),
+                        value: Math.min(
+                          Math.max(
+                            optionFull.accessGranted
+                              ? 0
+                              : getOptionValue(optionFiltered, values),
+                            optionFull.minAmount
+                          ),
+                          optionFull.maxAmount
+                        ),
+                        error: undefined,
+                        dirty: true
+                      })
+                    )
+                  })
+                }
+
+                Router.pushRoute('pledge', queryWithoutFilter, {
+                  shallow: true
+                })
+              }}
+            >
+              {t('package/customize/ABO_GIVE/rmAccessGrantedOnly')}
+            </Editorial.A>{' '}
+            <Editorial.A
+              href={format({
+                pathname: '/angebote',
+                query: { package: 'DONATE_POT' }
+              })}
+              onClick={e => {
+                if (shouldIgnoreClick(e)) {
+                  return
+                }
+                e.preventDefault()
+                this.resetPrice()
+
+                Router.pushRoute(
+                  'pledge',
+                  { package: 'DONATE_POT' },
+                  {
+                    shallow: true
+                  }
+                )
+              }}
+            >
+              {t('package/customize/ABO_GIVE/donate')}
+            </Editorial.A>
+          </div>
+        )}
         {optionGroups.map(
           (
             {
@@ -541,6 +659,7 @@ class CustomizePackage extends Component {
               options,
               selectedGroupOption,
               membership,
+              groupWithAccessGranted,
               isAboGive,
               isGoodies,
               additionalPeriods
@@ -624,6 +743,13 @@ class CustomizePackage extends Component {
                     compact
                   />
                 )}
+                {groupWithAccessGranted &&
+                  !accessGrantedOnly &&
+                  pkg.name === 'ABO_GIVE' && (
+                    <div>
+                      <P>{t('package/ABO_GIVE/accessGranted/before')}</P>
+                    </div>
+                  )}
                 <div {...styles[group ? 'group' : 'grid']}>
                   {fields.map((field, i) => {
                     const option = field.option
@@ -639,6 +765,16 @@ class CustomizePackage extends Component {
                           ? [
                               `option/${pkg.name}/${option.reward.name}/label/give`,
                               `option/${option.reward.name}/label/give`
+                            ]
+                          : []),
+                        ...(option.accessGranted
+                          ? [
+                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/${value}`,
+                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/other`,
+                              `option/${pkg.name}/${option.reward.name}/accessGranted/label`,
+                              `option/${option.reward.name}/accessGranted/label/${value}`,
+                              `option/${option.reward.name}/accessGranted/label/other`,
+                              `option/${option.reward.name}/accessGranted/label`
                             ]
                           : []),
                         ...(field.interval
@@ -895,6 +1031,37 @@ class CustomizePackage extends Component {
                 {isAboGive && (!nextGroup || !nextGroup.isAboGive) && (
                   <div style={{ height: 30 }} />
                 )}
+                {groupWithAccessGranted && showMessageToClaimers && (
+                  <div style={{ marginBottom: 20 }}>
+                    <P>{t('package/customize/messageToClaimers/before')}</P>
+                    <Field
+                      label={t('package/customize/messageToClaimers/label')}
+                      value={values.messageToClaimers}
+                      renderInput={({ ref, ...inputProps }) => (
+                        <AutosizeInput
+                          {...inputProps}
+                          {...fieldSetStyles.autoSize}
+                          inputRef={ref}
+                        />
+                      )}
+                      onChange={(_, value, shouldValidate) => {
+                        onChange(
+                          FieldSet.utils.fieldsState({
+                            field: 'messageToClaimers',
+                            value,
+                            dirty: shouldValidate
+                          })
+                        )
+                      }}
+                    />
+                    <RawHtml
+                      type={Label}
+                      dangerouslySetInnerHTML={{
+                        __html: t('package/customize/messageToClaimers/note')
+                      }}
+                    />
+                  </div>
+                )}
               </Fragment>
             )
           }
@@ -971,7 +1138,10 @@ class CustomizePackage extends Component {
               {payMoreSuggestions.length > 0 && (
                 <Fragment>
                   <Interaction.Emphasis>
-                    {t('package/customize/price/payMore')}
+                    {t.first([
+                      `package/customize/price/payMore/${pkg.name}`,
+                      'package/customize/price/payMore'
+                    ])}
                   </Interaction.Emphasis>
                   <ul {...styles.ul}>
                     {payMoreSuggestions.map(({ value, key }) => {
@@ -1130,7 +1300,7 @@ class CustomizePackage extends Component {
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...router.query, price: undefined }
+                      query: { ...query, price: undefined }
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
@@ -1141,7 +1311,7 @@ class CustomizePackage extends Component {
 
                       Router.replaceRoute(
                         'pledge',
-                        { ...router.query, price: undefined },
+                        { ...query, price: undefined },
                         { shallow: true }
                       ).then(() => {
                         if (this.focusRef && this.focusRef.input) {
@@ -1150,7 +1320,10 @@ class CustomizePackage extends Component {
                       })
                     }}
                   >
-                    {t('package/customize/price/payRegular')}
+                    {t.first([
+                      `package/customize/price/payRegular/${pkg.name}`,
+                      'package/customize/price/payRegular'
+                    ])}
                   </Editorial.A>
                   <br />
                 </Fragment>
@@ -1160,7 +1333,7 @@ class CustomizePackage extends Component {
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...router.query, price: undefined, userPrice: 1 }
+                      query: { ...query, price: undefined, userPrice: 1 }
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
@@ -1192,7 +1365,7 @@ class CustomizePackage extends Component {
 
                       Router.replaceRoute(
                         'pledge',
-                        { ...router.query, price: undefined, userPrice: 1 },
+                        { ...query, price: undefined, userPrice: 1 },
                         { shallow: true }
                       ).then(() => {
                         if (this.focusRef && this.focusRef.input) {

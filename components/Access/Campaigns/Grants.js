@@ -4,8 +4,8 @@ import { compose } from 'react-apollo'
 import { Interaction } from '@project-r/styleguide'
 
 import Grant from './Grant'
-import List from '../../../List'
-import withT from '../../../../lib/withT'
+import List from '../../List'
+import withT from '../../../lib/withT'
 
 const { H3 } = Interaction
 

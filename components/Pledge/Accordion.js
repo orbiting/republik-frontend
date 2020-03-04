@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import { nest } from 'd3-collection'
-import { ascending } from 'd3-array'
+import { min, ascending } from 'd3-array'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -133,6 +133,7 @@ const query = gql`
           maxAmount
           defaultAmount
           reward {
+            __typename
             ... on MembershipType {
               id
               name
@@ -258,11 +259,28 @@ class Accordion extends Component {
 
             const setHover = hover => this.setState({ hover })
 
-            let pkgItems = pkgs.map((pkg, i) => {
-              const price = pkg.options.reduce(
+            let pkgItems = pkgs.map(pkg => {
+              let price = pkg.options.reduce(
                 (amount, option) => amount + option.price * option.minAmount,
                 0
               )
+              if (!price && pkg.name !== 'PROLONG') {
+                price =
+                  min(
+                    pkg.options
+                      .filter(
+                        o =>
+                          o.reward && o.reward.__typename === 'MembershipType'
+                      )
+                      .map(
+                        option =>
+                          option.price *
+                          (option.minAmount ||
+                            option.defaultAmount ||
+                            Math.min(1, option.maxAmount))
+                      )
+                  ) || 0
+              }
               return {
                 route: 'pledge',
                 params: { package: pkg.name },
@@ -295,6 +313,23 @@ class Accordion extends Component {
                 name: 'claim',
                 title: t('marketing/offers/claim')
               })
+            }
+            if (group === 'GIVE') {
+              const donatePotIndex = pkgItems.findIndex(
+                item => item.name === 'DONATE_POT'
+              )
+              if (donatePotIndex !== -1) {
+                pkgItems.splice(donatePotIndex, 0, {
+                  route: 'pledge',
+                  params: {
+                    package: 'ABO_GIVE',
+                    filter: 'pot'
+                  },
+                  name: 'ABO_GIVE_POT',
+                  title: t('package/ABO_GIVE/accessGrantedOnly/title'),
+                  price: 24000
+                })
+              }
             }
 
             return (

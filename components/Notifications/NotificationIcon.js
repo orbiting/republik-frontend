@@ -11,7 +11,6 @@ import { colors, mediaQueries } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import { notificationSubscription, withNotificationCount } from './enhancers'
-import notifications from '../../pages/notifications'
 import { containsUnread } from './index'
 
 const styles = {
@@ -73,11 +72,8 @@ export default compose(
 
   return (
     <a
-      {...merge(
-        menuIconStyle,
-        styles.notifications,
-        hasUnread && styles.unreadNotifications
-      )}
+      {...merge(menuIconStyle, styles.notifications)}
+      {...(hasUnread && styles.unreadNotifications)}
       title={t('header/nav/notifications/aria')}
       href='/benachrichtigungen'
     >

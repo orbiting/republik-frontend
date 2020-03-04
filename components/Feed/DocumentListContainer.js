@@ -178,6 +178,7 @@ class DocumentListContainer extends Component {
                         feedProps={feedProps}
                         showTotal={showTotal}
                         help={help}
+                        variables={variables}
                       />
                     </>
                   )

@@ -27,6 +27,7 @@ const DocumentList = ({
   hasMore,
   loadMore,
   feedProps,
+  variables,
   showTotal,
   help,
   t
@@ -35,6 +36,8 @@ const DocumentList = ({
     { containerRef, infiniteScroll, loadingMore, loadingMoreError },
     setInfiniteScroll
   ] = useInfiniteScroll({ hasMore, loadMore })
+
+  const formatId = variables && variables.filter && variables.filter.formats[0]
 
   if (totalCount < 1) {
     return null
@@ -48,7 +51,7 @@ const DocumentList = ({
             {t.pluralize('feed/title', {
               count: totalCount
             })}
-            <SubscribeButton formatName='Binswanger' />
+            {formatId ? <SubscribeButton formatId={formatId} /> : null}
           </Interaction.H2>
           <br />
           <br />
@@ -87,6 +90,7 @@ DocumentList.propTypes = {
   hasMore: PropTypes.bool,
   t: PropTypes.func.isRequired,
   feedProps: PropTypes.object,
+  variables: PropTypes.object,
   showTotal: PropTypes.bool,
   help: PropTypes.element
 }

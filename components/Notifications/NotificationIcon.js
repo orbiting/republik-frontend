@@ -1,6 +1,6 @@
 import { css, merge } from 'glamor'
 import Notifications from 'react-icons/lib/md/notifications-none'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { menuIconStyle } from '../Frame/Header'
 import {
   HEADER_HEIGHT,
@@ -11,6 +11,8 @@ import { colors, mediaQueries } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import { notificationSubscription, withNotificationCount } from './enhancers'
+import notifications from '../../pages/notifications'
+import { containsUnread } from './index'
 
 const styles = {
   notifications: css({
@@ -41,7 +43,7 @@ const styles = {
 export default compose(
   withT,
   withNotificationCount
-)(({ t, data: { notifications, subscribeToMore }, fill }) => {
+)(({ t, countData: { notifications, subscribeToMore }, fill }) => {
   const [hasUnread, setUnread] = useState(false)
 
   const subscribe = () =>
@@ -64,11 +66,7 @@ export default compose(
     })
 
   useEffect(() => {
-    setUnread(
-      notifications &&
-        notifications.nodes &&
-        notifications.nodes.filter(n => !n.readAt).length
-    )
+    setUnread(containsUnread(notifications))
     const unsubscribe = subscribe()
     return () => unsubscribe()
   }, [notifications])

@@ -20,7 +20,9 @@ export const notificationsQuery = gql`
         startCursor
       }
       nodes {
-        ...Notification
+        id
+        readAt
+        createdAt
         object {
           ... on Document {
             id
@@ -86,7 +88,6 @@ export const notificationsQuery = gql`
       }
     }
   }
-  ${notification}
 `
 
 const notificationCountQuery = gql`
@@ -118,7 +119,9 @@ export const notificationSubscription = gql`
   ${notification}
 `
 
-export const withNotificationCount = graphql(notificationCountQuery)
+export const withNotificationCount = graphql(notificationCountQuery, {
+  name: 'countData'
+})
 
 export const withMarkAsReadMutation = graphql(markAsReadMutation, {
   props: ({ mutate }) => ({

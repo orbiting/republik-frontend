@@ -21,7 +21,13 @@ const styles = {
   })
 }
 
-export default ({ notifications, loadedAt, fetchMore }) => {
+export default ({
+  notifications,
+  loadedAt,
+  fetchMore,
+  shouldReload,
+  onReload
+}) => {
   const { nodes, totalCount, pageInfo } = notifications
   const hasNextPage = pageInfo && pageInfo.hasNextPage
 
@@ -57,6 +63,7 @@ export default ({ notifications, loadedAt, fetchMore }) => {
 
   return (
     <>
+      {shouldReload ? <span onClick={() => onReload()}>Reload</span> : null}
       <Interaction.H1 style={{ marginBottom: '40px' }}>
         {hasNewNodes
           ? `${hasNewNodes} neue Benarichtigung${

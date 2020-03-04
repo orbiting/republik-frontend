@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import track from '../../lib/piwik'
@@ -20,31 +20,51 @@ const styles = {
   }),
   legend: css({
     ...fontStyles.sansSerifRegular11,
-    transition: 'all 0.3s',
+    transition: 'all 2s',
     lineHeight: 1
   })
 }
 
-const SubscribeButton = ({ t, formatName }) => {
+const SubscribeButton = ({ t, formatId }) => {
   const [isSubscribed, setSubscribed] = useState(false)
+  const [labelOpacity, setLabelOpacity] = useState(0)
   const Icon = isSubscribed ? SubscribeIcon : UnsubscribeIcon
+
+  const toggleSubscribe = () => {
+    if (!isSubscribed) {
+      setSubscribed(true)
+      setLabelOpacity(1)
+    } else {
+      setSubscribed(false)
+    }
+    track([
+      'trackEvent',
+      'subscribeFormat',
+      isSubscribed ? 'subscribe' : 'unsubscribe',
+      formatId
+    ])
+    if (isSubscribed) {
+      setLabelOpacity(1)
+    }
+  }
+
+  useEffect(() => {
+    if (labelOpacity) {
+      const timeout = setTimeout(() => {
+        setLabelOpacity(0)
+      }, 5 * 1000)
+      return () => clearTimeout(timeout)
+    }
+  }, [labelOpacity])
 
   return (
     <div {...styles.button} id='subscribe-button'>
       <div
         style={{ cursor: 'pointer', textAlign: 'center' }}
-        onClick={() => {
-          setSubscribed(!isSubscribed)
-          track([
-            'trackEvent',
-            'subscribeFormat',
-            isSubscribed ? 'subscribe' : 'unsubscribe',
-            formatName
-          ])
-        }}
+        onClick={toggleSubscribe}
       >
         <Icon size={24} fill={isSubscribed ? colors.text : colors.lightText} />
-        <span style={{ opacity: isSubscribed ? 1 : 0 }} {...styles.legend}>
+        <span style={{ opacity: labelOpacity }} {...styles.legend}>
           Subscribed
         </span>
       </div>

@@ -408,9 +408,12 @@ ${pledgeLink}
                   {remainingMoney > 0 && remainingPeople <= 0 && (
                     <>
                       Damit die Republik in Zukunft bestehen kann, brauchen wir
-                      bis am 31.&nbsp;März noch {countFormat(remainingMoney)}{' '}
-                      Franken. Um das Ziel zu erreichen, wollen wir diesen Monat
-                      um 3000 Mitgliedschaften und Abos wachsen. Denn eine
+                      bis am 31.&nbsp;März noch{' '}
+                      <span {...styles.tnum}>
+                        {countFormat(remainingMoney)}
+                      </span>
+                      &nbsp;Franken. Um das Ziel zu erreichen, wollen wir diesen
+                      Monat um 3000 Mitgliedschaften und Abos wachsen. Denn eine
                       möglichst grosse Verlegerschaft sichert die Republik
                       langfristig am besten.
                     </>

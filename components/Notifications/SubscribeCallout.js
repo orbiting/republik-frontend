@@ -7,6 +7,7 @@ import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
 import { Router } from '../../lib/routes'
 import { SubscribeIcon } from './SubscribeIcon'
+import { getNotificationPermission } from '../../lib/utils/notification'
 
 const styles = {
   button: css({
@@ -26,6 +27,13 @@ const styles = {
     transition: 'all 1s',
     lineHeight: 1
   }),
+  calloutContainer: css({
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 400,
+    height: 400
+  }),
   callout: css({
     zIndex: 1,
     position: 'absolute',
@@ -34,7 +42,6 @@ const styles = {
     width: 175,
     background: 'white',
     border: `1px solid ${colors.divider}`,
-    boxShadow: '1px 1px 10px rgba(100, 100, 100, 0.1)',
     padding: 10,
     '& label': {
       ...fontStyles.sansSerifRegular12,
@@ -77,6 +84,7 @@ const SubscribeCallout = ({
   const [isSubscribed, setSubscribed] = useState(false)
   const [showCallout, setCallout] = useState(false)
   const [selectedValue, setSelectedValue] = useState(undefined)
+  const [channels, setChannels] = useState(undefined)
 
   const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
     value: option,
@@ -96,6 +104,27 @@ const SubscribeCallout = ({
     setSubscribed(selectedValue && selectedValue !== 'NONE')
   }, [selectedValue])
 
+  useEffect(() => {
+    if (me && me.discussionNotificationChannels) {
+      const emailEnabled =
+        me.discussionNotificationChannels.indexOf('EMAIL') > -1
+      const browserEnabled =
+        me.discussionNotificationChannels.indexOf('WEB') > -1 &&
+        getNotificationPermission() === 'granted'
+      const appEnabled = me.discussionNotificationChannels.indexOf('APP') > -1
+      setChannels(
+        (emailEnabled && browserEnabled && appEnabled && 'EMAIL_WEB_APP') ||
+          (emailEnabled && browserEnabled && 'EMAIL_WEB') ||
+          (emailEnabled && appEnabled && 'EMAIL_APP') ||
+          (browserEnabled && appEnabled && 'WEB_APP') ||
+          (emailEnabled && 'EMAIL') ||
+          (appEnabled && 'APP') ||
+          (browserEnabled && 'WEB') ||
+          'BASIC'
+      )
+    }
+  }, [me])
+
   const updatePreferences = option => e => {
     e.stopPropagation(e)
     setSelectedValue(option.value)
@@ -114,24 +143,28 @@ const SubscribeCallout = ({
       >
         <SubscribeIcon isSubscribed={isSubscribed} />
         {showCallout && (
-          <div {...styles.callout} onClick={e => e.stopPropagation()}>
-            <div {...styles.arrow} />
-            {notificationOptions.map(option => (
-              <div key={option.value}>
-                <Radio
-                  value={option.value}
-                  checked={selectedValue === option.value}
-                  onChange={updatePreferences(option)}
-                >
-                  <span>{option.text}</span>
-                </Radio>
-              </div>
-            ))}
-            <span>
-              <A {...styles.link} href='/konto#benachrichtigungen'>
-                {t('components/Discussion/Notification/settings')}
-              </A>
-            </span>
+          <div {...styles.calloutContainer}>
+            <div {...styles.callout} onClick={e => e.stopPropagation()}>
+              <div {...styles.arrow} />
+              {notificationOptions.map(option => (
+                <div key={option.value}>
+                  <Radio
+                    value={option.value}
+                    checked={selectedValue === option.value}
+                    onChange={updatePreferences(option)}
+                  >
+                    <span>{option.text}</span>
+                  </Radio>
+                </div>
+              ))}
+              <span>
+                <A {...styles.link} href='/konto#benachrichtigungen'>
+                  {t(
+                    `components/Discussion/NotificationChannel/${channels}/label`
+                  )}
+                </A>
+              </span>
+            </div>
           </div>
         )}
       </div>

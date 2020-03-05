@@ -144,6 +144,11 @@ export default class MyDocument extends Document {
               dangerouslySetInnerHTML={{
                 __html: `
             _paq.push(['enableLinkTracking']);
+            ${
+              PUBLIC_BASE_URL.indexOf('https') === 0
+                ? "_paq.push(['setSecureCookie', true]);"
+                : ''
+            }
             (function() {
               _paq.push(['setTrackerUrl', '${PIWIK_URL_BASE}/piwik.php']);
               _paq.push(['setSiteId', '${PIWIK_SITE_ID}']);

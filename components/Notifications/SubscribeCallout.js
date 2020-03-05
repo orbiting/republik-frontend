@@ -3,17 +3,16 @@ import { css } from 'glamor'
 import withT from '../../lib/withT'
 import {
   A,
-  colors,
   fontStyles,
   Radio,
-  mediaQueries
+  mediaQueries,
+  Callout
 } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
 import { SubscribeIcon } from './SubscribeIcon'
 import { getNotificationPermission } from '../../lib/utils/notification'
-import { HEADER_HEIGHT_MOBILE } from '../constants'
 
 const styles = {
   button: css({
@@ -25,55 +24,7 @@ const styles = {
       display: 'none'
     }
   }),
-  calloutContainer: css({
-    position: 'fixed',
-    top: HEADER_HEIGHT_MOBILE,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    zIndex: 2,
-    background: 'rgba(0,0,0,0.5)',
-    [mediaQueries.mUp]: {
-      position: 'absolute',
-      top: 0,
-      left: 'auto',
-      bottom: 'auto',
-      right: 0,
-      background: 'none'
-    }
-  }),
-  arrow: css({
-    transform: 'rotate(-45deg)',
-    background: colors.containerBg,
-    borderTop: `1px solid ${colors.divider}`,
-    borderRight: `1px solid ${colors.divider}`,
-    width: 12,
-    height: 12,
-    position: 'absolute',
-    top: -7,
-    right: 15,
-    display: 'none',
-    [mediaQueries.mUp]: {
-      display: 'block'
-    }
-  }),
-  callout: css({
-    zIndex: 1,
-    position: 'absolute',
-    background: 'white',
-    border: `1px solid ${colors.divider}`,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 15,
-    [mediaQueries.mUp]: {
-      right: -10,
-      left: 'auto',
-      bottom: 'auto',
-      top: 40,
-      width: 175,
-      padding: 10
-    },
+  radio: css({
     '& label': {
       display: 'flex',
       textAlign: 'left',
@@ -175,35 +126,26 @@ const SubscribeCallout = ({
           setCallout(!showCallout)
         }}
       />
-      {showCallout && (
-        <div {...styles.calloutContainer}>
-          <div
-            id='notifications-callout'
-            {...styles.callout}
-            onClick={e => e.stopPropagation()}
-          >
-            <div {...styles.arrow} />
-            {notificationOptions.map(option => (
-              <div key={option.value}>
-                <Radio
-                  value={option.value}
-                  checked={selectedValue === option.value}
-                  onChange={updatePreferences(option)}
-                >
-                  <span>{option.text}</span>
-                </Radio>
-              </div>
-            ))}
-            <span {...styles.info}>
-              <A href='/konto#benachrichtigungen'>
-                {t(
-                  `components/Discussion/NotificationChannel/${channels}/label`
-                )}
-              </A>
-            </span>
-          </div>
+      <Callout expanded={showCallout}>
+        <div {...styles.radio}>
+          {notificationOptions.map(option => (
+            <div key={option.value}>
+              <Radio
+                value={option.value}
+                checked={selectedValue === option.value}
+                onChange={updatePreferences(option)}
+              >
+                <span>{option.text}</span>
+              </Radio>
+            </div>
+          ))}
         </div>
-      )}
+        <span {...styles.info}>
+          <A href='/konto#benachrichtigungen'>
+            {t(`components/Discussion/NotificationChannel/${channels}/label`)}
+          </A>
+        </span>
+      </Callout>
     </div>
   )
 }

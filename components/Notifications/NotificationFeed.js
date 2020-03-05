@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors, Interaction, A, Center } from '@project-r/styleguide'
+import { colors, Interaction, Center } from '@project-r/styleguide'
 import StickySection from '../Feed/StickySection'
 import CommentNotification from './CommentNotification'
 import InfiniteScroll from '../Frame/InfiniteScroll'

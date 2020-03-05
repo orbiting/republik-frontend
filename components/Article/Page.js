@@ -177,6 +177,9 @@ const getDocument = gql`
             color
             kind
           }
+          subscribedByMe {
+            id
+          }
         }
         section {
           id
@@ -744,6 +747,8 @@ class ArticlePage extends Component {
                 ? 'center'
                 : undefined
 
+            console.log(article.id, article.subscribedByMe)
+
             return (
               <Fragment>
                 <FontSizeSync />
@@ -828,6 +833,7 @@ class ArticlePage extends Component {
                   <Center>
                     <Discussion
                       discussionId={ownDiscussion.id}
+                      commentCount={ownDiscussion.comments.totalCount}
                       focusId={router.query.focus}
                       parent={router.query.parent}
                       mute={!!router.query.mute}

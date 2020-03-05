@@ -1,13 +1,28 @@
 import React from 'react'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
-import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
+import { Interaction, colors } from '@project-r/styleguide'
+import withT from '../../lib/withT'
+import { css } from 'glamor'
+import SubscribeCallout from '../Notifications/SubscribeCallout'
+import NotificationOptions from './NotificationOptions'
 
 const DEFAULT_DEPTH = 3
 
+const styles = {
+  title: css({
+    borderBottom: `1px solid ${colors.text}`,
+    paddingBottom: '2.2rem',
+    marginBottom: 20,
+    alignItems: 'center',
+    display: 'flex'
+  })
+}
+
 const Discussion = ({
   discussionId,
+  commentCount,
   focusId = null,
   mute,
   meta,
@@ -16,7 +31,8 @@ const Discussion = ({
   parent,
   parentId = null,
   includeParent,
-  rootCommentOverlay
+  rootCommentOverlay,
+  t
 }) => {
   /*
    * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
@@ -41,6 +57,14 @@ const Discussion = ({
     <div data-discussion-id={discussionId}>
       {!rootCommentOverlay && (
         <>
+          <div {...styles.title}>
+            <Interaction.H2>
+              {t.pluralize('feed/title', {
+                count: commentCount
+              })}
+            </Interaction.H2>
+            <SubscribeCallout discussionId={discussionId} />
+          </div>
           <DiscussionCommentComposer
             discussionId={discussionId}
             orderBy={orderBy}
@@ -49,7 +73,6 @@ const Discussion = ({
             parentId={parentId}
             now={now}
           />
-          <NotificationOptions discussionId={discussionId} mute={mute} />
         </>
       )}
 
@@ -74,4 +97,4 @@ const Discussion = ({
   )
 }
 
-export default Discussion
+export default withT(Discussion)

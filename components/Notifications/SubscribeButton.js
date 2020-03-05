@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import track from '../../lib/piwik'
-import { colors, fontStyles } from '@project-r/styleguide'
+import { fontStyles } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
-import SubscribeIcon from 'react-icons/lib/md/notifications'
-import UnsubscribeIcon from 'react-icons/lib/md/notifications-off'
+import { SubscribeIcon } from './SubscribeIcon'
 
 const styles = {
   button: css({
@@ -28,7 +27,6 @@ const styles = {
 const SubscribeButton = ({ t, formatId }) => {
   const [isSubscribed, setSubscribed] = useState(false)
   const [labelOpacity, setLabelOpacity] = useState(0)
-  const Icon = isSubscribed ? SubscribeIcon : UnsubscribeIcon
 
   const toggleSubscribe = () => {
     if (!isSubscribed) {
@@ -36,6 +34,7 @@ const SubscribeButton = ({ t, formatId }) => {
       setLabelOpacity(1)
     } else {
       setSubscribed(false)
+      setLabelOpacity(0)
     }
     track([
       'trackEvent',
@@ -43,9 +42,6 @@ const SubscribeButton = ({ t, formatId }) => {
       isSubscribed ? 'subscribe' : 'unsubscribe',
       formatId
     ])
-    if (isSubscribed) {
-      setLabelOpacity(1)
-    }
   }
 
   useEffect(() => {
@@ -63,7 +59,7 @@ const SubscribeButton = ({ t, formatId }) => {
         style={{ cursor: 'pointer', textAlign: 'center' }}
         onClick={toggleSubscribe}
       >
-        <Icon size={24} fill={isSubscribed ? colors.text : colors.lightText} />
+        <SubscribeIcon isSubscribe={isSubscribed} />
         <span style={{ opacity: labelOpacity }} {...styles.legend}>
           Subscribed
         </span>

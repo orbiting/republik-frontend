@@ -37,7 +37,7 @@ const DocumentList = ({
     setInfiniteScroll
   ] = useInfiniteScroll({ hasMore, loadMore })
 
-  const formatId = variables && variables.filter && variables.filter.formats[0]
+  const formatId = variables && variables.formatId
 
   if (totalCount < 1) {
     return null

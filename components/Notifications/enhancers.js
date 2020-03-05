@@ -11,6 +11,10 @@ const notification = gql`
 
 export const notificationsQuery = gql`
   query getNotifications($after: String) {
+    me {
+      id
+      discussionNotificationChannels
+    }
     notifications(first: 7, after: $after) {
       totalCount
       pageInfo {

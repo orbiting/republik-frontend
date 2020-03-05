@@ -5,8 +5,11 @@ import withT from '../../lib/withT'
 import CommentLink from '../Discussion/CommentLink'
 import { merge } from 'glamor'
 import { isNewStyle } from './index'
+import NotificationChannelsLink from './NotificationChannelsLink'
 
-export default compose(withT)(({ t, node, isNew }) => {
+const UnsubscribeCallout = ({ me }) => <NotificationChannelsLink me={me} />
+
+export default compose(withT)(({ t, node, me, isNew }) => {
   return (
     <div {...merge({}, isNew && isNewStyle)}>
       <CommentTeaser
@@ -18,6 +21,7 @@ export default compose(withT)(({ t, node, isNew }) => {
         Link={CommentLink}
         t={t}
         focus={isNew}
+        menu={<UnsubscribeCallout me={me} />}
       />
     </div>
   )

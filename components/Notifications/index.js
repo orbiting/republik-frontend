@@ -27,7 +27,7 @@ const Notifications = compose(
   withNotificationCount
 )(
   ({
-    data: { error, loading, notifications, fetchMore, refetch },
+    data: { error, loading, notifications, me, fetchMore, refetch },
     countData,
     markAsReadMutation
   }) => {
@@ -39,6 +39,7 @@ const Notifications = compose(
 
     useEffect(() => {
       if (notifications && notifications.nodes) {
+        console.log(notifications.nodes[0])
         notifications.nodes
           .filter(n => !n.readAt)
           .map(n => markAsReadMutation(n.id))
@@ -60,6 +61,7 @@ const Notifications = compose(
               futureNotifications={futureNotifications}
               onReload={reload}
               notifications={notifications}
+              me={me}
               loadedAt={loadedAt}
               fetchMore={fetchMore}
             />

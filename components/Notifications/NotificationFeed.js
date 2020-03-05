@@ -45,6 +45,7 @@ const ReloadBanner = ({ futureNotifications, onReload }) =>
 
 export default ({
   notifications,
+  me,
   loadedAt,
   fetchMore,
   futureNotifications,
@@ -116,6 +117,7 @@ export default ({
                   <CommentNotification
                     isNew={isNew(node)}
                     node={node}
+                    me={me}
                     key={j}
                   />
                 ))}

@@ -12,7 +12,7 @@ import { compose } from 'react-apollo'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
 import { SubscribeIcon } from './SubscribeIcon'
-import { getNotificationPermission } from '../../lib/utils/notification'
+import NotificationChannelsLink from './NotificationChannelsLink'
 
 const styles = {
   button: css({
@@ -38,13 +38,6 @@ const styles = {
       width: 16,
       height: 16
     }
-  }),
-  info: css({
-    display: 'block',
-    marginTop: 15,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular12
-    }
   })
 }
 
@@ -57,14 +50,11 @@ const SubscribeCallout = ({
   const [isSubscribed, setSubscribed] = useState(false)
   const [showCallout, setCallout] = useState(false)
   const [selectedValue, setSelectedValue] = useState(undefined)
-  const [channels, setChannels] = useState(undefined)
 
   const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
     value: option,
     text: t(`components/Discussion/Notification/dropdown/${option}/label`)
   }))
-
-  const handleClick = () => setCallout(false)
 
   useEffect(() => {
     setSelectedValue(
@@ -78,34 +68,6 @@ const SubscribeCallout = ({
   useEffect(() => {
     setSubscribed(selectedValue && selectedValue !== 'NONE')
   }, [selectedValue])
-
-  useEffect(() => {
-    if (me && me.discussionNotificationChannels) {
-      const emailEnabled =
-        me.discussionNotificationChannels.indexOf('EMAIL') > -1
-      const browserEnabled =
-        me.discussionNotificationChannels.indexOf('WEB') > -1 &&
-        getNotificationPermission() === 'granted'
-      const appEnabled = me.discussionNotificationChannels.indexOf('APP') > -1
-      setChannels(
-        (emailEnabled && browserEnabled && appEnabled && 'EMAIL_WEB_APP') ||
-          (emailEnabled && browserEnabled && 'EMAIL_WEB') ||
-          (emailEnabled && appEnabled && 'EMAIL_APP') ||
-          (browserEnabled && appEnabled && 'WEB_APP') ||
-          (emailEnabled && 'EMAIL') ||
-          (appEnabled && 'APP') ||
-          (browserEnabled && 'WEB') ||
-          'BASIC'
-      )
-    }
-  }, [me])
-
-  useEffect(() => {
-    window.addEventListener('click', handleClick)
-    return () => {
-      window.removeEventListener('click', handleClick)
-    }
-  }, [])
 
   const updatePreferences = option => e => {
     e.stopPropagation(e)
@@ -126,7 +88,7 @@ const SubscribeCallout = ({
           setCallout(!showCallout)
         }}
       />
-      <Callout expanded={showCallout}>
+      <Callout expanded={showCallout} setExpanded={setCallout}>
         <div {...styles.radio}>
           {notificationOptions.map(option => (
             <div key={option.value}>
@@ -140,11 +102,7 @@ const SubscribeCallout = ({
             </div>
           ))}
         </div>
-        <span {...styles.info}>
-          <A href='/konto#benachrichtigungen'>
-            {t(`components/Discussion/NotificationChannel/${channels}/label`)}
-          </A>
-        </span>
+        <NotificationChannelsLink me={me} />
       </Callout>
     </div>
   )

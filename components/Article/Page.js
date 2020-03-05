@@ -123,6 +123,9 @@ const getDocument = gql`
       id
       repoId
       content
+      subscribedByMe {
+        id
+      }
       linkedDocuments {
         nodes {
           id
@@ -176,9 +179,6 @@ const getDocument = gql`
             title
             color
             kind
-          }
-          subscribedByMe {
-            id
           }
         }
         section {
@@ -747,7 +747,7 @@ class ArticlePage extends Component {
                 ? 'center'
                 : undefined
 
-            console.log(article.id, article.subscribedByMe)
+            console.log(article)
 
             return (
               <Fragment>

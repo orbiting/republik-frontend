@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { A, colors, fontStyles, Radio } from '@project-r/styleguide'
+import {
+  A,
+  colors,
+  fontStyles,
+  Radio,
+  mediaQueries
+} from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
-import { Router } from '../../lib/routes'
 import { SubscribeIcon } from './SubscribeIcon'
 import { getNotificationPermission } from '../../lib/utils/notification'
+import { HEADER_HEIGHT_MOBILE } from '../constants'
 
 const styles = {
   button: css({
@@ -15,47 +21,25 @@ const styles = {
     marginRight: 10,
     position: 'relative',
     lineHeight: 'initial',
-    '& span, & h3': {
-      display: 'block'
-    },
     '@media print': {
       display: 'none'
     }
   }),
-  legend: css({
-    ...fontStyles.sansSerifRegular12,
-    transition: 'all 1s',
-    lineHeight: 1
-  }),
   calloutContainer: css({
-    position: 'absolute',
-    top: 0,
+    position: 'fixed',
+    top: HEADER_HEIGHT_MOBILE,
     right: 0,
-    width: 400,
-    height: 400
-  }),
-  callout: css({
-    zIndex: 1,
-    position: 'absolute',
-    right: -10,
-    top: 40,
-    width: 175,
-    background: 'white',
-    border: `1px solid ${colors.divider}`,
-    padding: 10,
-    '& label': {
-      ...fontStyles.sansSerifRegular12,
-      display: 'flex',
-      textAlign: 'left',
-      alignItems: 'center',
-      margin: '5px 0'
-    },
-    '& span': {
-      display: 'inline'
-    },
-    '& svg': {
-      width: 16,
-      height: 16
+    bottom: 0,
+    left: 0,
+    zIndex: 2,
+    background: 'rgba(0,0,0,0.5)',
+    [mediaQueries.mUp]: {
+      position: 'absolute',
+      top: 0,
+      left: 'auto',
+      bottom: 'auto',
+      right: 0,
+      background: 'none'
     }
   }),
   arrow: css({
@@ -67,11 +51,49 @@ const styles = {
     height: 12,
     position: 'absolute',
     top: -7,
-    right: 15
+    right: 15,
+    display: 'none',
+    [mediaQueries.mUp]: {
+      display: 'block'
+    }
   }),
-  link: css({
-    ...fontStyles.sansSerifRegular12,
-    paddingTop: 15
+  callout: css({
+    zIndex: 1,
+    position: 'absolute',
+    background: 'white',
+    border: `1px solid ${colors.divider}`,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 15,
+    [mediaQueries.mUp]: {
+      right: -10,
+      left: 'auto',
+      bottom: 'auto',
+      top: 40,
+      width: 175,
+      padding: 10
+    },
+    '& label': {
+      display: 'flex',
+      textAlign: 'left',
+      alignItems: 'center',
+      margin: '5px 0',
+      [mediaQueries.mUp]: {
+        ...fontStyles.sansSerifRegular12
+      }
+    },
+    '& svg': {
+      width: 16,
+      height: 16
+    }
+  }),
+  info: css({
+    display: 'block',
+    marginTop: 15,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular12
+    }
   })
 }
 
@@ -90,6 +112,8 @@ const SubscribeCallout = ({
     value: option,
     text: t(`components/Discussion/Notification/dropdown/${option}/label`)
   }))
+
+  const handleClick = () => setCallout(false)
 
   useEffect(() => {
     setSelectedValue(
@@ -125,6 +149,13 @@ const SubscribeCallout = ({
     }
   }, [me])
 
+  useEffect(() => {
+    window.addEventListener('click', handleClick)
+    return () => {
+      window.removeEventListener('click', handleClick)
+    }
+  }, [])
+
   const updatePreferences = option => e => {
     e.stopPropagation(e)
     setSelectedValue(option.value)
@@ -136,38 +167,43 @@ const SubscribeCallout = ({
   if (!me || !discussion || !setDiscussionPreferences) return null
 
   return (
-    <div {...styles.button} id='subscribe-callout'>
-      <div
-        style={{ cursor: 'pointer', textAlign: 'center' }}
-        onClick={() => setCallout(!showCallout)}
-      >
-        <SubscribeIcon isSubscribed={isSubscribed} />
-        {showCallout && (
-          <div {...styles.calloutContainer}>
-            <div {...styles.callout} onClick={e => e.stopPropagation()}>
-              <div {...styles.arrow} />
-              {notificationOptions.map(option => (
-                <div key={option.value}>
-                  <Radio
-                    value={option.value}
-                    checked={selectedValue === option.value}
-                    onChange={updatePreferences(option)}
-                  >
-                    <span>{option.text}</span>
-                  </Radio>
-                </div>
-              ))}
-              <span>
-                <A {...styles.link} href='/konto#benachrichtigungen'>
-                  {t(
-                    `components/Discussion/NotificationChannel/${channels}/label`
-                  )}
-                </A>
-              </span>
-            </div>
+    <div {...styles.button}>
+      <SubscribeIcon
+        isSubscribed={isSubscribed}
+        onClick={e => {
+          e.stopPropagation()
+          setCallout(!showCallout)
+        }}
+      />
+      {showCallout && (
+        <div {...styles.calloutContainer}>
+          <div
+            id='notifications-callout'
+            {...styles.callout}
+            onClick={e => e.stopPropagation()}
+          >
+            <div {...styles.arrow} />
+            {notificationOptions.map(option => (
+              <div key={option.value}>
+                <Radio
+                  value={option.value}
+                  checked={selectedValue === option.value}
+                  onChange={updatePreferences(option)}
+                >
+                  <span>{option.text}</span>
+                </Radio>
+              </div>
+            ))}
+            <span {...styles.info}>
+              <A href='/konto#benachrichtigungen'>
+                {t(
+                  `components/Discussion/NotificationChannel/${channels}/label`
+                )}
+              </A>
+            </span>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

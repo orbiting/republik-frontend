@@ -7,11 +7,11 @@ import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
 import { Router } from '../../lib/routes'
 import { SubscribeIcon } from './SubscribeIcon'
-import { focusSelector } from '../../lib/utils/scroll'
 
 const styles = {
   button: css({
     marginLeft: 'auto',
+    marginRight: 10,
     position: 'relative',
     lineHeight: 'initial',
     '& span, & h3': {
@@ -34,6 +34,7 @@ const styles = {
     width: 175,
     background: 'white',
     border: `1px solid ${colors.divider}`,
+    boxShadow: '1px 1px 10px rgba(100, 100, 100, 0.1)',
     padding: 10,
     '& label': {
       ...fontStyles.sansSerifRegular12,

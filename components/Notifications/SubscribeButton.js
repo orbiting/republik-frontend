@@ -59,7 +59,7 @@ const SubscribeButton = ({ t, formatId }) => {
         style={{ cursor: 'pointer', textAlign: 'center' }}
         onClick={toggleSubscribe}
       >
-        <SubscribeIcon isSubscribe={isSubscribed} />
+        <SubscribeIcon isSubscribed={isSubscribed} />
         <span style={{ opacity: labelOpacity }} {...styles.legend}>
           Subscribed
         </span>

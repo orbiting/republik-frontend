@@ -24,6 +24,12 @@ const Campaign = ({ campaign, grantAccess, revokeAccess, t }) => {
             {
               count: campaign.perks.giftableMemberships
             }
+          )}{' '}
+          {t.pluralize(
+            'Account/Access/Campaigns/Campaign/giftableMemberships/slots',
+            {
+              count: campaign.slots.free
+            }
           )}
         </P>
       )}

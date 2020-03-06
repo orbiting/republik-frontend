@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-06T16:16:28.351Z",
+  "updated": "2020-03-06T16:38:09.426Z",
   "title": "live",
   "data": [
     {
@@ -6729,6 +6729,18 @@
     {
       "key": "Account/Access/Campaigns/Campaign/giftableMemberships/other",
       "value": "Aktuell sind noch {count} Mitgliedschaften zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/1",
+      "value": "Sie dürfen eine verschenken."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/0",
+      "value": "Sie dürfen aktuell keine mehr verschenken."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/other",
+      "value": "Sie dürfen {count} verschenken."
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-06T16:50:42.700Z",
+  "updated": "2020-03-06T16:59:58.255Z",
   "title": "live",
   "data": [
     {
@@ -1790,7 +1790,6 @@
       "key": "components/Discussion/Notification/NONE/label",
       "value": "Keine"
     },
-
     {
       "key": "components/Discussion/NotificationChannel/EMAIL/label",
       "value": "E-Mail-Benachrichtigungen"
@@ -4573,7 +4572,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/memberships",
-      "value": "neue Mitgliedschaften und Abos im März. Ambition: {count}."
+      "value": "neue Mitgliedschaften und Abos im März. Ambition: {count}."
     },
     {
       "key": "crowdfunding/status/goal/money",

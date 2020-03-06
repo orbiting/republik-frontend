@@ -6479,6 +6479,14 @@
       "value": "Spotify"
     },
     {
+      "key": "PodcastButtons/apple",
+      "value": "Apple"
+    },
+    {
+      "key": "PodcastButtons/google",
+      "value": "Google"
+    },
+    {
       "key": "Trial/Page/disabled/title",
       "value": "Danke für Ihre Neugier!"
     },

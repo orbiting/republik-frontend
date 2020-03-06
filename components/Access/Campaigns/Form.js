@@ -77,7 +77,7 @@ class Form extends Component {
   }
 
   render() {
-    const { campaign, t } = this.props
+    const { campaign, givingMemberships, t } = this.props
 
     const {
       isMutating,
@@ -129,7 +129,11 @@ class Form extends Component {
           <Fragment>
             {campaign.slots.free > 0 && (
               <A href='#' onClick={this.onClickReset}>
-                {t('Account/Access/Campaigns/Form/reset')}
+                {t(
+                  `Account/Access/Campaigns/Form${
+                    givingMemberships ? '/givingMemberships' : ''
+                  }/reset`
+                )}
               </A>
             )}
             {campaign.slots.total > 1 && campaign.slots.free < 1 && (
@@ -139,9 +143,14 @@ class Form extends Component {
         ) : (
           <Fragment>
             <H3 style={{ marginTop: 30 }}>
-              {t.pluralize('Account/Access/Campaigns/Form/title', {
-                count: campaign.slots.used
-              })}
+              {t.pluralize(
+                `Account/Access/Campaigns/Form${
+                  givingMemberships ? '/givingMemberships' : ''
+                }/title`,
+                {
+                  count: campaign.slots.used
+                }
+              )}
             </H3>
             <P>
               {t.elements('Account/Access/Campaigns/Form/explanation', {

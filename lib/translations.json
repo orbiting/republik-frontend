@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-06T11:55:07.175Z",
+  "updated": "2020-03-06T15:49:59.777Z",
   "title": "live",
   "data": [
     {
@@ -4576,7 +4576,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/memberships",
-      "value": "im März neu gewonnene Mitgliedschaften. Ambition: {count}."
+      "value": "neue Mitgliedschaften und Abos im März. Ambition: {count}."
     },
     {
       "key": "crowdfunding/status/goal/money",
@@ -6388,7 +6388,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "zusätzliche Mittel von Investorinnen und grosszügigen Mitgliedern. Ziel: {count}."
+      "value": "zusätzliche Mittel von Investorinnen und Mitgliedern. Ziel: {count}."
     },
     {
       "key": "nav/cockpit",
@@ -6697,6 +6697,38 @@
     {
       "key": "crowdfunding/SurviveStatus/link/shareTemplates",
       "value": "Republik bekannter machen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/givingMemberships/title/1",
+      "value": "Verschenkte Mitgliedschaft"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/givingMemberships/title/other",
+      "value": "Verschenkte Mitgliedschaften"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/title/0",
+      "value": "Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/title/other",
+      "value": "Eine weitere Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/reset",
+      "value": "weitere Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/0",
+      "value": "Aktuell sind keine Mitgliedschaften zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/1",
+      "value": "Aktuell ist noch eine Mitgliedschaften zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/other",
+      "value": "Aktuell sind noch {count} Mitgliedschaften zu vergeben."
     }
   ]
 }

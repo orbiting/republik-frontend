@@ -1790,37 +1790,34 @@
       "key": "components/Discussion/Notification/NONE/label",
       "value": "Keine"
     },
+
     {
       "key": "components/Discussion/NotificationChannel/EMAIL/label",
-      "value": "E-Mail"
+      "value": "E-Mail-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB/label",
-      "value": "Browser"
+      "value": "Browser-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/APP/label",
-      "value": "App"
+      "value": "App-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
-      "value": "E-Mail und Browser"
+      "value": "E-Mail- und Browser-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_APP/label",
-      "value": "E-Mail und App"
+      "value": "E-Mail- und App-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB_APP/label",
-      "value": "Browser und App"
+      "value": "Browser- und App-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
-      "value": "E-Mail, Browser und App"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/BASIC/label",
-      "value": null
+      "value": "E-Mail-, Browser- und App-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/info/MY_CHILDREN",

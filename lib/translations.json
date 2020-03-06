@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-03T16:58:54.756Z",
+  "updated": "2020-03-06T16:59:58.255Z",
   "title": "live",
   "data": [
     {
@@ -1184,11 +1184,11 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation",
-      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}, mit dem der Gutscheincode eingelöst werden kann."
+      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}-Link, mit dem der Gutscheincode eingelöst werden kann."
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation/linkClaim",
-      "value": "republik.ch/abholen-Link"
+      "value": "republik.ch/abholen"
     },
     {
       "key": "Account/Access/Campaigns/Form/reset",
@@ -4572,7 +4572,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/memberships",
-      "value": "im März neu gewonnene Mitgliedschaften. Ambition: {count}."
+      "value": "neue Mitgliedschaften und Abos im März. Ambition: {count}."
     },
     {
       "key": "crowdfunding/status/goal/money",
@@ -6384,7 +6384,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "zusätzliche Mittel von Investorinnen und grosszügigen Mitgliedern. Ziel: {count}."
+      "value": "zusätzliche Mittel von Investorinnen und Mitgliedern. Ziel: {count}."
     },
     {
       "key": "nav/cockpit",
@@ -6693,6 +6693,50 @@
     {
       "key": "crowdfunding/SurviveStatus/link/shareTemplates",
       "value": "Republik bekannter machen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/givingMemberships/title/1",
+      "value": "Verschenkte Mitgliedschaft"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/givingMemberships/title/other",
+      "value": "Verschenkte Mitgliedschaften"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/title/0",
+      "value": "Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/title/other",
+      "value": "Eine weitere Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/reset",
+      "value": "weitere Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/0",
+      "value": "Aktuell sind keine Mitgliedschaften zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/1",
+      "value": "Aktuell ist noch eine Mitgliedschaft zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/other",
+      "value": "Aktuell sind noch {count} Mitgliedschaften zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/0",
+      "value": "Sie dürfen keine mehr verschenken."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/1",
+      "value": "Sie dürfen noch eine verschenken."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/other",
+      "value": "Sie dürfen noch {count} verschenken."
     }
   ]
 }

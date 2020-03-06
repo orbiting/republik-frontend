@@ -49,24 +49,6 @@ export default gql`
           description
         }
       }
-      accessCampaigns {
-        id
-        title
-        description
-        grants {
-          id
-          email
-          voucherCode
-          beginBefore
-          beginAt
-          endAt
-        }
-        slots {
-          total
-          used
-          free
-        }
-      }
       pledges {
         id
         package {

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-06T16:59:58.255Z",
+  "updated": "2020-03-06T20:47:06.895Z",
   "title": "live",
   "data": [
     {
@@ -6712,7 +6712,7 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/givingMemberships/reset",
-      "value": "weitere Mitgliedschaft verschenken"
+      "value": "Weitere Mitgliedschaft verschenken"
     },
     {
       "key": "Account/Access/Campaigns/Campaign/giftableMemberships/0",
@@ -6720,11 +6720,11 @@
     },
     {
       "key": "Account/Access/Campaigns/Campaign/giftableMemberships/1",
-      "value": "Aktuell ist noch eine Mitgliedschaft zu vergeben."
+      "value": "Aktuell ist eine Mitgliedschaft zu vergeben."
     },
     {
       "key": "Account/Access/Campaigns/Campaign/giftableMemberships/other",
-      "value": "Aktuell sind noch {count} Mitgliedschaften zu vergeben."
+      "value": "Aktuell sind {count} Mitgliedschaften zu vergeben."
     },
     {
       "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/0",

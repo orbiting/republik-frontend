@@ -31,6 +31,7 @@ const Grants = ({ campaign, givingMemberships, revokeAccess, t }) => {
       <List>
         {campaign.grants.map((grant, key) => (
           <Grant
+            givingMemberships={givingMemberships}
             key={`grant-${key}`}
             grant={grant}
             revokeAccess={revokeAccess}

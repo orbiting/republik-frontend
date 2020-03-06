@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-03T16:58:54.756Z",
+  "updated": "2020-03-06T11:55:07.175Z",
   "title": "live",
   "data": [
     {
@@ -1184,11 +1184,11 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation",
-      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}, mit dem der Gutscheincode eingelöst werden kann."
+      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}-Link, mit dem der Gutscheincode eingelöst werden kann."
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation/linkClaim",
-      "value": "republik.ch/abholen-Link"
+      "value": "republik.ch/abholen"
     },
     {
       "key": "Account/Access/Campaigns/Form/reset",
@@ -1792,31 +1792,35 @@
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL/label",
-      "value": "E-Mail-Benachrichtigungen"
+      "value": "E-Mail"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB/label",
-      "value": "Browser-Benachrichtigungen"
+      "value": "Browser"
     },
     {
       "key": "components/Discussion/NotificationChannel/APP/label",
-      "value": "App-Benachrichtigungen"
+      "value": "App"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
-      "value": "E-Mail- und Browser-Benachrichtigungen"
+      "value": "E-Mail und Browser"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_APP/label",
-      "value": "E-Mail- und App-Benachrichtigungen"
+      "value": "E-Mail und App"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB_APP/label",
-      "value": "Browser- und App-Benachrichtigungen"
+      "value": "Browser und App"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
-      "value": "E-Mail-, Browser- und App-Benachrichtigungen"
+      "value": "E-Mail, Browser und App"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/BASIC/label",
+      "value": null
     },
     {
       "key": "components/Discussion/info/MY_CHILDREN",

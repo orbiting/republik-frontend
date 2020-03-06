@@ -80,6 +80,7 @@ const PodcastButtons = ({
   const copyMinWidth = 105
   const shareOptions = [
     canPlay && {
+      animate: true,
       href: audioSource.mp3,
       icon: 'play',
       title: t('PodcastButtons/play'),

@@ -435,6 +435,11 @@ class ArticlePage extends Component {
       ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
 
+    const podcast =
+      meta &&
+      (meta.podcast ||
+        (meta.audioSource && meta.format && meta.format.meta.podcast))
+
     const hasPdf = meta && meta.template === 'article'
 
     const actionBar = meta && (
@@ -442,7 +447,7 @@ class ArticlePage extends Component {
         t={t}
         url={meta.url}
         title={meta.title}
-        animate
+        animate={!podcast}
         template={meta.template}
         path={meta.path}
         linkedDiscussion={meta.linkedDiscussion}
@@ -502,6 +507,7 @@ class ArticlePage extends Component {
       repoId,
       schema,
       meta,
+      podcast,
       actionBar,
       showSeriesNav,
       autoPlayAudioSource:
@@ -571,6 +577,7 @@ class ArticlePage extends Component {
       id: documentId,
       repoId,
       meta,
+      podcast,
       actionBar,
       schema,
       headerAudioPlayer,
@@ -602,11 +609,6 @@ class ArticlePage extends Component {
       article.content &&
       article.content.meta &&
       article.content.meta.darkMode
-
-    const podcast =
-      meta &&
-      (meta.podcast ||
-        (meta.audioSource && meta.format && meta.format.meta.podcast))
 
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton

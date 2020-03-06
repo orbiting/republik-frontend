@@ -31,6 +31,8 @@ import LaunchIcon from 'react-icons/lib/md/launch'
 import RSSIcon from 'react-icons/lib/md/rss-feed'
 import PlayIcon from 'react-icons/lib/md/play-circle-outline'
 import SpotifyIcon from 'react-icons/lib/fa/spotify'
+import GoogleIcon from 'react-icons/lib/fa/google'
+import AppleIcon from 'react-icons/lib/fa/apple'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -149,7 +151,9 @@ const ICONS = {
   launch: LaunchIcon,
   rss: RSSIcon,
   play: PlayIcon,
-  spotify: SpotifyIcon
+  spotify: SpotifyIcon,
+  google: GoogleIcon,
+  apple: AppleIcon
 }
 
 const IconLink = ({

@@ -39,6 +39,8 @@ const styles = {
 const PodcastButtons = ({
   t,
   podigeeSlug,
+  appleUrl,
+  googleUrl,
   spotifyUrl,
   eventCategory = 'PodcastButtons',
   audioSource,
@@ -62,11 +64,14 @@ const PodcastButtons = ({
 
   const mainFeed = `https://${podigeeSlug}.podigee.io/feed/mp3`
 
-  const plattformWithApp = matchIOSUserAgent(headers.userAgent)
+  const isIOS = matchIOSUserAgent(headers.userAgent)
+  const isAndroid = headers.userAgent && headers.userAgent.match(/android/i)
+
+  const plattformWithApp = isIOS
     ? 'ios'
     : headers.userAgent && headers.userAgent.match(/Mac OS X 10_15/)
     ? 'catalina'
-    : headers.userAgent && headers.userAgent.match(/android/i)
+    : isAndroid
     ? 'android'
     : null
 
@@ -104,6 +109,20 @@ const PodcastButtons = ({
       icon: 'spotify',
       label: t('PodcastButtons/spotify')
     },
+    appleUrl &&
+      !isAndroid && {
+        href: appleUrl,
+        target: '_blank',
+        icon: 'apple',
+        label: t('PodcastButtons/apple')
+      },
+    googleUrl &&
+      !isIOS && {
+        href: googleUrl,
+        target: '_blank',
+        icon: 'google',
+        label: t('PodcastButtons/google')
+      },
     {
       href: `https://${podigeeSlug}.podigee.io/feed/mp3`,
       target: '_blank',

@@ -176,6 +176,12 @@ const getDocument = gql`
             title
             color
             kind
+            podcast {
+              podigeeSlug
+              spotifyUrl
+              googleUrl
+              appleUrl
+            }
           }
         }
         section {
@@ -217,6 +223,12 @@ const getDocument = gql`
           ogg
           mediaId
           durationMs
+        }
+        podcast {
+          podigeeSlug
+          spotifyUrl
+          googleUrl
+          appleUrl
         }
         estimatedReadingMinutes
         estimatedConsumptionMinutes
@@ -592,10 +604,9 @@ class ArticlePage extends Component {
       article.content.meta.darkMode
 
     const podcast =
-      article &&
-      article.content &&
-      article.content.meta &&
-      article.content.meta.podcast
+      meta &&
+      (meta.podcast ||
+        (meta.audioSource && meta.format && meta.format.meta.podcast))
 
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton

@@ -100,6 +100,7 @@ const Cards = ({ employees, filter, slice }) => {
     employees
       .slice(0, promi) // promis get returned first by backend
       .concat(shuffle(employees.slice(promi)))
+      .filter(d => d.user && d.user.portrait)
       .filter(filter)
       .slice(0, CARD_NUMBER)
       .reverse()

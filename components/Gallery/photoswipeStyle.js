@@ -211,7 +211,7 @@ ${mediaQueries.mUp} {
 
 */
 /*
-  
+
   1. Buttons
 
  */
@@ -363,7 +363,7 @@ ${mediaQueries.mUp} {
 }
 
 /*
-  
+
   4. Caption
 
  */
@@ -427,7 +427,7 @@ ${mediaQueries.mUp} {
   opacity: 1;
 }
 /*
-  
+
   6. Additional styles
 
  */
@@ -488,6 +488,10 @@ ${mediaQueries.mUp} {
 
 .pswp__ui--idle .pswp__button--arrow--left,
 .pswp__ui--idle .pswp__button--arrow--right {
+  opacity: 0;
+}
+
+.pswp__ui--idle .pswp__caption {
   opacity: 0;
 }
 

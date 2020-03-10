@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import track from '../../lib/piwik'
-import { fontStyles } from '@project-r/styleguide'
 import { compose, graphql } from 'react-apollo'
 import { SubscribeIcon } from './SubscribeIcon'
 import {
@@ -20,11 +19,6 @@ const styles = {
     '@media print': {
       display: 'none'
     }
-  }),
-  legend: css({
-    ...fontStyles.sansSerifRegular11,
-    transition: 'all 2s',
-    lineHeight: 1
   })
 }
 
@@ -38,18 +32,18 @@ const SubscribeButton = ({
   const [subscriptionId, setSubscriptionId] = useState(
     subscription && subscription.id
   )
-  const [labelOpacity, setLabelOpacity] = useState(0)
+  const [animate, setAnimate] = useState(false)
 
   const toggleSubscribe = () => {
     if (!subscriptionId) {
       subToDoc({ documentId: formatId }).then(({ data }) => {
         setSubscriptionId(data.subscribe.id)
-        setLabelOpacity(1)
+        setAnimate(true)
       })
     } else {
       unsubFromDoc({ subscriptionId: subscriptionId }).then(() => {
         setSubscriptionId(null)
-        setLabelOpacity(0)
+        setAnimate(true)
       })
     }
     track([
@@ -61,13 +55,13 @@ const SubscribeButton = ({
   }
 
   useEffect(() => {
-    if (labelOpacity) {
+    if (animate) {
       const timeout = setTimeout(() => {
-        setLabelOpacity(0)
+        setAnimate(false)
       }, 5 * 1000)
       return () => clearTimeout(timeout)
     }
-  }, [labelOpacity])
+  }, [animate])
 
   return (
     <div {...styles.button} id='subscribe-button'>
@@ -75,10 +69,7 @@ const SubscribeButton = ({
         style={{ cursor: 'pointer', textAlign: 'center' }}
         onClick={toggleSubscribe}
       >
-        <SubscribeIcon isSubscribed={subscriptionId} />
-        <span style={{ opacity: labelOpacity }} {...styles.legend}>
-          Subscribed
-        </span>
+        <SubscribeIcon animate={animate} isSubscribed={subscriptionId} legend />
       </div>
     </div>
   )

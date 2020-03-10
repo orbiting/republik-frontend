@@ -1,29 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import {
-  A,
-  fontStyles,
-  Radio,
-  mediaQueries,
-  Callout
-} from '@project-r/styleguide'
+import { fontStyles, Radio, mediaQueries, colors } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
-import { SubscribeIcon } from './SubscribeIcon'
 import NotificationChannelsLink from './NotificationChannelsLink'
+import SubIcon from 'react-icons/lib/md/notifications'
+import UnsubIcon from 'react-icons/lib/md/notifications-off'
 
 const styles = {
-  button: css({
-    marginLeft: 'auto',
-    marginRight: 10,
-    position: 'relative',
-    lineHeight: 'initial',
-    '@media print': {
-      display: 'none'
-    }
-  }),
   radio: css({
     '& label': {
       display: 'flex',
@@ -41,16 +27,34 @@ const styles = {
   })
 }
 
-const SubscribeCallout = ({
+const Title = compose(withT)(({ t, selectedValue }) => {
+  const isSubscribed = selectedValue !== 'NONE'
+  const Icon = isSubscribed ? SubIcon : UnsubIcon
+
+  return (
+    <label
+      style={{
+        marginBottom: 10,
+        color: isSubscribed ? colors.text : colors.lightText
+      }}
+    >
+      <b>
+        <Icon /> {t('pages/notifications/title')}
+      </b>
+    </label>
+  )
+})
+
+const SubscribeDebateCallout = ({
   t,
   discussionId,
   discussionPreferences: { me, discussion },
-  setDiscussionPreferences
+  setDiscussionPreferences,
+  setSubscribed,
+  setAnimate,
+  showTitle
 }) => {
-  const [isSubscribed, setSubscribed] = useState(false)
-  const [showCallout, setCallout] = useState(false)
   const [selectedValue, setSelectedValue] = useState(undefined)
-  const [animate, setAnimate] = useState(false)
 
   const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
     value: option,
@@ -67,59 +71,41 @@ const SubscribeCallout = ({
   }, [discussion, me])
 
   useEffect(() => {
-    setSubscribed(selectedValue && selectedValue !== 'NONE')
+    setSubscribed && setSubscribed(selectedValue && selectedValue !== 'NONE')
   }, [selectedValue])
-
-  useEffect(() => {
-    if (animate) {
-      const timeout = setTimeout(() => {
-        setAnimate(false)
-      }, 1 * 1000)
-      return () => clearTimeout(timeout)
-    }
-  }, [animate])
 
   const updatePreferences = option => e => {
     e.stopPropagation(e)
     setDiscussionPreferences(undefined, undefined, option.value).then(() => {
       setSelectedValue(option.value)
-      setAnimate(true)
+      setAnimate && setAnimate(true)
     })
   }
 
   if (!me || !discussion || !setDiscussionPreferences) return null
 
   return (
-    <div {...styles.button}>
-      <SubscribeIcon
-        animate={animate}
-        isSubscribed={isSubscribed}
-        onClick={e => {
-          e.stopPropagation()
-          setCallout(!showCallout)
-        }}
-      />
-      <Callout expanded={showCallout} setExpanded={setCallout}>
-        <div {...styles.radio}>
-          {notificationOptions.map(option => (
-            <div key={option.value}>
-              <Radio
-                value={option.value}
-                checked={selectedValue === option.value}
-                onChange={updatePreferences(option)}
-              >
-                <span>{option.text}</span>
-              </Radio>
-            </div>
-          ))}
-        </div>
-        <NotificationChannelsLink me={me} />
-      </Callout>
-    </div>
+    <>
+      <div {...styles.radio}>
+        {showTitle && <Title selectedValue={selectedValue} />}
+        {notificationOptions.map(option => (
+          <div key={option.value}>
+            <Radio
+              value={option.value}
+              checked={selectedValue === option.value}
+              onChange={updatePreferences(option)}
+            >
+              <span>{option.text}</span>
+            </Radio>
+          </div>
+        ))}
+      </div>
+      <NotificationChannelsLink me={me} />
+    </>
   )
 }
 
 export default compose(
   withT,
   withDiscussionPreferences
-)(SubscribeCallout)
+)(SubscribeDebateCallout)

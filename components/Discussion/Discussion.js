@@ -5,8 +5,7 @@ import Comments from './Comments'
 import { Interaction, colors } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { css } from 'glamor'
-import SubscribeCallout from '../Notifications/SubscribeCallout'
-import NotificationOptions from './NotificationOptions'
+import SubscribeDebateMenu from '../Notifications/SubscribeDebateMenu'
 
 const DEFAULT_DEPTH = 3
 
@@ -63,7 +62,7 @@ const Discussion = ({
                 count: commentCount || 0
               })}
             </Interaction.H2>
-            <SubscribeCallout discussionId={discussionId} />
+            <SubscribeDebateMenu discussionId={discussionId} />
           </div>
           <DiscussionCommentComposer
             discussionId={discussionId}

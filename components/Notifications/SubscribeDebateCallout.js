@@ -6,8 +6,7 @@ import { compose } from 'react-apollo'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
 import NotificationChannelsLink from './NotificationChannelsLink'
-import SubIcon from 'react-icons/lib/md/notifications'
-import UnsubIcon from 'react-icons/lib/md/notifications-off'
+import SubscribeCalloutTitle from './SubscribeCalloutTitle'
 
 const styles = {
   radio: css({
@@ -26,24 +25,6 @@ const styles = {
     }
   })
 }
-
-const Title = compose(withT)(({ t, selectedValue }) => {
-  const isSubscribed = selectedValue !== 'NONE'
-  const Icon = isSubscribed ? SubIcon : UnsubIcon
-
-  return (
-    <label
-      style={{
-        marginBottom: 10,
-        color: isSubscribed ? colors.text : colors.lightText
-      }}
-    >
-      <b>
-        <Icon /> {t('pages/notifications/title')}
-      </b>
-    </label>
-  )
-})
 
 const SubscribeDebateCallout = ({
   t,
@@ -87,7 +68,9 @@ const SubscribeDebateCallout = ({
   return (
     <>
       <div {...styles.radio}>
-        {showTitle && <Title selectedValue={selectedValue} />}
+        {showTitle && (
+          <SubscribeCalloutTitle isSubscribed={selectedValue !== 'NONE'} />
+        )}
         {notificationOptions.map(option => (
           <div key={option.value}>
             <Radio

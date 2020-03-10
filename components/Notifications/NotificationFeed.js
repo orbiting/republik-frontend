@@ -116,12 +116,16 @@ export default ({
               >
                 {values.map((node, j) => {
                   return node.object.__typename === 'Document' ? (
-                    <DocumentNotification node={node} key={j} />
+                    <DocumentNotification
+                      isNew={isNew(node)}
+                      node={node}
+                      me={me}
+                      key={j}
+                    />
                   ) : (
                     <CommentNotification
                       isNew={isNew(node)}
                       node={node}
-                      me={me}
                       key={j}
                     />
                   )

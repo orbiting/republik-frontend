@@ -7,7 +7,7 @@ import { merge } from 'glamor'
 import { isNewStyle } from './index'
 import SubscribeDebateCallout from './SubscribeDebateCallout'
 
-export default compose(withT)(({ t, node, me, isNew }) => {
+export default compose(withT)(({ t, node, isNew }) => {
   return (
     <div {...merge({}, isNew && isNewStyle)}>
       <CommentTeaser

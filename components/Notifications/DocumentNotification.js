@@ -10,6 +10,7 @@ import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import NotificationChannelsLink from './NotificationChannelsLink'
 import { css } from 'glamor'
+import SubscribeCalloutTitle from './SubscribeCalloutTitle'
 
 const styles = {
   checkbox: css({
@@ -35,9 +36,7 @@ const styles = {
 const UnsubscribeCallout = ({ me }) => (
   <>
     <div {...styles.checkbox}>
-      <label style={{ marginBottom: 10 }}>
-        <b>Subscribed via:</b>
-      </label>
+      <SubscribeCalloutTitle isSubscribed={true} />
       <Checkbox checked={true} onChange={() => undefined}>
         <span {...styles.checkboxLabel}>Debate</span>
       </Checkbox>
@@ -51,22 +50,25 @@ const UnsubscribeCallout = ({ me }) => (
   </>
 )
 
-export default compose(withT)(({ t, node }) => {
-  const { content, object } = node
+export default compose(withT)(({ t, node, isNew, me }) => {
+  const { object } = node
   return (
     <TeaserFeed
-      {...object.meta}
-      title={object.meta.shortTitle || object.meta.title}
-      description={!object.meta.shortTitle && object.meta.description}
+      kind='editorial'
+      format={{ meta: { title: object.meta.title } }}
+      title='The quick brown fox jumps over the lazy dog'
+      description='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores.'
       t={t}
-      credits={object.meta.credits}
-      publishDate={object.meta.publishDate}
-      kind={
-        object.meta.template === 'editorialNewsletter'
-          ? 'meta'
-          : object.meta.kind
-      }
+      credits={[
+        { type: 'text', value: 'An article by ' },
+        {
+          type: 'link',
+          url: 'https://republik.ch/~moser',
+          children: [{ type: 'text', value: 'Christof Moser' }]
+        }
+      ]}
       key={object.meta.path}
+      menu={<UnsubscribeCallout me={me} />}
     />
   )
 })

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-05T13:17:18.909Z",
+  "updated": "2020-03-09T16:05:35.330Z",
   "title": "live",
   "data": [
     {
@@ -1184,11 +1184,11 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation",
-      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}, mit dem der Gutscheincode eingelöst werden kann."
+      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}-Link, mit dem der Gutscheincode eingelöst werden kann."
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation/linkClaim",
-      "value": "republik.ch/abholen-Link"
+      "value": "republik.ch/abholen"
     },
     {
       "key": "Account/Access/Campaigns/Form/reset",
@@ -2863,6 +2863,10 @@
       "value": "Ältere Beiträge laden\n"
     },
     {
+      "key": "feed/title/0",
+      "value": null
+    },
+    {
       "key": "feed/title/1",
       "value": "Ein Beitrag"
     },
@@ -3111,7 +3115,7 @@
       "value": "herunterladen"
     },
     {
-      "key": "article/pdf/images/1",
+      "key": "Keine Beiträge",
       "value": "mit einem Bild"
     },
     {
@@ -4576,7 +4580,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/memberships",
-      "value": "im März neu gewonnene Mitgliedschaften. Ambition: {count}."
+      "value": "neue Mitgliedschaften und Abos im März. Ambition: {count}."
     },
     {
       "key": "crowdfunding/status/goal/money",
@@ -6388,7 +6392,7 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "zusätzliche Mittel von Investorinnen und grosszügigen Mitgliedern. Ziel: {count}."
+      "value": "zusätzliche Mittel von Investorinnen und Mitgliedern. Ziel: {count}."
     },
     {
       "key": "nav/cockpit",
@@ -6477,6 +6481,14 @@
     {
       "key": "PodcastButtons/spotify",
       "value": "Spotify"
+    },
+    {
+      "key": "PodcastButtons/apple",
+      "value": "Apple"
+    },
+    {
+      "key": "PodcastButtons/google",
+      "value": "Google"
     },
     {
       "key": "Trial/Page/disabled/title",
@@ -6689,6 +6701,50 @@
     {
       "key": "crowdfunding/SurviveStatus/link/shareTemplates",
       "value": "Republik bekannter machen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/givingMemberships/title/1",
+      "value": "Verschenkte Mitgliedschaft"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/givingMemberships/title/other",
+      "value": "Verschenkte Mitgliedschaften"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/title/0",
+      "value": "Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/title/other",
+      "value": "Eine weitere Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/givingMemberships/reset",
+      "value": "Weitere Mitgliedschaft verschenken"
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/0",
+      "value": "Aktuell sind keine Mitgliedschaften zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/1",
+      "value": "Aktuell ist eine Mitgliedschaft zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/other",
+      "value": "Aktuell sind {count} Mitgliedschaften zu vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/0",
+      "value": "Sie dürfen keine mehr verschenken."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/1",
+      "value": "Sie dürfen noch eine verschenken."
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/other",
+      "value": "Sie dürfen noch {count} verschenken."
     }
   ]
 }

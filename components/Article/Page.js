@@ -876,7 +876,12 @@ class ArticlePage extends Component {
                     variablesAsString={article.content.meta.feedQueryVariables}
                   />
                 )}
-                {isFormat && <FormatFeed formatId={article.id} />}
+                {isFormat && (
+                  <FormatFeed
+                    formatId={article.id}
+                    subscription={article.subscribedByMe}
+                  />
+                )}
                 {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />

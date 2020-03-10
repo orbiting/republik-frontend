@@ -3,8 +3,12 @@ import { css } from 'glamor'
 import withT from '../../lib/withT'
 import track from '../../lib/piwik'
 import { fontStyles } from '@project-r/styleguide'
-import { compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { SubscribeIcon } from './SubscribeIcon'
+import {
+  subscribeToDocumentMutation,
+  unsubscribeFromDocumentMutation
+} from './enhancers'
 
 const styles = {
   button: css({
@@ -24,17 +28,27 @@ const styles = {
   })
 }
 
-const SubscribeButton = ({ t, formatId }) => {
-  const [isSubscribed, setSubscribed] = useState(false)
+const SubscribeButton = ({
+  t,
+  formatId,
+  subscription,
+  subToDoc,
+  unsubFromDoc
+}) => {
+  const [isSubscribed, setSubscribed] = useState(!!subscription)
   const [labelOpacity, setLabelOpacity] = useState(0)
 
   const toggleSubscribe = () => {
     if (!isSubscribed) {
-      setSubscribed(true)
-      setLabelOpacity(1)
+      subToDoc({ documentId: formatId }).then(() => {
+        setSubscribed(true)
+        setLabelOpacity(1)
+      })
     } else {
-      setSubscribed(false)
-      setLabelOpacity(0)
+      unsubFromDoc({ subscriptionId: subscription.id }).then(() => {
+        setSubscribed(false)
+        setLabelOpacity(0)
+      })
     }
     track([
       'trackEvent',
@@ -68,4 +82,22 @@ const SubscribeButton = ({ t, formatId }) => {
   )
 }
 
-export default compose(withT)(SubscribeButton)
+export default compose(
+  withT,
+  graphql(subscribeToDocumentMutation, {
+    props: ({ mutate }) => ({
+      subToDoc: variables =>
+        mutate({
+          variables
+        })
+    })
+  }),
+  graphql(unsubscribeFromDocumentMutation, {
+    props: ({ mutate }) => ({
+      unsubFromDoc: variables =>
+        mutate({
+          variables
+        })
+    })
+  })
+)(SubscribeButton)

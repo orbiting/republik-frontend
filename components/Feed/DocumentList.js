@@ -37,8 +37,6 @@ const DocumentList = ({
     setInfiniteScroll
   ] = useInfiniteScroll({ hasMore, loadMore })
 
-  const formatId = variables && variables.formatId
-
   if (totalCount < 1) {
     return null
   }
@@ -51,7 +49,12 @@ const DocumentList = ({
             {t.pluralize('feed/title', {
               count: totalCount
             })}
-            {formatId ? <SubscribeButton formatId={formatId} /> : null}
+            {variables && variables.formatId ? (
+              <SubscribeButton
+                formatId={variables.formatId}
+                subscription={variables.subscription}
+              />
+            ) : null}
           </Interaction.H2>
           <br />
           <br />

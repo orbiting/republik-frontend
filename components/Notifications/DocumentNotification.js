@@ -5,19 +5,21 @@ import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 
 export default compose(withT)(({ t, node }) => {
+  const { content, object } = node
   return (
     <TeaserFeed
-      format={{ meta: { title: 'Format', color: 'purple', kind: 'meta' } }}
-      title='The quick brown fox jumps over the lazy dog'
-      description='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores.'
-      credits={[
-        { type: 'text', value: 'Vor 5 Tag von ' },
-        {
-          type: 'link',
-          url: 'https://republik.ch/~moser',
-          children: [{ type: 'text', value: 'Christof Moser' }]
-        }
-      ]}
+      {...object.meta}
+      title={object.meta.shortTitle || object.meta.title}
+      description={!object.meta.shortTitle && object.meta.description}
+      t={t}
+      credits={object.meta.credits}
+      publishDate={object.meta.publishDate}
+      kind={
+        object.meta.template === 'editorialNewsletter'
+          ? 'meta'
+          : object.meta.kind
+      }
+      key={object.meta.path}
     />
   )
 })

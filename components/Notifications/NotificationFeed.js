@@ -6,6 +6,7 @@ import InfiniteScroll from '../Frame/InfiniteScroll'
 import { timeFormat } from '../../lib/utils/format'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
+import DocumentNotification from './DocumentNotification'
 
 const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 
@@ -113,14 +114,19 @@ export default ({
                 hasSpaceAfter={i < all.length - 1}
                 label={key}
               >
-                {values.map((node, j) => (
-                  <CommentNotification
-                    isNew={isNew(node)}
-                    node={node}
-                    me={me}
-                    key={j}
-                  />
-                ))}
+                {values.map((node, j) => {
+                  console.log(node)
+                  return node.object.__typename === 'Document' ? (
+                    <DocumentNotification node={node} key={j} />
+                  ) : (
+                    <CommentNotification
+                      isNew={isNew(node)}
+                      node={node}
+                      me={me}
+                      key={j}
+                    />
+                  )
+                })}
               </StickySection>
             )
           })}

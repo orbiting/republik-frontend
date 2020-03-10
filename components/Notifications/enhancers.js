@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+import { documentFragment } from '../Feed/fragments'
 
 const notification = gql`
   fragment Notification on Notification {
@@ -29,7 +30,7 @@ export const notificationsQuery = gql`
         createdAt
         object {
           ... on Document {
-            id
+            ...FeedDocument
           }
           ... on Comment {
             id
@@ -92,6 +93,7 @@ export const notificationsQuery = gql`
       }
     }
   }
+  ${documentFragment}
 `
 
 const notificationCountQuery = gql`
@@ -114,15 +116,15 @@ const markAsReadMutation = gql`
   ${notification}
 `
 
-const subscribeToDocumentMutation = gql`
+export const subscribeToDocumentMutation = gql`
   mutation subToDoc($documentId: ID!) {
     subscribe(objectId: $documentId, type: Document) {
       id
     }
   }
 `
-const unsubeMutation = gql`
-  mutation unsubFromDoc($subscriptionId: ID!) {
+export const unsubscribeFromDocumentMutation = gql`
+  mutation unsubscribe($subscriptionId: ID!) {
     unsubscribe(subscriptionId: $subscriptionId) {
       id
     }

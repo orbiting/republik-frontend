@@ -37,29 +37,23 @@ const DocumentList = ({
     setInfiniteScroll
   ] = useInfiniteScroll({ hasMore, loadMore })
 
-  if (totalCount < 1) {
-    return null
-  }
-
   return (
     <>
-      {showTotal && (
-        <div>
-          <Interaction.H2>
-            {t.pluralize('feed/title', {
-              count: totalCount
-            })}
-            {variables && variables.formatId ? (
-              <SubscribeButton
-                formatId={variables.formatId}
-                subscription={variables.subscription}
-              />
-            ) : null}
-          </Interaction.H2>
-          <br />
-          <br />
-        </div>
-      )}
+      <div>
+        <Interaction.H2>
+          {t.pluralize('feed/title', {
+            count: totalCount
+          })}
+          {variables && variables.formatId ? (
+            <SubscribeButton
+              formatId={variables.formatId}
+              subscription={variables.subscription}
+            />
+          ) : null}
+        </Interaction.H2>
+        <br />
+        <br />
+      </div>
       {help}
       <div ref={containerRef}>
         <Feed documents={documents} {...feedProps} />

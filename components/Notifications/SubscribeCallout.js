@@ -71,10 +71,9 @@ const SubscribeCallout = ({
 
   const updatePreferences = option => e => {
     e.stopPropagation(e)
-    setSelectedValue(option.value)
-    setDiscussionPreferences(undefined, undefined, option.value).then(() =>
-      setCallout(false)
-    )
+    setDiscussionPreferences(undefined, undefined, option.value).then(() => {
+      setSelectedValue(option.value)
+    })
   }
 
   if (!me || !discussion || !setDiscussionPreferences) return null

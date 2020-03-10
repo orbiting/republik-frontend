@@ -15,20 +15,12 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
     return null
   }
 
-  const ArticleLink = (
+  return (
     <Link href={articleMeta.path} passHref key='articlelink'>
       <a {...linkRule} href={articleMeta.path}>
         {inQuotes(articleMeta.title)}
       </a>
     </Link>
-  )
-
-  return (
-    <>
-      {t.elements('feedback/autoArticle/selected/headline', {
-        link: ArticleLink
-      })}
-    </>
   )
 }
 

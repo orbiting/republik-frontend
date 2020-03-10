@@ -60,7 +60,7 @@ const Discussion = ({
           <div {...styles.title}>
             <Interaction.H2>
               {t.pluralize('feed/title', {
-                count: commentCount
+                count: commentCount || 0
               })}
             </Interaction.H2>
             <SubscribeCallout discussionId={discussionId} />

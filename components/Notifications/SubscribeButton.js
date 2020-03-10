@@ -35,25 +35,27 @@ const SubscribeButton = ({
   subToDoc,
   unsubFromDoc
 }) => {
-  const [isSubscribed, setSubscribed] = useState(!!subscription)
+  const [subscriptionId, setSubscriptionId] = useState(
+    subscription && subscription.id
+  )
   const [labelOpacity, setLabelOpacity] = useState(0)
 
   const toggleSubscribe = () => {
-    if (!isSubscribed) {
-      subToDoc({ documentId: formatId }).then(() => {
-        setSubscribed(true)
+    if (!subscriptionId) {
+      subToDoc({ documentId: formatId }).then(({ data }) => {
+        setSubscriptionId(data.subscribe.id)
         setLabelOpacity(1)
       })
     } else {
-      unsubFromDoc({ subscriptionId: subscription.id }).then(() => {
-        setSubscribed(false)
+      unsubFromDoc({ subscriptionId: subscriptionId }).then(() => {
+        setSubscriptionId(null)
         setLabelOpacity(0)
       })
     }
     track([
       'trackEvent',
       'subscribeFormat',
-      isSubscribed ? 'subscribe' : 'unsubscribe',
+      subscriptionId ? 'subscribe' : 'unsubscribe',
       formatId
     ])
   }
@@ -73,7 +75,7 @@ const SubscribeButton = ({
         style={{ cursor: 'pointer', textAlign: 'center' }}
         onClick={toggleSubscribe}
       >
-        <SubscribeIcon isSubscribed={isSubscribed} />
+        <SubscribeIcon isSubscribed={subscriptionId} />
         <span style={{ opacity: labelOpacity }} {...styles.legend}>
           Subscribed
         </span>

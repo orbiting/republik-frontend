@@ -747,8 +747,6 @@ class ArticlePage extends Component {
                 ? 'center'
                 : undefined
 
-            console.log(article)
-
             return (
               <Fragment>
                 <FontSizeSync />

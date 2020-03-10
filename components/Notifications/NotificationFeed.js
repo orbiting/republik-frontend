@@ -115,7 +115,6 @@ export default ({
                 label={key}
               >
                 {values.map((node, j) => {
-                  console.log(node)
                   return node.object.__typename === 'Document' ? (
                     <DocumentNotification node={node} key={j} />
                   ) : (

@@ -39,7 +39,6 @@ const Notifications = compose(
 
     useEffect(() => {
       if (notifications && notifications.nodes) {
-        console.log(notifications.nodes[0])
         notifications.nodes
           .filter(n => !n.readAt)
           .map(n => markAsReadMutation(n.id))

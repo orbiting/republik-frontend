@@ -25,8 +25,14 @@ const findFigures = (node, acc = []) => {
 
 const getImageProps = node => {
   const src = get(node, 'children[0].children[0].url', '')
-  const title = get(node, 'children[1].children[0].value', '')
-  const author = get(node, 'children[1].children[1].children[0].value', '')
+  let title = get(node, 'children[1].children[0].value', '')
+  const author =
+    title.length > 0
+      ? get(node, 'children[1].children[1].children[0].value', '')
+      : get(node, 'children[1].children[0].children[0].value', '')
+  if (author && !title.length) {
+    title = ' ' //otherwise PhotoSwipe doesn't call addCaptionHTMLFn
+  }
   return {
     src,
     title,

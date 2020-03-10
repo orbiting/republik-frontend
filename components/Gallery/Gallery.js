@@ -38,12 +38,18 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
           'article/gallery/error'
         )}</a></div>`,
         addCaptionHTMLFn: (item, captionEl) => {
-          if (!item.title) {
-            captionEl.children[0].innerHTML = ''
-            return false
+          let caption = ''
+          if (item.title) {
+            caption = item.title.trim()
           }
-          captionEl.children[0].innerHTML = `${item.title} <small>${item.author}</small>`
-          return true
+          if (item.author) {
+            if (caption.length) {
+              caption += ' '
+            }
+            caption += `<small>${item.author}</small>`
+          }
+          captionEl.children[0].innerHTML = caption
+          return caption.length > 0
         }
       }
 

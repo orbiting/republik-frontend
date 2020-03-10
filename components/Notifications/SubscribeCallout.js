@@ -50,6 +50,7 @@ const SubscribeCallout = ({
   const [isSubscribed, setSubscribed] = useState(false)
   const [showCallout, setCallout] = useState(false)
   const [selectedValue, setSelectedValue] = useState(undefined)
+  const [animate, setAnimate] = useState(false)
 
   const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
     value: option,
@@ -69,10 +70,20 @@ const SubscribeCallout = ({
     setSubscribed(selectedValue && selectedValue !== 'NONE')
   }, [selectedValue])
 
+  useEffect(() => {
+    if (animate) {
+      const timeout = setTimeout(() => {
+        setAnimate(false)
+      }, 1 * 1000)
+      return () => clearTimeout(timeout)
+    }
+  }, [animate])
+
   const updatePreferences = option => e => {
     e.stopPropagation(e)
     setDiscussionPreferences(undefined, undefined, option.value).then(() => {
       setSelectedValue(option.value)
+      setAnimate(true)
     })
   }
 
@@ -81,6 +92,7 @@ const SubscribeCallout = ({
   return (
     <div {...styles.button}>
       <SubscribeIcon
+        animate={animate}
         isSubscribed={isSubscribed}
         onClick={e => {
           e.stopPropagation()

@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
-import withT from '../../lib/withT'
 import track from '../../lib/piwik'
-import { compose, graphql } from 'react-apollo'
+import { compose } from 'react-apollo'
 import { SubscribeIcon } from './SubscribeIcon'
-import {
-  subscribeToDocumentMutation,
-  unsubscribeFromDocumentMutation
-} from './enhancers'
+import { withSubToDoc, withUnsubFromDoc } from './enhancers'
 
 const styles = {
   button: css({
@@ -22,8 +18,7 @@ const styles = {
   })
 }
 
-const SubscribeButton = ({
-  t,
+const SubscribeDocumentButton = ({
   formatId,
   subscription,
   subToDoc,
@@ -76,21 +71,6 @@ const SubscribeButton = ({
 }
 
 export default compose(
-  withT,
-  graphql(subscribeToDocumentMutation, {
-    props: ({ mutate }) => ({
-      subToDoc: variables =>
-        mutate({
-          variables
-        })
-    })
-  }),
-  graphql(unsubscribeFromDocumentMutation, {
-    props: ({ mutate }) => ({
-      unsubFromDoc: variables =>
-        mutate({
-          variables
-        })
-    })
-  })
-)(SubscribeButton)
+  withSubToDoc,
+  withUnsubFromDoc
+)(SubscribeDocumentButton)

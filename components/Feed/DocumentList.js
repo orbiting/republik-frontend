@@ -11,7 +11,7 @@ import Feed from './Feed'
 import ErrorMessage from '../ErrorMessage'
 
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
-import SubscribeButton from '../Notifications/SubscribeButton'
+import SubscribeButton from '../Notifications/SubscribeDocumentButton'
 
 const styles = {
   more: css({

@@ -116,14 +116,14 @@ const markAsReadMutation = gql`
   ${notification}
 `
 
-export const subscribeToDocumentMutation = gql`
+const subscribeToDocumentMutation = gql`
   mutation subToDoc($documentId: ID!) {
     subscribe(objectId: $documentId, type: Document) {
       id
     }
   }
 `
-export const unsubscribeFromDocumentMutation = gql`
+const unsubscribeFromDocumentMutation = gql`
   mutation unsubscribe($subscriptionId: ID!) {
     unsubscribe(subscriptionId: $subscriptionId) {
       id
@@ -153,5 +153,23 @@ export const withMarkAsReadMutation = graphql(markAsReadMutation, {
         }
       })
     }
+  })
+})
+
+export const withSubToDoc = graphql(subscribeToDocumentMutation, {
+  props: ({ mutate }) => ({
+    subToDoc: variables =>
+      mutate({
+        variables
+      })
+  })
+})
+
+export const withUnsubFromDoc = graphql(unsubscribeFromDocumentMutation, {
+  props: ({ mutate }) => ({
+    unsubFromDoc: variables =>
+      mutate({
+        variables
+      })
   })
 })

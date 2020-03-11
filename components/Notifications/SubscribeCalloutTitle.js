@@ -1,16 +1,30 @@
 import React from 'react'
 import withT from '../../lib/withT'
-import { colors } from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import SubIcon from 'react-icons/lib/md/notifications'
 import UnsubIcon from 'react-icons/lib/md/notifications-off'
+import { css } from 'glamor'
+
+const styles = {
+  title: css({
+    marginBottom: 10,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular12
+    },
+    '& svg': {
+      width: 16,
+      height: 16
+    }
+  })
+}
 
 const SubscribeCalloutTitle = compose(withT)(({ t, isSubscribed }) => {
   const Icon = isSubscribed ? SubIcon : UnsubIcon
   return (
     <label
+      {...styles.title}
       style={{
-        marginBottom: 10,
         color: isSubscribed ? colors.text : colors.lightText
       }}
     >

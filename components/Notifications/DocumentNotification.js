@@ -1,57 +1,13 @@
 import React from 'react'
 
-import {
-  Checkbox,
-  TeaserFeed,
-  fontStyles,
-  mediaQueries
-} from '@project-r/styleguide'
+import { TeaserFeed } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
-import NotificationChannelsLink from './NotificationChannelsLink'
-import { css } from 'glamor'
-import SubscribeCalloutTitle from './SubscribeCalloutTitle'
-
-const styles = {
-  checkbox: css({
-    '& label': {
-      display: 'flex',
-      textAlign: 'left',
-      alignItems: 'center',
-      margin: '5px 0',
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifRegular12
-      }
-    },
-    '& svg': {
-      width: 12,
-      height: 12
-    }
-  }),
-  checkboxLabel: css({
-    marginTop: -6
-  })
-}
-
-const UnsubscribeCallout = ({ me }) => (
-  <>
-    <div {...styles.checkbox}>
-      <SubscribeCalloutTitle isSubscribed={true} />
-      <Checkbox checked={true} onChange={() => undefined}>
-        <span {...styles.checkboxLabel}>Debate</span>
-      </Checkbox>
-      <Checkbox checked={true} onChange={() => undefined}>
-        <span {...styles.checkboxLabel}>Profile</span>
-      </Checkbox>
-    </div>
-    <div style={{ marginTop: -10 }}>
-      <NotificationChannelsLink me={me} />
-    </div>
-  </>
-)
+import SubscribeDocumentCallout from './SubscribeDocumenCallout'
 
 export default compose(withT)(({ t, node, isNew, me }) => {
-  const { object } = node
+  const { subscription, object } = node
+  console.log(node)
   return (
     <TeaserFeed
       kind='editorial'
@@ -68,7 +24,14 @@ export default compose(withT)(({ t, node, isNew, me }) => {
         }
       ]}
       key={object.meta.path}
-      menu={<UnsubscribeCallout me={me} />}
+      menu={
+        <SubscribeDocumentCallout
+          me={me}
+          formatId={object.id}
+          formatName={object.meta.title}
+          subscription={subscription}
+        />
+      }
     />
   )
 })

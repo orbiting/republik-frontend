@@ -67,10 +67,10 @@ const SubscribeDebateCallout = ({
 
   return (
     <>
+      {showTitle && (
+        <SubscribeCalloutTitle isSubscribed={selectedValue !== 'NONE'} />
+      )}
       <div {...styles.radio}>
-        {showTitle && (
-          <SubscribeCalloutTitle isSubscribed={selectedValue !== 'NONE'} />
-        )}
         {notificationOptions.map(option => (
           <div key={option.value}>
             <Radio

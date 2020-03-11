@@ -7,6 +7,7 @@ import { linkRule } from '@project-r/styleguide'
 import { APP_OPTIONS } from '../../lib/constants'
 import { focusSelector } from '../../lib/utils/scroll'
 import { Router, Link } from '../../lib/routes'
+import withMe from '../../lib/apollo/withMe'
 import query from './belongingsQuery'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
@@ -47,7 +48,7 @@ export const AnchorLink = ({ children, id }) => (
   </a>
 )
 
-const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
+const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
   <ul {...styles.anchorList}>
     {!inNativeIOSApp && memberships && memberships.length > 0 && (
       <li {...styles.anchorListItem}>
@@ -56,7 +57,7 @@ const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
         </AnchorLink>
       </li>
     )}
-    {accessCampaigns && accessCampaigns.length > 0 && (
+    {me && me.accessCampaigns && me.accessCampaigns.length > 0 && (
       <li {...styles.anchorListItem}>
         <Link route='access' passHref>
           <a {...linkRule}>{t('Account/Access/Campaigns/title')}</a>
@@ -98,12 +99,12 @@ const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
 )
 
 export default compose(
+  withMe,
   graphql(query, {
     props: ({ data }) => ({
       loading: data.loading || !data.me,
       error: data.error,
-      memberships: !data.loading && data.me && data.me.memberships,
-      accessCampaigns: !data.loading && data.me && data.me.accessCampaigns
+      memberships: !data.loading && data.me && data.me.memberships
     })
   }),
   withT,

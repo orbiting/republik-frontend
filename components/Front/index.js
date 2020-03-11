@@ -26,7 +26,6 @@ import HrefLink from '../Link/Href'
 import ErrorMessage from '../ErrorMessage'
 import CommentLink from '../Discussion/CommentLink'
 import DiscussionLink from '../Discussion/DiscussionLink'
-import SurviveStatus from '../Crowdfunding/SurviveStatus'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -89,13 +88,6 @@ const styles = {
     color: colors.negative.text,
     textAlign: 'center',
     padding: '20px 0'
-  }),
-  surviveStatus: css({
-    padding: 15,
-    paddingBottom: 20,
-    [mediaQueries.mUp]: {
-      padding: '15px 5% 20px'
-    }
   })
 }
 
@@ -261,11 +253,6 @@ const Front = ({
                   <Interaction.P>
                     {t('front/prepublication/notice')}
                   </Interaction.P>
-                </div>
-              )}
-              {front.meta.path === '/' && (
-                <div {...styles.surviveStatus}>
-                  <SurviveStatus />
                 </div>
               )}
               {renderMdast(

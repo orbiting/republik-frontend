@@ -3,26 +3,64 @@ import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import Campaign from './Campaign'
+import Loader from '../../Loader'
 
-import query from '../../Account/belongingsQuery'
 import { Interaction } from '@project-r/styleguide'
 import withT from '../../../lib/withT'
 
-const Campaigns = ({ t, accessCampaigns, grantAccess, revokeAccess }) => {
+const query = gql`
+  query accessCampaigns {
+    me {
+      id
+      accessCampaigns {
+        id
+        title
+        description
+        grants {
+          id
+          email
+          voucherCode
+          beginBefore
+          beginAt
+          endAt
+        }
+        slots {
+          total
+          used
+          free
+        }
+        perks {
+          giftableMemberships
+        }
+      }
+    }
+  }
+`
+
+const Campaigns = ({ t, data, grantAccess, revokeAccess }) => {
   return (
     <>
       <Interaction.H1 style={{ marginBottom: 60 }}>
         {t('Account/Access/Page/title')}
       </Interaction.H1>
-      {accessCampaigns &&
-        accessCampaigns.map((campaign, key) => (
-          <Campaign
-            key={`campaign-${key}`}
-            campaign={campaign}
-            grantAccess={grantAccess}
-            revokeAccess={revokeAccess}
-          />
-        ))}
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          return (
+            <>
+              {data.me.accessCampaigns.map((campaign, key) => (
+                <Campaign
+                  key={`campaign-${key}`}
+                  campaign={campaign}
+                  grantAccess={grantAccess}
+                  revokeAccess={revokeAccess}
+                />
+              ))}
+            </>
+          )
+        }}
+      />
     </>
   )
 }
@@ -72,10 +110,7 @@ export default compose(
   }),
   graphql(query, {
     props: ({ data }) => ({
-      loading: data.loading,
-      accessCampaigns:
-        (!data.loading && !data.error && data.me && data.me.accessCampaigns) ||
-        []
+      data
     })
   })
 )(Campaigns)

@@ -12,7 +12,7 @@ const { Emphasis } = Interaction
 
 const dayFormat = timeFormat('%e. %B %Y')
 
-const Grants = ({ grant, revokeAccess, t }) => {
+const Grants = ({ grant, givingMemberships, revokeAccess, t }) => {
   const elements = {
     recipient: grant.email && (
       <Emphasis key={`grant-recipient-${grant.id}`}>{grant.email}</Emphasis>
@@ -57,8 +57,12 @@ const Grants = ({ grant, revokeAccess, t }) => {
       {elements.beginAt && (
         <Fragment>
           {t.elements('Account/Access/Campaigns/Grants/beginAt', elements)}
-          <br />
-          {t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
+          {!givingMemberships && (
+            <>
+              <br />
+              {t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
+            </>
+          )}
         </Fragment>
       )}
     </Item>

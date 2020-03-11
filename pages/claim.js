@@ -16,7 +16,11 @@ const ALLOWED_CONTEXT = ['claim', 'access']
 const Claim = ({ router: { query }, t }) => {
   let { context, email, code } = query
 
-  context = ALLOWED_CONTEXT.includes(context) && context
+  context =
+    ALLOWED_CONTEXT.includes(context) &&
+    (code && code.length === 7 && context === 'access' // ignore access context with 7 digit codes for memberships
+      ? undefined
+      : context)
   email = email && maybeDecode(email)
   email = email && isEmail(email) ? email : ''
   code = code && sanitizeVoucherCode(code)

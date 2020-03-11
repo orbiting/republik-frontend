@@ -30,6 +30,7 @@ import { HEADER_HEIGHT } from '../constants'
 import { Link } from '../../lib/routes'
 import { SECTION_SPACE } from './Section'
 import withT from '../../lib/withT'
+import Subscriptions from './Sections/Subscriptions'
 
 const { P } = Interaction
 
@@ -93,6 +94,12 @@ class Page extends Component {
       {
         component: Newsletter,
         name: 'newsletter',
+        ref: React.createRef(),
+        visited: false
+      },
+      {
+        component: Subscriptions,
+        name: 'subscriptions',
         ref: React.createRef(),
         visited: false
       },

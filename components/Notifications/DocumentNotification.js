@@ -6,7 +6,7 @@ import withT from '../../lib/withT'
 import SubscribeDocumentCallout from './SubscribeDocumenCallout'
 
 export default compose(withT)(({ t, node, isNew, me }) => {
-  const { subscription, object } = node
+  const { object } = node
   return (
     <TeaserFeed
       kind='editorial'
@@ -31,6 +31,7 @@ export default compose(withT)(({ t, node, isNew, me }) => {
           subscription={object.subscribedByMe}
         />
       }
+      focus={isNew}
     />
   )
 })

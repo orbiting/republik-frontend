@@ -10,6 +10,12 @@ const notification = gql`
   }
 `
 
+const subscription = gql`
+  fragment Subscription on Subscription {
+    id
+  }
+`
+
 export const notificationsQuery = gql`
   query getNotifications($after: String) {
     me {
@@ -99,7 +105,7 @@ export const notificationsQuery = gql`
   ${documentFragment}
 `
 
-export const getSections = gql`
+export const sectionSubscriptions = gql`
   query getSections {
     sections: documents(template: "section") {
       nodes {
@@ -115,18 +121,16 @@ export const getSections = gql`
             id
             meta {
               title
-              path
-              color
-              kind
             }
-            linkedDocuments(feed: true) {
-              totalCount
+            subscribedByMe {
+              ...Subscription
             }
           }
         }
       }
     }
   }
+  ${subscription}
 `
 
 const notificationCountQuery = gql`
@@ -152,16 +156,18 @@ const markAsReadMutation = gql`
 const subscribeToDocumentMutation = gql`
   mutation subToDoc($documentId: ID!) {
     subscribe(objectId: $documentId, type: Document) {
-      id
+      ...Subscription
     }
   }
+  ${subscription}
 `
 const unsubscribeFromDocumentMutation = gql`
   mutation unsubscribe($subscriptionId: ID!) {
     unsubscribe(subscriptionId: $subscriptionId) {
-      id
+      ...Subscription
     }
   }
+  ${subscription}
 `
 
 export const notificationSubscription = gql`
@@ -193,7 +199,8 @@ export const withSubToDoc = graphql(subscribeToDocumentMutation, {
   props: ({ mutate }) => ({
     subToDoc: variables =>
       mutate({
-        variables
+        variables,
+        refetchQueries: [{ query: sectionSubscriptions }]
       })
   })
 })
@@ -202,7 +209,8 @@ export const withUnsubFromDoc = graphql(unsubscribeFromDocumentMutation, {
   props: ({ mutate }) => ({
     unsubFromDoc: variables =>
       mutate({
-        variables
+        variables,
+        refetchQueries: [{ query: sectionSubscriptions }]
       })
   })
 })

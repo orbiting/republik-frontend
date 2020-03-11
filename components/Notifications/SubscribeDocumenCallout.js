@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { css } from 'glamor'
-import track from '../../lib/piwik'
 import { compose } from 'react-apollo'
 import { withSubToDoc, withUnsubFromDoc } from './enhancers'
 import { Checkbox, fontStyles, mediaQueries } from '@project-r/styleguide'
@@ -59,12 +58,6 @@ const SubscribeDocumentCallout = ({
         setSubscriptionId(null)
       })
     }
-    track([
-      'trackEvent',
-      'subscribeFormat',
-      subscriptionId ? 'subscribe' : 'unsubscribe',
-      formatId
-    ])
   }
 
   return (

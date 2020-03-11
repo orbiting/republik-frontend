@@ -7,7 +7,6 @@ import SubscribeDocumentCallout from './SubscribeDocumenCallout'
 
 export default compose(withT)(({ t, node, isNew, me }) => {
   const { subscription, object } = node
-  console.log(node)
   return (
     <TeaserFeed
       kind='editorial'
@@ -29,7 +28,7 @@ export default compose(withT)(({ t, node, isNew, me }) => {
           me={me}
           formatId={object.id}
           formatName={object.meta.title}
-          subscription={subscription}
+          subscription={object.subscribedByMe}
         />
       }
     />

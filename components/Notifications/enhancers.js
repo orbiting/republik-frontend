@@ -31,6 +31,9 @@ export const notificationsQuery = gql`
         object {
           ... on Document {
             ...FeedDocument
+            subscribedByMe {
+              id
+            }
           }
           ... on Comment {
             id
@@ -94,6 +97,36 @@ export const notificationsQuery = gql`
     }
   }
   ${documentFragment}
+`
+
+export const getSections = gql`
+  query getSections {
+    sections: documents(template: "section") {
+      nodes {
+        id
+        meta {
+          title
+          path
+          color
+          kind
+        }
+        formats: linkedDocuments(feed: true) {
+          nodes {
+            id
+            meta {
+              title
+              path
+              color
+              kind
+            }
+            linkedDocuments(feed: true) {
+              totalCount
+            }
+          }
+        }
+      }
+    }
+  }
 `
 
 const notificationCountQuery = gql`

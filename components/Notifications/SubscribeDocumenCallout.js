@@ -39,14 +39,15 @@ const styles = {
 const SubscribeDocumentCallout = ({
   subToDoc,
   unsubFromDoc,
-  formatId,
-  formatName,
+  format,
   subscription,
   me
 }) => {
   const [subscriptionId, setSubscriptionId] = useState(
     subscription && subscription.id
   )
+  const formatId = format && format.id
+  const formatName = format && format.meta && format.meta.title
 
   const toggleSubscribe = () => {
     if (!subscriptionId) {

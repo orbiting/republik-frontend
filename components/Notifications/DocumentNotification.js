@@ -6,29 +6,19 @@ import withT from '../../lib/withT'
 import SubscribeDocumentCallout from './SubscribeDocumenCallout'
 
 export default compose(withT)(({ t, node, isNew, me }) => {
-  const { object } = node
+  const { subscription, object } = node
   return (
     <TeaserFeed
-      kind='editorial'
-      format={{ meta: { title: object.meta.title } }}
-      title='The quick brown fox jumps over the lazy dog'
-      description='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores.'
+      {...object.meta}
+      title={object.meta.shortTitle || object.meta.title}
+      description={!object.meta.shortTitle && object.meta.description}
       t={t}
-      credits={[
-        { type: 'text', value: 'An article by ' },
-        {
-          type: 'link',
-          url: 'https://republik.ch/~moser',
-          children: [{ type: 'text', value: 'Christof Moser' }]
-        }
-      ]}
       key={object.meta.path}
       menu={
         <SubscribeDocumentCallout
           me={me}
-          formatId={object.id}
-          formatName={object.meta.title}
-          subscription={object.subscribedByMe}
+          format={object.meta.format}
+          subscription={subscription}
         />
       }
       focus={isNew}

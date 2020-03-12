@@ -454,7 +454,7 @@ class ArticlePage extends Component {
         ownDiscussion={meta.ownDiscussion}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        onGalleryClick={meta.indicateGallery && this.showGallery}
+        onGalleryClick={meta.indicateGallery ? this.showGallery : undefined}
         onPdfClick={
           hasPdf && countImages(article.content) > 0
             ? this.togglePdf
@@ -863,13 +863,15 @@ class ArticlePage extends Component {
                     <PodcastButtons {...podcast} />
                   </Center>
                 )}
-                {!suppressPayNotes && !darkMode && (
-                  <Center>
-                    <LazyLoad style={{ display: 'block', minHeight: 120 }}>
-                      <SurviveStatus />
-                    </LazyLoad>
-                  </Center>
-                )}
+                {!suppressPayNotes &&
+                  !darkMode &&
+                  !(customPayNotes && customPayNotes.length) && (
+                    <Center>
+                      <LazyLoad style={{ display: 'block', minHeight: 120 }}>
+                        <SurviveStatus />
+                      </LazyLoad>
+                    </Center>
+                  )}
                 {isMember && episodes && (
                   <RelatedEpisodes
                     title={series.title}

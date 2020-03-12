@@ -1872,7 +1872,7 @@
     },
     {
       "key": "components/Discussion/empty",
-      "value": "Noch keine Beiträge in dieser Diskussion."
+      "value": "Noch keine Beiträge."
     },
     {
       "key": "discussion/meta/title",

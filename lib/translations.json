@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-06T20:47:06.895Z",
+  "updated": "2020-03-13T08:25:31.507Z",
   "title": "live",
   "data": [
     {
@@ -6540,6 +6540,46 @@
     },
     {
       "key": "article/payNote/200225-v1/after/note",
+      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+    },
+    {
+      "key": "article/payNote/200313-v1/before",
+      "value": "Unabhängiger Jouranlismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen.\n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
+    },
+    {
+      "key": "article/payNote/200313-v1/before/buy/button",
+      "value": "Jahresmitgliedschaft"
+    },
+    {
+      "key": "article/payNote/200313-v1/before/secondary/label",
+      "value": "Einen Monat für 22.–"
+    },
+    {
+      "key": "article/payNote/200313-v1/before/secondary/link",
+      "value": "/angebote?package=MONTHLY_ABO"
+    },
+    {
+      "key": "article/payNote/200313-v1/before/note",
+      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+    },
+    {
+      "key": "article/payNote/200313-v1/after",
+      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat ehrgeizige Ziele erreichen.\n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
+    },
+    {
+      "key": "article/payNote/200313-v1/after/buy/button",
+      "value": "Jahresmitgliedschaft"
+    },
+    {
+      "key": "article/payNote/200313-v1/after/secondary/label",
+      "value": "Einen Monat für 22.–"
+    },
+    {
+      "key": "article/payNote/200313-v1/after/secondary/link",
+      "value": "/angebote?package=MONTHLY_ABO"
+    },
+    {
+      "key": "article/payNote/200313-v1/after/note",
       "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
     },
     {

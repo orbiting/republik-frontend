@@ -666,19 +666,21 @@ class ArticlePage extends Component {
       article.content &&
       article.content.meta &&
       article.content.meta.paynotes
-    const payNote = (
-      <PayNote
-        seed={payNoteSeed}
-        tryOrBuy={payNoteTryOrBuy}
-        documentId={documentId}
-        repoId={repoId}
-        customPayNotes={customPayNotes}
-        position='before'
-      />
-    )
-
-    const payNoteAfter =
-      payNote && React.cloneElement(payNote, { position: 'after' })
+    //     const payNote = (
+    //       <PayNote
+    //         seed={payNoteSeed}
+    //         tryOrBuy={payNoteTryOrBuy}
+    //         documentId={documentId}
+    //         repoId={repoId}
+    //         customPayNotes={customPayNotes}
+    //         position='before'
+    //       />
+    //     )
+    //
+    //     const payNoteAfter =
+    //       payNote && React.cloneElement(payNote, { position: 'after' })
+    const payNote = null
+    const payNoteAfter = null
 
     const splitContent = article && splitByTitle(article.content)
     const renderSchema = content =>
@@ -863,7 +865,8 @@ class ArticlePage extends Component {
                     <PodcastButtons {...podcast} />
                   </Center>
                 )}
-                {!suppressPayNotes &&
+                {false &&
+                  !suppressPayNotes &&
                   !darkMode &&
                   !(customPayNotes && customPayNotes.length) && (
                     <Center>

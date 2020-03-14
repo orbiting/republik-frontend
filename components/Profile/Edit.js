@@ -195,6 +195,7 @@ export const mutation = gql`
       emailAccessRole
       publicUrl
       biography
+      biographyContent
       statement
       portrait
       phoneNumber

@@ -141,6 +141,7 @@ class DocumentListContainer extends Component {
       mapNodes,
       placeholder,
       help,
+      empty,
       feedProps,
       refetchOnUnmount,
       showTotal
@@ -178,6 +179,7 @@ class DocumentListContainer extends Component {
                         feedProps={feedProps}
                         showTotal={showTotal}
                         help={help}
+                        empty={empty}
                       />
                     </>
                   )

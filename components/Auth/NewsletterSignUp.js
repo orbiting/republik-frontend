@@ -8,6 +8,8 @@ import withT from '../../lib/withT'
 import NewsletterSubscriptions from '../Account/NewsletterSubscriptions'
 import EmailForm, { checkEmail } from './EmailForm'
 
+import { Interaction } from '@project-r/styleguide'
+
 const FREE_NEWSLETTER = ['PROJECTR', 'COVID19']
 
 const SignUp = ({
@@ -30,6 +32,9 @@ const SignUp = ({
         filter={subscription => subscription.name === name}
       />
     )
+  }
+  if (serverState.success) {
+    return <Interaction.P>{t('Auth/NewsletterSignUp/success')}</Interaction.P>
   }
   return (
     <EmailForm
@@ -73,18 +78,9 @@ const signUpMutation = gql`
   mutation requestNewsletter(
     $email: String!
     $name: NewsletterName!
-    $context: String
+    $context: String!
   ) {
-    requestNewsletterSubscription(
-      email: $email
-      name: $name
-      context: $context
-    ) {
-      id
-      name
-      subscribed
-      isEligible
-    }
+    requestNewsletterSubscription(email: $email, name: $name, context: $context)
   }
 `
 

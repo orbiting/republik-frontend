@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-15T22:43:52.982Z",
+  "updated": "2020-03-15T23:12:59.374Z",
   "title": "live",
   "data": [
     {
@@ -6789,6 +6789,10 @@
     {
       "key": "Auth/NewsletterSignUp/submit",
       "value": "Abonnieren"
+    },
+    {
+      "key": "Auth/NewsletterSignUp/success",
+      "value": "Danke. Jetzt müssen Sie noch Ihre E-Mail-Adresse bestätigen."
     }
   ]
 }

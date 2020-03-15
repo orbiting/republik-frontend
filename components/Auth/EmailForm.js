@@ -61,7 +61,7 @@ const EmailForm = props => {
     loading,
     error,
     dirty,
-    value,
+    email,
     serverError,
     black
   } = props
@@ -87,7 +87,7 @@ const EmailForm = props => {
                   })
                 )
               }}
-              value={value}
+              value={email}
             />
           </div>
           <div {...styles.button}>

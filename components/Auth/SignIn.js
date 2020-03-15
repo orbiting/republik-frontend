@@ -166,7 +166,7 @@ class SignIn extends Component {
       <EmailForm
         beforeForm={beforeForm}
         label={label}
-        value={email}
+        email={email}
         dirty={dirty}
         error={error}
         onChange={state => this.setState(state)}

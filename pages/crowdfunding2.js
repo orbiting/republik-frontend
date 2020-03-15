@@ -36,6 +36,7 @@ import TeaserBlock, {
   GAP as TEASER_BLOCK_GAP
 } from '../components/Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../components/Overview/utils'
+import NewsletterSignUp from '../components/Auth/NewsletterSignUp'
 
 import {
   Loader,
@@ -448,6 +449,21 @@ ${pledgeLink}
             )
           }}
         />
+
+        <div
+          style={{
+            backgroundColor: colors.primaryBg,
+            padding: '10px 15px',
+            marginTop: 30
+          }}
+        >
+          <Interaction.H2>Covid-19-Uhr-Newsletter</Interaction.H2>
+          <Interaction.P style={{ margin: '10px 0' }}>
+            Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen
+            für alle. Auch ohne Mitgliedschaft oder Abo.
+          </Interaction.P>
+          <NewsletterSignUp black skipBox name='COVID19' />
+        </div>
 
         {md(mdComponents)`
 <br />

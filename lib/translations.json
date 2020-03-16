@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-15T23:12:59.374Z",
+  "updated": "2020-03-15T23:59:23.718Z",
   "title": "live",
   "data": [
     {
@@ -3553,6 +3553,14 @@
     {
       "key": "notifications/email-confirmed/title",
       "value": "Zugriff bestätigt"
+    },
+    {
+      "key": "notifications/email-confirmed/projectr/title",
+      "value": "E-Mail-Adresse bestätigt"
+    },
+    {
+      "key": "notifications/email-confirmed/newsletter/title",
+      "value": "E-Mail-Adresse bestätigt"
     },
     {
       "key": "notifications/email-confirmed/text",

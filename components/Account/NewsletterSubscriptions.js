@@ -69,9 +69,13 @@ const NewsletterSubscriptions = props => (
         return <Loader loading={loading} error={error} />
       }
 
+      const Box = props.skipBox ? NoBox : FrameBox
+
       if (!data.me || !data.me.newsletterSettings) {
         return (
-          <Loader error={t('account/newsletterSubscriptions/unauthorized')} />
+          <Box style={{ margin: '10px 0', padding: 15 }}>
+            <P>{t('account/newsletterSubscriptions/unauthorized')}</P>
+          </Box>
         )
       }
 
@@ -83,8 +87,6 @@ const NewsletterSubscriptions = props => (
       const hasNonEligibleSubscription = subscriptions.some(
         ({ isEligible }) => !isEligible
       )
-
-      const Box = props.skipBox ? NoBox : FrameBox
 
       return (
         <Fragment>

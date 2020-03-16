@@ -462,7 +462,7 @@ ${pledgeLink}
             Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen
             für alle. Auch ohne Mitgliedschaft oder Abo.
           </Interaction.P>
-          <NewsletterSignUp black skipBox name='COVID19' />
+          <NewsletterSignUp black skipBox free name='COVID19' />
         </div>
 
         {md(mdComponents)`

@@ -18,6 +18,7 @@ import FontSizeSync from '../FontSize/Sync'
 import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
+import withMe from '../../lib/apollo/withMe'
 
 import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
@@ -46,7 +47,9 @@ import {
   colors,
   Interaction,
   mediaQueries,
-  LazyLoad
+  LazyLoad,
+  TitleBlock,
+  Editorial
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -104,6 +107,10 @@ const getSchemaCreator = template => {
 }
 
 const styles = {
+  link: css({
+    color: 'inherit',
+    textDecoration: 'none'
+  }),
   prepublicationNotice: css({
     backgroundColor: colors.social
   }),
@@ -183,6 +190,10 @@ const getDocument = gql`
               googleUrl
               appleUrl
             }
+            newsletter {
+              name
+              free
+            }
           }
         }
         section {
@@ -230,6 +241,10 @@ const getDocument = gql`
           spotifyUrl
           googleUrl
           appleUrl
+        }
+        newsletter {
+          name
+          free
         }
         estimatedReadingMinutes
         estimatedConsumptionMinutes
@@ -441,7 +456,12 @@ class ArticlePage extends Component {
       (meta.podcast ||
         (meta.audioSource && meta.format && meta.format.meta.podcast))
 
+    const newsletterMeta =
+      meta && (meta.newsletter || (meta.format && meta.format.meta.newsletter))
+
     const hasPdf = meta && meta.template === 'article'
+    const isEditorialNewsletter =
+      meta && meta.template === 'editorialNewsletter'
 
     const actionBar = meta && (
       <ArticleActionBar
@@ -451,6 +471,10 @@ class ArticlePage extends Component {
         animate={!podcast}
         template={meta.template}
         path={meta.path}
+        fontSize={!isEditorialNewsletter /* tmp until supported */}
+        showShare={
+          !isEditorialNewsletter || (newsletterMeta && newsletterMeta.free)
+        }
         linkedDiscussion={meta.linkedDiscussion}
         ownDiscussion={meta.ownDiscussion}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
@@ -509,6 +533,7 @@ class ArticlePage extends Component {
       schema,
       meta,
       podcast,
+      newsletterMeta,
       actionBar,
       showSeriesNav,
       autoPlayAudioSource:
@@ -564,6 +589,7 @@ class ArticlePage extends Component {
     const {
       router,
       t,
+      me,
       data,
       data: { article },
       isMember,
@@ -579,6 +605,7 @@ class ArticlePage extends Component {
       repoId,
       meta,
       podcast,
+      newsletterMeta,
       actionBar,
       schema,
       headerAudioPlayer,
@@ -725,13 +752,20 @@ class ArticlePage extends Component {
 
             const isFormat = meta.template === 'format'
             const isSection = meta.template === 'section'
+            const isEditorialNewsletter =
+              meta.template === 'editorialNewsletter'
+
+            const hasNewsletterUtms =
+              router.query.utm_source &&
+              router.query.utm_source === 'newsletter'
+
             const suppressPayNotes = isSection || isFormat
             const suppressFirstPayNote =
               suppressPayNotes ||
               podcast ||
+              isEditorialNewsletter ||
               meta.path === '/top-storys' ||
-              (router.query.utm_source &&
-                router.query.utm_source === 'newsletter') ||
+              hasNewsletterUtms ||
               (router.query.utm_source &&
                 router.query.utm_source === 'flyer-v1')
             const ownDiscussion = meta.ownDiscussion
@@ -760,10 +794,7 @@ class ArticlePage extends Component {
                 ? 'center'
                 : undefined
 
-            const newsletterMeta =
-              article.content &&
-              article.content.meta &&
-              article.content.meta.newsletter
+            const format = meta.format
 
             return (
               <Fragment>
@@ -790,13 +821,38 @@ class ArticlePage extends Component {
                       {splitContent.title && (
                         <div {...styles.titleBlock}>
                           {renderSchema(splitContent.title)}
+                          {isEditorialNewsletter && (
+                            <TitleBlock margin={false}>
+                              {format && format.meta && (
+                                <Editorial.Format
+                                  color={
+                                    format.meta.color ||
+                                    colors[format.meta.kind]
+                                  }
+                                  contentEditable={false}
+                                >
+                                  <HrefLink href={format.meta.path} passHref>
+                                    <a {...styles.link} href={format.meta.path}>
+                                      {format.meta.title}
+                                    </a>
+                                  </HrefLink>
+                                </Editorial.Format>
+                              )}
+                              <Interaction.Headline>
+                                {meta.title}
+                              </Interaction.Headline>
+                            </TitleBlock>
+                          )}
                           <Center>
                             <div
                               ref={this.barRef}
                               {...styles.actionBar}
                               style={{
                                 textAlign: titleAlign,
-                                marginTop: isSection || isFormat ? 20 : 0
+                                marginTop: isSection || isFormat ? 20 : 0,
+                                marginBottom: isEditorialNewsletter
+                                  ? 0
+                                  : undefined
                               }}
                             >
                               {actionBar}
@@ -810,14 +866,20 @@ class ArticlePage extends Component {
                               </Breakout>
                             )}
                             {!!podcast && meta.template === 'article' && (
-                              <>
-                                <PodcastButtons
-                                  {...podcast}
-                                  audioSource={audioSource}
-                                  onAudioClick={this.toggleAudio}
-                                />
-                              </>
+                              <PodcastButtons
+                                {...podcast}
+                                audioSource={audioSource}
+                                onAudioClick={this.toggleAudio}
+                              />
                             )}
+                            {!me &&
+                              isEditorialNewsletter &&
+                              !!newsletterMeta &&
+                              newsletterMeta.free && (
+                                <div style={{ marginTop: 10 }}>
+                                  <NewsletterSignUp {...newsletterMeta} />
+                                </div>
+                              )}
                           </Center>
                           {!suppressFirstPayNote && payNote}
                         </div>
@@ -856,21 +918,22 @@ class ArticlePage extends Component {
                     />
                   </Center>
                 )}
-                {isMember && (
-                  <Fragment>
-                    {meta.template === 'article' && (
-                      <Center>
-                        <div ref={this.bottomBarRef}>{actionBarEnd}</div>
-                        {!!podcast && <PodcastButtons {...podcast} />}
-                      </Center>
-                    )}
-                  </Fragment>
-                )}
                 {!!newsletterMeta && (
                   <Center>
                     <NewsletterSignUp {...newsletterMeta} />
                   </Center>
                 )}
+                {(isMember && meta.template === 'article') ||
+                  (isEditorialNewsletter &&
+                    newsletterMeta &&
+                    newsletterMeta.free && (
+                      <Center>
+                        <div ref={this.bottomBarRef}>{actionBarEnd}</div>
+                        {!!podcast && meta.template === 'article' && (
+                          <PodcastButtons {...podcast} />
+                        )}
+                      </Center>
+                    ))}
                 {!!podcast && meta.template !== 'article' && (
                   <Center>
                     <PodcastButtons {...podcast} />
@@ -920,6 +983,7 @@ class ArticlePage extends Component {
 
 const ComposedPage = compose(
   withT,
+  withMe,
   withMembership,
   withMemberStatus,
   withEditor,

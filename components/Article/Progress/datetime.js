@@ -1,4 +1,4 @@
-import { timeFormat, swissTime } from '../../../lib/utils/format'
+import { timeFormat, formatDate } from '../../../lib/utils/format'
 
 const MS_PER_DAY = 60 * 60 * 24 * 1000
 
@@ -18,7 +18,6 @@ export default (
 ) => {
   const diff = date - lastMidnight
 
-  const formatDate = swissTime.format('%d.%m.%Y')
   const formatTime = timeFormat('%H:%M')
 
   const displayDay =

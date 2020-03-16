@@ -10,6 +10,7 @@ import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
+import { formatDate } from '../../lib/utils/format'
 import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
@@ -148,6 +149,7 @@ const getDocument = gql`
       ...BookmarkOnDocument
       ...UserProgressOnDocument
       meta {
+        publishDate
         template
         path
         title
@@ -840,6 +842,9 @@ class ArticlePage extends Component {
                               <Interaction.Headline>
                                 {meta.title}
                               </Interaction.Headline>
+                              <Editorial.Credit>
+                                {formatDate(new Date(meta.publishDate))}
+                              </Editorial.Credit>
                             </TitleBlock>
                           )}
                           <Center>

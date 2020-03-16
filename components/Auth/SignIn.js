@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 
 import { Link } from '../../lib/routes'
@@ -22,39 +21,7 @@ import {
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
-
-const styles = {
-  form: css({
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexFlow: 'row wrap'
-  }),
-  input: css({
-    marginRight: 10,
-    marginBottom: 0,
-    width: '58%',
-    flexGrow: 1
-  }),
-  button: css({
-    width: 160,
-    textAlign: 'center',
-    marginBottom: 15
-  }),
-  hint: css({
-    color: colors.text,
-    marginTop: -5,
-    fontSize: 16,
-    lineHeight: '24px'
-  })
-}
-
-const checkEmail = ({ value, shouldValidate, t }) => ({
-  email: value,
-  error:
-    (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
-    (!isEmail(value) && t('signIn/email/error/invalid')),
-  dirty: shouldValidate
-})
+import EmailForm, { checkEmail } from './EmailForm'
 
 class SignIn extends Component {
   constructor(props) {
@@ -196,52 +163,30 @@ class SignIn extends Component {
     }
 
     return (
-      <div>
-        {beforeForm}
-        <form onSubmit={this.onFormSubmit}>
-          <div {...styles.form}>
-            <div {...styles.input}>
-              <Field
-                name='email'
-                type='email'
-                label={t('signIn/email/label')}
-                error={dirty && error}
-                onChange={(_, value, shouldValidate) => {
-                  this.setState(
-                    checkEmail({
-                      t,
-                      value,
-                      shouldValidate
-                    })
-                  )
-                }}
-                value={email}
-              />
-            </div>
-            <div {...styles.button}>
-              {loading ? (
-                <InlineSpinner />
-              ) : (
-                <Button block type='submit' disabled={loading}>
-                  {label || t('signIn/button')}
-                </Button>
-              )}
-            </div>
-          </div>
-        </form>
-        <div {...styles.hint}>
-          <Link route='legal/privacy' passHref>
-            <Editorial.A>{t('signIn/privacy')}</Editorial.A>
-          </Link>
-          {' – '}
-          <Link route='faq' passHref>
-            <Editorial.A>{t('signIn/faq')}</Editorial.A>
-          </Link>
-          {' – '}
-          {t('signIn/hint')}
-        </div>
-        {!!serverError && <ErrorMessage error={serverError} />}
-      </div>
+      <EmailForm
+        beforeForm={beforeForm}
+        label={label}
+        email={email}
+        dirty={dirty}
+        error={error}
+        onChange={state => this.setState(state)}
+        onSubmit={this.onFormSubmit}
+        loading={loading}
+        serverError={serverError}
+        hints={
+          <>
+            <Link route='legal/privacy' passHref>
+              <Editorial.A>{t('signIn/privacy')}</Editorial.A>
+            </Link>
+            {' – '}
+            <Link route='faq' passHref>
+              <Editorial.A>{t('signIn/faq')}</Editorial.A>
+            </Link>
+            {' – '}
+            {t('signIn/hint')}
+          </>
+        }
+      />
     )
   }
 }

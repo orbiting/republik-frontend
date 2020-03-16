@@ -70,7 +70,7 @@ const Feed = ({ t, formatId }) => (
   <Center>
     <DocumentListContainer
       feedProps={{ showHeader: false }}
-      help={
+      empty={
         <WithoutMembership
           render={() => (
             <Box style={{ padding: '15px 20px' }}>

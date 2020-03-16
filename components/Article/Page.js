@@ -23,6 +23,7 @@ import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
+import NewsletterSignUp from '../Auth/NewsletterSignUp'
 import withMembership from '../Auth/withMembership'
 import { withEditor } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
@@ -759,6 +760,11 @@ class ArticlePage extends Component {
                 ? 'center'
                 : undefined
 
+            const newsletterMeta =
+              article.content &&
+              article.content.meta &&
+              article.content.meta.newsletter
+
             return (
               <Fragment>
                 <FontSizeSync />
@@ -860,6 +866,11 @@ class ArticlePage extends Component {
                     )}
                   </Fragment>
                 )}
+                {!!newsletterMeta && (
+                  <Center>
+                    <NewsletterSignUp {...newsletterMeta} />
+                  </Center>
+                )}
                 {!!podcast && meta.template !== 'article' && (
                   <Center>
                     <PodcastButtons {...podcast} />
@@ -888,7 +899,7 @@ class ArticlePage extends Component {
                     variablesAsString={article.content.meta.feedQueryVariables}
                   />
                 )}
-                {isFormat && <FormatFeed formatId={article.id} />}
+                {isFormat && <FormatFeed formatId={article.repoId} />}
                 {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />

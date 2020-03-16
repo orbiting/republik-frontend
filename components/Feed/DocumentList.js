@@ -28,6 +28,7 @@ const DocumentList = ({
   feedProps,
   showTotal,
   help,
+  empty,
   t
 }) => {
   const [
@@ -53,6 +54,7 @@ const DocumentList = ({
         </>
       )}
       {help}
+      {!documents.length && empty}
       <div ref={containerRef}>
         <Feed documents={documents} {...feedProps} />
       </div>

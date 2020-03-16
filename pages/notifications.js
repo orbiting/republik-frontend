@@ -151,7 +151,11 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
   }
 
   let isUnkownType = false
-  let title = t(`notifications/${type}/title`, undefined, '')
+  let title = t.first(
+    [`notifications/${type}/${context}/title`, `notifications/${type}/title`],
+    undefined,
+    ''
+  )
   if (!title && !knownTypes.includes(type)) {
     title = t('notifications/unkown/title')
     isUnkownType = true

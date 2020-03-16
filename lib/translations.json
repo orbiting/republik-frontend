@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-13T08:25:31.507Z",
+  "updated": "2020-03-16T00:22:38.006Z",
   "title": "live",
   "data": [
     {
@@ -972,7 +972,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags bis freitags"
+      "value": "montags bis freitags um 5 Uhr"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
@@ -997,6 +997,14 @@
     {
       "key": "account/newsletterSubscriptions/PROJECTR/frequency",
       "value": "unregelmässig"
+    },
+    {
+      "key": "account/newsletterSubscriptions/COVID19/label",
+      "value": "Republik – Das tägliche Covid-19-Update"
+    },
+    {
+      "key": "account/newsletterSubscriptions/COVID19/frequency",
+      "value": "montags bis freitags um 19 Uhr"
     },
     {
       "key": "account/authSettings/title",
@@ -3545,6 +3553,14 @@
     {
       "key": "notifications/email-confirmed/title",
       "value": "Zugriff bestätigt"
+    },
+    {
+      "key": "notifications/email-confirmed/projectr/title",
+      "value": "E-Mail-Adresse bestätigt"
+    },
+    {
+      "key": "notifications/email-confirmed/newsletter/title",
+      "value": "E-Mail-Adresse bestätigt"
     },
     {
       "key": "notifications/email-confirmed/text",
@@ -6777,6 +6793,18 @@
     {
       "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/other",
       "value": "Sie dürfen noch {count} verschenken."
+    },
+    {
+      "key": "Auth/NewsletterSignUp/submit",
+      "value": "Abonnieren"
+    },
+    {
+      "key": "Auth/NewsletterSignUp/success",
+      "value": "Danke. Jetzt müssen Sie noch Ihre E-Mail-Adresse bestätigen."
+    },
+    {
+      "key": "Auth/NewsletterSignUp/settingTitle",
+      "value": "Ihre Einstellung"
     }
   ]
 }

@@ -91,7 +91,7 @@ const SectionFeed = ({ t, formats, variablesAsString }) => {
     return null
   }
 
-  const help = (
+  const empty = (
     <WithoutMembership
       render={() => (
         <Box style={{ marginBottom: 30, padding: '15px 20px' }}>
@@ -111,7 +111,7 @@ const SectionFeed = ({ t, formats, variablesAsString }) => {
     <Center>
       <DocumentListContainer
         feedProps={{ showHeader: false }}
-        help={help}
+        empty={empty}
         showTotal={true}
         query={getFeedDocuments}
         variables={variables}

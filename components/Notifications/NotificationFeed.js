@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors, Interaction, Center } from '@project-r/styleguide'
+import { colors, Interaction, Center, linkRule } from '@project-r/styleguide'
 import StickySection from '../Feed/StickySection'
 import CommentNotification from './CommentNotification'
 import InfiniteScroll from '../Frame/InfiniteScroll'
@@ -7,6 +7,7 @@ import { timeFormat } from '../../lib/utils/format'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
 import DocumentNotification from './DocumentNotification'
+import { Link } from '../../lib/routes'
 
 const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 
@@ -92,13 +93,19 @@ export default ({
         onReload={onReload}
       />
       <Center>
-        <Interaction.H1 style={{ marginBottom: '40px' }}>
-          {hasNewNodes
-            ? `${hasNewNodes} neue Benarichtigung${
-                newNodes.length > 1 ? 'en' : ''
-              }`
-            : 'Alles gelesen!'}
-        </Interaction.H1>
+        <div style={{ marginBottom: 80 }}>
+          <Interaction.H1 style={{ marginBottom: 20 }}>
+            {hasNewNodes
+              ? `${hasNewNodes} neue Benarichtigung${
+                  newNodes.length > 1 ? 'en' : ''
+                }`
+              : 'Alles gelesen!'}
+          </Interaction.H1>
+
+          <Link route='subscriptionsSettings' passHref>
+            <a {...linkRule}>Einrichtungen</a>
+          </Link>
+        </div>
 
         <InfiniteScroll
           hasMore={hasNextPage}

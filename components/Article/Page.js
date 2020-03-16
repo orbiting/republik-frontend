@@ -760,7 +760,10 @@ class ArticlePage extends Component {
                 ? 'center'
                 : undefined
 
-            const newsletterMeta = article.content.meta.newsletter
+            const newsletterMeta =
+              article.content &&
+              article.content.meta &&
+              article.content.meta.newsletter
 
             return (
               <Fragment>

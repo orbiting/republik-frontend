@@ -27,7 +27,7 @@ class Feed extends Component {
           ? formatCredits(doc.meta.credits)
           : doc.meta.credits
       }
-      publishDate={undefined}
+      publishDate={this.props.showHeader ? undefined : doc.meta.publishDate}
       kind={
         doc.meta.template === 'editorialNewsletter' ? 'meta' : doc.meta.kind
       }

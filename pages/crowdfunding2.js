@@ -383,9 +383,10 @@ ${pledgeLink}
                 <Interaction.P {...styles.stretchP}>
                   {initialGoalsReached && (
                     <>
-                      Wir sind dankbar und erfreut! Wir haben unsere Ziele
-                      gemeinsam mit Ihnen erreicht. Die Republik hat definitiv
-                      eine Zukunft. Herzlichen Dank!
+                      Wir sind dankbar und erfreut! Wir haben unsere
+                      überlebenswichtigen Ziele schon Mitte März gemeinsam mit
+                      Ihnen erreicht. Die Republik hat definitiv eine Zukunft.
+                      Herzlichen Dank!
                     </>
                   )}
                   {remainingMoney > 0 && remainingPeople > 0 && (
@@ -420,6 +421,21 @@ ${pledgeLink}
                     </>
                   )}
                 </Interaction.P>
+                {goals.length === 1 && initialGoalsReached && (
+                  <>
+                    <Interaction.P
+                      {...styles.stretchP}
+                      style={{ marginTop: 10 }}
+                    >
+                      Die Republik will das Mediensystem mit einem neuen Modell
+                      für unabhängigen Journalismus entscheidend verändern –
+                      deshalb sammeln wir weiter. Und bleiben bei unserer
+                      Ambition, diesen Monat 3000 Mitgliedschaften und Abos zu
+                      verkaufen. Denn eine möglichst grosse Verlegerschaft
+                      sichert die Republik langfristig am besten.
+                    </Interaction.P>
+                  </>
+                )}
                 {goals.length > 1 && initialGoalsReached && (
                   <>
                     <Interaction.P

@@ -783,6 +783,8 @@ class ArticlePage extends Component {
                 <ArticleGallery
                   article={article}
                   show={!!router.query.gallery}
+                  interval={+router.query.interval}
+                  startIndex={+router.query.startIndex}
                   ref={this.galleryRef}
                 >
                   <ProgressComponent article={article}>

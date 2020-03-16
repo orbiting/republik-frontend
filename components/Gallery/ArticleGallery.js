@@ -106,8 +106,7 @@ class ArticleGallery extends Component {
   }
 
   render() {
-    const { children } = this.props
-    const { article } = this.props
+    const { children, article, startIndex, interval } = this.props
     const { show, startItemSrc, galleryItems } = this.state
     const enabled = get(article, 'content.meta.gallery', true)
     return (
@@ -117,6 +116,8 @@ class ArticleGallery extends Component {
             onClose={this.toggleGallery}
             items={galleryItems}
             startItemSrc={startItemSrc}
+            startIndex={startIndex}
+            interval={interval}
           />
         )}
         {children}
@@ -126,7 +127,10 @@ class ArticleGallery extends Component {
 }
 
 ArticleGallery.propTypes = {
-  article: PropTypes.object.isRequired
+  article: PropTypes.object.isRequired,
+  show: PropTypes.bool,
+  interval: PropTypes.number,
+  startIndex: PropTypes.number
 }
 
 ArticleGallery.childContextTypes = {

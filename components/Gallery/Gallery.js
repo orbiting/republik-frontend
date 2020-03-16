@@ -15,18 +15,26 @@ const removeQuery = (url = '') => url.split('?')[0]
 
 const MAX_SPREAD_ZOOM = 2
 
-const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
+const Gallery = ({
+  items,
+  onClose,
+  startItemSrc,
+  startIndex = null,
+  children,
+  interval,
+  t
+}) => {
   const galleryRef = React.useRef(null)
 
   React.useEffect(() => {
     if (galleryRef) {
-      const startIndex = items.findIndex(
-        i => removeQuery(i.src) === removeQuery(startItemSrc)
-      )
+      const startItemIndex =
+        startItemSrc &&
+        items.findIndex(i => removeQuery(i.src) === removeQuery(startItemSrc))
 
       const options = {
         modal: true,
-        index: startIndex,
+        index: startIndex !== null ? startIndex : startItemIndex || 0,
         closeOnScroll: false,
         maxSpreadZoom: MAX_SPREAD_ZOOM,
         shareEl: false,
@@ -74,6 +82,18 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
       })
       gallery.listen('close', onClose)
       gallery.init()
+
+      if (interval) {
+        const intervalId = setInterval(() => {
+          gallery.next()
+        }, interval * 1000)
+
+        gallery.listen('pointerDown', function() {
+          clearInterval(intervalId)
+        })
+
+        return () => clearInterval(intervalId)
+      }
     }
   }, [items])
 

@@ -10,11 +10,10 @@ import EmailForm, { checkEmail } from './EmailForm'
 
 import { Interaction } from '@project-r/styleguide'
 
-const FREE_NEWSLETTER = ['PROJECTR', 'COVID19']
-
 const SignUp = ({
   me,
   name,
+  free,
   black,
   skipBox,
   t,
@@ -23,14 +22,19 @@ const SignUp = ({
 }) => {
   const [state, setState] = useState(() => checkEmail({ value: '', t }))
   const [serverState, setServerState] = useState({})
-  if (me || FREE_NEWSLETTER.indexOf(name) === -1) {
+  if (me || !free) {
     return (
-      <NewsletterSubscriptions
-        black={black}
-        skipBox={skipBox}
-        label={t('Auth/NewsletterSignUp/submit')}
-        filter={subscription => subscription.name === name}
-      />
+      <>
+        <Interaction.P>
+          <strong>{t('Auth/NewsletterSignUp/settingTitle')}</strong>
+        </Interaction.P>
+        <NewsletterSubscriptions
+          black={black}
+          skipBox={skipBox}
+          label={t('Auth/NewsletterSignUp/submit')}
+          filter={subscription => subscription.name === name}
+        />
+      </>
     )
   }
   if (serverState.success) {

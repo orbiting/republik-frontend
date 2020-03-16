@@ -760,7 +760,7 @@ class ArticlePage extends Component {
                 ? 'center'
                 : undefined
 
-            const newsletterName = article.content.meta.newsletterName
+            const newsletterMeta = article.content.meta.newsletter
 
             return (
               <Fragment>
@@ -863,9 +863,9 @@ class ArticlePage extends Component {
                     )}
                   </Fragment>
                 )}
-                {!!newsletterName && (
+                {!!newsletterMeta && (
                   <Center>
-                    <NewsletterSignUp name={newsletterName} />
+                    <NewsletterSignUp {...newsletterMeta} />
                   </Center>
                 )}
                 {!!podcast && meta.template !== 'article' && (

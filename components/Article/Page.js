@@ -471,7 +471,6 @@ class ArticlePage extends Component {
         animate={!podcast}
         template={meta.template}
         path={meta.path}
-        fontSize={!isEditorialNewsletter /* tmp until supported */}
         showShare={
           !isEditorialNewsletter || (newsletterMeta && newsletterMeta.free)
         }

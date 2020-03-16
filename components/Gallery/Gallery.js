@@ -28,9 +28,10 @@ const Gallery = ({
 
   React.useEffect(() => {
     if (galleryRef) {
-      const startItemIndex =
-        startItemSrc &&
-        items.findIndex(i => removeQuery(i.src) === removeQuery(startItemSrc))
+      const startItemSrcQuery = removeQuery(startItemSrc)
+      const startItemIndex = items.findIndex(
+        i => removeQuery(i.src) === startItemSrcQuery
+      )
 
       const options = {
         modal: true,

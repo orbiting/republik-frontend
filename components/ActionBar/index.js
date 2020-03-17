@@ -17,6 +17,7 @@ import { colors } from '@project-r/styleguide'
 import { shouldIgnoreClick } from '../Link/utils'
 
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
+import Subscribe from './Subscribe'
 
 const styles = {
   buttonGroup: css({
@@ -70,6 +71,7 @@ class ActionBar extends Component {
       estimatedConsumptionMinutes,
       shareOverlayTitle,
       showBookmark,
+      showSubscribe,
       showShare,
       documentId,
       repoId,
@@ -208,6 +210,7 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
+          {showSubscribe && <Subscribe />}
           {icons.filter(Boolean).map((props, i) => (
             <IconLink key={props.icon} fill={fill} {...props} />
           ))}
@@ -239,14 +242,16 @@ ActionBar.propTypes = {
   pdfUrl: PropTypes.string,
   estimatedReadingMinutes: PropTypes.number,
   shareOverlayTitle: PropTypes.string,
-  showBookmark: PropTypes.bool
+  showBookmark: PropTypes.bool,
+  showSubscribe: PropTypes.bool
 }
 
 ActionBar.defaultProps = {
   tweet: '',
   emailBody: '',
   emailAttachUrl: true,
-  showShare: true
+  showShare: true,
+  showSubscribe: true
 }
 
 // Note: This Component is used within SSRCachingBoundary and can not use context

@@ -46,15 +46,21 @@ const FormatCheckbox = compose(
   )
 })
 
-const FormatCheckboxes = ({ formats }) => (
-  <div {...styles.checkboxes}>
-    {formats.map((format, i) => (
-      <FormatCheckbox format={format} key={i} />
-    ))}
-  </div>
-)
+const FormatCheckboxes = ({ formats, withCount }) => {
+  return (
+    <div {...styles.checkboxes}>
+      {withCount && <div>Sie haben sich an 5 Formate abonniert</div>}
+      {formats.map((format, i) => (
+        <FormatCheckbox format={format} key={i} />
+      ))}
+    </div>
+  )
+}
 
-const SubscribeDocuments = ({ data: { error, loading, sections } }) => {
+const SubscribeDocuments = ({
+  data: { error, loading, sections },
+  withCount
+}) => {
   return (
     <Loader
       error={error}
@@ -62,7 +68,7 @@ const SubscribeDocuments = ({ data: { error, loading, sections } }) => {
       render={() => {
         if (!sections) return null
         const formats = getFormats(sections)
-        return <FormatCheckboxes formats={formats} />
+        return <FormatCheckboxes formats={formats} withCount={withCount} />
       }}
     />
   )

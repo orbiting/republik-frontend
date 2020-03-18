@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-18T16:29:49.679Z",
+  "updated": "2020-03-18T18:07:59.709Z",
   "title": "live",
   "data": [
     {
@@ -113,6 +113,10 @@
     {
       "key": "pages/notifications/title",
       "value": "Benachrichtigungen"
+    },
+    {
+      "key": "pages/notifications/settings/title",
+      "value": "Benachrichtigungen – Einstellungen"
     },
     {
       "key": "pages/search/title",
@@ -6821,6 +6825,42 @@
     {
       "key": "Auth/NewsletterSignUp/settingTitle",
       "value": "Ihre Einstellung"
+    },
+    {
+      "key": "Notifications/title/0",
+      "value": "Alles gelesen!"
+    },
+    {
+      "key": "Notifications/title/1",
+      "value": "Eine neue Benachrichtigung"
+    },
+    {
+      "key": "Notifications/title/other",
+      "value": "{count} neue Benachrichtigungen"
+    },
+    {
+      "key": "Notifications/settings",
+      "value": "Einrichtungen"
+    },
+    {
+      "key": "Notifications/refresh/1",
+      "value": "Sie haben eine Benachrichtigung bekommen."
+    },
+    {
+      "key": "Notifications/refresh/other",
+      "value": "Sie haben {count} neue Benachrichtigungen bekommen."
+    },
+    {
+      "key": "Notifications/refresh/link",
+      "value": "Seite neu laden?"
+    },
+    {
+      "key": "Notifications/settings/formats",
+      "value": "Meine Formate"
+    },
+    {
+      "key": "Notifications/settings/formats/link",
+      "value": "Weitere Formate entdecken und abonnieren"
     }
   ]
 }

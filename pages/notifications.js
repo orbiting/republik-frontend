@@ -157,7 +157,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
     ''
   )
   if (!title && !knownTypes.includes(type)) {
-    title = t('Notifications/unkown/title')
+    title = t('notifications/unkown/title')
     isUnkownType = true
   }
   let logoTarget
@@ -200,11 +200,11 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
               `notifications/${type}/text`
             ]}
             replacements={query}
-            missingValue={isUnkownType ? t('Notifications/unkown/text') : ''}
+            missingValue={isUnkownType ? t('notifications/unkown/text') : ''}
           />
         </P>
         {afterTokenAuth && displayCloseNote ? (
-          <P>{t('Notifications/closeNote')}</P>
+          <P>{t('notifications/closeNote')}</P>
         ) : (
           ((!hasCurtain && !isUnkownType) || inNativeApp) && (
             <div {...styles.button}>
@@ -226,7 +226,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
       context === 'pledge' &&
       type !== 'token-authorization' && {
         route: 'account',
-        label: t('Notifications/links/merci')
+        label: t('notifications/links/merci')
       }
   ].filter(Boolean)
 
@@ -258,7 +258,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
   return (
     <div>
       <Head>
-        <title>{t('Notifications/pageTitle')}</title>
+        <title>{t('notifications/pageTitle')}</title>
         <meta name='robots' content='noindex' />
       </Head>
       <NarrowContainer>

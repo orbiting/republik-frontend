@@ -65,7 +65,7 @@ export const withSubmitComment = compose(
 
         /*
          * Generate a new UUID for the comment. We do this client-side so that we can
-         * properly handle subscription Notifications.
+         * properly handle subscription notifications.
          */
         const id = uuid()
 

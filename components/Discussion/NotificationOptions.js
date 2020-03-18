@@ -185,7 +185,7 @@ class NotificationOptions extends PureComponent {
       Router.replaceRoute(result.route, params, { shallow: true })
     }
 
-    // Mute Notifications for this discussion if not already done
+    // Mute notifications for this discussion if not already done
     if (!userPreference || userPreference.notifications !== 'NONE') {
       this.setState({
         mutating: true

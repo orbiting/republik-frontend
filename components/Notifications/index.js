@@ -72,5 +72,3 @@ const Notifications = compose(
 )
 
 export default Notifications
-
-/**/

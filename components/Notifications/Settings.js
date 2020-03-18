@@ -20,14 +20,14 @@ export default compose(withT)(({ t }) => {
   return (
     <>
       <Center>
-        <H1 style={{ marginBottom: 40 }}>Settings</H1>
+        <H1 style={{ marginBottom: 40 }}>{t('Notifications/settings')}</H1>
 
         <section {...styles.section}>
-          <Interaction.H2>Meine Formate</Interaction.H2>
+          <Interaction.H2>{t('Notifications/settings/formats')}</Interaction.H2>
           <SubscribeDocuments />
           <div>
             <Link route='sections' passHref>
-              <a {...linkRule}>Weitere Formate entdecken und abonnieren</a>
+              <a {...linkRule}>{t('Notifications/settings/formats/link')}</a>
             </Link>
           </div>
         </section>

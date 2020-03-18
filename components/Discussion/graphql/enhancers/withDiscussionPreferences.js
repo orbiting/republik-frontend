@@ -11,7 +11,7 @@ import { toRejectedString } from '../utils'
  *
  *   {
  *     discussionPreferences: { … } // discussionPreferencesQuery Result
- *     setDiscussionPreferences(anonimity, credential, Notifications)
+ *     setDiscussionPreferences(anonimity, credential, notifications)
  *   }
  */
 

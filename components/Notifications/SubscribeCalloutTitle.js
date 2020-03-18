@@ -29,7 +29,7 @@ const SubscribeCalloutTitle = compose(withT)(({ t, isSubscribed }) => {
       }}
     >
       <b>
-        <Icon /> {t('pages/notifications/title')}
+        <Icon /> {t('pages/Notifications/title')}
       </b>
     </label>
   )

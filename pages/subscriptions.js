@@ -9,7 +9,7 @@ import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const NotificationsPage = ({ t }) => {
   const meta = {
-    title: t('pages/notifications/title'),
+    title: t('pages/Notifications/title'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
   return (

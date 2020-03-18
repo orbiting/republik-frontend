@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { documentFragment } from '../Feed/fragments'
 
-const notification = gql`
-  fragment Notification on Notification {
+const notificationInfo = gql`
+  fragment notificationInfo on Notification {
     id
     readAt
     createdAt
@@ -104,25 +104,20 @@ export const notificationsQuery = gql`
   ${subInfo}
 `
 
-export const sectionSubscriptions = gql`
-  query getSections {
-    sections: documents(template: "section") {
-      nodes {
-        id
-        meta {
-          title
-          path
-          color
-          kind
-        }
-        formats: linkedDocuments(feed: true) {
-          nodes {
-            id
-            meta {
-              title
-            }
-            subscribedByMe {
-              ...subInfo
+export const mySubscriptions = gql`
+  query mySubscriptions {
+    me {
+      id
+      subscribedTo {
+        nodes {
+          ...subInfo
+          object {
+            __typename
+            ... on Document {
+              id
+              meta {
+                title
+              }
             }
           }
         }
@@ -136,20 +131,20 @@ const notificationCountQuery = gql`
   query getNotificationCount {
     notifications {
       nodes {
-        ...Notification
+        ...notificationInfo
       }
     }
   }
-  ${notification}
+  ${notificationInfo}
 `
 
 const markAsReadMutation = gql`
   mutation cancelMembership($id: ID!) {
     markNotificationAsRead(id: $id) {
-      ...Notification
+      ...notificationInfo
     }
   }
-  ${notification}
+  ${notificationInfo}
 `
 
 const subscribeToDocumentMutation = gql`
@@ -172,10 +167,10 @@ const unsubscribeFromDocumentMutation = gql`
 export const notificationSubscription = gql`
   subscription {
     notification {
-      ...Notification
+      ...notificationInfo
     }
   }
-  ${notification}
+  ${notificationInfo}
 `
 
 export const withNotificationCount = graphql(notificationCountQuery, {
@@ -198,8 +193,7 @@ export const withSubToDoc = graphql(subscribeToDocumentMutation, {
   props: ({ mutate }) => ({
     subToDoc: variables =>
       mutate({
-        variables,
-        refetchQueries: [{ query: sectionSubscriptions }]
+        variables
       })
   })
 })
@@ -208,8 +202,7 @@ export const withUnsubFromDoc = graphql(unsubscribeFromDocumentMutation, {
   props: ({ mutate }) => ({
     unsubFromDoc: variables =>
       mutate({
-        variables,
-        refetchQueries: [{ query: sectionSubscriptions }]
+        variables
       })
   })
 })

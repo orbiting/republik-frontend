@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
-import { sectionSubscriptions } from './enhancers'
+import { mySubscriptions } from './enhancers'
 import { mediaQueries } from '@project-r/styleguide'
 import Loader from '../Loader'
 import { css } from 'glamor'
@@ -19,34 +19,31 @@ const styles = {
   })
 }
 
-const getFormats = sections =>
-  sections.nodes.reduce((acc, section) => acc.concat(section.formats.nodes), [])
-
-const FormatCheckboxes = ({ formats }) => (
+const FormatCheckboxes = ({ subscriptions }) => (
   <div {...styles.checkboxes}>
-    {formats.map((format, i) => (
-      <SubscribeDocumentCheckbox
-        subscription={format.subscribedByMe}
-        format={format}
-        key={i}
-      />
-    ))}
+    {subscriptions
+      .filter(subscription => subscription.object.__typename === 'Document')
+      .map((subscription, i) => (
+        <SubscribeDocumentCheckbox
+          subscription={subscription}
+          format={subscription.object}
+          key={i}
+        />
+      ))}
   </div>
 )
 
-const SubscribeDocuments = ({ data: { error, loading, sections } }) => {
+const SubscribeDocuments = ({ data: { error, loading, me } }) => {
   return (
     <Loader
       error={error}
       loading={loading}
       render={() => {
-        if (!sections) return null
-        const formats = getFormats(sections)
-        console.log(formats)
-        return <FormatCheckboxes formats={formats} />
+        if (!me || !me.subscribedTo) return null
+        return <FormatCheckboxes subscriptions={me.subscribedTo.nodes} />
       }}
     />
   )
 }
 
-export default compose(graphql(sectionSubscriptions))(SubscribeDocuments)
+export default compose(graphql(mySubscriptions))(SubscribeDocuments)

@@ -22,7 +22,7 @@ import Onboarding from './Onboarding'
 import Access from './Access'
 import SignIn from '../Auth/SignIn'
 import withMembership from '../Auth/withMembership'
-import Notifications from './Notifications'
+import NotificationsLegacy from './NotificationsLegacy'
 import Box from '../Frame/Box'
 
 import { H1, Interaction, mediaQueries } from '@project-r/styleguide'
@@ -168,12 +168,12 @@ class Account extends Component {
 
                   <AccountAnchor id='newsletter'>
                     <H2>{t('account/newsletterSubscriptions/title')}</H2>
-                    <Notifications />
+                    <NotificationsLegacy />
                   </AccountAnchor>
 
                   <AccountAnchor id='benachrichtigungen'>
                     <H2>{t('account/notificationOptions/title')}</H2>
-                    <Notifications />
+                    <NotificationsLegacy />
                   </AccountAnchor>
 
                   <AccountAnchor id='position'>

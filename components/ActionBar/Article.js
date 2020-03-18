@@ -47,6 +47,7 @@ class ArticleActionBar extends Component {
       url,
       inNativeApp,
       inIOS,
+      showShare = true,
       grandSharing,
       fontSize,
       userBookmark
@@ -82,7 +83,7 @@ class ArticleActionBar extends Component {
           inIOS={inIOS}
           onGalleryClick={onGalleryClick}
           showBookmark={showBookmark}
-          showShare={!grandSharing}
+          showShare={showShare && !grandSharing}
           fontSize={fontSize}
           documentId={documentId}
           repoId={repoId}

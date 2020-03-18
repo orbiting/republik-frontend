@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-10T12:28:05.843Z",
+  "updated": "2020-03-17T13:21:24.200Z",
   "title": "live",
   "data": [
     {
@@ -972,7 +972,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags bis freitags"
+      "value": "montags bis freitags um 5 Uhr"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
@@ -997,6 +997,14 @@
     {
       "key": "account/newsletterSubscriptions/PROJECTR/frequency",
       "value": "unregelmässig"
+    },
+    {
+      "key": "account/newsletterSubscriptions/COVID19/label",
+      "value": "Republik – Das tägliche Covid-19-Update"
+    },
+    {
+      "key": "account/newsletterSubscriptions/COVID19/frequency",
+      "value": "montags bis freitags um 19 Uhr"
     },
     {
       "key": "account/authSettings/title",
@@ -1876,7 +1884,7 @@
     },
     {
       "key": "components/Discussion/empty",
-      "value": "Noch keine Beiträge in dieser Diskussion."
+      "value": "Noch keine Beiträge."
     },
     {
       "key": "discussion/meta/title",
@@ -3553,6 +3561,14 @@
     {
       "key": "notifications/email-confirmed/title",
       "value": "Zugriff bestätigt"
+    },
+    {
+      "key": "notifications/email-confirmed/projectr/title",
+      "value": "E-Mail-Adresse bestätigt"
+    },
+    {
+      "key": "notifications/email-confirmed/newsletter/title",
+      "value": "E-Mail-Adresse bestätigt"
     },
     {
       "key": "notifications/email-confirmed/text",
@@ -6496,7 +6512,7 @@
     },
     {
       "key": "Trial/Page/disabled/body",
-      "value": "Wie Sie vielleicht wissen, befindet sich die Republik momentan inmitten einer Kampagne um ihre Zukunft. Erreichen wir bis Ende März das Ziel von 19’000 Verlegerinnen und CHF 2’200’000 Spenden und Investitionen nicht, werden wir die Publikation einstellen und das Unternehmen geordnet auflösen müssen. \n\nBisher läuft es sehr erfreulich. Dennoch sind wir noch nicht am Ziel. <a href=\"/maerzkampagne\">Mehr Informationen und den aktuellen Stand der Dinge.</a>\n\nEs geht um alles. Deswegen gibt es im März nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
+      "value": "Im März gibt es nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
     },
     {
       "key": "Trial/Page/disabled/button",
@@ -6504,7 +6520,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before",
-      "value": "Unabhängiger Journalismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\nDas reicht nicht. Damit die Republik eine Zukunft hat, müssen wir bis Ende März ehrgeizige Ziele erreichen und dafür noch {remainingMemberships} Mitglieder gewinnen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
+      "value": "Unabhängiger Journalismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
     },
     {
       "key": "article/payNote/200225-v1/before/reached",
@@ -6528,11 +6544,11 @@
     },
     {
       "key": "article/payNote/200225-v1/after",
-      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat ehrgeizige Ziele erreichen und dafür noch {remainingMemberships} Mitglieder gewinnen. \n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
+      "value": "Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
     },
     {
       "key": "article/payNote/200225-v1/after/reached",
-      "value": "Um auch in Zukunft weiter publizieren zu können, müssen wir diesen Monat ehrgeizige Ziele erreichen.\n\nWenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
+      "value": "Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
     },
     {
       "key": "article/payNote/200225-v1/after/buy/button",
@@ -6548,6 +6564,46 @@
     },
     {
       "key": "article/payNote/200225-v1/after/note",
+      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+    },
+    {
+      "key": "article/payNote/200313-v1/before",
+      "value": "Unabhängiger Journalismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen.\n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
+    },
+    {
+      "key": "article/payNote/200313-v1/before/buy/button",
+      "value": "Jahresmitgliedschaft"
+    },
+    {
+      "key": "article/payNote/200313-v1/before/secondary/label",
+      "value": "Einen Monat für 22.–"
+    },
+    {
+      "key": "article/payNote/200313-v1/before/secondary/link",
+      "value": "/angebote?package=MONTHLY_ABO"
+    },
+    {
+      "key": "article/payNote/200313-v1/before/note",
+      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+    },
+    {
+      "key": "article/payNote/200313-v1/after",
+      "value": "Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
+    },
+    {
+      "key": "article/payNote/200313-v1/after/buy/button",
+      "value": "Jahresmitgliedschaft"
+    },
+    {
+      "key": "article/payNote/200313-v1/after/secondary/label",
+      "value": "Einen Monat für 22.–"
+    },
+    {
+      "key": "article/payNote/200313-v1/after/secondary/link",
+      "value": "/angebote?package=MONTHLY_ABO"
+    },
+    {
+      "key": "article/payNote/200313-v1/after/note",
       "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
     },
     {
@@ -6668,11 +6724,11 @@
     },
     {
       "key": "cockpit/march20/prefix",
-      "value": "Das Cockpit richtet sich primär an unsere Verlegerschaft."
+      "value": "Wir sind dankbar und erfreut! Wir haben unsere überlebenswichtigen Ziele schon Mitte März gemeinsam mit Ihnen erreicht. Die Republik hat definitiv eine Zukunft. Herzlichen Dank!"
     },
     {
       "key": "cockpit/march20/link",
-      "value": "Zur aktuellen Märzkampagne."
+      "value": "Zur Märzkampagne."
     },
     {
       "key": "crowdfunding/beforeNote",
@@ -6745,6 +6801,18 @@
     {
       "key": "Account/Access/Campaigns/Campaign/giftableMemberships/slots/other",
       "value": "Sie dürfen noch {count} verschenken."
+    },
+    {
+      "key": "Auth/NewsletterSignUp/submit",
+      "value": "Abonnieren"
+    },
+    {
+      "key": "Auth/NewsletterSignUp/success",
+      "value": "Danke. Jetzt müssen Sie noch Ihre E-Mail-Adresse bestätigen."
+    },
+    {
+      "key": "Auth/NewsletterSignUp/settingTitle",
+      "value": "Ihre Einstellung"
     }
   ]
 }

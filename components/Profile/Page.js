@@ -160,6 +160,7 @@ const getPublicUser = gql`
       isEligibleForProfile
       statement
       biography
+      biographyContent
       isListed
       isAdminUnlisted
       sequenceNumber

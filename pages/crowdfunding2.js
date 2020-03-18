@@ -36,6 +36,7 @@ import TeaserBlock, {
   GAP as TEASER_BLOCK_GAP
 } from '../components/Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../components/Overview/utils'
+import NewsletterSignUp from '../components/Auth/NewsletterSignUp'
 
 import {
   Loader,
@@ -382,9 +383,10 @@ ${pledgeLink}
                 <Interaction.P {...styles.stretchP}>
                   {initialGoalsReached && (
                     <>
-                      Wir sind dankbar und erfreut! Wir haben unsere Ziele
-                      gemeinsam mit Ihnen erreicht. Die Republik hat definitiv
-                      eine Zukunft. Herzlichen Dank!
+                      Wir sind dankbar und erfreut! Wir haben unsere
+                      überlebenswichtigen Ziele schon Mitte März gemeinsam mit
+                      Ihnen erreicht. Die Republik hat definitiv eine Zukunft.
+                      Herzlichen Dank!
                     </>
                   )}
                   {remainingMoney > 0 && remainingPeople > 0 && (
@@ -419,6 +421,21 @@ ${pledgeLink}
                     </>
                   )}
                 </Interaction.P>
+                {goals.length === 1 && initialGoalsReached && (
+                  <>
+                    <Interaction.P
+                      {...styles.stretchP}
+                      style={{ marginTop: 10 }}
+                    >
+                      Die Republik will das Mediensystem mit einem neuen Modell
+                      für unabhängigen Journalismus entscheidend verändern –
+                      deshalb sammeln wir weiter. Und bleiben bei unserer
+                      Ambition, diesen Monat 3000 Mitgliedschaften und Abos zu
+                      verkaufen. Denn eine möglichst grosse Verlegerschaft
+                      sichert die Republik langfristig am besten.
+                    </Interaction.P>
+                  </>
+                )}
                 {goals.length > 1 && initialGoalsReached && (
                   <>
                     <Interaction.P
@@ -448,6 +465,21 @@ ${pledgeLink}
             )
           }}
         />
+
+        <div
+          style={{
+            backgroundColor: colors.primaryBg,
+            padding: '10px 15px',
+            marginTop: 30
+          }}
+        >
+          <Interaction.H2>Covid-19-Uhr-Newsletter</Interaction.H2>
+          <Interaction.P style={{ margin: '10px 0' }}>
+            Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen
+            für alle. Auch ohne Mitgliedschaft oder Abo.
+          </Interaction.P>
+          <NewsletterSignUp black skipBox free name='COVID19' />
+        </div>
 
         {md(mdComponents)`
 <br />

@@ -30,6 +30,7 @@ const DocumentList = ({
   variables,
   showTotal,
   help,
+  empty,
   t
 }) => {
   const [
@@ -55,6 +56,7 @@ const DocumentList = ({
         <br />
       </div>
       {help}
+      {!documents.length && empty}
       <div ref={containerRef}>
         <Feed documents={documents} {...feedProps} />
       </div>

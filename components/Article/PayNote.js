@@ -125,7 +125,7 @@ const TRY_VARIATIONS = [
 // old ones
 // ['payNote/191108-v1', 'payNote/191108-v2']
 // tmp: march
-const BUY_VARIATIONS = ['payNote/200225-v1']
+const BUY_VARIATIONS = ['payNote/200313-v1']
 const THANK_YOU_VARIATIONS = ['tryNote/thankYou']
 const IOS_VARIATIONS = ['payNote/ios']
 
@@ -422,50 +422,50 @@ const PayNoteContent = ({ content, darkMode }) =>
 export const PayNote = compose(
   withRouter,
   withInNativeApp,
-  withMemberStatus,
-  graphql(memberShipQuery, {
-    skip: props => props.hasActiveMembership,
-    props: ({ data: { membershipStats, revenueStats, crowdfunding } }) => {
-      const latestGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
-
-      if (membershipStats && membershipStats.count && latestGoal) {
-        const remainingMemberships = Math.max(
-          0,
-          latestGoal.memberships - membershipStats.marchCount
-        )
-        const remainingMoney = Math.max(
-          0,
-          (latestGoal.money - revenueStats.surplus.total) / 100
-        )
-
-        return {
-          statReplacements: {
-            reached: remainingMemberships === 0,
-            count: countFormat(membershipStats.count),
-            remainingMemberships: countFormat(remainingMemberships),
-            remainingMoney: countFormat(remainingMoney)
-          }
-        }
-      }
-
-      return {
-        statReplacements: {
-          count: countFormat(
-            (membershipStats && membershipStats.count) || 19500
-          ),
-          remainingMemberships: 'viele',
-          remainingMoney: 'viele'
-        }
-      }
-    }
-  })
+  withMemberStatus
+  //   graphql(memberShipQuery, {
+  //     skip: props => props.hasActiveMembership,
+  //     props: ({ data: { membershipStats, revenueStats, crowdfunding } }) => {
+  //       const latestGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
+  //
+  //       if (membershipStats && membershipStats.count && latestGoal) {
+  //         const remainingMemberships = Math.max(
+  //           0,
+  //           latestGoal.memberships - membershipStats.marchCount
+  //         )
+  //         const remainingMoney = Math.max(
+  //           0,
+  //           (latestGoal.money - revenueStats.surplus.total) / 100
+  //         )
+  //
+  //         return {
+  //           statReplacements: {
+  //             reached: remainingMemberships === 0,
+  //             count: countFormat(membershipStats.count),
+  //             remainingMemberships: countFormat(remainingMemberships),
+  //             remainingMoney: countFormat(remainingMoney)
+  //           }
+  //         }
+  //       }
+  //
+  //       return {
+  //         statReplacements: {
+  //           count: countFormat(
+  //             (membershipStats && membershipStats.count) || 19500
+  //           ),
+  //           remainingMemberships: 'viele',
+  //           remainingMoney: 'viele'
+  //         }
+  //       }
+  //     }
+  //   })
 )(
   ({
     router: { query },
     inNativeIOSApp,
     isEligibleForTrial,
     hasActiveMembership,
-    statReplacements,
+    statReplacements = {},
     seed,
     tryOrBuy,
     documentId,

@@ -365,7 +365,7 @@ const Update = props => {
 }
 
 const fragmentCard = gql`
-  fragment Card on Card {
+  fragment MyCard on Card {
     id
     payload
     group {
@@ -388,7 +388,7 @@ const ME_CARD = gql`
       portrait(properties: { width: 600, height: 800, bw: false })
       cards(first: 1) {
         nodes {
-          ...Card
+          ...MyCard
         }
       }
     }
@@ -412,7 +412,7 @@ const UPDATE_CARD = gql`
       statement: $statement
       payload: $payload
     ) {
-      ...Card
+      ...MyCard
     }
   }
 

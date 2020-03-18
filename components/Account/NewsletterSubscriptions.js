@@ -5,9 +5,13 @@ import { css } from 'glamor'
 import withT from '../../lib/withT'
 import ErrorMessage from '../ErrorMessage'
 
-import Box from '../Frame/Box'
+import FrameBox from '../Frame/Box'
 import { P } from './Elements'
 import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
+
+const NoBox = ({ children, style: { margin } = {} }) => (
+  <div style={{ margin }}>{children}</div>
+)
 
 const styles = {
   spinnerWrapper: css({
@@ -65,13 +69,20 @@ const NewsletterSubscriptions = props => (
         return <Loader loading={loading} error={error} />
       }
 
+      const Box = props.skipBox ? NoBox : FrameBox
+
       if (!data.me || !data.me.newsletterSettings) {
         return (
-          <Loader error={t('account/newsletterSubscriptions/unauthorized')} />
+          <Box style={{ margin: '10px 0', padding: 15 }}>
+            <P>{t('account/newsletterSubscriptions/unauthorized')}</P>
+          </Box>
         )
       }
 
-      const { subscriptions, status } = data.me.newsletterSettings
+      const { status } = data.me.newsletterSettings
+      const subscriptions = data.me.newsletterSettings.subscriptions.filter(
+        props.filter || Boolean
+      )
 
       const hasNonEligibleSubscription = subscriptions.some(
         ({ isEligible }) => !isEligible
@@ -95,6 +106,7 @@ const NewsletterSubscriptions = props => (
                 return (
                   <p>
                     <Checkbox
+                      black={props.black}
                       checked={subscribed}
                       disabled={!isEligible || mutating}
                       onChange={(_, checked) => {
@@ -107,18 +119,23 @@ const NewsletterSubscriptions = props => (
                       }}
                     >
                       <span {...styles.label}>
-                        {t(`account/newsletterSubscriptions/${name}/label`)}
+                        {props.label ||
+                          t(`account/newsletterSubscriptions/${name}/label`)}
                         {mutating && (
                           <span {...styles.spinnerWrapper}>
                             <InlineSpinner size={24} />
                           </span>
                         )}
-                        <br />
-                        <Label>
-                          {t(
-                            `account/newsletterSubscriptions/${name}/frequency`
-                          )}
-                        </Label>
+                        {!props.label && (
+                          <>
+                            <br />
+                            <Label>
+                              {t(
+                                `account/newsletterSubscriptions/${name}/frequency`
+                              )}
+                            </Label>
+                          </>
+                        )}
                         {error && <ErrorMessage error={error} />}
                       </span>
                     </Checkbox>

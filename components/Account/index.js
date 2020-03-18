@@ -16,14 +16,13 @@ import UpdateEmail from './UpdateEmail'
 import Anchors from './Anchors'
 import AccessGrants from '../Access/Grants'
 import AuthSettings from './AuthSettings'
-import NewsletterSubscriptions from './NewsletterSubscriptions'
-import NotificationOptions from './NotificationOptions'
 import ProgressSettings from './ProgressSettings'
 import PledgeList from './PledgeList'
 import Onboarding from './Onboarding'
 import Access from './Access'
 import SignIn from '../Auth/SignIn'
 import withMembership from '../Auth/withMembership'
+import Notifications from './Notifications'
 import Box from '../Frame/Box'
 
 import { H1, Interaction, mediaQueries } from '@project-r/styleguide'
@@ -169,12 +168,12 @@ class Account extends Component {
 
                   <AccountAnchor id='newsletter'>
                     <H2>{t('account/newsletterSubscriptions/title')}</H2>
-                    <NewsletterSubscriptions />
+                    <Notifications />
                   </AccountAnchor>
 
                   <AccountAnchor id='benachrichtigungen'>
                     <H2>{t('account/notificationOptions/title')}</H2>
-                    <NotificationOptions />
+                    <Notifications />
                   </AccountAnchor>
 
                   <AccountAnchor id='position'>

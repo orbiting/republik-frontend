@@ -12,7 +12,7 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
-import { P } from './Elements'
+import { P } from '../Account/Elements'
 import {
   A,
   Loader,

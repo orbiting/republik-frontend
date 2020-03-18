@@ -4,6 +4,7 @@ import withT from '../../lib/withT'
 import { A, fontStyles, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import { getNotificationPermission } from '../../lib/utils/notification'
+import { Link } from '../../lib/routes'
 
 const styles = {
   info: css({
@@ -40,9 +41,11 @@ export default compose(withT)(({ t, me }) => {
   }, [me])
   return (
     <span {...styles.info}>
-      <A href='/konto#benachrichtigungen'>
-        {t(`components/Discussion/NotificationChannel/${channels}/label`)}
-      </A>
+      <Link key='link' route='subscriptionsSettings'>
+        <A>
+          {t(`components/Discussion/NotificationChannel/${channels}/label`)}
+        </A>
+      </Link>
     </span>
   )
 })

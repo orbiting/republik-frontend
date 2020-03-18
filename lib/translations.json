@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-17T13:21:24.200Z",
+  "updated": "2020-03-18T16:29:49.679Z",
   "title": "live",
   "data": [
     {
@@ -3123,7 +3123,7 @@
       "value": "herunterladen"
     },
     {
-      "key": "Keine Beiträge",
+      "key": "article/pdf/images/1",
       "value": "mit einem Bild"
     },
     {
@@ -6717,6 +6717,14 @@
     {
       "key": "pages/access/title",
       "value": "Republik teilen"
+    },
+    {
+      "key": "Account/Notifications/Legacy/text",
+      "value": "Check out our brand new {link}."
+    },
+    {
+      "key": "Account/Notifications/Legacy/link",
+      "value": "notification settings page"
     },
     {
       "key": "nav/crowdfunding2",

@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import NewsletterSubscriptions from '../Account/NewsletterSubscriptions'
+import NewsletterSubscriptions from '../Notifications/NewsletterSubscriptions'
 import EmailForm, { checkEmail } from './EmailForm'
 
 import { Interaction } from '@project-r/styleguide'

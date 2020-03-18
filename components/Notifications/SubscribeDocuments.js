@@ -68,7 +68,7 @@ const SubscribeDocuments = ({ data: { error, loading, me } }) => {
       loading={loading}
       render={() => {
         if (!me || !me.subscribedTo) return null
-        if (me.subscribedTo.nodes || !me.subscribedTo.nodes.length) {
+        if (!me.subscribedTo.nodes || !me.subscribedTo.nodes.length) {
           return <EmptyState />
         }
         return <FormatCheckboxes subscriptions={me.subscribedTo.nodes} />

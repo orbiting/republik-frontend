@@ -13,6 +13,7 @@ import UserProgress from './UserProgress'
 import withT from '../../lib/withT'
 
 import { colors } from '@project-r/styleguide'
+import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
 
 const styles = {
   buttonGroup: css({
@@ -56,7 +57,8 @@ const ActionBar = ({
   template,
   path,
   userBookmark,
-  userProgress
+  userProgress,
+  format
 }) => {
   const hasAudio = !!audioSource
   const icons = [
@@ -117,6 +119,9 @@ const ActionBar = ({
           small
           style={{ marginLeft: '-4px', paddingRight: '3px' }}
         />
+        {format && (
+          <SubscribeDocumentMenu format={format} styles={{ marginRight: -1 }} />
+        )}
         {icons.filter(Boolean).map((props, i) => (
           <ActionLink
             key={props.icon}
@@ -173,7 +178,8 @@ ActionBar.propTypes = {
   indicateVideo: PropTypes.bool,
   estimatedReadingMinutes: PropTypes.number,
   estimatedConsumptionMinutes: PropTypes.number,
-  linkedDiscussion: PropTypes.object
+  linkedDiscussion: PropTypes.object,
+  format: PropTypes.object
 }
 
 export default compose(withT)(ActionBar)

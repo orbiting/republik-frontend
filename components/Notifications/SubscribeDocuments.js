@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { mySubscriptions } from './enhancers'
-import { linkRule, mediaQueries } from '@project-r/styleguide'
+import { linkRule, mediaQueries, A } from '@project-r/styleguide'
 import Loader from '../Loader'
 import { css } from 'glamor'
 import SubscribeDocumentCheckbox from './SubscribeDocumentCheckbox'
@@ -20,6 +20,15 @@ const styles = {
     }
   })
 }
+
+const EmptyState = withT(({ t }) => (
+  <p>
+    {t('Notifications/settings/formats/empty')}{' '}
+    <A href='/einrichten?section=subscriptions' {...linkRule}>
+      {t('Notifications/settings/formats/empty/link')}
+    </A>
+  </p>
+))
 
 const FormatCheckboxes = withT(({ t, subscriptions }) => {
   const documentSubscriptions = subscriptions.filter(
@@ -59,6 +68,9 @@ const SubscribeDocuments = ({ data: { error, loading, me } }) => {
       loading={loading}
       render={() => {
         if (!me || !me.subscribedTo) return null
+        if (me.subscribedTo.nodes || !me.subscribedTo.nodes.length) {
+          return <EmptyState />
+        }
         return <FormatCheckboxes subscriptions={me.subscribedTo.nodes} />
       }}
     />

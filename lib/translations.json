@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-18T18:25:03.600Z",
+  "updated": "2020-03-18T18:42:16.635Z",
   "title": "live",
   "data": [
     {
@@ -6868,11 +6868,19 @@
     },
     {
       "key": "Notifications/settings/formats/summary/1",
-      "value": "Sie sind an einem Format abonniert."
+      "value": "Sie sind an einem Format abonniert:"
     },
     {
       "key": "Notifications/settings/formats/summary/other",
-      "value": "Sie sind an {count} Formate abonniert."
+      "value": "Sie sind an {count} Formate abonniert:"
+    },
+    {
+      "key": "Notifications/settings/formats/empty",
+      "value": "Sie haben noch keine Formate abonniert."
+    },
+    {
+      "key": "Notifications/settings/formats/empty/link",
+      "value": "Unseres Einrichtungsassistent bittet um Hilfe."
     }
   ]
 }

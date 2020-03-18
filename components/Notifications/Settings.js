@@ -25,11 +25,6 @@ export default compose(withT)(({ t }) => {
         <section {...styles.section}>
           <Interaction.H2>{t('Notifications/settings/formats')}</Interaction.H2>
           <SubscribeDocuments />
-          <div>
-            <Link route='sections' passHref>
-              <a {...linkRule}>{t('Notifications/settings/formats/link')}</a>
-            </Link>
-          </div>
         </section>
 
         <section {...styles.section}>

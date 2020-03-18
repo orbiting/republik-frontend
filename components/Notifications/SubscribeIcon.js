@@ -4,6 +4,16 @@ import SubIcon from 'react-icons/lib/md/notifications'
 import UnsubIcon from 'react-icons/lib/md/notifications-off'
 import { css } from 'glamor'
 
+export const containerStyle = css({
+  marginLeft: 'auto',
+  marginRight: 10,
+  position: 'relative',
+  lineHeight: 'initial',
+  '@media print': {
+    display: 'none'
+  }
+})
+
 const styles = {
   icon: css({
     opacity: 0,

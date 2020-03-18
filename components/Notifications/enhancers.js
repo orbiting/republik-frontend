@@ -10,9 +10,10 @@ const notification = gql`
   }
 `
 
-const subscription = gql`
-  fragment Subscription on Subscription {
+export const subInfo = gql`
+  fragment subInfo on Subscription {
     id
+    active
   }
 `
 
@@ -37,9 +38,6 @@ export const notificationsQuery = gql`
         object {
           ... on Document {
             ...FeedDocument
-            subscribedByMe {
-              id
-            }
           }
           ... on Comment {
             id
@@ -85,7 +83,7 @@ export const notificationsQuery = gql`
           __typename
         }
         subscription {
-          id
+          ...subInfo
         }
         content {
           title
@@ -103,6 +101,7 @@ export const notificationsQuery = gql`
     }
   }
   ${documentFragment}
+  ${subInfo}
 `
 
 export const sectionSubscriptions = gql`
@@ -123,14 +122,14 @@ export const sectionSubscriptions = gql`
               title
             }
             subscribedByMe {
-              ...Subscription
+              ...subInfo
             }
           }
         }
       }
     }
   }
-  ${subscription}
+  ${subInfo}
 `
 
 const notificationCountQuery = gql`
@@ -156,18 +155,18 @@ const markAsReadMutation = gql`
 const subscribeToDocumentMutation = gql`
   mutation subToDoc($documentId: ID!) {
     subscribe(objectId: $documentId, type: Document) {
-      ...Subscription
+      ...subInfo
     }
   }
-  ${subscription}
+  ${subInfo}
 `
 const unsubscribeFromDocumentMutation = gql`
   mutation unsubscribe($subscriptionId: ID!) {
     unsubscribe(subscriptionId: $subscriptionId) {
-      ...Subscription
+      ...subInfo
     }
   }
-  ${subscription}
+  ${subInfo}
 `
 
 export const notificationSubscription = gql`

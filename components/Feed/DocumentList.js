@@ -11,9 +11,14 @@ import Feed from './Feed'
 import ErrorMessage from '../ErrorMessage'
 
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
-import SubscribeButton from '../Notifications/SubscribeDocumentButton'
+import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
 
 const styles = {
+  title: css({
+    alignItems: 'center',
+    display: 'flex',
+    paddingBottom: '2.2rem'
+  }),
   more: css({
     position: 'relative',
     height: 50,
@@ -40,20 +45,21 @@ const DocumentList = ({
 
   return (
     <>
-      <div>
+      <div {...styles.title}>
         <Interaction.H2>
           {t.pluralize('feed/title', {
             count: totalCount
           })}
-          {variables && variables.formatId ? (
-            <SubscribeButton
-              formatId={variables.formatId}
-              subscription={variables.subscription}
-            />
-          ) : null}
         </Interaction.H2>
-        <br />
-        <br />
+        {variables && variables.formatId ? (
+          <SubscribeDocumentMenu
+            subscription={variables.subscription}
+            format={{
+              id: variables.formatId,
+              meta: { title: variables.formatName }
+            }}
+          />
+        ) : null}
       </div>
       {help}
       {!documents.length && empty}

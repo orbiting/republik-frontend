@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { containerStyle, SubscribeIcon } from './SubscribeIcon'
 import { Callout } from '@project-r/styleguide'
-import { SubscribeIcon, containerStyle } from './SubscribeIcon'
-import SubscribeDebateCallout from './SubscribeDebateCallout'
+import SubscribeDocumentCallout from './SubscribeDocumentCallout'
 
-const SubscribeDebateMenu = ({ discussionId }) => {
-  const [isSubscribed, setSubscribed] = useState(false)
+const SubscribeDocumentMenu = ({ subscription, format }) => {
   const [showCallout, setCallout] = useState(false)
   const [animate, setAnimate] = useState(false)
 
@@ -12,7 +11,7 @@ const SubscribeDebateMenu = ({ discussionId }) => {
     if (animate) {
       const timeout = setTimeout(() => {
         setAnimate(false)
-      }, 1 * 1000)
+      }, 5 * 1000)
       return () => clearTimeout(timeout)
     }
   }, [animate])
@@ -21,16 +20,16 @@ const SubscribeDebateMenu = ({ discussionId }) => {
     <div {...containerStyle}>
       <SubscribeIcon
         animate={animate}
-        isSubscribed={isSubscribed}
+        isSubscribed={subscription && subscription.active}
         onClick={e => {
           e.stopPropagation()
           setCallout(!showCallout)
         }}
       />
       <Callout expanded={showCallout} setExpanded={setCallout}>
-        <SubscribeDebateCallout
-          discussionId={discussionId}
-          setSubscribed={setSubscribed}
+        <SubscribeDocumentCallout
+          subscription={subscription}
+          format={format}
           setAnimate={setAnimate}
         />
       </Callout>
@@ -38,4 +37,4 @@ const SubscribeDebateMenu = ({ discussionId }) => {
   )
 }
 
-export default SubscribeDebateMenu
+export default SubscribeDocumentMenu

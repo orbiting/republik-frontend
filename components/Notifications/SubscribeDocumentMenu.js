@@ -3,7 +3,7 @@ import { containerStyle, SubscribeIcon } from './SubscribeIcon'
 import { Callout } from '@project-r/styleguide'
 import SubscribeDocumentCallout from './SubscribeDocumentCallout'
 
-const SubscribeDocumentMenu = ({ subscription, format }) => {
+const SubscribeDocumentMenu = ({ subscription, format, vivid, styles }) => {
   const [showCallout, setCallout] = useState(false)
   const [animate, setAnimate] = useState(false)
 
@@ -17,8 +17,9 @@ const SubscribeDocumentMenu = ({ subscription, format }) => {
   }, [animate])
 
   return (
-    <div {...containerStyle}>
+    <div {...containerStyle} style={styles}>
       <SubscribeIcon
+        vivid={vivid}
         animate={animate}
         isSubscribed={subscription && subscription.active}
         onClick={e => {

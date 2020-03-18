@@ -5,6 +5,7 @@ import UnsubIcon from 'react-icons/lib/md/notifications-off'
 import { css } from 'glamor'
 
 export const containerStyle = css({
+  display: 'inline-block',
   marginLeft: 'auto',
   marginRight: 10,
   position: 'relative',
@@ -37,14 +38,20 @@ const styles = {
   })
 }
 
-export const SubscribeIcon = ({ isSubscribed, onClick, animate, legend }) => {
+export const SubscribeIcon = ({
+  isSubscribed,
+  onClick,
+  animate,
+  legend,
+  vivid
+}) => {
   const Icon = isSubscribed ? SubIcon : UnsubIcon
   return (
     <div style={{ cursor: 'pointer' }} onClick={onClick}>
       <Icon
         {...(animate && styles.icon)}
         size={24}
-        fill={isSubscribed ? colors.text : colors.lightText}
+        fill={isSubscribed || vivid ? colors.text : colors.lightText}
       />
       {legend && (
         <span

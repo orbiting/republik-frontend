@@ -501,6 +501,7 @@ class ArticlePage extends Component {
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
+        format={meta.format}
       />
     )
 
@@ -624,7 +625,8 @@ class ArticlePage extends Component {
           estimatedReadingMinutes: undefined,
           estimatedConsumptionMinutes: undefined,
           onPdfClick: undefined,
-          pdfUrl: undefined
+          pdfUrl: undefined,
+          format: undefined
         })
       : undefined
     const actionBarEnd = actionBar

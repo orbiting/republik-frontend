@@ -18,6 +18,7 @@ import { shouldIgnoreClick } from '../Link/utils'
 
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
 import Subscribe from './Subscribe'
+import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
 
 const styles = {
   buttonGroup: css({
@@ -71,7 +72,6 @@ class ActionBar extends Component {
       estimatedConsumptionMinutes,
       shareOverlayTitle,
       showBookmark,
-      showSubscribe,
       showShare,
       documentId,
       repoId,
@@ -79,7 +79,8 @@ class ActionBar extends Component {
       bookmarked,
       inNativeApp,
       animate,
-      inIOS
+      inIOS,
+      format
     } = this.props
     const { showShareOverlay, showFontSizeOverlay } = this.state
 
@@ -210,7 +211,13 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
-          {showSubscribe && <Subscribe />}
+          {format && (
+            <SubscribeDocumentMenu
+              vivid
+              format={format}
+              styles={{ marginRight: -2, marginLeft: 2 }}
+            />
+          )}
           {icons.filter(Boolean).map((props, i) => (
             <IconLink key={props.icon} fill={fill} {...props} />
           ))}
@@ -243,15 +250,14 @@ ActionBar.propTypes = {
   estimatedReadingMinutes: PropTypes.number,
   shareOverlayTitle: PropTypes.string,
   showBookmark: PropTypes.bool,
-  showSubscribe: PropTypes.bool
+  format: PropTypes.object
 }
 
 ActionBar.defaultProps = {
   tweet: '',
   emailBody: '',
   emailAttachUrl: true,
-  showShare: true,
-  showSubscribe: true
+  showShare: true
 }
 
 // Note: This Component is used within SSRCachingBoundary and can not use context

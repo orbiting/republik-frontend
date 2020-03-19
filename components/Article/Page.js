@@ -568,6 +568,8 @@ class ArticlePage extends Component {
     const currentArticle = this.props.data.article || {}
     const nextArticle = nextProps.data.article || {}
 
+    console.log(currentArticle, nextArticle)
+
     if (
       currentArticle.id !== nextArticle.id ||
       currentArticle.userBookmark !== nextArticle.userBookmark ||

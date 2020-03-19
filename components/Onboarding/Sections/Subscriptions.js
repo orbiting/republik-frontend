@@ -43,8 +43,6 @@ export const fragments = {
 const Subscriptions = props => {
   const { formats, t } = props
 
-  console.log(formats)
-
   // Is ticked when at least one newsletter consent it to be found
   const isTicked = formats.some(
     format => format.subscribedByMe && format.subscribedByMe.active

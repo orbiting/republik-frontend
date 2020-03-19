@@ -53,9 +53,8 @@ const SubscribeDocumentCheckbox = ({
   const formatName = format && format.meta && format.meta.title
   const isActive = subscription && subscription.active
 
-  const toggleCallback = () => {
-    setAnimate && setAnimate(true)
-  }
+  const toggleCallback = () => setAnimate && setAnimate(true)
+
   const toggleSubscribe = () => {
     if (isActive) {
       unsubFromDoc({ subscriptionId: subscription.id }).then(toggleCallback)

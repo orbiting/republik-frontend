@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { containerStyle, SubscribeIcon } from './SubscribeIcon'
-import { Callout } from '@project-r/styleguide'
+import { CalloutMenu } from '@project-r/styleguide'
 import SubscribeDocumentCallout from './SubscribeDocumentCallout'
 
 const SubscribeDocumentMenu = ({
@@ -10,7 +10,6 @@ const SubscribeDocumentMenu = ({
   leftAligned,
   styles
 }) => {
-  const [showCallout, setCallout] = useState(false)
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -22,28 +21,25 @@ const SubscribeDocumentMenu = ({
     }
   }, [animate])
 
+  const icon = (
+    <SubscribeIcon
+      vivid={vivid}
+      animate={animate}
+      isSubscribed={subscription && subscription.active}
+    />
+  )
+
+  const menu = (
+    <SubscribeDocumentCallout
+      subscription={subscription}
+      format={format}
+      setAnimate={setAnimate}
+    />
+  )
+
   return (
     <div {...containerStyle} style={styles}>
-      <SubscribeIcon
-        vivid={vivid}
-        animate={animate}
-        isSubscribed={subscription && subscription.active}
-        onClick={e => {
-          e.stopPropagation()
-          setCallout(!showCallout)
-        }}
-      />
-      <Callout
-        leftAligned={leftAligned}
-        expanded={showCallout}
-        setExpanded={setCallout}
-      >
-        <SubscribeDocumentCallout
-          subscription={subscription}
-          format={format}
-          setAnimate={setAnimate}
-        />
-      </Callout>
+      <CalloutMenu icon={icon} menu={menu} leftAligned={leftAligned} />
     </div>
   )
 }

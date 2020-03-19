@@ -119,7 +119,7 @@
     "d3-time": "^1.1.0",
     "d3-time-format": "^2.2.3",
     "d3-timer": "^1.0.10",
-    "debug": "^4.1.1",
+    "debug": "^3.2.6",
     "dotenv": "^8.2.0",
     "downshift": "^2.2.3",
     "express": "^4.17.1",

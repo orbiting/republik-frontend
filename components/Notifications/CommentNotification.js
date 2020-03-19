@@ -18,7 +18,7 @@ export default compose(withT)(({ t, node, isNew }) => {
         preview={{ string: node.object.preview.string, more: true }}
         Link={CommentLink}
         t={t}
-        focus={isNew}
+        highlighted={isNew}
         menu={
           <SubscribeDebateCallout
             discussionId={node.object.discussion.id}

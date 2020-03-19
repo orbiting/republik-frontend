@@ -20,7 +20,7 @@ export default compose(withT)(({ t, node, isNew, me }) => {
           subscription={subscription}
         />
       }
-      focus={isNew}
+      highlighted={isNew}
     />
   )
 })

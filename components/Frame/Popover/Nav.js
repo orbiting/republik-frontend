@@ -117,7 +117,7 @@ const Nav = ({
   return (
     <div {...styles.container} id='nav'>
       <hr {...styles.hr} {...styles.hrFixed} />
-      <div {...styles.sections}>
+      {hasExpandedRef.current && <div {...styles.sections}>
         <div {...styles.section} {...styles.sectionCompact}>
           {me && (
             <>
@@ -235,11 +235,9 @@ const Nav = ({
           <NavLink route='sections' active={active} closeHandler={closeHandler}>
             {t('nav/sections')}
           </NavLink>
-          {hasExpandedRef.current && (
-            <div {...styles.sectionCompact} {...styles.sectionsBlock}>
-              <Sections active={active} closeHandler={closeHandler} />
-            </div>
-          )}
+          <div {...styles.sectionCompact} {...styles.sectionsBlock}>
+            <Sections active={active} closeHandler={closeHandler} />
+          </div>
           {/*<NavLink
             route='community'
             active={active}
@@ -282,8 +280,8 @@ const Nav = ({
             {t('nav/team')}
           </NavLink>
         </div>
-      </div>
-      {inNativeApp && <Footer />}
+      </div>}
+      {inNativeApp && hasExpandedRef.current &&  <Footer />}
     </div>
   )
 }

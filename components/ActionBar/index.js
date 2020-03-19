@@ -217,6 +217,7 @@ class ActionBar extends Component {
           {showSubscribe && format && (
             <SubscribeDocumentMenu
               vivid
+              leftAligned
               format={format}
               subscription={subscription}
               styles={{ marginRight: -2, marginLeft: 2 }}

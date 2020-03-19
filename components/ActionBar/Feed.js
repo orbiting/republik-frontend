@@ -126,6 +126,7 @@ const ActionBar = ({
             format={format}
             subscription={subscription}
             styles={{ marginRight: -1 }}
+            leftAligned
           />
         )}
         {icons.filter(Boolean).map((props, i) => (

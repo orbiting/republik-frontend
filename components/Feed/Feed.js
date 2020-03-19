@@ -40,6 +40,8 @@ class Feed extends Component {
             userBookmark={doc.userBookmark}
             userProgress={doc.userProgress}
             format={doc.meta.format}
+            subscription={doc.subscribedByMe}
+            showSubscribe={this.props.showSubscribe}
             {...doc.meta}
           />
         }
@@ -68,7 +70,8 @@ Feed.propTypes = {
       meta: PropTypes.shape({
         publishDate: PropTypes.string.isRequired
       }),
-      showHeader: PropTypes.bool
+      showHeader: PropTypes.bool,
+      showSubscribe: PropTypes.bool
     }).isRequired
   ).isRequired
 }

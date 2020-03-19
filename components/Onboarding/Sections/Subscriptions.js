@@ -8,6 +8,7 @@ import withT from '../../../lib/withT'
 
 import { Interaction, linkRule } from '@project-r/styleguide'
 import SubscribeDocuments from '../../Notifications/SubscribeDocuments'
+import { subInfo } from '../../Notifications/enhancers'
 
 const { P } = Interaction
 
@@ -17,18 +18,37 @@ const styles = {
   })
 }
 
-const NEWSLETTERS = [
-  'NEWSLETTER_DAILY',
-  'NEWSLETTER_WEEKLY',
-  'NEWSLETTER_PROJECTR'
+const FORMATS = [
+  'auf-lange-sicht',
+  'briefing-aus-bern',
+  'format-a',
+  'entwicklungslabor'
 ]
 
+const FormatInfo = `
+fragment FormatInfo on Document {
+  id
+  meta {
+    title
+  }
+  subscribedByMe {
+    ...subInfo
+  }
+}
+${subInfo}
+`
+
 export const fragments = {
-  user: gql`
-    fragment NewsletterUser on User {
-      id
-      ${NEWSLETTERS.map(n => `${n}: hasConsentedTo(name:"${n}")`).join('\n')}
+  formats: gql`
+    fragment FeaturedFormats {
+      formats: {
+        ${FORMATS.map(
+          (f, i) =>
+            `format${i}: document(path:"/format/${f}") { ...FormatInfo }`
+        ).join('\n')}
+      }
     }
+    ${FormatInfo}
   `
 }
 
@@ -36,7 +56,7 @@ const Subscriptions = props => {
   const { user, t } = props
 
   // Is ticked when at least one newsletter consent it to be found
-  const isTicked = NEWSLETTERS.some(
+  const isTicked = FORMATS.some(
     n => user && user[n] !== null && user[n] !== undefined
   )
 

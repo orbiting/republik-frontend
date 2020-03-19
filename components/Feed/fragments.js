@@ -1,5 +1,6 @@
 import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/fragments'
 import { userProgressFragment } from '../Article/Progress/api'
+import { subInfo } from '../Notifications/enhancers'
 
 export const documentFragment = `
   fragment FeedDocument on Document {

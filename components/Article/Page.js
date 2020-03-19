@@ -133,7 +133,7 @@ const getDocument = gql`
       id
       repoId
       content
-      subscribedByMe {
+      subscribedByMe(includeParents: true) {
         ...subInfo
       }
       linkedDocuments {
@@ -502,6 +502,8 @@ class ArticlePage extends Component {
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
         format={meta.format}
+        subscription={article.subscribedByMe}
+        showSubscribe
       />
     )
 
@@ -626,7 +628,7 @@ class ArticlePage extends Component {
           estimatedConsumptionMinutes: undefined,
           onPdfClick: undefined,
           pdfUrl: undefined,
-          format: undefined
+          showSubscribe: false
         })
       : undefined
     const actionBarEnd = actionBar

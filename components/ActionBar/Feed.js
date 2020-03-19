@@ -58,7 +58,9 @@ const ActionBar = ({
   path,
   userBookmark,
   userProgress,
-  format
+  format,
+  subscription,
+  showSubscribe
 }) => {
   const hasAudio = !!audioSource
   const icons = [
@@ -119,8 +121,12 @@ const ActionBar = ({
           small
           style={{ marginLeft: '-4px', paddingRight: '3px' }}
         />
-        {format && (
-          <SubscribeDocumentMenu format={format} styles={{ marginRight: -1 }} />
+        {showSubscribe && format && (
+          <SubscribeDocumentMenu
+            format={format}
+            subscription={subscription}
+            styles={{ marginRight: -1 }}
+          />
         )}
         {icons.filter(Boolean).map((props, i) => (
           <ActionLink
@@ -179,7 +185,9 @@ ActionBar.propTypes = {
   estimatedReadingMinutes: PropTypes.number,
   estimatedConsumptionMinutes: PropTypes.number,
   linkedDiscussion: PropTypes.object,
-  format: PropTypes.object
+  format: PropTypes.object,
+  subscription: PropTypes.object,
+  showSubscribe: PropTypes.bool
 }
 
 export default compose(withT)(ActionBar)

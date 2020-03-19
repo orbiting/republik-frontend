@@ -19,6 +19,7 @@ import { shouldIgnoreClick } from '../Link/utils'
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
 import Subscribe from './Subscribe'
 import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
+import subscriptions from '../../pages/subscriptions'
 
 const styles = {
   buttonGroup: css({
@@ -80,7 +81,9 @@ class ActionBar extends Component {
       inNativeApp,
       animate,
       inIOS,
-      format
+      format,
+      subscription,
+      showSubscribe
     } = this.props
     const { showShareOverlay, showFontSizeOverlay } = this.state
 
@@ -211,10 +214,11 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
-          {format && (
+          {showSubscribe && format && (
             <SubscribeDocumentMenu
               vivid
               format={format}
+              subscription={subscription}
               styles={{ marginRight: -2, marginLeft: 2 }}
             />
           )}
@@ -250,7 +254,9 @@ ActionBar.propTypes = {
   estimatedReadingMinutes: PropTypes.number,
   shareOverlayTitle: PropTypes.string,
   showBookmark: PropTypes.bool,
-  format: PropTypes.object
+  showSubscribe: PropTypes.bool,
+  format: PropTypes.object,
+  subscription: PropTypes.object
 }
 
 ActionBar.defaultProps = {

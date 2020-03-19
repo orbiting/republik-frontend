@@ -11,6 +11,7 @@ import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/f
 import { WithoutMembership } from '../Auth/withMembership'
 
 import DocumentListContainer from './DocumentListContainer'
+import { subInfo } from '../Notifications/enhancers'
 
 const getFeedDocuments = gql`
   query getFeedDocuments($formatId: String!, $cursor: String) {

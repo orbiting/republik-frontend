@@ -23,6 +23,8 @@ import { ZINDEX_FOOTER } from '../constants'
 import IconLink from '../IconLink'
 import { shouldIgnoreClick } from '../Link/utils'
 
+const LazyLink = (props) => <Link {...props} prefetch={false} />
+
 const COL_PADDING_S = 15
 const COL_PADDING_M = 70
 
@@ -164,31 +166,31 @@ class Footer extends Component {
                 {t('footer/contact/mail')}
               </a>
               <br />
-              <Link route='media'>
+              <LazyLink route='media'>
                 <a>{t('footer/media')}</a>
-              </Link>
+              </LazyLink>
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/about/title')}</div>
-              <Link route='about'>
+              <LazyLink route='about'>
                 <a>{t('footer/about')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='jobs'>
+              <LazyLink route='jobs'>
                 <a>{t('footer/jobs')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='community'>
+              <LazyLink route='community'>
                 <a>{t('nav/community')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='events'>
+              <LazyLink route='events'>
                 <a>{t('footer/events')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='cockpit'>
+              <LazyLink route='cockpit'>
                 <a>{t('nav/cockpit')}</a>
-              </Link>
+              </LazyLink>
               <br />
               <a href='/manifest' target={!inNativeApp ? '_blank' : undefined}>
                 {t('footer/about/manifest')}
@@ -208,31 +210,31 @@ class Footer extends Component {
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/legal/title')}</div>
-              <Link route='legal/tos'>
+              <LazyLink route='legal/tos'>
                 <a>{t('footer/legal/tos')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='legal/privacy'>
+              <LazyLink route='legal/privacy'>
                 <a>{t('footer/legal/privacy')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='legal/statute'>
+              <LazyLink route='legal/statute'>
                 <a>{t('footer/legal/statute')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='shareholder'>
+              <LazyLink route='shareholder'>
                 <a>{t('footer/shareholder')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='legal/imprint'>
+              <LazyLink route='legal/imprint'>
                 <a>{t('footer/legal/imprint')}</a>
-              </Link>
+              </LazyLink>
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/me/title')}</div>
-              <Link route='account'>
+              <LazyLink route='account'>
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
-              </Link>
+              </LazyLink>
               <br />
               {me && me.accessCampaigns.length > 0 && (
                 <Fragment>
@@ -253,36 +255,36 @@ class Footer extends Component {
               )}
               {!!me && (
                 <Fragment>
-                  <Link route='profile' params={{ slug: me.username || me.id }}>
+                  <LazyLink route='profile' params={{ slug: me.username || me.id }}>
                     <a>{t('footer/me/profile')}</a>
-                  </Link>
+                  </LazyLink>
                   <br />
                 </Fragment>
               )}
               {!inNativeIOSApp && (
                 <Fragment>
-                  <Link
+                  <LazyLink
                     route='pledge'
                     params={me ? { group: 'GIVE' } : undefined}
                   >
                     <a>{t(me ? 'footer/me/give' : 'footer/offers')}</a>
-                  </Link>
+                  </LazyLink>
                   <br />
                 </Fragment>
               )}
               <Fragment>
-                <Link route='claim'>
+                <LazyLink route='claim'>
                   <a>{t('footer/me/claim')}</a>
-                </Link>
+                </LazyLink>
                 <br />
               </Fragment>
-              <Link route='faq'>
+              <LazyLink route='faq'>
                 <a>{t('footer/me/faq')}</a>
-              </Link>
+              </LazyLink>
               <br />
-              <Link route='etiquette'>
+              <LazyLink route='etiquette'>
                 <a>{t('footer/me/etiquette')}</a>
-              </Link>
+              </LazyLink>
               <br />
               {!!me && (
                 <a
@@ -299,16 +301,16 @@ class Footer extends Component {
           </div>
           <hr {...styles.hr} />
           <div {...styles.lastLine}>
-            <Link route='index'>
+            <LazyLink route='index'>
               <a {...styles.logo} {...styles.left}>
                 <Logo fill={colors.negative.text} height={20} />
               </a>
-            </Link>
-            <Link route='index'>
+            </LazyLink>
+            <LazyLink route='index'>
               <a {...styles.brandmark} {...styles.left}>
                 <BrandMark fill={colors.negative.text} />
               </a>
-            </Link>
+            </LazyLink>
             <span {...styles.since}>{t('footer/since')}</span>
             <div {...styles.icons}>
               <IconLink

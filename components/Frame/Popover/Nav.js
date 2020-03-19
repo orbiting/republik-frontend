@@ -209,7 +209,7 @@ const Nav = ({
               >
                 {t('navbar/front')}
               </NavLink>
-              <NavLink route='feed' active={active} closeHandler={closeHandler}>
+              <NavLink prefetch route='feed' active={active} closeHandler={closeHandler}>
                 {t('navbar/feed')}
               </NavLink>
             </>

@@ -108,7 +108,7 @@ export const mySubscriptions = gql`
   query mySubscriptions {
     me {
       id
-      subscribedTo {
+      subscribedTo(objectType: Document) {
         nodes {
           ...subInfo
           object {

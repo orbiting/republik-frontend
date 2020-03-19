@@ -570,7 +570,8 @@ class ArticlePage extends Component {
 
     if (
       currentArticle.id !== nextArticle.id ||
-      currentArticle.userBookmark !== nextArticle.userBookmark
+      currentArticle.userBookmark !== nextArticle.userBookmark ||
+      currentArticle.subscribedByMe !== nextArticle.subscribedByMe
     ) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }

@@ -11,13 +11,6 @@ import { Link } from '../../lib/routes'
 const styles = {
   checkboxes: css({
     margin: '20px 0'
-  }),
-  checkbox: css({
-    display: 'inline-block',
-    width: '100%',
-    [mediaQueries.mUp]: {
-      width: '50%'
-    }
   })
 }
 

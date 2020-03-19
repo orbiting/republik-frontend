@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-18T18:42:16.635Z",
+  "updated": "2020-03-19T14:13:45.800Z",
   "title": "live",
   "data": [
     {
@@ -5057,6 +5057,22 @@
     {
       "key": "Onboarding/Sections/Newsletter/hint/link",
       "value": "Konto"
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/heading",
+      "value": "Formate abonnieren"
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/preamble",
+      "value": "Sie können sich an Formate abonnieren, und Benachrichtigungen bekommen, wenn ein neues Beitrag erscheint."
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/hint",
+      "value": "Diese Einstellungen lassen sich auf die {link} anpassen."
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/hint/link",
+      "value": "Einstellungsseite von den Benachrichtigungen"
     },
     {
       "key": "Onboarding/Sections/Usability/heading",

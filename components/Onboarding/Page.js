@@ -30,7 +30,10 @@ import { HEADER_HEIGHT } from '../constants'
 import { Link } from '../../lib/routes'
 import { SECTION_SPACE } from './Section'
 import withT from '../../lib/withT'
-import Subscriptions from './Sections/Subscriptions'
+import Subscriptions, {
+  FORMATS,
+  fragments as fragmentsSubscriptions
+} from './Sections/Subscriptions'
 
 const { P } = Interaction
 
@@ -46,6 +49,14 @@ const QUERY = gql`
     employees(shuffle: 1, withGreeting: true) {
       ...GreetingEmployee
     }
+
+    documents(repoIds: [${FORMATS.map(f => `"republik-dev/format-${f}"`).join(
+      ','
+    )}]) {
+      nodes {
+        ...FormatInfo
+      }
+    }
   }
 
   ${fragmentsNewsletter.user}
@@ -54,6 +65,7 @@ const QUERY = gql`
   ${fragmentsProfile.user}
 
   ${fragmentsGreeting.employee}
+  ${fragmentsSubscriptions.formats}
 `
 
 const styles = {
@@ -200,7 +212,7 @@ class Page extends Component {
               return <Loader loading={loading} error={error} />
             }
 
-            const { me: user, employees } = data
+            const { me: user, employees, documents } = data
 
             return (
               <Center>
@@ -236,6 +248,7 @@ class Page extends Component {
                           key={name}
                           name={name}
                           user={user}
+                          formats={documents.nodes}
                           onExpand={this.onExpand.bind(this)}
                           isExpanded={expandedSection === name}
                           onContinue={this.onContinue.bind(this)}

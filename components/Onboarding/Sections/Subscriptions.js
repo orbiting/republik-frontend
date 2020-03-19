@@ -7,8 +7,8 @@ import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 
 import { Interaction, linkRule } from '@project-r/styleguide'
-import SubscribeDocuments from '../../Notifications/SubscribeDocuments'
 import { subInfo } from '../../Notifications/enhancers'
+import SubscribeDocumentCheckbox from '../../Notifications/SubscribeDocumentCheckbox'
 
 const { P } = Interaction
 
@@ -18,58 +18,64 @@ const styles = {
   })
 }
 
-const FORMATS = [
-  'auf-lange-sicht',
+export const FORMATS = [
+  'bergs-nerds',
   'briefing-aus-bern',
   'format-a',
   'entwicklungslabor'
 ]
 
-const FormatInfo = `
-fragment FormatInfo on Document {
-  id
-  meta {
-    title
-  }
-  subscribedByMe {
-    ...subInfo
-  }
-}
-${subInfo}
-`
-
 export const fragments = {
   formats: gql`
-    fragment FeaturedFormats {
-      formats: {
-        ${FORMATS.map(
-          (f, i) =>
-            `format${i}: document(path:"/format/${f}") { ...FormatInfo }`
-        ).join('\n')}
+    fragment FormatInfo on Document {
+      id
+      meta {
+        title
+      }
+      subscribedByMe {
+        ...subInfo
       }
     }
-    ${FormatInfo}
+    ${subInfo}
   `
 }
 
 const Subscriptions = props => {
-  const { user, t } = props
+  const { formats, t } = props
+
+  console.log(formats)
 
   // Is ticked when at least one newsletter consent it to be found
-  const isTicked = FORMATS.some(
-    n => user && user[n] !== null && user[n] !== undefined
+  const isTicked = formats.some(
+    format => format.subscribedByMe && format.subscribedByMe.active
   )
 
   return (
-    <Section heading='Subscriptions' isTicked={isTicked} {...props}>
-      <P {...styles.p}>{t('Onboarding/Sections/Newsletter/preamble')}</P>
-      <SubscribeDocuments />
+    <Section
+      heading={t('Onboarding/Sections/Subscriptions/heading')}
+      isTicked={isTicked}
+      {...props}
+    >
+      <P {...styles.p}>{t('Onboarding/Sections/Subscriptions/preamble')}</P>
+      <div style={{ margin: '20px 0' }}>
+        {formats.map((format, i) => (
+          <SubscribeDocumentCheckbox
+            subscription={format.subscribedByMe}
+            format={format}
+            key={i}
+          />
+        ))}
+      </div>
       <P {...styles.p}>
-        {t.elements('Onboarding/Sections/Newsletter/hint', {
+        {t.elements('Onboarding/Sections/Subscriptions/hint', {
           link: (
-            <Link key='account' route='account' passHref>
+            <Link
+              key='subscriptionsSettings'
+              route='subscriptionsSettings'
+              passHref
+            >
               <a {...linkRule}>
-                {t('Onboarding/Sections/Newsletter/hint/link')}
+                {t('Onboarding/Sections/Subscriptions/hint/link')}
               </a>
             </Link>
           )

@@ -11,6 +11,10 @@ class NoJsHead extends DefaultHead {
     const res = super.render()
 
     function transform(node) {
+      // remove next fouc prevention
+      if (node && node.props && node.props['data-next-hide-fouc']) {
+        return null
+      }
       // remove all link preloads
       if (
         node &&
@@ -25,7 +29,7 @@ class NoJsHead extends DefaultHead {
           ...node,
           props: {
             ...node.props,
-            children: node.props.children.map(transform)
+            children: React.Children.map(node.props.children, transform)
           }
         }
       }

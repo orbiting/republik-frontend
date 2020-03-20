@@ -64,7 +64,8 @@ const NavLink = ({
   closeHandler,
   style,
   inline,
-  hoverColor
+  hoverColor,
+  prefetch = false
 }) => {
   if (active && active.route === route) {
     const r = routes.find(r => r.name === route)
@@ -90,7 +91,7 @@ const NavLink = ({
     )
   }
   return (
-    <Link route={route} params={params} passHref>
+    <Link route={route} params={params} prefetch={prefetch} passHref>
       <NavA inline={inline} style={style} hoverColor={hoverColor}>
         {children}
       </NavA>

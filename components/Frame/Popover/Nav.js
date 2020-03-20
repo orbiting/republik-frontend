@@ -117,179 +117,192 @@ const Nav = ({
   return (
     <div {...styles.container} id='nav'>
       <hr {...styles.hr} {...styles.hrFixed} />
-      <div {...styles.sections}>
-        <div {...styles.section} {...styles.sectionCompact}>
-          {me && (
-            <>
+      {hasExpandedRef.current && (
+        <div {...styles.sections}>
+          <div {...styles.section} {...styles.sectionCompact}>
+            {me && (
+              <>
+                <NavLink
+                  route='account'
+                  active={active}
+                  closeHandler={closeHandler}
+                >
+                  {t('Frame/Popover/myaccount')}
+                </NavLink>
+                {(!inNativeIOSApp || isMember) && (
+                  <NavLink
+                    route='profile'
+                    params={{ slug: me.username || me.id }}
+                    active={active}
+                    closeHandler={closeHandler}
+                  >
+                    {t('Frame/Popover/myprofile')}
+                  </NavLink>
+                )}
+                {isMember && (
+                  <NavLink
+                    route='bookmarks'
+                    active={active}
+                    closeHandler={closeHandler}
+                  >
+                    {t('nav/bookmarks')}
+                  </NavLink>
+                )}
+                {me.accessCampaigns.length > 0 && (
+                  <NavLink
+                    route='access'
+                    active={active}
+                    closeHandler={closeHandler}
+                  >
+                    {t('nav/share')}
+                  </NavLink>
+                )}
+              </>
+            )}
+            {!inNativeIOSApp && !isMember && (
               <NavLink
-                route='account'
+                route='pledge'
                 active={active}
                 closeHandler={closeHandler}
               >
-                {t('Frame/Popover/myaccount')}
+                {t('nav/offers')}
               </NavLink>
-              {(!inNativeIOSApp || isMember) && (
-                <NavLink
-                  route='profile'
-                  params={{ slug: me.username || me.id }}
-                  active={active}
-                  closeHandler={closeHandler}
-                >
-                  {t('Frame/Popover/myprofile')}
-                </NavLink>
-              )}
-              {isMember && (
-                <NavLink
-                  route='bookmarks'
-                  active={active}
-                  closeHandler={closeHandler}
-                >
-                  {t('nav/bookmarks')}
-                </NavLink>
-              )}
-              {me.accessCampaigns.length > 0 && (
-                <NavLink
-                  route='access'
-                  active={active}
-                  closeHandler={closeHandler}
-                >
-                  {t('nav/share')}
-                </NavLink>
-              )}
-            </>
-          )}
-          {!inNativeIOSApp && !isMember && (
-            <NavLink route='pledge' active={active} closeHandler={closeHandler}>
-              {t('nav/offers')}
-            </NavLink>
-          )}
-          {!inNativeIOSApp && (
-            <NavLink
-              route='pledge'
-              params={{ group: 'GIVE' }}
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/give')}
-            </NavLink>
-          )}
-          {!inNativeIOSApp && isMember && (
-            <NavLink
-              route='pledge'
-              params={{ package: 'DONATE' }}
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/donate')}
-            </NavLink>
-          )}
-          {me ? (
-            <>
-              <SignOut Link={SignoutLink} />
-            </>
-          ) : (
-            <SignIn
-              beforeForm={
-                <Label
-                  style={{ display: 'block', marginTop: 20, marginBottom: 10 }}
-                >
-                  {t('me/signedOut')}
-                </Label>
-              }
-            />
-          )}
-        </div>
-        <div {...styles.section}>
-          {isMember && (
-            <>
+            )}
+            {!inNativeIOSApp && (
               <NavLink
-                route='index'
+                route='pledge'
+                params={{ group: 'GIVE' }}
                 active={active}
                 closeHandler={closeHandler}
               >
-                {t('navbar/front')}
+                {t('nav/give')}
               </NavLink>
-              <NavLink route='feed' active={active} closeHandler={closeHandler}>
-                {t('navbar/feed')}
+            )}
+            {!inNativeIOSApp && isMember && (
+              <NavLink
+                route='pledge'
+                params={{ package: 'DONATE' }}
+                active={active}
+                closeHandler={closeHandler}
+              >
+                {t('nav/donate')}
               </NavLink>
-            </>
-          )}
-          <NavLink
-            route='discussion'
-            active={active}
-            closeHandler={closeHandler}
-            hoverColor={colors.primary}
-          >
-            {t('navbar/discussion')}
-          </NavLink>
-          <div {...styles.sectionCompact} {...styles.sectionsBlock}>
-            <NavLink
-              route='section'
-              params={{ slug: 'top-storys' }}
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/discussion/topStories')}
-            </NavLink>
+            )}
+            {me ? (
+              <>
+                <SignOut Link={SignoutLink} />
+              </>
+            ) : (
+              <SignIn
+                beforeForm={
+                  <Label
+                    style={{
+                      display: 'block',
+                      marginTop: 20,
+                      marginBottom: 10
+                    }}
+                  >
+                    {t('me/signedOut')}
+                  </Label>
+                }
+              />
+            )}
           </div>
-          <NavLink route='sections' active={active} closeHandler={closeHandler}>
-            {t('nav/sections')}
-          </NavLink>
-          {hasExpandedRef.current && (
+          <div {...styles.section}>
+            {isMember && (
+              <>
+                <NavLink
+                  route='index'
+                  active={active}
+                  closeHandler={closeHandler}
+                >
+                  {t('navbar/front')}
+                </NavLink>
+                <NavLink
+                  prefetch
+                  route='feed'
+                  active={active}
+                  closeHandler={closeHandler}
+                >
+                  {t('navbar/feed')}
+                </NavLink>
+              </>
+            )}
+            <NavLink
+              route='discussion'
+              active={active}
+              closeHandler={closeHandler}
+              hoverColor={colors.primary}
+            >
+              {t('navbar/discussion')}
+            </NavLink>
+            <div {...styles.sectionCompact} {...styles.sectionsBlock}>
+              <NavLink
+                route='section'
+                params={{ slug: 'top-storys' }}
+                active={active}
+                closeHandler={closeHandler}
+              >
+                {t('nav/discussion/topStories')}
+              </NavLink>
+            </div>
+            <NavLink
+              route='sections'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/sections')}
+            </NavLink>
             <div {...styles.sectionCompact} {...styles.sectionsBlock}>
               <Sections active={active} closeHandler={closeHandler} />
             </div>
-          )}
-          {/*<NavLink
+            {/*<NavLink
             route='community'
             active={active}
             closeHandler={closeHandler}
           >
             {t('nav/community')}
           </NavLink>*/}
-          <NavLink route='events' active={active} closeHandler={closeHandler}>
-            {t('nav/events')}
-          </NavLink>
-          <NavLink
-            route='crowdfunding2'
-            active={active}
-            closeHandler={closeHandler}
-          >
-            {t('nav/crowdfunding2')}
-          </NavLink>
-          <NavLink
-            inline
-            route='cockpit'
-            active={active}
-            closeHandler={closeHandler}
-          >
-            {t('nav/cockpit')}
-          </NavLink>
-          <NavLink
-            inline
-            route='meta'
-            active={active}
-            closeHandler={closeHandler}
-          >
-            {t('nav/meta')}
-          </NavLink>
-          <NavLink
-            inline
-            route='legal/imprint'
-            active={active}
-            closeHandler={closeHandler}
-          >
-            {t('nav/team')}
-          </NavLink>
+            <NavLink route='events' active={active} closeHandler={closeHandler}>
+              {t('nav/events')}
+            </NavLink>
+            <NavLink
+              route='crowdfunding2'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/crowdfunding2')}
+            </NavLink>
+            <NavLink
+              inline
+              route='cockpit'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/cockpit')}
+            </NavLink>
+            <NavLink
+              inline
+              route='meta'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/meta')}
+            </NavLink>
+            <NavLink
+              inline
+              route='legal/imprint'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/team')}
+            </NavLink>
+          </div>
         </div>
-      </div>
-      {inNativeApp && <Footer />}
+      )}
+      {inNativeApp && hasExpandedRef.current && <Footer />}
     </div>
   )
 }
 
-export default compose(
-  withT,
-  withInNativeApp,
-  withMembership
-)(Nav)
+export default compose(withT, withInNativeApp, withMembership)(Nav)

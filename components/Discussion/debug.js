@@ -1,6 +1,6 @@
-import mkDebug from 'debug'
+// import mkDebug from 'debug'
 
-export const debug = mkDebug('discussion')
+export const debug = () => {} // mkDebug('discussion')
 
 /**
  * If this is true we render helpful information into the webpage.

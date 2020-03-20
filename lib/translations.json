@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-19T14:13:45.800Z",
+  "updated": "2020-03-20T10:38:16.494Z",
   "title": "live",
   "data": [
     {
@@ -6420,7 +6420,7 @@
     },
     {
       "key": "crowdfunding/status/time/label/SURVIVE",
-      "value": "bis zur Entscheidung."
+      "value": " "
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/people",

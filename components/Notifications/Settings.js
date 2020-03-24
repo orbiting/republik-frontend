@@ -23,6 +23,7 @@ const styles = {
     }
   }),
   section: css({
+    marginTop: 40,
     marginBottom: 80
   })
 }
@@ -31,14 +32,12 @@ export default compose(withT)(({ t }) => {
   return (
     <>
       <Center {...styles.container}>
-        <Interaction.P>
-          <Link route='subscriptions' passHref>
-            <A {...linkRule}>{t('Notifications/settings/back')}</A>
-          </Link>
-        </Interaction.P>
-        <H1 style={{ marginBottom: 40 }}>
+        <H1 style={{ marginBottom: 20 }}>
           {t('Notifications/settings/title')}
         </H1>
+        <Link route='subscriptions' passHref>
+          <A {...linkRule}>{t('Notifications/settings/back')}</A>
+        </Link>
 
         <section {...styles.section}>
           <Interaction.H2>{t('Notifications/settings/formats')}</Interaction.H2>

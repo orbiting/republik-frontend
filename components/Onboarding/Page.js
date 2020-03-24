@@ -120,7 +120,7 @@ class Page extends Component {
       },
       {
         component: Subscriptions,
-        name: 'subscriptions',
+        name: 'notifications', // this also gets into the url—we have to avoid «script» in urls
         ref: React.createRef(),
         visited: false
       },

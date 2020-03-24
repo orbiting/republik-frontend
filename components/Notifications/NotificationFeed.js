@@ -3,6 +3,7 @@ import {
   colors,
   Interaction,
   Center,
+  RawHtml,
   linkRule,
   mediaQueries
 } from '@project-r/styleguide'
@@ -103,6 +104,7 @@ export default withT(
 
     if (!nodes) return null
     const newNodes = nodes.filter(isNew)
+    const isEmpty = !nodes.length
 
     return (
       <>
@@ -113,14 +115,26 @@ export default withT(
         <Center {...styles.container}>
           <div style={{ marginBottom: 80 }}>
             <Interaction.H1 style={{ marginBottom: 20 }}>
-              {t.pluralize('Notifications/title', {
-                count: newNodes.length
-              })}
+              {isEmpty
+                ? t('Notifications/empty/title')
+                : t.pluralize('Notifications/title', {
+                    count: newNodes.length
+                  })}
             </Interaction.H1>
 
             <Link route='subscriptionsSettings' passHref>
               <a {...linkRule}>{t('Notifications/settings')}</a>
             </Link>
+
+            {isEmpty && (
+              <Interaction.P style={{ marginTop: 40 }}>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('Notifications/empty/paragraph')
+                  }}
+                />
+              </Interaction.P>
+            )}
           </div>
 
           <InfiniteScroll

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-24T15:59:18.154Z",
+  "updated": "2020-03-24T17:05:55.894Z",
   "title": "live",
   "data": [
     {
@@ -6819,6 +6819,14 @@
       "value": "{count} neue Benachrichtigungen"
     },
     {
+      "key": "Notifications/empty/title",
+      "value": "Noch keine Benachrichtigungen"
+    },
+    {
+      "key": "Notifications/empty/paragraph",
+      "value": "Sie haben noch keine Benachrichtigungen. Im <a href=\"/einrichten?section=notifications\">Einrichtungsassistent</a> finden Sie einige Rubriken die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
+    },
+    {
       "key": "Notifications/settings",
       "value": "Ihre Einstellungen"
     },
@@ -6844,11 +6852,11 @@
     },
     {
       "key": "Notifications/settings/back",
-      "value": "Benachrichtigungen"
+      "value": "Ihre Liste"
     },
     {
       "key": "Notifications/settings/title",
-      "value": "Ihre Einstellungen"
+      "value": "Benachrichtigungs-Einstellungen"
     },
     {
       "key": "Notifications/settings/formats",

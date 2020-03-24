@@ -6,11 +6,12 @@ import {
   A,
   mediaQueries
 } from '@project-r/styleguide'
+import { compose } from 'react-apollo'
 import SubscribeDocuments from './SubscribeDocuments'
 import NotificationOptions from './NotificationOptions'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { compose } from 'react-apollo'
+import { Link } from '../../lib/routes'
 
 const { H1, H2 } = Interaction
 
@@ -30,6 +31,11 @@ export default compose(withT)(({ t }) => {
   return (
     <>
       <Center {...styles.container}>
+        <Interaction.P>
+          <Link route='subscriptions' passHref>
+            <A {...linkRule}>{t('Notifications/settings/back')}</A>
+          </Link>
+        </Interaction.P>
         <H1 style={{ marginBottom: 40 }}>
           {t('Notifications/settings/title')}
         </H1>
@@ -40,7 +46,7 @@ export default compose(withT)(({ t }) => {
         </section>
 
         <section {...styles.section}>
-          <H2>{t('account/notificationOptions/title')}</H2>
+          <H2>{t('Notifications/settings/discussion')}</H2>
           <NotificationOptions />
         </section>
 

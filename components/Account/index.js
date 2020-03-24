@@ -173,7 +173,6 @@ class Account extends Component {
                   </AccountAnchor>
 
                   <AccountAnchor id='benachrichtigungen'>
-                    <H2>{t('account/notificationOptions/title')}</H2>
                     <NotificationsLegacy />
                   </AccountAnchor>
 

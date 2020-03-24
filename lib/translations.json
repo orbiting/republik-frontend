@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-24T15:23:08.529Z",
+  "updated": "2020-03-24T15:59:18.154Z",
   "title": "live",
   "data": [
     {
@@ -951,10 +951,6 @@
       "value": "Erstellt am {formattedDate} um {formattedTime}"
     },
     {
-      "key": "account/newsletterSubscriptions/title",
-      "value": "Newsletter"
-    },
-    {
       "key": "account/newsletterSubscriptions/unauthorized",
       "value": "Sie müssen angemeldet sein, um Ihre Newsletter-Einstellungen zu ändern."
     },
@@ -1032,7 +1028,7 @@
     },
     {
       "key": "account/notificationOptions/title",
-      "value": "Benachrichtigungen über Beiträge"
+      "value": "Benachrichtigungen"
     },
     {
       "key": "account/discussionNotificationChannels/EMAIL/label",
@@ -6847,8 +6843,12 @@
       "value": "Debatte"
     },
     {
+      "key": "Notifications/settings/back",
+      "value": "Benachrichtigungen"
+    },
+    {
       "key": "Notifications/settings/title",
-      "value": "Benachrichtigungs­einstellungen"
+      "value": "Ihre Einstellungen"
     },
     {
       "key": "Notifications/settings/formats",
@@ -6884,11 +6884,11 @@
     },
     {
       "key": "Notifications/settings/newsletter",
-      "value": "Abonnieren Sie sich an unsere Newsletter auf Ihre {link}."
+      "value": "Können Sie in {link} abonnieren."
     },
     {
       "key": "Notifications/settings/newsletter/link",
-      "value": "Konto Seite"
+      "value": "Ihrem Konto"
     },
     {
       "key": "account/discussionNotificationChannels/intro",
@@ -6912,11 +6912,11 @@
     },
     {
       "key": "Account/Notifications/Legacy/text",
-      "value": "Check out our brand new {link}."
+      "value": "{link}"
     },
     {
       "key": "Account/Notifications/Legacy/link",
-      "value": "notification settings page"
+      "value": "Zu den Einstellungen Ihrer Benachrichtigungen."
     },
     {
       "key": "pages/notifications/settings/title",
@@ -6924,6 +6924,10 @@
     },
     {
       "key": "Onboarding/Sections/Newsletter/heading",
+      "value": "Newsletter per E-Mail"
+    },
+    {
+      "key": "account/newsletterSubscriptions/title",
       "value": "Newsletter per E-Mail"
     }
   ]

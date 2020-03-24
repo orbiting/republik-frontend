@@ -31,9 +31,9 @@ import { Link } from '../../lib/routes'
 import { SECTION_SPACE } from './Section'
 import withT from '../../lib/withT'
 import Subscriptions, {
-  FORMATS,
   fragments as fragmentsSubscriptions
 } from './Sections/Subscriptions'
+import { FEATURED_SECTIONS, PUBLIKATOR_REPO } from '../../lib/constants'
 
 const { P } = Interaction
 
@@ -50,11 +50,20 @@ const QUERY = gql`
       ...GreetingEmployee
     }
 
-    documents(repoIds: [${FORMATS.map(f => `"republik-dev/format-${f}"`).join(
-      ','
-    )}]) {
+    documents(
+      template: "section"
+      repoIds: [${FEATURED_SECTIONS.split(',')
+        .map(section => `"${PUBLIKATOR_REPO}/section-${section}"`)
+        .join(',')}]
+    ) {
       nodes {
-        ...FormatInfo
+        id
+        linkedDocuments {
+          totalCount
+          nodes {
+            ...FormatInfo
+          }
+        }
       }
     }
   }
@@ -248,7 +257,7 @@ class Page extends Component {
                           key={name}
                           name={name}
                           user={user}
-                          formats={documents.nodes}
+                          sections={documents.nodes}
                           onExpand={this.onExpand.bind(this)}
                           isExpanded={expandedSection === name}
                           onContinue={this.onContinue.bind(this)}
@@ -361,7 +370,4 @@ class Page extends Component {
   }
 }
 
-export default compose(
-  withT,
-  withRouter
-)(Page)
+export default compose(withT, withRouter)(Page)

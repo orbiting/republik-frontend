@@ -18,13 +18,6 @@ const styles = {
   })
 }
 
-export const FORMATS = [
-  'bergs-nerds',
-  'briefing-aus-bern',
-  'format-a',
-  'entwicklungslabor'
-]
-
 export const fragments = {
   formats: gql`
     fragment FormatInfo on Document {
@@ -41,9 +34,12 @@ export const fragments = {
 }
 
 const Subscriptions = props => {
-  const { formats, t } = props
+  const { sections, t } = props
 
-  // Is ticked when at least one newsletter consent it to be found
+  const formats = sections.reduce(
+    (reducer, section) => reducer.concat(section.linkedDocuments.nodes),
+    []
+  )
   const isTicked = formats.some(
     format => format.subscribedByMe && format.subscribedByMe.active
   )

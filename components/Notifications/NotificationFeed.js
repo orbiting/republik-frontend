@@ -1,5 +1,11 @@
 import React from 'react'
-import { colors, Interaction, Center, linkRule } from '@project-r/styleguide'
+import {
+  colors,
+  Interaction,
+  Center,
+  linkRule,
+  mediaQueries
+} from '@project-r/styleguide'
 import StickySection from '../Feed/StickySection'
 import CommentNotification from './CommentNotification'
 import InfiniteScroll from '../Frame/InfiniteScroll'
@@ -17,6 +23,13 @@ const groupByDate = nest().key(n => {
 })
 
 const styles = {
+  container: css({
+    paddingTop: 15,
+    paddingBottom: 120,
+    [mediaQueries.mUp]: {
+      paddingTop: 40
+    }
+  }),
   more: css({
     position: 'relative',
     height: 50,
@@ -90,7 +103,6 @@ export default withT(
 
     if (!nodes) return null
     const newNodes = nodes.filter(isNew)
-    const hasNewNodes = newNodes.length
 
     return (
       <>
@@ -98,7 +110,7 @@ export default withT(
           futureNotifications={futureNotifications}
           onReload={onReload}
         />
-        <Center>
+        <Center {...styles.container}>
           <div style={{ marginBottom: 80 }}>
             <Interaction.H1 style={{ marginBottom: 20 }}>
               {t.pluralize('Notifications/title', {

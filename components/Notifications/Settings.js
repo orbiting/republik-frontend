@@ -1,8 +1,12 @@
 import React from 'react'
-import { Interaction, Center, linkRule, A } from '@project-r/styleguide'
+import {
+  Interaction,
+  Center,
+  linkRule,
+  A,
+  mediaQueries
+} from '@project-r/styleguide'
 import SubscribeDocuments from './SubscribeDocuments'
-import { Link } from '../../lib/routes'
-import NewsletterSubscriptions from '../Account/NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
@@ -11,6 +15,12 @@ import { compose } from 'react-apollo'
 const { H1, H2 } = Interaction
 
 const styles = {
+  container: css({
+    paddingTop: 15,
+    [mediaQueries.mUp]: {
+      paddingTop: 40
+    }
+  }),
   section: css({
     marginBottom: 80
   })
@@ -19,7 +29,7 @@ const styles = {
 export default compose(withT)(({ t }) => {
   return (
     <>
-      <Center>
+      <Center {...styles.container}>
         <H1 style={{ marginBottom: 40 }}>
           {t('Notifications/settings/title')}
         </H1>

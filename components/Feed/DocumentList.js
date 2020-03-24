@@ -45,22 +45,24 @@ const DocumentList = ({
 
   return (
     <>
-      <div {...styles.title}>
-        <Interaction.H2>
-          {t.pluralize('feed/title', {
-            count: totalCount
-          })}
-        </Interaction.H2>
-        {variables && variables.formatId ? (
-          <SubscribeDocumentMenu
-            subscription={variables.subscription}
-            format={{
-              id: variables.formatId,
-              meta: { title: variables.formatName }
-            }}
-          />
-        ) : null}
-      </div>
+      {showTotal && (
+        <div {...styles.title}>
+          <Interaction.H2>
+            {t.pluralize('feed/title', {
+              count: totalCount
+            })}
+          </Interaction.H2>
+          {variables && variables.formatId ? (
+            <SubscribeDocumentMenu
+              subscription={variables.subscription}
+              format={{
+                id: variables.formatId,
+                meta: { title: variables.formatName }
+              }}
+            />
+          ) : null}
+        </div>
+      )}
       {help}
       {!documents.length && empty}
       <div ref={containerRef}>
@@ -100,7 +102,4 @@ DocumentList.propTypes = {
   help: PropTypes.element
 }
 
-export default compose(
-  withT,
-  withInNativeApp
-)(DocumentList)
+export default compose(withT, withInNativeApp)(DocumentList)

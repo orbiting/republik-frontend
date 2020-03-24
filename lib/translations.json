@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-24T08:37:19.415Z",
+  "updated": "2020-03-24T09:07:41.717Z",
   "title": "live",
   "data": [
     {
@@ -1033,10 +1033,6 @@
     {
       "key": "account/notificationOptions/title",
       "value": "Benachrichtigungen über Beiträge"
-    },
-    {
-      "key": "account/discussionNotificationChannels/intro",
-      "value": "Ich möchte Benachrichtungen auf folgendem Weg erhalten:"
     },
     {
       "key": "account/discussionNotificationChannels/EMAIL/label",
@@ -6820,7 +6816,7 @@
     },
     {
       "key": "Notifications/settings",
-      "value": "Einrichtungen"
+      "value": "Ihre Einstellungen"
     },
     {
       "key": "Notifications/refresh/1",
@@ -6833,6 +6829,10 @@
     {
       "key": "Notifications/refresh/link",
       "value": "Seite neu laden?"
+    },
+    {
+      "key": "Notifications/settings/title",
+      "value": "Benachrichtigungs­einstellungen"
     },
     {
       "key": "Notifications/settings/formats",
@@ -6861,6 +6861,14 @@
     {
       "key": "Notifications/settings/formats/empty/link",
       "value": "Unseres Einrichtungsassistent bietet Hilfe."
+    },
+    {
+      "key": "Notifications/settings/discussion",
+      "value": "Debattenbeiträge"
+    },
+    {
+      "key": "account/discussionNotificationChannels/intro",
+      "value": "Ich möchte Debattenbenachrichtungen auf folgendem Weg erhalten:"
     },
     {
       "key": "Onboarding/Sections/Subscriptions/heading",

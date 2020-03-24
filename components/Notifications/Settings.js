@@ -20,7 +20,9 @@ export default compose(withT)(({ t }) => {
   return (
     <>
       <Center>
-        <H1 style={{ marginBottom: 40 }}>{t('Notifications/settings')}</H1>
+        <H1 style={{ marginBottom: 40 }}>
+          {t('Notifications/settings/title')}
+        </H1>
 
         <section {...styles.section}>
           <Interaction.H2>{t('Notifications/settings/formats')}</Interaction.H2>
@@ -28,12 +30,7 @@ export default compose(withT)(({ t }) => {
         </section>
 
         <section {...styles.section}>
-          <H2>{t('account/newsletterSubscriptions/title')}</H2>
-          <NewsletterSubscriptions />
-        </section>
-
-        <section {...styles.section}>
-          <H2>{t('account/notificationOptions/title')}</H2>
+          <H2>{t('Notifications/settings/discussion')}</H2>
           <NotificationOptions />
         </section>
       </Center>

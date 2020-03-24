@@ -3623,6 +3623,14 @@
       "value": "Newsletter-Anmeldung"
     },
     {
+      "key": "notifications/newsletter-subscript-disabledion/title",
+      "value": "Newsletter-Anmeldung"
+    },
+    {
+      "key": "notifications/newsletter/title",
+      "value": "Newsletter-Anmeldung"
+    },
+    {
       "key": "macNewsletterSubscription/button",
       "value": "bestätigen"
     },

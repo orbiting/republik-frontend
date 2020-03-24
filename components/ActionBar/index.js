@@ -18,6 +18,7 @@ import { shouldIgnoreClick } from '../Link/utils'
 
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
 import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
+import SubscribeDebateMenu from '../Notifications/SubscribeDebateMenu'
 
 const styles = {
   buttonGroup: css({
@@ -80,7 +81,9 @@ class ActionBar extends Component {
       animate,
       inIOS,
       subscription,
-      showSubscribe
+      showSubscribe,
+      isDiscussion,
+      ownDiscussion
     } = this.props
     const { showShareOverlay, showFontSizeOverlay } = this.state
 
@@ -211,14 +214,24 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
-          {showSubscribe && subscription && (
-            <SubscribeDocumentMenu
-              vivid
-              leftAligned
-              subscription={subscription}
-              style={{ marginRight: -2, marginLeft: 2 }}
-            />
-          )}
+          {showSubscribe &&
+            subscription &&
+            (isDiscussion ? (
+              <SubscribeDebateMenu
+                vivid
+                leftAligned
+                discussionId={ownDiscussion.id}
+                subscription={subscription}
+                style={{ marginRight: -2, marginLeft: 2 }}
+              />
+            ) : (
+              <SubscribeDocumentMenu
+                vivid
+                leftAligned
+                subscription={subscription}
+                style={{ marginRight: -2, marginLeft: 2 }}
+              />
+            ))}
           {icons.filter(Boolean).map((props, i) => (
             <IconLink key={props.icon} fill={fill} {...props} />
           ))}
@@ -252,7 +265,9 @@ ActionBar.propTypes = {
   shareOverlayTitle: PropTypes.string,
   showBookmark: PropTypes.bool,
   showSubscribe: PropTypes.bool,
-  subscription: PropTypes.object
+  subscription: PropTypes.object,
+  isDiscussion: PropTypes.bool,
+  ownDiscussion: PropTypes.object
 }
 
 ActionBar.defaultProps = {

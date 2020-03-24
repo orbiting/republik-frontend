@@ -470,6 +470,7 @@ class ArticlePage extends Component {
     const isEditorialNewsletter =
       meta && meta.template === 'editorialNewsletter'
     const isFormat = meta && meta.template === 'format'
+    const isDiscussion = meta && meta.template === 'discussion'
 
     const actionBar = meta && (
       <ArticleActionBar
@@ -504,6 +505,7 @@ class ArticlePage extends Component {
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
         subscription={article.subscribedByMe}
         showSubscribe={!isFormat}
+        isDiscussion={isDiscussion}
       />
     )
 

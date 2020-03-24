@@ -38,7 +38,7 @@ import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
 const { P } = Interaction
 
 const QUERY = gql`
-  query getOnboarding {
+  query getOnboarding($repoIds: [ID!]) {
     me {
       ...NewsletterUser
       ...AppLoginUser
@@ -50,12 +50,7 @@ const QUERY = gql`
       ...GreetingEmployee
     }
 
-    documents(
-      template: "section"
-      repoIds: [${ONBOARDING_SECTIONS_REPO_IDS.split(',')
-        .map(section_repo => `"${section_repo}"`)
-        .join(',')}]
-    ) {
+    documents(template: "section", repoIds: $repoIds) {
       nodes {
         id
         linkedDocuments {
@@ -215,7 +210,14 @@ class Page extends Component {
 
     return (
       <Frame meta={meta} raw>
-        <Query query={QUERY}>
+        <Query
+          query={QUERY}
+          variables={{
+            repoIds:
+              ONBOARDING_SECTIONS_REPO_IDS &&
+              ONBOARDING_SECTIONS_REPO_IDS.split(',')
+          }}
+        >
           {({ loading, error, data }) => {
             if (loading || error) {
               return <Loader loading={loading} error={error} />

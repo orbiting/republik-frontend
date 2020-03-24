@@ -33,7 +33,7 @@ import withT from '../../lib/withT'
 import Subscriptions, {
   fragments as fragmentsSubscriptions
 } from './Sections/Subscriptions'
-import { FEATURED_SECTION_REPO_IDS } from '../../lib/constants'
+import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
 
 const { P } = Interaction
 
@@ -52,7 +52,7 @@ const QUERY = gql`
 
     documents(
       template: "section"
-      repoIds: [${FEATURED_SECTION_REPO_IDS.split(',')
+      repoIds: [${ONBOARDING_SECTIONS_REPO_IDS.split(',')
         .map(section_repo => `"${section_repo}"`)
         .join(',')}]
     ) {

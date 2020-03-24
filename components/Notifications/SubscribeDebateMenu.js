@@ -16,7 +16,9 @@ const SubscribeDebateMenu = ({ discussionId }) => {
     }
   }, [animate])
 
-  const icon = <SubscribeIcon animate={animate} isSubscribed={isSubscribed} />
+  const icon = (
+    <SubscribeIcon animate={animate} isSubscribed={isSubscribed} vivid />
+  )
 
   const menu = (
     <SubscribeDebateCallout
@@ -28,7 +30,7 @@ const SubscribeDebateMenu = ({ discussionId }) => {
 
   return (
     <div {...containerStyle}>
-      <CalloutMenu icon={icon} menu={menu} />
+      <CalloutMenu icon={icon} menu={menu} leftAligned />
     </div>
   )
 }

@@ -2,26 +2,11 @@ import React from 'react'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import Comments from './Comments'
-import { Interaction, colors } from '@project-r/styleguide'
-import withT from '../../lib/withT'
-import { css } from 'glamor'
-import SubscribeDebateMenu from '../Notifications/SubscribeDebateMenu'
 
 const DEFAULT_DEPTH = 3
 
-const styles = {
-  title: css({
-    borderBottom: `1px solid ${colors.text}`,
-    paddingBottom: '2.2rem',
-    marginBottom: 20,
-    alignItems: 'center',
-    display: 'flex'
-  })
-}
-
 const Discussion = ({
   discussionId,
-  commentCount,
   focusId = null,
   mute,
   meta,
@@ -30,8 +15,7 @@ const Discussion = ({
   parent,
   parentId = null,
   includeParent,
-  rootCommentOverlay,
-  t
+  rootCommentOverlay
 }) => {
   /*
    * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
@@ -56,14 +40,6 @@ const Discussion = ({
     <div data-discussion-id={discussionId}>
       {!rootCommentOverlay && (
         <>
-          <div {...styles.title}>
-            <Interaction.H2>
-              {t.pluralize('feed/title', {
-                count: commentCount || 0
-              })}
-            </Interaction.H2>
-            <SubscribeDebateMenu discussionId={discussionId} />
-          </div>
           <DiscussionCommentComposer
             discussionId={discussionId}
             orderBy={orderBy}
@@ -96,4 +72,4 @@ const Discussion = ({
   )
 }
 
-export default withT(Discussion)
+export default Discussion

@@ -33,7 +33,7 @@ const SubscribeDebateCallout = ({
   setDiscussionPreferences,
   setSubscribed,
   setAnimate,
-  showTitle
+  leftAigned
 }) => {
   const [selectedValue, setSelectedValue] = useState(undefined)
 
@@ -67,9 +67,7 @@ const SubscribeDebateCallout = ({
 
   return (
     <>
-      {showTitle && (
-        <SubscribeCalloutTitle isSubscribed={selectedValue !== 'NONE'} />
-      )}
+      <SubscribeCalloutTitle isSubscribed={selectedValue !== 'NONE'} />
       <div {...styles.radio}>
         {notificationOptions.map(option => (
           <div key={option.value}>
@@ -88,7 +86,4 @@ const SubscribeDebateCallout = ({
   )
 }
 
-export default compose(
-  withT,
-  withDiscussionPreferences
-)(SubscribeDebateCallout)
+export default compose(withT, withDiscussionPreferences)(SubscribeDebateCallout)

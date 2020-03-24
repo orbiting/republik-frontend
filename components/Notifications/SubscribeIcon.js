@@ -7,7 +7,6 @@ import { css } from 'glamor'
 export const containerStyle = css({
   display: 'inline-block',
   marginLeft: 'auto',
-  marginRight: 10,
   position: 'relative',
   lineHeight: 'initial',
   '@media print': {

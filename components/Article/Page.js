@@ -470,7 +470,7 @@ class ArticlePage extends Component {
     const hasPdf = meta && meta.template === 'article'
     const isEditorialNewsletter =
       meta && meta.template === 'editorialNewsletter'
-    const isFormat = meta.template === 'format'
+    const isFormat = meta && meta.template === 'format'
 
     const actionBar = meta && (
       <ArticleActionBar

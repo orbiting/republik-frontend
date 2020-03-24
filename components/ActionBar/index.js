@@ -219,7 +219,7 @@ class ActionBar extends Component {
               vivid
               leftAligned
               subscription={subscription}
-              styles={{ marginRight: -2, marginLeft: 2 }}
+              style={{ marginRight: -2, marginLeft: 2 }}
             />
           )}
           {icons.filter(Boolean).map((props, i) => (

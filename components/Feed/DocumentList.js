@@ -53,7 +53,10 @@ const DocumentList = ({
             })}
           </Interaction.H2>
           {variables && variables.subscription ? (
-            <SubscribeDocumentMenu subscription={variables.subscription} />
+            <SubscribeDocumentMenu
+              subscription={variables.subscription}
+              style={{ marginRight: 10 }}
+            />
           ) : null}
         </div>
       )}

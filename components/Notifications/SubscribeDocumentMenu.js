@@ -3,12 +3,7 @@ import { containerStyle, SubscribeIcon } from './SubscribeIcon'
 import { CalloutMenu } from '@project-r/styleguide'
 import SubscribeDocumentCallout from './SubscribeDocumentCallout'
 
-const SubscribeDocumentMenu = ({
-  subscription,
-  vivid,
-  leftAligned,
-  styles
-}) => {
+const SubscribeDocumentMenu = ({ subscription, vivid, leftAligned, style }) => {
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -36,7 +31,7 @@ const SubscribeDocumentMenu = ({
   )
 
   return (
-    <div {...containerStyle} style={styles}>
+    <div {...containerStyle} style={style}>
       <CalloutMenu icon={icon} menu={menu} leftAligned={leftAligned} />
     </div>
   )

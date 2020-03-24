@@ -16,37 +16,36 @@ const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 
 class Feed extends Component {
-  renderFeedItem = doc =>
-    doc ? (
-      <TeaserFeed
-        {...doc.meta}
-        title={doc.meta.shortTitle || doc.meta.title}
-        description={!doc.meta.shortTitle && doc.meta.description}
-        t={this.props.t}
-        credits={
-          this.props.showHeader
-            ? formatCredits(doc.meta.credits)
-            : doc.meta.credits
-        }
-        publishDate={this.props.showHeader ? undefined : doc.meta.publishDate}
-        kind={
-          doc.meta.template === 'editorialNewsletter' ? 'meta' : doc.meta.kind
-        }
-        Link={Link}
-        key={doc.meta.path}
-        bar={
-          <ActionBar
-            documentId={doc.id}
-            userBookmark={doc.userBookmark}
-            userProgress={doc.userProgress}
-            format={doc.meta.format}
-            subscription={doc.subscribedByMe}
-            showSubscribe={this.props.showSubscribe}
-            {...doc.meta}
-          />
-        }
-      />
-    ) : null
+  renderFeedItem = doc => (
+    <TeaserFeed
+      {...doc.meta}
+      title={doc.meta.shortTitle || doc.meta.title}
+      description={!doc.meta.shortTitle && doc.meta.description}
+      t={this.props.t}
+      credits={
+        this.props.showHeader
+          ? formatCredits(doc.meta.credits)
+          : doc.meta.credits
+      }
+      publishDate={this.props.showHeader ? undefined : doc.meta.publishDate}
+      kind={
+        doc.meta.template === 'editorialNewsletter' ? 'meta' : doc.meta.kind
+      }
+      Link={Link}
+      key={doc.meta.path}
+      bar={
+        <ActionBar
+          documentId={doc.id}
+          userBookmark={doc.userBookmark}
+          userProgress={doc.userProgress}
+          format={doc.meta.format}
+          subscription={doc.subscribedByMe}
+          showSubscribe={this.props.showSubscribe}
+          {...doc.meta}
+        />
+      }
+    />
+  )
 
   render() {
     const { documents, showHeader } = this.props

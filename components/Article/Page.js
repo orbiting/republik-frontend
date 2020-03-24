@@ -80,7 +80,6 @@ import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
 import { subInfo } from '../Notifications/enhancers'
-import { isoFormat } from "d3-time-format";
 /* eslint-enable */
 
 const schemaCreators = {

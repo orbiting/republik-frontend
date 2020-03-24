@@ -66,7 +66,7 @@ const getFeedDocuments = gql`
   ${bookmarkOnDocumentFragment}
 `
 
-const Feed = ({ t, formatId, formatName, subscription }) => (
+const Feed = ({ t, formatId, subscription }) => (
   <Center>
     <DocumentListContainer
       feedProps={{ showHeader: false }}
@@ -83,7 +83,6 @@ const Feed = ({ t, formatId, formatName, subscription }) => (
       query={getFeedDocuments}
       variables={{
         formatId,
-        formatName,
         subscription
       }}
     />

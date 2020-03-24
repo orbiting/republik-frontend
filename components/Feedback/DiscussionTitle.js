@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
 import { withDiscussionDocumentMeta } from './enhancers'
+import { WithMembership, WithoutMembership } from '../Auth/withMembership'
 import withT from '../../lib/withT'
 
 import Link from '../Link/Href'
 
-import { inQuotes, linkRule } from '@project-r/styleguide'
+import { Interaction, inQuotes, linkRule } from '@project-r/styleguide'
 
 const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
   const articleMeta = meta || documentMeta
@@ -14,12 +15,20 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
     return null
   }
 
-  return (
+  const ArticleLink = (
     <Link href={articleMeta.path} passHref key='articlelink'>
       <a {...linkRule} href={articleMeta.path}>
         {inQuotes(articleMeta.title)}
       </a>
     </Link>
+  )
+
+  return (
+    <>
+      {t.elements('feedback/autoArticle/selected/headline', {
+        link: ArticleLink
+      })}
+    </>
   )
 }
 

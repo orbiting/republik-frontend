@@ -67,11 +67,7 @@ const Subscriptions = props => {
       <P {...styles.p}>
         {t.elements('Onboarding/Sections/Subscriptions/hint', {
           link: (
-            <Link
-              key='subscriptionsSettings'
-              route='subscriptionsSettings'
-              passHref
-            >
+            <Link key='link' route='subscriptions' passHref>
               <a {...linkRule}>
                 {t('Onboarding/Sections/Subscriptions/hint/link')}
               </a>

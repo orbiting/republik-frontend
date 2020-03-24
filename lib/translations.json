@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-20T10:38:16.494Z",
+  "updated": "2020-03-24T08:37:19.415Z",
   "title": "live",
   "data": [
     {
@@ -113,10 +113,6 @@
     {
       "key": "pages/notifications/title",
       "value": "Benachrichtigungen"
-    },
-    {
-      "key": "pages/notifications/settings/title",
-      "value": "Benachrichtigungen – Einstellungen"
     },
     {
       "key": "pages/search/title",
@@ -2875,10 +2871,6 @@
       "value": "Ältere Beiträge laden\n"
     },
     {
-      "key": "feed/title/0",
-      "value": "Debattenbeiträge"
-    },
-    {
       "key": "feed/title/1",
       "value": "Ein Beitrag"
     },
@@ -5043,10 +5035,6 @@
       "value": "APK herunterladen"
     },
     {
-      "key": "Onboarding/Sections/Newsletter/heading",
-      "value": "Newsletter"
-    },
-    {
       "key": "Onboarding/Sections/Newsletter/preamble",
       "value": "Mit den verschiedenen E-Mail-Newslettern halten wir Sie mit einem täglichen Update und einem Wochenrückblick auf dem Laufenden."
     },
@@ -5057,22 +5045,6 @@
     {
       "key": "Onboarding/Sections/Newsletter/hint/link",
       "value": "Konto"
-    },
-    {
-      "key": "Onboarding/Sections/Subscriptions/heading",
-      "value": "Formate abonnieren"
-    },
-    {
-      "key": "Onboarding/Sections/Subscriptions/preamble",
-      "value": "Sie können sich an Formate abonnieren, und Benachrichtigungen bekommen, wenn ein neues Beitrag erscheint."
-    },
-    {
-      "key": "Onboarding/Sections/Subscriptions/hint",
-      "value": "Diese Einstellungen lassen sich auf die {link} anpassen."
-    },
-    {
-      "key": "Onboarding/Sections/Subscriptions/hint/link",
-      "value": "Einstellungsseite von den Benachrichtigungen"
     },
     {
       "key": "Onboarding/Sections/Usability/heading",
@@ -6739,14 +6711,6 @@
       "value": "Republik teilen"
     },
     {
-      "key": "Account/Notifications/Legacy/text",
-      "value": "Check out our brand new {link}."
-    },
-    {
-      "key": "Account/Notifications/Legacy/link",
-      "value": "notification settings page"
-    },
-    {
       "key": "nav/crowdfunding2",
       "value": "Märzkampagne"
     },
@@ -6860,7 +6824,7 @@
     },
     {
       "key": "Notifications/refresh/1",
-      "value": "Sie haben eine Benachrichtigung bekommen."
+      "value": "Sie haben eine neue Benachrichtigung bekommen."
     },
     {
       "key": "Notifications/refresh/other",
@@ -6872,31 +6836,63 @@
     },
     {
       "key": "Notifications/settings/formats",
-      "value": "Meine Formate"
+      "value": "Meine Rubriken"
     },
     {
       "key": "Notifications/settings/formats/link",
-      "value": "Weitere Formate entdecken und abonnieren?"
+      "value": "Rubriken entdecken und abonnieren?"
     },
     {
       "key": "Notifications/settings/formats/summary/0",
-      "value": "Sie haben keine Formate abonniert."
+      "value": "Sie haben keine Rubriken abonniert."
     },
     {
       "key": "Notifications/settings/formats/summary/1",
-      "value": "Sie sind an einem Format abonniert:"
+      "value": "Sie haben eine Rubrik abonniert:"
     },
     {
       "key": "Notifications/settings/formats/summary/other",
-      "value": "Sie sind an {count} Formate abonniert:"
+      "value": "Sie haben {count} Rubriken abonniert:"
     },
     {
       "key": "Notifications/settings/formats/empty",
-      "value": "Sie haben noch keine Formate abonniert."
+      "value": "Sie haben noch keine Rubrik abonniert."
     },
     {
       "key": "Notifications/settings/formats/empty/link",
-      "value": "Unseres Einrichtungsassistent bittet um Hilfe."
+      "value": "Unseres Einrichtungsassistent bietet Hilfe."
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/heading",
+      "value": "Benachrichtigung"
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/preamble",
+      "value": "Sie können Rubriken abonnieren. Sobald Sie die App installiert haben bekommen Sie Benachrichtigungen über neue Beitrag direkt auf Ihr Telefon. Sie können auch die Newsletter als Benachrichtigung abonnieren."
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/hint",
+      "value": "Die Liste {link} finden Sie jederzeit in dem Sie auf die kleine Glocke oben rechts drücken. Dort können Sie auch diese Einstellungen anpassen."
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/hint/link",
+      "value": "Ihrer Benachrichtigungen"
+    },
+    {
+      "key": "Account/Notifications/Legacy/text",
+      "value": "Check out our brand new {link}."
+    },
+    {
+      "key": "Account/Notifications/Legacy/link",
+      "value": "notification settings page"
+    },
+    {
+      "key": "pages/notifications/settings/title",
+      "value": "Benachrichtigungen – Einstellungen"
+    },
+    {
+      "key": "Onboarding/Sections/Newsletter/heading",
+      "value": "Newsletter per E-Mail"
     }
   ]
 }

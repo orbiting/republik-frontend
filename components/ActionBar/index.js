@@ -17,9 +17,7 @@ import { colors } from '@project-r/styleguide'
 import { shouldIgnoreClick } from '../Link/utils'
 
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
-import Subscribe from './Subscribe'
 import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
-import subscriptions from '../../pages/subscriptions'
 
 const styles = {
   buttonGroup: css({

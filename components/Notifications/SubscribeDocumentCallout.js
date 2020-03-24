@@ -20,7 +20,7 @@ const SubscribeDocumentCallout = ({
   subtitle
 }) => {
   return (
-    <>
+    <div style={{ textAlign: 'left' }}>
       {!hideTitle && (
         <SubscribeCalloutTitle
           isSubscribed={subscription && subscription.active}
@@ -32,7 +32,7 @@ const SubscribeDocumentCallout = ({
         setAnimate={setAnimate}
         small
       />
-    </>
+    </div>
   )
 }
 

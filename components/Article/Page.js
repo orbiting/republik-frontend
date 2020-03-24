@@ -487,7 +487,6 @@ class ArticlePage extends Component {
     const hasPdf = meta && meta.template === 'article'
     const isEditorialNewsletter =
       meta && meta.template === 'editorialNewsletter'
-    const isFormat = meta && meta.template === 'format'
     const isDiscussion = meta && meta.template === 'discussion'
 
     const actionBar = meta && (
@@ -522,7 +521,7 @@ class ArticlePage extends Component {
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
         subscription={article.subscribedByMe}
-        showSubscribe={!isFormat}
+        showSubscribe
         isDiscussion={isDiscussion}
       />
     )
@@ -998,12 +997,7 @@ class ArticlePage extends Component {
                     variablesAsString={article.content.meta.feedQueryVariables}
                   />
                 )}
-                {isFormat && (
-                  <FormatFeed
-                    formatId={article.id}
-                    subscription={article.subscribedByMe}
-                  />
-                )}
+                {isFormat && <FormatFeed formatId={article.repoId} />}
                 {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />

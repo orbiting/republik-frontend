@@ -11,14 +11,8 @@ import Feed from './Feed'
 import ErrorMessage from '../ErrorMessage'
 
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
-import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
 
 const styles = {
-  title: css({
-    alignItems: 'center',
-    display: 'flex',
-    paddingBottom: '2.2rem'
-  }),
   more: css({
     position: 'relative',
     height: 50,
@@ -32,7 +26,6 @@ const DocumentList = ({
   hasMore,
   loadMore,
   feedProps,
-  variables,
   showTotal,
   help,
   empty,
@@ -43,22 +36,22 @@ const DocumentList = ({
     setInfiniteScroll
   ] = useInfiniteScroll({ hasMore, loadMore })
 
+  if (totalCount < 1) {
+    return null
+  }
+
   return (
     <>
       {showTotal && (
-        <div {...styles.title}>
+        <>
           <Interaction.H2>
             {t.pluralize('feed/title', {
               count: totalCount
             })}
           </Interaction.H2>
-          {variables && variables.subscription ? (
-            <SubscribeDocumentMenu
-              subscription={variables.subscription}
-              style={{ marginRight: 10 }}
-            />
-          ) : null}
-        </div>
+          <br />
+          <br />
+        </>
       )}
       {help}
       {!documents.length && empty}

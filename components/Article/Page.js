@@ -80,6 +80,7 @@ import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
 import { subInfo } from '../Notifications/enhancers'
+import { isoFormat } from "d3-time-format";
 /* eslint-enable */
 
 const schemaCreators = {
@@ -469,6 +470,7 @@ class ArticlePage extends Component {
     const hasPdf = meta && meta.template === 'article'
     const isEditorialNewsletter =
       meta && meta.template === 'editorialNewsletter'
+    const isFormat = meta.template === 'format'
 
     const actionBar = meta && (
       <ArticleActionBar
@@ -502,7 +504,7 @@ class ArticlePage extends Component {
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
         subscription={article.subscribedByMe}
-        showSubscribe
+        showSubscribe={!isFormat}
       />
     )
 

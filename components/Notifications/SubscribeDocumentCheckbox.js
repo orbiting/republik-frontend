@@ -13,7 +13,7 @@ const styles = {
     }
   }),
   checkboxSmall: css({
-    marginTop: 12,
+    marginTop: 6,
     '& label': {
       display: 'flex',
       textAlign: 'left',

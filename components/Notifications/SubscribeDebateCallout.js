@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { fontStyles, Radio, mediaQueries, colors } from '@project-r/styleguide'
+import {
+  fontStyles,
+  Radio,
+  mediaQueries,
+  fontFamilies
+} from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
@@ -9,6 +14,13 @@ import NotificationChannelsLink from './NotificationChannelsLink'
 import SubscribeCalloutTitle from './SubscribeCalloutTitle'
 
 const styles = {
+  subtitle: css({
+    fontFamily: fontFamilies.sansSerifItalic,
+    marginBottom: 0,
+    [mediaQueries.mUp]: {
+      fontSize: 12
+    }
+  }),
   radio: css({
     '& label': {
       display: 'flex',
@@ -32,7 +44,9 @@ const SubscribeDebateCallout = ({
   discussionPreferences: { me, discussion },
   setDiscussionPreferences,
   setSubscribed,
-  setAnimate
+  setAnimate,
+  hideTitle,
+  subtitle
 }) => {
   const [selectedValue, setSelectedValue] = useState(undefined)
 
@@ -66,7 +80,10 @@ const SubscribeDebateCallout = ({
 
   return (
     <>
-      <SubscribeCalloutTitle isSubscribed={selectedValue !== 'NONE'} />
+      {!hideTitle && (
+        <SubscribeCalloutTitle isSubscribed={selectedValue !== 'NONE'} />
+      )}
+      {subtitle && <p {...styles.subtitle}>{subtitle}</p>}
       <div {...styles.radio}>
         {notificationOptions.map(option => (
           <div key={option.value}>

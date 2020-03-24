@@ -74,7 +74,7 @@ export default compose(
     <a
       {...merge(menuIconStyle, styles.notifications)}
       {...(hasUnread && styles.unreadNotifications)}
-      title={t('header/nav/Notifications/aria')}
+      title={t('header/nav/notifications/aria')}
       href='/benachrichtigungen'
     >
       <Notifications fill={fill} size={ICON_BUTTON_WIDTH - 1} />

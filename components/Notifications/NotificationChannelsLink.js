@@ -9,7 +9,6 @@ import { Link } from '../../lib/routes'
 const styles = {
   info: css({
     display: 'block',
-    marginTop: 15,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular12
     }
@@ -41,7 +40,7 @@ export default compose(withT)(({ t, me }) => {
   }, [me])
   return (
     <span {...styles.info}>
-      <Link key='link' route='subscriptionsSettings'>
+      <Link key='link' route='subscriptionsSettings' passHref>
         <A>
           {t(`components/Discussion/NotificationChannel/${channels}/label`)}
         </A>

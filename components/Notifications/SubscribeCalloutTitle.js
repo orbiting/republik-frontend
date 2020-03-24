@@ -3,7 +3,7 @@ import withT from '../../lib/withT'
 import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import SubIcon from 'react-icons/lib/md/notifications'
-import UnsubIcon from 'react-icons/lib/md/notifications-off'
+import UnsubIcon from 'react-icons/lib/md/notifications-none'
 import { css } from 'glamor'
 
 const styles = {

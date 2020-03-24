@@ -1,7 +1,7 @@
 import React from 'react'
 import { colors, fontStyles } from '@project-r/styleguide'
 import SubIcon from 'react-icons/lib/md/notifications'
-import UnsubIcon from 'react-icons/lib/md/notifications-off'
+import UnsubIcon from 'react-icons/lib/md/notifications-none'
 import { css } from 'glamor'
 
 export const containerStyle = css({

@@ -52,7 +52,7 @@ const SubscribeDebateCallout = ({
 
   const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
     value: option,
-    text: t(`components/Discussion/Notification/dropdown/${option}/label`)
+    text: t(`SubscribeDebateCallout/option/${option}/label`)
   }))
 
   useEffect(() => {

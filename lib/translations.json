@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-24T17:05:55.894Z",
+  "updated": "2020-03-24T23:38:31.643Z",
   "title": "live",
   "data": [
     {
@@ -1800,7 +1800,7 @@
     },
     {
       "key": "components/Discussion/NotificationChannel/APP/label",
-      "value": "App"
+      "value": "Via App"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
@@ -1808,15 +1808,15 @@
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_APP/label",
-      "value": "E-Mail und App"
+      "value": "Via E-Mail und App"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB_APP/label",
-      "value": "Browser und App"
+      "value": "Via Browser und App"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
-      "value": "E-Mail, Browser und App"
+      "value": "Via E-Mail, Browser und App"
     },
     {
       "key": "components/Discussion/NotificationChannel/BASIC/label",
@@ -6937,6 +6937,18 @@
     {
       "key": "account/newsletterSubscriptions/title",
       "value": "Newsletter per E-Mail"
+    },
+    {
+      "key": "SubscribeDebateCallout/option/MY_CHILDREN/label",
+      "value": "Antworten"
+    },
+    {
+      "key": "SubscribeDebateCallout/option/ALL/label",
+      "value": "Alle"
+    },
+    {
+      "key": "SubscribeDebateCallout/option/NONE/label",
+      "value": "Keine"
     }
   ]
 }

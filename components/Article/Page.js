@@ -501,7 +501,6 @@ class ArticlePage extends Component {
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-        format={meta.format}
         subscription={article.subscribedByMe}
         showSubscribe
       />
@@ -925,7 +924,6 @@ class ArticlePage extends Component {
                   <Center>
                     <Discussion
                       discussionId={ownDiscussion.id}
-                      commentCount={ownDiscussion.comments.totalCount}
                       focusId={router.query.focus}
                       parent={router.query.parent}
                       mute={!!router.query.mute}
@@ -980,7 +978,6 @@ class ArticlePage extends Component {
                 {isFormat && (
                   <FormatFeed
                     formatId={article.id}
-                    formatName={article.meta.title}
                     subscription={article.subscribedByMe}
                   />
                 )}

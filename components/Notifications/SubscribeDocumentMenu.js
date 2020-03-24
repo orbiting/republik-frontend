@@ -5,7 +5,6 @@ import SubscribeDocumentCallout from './SubscribeDocumentCallout'
 
 const SubscribeDocumentMenu = ({
   subscription,
-  format,
   vivid,
   leftAligned,
   styles
@@ -32,7 +31,6 @@ const SubscribeDocumentMenu = ({
   const menu = (
     <SubscribeDocumentCallout
       subscription={subscription}
-      format={format}
       setAnimate={setAnimate}
     />
   )

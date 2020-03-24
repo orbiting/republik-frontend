@@ -121,9 +121,8 @@ const ActionBar = ({
           small
           style={{ marginLeft: '-4px', paddingRight: '3px' }}
         />
-        {showSubscribe && format && (
+        {showSubscribe && subscription && (
           <SubscribeDocumentMenu
-            format={format}
             subscription={subscription}
             styles={{ marginRight: -1 }}
             leftAligned

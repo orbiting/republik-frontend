@@ -45,13 +45,10 @@ const SubscribeDocumentCheckbox = ({
   subToDoc,
   unsubFromDoc,
   subscription,
-  format,
   small,
   setAnimate
 }) => {
-  const formatId = format && format.id
-  const formatName = format && format.meta && format.meta.title
-  const isActive = subscription && subscription.active
+  const isActive = subscription.active
 
   const toggleCallback = () => setAnimate && setAnimate(true)
 
@@ -59,14 +56,16 @@ const SubscribeDocumentCheckbox = ({
     if (isActive) {
       unsubFromDoc({ subscriptionId: subscription.id }).then(toggleCallback)
     } else {
-      subToDoc({ documentId: formatId }).then(toggleCallback)
+      subToDoc({ documentId: subscription.object.id }).then(toggleCallback)
     }
   }
 
   return (
     <div {...(small ? styles.checkboxSmall : styles.checkbox)}>
       <Checkbox checked={isActive} onChange={toggleSubscribe}>
-        <span {...(small && styles.checkboxLabelSmall)}>{formatName}</span>
+        <span {...(small && styles.checkboxLabelSmall)}>
+          {subscription.object.meta.title}
+        </span>
       </Checkbox>
     </div>
   )

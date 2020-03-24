@@ -52,14 +52,8 @@ const DocumentList = ({
               count: totalCount
             })}
           </Interaction.H2>
-          {variables && variables.formatId ? (
-            <SubscribeDocumentMenu
-              subscription={variables.subscription}
-              format={{
-                id: variables.formatId,
-                meta: { title: variables.formatName }
-              }}
-            />
+          {variables && variables.subscription ? (
+            <SubscribeDocumentMenu subscription={variables.subscription} />
           ) : null}
         </div>
       )}

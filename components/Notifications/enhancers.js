@@ -14,6 +14,14 @@ export const subInfo = gql`
   fragment subInfo on Subscription {
     id
     active
+    object {
+      ... on Document {
+        id
+        meta {
+          title
+        }
+      }
+    }
   }
 `
 

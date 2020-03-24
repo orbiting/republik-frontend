@@ -81,7 +81,6 @@ class ActionBar extends Component {
       inNativeApp,
       animate,
       inIOS,
-      format,
       subscription,
       showSubscribe
     } = this.props
@@ -255,7 +254,6 @@ ActionBar.propTypes = {
   shareOverlayTitle: PropTypes.string,
   showBookmark: PropTypes.bool,
   showSubscribe: PropTypes.bool,
-  format: PropTypes.object,
   subscription: PropTypes.object
 }
 

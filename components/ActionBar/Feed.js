@@ -58,7 +58,6 @@ const ActionBar = ({
   path,
   userBookmark,
   userProgress,
-  format,
   subscription,
   showSubscribe
 }) => {
@@ -185,7 +184,6 @@ ActionBar.propTypes = {
   estimatedReadingMinutes: PropTypes.number,
   estimatedConsumptionMinutes: PropTypes.number,
   linkedDiscussion: PropTypes.object,
-  format: PropTypes.object,
   subscription: PropTypes.object,
   showSubscribe: PropTypes.bool
 }

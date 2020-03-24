@@ -52,7 +52,6 @@ class ArticleActionBar extends Component {
       fontSize,
       userBookmark,
       showSubscribe,
-      format,
       subscription
     } = this.props
     const {
@@ -94,7 +93,6 @@ class ArticleActionBar extends Component {
           bookmarked={!!userBookmark}
           estimatedReadingMinutes={estimatedReadingMinutes}
           estimatedConsumptionMinutes={estimatedConsumptionMinutes}
-          format={format}
           subscription={subscription}
           showSubscribe={showSubscribe}
         />

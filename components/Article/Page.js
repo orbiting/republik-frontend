@@ -79,7 +79,7 @@ import gql from 'graphql-tag'
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
-import { subInfo } from '../Notifications/enhancers'
+import { notificationInfo, subInfo, withMarkAsReadMutation } from '../Notifications/enhancers'
 /* eslint-enable */
 
 const schemaCreators = {
@@ -148,6 +148,11 @@ const getDocument = gql`
           linkedDocuments(feed: true) {
             totalCount
           }
+        }
+      }
+      unreadNotifications {
+        nodes {
+          ...notificationInfo
         }
       }
       ...BookmarkOnDocument
@@ -263,6 +268,7 @@ const getDocument = gql`
   ${onDocumentFragment}
   ${userProgressFragment}
   ${subInfo}
+  ${notificationInfo}
 `
 
 const runMetaFromQuery = (code, query) => {
@@ -335,6 +341,18 @@ class ArticlePage extends Component {
       this.setState({
         showPdf: !this.state.showPdf
       })
+    }
+
+    this.markNotificationsAsRead = () => {
+      const { data, markAsReadMutation } = this.props
+      const article = data && data.article
+      const unreadNotifications =
+        article &&
+        article.unreadNotifications &&
+        article.unreadNotifications.nodes
+      if (unreadNotifications && unreadNotifications.length) {
+        unreadNotifications.map(n => markAsReadMutation(n.id))
+      }
     }
 
     this.state = {
@@ -573,7 +591,8 @@ class ArticlePage extends Component {
     if (
       currentArticle.id !== nextArticle.id ||
       currentArticle.userBookmark !== nextArticle.userBookmark ||
-      currentArticle.subscribedByMe !== nextArticle.subscribedByMe
+      currentArticle.subscribedByMe !== nextArticle.subscribedByMe ||
+      currentArticle.unreadNotifications !== nextArticle.unreadNotifications
     ) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
@@ -585,6 +604,7 @@ class ArticlePage extends Component {
 
     this.measure()
     this.autoPlayAudioSource()
+    this.markNotificationsAsRead()
   }
 
   componentDidUpdate() {
@@ -1010,6 +1030,7 @@ const ComposedPage = compose(
   withEditor,
   withInNativeApp,
   withRouter,
+  withMarkAsReadMutation,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

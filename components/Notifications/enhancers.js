@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { documentFragment } from '../Feed/fragments'
 
-const notificationInfo = gql`
+export const notificationInfo = gql`
   fragment notificationInfo on Notification {
     id
     readAt

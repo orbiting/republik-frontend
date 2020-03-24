@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { css } from 'glamor'
 
 import Section from '../Section'
-import NewsletterSubscriptions from '../../Notifications/NewsletterSubscriptions'
+import NewsletterSubscriptions from '../../Account/NewsletterSubscriptions'
 import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 

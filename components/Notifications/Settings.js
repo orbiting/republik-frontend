@@ -1,8 +1,8 @@
 import React from 'react'
-import { Interaction, Center, linkRule } from '@project-r/styleguide'
+import { Interaction, Center, linkRule, A } from '@project-r/styleguide'
 import SubscribeDocuments from './SubscribeDocuments'
 import { Link } from '../../lib/routes'
-import NewsletterSubscriptions from './NewsletterSubscriptions'
+import NewsletterSubscriptions from '../Account/NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
@@ -30,8 +30,21 @@ export default compose(withT)(({ t }) => {
         </section>
 
         <section {...styles.section}>
-          <H2>{t('Notifications/settings/discussion')}</H2>
+          <H2>{t('account/notificationOptions/title')}</H2>
           <NotificationOptions />
+        </section>
+
+        <section {...styles.section}>
+          <H2>{t('account/newsletterSubscriptions/title')}</H2>
+          <p>
+            {t.elements('Notifications/settings/newsletter', {
+              link: (
+                <A href='/konto#newsletter' {...linkRule}>
+                  {t('Notifications/settings/newsletter/link')}
+                </A>
+              )
+            })}
+          </p>
         </section>
       </Center>
     </>

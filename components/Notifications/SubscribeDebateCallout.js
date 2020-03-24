@@ -32,8 +32,7 @@ const SubscribeDebateCallout = ({
   discussionPreferences: { me, discussion },
   setDiscussionPreferences,
   setSubscribed,
-  setAnimate,
-  leftAigned
+  setAnimate
 }) => {
   const [selectedValue, setSelectedValue] = useState(undefined)
 

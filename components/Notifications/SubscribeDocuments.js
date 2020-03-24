@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { mySubscriptions } from './enhancers'
-import { linkRule, mediaQueries, A } from '@project-r/styleguide'
+import { linkRule, A } from '@project-r/styleguide'
 import Loader from '../Loader'
 import { css } from 'glamor'
 import SubscribeDocumentCheckbox from './SubscribeDocumentCheckbox'

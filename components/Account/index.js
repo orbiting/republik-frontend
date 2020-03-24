@@ -16,6 +16,7 @@ import UpdateEmail from './UpdateEmail'
 import Anchors from './Anchors'
 import AccessGrants from '../Access/Grants'
 import AuthSettings from './AuthSettings'
+import NewsletterSubscriptions from './NewsletterSubscriptions'
 import ProgressSettings from './ProgressSettings'
 import PledgeList from './PledgeList'
 import Onboarding from './Onboarding'
@@ -168,7 +169,7 @@ class Account extends Component {
 
                   <AccountAnchor id='newsletter'>
                     <H2>{t('account/newsletterSubscriptions/title')}</H2>
-                    <NotificationsLegacy />
+                    <NewsletterSubscriptions />
                   </AccountAnchor>
 
                   <AccountAnchor id='benachrichtigungen'>

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-24T09:07:41.717Z",
+  "updated": "2020-03-24T12:56:08.261Z",
   "title": "live",
   "data": [
     {
@@ -3623,6 +3623,14 @@
       "value": "Newsletter-Anmeldung"
     },
     {
+      "key": "notifications/newsletter-subscript-disabledion/title",
+      "value": "Newsletter-Anmeldung"
+    },
+    {
+      "key": "notifications/newsletter/title",
+      "value": "Newsletter-Anmeldung"
+    },
+    {
       "key": "macNewsletterSubscription/button",
       "value": "bestätigen"
     },
@@ -6865,6 +6873,14 @@
     {
       "key": "Notifications/settings/discussion",
       "value": "Debattenbeiträge"
+    },
+    {
+      "key": "Notifications/settings/newsletter",
+      "value": "Abonnieren Sie sich an unsere Newsletter auf Ihre {link}."
+    },
+    {
+      "key": "Notifications/settings/newsletter/link",
+      "value": "Konto Seite"
     },
     {
       "key": "account/discussionNotificationChannels/intro",

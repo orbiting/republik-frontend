@@ -6,7 +6,7 @@ import withT from '../../lib/withT'
 import ErrorMessage from '../ErrorMessage'
 
 import FrameBox from '../Frame/Box'
-import { P } from '../Account/Elements'
+import { P } from './Elements'
 import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
 
 const NoBox = ({ children, style: { margin } = {} }) => (

@@ -14,6 +14,7 @@ const styles = {
   }),
   checkboxCallout: css({
     '& label': {
+      fontSize: 16,
       display: 'flex',
       textAlign: 'left',
       alignItems: 'center'

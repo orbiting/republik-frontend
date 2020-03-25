@@ -609,6 +609,7 @@ class ArticlePage extends Component {
   componentDidUpdate() {
     this.measure()
     this.autoPlayAudioSource()
+    this.markNotificationsAsRead()
   }
 
   componentWillUnmount() {

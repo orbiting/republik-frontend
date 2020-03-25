@@ -232,7 +232,7 @@ const Comments = props => {
 
   React.useEffect(() => {
     markNotificationsAsRead()
-  }, [])
+  }, [discussion])
 
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 

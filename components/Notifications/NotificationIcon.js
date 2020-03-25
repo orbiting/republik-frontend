@@ -1,5 +1,6 @@
 import { css, merge } from 'glamor'
-import Notifications from 'react-icons/lib/md/notifications-none'
+import HasNotifications from 'react-icons/lib/md/notifications'
+import NoNotifications from 'react-icons/lib/md/notifications-none'
 import React, { useState, useEffect } from 'react'
 import { menuIconStyle } from '../Frame/Header'
 import {
@@ -70,6 +71,8 @@ export default compose(
     return () => unsubscribe()
   }, [notifications])
 
+  const Icon = hasUnread ? HasNotifications : NoNotifications
+
   return (
     <a
       {...merge(menuIconStyle, styles.notifications)}
@@ -77,7 +80,7 @@ export default compose(
       title={t('header/nav/notifications/aria')}
       href='/benachrichtigungen'
     >
-      <Notifications fill={fill} size={ICON_BUTTON_WIDTH - 1} />
+      <Icon fill={fill} size={ICON_BUTTON_WIDTH - 1} />
     </a>
   )
 })

@@ -17,8 +17,7 @@ import { colors } from '@project-r/styleguide'
 import { shouldIgnoreClick } from '../Link/utils'
 
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
-import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
-import SubscribeDebateMenu from '../Notifications/SubscribeDebateMenu'
+import SubscribeMenu from '../Notifications/SubscribeMenu'
 
 const styles = {
   buttonGroup: css({
@@ -214,24 +213,14 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
-          {showSubscribe &&
-            subscription &&
-            (isDiscussion ? (
-              <SubscribeDebateMenu
-                vivid
-                leftAligned
-                discussionId={ownDiscussion.id}
-                subscription={subscription}
-                style={{ marginRight: -2, marginLeft: 2 }}
-              />
-            ) : (
-              <SubscribeDocumentMenu
-                vivid
-                leftAligned
-                subscription={subscription}
-                style={{ marginRight: -2, marginLeft: 2 }}
-              />
-            ))}
+          {showSubscribe && subscription && (
+            <SubscribeMenu
+              leftAligned
+              discussionId={isDiscussion && ownDiscussion && ownDiscussion.id}
+              subscription={subscription}
+              style={{ marginRight: -2, marginLeft: 2 }}
+            />
+          )}
           {icons.filter(Boolean).map((props, i) => (
             <IconLink key={props.icon} fill={fill} {...props} />
           ))}

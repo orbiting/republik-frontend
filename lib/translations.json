@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-24T23:38:31.643Z",
+  "updated": "2020-03-25T11:04:06.086Z",
   "title": "live",
   "data": [
     {
@@ -6843,14 +6843,6 @@
       "value": "Seite neu laden?"
     },
     {
-      "key": "Notifications/callout/formats/title",
-      "value": "Formate"
-    },
-    {
-      "key": "Notifications/callout/discussion/title",
-      "value": "Debatte"
-    },
-    {
       "key": "Notifications/settings/back",
       "value": "Ihre Liste"
     },
@@ -6939,15 +6931,23 @@
       "value": "Newsletter per E-Mail"
     },
     {
-      "key": "SubscribeDebateCallout/option/MY_CHILDREN/label",
+      "key": "SubscribeDocument/title",
+      "value": "Rubrik abonnieren"
+    },
+    {
+      "key": "SubscribeDebate/title",
+      "value": "Debattenbeiträge abonnieren"
+    },
+    {
+      "key": "SubscribeDebate/option/MY_CHILDREN/label",
       "value": "Antworten"
     },
     {
-      "key": "SubscribeDebateCallout/option/ALL/label",
+      "key": "SubscribeDebate/option/ALL/label",
       "value": "Alle"
     },
     {
-      "key": "SubscribeDebateCallout/option/NONE/label",
+      "key": "SubscribeDebate/option/NONE/label",
       "value": "Keine"
     }
   ]

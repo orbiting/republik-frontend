@@ -37,29 +37,11 @@ const styles = {
   })
 }
 
-export const SubscribeIcon = ({
-  isSubscribed,
-  onClick,
-  animate,
-  legend,
-  vivid
-}) => {
+export const SubscribeIcon = ({ isSubscribed, onClick, animate }) => {
   const Icon = isSubscribed ? SubIcon : UnsubIcon
   return (
     <div style={{ cursor: 'pointer' }} onClick={onClick}>
-      <Icon
-        {...(animate && styles.icon)}
-        size={24}
-        fill={isSubscribed || vivid ? colors.text : colors.lightText}
-      />
-      {legend && (
-        <span
-          {...styles.legend}
-          {...(animate && isSubscribed && styles.legendAnimate)}
-        >
-          Subscribed
-        </span>
-      )}
+      <Icon {...(animate && styles.icon)} size={24} fill={colors.text} />
     </div>
   )
 }

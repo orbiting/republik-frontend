@@ -13,7 +13,7 @@ import UserProgress from './UserProgress'
 import withT from '../../lib/withT'
 
 import { colors } from '@project-r/styleguide'
-import SubscribeDocumentMenu from '../Notifications/SubscribeDocumentMenu'
+import SubscribeMenu from '../Notifications/SubscribeMenu'
 
 const styles = {
   buttonGroup: css({
@@ -121,7 +121,7 @@ const ActionBar = ({
           style={{ marginLeft: '-4px', paddingRight: '3px' }}
         />
         {showSubscribe && subscription && (
-          <SubscribeDocumentMenu
+          <SubscribeMenu
             subscription={subscription}
             style={{ marginRight: -1 }}
             leftAligned

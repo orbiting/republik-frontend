@@ -5,7 +5,7 @@ import withT from '../../lib/withT'
 import CommentLink from '../Discussion/CommentLink'
 import { merge } from 'glamor'
 import { isNewStyle } from './index'
-import SubscribeDebateCallout from './SubscribeDebateCallout'
+import SubscribeCallout from './SubscribeCallout'
 
 export default compose(withT)(({ t, node, isNew }) => {
   return (
@@ -19,12 +19,7 @@ export default compose(withT)(({ t, node, isNew }) => {
         Link={CommentLink}
         t={t}
         highlighted={isNew}
-        menu={
-          <SubscribeDebateCallout
-            discussionId={node.object.discussion.id}
-            showTitle
-          />
-        }
+        menu={<SubscribeCallout discussionId={node.object.discussion.id} />}
       />
     </div>
   )

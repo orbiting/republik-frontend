@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox, fontStyles, mediaQueries } from '@project-r/styleguide'
+import { Checkbox, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import { withSubToDoc, withUnsubFromDoc } from './enhancers'
 import { css } from 'glamor'
@@ -12,31 +12,14 @@ const styles = {
       width: '50%'
     }
   }),
-  checkboxSmall: css({
-    marginTop: 6,
+  checkboxCallout: css({
     '& label': {
       display: 'flex',
       textAlign: 'left',
-      alignItems: 'center',
-      margin: '5px 0',
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifRegular12
-      }
-    },
-    '& svg': {
-      [mediaQueries.mUp]: {
-        width: 14,
-        height: 14
-      }
-    },
-    '& label > span > span': {
-      [mediaQueries.mUp]: {
-        width: 14,
-        height: 14
-      }
+      alignItems: 'center'
     }
   }),
-  checkboxLabelSmall: css({
+  checkboxLabelCallout: css({
     marginTop: -6
   })
 }
@@ -45,8 +28,8 @@ const SubscribeDocumentCheckbox = ({
   subToDoc,
   unsubFromDoc,
   subscription,
-  small,
-  setAnimate
+  setAnimate,
+  callout
 }) => {
   const isActive = subscription.active
 
@@ -61,9 +44,9 @@ const SubscribeDocumentCheckbox = ({
   }
 
   return (
-    <div {...(small ? styles.checkboxSmall : styles.checkbox)}>
+    <div {...(callout ? styles.checkboxCallout : styles.checkbox)}>
       <Checkbox checked={isActive} onChange={toggleSubscribe}>
-        <span {...(small && styles.checkboxLabelSmall)}>
+        <span {...(callout && styles.checkboxLabelCallout)}>
           {subscription.object.meta.title}
         </span>
       </Checkbox>

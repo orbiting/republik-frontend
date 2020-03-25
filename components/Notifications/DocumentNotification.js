@@ -3,7 +3,7 @@ import React from 'react'
 import { TeaserFeed } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
-import SubscribeDocumentCallout from './SubscribeDocumentCallout'
+import SubscribeCallout from './SubscribeCallout'
 
 export default compose(withT)(({ t, node, isNew, me }) => {
   const { subscription, object } = node
@@ -14,7 +14,7 @@ export default compose(withT)(({ t, node, isNew, me }) => {
       description={!object.meta.shortTitle && object.meta.description}
       t={t}
       key={object.meta.path}
-      menu={<SubscribeDocumentCallout subscription={subscription} />}
+      menu={<SubscribeCallout subscription={subscription} />}
       highlighted={isNew}
     />
   )

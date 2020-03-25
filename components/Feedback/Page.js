@@ -42,7 +42,7 @@ import FontSizeSync from '../FontSize/Sync'
 import FontSizeAdjust from '../FontSize/Adjust'
 
 import { ListWithQuery as TestimonialList } from '../Testimonial/List'
-import SubscribeDebateMenu from '../Notifications/SubscribeDebateMenu'
+import SubscribeMenu from '../Notifications/SubscribeMenu'
 
 const tabMq = '@media only screen and (min-width: 468px)'
 
@@ -154,7 +154,7 @@ const FeedbackPage = props => {
               </Interaction.P>
             )}
             <br />
-            <SubscribeDebateMenu discussionId={activeDiscussionId} />
+            <SubscribeMenu discussionId={activeDiscussionId} leftAligned />
             <FontSizeAdjust t={t} />
           </div>
         )}

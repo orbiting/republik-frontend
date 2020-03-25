@@ -47,8 +47,8 @@ const SubscribeDebate = ({
 
   const updatePreferences = option => e => {
     e.stopPropagation(e)
+    setSelectedValue(option.value)
     setDiscussionPreferences(undefined, undefined, option.value).then(() => {
-      setSelectedValue(option.value)
       setAnimate && setAnimate(true)
     })
   }

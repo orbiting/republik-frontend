@@ -8,7 +8,6 @@ const DEFAULT_DEPTH = 3
 const Discussion = ({
   discussionId,
   focusId = null,
-  mute,
   meta,
   sharePath,
   board,

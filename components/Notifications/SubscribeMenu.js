@@ -4,9 +4,11 @@ import { SubscribeIcon, containerStyle } from './SubscribeIcon'
 import { compose, graphql } from 'react-apollo'
 import { discussionPreferencesQuery } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
+import { withRouter } from 'next/router'
 
 const SubscribeMenu = ({
   data,
+  router,
   discussionId,
   subscription,
   leftAligned,
@@ -47,7 +49,12 @@ const SubscribeMenu = ({
 
   return (
     <div {...containerStyle} style={style}>
-      <CalloutMenu icon={icon} menu={menu} leftAligned={leftAligned} />
+      <CalloutMenu
+        icon={icon}
+        menu={menu}
+        leftAligned={leftAligned}
+        open={router.query && !!router.query.mute}
+      />
     </div>
   )
 }
@@ -55,5 +62,6 @@ const SubscribeMenu = ({
 export default compose(
   graphql(discussionPreferencesQuery, {
     skip: props => !props.discussionId
-  })
+  }),
+  withRouter
 )(SubscribeMenu)

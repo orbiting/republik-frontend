@@ -124,12 +124,17 @@ const fixAmpsInQuery = rawQuery => {
 }
 
 const knownTypes = [
-  'token-authorization',
-  'newsletter-subscription',
   'email-confirmed',
-  'session-denied',
   'invalid-email',
   'invalid-token',
+  // Deprecated (superseeded by "newsletter")
+  'newsletter-subscription', 
+  // Deprecated (superseeded by "newsletter")
+  // Workaround to handle "script" replacements in email clients
+  'newsletter-subscript-disabledion', 
+  'newsletter',
+  'session-denied',
+  'token-authorization',
   'unavailable'
 ]
 
@@ -173,7 +178,14 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
         context={context}
       />
     )
-  } else if (type === 'newsletter-subscription') {
+  } else if ([
+    // Deprecated (superseeded by "newsletter")
+    'newsletter-subscription', 
+    // Deprecated (superseeded by "newsletter")
+    // Workaround to handle "script" replacements in email clients
+    'newsletter-subscript-disabledion', 
+    'newsletter'
+  ].includes(type)) {
     logoTarget = '_blank'
     content = (
       <MacNewsletterSubscription

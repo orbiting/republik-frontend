@@ -6,7 +6,6 @@ import { fontFamilies } from '@project-r/styleguide'
 
 const styles = {
   container: css({
-    textAlign: 'left',
     '& h4': {
       margin: '0 0 12px',
       fontFamily: fontFamilies.sansSerifMedium,

@@ -37,11 +37,7 @@ const styles = {
   })
 }
 
-export const SubscribeIcon = ({ isSubscribed, onClick, animate }) => {
+export const SubscribeIcon = ({ isSubscribed, animate }) => {
   const Icon = isSubscribed ? SubIcon : UnsubIcon
-  return (
-    <div style={{ cursor: 'pointer' }} onClick={onClick}>
-      <Icon {...(animate && styles.icon)} size={24} fill={colors.text} />
-    </div>
-  )
+  return <Icon {...(animate && styles.icon)} size={24} fill={colors.text} />
 }

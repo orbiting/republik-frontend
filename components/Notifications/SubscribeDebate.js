@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { Radio, fontFamilies } from '@project-r/styleguide'
+import { Radio } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'

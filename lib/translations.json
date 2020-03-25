@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-25T11:04:06.086Z",
+  "updated": "2020-03-25T13:35:55.606Z",
   "title": "live",
   "data": [
     {
@@ -6929,6 +6929,10 @@
     {
       "key": "account/newsletterSubscriptions/title",
       "value": "Newsletter per E-Mail"
+    },
+    {
+      "key": "SubscribeCallout/settingsLink",
+      "value": "Allgemeine Einstellungen"
     },
     {
       "key": "SubscribeDocument/title",

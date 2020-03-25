@@ -2,7 +2,9 @@ import React from 'react'
 import SubscribeDebate from './SubscribeDebate'
 import SubscribeDocument from './SubscribeDocument'
 import { css } from 'glamor'
-import { fontFamilies } from '@project-r/styleguide'
+import { A, fontFamilies } from '@project-r/styleguide'
+import { Link } from '../../lib/routes'
+import withT from '../../lib/withT'
 
 const styles = {
   container: css({
@@ -11,8 +13,22 @@ const styles = {
       fontFamily: fontFamilies.sansSerifMedium,
       fontWeight: 'inherit'
     }
+  }),
+  settings: css({
+    whiteSpace: 'nowrap',
+    margin: '5px 0 0'
   })
 }
+
+const SettingsLink = withT(({ t }) => (
+  <p {...styles.settings}>
+    <small>
+      <Link key='link' route='subscriptionsSettings' passHref>
+        <A>{t('SubscribeCallout/settingsLink')}</A>
+      </Link>
+    </small>
+  </p>
+))
 
 const SubscribeCallout = ({ discussionId, subscription, setAnimate }) => {
   return (
@@ -27,6 +43,7 @@ const SubscribeCallout = ({ discussionId, subscription, setAnimate }) => {
           style={{ marginTop: discussionId ? 15 : 0 }}
         />
       )}
+      <SettingsLink />
     </div>
   )
 }

@@ -39,19 +39,19 @@ import {
   InlineSpinner,
   Label,
   Checkbox,
-  Loader
+  Loader,
+  Button
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import MdArrow from 'react-icons/lib/md/trending-flat'
-import ShareButtons from '../components/ActionBar/ShareButtons'
 import {
   NEWSLETTER_SETTINGS,
   UPDATE_NEWSLETTER_SUBSCRIPTION
 } from '../components/Account/NewsletterSubscriptions'
 import ErrorMessage from '../components/ErrorMessage'
-import FrameBox from '../components/Frame/Box'
+import { Link } from '../lib/routes'
 
-const { Headline, P } = Interaction
+const { Headline, H3, P } = Interaction
 
 const mutation = gql`
   mutation submitQuestionnaireAndUpdateMe(
@@ -121,8 +121,8 @@ const styles = {
     }
   }),
   checkboxLabel: css({
-    display: 'block',
-    paddingLeft: '28px'
+    display: 'inline-block',
+    marginTop: -8
   })
 }
 
@@ -204,6 +204,11 @@ const ThankYou = compose(
       <div {...styles.intro}>
         <P>{t('questionnaire/crowd/submitted/intro')}</P>
       </div>
+      <div>
+        <ThankYouItem tKey='questionnaire/crowd/submitted/list/0' />
+        <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
+        <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
+      </div>
       <Loader
         loading={loading}
         error={error}
@@ -215,46 +220,46 @@ const ThankYou = compose(
           )
 
           return subscription ? (
-            <Mutation mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
-              {(mutate, { loading: mutating, error }) => {
-                return (
-                  <Checkbox
-                    checked={subscription.subscribed}
-                    disabled={mutating}
-                    onChange={(_, checked) => {
-                      mutate({
-                        variables: {
-                          name,
-                          subscribed: checked
-                        }
-                      })
-                    }}
-                  >
-                    <span {...styles.checkboxLabel}>
-                      {t(`account/newsletterSubscriptions/${name}/label`)}
-                      {mutating && (
-                        <span {...styles.spinnerWrapper}>
-                          <InlineSpinner size={24} />
-                        </span>
-                      )}
-                      <br />
-                      <Label>
-                        {t(`account/newsletterSubscriptions/${name}/frequency`)}
-                      </Label>
-                      {error && <ErrorMessage error={error} />}
-                    </span>
-                  </Checkbox>
-                )
-              }}
-            </Mutation>
+            <>
+              <H3 style={{ margin: '45px 0 30px' }}>
+                {t('questionnaire/crowd/submitted/newsletter')}
+              </H3>
+              <div style={{ marginBottom: 15 }}>
+                <Mutation mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
+                  {(mutate, { loading: mutating, error }) => {
+                    return (
+                      <Checkbox
+                        checked={subscription.subscribed}
+                        disabled={mutating}
+                        onChange={(_, checked) => {
+                          mutate({
+                            variables: {
+                              name,
+                              subscribed: checked
+                            }
+                          })
+                        }}
+                      >
+                        <P {...styles.checkboxLabel}>
+                          {t('questionnaire/crowd/submitted/newsletter')}
+                          {mutating && (
+                            <span {...styles.spinnerWrapper}>
+                              <InlineSpinner size={24} />
+                            </span>
+                          )}
+                          <br />
+                          {error && <ErrorMessage error={error} />}
+                        </P>
+                      </Checkbox>
+                    )
+                  }}
+                </Mutation>
+              </div>
+              <P>{t('questionnaire/crowd/submitted/newsletter/description')}</P>
+            </>
           ) : null
         }}
       />
-      <div>
-        <ThankYouItem tKey='questionnaire/crowd/submitted/list/0' />
-        <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
-        <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
-      </div>
     </div>
   )
 })
@@ -270,6 +275,11 @@ const NoThanks = compose(withT)(({ t }) => {
             __html: t('questionnaire/crowd/submitted/declined/intro')
           }}
         />
+        <Link route='index'>
+          <Button primary style={{ marginTop: 20 }}>
+            {t('merci/action/read')}
+          </Button>
+        </Link>
       </div>
     </div>
   )

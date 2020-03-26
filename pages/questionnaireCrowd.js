@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { compose, graphql, Mutation, Query } from 'react-apollo'
 
 import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../lib/constants'
 import withT, { t } from '../lib/withT'
@@ -35,11 +35,21 @@ import {
   RawHtml,
   colors,
   Figure,
-  FigureImage
+  FigureImage,
+  InlineSpinner,
+  Label,
+  Checkbox,
+  Loader
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import MdArrow from 'react-icons/lib/md/trending-flat'
 import ShareButtons from '../components/ActionBar/ShareButtons'
+import {
+  NEWSLETTER_SETTINGS,
+  UPDATE_NEWSLETTER_SUBSCRIPTION
+} from '../components/Account/NewsletterSubscriptions'
+import ErrorMessage from '../components/ErrorMessage'
+import FrameBox from '../components/Frame/Box'
 
 const { Headline, P } = Interaction
 
@@ -100,6 +110,19 @@ const styles = {
   socialButtons: css({
     marginLeft: 30,
     marginTop: 30
+  }),
+  spinnerWrapper: css({
+    display: 'inline-block',
+    height: 0,
+    marginLeft: 15,
+    verticalAlign: 'middle',
+    '& > span': {
+      display: 'inline'
+    }
+  }),
+  checkboxLabel: css({
+    display: 'block',
+    paddingLeft: '28px'
   })
 }
 
@@ -178,6 +201,56 @@ const ThankYou = compose(withT)(({ t }) => {
       <div {...styles.intro}>
         <P>{t('questionnaire/crowd/submitted/intro')}</P>
       </div>
+      <Query query={NEWSLETTER_SETTINGS}>
+        {({ loading, error, data }) => {
+          if (loading || error) {
+            return <Loader loading={loading} error={error} />
+          }
+          const name = 'ACCOMPLICE'
+          const subscription = data.me.newsletterSettings.subscriptions.find(
+            s => s.name === name
+          )
+
+          return (
+            <Mutation mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
+              {(mutate, { loading: mutating, error }) => {
+                return (
+                  <p>
+                    <Checkbox
+                      checked={subscription.subscribed}
+                      disabled={mutating}
+                      onChange={(_, checked) => {
+                        mutate({
+                          variables: {
+                            name,
+                            subscribed: checked
+                          }
+                        })
+                      }}
+                    >
+                      <span {...styles.checkboxLabel}>
+                        {t(`account/newsletterSubscriptions/${name}/label`)}
+                        {mutating && (
+                          <span {...styles.spinnerWrapper}>
+                            <InlineSpinner size={24} />
+                          </span>
+                        )}
+                        <br />
+                        <Label>
+                          {t(
+                            `account/newsletterSubscriptions/${name}/frequency`
+                          )}
+                        </Label>
+                        {error && <ErrorMessage error={error} />}
+                      </span>
+                    </Checkbox>
+                  </p>
+                )
+              }}
+            </Mutation>
+          )
+        }}
+      </Query>
       <div>
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/0' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />

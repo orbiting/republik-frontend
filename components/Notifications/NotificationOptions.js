@@ -117,7 +117,16 @@ class NotificationOptions extends Component {
             defaultDiscussionNotificationOption
           } = me
           const { mutating } = this.state
-          const dropdownItems = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
+          // the 'ALL' option is confusing as a default as it will show
+          // on discussions but only gets truly 'activated' when you take
+          // part in it, yielding a different behaviour from setting an
+          // individual discussion to ALL.
+          // The best resolution here seems to not show it in the overall
+          // settings, except for the few users who have it set as such already
+          const dropdownItems = DISCUSSION_NOTIFICATION_OPTIONS.filter(
+            option =>
+              defaultDiscussionNotificationOption === 'ALL' || option !== 'ALL'
+          ).map(option => ({
             value: option,
             text: t(`components/Discussion/Notification/${option}/label`),
             element: (

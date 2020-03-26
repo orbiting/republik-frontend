@@ -40,6 +40,16 @@ const mutation = gql`
   }
   ${userDetailsFragment}
 `
+
+const addMeToRole = gql`
+  mutation addUserToRole($role: String!) {
+    addUserToRole(role: $role) {
+      id
+      roles
+    }
+  }
+`
+
 export const query = gql`
   query myAddress {
     me {
@@ -62,6 +72,15 @@ export const withMyDetails = graphql(query, {
 export const withMyDetailsMutation = graphql(mutation, {
   props: ({ mutate }) => ({
     updateDetails: variables =>
+      mutate({
+        variables
+      })
+  })
+})
+
+export const withAddMeToRole = graphql(addMeToRole, {
+  props: ({ mutate }) => ({
+    addMeToRole: variables =>
       mutate({
         variables
       })

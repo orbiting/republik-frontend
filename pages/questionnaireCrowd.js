@@ -19,6 +19,7 @@ import Results from '../components/Questionnaire/Results'
 import Questionnaire from '../components/Questionnaire/Questionnaire'
 import {
   userDetailsFragment,
+  withAddMeToRole,
   withMyDetails
 } from '../components/Account/enhancers'
 import { errorToString } from '../lib/utils/errors'
@@ -273,17 +274,20 @@ class QuestionnaireCrowdPage extends Component {
   }
 
   submit(errorMessages) {
+    const { addMeToRole } = this.props
+    const { willingnessStatus } = this.state
     const hasErrors = this.processErrors(errorMessages)
     if (hasErrors) return
 
     this.setState({ updating: true })
     this.processSubmit()
-      .then(() =>
-        this.setState(() => ({
+      .then(() => {
+        willingnessStatus === 'true' && addMeToRole({ role: 'accomplice' })
+        return this.setState(() => ({
           updating: false,
           serverError: null
         }))
-      )
+      })
       .catch(error => {
         this.setState(() => ({
           updating: false,
@@ -442,6 +446,7 @@ export default compose(
   withMutation,
   withQuestionnaireMutation,
   withQuestionnaireReset,
+  withAddMeToRole,
   withAuthorization(['supporter', 'editor'], 'showResults'),
   enforceMembership(meta, { title: t('questionnaire/title'), description })
 )(QuestionnaireCrowdPage)

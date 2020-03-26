@@ -1,5 +1,6 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { userNewslettersFragment } from './NewsletterSubscriptions'
 
 export const userDetailsFragment = `
   fragment PhoneAndAddressOnUser on User {
@@ -44,10 +45,11 @@ const mutation = gql`
 const addMeToRole = gql`
   mutation addUserToRole($role: String!) {
     addUserToRole(role: $role) {
-      id
+      ...UserNewsletters
       roles
     }
   }
+  ${userNewslettersFragment}
 `
 
 export const query = gql`

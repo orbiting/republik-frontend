@@ -194,63 +194,62 @@ const ThankYouItem = compose(withT)(({ t, tKey }) => {
   )
 })
 
-const ThankYou = compose(withT)(({ t }) => {
+const ThankYou = compose(
+  withT,
+  graphql(NEWSLETTER_SETTINGS)
+)(({ t, data: { loading, error, me } }) => {
   return (
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
       <div {...styles.intro}>
         <P>{t('questionnaire/crowd/submitted/intro')}</P>
       </div>
-      <Query query={NEWSLETTER_SETTINGS}>
-        {({ loading, error, data }) => {
-          if (loading || error) {
-            return <Loader loading={loading} error={error} />
-          }
+      <Loader
+        loading={loading}
+        error={error}
+        render={() => {
+          if (!me) return null
           const name = 'ACCOMPLICE'
-          const subscription = data.me.newsletterSettings.subscriptions.find(
+          const subscription = me.newsletterSettings.subscriptions.find(
             s => s.name === name
           )
 
-          return (
+          return subscription ? (
             <Mutation mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
               {(mutate, { loading: mutating, error }) => {
                 return (
-                  <p>
-                    <Checkbox
-                      checked={subscription.subscribed}
-                      disabled={mutating}
-                      onChange={(_, checked) => {
-                        mutate({
-                          variables: {
-                            name,
-                            subscribed: checked
-                          }
-                        })
-                      }}
-                    >
-                      <span {...styles.checkboxLabel}>
-                        {t(`account/newsletterSubscriptions/${name}/label`)}
-                        {mutating && (
-                          <span {...styles.spinnerWrapper}>
-                            <InlineSpinner size={24} />
-                          </span>
-                        )}
-                        <br />
-                        <Label>
-                          {t(
-                            `account/newsletterSubscriptions/${name}/frequency`
-                          )}
-                        </Label>
-                        {error && <ErrorMessage error={error} />}
-                      </span>
-                    </Checkbox>
-                  </p>
+                  <Checkbox
+                    checked={subscription.subscribed}
+                    disabled={mutating}
+                    onChange={(_, checked) => {
+                      mutate({
+                        variables: {
+                          name,
+                          subscribed: checked
+                        }
+                      })
+                    }}
+                  >
+                    <span {...styles.checkboxLabel}>
+                      {t(`account/newsletterSubscriptions/${name}/label`)}
+                      {mutating && (
+                        <span {...styles.spinnerWrapper}>
+                          <InlineSpinner size={24} />
+                        </span>
+                      )}
+                      <br />
+                      <Label>
+                        {t(`account/newsletterSubscriptions/${name}/frequency`)}
+                      </Label>
+                      {error && <ErrorMessage error={error} />}
+                    </span>
+                  </Checkbox>
                 )
               }}
             </Mutation>
-          )
+          ) : null
         }}
-      </Query>
+      />
       <div>
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/0' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />

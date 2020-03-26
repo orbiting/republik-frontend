@@ -5,6 +5,7 @@ import { compose, graphql } from 'react-apollo'
 import { discussionPreferencesQuery } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
 import { withRouter } from 'next/router'
+import { getSelectedDiscussionPreference } from './SubscribeDebate'
 
 const SubscribeMenu = ({
   data,
@@ -27,14 +28,7 @@ const SubscribeMenu = ({
   }, [animate])
 
   useEffect(() => {
-    setSubscribed(
-      (data &&
-        data.discussion &&
-        data.discussion.userPreference &&
-        data.discussion.userPreference.notifications &&
-        data.discussion.userPreference.notifications !== 'NONE') ||
-        (subscription && subscription.active)
-    )
+    setSubscribed(getSelectedDiscussionPreference(data) !== 'NONE')
   }, [data, subscription])
 
   const icon = <SubscribeIcon animate={animate} isSubscribed={isSubscribed} />

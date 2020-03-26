@@ -21,10 +21,17 @@ const styles = {
   })
 }
 
+export const getSelectedDiscussionPreference = data =>
+  (data &&
+    data.discussion &&
+    data.discussion.userPreference &&
+    data.discussion.userPreference.notifications) ||
+  (data && data.me && data.me.defaultDiscussionNotificationOption)
+
 const SubscribeDebate = ({
   t,
   discussionId,
-  discussionPreferences: { me, discussion },
+  discussionPreferences,
   setDiscussionPreferences,
   setAnimate,
   style
@@ -37,13 +44,8 @@ const SubscribeDebate = ({
   }))
 
   useEffect(() => {
-    setSelectedValue(
-      (discussion &&
-        discussion.userPreference &&
-        discussion.userPreference.notifications) ||
-        (me && me.defaultDiscussionNotificationOption)
-    )
-  }, [discussion, me])
+    setSelectedValue(getSelectedDiscussionPreference(discussionPreferences))
+  }, [discussionPreferences])
 
   const updatePreferences = option => e => {
     e.stopPropagation(e)
@@ -53,7 +55,13 @@ const SubscribeDebate = ({
     })
   }
 
-  if (!me || !discussion || !setDiscussionPreferences) return null
+  if (
+    !discussionPreferences ||
+    !discussionPreferences.me ||
+    !discussionPreferences.discussion ||
+    !setDiscussionPreferences
+  )
+    return null
 
   return (
     <div style={style}>

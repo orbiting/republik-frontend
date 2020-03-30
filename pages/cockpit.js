@@ -383,7 +383,7 @@ const Page = ({
 
           const labels = [
             { key: 'preactive', color: '#256900', label: 'Crowdfunders' },
-            { key: 'active', color: '#3CAD00', label: 'active' },
+            { key: 'active', color: '#3CAD00', label: 'aktive' },
             // {key: 'gaining', color: '#256900', label: 'neue'},
             { key: 'loss', color: '#AA6039', label: 'Abgänge' },
             { key: 'missing', color: '#9D344B', label: 'fehlende' }
@@ -457,19 +457,17 @@ Ganz herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die 
                   barColor='#333'
                   people
                   hasEnd={false}
-                  crowdfundingName={CROWDFUNDING}
+                  crowdfundingName='PERMANENT'
                   crowdfunding={
                     lastMonth && {
-                      name: CROWDFUNDING,
+                      name: 'PERMANENT',
                       goals: [
                         {
                           people: numMembersNeeded
                         }
                       ],
                       status: {
-                        people:
-                          lastMonth.activeEndOfMonth +
-                          lastMonth.pendingSubscriptionsOnly
+                        people: activeCount
                       }
                     }
                   }
@@ -483,7 +481,9 @@ Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die
 
 Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, leserfinanzierten Journalismus. Damit die Republik einen entscheidenden Unterschied im Mediensystem machen kann, muss sie selbsttragend werden. Also die gesamten Kosten aus den Einnahmen decken, ohne die Hilfe von Investitionen. 
 
-Dafür braucht sie konstant etwa 25’000 Abonnentinnen und Mitglieder. 
+Dafür braucht sie konstant etwa ${countFormat(
+                numMembersNeeded
+              )} Abonnentinnen und Mitglieder. 
 
 
 `}
@@ -503,7 +503,7 @@ Dafür braucht sie konstant etwa 25’000 Abonnentinnen und Mitglieder.
                 })}
               >
                 <ChartTitle style={{ color: '#fff' }}>
-                  {activeCount} aktive Mitglieder und Abonennten
+                  {countFormat(activeCount)} aktive Mitglieder und Abonnentinnen
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
                   Seit dem April 2017 gibt es uns. Bla bla. Jetzt fehlen noch{' '}
@@ -539,9 +539,11 @@ Dafür braucht sie konstant etwa 25’000 Abonnentinnen und Mitglieder.
 
               {md(mdComponents)`
 
-## Warum 25’000?
+## Warum ${countFormat(numMembersNeeded)}?
 
-Mit konstant 25’000 Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um immer mal wieder neue Sachen auszuprobieren und Experimente zu lancieren. Wir wären dann unabhängig von Investoren und Stiftungen und zu 100 Prozent leserfinanziert.  
+Mit konstant ${countFormat(
+                numMembersNeeded
+              )} Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um immer mal wieder neue Sachen auszuprobieren und Experimente zu lancieren. Wir wären dann unabhängig von Investoren und Stiftungen und zu 100 Prozent leserfinanziert.  
 
 Das aktuelle Ausgaben-Budget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](https://republik.ch/vote/juli19).
 
@@ -591,9 +593,7 @@ Sie wollen investieren? Schreiben Sie uns eine Mail an [ir@republik.ch](mailto:i
 
 
 
-## ${countFormat(
-                lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
-              )} sind dabei.`}
+## ${countFormat(activeCount)} sind dabei.`}
 
               <TestimonialList
                 ssr={false}

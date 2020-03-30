@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-30T13:16:39.429Z",
+  "updated": "2020-03-30T18:09:07.959Z",
   "title": "live",
   "data": [
     {
@@ -6761,6 +6761,10 @@
     {
       "key": "package/customize/changePackage",
       "value": "Zum gesamten Angebot"
+    },
+    {
+      "key": "crowdfunding/status/goal/PERMANENT/people",
+      "value": "Mitglieder und Abonnenten. Ziel: {count}."
     },
     {
       "key": "crowdfunding/SurviveStatus/title",

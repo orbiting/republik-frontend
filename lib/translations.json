@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-19T21:52:33.627Z",
+  "updated": "2020-03-30T11:55:20.807Z",
   "title": "live",
   "data": [
     {
@@ -1005,6 +1005,14 @@
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
       "value": "montags bis freitags um 19 Uhr"
+    },
+    {
+      "key": "account/newsletterSubscriptions/ACCOMPLICE/label",
+      "value": "Republik – Der Komplizen-Newsletter"
+    },
+    {
+      "key": "account/newsletterSubscriptions/ACCOMPLICE/frequency",
+      "value": "unregelmässig"
     },
     {
       "key": "account/authSettings/title",
@@ -4108,7 +4116,7 @@
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "Haben Sie eine Minute?"
+      "value": "Komplizen-Formular"
     },
     {
       "key": "questionnaire/crowd/description",
@@ -4116,7 +4124,7 @@
     },
     {
       "key": "questionnaire/crowd/intro",
-      "value": "Schön, sind Sie hier! Wir kämpfen bis Ende März für die Republik – und brauchen dabei Ihre Hilfe. Dieses kleine Formular hilft uns, Ihnen die passende Unterstützungs­möglichkeit vorzuschlagen."
+      "value": "Schön, sind Sie hier! Helfen Sie mit, damit die Republik besser, bekannter und schon bald selbsttragend wird. Dieses kleine Formular hilft uns, Ihnen die passende Unterstützungsmöglichkeit über den Komplizen-Newsletter vorzuschlagen.\n"
     },
     {
       "key": "questionnaire/crowd/question1",
@@ -4132,23 +4140,31 @@
     },
     {
       "key": "questionnaire/crowd/submitted/intro",
-      "value": "Vielen Dank für Ihre Bereitschaft mitzuhelfen, die Republik bekannter zu machen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekanntmachung der Republik starten oder an einem Komplizentreffen teilnehmen: "
-    },
-    {
-      "key": "questionnaire/crowd/submitted/list/1",
-      "value": "Teilen Sie Ihren Lieblings­artikel mit Freunden und sprechen Sie darüber."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/list/2",
-      "value": "Auf der Kampagnen­seite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten zur Mithilfe</a>."
+      "value": "Vielen Dank für Ihre Bereitschaft, die Republik als Komplizin zu unterstützen. Was Sie immer tun können:"
     },
     {
       "key": "questionnaire/crowd/submitted/list/0",
-      "value": "<a href=\"/veranstaltungen\">Veranstaltungen</a>"
+      "value": "Teilen Sie Ihren Lieblingsartikel mit Freunden und sprechen Sie über <a href='/'>die Republik</a>. "
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/1",
+      "value": "<a href='/teilen'>Teilen Sie Ihren Zugang</a> zum Magazin mit Interessierten."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/2",
+      "value": "Schreiben Sie sich für den Komplizen-Newsletter ein und bleiben Sie über Mitmach-Möglichkeiten informiert."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/newsletter",
+      "value": "Komplizen-Newsletter"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/newsletter/description",
+      "value": "Informationen zu Mitmach-Möglichkeiten. In unregelmässigem Abstand werden Sie über aktuelle Aktionen und Veranstaltungen der Republik informiert."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",
-      "value": "Vielen Dank! Wir verstehen, dass Sie keine Zeit haben, aktiv dabei mitzuhelfen, die Republik bekannter zu machen. Sie können die Zukunft der Republik auch durch eine Spende sichern. Auf der Kampagnenseite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten für Ihre Unterstützung</a>."
+      "value": "Vielen Dank für Ihre Zeit. Hier gehts zurück zum Magazin."
     },
     {
       "key": "pages/meta/questionnaire/counterText",

@@ -123,7 +123,8 @@ class Status extends Component {
       people,
       memberships,
       color,
-      barColor
+      barColor,
+      hasEnd = true
     } = this.props
     const now = new Date()
     const nextMinute = timeMinute.ceil(new Date())
@@ -291,49 +292,51 @@ class Status extends Component {
             </span>
           </P>
         )}
-        <P style={colorStyle}>
-          <span
-            {...styles.smallNumber}
-            style={isRunning ? undefined : { lineHeight: 1.3 }}
-          >
-            {isRunning
-              ? [
-                  days > 0 &&
-                    t.pluralize('crowdfunding/status/time/days', {
-                      count: days
+        {hasEnd && (
+          <P style={colorStyle}>
+            <span
+              {...styles.smallNumber}
+              style={isRunning ? undefined : { lineHeight: 1.3 }}
+            >
+              {isRunning
+                ? [
+                    days > 0 &&
+                      t.pluralize('crowdfunding/status/time/days', {
+                        count: days
+                      }),
+                    (days !== 0 || hours > 0) &&
+                      t.pluralize('crowdfunding/status/time/hours', {
+                        count: hours
+                      }),
+                    t.pluralize('crowdfunding/status/time/minutes', {
+                      count: minutes
                     }),
-                  (days !== 0 || hours > 0) &&
-                    t.pluralize('crowdfunding/status/time/hours', {
-                      count: hours
-                    }),
-                  t.pluralize('crowdfunding/status/time/minutes', {
-                    count: minutes
-                  }),
-                  days === 0 &&
-                    hours === 0 &&
-                    this.state.now &&
-                    t.pluralize('crowdfunding/status/time/seconds', {
-                      count: 60 - now.getSeconds()
-                    })
-                ]
-                  .filter(Boolean)
-                  .join(' ')
-              : t.first([
-                  `crowdfunding/status/time/ended/${crowdfundingName}`,
-                  'crowdfunding/status/time/ended'
-                ])}
-          </span>
-          {isRunning ? (
-            <span {...styles.label}>
-              {t.first([
-                `crowdfunding/status/time/label/${crowdfundingName}`,
-                'crowdfunding/status/time/label'
-              ])}
+                    days === 0 &&
+                      hours === 0 &&
+                      this.state.now &&
+                      t.pluralize('crowdfunding/status/time/seconds', {
+                        count: 60 - now.getSeconds()
+                      })
+                  ]
+                    .filter(Boolean)
+                    .join(' ')
+                : t.first([
+                    `crowdfunding/status/time/ended/${crowdfundingName}`,
+                    'crowdfunding/status/time/ended'
+                  ])}
             </span>
-          ) : (
-            <br />
-          )}
-        </P>
+            {isRunning ? (
+              <span {...styles.label}>
+                {t.first([
+                  `crowdfunding/status/time/label/${crowdfundingName}`,
+                  'crowdfunding/status/time/label'
+                ])}
+              </span>
+            ) : (
+              <br />
+            )}
+          </P>
+        )}
       </Fragment>
     )
   }
@@ -344,7 +347,8 @@ export const RawStatus = Status
 RawStatus.propTypes = {
   people: PropTypes.bool,
   memberships: PropTypes.bool,
-  money: PropTypes.bool
+  money: PropTypes.bool,
+  hasEnd: PropTypes.bool
 }
 
 const query = gql`
@@ -385,7 +389,4 @@ export const withStatus = Component =>
     }
   })(Component)
 
-export default compose(
-  withStatus,
-  withT
-)(Status)
+export default compose(withStatus, withT)(Status)

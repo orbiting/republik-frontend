@@ -9,7 +9,7 @@ import FrameBox from '../Frame/Box'
 import { P } from './Elements'
 import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
 import { withMembership } from '../Auth/checkRoles'
-import { userRolesFragment } from './enhancers'
+import { newsletterFragment, userNewslettersFragment } from './enhancers'
 
 const NoBox = ({ children, style: { margin } = {} }) => (
   <div style={{ margin }}>{children}</div>
@@ -30,27 +30,6 @@ const styles = {
     paddingLeft: '28px'
   })
 }
-
-const newsletterFragment = `
-  fragment NewsletterInfo on NewsletterSubscription {
-    id
-    name
-    subscribed
-  }
-`
-
-export const userNewslettersFragment = `
-  fragment UserNewsletters on User {
-    id
-    newsletterSettings {
-      status
-      subscriptions {
-        ...NewsletterInfo
-      }
-    }
-  }
-  ${newsletterFragment}
-`
 
 export const UPDATE_NEWSLETTER_SUBSCRIPTION = gql`
   mutation updateNewsletterSubscription(

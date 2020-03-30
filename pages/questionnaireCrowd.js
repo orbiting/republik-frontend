@@ -364,12 +364,16 @@ class QuestionnaireCrowdPage extends Component {
     this.setState({ updating: true })
     this.processSubmit()
       .then(() => {
-        willingnessStatus === 'true' && addMeToRole({ role: 'accomplice' })
-        return this.setState(() => ({
+        if (willingnessStatus === 'true') {
+          return addMeToRole({ role: 'accomplice' })
+        }
+      })
+      .then(() =>
+        this.setState(() => ({
           updating: false,
           serverError: null
         }))
-      })
+      )
       .catch(error => {
         this.setState(() => ({
           updating: false,

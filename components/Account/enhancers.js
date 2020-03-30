@@ -1,6 +1,26 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { userNewslettersFragment } from './NewsletterSubscriptions'
+
+export const newsletterFragment = `
+  fragment NewsletterInfo on NewsletterSubscription {
+    id
+    name
+    subscribed
+  }
+`
+
+export const userNewslettersFragment = `
+  fragment UserNewsletters on User {
+    id
+    newsletterSettings {
+      status
+      subscriptions {
+        ...NewsletterInfo
+      }
+    }
+  }
+  ${newsletterFragment}
+`
 
 export const userDetailsFragment = `
   fragment PhoneAndAddressOnUser on User {

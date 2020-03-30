@@ -382,7 +382,7 @@ const Page = ({
           const lastMonth = buckets[buckets.length - 1]
 
           const labels = [
-            { key: 'preactive', color: '#256900', label: 'Crowdfunders' },
+            { key: 'preactive', color: '#256900', label: 'Crowdfunder' },
             { key: 'active', color: '#3CAD00', label: 'aktive' },
             // {key: 'gaining', color: '#256900', label: 'neue'},
             { key: 'loss', color: '#AA6039', label: 'Abgänge' },
@@ -416,7 +416,7 @@ const Page = ({
                 flat.push({
                   month: bucket.key,
                   label: labelMap.active,
-                  value: bucket.activeEndOfMonth + bucket.pending + notNew // - bucket.gaining
+                  value: bucket.activeEndOfMonth + bucket.pending // - bucket.gaining + notNew
                 })
                 // flat.push({
                 //   month: bucket.key,

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-30T11:55:20.807Z",
+  "updated": "2020-03-30T13:16:39.429Z",
   "title": "live",
   "data": [
     {
@@ -4128,7 +4128,7 @@
     },
     {
       "key": "questionnaire/crowd/question1",
-      "value": "Um die Zukunft der Republik sicherzustellen, muss sie bekannter werden, und mehr Menschen müssen sie abonnieren. Helfen Sie mit?"
+      "value": "Möchten Sie die Republik als Komplizin unterstützen?\n\n"
     },
     {
       "key": "questionnaire/crowd/question1/alt",

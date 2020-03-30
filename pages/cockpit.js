@@ -474,9 +474,10 @@ Ganz herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die 
                   }
                 />
               </div>
+              <Interaction.Headline style={{ color: '#fff', marginBottom: 20 }}>
+                Das Wichtigste zum Stand unseres Unternehmens
+              </Interaction.Headline>
               {md(mdComponents)`
-
-# Das Wichtigste zum Stand unseres Unternehmens
 
 Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
@@ -507,8 +508,11 @@ Dafür braucht sie konstant etwa ${countFormat(
                   {countFormat(activeCount)} aktive Mitglieder und Abonnentinnen
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
-                  Seit dem April 2017 gibt es uns. Bla bla. Jetzt fehlen noch{' '}
-                  {missingCount}. Go go go.
+                  Vom Crowdfunding im April 2017 bis heute.{' '}
+                  {missingCount > 0 &&
+                    `Aktuell fehlen noch ${countFormat(
+                      missingCount
+                    )} Mitglieder.`}
                 </ChartLead>
                 <Chart
                   config={{

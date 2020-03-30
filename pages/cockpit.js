@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
-import { max, extent } from 'd3-array'
+import { extent } from 'd3-array'
 import gql from 'graphql-tag'
 
 import {
@@ -11,10 +11,6 @@ import {
   Interaction,
   Loader,
   colors,
-  VideoPlayer,
-  FigureImage,
-  FigureCaption,
-  fontStyles,
   LazyLoad
 } from '@project-r/styleguide'
 import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
@@ -35,10 +31,7 @@ import {
 import { RawStatus } from '../components/Crowdfunding/Status'
 import withT from '../lib/withT'
 
-import {
-  ListWithQuery as TestimonialList,
-  generateSeed
-} from '../components/Testimonial/List'
+import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
 
 import { CROWDFUNDING, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
@@ -267,61 +260,6 @@ const Accordion = withInNativeApp(
   )
 )
 
-const PrimaryCTA = withInNativeApp(
-  ({
-    me,
-    questionnaire,
-    shouldBuyProlong,
-    isReactivating,
-    block,
-    query,
-    children,
-    inNativeIOSApp
-  }) => {
-    if (inNativeIOSApp) {
-      return null
-    }
-
-    let target
-    let text
-    if (shouldBuyProlong) {
-      target = {
-        route: 'pledge',
-        params: { package: 'PROLONG', token: query.token }
-      }
-      text = isReactivating ? 'Zurückkehren' : 'Treu bleiben'
-    } else if (!(me && me.activeMembership)) {
-      target = {
-        route: 'pledge',
-        params: { package: 'ABO' }
-      }
-      text = 'Mitglied werden'
-    } else if (questionnaire && questionnaire.shouldAnswer) {
-      target = {
-        route: 'questionnaireCrowd',
-        params: { slug: questionnaireCrowdSlug }
-      }
-      text = 'Ich möchte der Republik helfen.'
-    } else {
-      return null
-    }
-    if (children) {
-      return (
-        <Link {...target} passHref>
-          {children}
-        </Link>
-      )
-    }
-    return (
-      <Link {...target} passHref>
-        <Button primary block={block}>
-          {text}
-        </Button>
-      </Link>
-    )
-  }
-)
-
 // https://ultradashboard.republik.ch/question/506
 const bucketsBefore = [
   { key: '2017-04', presale: 9703 },
@@ -352,9 +290,9 @@ const Page = ({
 }) => {
   const meta = {
     pageTitle: '🚀 Republik Cockpit',
-    title: 'Wir kämpfen für die Zukunft der Republik. Kämpfen Sie mit?',
+    title: 'Das Wichtigste zum Stand unseres Unternehmens',
     description:
-      'Alles, was Sie zur Lage des Unternehmens wissen müssen – und wie Sie uns jetzt helfen können.',
+      'Alles, was Sie zur Lage der Republik wissen müssen – und wie Sie uns helfen können.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/cockpit.jpg`
   }
 
@@ -408,10 +346,10 @@ const Page = ({
             }))
             .concat(
               buckets.reduce((flat, bucket, i) => {
-                const notNew =
-                  i === 0
-                    ? bucketsBefore[bucketsBefore.length - 1].preactive
-                    : 0
+                // const notNew =
+                //   i === 0
+                //     ? bucketsBefore[bucketsBefore.length - 1].preactive
+                //     : 0
                 minMaxValues.push(bucket.activeEndOfMonth + bucket.pending)
                 minMaxValues.push(-bucket.expired + -bucket.cancelled)
                 flat.push({
@@ -627,21 +565,6 @@ Sie wollen investieren? Schreiben Sie uns eine Mail an [ir@republik.ch](mailto:i
                 )
               }
       `}
-
-              <br />
-              <br />
-
-              {questionnaire && questionnaire.shouldAnswer && (
-                <Link
-                  route='questionnaireCrowd'
-                  params={{ slug: questionnaireCrowdSlug }}
-                  passHref
-                >
-                  <Button white block>
-                    Komplizin werden
-                  </Button>
-                </Link>
-              )}
 
               <br />
               <br />

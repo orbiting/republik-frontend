@@ -14,7 +14,8 @@ import {
   VideoPlayer,
   FigureImage,
   FigureCaption,
-  fontStyles
+  fontStyles,
+  LazyLoad
 } from '@project-r/styleguide'
 import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
 
@@ -595,12 +596,14 @@ Sie wollen investieren? Schreiben Sie uns eine Mail an [ir@republik.ch](mailto:i
 
 ## ${countFormat(activeCount)} sind dabei.`}
 
-              <TestimonialList
-                ssr={false}
-                singleRow
-                minColumns={3}
-                share={false}
-              />
+              <LazyLoad>
+                <TestimonialList
+                  ssr={false}
+                  singleRow
+                  minColumns={3}
+                  share={false}
+                />
+              </LazyLoad>
               <br />
 
               {md(mdComponents)`

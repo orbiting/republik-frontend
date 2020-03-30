@@ -290,9 +290,8 @@ const Page = ({
 }) => {
   const meta = {
     pageTitle: '🚀 Republik Cockpit',
-    title: 'Das Wichtigste zum Stand unseres Unternehmens',
-    description:
-      'Alles, was Sie zur Lage der Republik wissen müssen – und wie Sie uns helfen können.',
+    title: 'Das Wichtigste zum Stand des Unternehmens',
+    description: 'Alles, was Sie zur Lage der Republik wissen müssen.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/cockpit.jpg`
   }
 

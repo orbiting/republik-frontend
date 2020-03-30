@@ -2940,11 +2940,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/ios/before",
-      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",

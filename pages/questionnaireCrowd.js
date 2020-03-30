@@ -50,6 +50,7 @@ import {
 } from '../components/Account/NewsletterSubscriptions'
 import ErrorMessage from '../components/ErrorMessage'
 import { Link } from '../lib/routes'
+import NewsletterSignUp from '../components/Auth/NewsletterSignUp'
 
 const { Headline, H3, P } = Interaction
 
@@ -194,10 +195,7 @@ const ThankYouItem = compose(withT)(({ t, tKey }) => {
   )
 })
 
-const ThankYou = compose(
-  withT,
-  graphql(NEWSLETTER_SETTINGS)
-)(({ t, data: { loading, error, me } }) => {
+const ThankYou = compose(withT)(({ t }) => {
   return (
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
@@ -209,57 +207,22 @@ const ThankYou = compose(
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
       </div>
-      <Loader
-        loading={loading}
-        error={error}
-        render={() => {
-          if (!me) return null
-          const name = 'ACCOMPLICE'
-          const subscription = me.newsletterSettings.subscriptions.find(
-            s => s.name === name
-          )
 
-          return subscription ? (
-            <>
-              <H3 style={{ margin: '45px 0 30px' }}>
-                {t('questionnaire/crowd/submitted/newsletter')}
-              </H3>
-              <div style={{ marginBottom: 15 }}>
-                <Mutation mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
-                  {(mutate, { loading: mutating, error }) => {
-                    return (
-                      <Checkbox
-                        checked={subscription.subscribed}
-                        disabled={mutating}
-                        onChange={(_, checked) => {
-                          mutate({
-                            variables: {
-                              name,
-                              subscribed: checked
-                            }
-                          })
-                        }}
-                      >
-                        <P {...styles.checkboxLabel}>
-                          {t('questionnaire/crowd/submitted/newsletter')}
-                          {mutating && (
-                            <span {...styles.spinnerWrapper}>
-                              <InlineSpinner size={24} />
-                            </span>
-                          )}
-                          <br />
-                          {error && <ErrorMessage error={error} />}
-                        </P>
-                      </Checkbox>
-                    )
-                  }}
-                </Mutation>
-              </div>
-              <P>{t('questionnaire/crowd/submitted/newsletter/description')}</P>
-            </>
-          ) : null
+      <div
+        style={{
+          backgroundColor: colors.primaryBg,
+          padding: '10px 15px',
+          marginTop: 30
         }}
-      />
+      >
+        <Interaction.H2>
+          {t('questionnaire/crowd/submitted/newsletter')}
+        </Interaction.H2>
+        <Interaction.P style={{ margin: '10px 0' }}>
+          {t('questionnaire/crowd/submitted/newsletter/description')}
+        </Interaction.P>
+        <NewsletterSignUp black skipBox free name='ACCOMPLICE' />
+      </div>
     </div>
   )
 })

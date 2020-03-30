@@ -6764,7 +6764,7 @@
     },
     {
       "key": "crowdfunding/status/goal/PERMANENT/people",
-      "value": "Mitglieder und Abonnenten. Ziel: {count}."
+      "value": "Mitglieder und Abonnenten. Langfristiges Ziel: {count}."
     },
     {
       "key": "crowdfunding/SurviveStatus/title",

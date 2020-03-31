@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-25T13:35:55.606Z",
+  "updated": "2020-03-31T11:17:04.272Z",
   "title": "live",
   "data": [
     {
@@ -1001,6 +1001,14 @@
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
       "value": "montags bis freitags um 19 Uhr"
+    },
+    {
+      "key": "account/newsletterSubscriptions/ACCOMPLICE/label",
+      "value": "Republik – Der Komplizen-Newsletter"
+    },
+    {
+      "key": "account/newsletterSubscriptions/ACCOMPLICE/frequency",
+      "value": "unregelmässig"
     },
     {
       "key": "account/authSettings/title",
@@ -2936,11 +2944,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/ios/before",
-      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -4104,7 +4112,7 @@
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "Haben Sie eine Minute?"
+      "value": "Komplizen-Formular"
     },
     {
       "key": "questionnaire/crowd/description",
@@ -4112,11 +4120,11 @@
     },
     {
       "key": "questionnaire/crowd/intro",
-      "value": "Schön, sind Sie hier! Wir kämpfen bis Ende März für die Republik – und brauchen dabei Ihre Hilfe. Dieses kleine Formular hilft uns, Ihnen die passende Unterstützungs­möglichkeit vorzuschlagen."
+      "value": "Schön, sind Sie hier! Helfen Sie mit, damit die Republik besser, bekannter und schon bald selbsttragend wird. Dieses kleine Formular hilft uns, Ihnen die passende Unterstützungsmöglichkeit über den Komplizen-Newsletter vorzuschlagen.\n"
     },
     {
       "key": "questionnaire/crowd/question1",
-      "value": "Um die Zukunft der Republik sicherzustellen, muss sie bekannter werden, und mehr Menschen müssen sie abonnieren. Helfen Sie mit?"
+      "value": "Möchten Sie die Republik als Komplizin unterstützen?\n\n"
     },
     {
       "key": "questionnaire/crowd/question1/alt",
@@ -4128,23 +4136,31 @@
     },
     {
       "key": "questionnaire/crowd/submitted/intro",
-      "value": "Vielen Dank für Ihre Bereitschaft mitzuhelfen, die Republik bekannter zu machen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekanntmachung der Republik starten oder an einem Komplizentreffen teilnehmen: "
-    },
-    {
-      "key": "questionnaire/crowd/submitted/list/1",
-      "value": "Teilen Sie Ihren Lieblings­artikel mit Freunden und sprechen Sie darüber."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/list/2",
-      "value": "Auf der Kampagnen­seite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten zur Mithilfe</a>."
+      "value": "Vielen Dank für Ihre Bereitschaft, die Republik als Komplizin zu unterstützen. Was Sie immer tun können:"
     },
     {
       "key": "questionnaire/crowd/submitted/list/0",
-      "value": "<a href=\"/veranstaltungen\">Veranstaltungen</a>"
+      "value": "Teilen Sie Ihren Lieblingsartikel mit Freunden und sprechen Sie über <a href='/'>die Republik</a>. "
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/1",
+      "value": "<a href='/teilen'>Teilen Sie Ihren Zugang</a> zum Magazin mit Interessierten."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/2",
+      "value": "Schreiben Sie sich für den Komplizen-Newsletter ein und bleiben Sie über Mitmach-Möglichkeiten informiert."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/newsletter",
+      "value": "Komplizen-Newsletter"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/newsletter/description",
+      "value": "Informationen zu Mitmach-Möglichkeiten. In unregelmässigem Abstand werden Sie über aktuelle Aktionen und Veranstaltungen der Republik informiert."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",
-      "value": "Vielen Dank! Wir verstehen, dass Sie keine Zeit haben, aktiv dabei mitzuhelfen, die Republik bekannter zu machen. Sie können die Zukunft der Republik auch durch eine Spende sichern. Auf der Kampagnenseite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten für Ihre Unterstützung</a>."
+      "value": "Vielen Dank für Ihre Zeit. Hier gehts zurück zum Magazin."
     },
     {
       "key": "pages/meta/questionnaire/counterText",
@@ -4356,7 +4372,7 @@
     },
     {
       "key": "memberships/cancel/confirmation",
-      "value": "Die Republik befindet sich derzeit in einem Kampf um ihre Zukunft und ist auf jedes Abo, jede Verlegerin und jedes Mitglied angewiesen. Haben Sie gekündigt, weil Sie das Gefühl haben, zu wenig Zeit zu haben? Dann geben Sie uns noch eine zweite Chance und bleiben Sie aus ideellen Gründen dabei. Wir brauchen jetzt jede und jeden."
+      "value": "Haben Sie gekündigt, weil Sie das Gefühl haben, zu wenig Zeit zu haben? Dann geben Sie uns noch eine zweite Chance und bleiben Sie aus ideellen Gründen dabei. Wir brauchen jede und jeden."
     },
     {
       "key": "memberships/cancel/confirmation/title",
@@ -4741,6 +4757,10 @@
     {
       "key": "crowdfunding/status/time/ended/PROLONG",
       "value": "Ein detaillierter Überblick folgt Ende Monat."
+    },
+    {
+      "key": "crowdfunding/status/time/ended/SURVIVE",
+      "value": "Wir haben es geschafft."
     },
     {
       "key": "nav/bookmarks",
@@ -6532,7 +6552,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
     },
     {
       "key": "article/payNote/200225-v1/after",
@@ -6556,7 +6576,7 @@
     },
     {
       "key": "article/payNote/200225-v1/after/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
     },
     {
       "key": "article/payNote/200313-v1/before",
@@ -6576,7 +6596,7 @@
     },
     {
       "key": "article/payNote/200313-v1/before/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
     },
     {
       "key": "article/payNote/200313-v1/after",
@@ -6596,7 +6616,7 @@
     },
     {
       "key": "article/payNote/200313-v1/after/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
     },
     {
       "key": "option/ABO/accessGranted/label/other",
@@ -6715,20 +6735,28 @@
       "value": "Märzkampagne"
     },
     {
-      "key": "cockpit/march20/prefix",
-      "value": "Wir sind dankbar und erfreut! Wir haben unsere überlebenswichtigen Ziele schon Mitte März gemeinsam mit Ihnen erreicht. Die Republik hat definitiv eine Zukunft. Herzlichen Dank!"
+      "key": "cockpit19/beforeNote",
+      "value": "Das ist das archivierte Cockpit aus dem Dezember 2019."
     },
     {
-      "key": "cockpit/march20/link",
-      "value": "Zur Märzkampagne."
+      "key": "cockpit19/beforeNote/link",
+      "value": "Zum aktuellen Cockpit."
     },
     {
       "key": "crowdfunding/beforeNote",
       "value": "Das ist unser Crowdfunding aus dem Jahr 2017."
     },
     {
-      "key": "crowdfunding/march20/link",
-      "value": "Zur aktuellen Märzkampagne."
+      "key": "crowdfunding/beforeNote/link",
+      "value": "Zum aktuellen Stand unseres Unternehmens."
+    },
+    {
+      "key": "crowdfunding2/beforeNote",
+      "value": "Das ist unsere Märzkampagne aus dem Jahr 2020."
+    },
+    {
+      "key": "crowdfunding2/beforeNote/link",
+      "value": "Zum aktuellen Stand unseres Unternehmens."
     },
     {
       "key": "package/customize/price/payMore/DONATE_POT",
@@ -6737,6 +6765,10 @@
     {
       "key": "package/customize/changePackage",
       "value": "Zum gesamten Angebot"
+    },
+    {
+      "key": "crowdfunding/status/goal/PERMANENT/people",
+      "value": "Mitglieder und Abonnenten. Langfristiges Ziel: {count}."
     },
     {
       "key": "crowdfunding/SurviveStatus/title",

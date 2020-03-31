@@ -236,16 +236,6 @@ const Nav = ({
             >
               {t('navbar/discussion')}
             </NavLink>
-            <div {...styles.sectionCompact} {...styles.sectionsBlock}>
-              <NavLink
-                route='section'
-                params={{ slug: 'top-storys' }}
-                active={active}
-                closeHandler={closeHandler}
-              >
-                {t('nav/discussion/topStories')}
-              </NavLink>
-            </div>
             <NavLink
               route='sections'
               active={active}
@@ -262,17 +252,11 @@ const Nav = ({
             closeHandler={closeHandler}
           >
             {t('nav/community')}
+          </NavLink>
+          <NavLink route='events' active={active} closeHandler={closeHandler}>
+            {t('nav/events')}
           </NavLink>*/}
-            <NavLink route='events' active={active} closeHandler={closeHandler}>
-              {t('nav/events')}
-            </NavLink>
-            <NavLink
-              route='crowdfunding2'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/crowdfunding2')}
-            </NavLink>
+            <br />
             <NavLink
               inline
               route='cockpit'
@@ -280,6 +264,22 @@ const Nav = ({
               closeHandler={closeHandler}
             >
               {t('nav/cockpit')}
+            </NavLink>
+            <NavLink
+              inline
+              route='section'
+              params={{ slug: 'komplizin' }}
+              active={active}
+              closeHandler={closeHandler}
+            >
+              Komplizen
+            </NavLink>
+            <NavLink
+              route='crowdfunding2'
+              active={active}
+              closeHandler={closeHandler}
+            >
+              {t('nav/crowdfunding2')}
             </NavLink>
             <NavLink
               inline

@@ -98,7 +98,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^9.3.1",
-    "@project-r/styleguide": "https://s3.eu-central-1.amazonaws.com/republik-assets-dev/npm/project-r-styleguide-notifications-fixes-4baf8d3.tgz",
+    "@project-r/styleguide": "^9.13.0",
     "@use-it/event-listener": "^0.1.3",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
@@ -139,7 +139,7 @@
     "lru-cache": "^4.1.3",
     "markdown-in-js": "^1.1.4",
     "mdast-react-render": "^1.2.0",
-    "next": "^9.3.1",
+    "next": "^9.3.2",
     "next-routes": "^1.4.2",
     "photoswipe": "^4.1.3",
     "prop-types": "^15.7.2",

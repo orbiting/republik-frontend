@@ -200,6 +200,11 @@ class Questionnaire extends Component {
                 />
                 <br />
               </div>
+              {hideCount && error && (
+                <div {...styles.count}>
+                  <P {...styles.error}>{errorToString(error)}</P>
+                </div>
+              )}
               {!hideCount && (
                 <div {...styles.count}>
                   {error ? (

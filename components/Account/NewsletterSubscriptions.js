@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Query, Mutation } from 'react-apollo'
+import { Query, Mutation, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
@@ -8,6 +8,8 @@ import ErrorMessage from '../ErrorMessage'
 import FrameBox from '../Frame/Box'
 import { P } from './Elements'
 import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
+import { withMembership } from '../Auth/checkRoles'
+import { newsletterFragment, userNewslettersFragment } from './enhancers'
 
 const NoBox = ({ children, style: { margin } = {} }) => (
   <div style={{ margin }}>{children}</div>
@@ -35,35 +37,25 @@ export const UPDATE_NEWSLETTER_SUBSCRIPTION = gql`
     $subscribed: Boolean!
   ) {
     updateNewsletterSubscription(name: $name, subscribed: $subscribed) {
-      id
-      name
-      subscribed
-      isEligible
+      ...NewsletterInfo
     }
   }
+  ${newsletterFragment}
 `
 
 export const NEWSLETTER_SETTINGS = gql`
   query myNewsletterSettings {
     me {
-      id
-      newsletterSettings {
-        status
-        subscriptions {
-          id
-          name
-          subscribed
-          isEligible
-        }
-      }
+      ...UserNewsletters
     }
   }
+  ${userNewslettersFragment}
 `
 
 const NewsletterSubscriptions = props => (
   <Query query={NEWSLETTER_SETTINGS}>
     {({ loading, error, data }) => {
-      const { t } = props
+      const { t, isMember } = props
 
       if (loading || error) {
         return <Loader loading={loading} error={error} />
@@ -84,10 +76,6 @@ const NewsletterSubscriptions = props => (
         props.filter || Boolean
       )
 
-      const hasNonEligibleSubscription = subscriptions.some(
-        ({ isEligible }) => !isEligible
-      )
-
       return (
         <Fragment>
           {status !== 'subscribed' && (
@@ -95,12 +83,12 @@ const NewsletterSubscriptions = props => (
               <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
             </Box>
           )}
-          {hasNonEligibleSubscription && (
+          {!isMember && (
             <Box style={{ margin: '10px 0', padding: 15 }}>
               <P>{t('account/newsletterSubscriptions/noMembership')}</P>
             </Box>
           )}
-          {subscriptions.map(({ name, subscribed, isEligible }) => (
+          {subscriptions.map(({ name, subscribed }) => (
             <Mutation key={name} mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
               {(mutate, { loading: mutating, error }) => {
                 return (
@@ -108,7 +96,7 @@ const NewsletterSubscriptions = props => (
                     <Checkbox
                       black={props.black}
                       checked={subscribed}
-                      disabled={!isEligible || mutating}
+                      disabled={mutating}
                       onChange={(_, checked) => {
                         mutate({
                           variables: {
@@ -150,4 +138,4 @@ const NewsletterSubscriptions = props => (
   </Query>
 )
 
-export default withT(NewsletterSubscriptions)
+export default compose(withT, withMembership)(NewsletterSubscriptions)

@@ -285,7 +285,7 @@ const Page = ({
       ]
 
   const shareProps = {
-    url: `${PUBLIC_BASE_URL}/`,
+    url: `${PUBLIC_BASE_URL}/maerzkampagne`,
     tweet: '',
     emailBody: '',
     emailAttachUrl: true,
@@ -297,8 +297,7 @@ const Page = ({
     <Frame
       raw
       meta={{
-        // ToDo: change once no longer in index
-        url: `${PUBLIC_BASE_URL}/`,
+        url: `${PUBLIC_BASE_URL}/maerzkampagne`,
         pageTitle: 'Republik – das digitale Magazin von Project R',
         title: '101 Gründe, die Republik jetzt zu unterstützen.',
         description:
@@ -340,14 +339,14 @@ const Page = ({
         }}
         raw
       >
-        {/*<Box style={{ padding: 14, marginBottom: 20 }}>
+        <Box style={{ padding: 14, marginBottom: 20 }}>
           <Interaction.P>
             {t('crowdfunding2/beforeNote')}{' '}
             <Link route='cockpit' passHref>
               <A>{t('crowdfunding2/beforeNote/link')}</A>
             </Link>
           </Interaction.P>
-        </Box>*/}
+        </Box>
         <Lead>
           Unabhängiger Journalismus ohne Bullshit: Willkommen bei der Republik.
         </Lead>

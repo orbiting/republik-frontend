@@ -290,8 +290,9 @@ const Page = ({
 }) => {
   const meta = {
     pageTitle: '🚀 Republik Cockpit',
-    title: 'Das Wichtigste zum Stand des Unternehmens',
-    description: 'Alles, was Sie zur Lage der Republik wissen müssen.',
+    title: 'Das Cockpit zum Stand unseres Unternehmens',
+    description:
+      'Alles, was Sie zur finanziellen Lage der Republik wissen müssen.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/cockpit.jpg`
   }
 
@@ -323,8 +324,8 @@ const Page = ({
             { key: 'preactive', color: '#256900', label: 'Crowdfunder' },
             { key: 'active', color: '#3CAD00', label: 'aktive' },
             // {key: 'gaining', color: '#256900', label: 'neue'},
-            { key: 'loss', color: '#AA6039', label: 'Abgänge' },
-            { key: 'missing', color: '#9D344B', label: 'fehlende' }
+            { key: 'loss', color: '#9970ab', label: 'Abgänge' },
+            { key: 'missing', color: '#333', label: 'fehlende' }
           ]
           const labelMap = labels.reduce((map, d) => {
             map[d.key] = d.label
@@ -387,7 +388,7 @@ const Page = ({
             <>
               <div style={{ marginBottom: 60 }}>
                 {md(mdComponents)`
-Ganz herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die Republik hat definitiv eine Zukunft. Danke an alle, die dazu beitragen. 
+Herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die Republik hat definitiv eine Zukunft. Danke an alle, die dazu beitragen. 
                 `}
                 <RawStatus
                   t={t}
@@ -412,17 +413,17 @@ Ganz herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die 
                 />
               </div>
               <Interaction.Headline style={{ color: '#fff', marginBottom: 20 }}>
-                Das Wichtigste zum Stand unseres Unternehmens
+                Das Cockpit zum Stand unseres Unternehmens
               </Interaction.Headline>
               {md(mdComponents)`
 
 Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
-Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, leserfinanzierten Journalismus. Damit die Republik einen entscheidenden Unterschied im Mediensystem machen kann, muss sie selbsttragend werden. Also die gesamten Kosten aus den Einnahmen decken, ohne die Hilfe von Investitionen. 
+Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, leserfinanzierten Journalismus. Damit die Republik einen entscheidenden Unterschied im Mediensystem machen kann, muss sie selbsttragend werden. Also die gesamten Kosten aus den Einnahmen decken, ohne die Hilfe von Investitionen.
 
 Dafür braucht sie konstant etwa ${countFormat(
                 numMembersNeeded
-              )} Abonnentinnen und Mitglieder. 
+              )} Abonnentinnen und Mitglieder.
 
 
 `}
@@ -483,31 +484,35 @@ Dafür braucht sie konstant etwa ${countFormat(
 
 ## Warum ${countFormat(numMembersNeeded)}?
 
-Mit konstant ${countFormat(
+Mit ${countFormat(
                 numMembersNeeded
-              )} Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um immer mal wieder neue Sachen auszuprobieren und Experimente zu lancieren. Wir wären dann unabhängig von Investoren und Stiftungen und zu 100 Prozent leserfinanziert.  
+              )} Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen. Wir wären dann unabhängig von Investoren und Stiftungen und zu 100 Prozent leserfinanziert.
 
-Das aktuelle Ausgaben-Budget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](https://republik.ch/vote/juli19).
+Das aktuelle Ausgaben-Budget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/juli19).
 
 ## Und bis dann?
 
-Bis die Republik selbsttragend ist, ist sie auf Investments angewiesen. Auf [unserer Aktionariats-Seite](https://www.republik.ch/aktionariat) finden Sie alle Investoren. Zudem werden wir von verschiedenen Stiftungen gefördert und von Spenderinnen unterstützt. 
+Bis die Republik selbsttragend funktionieren kann, ist sie auf Investments angewiesen. Auf [unserer Aktionariats-Seite](/aktionariat) finden Sie alle Investoren. Zudem werden wir von verschiedenen Stiftungen gefördert und die Genossenschaft von Spenderinnen unterstützt.
 
-Im letzten Geschäftsjahr (2018/2019) war die Republik zu 70 Prozent selbsttragend. Nun geht es darum, bekannter und relevanter zu werden und mehr Menschen mit unserem Journalismus zu begeistern. Wir haben einen ganzen Schrank voller Ideen dafür.
+Im letzten Geschäftsjahr (2018/2019) war die Republik zu 70 Prozent selbsttragend. Nun geht es darum, bekannter und nützlicher zu werden und mehr Menschen mit unserem Journalismus zu begeistern. Wir haben einen ganzen Schrank voller Ideen.
 
-Und falls es ein bisschen Zeit braucht,  bis die Ideen sich in zusätzliche Mitgliedschaften und Abos verwandeln, geht uns das Geld nicht übermorgen aus. Dazu folgende Zusammenfassung unserer  konservativen Liquiditätsplanung: Solide Verkäufe (weniger als 2019 und 2018) + gute, aber nicht bemerkenswerte Erneuerungen (besser als im ersten Jahr, schlechter als die letzten Monate) + etwas tieferes Budget = sicher Geld bis Winter 2021/2022.
+Und falls es ein bisschen Zeit braucht, bis die Ideen sich in zusätzliche Mitgliedschaften und Abos verwandeln, geht uns das Geld nicht übermorgen aus.
+
+Dazu folgende Zusammenfassung unserer konservativen Liquiditätsplanung:
+
+Solide Verkäufe (weniger als 2019 und 2018) + gute, aber nicht bemerkenswerte Erneuerungen (besser als im ersten Jahr, schlechter als die letzten Monate) + etwas tieferes Budget = sicher Geld bis Winter 2021/2022.
 
 ## Was bisher geschah
 
-*   April 2017: [Initiales Crowdfunding](https://www.republik.ch/crowdfunding) 
+*   April 2017: [Initiales Crowdfunding](/crowdfunding) 
 *   Januar 2018: [Launch Magazin](https://project-r.construction/newsletter/2018-01-14-gestartet)
 *   Oktober 2018: [1. Geschäftsbericht](https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf)
-*   Januar 2019: [Liquiditätsplanung für 2019](https://www.republik.ch/2019/01/07/unser-plan-ihr-plan)
+*   Januar 2019: [Liquiditätsplanung für 2019](/2019/01/07/unser-plan-ihr-plan)
 *   November 2019: [2. Geschäftsbericht](https://cdn.republik.space/s3/republik-assets/assets/can/Republik_Geschaeftsbericht_2018-2019.pdf) 
 *   Dezember 2019: [das alte Cockpit](/cockpit19)
-*   März 2020: [Märzkampagne](https://www.republik.ch/maerzkampagne)
+*   März 2020: [Märzkampagne](/maerzkampagne)
 
-Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in unserem Unternehmen. Sie können alles nachlesen,  im [Archiv der Project-R-Newsletter](https://project-r.construction/news) und in der [Rubrik «An die Verlagsetage](/format/an-die-verlagsetage "An die Verlagsetage")».
+Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in unserem Unternehmen. Sie können alles nachlesen, im [Archiv der Project-R-Newsletter](https://project-r.construction/news) und in der [Rubrik «An die Verlagsetage](/format/an-die-verlagsetage "An die Verlagsetage")».
 
 `}
               <br />

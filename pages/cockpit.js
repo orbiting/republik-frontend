@@ -90,7 +90,7 @@ const Accordion = withInNativeApp(
           </Interaction.P>
           {me && me.activeMembership && (
             <>
-              <HrefLink href='/komplizen' passHref>
+              <HrefLink href='/komplizin' passHref>
                 <PackageItem
                   t={t}
                   dark

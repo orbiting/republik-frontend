@@ -268,7 +268,7 @@ const Nav = ({
             <NavLink
               inline
               route='section'
-              params={{ slug: 'komplizen' }}
+              params={{ slug: 'komplizin' }}
               active={active}
               closeHandler={closeHandler}
             >

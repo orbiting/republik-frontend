@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { compose, graphql, Mutation, Query } from 'react-apollo'
 
 import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../lib/constants'
 import withT, { t } from '../lib/withT'
@@ -19,6 +19,7 @@ import Results from '../components/Questionnaire/Results'
 import Questionnaire from '../components/Questionnaire/Questionnaire'
 import {
   userDetailsFragment,
+  withAddMeToRole,
   withMyDetails
 } from '../components/Account/enhancers'
 import { errorToString } from '../lib/utils/errors'
@@ -34,13 +35,24 @@ import {
   RawHtml,
   colors,
   Figure,
-  FigureImage
+  FigureImage,
+  InlineSpinner,
+  Label,
+  Checkbox,
+  Loader,
+  Button
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import MdArrow from 'react-icons/lib/md/trending-flat'
-import ShareButtons from '../components/ActionBar/ShareButtons'
+import {
+  NEWSLETTER_SETTINGS,
+  UPDATE_NEWSLETTER_SUBSCRIPTION
+} from '../components/Account/NewsletterSubscriptions'
+import ErrorMessage from '../components/ErrorMessage'
+import { Link } from '../lib/routes'
+import NewsletterSignUp from '../components/Auth/NewsletterSignUp'
 
-const { Headline, P } = Interaction
+const { Headline, H3, P } = Interaction
 
 const mutation = gql`
   mutation submitQuestionnaireAndUpdateMe(
@@ -99,6 +111,19 @@ const styles = {
   socialButtons: css({
     marginLeft: 30,
     marginTop: 30
+  }),
+  spinnerWrapper: css({
+    display: 'inline-block',
+    height: 0,
+    marginLeft: 15,
+    verticalAlign: 'middle',
+    '& > span': {
+      display: 'inline'
+    }
+  }),
+  checkboxLabel: css({
+    display: 'inline-block',
+    marginTop: -8
   })
 }
 
@@ -182,6 +207,22 @@ const ThankYou = compose(withT)(({ t }) => {
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
       </div>
+
+      <div
+        style={{
+          backgroundColor: colors.primaryBg,
+          padding: '10px 15px',
+          marginTop: 30
+        }}
+      >
+        <Interaction.H2>
+          {t('questionnaire/crowd/submitted/newsletter')}
+        </Interaction.H2>
+        <Interaction.P style={{ margin: '10px 0' }}>
+          {t('questionnaire/crowd/submitted/newsletter/description')}
+        </Interaction.P>
+        <NewsletterSignUp black skipBox free name='ACCOMPLICE' />
+      </div>
     </div>
   )
 })
@@ -197,6 +238,11 @@ const NoThanks = compose(withT)(({ t }) => {
             __html: t('questionnaire/crowd/submitted/declined/intro')
           }}
         />
+        <Link route='index'>
+          <Button primary style={{ marginTop: 20 }}>
+            {t('merci/action/read')}
+          </Button>
+        </Link>
       </div>
     </div>
   )
@@ -273,11 +319,18 @@ class QuestionnaireCrowdPage extends Component {
   }
 
   submit(errorMessages) {
+    const { addMeToRole } = this.props
+    const { willingnessStatus } = this.state
     const hasErrors = this.processErrors(errorMessages)
     if (hasErrors) return
 
     this.setState({ updating: true })
     this.processSubmit()
+      .then(() => {
+        if (willingnessStatus === 'true') {
+          return addMeToRole({ role: 'accomplice' })
+        }
+      })
       .then(() =>
         this.setState(() => ({
           updating: false,
@@ -442,6 +495,7 @@ export default compose(
   withMutation,
   withQuestionnaireMutation,
   withQuestionnaireReset,
+  withAddMeToRole,
   withAuthorization(['supporter', 'editor'], 'showResults'),
   enforceMembership(meta, { title: t('questionnaire/title'), description })
 )(QuestionnaireCrowdPage)

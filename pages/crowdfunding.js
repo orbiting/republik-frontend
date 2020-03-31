@@ -133,8 +133,8 @@ export const Page = ({ router, t, inNativeIOSApp }) => {
         <Box style={{ padding: 14, marginBottom: 20 }}>
           <Interaction.P>
             {t('crowdfunding/beforeNote')}{' '}
-            <Link route='crowdfunding2' passHref>
-              <A>{t('crowdfunding/march20/link')}</A>
+            <Link route='cockpit' passHref>
+              <A>{t('crowdfunding/beforeNote/link')}</A>
             </Link>
           </Interaction.P>
         </Box>

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-31T09:31:42.909Z",
+  "updated": "2020-03-31T09:41:01.401Z",
   "title": "live",
   "data": [
     {
@@ -4761,6 +4761,10 @@
     {
       "key": "crowdfunding/status/time/ended/PROLONG",
       "value": "Ein detaillierter Überblick folgt Ende Monat."
+    },
+    {
+      "key": "crowdfunding/status/time/ended/SURVIVE",
+      "value": "Wir haben es geschafft."
     },
     {
       "key": "nav/bookmarks",

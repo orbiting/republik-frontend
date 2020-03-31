@@ -14,6 +14,7 @@ import withInNativeApp from '../lib/withInNativeApp'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 
+import Box from '../components/Frame/Box'
 import Employees from '../components/Marketing/Employees'
 import Frame from '../components/Frame'
 import VideoCover from '../components/VideoCover'
@@ -44,6 +45,7 @@ import {
   Label,
   Button,
   Lead,
+  A,
   colors,
   linkRule,
   Interaction,
@@ -338,6 +340,14 @@ const Page = ({
         }}
         raw
       >
+        {/*<Box style={{ padding: 14, marginBottom: 20 }}>
+          <Interaction.P>
+            {t('crowdfunding2/beforeNote')}{' '}
+            <Link route='cockpit' passHref>
+              <A>{t('crowdfunding2/beforeNote/link')}</A>
+            </Link>
+          </Interaction.P>
+        </Box>*/}
         <Lead>
           Unabhängiger Journalismus ohne Bullshit: Willkommen bei der Republik.
         </Lead>

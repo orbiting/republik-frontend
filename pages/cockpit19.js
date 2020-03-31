@@ -369,11 +369,13 @@ const Page = ({
             <>
               <div style={{ marginBottom: 60 }}>
                 {md(mdComponents)`
-${t('cockpit/march20/prefix')} ${(
-                  <Link route='crowdfunding2' passHref>
-                    <Editorial.A>{t('cockpit/march20/link')}</Editorial.A>
+
+${t('cockpit19/beforeNote')} ${(
+                  <Link route='cockpit' passHref>
+                    <Editorial.A>{t('cockpit19/beforeNote/link')}</Editorial.A>
                   </Link>
                 )}
+
                 `}
                 <br />
                 <RawStatus
@@ -392,7 +394,9 @@ ${t('cockpit/march20/prefix')} ${(
                 />
               </div>
               {md(mdComponents)`
+
 # Die Republik braucht Ihre Unterstützung, Ihren Mut und Ihren Einsatz, damit sie in Zukunft bestehen kann!
+
       `}
               <Accordion
                 me={me}
@@ -404,6 +408,7 @@ ${t('cockpit/march20/prefix')} ${(
               />
 
               {md(mdComponents)`
+
 ## Unsere Verlegerinnen – Sie!`}
 
               <TestimonialList
@@ -416,10 +421,15 @@ ${t('cockpit/march20/prefix')} ${(
               <br />
 
               {md(mdComponents)`
+
 Seit zwei Jahren ist die Republik jetzt da – als digitales Magazin, als Labor für den Journalismus des 21. Jahrhunderts.
+
 Sie haben uns bis hierhin begleitet: mit Ihrer Neugier, Ihrer Unterstützung, Ihrem Lob und Ihrer Kritik. Dafür ein grosses Danke! Ohne Sie wären wir nicht hier.
+
 Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
+
 Dafür haben wir eine funktionierende Redaktion aufgebaut, die ordentlichen und immer öfter auch ausserordentlichen Journalismus liefert und sich weiterentwickeln will. Was wir leider noch nicht geschafft haben: ein funktionierendes Geschäftsmodell für diesen werbefreien, unabhängigen, leserfinanzierten Journalismus zu etablieren.
+
 Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb kämpfen wir für die Republik. ${(
                 <PrimaryCTA
                   me={me}
@@ -433,6 +443,7 @@ Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb
                   </Editorial.A>
                 </PrimaryCTA>
               )}
+
   `}
 
               {inNativeIOSApp && (
@@ -445,10 +456,16 @@ Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb
 
               {md(mdComponents)`
 ## Darum geht es
+
 Die Republik hatte 2019 im Schnitt 18’220 Verlegerinnen. Das deckt 70 Prozent der Kosten. Die restlichen 30 Prozent reissen ein tiefes Loch in die Bilanz. Defizite sind in der Aufbauphase eines Start-ups normal. Ein wachsendes Defizit ist für ein junges Unternehmen aber schnell tödlich.
+
 Im vergangenen Jahr haben wir weniger neue Verlegerinnen dazugewonnen, als uns verlassen haben. Oder anders: Wir haben unser Budgetziel verfehlt. Das hat heftige Folgen: Bis Ende März müssen wir den Rückstand von 2019 aufholen, sonst hat die Republik keine Zukunft. 
+
 Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten und zusätzlich 2,2 Millionen Franken an Investoren­geldern, Spenden und Förder­beiträgen. Schaffen wir das nicht, werden wir die Republik ab dem 31. März 2020 abwickeln. Schaffen wir es, haben wir eine realistische Chance, langfristig ein tragfähiges Geschäfts­modell zu etablieren.
+
 ## Updates
+
+
 `}
               <Fragment>
                 <VideoPlayer
@@ -501,26 +518,37 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
                 </div>
               </Fragment>
               {md(mdComponents)`
+
 _17.03.2020, 7-Uhr-Newsletter_  
 [Gemeinsam haben wir die Ziele erreicht. Danke!](https://www.republik.ch/2020/03/17/7-uhr-newsletter)
+
 _01.03.2020, Project-R-Newsletter_  
 [Ein Wachstumsschub für die Zukunft der Republik](https://project-r.construction/newsletter/2020-03-01-wachstum)
+
 _15.02.2020, Experiment 2_  
 [Eine Woche Republik in 10 Minuten](https://www.republik.ch/2020/02/15/schon-gehoert-eine-woche-republik-in-zehn-minuten)
+
 _07.02.2020, Experiment 1_  
 [Ein «Zettelbrett» für journalistische Glanzstücke](https://www.republik.ch/2020/02/07/die-welt-ist-voll-mit-gutem-journalismus-teilen-sie-ihn-mit-der-community)
+
 _04.02.2020, Project-R-Newsletter_  
 [Danke für 75 Prozent!](https://project-r.construction/newsletter/2020-02-04-75-prozent)
+
 _12.01.2020, Project-R-Newsletter_  
 [Das Update zum Zustand der Republik](https://project-r.construction/newsletter/2020-01-12-zustand)
+
 _11.01.2020, Gesprächsrunde im Rothaus:_  
 [«Ihr braucht mehr Einnahmen. Woher sollen die kommen?»](https://www.republik.ch/2020/01/11/zur-lage-der-republik)
+
 _24.12.2019, Rückmeldungen:_  
 [Was wir gehört haben](https://www.republik.ch/2019/12/24/was-wir-gehoert-haben)
+
 _09.12.2019, Fragen und Antworten:_  
 [Was Sie zur Lage der Republik wissen müssen](https://www.republik.ch/2019/12/09/lage-der-republik)
+
 _09.12.2019, Project-R-Newsletter_  
 [Der wichtigste Newsletter seit dem Start der Republik](https://project-r.construction/newsletter/2019-12-09-der-wichtigste-newsletter)
+
 ${(shouldBuyProlong || !me || !me.activeMembership) && (
   <PrimaryCTA
     me={me}
@@ -538,12 +566,19 @@ ${(shouldBuyProlong || !me || !me.activeMembership) && (
     </Button>
   </PrimaryCTA>
 )}
+
 ## Ohne Sie können wir nicht wachsen
+
 Wir brauchen Reichweite. Die können wir uns jedoch weder kaufen (zu teuer) noch allein mit Journalismus erarbeiten.
+
 Wir setzen also auf unsere wichtigste Ressource: Sie. Sie – und Ihr Adressbuch, Ihr Netzwerk, Ihre Begeisterung, Ihre Skepsis.
+
 Bis Ende März werden wir eine Kampagne machen müssen, in der Sie als Multiplikatoren, Botschafterinnen, Komplizen – nennen Sie es, wie Sie wollen – eine Hauptrolle spielen.
+
 Unser Job dabei ist, Sie regelmässig, offen und klar über den Stand der Dinge zu informieren. Und Ihnen die besten Werkzeuge in die Hand zu geben: Argumente, Flyer, Mailkanonen – kurz: Propaganda­material.
+
 Falls Sie sich vorstellen können, dabei zu sein, haben wir ein kleines Formular für Sie vorbereitet. Es auszufüllen, braucht genau eine Minute. Wir sind Ihnen dankbar, wenn Sie sich diese Minute nehmen.
+
 ${
   questionnaire && questionnaire.userHasSubmitted ? (
     'Vielen Dank fürs Ausfüllen.'
@@ -559,6 +594,7 @@ ${
     </Link>
   )
 }
+
 `}
 
               <div style={{ width: '50%', margin: '20px 0' }}>
@@ -572,7 +608,9 @@ ${
               </div>
 
               {md(mdComponents)`
+
 Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtchen, Sticker und Plakate bestellen. Es wäre uns eine Ehre, wenn Sie die Republik bekannter machen.
+
 `}
 
               <Button
@@ -713,24 +751,43 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtch
 
               {md(mdComponents)`
 ## Gemeinsam sind wir weit gekommen
+
 Abgesehen von den Finanzen war 2019 ein gutes Jahr:
+
 - Wir haben mit Recherchen einen [entscheidenden Unterschied gemacht](https://republik.ch/2019).
+
 - Wir haben die Redaktion so weiterentwickelt, dass sie beides kann: schnell auf wichtige Ereignisse reagieren und Hintergrund liefern.
+
 - Wir haben die Themen­führerschaft in den Bereichen Justiz, Digitalisierung und Klimapolitik aufgebaut.
+
 - Wir waren permanent im Dialog mit Ihnen. Bei keinem anderen Medium können Sie direkt mit den Autorinnen debattieren.
+
 - Wir reflektieren wie kein anderes Medien­unternehmen die eigene Arbeit öffentlich und schaffen Transparenz darüber, wie wir uns entwickeln.
+
 - Wir haben Nachwuchs ausgebildet – und was für einen!
+
 - Wir waren für den deutschen Grimme Online Award nominiert. Wir haben den Schweizer Reporterpreis und den Preis als European Start-up of the Year gewonnen. Und wir sind laut einer Umfrage das «unverwechselbarste Medium der Schweiz».
+
 - Wir haben seit einem Jahr ein starkes Gremium im Rücken, das uns trägt, unterstützt – und konstruktiv kritisiert: den Genossenschaftsrat.
+
 ## Die drei Phasen bis Ende März
+
 Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
+
 ✅ **Bis Ende Januar** 
+
 ✅ Dass möglichst viele Verlegerinnen trotz Risiko an Bord bleiben.
+
 ✅ Dass möglichst viele von Ihnen auf den doppelten Mitgliedschaftspreis aufstocken. Denn was bringt Leben in Projekte? Grosszügigkeit und Geld.
+
 ✅ Neue unerschrockene Investorinnen und Grossspender finden. (Falls Sie investieren wollen, schreiben Sie an: [ir@republik.ch](mailto:ir@republik.ch))
+
 ✅ **Im Februar** wollen wir an ein paar Schrauben drehen, bevor wir in den entscheidenden Monat gehen. Wir wollen die Republik nicht neu erfinden. Aber sie gemeinsam mit Ihnen noch ein wenig nützlicher, transparenter und interaktiver machen.
-**Im März** werden wir mit einer grossen und lauten Kampagne ein paar tausend neue Verlegerinnen gewinnen müssen. Jetzt geht es um: Wachstum.
+
+✅ **Im März** werden wir mit einer grossen und lauten Kampagne ein paar tausend neue Verlegerinnen gewinnen müssen. Jetzt geht es um: Wachstum.
+
 Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik kämpfen.
+
 `}
               <br />
               <Accordion
@@ -749,6 +806,9 @@ Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik k�
               )}
 
               {md(mdComponents)`
+
+
+
 ## ${countFormat(
                 lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
               )} sind dabei.`}

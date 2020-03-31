@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-30T18:09:07.959Z",
+  "updated": "2020-03-31T02:53:05.313Z",
   "title": "live",
   "data": [
     {
@@ -6556,7 +6556,7 @@
     },
     {
       "key": "article/payNote/200225-v1/before/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
     },
     {
       "key": "article/payNote/200225-v1/after",
@@ -6580,7 +6580,7 @@
     },
     {
       "key": "article/payNote/200225-v1/after/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
     },
     {
       "key": "article/payNote/200313-v1/before",
@@ -6600,7 +6600,7 @@
     },
     {
       "key": "article/payNote/200313-v1/before/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
     },
     {
       "key": "article/payNote/200313-v1/after",
@@ -6620,7 +6620,7 @@
     },
     {
       "key": "article/payNote/200313-v1/after/note",
-      "value": "<a href=\"/maerzkampagne\">Mehr Informationen zur Republik und den aktuellen Stand der Dinge.</a>"
+      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
     },
     {
       "key": "option/ABO/accessGranted/label/other",
@@ -6739,20 +6739,28 @@
       "value": "Märzkampagne"
     },
     {
-      "key": "cockpit/march20/prefix",
-      "value": "Wir sind dankbar und erfreut! Wir haben unsere überlebenswichtigen Ziele schon Mitte März gemeinsam mit Ihnen erreicht. Die Republik hat definitiv eine Zukunft. Herzlichen Dank!"
+      "key": "cockpit19/beforeNote",
+      "value": "Das ist das archivierte Cockpit aus dem Dezember 2019."
     },
     {
-      "key": "cockpit/march20/link",
-      "value": "Zur Märzkampagne."
+      "key": "cockpit19/beforeNote/link",
+      "value": "Zum aktuellen Cockpit."
     },
     {
       "key": "crowdfunding/beforeNote",
       "value": "Das ist unser Crowdfunding aus dem Jahr 2017."
     },
     {
-      "key": "crowdfunding/march20/link",
-      "value": "Zur aktuellen Märzkampagne."
+      "key": "crowdfunding/beforeNote/link",
+      "value": "Zum aktuellen Stand unseres Unternehmens."
+    },
+    {
+      "key": "crowdfunding2/beforeNote",
+      "value": "Das ist unsere Märzkampagne aus dem Jahr 2020."
+    },
+    {
+      "key": "crowdfunding2/beforeNote/link",
+      "value": "Zum aktuellen Stand unseres Unternehmens."
     },
     {
       "key": "package/customize/price/payMore/DONATE_POT",

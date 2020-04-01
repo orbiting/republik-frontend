@@ -377,9 +377,9 @@ Weil Vertrauen im Journalismus die härteste Währung ist, haben wir die Republi
           <br />
         ) : (
           <>
-            <Interaction.H3 style={{ marginBottom: '17px' }}>
+            <Interaction.H2 style={{ marginTop: 40, marginBottom: 0 }}>
               {t('marketing/offers/title')}
-            </Interaction.H3>
+            </Interaction.H2>
 
             <Accordion
               compact

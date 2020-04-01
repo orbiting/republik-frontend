@@ -1,5 +1,5 @@
 {
-  "updated": "2020-03-31T11:17:04.272Z",
+  "updated": "2020-04-01T14:49:32.251Z",
   "title": "live",
   "data": [
     {
@@ -80,7 +80,7 @@
     },
     {
       "key": "pages/index/pageTitle",
-      "value": "Republik"
+      "value": "Republik – das digitale Magazin"
     },
     {
       "key": "pages/index/title",
@@ -440,7 +440,11 @@
     },
     {
       "key": "marketing/join/ABO/button/label",
-      "value": "Jahresmitgliedschaft CHF 240"
+      "value": "Jahresmitgliedschaft"
+    },
+    {
+      "key": "marketing/join/MONTHLY_ABO/button/label",
+      "value": "Monatsabo für 22.–"
     },
     {
       "key": "marketing/claim/link",
@@ -6524,7 +6528,7 @@
     },
     {
       "key": "Trial/Page/disabled/body",
-      "value": "Im März gibt es nicht die Möglichkeit, 14 Tage umsonst probezulesen. Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
+      "value": "Momentan überarbeiten wir das Probelesen. Probelesen ist daher zur Zeit nur möglich via Gutscheincode oder wenn jemand sein Abo mit Ihnen teilt. Haben Sie Fragen oder hätten gerne einen Gutscheincode? Melden Sie sich bei kontakt@republik.ch. Und: Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
     },
     {
       "key": "Trial/Page/disabled/button",
@@ -6887,8 +6891,12 @@
       "value": "Meine Rubriken"
     },
     {
-      "key": "Notifications/settings/formats/link",
-      "value": "Rubriken entdecken und abonnieren?"
+      "key": "Notifications/settings/formats/show",
+      "value": "Alle anzeigen"
+    },
+    {
+      "key": "Notifications/settings/formats/hide",
+      "value": "Weniger anzeigen"
     },
     {
       "key": "Notifications/settings/formats/summary/0",

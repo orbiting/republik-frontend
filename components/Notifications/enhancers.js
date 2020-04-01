@@ -112,20 +112,20 @@ export const notificationsQuery = gql`
   ${subInfo}
 `
 
-export const mySubscriptions = gql`
-  query mySubscriptions {
-    me {
-      id
-      subscribedTo(objectType: Document) {
-        nodes {
-          ...subInfo
-          object {
-            __typename
-            ... on Document {
-              id
-              meta {
-                title
-              }
+export const possibleSubscriptions = gql`
+  query getSubscriptions {
+    sections: documents(template: "section") {
+      nodes {
+        id
+        repoId
+        meta {
+          title
+        }
+        formats: linkedDocuments(feed: true) {
+          nodes {
+            id
+            subscribedByMe {
+              ...subInfo
             }
           }
         }

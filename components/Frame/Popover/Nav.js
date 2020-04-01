@@ -274,13 +274,7 @@ const Nav = ({
             >
               Komplizen
             </NavLink>
-            <NavLink
-              route='crowdfunding2'
-              active={active}
-              closeHandler={closeHandler}
-            >
-              {t('nav/crowdfunding2')}
-            </NavLink>
+            <br />
             <NavLink
               inline
               route='meta'

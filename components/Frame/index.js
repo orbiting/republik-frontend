@@ -99,7 +99,8 @@ const Index = ({
   onSearchClick,
   footer = true,
   pullable,
-  dark
+  dark,
+  joke
 }) => (
   <HeaderHeightProvider config={HEADER_HEIGHT_CONFIG}>
     <ColorContext.Provider value={dark && colors.negative}>
@@ -123,6 +124,7 @@ const Index = ({
             dark={dark && !inNativeIOSApp}
             me={me}
             cover={cover}
+            joke={joke}
             onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
             primaryNavExpanded={primaryNavExpanded}
             secondaryNav={secondaryNav}
@@ -161,8 +163,4 @@ const Index = ({
   </HeaderHeightProvider>
 )
 
-export default compose(
-  withMe,
-  withT,
-  withInNativeApp
-)(Index)
+export default compose(withMe, withT, withInNativeApp)(Index)

@@ -20,6 +20,7 @@ import Pullable from './Pullable'
 
 import Search from 'react-icons/lib/md/search'
 import BackIcon from '../Icons/Back'
+import JokeLogo from './JokeLogo'
 
 import { shouldIgnoreClick } from '../Link/utils'
 
@@ -293,7 +294,8 @@ class Header extends Component {
       inNativeIOSApp,
       isMember,
       headerAudioPlayer: HeaderAudioPlayer,
-      pullable = true
+      pullable = true,
+      joke
     } = this.props
     const { backButton, renderSecondaryNav } = this.state
 
@@ -366,7 +368,11 @@ class Header extends Component {
                     }
                   }}
                 >
-                  <Logo fill={logoFill} />
+                  {joke ? (
+                    <JokeLogo fill={logoFill} />
+                  ) : (
+                    <Logo fill={logoFill} />
+                  )}
                 </a>
               </div>
               <div

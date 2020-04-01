@@ -27,7 +27,7 @@ const IndexPage = ({ t, isMember, router }) => {
     url: `${PUBLIC_BASE_URL}/`
   }
   return (
-    <Frame raw meta={meta}>
+    <Frame joke raw meta={meta}>
       <Marketing />
     </Frame>
   )

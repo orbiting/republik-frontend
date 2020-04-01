@@ -45,8 +45,6 @@ import { buttonStyles, sharedStyles } from './styles'
 import ErrorMessage from '../ErrorMessage'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
-import DynamicComponent from '@project-r/styleguide/lib/components/DynamicComponent'
-
 const query = gql`
   query marketingMembershipStats {
     meGuidance: me {
@@ -191,11 +189,7 @@ const MarketingPage = props => {
       {!loading && meGuidance && !hasActiveMembership && !inNativeIOSApp && (
         <UserGuidance />
       )}
-      <DynamicComponent
-        loaderProps={{ style: { minHeight: 'calc(60vh)' } }}
-        src='https://cdn.repub.ch/s3/republik-assets/dynamic-components/101-reasons/index.js?v=1.April'
-      />
-      {false && !error && (
+      {!error && (
         <div {...styles.overviewOverflow}>
           <div {...styles.overviewContainer}>
             <Container
@@ -347,8 +341,8 @@ Wir bedanken uns an dieser Stelle auch bei unseren 22’000 Mitgliedern und Abon
           </Interaction.P>
           <NewsletterSignUp black skipBox free name='COVID19' />
         </div>
-        {md(mdComponents)`
 
+        {md(mdComponents)`
 <br />
 
 ## Was ist die Republik?

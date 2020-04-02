@@ -2,16 +2,23 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
 
-const { BUNDLE_ANALYZE, NODE_ENV, CDN_FRONTEND_BASE_URL } = process.env
+const { NODE_ENV, CDN_FRONTEND_BASE_URL } = process.env
 
 module.exports = withBundleAnalyzer({
-  webpack: (config, { dev }) => {
+  webpack: config => {
     config.externals = config.externals || {}
     config.externals['lru-cache'] = 'lru-cache'
     config.externals['react-dom/server'] = 'react-dom/server'
 
     const entryFactory = config.entry
     const polyfillPath = './lib/polyfill.js'
+
+    const alias = Object.assign({}, config.resolve.alias)
+    delete alias.url
+    config.resolve = {
+      ...config.resolve,
+      alias
+    }
 
     config.entry = async () => {
       const entries = await entryFactory()

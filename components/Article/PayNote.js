@@ -500,7 +500,9 @@ export const PayNote = compose(
       <div
         {...styles.banner}
         style={{
-          backgroundColor: isBefore ? colors.error : colors.primaryBg
+          backgroundColor: isBefore
+            ? colors.negative.primaryBg
+            : colors.primaryBg
         }}
       >
         <Center>

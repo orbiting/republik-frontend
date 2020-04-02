@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-01T14:49:32.251Z",
+  "updated": "2020-04-02T22:24:30.421Z",
   "title": "live",
   "data": [
     {
@@ -359,6 +359,10 @@
       "value": "Sie haben einen Gutschein? {claimLink}"
     },
     {
+      "key": "marketing/overview/title",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
+    },
+    {
       "key": "marketing/community/title/plain",
       "value": "Unsere Verlegerinnen und Verleger"
     },
@@ -368,15 +372,11 @@
     },
     {
       "key": "marketing/community/defaultCount",
-      "value": "Über 17’000"
+      "value": "Über 22’000"
     },
     {
       "key": "marketing/community/link",
       "value": "Zur Community"
-    },
-    {
-      "key": "marketing/employees/more",
-      "value": "Zum Impressum"
     },
     {
       "key": "marketing/signup/title",
@@ -389,38 +389,6 @@
     {
       "key": "marketing/signup/button/label",
       "value": "Anmelden"
-    },
-    {
-      "key": "marketing/preview/prestitial/noMembership",
-      "value": "Danke für Ihr Interesse an der Republik! Hier wie versprochen unser Musterköfferchen. Wir wünschen eine anregende Lektüre – und würden uns freuen, wenn Sie an Bord kommen. {link}."
-    },
-    {
-      "key": "marketing/preview/prestitial/noMembership/link",
-      "value": "Hier geht es zu unseren Angeboten"
-    },
-    {
-      "key": "marketing/preview/prestitial/withMembership",
-      "value": "Hoppla! Sie haben ja bereits ein Abo und können sich in der Republik nach Herzenslust umsehen. "
-    },
-    {
-      "key": "marketing/preview/prestitial/hasPreview",
-      "value": "Schön, Sie wiederzusehen. Diese Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit Hunderten von Artikeln, Tendenz steigend. Willkommen!"
-    },
-    {
-      "key": "marketing/preview/prestitial/hasPreview/link",
-      "value": "Wie wärs mit einem Abonnement"
-    },
-    {
-      "key": "marketing/preview/page/pageTitle",
-      "value": "Die Republik Probe lesen"
-    },
-    {
-      "key": "marketing/preview/page/title",
-      "value": "Die Republik Probe lesen"
-    },
-    {
-      "key": "marketing/preview/page/description",
-      "value": "Melden Sie sich an, um kostenlos eine kleine Auswahl unserer Artikel zu lesen."
     },
     {
       "key": "marketing/offers/students",
@@ -461,186 +429,6 @@
     {
       "key": "marketing/monthly/button/label",
       "value": "Monats-Abo CHF 22"
-    },
-    {
-      "key": "marketing/cards/0/title",
-      "value": "Datenjournalismus"
-    },
-    {
-      "key": "marketing/cards/0/subtitle",
-      "value": "Eine Grafik sagt mehr als 1000 Worte. In der Republik wöchentlich."
-    },
-    {
-      "key": "marketing/cards/1/title",
-      "value": "Briefings"
-    },
-    {
-      "key": "marketing/cards/1/subtitle",
-      "value": "Die wichtigsten Aktualitäten der Woche. Knapp, präzis und verständlich."
-    },
-    {
-      "key": "marketing/cards/2/title",
-      "value": "Justiz"
-    },
-    {
-      "key": "marketing/cards/2/subtitle",
-      "value": "Die Justiz muss kritisiert werden. Der Rechtsstaat muss verteidigt werden. Wir tun beides, jede Woche."
-    },
-    {
-      "key": "marketing/cards/3/title",
-      "value": "Digitalisierung"
-    },
-    {
-      "key": "marketing/cards/3/subtitle",
-      "value": "Damit wir als Gesellschaft entscheiden können, wohin wir uns entwickeln."
-    },
-    {
-      "key": "marketing/cards/4/title",
-      "value": "Klimawandel"
-    },
-    {
-      "key": "marketing/cards/4/subtitle",
-      "value": "Wir wollen einen Beitrag leisten, damit die richtigen Lösungen gefunden werden."
-    },
-    {
-      "key": "marketing/cards/5/title",
-      "value": "Gespräche"
-    },
-    {
-      "key": "marketing/cards/5/subtitle",
-      "value": "Wir hören zu. Und fragen nach."
-    },
-    {
-      "key": "marketing/cards/6/title",
-      "value": "Investigativ"
-    },
-    {
-      "key": "marketing/cards/6/subtitle",
-      "value": "Was wir nicht wissen, können wir nicht ändern."
-    },
-    {
-      "key": "marketing/cards/7/title",
-      "value": "Bundeshaus"
-    },
-    {
-      "key": "marketing/cards/7/subtitle",
-      "value": "Hier laufen die Fäden der Schweiz zusammen. Wir schauen, wer sie zieht."
-    },
-    {
-      "key": "marketing/cards/8/title",
-      "value": "Demokratie"
-    },
-    {
-      "key": "marketing/cards/8/subtitle",
-      "value": "Ist das beste aller schlechten Systeme. Damit es das bleibt."
-    },
-    {
-      "key": "marketing/cards/9/title",
-      "value": "Reportagen"
-    },
-    {
-      "key": "marketing/cards/9/subtitle",
-      "value": "Weil das Grosse im Kleinen stattfindet."
-    },
-    {
-      "key": "marketing/cards/10/title",
-      "value": "Feuilleton"
-    },
-    {
-      "key": "marketing/cards/10/subtitle",
-      "value": "Ohne Kultur keine Demokratie. Und ohne Kritik kein Diskurs."
-    },
-    {
-      "key": "marketing/cards/11/title",
-      "value": "International"
-    },
-    {
-      "key": "marketing/cards/11/subtitle",
-      "value": "Die grössten Herausforderungen kennen keine Grenzen."
-    },
-    {
-      "key": "marketing/feuilleton/title",
-      "value": "Kulturjournalismus mit&nbsp;Relevanz<br />Für eine Kritik der Gegenwart"
-    },
-    {
-      "key": "marketing/feuilleton/lead",
-      "value": "Herzlich willkommen! Die Republik ist ein digitales Magazin, ihr Feuilleton steht für Kulturkritik auf der Höhe unserer Zeit. Die Republik wird von ihren Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
-    },
-    {
-      "key": "marketing/feuilleton/what/title",
-      "value": "Was?"
-    },
-    {
-      "key": "marketing/feuilleton/what/text",
-      "value": "Kritik: Wir rezensieren nicht entlang des Premierenkalenders und der Bestsellerliste. Besprochen wird nur, was wirklich wichtig ist. Von den klassischen Künsten bis zu Pop, Foto, Games.<br /><br />\nÜberblick: Die Fülle an Events und neuen Werken ist erschlagend. Wir schaffen Überblick durch substanzielle Hintergrundtexte.<br /><br />\nDebatte: Unser Fokus liegt auf den gesellschaftlichen Fragen der Gegenwart. Darauf suchen wir Antworten, die tiefer dringen.\n\n"
-    },
-    {
-      "key": "marketing/feuilleton/what/quote/format",
-      "value": "Für eine Kultur der Kritik"
-    },
-    {
-      "key": "marketing/feuilleton/what/quote/text",
-      "value": "«Kunst stellt uns vor Rätsel, die wir ergründen – und die uns ergründen.»"
-    },
-    {
-      "key": "marketing/feuilleton/what/quote/source",
-      "value": "Barbara Villiger Heilig"
-    },
-    {
-      "key": "marketing/feuilleton/why/title",
-      "value": "Warum?"
-    },
-    {
-      "key": "marketing/feuilleton/why/text",
-      "value": "Die Verlage haben flächendeckend ihre Feuilletons abgebaut. Doch eine kritische Öffentlichkeit ist auf Reflexion angewiesen – heute mehr denn je.<br /><br />\nGuter Kulturjournalismus stellt die Ideen auf die Probe, die in der Gesellschaft zirkulieren – und sich in den Künsten widerspiegeln. Wir versuchen, den Blick auf das zu lenken, was besonders faszinierend und relevant ist – und auf das, was vehementen Widerspruch verdient."
-    },
-    {
-      "key": "marketing/feuilleton/why/quote/format",
-      "value": "Kulturjournalismus. Ein Anti-Manifest"
-    },
-    {
-      "key": "marketing/feuilleton/why/quote/text",
-      "value": "«So manches Feuilleton ist nur noch die Arena eines permanenten Kulturkampfes.»"
-    },
-    {
-      "key": "marketing/feuilleton/why/quote/source",
-      "value": "Daniel Binswanger"
-    },
-    {
-      "key": "marketing/feuilleton/audience/title",
-      "value": "Für wen?"
-    },
-    {
-      "key": "marketing/feuilleton/audience/text",
-      "value": "Für die, die von Kulturkritik mehr erwarten als «Daumen hoch / Daumen runter»-Rezensionen.<br /><br />\nDie, für die Kultur mehr als «l’art pour l’art» ist – die aber darauf bestehen, dass Kunst ihren eigenen Gesetzen folgt.<br /><br />\nFür alle, denen die grossen Fragen der Gegenwart nicht gleichgültig sind. Und die ahnen, dass wir für geistreiche Antworten auch die Kunst und ihre Kritik brauchen werden."
-    },
-    {
-      "key": "marketing/feuilleton/who/title",
-      "value": "Wer wir sind"
-    },
-    {
-      "key": "marketing/feuilleton/who/text",
-      "value": "Die Feuilleton-Redaktion der Republik, das sind: Barbara Villiger Heilig, Daniel Binswanger und Daniel Graf. Doch ein gutes Feuilleton ist viel mehr als die Redaktion. Wir wollen den klügsten Köpfen der Schweiz eine Plattform bieten und die interessantesten Stimmen der internationalen Debatten hier versammeln. Und mit Ihnen, den Verlegerinnen und Verlegern, ihre Ideen diskutieren."
-    },
-    {
-      "key": "marketing/feuilleton/who/quote/format",
-      "value": "Wir Rezensenten"
-    },
-    {
-      "key": "marketing/feuilleton/who/quote/text",
-      "value": "«Kritik ist Ausdruck aktiver Zeitgenossenschaft.»"
-    },
-    {
-      "key": "marketing/feuilleton/who/quote/source",
-      "value": "Daniel Graf"
-    },
-    {
-      "key": "marketing/feuilleton/faq/title",
-      "value": "Häufig gestellte Fragen"
-    },
-    {
-      "key": "marketing/feuilleton/faq/link",
-      "value": "Weitere Fragen"
     },
     {
       "key": "sections/pageTitle",
@@ -3803,14 +3591,6 @@
       "value": "Ich möchte Wünsche, Kritik oder Lob zur Republik abgeben."
     },
     {
-      "key": "feedback/link/topStories/badgeText",
-      "value": "Experiment"
-    },
-    {
-      "key": "feedback/link/topStories/text",
-      "value": "Die Welt ist voll mit gutem Journalismus. Teilen Sie ihn!"
-    },
-    {
       "key": "feedback/article/headline",
       "value": "Zu welchem Stück wollen Sie einen Beitrag schreiben oder lesen?"
     },
@@ -6227,18 +6007,6 @@
       "value": "<b>Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!</b> Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
     },
     {
-      "key": "marketing/vbz/poster/hint",
-      "value": "Die Republik entdecken: Lesen Sie jetzt 5 ausgewählte Beiträge kostenlos."
-    },
-    {
-      "key": "marketing/vbz/overlay/title",
-      "value": "5 ausgewählte Beiträge für Sie"
-    },
-    {
-      "key": "marketing/vbz/overlay/footnote",
-      "value": "Diese Beiträge sind Teil unserer <a href='https://www.republik.ch/2019/11/12/wollen-sie-es-wirklich-wissen'>aktuellen Bekanntmachungskampagne</a> im ÖV und digital."
-    },
-    {
       "key": "article/payNote/191108-v1/before",
       "value": "<b>Kommen Sie zur Republik!</b> Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
     },
@@ -6301,30 +6069,6 @@
     {
       "key": "Trial/Page/unauthorized/wseww/intro",
       "value": "14 Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. 14 Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
-    },
-    {
-      "key": "marketing/lead/title",
-      "value": "Ein Projekt für die Zukunft des Journalismus"
-    },
-    {
-      "key": "marketing/lead/p1",
-      "value": "Sie brauchen vernünftige Informationen, um vernünftige Entscheidungen zu treffen."
-    },
-    {
-      "key": "marketing/lead/p2",
-      "value": "Guter Journalismus bringt interessante Ideen, kluge Köpfe und verschiedene Blickwinkel zusammen. Und schafft so eine Basis für eine funktionierende Demokratie."
-    },
-    {
-      "key": "marketing/lead/p3",
-      "value": "Die Republik steht für Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor den Menschen."
-    },
-    {
-      "key": "marketing/lead/p4",
-      "value": "Die Schweiz ist erfolgreich, wenn Liberale und Linke, Progressive und Konservative gemeinsam um Lösungen ringen. Deshalb ist die Republik politisch nicht festgelegt, aber keineswegs neutral."
-    },
-    {
-      "key": "marketing/overview/title",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
     },
     {
       "key": "package/ABO/description",
@@ -6860,7 +6604,7 @@
     },
     {
       "key": "Notifications/empty/paragraph",
-      "value": "Sie haben noch keine Benachrichtigungen. Im <a href=\"/einrichten?section=notifications\">Einrichtungsassistent</a> finden Sie einige Rubriken die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
+      "value": "Sie haben noch keine Benachrichtigungen. In <a href=\"/benachrichtigungen/einstellungen\">Ihren Einstellungen</a> finden Sie Rubriken die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
     },
     {
       "key": "Notifications/settings",
@@ -6993,6 +6737,10 @@
     {
       "key": "SubscribeDebate/option/NONE/label",
       "value": "Keine"
+    },
+    {
+      "key": "feuilleton/deprecatedPage",
+      "value": "Diese Seite wird nicht mehr aktualisiert. Sie finden die aktuellen Kulturbeiträge im <a href=\"/\">Magazin</a> und über die <a href=\"/rubriken\">Rubriken</a>."
     }
   ]
 }

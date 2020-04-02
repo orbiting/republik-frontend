@@ -13,7 +13,9 @@ const styles = {
   })
 }
 
-const SECTIONS_ALWAYS_SHOWN = ONBOARDING_SECTIONS_REPO_IDS.split(',')
+const SECTIONS_ALWAYS_SHOWN = ONBOARDING_SECTIONS_REPO_IDS
+  ? ONBOARDING_SECTIONS_REPO_IDS.split(',')
+  : []
 
 const FormatCheckboxes = ({ formats }) => (
   <div {...styles.checkboxes}>

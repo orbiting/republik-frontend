@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-02T20:04:38.008Z",
+  "updated": "2020-04-02T21:17:06.356Z",
   "title": "live",
   "data": [
     {
@@ -357,6 +357,10 @@
     {
       "key": "marketing/claim",
       "value": "Sie haben einen Gutschein? {claimLink}"
+    },
+    {
+      "key": "marketing/overview/title",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
     },
     {
       "key": "marketing/community/title/plain",
@@ -6593,6 +6597,6 @@
     {
       "key": "feuilleton/deprecatedPage",
       "value": "Diese Seite wird nicht mehr aktualisiert. Sie finden die aktuellen Kulturbeiträge im <a href=\"/\">Magazin</a> und über die <a href=\"/rubriken\">Rubriken</a>."
-     }
+    }
   ]
 }

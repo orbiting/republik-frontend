@@ -11,7 +11,7 @@ import withMembership, {
   UnauthorizedPage
 } from '../components/Auth/withMembership'
 
-import { Interaction, A, Loader } from '@project-r/styleguide'
+import { Interaction, A, Loader, RawHtml } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -26,11 +26,13 @@ const FeuilletonPage = props => {
         renderBefore={() => {
           return (
             <Box style={{ padding: 14, textAlign: 'center' }}>
-              <Interaction.P
-                dangerouslySetInnerHTML={{
-                  __html: t('feuilleton/deprecatedPage')
-                }}
-              />
+              <Interaction.P>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('feuilleton/deprecatedPage')
+                  }}
+                />
+              </Interaction.P>
             </Box>
           )
         }}

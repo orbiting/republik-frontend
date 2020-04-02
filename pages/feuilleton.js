@@ -2,37 +2,55 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
+import Box from '../components/Frame/Box'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
-import Marketing from '../components/Marketing/Feuilleton'
 import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
 import withMembership, {
   UnauthorizedPage
 } from '../components/Auth/withMembership'
 
+import { Interaction, A, Loader } from '@project-r/styleguide'
+
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const FeuilletonPage = props => {
-  const { t, me, router, isMember, inNativeIOSApp } = props
+  const { t, me, router, isMember, inNativeIOSApp, serverContext } = props
 
   if (isMember) {
     // does it's own meta
-    return <Front extractId={router.query.extractId} {...props} />
+    return (
+      <Front
+        extractId={router.query.extractId}
+        renderBefore={() => {
+          return (
+            <Box style={{ padding: 14, textAlign: 'center' }}>
+              <Interaction.P
+                dangerouslySetInnerHTML={{
+                  __html: t('feuilleton/deprecatedPage')
+                }}
+              />
+            </Box>
+          )
+        }}
+        {...props}
+      />
+    )
   }
   if (inNativeIOSApp) {
     return <UnauthorizedPage me={me} />
   }
-  const meta = {
-    pageTitle: t('pages/feuilleton/pageTitle'),
-    title: t('pages/feuilleton/title'),
-    description: t('pages/feuilleton/description'),
-    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/feuilleton.jpg`,
-    url: `${PUBLIC_BASE_URL}/feuilleton`
+  if (serverContext) {
+    serverContext.res.redirect(302, '/')
+    serverContext.res.end()
+  } else {
+    router.replace('/')
   }
+
   return (
-    <Frame raw meta={meta}>
-      <Marketing />
+    <Frame>
+      <Loader />
     </Frame>
   )
 }

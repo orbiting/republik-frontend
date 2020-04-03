@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-02T22:24:30.421Z",
+  "updated": "2020-04-03T12:44:55.980Z",
   "title": "live",
   "data": [
     {
@@ -6604,7 +6604,7 @@
     },
     {
       "key": "Notifications/empty/paragraph",
-      "value": "Sie haben noch keine Benachrichtigungen. In <a href=\"/benachrichtigungen/einstellungen\">Ihren Einstellungen</a> finden Sie Rubriken die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
+      "value": "Sie haben noch keine Benachrichtigungen. In <a href=\"/benachrichtigungen/einstellungen\">Ihren Einstellungen</a> finden Sie Rubriken, die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
     },
     {
       "key": "Notifications/settings",
@@ -6655,14 +6655,6 @@
       "value": "Sie haben {count} Rubriken abonniert:"
     },
     {
-      "key": "Notifications/settings/formats/empty",
-      "value": "Sie haben noch keine Rubrik abonniert."
-    },
-    {
-      "key": "Notifications/settings/formats/empty/link",
-      "value": "Unseres Einrichtungsassistent bietet Hilfe."
-    },
-    {
       "key": "Notifications/settings/discussion",
       "value": "Debattenbeiträge"
     },
@@ -6676,7 +6668,7 @@
     },
     {
       "key": "account/discussionNotificationChannels/intro",
-      "value": "Ich möchte Debattenbenachrichtungen auf folgendem Weg erhalten:"
+      "value": "Ich möchte Debattenbenachrichtigungen auf folgendem Weg erhalten:"
     },
     {
       "key": "Onboarding/Sections/Subscriptions/heading",
@@ -6684,11 +6676,11 @@
     },
     {
       "key": "Onboarding/Sections/Subscriptions/preamble",
-      "value": "Sie können Rubriken abonnieren. Sobald Sie die App installiert haben bekommen Sie Benachrichtigungen über neue Beitrag direkt auf Ihr Telefon. Sie können auch die Newsletter als Benachrichtigung abonnieren."
+      "value": "Sie können Rubriken abonnieren. Sobald Sie die App installiert haben, bekommen Sie Benachrichtigungen über neue Beiträge direkt auf Ihr Telefon. Sie können auch die Newsletter als Benachrichtigung abonnieren."
     },
     {
       "key": "Onboarding/Sections/Subscriptions/hint",
-      "value": "Die Liste {link} finden Sie jederzeit in dem Sie auf die kleine Glocke oben rechts drücken. Dort können Sie auch diese Einstellungen anpassen."
+      "value": "Die Liste {link} finden Sie jederzeit, indem Sie auf die kleine Glocke oben rechts drücken. Dort können Sie auch diese Einstellungen anpassen."
     },
     {
       "key": "Onboarding/Sections/Subscriptions/hint/link",

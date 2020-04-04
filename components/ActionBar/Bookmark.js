@@ -26,7 +26,12 @@ const styles = {
     border: 'none',
     padding: 0,
     cursor: 'pointer',
-    marginBottom: '-1px'
+    marginBottom: '-1px',
+    '@media(hover)': {
+      '&:hover': {
+        opacity: 0.6
+      }
+    }
   })
 }
 

@@ -33,22 +33,18 @@ const SubscribeMenu = ({
 
   const icon = <SubscribeIcon animate={animate} isSubscribed={isSubscribed} />
 
-  const menu = (
-    <SubscribeCallout
-      discussionId={discussionId}
-      subscription={subscription}
-      setAnimate={setAnimate}
-    />
-  )
-
   return (
     <div {...containerStyle} style={style}>
       <CalloutMenu
         icon={icon}
-        menu={menu}
-        leftAligned={leftAligned}
-        open={router.query && !!router.query.mute}
-      />
+        initiallyOpen={router.query && !!router.query.mute}
+      >
+        <SubscribeCallout
+          discussionId={discussionId}
+          subscription={subscription}
+          setAnimate={setAnimate}
+        />
+      </CalloutMenu>
     </div>
   )
 }

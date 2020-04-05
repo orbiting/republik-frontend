@@ -46,7 +46,7 @@ import ErrorMessage from '../ErrorMessage'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 const query = gql`
-  query marketingMembershipStats {
+  query MarketingPage {
     meGuidance: me {
       id
       activeMembership {
@@ -55,9 +55,6 @@ const query = gql`
       accessGrants {
         id
       }
-    }
-    membershipStats {
-      count
     }
     employees(withBoosted: true, shuffle: 50) {
       title
@@ -164,7 +161,7 @@ const MarketingPage = props => {
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
   const {
     t,
-    data: { loading, error, meGuidance, membershipStats, front, employees },
+    data: { loading, error, meGuidance, front, employees },
     inNativeApp,
     inNativeIOSApp,
     router
@@ -510,11 +507,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
         </div>
 
         <Interaction.H2 style={{ marginBottom: 10 }}>
-          {t('marketing/community/title', {
-            count: membershipStats
-              ? countFormat(membershipStats.count)
-              : t('marketing/community/defaultCount')
-          })}
+          {t('marketing/community/title/plain')}
         </Interaction.H2>
 
         <div style={{ margin: '20px 0' }}>

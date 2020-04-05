@@ -46,7 +46,9 @@ const SubscribeDocuments = ({ t, data: { sections } }) => {
 
   const sectionNodes = sections && sections.nodes
   const sectionsWithFormat = React.useMemo(() => {
-    return sectionNodes.filter(s => s.formats.nodes.length > 0)
+    return sectionNodes
+      ? sectionNodes.filter(s => s.formats.nodes.length > 0)
+      : []
   }, [sectionNodes])
 
   const [visibleSections, setVisibleSections] = useState(

@@ -33,37 +33,40 @@ const FormatCheckboxes = ({ formats }) => (
 const getSubscriptionCount = section =>
   section.formats.nodes.filter(f => f.subscribedByMe.active).length
 
+const getVisibleSections = (sections, prevShown = []) =>
+  sections.filter(
+    section =>
+      prevShown.find(s => s.id === section.id) ||
+      getSubscriptionCount(section) ||
+      SECTIONS_ALWAYS_SHOWN.find(repoId => repoId === section.repoId)
+  )
+
 const SubscribeDocuments = ({ t, data: { sections } }) => {
   const [showAll, setShowAll] = useState(false)
-  const [sectionsWithFormat, setSectionsWithFormat] = useState([])
-  const [shownSections, setShownSections] = useState([])
-  const [totalSubs, setTotalSubs] = useState(0)
+
+  const sectionNodes = sections && sections.nodes
+  const sectionsWithFormat = React.useMemo(() => {
+    return sectionNodes.filter(s => s.formats.nodes.length > 0)
+  }, [sectionNodes])
+
+  const [visibleSections, setVisibleSections] = useState(
+    getVisibleSections(sectionsWithFormat || [])
+  )
 
   useEffect(() => {
-    if (!sections || !sections.nodes) return
-    setSectionsWithFormat(
-      sections.nodes.filter(s => s.formats.nodes.length > 0)
-    )
-  }, [sections])
-
-  useEffect(() => {
-    setTotalSubs(
-      sectionsWithFormat.reduce(
-        (reducer, section) => reducer + getSubscriptionCount(section),
-        0
-      )
-    )
-    setShownSections(
-      sectionsWithFormat.filter(
-        section =>
-          shownSections.find(s => s.id === section.id) ||
-          getSubscriptionCount(section) ||
-          SECTIONS_ALWAYS_SHOWN.find(repoId => repoId === section.repoId)
-      )
+    setVisibleSections(prevShown =>
+      getVisibleSections(sectionsWithFormat, prevShown)
     )
   }, [sectionsWithFormat])
 
-  if (!sectionsWithFormat.length) return null
+  const totalSubs =
+    sectionsWithFormat &&
+    sectionsWithFormat.reduce(
+      (reducer, section) => reducer + getSubscriptionCount(section),
+      0
+    )
+
+  if (!sectionsWithFormat || !sectionsWithFormat.length) return null
 
   return (
     <>
@@ -72,7 +75,7 @@ const SubscribeDocuments = ({ t, data: { sections } }) => {
           count: totalSubs
         })}
       </Interaction.P>
-      {(showAll ? sectionsWithFormat : shownSections).map(section => (
+      {(showAll ? sectionsWithFormat : visibleSections).map(section => (
         <div key={section.id}>
           <div
             style={{
@@ -84,11 +87,19 @@ const SubscribeDocuments = ({ t, data: { sections } }) => {
           <FormatCheckboxes formats={section.formats.nodes} />
         </div>
       ))}
-      <button {...plainButtonRule} onClick={() => setShowAll(!showAll)}>
-        <A>
-          {t(`Notifications/settings/formats/${showAll ? 'hide' : 'show'}`)}
-        </A>
-      </button>
+      {sectionsWithFormat.length !== visibleSections.length && (
+        <button
+          {...plainButtonRule}
+          onClick={() => {
+            setVisibleSections(getVisibleSections(sectionsWithFormat))
+            setShowAll(!showAll)
+          }}
+        >
+          <A>
+            {t(`Notifications/settings/formats/${showAll ? 'hide' : 'show'}`)}
+          </A>
+        </button>
+      )}
     </>
   )
 }

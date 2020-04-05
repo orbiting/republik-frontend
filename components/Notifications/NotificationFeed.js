@@ -5,7 +5,9 @@ import {
   Center,
   RawHtml,
   linkRule,
-  mediaQueries
+  mediaQueries,
+  Label,
+  fontStyles
 } from '@project-r/styleguide'
 import StickySection from '../Feed/StickySection'
 import CommentNotification from './CommentNotification'
@@ -42,6 +44,22 @@ const styles = {
   reloadBannerButton: css({
     cursor: 'pointer',
     textDecoration: 'underline'
+  }),
+  unpublished: css({
+    borderTop: `1px solid ${colors.text}`,
+    margin: 0,
+    paddingTop: 10,
+    paddingBottom: 40
+  }),
+  unpublishedTitle: css({
+    ...fontStyles.sansSerifMedium14,
+    [mediaQueries.mUp]: fontStyles.sansSerifMedium16,
+    margin: '5px 0 3px'
+  }),
+  unpublishedBody: css({
+    ...fontStyles.serifRegular14,
+    [mediaQueries.mUp]: fontStyles.serifRegular16,
+    margin: 0
   })
 }
 
@@ -152,6 +170,27 @@ export default withT(
                   label={key}
                 >
                   {values.map((node, j) => {
+                    if (
+                      !node.object ||
+                      (node.object.__typename === 'Comment' &&
+                        !node.object.published)
+                    ) {
+                      return (
+                        <div {...styles.unpublished}>
+                          <Label>{t('Notifications/unpublished/label')}</Label>
+                          {node.content && (
+                            <>
+                              <h3 {...styles.unpublishedTitle}>
+                                {node.content.title}
+                              </h3>
+                              <p {...styles.unpublishedBody}>
+                                {node.content.body}
+                              </p>
+                            </>
+                          )}
+                        </div>
+                      )
+                    }
                     return node.object.__typename === 'Document' ? (
                       <DocumentNotification
                         isNew={isNew(node)}

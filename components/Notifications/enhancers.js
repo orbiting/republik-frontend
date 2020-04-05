@@ -49,8 +49,6 @@ export const notificationsQuery = gql`
           }
           ... on Comment {
             id
-            content
-            text
             preview(length: 120) {
               string
               more
@@ -74,14 +72,21 @@ export const notificationsQuery = gql`
               id
               title
               path
+              isBoard
               document {
                 id
                 meta {
                   title
                   path
+                  credits
                   template
                   ownDiscussion {
                     id
+                    closed
+                  }
+                  linkedDiscussion {
+                    id
+                    path
                     closed
                   }
                 }

@@ -8,6 +8,7 @@ import withT from '../../lib/withT'
 
 const styles = {
   container: css({
+    minWidth: 180,
     '& h4': {
       margin: '0 0 12px',
       fontFamily: fontFamilies.sansSerifMedium,
@@ -15,7 +16,6 @@ const styles = {
     }
   }),
   settings: css({
-    whiteSpace: 'nowrap',
     margin: '5px 0 0'
   })
 }

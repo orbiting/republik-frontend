@@ -20,14 +20,7 @@ const styles = {
   })
 }
 
-const SubscribeMenu = ({
-  data,
-  router,
-  discussionId,
-  subscription,
-  leftAligned,
-  style
-}) => {
+const SubscribeMenu = ({ data, router, discussionId, subscription, style }) => {
   const [isSubscribed, setSubscribed] = useState(
     getSelectedDiscussionPreference(data) !== 'NONE'
   )

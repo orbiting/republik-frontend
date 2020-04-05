@@ -127,7 +127,7 @@ const FeedbackPage = props => {
               </Interaction.P>
             )}
             <br />
-            <SubscribeMenu discussionId={activeDiscussionId} leftAligned />
+            <SubscribeMenu discussionId={activeDiscussionId} />
             <FontSizeAdjust t={t} />
           </div>
         )}

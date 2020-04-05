@@ -124,7 +124,6 @@ const ActionBar = ({
           <SubscribeMenu
             subscription={subscription}
             style={{ marginRight: -1 }}
-            leftAligned
           />
         )}
         {icons.filter(Boolean).map((props, i) => (

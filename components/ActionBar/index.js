@@ -215,7 +215,6 @@ class ActionBar extends Component {
           )}
           {showSubscribe && subscription && (
             <SubscribeMenu
-              leftAligned
               discussionId={isDiscussion && ownDiscussion && ownDiscussion.id}
               subscription={subscription}
               style={{ marginRight: -2, marginLeft: 2 }}

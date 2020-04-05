@@ -2,24 +2,32 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import Notifications from '../components/Notifications'
-import { enforceMembership } from '../components/Auth/withMembership'
 import withT from '../lib/withT'
+import withMe from '../lib/apollo/withMe'
+import SignIn from '../components/Auth/SignIn'
+import { Interaction } from '@project-r/styleguide'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const NotificationsPage = ({ t }) => {
+const NotificationsPage = ({ t, me }) => {
   const meta = {
-    title: t('pages/notifications/settings/title'),
+    title: t('pages/notifications/title'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
   return (
-    <Frame raw meta={meta}>
-      <Notifications />
+    <Frame raw={!!me} meta={meta}>
+      {me ? (
+        <Notifications />
+      ) : (
+        <>
+          <Interaction.H1 style={{ marginBottom: 40 }}>
+            {t('pages/notifications/title')}
+          </Interaction.H1>
+          <SignIn />
+        </>
+      )}
     </Frame>
   )
 }
 
-export default compose(
-  enforceMembership(),
-  withT
-)(NotificationsPage)
+export default compose(withMe, withT)(NotificationsPage)

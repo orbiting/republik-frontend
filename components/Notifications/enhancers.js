@@ -31,7 +31,7 @@ export const notificationsQuery = gql`
       id
       discussionNotificationChannels
     }
-    notifications(first: 7, after: $after) {
+    notifications(first: 10, after: $after) {
       totalCount
       pageInfo {
         hasNextPage
@@ -100,11 +100,6 @@ export const notificationsQuery = gql`
           icon
         }
         channels
-        mailLogRecord {
-          email
-          id
-          status
-        }
       }
     }
   }

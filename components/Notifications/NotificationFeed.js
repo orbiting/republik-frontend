@@ -131,7 +131,7 @@ export default withT(
           onReload={onReload}
         />
         <Center {...styles.container}>
-          <div style={{ marginBottom: 80 }}>
+          <div style={{ marginBottom: 40 }}>
             <Interaction.H1 style={{ marginBottom: 20 }}>
               {isEmpty
                 ? t('Notifications/empty/title')

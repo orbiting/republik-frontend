@@ -2,26 +2,23 @@ import { css, merge } from 'glamor'
 import HasNotifications from 'react-icons/lib/md/notifications'
 import NoNotifications from 'react-icons/lib/md/notifications-none'
 import React, { useState, useEffect } from 'react'
-import { menuIconStyle } from '../Frame/Header'
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  ICON_BUTTON_WIDTH
-} from '../constants'
-import { colors, mediaQueries } from '@project-r/styleguide'
-import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
+
+import { colors, mediaQueries } from '@project-r/styleguide'
+
+import HeaderIconA from '../Frame/HeaderIconA'
+import { HEADER_ICON_SIZE } from '../constants'
+
+import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
+
 import { notificationSubscription, withNotificationCount } from './enhancers'
 import { containsUnread } from './index'
 
 const styles = {
-  notifications: css({
-    right: HEADER_HEIGHT_MOBILE + ICON_BUTTON_WIDTH,
-    [mediaQueries.mUp]: {
-      right: HEADER_HEIGHT + ICON_BUTTON_WIDTH + 5
-    }
-  }),
   unreadNotifications: css({
+    display: 'inline-block',
+    position: 'relative',
     '&:after': {
       content: ' ',
       width: 8,
@@ -30,12 +27,8 @@ const styles = {
       border: `1px solid ${colors.containerBg}`,
       background: 'red',
       position: 'absolute',
-      top: (HEADER_HEIGHT_MOBILE - ICON_BUTTON_WIDTH) / 2 + 1,
-      right: 2,
-      [mediaQueries.mUp]: {
-        top: (HEADER_HEIGHT - ICON_BUTTON_WIDTH) / 2 + 2,
-        right: 15
-      }
+      top: 2,
+      right: 2
     }
   })
 }
@@ -44,8 +37,7 @@ export default compose(
   withT,
   withNotificationCount
 )(({ t, countData: { notifications, subscribeToMore }, fill }) => {
-  const [hasUnread, setUnread] = useState(false)
-
+  const [hasUnread, setUnread] = useState(containsUnread(notifications))
   const subscribe = () =>
     subscribeToMore({
       document: notificationSubscription,
@@ -74,13 +66,12 @@ export default compose(
   const Icon = hasUnread ? HasNotifications : NoNotifications
 
   return (
-    <a
-      {...merge(menuIconStyle, styles.notifications)}
-      {...(hasUnread && styles.unreadNotifications)}
-      title={t('header/nav/notifications/aria')}
-      href='/benachrichtigungen'
-    >
-      <Icon fill={fill} size={ICON_BUTTON_WIDTH - 1} />
-    </a>
+    <Link route='subscriptions' passHref>
+      <HeaderIconA title={t('header/nav/notifications/aria')}>
+        <span {...(hasUnread && styles.unreadNotifications)}>
+          <Icon fill={fill} size={HEADER_ICON_SIZE} />
+        </span>
+      </HeaderIconA>
+    </Link>
   )
 })

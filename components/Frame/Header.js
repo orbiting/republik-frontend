@@ -26,34 +26,19 @@ import { shouldIgnoreClick } from '../Link/utils'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
+  HEADER_ICON_SIZE,
   ZINDEX_HEADER,
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE,
-  ICON_BUTTON_WIDTH
+  LOGO_PADDING_MOBILE
 } from '../constants'
+
+import HeaderIconA from './HeaderIconA'
+
 import NotificationIcon from '../Notifications/NotificationIcon'
 
 const TRANSITION_MS = 200
-
-export const menuIconStyle = css({
-  '@media print': {
-    display: 'none'
-  },
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  position: 'absolute',
-  overflow: 'hidden',
-  top: 0,
-  height: HEADER_HEIGHT_MOBILE - 2,
-  width: ICON_BUTTON_WIDTH,
-  [mediaQueries.mUp]: {
-    height: HEADER_HEIGHT - 2,
-    width: HEADER_HEIGHT - 2 - 10
-  }
-})
 
 const styles = {
   bar: css({
@@ -117,17 +102,25 @@ const styles = {
     right: 0,
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE - 2,
-    width: HEADER_HEIGHT_MOBILE - 2 + 5,
+    width: HEADER_HEIGHT_MOBILE - 2 + 1,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT - 2,
       width: HEADER_HEIGHT - 2 + 5
     }
   }),
-  menuIcons: menuIconStyle,
-  search: css({
-    right: HEADER_HEIGHT_MOBILE - 1,
+  menuIcons: css({
+    '@media print': {
+      display: 'none'
+    },
+    position: 'absolute',
+    overflow: 'hidden',
+    top: 0,
+    zIndex: 1,
+    right: HEADER_HEIGHT_MOBILE - 10,
+    height: HEADER_HEIGHT_MOBILE - 2,
     [mediaQueries.mUp]: {
-      right: HEADER_HEIGHT - 12 + 5
+      right: HEADER_HEIGHT - 12 + 5,
+      height: HEADER_HEIGHT - 2
     }
   }),
   secondary: css({
@@ -136,7 +129,7 @@ const styles = {
     left: 15,
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
-    right: `${HEADER_HEIGHT_MOBILE + ICON_BUTTON_WIDTH}px`,
+    right: `${HEADER_HEIGHT_MOBILE + HEADER_ICON_SIZE}px`,
     paddingTop: '10px',
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT,
@@ -431,19 +424,18 @@ class Header extends Component {
                   {renderSecondaryNav && secondaryNav}
                 </div>
               )}
-              {isMember && (
-                <>
-                  <NotificationIcon fill={textFill} />
-                  <a
-                    {...merge(styles.menuIcons, styles.search)}
+              <div {...styles.menuIcons}>
+                {me && <NotificationIcon fill={textFill} />}
+                {isMember && (
+                  <HeaderIconA
                     title={t('header/nav/search/aria')}
                     href='/suche'
                     onClick={goTo('/search', 'search')}
                   >
-                    <Search fill={textFill} size={ICON_BUTTON_WIDTH} />
-                  </a>
-                </>
-              )}
+                    <Search fill={textFill} size={HEADER_ICON_SIZE} />
+                  </HeaderIconA>
+                )}
+              </div>
               <div {...styles.hamburger} style={bgStyle}>
                 <Toggle
                   dark={dark}

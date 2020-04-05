@@ -12,14 +12,14 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
-import { P } from '../Account/Elements'
 import {
   A,
   Loader,
   InlineSpinner,
   Checkbox,
   Dropdown,
-  mediaQueries
+  mediaQueries,
+  Interaction
 } from '@project-r/styleguide'
 
 import {
@@ -28,10 +28,9 @@ import {
 } from '../Discussion/constants'
 import { withUpdateNotificationSettings } from '../Discussion/graphql/enhancers/withUpdateNotificationSettings'
 
+const { P } = Interaction
+
 const styles = {
-  headline: css({
-    margin: '80px 0 30px 0'
-  }),
   spinner: css({
     display: 'inline-block',
     height: 0,
@@ -138,9 +137,7 @@ class NotificationOptions extends Component {
 
           return (
             <Fragment>
-              <P style={{ marginTop: 20 }}>
-                {t('account/discussionNotificationChannels/intro')}
-              </P>
+              <P>{t('account/discussionNotificationChannels/intro')}</P>
               {DISCUSSION_NOTIFICATION_CHANNELS.map(channel => (
                 <p key={channel}>
                   <Checkbox

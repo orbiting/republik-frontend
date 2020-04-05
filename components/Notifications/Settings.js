@@ -40,26 +40,32 @@ export default compose(withT)(({ t }) => {
         </Link>
 
         <section {...styles.section}>
-          <Interaction.H2>{t('Notifications/settings/formats')}</Interaction.H2>
+          <H2 style={{ marginBottom: 10 }}>
+            {t('Notifications/settings/formats')}
+          </H2>
           <SubscribeDocuments />
         </section>
 
         <section {...styles.section}>
-          <H2>{t('Notifications/settings/discussion')}</H2>
+          <H2 style={{ marginBottom: 10 }}>
+            {t('Notifications/settings/discussion')}
+          </H2>
           <NotificationOptions />
         </section>
 
         <section {...styles.section}>
-          <H2>{t('account/newsletterSubscriptions/title')}</H2>
-          <p>
+          <H2 style={{ marginBottom: 10 }}>
+            {t('account/newsletterSubscriptions/title')}
+          </H2>
+          <Interaction.P>
             {t.elements('Notifications/settings/newsletter', {
               link: (
-                <A href='/konto#newsletter' {...linkRule}>
+                <A key='link' href='/konto#newsletter' {...linkRule}>
                   {t('Notifications/settings/newsletter/link')}
                 </A>
               )
             })}
-          </p>
+          </Interaction.P>
         </section>
       </Center>
     </>

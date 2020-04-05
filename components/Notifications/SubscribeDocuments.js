@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { possibleSubscriptions } from './enhancers'
-import { TeaserSectionTitle, plainButtonRule, A } from '@project-r/styleguide'
+import {
+  TeaserSectionTitle,
+  plainButtonRule,
+  A,
+  Interaction
+} from '@project-r/styleguide'
 import { css } from 'glamor'
 import SubscribeDocumentCheckbox from './SubscribeDocumentCheckbox'
 import withT from '../../lib/withT'
@@ -62,13 +67,11 @@ const SubscribeDocuments = ({ t, data: { sections } }) => {
 
   return (
     <>
-      <div style={{ marginTop: 20 }}>
-        <p>
-          {t.pluralize('Notifications/settings/formats/summary', {
-            count: totalSubs
-          })}
-        </p>
-      </div>
+      <Interaction.P style={{ marginBottom: 10 }}>
+        {t.pluralize('Notifications/settings/formats/summary', {
+          count: totalSubs
+        })}
+      </Interaction.P>
       {(showAll ? sectionsWithFormat : shownSections).map(section => (
         <div key={section.id}>
           <div

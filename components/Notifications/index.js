@@ -4,7 +4,7 @@ import Loader from '../Loader'
 import { compose, graphql } from 'react-apollo'
 import {
   notificationsQuery,
-  withMarkAsReadMutation,
+  withMarkAllAsReadMutation,
   withNotificationCount
 } from './enhancers'
 import { css } from 'glamor'
@@ -23,13 +23,13 @@ export const containsUnread = (notifications, after) =>
 
 const Notifications = compose(
   graphql(notificationsQuery),
-  withMarkAsReadMutation,
+  withMarkAllAsReadMutation,
   withNotificationCount
 )(
   ({
     data: { error, loading, notifications, me, fetchMore, refetch },
     countData,
-    markAsReadMutation
+    markAllAsReadMutation
   }) => {
     const [loadedAt, setLoadedAt] = useState(new Date())
     const futureNotifications = containsUnread(
@@ -38,12 +38,10 @@ const Notifications = compose(
     )
 
     useEffect(() => {
-      if (notifications && notifications.nodes) {
-        notifications.nodes
-          .filter(n => !n.readAt)
-          .map(n => markAsReadMutation(n.id))
+      if (!loading && !error) {
+        markAllAsReadMutation()
       }
-    }, [notifications])
+    }, [loading, error])
 
     const reload = () => {
       refetch()

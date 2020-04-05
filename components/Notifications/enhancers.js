@@ -142,8 +142,17 @@ const notificationCountQuery = gql`
 `
 
 const markAsReadMutation = gql`
-  mutation cancelMembership($id: ID!) {
+  mutation markNotificationAsRead($id: ID!) {
     markNotificationAsRead(id: $id) {
+      ...notificationInfo
+    }
+  }
+  ${notificationInfo}
+`
+
+const markAllAsReadMutation = gql`
+  mutation markAllNotificationsAsRead {
+    markAllNotificationsAsRead {
       ...notificationInfo
     }
   }
@@ -188,6 +197,14 @@ export const withMarkAsReadMutation = graphql(markAsReadMutation, {
           id
         }
       })
+    }
+  })
+})
+
+export const withMarkAllAsReadMutation = graphql(markAllAsReadMutation, {
+  props: ({ mutate }) => ({
+    markAllAsReadMutation: () => {
+      return mutate()
     }
   })
 })

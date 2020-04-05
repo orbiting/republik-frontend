@@ -20,9 +20,13 @@ const styles = {
   })
 }
 
+const checkIfSubscribed = ({ data, subscription }) =>
+  (subscription && subscription.active) ||
+  (data && getSelectedDiscussionPreference(data) !== 'NONE')
+
 const SubscribeMenu = ({ data, router, discussionId, subscription, style }) => {
   const [isSubscribed, setSubscribed] = useState(
-    getSelectedDiscussionPreference(data) !== 'NONE'
+    checkIfSubscribed({ data, subscription })
   )
   const [animate, setAnimate] = useState(false)
 
@@ -36,8 +40,8 @@ const SubscribeMenu = ({ data, router, discussionId, subscription, style }) => {
   }, [animate])
 
   useEffect(() => {
-    setSubscribed(getSelectedDiscussionPreference(data) !== 'NONE')
-  }, [data])
+    setSubscribed(checkIfSubscribed({ data, subscription }))
+  }, [data, subscription])
 
   const icon = <SubscribeIcon animate={animate} isSubscribed={isSubscribed} />
 

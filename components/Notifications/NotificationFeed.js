@@ -176,7 +176,7 @@ export default withT(
                         !node.object.published)
                     ) {
                       return (
-                        <div {...styles.unpublished}>
+                        <div {...styles.unpublished} key={j}>
                           <Label>{t('Notifications/unpublished/label')}</Label>
                           {node.content && (
                             <>

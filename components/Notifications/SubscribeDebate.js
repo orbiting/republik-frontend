@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { Radio } from '@project-r/styleguide'
+import { Radio, inQuotes } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
@@ -65,7 +65,11 @@ const SubscribeDebate = ({
 
   return (
     <div style={style}>
-      <h4>{t('SubscribeDebate/title')}</h4>
+      <h4>
+        {t('SubscribeDebate/title', {
+          debate: inQuotes(discussionPreferences.discussion.title)
+        })}
+      </h4>
       <div {...styles.radio}>
         {notificationOptions.map(option => (
           <div key={option.value}>

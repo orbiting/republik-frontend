@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-06T01:25:18.834Z",
+  "updated": "2020-04-06T15:22:57.368Z",
   "title": "live",
   "data": [
     {
@@ -6728,7 +6728,7 @@
     },
     {
       "key": "SubscribeDebate/title",
-      "value": "Debattenbeiträge abonnieren"
+      "value": "Beiträge zu {debate} abonnieren"
     },
     {
       "key": "SubscribeDebate/option/MY_CHILDREN/label",

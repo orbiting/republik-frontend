@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-06T00:30:11.229Z",
+  "updated": "2020-04-06T01:25:18.834Z",
   "title": "live",
   "data": [
     {
@@ -748,7 +748,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/noMembership",
-      "value": "Journalismus kostet. Deshalb können nur Mitglieder und Abonnentinnen die Republik-Newsletter abonnieren."
+      "value": "Journalismus kostet. Deshalb erhalten Sie die Republik-Newsletter erst wenn Sie eine aktive Mitgliedschaft oder ein aktives Abo haben."
     },
     {
       "key": "account/newsletterSubscriptions/unsubscribed",
@@ -788,7 +788,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/label",
-      "value": "Republik – Das tägliche Covid-19-Update"
+      "value": "Das tägliche Covid-19-Update"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
@@ -6661,6 +6661,10 @@
     {
       "key": "Notifications/settings/formats/summary/other",
       "value": "Sie haben {count} Rubriken abonniert:"
+    },
+    {
+      "key": "Notifications/settings/formats/noMembership",
+      "value": "Journalismus kostet. Deshalb erhalten Sie die Rubrik-Benachrichtigung erst wenn Sie eine aktive Mitgliedschaft oder ein aktives Abo haben."
     },
     {
       "key": "Notifications/settings/discussion",

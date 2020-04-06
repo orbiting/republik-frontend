@@ -11,6 +11,8 @@ import { css } from 'glamor'
 import SubscribeDocumentCheckbox from './SubscribeDocumentCheckbox'
 import withT from '../../lib/withT'
 import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
+import { withMembership } from '../Auth/checkRoles'
+import Box from '../Frame/Box'
 
 const styles = {
   checkboxes: css({
@@ -41,7 +43,7 @@ const getVisibleSections = (sections, prevShown = []) =>
       SECTIONS_ALWAYS_SHOWN.find(repoId => repoId === section.repoId)
   )
 
-const SubscribeDocuments = ({ t, data: { sections } }) => {
+const SubscribeDocuments = ({ t, data: { sections }, isMember }) => {
   const [showAll, setShowAll] = useState(false)
 
   const sectionNodes = sections && sections.nodes
@@ -72,6 +74,13 @@ const SubscribeDocuments = ({ t, data: { sections } }) => {
 
   return (
     <>
+      {!isMember && (
+        <Box style={{ margin: '10px 0', padding: 15 }}>
+          <Interaction.P>
+            {t('Notifications/settings/formats/noMembership')}
+          </Interaction.P>
+        </Box>
+      )}
       <Interaction.P style={{ marginBottom: 10 }}>
         {t.pluralize('Notifications/settings/formats/summary', {
           count: totalSubs
@@ -108,5 +117,6 @@ const SubscribeDocuments = ({ t, data: { sections } }) => {
 
 export default compose(
   withT,
+  withMembership,
   graphql(possibleSubscriptions)
 )(SubscribeDocuments)

@@ -12,11 +12,7 @@ class NoJsHead extends DefaultHead {
 
     function transform(node) {
       // remove next fouc prevention
-      if (
-        node &&
-        node.props &&
-        node.props['data-next-hide-fouc']
-      ) {
+      if (node && node.props && node.props['data-next-hide-fouc']) {
         return null
       }
       // remove all link preloads

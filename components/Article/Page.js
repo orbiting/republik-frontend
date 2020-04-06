@@ -79,6 +79,7 @@ import gql from 'graphql-tag'
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
+import { notificationInfo, subInfo, withMarkAsReadMutation } from '../Notifications/enhancers'
 /* eslint-enable */
 
 const schemaCreators = {
@@ -132,6 +133,9 @@ const getDocument = gql`
       id
       repoId
       content
+      subscribedByMe(includeParents: true) {
+        ...subInfo
+      }
       linkedDocuments {
         nodes {
           id
@@ -144,6 +148,11 @@ const getDocument = gql`
           linkedDocuments(feed: true) {
             totalCount
           }
+        }
+      }
+      unreadNotifications {
+        nodes {
+          ...notificationInfo
         }
       }
       ...BookmarkOnDocument
@@ -258,6 +267,8 @@ const getDocument = gql`
   }
   ${onDocumentFragment}
   ${userProgressFragment}
+  ${subInfo}
+  ${notificationInfo}
 `
 
 const runMetaFromQuery = (code, query) => {
@@ -330,6 +341,19 @@ class ArticlePage extends Component {
       this.setState({
         showPdf: !this.state.showPdf
       })
+    }
+
+    this.markNotificationsAsRead = () => {
+      const { data, markAsReadMutation } = this.props
+      const article = data && data.article
+      const unreadNotifications =
+        article &&
+        article.unreadNotifications &&
+        article.unreadNotifications.nodes &&
+        article.unreadNotifications.nodes.filter(n => !n.readAt)
+      if (unreadNotifications && unreadNotifications.length) {
+        unreadNotifications.forEach(n => markAsReadMutation(n.id))
+      }
     }
 
     this.state = {
@@ -464,6 +488,7 @@ class ArticlePage extends Component {
     const hasPdf = meta && meta.template === 'article'
     const isEditorialNewsletter =
       meta && meta.template === 'editorialNewsletter'
+    const isDiscussion = meta && meta.template === 'discussion'
 
     const actionBar = meta && (
       <ArticleActionBar
@@ -496,6 +521,9 @@ class ArticlePage extends Component {
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
+        subscription={article.subscribedByMe}
+        showSubscribe
+        isDiscussion={isDiscussion}
       />
     )
 
@@ -562,7 +590,9 @@ class ArticlePage extends Component {
 
     if (
       currentArticle.id !== nextArticle.id ||
-      currentArticle.userBookmark !== nextArticle.userBookmark
+      currentArticle.userBookmark !== nextArticle.userBookmark ||
+      currentArticle.subscribedByMe !== nextArticle.subscribedByMe ||
+      currentArticle.unreadNotifications !== nextArticle.unreadNotifications
     ) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
@@ -574,11 +604,13 @@ class ArticlePage extends Component {
 
     this.measure()
     this.autoPlayAudioSource()
+    this.markNotificationsAsRead()
   }
 
   componentDidUpdate() {
     this.measure()
     this.autoPlayAudioSource()
+    this.markNotificationsAsRead()
   }
 
   componentWillUnmount() {
@@ -619,7 +651,8 @@ class ArticlePage extends Component {
           estimatedReadingMinutes: undefined,
           estimatedConsumptionMinutes: undefined,
           onPdfClick: undefined,
-          pdfUrl: undefined
+          pdfUrl: undefined,
+          showSubscribe: false
         })
       : undefined
     const actionBarEnd = actionBar
@@ -993,6 +1026,7 @@ const ComposedPage = compose(
   withEditor,
   withInNativeApp,
   withRouter,
+  withMarkAsReadMutation,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

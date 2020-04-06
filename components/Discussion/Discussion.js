@@ -1,7 +1,6 @@
 import React from 'react'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
-import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
 
 const DEFAULT_DEPTH = 3
@@ -9,7 +8,6 @@ const DEFAULT_DEPTH = 3
 const Discussion = ({
   discussionId,
   focusId = null,
-  mute,
   meta,
   sharePath,
   board,
@@ -49,7 +47,6 @@ const Discussion = ({
             parentId={parentId}
             now={now}
           />
-          <NotificationOptions discussionId={discussionId} mute={mute} />
         </>
       )}
 

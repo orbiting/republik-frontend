@@ -1,6 +1,7 @@
 import { BOOKMARKS_COLLECTION_NAME } from './fragments'
 import gql from 'graphql-tag'
 import { documentFragment } from '../Feed/fragments'
+import { subInfo } from '../Notifications/enhancers'
 
 export const getBookmarkedDocuments = gql`
   query getBookmarkedDocuments($cursor: String) {
@@ -19,11 +20,15 @@ export const getBookmarkedDocuments = gql`
             createdAt
             document {
               ...FeedDocument
+              subscribedByMe(includeParents: true) {
+                ...subInfo
+              }
             }
           }
         }
       }
     }
   }
+  ${subInfo}
   ${documentFragment}
 `

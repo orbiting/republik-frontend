@@ -23,7 +23,7 @@ import { ZINDEX_FOOTER } from '../constants'
 import IconLink from '../IconLink'
 import { shouldIgnoreClick } from '../Link/utils'
 
-const LazyLink = (props) => <Link {...props} prefetch={false} />
+const LazyLink = props => <Link {...props} prefetch={false} />
 
 const COL_PADDING_S = 15
 const COL_PADDING_M = 70
@@ -255,7 +255,10 @@ class Footer extends Component {
               )}
               {!!me && (
                 <Fragment>
-                  <LazyLink route='profile' params={{ slug: me.username || me.id }}>
+                  <LazyLink
+                    route='profile'
+                    params={{ slug: me.username || me.id }}
+                  >
                     <a>{t('footer/me/profile')}</a>
                   </LazyLink>
                   <br />
@@ -333,9 +336,4 @@ class Footer extends Component {
   }
 }
 
-export default compose(
-  withT,
-  withMe,
-  withSignOut,
-  withInNativeApp
-)(Footer)
+export default compose(withT, withMe, withSignOut, withInNativeApp)(Footer)

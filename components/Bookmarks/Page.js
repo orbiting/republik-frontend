@@ -62,7 +62,7 @@ class Page extends Component {
             getConnection={getConnection}
             mergeConnection={mergeConnection}
             mapNodes={node => node.document}
-            feedProps={{ showHeader: false }}
+            feedProps={{ showHeader: false, showSubscribe: true }}
             placeholder={
               <Interaction.P style={{ marginBottom: 60 }}>
                 {t.elements('pages/bookmarks/placeholder', {

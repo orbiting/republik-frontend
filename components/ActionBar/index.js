@@ -17,6 +17,7 @@ import { colors } from '@project-r/styleguide'
 import { shouldIgnoreClick } from '../Link/utils'
 
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
+import SubscribeMenu from '../Notifications/SubscribeMenu'
 
 const styles = {
   buttonGroup: css({
@@ -77,7 +78,11 @@ class ActionBar extends Component {
       bookmarked,
       inNativeApp,
       animate,
-      inIOS
+      inIOS,
+      subscription,
+      showSubscribe,
+      isDiscussion,
+      ownDiscussion
     } = this.props
     const { showShareOverlay, showFontSizeOverlay } = this.state
 
@@ -208,6 +213,13 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
+          {showSubscribe && subscription && (
+            <SubscribeMenu
+              discussionId={isDiscussion && ownDiscussion && ownDiscussion.id}
+              subscription={subscription}
+              style={{ marginRight: -2, marginLeft: 2 }}
+            />
+          )}
           {icons.filter(Boolean).map((props, i) => (
             <IconLink key={props.icon} fill={fill} {...props} />
           ))}
@@ -239,7 +251,11 @@ ActionBar.propTypes = {
   pdfUrl: PropTypes.string,
   estimatedReadingMinutes: PropTypes.number,
   shareOverlayTitle: PropTypes.string,
-  showBookmark: PropTypes.bool
+  showBookmark: PropTypes.bool,
+  showSubscribe: PropTypes.bool,
+  subscription: PropTypes.object,
+  isDiscussion: PropTypes.bool,
+  ownDiscussion: PropTypes.object
 }
 
 ActionBar.defaultProps = {

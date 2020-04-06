@@ -180,6 +180,7 @@ class DocumentListContainer extends Component {
                         showTotal={showTotal}
                         help={help}
                         empty={empty}
+                        variables={variables}
                       />
                     </>
                   )

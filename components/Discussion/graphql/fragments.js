@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { notificationInfo } from '../../Notifications/enhancers'
 
 export const discussion = gql`
   fragment Discussion on Discussion {
@@ -79,6 +80,11 @@ export const comment = gql`
       }
       profilePicture
     }
+    unreadNotifications {
+      nodes {
+        ...notificationInfo
+      }
+    }
     embed {
       ... on LinkPreview {
         url
@@ -119,6 +125,7 @@ export const comment = gql`
       fragmentId
     }
   }
+  ${notificationInfo}
 `
 
 export const connectionInfo = gql`

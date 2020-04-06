@@ -81,9 +81,7 @@ const Feed = ({ t, formatId }) => (
       }
       showTotal={true}
       query={getFeedDocuments}
-      variables={{
-        formatId
-      }}
+      variables={{ formatId }}
     />
   </Center>
 )

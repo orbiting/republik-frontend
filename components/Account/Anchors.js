@@ -81,9 +81,9 @@ const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
       </AnchorLink>
     </li>
     <li {...styles.anchorListItem}>
-      <AnchorLink id='benachrichtigungen'>
-        {t('account/notificationOptions/title')}
-      </AnchorLink>
+      <Link route='subscriptionsSettings' passHref>
+        <a {...linkRule}>{t('account/notificationOptions/title')}</a>
+      </Link>
     </li>
     <li {...styles.anchorListItem}>
       <AnchorLink id='position'>{t('account/progress/title')}</AnchorLink>

@@ -50,7 +50,10 @@ class ArticleActionBar extends Component {
       showShare = true,
       grandSharing,
       fontSize,
-      userBookmark
+      userBookmark,
+      showSubscribe,
+      subscription,
+      isDiscussion
     } = this.props
     const {
       discussionId,
@@ -91,6 +94,10 @@ class ArticleActionBar extends Component {
           bookmarked={!!userBookmark}
           estimatedReadingMinutes={estimatedReadingMinutes}
           estimatedConsumptionMinutes={estimatedConsumptionMinutes}
+          subscription={subscription}
+          showSubscribe={showSubscribe}
+          ownDiscussion={ownDiscussion}
+          isDiscussion={isDiscussion}
         />
         {discussionId && alive && (
           <DiscussionIconLink

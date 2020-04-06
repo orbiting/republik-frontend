@@ -33,6 +33,7 @@ import {
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import { RootCommentOverlay } from './RootCommentOverlay'
+import { withMarkAsReadMutation } from '../Notifications/enhancers'
 
 const styles = {
   orderByContainer: css({
@@ -81,7 +82,8 @@ const Comments = props => {
     parentId: initialParentId,
     includeParent,
     discussionId,
-    rootCommentOverlay
+    rootCommentOverlay,
+    markAsReadMutation
   } = props
 
   /*
@@ -206,9 +208,29 @@ const Comments = props => {
     }
   }
 
+  const markNotificationsAsRead = () => {
+    if (!discussion) return
+    const { comments } = discussion
+    if (!comments && !comments.nodes && !comments.nodes.length) return
+    comments.nodes.forEach(comment => {
+      const unreadNotifications =
+        comment.unreadNotifications &&
+        comment.unreadNotifications.nodes &&
+        comment.unreadNotifications.nodes.filter(n => !n.readAt)
+
+      if (unreadNotifications && unreadNotifications.length) {
+        unreadNotifications.forEach(n => markAsReadMutation(n.id))
+      }
+    })
+  }
+
   React.useEffect(() => {
     fetchFocus()
   })
+
+  React.useEffect(() => {
+    markNotificationsAsRead()
+  }, [discussion])
 
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 
@@ -221,6 +243,7 @@ const Comments = props => {
         (discussion === null && t('discussion/missing'))
       }
       render={() => {
+        if (!discussion) return null
         const { focus } = discussion.comments
         const metaFocus =
           focus ||
@@ -263,13 +286,15 @@ const Comments = props => {
           actions: {
             previewComment: props.previewComment,
             submitComment: (parentComment, content, tags) =>
-              props
-                .submitComment(parentComment, content, tags)
-                .then(() => ({ ok: true }), error => ({ error })),
+              props.submitComment(parentComment, content, tags).then(
+                () => ({ ok: true }),
+                error => ({ error })
+              ),
             editComment: (comment, text, tags) =>
-              props
-                .editComment(comment, text, tags)
-                .then(() => ({ ok: true }), error => ({ error })),
+              props.editComment(comment, text, tags).then(
+                () => ({ ok: true }),
+                error => ({ error })
+              ),
             upvoteComment: props.upvoteComment,
             downvoteComment: props.downvoteComment,
             unvoteComment: props.unvoteComment,
@@ -444,7 +469,8 @@ export default compose(
   withCommentActions,
   isAdmin,
   withSubmitComment,
-  withDiscussionComments
+  withDiscussionComments,
+  withMarkAsReadMutation
 )(Comments)
 
 const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {

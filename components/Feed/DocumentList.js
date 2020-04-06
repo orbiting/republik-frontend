@@ -87,11 +87,9 @@ DocumentList.propTypes = {
   hasMore: PropTypes.bool,
   t: PropTypes.func.isRequired,
   feedProps: PropTypes.object,
+  variables: PropTypes.object,
   showTotal: PropTypes.bool,
   help: PropTypes.element
 }
 
-export default compose(
-  withT,
-  withInNativeApp
-)(DocumentList)
+export default compose(withT, withInNativeApp)(DocumentList)

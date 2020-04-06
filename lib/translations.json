@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-02T21:17:06.356Z",
+  "updated": "2020-04-06T00:30:11.229Z",
   "title": "live",
   "data": [
     {
@@ -743,10 +743,6 @@
       "value": "Erstellt am {formattedDate} um {formattedTime}"
     },
     {
-      "key": "account/newsletterSubscriptions/title",
-      "value": "Newsletter"
-    },
-    {
       "key": "account/newsletterSubscriptions/unauthorized",
       "value": "Sie müssen angemeldet sein, um Ihre Newsletter-Einstellungen zu ändern."
     },
@@ -832,11 +828,7 @@
     },
     {
       "key": "account/notificationOptions/title",
-      "value": "Benachrichtigungen über Beiträge"
-    },
-    {
-      "key": "account/discussionNotificationChannels/intro",
-      "value": "Ich möchte Benachrichtungen auf folgendem Weg erhalten:"
+      "value": "Benachrichtigungen"
     },
     {
       "key": "account/discussionNotificationChannels/EMAIL/label",
@@ -1600,31 +1592,35 @@
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL/label",
-      "value": "E-Mail-Benachrichtigungen"
+      "value": "E-Mail"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB/label",
-      "value": "Browser-Benachrichtigungen"
+      "value": "Browser"
     },
     {
       "key": "components/Discussion/NotificationChannel/APP/label",
-      "value": "App-Benachrichtigungen"
+      "value": "Via App"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
-      "value": "E-Mail- und Browser-Benachrichtigungen"
+      "value": "E-Mail und Browser"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_APP/label",
-      "value": "E-Mail- und App-Benachrichtigungen"
+      "value": "Via E-Mail und App"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB_APP/label",
-      "value": "Browser- und App-Benachrichtigungen"
+      "value": "Via Browser und App"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
-      "value": "E-Mail-, Browser- und App-Benachrichtigungen"
+      "value": "Via E-Mail, Browser und App"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/BASIC/label",
+      "value": null
     },
     {
       "key": "components/Discussion/info/MY_CHILDREN",
@@ -4755,6 +4751,10 @@
       "value": "Damit Ihre wenigen Probetage zu vielen Bleibetagen werden, hilft Ihnen dieser Einrichtungsassistent mit dem Wichtigsten."
     },
     {
+      "key": "Onboarding/Page/start",
+      "value": "Start"
+    },
+    {
       "key": "Onboarding/Page/button",
       "value": "Magazin lesen"
     },
@@ -4841,10 +4841,6 @@
     {
       "key": "Onboarding/Sections/AppLogin/apk/link",
       "value": "APK herunterladen"
-    },
-    {
-      "key": "Onboarding/Sections/Newsletter/heading",
-      "value": "Newsletter"
     },
     {
       "key": "Onboarding/Sections/Newsletter/preamble",
@@ -6593,6 +6589,154 @@
     {
       "key": "Auth/NewsletterSignUp/settingTitle",
       "value": "Ihre Einstellung"
+    },
+    {
+      "key": "Notifications/title/0",
+      "value": "Benachrichtigungen"
+    },
+    {
+      "key": "Notifications/title/1",
+      "value": "Eine neue Benachrichtigung"
+    },
+    {
+      "key": "Notifications/title/other",
+      "value": "{count} neue Benachrichtigungen"
+    },
+    {
+      "key": "Notifications/unpublished/label",
+      "value": "Beitrag nicht mehr verfügbar"
+    },
+    {
+      "key": "Notifications/empty/title",
+      "value": "Noch keine Benachrichtigungen"
+    },
+    {
+      "key": "Notifications/empty/paragraph",
+      "value": "Sie haben noch keine Benachrichtigungen. In <a href=\"/benachrichtigungen/einstellungen\">Ihren Einstellungen</a> finden Sie Rubriken, die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
+    },
+    {
+      "key": "Notifications/settings",
+      "value": "Ihre Einstellungen"
+    },
+    {
+      "key": "Notifications/refresh/1",
+      "value": "Sie haben eine neue Benachrichtigung bekommen."
+    },
+    {
+      "key": "Notifications/refresh/other",
+      "value": "Sie haben {count} neue Benachrichtigungen bekommen."
+    },
+    {
+      "key": "Notifications/refresh/link",
+      "value": "Seite neu laden?"
+    },
+    {
+      "key": "Notifications/settings/back",
+      "value": "Ihre Liste"
+    },
+    {
+      "key": "Notifications/settings/title",
+      "value": "Benachrichtigungs-Einstellungen"
+    },
+    {
+      "key": "Notifications/settings/formats",
+      "value": "Meine Rubriken"
+    },
+    {
+      "key": "Notifications/settings/formats/show",
+      "value": "Alle anzeigen"
+    },
+    {
+      "key": "Notifications/settings/formats/hide",
+      "value": "Weniger anzeigen"
+    },
+    {
+      "key": "Notifications/settings/formats/summary/0",
+      "value": "Sie haben keine Rubriken abonniert."
+    },
+    {
+      "key": "Notifications/settings/formats/summary/1",
+      "value": "Sie haben eine Rubrik abonniert:"
+    },
+    {
+      "key": "Notifications/settings/formats/summary/other",
+      "value": "Sie haben {count} Rubriken abonniert:"
+    },
+    {
+      "key": "Notifications/settings/discussion",
+      "value": "Debattenbeiträge"
+    },
+    {
+      "key": "Notifications/settings/newsletter",
+      "value": "Können Sie in {link} abonnieren."
+    },
+    {
+      "key": "Notifications/settings/newsletter/link",
+      "value": "Ihrem Konto"
+    },
+    {
+      "key": "account/discussionNotificationChannels/intro",
+      "value": "Ich möchte Debattenbenachrichtigungen auf folgendem Weg erhalten:"
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/heading",
+      "value": "Benachrichtigung"
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/preamble",
+      "value": "Sie können Rubriken abonnieren. Sobald Sie die App installiert haben, bekommen Sie Benachrichtigungen über neue Beiträge direkt auf Ihr Telefon. Sie können auch die Newsletter als Benachrichtigung abonnieren."
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/hint",
+      "value": "Die Liste {link} finden Sie jederzeit, indem Sie auf die kleine Glocke oben rechts drücken. Dort können Sie auch diese Einstellungen anpassen."
+    },
+    {
+      "key": "Onboarding/Sections/Subscriptions/hint/link",
+      "value": "Ihrer Benachrichtigungen"
+    },
+    {
+      "key": "Account/Notifications/Legacy/text",
+      "value": "{link}"
+    },
+    {
+      "key": "Account/Notifications/Legacy/link",
+      "value": "Zu den Einstellungen Ihrer Benachrichtigungen."
+    },
+    {
+      "key": "pages/notifications/settings/title",
+      "value": "Benachrichtigungen – Einstellungen"
+    },
+    {
+      "key": "Onboarding/Sections/Newsletter/heading",
+      "value": "Newsletter per E-Mail"
+    },
+    {
+      "key": "account/newsletterSubscriptions/title",
+      "value": "Newsletter per E-Mail"
+    },
+    {
+      "key": "SubscribeCallout/settingsLink",
+      "value": "Allgemeine Einstellungen"
+    },
+    {
+      "key": "SubscribeDocument/title",
+      "value": "Rubrik abonnieren"
+    },
+    {
+      "key": "SubscribeDebate/title",
+      "value": "Debattenbeiträge abonnieren"
+    },
+    {
+      "key": "SubscribeDebate/option/MY_CHILDREN/label",
+      "value": "Antworten"
+    },
+    {
+      "key": "SubscribeDebate/option/ALL/label",
+      "value": "Alle"
+    },
+    {
+      "key": "SubscribeDebate/option/NONE/label",
+      "value": "Keine"
     },
     {
       "key": "feuilleton/deprecatedPage",

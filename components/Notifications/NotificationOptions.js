@@ -12,14 +12,14 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
-import { P } from './Elements'
 import {
   A,
   Loader,
   InlineSpinner,
   Checkbox,
   Dropdown,
-  mediaQueries
+  mediaQueries,
+  Interaction
 } from '@project-r/styleguide'
 
 import {
@@ -28,10 +28,9 @@ import {
 } from '../Discussion/constants'
 import { withUpdateNotificationSettings } from '../Discussion/graphql/enhancers/withUpdateNotificationSettings'
 
+const { P } = Interaction
+
 const styles = {
-  headline: css({
-    margin: '80px 0 30px 0'
-  }),
   spinner: css({
     display: 'inline-block',
     height: 0,
@@ -117,7 +116,16 @@ class NotificationOptions extends Component {
             defaultDiscussionNotificationOption
           } = me
           const { mutating } = this.state
-          const dropdownItems = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
+          // the 'ALL' option is confusing as a default as it will show
+          // on discussions but only gets truly 'activated' when you take
+          // part in it, yielding a different behaviour from setting an
+          // individual discussion to ALL.
+          // The best resolution here seems to not show it in the overall
+          // settings, except for the few users who have it set as such already
+          const dropdownItems = DISCUSSION_NOTIFICATION_OPTIONS.filter(
+            option =>
+              defaultDiscussionNotificationOption === 'ALL' || option !== 'ALL'
+          ).map(option => ({
             value: option,
             text: t(`components/Discussion/Notification/${option}/label`),
             element: (
@@ -129,9 +137,7 @@ class NotificationOptions extends Component {
 
           return (
             <Fragment>
-              <P style={{ marginTop: 20 }}>
-                {t('account/discussionNotificationChannels/intro')}
-              </P>
+              <P>{t('account/discussionNotificationChannels/intro')}</P>
               {DISCUSSION_NOTIFICATION_CHANNELS.map(channel => (
                 <p key={channel}>
                   <Checkbox

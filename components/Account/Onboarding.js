@@ -9,7 +9,7 @@ const { H2, P } = Interaction
 
 export default withT(({ t }) => (
   <Fragment>
-    <H2>{t('Account/Onboarding/title')}</H2>
+    <H2 style={{ marginBottom: 10 }}>{t('Account/Onboarding/title')}</H2>
     <P>
       {t.elements('Account/Onboarding/text', {
         link: (

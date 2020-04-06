@@ -91,7 +91,12 @@ const NavLink = ({
     )
   }
   return (
-    <Link route={route} params={params} prefetch={prefetch} passHref>
+    <Link
+      route={route}
+      params={params}
+      prefetch={prefetch ? undefined : prefetch}
+      passHref
+    >
       <NavA inline={inline} style={style} hoverColor={hoverColor}>
         {children}
       </NavA>

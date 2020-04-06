@@ -30,11 +30,15 @@ import { HEADER_HEIGHT } from '../constants'
 import { Link } from '../../lib/routes'
 import { SECTION_SPACE } from './Section'
 import withT from '../../lib/withT'
+import Subscriptions, {
+  fragments as fragmentsSubscriptions
+} from './Sections/Subscriptions'
+import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
 
 const { P } = Interaction
 
 const QUERY = gql`
-  query getOnboarding {
+  query getOnboarding($repoIds: [ID!]) {
     me {
       ...NewsletterUser
       ...AppLoginUser
@@ -45,6 +49,18 @@ const QUERY = gql`
     employees(shuffle: 1, withGreeting: true) {
       ...GreetingEmployee
     }
+
+    documents(template: "section", repoIds: $repoIds) {
+      nodes {
+        id
+        linkedDocuments {
+          totalCount
+          nodes {
+            ...FormatInfo
+          }
+        }
+      }
+    }
   }
 
   ${fragmentsNewsletter.user}
@@ -53,6 +69,7 @@ const QUERY = gql`
   ${fragmentsProfile.user}
 
   ${fragmentsGreeting.employee}
+  ${fragmentsSubscriptions.formats}
 `
 
 const styles = {
@@ -93,6 +110,12 @@ class Page extends Component {
       {
         component: Newsletter,
         name: 'newsletter',
+        ref: React.createRef(),
+        visited: false
+      },
+      {
+        component: Subscriptions,
+        name: 'notifications', // this also gets into the url—we have to avoid «script» in urls
         ref: React.createRef(),
         visited: false
       },
@@ -187,13 +210,20 @@ class Page extends Component {
 
     return (
       <Frame meta={meta} raw>
-        <Query query={QUERY}>
+        <Query
+          query={QUERY}
+          variables={{
+            repoIds:
+              ONBOARDING_SECTIONS_REPO_IDS &&
+              ONBOARDING_SECTIONS_REPO_IDS.split(',')
+          }}
+        >
           {({ loading, error, data }) => {
             if (loading || error) {
               return <Loader loading={loading} error={error} />
             }
 
-            const { me: user, employees } = data
+            const { me: user, employees, documents } = data
 
             return (
               <Center>
@@ -221,6 +251,17 @@ class Page extends Component {
                   )}
                 </P>
 
+                {!expandedSection && (
+                  <Button
+                    primary={!this.state.hasOnceVisitedAll}
+                    onClick={() => {
+                      this.onExpand(this.sections[0])
+                    }}
+                  >
+                    {t('Onboarding/Page/start')}
+                  </Button>
+                )}
+
                 <div {...styles.sections}>
                   {this.sections.map(
                     ({ component: Component, name, ref, visited }) => {
@@ -229,6 +270,7 @@ class Page extends Component {
                           key={name}
                           name={name}
                           user={user}
+                          sections={documents.nodes}
                           onExpand={this.onExpand.bind(this)}
                           isExpanded={expandedSection === name}
                           onContinue={this.onContinue.bind(this)}
@@ -248,8 +290,8 @@ class Page extends Component {
                       </div>
                     ) */}
                     <div {...styles.buttonContainer}>
-                      <Link route='index'>
-                        <Button primary={!expandedSection}>
+                      <Link route='index' passHref>
+                        <Button primary={this.state.hasOnceVisitedAll}>
                           {t.first([
                             `Onboarding/Page/${context}/button`,
                             'Onboarding/Page/button'
@@ -341,7 +383,4 @@ class Page extends Component {
   }
 }
 
-export default compose(
-  withT,
-  withRouter
-)(Page)
+export default compose(withT, withRouter)(Page)

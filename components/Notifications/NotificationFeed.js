@@ -176,7 +176,15 @@ export default withT(
                         !node.object.published)
                     ) {
                       return (
-                        <div {...styles.unpublished} key={j}>
+                        <div
+                          {...styles.unpublished}
+                          style={{
+                            backgroundColor: isNew(node)
+                              ? colors.primaryBg
+                              : 'none'
+                          }}
+                          key={j}
+                        >
                           <Label>{t('Notifications/unpublished/label')}</Label>
                           {node.content && (
                             <>

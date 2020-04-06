@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors, fontStyles, useColorContext } from '@project-r/styleguide'
+import { useColorContext } from '@project-r/styleguide'
 import SubIcon from 'react-icons/lib/md/notifications'
 import UnsubIcon from 'react-icons/lib/md/notifications-none'
 import { css } from 'glamor'

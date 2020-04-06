@@ -2,7 +2,7 @@ import React from 'react'
 import SubscribeDebate from './SubscribeDebate'
 import SubscribeDocument from './SubscribeDocument'
 import { css } from 'glamor'
-import { A, fontFamilies } from '@project-r/styleguide'
+import { A, colors, fontFamilies } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 
@@ -12,7 +12,8 @@ const styles = {
     '& h4': {
       margin: '0 0 12px',
       fontFamily: fontFamilies.sansSerifMedium,
-      fontWeight: 'inherit'
+      fontWeight: 'inherit',
+      color: colors.text
     }
   }),
   settings: css({

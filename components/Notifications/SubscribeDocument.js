@@ -1,7 +1,6 @@
 import React from 'react'
 import SubscribeDocumentCheckbox from './SubscribeDocumentCheckbox'
 import withT from '../../lib/withT'
-import { css } from 'glamor'
 
 const SubscribeDocument = ({ t, subscription, setAnimate, style }) => {
   return (

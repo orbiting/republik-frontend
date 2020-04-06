@@ -41,13 +41,10 @@ const styles = {
     }
   }),
   sections: css({
-    ...fontStyles.sansSerifRegular19,
+    ...fontStyles.sansSerifRegular21,
     flexGrow: 1,
     marginBottom: 20,
     paddingTop: 10,
-    [mediaQueries.mUp]: {
-      paddingTop: 20
-    },
     display: 'flex',
     justifyContent: 'space-between',
     [mediaQueries.mUp]: {
@@ -129,6 +126,13 @@ const Nav = ({
                 >
                   {t('Frame/Popover/myaccount')}
                 </NavLink>
+                <NavLink
+                  route='subscriptions'
+                  active={active}
+                  closeHandler={closeHandler}
+                >
+                  {t('header/nav/notifications/aria')}
+                </NavLink>
                 {(!inNativeIOSApp || isMember) && (
                   <NavLink
                     route='profile'
@@ -189,9 +193,7 @@ const Nav = ({
               </NavLink>
             )}
             {me ? (
-              <>
-                <SignOut Link={SignoutLink} />
-              </>
+              <SignOut Link={SignoutLink} />
             ) : (
               <SignIn
                 beforeForm={
@@ -236,6 +238,15 @@ const Nav = ({
             >
               {t('navbar/discussion')}
             </NavLink>
+            {isMember && (
+              <NavLink
+                route='search'
+                active={active}
+                closeHandler={closeHandler}
+              >
+                {t('header/nav/search/aria')}
+              </NavLink>
+            )}
             <NavLink
               route='sections'
               active={active}
@@ -246,6 +257,7 @@ const Nav = ({
             <div {...styles.sectionCompact} {...styles.sectionsBlock}>
               <Sections active={active} closeHandler={closeHandler} />
             </div>
+            <br />
             {/*<NavLink
             route='community'
             active={active}
@@ -256,7 +268,6 @@ const Nav = ({
           <NavLink route='events' active={active} closeHandler={closeHandler}>
             {t('nav/events')}
           </NavLink>*/}
-            <br />
             <NavLink
               inline
               route='cockpit'

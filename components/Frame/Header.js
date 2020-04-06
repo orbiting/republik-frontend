@@ -123,6 +123,12 @@ const styles = {
       height: HEADER_HEIGHT - 2
     }
   }),
+  search: css({
+    display: 'none',
+    '@media (min-width: 340px)': {
+      display: 'inline-block'
+    }
+  }),
   secondary: css({
     position: 'absolute',
     top: 0,
@@ -428,6 +434,7 @@ class Header extends Component {
                 {me && <NotificationIcon fill={textFill} />}
                 {isMember && (
                   <HeaderIconA
+                    {...styles.search}
                     title={t('header/nav/search/aria')}
                     href='/suche'
                     onClick={goTo('/search', 'search')}

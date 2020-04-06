@@ -1,15 +1,18 @@
 import React from 'react'
-import { CommentTeaser } from '@project-r/styleguide'
+import { CommentTeaser, colors } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import CommentLink from '../Discussion/CommentLink'
-import { merge } from 'glamor'
-import { isNewStyle } from './index'
+import { css } from 'glamor'
 import SubscribeCallout from './SubscribeCallout'
+
+const isNewRule = css({
+  backgroundColor: colors.primaryBg
+})
 
 export default compose(withT)(({ t, node, isNew }) => {
   return (
-    <div {...merge({}, isNew && isNewStyle)}>
+    <div {...(isNew ? isNewRule : {})}>
       <CommentTeaser
         {...node.object}
         context={{

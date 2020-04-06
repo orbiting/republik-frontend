@@ -10,10 +10,6 @@ import {
 import { css } from 'glamor'
 import NotificationFeed from './NotificationFeed'
 
-export const isNewStyle = css({
-  backgroundColor: colors.primaryBg
-})
-
 export const containsUnread = (notifications, after) =>
   notifications &&
   notifications.nodes &&

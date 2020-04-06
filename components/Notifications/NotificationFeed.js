@@ -90,7 +90,7 @@ export default withT(
     futureNotifications,
     onReload
   }) => {
-    const { nodes, totalCount, pageInfo } = notifications
+    const { nodes, totalCount, unreadCount, pageInfo } = notifications
     const hasNextPage = pageInfo && pageInfo.hasNextPage
 
     const loadMore = () =>
@@ -121,7 +121,6 @@ export default withT(
     const isNew = node => !node.readAt || loadedAt < new Date(node.readAt)
 
     if (!nodes) return null
-    const newNodes = nodes.filter(isNew)
     const isEmpty = !nodes.length
 
     return (
@@ -136,7 +135,7 @@ export default withT(
               {isEmpty
                 ? t('Notifications/empty/title')
                 : t.pluralize('Notifications/title', {
-                    count: newNodes.length
+                    count: unreadCount
                   })}
             </Interaction.H1>
 
@@ -176,7 +175,15 @@ export default withT(
                         !node.object.published)
                     ) {
                       return (
-                        <div {...styles.unpublished}>
+                        <div
+                          {...styles.unpublished}
+                          style={{
+                            backgroundColor: isNew(node)
+                              ? colors.primaryBg
+                              : 'none'
+                          }}
+                          key={j}
+                        >
                           <Label>{t('Notifications/unpublished/label')}</Label>
                           {node.content && (
                             <>

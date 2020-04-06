@@ -251,6 +251,17 @@ class Page extends Component {
                   )}
                 </P>
 
+                {!expandedSection && (
+                  <Button
+                    primary={!this.state.hasOnceVisitedAll}
+                    onClick={() => {
+                      this.onExpand(this.sections[0])
+                    }}
+                  >
+                    {t('Onboarding/Page/start')}
+                  </Button>
+                )}
+
                 <div {...styles.sections}>
                   {this.sections.map(
                     ({ component: Component, name, ref, visited }) => {
@@ -279,8 +290,8 @@ class Page extends Component {
                       </div>
                     ) */}
                     <div {...styles.buttonContainer}>
-                      <Link route='index'>
-                        <Button primary={!expandedSection}>
+                      <Link route='index' passHref>
+                        <Button primary={this.state.hasOnceVisitedAll}>
                           {t.first([
                             `Onboarding/Page/${context}/button`,
                             'Onboarding/Page/button'

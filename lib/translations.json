@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-05T22:43:34.737Z",
+  "updated": "2020-04-06T00:30:11.229Z",
   "title": "live",
   "data": [
     {
@@ -4749,6 +4749,10 @@
     {
       "key": "Onboarding/Page/trial/introduction",
       "value": "Damit Ihre wenigen Probetage zu vielen Bleibetagen werden, hilft Ihnen dieser Einrichtungsassistent mit dem Wichtigsten."
+    },
+    {
+      "key": "Onboarding/Page/start",
+      "value": "Start"
     },
     {
       "key": "Onboarding/Page/button",

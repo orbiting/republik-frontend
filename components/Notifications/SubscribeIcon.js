@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors, fontStyles } from '@project-r/styleguide'
+import { colors, fontStyles, useColorContext } from '@project-r/styleguide'
 import SubIcon from 'react-icons/lib/md/notifications'
 import UnsubIcon from 'react-icons/lib/md/notifications-none'
 import { css } from 'glamor'
@@ -22,13 +22,14 @@ const styles = {
 }
 
 const SubscribeIcon = ({ isSubscribed, animate }) => {
+  const [colorScheme] = useColorContext()
   const Icon = isSubscribed ? SubIcon : UnsubIcon
   return (
     <Icon
       {...styles.icon}
       {...(animate && styles.animate)}
       size={24}
-      fill={colors.text}
+      fill={colorScheme.text}
     />
   )
 }

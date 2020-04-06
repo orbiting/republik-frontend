@@ -33,6 +33,7 @@ export const notificationsQuery = gql`
     }
     notifications(first: 10, after: $after) {
       totalCount
+      unreadCount
       pageInfo {
         hasNextPage
         endCursor

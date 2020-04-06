@@ -33,7 +33,6 @@ import {
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import { RootCommentOverlay } from './RootCommentOverlay'
-import notifications from '../../pages/notifications'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
 
 const styles = {

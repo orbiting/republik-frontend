@@ -349,9 +349,10 @@ class ArticlePage extends Component {
       const unreadNotifications =
         article &&
         article.unreadNotifications &&
-        article.unreadNotifications.nodes
+        article.unreadNotifications.nodes &&
+        article.unreadNotifications.nodes.filter(n => !n.readAt)
       if (unreadNotifications && unreadNotifications.length) {
-        unreadNotifications.map(n => markAsReadMutation(n.id))
+        unreadNotifications.forEach(n => markAsReadMutation(n.id))
       }
     }
 

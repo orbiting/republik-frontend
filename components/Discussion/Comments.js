@@ -213,16 +213,15 @@ const Comments = props => {
     if (!discussion) return
     const { comments } = discussion
     if (!comments && !comments.nodes && !comments.nodes.length) return
-    comments.nodes.map(comment => {
-      const { unreadNotifications } = comment
-      if (
-        !unreadNotifications ||
-        (!unreadNotifications.nodes && !unreadNotifications.nodes.length)
-      )
-        return
-      unreadNotifications.nodes.map(notification =>
-        markAsReadMutation(notification.id)
-      )
+    comments.nodes.forEach(comment => {
+      const unreadNotifications =
+        comment.unreadNotifications &&
+        comment.unreadNotifications.nodes &&
+        comment.unreadNotifications.nodes.filter(n => !n.readAt)
+
+      if (unreadNotifications && unreadNotifications.length) {
+        unreadNotifications.forEach(n => markAsReadMutation(n.id))
+      }
     })
   }
 

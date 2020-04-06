@@ -194,9 +194,14 @@ export const withNotificationCount = graphql(notificationCountQuery, {
   name: 'countData'
 })
 
+const alreadyMarkedAsReadIds = []
 export const withMarkAsReadMutation = graphql(markAsReadMutation, {
   props: ({ mutate }) => ({
     markAsReadMutation: id => {
+      if (alreadyMarkedAsReadIds.includes(id)) {
+        return Promise.resolve()
+      }
+      alreadyMarkedAsReadIds.push(id)
       return mutate({
         variables: {
           id

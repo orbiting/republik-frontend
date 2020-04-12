@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-06T15:22:57.368Z",
+  "updated": "2020-04-12T16:59:37.306Z",
   "title": "live",
   "data": [
     {
@@ -6407,16 +6407,16 @@
       "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik."
     },
     {
-      "key": "package/ABO_GIVE/accessGranted/before",
-      "value": "Sie wollen, dass die Republik-Leserschaft wächst, haben aber gerade keine Idee, wem Sie sie schenken könnten? Bezahlen Sie eine Mitgliedschaft und überlassen Sie die Auswahl einer würdigen Empfängerin uns."
-    },
-    {
       "key": "package/ABO_GIVE/accessGrantedOnly/title",
       "value": "Wachstum schenken"
     },
     {
       "key": "package/ABO_GIVE/accessGrantedOnly/description",
       "value": "Kaufen Sie eine Mitgliedschaft und vertrauen Sie uns die Aufgabe an, eine passende Empfängerin für Ihr Geschenk zu finden."
+    },
+    {
+      "key": "package/customize/ABO_GIVE/addAccessGrantedOnly",
+      "value": "Keine Idee wem schenken? Überlassen Sie die Auswahl uns."
     },
     {
       "key": "package/customize/ABO_GIVE/rmAccessGrantedOnly",

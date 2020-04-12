@@ -154,25 +154,32 @@ class Pledge extends Component {
     let pkg = query.package
       ? packages.find(pkg => pkg.name === query.package.toUpperCase())
       : null
-    if (pkg && query.userPrice) {
-      // do not offer goodies unless userPrice true
-      pkg = {
-        ...pkg,
-        options: pkg.options.filter(
-          option => option.reward.__typename !== 'Goodie' || option.userPrice
-        )
+    if (pkg) {
+      if (query.userPrice) {
+        // do not offer goodies unless userPrice true
+        pkg = {
+          ...pkg,
+          options: pkg.options.filter(
+            option => option.reward.__typename !== 'Goodie' || option.userPrice
+          )
+        }
       }
-    }
-    if (pkg && query.filter === 'pot') {
-      // do not offer goodies unless userPrice true
-      pkg = {
-        ...pkg,
-        options: pkg.options
-          .filter(option => option.accessGranted)
-          .map(option => ({
-            ...option,
-            defaultAmount: Math.min(option.maxAmount, 1)
-          }))
+      const hasAccessGrantedAndNot =
+        pkg.options.some(option => option.accessGranted) &&
+        pkg.options.some(option => !option.accessGranted)
+      if (hasAccessGrantedAndNot) {
+        const showAccessGranted = query.filter === 'pot'
+        pkg = {
+          ...pkg,
+          options: pkg.options
+            .filter(option => option.accessGranted === showAccessGranted)
+            .map(option => ({
+              ...option,
+              defaultAmount: showAccessGranted
+                ? Math.min(option.maxAmount, 1)
+                : option.defaultAmount
+            }))
+        }
       }
     }
 

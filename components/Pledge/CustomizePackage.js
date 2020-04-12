@@ -427,14 +427,6 @@ class CustomizePackage extends Component {
         return !getOptionValue(option, values) || option.userPrice
       })
 
-    let showMessageToClaimers = false
-    if (pkg.name === 'ABO_GIVE') {
-      const hasAccessGrantedValue = pkg.options
-        .filter(o => o.accessGranted)
-        .some(o => getOptionValue(o, values) > 0)
-      showMessageToClaimers = accessGrantedOnly || hasAccessGrantedValue
-    }
-
     const optionGroups = nest()
       .key(d =>
         d.option.optionGroup
@@ -570,12 +562,14 @@ class CustomizePackage extends Component {
             {text}
           </P>
         ))}
-        {accessGrantedOnly && pkg.name === 'ABO_GIVE' && (
+        {pkg.name === 'ABO_GIVE' && (
           <div {...styles.smallP} style={{ marginTop: -5, marginBottom: 15 }}>
             <Editorial.A
               href={format({
                 pathname: '/angebote',
-                query: queryWithoutFilter
+                query: accessGrantedOnly
+                  ? queryWithoutFilter
+                  : { ...query, filter: 'pot' }
               })}
               onClick={e => {
                 if (shouldIgnoreClick(e)) {
@@ -603,9 +597,7 @@ class CustomizePackage extends Component {
                         field: getOptionFieldKey(optionFull),
                         value: Math.min(
                           Math.max(
-                            optionFull.accessGranted
-                              ? 0
-                              : getOptionValue(optionFiltered, values),
+                            getOptionValue(optionFiltered, values),
                             optionFull.minAmount
                           ),
                           optionFull.maxAmount
@@ -617,36 +609,48 @@ class CustomizePackage extends Component {
                   })
                 }
 
-                Router.pushRoute('pledge', queryWithoutFilter, {
-                  shallow: true
-                })
-              }}
-            >
-              {t('package/customize/ABO_GIVE/rmAccessGrantedOnly')}
-            </Editorial.A>{' '}
-            <Editorial.A
-              href={format({
-                pathname: '/angebote',
-                query: { package: 'DONATE_POT' }
-              })}
-              onClick={e => {
-                if (shouldIgnoreClick(e)) {
-                  return
-                }
-                e.preventDefault()
-                this.resetPrice()
-
                 Router.pushRoute(
                   'pledge',
-                  { package: 'DONATE_POT' },
+                  accessGrantedOnly
+                    ? queryWithoutFilter
+                    : { ...query, filter: 'pot' },
                   {
                     shallow: true
                   }
                 )
               }}
             >
-              {t('package/customize/ABO_GIVE/donate')}
-            </Editorial.A>
+              {t(
+                `package/customize/ABO_GIVE/${
+                  accessGrantedOnly ? 'rm' : 'add'
+                }AccessGrantedOnly`
+              )}
+            </Editorial.A>{' '}
+            {accessGrantedOnly && (
+              <Editorial.A
+                href={format({
+                  pathname: '/angebote',
+                  query: { package: 'DONATE_POT' }
+                })}
+                onClick={e => {
+                  if (shouldIgnoreClick(e)) {
+                    return
+                  }
+                  e.preventDefault()
+                  this.resetPrice()
+
+                  Router.pushRoute(
+                    'pledge',
+                    { package: 'DONATE_POT' },
+                    {
+                      shallow: true
+                    }
+                  )
+                }}
+              >
+                {t('package/customize/ABO_GIVE/donate')}
+              </Editorial.A>
+            )}
           </div>
         )}
         {optionGroups.map(
@@ -743,13 +747,6 @@ class CustomizePackage extends Component {
                     compact
                   />
                 )}
-                {groupWithAccessGranted &&
-                  !accessGrantedOnly &&
-                  pkg.name === 'ABO_GIVE' && (
-                    <div>
-                      <P>{t('package/ABO_GIVE/accessGranted/before')}</P>
-                    </div>
-                  )}
                 <div {...styles[group ? 'group' : 'grid']}>
                   {fields.map((field, i) => {
                     const option = field.option
@@ -1031,7 +1028,7 @@ class CustomizePackage extends Component {
                 {isAboGive && (!nextGroup || !nextGroup.isAboGive) && (
                   <div style={{ height: 30 }} />
                 )}
-                {groupWithAccessGranted && showMessageToClaimers && (
+                {groupWithAccessGranted && accessGrantedOnly && (
                   <div style={{ marginBottom: 20 }}>
                     <P>{t('package/customize/messageToClaimers/before')}</P>
                     <Field
@@ -1401,7 +1398,4 @@ CustomizePackage.propTypes = {
   }).isRequired
 }
 
-export default compose(
-  withRouter,
-  withT
-)(CustomizePackage)
+export default compose(withRouter, withT)(CustomizePackage)

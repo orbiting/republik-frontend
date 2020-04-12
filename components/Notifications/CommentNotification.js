@@ -18,7 +18,7 @@ export default compose(withT)(({ t, node, isNew }) => {
         context={{
           title: node.object.discussion.title
         }}
-        preview={{ string: node.object.preview.string, more: true }}
+        preview={node.object.preview}
         Link={CommentLink}
         t={t}
         highlighted={isNew}

@@ -36,7 +36,7 @@ const styles = {
 export default compose(
   withT,
   withNotificationCount
-)(({ t, countData: { notifications, subscribeToMore }, fill }) => {
+)(({ t, countData: { notifications, subscribeToMore, refetch }, fill }) => {
   const [hasUnread, setUnread] = useState(containsUnread(notifications))
   const subscribe = () =>
     subscribeToMore({
@@ -62,6 +62,18 @@ export default compose(
     const unsubscribe = subscribe()
     return () => unsubscribe()
   }, [notifications])
+
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (!document.hidden) {
+        refetch()
+      }
+    }
+    window.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      window.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [refetch])
 
   const Icon = hasUnread ? HasNotifications : NoNotifications
 

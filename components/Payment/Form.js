@@ -630,7 +630,7 @@ class PaymentForm extends Component {
                   key={param.key}
                   type='hidden'
                   name={param.key}
-                  value={param.value}
+                  value={param.value || ''}
                 />
               ))}
           </form>
@@ -651,7 +651,7 @@ class PaymentForm extends Component {
                   key={param.key}
                   type='hidden'
                   name={param.key}
-                  value={param.value}
+                  value={param.value || ''}
                 />
               ))}
           </form>

@@ -240,6 +240,23 @@ class CustomizePackage extends Component {
       }
     })
   }
+  componentDidUpdate() {
+    const { onChange, pkg, values, userPrice, t } = this.props
+
+    if (values.price === undefined) {
+      const price = getPrice(this.props)
+      const minPrice = calculateMinPrice(pkg, values, userPrice)
+      onChange({
+        values: {
+          price
+        },
+        errors: {
+          price: priceError(price, minPrice, t),
+          reason: userPrice && reasonError(values.reason, t)
+        }
+      })
+    }
+  }
   resetPrice() {
     this.props.onChange(
       FieldSet.utils.fieldsState({
@@ -543,7 +560,6 @@ class CustomizePackage extends Component {
             href='/angebote'
             onClick={event => {
               event.preventDefault()
-              this.resetPrice()
               Router.replaceRoute(
                 'pledge',
                 pkg.group && pkg.group !== 'ME'
@@ -576,7 +592,6 @@ class CustomizePackage extends Component {
                   return
                 }
                 e.preventDefault()
-                this.resetPrice()
 
                 const fullPackages = this.props.packages.find(
                   p => p.name === pkg.name
@@ -617,7 +632,9 @@ class CustomizePackage extends Component {
                   {
                     shallow: true
                   }
-                )
+                ).then(() => {
+                  this.resetPrice()
+                })
               }}
             >
               {t(
@@ -637,8 +654,6 @@ class CustomizePackage extends Component {
                     return
                   }
                   e.preventDefault()
-                  this.resetPrice()
-
                   Router.pushRoute(
                     'pledge',
                     { package: 'DONATE_POT' },
@@ -1198,7 +1213,6 @@ class CustomizePackage extends Component {
                             return
                           }
                           e.preventDefault()
-                          this.resetPrice()
 
                           const aboGive = this.props.packages.find(
                             p => p.name === 'ABO_GIVE'
@@ -1271,7 +1285,9 @@ class CustomizePackage extends Component {
                             'pledge',
                             { package: 'ABO_GIVE' },
                             { shallow: true }
-                          )
+                          ).then(() => {
+                            this.resetPrice()
+                          })
                         }}
                       >
                         {t.pluralize(
@@ -1304,7 +1320,7 @@ class CustomizePackage extends Component {
                         return
                       }
                       e.preventDefault()
-                      this.resetPrice()
+                      onPriceChange(undefined, minPrice / 100, true)
 
                       Router.replaceRoute(
                         'pledge',
@@ -1337,7 +1353,6 @@ class CustomizePackage extends Component {
                         return
                       }
                       e.preventDefault()
-                      this.resetPrice()
 
                       const selectedUserPriceOption = pkg.options.find(
                         option => {
@@ -1365,6 +1380,7 @@ class CustomizePackage extends Component {
                         { ...query, price: undefined, userPrice: 1 },
                         { shallow: true }
                       ).then(() => {
+                        this.resetPrice()
                         if (this.focusRef && this.focusRef.input) {
                           this.focusRef.input.focus()
                         }

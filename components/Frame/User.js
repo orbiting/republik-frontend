@@ -97,7 +97,7 @@ const User = ({ t, me, onClick, title, dark, expanded }) => {
         style={{ color }}
         role='button'
         title={title}
-        href={me ? `/~${me.username}` : '/anmelden'}
+        href={me ? `/~${me.username || me.id}` : '/anmelden'}
         onClick={e => {
           if (shouldIgnoreClick(e)) {
             return

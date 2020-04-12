@@ -116,7 +116,7 @@ const styles = {
     overflow: 'hidden',
     top: 0,
     zIndex: 1,
-    right: HEADER_HEIGHT_MOBILE - 10,
+    right: HEADER_HEIGHT_MOBILE - 10 + 2,
     height: HEADER_HEIGHT_MOBILE - 2,
     [mediaQueries.mUp]: {
       right: HEADER_HEIGHT - 12 + 5,
@@ -124,9 +124,8 @@ const styles = {
     }
   }),
   search: css({
-    display: 'none',
-    '@media (min-width: 340px)': {
-      display: 'inline-block'
+    '@media (max-width: 339px)': {
+      display: 'none !important'
     }
   }),
   secondary: css({

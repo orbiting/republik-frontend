@@ -12,8 +12,12 @@ const styles = {
   pad: css({
     display: 'inline-block',
     padding: Math.floor((HEADER_HEIGHT_MOBILE - HEADER_ICON_SIZE) / 2),
-    paddingLeft: 0,
-    paddingRight: 0,
+    paddingLeft: 1,
+    paddingRight: 1,
+    '@media (min-width: 365px)': {
+      paddingLeft: 2,
+      paddingRight: 2
+    },
     [mediaQueries.mUp]: {
       padding: Math.floor((HEADER_HEIGHT - HEADER_ICON_SIZE) / 2),
       paddingLeft: 5,

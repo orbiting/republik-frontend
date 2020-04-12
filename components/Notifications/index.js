@@ -33,11 +33,14 @@ const Notifications = compose(
       loadedAt
     )
 
+    const latestNotificationId = notifications?.nodes[0]?.id
+    const unreadCount = notifications?.unreadCount
+
     useEffect(() => {
-      if (!loading && !error) {
+      if (latestNotificationId && !error && unreadCount) {
         markAllAsReadMutation()
       }
-    }, [loading, error])
+    }, [latestNotificationId, error, unreadCount])
 
     const reload = () => {
       refetch()

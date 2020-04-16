@@ -238,6 +238,17 @@ const getDocument = gql`
                 image
               }
             }
+            parts {
+              title
+              document {
+                meta {
+                  title
+                  publishDate
+                  path
+                  image
+                }
+              }
+            }
           }
         }
         audioSource {

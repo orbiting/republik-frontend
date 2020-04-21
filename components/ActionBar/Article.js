@@ -5,6 +5,7 @@ import { getDiscussionIconLinkProps } from './utils'
 
 import { fontStyles } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
+import UserProgress from './UserProgress'
 
 class ArticleActionBar extends Component {
   constructor(props) {
@@ -51,6 +52,7 @@ class ArticleActionBar extends Component {
       grandSharing,
       fontSize,
       userBookmark,
+      userProgress,
       showSubscribe,
       subscription,
       isDiscussion
@@ -99,6 +101,17 @@ class ArticleActionBar extends Component {
           ownDiscussion={ownDiscussion}
           isDiscussion={isDiscussion}
         />
+        {userProgress && estimatedReadingMinutes > 1 && (
+          <UserProgress
+            userProgress={
+              !userProgress.percentage &&
+              userProgress.max &&
+              userProgress.max.percentage === 1
+                ? userProgress.max
+                : userProgress
+            }
+          />
+        )}
         {discussionId && alive && (
           <DiscussionIconLink
             discussionId={discussionId}

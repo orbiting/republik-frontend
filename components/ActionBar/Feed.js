@@ -142,14 +142,11 @@ const ActionBar = ({
           </ActionLink>
         ))}
         {displayConsumptionMinutes > 1 && (
-          <ReadingTime
-            minutes={displayConsumptionMinutes}
-            small
-            style={{ marginBottom: '-1px' }}
-          />
+          <ReadingTime minutes={displayConsumptionMinutes} small />
         )}
         {userProgress && estimatedReadingMinutes > 1 && (
           <UserProgress
+            small
             userProgress={
               !userProgress.percentage &&
               userProgress.max &&

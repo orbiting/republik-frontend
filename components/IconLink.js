@@ -90,6 +90,8 @@ export const styles = {
     }
   }),
   icon: css({
+    display: 'inline-block',
+    lineHeight: 0,
     position: 'relative',
     verticalAlign: 'middle'
   }),

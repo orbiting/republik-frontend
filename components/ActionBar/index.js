@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
+import UserProgress from './UserProgress'
 import Bookmark from './Bookmark'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
@@ -82,7 +83,8 @@ class ActionBar extends Component {
       subscription,
       showSubscribe,
       isDiscussion,
-      ownDiscussion
+      ownDiscussion,
+      userProgress
     } = this.props
     const { showShareOverlay, showFontSizeOverlay } = this.state
 
@@ -225,6 +227,17 @@ class ActionBar extends Component {
           ))}
           {displayConsumptionMinutes > 1 && (
             <ReadingTime minutes={displayConsumptionMinutes} />
+          )}
+          {userProgress && estimatedReadingMinutes > 1 && (
+            <UserProgress
+              userProgress={
+                !userProgress.percentage &&
+                userProgress.max &&
+                userProgress.max.percentage === 1
+                  ? userProgress.max
+                  : userProgress
+              }
+            />
           )}
           {isEditor &&
             editorIcons

@@ -6,7 +6,6 @@ import { getDiscussionIconLinkProps } from './utils'
 
 import { fontStyles, plainButtonRule } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
-import UserProgress from './UserProgress'
 
 const ArticleActionBar = (
   {
@@ -88,28 +87,12 @@ const ArticleActionBar = (
         bookmarked={!!userBookmark}
         estimatedReadingMinutes={estimatedReadingMinutes}
         estimatedConsumptionMinutes={estimatedConsumptionMinutes}
+        userProgress={userProgress}
         subscription={subscription}
         showSubscribe={showSubscribe}
         ownDiscussion={ownDiscussion}
         isDiscussion={isDiscussion}
       />
-      {userProgress && estimatedReadingMinutes > 1 && (
-        <button
-          {...plainButtonRule}
-          onClick={restoreArticleProgress}
-          style={{ marginLeft: 7 }}
-        >
-          <UserProgress
-            userProgress={
-              !userProgress.percentage &&
-              userProgress.max &&
-              userProgress.max.percentage === 1
-                ? userProgress.max
-                : userProgress
-            }
-          />
-        </button>
-      )}
       {discussionId && alive && (
         <DiscussionIconLink
           discussionId={discussionId}
@@ -146,10 +129,6 @@ ArticleActionBar.defaultProps = {
   emailBody: '',
   emailAttachUrl: true,
   fontSize: true
-}
-
-ArticleActionBar.contextTypes = {
-  restoreArticleProgress: PropTypes.func
 }
 
 export default ArticleActionBar

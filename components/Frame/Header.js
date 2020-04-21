@@ -293,13 +293,13 @@ class Header extends Component {
       showSecondary,
       onPrimaryNavExpandedChange,
       primaryNavExpanded,
-      formatColor,
       inNativeApp,
       inNativeIOSApp,
       isMember,
       headerAudioPlayer: HeaderAudioPlayer,
       pullable = true,
-      unreadNotifications = true
+      unreadNotifications = true,
+      colorPalette
     } = this.props
     const { backButton, renderSecondaryNav } = this.state
 
@@ -309,23 +309,23 @@ class Header extends Component {
       ? primaryNavExpanded
       : this.state.expanded)
     const secondaryVisible = showSecondary && !expanded
-    const dark = this.props.dark && !expanded
 
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
+    const currentColors = colorPalette || colors
+
     const bgStyle = opaque
       ? {
-          backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+          backgroundColor: currentColors.primaryBg
         }
       : undefined
-    const hrColor = dark ? colors.negative.containerBg : colors.divider
+    const hrColor = currentColors.divider
     const hrColorStyle = {
       color: hrColor,
       backgroundColor: hrColor
     }
-    const textFill = dark ? colors.negative.text : colors.text
-    const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
+    const textFill = currentColors.text
 
     const toggleExpanded = () => {
       if (onPrimaryNavExpandedChange) {
@@ -354,7 +354,7 @@ class Header extends Component {
     }
 
     return (
-      <ColorContext.Provider value={dark ? colors.negative : colors}>
+      <ColorContext.Provider value={currentColors}>
         <div
           {...barStyle}
           ref={inNativeIOSApp ? forceRefRedraw : undefined}
@@ -372,7 +372,7 @@ class Header extends Component {
                   href={'/'}
                   onClick={goTo('/', 'index')}
                 >
-                  <Logo fill={logoFill} />
+                  <Logo fill={textFill} />
                 </a>
               </div>
               <div
@@ -382,7 +382,11 @@ class Header extends Component {
                 }}
               >
                 <User
-                  dark={dark}
+                  dark={
+                    currentColors &&
+                    currentColors.meta &&
+                    currentColors.meta.isDark
+                  }
                   me={me}
                   expanded={expanded}
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
@@ -444,7 +448,7 @@ class Header extends Component {
               </div>
               <div {...styles.hamburger} style={bgStyle}>
                 <Toggle
-                  dark={dark}
+                  dark={currentColors}
                   expanded={expanded}
                   id='primary-menu'
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
@@ -470,12 +474,12 @@ class Header extends Component {
           <hr
             {...styles.stickyWithFallback}
             {...styles.hr}
-            {...styles[formatColor ? 'hrThick' : 'hrThin']}
+            {...styles[colorPalette.format ? 'hrThick' : 'hrThin']}
             style={
-              formatColor
+              colorPalette.format
                 ? {
-                    color: formatColor,
-                    backgroundColor: formatColor
+                    color: colorPalette.format,
+                    backgroundColor: colorPalette.format
                   }
                 : hrColorStyle
             }
@@ -497,7 +501,9 @@ class Header extends Component {
         {!!cover && <div {...styles.cover}>{cover}</div>}
         {inNativeApp && pullable && (
           <Pullable
-            dark={dark}
+            dark={
+              currentColors && currentColors.meta && currentColors.meta.isDark
+            }
             onRefresh={() => {
               if (inNativeIOSApp) {
                 postMessage({ type: 'haptic', payload: { type: 'impact' } })

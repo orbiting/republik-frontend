@@ -94,15 +94,15 @@ const Index = ({
   primaryNavExpanded,
   secondaryNav,
   showSecondary,
-  formatColor,
   headerAudioPlayer,
   onSearchClick,
   footer = true,
   pullable,
+  colorPalette,
   dark
 }) => (
   <HeaderHeightProvider config={HEADER_HEIGHT_CONFIG}>
-    <ColorContext.Provider value={dark && colors.negative}>
+    <ColorContext.Provider value={colorPalette || (dark && colors.negative)}>
       <div
         {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
       >
@@ -111,23 +111,22 @@ const Index = ({
           {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
           {...(!cover ? styles.padHeader : undefined)}
         >
-          {dark && (
+          {colorPalette && (
             <style
               dangerouslySetInnerHTML={{
-                __html: `html, body { background-color: ${colors.negative.containerBg}; color: ${colors.negative.text}; }`
+                __html: `html, body { background-color: ${colorPalette.containerBg}; color: ${colorPalette.text}; }`
               }}
             />
           )}
           {!!meta && <Meta data={meta} />}
           <Header
-            dark={dark && !inNativeIOSApp}
+            colorPalette={!inNativeIOSApp && colorPalette}
             me={me}
             cover={cover}
             onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
             primaryNavExpanded={primaryNavExpanded}
             secondaryNav={secondaryNav}
             showSecondary={showSecondary}
-            formatColor={formatColor}
             headerAudioPlayer={headerAudioPlayer}
             pullable={pullable}
           />
@@ -161,8 +160,4 @@ const Index = ({
   </HeaderHeightProvider>
 )
 
-export default compose(
-  withMe,
-  withT,
-  withInNativeApp
-)(Index)
+export default compose(withMe, withT, withInNativeApp)(Index)

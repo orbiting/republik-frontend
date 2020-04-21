@@ -10,7 +10,8 @@ import {
   mediaQueries,
   fontFamilies,
   colors,
-  useBodyScrollLock
+  useBodyScrollLock,
+  useColorContext
 } from '@project-r/styleguide'
 
 const plainStyle = {
@@ -102,11 +103,14 @@ const SeriesNavButton = ({
   expanded
 }) => {
   const [ref] = useBodyScrollLock(expanded)
+  const [colorScheme] = useColorContext()
+  console.log(colorScheme)
 
   return (
     <Fragment>
       <button
         {...styles.button}
+        style={{ color: colorScheme.text }}
         onClick={() => {
           onSecondaryNavExpandedChange(!expanded)
         }}
@@ -114,8 +118,10 @@ const SeriesNavButton = ({
         <span {...styles.title}>
           {series.title}
           <span {...styles.arrow}>
-            {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
-            {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
+            {expanded && <ArrowUpIcon size='28' fill={colorScheme.lightText} />}
+            {!expanded && (
+              <ArrowDownIcon size='28' fill={colorScheme.lightText} />
+            )}
           </span>
         </span>
       </button>

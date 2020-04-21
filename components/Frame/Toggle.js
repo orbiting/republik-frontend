@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { mediaQueries, colors } from '@project-r/styleguide'
+import { mediaQueries, useColorContext } from '@project-r/styleguide'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
@@ -70,30 +70,22 @@ const styles = {
       top: 20,
       left: 2
     }
-  }),
-  light: css({
+  })
+}
+
+export default ({ expanded, onClick, id, title }) => {
+  const [colorScheme] = useColorContext()
+  const colorStyle = css({
     '& span': {
-      backgroundColor: colors.text,
+      backgroundColor: colorScheme.text,
       '@media (hover)': {
         ':hover': {
-          backgroundColor: colors.text
-        }
-      }
-    }
-  }),
-  dark: css({
-    '& span': {
-      backgroundColor: colors.negative.text,
-      '@media (hover)': {
-        ':hover': {
-          backgroundColor: colors.negative.text
+          backgroundColor: colorScheme.text
         }
       }
     }
   })
-}
 
-export default ({ expanded, onClick, id, title, dark }) => {
   return (
     <button
       {...styles.button}
@@ -102,7 +94,7 @@ export default ({ expanded, onClick, id, title, dark }) => {
       aria-expanded={expanded}
       aria-live='assertive'
     >
-      <div {...styles.toggle} {...styles[dark ? 'dark' : 'light']}>
+      <div {...styles.toggle} {...colorStyle}>
         <span />
         <span />
         <span />

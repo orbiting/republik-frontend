@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  fontStyles,
+  useColorContext
+} from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import PersonIcon from 'react-icons/lib/md/person-outline'
 import withT from '../../lib/withT'
@@ -87,8 +91,9 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, onClick, title, dark, expanded }) => {
-  const color = dark ? colors.negative.text : colors.text
+const User = ({ t, me, onClick, title, expanded }) => {
+  const [colorScheme] = useColorContext()
+  const color = colorScheme.text
   return (
     <div {...styles.user}>
       <a

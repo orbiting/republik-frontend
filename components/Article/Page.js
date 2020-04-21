@@ -46,6 +46,7 @@ import {
   Center,
   ColorContext,
   colors,
+  getPalette,
   Interaction,
   mediaQueries,
   LazyLoad,
@@ -225,6 +226,9 @@ const getDocument = gql`
         }
         series {
           title
+          primaryColor
+          textColor
+          bgColor
           episodes {
             title
             publishDate
@@ -677,11 +681,6 @@ class ArticlePage extends Component {
 
     const series = meta && meta.series
     const episodes = series && series.episodes
-    const darkMode =
-      article &&
-      article.content &&
-      article.content.meta &&
-      article.content.meta.darkMode
 
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
@@ -701,6 +700,26 @@ class ArticlePage extends Component {
 
     const sectionColor = meta && meta.template === 'section' && meta.color
     const MissingNode = isEditor ? undefined : ({ children }) => children
+
+    const darkMode =
+      article &&
+      article.content &&
+      article.content.meta &&
+      article.content.meta.darkMode
+
+    const colorTheme = series &&
+      series.primaryColor &&
+      series.textColor &&
+      series.bgColor && {
+        primary: series.primaryColor,
+        text: series.textColor,
+        background: series.bgColor
+      }
+    const colorPalette = (colorTheme && getPalette(colorTheme)) ||
+      (darkMode && { ...colors.negative, format: formatColor }) || {
+        ...colors,
+        format: formatColor
+      }
 
     if (router.query.extract) {
       return (
@@ -769,7 +788,7 @@ class ArticlePage extends Component {
 
     return (
       <Frame
-        dark={darkMode}
+        colorPalette={colorPalette}
         raw
         // Meta tags for a focus comment are rendered in Discussion/Commments.js
         meta={
@@ -779,7 +798,6 @@ class ArticlePage extends Component {
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={seriesNavButton || actionBarNav}
         showSecondary={this.state.showSecondary}
-        formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}
       >
         <Loader
@@ -936,9 +954,7 @@ class ArticlePage extends Component {
                         cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
                       >
                         {() => (
-                          <ColorContext.Provider
-                            value={darkMode && colors.negative}
-                          >
+                          <ColorContext.Provider value={colorPalette}>
                             {renderSchema(splitContent.main)}
                           </ColorContext.Provider>
                         )}

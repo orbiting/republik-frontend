@@ -951,17 +951,17 @@ class ArticlePage extends Component {
                     <NewsletterSignUp {...newsletterMeta} />
                   </Center>
                 )}
-                {(isMember && meta.template === 'article') ||
+                {((isMember && meta.template === 'article') ||
                   (isEditorialNewsletter &&
                     newsletterMeta &&
-                    newsletterMeta.free && (
-                      <Center>
-                        <div ref={this.bottomBarRef}>{actionBarEnd}</div>
-                        {!!podcast && meta.template === 'article' && (
-                          <PodcastButtons {...podcast} />
-                        )}
-                      </Center>
-                    ))}
+                    newsletterMeta.free)) && (
+                  <Center>
+                    <div ref={this.bottomBarRef}>{actionBarEnd}</div>
+                    {!!podcast && meta.template === 'article' && (
+                      <PodcastButtons {...podcast} />
+                    )}
+                  </Center>
+                )}
                 {!!podcast && meta.template !== 'article' && (
                   <Center>
                     <PodcastButtons {...podcast} />

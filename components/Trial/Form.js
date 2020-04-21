@@ -73,14 +73,15 @@ const Form = props => {
     meRefetch,
     t,
     minimal,
-    darkMode
+    darkMode,
+    initialEmail
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
   const utmParams = getUtmParams(query)
 
   const [consents, setConsents] = useState([])
-  const [email, setEmail] = useState({ value: '' })
+  const [email, setEmail] = useState({ value: initialEmail || '' })
   const [serverError, setServerError] = useState('')
   const [phrase, setPhrase] = useState('')
   const [signingIn, setSigningIn] = useState(false)

@@ -202,12 +202,14 @@ const signInMutation = gql`
     $context: String
     $consents: [String!]
     $tokenType: SignInTokenType
+    $accessToken: ID
   ) {
     signIn(
       email: $email
       context: $context
       consents: $consents
       tokenType: $tokenType
+      accessToken: $accessToken
     ) {
       phrase
       tokenType
@@ -218,13 +220,11 @@ const signInMutation = gql`
 
 export const withSignIn = graphql(signInMutation, {
   props: ({ mutate }) => ({
-    signIn: (email, context = 'signIn', consents, tokenType) =>
-      mutate({ variables: { email, context, consents, tokenType } })
+    signIn: (email, context = 'signIn', consents, tokenType, accessToken) =>
+      mutate({
+        variables: { email, context, consents, tokenType, accessToken }
+      })
   })
 })
 
-export default compose(
-  withApollo,
-  withSignIn,
-  withT
-)(SignIn)
+export default compose(withApollo, withSignIn, withT)(SignIn)

@@ -94,7 +94,11 @@ const ArticleActionBar = (
         isDiscussion={isDiscussion}
       />
       {userProgress && estimatedReadingMinutes > 1 && (
-        <button {...plainButtonRule} onClick={restoreArticleProgress}>
+        <button
+          {...plainButtonRule}
+          onClick={restoreArticleProgress}
+          style={{ marginLeft: 7 }}
+        >
           <UserProgress
             userProgress={
               !userProgress.percentage &&

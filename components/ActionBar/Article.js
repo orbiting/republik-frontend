@@ -4,7 +4,7 @@ import ActionBar from './'
 import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
 
-import { fontStyles, button, plainButtonRule } from '@project-r/styleguide'
+import { fontStyles, plainButtonRule } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
 import UserProgress from './UserProgress'
 

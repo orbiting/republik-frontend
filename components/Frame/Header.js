@@ -317,7 +317,7 @@ class Header extends Component {
 
     const bgStyle = opaque
       ? {
-          backgroundColor: currentColors.primaryBg
+          backgroundColor: currentColors.containerBg
         }
       : undefined
     const hrColor = currentColors.divider

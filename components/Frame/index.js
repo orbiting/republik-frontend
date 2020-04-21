@@ -98,7 +98,7 @@ const Index = ({
   onSearchClick,
   footer = true,
   pullable,
-  colorPalette,
+  colorPalette = colors,
   dark
 }) => (
   <HeaderHeightProvider config={HEADER_HEIGHT_CONFIG}>

@@ -57,7 +57,7 @@ const ArticleActionBar = ({
   const [alive, setAlive] = useState(false)
   useEffect(() => {
     setAlive(true)
-  })
+  }, [])
 
   return (
     <Fragment>

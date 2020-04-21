@@ -1,46 +1,50 @@
 import React, { Component, Fragment, useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import ActionBar from './'
 import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
 
-import { fontStyles } from '@project-r/styleguide'
+import { fontStyles, plainButtonRule } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
 import UserProgress from './UserProgress'
 
-const ArticleActionBar = ({
-  animate,
-  title,
-  tweet,
-  emailBody,
-  emailAttachUrl,
-  template,
-  path,
-  linkedDiscussion,
-  ownDiscussion,
-  documentId,
-  repoId,
-  isEditor,
-  dossierUrl,
-  estimatedReadingMinutes,
-  estimatedConsumptionMinutes,
-  onAudioClick,
-  onGalleryClick,
-  onPdfClick,
-  pdfUrl,
-  showBookmark,
-  t,
-  url,
-  inNativeApp,
-  inIOS,
-  showShare = true,
-  grandSharing,
-  fontSize,
-  userBookmark,
-  userProgress,
-  showSubscribe,
-  subscription,
-  isDiscussion
-}) => {
+const ArticleActionBar = (
+  {
+    animate,
+    title,
+    tweet,
+    emailBody,
+    emailAttachUrl,
+    template,
+    path,
+    linkedDiscussion,
+    ownDiscussion,
+    documentId,
+    repoId,
+    isEditor,
+    dossierUrl,
+    estimatedReadingMinutes,
+    estimatedConsumptionMinutes,
+    onAudioClick,
+    onGalleryClick,
+    onPdfClick,
+    pdfUrl,
+    showBookmark,
+    t,
+    url,
+    inNativeApp,
+    inIOS,
+    showShare = true,
+    grandSharing,
+    fontSize,
+    userBookmark,
+    userProgress,
+    showSubscribe,
+    subscription,
+    isDiscussion
+  },
+  { restoreArticleProgress }
+) => {
   const {
     discussionId,
     discussionPath,
@@ -90,15 +94,21 @@ const ArticleActionBar = ({
         isDiscussion={isDiscussion}
       />
       {userProgress && estimatedReadingMinutes > 1 && (
-        <UserProgress
-          userProgress={
-            !userProgress.percentage &&
-            userProgress.max &&
-            userProgress.max.percentage === 1
-              ? userProgress.max
-              : userProgress
-          }
-        />
+        <button
+          {...plainButtonRule}
+          onClick={restoreArticleProgress}
+          style={{ marginLeft: 7 }}
+        >
+          <UserProgress
+            userProgress={
+              !userProgress.percentage &&
+              userProgress.max &&
+              userProgress.max.percentage === 1
+                ? userProgress.max
+                : userProgress
+            }
+          />
+        </button>
       )}
       {discussionId && alive && (
         <DiscussionIconLink
@@ -136,6 +146,10 @@ ArticleActionBar.defaultProps = {
   emailBody: '',
   emailAttachUrl: true,
   fontSize: true
+}
+
+ArticleActionBar.contextTypes = {
+  restoreArticleProgress: PropTypes.func
 }
 
 export default ArticleActionBar

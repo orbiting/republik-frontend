@@ -244,7 +244,8 @@ class Progress extends Component {
   getChildContext() {
     return {
       getMediaProgress: this.getMediaProgress,
-      saveMediaProgress: this.saveMediaProgress
+      saveMediaProgress: this.saveMediaProgress,
+      restoreArticleProgress: this.restoreArticleProgress
     }
   }
 
@@ -331,7 +332,8 @@ Progress.defaultProps = {
 
 Progress.childContextTypes = {
   getMediaProgress: PropTypes.func,
-  saveMediaProgress: PropTypes.func
+  saveMediaProgress: PropTypes.func,
+  restoreArticleProgress: PropTypes.func
 }
 
 export default compose(

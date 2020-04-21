@@ -518,6 +518,7 @@ class ArticlePage extends Component {
         repoId={article.repoId}
         isEditor={isEditor}
         userBookmark={article.userBookmark}
+        userProgress={article.userProgress}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}

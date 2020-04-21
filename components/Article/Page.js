@@ -464,7 +464,6 @@ class ArticlePage extends Component {
       data: { article },
       inNativeApp,
       inNativeIOSApp,
-      inIOS,
       router,
       isMember,
       isEditor
@@ -484,49 +483,6 @@ class ArticlePage extends Component {
 
     const newsletterMeta =
       meta && (meta.newsletter || (meta.format && meta.format.meta.newsletter))
-
-    const hasPdf = meta && meta.template === 'article'
-    const isEditorialNewsletter =
-      meta && meta.template === 'editorialNewsletter'
-    const isDiscussion = meta && meta.template === 'discussion'
-
-    const actionBar = meta && (
-      <ArticleActionBar
-        t={t}
-        url={meta.url}
-        title={meta.title}
-        animate={!podcast}
-        template={meta.template}
-        path={meta.path}
-        showShare={
-          !isEditorialNewsletter || (newsletterMeta && newsletterMeta.free)
-        }
-        linkedDiscussion={meta.linkedDiscussion}
-        ownDiscussion={meta.ownDiscussion}
-        dossierUrl={meta.dossier && meta.dossier.meta.path}
-        onAudioClick={meta.audioSource && this.toggleAudio}
-        onGalleryClick={meta.indicateGallery ? this.showGallery : undefined}
-        onPdfClick={
-          hasPdf && countImages(article.content) > 0
-            ? this.togglePdf
-            : undefined
-        }
-        pdfUrl={hasPdf ? getPdfUrl(meta) : undefined}
-        inNativeApp={inNativeApp}
-        inIOS={inIOS}
-        documentId={article.id}
-        repoId={article.repoId}
-        isEditor={isEditor}
-        userBookmark={article.userBookmark}
-        userProgress={article.userProgress}
-        showBookmark={isMember}
-        estimatedReadingMinutes={meta.estimatedReadingMinutes}
-        estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-        subscription={article.subscribedByMe}
-        showSubscribe
-        isDiscussion={isDiscussion}
-      />
-    )
 
     const schema =
       meta &&
@@ -564,7 +520,6 @@ class ArticlePage extends Component {
       meta,
       podcast,
       newsletterMeta,
-      actionBar,
       showSeriesNav,
       autoPlayAudioSource:
         id !== state.id ? router.query.audio === '1' : state.autoPlayAudioSource
@@ -640,12 +595,49 @@ class ArticlePage extends Component {
       meta,
       podcast,
       newsletterMeta,
-      actionBar,
       schema,
       headerAudioPlayer,
       showSeriesNav
     } = this.state
 
+    const hasPdf = meta && meta.template === 'article'
+    const isEditorialNewsletter =
+      meta && meta.template === 'editorialNewsletter'
+    const actionBar = meta && (
+      <ArticleActionBar
+        t={t}
+        url={meta.url}
+        title={meta.title}
+        animate={!podcast}
+        template={meta.template}
+        path={meta.path}
+        showShare={
+          !isEditorialNewsletter || (newsletterMeta && newsletterMeta.free)
+        }
+        linkedDiscussion={meta.linkedDiscussion}
+        ownDiscussion={meta.ownDiscussion}
+        dossierUrl={meta.dossier && meta.dossier.meta.path}
+        onAudioClick={meta.audioSource && this.toggleAudio}
+        onGalleryClick={meta.indicateGallery ? this.showGallery : undefined}
+        onPdfClick={
+          hasPdf && countImages(article.content) > 0
+            ? this.togglePdf
+            : undefined
+        }
+        pdfUrl={hasPdf ? getPdfUrl(meta) : undefined}
+        documentId={article.id}
+        repoId={article.repoId}
+        isEditor={isEditor}
+        userBookmark={article.userBookmark}
+        userProgress={article.userProgress}
+        showBookmark={isMember}
+        estimatedReadingMinutes={meta.estimatedReadingMinutes}
+        estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
+        subscription={article.subscribedByMe}
+        showSubscribe
+        isDiscussion={meta && meta.template === 'discussion'}
+      />
+    )
     const actionBarNav = actionBar
       ? React.cloneElement(actionBar, {
           animate: false,
@@ -787,8 +779,6 @@ class ArticlePage extends Component {
 
             const isFormat = meta.template === 'format'
             const isSection = meta.template === 'section'
-            const isEditorialNewsletter =
-              meta.template === 'editorialNewsletter'
 
             const hasNewsletterUtms =
               router.query.utm_source &&

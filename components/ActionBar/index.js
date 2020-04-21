@@ -10,7 +10,7 @@ import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import withT from '../../lib/withT'
-import { postMessage } from '../../lib/withInNativeApp'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import track from '../../lib/piwik'
 
 import { colors } from '@project-r/styleguide'
@@ -278,5 +278,4 @@ ActionBar.defaultProps = {
   showShare: true
 }
 
-// Note: This Component is used within SSRCachingBoundary and can not use context
-export default compose(withT)(ActionBar)
+export default compose(withInNativeApp, withT)(ActionBar)

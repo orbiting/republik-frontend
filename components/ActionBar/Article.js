@@ -31,8 +31,6 @@ const ArticleActionBar = (
     showBookmark,
     t,
     url,
-    inNativeApp,
-    inIOS,
     showShare = true,
     grandSharing,
     fontSize,
@@ -75,8 +73,6 @@ const ArticleActionBar = (
         pdfUrl={pdfUrl}
         emailSubject={emailSubject}
         onAudioClick={onAudioClick}
-        inNativeApp={inNativeApp}
-        inIOS={inIOS}
         onGalleryClick={onGalleryClick}
         showBookmark={showBookmark}
         showShare={showShare && !grandSharing}

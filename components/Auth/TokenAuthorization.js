@@ -24,6 +24,8 @@ import ErrorMessage from '../ErrorMessage'
 
 import Me from './Me'
 
+import withAuthorizeSession from './withAuthorizeSession'
+
 const styles = {
   actions: css({
     display: 'flex',
@@ -65,14 +67,16 @@ class TokenAuthorization extends Component {
       return
     }
 
-    const { email, authorize, context } = this.props
+    const { email, tokenType, token, authorizeSession, context } = this.props
 
     this.setState(
       {
         authorizing: true
       },
       () => {
-        authorize({
+        authorizeSession({
+          email,
+          tokens: [{ type: tokenType, payload: token }],
           consents: this.state.consents,
           requiredFields:
             Object.keys(this.state.values).length > 0
@@ -358,21 +362,6 @@ class TokenAuthorization extends Component {
   }
 }
 
-const authorizeSession = gql`
-  mutation authorizeSession(
-    $email: String!
-    $tokens: [SignInToken!]!
-    $consents: [String!]
-    $requiredFields: RequiredUserFields
-  ) {
-    authorizeSession(
-      email: $email
-      tokens: $tokens
-      consents: $consents
-      requiredFields: $requiredFields
-    )
-  }
-`
 const denySession = gql`
   mutation denySession($email: String!, $token: SignInToken!) {
     denySession(email: $email, token: $token)
@@ -413,20 +402,7 @@ const unauthorizedSessionQuery = gql`
 
 export default compose(
   withT,
-  graphql(authorizeSession, {
-    props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
-      authorize: ({ consents, requiredFields } = {}) =>
-        mutate({
-          variables: {
-            email,
-            tokens: [{ type: tokenType, payload: token }],
-            consents,
-            requiredFields
-          },
-          refetchQueries: [{ query: meQuery }]
-        })
-    })
-  }),
+  withAuthorizeSession,
   graphql(denySession, {
     props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
       deny: () =>

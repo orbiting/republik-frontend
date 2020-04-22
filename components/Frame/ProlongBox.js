@@ -9,7 +9,8 @@ import {
   colors,
   mediaQueries,
   Button,
-  Center
+  Center,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { css } from 'glamor'
@@ -50,9 +51,9 @@ const ProlongBox = ({
   prolongBeforeDate,
   router,
   inNativeApp,
-  inNativeIOSApp,
-  dark: inDarkFrame
+  inNativeIOSApp
 }) => {
+  const [colorScheme] = useColorContext()
   if (
     router.pathname === '/pledge' ||
     router.pathname === '/cancel' ||
@@ -61,6 +62,7 @@ const ProlongBox = ({
   ) {
     return null
   }
+  const inDarkFrame = colorScheme.meta && colorScheme.meta.isDark
   const date = new Date(prolongBeforeDate)
   const numberOfDays = timeDay.count(new Date(), date)
   if (numberOfDays <= 30) {
@@ -128,7 +130,4 @@ const ProlongBox = ({
   return null
 }
 
-export default compose(
-  withRouter,
-  withInNativeApp
-)(ProlongBox)
+export default compose(withRouter, withInNativeApp)(ProlongBox)

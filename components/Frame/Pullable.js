@@ -8,7 +8,8 @@ import { css } from 'glamor'
 import {
   InlineSpinner,
   colors,
-  isBodyScrollLocked
+  isBodyScrollLocked,
+  useColorContext
 } from '@project-r/styleguide'
 
 import DownIcon from 'react-icons/lib/md/arrow-downward'
@@ -23,24 +24,27 @@ const styles = {
   })
 }
 
-const Container = props => (
-  <div
-    {...styles.container}
-    {...(props.shouldReset
-      ? css({
-          transition: `height ${props.resetDuration}ms ${props.resetEase}`
-        })
-      : undefined)}
-    style={{
-      height: props.height,
-      backgroundColor: props.dark
-        ? colors.negative.primaryBg
-        : colors.secondaryBg
-    }}
-  >
-    {props.children}
-  </div>
-)
+const Container = props => {
+  const [colorScheme] = useColorContext()
+  const isDark = colorScheme.meta && colorScheme.meta.isDark
+
+  return (
+    <div
+      {...styles.container}
+      {...(props.shouldReset
+        ? css({
+            transition: `height ${props.resetDuration}ms ${props.resetEase}`
+          })
+        : undefined)}
+      style={{
+        height: props.height,
+        backgroundColor: isDark ? colors.negative.primaryBg : colors.secondaryBg
+      }}
+    >
+      {props.children}
+    </div>
+  )
+}
 
 class Pullable extends React.Component {
   constructor(props) {
@@ -161,7 +165,6 @@ class Pullable extends React.Component {
           resetDuration={this.props.resetDuration}
           resetEase={this.props.resetEase}
           shouldReset={shouldReset}
-          dark={this.props.dark}
         >
           {shouldSpin ? <InlineSpinner size={32} /> : <DownIcon size={32} />}
         </Container>

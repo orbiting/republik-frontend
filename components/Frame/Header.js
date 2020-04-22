@@ -299,7 +299,8 @@ class Header extends Component {
       headerAudioPlayer: HeaderAudioPlayer,
       pullable = true,
       unreadNotifications = true,
-      colorPalette
+      themeColors,
+      formatColor
     } = this.props
     const { backButton, renderSecondaryNav } = this.state
 
@@ -313,11 +314,11 @@ class Header extends Component {
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
-    const currentColors = colorPalette || colors
+    const currentColors = themeColors || colors
 
     const bgStyle = opaque
       ? {
-          backgroundColor: currentColors.containerBg
+          backgroundColor: currentColors.interactionBg
         }
       : undefined
     const hrColor = currentColors.divider
@@ -354,7 +355,7 @@ class Header extends Component {
     }
 
     return (
-      <ColorContext.Provider value={currentColors}>
+      <>
         <div
           {...barStyle}
           ref={inNativeIOSApp ? forceRefRedraw : undefined}
@@ -382,11 +383,6 @@ class Header extends Component {
                 }}
               >
                 <User
-                  dark={
-                    currentColors &&
-                    currentColors.meta &&
-                    currentColors.meta.isDark
-                  }
                   me={me}
                   expanded={expanded}
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
@@ -448,7 +444,6 @@ class Header extends Component {
               </div>
               <div {...styles.hamburger} style={bgStyle}>
                 <Toggle
-                  dark={currentColors}
                   expanded={expanded}
                   id='primary-menu'
                   title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
@@ -474,12 +469,12 @@ class Header extends Component {
           <hr
             {...styles.stickyWithFallback}
             {...styles.hr}
-            {...styles[colorPalette.format ? 'hrThick' : 'hrThin']}
+            {...styles[formatColor ? 'hrThick' : 'hrThin']}
             style={
-              colorPalette.format
+              formatColor
                 ? {
-                    color: colorPalette.format,
-                    backgroundColor: colorPalette.format
+                    color: formatColor,
+                    backgroundColor: formatColor
                   }
                 : hrColorStyle
             }
@@ -501,9 +496,6 @@ class Header extends Component {
         {!!cover && <div {...styles.cover}>{cover}</div>}
         {inNativeApp && pullable && (
           <Pullable
-            dark={
-              currentColors && currentColors.meta && currentColors.meta.isDark
-            }
             onRefresh={() => {
               if (inNativeIOSApp) {
                 postMessage({ type: 'haptic', payload: { type: 'impact' } })
@@ -515,7 +507,7 @@ class Header extends Component {
             }}
           />
         )}
-      </ColorContext.Provider>
+      </>
     )
   }
 }

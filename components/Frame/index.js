@@ -5,9 +5,9 @@ import {
   RawHtml,
   fontFamilies,
   mediaQueries,
-  colors,
   ColorContext,
-  HeaderHeightProvider
+  HeaderHeightProvider,
+  colors
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
@@ -94,70 +94,77 @@ const Index = ({
   primaryNavExpanded,
   secondaryNav,
   showSecondary,
+  formatColor,
   headerAudioPlayer,
   onSearchClick,
   footer = true,
   pullable,
-  colorPalette = colors,
+  themeColors,
   dark
-}) => (
-  <HeaderHeightProvider config={HEADER_HEIGHT_CONFIG}>
-    <ColorContext.Provider value={colorPalette || (dark && colors.negative)}>
-      <div
-        {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
-      >
-        {/* body growing only needed when rendering a footer */}
+}) => {
+  const currentColors = dark && colors.negative
+  return (
+    <HeaderHeightProvider config={HEADER_HEIGHT_CONFIG}>
+      <ColorContext.Provider value={currentColors}>
         <div
-          {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-          {...(!cover ? styles.padHeader : undefined)}
+          {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
         >
-          {colorPalette && (
-            <style
-              dangerouslySetInnerHTML={{
-                __html: `html, body { background-color: ${colorPalette.containerBg}; color: ${colorPalette.text}; }`
-              }}
-            />
-          )}
-          {!!meta && <Meta data={meta} />}
-          <Header
-            colorPalette={!inNativeIOSApp && colorPalette}
-            me={me}
-            cover={cover}
-            onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
-            primaryNavExpanded={primaryNavExpanded}
-            secondaryNav={secondaryNav}
-            showSecondary={showSecondary}
-            headerAudioPlayer={headerAudioPlayer}
-            pullable={pullable}
-          />
-          <noscript>
-            <Box style={{ padding: 30 }}>
-              <RawHtml
+          {/* body growing only needed when rendering a footer */}
+          <div
+            {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
+            {...(!cover ? styles.padHeader : undefined)}
+          >
+            {(themeColors || currentColors) && (
+              <style
                 dangerouslySetInnerHTML={{
-                  __html: t('noscript')
+                  __html: `html, body { background-color: ${
+                    themeColors
+                      ? themeColors.containerBg
+                      : currentColors.containerBg
+                  }; color: ${
+                    themeColors ? themeColors.text : currentColors.text
+                  }; }`
                 }}
               />
-            </Box>
-          </noscript>
-          {me && me.prolongBeforeDate !== null && (
-            <ProlongBox
-              t={t}
-              prolongBeforeDate={me.prolongBeforeDate}
-              dark={dark}
+            )}
+            {!!meta && <Meta data={meta} />}
+            <Header
+              themeColors={!inNativeIOSApp && currentColors}
+              me={me}
+              cover={cover}
+              onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
+              primaryNavExpanded={primaryNavExpanded}
+              secondaryNav={secondaryNav}
+              showSecondary={showSecondary}
+              headerAudioPlayer={headerAudioPlayer}
+              pullable={pullable}
+              formatColor={(themeColors && themeColors.format) || formatColor}
             />
-          )}
-          {raw ? (
-            children
-          ) : (
-            <MainContainer>
-              <Content>{children}</Content>
-            </MainContainer>
-          )}
+            <noscript>
+              <Box style={{ padding: 30 }}>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('noscript')
+                  }}
+                />
+              </Box>
+            </noscript>
+            {me && me.prolongBeforeDate !== null && (
+              <ProlongBox t={t} prolongBeforeDate={me.prolongBeforeDate} />
+            )}
+            {raw ? (
+              children
+            ) : (
+              <MainContainer>
+                <Content>{children}</Content>
+              </MainContainer>
+            )}
+          </div>
+          {!inNativeApp && footer && <Footer />}
         </div>
-        {!inNativeApp && footer && <Footer />}
-      </div>
-    </ColorContext.Provider>
-  </HeaderHeightProvider>
-)
+      </ColorContext.Provider>
+    </HeaderHeightProvider>
+  )
+}
 
 export default compose(withMe, withT, withInNativeApp)(Index)

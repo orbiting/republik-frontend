@@ -707,19 +707,18 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
-    const colorTheme = series &&
+    const themeColors =
+      series &&
       series.primaryColor &&
       series.textColor &&
-      series.bgColor && {
+      series.bgColor &&
+      getPalette({
         primary: series.primaryColor,
         text: series.textColor,
         background: series.bgColor
-      }
-    const colorPalette = (colorTheme && getPalette(colorTheme)) ||
-      (darkMode && { ...colors.negative, format: formatColor }) || {
-        ...colors,
-        format: formatColor
-      }
+      })
+
+    const articleColors = themeColors || (darkMode && colors.negative)
 
     if (router.query.extract) {
       return (
@@ -788,7 +787,7 @@ class ArticlePage extends Component {
 
     return (
       <Frame
-        colorPalette={colorPalette}
+        dark={darkMode}
         raw
         // Meta tags for a focus comment are rendered in Discussion/Commments.js
         meta={
@@ -798,6 +797,8 @@ class ArticlePage extends Component {
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={seriesNavButton || actionBarNav}
         showSecondary={this.state.showSecondary}
+        formatColor={formatColor}
+        themeColors={articleColors}
         headerAudioPlayer={headerAudioPlayer}
       >
         <Loader
@@ -861,181 +862,190 @@ class ArticlePage extends Component {
 
             return (
               <Fragment>
-                <FontSizeSync />
-                {meta.prepublication && (
-                  <div {...styles.prepublicationNotice}>
-                    <Center>
-                      <Interaction.P>
-                        {t('article/prepublication/notice')}
-                      </Interaction.P>
-                    </Center>
-                  </div>
-                )}
-                {this.state.showPdf && (
-                  <PdfOverlay article={article} onClose={this.togglePdf} />
-                )}
-                <ArticleGallery
-                  article={article}
-                  show={!!router.query.gallery}
-                  ref={this.galleryRef}
-                >
-                  <ProgressComponent article={article}>
-                    <article style={{ display: 'block' }}>
-                      {splitContent.title && (
-                        <div {...styles.titleBlock}>
-                          {renderSchema(splitContent.title)}
-                          {isEditorialNewsletter && (
-                            <TitleBlock margin={false}>
-                              {format && format.meta && (
-                                <Editorial.Format
-                                  color={
-                                    format.meta.color ||
-                                    colors[format.meta.kind]
-                                  }
-                                  contentEditable={false}
-                                >
-                                  <HrefLink href={format.meta.path} passHref>
-                                    <a {...styles.link} href={format.meta.path}>
-                                      {format.meta.title}
-                                    </a>
-                                  </HrefLink>
-                                </Editorial.Format>
-                              )}
-                              <Interaction.Headline>
-                                {meta.title}
-                              </Interaction.Headline>
-                              <Editorial.Credit>
-                                {formatDate(new Date(meta.publishDate))}
-                              </Editorial.Credit>
-                            </TitleBlock>
-                          )}
-                          <Center>
-                            <div
-                              ref={this.barRef}
-                              {...styles.actionBar}
-                              style={{
-                                textAlign: titleAlign,
-                                marginTop: isSection || isFormat ? 20 : 0,
-                                marginBottom: isEditorialNewsletter
-                                  ? 0
-                                  : undefined
-                              }}
-                            >
-                              {actionBar}
-                            </div>
-                            {isSection && (
-                              <Breakout size='breakout'>
-                                <SectionNav
-                                  color={sectionColor}
-                                  linkedDocuments={article.linkedDocuments}
-                                />
-                              </Breakout>
-                            )}
-                            {!!podcast && meta.template === 'article' && (
-                              <PodcastButtons
-                                {...podcast}
-                                audioSource={audioSource}
-                                onAudioClick={this.toggleAudio}
-                              />
-                            )}
-                            {!me &&
-                              isEditorialNewsletter &&
-                              !!newsletterMeta &&
-                              newsletterMeta.free && (
-                                <div style={{ marginTop: 10 }}>
-                                  <NewsletterSignUp {...newsletterMeta} />
-                                </div>
-                              )}
-                          </Center>
-                          {!suppressFirstPayNote && payNote}
-                        </div>
-                      )}
-                      <SSRCachingBoundary
-                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
-                      >
-                        {() => (
-                          <ColorContext.Provider value={colorPalette}>
-                            {renderSchema(splitContent.main)}
-                          </ColorContext.Provider>
-                        )}
-                      </SSRCachingBoundary>
-                    </article>
-                  </ProgressComponent>
-                </ArticleGallery>
-                {meta.template === 'article' &&
-                  ownDiscussion &&
-                  !ownDiscussion.closed &&
-                  !linkedDiscussion &&
-                  isMember && (
-                    <Center>
-                      <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
-                    </Center>
-                  )}
-                {meta.template === 'discussion' && ownDiscussion && (
-                  <Center>
-                    <Discussion
-                      discussionId={ownDiscussion.id}
-                      focusId={router.query.focus}
-                      parent={router.query.parent}
-                      mute={!!router.query.mute}
-                      board={ownDiscussion.isBoard}
-                    />
-                  </Center>
-                )}
-                {!!newsletterMeta && (
-                  <Center>
-                    <NewsletterSignUp {...newsletterMeta} />
-                  </Center>
-                )}
-                {(isMember && meta.template === 'article') ||
-                  (isEditorialNewsletter &&
-                    newsletterMeta &&
-                    newsletterMeta.free && (
+                <ColorContext.Provider value={articleColors}>
+                  <FontSizeSync />
+                  {meta.prepublication && (
+                    <div {...styles.prepublicationNotice}>
                       <Center>
-                        <div ref={this.bottomBarRef}>{actionBarEnd}</div>
-                        {!!podcast && meta.template === 'article' && (
-                          <PodcastButtons {...podcast} />
-                        )}
+                        <Interaction.P>
+                          {t('article/prepublication/notice')}
+                        </Interaction.P>
                       </Center>
-                    ))}
-                {!!podcast && meta.template !== 'article' && (
-                  <Center>
-                    <PodcastButtons {...podcast} />
-                  </Center>
-                )}
-                {false &&
-                  !suppressPayNotes &&
-                  !darkMode &&
-                  !(customPayNotes && customPayNotes.length) && (
+                    </div>
+                  )}
+                  {this.state.showPdf && (
+                    <PdfOverlay article={article} onClose={this.togglePdf} />
+                  )}
+                  <ArticleGallery
+                    article={article}
+                    show={!!router.query.gallery}
+                    ref={this.galleryRef}
+                  >
+                    <ProgressComponent article={article}>
+                      <article style={{ display: 'block' }}>
+                        {splitContent.title && (
+                          <div {...styles.titleBlock}>
+                            {renderSchema(splitContent.title)}
+                            {isEditorialNewsletter && (
+                              <TitleBlock margin={false}>
+                                {format && format.meta && (
+                                  <Editorial.Format
+                                    color={
+                                      format.meta.color ||
+                                      colors[format.meta.kind]
+                                    }
+                                    contentEditable={false}
+                                  >
+                                    <HrefLink href={format.meta.path} passHref>
+                                      <a
+                                        {...styles.link}
+                                        href={format.meta.path}
+                                      >
+                                        {format.meta.title}
+                                      </a>
+                                    </HrefLink>
+                                  </Editorial.Format>
+                                )}
+                                <Interaction.Headline>
+                                  {meta.title}
+                                </Interaction.Headline>
+                                <Editorial.Credit>
+                                  {formatDate(new Date(meta.publishDate))}
+                                </Editorial.Credit>
+                              </TitleBlock>
+                            )}
+                            <Center>
+                              <div
+                                ref={this.barRef}
+                                {...styles.actionBar}
+                                style={{
+                                  textAlign: titleAlign,
+                                  marginTop: isSection || isFormat ? 20 : 0,
+                                  marginBottom: isEditorialNewsletter
+                                    ? 0
+                                    : undefined
+                                }}
+                              >
+                                {actionBar}
+                              </div>
+                              {isSection && (
+                                <Breakout size='breakout'>
+                                  <SectionNav
+                                    color={sectionColor}
+                                    linkedDocuments={article.linkedDocuments}
+                                  />
+                                </Breakout>
+                              )}
+                              {!!podcast && meta.template === 'article' && (
+                                <PodcastButtons
+                                  {...podcast}
+                                  audioSource={audioSource}
+                                  onAudioClick={this.toggleAudio}
+                                />
+                              )}
+                              {!me &&
+                                isEditorialNewsletter &&
+                                !!newsletterMeta &&
+                                newsletterMeta.free && (
+                                  <div style={{ marginTop: 10 }}>
+                                    <NewsletterSignUp {...newsletterMeta} />
+                                  </div>
+                                )}
+                            </Center>
+                            {!suppressFirstPayNote && payNote}
+                          </div>
+                        )}
+                        <SSRCachingBoundary
+                          cacheKey={`${article.id}${
+                            isMember ? ':isMember' : ''
+                          }`}
+                        >
+                          {() => (
+                            <ColorContext.Provider value={articleColors}>
+                              {renderSchema(splitContent.main)}
+                            </ColorContext.Provider>
+                          )}
+                        </SSRCachingBoundary>
+                      </article>
+                    </ProgressComponent>
+                  </ArticleGallery>
+                  {meta.template === 'article' &&
+                    ownDiscussion &&
+                    !ownDiscussion.closed &&
+                    !linkedDiscussion &&
+                    isMember && (
+                      <Center>
+                        <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
+                      </Center>
+                    )}
+                  {meta.template === 'discussion' && ownDiscussion && (
                     <Center>
-                      <LazyLoad style={{ display: 'block', minHeight: 120 }}>
-                        <SurviveStatus />
-                      </LazyLoad>
+                      <Discussion
+                        discussionId={ownDiscussion.id}
+                        focusId={router.query.focus}
+                        parent={router.query.parent}
+                        mute={!!router.query.mute}
+                        board={ownDiscussion.isBoard}
+                      />
                     </Center>
                   )}
-                {isMember && episodes && (
-                  <RelatedEpisodes
-                    title={series.title}
-                    episodes={episodes}
-                    path={meta.path}
-                  />
-                )}
-                {isSection && (
-                  <SectionFeed
-                    formats={article.linkedDocuments.nodes.map(n => n.id)}
-                    variablesAsString={article.content.meta.feedQueryVariables}
-                  />
-                )}
-                {isFormat && <FormatFeed formatId={article.repoId} />}
-                {(hasActiveMembership || isFormat) && (
-                  <Fragment>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                  </Fragment>
-                )}
-                {!suppressPayNotes && payNoteAfter}
+                  {!!newsletterMeta && (
+                    <Center>
+                      <NewsletterSignUp {...newsletterMeta} />
+                    </Center>
+                  )}
+                  {(isMember && meta.template === 'article') ||
+                    (isEditorialNewsletter &&
+                      newsletterMeta &&
+                      newsletterMeta.free && (
+                        <Center>
+                          <div ref={this.bottomBarRef}>{actionBarEnd}</div>
+                          {!!podcast && meta.template === 'article' && (
+                            <PodcastButtons {...podcast} />
+                          )}
+                        </Center>
+                      ))}
+                  {!!podcast && meta.template !== 'article' && (
+                    <Center>
+                      <PodcastButtons {...podcast} />
+                    </Center>
+                  )}
+                  {false &&
+                    !suppressPayNotes &&
+                    !darkMode &&
+                    !(customPayNotes && customPayNotes.length) && (
+                      <Center>
+                        <LazyLoad style={{ display: 'block', minHeight: 120 }}>
+                          <SurviveStatus />
+                        </LazyLoad>
+                      </Center>
+                    )}
+                  {isMember && episodes && (
+                    <RelatedEpisodes
+                      title={series.title}
+                      episodes={episodes}
+                      path={meta.path}
+                    />
+                  )}
+                  {isSection && (
+                    <SectionFeed
+                      formats={article.linkedDocuments.nodes.map(n => n.id)}
+                      variablesAsString={
+                        article.content.meta.feedQueryVariables
+                      }
+                    />
+                  )}
+                  {isFormat && <FormatFeed formatId={article.repoId} />}
+                  {(hasActiveMembership || isFormat) && (
+                    <Fragment>
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                    </Fragment>
+                  )}
+                  {!suppressPayNotes && payNoteAfter}
+                </ColorContext.Provider>
               </Fragment>
             )
           }}

@@ -19,7 +19,7 @@ const AccessTokenAuthorization = ({
     setLoaderProps({ loading: true })
     authorizeSession({
       email,
-      tokens: [{ type: 'AUTHORIZE_TOKEN', payload: accessToken }]
+      tokens: [{ type: 'ACCESS_TOKEN', payload: accessToken }]
     }).catch(error => {
       setLoaderProps({ error })
     })

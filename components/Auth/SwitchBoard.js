@@ -11,14 +11,14 @@ import { SUPPORTED_TOKEN_TYPES } from '../constants'
 
 const SWITCH_BOARD_SUPPORTED_TOKEN_TYPES = SUPPORTED_TOKEN_TYPES.concat([
   'EMAIL_CODE',
-  'AUTHORIZE_TOKEN'
+  'ACCESS_TOKEN'
 ])
 
 const SwitchBoard = props => {
   if (props.tokenType === 'EMAIL_CODE') {
     return <CodeAuthorization {...props} />
   }
-  if (props.tokenType === 'AUTHORIZE_TOKEN') {
+  if (props.tokenType === 'ACCESS_TOKEN') {
     return <AccessTokenAuthorization {...props} />
   }
 

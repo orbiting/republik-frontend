@@ -17,14 +17,10 @@ import {
   mediaQueries,
   TeaserFrontCredit
 } from '@project-r/styleguide'
-import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
 const styles = {
-  container: css({
-    color: colors.negative.text
-  }),
   base: css({
     cursor: 'default',
     display: 'block',
@@ -57,10 +53,6 @@ const styles = {
       }
     },
     cursor: 'pointer'
-  }),
-  current: css({
-    backgroundColor: '#fff',
-    color: colors.text
   }),
   unpublished: css({
     color: colors.negative.lightText
@@ -118,9 +110,16 @@ const LinkContent = ({ episode, isOpen, index, t, hasParts }) => {
 }
 
 const EpisodeLink = withRouter(
-  ({ episode, onClick, params = {}, router, small, children }) => {
+  ({ episode, onClick, params = {}, router, small, children, themeColors }) => {
     const route =
       episode.document && episode.document.meta && episode.document.meta.path
+    const currentColors = css({
+      backgroundColor: themeColors ? themeColors.containerBg : '#fff',
+      color: themeColors ? themeColors.text : colors.text,
+      borderBottomColor: themeColors
+        ? themeColors.primary
+        : colors.negative.lightText
+    })
     const baseStyles = merge(styles.base, small && styles.small)
     if (!route) {
       return <div {...merge(baseStyles, styles.unpublished)}>{children}</div>
@@ -128,7 +127,7 @@ const EpisodeLink = withRouter(
     if (router.asPath && router.asPath === route) {
       return (
         <div
-          {...merge(baseStyles, styles.current)}
+          {...merge(baseStyles, currentColors)}
           onClick={() => onClick && onClick()}
         >
           {children}
@@ -150,12 +149,16 @@ const EpisodeLink = withRouter(
   }
 )
 
-const EpisodeNav = ({ episode, t, index, isOpen, setOpen }) => {
+const EpisodeNav = ({ episode, t, index, isOpen, setOpen, themeColors }) => {
   const hasParts = episode && episode.parts && episode.parts.length
   const onClick = isOpen || !hasParts ? false : setOpen
   return (
     <>
-      <EpisodeLink episode={episode} onClick={onClick}>
+      <EpisodeLink
+        episode={episode}
+        onClick={onClick}
+        themeColors={themeColors}
+      >
         <LinkContent
           episode={episode}
           index={index}
@@ -179,10 +182,10 @@ const EpisodeNav = ({ episode, t, index, isOpen, setOpen }) => {
   )
 }
 
-const Nav = ({ t, series }) => {
+const Nav = ({ t, series, themeColors }) => {
   const [open, setOpen] = useState(-1)
   return (
-    <div {...styles.container}>
+    <>
       {series.episodes &&
         series.episodes.map((episode, i) => (
           <div key={i}>
@@ -192,10 +195,11 @@ const Nav = ({ t, series }) => {
               episode={episode}
               isOpen={open === i}
               setOpen={() => setOpen(i)}
+              themeColors={themeColors}
             />
           </div>
         ))}
-    </div>
+    </>
   )
 }
 

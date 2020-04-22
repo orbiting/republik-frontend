@@ -94,17 +94,14 @@ const styles = {
 }
 
 const SeriesNavButton = ({
-  items,
-  id,
-  children,
   t,
   series,
   onSecondaryNavExpandedChange,
-  expanded
+  expanded,
+  themeColors
 }) => {
   const [ref] = useBodyScrollLock(expanded)
   const [colorScheme] = useColorContext()
-  console.log(colorScheme)
 
   return (
     <Fragment>
@@ -126,7 +123,7 @@ const SeriesNavButton = ({
         </span>
       </button>
       <div {...styles.menu} aria-expanded={expanded} ref={ref}>
-        <SeriesNavPanel t={t} series={series} />
+        <SeriesNavPanel t={t} series={series} themeColors={themeColors} />
       </div>
     </Fragment>
   )

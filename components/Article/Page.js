@@ -681,6 +681,16 @@ class ArticlePage extends Component {
 
     const series = meta && meta.series
     const episodes = series && series.episodes
+    const themeColors =
+      series &&
+      series.primaryColor &&
+      series.textColor &&
+      series.bgColor &&
+      getPalette({
+        primary: series.primaryColor,
+        text: series.textColor,
+        background: series.bgColor
+      })
 
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
@@ -688,6 +698,7 @@ class ArticlePage extends Component {
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
         expanded={this.state.secondaryNavExpanded}
+        themeColors={themeColors}
       />
     )
 
@@ -706,17 +717,6 @@ class ArticlePage extends Component {
       article.content &&
       article.content.meta &&
       article.content.meta.darkMode
-
-    const themeColors =
-      series &&
-      series.primaryColor &&
-      series.textColor &&
-      series.bgColor &&
-      getPalette({
-        primary: series.primaryColor,
-        text: series.textColor,
-        background: series.bgColor
-      })
 
     const articleColors = themeColors || (darkMode && colors.negative)
 

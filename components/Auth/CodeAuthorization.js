@@ -12,7 +12,7 @@ import {
 } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import withMe, { meQuery } from '../../lib/apollo/withMe'
+import withMe from '../../lib/apollo/withMe'
 import { scrollIt } from '../../lib/utils/scroll'
 import MdDone from 'react-icons/lib/md/done'
 

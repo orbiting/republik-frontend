@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import { compose } from 'react-apollo'
 
 import { Loader } from '@project-r/styleguide'
 
 import withAuthorizeSession from './withAuthorizeSession'
+import withMe from '../../lib/apollo/withMe'
 
-const AccessTokenAuthorization = ({ email, accessToken, authorizeSession }) => {
+const AccessTokenAuthorization = ({
+  email,
+  accessToken,
+  authorizeSession,
+  me,
+  onSuccess
+}) => {
   const [loaderProps, setLoaderProps] = useState({ loading: true })
 
   useEffect(() => {
@@ -17,7 +25,13 @@ const AccessTokenAuthorization = ({ email, accessToken, authorizeSession }) => {
     })
   }, [email, accessToken])
 
+  useEffect(() => {
+    if (me) {
+      onSuccess(me)
+    }
+  }, [me, onSuccess])
+
   return <Loader {...loaderProps} />
 }
 
-export default withAuthorizeSession(AccessTokenAuthorization)
+export default compose(withAuthorizeSession, withMe)(AccessTokenAuthorization)

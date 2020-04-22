@@ -9,6 +9,11 @@ import withT from '../../lib/withT'
 
 import { SUPPORTED_TOKEN_TYPES } from '../constants'
 
+const SWITCH_BOARD_SUPPORTED_TOKEN_TYPES = SUPPORTED_TOKEN_TYPES.concat([
+  'EMAIL_CODE',
+  'AUTHORIZE_TOKEN'
+])
+
 const SwitchBoard = props => {
   if (props.tokenType === 'EMAIL_CODE') {
     return <CodeAuthorization {...props} />
@@ -21,12 +26,11 @@ const SwitchBoard = props => {
 }
 
 SwitchBoard.propTypes = {
-  tokenType: PropTypes.oneOf(SUPPORTED_TOKEN_TYPES.concat('EMAIL_CODE'))
-    .isRequired,
+  tokenType: PropTypes.oneOf(SWITCH_BOARD_SUPPORTED_TOKEN_TYPES).isRequired,
   email: PropTypes.string.isRequired,
   phrase: PropTypes.string.isRequired,
   alternativeFirstFactors: PropTypes.arrayOf(
-    PropTypes.oneOf(SUPPORTED_TOKEN_TYPES.concat('EMAIL_CODE'))
+    PropTypes.oneOf(SWITCH_BOARD_SUPPORTED_TOKEN_TYPES)
   ).isRequired,
   onSuccess: PropTypes.func,
   onCancel: PropTypes.func,

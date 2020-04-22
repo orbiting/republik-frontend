@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
 
 import { css, merge } from 'glamor'
@@ -109,18 +109,29 @@ const LinkContent = ({ episode, isOpen, index, t, hasParts }) => {
   )
 }
 
+const getRoute = document => document && document.meta && document.meta.path
+
 const EpisodeLink = withRouter(
   ({ episode, onClick, params = {}, router, small, children, themeColors }) => {
-    const route =
-      episode.document && episode.document.meta && episode.document.meta.path
+    const route = getRoute(episode.document)
     const currentColors = css({
       backgroundColor: themeColors ? themeColors.containerBg : '#fff',
-      color: themeColors ? themeColors.text : colors.text,
-      borderBottomColor: themeColors
-        ? themeColors.primary
-        : colors.negative.lightText
+      color: themeColors ? themeColors.text : colors.text
     })
     const baseStyles = merge(styles.base, small && styles.small)
+
+    useEffect(() => {
+      if (!episode || !episode.parts || !episode.parts.length || !router) return
+      const partsRoutes = episode.parts.map(part => getRoute(part.document))
+      if (
+        partsRoutes.some(
+          partRoute => router.asPath && router.asPath === partRoute
+        )
+      ) {
+        onClick && onClick()
+      }
+    }, [episode, router])
+
     if (!route) {
       return <div {...merge(baseStyles, styles.unpublished)}>{children}</div>
     }
@@ -170,7 +181,7 @@ const EpisodeNav = ({ episode, t, index, isOpen, setOpen, themeColors }) => {
       {isOpen ? (
         <div>
           {episode.parts.map((part, j) => (
-            <EpisodeLink key={j} episode={part} small>
+            <EpisodeLink key={j} episode={part} small themeColors={themeColors}>
               <Subtitle>
                 {j + 1}. {part.title}
               </Subtitle>

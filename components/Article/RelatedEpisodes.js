@@ -84,11 +84,21 @@ const Tile = ({ t, episode, index, prev, next }) => {
 }
 
 const RelatedEpisodes = ({ t, episodes, path, title }) => {
-  const currentEpisodeIndex = episodes.findIndex(
+  const flattenedEpisodes = episodes.reduce(
+    (array, episode) =>
+      array
+        .concat(episode)
+        .concat(
+          episode.parts &&
+            episode.parts.map(part => ({ ...part, label: episode.title }))
+        ),
+    []
+  )
+  const currentEpisodeIndex = flattenedEpisodes.findIndex(
     episode => episode.document && episode.document.meta.path === path
   )
-  const previousEpisode = episodes[currentEpisodeIndex - 1]
-  const nextEpisode = episodes[currentEpisodeIndex + 1]
+  const previousEpisode = flattenedEpisodes[currentEpisodeIndex - 1]
+  const nextEpisode = flattenedEpisodes[currentEpisodeIndex + 1]
   if (!previousEpisode && !nextEpisode) {
     return null
   }
@@ -105,7 +115,7 @@ const RelatedEpisodes = ({ t, episodes, path, title }) => {
               t={t}
               episode={previousEpisode}
               prev
-              index={episodes.indexOf(previousEpisode)}
+              index={flattenedEpisodes.indexOf(previousEpisode)}
             />
           )}
           {nextEpisode && (
@@ -113,7 +123,7 @@ const RelatedEpisodes = ({ t, episodes, path, title }) => {
               t={t}
               episode={nextEpisode}
               next
-              index={episodes.indexOf(nextEpisode)}
+              index={flattenedEpisodes.indexOf(nextEpisode)}
             />
           )}
         </TeaserFrontTileRow>

@@ -684,12 +684,10 @@ class ArticlePage extends Component {
     const themeColors =
       series &&
       series.primaryColor &&
-      series.textColor &&
-      series.bgColor &&
       getPalette({
         primary: series.primaryColor,
-        text: series.textColor,
-        background: series.bgColor
+        text: series.textColor || colors.text,
+        background: series.bgColor || colors.containerBg
       })
 
     const seriesNavButton = showSeriesNav && (
@@ -779,7 +777,8 @@ class ArticlePage extends Component {
         {
           ...content,
           format: meta.format,
-          section: meta.section
+          section: meta.section,
+          series: meta.series
         },
         schema,
         { MissingNode }

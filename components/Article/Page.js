@@ -229,6 +229,7 @@ const getDocument = gql`
           primaryColor
           textColor
           bgColor
+          displayParents
           episodes {
             title
             publishDate

@@ -20,7 +20,7 @@
     "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "meta-gallery": "gsheets --key=1lN4fGI7yHWoWewEbdpaRDWqysAOvO0Xtd1cdImIKG3Q --title=gallery --pretty --out lib/meta/gallery.json",
     "analyze": "ANALYZE=true next build",
-    "sg:link": "./scripts/sg_link.sh" , "preinstall": "npm run sg:unlink",
+    "sg:link": "./scripts/sg_link.sh",
     "sg:unlink": "./scripts/sg_unlink.sh"
   },
   "repository": {

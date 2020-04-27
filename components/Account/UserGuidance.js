@@ -62,6 +62,11 @@ const UserGuidance = ({ t, inNativeIOSApp, signOut }) => (
                       {t('Account/noActiveMembership/signOutLink')}
                     </Editorial.A>
                   ),
+                  membershipsLink: (
+                    <Editorial.A key='account-memberships' href='/konto#abos'>
+                      {t('Account/noActiveMembership/membershipsLink')}
+                    </Editorial.A>
+                  ),
                   pledgeLink: (
                     <Link route='pledge' key='pledge' passHref>
                       <Editorial.A>
@@ -87,8 +92,4 @@ const UserGuidance = ({ t, inNativeIOSApp, signOut }) => (
   </Box>
 )
 
-export default compose(
-  withT,
-  withInNativeApp,
-  withSignOut
-)(UserGuidance)
+export default compose(withT, withInNativeApp, withSignOut)(UserGuidance)

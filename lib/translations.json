@@ -603,10 +603,6 @@
       "value": "Bitte überprüfen Sie Ihre Angaben und korrigieren beziehungs­weise ergänzen Sie."
     },
     {
-      "key": "Account/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n<br /><br />\n<ul>\n<li>Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur die E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.<br /><b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse, auf der Sie auch unseren Newsletter erhalten.)</li>\n<li>Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.<br /><b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)</li>\n<li>Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. {pledgeLink}<br />\n<li>Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender – das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> {pledgeLink}</li>\n</ul>\n<br /><br />\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserem Erste-Hilfe-Team: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiterzuhelfen. \n<br /><br />\nDanke für Ihre Mühe!"
-    },
-    {
       "key": "Account/noActiveMembership/before",
       "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Das kann mehrere Ursachen haben:"
     },
@@ -632,7 +628,11 @@
     },
     {
       "key": "Account/noActiveMembership/solution2",
-      "value": "{solution}  Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)"
+      "value": "{solution} Sie können das problemlos {membershipsLink}. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)"
+    },
+    {
+      "key": "Account/noActiveMembership/membershipsLink",
+      "value": "in Ihrem Konto reaktivieren"
     },
     {
       "key": "Account/noActiveMembership/issue3",

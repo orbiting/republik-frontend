@@ -237,7 +237,8 @@ class UpdateMe extends Component {
                   />
                   <Label
                     style={{
-                      marginTop: -8,
+                      marginTop: -10,
+                      marginBottom: 5,
                       display: 'block',
                       color: colors.disabled
                     }}

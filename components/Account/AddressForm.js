@@ -13,7 +13,12 @@ export const fields = t => [
     validator: value => !value && t('Account/AddressForm/name/error/empty'),
     explanation: (
       <Label
-        style={{ marginTop: -8, display: 'block', color: colors.disabled }}
+        style={{
+          marginTop: -10,
+          marginBottom: 5,
+          display: 'block',
+          color: colors.disabled
+        }}
       >
         {t('Account/AddressForm/name/explanation')}
       </Label>

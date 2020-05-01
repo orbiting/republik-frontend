@@ -44,14 +44,6 @@ export const SUPPORTED_HREFS = pages.map(p => p.href)
 const LegalOverlay = ({ onClose, href, title }) => {
   const page = pages.find(p => p.href === href)
 
-  const Content = page ? (
-    page.content
-  ) : (
-    <Interaction.P>
-      <A href={href}>Jetzt anzeigen</A>
-    </Interaction.P>
-  )
-
   return (
     <Overlay mUpStyle={{ maxWidth: 720, minHeight: 'none' }} onClose={onClose}>
       <OverlayToolbar>
@@ -64,7 +56,15 @@ const LegalOverlay = ({ onClose, href, title }) => {
         />
       </OverlayToolbar>
       <OverlayBody>
-        <Content />
+        {page ? (
+          <page.content />
+        ) : (
+          <Interaction.P>
+            <A href={href} target='_blank'>
+              Jetzt anzeigen
+            </A>
+          </Interaction.P>
+        )}
       </OverlayBody>
     </Overlay>
   )

@@ -141,61 +141,73 @@ const AboutPage = ({
               margin: '0 auto'
             }}
           >
-            {t('pages/about/title')}
+            Das sind wir
           </Interaction.Headline>
           <div {...styles.lead}>
-            <Editorial.Lead>{t('pages/about/lead')}</Editorial.Lead>
+            <Editorial.Lead>
+              Die Republik ist ein digitales Magazin für Politik, Wirtschaft,
+              Gesellschaft und Kultur. Finanziert von seinen Leserinnen und
+              Lesern. Gemeinsam sind wir eine Rebellion gegen die
+              Medienkonzerne, für die Medienvielfalt. Unabhängig, werbefrei –
+              und mit nur einem Ziel: begeisternden Journalismus zu liefern.
+            </Editorial.Lead>
           </div>
         </div>
       </Container>
       <Center>
-        {/* TK: Revive Audience once we settled on an KPI */}
-        {/* <section {...styles.section}>
-          <Subheader>{t('pages/about/audience/title', { count: countFormat(200000) })}</Subheader>
-          <P>
-            {t.elements('pages/about/audience/text', {
-              emphasis1: <Emphasis>{t('pages/about/audience/text/emphasis1')}</Emphasis>
-            })}
-          </P>
-        </section> */}
         <section {...styles.section}>
-          <Subheader>
-            {t('pages/about/publishers/title', { count: publishersCount })}
-          </Subheader>
+          <Subheader>{publishersCount} Verleger</Subheader>
           <P>
-            {t.elements('pages/about/publishers/text', {
-              count: publishersCount,
-              emphasis1: (
-                <Emphasis>
-                  {t('pages/about/publishers/text/emphasis1')}
-                </Emphasis>
-              )
-            })}
+            Ein neues Geschäftsmodell für unabhängigen Journalismus schaffen wir
+            nur gemeinsam – oder gar nicht. Deshalb gehört die Republik nicht
+            nur uns Macherinnen, sondern auch ihren Lesern.{' '}
+            <strong>
+              Journalismus braucht ein aufmerksames, neugieriges und furchtloses
+              Publikum, das bereit ist, in unabhängigen Journalismus zu
+              investieren.
+            </strong>{' '}
+            Ohne ihre aktuell {publishersCount} Verlegerinnen wäre die Republik
+            – nichts! Täglich kommen neue Unterstützer an Bord. Bald auch Sie?
           </P>
         </section>
         <section {...styles.section}>
-          <Subheader>
-            {t('pages/about/output/title', { count: documentsCount })}
-          </Subheader>
+          <Subheader>{documentsCount} Produktionen</Subheader>
           <P>
-            {t.elements('pages/about/output/text', {
-              emphasis1: (
-                <Emphasis>{t('pages/about/output/text/emphasis1')}</Emphasis>
-              ),
-              emphasis2: (
-                <Emphasis>{t('pages/about/output/text/emphasis2')}</Emphasis>
-              )
-            })}
+            Die Republik erscheint von Montag bis Samstag –{' '}
+            <strong>auf der Website, als Newsletter, in der App.</strong> Und
+            liefert Ihnen <strong>täglich ein bis drei Beiträge</strong> zu den
+            wichtigsten Fragen der Gegenwart. Weniger, dafür besser: Das ist
+            unser Anspruch. Und Sie besuchen uns, wann Sie wollen: täglich,
+            wöchentlich, monatlich. Brisante Recherchen, erhellende Analysen und
+            Debatten, unterhaltsame Essays. In Texten, Bildern, Podcasts,
+            Videos, Grafiken – und live an Veranstaltungen.
           </P>
         </section>
         <section {...styles.section}>
-          <Subheader>{t('pages/about/employees/title')}</Subheader>
+          <Subheader>45 Macherinnen</Subheader>
           <P>
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: t('pages/about/employees/text')
-              }}
-            />
+            Unsere Crew ist Ihr persönliches Expeditionsteam in die
+            Wirklichkeit. Wir arbeiten uns durch den Staub der Welt, trennen
+            Wichtiges von Unwichtigem – und liefern Ihnen in der verworrenen
+            Gegenwart die bestmögliche Übersicht. Doch die Republik ist mehr als
+            Ihre Redaktion. Vom Community- Team über die Marketing-Expertinnen
+            bis zum Erste-Hilfe-Team.
+          </P>
+        </section>
+        <section {...styles.section}>
+          <Subheader2>Geschäftsbericht 2018–2019</Subheader2>
+          <P {...styles.faqCta}>
+            <a
+              {...styles.link}
+              href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf'
+            >
+              Im zweiten Geschäftsjahr
+            </a>{' '}
+            eines Start-ups geht der adrenalingeladene Sprint der Gründungsphase
+            über in den Marathon des Alltags. Die Republik erreichte in diesem
+            Zeitraum einen Mitgliederfinanzierungsgrad von über 70 Prozent und
+            fokussierte sich auf die Weiterentwicklung des journalistischen
+            Kernprodukts.
           </P>
         </section>
         <section {...styles.section}>
@@ -203,7 +215,7 @@ const AboutPage = ({
           <P {...styles.faqCta}>
             <a
               {...styles.link}
-              href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf'
+              href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf'
             >
               Der erste Geschäftsbericht
             </a>{' '}
@@ -211,7 +223,7 @@ const AboutPage = ({
             ein halbes Jahr der bisherigen Publikationstätigkeit der Republik.
             Anfang Januar 2017 hatten wir nicht mehr als 8 Leute, 3 Hotelzimmer
             und einen Plan. Ende Juni 2018 ein Unternehmen mit über 20’000
-            Verlegerinnen und Verlegern und rund 50 Mitarbeitenden.
+            Verlegerinnen und Verlegern.
           </P>
         </section>
         <section {...styles.section}>
@@ -221,24 +233,28 @@ const AboutPage = ({
               {...styles.link}
               href='https://www.grimme-online-award.de/2019/nominierte/'
             >
-              Nominierung für «Grimme online»
+              Nominierung für «Grimme online award» Kategorie Information
             </a>
-            <br />
-            Kategorie Information
           </P>
           <P {...styles.faqCta}>
             <a
               {...styles.link}
-              href='https://newspaper-congress.eu/european-digital-publishing-award/'
+              href='https://newspaper-congress.eu/wp-content/uploads/2019/04/European_Digital-Publishing-Award_2019_Winners2.pdf'
             >
-              European Publishing Award
+              European Publishing Award: European Start-Up of the Year 2019
             </a>
-            <br />
-            European Start-Up of the Year
+          </P>
+          <P {...styles.faqCta}>
+            <a
+              {...styles.link}
+              href='https://www.reporter-forum.ch/reporterpreis-2019'
+            >
+              Schweizer Reporterpreis 2019 für die Serie «Das Kartell»
+            </a>
           </P>
         </section>
         <section {...styles.section}>
-          <Subheader2>{t('pages/about/mediaResponses/title')}</Subheader2>
+          <Subheader2>Das sagen andere über uns</Subheader2>
           <Loader
             loading={loading}
             error={error}

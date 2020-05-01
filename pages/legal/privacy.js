@@ -6,17 +6,9 @@ import PiwikOptOut from '../../components/Piwik/OptOut'
 import md from 'markdown-in-js'
 import mdComponents from '../../lib/utils/mdComponents'
 
-export default () => {
-  const meta = {
-    title: 'Datenschutz',
-    description: ''
-  }
+import { H2 } from '@project-r/styleguide'
 
-  return (
-    <Frame meta={meta}>
-      {md(mdComponents)`
-## Datenschutzbestimmungen
-
+export const Content = () => md(mdComponents)`
 Stand Mai 2018
 
 Die Project R Genossenschaft und die Republik AG («die Verantwortlichen»), beide an der Sihlhallenstrasse 1, 8004 Zürich, erfassen, verarbeiten, speichern und schützen die Daten von Personen, die auf die Seiten www.republik.ch und www.project-r.construction zugreifen («betroffene Person»). Mittels dieser Datenschutzerklärung möchten die Verantwortlichen die Öffentlichkeit über Art, Umfang und Zweck der erhobenen, genutzten und verarbeiteten personenbezogenen Daten informieren. Ferner werden betroffene Personen mittels dieser Datenschutzerklärung über die ihnen zustehenden Rechte aufgeklärt.
@@ -97,7 +89,7 @@ Diese anonym erhobenen Daten und Informationen werden durch die Verantwortlichen
 
 Wenn Besucher/-innen «do not track» eingeschaltet haben, werden nur Daten in der Session getrackt, wenn Besucher/-innen sich einloggen. 
 
-${<PiwikOptOut />}
+${(<PiwikOptOut />)}
 
 ## 5. Registrierung auf den Websites www.republik.ch und www.project-r.construction
 
@@ -264,7 +256,18 @@ Wir klären Sie darüber auf, dass die Speicherung und Bereitstellung personenbe
 Die Website www.republik.ch der Verantwortlichen verlinkt auf andere Websites, für deren Inhalt die Verantwortlichen nicht verantwortlich sind.
 
 Die Verantwortlichen können die Bestimmungen der vorliegenden Datenschutzerklärung jederzeit und ohne vorangehende Ankündigung ganz oder in Teilen ändern, ergänzen oder ersetzen. Es gilt die jeweils beim Besuch der Website www.republik.ch beziehungsweise beim Besuch einer der zugehörigen Websites in Kraft stehende Version dieser Datenschutzerklärung.
-      `}
+      `
+
+export default () => {
+  const meta = {
+    title: 'Datenschutz',
+    description: ''
+  }
+
+  return (
+    <Frame meta={meta}>
+      <H2>Datenschutzbestimmungen</H2>
+      <Content />
     </Frame>
   )
 }

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-05-01T15:19:50.540Z",
+  "updated": "2020-05-01T16:45:06.620Z",
   "title": "live",
   "data": [
     {
@@ -2508,7 +2508,7 @@
     },
     {
       "key": "pledge/consents/label/PRIVACY_STATUTE_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten</a> der Project R Genossenschaft einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY_TOS",

@@ -42,6 +42,7 @@ import withInNativeApp from '../lib/withInNativeApp'
 const statusQuery = gql`
   query CockpitStatus($max: YearMonthDate!, $accessToken: ID) {
     membershipStats {
+      count
       evolution(min: "2018-01", max: $max) {
         updatedAt
         buckets {
@@ -316,6 +317,7 @@ const Page = ({
         style={{ minHeight: `calc(90vh)` }}
         render={() => {
           const {
+            count: activeCount,
             evolution: { buckets, updatedAt }
           } = data.membershipStats
           const lastMonth = buckets[buckets.length - 1]
@@ -370,7 +372,8 @@ const Page = ({
                 return flat
               }, [])
             )
-          const activeCount = lastBucket.activeEndOfMonth + lastBucket.pending
+          // use uncached membershipStats.count for now
+          // const activeCount = lastBucket.activeEndOfMonth + lastBucket.pending
           const missingCount = numMembersNeeded - activeCount
           if (missingCount > 0) {
             values.push({

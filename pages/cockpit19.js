@@ -676,12 +676,6 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtch
                     yTicks: [0, 10000, 20000],
                     padding: 55,
                     xAnnotations: [
-                      '2020-03' !== currentYearMonth && {
-                        x1: currentYearMonth,
-                        x2: currentYearMonth,
-                        label: 'Jetzt',
-                        value: count
-                      },
                       {
                         x1: '2020-03',
                         x2: '2020-03',

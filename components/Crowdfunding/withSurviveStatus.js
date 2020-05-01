@@ -183,7 +183,6 @@ const withSurviveStatus = compose(
             goals: data.crowdfunding.goals,
             status: {
               memberships: marchCount,
-              current: count,
               people:
                 lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly,
               money: data.revenueStats.surplus.total,

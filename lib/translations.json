@@ -1,5 +1,5 @@
 {
-  "updated": "2020-05-01T13:45:05.783Z",
+  "updated": "2020-05-01T15:19:50.540Z",
   "title": "live",
   "data": [
     {
@@ -676,15 +676,15 @@
     },
     {
       "key": "Account/AddressForm/name/label",
-      "value": "Anschrift"
+      "value": "Eindeutige Anschrift"
     },
     {
       "key": "Account/AddressForm/name/error/empty",
-      "value": "Anschrift fehlt"
+      "value": "Eindeutige Anschrift fehlt"
     },
     {
       "key": "Account/AddressForm/name/explanation",
-      "value": "Ihr Name am Briefkasten"
+      "value": "Ihr Name für Postsendungen, falls nötig mit c/o."
     },
     {
       "key": "Account/AddressForm/line1/label",

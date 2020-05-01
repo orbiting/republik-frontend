@@ -15,7 +15,7 @@ export const fields = t => [
       <Label
         style={{
           marginTop: -10,
-          marginBottom: 5,
+          marginBottom: 10,
           display: 'block',
           color: colors.disabled
         }}

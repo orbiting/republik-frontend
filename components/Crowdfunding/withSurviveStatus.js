@@ -24,7 +24,7 @@ const statusQuery = gql`
       }
     }
     revenueStats {
-      surplus(min: "2019-11-30T23:00:00Z") {
+      surplus(min: "2019-11-30T23:00:00Z", max: "${END_DATE}") {
         total
         updatedAt
       }

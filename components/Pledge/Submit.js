@@ -90,19 +90,28 @@ class Submit extends Component {
     const nextName = [nextProps.user.firstName, nextProps.user.lastName]
       .filter(Boolean)
       .join(' ')
+    const addressFields = getAddressFields(this.props.t)
     if (
       nextName !== values.name &&
       (!dirty.name || !(values.name || '').trim() || values.name === prevName)
     ) {
-      this.setState(state => ({
-        values: {
+      this.setState(state => {
+        const values = {
           ...state.values,
           name: nextName
         }
-      }))
+        return {
+          values,
+          errors: {
+            ...state.errors,
+            ...(values.paymentMethod === 'PAYMENTSLIP'
+              ? FieldSet.utils.getErrors(addressFields, values)
+              : {})
+          }
+        }
+      })
     }
 
-    const addressFields = getAddressFields(this.props.t)
     const addressDirty = addressFields.find(field => dirty[field.name])
     if (!addressDirty) {
       const nextAddress =
@@ -114,12 +123,21 @@ class Submit extends Component {
       if (
         nextAddress !== (this.props.customMe && this.props.customMe.address)
       ) {
-        this.setState(state => ({
-          values: {
+        this.setState(state => {
+          const values = {
             ...state.values,
             ...nextAddress
           }
-        }))
+          return {
+            values,
+            errors: {
+              ...state.errors,
+              ...(values.paymentMethod === 'PAYMENTSLIP'
+                ? FieldSet.utils.getErrors(addressFields, values)
+                : {})
+            }
+          }
+        })
       }
     }
   }

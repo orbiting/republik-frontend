@@ -83,11 +83,17 @@ class Submit extends Component {
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dirty } = this.state
+    const { dirty, values } = this.state
+    const prevName = [this.props.user.firstName, this.props.user.lastName]
+      .filter(Boolean)
+      .join(' ')
     const nextName = [nextProps.user.firstName, nextProps.user.lastName]
       .filter(Boolean)
       .join(' ')
-    if (nextName !== this.state.values.name && !dirty.name) {
+    if (
+      nextName !== values.name &&
+      (!dirty.name || !(values.name || '').trim() || values.name === prevName)
+    ) {
       this.setState(state => ({
         values: {
           ...state.values,
@@ -102,7 +108,7 @@ class Submit extends Component {
       const nextAddress =
         (nextProps.customMe && nextProps.customMe.address) ||
         addressFields.reduce((values, field) => {
-          values[field.name] = ''
+          values[field.name] = field.name === 'name' ? nextName : ''
           return values
         }, {})
       if (

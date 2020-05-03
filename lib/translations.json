@@ -1,5 +1,5 @@
 {
-  "updated": "2020-05-03T18:06:41.176Z",
+  "updated": "2020-05-03T18:11:41.636Z",
   "title": "live",
   "data": [
     {
@@ -6137,14 +6137,6 @@
     {
       "key": "crowdfunding/status/support/label",
       "value": "Verlegerinnen, die bereit sind, die Republik bekannter zu machen."
-    },
-    {
-      "key": "merci/action/give",
-      "value": "Verschenken Sie ein Abo"
-    },
-    {
-      "key": "merci/action/cf2",
-      "value": "Märzkampagne"
     },
     {
       "key": "memberships/cancel/confirmation/cockpit",

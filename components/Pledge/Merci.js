@@ -284,24 +284,6 @@ class Merci extends Component {
             <WithMembership
               render={() => (
                 <>
-                  {query.package === 'PROLONG' && (
-                    <Editorial.UL>
-                      <InfoBoxListItem>
-                        <Link
-                          route='pledge'
-                          params={{ package: 'ABO_GIVE' }}
-                          passHref
-                        >
-                          <Editorial.A>{t('merci/action/give')}</Editorial.A>
-                        </Link>
-                      </InfoBoxListItem>
-                      <InfoBoxListItem>
-                        <Link route='crowdfunding2' passHref>
-                          <Editorial.A>{t('merci/action/cf2')}</Editorial.A>
-                        </Link>
-                      </InfoBoxListItem>
-                    </Editorial.UL>
-                  )}
                   <Link route='index'>
                     <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
                       {t('merci/action/read')}
@@ -328,8 +310,4 @@ class Merci extends Component {
   }
 }
 
-export default compose(
-  withMe,
-  withT,
-  withSignIn
-)(Merci)
+export default compose(withMe, withT, withSignIn)(Merci)

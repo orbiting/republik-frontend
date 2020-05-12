@@ -4520,7 +4520,7 @@
     },
     {
       "key": "prolongNecessary/due",
-      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}."
+      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}"
     },
     {
       "key": "prolongNecessary/due/linkText",
@@ -6080,11 +6080,11 @@
     },
     {
       "key": "prolongNecessary/before",
-      "value": "Der Republik treu bleiben: {link}."
+      "value": "Der Republik treu bleiben: {link}"
     },
     {
       "key": "prolongNecessary/before/linkText",
-      "value": "jetzt verlängern"
+      "value": "Jetzt verlängern"
     },
     {
       "key": "package/customize/price/payMore/2",

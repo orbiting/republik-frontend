@@ -60,6 +60,10 @@ const styles = {
     ...fontStyles.serifRegular14,
     [mediaQueries.mUp]: fontStyles.serifRegular16,
     margin: 0
+  }),
+  cleanLink: css({
+    color: 'inherit',
+    textDecoration: 'none'
   })
 }
 
@@ -184,16 +188,22 @@ export default withT(
                           }}
                           key={j}
                         >
-                          <Label>{t('Notifications/unpublished/label')}</Label>
                           {node.content && (
                             <>
-                              <h3 {...styles.unpublishedTitle}>
-                                {node.content.title}
-                              </h3>
-                              <p {...styles.unpublishedBody}>
-                                {node.content.body}
-                              </p>
+                              <a {...styles.cleanLink} href={node.content.url}>
+                                <h3 {...styles.unpublishedTitle}>
+                                  {node.content.title}
+                                </h3>
+                                <Label>
+                                  {t('Notifications/unpublished/label')}
+                                </Label>
+                              </a>
                             </>
+                          )}
+                          {!node.content && (
+                            <Label>
+                              {t('Notifications/unpublished/label')}
+                            </Label>
                           )}
                         </div>
                       )

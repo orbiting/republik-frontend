@@ -1,5 +1,5 @@
 {
-  "updated": "2020-05-03T18:11:41.636Z",
+  "updated": "2020-05-13T10:47:13.248Z",
   "title": "live",
   "data": [
     {
@@ -1833,6 +1833,14 @@
     {
       "key": "styleguide/CommentActions/expand",
       "value": "Kommentare anschauen"
+    },
+    {
+      "key": "styleguide/CommentActions/feature",
+      "value": "Beitrag hervorheben"
+    },
+    {
+      "key": "styleguide/CommentActions/featured",
+      "value": "Am {date} um {time} Uhr redaktionell hervorgehobenes Zitat: {text}"
     },
     {
       "key": "styleguide/Collapsable/expand",
@@ -6677,6 +6685,30 @@
     {
       "key": "feuilleton/deprecatedPage",
       "value": "Diese Seite wird nicht mehr aktualisiert. Sie finden die aktuellen Kulturbeiträge im <a href=\"/\">Magazin</a> und über die <a href=\"/rubriken\">Rubriken</a>."
+    },
+    {
+      "key": "FeatureCommentOverlay/title",
+      "value": "Beitrag hervorheben"
+    },
+    {
+      "key": "FeatureCommentOverlay/text/label",
+      "value": "Hervorgehobenes Zitat"
+    },
+    {
+      "key": "FeatureCommentOverlay/submit",
+      "value": "Jetzt hervorheben"
+    },
+    {
+      "key": "FeatureCommentOverlay/resubmit",
+      "value": "Aktualisieren"
+    },
+    {
+      "key": "FeatureCommentOverlay/remove",
+      "value": "Zurückziehen"
+    },
+    {
+      "key": "FeatureCommentOverlay/preview",
+      "value": "Vorschau"
     }
   ]
 }

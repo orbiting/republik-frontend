@@ -211,7 +211,7 @@ export const reportCommentMutation = gql`
 `
 
 export const featureCommentMutation = gql`
-  mutation featureCommentMutation($commentId: ID!, $content: String!) {
+  mutation featureCommentMutation($commentId: ID!, $content: String) {
     featureComment(id: $commentId, content: $content) {
       ...Comment
     }

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-05-10T21:37:56.284Z",
+  "updated": "2020-05-13T10:47:13.248Z",
   "title": "live",
   "data": [
     {
@@ -4528,7 +4528,7 @@
     },
     {
       "key": "prolongNecessary/due",
-      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}."
+      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}"
     },
     {
       "key": "prolongNecessary/due/linkText",
@@ -6088,11 +6088,11 @@
     },
     {
       "key": "prolongNecessary/before",
-      "value": "Der Republik treu bleiben: {link}."
+      "value": "Der Republik treu bleiben: {link}"
     },
     {
       "key": "prolongNecessary/before/linkText",
-      "value": "jetzt verlängern"
+      "value": "Jetzt verlängern"
     },
     {
       "key": "package/customize/price/payMore/2",
@@ -6697,6 +6697,14 @@
     {
       "key": "FeatureCommentOverlay/submit",
       "value": "Jetzt hervorheben"
+    },
+    {
+      "key": "FeatureCommentOverlay/resubmit",
+      "value": "Aktualisieren"
+    },
+    {
+      "key": "FeatureCommentOverlay/remove",
+      "value": "Zurückziehen"
     },
     {
       "key": "FeatureCommentOverlay/preview",

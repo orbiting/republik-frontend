@@ -75,8 +75,41 @@ export const FeatureCommentOverlay = compose(
               })
           }}
         >
-          {t('FeatureCommentOverlay/submit')}
+          {t(
+            comment.featuredText
+              ? 'FeatureCommentOverlay/resubmit'
+              : 'FeatureCommentOverlay/submit'
+          )}
         </Button>
+        {!!comment.featuredText && (
+          <>
+            {' '}
+            <Button
+              disabled={mutatingState.loading}
+              onClick={() => {
+                setMutatingState({
+                  loading: true
+                })
+                mutate({
+                  variables: {
+                    commentId: comment.id,
+                    content: null
+                  }
+                })
+                  .then(() => {
+                    onClose()
+                  })
+                  .catch(error => {
+                    setMutatingState({
+                      error
+                    })
+                  })
+              }}
+            >
+              {t('FeatureCommentOverlay/remove')}
+            </Button>
+          </>
+        )}
         <br />
         <br />
         <Label>{t('FeatureCommentOverlay/preview')}</Label>

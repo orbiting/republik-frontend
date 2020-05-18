@@ -280,6 +280,18 @@ class Status extends Component {
               />
             </Fragment>
           ))}
+        {status.lastSeen !== undefined && (
+          <P style={colorStyle}>
+            <span {...styles.smallNumber}>
+              {t.pluralize('crowdfunding/status/lastSeen', {
+                count: countFormat(status.lastSeen)
+              })}
+            </span>
+            <span {...styles.label}>
+              {t('crowdfunding/status/lastSeen/label')}
+            </span>
+          </P>
+        )}
         {status.support !== undefined && (
           <P style={colorStyle}>
             <span {...styles.smallNumber}>

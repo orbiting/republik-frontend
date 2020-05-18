@@ -327,6 +327,8 @@ const Page = ({
 
           const minMaxValues = []
           const lastBucket = buckets[buckets.length - 1]
+          // ToDo: Remove
+          lastBucket.active = 25011 // fake it for now
           const values = bucketsBefore
             .map(bucket => ({
               month: bucket.key,
@@ -364,17 +366,18 @@ const Page = ({
             Math[i ? 'ceil' : 'floor'](Math.round(d / 1000) * 1000)
           )
 
+          // ToDo: live data
+          // Source: https://ultradashboard.republik.ch/question/558?interval=30%20days
+          const lastSeen = 20498
+
           return (
             <>
               <div style={{ marginBottom: 60 }}>
-                {md(mdComponents)`
-Herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die Republik hat definitiv eine Zukunft. Danke an alle, die dazu beitragen. 
-                `}
                 <RawStatus
                   t={t}
                   color='#fff'
                   barColor='#333'
-                  people
+                  memberships
                   hasEnd={false}
                   crowdfundingName='PERMANENT'
                   crowdfunding={
@@ -382,11 +385,12 @@ Herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die Repub
                       name: 'PERMANENT',
                       goals: [
                         {
-                          people: numMembersNeeded
+                          memberships: numMembersNeeded
                         }
                       ],
                       status: {
-                        people: activeCount
+                        memberships: activeCount,
+                        lastSeen
                       }
                     }
                   }
@@ -399,12 +403,7 @@ Herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die Repub
 
 Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
-Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, leserfinanzierten Journalismus. Damit die Republik einen entscheidenden Unterschied im Mediensystem machen kann, muss sie selbsttragend werden. Also die gesamten Kosten aus den Einnahmen decken, ohne die Hilfe von Investitionen.
-
-Dafür braucht sie konstant etwa ${countFormat(
-                numMembersNeeded
-              )} Abonnentinnen und Mitglieder.
-
+Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, leserfinanzierten Journalismus. Damit die Republik einen entscheidenden Unterschied im Mediensystem machen kann, muss sie selbsttragend sein.
 
 `}
 
@@ -423,14 +422,12 @@ Dafür braucht sie konstant etwa ${countFormat(
                 })}
               >
                 <ChartTitle style={{ color: '#fff' }}>
-                  {countFormat(activeCount)} aktive Mitglieder und Abonnentinnen
+                  Entwicklungen der Mitgliedschaften und&nbsp;Abos
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
                   Vom Crowdfunding im April 2017 bis heute.{' '}
                   {missingCount > 0 &&
-                    `Aktuell fehlen noch ${countFormat(
-                      missingCount
-                    )} Mitglieder.`}
+                    `Aktuell fehlen ${countFormat(missingCount)} Mitglieder.`}
                 </ChartLead>
                 <Chart
                   config={{
@@ -448,7 +445,7 @@ Dafür braucht sie konstant etwa ${countFormat(
                     yAnnotations: [
                       {
                         value: numMembersNeeded,
-                        label: 'selbsttragend bei'
+                        label: 'selbsttragend ab'
                       }
                     ],
                     xBandPadding: 0
@@ -462,25 +459,132 @@ Dafür braucht sie konstant etwa ${countFormat(
 
               {md(mdComponents)`
 
-## Warum ${countFormat(numMembersNeeded)}?
-
 Mit ${countFormat(
                 numMembersNeeded
-              )} Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen. Wir wären dann unabhängig von Investoren und Stiftungen und zu 100 Prozent leserfinanziert.
+              )} Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
 
 Das aktuelle Ausgaben-Budget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/juli19).
 
-## Und bis dann?
+## ${countFormat(lastSeen)} Mitglieder sind monatlich&nbsp;aktiv
 
-Bis die Republik selbsttragend funktionieren kann, ist sie auf Investments angewiesen. Auf [unserer Aktionariats-Seite](/aktionariat) finden Sie alle Investoren. Zudem werden wir von verschiedenen Stiftungen gefördert und die Genossenschaft von Spenderinnen unterstützt.
+Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche die Webseite oder App in den letzten 30 Tagen benutzen haben.
 
-Im letzten Geschäftsjahr (2018/2019) war die Republik zu 70 Prozent selbsttragend. Nun geht es darum, bekannter und nützlicher zu werden und mehr Menschen mit unserem Journalismus zu begeistern. Wir haben einen ganzen Schrank voller Ideen.
+`}
 
-Und falls es ein bisschen Zeit braucht, bis die Ideen sich in zusätzliche Mitgliedschaften und Abos verwandeln, geht uns das Geld nicht übermorgen aus.
+              <div
+                {...css({
+                  marginTop: 20,
+                  '& text, & tspan': {
+                    fill: '#fff !important'
+                  },
+                  '& svg > g > g > g > line': {
+                    stroke: 'rgba(255, 255, 255, 0.4) !important'
+                  },
+                  '& div': {
+                    color: '#fff !important'
+                  }
+                })}
+              >
+                <ChartTitle style={{ color: '#fff' }}>
+                  Welche Funktionen nutzen die meisten?
+                </ChartTitle>
+                <ChartLead style={{ color: '#fff' }}>
+                  Anzahl Mitlieder welche eine Funktion benutzen.
+                </ChartLead>
+                <Chart
+                  config={{
+                    type: 'Line',
+                    sort: 'none',
+                    color: 'type',
+                    colorSort: 'none',
+                    numberFormat: 's',
+                    x: 'date',
+                    timeParse: '%Y-%m',
+                    timeFormat: '%b %y',
+                    xTicks: [
+                      '2018-01',
+                      '2019-01',
+                      // ToDo: Live Data
+                      '2020-04'
+                    ],
+                    yNice: 0,
+                    yTicks: [0, 3000, 6000, 9000, 12000],
+                    colorMap: {
+                      Leseposition: '#9467bd',
+                      Lesezeichen: '#e377c2',
+                      Dialog: '#bcbd22'
+                    }
+                  }}
+                  values={[
+                    // ToDo: Live Data; Dialog: combine commentsUsers and votesUsers
+                    { type: 'Dialog', date: '2018-01', value: '3302' },
+                    { type: 'Dialog', date: '2018-02', value: '1180' },
+                    { type: 'Dialog', date: '2018-03', value: '1169' },
+                    { type: 'Dialog', date: '2018-04', value: '2125' },
+                    { type: 'Dialog', date: '2018-05', value: '1530' },
+                    { type: 'Dialog', date: '2018-06', value: '872' },
+                    { type: 'Dialog', date: '2018-07', value: '1149' },
+                    { type: 'Dialog', date: '2018-08', value: '1006' },
+                    { type: 'Dialog', date: '2018-09', value: '888' },
+                    { type: 'Dialog', date: '2018-10', value: '1550' },
+                    { type: 'Dialog', date: '2018-11', value: '898' },
+                    { type: 'Dialog', date: '2018-12', value: '1577' },
+                    { type: 'Dialog', date: '2019-01', value: '2149' },
+                    { type: 'Lesezeichen', date: '2019-01', value: '1367' },
+                    { type: 'Dialog', date: '2019-02', value: '2311' },
+                    { type: 'Lesezeichen', date: '2019-02', value: '1305' },
+                    { type: 'Leseposition', date: '2019-03', value: '3627' },
+                    { type: 'Dialog', date: '2019-03', value: '2528' },
+                    { type: 'Lesezeichen', date: '2019-03', value: '1412' },
+                    { type: 'Leseposition', date: '2019-04', value: '7348' },
+                    { type: 'Dialog', date: '2019-04', value: '2243' },
+                    { type: 'Lesezeichen', date: '2019-04', value: '1360' },
+                    { type: 'Leseposition', date: '2019-05', value: '7383' },
+                    { type: 'Dialog', date: '2019-05', value: '1529' },
+                    { type: 'Lesezeichen', date: '2019-05', value: '1290' },
+                    { type: 'Leseposition', date: '2019-06', value: '7394' },
+                    { type: 'Dialog', date: '2019-06', value: '1657' },
+                    { type: 'Lesezeichen', date: '2019-06', value: '1194' },
+                    { type: 'Leseposition', date: '2019-07', value: '7570' },
+                    { type: 'Dialog', date: '2019-07', value: '1709' },
+                    { type: 'Lesezeichen', date: '2019-07', value: '1223' },
+                    { type: 'Leseposition', date: '2019-08', value: '7588' },
+                    { type: 'Dialog', date: '2019-08', value: '1366' },
+                    { type: 'Lesezeichen', date: '2019-08', value: '1239' },
+                    { type: 'Leseposition', date: '2019-09', value: '8268' },
+                    { type: 'Dialog', date: '2019-09', value: '1714' },
+                    { type: 'Lesezeichen', date: '2019-09', value: '1436' },
+                    { type: 'Leseposition', date: '2019-10', value: '8455' },
+                    { type: 'Dialog', date: '2019-10', value: '2357' },
+                    { type: 'Lesezeichen', date: '2019-10', value: '1608' },
+                    { type: 'Leseposition', date: '2019-11', value: '8390' },
+                    { type: 'Dialog', date: '2019-11', value: '1474' },
+                    { type: 'Lesezeichen', date: '2019-11', value: '1493' },
+                    { type: 'Leseposition', date: '2019-12', value: '9987' },
+                    { type: 'Dialog', date: '2019-12', value: '2150' },
+                    { type: 'Lesezeichen', date: '2019-12', value: '1855' },
+                    { type: 'Leseposition', date: '2020-01', value: '10384' },
+                    { type: 'Dialog', date: '2020-01', value: '1857' },
+                    { type: 'Lesezeichen', date: '2020-01', value: '2114' },
+                    { type: 'Leseposition', date: '2020-02', value: '10796' },
+                    { type: 'Dialog', date: '2020-02', value: '2198' },
+                    { type: 'Lesezeichen', date: '2020-02', value: '2196' },
+                    { type: 'Leseposition', date: '2020-03', value: '11940' },
+                    { type: 'Dialog', date: '2020-03', value: '2300' },
+                    { type: 'Lesezeichen', date: '2020-03', value: '2695' },
+                    { type: 'Leseposition', date: '2020-04', value: '12207' },
+                    { type: 'Dialog', date: '2020-04', value: '2184' },
+                    { type: 'Lesezeichen', date: '2020-04', value: '2670' }
+                  ]}
+                />
+                <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
+                  Beim Dialog werden Schreibende und Reagierende (Up- und
+                  Downvotes) gezählt. Lesezeichen wurden mitte Januar 2019
+                  eingeführt, Leseposition ende März 2019.
+                </Editorial.Note>
+              </div>
 
-Dazu folgende Zusammenfassung unserer konservativen Liquiditätsplanung:
-
-Solide Verkäufe (weniger als 2019 und 2018) + gute, aber nicht bemerkenswerte Erneuerungen (besser als im ersten Jahr, schlechter als die letzten Monate) + etwas tieferes Budget = sicher Geld bis Winter 2021/2022.
+              {md(mdComponents)`
 
 ## Was bisher geschah
 
@@ -491,6 +595,7 @@ Solide Verkäufe (weniger als 2019 und 2018) + gute, aber nicht bemerkenswerte E
 *   November 2019: [2. Geschäftsbericht](https://cdn.republik.space/s3/republik-assets/assets/can/Republik_Geschaeftsbericht_2018-2019.pdf) 
 *   Dezember 2019: [das alte Cockpit](/cockpit19)
 *   März 2020: [Märzkampagne](/maerzkampagne)
+*   Juni 2020: [25’000 Mitglieder](https://project-r.construction/newsletter/2020-06-XX-TODO)
 
 Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in unserem Unternehmen. Sie können alles nachlesen, im [Archiv der Project-R-Newsletter](https://project-r.construction/news) und in der [Rubrik «An die Verlagsetage](/format/an-die-verlagsetage "An die Verlagsetage")».
 
@@ -504,11 +609,6 @@ Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in
                 defaultBenefactor={defaultBenefactor}
                 questionnaire={questionnaire}
               />
-              {md(mdComponents)`
-
-Sie wollen investieren? Schreiben Sie uns eine Mail an [ir@republik.ch](mailto:ir@republik.ch)
-
-`}
 
               {inNativeIOSApp && (
                 <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>

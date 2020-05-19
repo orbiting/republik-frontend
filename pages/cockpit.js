@@ -35,24 +35,20 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 
 import { CROWDFUNDING, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
-import { Link, questionnaireCrowdSlug } from '../lib/routes'
+import { Link } from '../lib/routes'
 import { swissTime } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
 
 const statusQuery = gql`
   query CockpitStatus($max: YearMonthDate!, $accessToken: ID) {
     membershipStats {
-      count
       evolution(min: "2018-01", max: $max) {
         updatedAt
         buckets {
           key
-          gaining
-          activeEndOfMonth
-          expired
-          cancelled
-          pending
-          pendingSubscriptionsOnly
+          active
+          overdue
+          ended
         }
       }
     }
@@ -265,12 +261,6 @@ const Accordion = withInNativeApp(
 const bucketsBefore = [
   { key: '2017-04', presale: 9703 },
   { key: '2017-05', presale: 3866 }
-  // { key: '2017-07', presale: 100 },
-  // { key: '2017-08', presale: 148 },
-  // { key: '2017-09', presale: 152 },
-  // { key: '2017-10', presale: 154 },
-  // { key: '2017-11', presale: 204 },
-  // { key: '2017-12', presale: 624 },
 ].reduce((summed, d) => {
   const prev = summed[summed.length - 1]
   summed.push({ ...d, preactive: d.presale + (prev ? prev.preactive : 0) })
@@ -317,7 +307,6 @@ const Page = ({
         style={{ minHeight: `calc(90vh)` }}
         render={() => {
           const {
-            count: activeCount,
             evolution: { buckets, updatedAt }
           } = data.membershipStats
           const lastMonth = buckets[buckets.length - 1]
@@ -325,7 +314,6 @@ const Page = ({
           const labels = [
             { key: 'preactive', color: '#256900', label: 'Crowdfunder' },
             { key: 'active', color: '#3CAD00', label: 'aktive' },
-            // {key: 'gaining', color: '#256900', label: 'neue'},
             { key: 'loss', color: '#9970ab', label: 'Abgänge' },
             { key: 'missing', color: '#333', label: 'fehlende' }
           ]
@@ -347,33 +335,23 @@ const Page = ({
               value: bucket.preactive
             }))
             .concat(
-              buckets.reduce((flat, bucket, i) => {
-                // const notNew =
-                //   i === 0
-                //     ? bucketsBefore[bucketsBefore.length - 1].preactive
-                //     : 0
-                minMaxValues.push(bucket.activeEndOfMonth + bucket.pending)
-                minMaxValues.push(-bucket.expired + -bucket.cancelled)
-                flat.push({
-                  month: bucket.key,
+              buckets.reduce((acc, { key, active, overdue, ended }) => {
+                minMaxValues.push(active + overdue)
+                minMaxValues.push(-ended)
+                acc.push({
+                  month: key,
                   label: labelMap.active,
-                  value: bucket.activeEndOfMonth + bucket.pending // - bucket.gaining + notNew
+                  value: active + overdue
                 })
-                // flat.push({
-                //   month: bucket.key,
-                //   label: labelMap.gaining,
-                //   value: bucket.gaining - notNew
-                // })
-                flat.push({
-                  month: bucket.key,
+                acc.push({
+                  month: key,
                   label: labelMap.loss,
-                  value: -bucket.expired + -bucket.cancelled
+                  value: -ended
                 })
-                return flat
+                return acc
               }, [])
             )
-          // use uncached membershipStats.count for now
-          // const activeCount = lastBucket.activeEndOfMonth + lastBucket.pending
+          const activeCount = lastBucket.active + lastBucket.overdue
           const missingCount = numMembersNeeded - activeCount
           if (missingCount > 0) {
             values.push({

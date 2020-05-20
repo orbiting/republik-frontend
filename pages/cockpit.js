@@ -50,6 +50,34 @@ const statusQuery = gql`
           ended
         }
       }
+      lastSeen(min: $max, max: $max) {
+        buckets {
+          key
+          users
+        }
+      }
+    }
+    discussionsStats {
+      evolution(min: "2018-01", max: $max) {
+        buckets {
+          key
+          users
+        }
+      }
+    }
+    collectionsStats {
+      progress: evolution(name: "progress", min: "2019-03", max: $max) {
+        buckets {
+          key
+          users
+        }
+      }
+      bookmarks: evolution(name: "bookmarks", min: "2019-01", max: $max) {
+        buckets {
+          key
+          users
+        }
+      }
     }
     actionMe: me(accessToken: $accessToken) {
       id
@@ -366,9 +394,26 @@ const Page = ({
             Math[i ? 'ceil' : 'floor'](Math.round(d / 1000) * 1000)
           )
 
-          // ToDo: live data
-          // Source: https://ultradashboard.republik.ch/question/558?interval=30%20days
-          const lastSeen = 20498
+          const lastSeen = data.membershipStats.lastSeen.buckets.slice(-1)[0]
+            .users
+
+          const engagedUsers = [].concat(
+            data.discussionsStats.evolution.buckets.map(bucket => ({
+              type: 'Dialog',
+              date: bucket.key,
+              value: String(bucket.users)
+            })),
+            data.collectionsStats.progress.buckets.map(bucket => ({
+              type: 'Lesepositionen',
+              date: bucket.key,
+              value: String(bucket.users)
+            })),
+            data.collectionsStats.bookmarks.buckets.map(bucket => ({
+              type: 'Lesezeichen',
+              date: bucket.key,
+              value: String(bucket.users)
+            }))
+          )
 
           return (
             <>
@@ -510,72 +555,12 @@ Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche di
                     yNice: 0,
                     yTicks: [0, 3000, 6000, 9000, 12000],
                     colorMap: {
-                      Leseposition: '#9467bd',
+                      Lesepositionen: '#9467bd',
                       Lesezeichen: '#e377c2',
                       Dialog: '#bcbd22'
                     }
                   }}
-                  values={[
-                    // ToDo: Live Data; Dialog: combine commentsUsers and votesUsers
-                    { type: 'Dialog', date: '2018-01', value: '3302' },
-                    { type: 'Dialog', date: '2018-02', value: '1180' },
-                    { type: 'Dialog', date: '2018-03', value: '1169' },
-                    { type: 'Dialog', date: '2018-04', value: '2125' },
-                    { type: 'Dialog', date: '2018-05', value: '1530' },
-                    { type: 'Dialog', date: '2018-06', value: '872' },
-                    { type: 'Dialog', date: '2018-07', value: '1149' },
-                    { type: 'Dialog', date: '2018-08', value: '1006' },
-                    { type: 'Dialog', date: '2018-09', value: '888' },
-                    { type: 'Dialog', date: '2018-10', value: '1550' },
-                    { type: 'Dialog', date: '2018-11', value: '898' },
-                    { type: 'Dialog', date: '2018-12', value: '1577' },
-                    { type: 'Dialog', date: '2019-01', value: '2149' },
-                    { type: 'Lesezeichen', date: '2019-01', value: '1367' },
-                    { type: 'Dialog', date: '2019-02', value: '2311' },
-                    { type: 'Lesezeichen', date: '2019-02', value: '1305' },
-                    { type: 'Leseposition', date: '2019-03', value: '3627' },
-                    { type: 'Dialog', date: '2019-03', value: '2528' },
-                    { type: 'Lesezeichen', date: '2019-03', value: '1412' },
-                    { type: 'Leseposition', date: '2019-04', value: '7348' },
-                    { type: 'Dialog', date: '2019-04', value: '2243' },
-                    { type: 'Lesezeichen', date: '2019-04', value: '1360' },
-                    { type: 'Leseposition', date: '2019-05', value: '7383' },
-                    { type: 'Dialog', date: '2019-05', value: '1529' },
-                    { type: 'Lesezeichen', date: '2019-05', value: '1290' },
-                    { type: 'Leseposition', date: '2019-06', value: '7394' },
-                    { type: 'Dialog', date: '2019-06', value: '1657' },
-                    { type: 'Lesezeichen', date: '2019-06', value: '1194' },
-                    { type: 'Leseposition', date: '2019-07', value: '7570' },
-                    { type: 'Dialog', date: '2019-07', value: '1709' },
-                    { type: 'Lesezeichen', date: '2019-07', value: '1223' },
-                    { type: 'Leseposition', date: '2019-08', value: '7588' },
-                    { type: 'Dialog', date: '2019-08', value: '1366' },
-                    { type: 'Lesezeichen', date: '2019-08', value: '1239' },
-                    { type: 'Leseposition', date: '2019-09', value: '8268' },
-                    { type: 'Dialog', date: '2019-09', value: '1714' },
-                    { type: 'Lesezeichen', date: '2019-09', value: '1436' },
-                    { type: 'Leseposition', date: '2019-10', value: '8455' },
-                    { type: 'Dialog', date: '2019-10', value: '2357' },
-                    { type: 'Lesezeichen', date: '2019-10', value: '1608' },
-                    { type: 'Leseposition', date: '2019-11', value: '8390' },
-                    { type: 'Dialog', date: '2019-11', value: '1474' },
-                    { type: 'Lesezeichen', date: '2019-11', value: '1493' },
-                    { type: 'Leseposition', date: '2019-12', value: '9987' },
-                    { type: 'Dialog', date: '2019-12', value: '2150' },
-                    { type: 'Lesezeichen', date: '2019-12', value: '1855' },
-                    { type: 'Leseposition', date: '2020-01', value: '10384' },
-                    { type: 'Dialog', date: '2020-01', value: '1857' },
-                    { type: 'Lesezeichen', date: '2020-01', value: '2114' },
-                    { type: 'Leseposition', date: '2020-02', value: '10796' },
-                    { type: 'Dialog', date: '2020-02', value: '2198' },
-                    { type: 'Lesezeichen', date: '2020-02', value: '2196' },
-                    { type: 'Leseposition', date: '2020-03', value: '11940' },
-                    { type: 'Dialog', date: '2020-03', value: '2300' },
-                    { type: 'Lesezeichen', date: '2020-03', value: '2695' },
-                    { type: 'Leseposition', date: '2020-04', value: '12207' },
-                    { type: 'Dialog', date: '2020-04', value: '2184' },
-                    { type: 'Lesezeichen', date: '2020-04', value: '2670' }
-                  ]}
+                  values={engagedUsers}
                 />
                 <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
                   Beim Dialog werden Schreibende und Reagierende (Up- und

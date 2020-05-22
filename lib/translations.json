@@ -1,5 +1,5 @@
 {
-  "updated": "2020-05-13T10:47:13.248Z",
+  "updated": "2020-05-22T07:34:08.943Z",
   "title": "live",
   "data": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "key": "nav/events",
-      "value": "Veranstaltungen"
+      "value": "Anlässe"
     },
     {
       "key": "nav/discussion",
@@ -1452,7 +1452,7 @@
     },
     {
       "key": "footer/events",
-      "value": "Veranstaltungen"
+      "value": "Anlässe"
     },
     {
       "key": "footer/updates",
@@ -3456,11 +3456,11 @@
     },
     {
       "key": "events/pageTitle",
-      "value": "Veranstaltungen – Republik"
+      "value": "Anlässe und Veranstaltungen – Republik"
     },
     {
       "key": "events/title",
-      "value": "Alle Veranstaltungen im Überblick"
+      "value": "Alle Anlässe im Überblick"
     },
     {
       "key": "events/metaDescription",
@@ -3468,19 +3468,19 @@
     },
     {
       "key": "events/upcoming",
-      "value": "Kommende Veranstaltungen"
+      "value": "Kommende Anlässe"
     },
     {
       "key": "events/past",
-      "value": "Vergangene Veranstaltungen"
+      "value": "Vergangene Anlässe"
     },
     {
       "key": "events/share/title",
-      "value": "Veranstaltung teilen"
+      "value": "Anlass teilen"
     },
     {
       "key": "events/all",
-      "value": "Alle Ereignisse"
+      "value": "Alle Anlässe"
     },
     {
       "key": "events/labels/description",

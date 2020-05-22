@@ -192,6 +192,10 @@ class Footer extends Component {
                 <a>{t('nav/cockpit')}</a>
               </LazyLink>
               <br />
+              <LazyLink route='section' params={{ slug: 'komplizin' }}>
+                <a>Komplizen</a>
+              </LazyLink>
+              <br />
               <a href='/manifest' target={!inNativeApp ? '_blank' : undefined}>
                 {t('footer/about/manifest')}
               </a>

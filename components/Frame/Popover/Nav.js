@@ -291,7 +291,7 @@ const Nav = ({
               >
                 {t('nav/cockpit')}
               </NavLink>
-              <NavLink
+              {/*<NavLink
                 inline
                 route='section'
                 params={{ slug: 'komplizin' }}
@@ -299,7 +299,7 @@ const Nav = ({
                 closeHandler={closeHandler}
               >
                 Komplizen
-              </NavLink>
+              </NavLink> */}
               <br />
               <NavLink
                 inline

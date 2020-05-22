@@ -277,15 +277,12 @@ const Nav = ({
               </div>
               <br />
               {/*<NavLink
-            route='community'
-            active={active}
-            closeHandler={closeHandler}
-          >
-            {t('nav/community')}
-          </NavLink>
-          <NavLink route='events' active={active} closeHandler={closeHandler}>
-            {t('nav/events')}
-          </NavLink>*/}
+                route='community'
+                active={active}
+                closeHandler={closeHandler}
+              >
+                {t('nav/community')}
+              </NavLink> */}
               <NavLink
                 inline
                 route='cockpit'
@@ -304,6 +301,14 @@ const Nav = ({
                 Komplizen
               </NavLink>
               <br />
+              <NavLink
+                inline
+                route='events'
+                active={active}
+                closeHandler={closeHandler}
+              >
+                {t('nav/events')}
+              </NavLink>
               <NavLink
                 inline
                 route='meta'

@@ -36,7 +36,8 @@ import {
   FaEdit,
   FaSpotify,
   FaGoogle,
-  FaApple
+  FaApple,
+  FaNotesMedical
 } from 'react-icons/fa'
 
 const ICONS = {
@@ -68,7 +69,8 @@ const ICONS = {
   play: MdPlayCircleOutline,
   spotify: FaSpotify,
   google: FaGoogle,
-  apple: FaApple
+  apple: FaApple,
+  notesMedical: FaNotesMedical
 }
 
 const DEFAULT_SIZE = 24

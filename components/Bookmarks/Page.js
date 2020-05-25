@@ -14,7 +14,7 @@ import {
   linkRule
 } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
-import { MdBookmarkOutline } from 'react-icons/md'
+import { MdBookmarkBorder } from 'react-icons/md'
 
 import { getBookmarkedDocuments } from './queries'
 
@@ -43,7 +43,7 @@ const mergeConnection = (data, connection) => ({
   }
 })
 
-const bookmarkIcon = <MdBookmarkOutline size={22} key='icon' />
+const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
 
 class Page extends Component {
   render() {

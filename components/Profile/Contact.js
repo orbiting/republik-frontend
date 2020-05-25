@@ -4,6 +4,7 @@ import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
+import { withSupporter } from '../Auth/checkRoles'
 import { isWebUri } from 'valid-url'
 
 import IconLink from '../IconLink'
@@ -12,6 +13,8 @@ import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 import { DEFAULT_VALUES } from './Page'
 
 import { Dropdown, Label, Interaction } from '@project-r/styleguide'
+
+import { ADMIN_BASE_URL } from '../../lib/constants'
 
 const styles = {
   icons: css({
@@ -57,6 +60,7 @@ const Contact = ({
   errors,
   dirty,
   t,
+  isSupporter,
   inNativeIOSApp
 }) => {
   if (isEditing) {
@@ -167,6 +171,15 @@ const Contact = ({
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
           <IconLink icon='link' href={user.publicUrl} />
         )}
+        {isSupporter && (
+          <IconLink
+            icon='notesMedical'
+            fill='#FF10D9'
+            size={22}
+            href={`${ADMIN_BASE_URL}/users/${user.id}`}
+            target='_blank'
+          />
+        )}
       </div>
       {!inNativeIOSApp && user.pgpPublicKeyId && (
         <IconLink
@@ -218,7 +231,4 @@ const Contact = ({
   )
 }
 
-export default compose(
-  withT,
-  withInNativeApp
-)(Contact)
+export default compose(withT, withInNativeApp, withSupporter)(Contact)

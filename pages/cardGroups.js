@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import { descending } from 'd3-array'
 import { css } from 'glamor'
 
-import MdCheck from 'react-icons/lib/md/check'
+import { MdCheck } from 'react-icons/md'
 
 import withT from '../lib/withT'
 import { Link, routes } from '../lib/routes'
@@ -339,8 +339,4 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
   </Frame>
 )
 
-export default compose(
-  withRouter,
-  withT,
-  graphql(query)
-)(Page)
+export default compose(withRouter, withT, graphql(query))(Page)

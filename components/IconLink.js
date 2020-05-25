@@ -27,7 +27,7 @@ import {
   MdPlayCircleOutline
 } from 'react-icons/md'
 import {
-  FaFacebook,
+  FaFacebookF,
   FaFolderOpen,
   FaTwitter,
   FaWhatsapp,
@@ -45,7 +45,7 @@ const ICONS = {
   chart: ChartIcon,
   discussion: MdChatBubbleOutline,
   download: MdFileDownload,
-  facebook: FaFacebook,
+  facebook: FaFacebookF,
   dossier: FaFolderOpen,
   link: LinkIcon,
   mail: MdMailOutline,

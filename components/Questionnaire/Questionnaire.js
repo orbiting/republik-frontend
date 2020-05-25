@@ -3,7 +3,7 @@ import Loader from '../Loader'
 
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
-import CheckCircle from 'react-icons/lib/md/check-circle'
+import { MdCheckCircle } from 'react-icons/md'
 
 import {
   colors,
@@ -219,7 +219,7 @@ class Questionnaire extends Component {
                       </P>
                       {questionCount === userAnswerCount ? (
                         <div {...styles.progressIcon}>
-                          <CheckCircle size={22} color={colors.primary} />
+                          <MdCheckCircle size={22} color={colors.primary} />
                         </div>
                       ) : updating || submitting ? (
                         <div style={{ marginLeft: 5, marginTop: 3 }}>

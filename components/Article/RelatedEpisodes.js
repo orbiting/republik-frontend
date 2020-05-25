@@ -6,8 +6,7 @@ import { romanize } from '../../lib/utils/romanize'
 import { timeFormat } from '../../lib/utils/format'
 import HrefLink from '../Link/Href'
 
-import ArrowLeftIcon from 'react-icons/lib/md/keyboard-arrow-left'
-import ArrowRightIcon from 'react-icons/lib/md/keyboard-arrow-right'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 
 import {
   colors,
@@ -62,9 +61,9 @@ const Tile = ({ t, episode, index, prev, next }) => {
         align={image ? 'top' : undefined}
       >
         <Editorial.Format>
-          {prev && <ArrowLeftIcon {...styles.prev} />}
+          {prev && <MdKeyboardArrowLeft {...styles.prev} />}
           {label || t('article/series/episode', { count: romanize(index + 1) })}
-          {next && <ArrowRightIcon {...styles.next} />}
+          {next && <MdKeyboardArrowRight {...styles.next} />}
         </Editorial.Format>
         {path ? (
           <Link href={path} passHref>

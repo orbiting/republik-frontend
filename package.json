@@ -149,7 +149,7 @@
     "react-apollo": "^2.5.8",
     "react-dom": "^16.13.0",
     "react-dropzone": "^4.3.0",
-    "react-icons": "^2.2.7",
+    "react-icons": "^3.10.0",
     "react-maskedinput": "^4.0.1",
     "react-spring": "^8.0.27",
     "react-textarea-autosize": "^7.1.2",

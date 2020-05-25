@@ -1,8 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import ArrowDown from 'react-icons/lib/md/arrow-downward'
-import ArrowUp from 'react-icons/lib/md/arrow-upward'
+import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
 
 import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
@@ -39,8 +38,8 @@ const styles = {
 }
 
 const SORT_DIRECTION_ICONS = {
-  ASC: ArrowUp,
-  DESC: ArrowDown
+  ASC: MdArrowUpward,
+  DESC: MdArrowDownward
 }
 
 const getDefaultDirection = sort => sort.directions && sort.directions[0]

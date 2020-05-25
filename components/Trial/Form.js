@@ -16,7 +16,7 @@ import { Router } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import MdArrowForward from 'react-icons/lib/md/arrow-forward'
+import { MdArrowForward } from 'react-icons/md'
 import {
   Button,
   Field,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import MdCheck from 'react-icons/lib/md/check'
+import { MdCheck } from 'react-icons/md'
 import { colors } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'

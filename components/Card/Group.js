@@ -19,11 +19,16 @@ import {
 } from '@project-r/styleguide'
 
 import IgnoreIcon from './IgnoreIcon'
-import FollowIcon from 'react-icons/lib/md/notifications-active'
-import RevertIcon from 'react-icons/lib/md/rotate-left'
-
-import ListIcon from 'react-icons/lib/md/list'
-import PreferencesIcon from 'react-icons/lib/md/filter-list'
+import {
+  MdNotificationsActive,
+  MdRotateLeft,
+  MdList,
+  MdFilterList
+} from 'react-icons/md'
+const FollowIcon = MdNotificationsActive
+const RevertIcon = MdRotateLeft
+const ListIcon = MdList
+const PreferencesIcon = MdFilterList
 
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'

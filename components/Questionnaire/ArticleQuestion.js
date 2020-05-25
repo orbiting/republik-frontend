@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import { compose, withApollo } from 'react-apollo'
-import Close from 'react-icons/lib/md/close'
+import { MdClose } from 'react-icons/md'
 import { css } from 'glamor'
 import debounce from 'lodash/debounce'
 import uuid from 'uuid/v4'
@@ -107,7 +107,7 @@ class ArticleQuestion extends Component {
           })}
           onClick={() => this.handleChange(null)}
         >
-          <Close size={24} />
+          <MdClose size={24} />
         </div>
       </div>
     )
@@ -227,7 +227,4 @@ const query = gql`
   }
 `
 
-export default compose(
-  withT,
-  withApollo
-)(ArticleQuestion)
+export default compose(withT, withApollo)(ArticleQuestion)

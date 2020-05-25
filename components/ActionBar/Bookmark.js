@@ -6,8 +6,7 @@ import gql from 'graphql-tag'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import { styles as iconLinkStyles } from '../IconLink'
-import IconDefault from 'react-icons/lib/md/bookmark-outline'
-import IconBookmarked from 'react-icons/lib/md/bookmark'
+import { MdBookmark, MdBookmarkBorder } from 'react-icons/md'
 import { useColorContext } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 
@@ -37,7 +36,7 @@ const styles = {
 
 const BookmarkIcon = ({ error, mutating, bookmarked, small }) => {
   const [colorScheme] = useColorContext()
-  const Icon = bookmarked ? IconBookmarked : IconDefault
+  const Icon = bookmarked ? MdBookmark : MdBookmarkBorder
   const size = small ? 23 : 27
 
   return (

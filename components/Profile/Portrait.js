@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 
 import withT from '../../lib/withT'
 
-import MdClose from 'react-icons/lib/md/close'
+import { MdClose } from 'react-icons/md'
 
 const styles = {
   img: css({

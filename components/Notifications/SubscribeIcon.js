@@ -1,7 +1,6 @@
 import React from 'react'
 import { useColorContext } from '@project-r/styleguide'
-import SubIcon from 'react-icons/lib/md/notifications'
-import UnsubIcon from 'react-icons/lib/md/notifications-none'
+import { MdNotifications, MdNotificationsNone } from 'react-icons/md'
 import { css } from 'glamor'
 
 const styles = {
@@ -23,7 +22,7 @@ const styles = {
 
 const SubscribeIcon = ({ isSubscribed, animate }) => {
   const [colorScheme] = useColorContext()
-  const Icon = isSubscribed ? SubIcon : UnsubIcon
+  const Icon = isSubscribed ? MdNotifications : MdNotificationsNone
   return (
     <Icon
       {...styles.icon}

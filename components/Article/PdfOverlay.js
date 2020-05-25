@@ -10,10 +10,7 @@ import {
   Button,
   Checkbox
 } from '@project-r/styleguide'
-
-import DownloadIcon from 'react-icons/lib/md/file-download'
-import MdClose from 'react-icons/lib/md/close'
-
+import { MdFileDownload, MdClose } from 'react-icons/md'
 import withT from '../../lib/withT'
 import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
@@ -105,7 +102,7 @@ class PdfOverlay extends Component {
               })}
               download
             >
-              <DownloadIcon /> {t('article/pdf/download')}
+              <MdFileDownload /> {t('article/pdf/download')}
             </A>
           </div>
         </OverlayBody>

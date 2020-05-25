@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { convertStyleToRem, fontStyles } from '@project-r/styleguide'
 
-import NotificationsIcon from 'react-icons/lib/md/notifications'
-import NotificationsOffIcon from 'react-icons/lib/md/notifications-off'
+import { MdNotifications, MdNotificationsOff } from 'react-icons/md'
 
 const DEFAULT_SIZE = 24
 
@@ -20,7 +19,7 @@ export const styles = {
 }
 
 const Icon = ({ off, fill, children, size = DEFAULT_SIZE, style, onClick }) => {
-  const Icon = off ? NotificationsOffIcon : NotificationsIcon
+  const Icon = off ? MdNotificationsOff : MdNotifications
 
   return (
     <a {...styles.link} onClick={onClick} style={style}>

@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
-import DownIcon from 'react-icons/lib/md/arrow-downward'
-import Close from 'react-icons/lib/md/close'
+import { MdArrowDownward, MdClose } from 'react-icons/md'
 
 import datetime from './datetime'
 
@@ -132,7 +131,7 @@ const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
           radius={RADIUS}
           strokeWidth={3}
         />
-        <DownIcon {...styles.buttonIcon} fill={colorScheme.fill} />
+        <MdArrowDownward {...styles.buttonIcon} fill={colorScheme.fill} />
       </button>
       <div {...styles.label}>{title}</div>
       <div {...styles.note} {...colors.note}>
@@ -144,7 +143,7 @@ const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
         onClick={onClose}
         title={t('progress/restore/close')}
       >
-        <Close fill='#ccc' />
+        <MdClose fill='#ccc' />
       </button>
     </div>
   )

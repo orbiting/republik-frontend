@@ -14,7 +14,7 @@ import {
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { scrollIt } from '../../lib/utils/scroll'
-import MdDone from 'react-icons/lib/md/done'
+import { MdDone } from 'react-icons/md'
 
 import withAuthorizeSession from './withAuthorizeSession'
 

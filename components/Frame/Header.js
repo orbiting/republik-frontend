@@ -18,7 +18,7 @@ import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
 
-import Search from 'react-icons/lib/md/search'
+import { MdSearch } from 'react-icons/md'
 import BackIcon from '../Icons/Back'
 
 import { shouldIgnoreClick } from '../Link/utils'
@@ -438,7 +438,7 @@ class Header extends Component {
                     href='/suche'
                     onClick={goTo('/search', 'search')}
                   >
-                    <Search fill={textFill} size={HEADER_ICON_SIZE} />
+                    <MdSearch fill={textFill} size={HEADER_ICON_SIZE} />
                   </HeaderIconA>
                 )}
               </div>

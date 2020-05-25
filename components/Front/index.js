@@ -16,7 +16,7 @@ import Head from 'next/head'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 
-import CheckCircle from 'react-icons/lib/md/check-circle'
+import { MdCheckCircle } from 'react-icons/md'
 
 import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
@@ -183,7 +183,7 @@ const Front = ({
             <div {...styles.more}>
               {finite && (
                 <div style={{ marginBottom: 10 }}>
-                  <CheckCircle size={32} style={{ marginBottom: 10 }} />
+                  <MdCheckCircle size={32} style={{ marginBottom: 10 }} />
                   <br />
                   {t('front/finite')}
                   <br />

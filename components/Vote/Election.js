@@ -14,8 +14,7 @@ import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import FavoriteIcon from 'react-icons/lib/md/favorite'
-import StarsIcon from 'react-icons/lib/md/stars'
+import { MdFavorite, MdStars } from 'react-icons/md'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
@@ -153,7 +152,10 @@ class Election extends Component {
 
       this.setState({ updating: true })
 
-      await submitElectionBallot(id, vote.map(c => c.id))
+      await submitElectionBallot(
+        id,
+        vote.map(c => c.id)
+      )
         .then(() => {
           this.setState(
             () => ({
@@ -357,14 +359,13 @@ class Election extends Component {
                       )}
                       {recommended.length > 0 && (
                         <span>
-                          <StarsIcon size={18} />{' '}
-                          {vt('vote/election/legendStar')}
+                          <MdStars size={18} /> {vt('vote/election/legendStar')}
                           <br />
                         </span>
                       )}
                       {mandatoryCandidates.length > 0 && (
                         <span>
-                          <FavoriteIcon /> {vt('vote/election/legendHeart')}
+                          <MdFavorite /> {vt('vote/election/legendHeart')}
                         </span>
                       )}
                     </div>

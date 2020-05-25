@@ -17,9 +17,8 @@ import {
   plainButtonRule
 } from '@project-r/styleguide'
 
-import MdClose from 'react-icons/lib/md/close'
-import PlusIcon from 'react-icons/lib/md/add'
-import MinusIcon from 'react-icons/lib/md/remove'
+import { MdClose, MdAdd, MdRemove } from 'react-icons/md'
+
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 
@@ -117,7 +116,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
             title={t('article/actionbar/fontSize/decrease')}
             onClick={decreaseFontSize}
           >
-            <MinusIcon />
+            <MdRemove />
           </button>
           <label {...styles.label}>{fontPercentage.current}</label>
           <button
@@ -126,7 +125,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
             title={t('article/actionbar/fontSize/increase')}
             onClick={increaseFontSize}
           >
-            <PlusIcon />
+            <MdAdd />
           </button>
           <div {...styles.container}>
             <button

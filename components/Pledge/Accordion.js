@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css, merge } from 'glamor'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
+import { MdChevronRight } from 'react-icons/md'
 import { nest } from 'd3-collection'
 import { min, ascending } from 'd3-array'
 
@@ -194,7 +194,7 @@ export const PackageItem = React.forwardRef(
           </div>
         )}
         <span {...styles.packageIcon}>
-          <ChevronRightIcon size={24} />
+          <MdChevronRight size={24} />
         </span>
       </div>
     </a>

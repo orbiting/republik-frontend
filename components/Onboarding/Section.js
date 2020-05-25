@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 
-import DoneIcon from 'react-icons/lib/md/done'
+import { MdDone } from 'react-icons/md'
 
 import { Button, Loader, mediaQueries, colors } from '@project-r/styleguide'
 
@@ -93,7 +93,7 @@ const Section = props => {
     <Fragment>
       <div ref={forwardedRef} {...styles.section} onClick={onExpand}>
         <div {...styles.heading}>{heading}</div>
-        {(isTicked || isVisited) && <DoneIcon {...styles.doneIcon} />}
+        {(isTicked || isVisited) && <MdDone {...styles.doneIcon} />}
       </div>
       {isExpanded && (
         <div {...styles.content}>

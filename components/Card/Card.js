@@ -3,7 +3,7 @@ import { css } from 'glamor'
 
 import { Interaction, colors } from '@project-r/styleguide'
 
-import MdCheck from 'react-icons/lib/md/check'
+import { MdCheck } from 'react-icons/md'
 
 import { Link } from '../../lib/routes'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'

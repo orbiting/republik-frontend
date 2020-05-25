@@ -2,8 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import sharedStyles from '../../sharedStyles'
-import ExpandMoreIcon from 'react-icons/lib/md/expand-more'
-import ExpandLessIcon from 'react-icons/lib/md/expand-less'
+import { MdExpandMore, MdExpandLess } from 'react-icons/md'
 
 import {
   colors,
@@ -115,7 +114,7 @@ class BudgetChartItem extends React.Component {
     const { collapsed } = this.state
 
     const hasMore = !!children
-    const ExpandIcon = collapsed ? ExpandMoreIcon : ExpandLessIcon
+    const ExpandIcon = collapsed ? MdExpandMore : MdExpandLess
     const iconTitle = vt(
       `vote/201907/budget/icon/${collapsed ? 'more' : 'less'}/title`
     )

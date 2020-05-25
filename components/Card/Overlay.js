@@ -8,7 +8,7 @@ import {
   Interaction
 } from '@project-r/styleguide'
 
-import MdClose from 'react-icons/lib/md/close'
+import { MdClose } from 'react-icons/md'
 import Beta from './Beta'
 
 const CardOverlay = ({

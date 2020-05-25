@@ -10,16 +10,15 @@ import ErrorMessage from '../ErrorMessage'
 
 import { SUPPORTED_TOKEN_TYPES } from '../constants'
 
-import EmailTokenIcon from 'react-icons/lib/md/mail-outline'
-import AppTokenIcon from 'react-icons/lib/md/phonelink'
+import { MdMailOutline, MdPhonelink } from 'react-icons/md'
 
 import { Interaction, Label, linkRule, RawHtml } from '@project-r/styleguide'
 
 const { H3, P } = Interaction
 
 const Icons = {
-  EMAIL_TOKEN: EmailTokenIcon,
-  APP: AppTokenIcon
+  EMAIL_TOKEN: MdMailOutline,
+  APP: MdPhonelink
 }
 
 const styles = {
@@ -218,7 +217,4 @@ Poller.defaultProps = {
   alternativeFirstFactors: []
 }
 
-export default compose(
-  graphql(meQuery),
-  withT
-)(Poller)
+export default compose(graphql(meQuery), withT)(Poller)

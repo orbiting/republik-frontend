@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Close from 'react-icons/lib/md/close'
+import { MdClose } from 'react-icons/md'
 import { Field, mediaQueries, useDebounce } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
@@ -72,7 +72,7 @@ const Form = compose(
             onChange={update}
             icon={
               !startState && (
-                <Close
+                <MdClose
                   style={{ cursor: 'pointer' }}
                   size={30}
                   onClick={reset}

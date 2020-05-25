@@ -10,7 +10,7 @@ import {
   Button,
   Label
 } from '@project-r/styleguide'
-import MdClose from 'react-icons/lib/md/close'
+import { MdClose } from 'react-icons/md'
 import { compose, graphql } from 'react-apollo'
 import AutosizeInput from 'react-textarea-autosize'
 

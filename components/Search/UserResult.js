@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import MdCheck from 'react-icons/lib/md/check'
+import { MdCheck } from 'react-icons/md'
 import { Link } from '../../lib/routes'
 
 import {

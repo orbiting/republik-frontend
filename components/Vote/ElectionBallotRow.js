@@ -11,11 +11,13 @@ import {
   mediaQueries,
   Radio
 } from '@project-r/styleguide'
-import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
-import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
-import FavoriteIcon from 'react-icons/lib/md/favorite'
-import StarsIcon from 'react-icons/lib/md/stars'
+import {
+  MdFavorite,
+  MdStars,
+  MdChevronRight,
+  MdExpandMore
+} from 'react-icons/md'
 import { Link } from '../../lib/routes'
 import voteT from './voteT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -216,11 +218,11 @@ class ElectionBallotRow extends Component {
         >
           {expanded ? (
             <div {...styles.icon}>
-              <ChevronDownIcon />
+              <MdExpandMore />
             </div>
           ) : (
             <div {...styles.icon}>
-              <ChevronRightIcon />
+              <MdChevronRight />
             </div>
           )}
         </div>
@@ -250,8 +252,8 @@ class ElectionBallotRow extends Component {
             {showMeta && (
               <div>
                 <div style={{ width: 36, height: 18 }}>
-                  {candidate.recommendation && <StarsIcon size={18} />}
-                  {mandatory && <FavoriteIcon size={18} />}
+                  {candidate.recommendation && <MdStars size={18} />}
+                  {mandatory && <MdFavorite size={18} />}
                 </div>
               </div>
             )}
@@ -350,8 +352,4 @@ ElectionBallotRow.defaultProps = {
   showMeta: true
 }
 
-export default compose(
-  withInNativeApp,
-  voteT,
-  withT
-)(ElectionBallotRow)
+export default compose(withInNativeApp, voteT, withT)(ElectionBallotRow)

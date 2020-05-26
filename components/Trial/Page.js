@@ -41,7 +41,7 @@ const getTranslationKey = (name, { isAuthorized, hasAccess, campaign }) => {
   ]
 }
 
-const ALLOWED_CAMPAIGNS = ['covid-19-uhr-newsletter']
+const ALLOWED_CAMPAIGNS = ['covid-19-uhr-newsletter', 'briefings']
 
 const Page = props => {
   const {

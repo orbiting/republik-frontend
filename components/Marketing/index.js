@@ -324,20 +324,19 @@ Wir bedanken uns an dieser Stelle auch bei unseren 22’000 Mitgliedern und Abon
 
         `}
 
-        <div
+        <NewsletterSignUp
+          black
+          skipBox
+          free
+          name='COVID19'
+          teaserTitle='Covid-19-Uhr-Newsletter'
+          teaserDescription='Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen für alle. Auch ohne Mitgliedschaft oder Abo.'
           style={{
             backgroundColor: colors.primaryBg,
             padding: '10px 15px',
             marginTop: 30
           }}
-        >
-          <Interaction.H2>Covid-19-Uhr-Newsletter</Interaction.H2>
-          <Interaction.P style={{ margin: '10px 0' }}>
-            Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen
-            für alle. Auch ohne Mitgliedschaft oder Abo.
-          </Interaction.P>
-          <NewsletterSignUp black skipBox free name='COVID19' />
-        </div>
+        />
 
         {md(mdComponents)`
 <br />

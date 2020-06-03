@@ -8,7 +8,24 @@ import withT from '../../lib/withT'
 import NewsletterSubscriptions from '../Account/NewsletterSubscriptions'
 import EmailForm, { checkEmail } from './EmailForm'
 
-import { Interaction } from '@project-r/styleguide'
+import { Interaction, colors } from '@project-r/styleguide'
+
+const Container = props => {
+  const { title, description } = props
+  return (
+    <div
+      style={{
+        backgroundColor: colors.primaryBg,
+        padding: '10px 15px',
+        marginTop: 30
+      }}
+    >
+      <Interaction.H2>{title}</Interaction.H2>
+      <Interaction.P style={{ margin: '10px 0' }}>{description}</Interaction.P>
+      <SignUp {...props} />
+    </div>
+  )
+}
 
 const SignUp = ({
   me,
@@ -16,12 +33,14 @@ const SignUp = ({
   free,
   black,
   skipBox,
+  style,
   t,
   requestSubscription,
   context = 'newsletter'
 }) => {
   const [state, setState] = useState(() => checkEmail({ value: '', t }))
   const [serverState, setServerState] = useState({})
+
   if (me || !free) {
     return (
       <>
@@ -96,4 +115,4 @@ export default compose(
       requestSubscription: mutate
     })
   })
-)(SignUp)
+)(Container)

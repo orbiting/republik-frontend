@@ -18,7 +18,7 @@ import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
 import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscription'
 
-import MdClose from 'react-icons/lib/md/close'
+import { MdClose } from 'react-icons/md'
 
 import {
   DEFAULT_TOKEN_TYPE,
@@ -128,10 +128,10 @@ const knownTypes = [
   'invalid-email',
   'invalid-token',
   // Deprecated (superseeded by "newsletter")
-  'newsletter-subscription', 
+  'newsletter-subscription',
   // Deprecated (superseeded by "newsletter")
   // Workaround to handle "script" replacements in email clients
-  'newsletter-subscript-disabledion', 
+  'newsletter-subscript-disabledion',
   'newsletter',
   'session-denied',
   'token-authorization',
@@ -178,14 +178,16 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
         context={context}
       />
     )
-  } else if ([
-    // Deprecated (superseeded by "newsletter")
-    'newsletter-subscription', 
-    // Deprecated (superseeded by "newsletter")
-    // Workaround to handle "script" replacements in email clients
-    'newsletter-subscript-disabledion', 
-    'newsletter'
-  ].includes(type)) {
+  } else if (
+    [
+      // Deprecated (superseeded by "newsletter")
+      'newsletter-subscription',
+      // Deprecated (superseeded by "newsletter")
+      // Workaround to handle "script" replacements in email clients
+      'newsletter-subscript-disabledion',
+      'newsletter'
+    ].includes(type)
+  ) {
     logoTarget = '_blank'
     content = (
       <MacNewsletterSubscription
@@ -319,9 +321,4 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
   )
 }
 
-export default compose(
-  withMe,
-  withT,
-  withRouter,
-  withInNativeApp
-)(Page)
+export default compose(withMe, withT, withRouter, withInNativeApp)(Page)

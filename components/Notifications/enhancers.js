@@ -101,9 +101,7 @@ export const notificationsQuery = gql`
         }
         content {
           title
-          body
           url
-          icon
         }
         channels
       }

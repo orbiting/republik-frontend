@@ -30,9 +30,11 @@ import {
   inQuotes
 } from '@project-r/styleguide'
 
+import { withEditor } from '../Auth/checkRoles'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import { RootCommentOverlay } from './RootCommentOverlay'
+import { FeatureCommentOverlay } from './FeatureCommentOverlay'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
 
 const styles = {
@@ -72,6 +74,7 @@ const Comments = props => {
     t,
     now,
     isAdmin,
+    isEditor,
     focusId,
     orderBy,
     discussionComments: { loading, error, discussion, fetchMore },
@@ -99,6 +102,7 @@ const Comments = props => {
    */
   const [shareUrl, setShareUrl] = React.useState()
   const [showPreferences, setShowPreferences] = React.useState(false)
+  const [featureComment, setFeatureComment] = React.useState()
 
   /*
    * Fetching comment that is in focus.
@@ -335,7 +339,13 @@ const Comments = props => {
             openDiscussionPreferences: () => {
               setShowPreferences(true)
               return Promise.resolve({ ok: true })
-            }
+            },
+            featureComment:
+              isEditor &&
+              (comment => {
+                setFeatureComment(comment)
+                return Promise.resolve({ ok: true })
+              })
           },
 
           clock: {
@@ -432,6 +442,16 @@ const Comments = props => {
                 />
               )}
 
+              {featureComment && (
+                <FeatureCommentOverlay
+                  discussion={discussion}
+                  comment={featureComment}
+                  onClose={() => {
+                    setFeatureComment()
+                  }}
+                />
+              )}
+
               {!!parent && (
                 <RootCommentOverlay
                   discussionId={discussion.id}
@@ -468,6 +488,7 @@ export default compose(
   withDiscussionDisplayAuthor,
   withCommentActions,
   isAdmin,
+  withEditor,
   withSubmitComment,
   withDiscussionComments,
   withMarkAsReadMutation

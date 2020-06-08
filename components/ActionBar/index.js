@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
+import UserProgress from './UserProgress'
 import Bookmark from './Bookmark'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import withT from '../../lib/withT'
-import { postMessage } from '../../lib/withInNativeApp'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import track from '../../lib/piwik'
 
 import { colors } from '@project-r/styleguide'
@@ -82,7 +83,8 @@ class ActionBar extends Component {
       subscription,
       showSubscribe,
       isDiscussion,
-      ownDiscussion
+      ownDiscussion,
+      userProgress
     } = this.props
     const { showShareOverlay, showFontSizeOverlay } = this.state
 
@@ -226,6 +228,17 @@ class ActionBar extends Component {
           {displayConsumptionMinutes > 1 && (
             <ReadingTime minutes={displayConsumptionMinutes} />
           )}
+          {userProgress && estimatedReadingMinutes > 1 && (
+            <UserProgress
+              userProgress={
+                !userProgress.percentage &&
+                userProgress.max &&
+                userProgress.max.percentage === 1
+                  ? userProgress.max
+                  : userProgress
+              }
+            />
+          )}
           {isEditor &&
             editorIcons
               .filter(Boolean)
@@ -265,5 +278,4 @@ ActionBar.defaultProps = {
   showShare: true
 }
 
-// Note: This Component is used within SSRCachingBoundary and can not use context
-export default compose(withT)(ActionBar)
+export default compose(withInNativeApp, withT)(ActionBar)

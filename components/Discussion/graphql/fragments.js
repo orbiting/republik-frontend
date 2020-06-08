@@ -63,6 +63,8 @@ export const comment = gql`
     content
     published
     adminUnpublished
+    featuredAt
+    featuredText
     downVotes
     upVotes
     userVote

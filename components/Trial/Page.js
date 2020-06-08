@@ -41,13 +41,16 @@ const getTranslationKey = (name, { isAuthorized, hasAccess, campaign }) => {
   ]
 }
 
+const ALLOWED_CAMPAIGNS = ['covid-19-uhr-newsletter', 'briefings']
+
 const Page = props => {
   const {
     trialEligibility,
     me,
     router: { query },
     t,
-    inNativeIOSApp
+    inNativeIOSApp,
+    initialEmail
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
   const campaign = query.campaign || query.utm_campaign
@@ -60,8 +63,8 @@ const Page = props => {
     (trailCampaignes[campaign] && trailCampaignes[campaign].accessCampaignId) ||
     TRIAL_CAMPAIGN
 
-  // tmp: no trial in March
-  if (!hasAccess) {
+  // only allow specific trials
+  if (!hasAccess && !ALLOWED_CAMPAIGNS.includes(campaign)) {
     return (
       <>
         <H1 style={{ marginBottom: 40 }}>{t('Trial/Page/disabled/title')}</H1>
@@ -105,7 +108,7 @@ const Page = props => {
           }
         )}
       </P>
-      <Form accessCampaignId={accessCampaignId} />
+      <Form initialEmail={initialEmail} accessCampaignId={accessCampaignId} />
     </Fragment>
   )
 }

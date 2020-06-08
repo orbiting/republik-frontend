@@ -111,9 +111,7 @@ export default withInNativeApp(({ inNativeIOSApp }) => {
         Publikation haben hunderte Menschen in ihrer Freizeit das Projekt
         unterstützt und vorangetrieben. Ohne sie gäbe es die Republik nicht. Wir
         sind jeder einzelnen Komplizin, jedem einzelnen Komplizen von ganzem
-        Herzen dankbar für die Unterstützung. Wir möchten an dieser Stelle die
-        einzelnen Namen auflisten, müssen aber die betreffenden Personen noch um
-        Erlaubnis fragen.
+        Herzen dankbar für die Unterstützung.
       </P>
       <br />
       <H2>Rechtliches</H2>

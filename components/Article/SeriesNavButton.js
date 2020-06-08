@@ -2,8 +2,7 @@ import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import SeriesNavPanel from './SeriesNavPanel'
 
-import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
-import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
 import {
@@ -115,9 +114,11 @@ const SeriesNavButton = ({
         <span {...styles.title}>
           {series.title}
           <span {...styles.arrow}>
-            {expanded && <ArrowUpIcon size='28' fill={colorScheme.lightText} />}
+            {expanded && (
+              <MdKeyboardArrowUp size='28' fill={colorScheme.lightText} />
+            )}
             {!expanded && (
-              <ArrowDownIcon size='28' fill={colorScheme.lightText} />
+              <MdKeyboardArrowDown size='28' fill={colorScheme.lightText} />
             )}
           </span>
         </span>

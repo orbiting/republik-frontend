@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { ascending } from 'd3-array'
 import { Checkbox, RawHtml } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
+import LegalOverlay, { SUPPORTED_HREFS } from './LegalOverlay'
 
 const stringifyCombo = (combo = []) =>
   combo
@@ -19,27 +20,65 @@ export const getConsentsError = (t, required, accepted) =>
   t(`pledge/consents/error/${stringifyCombo(required)}`)
 
 const Consents = withT(
-  ({ t, accepted, onChange, required, disabled, error, darkMode }) => (
-    <Checkbox
-      white={darkMode}
-      error={error}
-      disabled={disabled}
-      checked={check(required, accepted)}
-      onChange={(_, checked) => {
-        onChange(
-          checked ? required.filter(key => VALID_KEYS.indexOf(key) !== -1) : []
-        )
-      }}
-    >
-      <RawHtml
-        white={darkMode}
-        error={error}
-        dangerouslySetInnerHTML={{
-          __html: t(`pledge/consents/label/${stringifyCombo(required)}`)
-        }}
-      />
-    </Checkbox>
-  )
+  ({ t, accepted, onChange, required, disabled, error, darkMode }) => {
+    const [overlay, setOverlay] = useState()
+    return (
+      <>
+        {overlay && (
+          <LegalOverlay
+            {...overlay}
+            onClose={() => {
+              setOverlay()
+            }}
+          />
+        )}
+        <Checkbox
+          white={darkMode}
+          error={error}
+          disabled={disabled}
+          checked={check(required, accepted)}
+          onChange={(_, checked) => {
+            onChange(
+              checked
+                ? required.filter(key => VALID_KEYS.indexOf(key) !== -1)
+                : []
+            )
+          }}
+        >
+          <span
+            onClick={event => {
+              const href =
+                event.target.getAttribute && event.target.getAttribute('href')
+              if (
+                event.target.nodeName === 'A' &&
+                !(
+                  event.metaKey ||
+                  event.ctrlKey ||
+                  event.shiftKey ||
+                  (event.nativeEvent && event.nativeEvent.which === 2)
+                ) &&
+                SUPPORTED_HREFS.includes(href)
+              ) {
+                event.preventDefault()
+                setOverlay({
+                  href: href,
+                  title: event.target.textContent
+                })
+              }
+            }}
+          >
+            <RawHtml
+              white={darkMode}
+              error={error}
+              dangerouslySetInnerHTML={{
+                __html: t(`pledge/consents/label/${stringifyCombo(required)}`)
+              }}
+            />
+          </span>
+        </Checkbox>
+      </>
+    )
+  }
 )
 
 const VALID_KEYS = ['PRIVACY', 'STATUTE', 'TOS']

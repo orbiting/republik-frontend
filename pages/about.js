@@ -8,8 +8,9 @@ import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const AboutPage = ({ t }) => {
   const meta = {
-    title: t('pages/about/title'),
-    description: t('pages/about/description'),
+    title: 'Das sind wir',
+    description:
+      'Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und Lesern.',
     image: `${CDN_FRONTEND_BASE_URL}/static/team/bern.jpg`,
     url: `${PUBLIC_BASE_URL}/about`
   }

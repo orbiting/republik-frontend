@@ -16,7 +16,7 @@ import { Router } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import MdArrowForward from 'react-icons/lib/md/arrow-forward'
+import { MdArrowForward } from 'react-icons/md'
 import {
   Button,
   Field,
@@ -58,7 +58,7 @@ const styles = {
   })
 }
 
-const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
+const REQUIRED_CONSENTS = ['PRIVACY']
 
 const Form = props => {
   const {
@@ -73,20 +73,22 @@ const Form = props => {
     meRefetch,
     t,
     minimal,
-    darkMode
+    darkMode,
+    initialEmail
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
   const utmParams = getUtmParams(query)
 
-  const [consents, setConsents] = useState([])
-  const [email, setEmail] = useState({ value: '' })
+  const [consents, setConsents] = useState(query.token ? REQUIRED_CONSENTS : [])
+  const [email, setEmail] = useState({ value: initialEmail || '' })
   const [serverError, setServerError] = useState('')
-  const [phrase, setPhrase] = useState('')
   const [signingIn, setSigningIn] = useState(false)
   const [showButtons, setShowButtons] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [tokenType, setTokenType] = useState('EMAIL_CODE')
+
+  const [switchBoardProps, setSwitchBoardProps] = useState()
+
   const [showErrors, setShowErrors] = useState(false)
   const [autoRequestAccess, setAutoRequestAccess] = useState(false)
 
@@ -124,10 +126,12 @@ const Form = props => {
       beforeSignIn && beforeSignIn()
 
       return props
-        .signIn(email.value, 'trial', consents, tokenType)
+        .signIn(email.value, 'trial', consents, 'EMAIL_CODE', query.token)
         .then(({ data: { signIn } }) => {
-          setTokenType(signIn.tokenType)
-          setPhrase(signIn.phrase)
+          setSwitchBoardProps({
+            ...signIn,
+            accessToken: query.token
+          })
 
           setLoading(false)
           setSigningIn(true)
@@ -293,8 +297,7 @@ const Form = props => {
         >
           <SwitchBoard
             email={email.value}
-            tokenType={tokenType}
-            phrase={phrase}
+            {...switchBoardProps}
             alternativeFirstFactors={[]}
             onCancel={reset}
             onTokenTypeChange={reset}

@@ -235,7 +235,14 @@ class UpdateMe extends Component {
                     }}
                     fields={meFields}
                   />
-                  <Label style={{ marginTop: -8, display: 'block' }}>
+                  <Label
+                    style={{
+                      marginTop: -10,
+                      marginBottom: 10,
+                      display: 'block',
+                      color: colors.disabled
+                    }}
+                  >
                     {t('Account/Update/birthday/hint/plain')}
                   </Label>
                   <br />
@@ -356,8 +363,4 @@ class UpdateMe extends Component {
   }
 }
 
-export default compose(
-  withMyDetails,
-  withMyDetailsMutation,
-  withT
-)(UpdateMe)
+export default compose(withMyDetails, withMyDetailsMutation, withT)(UpdateMe)

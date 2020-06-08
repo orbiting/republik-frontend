@@ -83,37 +83,61 @@ class Submit extends Component {
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dirty } = this.state
+    const { dirty, values } = this.state
+    const prevName = [this.props.user.firstName, this.props.user.lastName]
+      .filter(Boolean)
+      .join(' ')
     const nextName = [nextProps.user.firstName, nextProps.user.lastName]
       .filter(Boolean)
       .join(' ')
-    if (nextName !== this.state.values.name && !dirty.name) {
-      this.setState(state => ({
-        values: {
+    const addressFields = getAddressFields(this.props.t)
+    if (
+      nextName !== values.name &&
+      (!dirty.name || !(values.name || '').trim() || values.name === prevName)
+    ) {
+      this.setState(state => {
+        const values = {
           ...state.values,
           name: nextName
         }
-      }))
+        return {
+          values,
+          errors: {
+            ...state.errors,
+            ...(values.paymentMethod === 'PAYMENTSLIP'
+              ? FieldSet.utils.getErrors(addressFields, values)
+              : {})
+          }
+        }
+      })
     }
 
-    const addressFields = getAddressFields(this.props.t)
     const addressDirty = addressFields.find(field => dirty[field.name])
     if (!addressDirty) {
       const nextAddress =
         (nextProps.customMe && nextProps.customMe.address) ||
         addressFields.reduce((values, field) => {
-          values[field.name] = ''
+          values[field.name] = field.name === 'name' ? nextName : ''
           return values
         }, {})
       if (
         nextAddress !== (this.props.customMe && this.props.customMe.address)
       ) {
-        this.setState(state => ({
-          values: {
+        this.setState(state => {
+          const values = {
             ...state.values,
             ...nextAddress
           }
-        }))
+          return {
+            values,
+            errors: {
+              ...state.errors,
+              ...(values.paymentMethod === 'PAYMENTSLIP'
+                ? FieldSet.utils.getErrors(addressFields, values)
+                : {})
+            }
+          }
+        })
       }
     }
   }

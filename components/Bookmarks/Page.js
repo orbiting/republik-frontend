@@ -14,7 +14,7 @@ import {
   linkRule
 } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
-import IconDefault from 'react-icons/lib/md/bookmark-outline'
+import { MdBookmarkBorder } from 'react-icons/md'
 
 import { getBookmarkedDocuments } from './queries'
 
@@ -43,7 +43,7 @@ const mergeConnection = (data, connection) => ({
   }
 })
 
-const bookmarkIcon = <IconDefault size={22} key='icon' />
+const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
 
 class Page extends Component {
   render() {
@@ -89,7 +89,4 @@ class Page extends Component {
   }
 }
 
-export default compose(
-  withT,
-  enforceMembership()
-)(Page)
+export default compose(withT, enforceMembership())(Page)

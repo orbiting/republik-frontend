@@ -210,6 +210,15 @@ export const reportCommentMutation = gql`
   ${fragments.comment}
 `
 
+export const featureCommentMutation = gql`
+  mutation featureCommentMutation($commentId: ID!, $content: String) {
+    featureComment(id: $commentId, content: $content) {
+      ...Comment
+    }
+  }
+  ${fragments.comment}
+`
+
 export const downvoteCommentMutation = gql`
   mutation downvoteComment($commentId: ID!) {
     downvoteComment(id: $commentId) {

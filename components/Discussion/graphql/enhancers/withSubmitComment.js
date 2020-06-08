@@ -89,6 +89,8 @@ export const withSubmitComment = compose(
               published: true,
               adminUnpublished: false,
               userCanEdit: true,
+              featuredAt: null,
+              featuredText: null,
               downVotes: 0,
               upVotes: 0,
               userVote: null,
@@ -102,6 +104,7 @@ export const withSubmitComment = compose(
               userCanReport: false,
               userReportedAt: null,
               numReports: 0,
+              unreadNotifications: null,
               discussion: {
                 __typename: 'Discussion',
                 id: discussionId,

@@ -8,26 +8,7 @@ import { H1, P, A } from '@project-r/styleguide'
 
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
-export default () => {
-  const meta = {
-    title: 'Statuten',
-    description: ''
-  }
-
-  return (
-    <Frame meta={meta} indented>
-      <H1>{meta.title}</H1>
-
-      <P>
-        <A
-          download
-          href={`${CDN_FRONTEND_BASE_URL}/static/statuten_project_r_genossenschaft_unterschrieben.pdf`}
-        >
-          PDF herunterladen
-        </A>
-      </P>
-
-      {md(mdComponents)`
+export const Content = () => md(mdComponents)`
 ## I. Firma, Sitz und Zweck
 
 **Artikel 1 – Firma und Sitz**
@@ -419,7 +400,28 @@ Der Vorstand hat folgende unübertragbaren und unentziehbaren Aufgaben:
 
 1. Die Mitglieder der Genossenschaft unterwerfen sich für den Fall von Konflikten, die das Gesellschafts- und/oder Mitgliedschaftsverhältnis betreffen, der Verpflichtung, anstelle des Schlichtungsverfahrens eine Mediation gemäss Art. 213 ff. ZPO durchzuführen. Falls sich die Konfliktparteien nicht innert dreissig (30) Kalendertagen nach Stellen eines Mediationsgesuchs durch die klagende Partei einigen können, wird der Mediator/die Mediatorin durch die Schweizerische Kammer für Wirtschaftsmediation (SKWM), Sektion Zürich, bestimmt. Der Mediator/die Mediatorin ist frei, einen Co-Mediator/eine Co-Mediatorin zu bestimmen.
 2. Der Gerichtsstand für sämtliche aus dem Gesellschafts- und/oder Mitgliedschaftsverhältnis entstehenden Streitigkeiten befindet sich am Sitz der Genossenschaft.
-      `}
+      `
+
+export default () => {
+  const meta = {
+    title: 'Statuten',
+    description: ''
+  }
+
+  return (
+    <Frame meta={meta}>
+      <H1>{meta.title}</H1>
+
+      <P>
+        <A
+          download
+          href={`${CDN_FRONTEND_BASE_URL}/static/statuten_project_r_genossenschaft_unterschrieben.pdf`}
+        >
+          PDF herunterladen
+        </A>
+      </P>
+
+      <Content />
     </Frame>
   )
 }

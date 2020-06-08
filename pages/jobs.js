@@ -48,7 +48,13 @@ export default compose(
             .
           </P>
 
-          <P>Zur Zeit haben wir keine offenen Stellen.</P>
+          <P>
+            Offenen Stellen:{' '}
+            <A href='https://www.republik.ch/2020/05/04/verstaerken-sie-unsere-software-entwicklung'>
+              Verstärken Sie unsere Software­­entwicklung
+            </A>
+            .
+          </P>
         </Content>
       </MainContainer>
     </Frame>

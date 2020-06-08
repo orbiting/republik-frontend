@@ -1,6 +1,6 @@
 import React from 'react'
 import withT from '../../lib/withT'
-import { FieldSet } from '@project-r/styleguide'
+import { FieldSet, Label, colors } from '@project-r/styleguide'
 
 export const COUNTRIES = ['Schweiz', 'Deutschland', 'Österreich']
 
@@ -10,7 +10,19 @@ export const fields = t => [
   {
     label: t('Account/AddressForm/name/label'),
     name: 'name',
-    validator: value => !value && t('Account/AddressForm/name/error/empty')
+    validator: value => !value && t('Account/AddressForm/name/error/empty'),
+    explanation: (
+      <Label
+        style={{
+          marginTop: -10,
+          marginBottom: 10,
+          display: 'block',
+          color: colors.disabled
+        }}
+      >
+        {t('Account/AddressForm/name/explanation')}
+      </Label>
+    )
   },
   {
     label: t('Account/AddressForm/line1/label'),

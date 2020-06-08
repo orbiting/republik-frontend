@@ -1,5 +1,5 @@
 {
-  "updated": "2020-04-12T16:59:37.306Z",
+  "updated": "2020-05-22T07:34:08.943Z",
   "title": "live",
   "data": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "key": "nav/events",
-      "value": "Veranstaltungen"
+      "value": "Anlässe"
     },
     {
       "key": "nav/discussion",
@@ -603,10 +603,6 @@
       "value": "Bitte überprüfen Sie Ihre Angaben und korrigieren beziehungs­weise ergänzen Sie."
     },
     {
-      "key": "Account/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n<br /><br />\n<ul>\n<li>Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur die E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.<br /><b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse, auf der Sie auch unseren Newsletter erhalten.)</li>\n<li>Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.<br /><b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)</li>\n<li>Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. {pledgeLink}<br />\n<li>Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender – das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> {pledgeLink}</li>\n</ul>\n<br /><br />\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserem Erste-Hilfe-Team: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiterzuhelfen. \n<br /><br />\nDanke für Ihre Mühe!"
-    },
-    {
       "key": "Account/noActiveMembership/before",
       "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Das kann mehrere Ursachen haben:"
     },
@@ -632,7 +628,11 @@
     },
     {
       "key": "Account/noActiveMembership/solution2",
-      "value": "{solution}  Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)"
+      "value": "{solution} Sie können das problemlos {membershipsLink}. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)"
+    },
+    {
+      "key": "Account/noActiveMembership/membershipsLink",
+      "value": "in Ihrem Konto reaktivieren"
     },
     {
       "key": "Account/noActiveMembership/issue3",
@@ -676,11 +676,15 @@
     },
     {
       "key": "Account/AddressForm/name/label",
-      "value": "Anschrift"
+      "value": "Eindeutige Anschrift"
     },
     {
       "key": "Account/AddressForm/name/error/empty",
-      "value": "Anschrift fehlt"
+      "value": "Eindeutige Anschrift fehlt"
+    },
+    {
+      "key": "Account/AddressForm/name/explanation",
+      "value": "Ihr Name für Postsendungen, falls nötig mit c/o."
     },
     {
       "key": "Account/AddressForm/line1/label",
@@ -1448,7 +1452,7 @@
     },
     {
       "key": "footer/events",
-      "value": "Veranstaltungen"
+      "value": "Anlässe"
     },
     {
       "key": "footer/updates",
@@ -1829,6 +1833,14 @@
     {
       "key": "styleguide/CommentActions/expand",
       "value": "Kommentare anschauen"
+    },
+    {
+      "key": "styleguide/CommentActions/feature",
+      "value": "Beitrag hervorheben"
+    },
+    {
+      "key": "styleguide/CommentActions/featured",
+      "value": "Am {date} um {time} Uhr redaktionell hervorgehobenes Zitat: {text}"
     },
     {
       "key": "styleguide/Collapsable/expand",
@@ -2504,7 +2516,7 @@
     },
     {
       "key": "pledge/consents/label/PRIVACY_STATUTE_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten</a> der Project R Genossenschaft einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY_TOS",
@@ -3444,11 +3456,11 @@
     },
     {
       "key": "events/pageTitle",
-      "value": "Veranstaltungen – Republik"
+      "value": "Anlässe und Veranstaltungen – Republik"
     },
     {
       "key": "events/title",
-      "value": "Alle Veranstaltungen im Überblick"
+      "value": "Alle Anlässe im Überblick"
     },
     {
       "key": "events/metaDescription",
@@ -3456,19 +3468,19 @@
     },
     {
       "key": "events/upcoming",
-      "value": "Kommende Veranstaltungen"
+      "value": "Kommende Anlässe"
     },
     {
       "key": "events/past",
-      "value": "Vergangene Veranstaltungen"
+      "value": "Vergangene Anlässe"
     },
     {
       "key": "events/share/title",
-      "value": "Veranstaltung teilen"
+      "value": "Anlass teilen"
     },
     {
       "key": "events/all",
-      "value": "Alle Ereignisse"
+      "value": "Alle Anlässe"
     },
     {
       "key": "events/labels/description",
@@ -4112,7 +4124,7 @@
     },
     {
       "key": "merci/lead/package/PROLONG",
-      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung.<br />\n<br />\nIhre Treue bedeutet uns viel, und wir freuen uns, dass Sie sich dazu entschieden haben, Ihre Mitgliedschaft zu verlängern. Damit die Republik eine Zukunft hat, müssen wir bis zum 31. März 2020 viele neue Verlegerinnen finden und überzeugen. <br />\n<br />\nDas schaffen wir nur gemeinsam. Helfen Sie mit, unterstützen Sie uns bei der Bekannt­machung der Republik oder verschenken Sie eine Mitgliedschaft. Danke!"
+      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung!<br />"
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/pageTitle",
@@ -4516,7 +4528,7 @@
     },
     {
       "key": "prolongNecessary/due",
-      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}."
+      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}"
     },
     {
       "key": "prolongNecessary/due/linkText",
@@ -4577,70 +4589,6 @@
     {
       "key": "styleguide/TeaserFeed/InternalOnlyTag",
       "value": "Interne Publikation (Editoren-Vorschau)"
-    },
-    {
-      "key": "pages/about/title",
-      "value": "Das sind wir"
-    },
-    {
-      "key": "pages/about/description",
-      "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und Lesern."
-    },
-    {
-      "key": "pages/about/lead",
-      "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und Lesern. Gemeinsam sind wir eine Rebellion gegen die Medienkonzerne, für die Medienvielfalt. Unabhängig, werbefrei – und mit nur einem Ziel: begeisternden Journalismus zu liefern."
-    },
-    {
-      "key": "pages/about/audience/title",
-      "value": null
-    },
-    {
-      "key": "pages/about/audience/text",
-      "value": null
-    },
-    {
-      "key": "pages/about/audience/text/emphasis1",
-      "value": null
-    },
-    {
-      "key": "pages/about/publishers/title",
-      "value": "{count} Verleger"
-    },
-    {
-      "key": "pages/about/publishers/text",
-      "value": "Ein neues Geschäftsmodell für unabhängigen Journalismus schaffen wir nur gemeinsam – oder gar nicht. Deshalb gehört die Republik nicht nur uns Macherinnen, sondern auch ihren Lesern. {emphasis1} Ohne ihre aktuell {count} Verlegerinnen wäre die Republik – nichts! Täglich kommen neue Unterstützer an Bord. Bald auch Sie?"
-    },
-    {
-      "key": "pages/about/publishers/text/emphasis1",
-      "value": "Journalismus braucht ein aufmerksames, neugieriges und furchtloses Publikum, das bereit ist, in unabhängigen Journalismus zu investieren."
-    },
-    {
-      "key": "pages/about/output/title",
-      "value": "{count}  Produktionen"
-    },
-    {
-      "key": "pages/about/output/text",
-      "value": "Die Republik erscheint von Montag bis Samstag – {emphasis1} Und liefert Ihnen {emphasis2} zu den wichtigsten Fragen der Gegenwart. Weniger, dafür besser: Das ist unser Anspruch. Und Sie besuchen uns, wann Sie wollen: täglich, wöchentlich, monatlich. Brisante Recherchen, erhellende Analysen und Debatten, unterhaltsame Essays. In Texten, Bildern, Podcasts, Videos, Grafiken – und live an Veranstaltungen."
-    },
-    {
-      "key": "pages/about/output/text/emphasis1",
-      "value": "auf der Website, als Newsletter, in der App."
-    },
-    {
-      "key": "pages/about/output/text/emphasis2",
-      "value": "täglich ein bis drei Beiträge"
-    },
-    {
-      "key": "pages/about/employees/title",
-      "value": "45 Macherinnen"
-    },
-    {
-      "key": "pages/about/employees/text",
-      "value": "Unsere Crew ist Ihr persönliches Expeditionsteam in die Wirklichkeit. Wir arbeiten uns durch den Staub der Welt, trennen Wichtiges von Unwichtigem – und liefern Ihnen in der verworrenen Gegenwart die bestmögliche Übersicht. Doch die Republik ist mehr als Ihre Redaktion. Vom Community-Team über die Marketing-Expertinnen bis zum Erste-Hilfe-Team."
-    },
-    {
-      "key": "pages/about/mediaResponses/title",
-      "value": "Das sagen andere über uns"
     },
     {
       "key": "Auth/CodeAuthorization/title",
@@ -6140,11 +6088,11 @@
     },
     {
       "key": "prolongNecessary/before",
-      "value": "Der Republik treu bleiben: {link}."
+      "value": "Der Republik treu bleiben: {link}"
     },
     {
       "key": "prolongNecessary/before/linkText",
-      "value": "jetzt verlängern"
+      "value": "Jetzt verlängern"
     },
     {
       "key": "package/customize/price/payMore/2",
@@ -6197,14 +6145,6 @@
     {
       "key": "crowdfunding/status/support/label",
       "value": "Verlegerinnen, die bereit sind, die Republik bekannter zu machen."
-    },
-    {
-      "key": "merci/action/give",
-      "value": "Verschenken Sie ein Abo"
-    },
-    {
-      "key": "merci/action/cf2",
-      "value": "Märzkampagne"
     },
     {
       "key": "memberships/cancel/confirmation/cockpit",
@@ -6745,6 +6685,30 @@
     {
       "key": "feuilleton/deprecatedPage",
       "value": "Diese Seite wird nicht mehr aktualisiert. Sie finden die aktuellen Kulturbeiträge im <a href=\"/\">Magazin</a> und über die <a href=\"/rubriken\">Rubriken</a>."
+    },
+    {
+      "key": "FeatureCommentOverlay/title",
+      "value": "Beitrag hervorheben"
+    },
+    {
+      "key": "FeatureCommentOverlay/text/label",
+      "value": "Hervorgehobenes Zitat"
+    },
+    {
+      "key": "FeatureCommentOverlay/submit",
+      "value": "Jetzt hervorheben"
+    },
+    {
+      "key": "FeatureCommentOverlay/resubmit",
+      "value": "Aktualisieren"
+    },
+    {
+      "key": "FeatureCommentOverlay/remove",
+      "value": "Zurückziehen"
+    },
+    {
+      "key": "FeatureCommentOverlay/preview",
+      "value": "Vorschau"
     }
   ]
 }

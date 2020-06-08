@@ -6,7 +6,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
-import PersonIcon from 'react-icons/lib/md/person-outline'
+import { MdPersonOutline } from 'react-icons/md'
 import withT from '../../lib/withT'
 import { shouldIgnoreClick } from '../Link/utils'
 
@@ -120,7 +120,7 @@ const User = ({ t, me, onClick, title, expanded }) => {
         {!me && (
           <Fragment>
             <span {...styles.anonymous}>
-              <PersonIcon size={ICON_SIZE} fill={color} />
+              <MdPersonOutline size={ICON_SIZE} fill={color} />
             </span>
             <span {...styles.label}>{t('header/signin')}</span>
           </Fragment>

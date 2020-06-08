@@ -113,6 +113,8 @@ Here are the steps:
 ```
 cd ../styleguide
 npm i
+# run dev before linking
+npm run dev
 npm link
 
 cd ../republik-frontend

@@ -1,25 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
-import { css } from 'glamor'
 import withT from '../../lib/withT'
 import IconLink from '../IconLink'
 
 import { colors, fontStyles } from '@project-r/styleguide'
 
-const styles = {
-  text: css({
-    ...fontStyles.sansSerifMedium16
-  })
-}
-
 const ReadingTime = ({ t, minutes, fill, small, style }) => {
   const size = small ? 20 : 22
-  const fontSize = small ? '15px' : undefined
-  const lineHeight = small ? '20px' : undefined
 
   const displayHours = Math.floor(minutes / 60)
   const displayMinutes = minutes % 60
+
+  const textStyle = {
+    ...fontStyles.sansSerifMedium16,
+    ...(small
+      ? {
+          fontSize: 15,
+          lineHeight: '20px'
+        }
+      : {})
+  }
 
   return (
     <IconLink
@@ -33,7 +34,7 @@ const ReadingTime = ({ t, minutes, fill, small, style }) => {
         ...style
       }}
     >
-      <span {...styles.text} style={{ fontSize, lineHeight }}>
+      <span style={textStyle}>
         {!!displayHours && `${displayHours}h\u202F`}
         {displayMinutes}
         {"'"}

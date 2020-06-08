@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Mutation, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import { compose } from 'react-apollo'
 import { merge, css } from 'glamor'
 
 import {
@@ -13,29 +12,15 @@ import {
 } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import withMe, { meQuery } from '../../lib/apollo/withMe'
+import withMe from '../../lib/apollo/withMe'
 import { scrollIt } from '../../lib/utils/scroll'
-import MdDone from 'react-icons/lib/md/done'
+import { MdDone } from 'react-icons/md'
+
+import withAuthorizeSession from './withAuthorizeSession'
 
 const { H3, P, Emphasis } = Interaction
 
 const CODE_LENGTH = 6
-
-const AUTHORIZE_SESSION = gql`
-  mutation authorizeSession(
-    $email: String!
-    $tokens: [SignInToken!]!
-    $consents: [String!]
-    $requiredFields: RequiredUserFields
-  ) {
-    authorizeSession(
-      email: $email
-      tokens: $tokens
-      consents: $consents
-      requiredFields: $requiredFields
-    )
-  }
-`
 
 const styles = {
   button: css({
@@ -111,13 +96,22 @@ class CodeAuthorization extends Component {
   }
 
   render() {
-    const { tokenType, email, onCancel, t, minimal, darkMode } = this.props
-    const { code, dirty, error } = this.state
+    const {
+      tokenType,
+      email,
+      onCancel,
+      t,
+      minimal,
+      darkMode,
+      authorizeSession
+    } = this.props
+    const { code, dirty, error, mutating } = this.state
 
     const handleMutateError = () => {
       this.setState(() => ({
         error: t('Auth/CodeAuthorization/code/invalid'),
-        dirty: true
+        dirty: true,
+        mutating: false
       }))
     }
 
@@ -127,121 +121,103 @@ class CodeAuthorization extends Component {
       minimal && darkMode && styles.minimalHelpDarkMode
     )
 
+    const onSubmit = e => {
+      e && e.preventDefault()
+
+      this.setState({ mutating: true })
+      authorizeSession({
+        email,
+        tokens: [{ type: tokenType, payload: this.state.payload }]
+      }).catch(handleMutateError)
+    }
+
+    const autoSubmit = () => {
+      if (this.state.payload && this.state.payload.length === CODE_LENGTH) {
+        onSubmit()
+      }
+    }
+
     return (
-      <Mutation mutation={AUTHORIZE_SESSION} awaitRefetchQueries>
-        {(mutate, { loading }) => {
-          const onSubmit = e => {
-            e && e.preventDefault()
-
-            mutate({
-              variables: {
-                email,
-                tokens: [{ type: tokenType, payload: this.state.payload }]
-              },
-              refetchQueries: [{ query: meQuery }]
-            }).catch(handleMutateError)
-          }
-
-          const autoSubmit = () => {
-            if (
-              this.state.payload &&
-              this.state.payload.length === CODE_LENGTH
-            ) {
-              onSubmit()
-            }
-          }
-
-          return (
-            <form onSubmit={onSubmit} ref={this.formRef}>
-              {minimal ? (
-                <ul {...listStyle} style={{ marginTop: 20 }}>
-                  <li>
-                    {t.elements('Auth/CodeAuthorization/description', {
-                      emphasis: (
-                        <Emphasis key='emphasis'>
-                          {t(
-                            'Auth/CodeAuthorization/description/emphasis/email',
-                            { email: email }
-                          )}
-                        </Emphasis>
-                      )
+      <form onSubmit={onSubmit} ref={this.formRef}>
+        {minimal ? (
+          <ul {...listStyle} style={{ marginTop: 20 }}>
+            <li>
+              {t.elements('Auth/CodeAuthorization/description', {
+                emphasis: (
+                  <Emphasis key='emphasis'>
+                    {t('Auth/CodeAuthorization/description/emphasis/email', {
+                      email: email
                     })}
-                  </li>
-                </ul>
-              ) : (
-                <Fragment>
-                  <H3>{t('Auth/CodeAuthorization/title')}</H3>
-                  <P {...styles.description}>
-                    {t.elements('Auth/CodeAuthorization/description', {
-                      emphasis: (
-                        <Emphasis key='emphasis'>
-                          {t('Auth/CodeAuthorization/description/emphasis')}
-                        </Emphasis>
-                      )
-                    })}
-                  </P>
-                </Fragment>
-              )}
-              <Field
-                renderInput={props => <input {...props} pattern={'[0-9]*'} />}
-                label={t('Auth/CodeAuthorization/code/label')}
-                value={code}
-                autoComplete={'false'}
-                error={dirty && error}
-                black={minimal && !darkMode}
-                white={minimal && darkMode}
-                icon={
-                  minimal &&
-                  (loading ? (
-                    <InlineSpinner size='30px' />
-                  ) : (
-                    <MdDone
-                      style={{ cursor: 'pointer' }}
-                      size={30}
-                      onClick={onSubmit}
-                    />
-                  ))
-                }
-                onChange={(_, value, shouldValidate) => {
-                  this.setState(
-                    checkCode({ value, shouldValidate, t }),
-                    autoSubmit
-                  )
-                }}
+                  </Emphasis>
+                )
+              })}
+            </li>
+          </ul>
+        ) : (
+          <Fragment>
+            <H3>{t('Auth/CodeAuthorization/title')}</H3>
+            <P {...styles.description}>
+              {t.elements('Auth/CodeAuthorization/description', {
+                emphasis: (
+                  <Emphasis key='emphasis'>
+                    {t('Auth/CodeAuthorization/description/emphasis')}
+                  </Emphasis>
+                )
+              })}
+            </P>
+          </Fragment>
+        )}
+        <Field
+          renderInput={props => <input {...props} pattern={'[0-9]*'} />}
+          label={t('Auth/CodeAuthorization/code/label')}
+          value={code}
+          autoComplete={'false'}
+          error={dirty && error}
+          black={minimal && !darkMode}
+          white={minimal && darkMode}
+          icon={
+            minimal &&
+            (mutating ? (
+              <InlineSpinner size='30px' />
+            ) : (
+              <MdDone
+                style={{ cursor: 'pointer' }}
+                size={30}
+                onClick={onSubmit}
               />
-              {!minimal && (
-                <div {...styles.button}>
-                  {loading ? (
-                    <InlineSpinner />
-                  ) : (
-                    <Button
-                      block
-                      type='submit'
-                      primary
-                      disabled={!code || error || loading}
-                    >
-                      {t('Auth/CodeAuthorization/button/label')}
-                    </Button>
-                  )}
-                </div>
-              )}
-              <ul {...listStyle}>
-                <li>
-                  <A href='#' onClick={onCancel}>
-                    {t('Auth/CodeAuthorization/help/cancelLink')}
-                  </A>
-                </li>
-                <li>{t('Auth/CodeAuthorization/help/lastResort')}</li>
-              </ul>
-            </form>
-          )
-        }}
-      </Mutation>
+            ))
+          }
+          onChange={(_, value, shouldValidate) => {
+            this.setState(checkCode({ value, shouldValidate, t }), autoSubmit)
+          }}
+        />
+        {!minimal && (
+          <div {...styles.button}>
+            {mutating ? (
+              <InlineSpinner />
+            ) : (
+              <Button
+                block
+                type='submit'
+                primary
+                disabled={!code || error || mutating}
+              >
+                {t('Auth/CodeAuthorization/button/label')}
+              </Button>
+            )}
+          </div>
+        )}
+        <ul {...listStyle}>
+          <li>
+            <A href='#' onClick={onCancel}>
+              {t('Auth/CodeAuthorization/help/cancelLink')}
+            </A>
+          </li>
+          <li>{t('Auth/CodeAuthorization/help/lastResort')}</li>
+        </ul>
+      </form>
     )
   }
 }
 
-export default compose(
-  withMe,
-  withT
-)(CodeAuthorization)
+export default compose(withMe, withT, withAuthorizeSession)(CodeAuthorization)

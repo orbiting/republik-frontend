@@ -50,6 +50,20 @@ class PledgePage extends Component {
         Router.replaceRoute('crowdfunding2', { token: query.token })
       }
     }
+    if (query.goto === 'account') {
+      if (serverContext) {
+        serverContext.res.redirect(
+          302,
+          `/konto${query.token ? `?token=${query.token}` : ''}${
+            query.hash ? `#${query.hash}` : ''
+          }`
+        )
+        serverContext.res.end()
+      } else if (process.browser) {
+        // SSR does two two-passes: data (with serverContext) & render (without)
+        Router.replaceRoute('account', { token: query.token })
+      }
+    }
 
     return (
       <Frame>

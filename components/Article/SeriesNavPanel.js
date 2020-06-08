@@ -7,8 +7,10 @@ import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
 
-import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
-import ArrowRightIcon from 'react-icons/lib/md/keyboard-arrow-right'
+import {
+  MdKeyboardArrowDown as ArrowDownIcon,
+  MdKeyboardArrowRight as ArrowRightIcon
+} from 'react-icons/md'
 
 import {
   Editorial,

@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo'
 
 import { HeadersProvider } from '../lib/withHeaders'
 import withApolloClient from '../lib/apollo/withApolloClient'
+import { IconContext } from 'react-icons'
 import Track from '../components/Track'
 
 class WebApp extends App {
@@ -18,8 +19,10 @@ class WebApp extends App {
     return (
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
-          <Component serverContext={serverContext} {...pageProps} />
-          <Track />
+          <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
+            <Component serverContext={serverContext} {...pageProps} />
+            <Track />
+          </IconContext.Provider>
         </HeadersProvider>
       </ApolloProvider>
     )

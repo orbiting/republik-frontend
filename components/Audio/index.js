@@ -43,12 +43,17 @@ export const AudioProvider = ({ children, t }) => {
                 mediaId={audioState.audioSource.mediaId}
                 durationMs={audioState.audioSource.durationMs}
                 src={audioState.audioSource}
+                title={audioState.title}
+                sourcePath={audioState.sourcePath}
                 closeHandler={onCloseAudioPlayer}
                 autoPlay
                 download
                 scrubberPosition='bottom'
-                timePosition='left'
                 t={t}
+                fixed
+                timePosition='left'
+                height={68}
+                controlsPadding={18}
               />
             </ProgressComponent>
           )}

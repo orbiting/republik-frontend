@@ -20,6 +20,7 @@ import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
+import { AudioContext } from '../Audio'
 
 import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
@@ -323,10 +324,16 @@ class ArticlePage extends Component {
           }
         })
       } else {
-        const showAudioPlayer = !this.state.showAudioPlayer
-        this.setState({
-          showAudioPlayer,
-          headerAudioPlayer: showAudioPlayer ? this.getAudioPlayer() : null
+        const { audioSource, title, path } = this.props.data.article.meta
+        this.props.toggleAudioPlayer({
+          audioSource,
+          url:
+            (this.props.inNativeIOSApp && audioSource.aac) ||
+            audioSource.mp3 ||
+            audioSource.ogg,
+          title,
+          sourcePath: path,
+          mediaId: audioSource.mediaId
         })
       }
     }
@@ -426,35 +433,6 @@ class ArticlePage extends Component {
         primaryNavExpanded: expanded ? false : this.state.primaryNavExpanded,
         secondaryNavExpanded: expanded
       })
-    }
-
-    this.getAudioPlayer = () => {
-      const { t, data, isMember } = this.props
-
-      const ProgressComponent = isMember ? Progress : EmptyComponent
-      const article = data && data.article
-      const audioSource = article && article.meta && article.meta.audioSource
-      const headerAudioPlayer = audioSource
-        ? ({ style, height, controlsPadding }) => (
-            <ProgressComponent article={article} isArticle={false}>
-              <AudioPlayer
-                mediaId={audioSource.mediaId}
-                durationMs={audioSource.durationMs}
-                src={audioSource}
-                closeHandler={this.toggleAudio}
-                autoPlay
-                download
-                scrubberPosition='bottom'
-                timePosition='left'
-                t={t}
-                style={style}
-                controlsPadding={controlsPadding}
-                height={height}
-              />
-            </ProgressComponent>
-          )
-        : null
-      return headerAudioPlayer
     }
   }
 
@@ -596,7 +574,6 @@ class ArticlePage extends Component {
       podcast,
       newsletterMeta,
       schema,
-      headerAudioPlayer,
       showSeriesNav
     } = this.state
 
@@ -762,7 +739,6 @@ class ArticlePage extends Component {
         secondaryNav={seriesNavButton || actionBarNav}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
-        headerAudioPlayer={headerAudioPlayer}
       >
         <Loader
           loading={data.loading}
@@ -1034,4 +1010,10 @@ ComposedPage.getInitialProps = () => {
   }
 }
 
-export default ComposedPage
+export default props => (
+  <AudioContext.Consumer>
+    {({ toggleAudioPlayer }) => (
+      <ComposedPage {...props} toggleAudioPlayer={toggleAudioPlayer} />
+    )}
+  </AudioContext.Consumer>
+)

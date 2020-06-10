@@ -297,7 +297,6 @@ class Header extends Component {
       inNativeApp,
       inNativeIOSApp,
       isMember,
-      headerAudioPlayer: HeaderAudioPlayer,
       pullable = true,
       unreadNotifications = true
     } = this.props
@@ -417,7 +416,7 @@ class Header extends Component {
                   <BackIcon size={25} fill={textFill} />
                 </a>
               )}
-              {secondaryNav && !HeaderAudioPlayer && (
+              {secondaryNav && (
                 <div
                   {...styles.secondary}
                   style={{
@@ -452,18 +451,6 @@ class Header extends Component {
                 />
               </div>
             </Fragment>
-          )}
-          {HeaderAudioPlayer && (
-            <HeaderAudioPlayer
-              style={{
-                ...bgStyle,
-                position: 'absolute',
-                width: '100%',
-                bottom: 0
-              }}
-              controlsPadding={this.state.mobile ? 10 : 20}
-              height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
-            />
           )}
         </div>
         {opaque && (

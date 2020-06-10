@@ -10,6 +10,7 @@ import withT from '../../../lib/withT'
 import { swissNumbers } from '../../../lib/utils/format'
 
 import sharedStyles from '../../sharedStyles'
+import { zIndex } from '@project-r/styleguide'
 
 import {
   ProgressCircle,
@@ -29,7 +30,7 @@ const styles = {
     },
     cursor: 'pointer',
     position: 'fixed',
-    zIndex: 10,
+    zIndex: zIndex.overlay,
     bottom: 0,
     // transition: `opacity 300ms ease-in-out`,
     textAlign: 'center',

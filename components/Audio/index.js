@@ -3,7 +3,7 @@ import { AudioPlayer } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
-import { mediaQueries } from '@project-r/styleguide'
+import { mediaQueries, zIndex } from '@project-r/styleguide'
 import ProgressComponent from '../../components/Article/Progress'
 
 export const AudioContext = React.createContext({
@@ -40,7 +40,8 @@ export const AudioProvider = ({ children, t }) => {
           {audioState && (
             <ProgressComponent isArticle={false}>
               <AudioPlayer
-                mediaId={audioState.audioSource.mediaId}
+                key={audioState.mediaId || audioState.audioSource.mp3}
+                mediaId={audioState.mediaId}
                 durationMs={audioState.audioSource.durationMs}
                 src={audioState.audioSource}
                 title={audioState.title}
@@ -67,11 +68,11 @@ const styles = {
   audioPlayerContainer: css({
     position: 'fixed',
     width: '100%',
-    maxWidth: 400,
-    bottom: 32,
+    maxWidth: 414,
+    bottom: 44,
     right: 0,
     padding: '0 16px',
-    zIndex: 3001,
+    zIndex: zIndex.callout,
     transition: 'all ease-out 0.3s',
     [mediaQueries.mUp]: {
       right: 16

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { AudioPlayer } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
@@ -16,7 +16,6 @@ export const AudioProvider = ({ children, t }) => {
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false)
 
   const toggleAudioPlayer = payload => {
-    setAudioPlayerVisible(true)
     setAudioState(payload)
   }
 
@@ -27,17 +26,23 @@ export const AudioProvider = ({ children, t }) => {
     }, 300)
   }
 
+  useEffect(() => {
+    if (audioState) {
+      setAudioPlayerVisible(true)
+    }
+  }, [audioState])
+
   return (
     <AudioContext.Provider value={{ toggleAudioPlayer }}>
       {children}
-      <div
-        {...css(styles.audioPlayerContainer, {
-          opacity: audioPlayerVisible ? 1 : 0,
-          transform: audioPlayerVisible ? 'translateY(0)' : 'translateY(8px)'
-        })}
-      >
-        <div {...styles.audioPlayerBox}>
-          {audioState && (
+      {audioState && (
+        <div
+          {...css(styles.audioPlayerContainer, {
+            opacity: audioPlayerVisible ? 1 : 0,
+            transform: audioPlayerVisible ? 'translateY(0)' : 'translateY(8px)'
+          })}
+        >
+          <div {...styles.audioPlayerBox}>
             <ProgressComponent isArticle={false}>
               <AudioPlayer
                 key={audioState.mediaId || audioState.audioSource.mp3}
@@ -57,9 +62,9 @@ export const AudioProvider = ({ children, t }) => {
                 controlsPadding={18}
               />
             </ProgressComponent>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </AudioContext.Provider>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { AudioPlayer } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
@@ -14,14 +14,16 @@ export const AudioContext = React.createContext({
 export const AudioProvider = ({ children, t }) => {
   const [audioState, setAudioState] = useState(undefined)
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false)
+  const clearTimeoutId = useRef()
 
   const toggleAudioPlayer = payload => {
     setAudioState(payload)
+    clearTimeout(clearTimeoutId.current)
   }
 
   const onCloseAudioPlayer = () => {
     setAudioPlayerVisible(false)
-    setTimeout(() => {
+    clearTimeoutId.current = setTimeout(() => {
       setAudioState(undefined)
     }, 300)
   }

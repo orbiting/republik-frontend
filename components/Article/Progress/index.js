@@ -12,6 +12,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import { scrollIt } from '../../../lib/utils/scroll'
 import withMe from '../../../lib/apollo/withMe'
 import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
+import createPersistedState from '../../../lib/hooks/use-persisted-state'
 
 import { withProgressApi, mediaProgressQuery } from './api'
 import RestoreButton from './RestoreButton'
@@ -21,12 +22,16 @@ const RESTORE_AREA = 0
 const RESTORE_FADE_AREA = 200
 const RESTORE_MIN = 0.4
 
+const useLocalMediaProgressState = createPersistedState(
+  'republik-progress-media'
+)
+
 class ProgressContextProvider extends React.Component {
   getChildContext() {
     return {
-      getMediaProgress: this.props.getMediaProgress,
-      saveMediaProgress: this.props.saveMediaProgress,
-      restoreArticleProgress: this.props.restoreArticleProgress
+      getMediaProgress: this.props.value.getMediaProgress,
+      saveMediaProgress: this.props.value.saveMediaProgress,
+      restoreArticleProgress: this.props.value.restoreArticleProgress
     }
   }
   render() {
@@ -64,6 +69,8 @@ const Progress = ({
   const isTrackingAllowed = me && me.progressConsent === true
   const mobile = () => window.innerWidth < mediaQueries.mBreakPoint
   const headerHeight = () => (mobile() ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
+
+  const [localMediaProgress, setLocalMediaProgress] = useLocalMediaProgressState()
 
   const getProgressElements = () => {
     const progressElements = refContainer.current
@@ -184,7 +191,6 @@ const Progress = ({
       return
     }
     if (percentage) {
-      console.log('perecntage')
       const { height } = refContainer.current.getBoundingClientRect()
       const offset = percentage * height - headerHeight()
       scrollIt(offset, 400)
@@ -193,20 +199,28 @@ const Progress = ({
 
   const saveMediaProgressNotPlaying = debounce((mediaId, currentTime) => {
     // Fires on pause, on scrub, on end of video.
-    upsertMediaProgress(mediaId, currentTime)
+    if (isTrackingAllowed) {
+      upsertMediaProgress(mediaId, currentTime)
+    } else {
+      setLocalMediaProgress({ mediaId, currentTime })
+    }
   }, 300)
 
   const saveMediaProgressWhilePlaying = throttle(
     (mediaId, currentTime) => {
       // Fires every 5 seconds while playing.
-      upsertMediaProgress(mediaId, currentTime)
+      if (isTrackingAllowed) {
+        upsertMediaProgress(mediaId, currentTime)
+      } else {
+        setLocalMediaProgress({ mediaId, currentTime })
+      }
     },
     5000,
     { trailing: true }
   )
 
   const saveMediaProgress = ({ mediaId }, mediaElement) => {
-    if (!mediaId || !isTrackingAllowed) {
+    if (!mediaId) {
       return
     }
     saveMediaProgressNotPlaying(mediaId, mediaElement.currentTime)
@@ -217,23 +231,28 @@ const Progress = ({
     if (!mediaId) {
       return Promise.resolve()
     }
-    return client
-      .query({
-        query: mediaProgressQuery,
-        variables: { mediaId },
-        fetchPolicy: 'network-only'
-      })
-      .then(({ data: { mediaProgress: { secs } } = {} }) => {
-        if (secs) {
-          if (
-            durationMs &&
-            Math.round(secs) === Math.round(durationMs / 1000)
-          ) {
-            return
+    if (isTrackingAllowed) {
+      return client
+        .query({
+          query: mediaProgressQuery,
+          variables: { mediaId },
+          fetchPolicy: 'network-only'
+        })
+        .then(({ data: { mediaProgress: { secs } } = {} }) => {
+          if (secs) {
+            if (
+              durationMs &&
+              Math.round(secs) === Math.round(durationMs / 1000)
+            ) {
+              return
+            }
+            return secs - 2
           }
-          return secs - 2
-        }
-      })
+        })
+    } else if (localMediaProgress && localMediaProgress.mediaId === mediaId) {
+      return Promise.resolve(localMediaProgress.currentTime - 2)
+    }
+    return Promise.resolve()
   }
 
   refRestoreOpacity.current = restoreOpacity
@@ -258,6 +277,7 @@ const Progress = ({
     onScroll()
     return () => {
       window.removeEventListener('scroll', onScroll)
+      refSaveProgress.current.cancel()
     }
   }, [])
 

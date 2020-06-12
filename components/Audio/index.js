@@ -4,25 +4,33 @@ import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { mediaQueries, zIndex } from '@project-r/styleguide'
+
 import ProgressComponent from '../../components/Article/Progress'
+import createPersistedState from '../../lib/hooks/use-persisted-state'
 
 export const AudioContext = React.createContext({
-  audioState: {},
+  audioSource: {},
+  audioPlayerVisible: false,
   toggleAudioPlayer: () => {}
 })
 
+const useAudioState = createPersistedState('republik-audioplayer-audiostate')
+
 export const AudioProvider = ({ children, t }) => {
-  const [audioState, setAudioState] = useState(undefined)
+  const [audioState, setAudioState] = useAudioState(undefined)
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false)
+  const [autoPlayActive, setAutoPlayActive] = useState(false)
   const clearTimeoutId = useRef()
 
   const toggleAudioPlayer = payload => {
     setAudioState(payload)
+    setAutoPlayActive(true)
     clearTimeout(clearTimeoutId.current)
   }
 
   const onCloseAudioPlayer = () => {
     setAudioPlayerVisible(false)
+    setAutoPlayActive(false)
     clearTimeoutId.current = setTimeout(() => {
       setAudioState(undefined)
     }, 300)
@@ -35,7 +43,7 @@ export const AudioProvider = ({ children, t }) => {
   }, [audioState])
 
   return (
-    <AudioContext.Provider value={{ toggleAudioPlayer }}>
+    <AudioContext.Provider value={{ toggleAudioPlayer, audioPlayerVisible }}>
       {children}
       {audioState && (
         <div
@@ -54,7 +62,7 @@ export const AudioProvider = ({ children, t }) => {
                 title={audioState.title}
                 sourcePath={audioState.sourcePath}
                 closeHandler={onCloseAudioPlayer}
-                autoPlay
+                autoPlay={autoPlayActive}
                 download
                 scrubberPosition='bottom'
                 t={t}

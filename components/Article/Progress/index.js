@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { compose, withApollo } from 'react-apollo'
 import debounce from 'lodash/debounce'
@@ -21,299 +21,292 @@ const RESTORE_AREA = 0
 const RESTORE_FADE_AREA = 200
 const RESTORE_MIN = 0.4
 
-class Progress extends Component {
-  constructor(props) {
-    super(props)
+class ProgressContextProvider extends React.Component {
+  getChildContext() {
+    return {
+      getMediaProgress: this.props.getMediaProgress,
+      saveMediaProgress: this.props.saveMediaProgress,
+      restoreArticleProgress: this.props.restoreArticleProgress
+    }
+  }
+  render() {
+    return <React.Fragment>{this.props.children}</React.Fragment>
+  }
+}
 
-    this.state = {
-      restore: true,
-      restoreOpacity: 1
+ProgressContextProvider.childContextTypes = {
+  getMediaProgress: PropTypes.func,
+  saveMediaProgress: PropTypes.func,
+  restoreArticleProgress: PropTypes.func
+}
+
+const Progress = ({
+  children,
+  me,
+  revokeProgressConsent,
+  submitProgressConsent,
+  article,
+  isArticle,
+  router,
+  upsertDocumentProgress,
+  upsertMediaProgress,
+  client
+}) => {
+  const [restore, setRestore] = useState(true)
+  const [restoreOpacity, setRestoreOpacity] = useState(1)
+
+  const refContainer = useRef()
+  const lastClosestIndex = useRef()
+  const refSaveProgress = useRef()
+  const lastY = useRef()
+  const refRestoreOpacity = useRef()
+
+  const isTrackingAllowed = me && me.progressConsent === true
+  const mobile = () => window.innerWidth < mediaQueries.mBreakPoint
+  const headerHeight = () => (mobile() ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
+
+  const getProgressElements = () => {
+    const progressElements = refContainer.current
+      ? Array.from(refContainer.current.querySelectorAll('[data-pos]'))
+      : []
+    return progressElements
+  }
+
+  const getClosestElement = () => {
+    const progressElements = getProgressElements()
+    if (!progressElements.length) {
+      return
     }
 
-    this.isTrackingAllowed = () => {
-      const { me } = this.props
-      return me && me.progressConsent === true
+    const getDistanceForIndex = index => {
+      return Math.abs(
+        progressElements[index].getBoundingClientRect().top - headerHeight()
+      )
     }
 
-    this.containerRef = ref => {
-      this.container = ref
+    let closestIndex =
+      (progressElements[lastClosestIndex.current] &&
+        lastClosestIndex.current) ||
+      0
+
+    let closestDistance = getDistanceForIndex(closestIndex)
+
+    for (let i = closestIndex + 1; i < progressElements.length; i += 1) {
+      const distance = getDistanceForIndex(i)
+      if (distance > closestDistance) {
+        break
+      }
+      closestDistance = distance
+      closestIndex = i
     }
 
-    this.mobile = () => window.innerWidth < mediaQueries.mBreakPoint
-
-    this.headerHeight = () => {
-      const mobile = this.mobile()
-      let height = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-      return height
+    for (let i = closestIndex - 1; i >= 0; i -= 1) {
+      const distance = getDistanceForIndex(i)
+      if (distance > closestDistance) {
+        break
+      }
+      closestDistance = distance
+      closestIndex = i
     }
 
-    this.onScroll = () => {
-      this.saveProgress()
-      if (this.state.restore) {
+    lastClosestIndex.current = closestIndex
+
+    return {
+      nodeId: progressElements[closestIndex].getAttribute('data-pos'),
+      index: closestIndex
+    }
+  }
+
+  const getPercentage = () => {
+    const { height, top } = refContainer.current.getBoundingClientRect()
+    const yFromArticleTop = Math.max(0, -top + headerHeight())
+    const ratio = yFromArticleTop / height
+    const percentage =
+      ratio === 0 ? 0 : -top + window.innerHeight > height ? 1 : ratio
+    return percentage
+  }
+
+  refSaveProgress.current = debounce(() => {
+    if (!article || !isTrackingAllowed) {
+      return
+    }
+
+    // measure between debounced calls
+    // to handle bouncy upwards scroll on iOS
+    // e.g. y200 -> y250 in onScroll -> bounce back to y210
+    const y = window.pageYOffset
+    const downwards = lastY.current === undefined || y > lastY.current
+    lastY.current = y
+
+    if (!downwards) {
+      return
+    }
+    const element = getClosestElement()
+    const percentage = getPercentage()
+
+    if (
+      element &&
+      element.nodeId &&
+      percentage > 0 &&
+      // ignore elements until min index
+      element.index >= MIN_INDEX &&
+      (!article.userProgress ||
+        article.userProgress.nodeId !== element.nodeId ||
+        Math.floor(article.userProgress.percentage * 100) !==
+          Math.floor(percentage * 100))
+    ) {
+      upsertDocumentProgress(article.id, percentage, element.nodeId)
+    }
+  }, 300)
+
+  const restoreArticleProgress = () => {
+    const { userProgress } = article
+    const { percentage, nodeId } = userProgress
+
+    const progressElements = getProgressElements()
+    const progressElement =
+      !!nodeId &&
+      progressElements.find((element, index) => {
+        if (element.getAttribute('data-pos') === nodeId) {
+          return true
+        }
+        return false
+      })
+
+    if (progressElement) {
+      const { top } = progressElement.getBoundingClientRect()
+      const isInViewport = top - headerHeight() > 0 && top < window.innerHeight
+      // We don't scroll on mobile if the element of interest is already in viewport
+      // This may happen on swipe navigation in iPhone X.
+      if (!mobile() || !isInViewport) {
+        scrollIt(top - headerHeight() - (mobile() ? 10 : 20), 400)
+      }
+      return
+    }
+    if (percentage) {
+      console.log('perecntage')
+      const { height } = refContainer.current.getBoundingClientRect()
+      const offset = percentage * height - headerHeight()
+      scrollIt(offset, 400)
+    }
+  }
+
+  const saveMediaProgressNotPlaying = debounce((mediaId, currentTime) => {
+    // Fires on pause, on scrub, on end of video.
+    upsertMediaProgress(mediaId, currentTime)
+  }, 300)
+
+  const saveMediaProgressWhilePlaying = throttle(
+    (mediaId, currentTime) => {
+      // Fires every 5 seconds while playing.
+      upsertMediaProgress(mediaId, currentTime)
+    },
+    5000,
+    { trailing: true }
+  )
+
+  const saveMediaProgress = ({ mediaId }, mediaElement) => {
+    if (!mediaId || !isTrackingAllowed) {
+      return
+    }
+    saveMediaProgressNotPlaying(mediaId, mediaElement.currentTime)
+    saveMediaProgressWhilePlaying(mediaId, mediaElement.currentTime)
+  }
+
+  const getMediaProgress = ({ mediaId, durationMs } = {}) => {
+    if (!mediaId) {
+      return Promise.resolve()
+    }
+    return client
+      .query({
+        query: mediaProgressQuery,
+        variables: { mediaId },
+        fetchPolicy: 'network-only'
+      })
+      .then(({ data: { mediaProgress: { secs } } = {} }) => {
+        if (secs) {
+          if (
+            durationMs &&
+            Math.round(secs) === Math.round(durationMs / 1000)
+          ) {
+            return
+          }
+          return secs - 2
+        }
+      })
+  }
+
+  refRestoreOpacity.current = restoreOpacity
+
+  useEffect(() => {
+    const onScroll = () => {
+      refSaveProgress.current()
+      if (restore) {
         const y = window.pageYOffset
-
-        const restoreOpacity =
+        const newRestoreOpacity =
           1 -
           Math.min(
             1,
             Math.max(RESTORE_MIN, y - RESTORE_AREA) / RESTORE_FADE_AREA
           )
-        if (restoreOpacity !== this.state.restoreOpacity) {
-          this.setState({ restoreOpacity })
+        if (newRestoreOpacity !== refRestoreOpacity.current) {
+          setRestoreOpacity(newRestoreOpacity)
         }
       }
     }
-
-    this.saveProgress = debounce(() => {
-      const { article } = this.props
-      if (!article || !this.isTrackingAllowed()) {
-        return
-      }
-
-      // measure between debounced calls
-      // - to handle bouncy upwards scroll on iOS
-      //   e.g. y200 -> y250 in onScroll -> bounce back to y210
-      const y = window.pageYOffset
-      const downwards = this.lastY === undefined || y > this.lastY
-      this.lastY = y
-
-      if (!downwards) {
-        return
-      }
-      const element = this.getClosestElement()
-      const percentage = this.getPercentage()
-
-      if (
-        element &&
-        element.nodeId &&
-        percentage > 0 &&
-        // ignore elements until min index
-        element.index >= MIN_INDEX &&
-        (!article.userProgress ||
-          article.userProgress.nodeId !== element.nodeId ||
-          Math.floor(article.userProgress.percentage * 100) !==
-            Math.floor(percentage * 100))
-      ) {
-        this.props.upsertDocumentProgress(
-          article.id,
-          percentage,
-          element.nodeId
-        )
-      }
-    }, 300)
-
-    this.getClosestElement = () => {
-      const progressElements = this.getProgressElements()
-      if (!progressElements.length) {
-        return
-      }
-
-      const headerHeight = this.headerHeight()
-      const getDistanceForIndex = index => {
-        return Math.abs(
-          progressElements[index].getBoundingClientRect().top - headerHeight
-        )
-      }
-
-      let closestIndex =
-        (progressElements[this.lastClosestIndex] && this.lastClosestIndex) || 0
-      let closestDistance = getDistanceForIndex(closestIndex)
-
-      const length = progressElements.length
-      for (let i = closestIndex + 1; i < length; i += 1) {
-        const distance = getDistanceForIndex(i)
-        if (distance > closestDistance) {
-          break
-        }
-        closestDistance = distance
-        closestIndex = i
-      }
-      for (let i = closestIndex - 1; i >= 0; i -= 1) {
-        const distance = getDistanceForIndex(i)
-        if (distance > closestDistance) {
-          break
-        }
-        closestDistance = distance
-        closestIndex = i
-      }
-
-      this.lastClosestIndex = closestIndex
-
-      return {
-        nodeId: progressElements[closestIndex].getAttribute('data-pos'),
-        index: closestIndex
-      }
+    window.addEventListener('scroll', onScroll)
+    onScroll()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
     }
+  }, [])
 
-    this.getProgressElements = () => {
-      const progressElements = this.container
-        ? Array.from(this.container.querySelectorAll('[data-pos]'))
-        : []
-      return progressElements
-    }
+  const showConsentPrompt =
+    isArticle &&
+    me &&
+    !router.query.trialSignup &&
+    me.progressConsent === null &&
+    article &&
+    article.meta &&
+    article.meta.path !== PROGRESS_EXPLAINER_PATH
 
-    this.getPercentage = () => {
-      const { height, top } = this.container.getBoundingClientRect()
-      const yFromArticleTop = Math.max(0, -top + this.headerHeight())
-      const ratio = yFromArticleTop / height
-      const percentage =
-        ratio === 0 ? 0 : -top + window.innerHeight > height ? 1 : ratio
-      return percentage
-    }
+  const progressPrompt = showConsentPrompt && (
+    <ProgressPrompt
+      onSubmitConsent={submitProgressConsent}
+      onRevokeConsent={revokeProgressConsent}
+    />
+  )
 
-    this.restoreArticleProgress = () => {
-      const { article } = this.props
-      const { userProgress } = article
-      const { percentage, nodeId } = userProgress
+  const showRestore =
+    isArticle &&
+    restore &&
+    restoreOpacity > RESTORE_MIN &&
+    article.userProgress &&
+    article.userProgress.percentage &&
+    article.userProgress.percentage !== 1
 
-      const headerHeight = this.headerHeight()
-      const progressElements = this.getProgressElements()
-      const progressElement =
-        !!nodeId &&
-        progressElements.find((element, index) => {
-          if (element.getAttribute('data-pos') === nodeId) {
-            return true
-          }
-          return false
-        })
-
-      if (progressElement) {
-        const { top } = progressElement.getBoundingClientRect()
-        const isInViewport = top - headerHeight > 0 && top < window.innerHeight
-        // We don't scroll on mobile if the element of interest is already in viewport
-        // This may happen on swipe navigation in iPhone X.
-        if (!this.mobile() || !isInViewport) {
-          scrollIt(top - headerHeight - (this.mobile() ? 10 : 20), 400)
-        }
-        return
-      }
-      if (percentage) {
-        const { height } = this.container.getBoundingClientRect()
-        const offset = percentage * height - headerHeight
-
-        scrollIt(offset, 400)
-      }
-    }
-
-    this.saveMediaProgress = ({ mediaId }, mediaElement) => {
-      if (!mediaId || !this.isTrackingAllowed()) {
-        return
-      }
-      this.saveMediaProgressNotPlaying(mediaId, mediaElement.currentTime)
-      this.saveMediaProgressWhilePlaying(mediaId, mediaElement.currentTime)
-    }
-
-    this.saveMediaProgressNotPlaying = debounce((mediaId, currentTime) => {
-      // Fires on pause, on scrub, on end of video.
-      this.props.upsertMediaProgress(mediaId, currentTime)
-    }, 300)
-
-    this.saveMediaProgressWhilePlaying = throttle(
-      (mediaId, currentTime) => {
-        // Fires every 5 seconds while playing.
-        this.props.upsertMediaProgress(mediaId, currentTime)
-      },
-      5000,
-      { trailing: true }
-    )
-
-    this.getMediaProgress = ({ mediaId, durationMs } = {}) => {
-      if (!mediaId) {
-        return Promise.resolve()
-      }
-      return this.props.client
-        .query({
-          query: mediaProgressQuery,
-          variables: { mediaId },
-          fetchPolicy: 'network-only'
-        })
-        .then(({ data: { mediaProgress: { secs } } = {} }) => {
-          if (secs) {
-            if (
-              durationMs &&
-              Math.round(secs) === Math.round(durationMs / 1000)
-            ) {
-              return
-            }
-            return secs - 2
-          }
-        })
-    }
-  }
-
-  getChildContext() {
-    return {
-      getMediaProgress: this.getMediaProgress,
-      saveMediaProgress: this.saveMediaProgress,
-      restoreArticleProgress: this.restoreArticleProgress
-    }
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.onScroll)
-    this.onScroll()
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll)
-  }
-
-  render() {
-    const { restore, restoreOpacity } = this.state
-    const {
-      children,
-      me,
-      revokeProgressConsent,
-      submitProgressConsent,
-      article,
-      isArticle,
-      router
-    } = this.props
-
-    const showConsentPrompt =
-      isArticle &&
-      me &&
-      !router.query.trialSignup &&
-      me.progressConsent === null &&
-      article &&
-      article.meta &&
-      article.meta.path !== PROGRESS_EXPLAINER_PATH
-
-    const progressPrompt = showConsentPrompt && (
-      <ProgressPrompt
-        onSubmitConsent={submitProgressConsent}
-        onRevokeConsent={revokeProgressConsent}
-      />
-    )
-
-    const showRestore =
-      isArticle &&
-      restore &&
-      restoreOpacity > RESTORE_MIN &&
-      article.userProgress &&
-      article.userProgress.percentage &&
-      article.userProgress.percentage !== 1
-
-    return (
-      <div ref={this.containerRef}>
+  return (
+    <ProgressContextProvider
+      value={{ getMediaProgress, saveMediaProgress, restoreArticleProgress }}
+    >
+      <div ref={refContainer}>
         {progressPrompt || null}
         {children}
         {showRestore && (
           <RestoreButton
-            onClick={this.restoreArticleProgress}
+            onClick={restoreArticleProgress}
             onClose={e => {
               e.preventDefault()
               e.stopPropagation()
-
-              this.setState({ restore: false })
+              setRestore(false)
             }}
             opacity={restoreOpacity}
             userProgress={article.userProgress}
           />
         )}
       </div>
-    )
-  }
+    </ProgressContextProvider>
+  )
 }
 
 Progress.propTypes = {
@@ -328,12 +321,6 @@ Progress.propTypes = {
 
 Progress.defaultProps = {
   isArticle: true
-}
-
-Progress.childContextTypes = {
-  getMediaProgress: PropTypes.func,
-  saveMediaProgress: PropTypes.func,
-  restoreArticleProgress: PropTypes.func
 }
 
 export default compose(

@@ -1,18 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-
 import { MdArrowDownward, MdClose } from 'react-icons/md'
-
 import datetime from './datetime'
 
 import withT from '../../../lib/withT'
 import { swissNumbers } from '../../../lib/utils/format'
 
 import sharedStyles from '../../sharedStyles'
-import { zIndex } from '@project-r/styleguide'
+import { AudioContext } from '../../Audio'
 
 import {
+  zIndex,
   ProgressCircle,
   mediaQueries,
   useColorContext
@@ -20,86 +19,14 @@ import {
 
 const RADIUS = 16
 const formatPercent = swissNumbers.format('.0%')
-const paddingRight = 15
 const BUTTON_ICON_SIZE = 20
-
-const styles = {
-  container: css({
-    '@media print': {
-      display: 'none'
-    },
-    cursor: 'pointer',
-    position: 'fixed',
-    zIndex: zIndex.overlay,
-    bottom: 0,
-    // transition: `opacity 300ms ease-in-out`,
-    textAlign: 'center',
-    padding: `${RADIUS + 5}px ${paddingRight}px 20px 15px`,
-    width: '100%',
-    [mediaQueries.mUp]: {
-      paddingBottom: 20
-    }
-  }),
-  button: css({
-    boxShadow: '0 0 0px 1px rgba(255, 255, 255, .25)',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    top: -RADIUS,
-    left: `calc(50% - ${RADIUS}px)`,
-    width: `${RADIUS * 2}px`,
-    height: `${RADIUS * 2}px`,
-    borderRadius: `${RADIUS}px`,
-    padding: 0
-  }),
-  buttonIcon: css({
-    position: 'absolute',
-    width: BUTTON_ICON_SIZE,
-    height: BUTTON_ICON_SIZE,
-    top: `calc(50% - ${BUTTON_ICON_SIZE / 2}px)`,
-    left: `calc(50% - ${BUTTON_ICON_SIZE / 2}px)`
-  }),
-  close: css({
-    position: 'absolute',
-    padding: 10,
-    right: 0,
-    top: 0,
-    '& svg': {
-      width: 26,
-      height: 26
-    },
-    [mediaQueries.mUp]: {
-      '& svg': {
-        width: 32,
-        height: 32
-      },
-      padding: 15
-    }
-  }),
-  label: css({
-    marginBottom: 5,
-    fontSize: 16,
-    [mediaQueries.mUp]: {
-      fontSize: 19,
-      marginBottom: 10
-    }
-  }),
-  note: css({
-    fontSize: 16,
-    [mediaQueries.mUp]: {
-      fontSize: 19
-    }
-  })
-}
+const ALERT_HEIGHT = 68
+const PADDING = 16
 
 const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
   const [colorScheme] = useColorContext()
   const colors = {
     container: css({
-      background: colorScheme.containerBg,
-      borderTop: `1px solid ${colorScheme.divider}`,
       color: colorScheme.text
     }),
     button: css({
@@ -114,40 +41,152 @@ const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
   })
 
   return (
-    <div
-      {...styles.container}
-      {...colors.container}
-      style={{ opacity }}
-      onClick={onClick}
-    >
-      <button
-        {...sharedStyles.plainButton}
-        {...styles.button}
-        {...colors.button}
-      >
-        <ProgressCircle
-          progress={userProgress.percentage * 100}
-          stroke={colorScheme.fill}
-          strokePlaceholder={colorScheme.lightFill}
-          radius={RADIUS}
-          strokeWidth={3}
-        />
-        <MdArrowDownward {...styles.buttonIcon} fill={colorScheme.fill} />
-      </button>
-      <div {...styles.label}>{title}</div>
-      <div {...styles.note} {...colors.note}>
-        {datetime(t, new Date(userProgress.updatedAt), 'progress/restore')}
-      </div>
-      <button
-        {...styles.close}
-        {...sharedStyles.plainButton}
-        onClick={onClose}
-        title={t('progress/restore/close')}
-      >
-        <MdClose fill='#ccc' />
-      </button>
-    </div>
+    <AudioContext.Consumer>
+      {value => (
+        <div
+          {...styles.container}
+          {...colors.container}
+          style={{ opacity, bottom: value.audioPlayerVisible ? 130 : 44 }}
+          onClick={onClick}
+        >
+          <div {...styles.buttonBox}>
+            <div {...styles.buttonBoxContent}>
+              <button
+                {...sharedStyles.plainButton}
+                {...styles.button}
+                {...colors.button}
+              >
+                <ProgressCircle
+                  progress={userProgress.percentage * 100}
+                  stroke={colorScheme.fill}
+                  strokePlaceholder={colorScheme.lightFill}
+                  radius={RADIUS}
+                  strokeWidth={3}
+                />
+                <MdArrowDownward
+                  {...styles.buttonIcon}
+                  fill={colorScheme.fill}
+                />
+              </button>
+              <div {...styles.textBox}>
+                <div {...styles.label}>{title}</div>
+                <div
+                  styles={{ fontSize: 16 }}
+                  {...styles.note}
+                  {...colors.note}
+                >
+                  {datetime(
+                    t,
+                    new Date(userProgress.updatedAt),
+                    'progress/restore'
+                  )}
+                </div>
+              </div>
+
+              <button
+                {...styles.close}
+                {...sharedStyles.plainButton}
+                onClick={onClose}
+                title={t('progress/restore/close')}
+              >
+                <MdClose size={30} fill='#000' />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </AudioContext.Consumer>
   )
+}
+
+const styles = {
+  container: css({
+    '@media print': {
+      display: 'none'
+    },
+    cursor: 'pointer',
+    position: 'fixed',
+    width: '100%',
+    maxWidth: 414,
+    right: 0,
+    height: ALERT_HEIGHT,
+    padding: '0 16px',
+    zIndex: zIndex.callout,
+    transition: 'all ease-out 0.3s',
+    [mediaQueries.mUp]: {
+      right: PADDING
+    }
+  }),
+  buttonBox: css({
+    backgroundColor: 'white',
+    boxShadow: '0 0 15px rgba(0,0,0,0.1)',
+    height: '100%'
+  }),
+  buttonBoxContent: css({
+    position: 'absolute',
+    left: PADDING * 2,
+    right: PADDING * 2,
+    top: 0,
+    bottom: 0
+  }),
+  button: css({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: -RADIUS,
+    left: `calc(50% - ${RADIUS}px)`,
+    width: `${RADIUS * 2}px`,
+    height: `${RADIUS * 2}px`,
+    borderRadius: `${RADIUS}px`,
+    padding: 0,
+    [mediaQueries.mUp]: {
+      left: 0,
+      top: '50%',
+      marginTop: -16
+    }
+  }),
+  buttonIcon: css({
+    position: 'absolute',
+    width: BUTTON_ICON_SIZE,
+    height: BUTTON_ICON_SIZE,
+    top: `calc(50% - ${BUTTON_ICON_SIZE / 2}px)`,
+    left: `calc(50% - ${BUTTON_ICON_SIZE / 2}px)`
+  }),
+  textBox: css({
+    position: 'absolute',
+    top: '50%',
+    marginTop: -18,
+    left: 0,
+    [mediaQueries.mUp]: {
+      left: BUTTON_ICON_SIZE + 16 + PADDING,
+      marginTop: -24
+    }
+  }),
+  close: css({
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    outline: 'none',
+    padding: 0,
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    marginTop: -14,
+    textAlign: 'center'
+  }),
+  label: css({
+    marginBottom: 2,
+    fontSize: 16,
+    [mediaQueries.mUp]: {
+      right: 19,
+      marginBottom: 5
+    }
+  }),
+  note: css({
+    fontSize: 16
+  })
 }
 
 RestoreButton.propTypes = {

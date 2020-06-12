@@ -70,7 +70,10 @@ const Progress = ({
   const mobile = () => window.innerWidth < mediaQueries.mBreakPoint
   const headerHeight = () => (mobile() ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
 
-  const [localMediaProgress, setLocalMediaProgress] = useLocalMediaProgressState()
+  const [
+    localMediaProgress,
+    setLocalMediaProgress
+  ] = useLocalMediaProgressState()
 
   const getProgressElements = () => {
     const progressElements = refContainer.current
@@ -79,12 +82,7 @@ const Progress = ({
     return progressElements
   }
 
-  const getClosestElement = () => {
-    const progressElements = getProgressElements()
-    if (!progressElements.length) {
-      return
-    }
-
+  const getClosestElement = progressElements => {
     const getDistanceForIndex = index => {
       return Math.abs(
         progressElements[index].getBoundingClientRect().top - headerHeight()
@@ -124,8 +122,11 @@ const Progress = ({
     }
   }
 
-  const getPercentage = () => {
-    const { height, top } = refContainer.current.getBoundingClientRect()
+  const getPercentage = progressElements => {
+    const lastElement = progressElements[progressElements.length - 1]
+    const { bottom } = lastElement.getBoundingClientRect()
+    const { top } = refContainer.current.getBoundingClientRect()
+    const height = bottom - top
     const yFromArticleTop = Math.max(0, -top + headerHeight())
     const ratio = yFromArticleTop / height
     const percentage =
@@ -148,8 +149,14 @@ const Progress = ({
     if (!downwards) {
       return
     }
-    const element = getClosestElement()
-    const percentage = getPercentage()
+
+    const progressElements = getProgressElements()
+    if (!progressElements.length) {
+      return
+    }
+
+    const element = getClosestElement(progressElements)
+    const percentage = getPercentage(progressElements)
 
     if (
       element &&

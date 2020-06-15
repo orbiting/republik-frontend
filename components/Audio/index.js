@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { AudioPlayer } from '@project-r/styleguide'
+import Link from '../Link/Href'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
@@ -70,6 +71,7 @@ export const AudioProvider = ({ children, t }) => {
                 timePosition='left'
                 height={68}
                 controlsPadding={18}
+                Link={Link}
               />
             </ProgressComponent>
           </div>

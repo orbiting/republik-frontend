@@ -6,6 +6,7 @@ import { HeadersProvider } from '../lib/withHeaders'
 import withApolloClient from '../lib/apollo/withApolloClient'
 import { IconContext } from 'react-icons'
 import Track from '../components/Track'
+import AudioProvider from '../components/Audio'
 
 class WebApp extends App {
   render() {
@@ -20,8 +21,10 @@ class WebApp extends App {
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
           <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
-            <Component serverContext={serverContext} {...pageProps} />
-            <Track />
+            <AudioProvider>
+              <Component serverContext={serverContext} {...pageProps} />
+              <Track />
+            </AudioProvider>
           </IconContext.Provider>
         </HeadersProvider>
       </ApolloProvider>

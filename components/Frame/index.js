@@ -95,7 +95,6 @@ const Index = ({
   secondaryNav,
   showSecondary,
   formatColor,
-  headerAudioPlayer,
   onSearchClick,
   footer = true,
   pullable,
@@ -128,7 +127,6 @@ const Index = ({
             secondaryNav={secondaryNav}
             showSecondary={showSecondary}
             formatColor={formatColor}
-            headerAudioPlayer={headerAudioPlayer}
             pullable={pullable}
           />
           <noscript>

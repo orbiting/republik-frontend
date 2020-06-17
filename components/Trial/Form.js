@@ -37,24 +37,6 @@ const styles = {
   }),
   switchBoardMinimal: css({
     marginTop: 0
-  }),
-  button: css({
-    marginTop: 40,
-    width: 170,
-    textAlign: 'center'
-  }),
-  buttonRow: css({
-    display: 'flex',
-    flexDirection: 'column',
-    '& :first-child': {
-      margin: '0 0 10px'
-    },
-    [mediaQueries.mUp]: {
-      display: 'inherit',
-      '& :first-child': {
-        margin: '0 10px 0 0'
-      }
-    }
   })
 }
 
@@ -74,7 +56,8 @@ const Form = props => {
     t,
     minimal,
     darkMode,
-    initialEmail
+    initialEmail,
+    campaign
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
@@ -184,16 +167,20 @@ const Form = props => {
     isMember
   ) {
     return (
-      <div {...styles.buttonRow} style={narrow ? { marginTop: 20 } : undefined}>
-        <Button primary onClick={() => Router.pushRoute('index')}>
-          {t('Trial/Form/authorized/withAccess/button/label')}
+      <div style={{ marginTop: narrow ? 20 : 40 }}>
+        <Button
+          primary
+          onClick={() => Router.pushRoute('index')}
+          style={{ marginRight: 10 }}
+        >
+          {t('Trial/Form/withAccess/button/label')}
         </Button>
         <Button
           white={minimal && darkMode}
           secondary={minimal && !darkMode}
           onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}
         >
-          {t('Trial/Form/authorized/withAccess/setup/label')}
+          {t('Trial/Form/withAccess/setup/label')}
         </Button>
       </div>
     )
@@ -268,21 +255,25 @@ const Form = props => {
           )}
 
           {!signingIn && !minimal && (
-            <div {...merge(styles.button, narrow && { marginTop: 20 })}>
+            <div style={{ marginTop: narrow ? 20 : 40 }}>
               {loading ? (
                 <InlineSpinner />
               ) : (
                 <Button
                   primary
                   type='submit'
-                  block
                   onClick={requestAccess}
                   disabled={showErrors && errorMessages.length > 0}
                 >
-                  {t(
-                    `Trial/Form/${
-                      me ? 'authorized' : 'unauthorized'
-                    }/withoutAccess/button/label`
+                  {t.first(
+                    [
+                      campaign &&
+                        me &&
+                        `Trial/Form/${campaign}/button/signedIn`,
+                      campaign && `Trial/Form/${campaign}/button`,
+                      me && `Trial/Form/button/signedIn`,
+                      `Trial/Form/button`
+                    ].filter(Boolean)
                   )}
                 </Button>
               )}
@@ -314,6 +305,7 @@ const Form = props => {
 }
 
 Form.propTypes = {
+  campaign: PropTypes.string,
   accessCampaignId: PropTypes.string.isRequired,
   beforeSignIn: PropTypes.func,
   narrow: PropTypes.bool

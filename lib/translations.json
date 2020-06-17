@@ -1,5 +1,5 @@
 {
-  "updated": "2020-05-22T07:34:08.943Z",
+  "updated": "2020-06-17T12:56:34.298Z",
   "title": "live",
   "data": [
     {
@@ -4851,12 +4851,20 @@
       "value": "Später"
     },
     {
-      "key": "Trial/Page/authorized/withAccess/heading",
+      "key": "Trial/Page/withAccess/heading",
       "value": "Sie haben bereits Zugriff"
     },
     {
-      "key": "Trial/Page/authorized/withAccess/intro",
+      "key": "Trial/Page/withAccess/intro",
       "value": "Ihr Konto unter {email} hat bereits bis zum {until} Zugriff auf alle unsere Inhalte."
+    },
+    {
+      "key": "Trial/Form/withAccess/button/label",
+      "value": "Magazin lesen"
+    },
+    {
+      "key": "Trial/Form/withAccess/setup/label",
+      "value": "Konto einrichten"
     },
     {
       "key": "Trial/Form/email/error/empty",
@@ -4873,22 +4881,6 @@
     {
       "key": "Trial/Form/error/title",
       "value": "Fehler"
-    },
-    {
-      "key": "Trial/Form/authorized/withAccess/button/label",
-      "value": "Magazin lesen"
-    },
-    {
-      "key": "Trial/Form/authorized/withAccess/setup/label",
-      "value": "Konto einrichten"
-    },
-    {
-      "key": "Trial/Form/authorized/withoutAccess/button/label",
-      "value": "Aktivieren"
-    },
-    {
-      "key": "Trial/Form/unauthorized/withoutAccess/button/label",
-      "value": "Anmelden"
     },
     {
       "key": "trial/meta/pageTitle",
@@ -5991,38 +5983,6 @@
       "value": "Ich bin an Bord."
     },
     {
-      "key": "Trial/Page/authorized/withoutAccess/heading",
-      "value": "Danke für Ihre Neugier!"
-    },
-    {
-      "key": "Trial/Page/authorized/withoutAccess/intro",
-      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
-    },
-    {
-      "key": "Trial/Page/unauthorized/heading",
-      "value": "Danke für Ihre Neugier!"
-    },
-    {
-      "key": "Trial/Page/unauthorized/intro",
-      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
-    },
-    {
-      "key": "Trial/Page/authorized/withoutAccess/wseww/heading",
-      "value": "Sie wissen noch nicht, ob Sie es wirklich wissen wollen? Dann testen Sie uns!"
-    },
-    {
-      "key": "Trial/Page/authorized/withoutAccess/wseww/intro",
-      "value": "14 Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. 14 Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
-    },
-    {
-      "key": "Trial/Page/unauthorized/wseww/heading",
-      "value": "Sie wissen noch nicht, ob Sie es wirklich wissen wollen? Dann testen Sie uns!"
-    },
-    {
-      "key": "Trial/Page/unauthorized/wseww/intro",
-      "value": "14 Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. 14 Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
-    },
-    {
       "key": "package/ABO/description",
       "value": "Es freut uns, dass Sie dabei sind! Mit Ihrem jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. Sie erhalten ab sofort unser Magazin."
     },
@@ -6709,6 +6669,50 @@
     {
       "key": "FeatureCommentOverlay/preview",
       "value": "Vorschau"
+    },
+    {
+      "key": "Trial/Page/heading",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Trial/Page/intro",
+      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+    },
+    {
+      "key": "Trial/Form/button",
+      "value": "Anmelden"
+    },
+    {
+      "key": "Trial/Page/intro/signedIn",
+      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+    },
+    {
+      "key": "Trial/Form/button/signedIn",
+      "value": "Aktivieren"
+    },
+    {
+      "key": "Trial/Page/wseww/heading",
+      "value": "Sie wissen noch nicht, ob Sie es wirklich wissen wollen? Dann testen Sie uns!"
+    },
+    {
+      "key": "Trial/Page/wseww/intro",
+      "value": "14 Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. 14 Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+    },
+    {
+      "key": "Trial/Page/am-gericht/heading",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Trial/Page/am-gericht/intro",
+      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen.\n\n<b>Lesen Sie jeden Mittwoch, was sich in den Gerichtssälen dieses Landes abspielt.</b> Die Reporterinnen und Reporter der Republik berichten über die kleinen Dramen und die grossen Fragen der Schweizer Justiz."
+    },
+    {
+      "key": "Trial/Page/am-gericht/image",
+      "value": "https://cdn.repub.ch/s3/republik-assets/assets/probelesen/am-gericht.png"
+    },
+    {
+      "key": "Trial/Form/am-gericht/button",
+      "value": "Jetzt ausprobieren"
     }
   ]
 }

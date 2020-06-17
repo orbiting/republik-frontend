@@ -7,8 +7,8 @@ import { css } from 'glamor'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  ZINDEX_FRAME_TOGGLE, 
-  TRANSITION_MS,
+  ZINDEX_FRAME_TOGGLE,
+  TRANSITION_MS
 } from '../constants'
 
 const ToggleNew = ({ dark, size, expanded, ...props }) => {

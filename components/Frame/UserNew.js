@@ -83,13 +83,12 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, title, dark, expanded, backButton, ...props }) => {
+const User = ({ t, me, title, dark, backButton, ...props }) => {
   const color = dark ? colors.negative.text : colors.text
   return (
     <div {...styles.user} {...props}>
       <div
         {...styles.button}
-        aria-expanded={expanded}
         style={{
           color,
           paddingLeft: backButton

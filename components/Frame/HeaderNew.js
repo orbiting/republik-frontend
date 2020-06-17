@@ -26,6 +26,7 @@ import {
   HEADER_HEIGHT_MOBILE,
   HEADER_ICON_SIZE,
   ZINDEX_HEADER,
+  ZINDEX_POPOVER,
   ZINDEX_FRAME_TOGGLE,
   LOGO_WIDTH,
   LOGO_PADDING,
@@ -88,8 +89,15 @@ const HeaderNew = ({
   const backButton = inNativeIOSApp && me && !isFront(router)
 
   const toggleExpanded = target => {
-    setExpanded(!expanded)
-    setExpandedNav(target.id)
+    if (target.id === expandedNav) {
+      setExpanded(false)
+      setExpandedNav(null)
+    } else if (expanded) {
+      setExpandedNav(target.id)
+    } else {
+      setExpanded(!expanded)
+      setExpandedNav(target.id)
+    }
   }
 
   const closeHandler = () => {
@@ -152,9 +160,10 @@ const HeaderNew = ({
               dark={dark}
               me={me}
               backButton={backButton}
-              expanded={expanded}
               id='user'
-              title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+              title={t(
+                `header/nav/${expandedNav === 'user' ? 'close' : 'open'}/aria`
+              )}
               onClick={e => toggleExpanded(e.currentTarget)}
             />
             {me && <NotificationIconNew fill={textFill} />}
@@ -191,6 +200,14 @@ const HeaderNew = ({
           <div {...styles.secondaryNav}> {showSecondary && secondaryNav}</div>
         )}
       </div>
+      <div
+        {...styles.popoverBackground}
+        style={{
+          visibility: expandedNav !== null ? 'visible' : 'hidden',
+          opacity: expandedNav !== null ? 1 : 0,
+          transition: 'opacity 0.2s ease-in-out, visibility 0s linear 0.2s'
+        }}
+      />
       <Popover expanded={expandedNav === 'main'}>
         <NavPopover
           me={me}
@@ -294,5 +311,13 @@ const styles = {
   }),
   secondaryNav: css({
     width: '100%'
+  }),
+  popoverBackground: css({
+    position: 'fixed',
+    zIndex: 2,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    minHeight: '100%'
   })
 }

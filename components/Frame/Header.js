@@ -291,8 +291,7 @@ class Header extends Component {
       cover,
       secondaryNav,
       showSecondary,
-      onPrimaryNavExpandedChange,
-      primaryNavExpanded,
+      onNavExpanded,
       formatColor,
       inNativeApp,
       inNativeIOSApp,
@@ -304,9 +303,7 @@ class Header extends Component {
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
-    const expanded = !!(onPrimaryNavExpandedChange
-      ? primaryNavExpanded
-      : this.state.expanded)
+    const expanded = this.state.expanded
     const secondaryVisible = showSecondary && !expanded
     const dark = this.props.dark && !expanded
 
@@ -327,11 +324,8 @@ class Header extends Component {
     const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
 
     const toggleExpanded = () => {
-      if (onPrimaryNavExpandedChange) {
-        onPrimaryNavExpandedChange(!expanded)
-      } else {
-        this.setState({ expanded: !expanded })
-      }
+      this.setState({ expanded: !expanded })
+      this.props.onNavExpanded && this.props.onNavExpanded(!expanded)
     }
     const closeHandler = () => {
       if (expanded) {

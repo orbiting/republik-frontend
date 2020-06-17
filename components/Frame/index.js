@@ -90,8 +90,7 @@ const Index = ({
   cover,
   inNativeApp,
   inNativeIOSApp,
-  onPrimaryNavExpandedChange,
-  primaryNavExpanded,
+  onNavExpanded,
   secondaryNav,
   showSecondary,
   formatColor,
@@ -122,8 +121,7 @@ const Index = ({
             dark={dark && !inNativeIOSApp}
             me={me}
             cover={cover}
-            onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
-            primaryNavExpanded={primaryNavExpanded}
+            onNavExpanded={onNavExpanded}
             secondaryNav={secondaryNav}
             showSecondary={showSecondary}
             formatColor={formatColor}
@@ -159,8 +157,4 @@ const Index = ({
   </HeaderHeightProvider>
 )
 
-export default compose(
-  withMe,
-  withT,
-  withInNativeApp
-)(Index)
+export default compose(withMe, withT, withInNativeApp)(Index)

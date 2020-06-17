@@ -364,7 +364,6 @@ class ArticlePage extends Component {
     }
 
     this.state = {
-      primaryNavExpanded: false,
       secondaryNavExpanded: false,
       showSecondary: false,
       showAudioPlayer: false,
@@ -422,15 +421,13 @@ class ArticlePage extends Component {
     }
 
     this.onPrimaryNavExpandedChange = expanded => {
-      this.setState({
-        primaryNavExpanded: expanded,
-        secondaryNavExpanded: expanded ? false : this.state.secondaryNavExpanded
-      })
+      if (expanded && this.state.secondaryNavExpanded) {
+        this.setState({ secondaryNavExpanded: false })
+      }
     }
 
     this.onSecondaryNavExpandedChange = expanded => {
       this.setState({
-        primaryNavExpanded: expanded ? false : this.state.primaryNavExpanded,
         secondaryNavExpanded: expanded
       })
     }
@@ -734,8 +731,7 @@ class ArticlePage extends Component {
         meta={
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
-        onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
-        primaryNavExpanded={this.state.primaryNavExpanded}
+        onNavExpanded={this.onPrimaryNavExpandedChange}
         secondaryNav={seriesNavButton || actionBarNav}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}

@@ -12,7 +12,7 @@
     "build": "next build",
     "heroku-postbuild": "npm run build",
     "tape": "cross-env NODE_ENV=test babel-tape-runner",
-    "test": "cross-env NODE_ENV=test babel-tape-runner \"?(lib|pages|components)/**/*.test.js\" | faucet",
+    "test": "cross-env NODE_ENV=test babel-tape-runner \"?(lib|pages|components)/**/*.test.js\" | tap-summary",
     "cloc": "find . -name '*.js' -not -path \"./node_modules*\" -not -path \"./.next*\" | xargs wc -l",
     "lint": "eslint --fix .",
     "translations-raw": "gsheets --key=1a-8RESf0Yjo2Mu15Q4SGWTmnY3ifuFbCVSD7WyYRhT0 --title=live --pretty --out lib/translations.json",
@@ -23,7 +23,10 @@
     "sg:link": "./scripts/sg_link.sh",
     "sg:unlink": "./scripts/sg_unlink.sh"
   },
-  "cacheDirectories": ["node_modules", ".next/cache"],
+  "cacheDirectories": [
+    "node_modules",
+    ".next/cache"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/orbiting/republik-frontend.git"
@@ -89,13 +92,13 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^2.5.0",
-    "faucet": "0.0.1",
     "gsheets": "^2.0.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "nodemon": "^2.0.4",
     "prettier": "^1.19.1",
     "react-test-renderer": "^16.13.0",
+    "tap-summary": "^4.0.0",
     "tape": "^4.13.3"
   },
   "dependencies": {

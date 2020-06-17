@@ -8,7 +8,7 @@ import {
   ZINDEX_HEADER
 } from '../constants'
 
-const HLine = (formatColor, dark) => {
+const HLine = ({ formatColor, dark }) => {
   const hrColor = dark ? colors.negative.containerBg : colors.divider
   const hrColorStyle = { color: hrColor, backgroundColor: hrColor }
 

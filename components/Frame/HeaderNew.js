@@ -3,28 +3,30 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { Logo, colors, mediaQueries, ColorContext } from '@project-r/styleguide'
-import { Router, matchPath } from '../../lib/routes'
 
+import { Router, matchPath } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { shouldIgnoreClick } from '../Link/utils'
+import NotificationIconNew from '../Notifications/NotificationIconNew'
+import BackIcon from '../Icons/Back'
 
-import Toggle from './Toggle'
 import UserNew from './UserNew'
 import Popover from './Popover'
 import NavPopover from './Popover/Nav'
 import UserNavPopover from './Popover/UserNav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
-import BackIcon from '../Icons/Back'
 import HLine from './HLine'
+import ToggleNew from './ToggleNew'
 
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
   HEADER_ICON_SIZE,
   ZINDEX_HEADER,
+  ZINDEX_FRAME_TOGGLE,
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
@@ -79,21 +81,21 @@ const HeaderNew = ({
   pullable = true
 }) => {
   const [expanded, setExpanded] = useState(false)
-  const [mainNavExpanded, setMainNavExpanded] = useState(false)
-  const [userNavExpanded, setUserNavExpanded] = useState(false)
+  const [expandedNav, setExpandedNav] = useState(null)
 
   const textFill = dark ? colors.negative.text : colors.text
   const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
   const backButton = inNativeIOSApp && me && !isFront(router)
 
-  const toggleExpanded = () => {
-    this.setState({ expanded: !expanded })
-    this.props.onNavExpanded && this.props.onNavExpanded(!expanded)
+  const toggleExpanded = target => {
+    setExpanded(!expanded)
+    setExpandedNav(target.id)
   }
 
   const closeHandler = () => {
     if (expanded) {
-      toggleExpanded()
+      setExpanded(false)
+      setExpandedNav(null)
     }
   }
 
@@ -118,7 +120,7 @@ const HeaderNew = ({
         ref={inNativeIOSApp ? forceRefRedraw : undefined}
       >
         <div {...styles.navBarItem}>
-          <div {...styles.user}>
+          <div {...styles.leftBarItem}>
             {backButton && (
               <a
                 {...styles.back}
@@ -151,9 +153,11 @@ const HeaderNew = ({
               me={me}
               backButton={backButton}
               expanded={expanded}
+              id='user'
               title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
-              onClick={toggleExpanded}
+              onClick={e => toggleExpanded(e.currentTarget)}
             />
+            {me && <NotificationIconNew fill={textFill} />}
           </div>
         </div>
         <div {...styles.navBarItem}>
@@ -167,36 +171,39 @@ const HeaderNew = ({
           </a>
         </div>
         <div {...styles.navBarItem}>
-          <div {...styles.hamburger}>
-            <Toggle
+          <div {...styles.rightBarItem}>
+            <ToggleNew
+              expanded={expandedNav === 'main'}
               dark={dark}
-              expanded={expanded}
-              id='primary-menu'
-              title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
-              onClick={toggleExpanded}
+              size={26}
+              id='main'
+              title={t(
+                `header/nav/${expandedNav === 'main' ? 'close' : 'open'}/aria`
+              )}
+              onClick={e => toggleExpanded(e.currentTarget)}
             />
           </div>
         </div>
       </div>
+      <HLine formatColor={formatColor} dark={dark} />
       <div>
-        <HLine formatColor={formatColor} dark={dark} />
         {secondaryNav && (
           <div {...styles.secondaryNav}> {showSecondary && secondaryNav}</div>
         )}
       </div>
-      <Popover expanded={mainNavExpanded}>
+      <Popover expanded={expandedNav === 'main'}>
         <NavPopover
           me={me}
           router={router}
-          expanded={mainNavExpanded}
+          expanded={expandedNav === 'main'}
           closeHandler={closeHandler}
         />
       </Popover>
-      <Popover expanded={userNavExpanded}>
+      <Popover expanded={expandedNav === 'user'}>
         <UserNavPopover
           me={me}
           router={router}
-          expanded={userNavExpanded}
+          expanded={expandedNav === 'user'}
           closeHandler={closeHandler}
         />
       </Popover>
@@ -252,9 +259,21 @@ const styles = {
     display: 'flex',
     justifyContent: 'center'
   }),
-  user: css({
+  leftBarItem: css({
     marginRight: 'auto',
     display: 'flex'
+  }),
+  rightBarItem: css({
+    marginLeft: 'auto',
+    height: HEADER_HEIGHT_MOBILE - 2,
+    width: HEADER_HEIGHT_MOBILE - 2 + 1,
+    [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT - 2,
+      width: HEADER_HEIGHT - 2 + 5
+    },
+    '@media print': {
+      display: 'none'
+    }
   }),
   back: css({
     display: 'block',
@@ -271,18 +290,6 @@ const styles = {
     [mediaQueries.mUp]: {
       padding: LOGO_PADDING,
       width: LOGO_WIDTH + LOGO_PADDING * 2
-    }
-  }),
-  hamburger: css({
-    marginLeft: 'auto',
-    height: HEADER_HEIGHT_MOBILE - 2,
-    width: HEADER_HEIGHT_MOBILE - 2 + 1,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT - 2,
-      width: HEADER_HEIGHT - 2 + 5
-    },
-    '@media print': {
-      display: 'none'
     }
   }),
   secondaryNav: css({

@@ -4,10 +4,9 @@ import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { MdPersonOutline } from 'react-icons/md'
 import withT from '../../lib/withT'
-import { shouldIgnoreClick } from '../Link/utils'
 
 const BUTTON_SIZE = 40
-const BUTTON_SIZE_MOBILE = 26
+const BUTTON_SIZE_MOBILE = 24
 const BUTTON_PADDING = (HEADER_HEIGHT - BUTTON_SIZE) / 2
 const BUTTON_PADDING_MOBILE = (HEADER_HEIGHT_MOBILE - BUTTON_SIZE_MOBILE) / 2
 const ICON_SIZE = 30
@@ -17,6 +16,7 @@ const PORTRAIT_HEIGHT = HEADER_HEIGHT - 2 * BUTTON_PADDING
 
 const styles = {
   user: css({
+    cursor: 'pointer',
     opacity: 'inherit',
     textAlign: 'left',
     height: HEADER_HEIGHT_MOBILE,
@@ -83,11 +83,11 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, onClick, title, dark, expanded, backButton }) => {
+const User = ({ t, me, title, dark, expanded, backButton, ...props }) => {
   const color = dark ? colors.negative.text : colors.text
   return (
-    <div {...styles.user}>
-      <a
+    <div {...styles.user} {...props}>
+      <div
         {...styles.button}
         aria-expanded={expanded}
         style={{
@@ -98,14 +98,6 @@ const User = ({ t, me, onClick, title, dark, expanded, backButton }) => {
         }}
         role='button'
         title={title}
-        href={me ? `/~${me.username || me.id}` : '/anmelden'}
-        onClick={e => {
-          if (shouldIgnoreClick(e)) {
-            return
-          }
-          e.preventDefault()
-          onClick()
-        }}
       >
         {me &&
           (me.portrait ? (
@@ -121,7 +113,7 @@ const User = ({ t, me, onClick, title, dark, expanded, backButton }) => {
             <span {...styles.label}>{t('header/signin')}</span>
           </Fragment>
         )}
-      </a>
+      </div>
     </div>
   )
 }

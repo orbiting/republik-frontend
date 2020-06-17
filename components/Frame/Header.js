@@ -301,8 +301,6 @@ class Header extends Component {
     } = this.props
     const { backButton, renderSecondaryNav } = this.state
 
-    // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
-    // up to the higher-order component. Otherwise it's managed inside the component.
     const expanded = this.state.expanded
     const secondaryVisible = showSecondary && !expanded
     const dark = this.props.dark && !expanded

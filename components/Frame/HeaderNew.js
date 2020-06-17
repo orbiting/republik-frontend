@@ -24,15 +24,13 @@ import ToggleNew from './ToggleNew'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  HEADER_ICON_SIZE,
+  SUBHEADER_HEIGHT,
+  SUBHEADER_HEIGHT_MOBILE,
   ZINDEX_HEADER,
-  ZINDEX_POPOVER,
-  ZINDEX_FRAME_TOGGLE,
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE,
-  TRANSITION_MS
+  LOGO_PADDING_MOBILE
 } from '../constants'
 
 // Workaround for WKWebView fixed 0 rendering hickup
@@ -197,7 +195,14 @@ const HeaderNew = ({
       <HLine formatColor={formatColor} dark={dark} />
       <div>
         {secondaryNav && (
-          <div {...styles.secondaryNav}> {showSecondary && secondaryNav}</div>
+          <div
+            {...styles.secondaryNav}
+            style={{
+              backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+            }}
+          >
+            {showSecondary && secondaryNav}
+          </div>
         )}
       </div>
       <div
@@ -310,7 +315,16 @@ const styles = {
     }
   }),
   secondaryNav: css({
-    width: '100%'
+    position: 'fixed',
+    zIndex: ZINDEX_HEADER,
+    top: HEADER_HEIGHT_MOBILE,
+    left: 0,
+    right: 0,
+    height: SUBHEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT,
+      height: SUBHEADER_HEIGHT
+    }
   }),
   popoverBackground: css({
     position: 'fixed',

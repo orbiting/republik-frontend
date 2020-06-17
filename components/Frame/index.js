@@ -11,6 +11,7 @@ import {
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
+import HeaderNew from './HeaderNew'
 import Footer from './Footer'
 import Box from './Box'
 import ProlongBox from './ProlongBox'
@@ -117,7 +118,7 @@ const Index = ({
             />
           )}
           {!!meta && <Meta data={meta} />}
-          <Header
+          <HeaderNew
             dark={dark && !inNativeIOSApp}
             me={me}
             cover={cover}

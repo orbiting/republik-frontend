@@ -999,17 +999,19 @@ const ComposedPage = compose(
   })
 )(ArticlePage)
 
-ComposedPage.getInitialProps = () => {
-  return {
-    payNoteTryOrBuy: Math.random(),
-    payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
-  }
-}
-
-export default props => (
+const ComposedPageWithAudio = props => (
   <AudioContext.Consumer>
     {({ toggleAudioPlayer }) => (
       <ComposedPage {...props} toggleAudioPlayer={toggleAudioPlayer} />
     )}
   </AudioContext.Consumer>
 )
+
+ComposedPageWithAudio.getInitialProps = () => {
+  return {
+    payNoteTryOrBuy: Math.random(),
+    payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
+  }
+}
+
+export default ComposedPageWithAudio

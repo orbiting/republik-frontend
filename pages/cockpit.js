@@ -357,7 +357,7 @@ const Page = ({
           const minMaxValues = []
           const lastBucket = buckets[buckets.length - 1]
           // ToDo: Remove
-          lastBucket.active = 25011 // fake it for now
+          lastBucket.active = 20895 // fake it for now
           const values = bucketsBefore
             .map(bucket => ({
               month: bucket.key,
@@ -395,8 +395,10 @@ const Page = ({
             Math[i ? 'ceil' : 'floor'](Math.round(d / 1000) * 1000)
           )
 
-          const lastSeen = data.membershipStats.lastSeen.buckets.slice(-1)[0]
-            .users
+          const lastSeenBucket = data.membershipStats.lastSeen.buckets.slice(
+            -1
+          )[0]
+          const lastSeen = lastSeenBucket.users
 
           const engagedUsers = [].concat(
             data.discussionsStats.evolution.buckets.map(bucket => ({
@@ -474,7 +476,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                 <ChartLead style={{ color: '#fff' }}>
                   Entwicklung vom Crowdfunding im April 2017 bis heute.{' '}
                   {missingCount > 0 &&
-                    `Aktuell fehlen ${countFormat(missingCount)} Mitglieder.`}
+                    `Es fehlen ${countFormat(missingCount)} Mitglieder.`}
                 </ChartLead>
                 <Chart
                   config={{
@@ -551,8 +553,8 @@ Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche di
                     xTicks: [
                       '2018-01',
                       '2019-01',
-                      // ToDo: Live Data
-                      '2020-04'
+                      '2020-01'
+                      // lastSeenBucket.key
                     ],
                     yNice: 0,
                     yTicks: [0, 3000, 6000, 9000, 12000],
@@ -567,7 +569,7 @@ Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche di
                 <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
                   Beim Dialog werden Schreibende und Reagierende (Up- und
                   Downvotes) gezählt. Lesezeichen wurden mitte Januar 2019
-                  eingeführt, Leseposition ende März 2019.
+                  eingeführt, Leseposition ende März&nbsp;2019.
                 </Editorial.Note>
               </div>
 

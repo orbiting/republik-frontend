@@ -1,6 +1,5 @@
 import { css, merge } from 'glamor'
-import HasNotifications from 'react-icons/lib/md/notifications'
-import NoNotifications from 'react-icons/lib/md/notifications-none'
+import { MdNotifications, MdNotificationsNone } from 'react-icons/md'
 import React, { useState, useEffect } from 'react'
 import { compose } from 'react-apollo'
 
@@ -75,7 +74,7 @@ export default compose(
     }
   }, [refetch])
 
-  const Icon = hasUnread ? HasNotifications : NoNotifications
+  const Icon = hasUnread ? MdNotifications : MdNotificationsNone
 
   return (
     <Link route='subscriptions' passHref>

@@ -372,7 +372,7 @@ ${meta.url}
                 <td>
                   <Label>IBAN</Label>
                 </td>
-                <td>CH04 8148 5000 0083 4669 1</td>
+                <td>CH06 8080 8006 3318 5396 1</td>
               </tr>
             </tbody>
           </table>
@@ -386,7 +386,4 @@ ${meta.url}
   }
 }
 
-export default compose(
-  withRouter,
-  withInNativeApp
-)(EnPage)
+export default compose(withRouter, withInNativeApp)(EnPage)

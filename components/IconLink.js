@@ -4,35 +4,74 @@ import { css } from 'glamor'
 
 import { mediaQueries, colors, useColorContext } from '@project-r/styleguide'
 
-import AudioIcon from 'react-icons/lib/md/volume-up'
 import ChartIcon from './Icons/Chart'
 import TimeIcon from './Icons/Time'
 import ShareIOSIcon from './Icons/ShareIOS'
-import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
-import DownloadIcon from 'react-icons/lib/md/file-download'
-import FacebookIcon from 'react-icons/lib/fa/facebook'
-import FolderIcon from 'react-icons/lib/fa/folder-open'
 import FontSizeIcon from './Icons/FontSize'
-import GalleryIcon from 'react-icons/lib/md/filter'
 import LinkIcon from './Icons/Web'
-import CopyLinkIcon from 'react-icons/lib/md/link'
-import MailIcon from 'react-icons/lib/md/mail-outline'
-import PdfIcon from 'react-icons/lib/md/picture-as-pdf'
-import ShareIcon from 'react-icons/lib/md/share'
-import TwitterIcon from 'react-icons/lib/fa/twitter'
-import WhatsappIcon from 'react-icons/lib/fa/whatsapp'
-import PocketIcon from 'react-icons/lib/fa/get-pocket'
-import KeyIcon from 'react-icons/lib/fa/key'
 import VideoIcon from './Icons/Video'
 import MarkdownIcon from './Icons/Markdown'
 import EtiquetteIcon from './Icons/Etiquette'
-import EditIcon from 'react-icons/lib/fa/edit'
-import LaunchIcon from 'react-icons/lib/md/launch'
-import RSSIcon from 'react-icons/lib/md/rss-feed'
-import PlayIcon from 'react-icons/lib/md/play-circle-outline'
-import SpotifyIcon from 'react-icons/lib/fa/spotify'
-import GoogleIcon from 'react-icons/lib/fa/google'
-import AppleIcon from 'react-icons/lib/fa/apple'
+
+import {
+  MdVolumeUp,
+  MdChatBubbleOutline,
+  MdFileDownload,
+  MdFilter,
+  MdLink,
+  MdMailOutline,
+  MdPictureAsPdf,
+  MdShare,
+  MdLaunch,
+  MdRssFeed,
+  MdPlayCircleOutline
+} from 'react-icons/md'
+import {
+  FaFacebookF,
+  FaFolderOpen,
+  FaTwitter,
+  FaWhatsapp,
+  FaGetPocket,
+  FaKey,
+  FaEdit,
+  FaSpotify,
+  FaGoogle,
+  FaApple,
+  FaNotesMedical
+} from 'react-icons/fa'
+
+const ICONS = {
+  copyLink: MdLink,
+  audio: MdVolumeUp,
+  chart: ChartIcon,
+  discussion: MdChatBubbleOutline,
+  download: MdFileDownload,
+  facebook: FaFacebookF,
+  dossier: FaFolderOpen,
+  link: LinkIcon,
+  mail: MdMailOutline,
+  markdown: MarkdownIcon,
+  share: MdShare,
+  shareIOS: ShareIOSIcon,
+  twitter: FaTwitter,
+  whatsapp: FaWhatsapp,
+  pocket: FaGetPocket,
+  key: FaKey,
+  pdf: MdPictureAsPdf,
+  gallery: MdFilter,
+  time: TimeIcon,
+  video: VideoIcon,
+  etiquette: EtiquetteIcon,
+  fontSize: FontSizeIcon,
+  edit: FaEdit,
+  launch: MdLaunch,
+  rss: MdRssFeed,
+  play: MdPlayCircleOutline,
+  spotify: FaSpotify,
+  google: FaGoogle,
+  apple: FaApple,
+  notesMedical: FaNotesMedical
+}
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -124,38 +163,6 @@ export const styles = {
       `${solidOpacityKeyframes} 1.3s cubic-bezier(0.8, 0, 0.8, 1) both`
     ].join(',')
   })
-}
-
-const ICONS = {
-  copyLink: CopyLinkIcon,
-  audio: AudioIcon,
-  chart: ChartIcon,
-  discussion: DiscussionIcon,
-  download: DownloadIcon,
-  facebook: FacebookIcon,
-  dossier: FolderIcon,
-  link: LinkIcon,
-  mail: MailIcon,
-  markdown: MarkdownIcon,
-  share: ShareIcon,
-  shareIOS: ShareIOSIcon,
-  twitter: TwitterIcon,
-  whatsapp: WhatsappIcon,
-  pocket: PocketIcon,
-  key: KeyIcon,
-  pdf: PdfIcon,
-  gallery: GalleryIcon,
-  time: TimeIcon,
-  video: VideoIcon,
-  etiquette: EtiquetteIcon,
-  fontSize: FontSizeIcon,
-  edit: EditIcon,
-  launch: LaunchIcon,
-  rss: RSSIcon,
-  play: PlayIcon,
-  spotify: SpotifyIcon,
-  google: GoogleIcon,
-  apple: AppleIcon
 }
 
 const IconLink = ({

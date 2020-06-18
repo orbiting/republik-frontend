@@ -4,10 +4,11 @@ import { nest } from 'd3-collection'
 import { ascending, descending } from 'd3-array'
 
 import IgnoreIcon from './IgnoreIcon'
-import FollowIcon from 'react-icons/lib/md/notifications-active'
-import RevertIcon from 'react-icons/lib/md/rotate-left'
+import { MdNotificationsActive, MdRotateLeft } from 'react-icons/md'
+const FollowIcon = MdNotificationsActive
+const RevertIcon = MdRotateLeft
 
-import MdCheck from 'react-icons/lib/md/check'
+import { MdCheck } from 'react-icons/md'
 
 import {
   fontStyles,

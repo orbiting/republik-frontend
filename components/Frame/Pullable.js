@@ -11,7 +11,7 @@ import {
   isBodyScrollLocked
 } from '@project-r/styleguide'
 
-import DownIcon from 'react-icons/lib/md/arrow-downward'
+import { MdArrowDownward } from 'react-icons/md'
 
 const styles = {
   container: css({
@@ -163,7 +163,11 @@ class Pullable extends React.Component {
           shouldReset={shouldReset}
           dark={this.props.dark}
         >
-          {shouldSpin ? <InlineSpinner size={32} /> : <DownIcon size={32} />}
+          {shouldSpin ? (
+            <InlineSpinner size={32} />
+          ) : (
+            <MdArrowDownward size={32} />
+          )}
         </Container>
         {this.props.children}
       </Fragment>

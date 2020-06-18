@@ -90,12 +90,10 @@ const Index = ({
   cover,
   inNativeApp,
   inNativeIOSApp,
-  onPrimaryNavExpandedChange,
-  primaryNavExpanded,
+  onNavExpanded,
   secondaryNav,
   showSecondary,
   formatColor,
-  headerAudioPlayer,
   onSearchClick,
   footer = true,
   pullable,
@@ -123,12 +121,10 @@ const Index = ({
             dark={dark && !inNativeIOSApp}
             me={me}
             cover={cover}
-            onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
-            primaryNavExpanded={primaryNavExpanded}
+            onNavExpanded={onNavExpanded}
             secondaryNav={secondaryNav}
             showSecondary={showSecondary}
             formatColor={formatColor}
-            headerAudioPlayer={headerAudioPlayer}
             pullable={pullable}
           />
           <noscript>
@@ -161,8 +157,4 @@ const Index = ({
   </HeaderHeightProvider>
 )
 
-export default compose(
-  withMe,
-  withT,
-  withInNativeApp
-)(Index)
+export default compose(withMe, withT, withInNativeApp)(Index)

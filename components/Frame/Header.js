@@ -18,7 +18,7 @@ import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
 
-import Search from 'react-icons/lib/md/search'
+import { MdSearch } from 'react-icons/md'
 import BackIcon from '../Icons/Back'
 
 import { shouldIgnoreClick } from '../Link/utils'
@@ -291,23 +291,17 @@ class Header extends Component {
       cover,
       secondaryNav,
       showSecondary,
-      onPrimaryNavExpandedChange,
-      primaryNavExpanded,
+      onNavExpanded,
       formatColor,
       inNativeApp,
       inNativeIOSApp,
       isMember,
-      headerAudioPlayer: HeaderAudioPlayer,
       pullable = true,
       unreadNotifications = true
     } = this.props
     const { backButton, renderSecondaryNav } = this.state
 
-    // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
-    // up to the higher-order component. Otherwise it's managed inside the component.
-    const expanded = !!(onPrimaryNavExpandedChange
-      ? primaryNavExpanded
-      : this.state.expanded)
+    const expanded = this.state.expanded
     const secondaryVisible = showSecondary && !expanded
     const dark = this.props.dark && !expanded
 
@@ -328,11 +322,8 @@ class Header extends Component {
     const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
 
     const toggleExpanded = () => {
-      if (onPrimaryNavExpandedChange) {
-        onPrimaryNavExpandedChange(!expanded)
-      } else {
-        this.setState({ expanded: !expanded })
-      }
+      this.setState({ expanded: !expanded })
+      this.props.onNavExpanded && this.props.onNavExpanded(!expanded)
     }
     const closeHandler = () => {
       if (expanded) {
@@ -417,7 +408,7 @@ class Header extends Component {
                   <BackIcon size={25} fill={textFill} />
                 </a>
               )}
-              {secondaryNav && !HeaderAudioPlayer && (
+              {secondaryNav && (
                 <div
                   {...styles.secondary}
                   style={{
@@ -438,7 +429,7 @@ class Header extends Component {
                     href='/suche'
                     onClick={goTo('/search', 'search')}
                   >
-                    <Search fill={textFill} size={HEADER_ICON_SIZE} />
+                    <MdSearch fill={textFill} size={HEADER_ICON_SIZE} />
                   </HeaderIconA>
                 )}
               </div>
@@ -452,18 +443,6 @@ class Header extends Component {
                 />
               </div>
             </Fragment>
-          )}
-          {HeaderAudioPlayer && (
-            <HeaderAudioPlayer
-              style={{
-                ...bgStyle,
-                position: 'absolute',
-                width: '100%',
-                bottom: 0
-              }}
-              controlsPadding={this.state.mobile ? 10 : 20}
-              height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
-            />
           )}
         </div>
         {opaque && (

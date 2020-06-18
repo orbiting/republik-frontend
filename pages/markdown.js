@@ -123,6 +123,22 @@ export default compose(
             </td>
           </tr>
           <tr>
+            <td colSpan='2'>
+              Eckige Klammern benötigen, wie das Gendersternchen, einen
+              Backslash. Zum Beispiel bei Anmerkungen in einem Zitat:
+            </td>
+          </tr>
+          <tr>
+            <td style={{ paddingTop: 0 }}>&gt; Himmelspolizey \[sic\]</td>
+            <td style={{ paddingTop: 0 }}>
+              <CommentBodyBlockQuote>
+                <CommentBodyBlockQuoteParagraph>
+                  Himmelspolizey [sic]
+                </CommentBodyBlockQuoteParagraph>
+              </CommentBodyBlockQuote>
+            </td>
+          </tr>
+          <tr>
             <td>Ein `CodeBeispiel()` im Text</td>
             <td>
               <CommentBodyParagraph>

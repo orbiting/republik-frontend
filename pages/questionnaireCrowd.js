@@ -43,7 +43,7 @@ import {
   Button
 } from '@project-r/styleguide'
 import { css } from 'glamor'
-import MdArrow from 'react-icons/lib/md/trending-flat'
+import { MdTrendingFlat } from 'react-icons/md'
 import {
   NEWSLETTER_SETTINGS,
   UPDATE_NEWSLETTER_SUBSCRIPTION
@@ -184,7 +184,7 @@ const adaptedQuestionnaire = (data, notConvinced) => {
 const ThankYouItem = compose(withT)(({ t, tKey }) => {
   return (
     <div {...styles.thankYouItem}>
-      <MdArrow {...styles.arrow} />
+      <MdTrendingFlat {...styles.arrow} />
       <RawHtml
         type={P}
         dangerouslySetInnerHTML={{

@@ -47,6 +47,7 @@ const statusQuery = gql`
         buckets {
           key
           active
+          overdue
           ended
         }
       }
@@ -364,13 +365,13 @@ const Page = ({
               value: bucket.preactive
             }))
             .concat(
-              buckets.reduce((acc, { key, active, ended }) => {
-                minMaxValues.push(active)
+              buckets.reduce((acc, { key, active, overdue, ended }) => {
+                minMaxValues.push(active + overdue)
                 minMaxValues.push(-ended)
                 acc.push({
                   month: key,
                   label: labelMap.active,
-                  value: active
+                  value: active + overdue
                 })
                 acc.push({
                   month: key,
@@ -380,7 +381,7 @@ const Page = ({
                 return acc
               }, [])
             )
-          const activeCount = lastBucket.active
+          const activeCount = lastBucket.active + lastBucket.overdue
           const missingCount = numMembersNeeded - activeCount
           if (missingCount > 0) {
             values.push({

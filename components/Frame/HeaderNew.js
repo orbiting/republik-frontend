@@ -14,7 +14,7 @@ import BackIcon from '../Icons/Back'
 
 import UserNew from './UserNew'
 import Popover from './Popover'
-import NavPopover from './Popover/Nav'
+import NavPopover from './Popover/NavNew'
 import UserNavPopover from './Popover/UserNav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'

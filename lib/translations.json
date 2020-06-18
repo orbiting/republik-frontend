@@ -43,6 +43,10 @@
       "value": "Angebote"
     },
     {
+      "key": "nav/becomemember",
+      "value": "Mitglied werden"
+    },
+    {
       "key": "nav/give",
       "value": "Verschenken"
     },

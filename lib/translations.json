@@ -1,5 +1,5 @@
 {
-  "updated": "2020-06-18T21:36:16.835Z",
+  "updated": "2020-06-18T21:56:08.264Z",
   "title": "live",
   "data": [
     {
@@ -6672,7 +6672,7 @@
     },
     {
       "key": "crowdfunding/status/lastSeen/label",
-      "value": "Verlegerinnen die innerhalb der letzten 30 Tage gesichtet wurden"
+      "value": "Verlegerinnen, die innerhalb der letzten 30 Tage aktiv waren"
     },
     {
       "key": "crowdfunding/status/goal/PERMANENT/memberships",

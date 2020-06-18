@@ -468,10 +468,11 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                 })}
               >
                 <ChartTitle style={{ color: '#fff' }}>
-                  Entwicklungen der Mitgliedschaften und&nbsp;Abos
+                  Aktuell {countFormat(activeCount)} Mitglieder
+                  und&nbsp;Abonnentinnen
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
-                  Vom Crowdfunding im April 2017 bis heute.{' '}
+                  Entwicklung vom Crowdfunding im April 2017 bis heute.{' '}
                   {missingCount > 0 &&
                     `Aktuell fehlen ${countFormat(missingCount)} Mitglieder.`}
                 </ChartLead>
@@ -505,7 +506,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
 
               {md(mdComponents)`
 
-Mit ${countFormat(
+Mit konstant ${countFormat(
                 numMembersNeeded
               )} Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
 
@@ -513,7 +514,7 @@ Das aktuelle Ausgaben-Budget haben wir im Juli 2019 [veröffentlicht und nach de
 
 ## ${countFormat(lastSeen)} Mitglieder sind monatlich&nbsp;aktiv
 
-Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche die Webseite oder App in den letzten 30 Tagen benutzen haben.
+Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche die Website oder App in den letzten 30 Tagen benutzt haben.
 
 `}
 
@@ -532,7 +533,7 @@ Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche di
                 })}
               >
                 <ChartTitle style={{ color: '#fff' }}>
-                  Welche Funktionen nutzen die meisten?
+                  Weitere Indikatoren für Aktivität
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
                   Anzahl Mitlieder welche eine Funktion benutzen.

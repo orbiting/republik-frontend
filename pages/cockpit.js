@@ -51,6 +51,34 @@ const statusQuery = gql`
           ended
         }
       }
+      lastSeen(min: $max, max: $max) {
+        buckets {
+          key
+          users
+        }
+      }
+    }
+    discussionsStats {
+      evolution(min: "2018-01", max: $max) {
+        buckets {
+          key
+          users
+        }
+      }
+    }
+    collectionsStats {
+      progress: evolution(name: "progress", min: "2019-03", max: $max) {
+        buckets {
+          key
+          users
+        }
+      }
+      bookmarks: evolution(name: "bookmarks", min: "2019-01", max: $max) {
+        buckets {
+          key
+          users
+        }
+      }
     }
     actionMe: me(accessToken: $accessToken) {
       id
@@ -365,17 +393,41 @@ const Page = ({
             Math[i ? 'ceil' : 'floor'](Math.round(d / 1000) * 1000)
           )
 
+          const lastSeenBucket = data.membershipStats.lastSeen.buckets.slice(
+            -1
+          )[0]
+          const lastSeen = lastSeenBucket.users
+
+          const engagedUsers = [].concat(
+            data.discussionsStats.evolution.buckets
+              .slice(0, -1)
+              .map(bucket => ({
+                type: 'Dialog',
+                date: bucket.key,
+                value: String(bucket.users)
+              })),
+            data.collectionsStats.progress.buckets.slice(0, -1).map(bucket => ({
+              type: 'Lesepositionen',
+              date: bucket.key,
+              value: String(bucket.users)
+            })),
+            data.collectionsStats.bookmarks.buckets
+              .slice(0, -1)
+              .map(bucket => ({
+                type: 'Lesezeichen',
+                date: bucket.key,
+                value: String(bucket.users)
+              }))
+          )
+
           return (
             <>
               <div style={{ marginBottom: 60 }}>
-                {md(mdComponents)`
-Herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die Republik hat definitiv eine Zukunft. Danke an alle, die dazu beitragen. 
-                `}
                 <RawStatus
                   t={t}
                   color='#fff'
                   barColor='#333'
-                  people
+                  memberships
                   hasEnd={false}
                   crowdfundingName='PERMANENT'
                   crowdfunding={
@@ -383,11 +435,12 @@ Herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die Repub
                       name: 'PERMANENT',
                       goals: [
                         {
-                          people: numMembersNeeded
+                          memberships: numMembersNeeded
                         }
                       ],
                       status: {
-                        people: activeCount
+                        memberships: activeCount,
+                        lastSeen
                       }
                     }
                   }
@@ -400,12 +453,7 @@ Herzlichen Dank! Wir haben unsere überlebenswichtigen Ziele erreicht. Die Repub
 
 Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
-Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, leserfinanzierten Journalismus. Damit die Republik einen entscheidenden Unterschied im Mediensystem machen kann, muss sie selbsttragend werden. Also die gesamten Kosten aus den Einnahmen decken, ohne die Hilfe von Investitionen.
-
-Dafür braucht sie konstant etwa ${countFormat(
-                numMembersNeeded
-              )} Abonnentinnen und Mitglieder.
-
+Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, leserfinanzierten Journalismus. Damit die Republik einen entscheidenden Unterschied im Mediensystem machen kann, muss sie selbsttragend sein.
 
 `}
 
@@ -424,14 +472,13 @@ Dafür braucht sie konstant etwa ${countFormat(
                 })}
               >
                 <ChartTitle style={{ color: '#fff' }}>
-                  {countFormat(activeCount)} aktive Mitglieder und Abonnentinnen
+                  Aktuell {countFormat(activeCount)} Mitglieder
+                  und&nbsp;Abonnentinnen
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
-                  Vom Crowdfunding im April 2017 bis heute.{' '}
+                  Entwicklung vom Crowdfunding im April 2017 bis heute.{' '}
                   {missingCount > 0 &&
-                    `Aktuell fehlen noch ${countFormat(
-                      missingCount
-                    )} Mitglieder.`}
+                    `Es fehlen ${countFormat(missingCount)} Mitglieder.`}
                 </ChartLead>
                 <Chart
                   config={{
@@ -449,7 +496,7 @@ Dafür braucht sie konstant etwa ${countFormat(
                     yAnnotations: [
                       {
                         value: numMembersNeeded,
-                        label: 'selbsttragend bei'
+                        label: 'selbsttragend ab'
                       }
                     ],
                     xBandPadding: 0
@@ -463,25 +510,72 @@ Dafür braucht sie konstant etwa ${countFormat(
 
               {md(mdComponents)`
 
-## Warum ${countFormat(numMembersNeeded)}?
-
-Mit ${countFormat(
+Mit konstant ${countFormat(
                 numMembersNeeded
-              )} Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen. Wir wären dann unabhängig von Investoren und Stiftungen und zu 100 Prozent leserfinanziert.
+              )} Abonnentinnen und Mitgliedern haben wir genügend Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
 
-Das aktuelle Ausgaben-Budget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/juli19).
+Das aktuelle Ausgabenbudget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/juli19).
 
-## Und bis dann?
+## ${countFormat(lastSeen)} Mitglieder sind monatlich&nbsp;aktiv
 
-Bis die Republik selbsttragend funktionieren kann, ist sie auf Investments angewiesen. Auf [unserer Aktionariats-Seite](/aktionariat) finden Sie alle Investoren. Zudem werden wir von verschiedenen Stiftungen gefördert und die Genossenschaft von Spenderinnen unterstützt.
+Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes Unternehmen braucht es eine aktive und interessierte Verlegerschaft.
 
-Im letzten Geschäftsjahr (2018/2019) war die Republik zu 70 Prozent selbsttragend. Nun geht es darum, bekannter und nützlicher zu werden und mehr Menschen mit unserem Journalismus zu begeistern. Wir haben einen ganzen Schrank voller Ideen.
+`}
 
-Und falls es ein bisschen Zeit braucht, bis die Ideen sich in zusätzliche Mitgliedschaften und Abos verwandeln, geht uns das Geld nicht übermorgen aus.
+              <div
+                {...css({
+                  marginTop: 20,
+                  '& text, & tspan': {
+                    fill: '#fff !important'
+                  },
+                  '& svg > g > g > g > line': {
+                    stroke: 'rgba(255, 255, 255, 0.4) !important'
+                  },
+                  '& div': {
+                    color: '#fff !important'
+                  }
+                })}
+              >
+                <ChartTitle style={{ color: '#fff' }}>
+                  Wie beliebt sind Dialog, Lesezeichen und Leseposition?
+                </ChartTitle>
+                <ChartLead style={{ color: '#fff' }}>
+                  Anzahl Mitglieder, welche pro Monat eine Funktion benutzen.
+                </ChartLead>
+                <Chart
+                  config={{
+                    type: 'Line',
+                    sort: 'none',
+                    color: 'type',
+                    colorSort: 'none',
+                    numberFormat: 's',
+                    x: 'date',
+                    timeParse: '%Y-%m',
+                    timeFormat: '%b %y',
+                    xTicks: [
+                      '2018-01',
+                      '2019-01',
+                      '2020-01'
+                      // lastSeenBucket.key
+                    ],
+                    yNice: 0,
+                    yTicks: [0, 3000, 6000, 9000, 12000],
+                    colorMap: {
+                      Lesepositionen: '#9467bd',
+                      Lesezeichen: '#e377c2',
+                      Dialog: '#bcbd22'
+                    }
+                  }}
+                  values={engagedUsers}
+                />
+                <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
+                  Beim Dialog werden Schreibende und Reagierende (Up- und
+                  Downvotes) gezählt. Lesezeichen wurden Mitte Januar 2019
+                  eingeführt, die Leseposition Ende März&nbsp;2019.
+                </Editorial.Note>
+              </div>
 
-Dazu folgende Zusammenfassung unserer konservativen Liquiditätsplanung:
-
-Solide Verkäufe (weniger als 2019 und 2018) + gute, aber nicht bemerkenswerte Erneuerungen (besser als im ersten Jahr, schlechter als die letzten Monate) + etwas tieferes Budget = sicher Geld bis Winter 2021/2022.
+              {md(mdComponents)`
 
 ## Was bisher geschah
 
@@ -492,6 +586,9 @@ Solide Verkäufe (weniger als 2019 und 2018) + gute, aber nicht bemerkenswerte E
 *   November 2019: [2. Geschäftsbericht](https://cdn.republik.space/s3/republik-assets/assets/can/Republik_Geschaeftsbericht_2018-2019.pdf) 
 *   Dezember 2019: [das alte Cockpit](/cockpit19)
 *   März 2020: [Märzkampagne](/maerzkampagne)
+${
+  '' /* Juni 2020: [25’000 Mitglieder](https://project-r.construction/newsletter/2020-06-XX-TODO) */
+}   
 
 Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in unserem Unternehmen. Sie können alles nachlesen, im [Archiv der Project-R-Newsletter](https://project-r.construction/news) und in der [Rubrik «An die Verlagsetage](/format/an-die-verlagsetage "An die Verlagsetage")».
 
@@ -505,11 +602,6 @@ Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in
                 defaultBenefactor={defaultBenefactor}
                 questionnaire={questionnaire}
               />
-              {md(mdComponents)`
-
-Sie wollen investieren? Schreiben Sie uns eine Mail an [ir@republik.ch](mailto:ir@republik.ch)
-
-`}
 
               {inNativeIOSApp && (
                 <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>

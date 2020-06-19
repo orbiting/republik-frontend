@@ -356,8 +356,6 @@ const Page = ({
 
           const minMaxValues = []
           const lastBucket = buckets[buckets.length - 1]
-          // ToDo: Remove
-          lastBucket.active = 20895 // fake it for now
           const values = bucketsBefore
             .map(bucket => ({
               month: bucket.key,

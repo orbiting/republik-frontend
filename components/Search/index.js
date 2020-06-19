@@ -93,7 +93,10 @@ export default compose(
     }, [dataAggregations, urlFilter])
 
     return (
-      <Center {...styles.container}>
+      <Center
+        {...styles.container}
+        style={{ padding: reduced ? 0 : 15, marginTop: reduced ? -15 : 0 }}
+      >
         <Form />
         {startState ? (
           <>

@@ -1,26 +1,176 @@
 import React, { useRef } from 'react'
-import { compose } from 'react-apollo'
-
+import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
-import Footer from '../Footer'
-import SignIn from '../../Auth/SignIn'
-import SignOut from '../../Auth/SignOut'
-import { Link, matchPath, Router } from '../../../lib/routes'
-import withT from '../../../lib/withT'
-import withInNativeApp from '../../../lib/withInNativeApp'
-
-import { withMembership } from '../../Auth/checkRoles'
-
+import {
+  colors,
+  fontStyles,
+  mediaQueries,
+  Center,
+  Button,
+  TeaserSectionTitle
+} from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
-import { colors, fontStyles, mediaQueries, Label } from '@project-r/styleguide'
-
+import withT from '../../../lib/withT'
+import withInNativeApp from '../../../lib/withInNativeApp'
+import { matchPath } from '../../../lib/routes'
+import SignIn from '../../Auth/SignIn'
+import SignOut from '../../Auth/SignOut'
+import { withMembership } from '../../Auth/checkRoles'
+import Footer from '../Footer'
 import NavLink, { NavA } from './NavLink'
-import Sections from './Sections'
+import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
+import { notificationsQuery } from '../../Notifications/enhancers'
+import Link from '../../Link/Href'
+import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
+
+const SignoutLink = ({ children, ...props }) => (
+  <div {...styles.signout}>
+    <NavA {...props}>{children}</NavA>
+  </div>
+)
+
+const UserNav = ({
+  me,
+  router,
+  expanded,
+  closeHandler,
+  children,
+  t,
+  inNativeApp,
+  inNativeIOSApp,
+  isMember,
+  data: { notifications }
+}) => {
+  const active = matchPath(router.asPath)
+  const hasExpandedRef = useRef(expanded)
+  if (expanded) {
+    hasExpandedRef.current = true
+  }
+  return (
+    <>
+      <hr {...styles.hr} {...styles.hrFixed} />
+      <Center {...styles.container} id='nav'>
+        {hasExpandedRef.current && (
+          <>
+            {!me && (
+              <>
+                <div {...styles.signInBlock}>
+                  <SignIn style={{ padding: 0 }} />
+                </div>
+              </>
+            )}
+            {!isMember && (
+              <Button
+                style={{ marginTop: 24 }}
+                href='https://www.republik.ch/pledge'
+                black
+                block
+              >
+                {t('nav/becomemember')}
+              </Button>
+            )}
+            {me && (
+              <>
+                <Link
+                  href='/sections'
+                  active={active}
+                  closeHandler={closeHandler}
+                  passHref
+                >
+                  <TeaserSectionTitle small>
+                    {t('pages/notifications/title')}
+                  </TeaserSectionTitle>
+                </Link>
+                <NotificationFeedMini notifications={notifications} me={me} />
+                <br />
+                <Link
+                  href='/sections'
+                  active={active}
+                  closeHandler={closeHandler}
+                  passHref
+                >
+                  <TeaserSectionTitle small>
+                    {`${t('nav/bookmarks')}`}
+                  </TeaserSectionTitle>
+                </Link>
+                <BookmarkMiniFeed style={{ marginTop: 10 }} />
+                <div {...styles.navSection}>
+                  <div {...styles.navLinks}>
+                    <NavLink
+                      route='account'
+                      active={active}
+                      closeHandler={closeHandler}
+                    >
+                      {t('Frame/Popover/myaccount')}
+                    </NavLink>
+                    <NavLink
+                      route='profile'
+                      params={{ slug: me.username || me.id }}
+                      active={active}
+                      closeHandler={closeHandler}
+                    >
+                      {t('Frame/Popover/myprofile')}
+                    </NavLink>
+                  </div>
+                </div>
+                <div {...styles.navSection}>
+                  <div {...styles.navLinks} {...styles.regularLinks}>
+                    {me.accessCampaigns.length > 0 && (
+                      <NavLink
+                        route='access'
+                        active={active}
+                        closeHandler={closeHandler}
+                      >
+                        {t('nav/share')}
+                      </NavLink>
+                    )}
+                    <NavLink
+                      route='pledge'
+                      params={{ group: 'GIVE' }}
+                      active={active}
+                      closeHandler={closeHandler}
+                    >
+                      {t('nav/give')}
+                    </NavLink>
+                    <NavLink
+                      route='legal/imprint'
+                      active={active}
+                      closeHandler={closeHandler}
+                    >
+                      {t('nav/team')}
+                    </NavLink>
+                    <NavLink
+                      {...fontStyles.sansSerifLight16}
+                      route='pledge'
+                      params={{ package: 'DONATE' }}
+                      active={active}
+                      closeHandler={closeHandler}
+                    >
+                      {t('nav/donate')}
+                    </NavLink>
+                  </div>
+                </div>
+                <div {...styles.navSection}>
+                  <div {...styles.navLinks} {...styles.smallLinks}>
+                    <SignOut Link={SignoutLink} />
+                  </div>
+                </div>
+              </>
+            )}
+          </>
+        )}
+        {inNativeApp && hasExpandedRef.current && <Footer />}
+      </Center>
+    </>
+  )
+}
 
 const styles = {
   container: css({
-    minHeight: '100%'
+    [mediaQueries.mUp]: {
+      marginTop: '40px'
+    }
   }),
   hr: css({
     margin: 0,
@@ -39,181 +189,56 @@ const styles = {
     }
   }),
   signInBlock: css({
-    display: 'block',
-    padding: 10,
-    [mediaQueries.mUp]: {
-      display: 'none'
-    }
+    display: 'block'
   }),
-  signInInline: css({
-    display: 'none',
-    [mediaQueries.mUp]: {
-      display: 'block'
-    }
-  }),
-  sections: css({
-    ...fontStyles.sansSerifRegular21,
-    marginBottom: 40,
-    paddingTop: 10,
+  navSection: css({
     display: 'flex',
-    justifyContent: 'space-between',
-    [mediaQueries.mUp]: {
-      fontSize: 28,
-      lineHeight: '42px'
-    }
+    flexDirection: 'column',
+    margin: '24px 0px'
   }),
-  sectionCompact: css({
-    ...fontStyles.sansSerifRegular16,
+  navLinks: css({
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
     [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular21
-    }
-  }),
-  sectionsBlock: css({
-    marginTop: 0,
-    marginBottom: 15,
-    display: 'inline-block',
-    maxWidth: 190,
-    [mediaQueries.mUp]: {
-      maxWidth: 230
-    }
-  }),
-  section: css({
-    padding: '0 10px',
-    [mediaQueries.mUp]: {
-      padding: '0 25px'
+      flexDirection: 'row'
     },
-    '&:first-child': {
+    '& a': {
+      flexShrink: 0,
+      ...fontStyles.sansSerifMedium20,
       [mediaQueries.mUp]: {
-        padding: '0 10px'
+        ...fontStyles.sansSerifMedium22,
+        marginRight: 36
       }
     },
-    '&:last-child': {
-      textAlign: 'right'
+    '& a:not(:last-child)': {
+      marginBottom: 24,
+      [mediaQueries.mUp]: {
+        marginBottom: 0
+      }
     }
   }),
-  signout: css({
-    color: colors.text,
-    marginTop: 5,
-    fontSize: 16,
-    lineHeight: '24px'
+  regularLinks: css({
+    '& a': {
+      ...fontStyles.sansSerifRegular,
+      fontSize: 20,
+      lineHeight: '24px',
+      letterSpacing: 'normal',
+      [mediaQueries.mUp]: {
+        ...fontStyles.sansSerifRegular22
+      }
+    }
+  }),
+  smallLinks: css({
+    '& a': {
+      ...fontStyles.sansSerifRegular18
+    }
   })
 }
 
-const SignoutLink = ({ children, ...props }) => (
-  <div {...styles.signout}>
-    <NavA {...props}>{children}</NavA>
-  </div>
-)
-
-const Nav = ({
-  me,
-  router,
-  expanded,
-  closeHandler,
-  children,
-  t,
-  inNativeApp,
-  inNativeIOSApp,
-  isMember
-}) => {
-  const active = matchPath(router.asPath)
-  const hasExpandedRef = useRef(expanded)
-  if (expanded) {
-    hasExpandedRef.current = true
-  }
-  return (
-    <div {...styles.container} id='nav'>
-      <hr {...styles.hr} {...styles.hrFixed} />
-      {hasExpandedRef.current && (
-        <>
-          {!me && (
-            <div {...styles.signInBlock}>
-              <SignIn />
-            </div>
-          )}
-          <div {...styles.sections}>
-            <div {...styles.section} {...styles.sectionCompact}>
-              {me && (
-                <>
-                  <NavLink
-                    route='account'
-                    active={active}
-                    closeHandler={closeHandler}
-                  >
-                    {t('Frame/Popover/myaccount')}
-                  </NavLink>
-                  <NavLink
-                    route='subscriptions'
-                    active={active}
-                    closeHandler={closeHandler}
-                  >
-                    {t('header/nav/notifications/aria')}
-                  </NavLink>
-                  {(!inNativeIOSApp || isMember) && (
-                    <NavLink
-                      route='profile'
-                      params={{ slug: me.username || me.id }}
-                      active={active}
-                      closeHandler={closeHandler}
-                    >
-                      {t('Frame/Popover/myprofile')}
-                    </NavLink>
-                  )}
-                  {isMember && (
-                    <NavLink
-                      route='bookmarks'
-                      active={active}
-                      closeHandler={closeHandler}
-                    >
-                      {t('nav/bookmarks')}
-                    </NavLink>
-                  )}
-                  {me.accessCampaigns.length > 0 && (
-                    <NavLink
-                      route='access'
-                      active={active}
-                      closeHandler={closeHandler}
-                    >
-                      {t('nav/share')}
-                    </NavLink>
-                  )}
-                </>
-              )}
-              {!inNativeIOSApp && !isMember && (
-                <NavLink
-                  route='pledge'
-                  active={active}
-                  closeHandler={closeHandler}
-                >
-                  {t('nav/offers')}
-                </NavLink>
-              )}
-              {me ? (
-                <SignOut Link={SignoutLink} />
-              ) : (
-                <div {...styles.signInInline}>
-                  <SignIn
-                    beforeForm={
-                      <Label
-                        style={{
-                          display: 'block',
-                          marginTop: 20,
-                          marginBottom: 10
-                        }}
-                      >
-                        {t('me/signedOut')}
-                      </Label>
-                    }
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </>
-      )}
-      {inNativeApp && hasExpandedRef.current && <Footer />}
-    </div>
-  )
-}
-
-export default compose(withT, withInNativeApp, withMembership)(Nav)
+export default compose(
+  withT,
+  graphql(notificationsQuery),
+  withInNativeApp,
+  withMembership
+)(UserNav)

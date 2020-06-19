@@ -1,7 +1,7 @@
 import { css } from 'glamor'
 import React, { useState, useEffect } from 'react'
 import { compose } from 'react-apollo'
-import { colors } from '@project-r/styleguide'
+import { colors, mediaQueries } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 
@@ -21,7 +21,11 @@ const styles = {
       background: 'red',
       position: 'absolute',
       top: 8,
-      right: 8
+      right: 8,
+      [mediaQueries.mUp]: {
+        top: 12,
+        right: 12
+      }
     }
   })
 }

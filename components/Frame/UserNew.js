@@ -5,7 +5,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { MdPersonOutline } from 'react-icons/md'
 import withT from '../../lib/withT'
 
-const BUTTON_SIZE = 40
+const BUTTON_SIZE = 32
 const BUTTON_SIZE_MOBILE = 24
 const BUTTON_PADDING = (HEADER_HEIGHT - BUTTON_SIZE) / 2
 const BUTTON_PADDING_MOBILE = (HEADER_HEIGHT_MOBILE - BUTTON_SIZE_MOBILE) / 2

@@ -64,7 +64,7 @@ const Nav = ({
                 {t('nav/becomemember')}
               </Button>
             )}
-            {me && <Search reduced />}
+            {me && <Search style={{ padding: 0 }} reduced />}
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
                 <NavLink

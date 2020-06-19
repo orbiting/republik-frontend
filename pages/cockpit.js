@@ -399,21 +399,25 @@ const Page = ({
           const lastSeen = lastSeenBucket.users
 
           const engagedUsers = [].concat(
-            data.discussionsStats.evolution.buckets.map(bucket => ({
-              type: 'Dialog',
-              date: bucket.key,
-              value: String(bucket.users)
-            })),
-            data.collectionsStats.progress.buckets.map(bucket => ({
+            data.discussionsStats.evolution.buckets
+              .slice(0, -1)
+              .map(bucket => ({
+                type: 'Dialog',
+                date: bucket.key,
+                value: String(bucket.users)
+              })),
+            data.collectionsStats.progress.buckets.slice(0, -1).map(bucket => ({
               type: 'Lesepositionen',
               date: bucket.key,
               value: String(bucket.users)
             })),
-            data.collectionsStats.bookmarks.buckets.map(bucket => ({
-              type: 'Lesezeichen',
-              date: bucket.key,
-              value: String(bucket.users)
-            }))
+            data.collectionsStats.bookmarks.buckets
+              .slice(0, -1)
+              .map(bucket => ({
+                type: 'Lesezeichen',
+                date: bucket.key,
+                value: String(bucket.users)
+              }))
           )
 
           return (

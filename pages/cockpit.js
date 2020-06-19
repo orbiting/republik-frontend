@@ -510,13 +510,13 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
 
 Mit konstant ${countFormat(
                 numMembersNeeded
-              )} Abonnenten und Mitgliedern haben wir genug Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
+              )} Abonnentinnen und Mitgliedern haben wir genügend Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
 
-Das aktuelle Ausgaben-Budget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/juli19).
+Das aktuelle Ausgabenbudget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/juli19).
 
 ## ${countFormat(lastSeen)} Mitglieder sind monatlich&nbsp;aktiv
 
-Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche die Website oder App in den letzten 30 Tagen benutzt haben.
+Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes Unternehmen braucht es eine aktive und interessierte Verlegerschaft.
 
 `}
 
@@ -535,10 +535,10 @@ Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche di
                 })}
               >
                 <ChartTitle style={{ color: '#fff' }}>
-                  Weitere Indikatoren für Aktivität
+                  Wie beliebt sind Dialog, Lesezeichen und Leseposition?
                 </ChartTitle>
                 <ChartLead style={{ color: '#fff' }}>
-                  Anzahl Mitlieder welche eine Funktion benutzen.
+                  Anzahl Mitglieder, welche pro Monat eine Funktion benutzen.
                 </ChartLead>
                 <Chart
                   config={{
@@ -568,8 +568,8 @@ Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche di
                 />
                 <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
                   Beim Dialog werden Schreibende und Reagierende (Up- und
-                  Downvotes) gezählt. Lesezeichen wurden mitte Januar 2019
-                  eingeführt, Leseposition ende März&nbsp;2019.
+                  Downvotes) gezählt. Lesezeichen wurden Mitte Januar 2019
+                  eingeführt, die Leseposition Ende März&nbsp;2019.
                 </Editorial.Note>
               </div>
 
@@ -584,7 +584,9 @@ Gezählt werden angemeldete Personen mit einer aktiven Mitgliedschaft, welche di
 *   November 2019: [2. Geschäftsbericht](https://cdn.republik.space/s3/republik-assets/assets/can/Republik_Geschaeftsbericht_2018-2019.pdf) 
 *   Dezember 2019: [das alte Cockpit](/cockpit19)
 *   März 2020: [Märzkampagne](/maerzkampagne)
-*   Juni 2020: [25’000 Mitglieder](https://project-r.construction/newsletter/2020-06-XX-TODO)
+${
+  '' /* Juni 2020: [25’000 Mitglieder](https://project-r.construction/newsletter/2020-06-XX-TODO) */
+}   
 
 Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in unserem Unternehmen. Sie können alles nachlesen, im [Archiv der Project-R-Newsletter](https://project-r.construction/news) und in der [Rubrik «An die Verlagsetage](/format/an-die-verlagsetage "An die Verlagsetage")».
 

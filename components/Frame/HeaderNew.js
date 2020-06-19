@@ -321,9 +321,15 @@ const styles = {
     left: 0,
     right: 0,
     height: SUBHEADER_HEIGHT_MOBILE,
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    borderBottom: `1px solid ${colors.divider}`,
+    padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT,
-      height: SUBHEADER_HEIGHT
+      height: SUBHEADER_HEIGHT,
+      padding: `0px ${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
     }
   }),
   popoverBackground: css({

@@ -38,7 +38,8 @@ const ArticleActionBar = (
     userProgress,
     showSubscribe,
     subscription,
-    isDiscussion
+    isDiscussion,
+    wrapped
   },
   { restoreArticleProgress }
 ) => {
@@ -59,9 +60,11 @@ const ArticleActionBar = (
   useEffect(() => {
     setAlive(true)
   }, [])
+  const Wrapper = ({ children }) =>
+    wrapped ? <div>{children}</div> : <Fragment>{children}</Fragment>
 
   return (
-    <Fragment>
+    <Wrapper>
       <ActionBar
         url={url}
         pocket
@@ -115,7 +118,7 @@ const ArticleActionBar = (
           />
         </div>
       )}
-    </Fragment>
+    </Wrapper>
   )
 }
 

@@ -6,7 +6,7 @@ import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
-import SeriesNavButton from './SeriesNavButton'
+import SeriesNavButton from './SeriesNavButtonNew'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
@@ -622,6 +622,18 @@ class ArticlePage extends Component {
           showSubscribe: false
         })
       : undefined
+    const actionBarNavNew = actionBar
+      ? React.cloneElement(actionBar, {
+          animate: false,
+          estimatedReadingMinutes: undefined,
+          estimatedConsumptionMinutes: undefined,
+          onPdfClick: undefined,
+          pdfUrl: undefined,
+          showSubscribe: false,
+          fontSize: false,
+          wrapped: true
+        })
+      : undefined
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
           animate: false,
@@ -732,7 +744,7 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || actionBarNav}
+        secondaryNav={seriesNavButton || actionBarNavNew}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
       >

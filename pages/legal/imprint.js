@@ -5,7 +5,7 @@ import Page from '../../components/Imprint/Page'
 export default () => {
   const meta = {
     title: 'Impressum',
-    description: ''
+    description: 'Die Köpfe hinter der Republik.'
   }
   return (
     <Frame meta={meta}>

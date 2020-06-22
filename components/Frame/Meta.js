@@ -13,7 +13,7 @@ export default ({ data, data: { url, image } }) => {
   const facebookImage =
     data.facebookImage ||
     image ||
-    `${CDN_FRONTEND_BASE_URL}/static/avatar.png?size=599x599`
+    `${CDN_FRONTEND_BASE_URL}/static/avatar599.png?size=599x599`
   const twitterImage = data.twitterImage || image
 
   const fbSizeInfo = facebookImage && imageSizeInfo(facebookImage)

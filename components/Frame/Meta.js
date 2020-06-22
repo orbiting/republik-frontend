@@ -8,12 +8,12 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 export default ({ data, data: { url, image } }) => {
   const title = data.pageTitle || `${data.title} – Republik`
 
-  // to prevent facebook from using a random image from the website we fall back to a square avatar and claim it's below 600px in size to trigger the small image layout
+  // to prevent facebook from using a random image from the website we fall back to a square avatar and claim it's below 315px in size to trigger the small image layout
   // - https://developers.facebook.com/docs/sharing/webmasters/images/?locale=en_US
   const facebookImage =
     data.facebookImage ||
     image ||
-    `${CDN_FRONTEND_BASE_URL}/static/avatar599.png?size=599x599`
+    `${CDN_FRONTEND_BASE_URL}/static/avatar.png?size=300x300`
   const twitterImage = data.twitterImage || image
 
   const fbSizeInfo = facebookImage && imageSizeInfo(facebookImage)

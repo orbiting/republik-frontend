@@ -228,7 +228,7 @@ const Form = props => {
                 }
               />
               <div
-                style={{ marginTop: (narrow && 10) || (minimal && '0') || 40 }}
+                style={{ marginTop: (narrow && 10) || (minimal && '0') || 20 }}
               >
                 <Consents
                   darkMode={darkMode}
@@ -255,7 +255,7 @@ const Form = props => {
           )}
 
           {!signingIn && !minimal && (
-            <div style={{ marginTop: narrow ? 20 : 40 }}>
+            <div style={{ marginTop: narrow ? 20 : 30 }}>
               {loading ? (
                 <InlineSpinner />
               ) : (

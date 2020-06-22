@@ -52,7 +52,12 @@ const getTranslationKeys = (name, { isSignedIn, hasAccess, campaign }) => {
   ].filter(Boolean)
 }
 
-const ALLOWED_CAMPAIGNS = ['covid-19-uhr-newsletter', 'briefings', 'am-gericht']
+const ALLOWED_CAMPAIGNS = [
+  'covid-19-uhr-newsletter',
+  'briefings',
+  'am-gericht',
+  'sommer'
+]
 
 const Page = props => {
   const {
@@ -117,7 +122,7 @@ const Page = props => {
   )
   return (
     <Fragment>
-      <H1 style={{ marginBottom: 20 }}>
+      <H1 style={{ marginBottom: 10 }}>
         {t.first(
           getTranslationKeys('heading', { isSignedIn, hasAccess, campaign })
         )}
@@ -127,7 +132,7 @@ const Page = props => {
         .split('\n\n')
         .filter(Boolean)
         .map((c, i) => (
-          <P key={i} style={{ marginTop: 30, marginBottom: 30 }}>
+          <P key={i} style={{ marginBottom: 20 }}>
             <RawHtml
               dangerouslySetInnerHTML={{
                 __html: c

@@ -19,7 +19,7 @@ import { matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
-import Search from '../../Search'
+import SearchForm from '../../Search/Form'
 import Link from '../../Link/Href'
 import NavLink, { NavA } from './NavLink'
 import Sections from './Sections'
@@ -33,7 +33,8 @@ const Nav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
-  isMember
+  isMember,
+  onClickSearchResults
 }) => {
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
@@ -64,7 +65,13 @@ const Nav = ({
                 {t('nav/becomemember')}
               </Button>
             )}
-            {me && <Search style={{ padding: 0 }} reduced />}
+            {me && (
+              <SearchForm
+                style={{ padding: 0 }}
+                reduced
+                onClickSearchResults={onClickSearchResults}
+              />
+            )}
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
                 <NavLink

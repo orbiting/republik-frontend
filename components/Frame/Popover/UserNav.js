@@ -94,7 +94,9 @@ const UserNav = ({
                     {`${t('nav/bookmarks')}`}
                   </TeaserSectionTitle>
                 </Link>
-                <BookmarkMiniFeed style={{ marginTop: 10 }} />
+                <div {...styles.bookmarkContainer}>
+                  <BookmarkMiniFeed style={{ marginTop: 10 }} />
+                </div>
                 <div {...styles.navSection}>
                   <div {...styles.navLinks}>
                     <NavLink
@@ -190,6 +192,9 @@ const styles = {
   }),
   signInBlock: css({
     display: 'block'
+  }),
+  bookmarkContainer: css({
+    margin: `0 -15px`
   }),
   navSection: css({
     display: 'flex',

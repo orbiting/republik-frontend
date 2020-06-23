@@ -31,7 +31,8 @@ const Form = compose(
     dataAggregations,
     t,
     searchQuery,
-    setSearchQuery
+    setSearchQuery,
+    onClickSearchResults
   }) => {
     const [focusRef, setFocusRef] = useState(null)
     const [formValue, setFormValue] = useState(urlQuery)
@@ -87,6 +88,7 @@ const Form = compose(
             searchQuery={searchQuery}
             dataAggregations={dataAggregations}
             getSearchParams={getSearchParams}
+            onClickSearchResults={onClickSearchResults}
           />
         )}
       </div>

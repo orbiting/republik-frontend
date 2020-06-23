@@ -5,7 +5,7 @@ import { colors, mediaQueries } from '@project-r/styleguide'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  ZINDEX_HEADER
+  ZINDEX_POPOVER
 } from '../constants'
 
 const HLine = ({ formatColor, dark }) => {
@@ -45,7 +45,7 @@ const styles = {
     display: 'block',
     border: 0,
     width: '100%',
-    zIndex: ZINDEX_HEADER
+    zIndex: ZINDEX_POPOVER + 2
   }),
   hrThin: css({
     height: 1,

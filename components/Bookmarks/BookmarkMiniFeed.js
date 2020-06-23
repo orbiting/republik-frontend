@@ -86,6 +86,9 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
+    ':first-child': {
+      marginLeft: 15
+    },
     [mediaQueries.mUp]: {
       padding: '12px 8px',
       height: 120,

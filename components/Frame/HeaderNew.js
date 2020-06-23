@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useRef, useEffect } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
@@ -20,6 +20,7 @@ import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
 import HLine from './HLine'
 import ToggleNew from './ToggleNew'
+import SecondaryNav from './SecondaryNav'
 
 import {
   HEADER_HEIGHT,
@@ -27,6 +28,7 @@ import {
   SUBHEADER_HEIGHT,
   SUBHEADER_HEIGHT_MOBILE,
   ZINDEX_HEADER,
+  ZINDEX_POPOVER,
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
@@ -81,6 +83,14 @@ const HeaderNew = ({
 }) => {
   const [expanded, setExpanded] = useState(false)
   const [expandedNav, setExpandedNav] = useState(null)
+  const [isMobile, setIsMobile] = useState()
+  const [headerHeightState, setHeaderHeightState] = useState()
+
+  const fixedRef = useRef()
+  const diff = useRef(0)
+  const lastY = useRef()
+  const headerHeight = useRef()
+  const lastDiff = useRef()
 
   const textFill = dark ? colors.negative.text : colors.text
   const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
@@ -99,6 +109,7 @@ const HeaderNew = ({
   }
 
   const closeHandler = () => {
+    console.log('closehander')
     if (expanded) {
       setExpanded(false)
       setExpandedNav(null)
@@ -118,93 +129,133 @@ const HeaderNew = ({
     }
   }
 
+  const onScroll = () => {
+    const y = Math.max(window.pageYOffset, 0)
+
+    if (expanded) {
+      diff.current = 0
+    } else {
+      const newDiff = lastY.current ? lastY.current - y : 0
+      diff.current += newDiff
+      diff.current = Math.min(Math.max(-headerHeight.current, diff.current), 0)
+    }
+
+    if (diff.current !== lastDiff.current) {
+      fixedRef.current.style.top = `${diff.current}px`
+    }
+
+    lastY.current = y
+    lastDiff.current = diff.current
+  }
+
+  const measure = () => {
+    const mobile = window.innerWidth < mediaQueries.mBreakPoint
+    if (mobile !== isMobile) {
+      setIsMobile(mobile)
+    }
+    const { height } = fixedRef.current.getBoundingClientRect()
+    headerHeight.current = height
+    if (height !== headerHeightState) {
+      setHeaderHeightState(height)
+    }
+    onScroll()
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll)
+    window.addEventListener('resize', measure)
+    measure()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', measure)
+    }
+  }, [])
+
   return (
     <ColorContext.Provider value={dark && !expanded ? colors.negative : colors}>
       <div
         {...styles.navBar}
         style={{ backgroundColor: dark ? colors.negative.primaryBg : '#fff' }}
-        ref={inNativeIOSApp ? forceRefRedraw : undefined}
+        ref={fixedRef}
       >
-        <div {...styles.navBarItem}>
-          <div {...styles.leftBarItem}>
-            {backButton && (
-              <a
-                {...styles.back}
-                style={{
-                  opacity: 1,
-                  pointerEvents: backButton ? undefined : 'none',
-                  href: '#back'
-                }}
-                title={t('header/back')}
-                onClick={e => {
-                  e.preventDefault()
-                  if (backButton) {
-                    routeChangeStarted = false
-                    window.history.back()
-                    setTimeout(() => {
-                      if (!routeChangeStarted) {
-                        Router.replaceRoute('index').then(() =>
-                          window.scrollTo(0, 0)
-                        )
-                      }
-                    }, 200)
-                  }
-                }}
-              >
-                <BackIcon size={24} fill={textFill} />
-              </a>
-            )}
-            <UserNew
-              dark={dark}
-              me={me}
-              backButton={backButton}
-              id='user'
-              title={t(
-                `header/nav/${expandedNav === 'user' ? 'close' : 'open'}/aria`
+        <div {...styles.primary}>
+          <div {...styles.navBarItem}>
+            <div {...styles.leftBarItem}>
+              {backButton && (
+                <a
+                  {...styles.back}
+                  style={{
+                    opacity: 1,
+                    pointerEvents: backButton ? undefined : 'none',
+                    href: '#back'
+                  }}
+                  title={t('header/back')}
+                  onClick={e => {
+                    e.preventDefault()
+                    if (backButton) {
+                      routeChangeStarted = false
+                      window.history.back()
+                      setTimeout(() => {
+                        if (!routeChangeStarted) {
+                          Router.replaceRoute('index').then(() =>
+                            window.scrollTo(0, 0)
+                          )
+                        }
+                      }, 200)
+                    }
+                  }}
+                >
+                  <BackIcon size={24} fill={textFill} />
+                </a>
               )}
-              onClick={e => toggleExpanded(e.currentTarget)}
-            />
-            {me && <NotificationIconNew fill={textFill} />}
+              <UserNew
+                dark={dark}
+                me={me}
+                backButton={backButton}
+                id='user'
+                title={t(
+                  `header/nav/${expandedNav === 'user' ? 'close' : 'open'}/aria`
+                )}
+                onClick={e => toggleExpanded(e.currentTarget)}
+              />
+              {me && <NotificationIconNew fill={textFill} />}
+            </div>
+          </div>
+          <div {...styles.navBarItem}>
+            <a
+              {...styles.logo}
+              aria-label={t('header/logo/magazine/aria')}
+              href={'/'}
+              onClick={goTo('/', 'index')}
+            >
+              <Logo fill={logoFill} />
+            </a>
+          </div>
+          <div {...styles.navBarItem}>
+            <div {...styles.rightBarItem}>
+              <ToggleNew
+                expanded={expandedNav === 'main'}
+                dark={dark}
+                size={26}
+                id='main'
+                title={t(
+                  `header/nav/${expandedNav === 'main' ? 'close' : 'open'}/aria`
+                )}
+                onClick={e => toggleExpanded(e.currentTarget)}
+              />
+            </div>
           </div>
         </div>
-        <div {...styles.navBarItem}>
-          <a
-            {...styles.logo}
-            aria-label={t('header/logo/magazine/aria')}
-            href={'/'}
-            onClick={goTo('/', 'index')}
-          >
-            <Logo fill={logoFill} />
-          </a>
-        </div>
-        <div {...styles.navBarItem}>
-          <div {...styles.rightBarItem}>
-            <ToggleNew
-              expanded={expandedNav === 'main'}
-              dark={dark}
-              size={26}
-              id='main'
-              title={t(
-                `header/nav/${expandedNav === 'main' ? 'close' : 'open'}/aria`
-              )}
-              onClick={e => toggleExpanded(e.currentTarget)}
-            />
-          </div>
-        </div>
+        <HLine formatColor={formatColor} dark={dark} />
+        <SecondaryNav
+          secondaryNav={secondaryNav}
+          isFront={isFront(router)}
+          router={router}
+          dark={dark}
+          showSecondary={showSecondary}
+        />
       </div>
-      <HLine formatColor={formatColor} dark={dark} />
-      <div>
-        {secondaryNav && (
-          <div
-            {...styles.secondaryNav}
-            style={{
-              backgroundColor: dark ? colors.negative.primaryBg : '#fff'
-            }}
-          >
-            {showSecondary && secondaryNav}
-          </div>
-        )}
-      </div>
+
       <div
         {...styles.popoverBackground}
         style={{
@@ -219,6 +270,7 @@ const HeaderNew = ({
           router={router}
           expanded={expandedNav === 'main'}
           closeHandler={closeHandler}
+          onClickSearchResults={closeHandler}
         />
       </Popover>
       <Popover expanded={expandedNav === 'user'}>
@@ -262,9 +314,9 @@ export default compose(
 const styles = {
   navBar: css({
     height: HEADER_HEIGHT_MOBILE,
-    zIndex: ZINDEX_HEADER,
+    zIndex: ZINDEX_POPOVER + 1,
     display: 'flex',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     position: 'fixed',
     top: 0,
     left: 0,
@@ -275,6 +327,10 @@ const styles = {
     '@media print': {
       position: 'absolute'
     }
+  }),
+  primary: css({
+    display: 'flex',
+    justifyContent: 'space-between'
   }),
   navBarItem: css({
     flex: 1,
@@ -312,24 +368,6 @@ const styles = {
     [mediaQueries.mUp]: {
       padding: LOGO_PADDING,
       width: LOGO_WIDTH + LOGO_PADDING * 2
-    }
-  }),
-  secondaryNav: css({
-    position: 'fixed',
-    zIndex: ZINDEX_HEADER,
-    top: HEADER_HEIGHT_MOBILE,
-    left: 0,
-    right: 0,
-    height: SUBHEADER_HEIGHT_MOBILE,
-    display: 'flex',
-    flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
-    borderBottom: `1px solid ${colors.divider}`,
-    padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
-      height: SUBHEADER_HEIGHT,
-      padding: `0px ${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
     }
   }),
   popoverBackground: css({

@@ -16,15 +16,15 @@ const ToggleNew = ({ dark, size, expanded, ...props }) => {
     <div {...styles.menuToggle} {...props}>
       <SearchMenuIcon
         style={{
-          opacity: expanded ? 0 : 1
+          opacity: expanded ? 0 : 1,
+          transition: `opacity ${TRANSITION_MS}ms ease-out`
         }}
-        {...styles.transition}
         dark={dark}
         size={size}
       />
       <MdClose
-        style={{ position: 'absolute', right: 4, opacity: expanded ? 1 : 0 }}
-        {...styles.transition}
+        style={{ opacity: expanded ? 1 : 0 }}
+        {...styles.closeButton}
         size={size}
         fill={dark ? colors.negative.text : colors.text}
       />
@@ -45,8 +45,13 @@ const styles = {
       padding: `${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
     }
   }),
-  transition: css({
-    transition: `opacity ${TRANSITION_MS}ms ease-out`
+  closeButton: css({
+    position: 'absolute',
+    right: 4,
+    transition: `opacity ${TRANSITION_MS}ms ease-out`,
+    [mediaQueries.mUp]: {
+      right: 16
+    }
   })
 }
 

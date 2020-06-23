@@ -29,7 +29,14 @@ const ResultCount = compose(withT)(
               params={getSearchParams({ q: searchQuery })}
               passHref
             >
-              <a {...linkRule} onClick={() => onClickSearchResults}>
+              <a
+                {...linkRule}
+                onClick={() => {
+                  if (onClickSearchResults) {
+                    onClickSearchResults()
+                  }
+                }}
+              >
                 {results}
               </a>
             </Link>

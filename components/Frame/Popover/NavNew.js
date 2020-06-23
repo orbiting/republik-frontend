@@ -34,14 +34,13 @@ const Nav = ({
   inNativeApp,
   inNativeIOSApp,
   isMember,
-  onClickSearchResults
+  onSearchSubmit
 }) => {
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
   if (expanded) {
     hasExpandedRef.current = true
   }
-  // console.log(styles.sansSerifMedium20)
   return (
     <>
       <hr {...styles.hr} {...styles.hrFixed} />
@@ -69,7 +68,7 @@ const Nav = ({
               <SearchForm
                 style={{ padding: 0 }}
                 reduced
-                onClickSearchResults={onClickSearchResults}
+                onSearchSubmit={onSearchSubmit}
               />
             )}
             <div {...styles.navSection}>

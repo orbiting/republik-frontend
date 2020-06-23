@@ -104,7 +104,13 @@ const styles = {
     '& a': {
       display: 'block',
       fontSize: 14,
-      margin: '0 16px'
+      margin: '0 16px',
+      ':last-child': {
+        paddingRight: 16,
+        [mediaQueries.mUp]: {
+          paddingRight: 0
+        }
+      }
     }
   }),
   navContainer: css({

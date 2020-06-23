@@ -109,7 +109,6 @@ const HeaderNew = ({
   }
 
   const closeHandler = () => {
-    console.log('closehander')
     if (expanded) {
       setExpanded(false)
       setExpandedNav(null)
@@ -270,7 +269,7 @@ const HeaderNew = ({
           router={router}
           expanded={expandedNav === 'main'}
           closeHandler={closeHandler}
-          onClickSearchResults={closeHandler}
+          onSearchSubmit={closeHandler}
         />
       </Popover>
       <Popover expanded={expandedNav === 'user'}>

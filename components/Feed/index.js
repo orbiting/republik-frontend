@@ -142,8 +142,4 @@ class Feed extends Component {
   }
 }
 
-export default compose(
-  graphql(query),
-  withT,
-  withInNativeApp
-)(Feed)
+export default compose(graphql(query), withT, withInNativeApp)(Feed)

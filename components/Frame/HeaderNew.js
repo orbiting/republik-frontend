@@ -1,8 +1,14 @@
-import React, { Fragment, useState, useRef, useEffect } from 'react'
+import React, { useMemo, useState, useRef, useEffect } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
-import { Logo, colors, mediaQueries, ColorContext } from '@project-r/styleguide'
+import {
+  Logo,
+  colors,
+  mediaQueries,
+  ColorContext,
+  HeaderHeightProvider
+} from '@project-r/styleguide'
 
 import { Router, matchPath } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
@@ -32,7 +38,8 @@ import {
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE
+  LOGO_PADDING_MOBILE,
+  HEADER_HEIGHT_CONFIG
 } from '../constants'
 
 // Workaround for WKWebView fixed 0 rendering hickup
@@ -79,12 +86,14 @@ const HeaderNew = ({
   showSecondary,
   router,
   formatColor,
-  pullable = true
+  pullable = true,
+  children
 }) => {
   const [expanded, setExpanded] = useState(false)
   const [expandedNav, setExpandedNav] = useState(null)
   const [isMobile, setIsMobile] = useState()
   const [headerHeightState, setHeaderHeightState] = useState()
+  const [headerOffset, setHeaderOffset] = useState(0)
 
   const fixedRef = useRef()
   const diff = useRef(0)
@@ -141,6 +150,7 @@ const HeaderNew = ({
 
     if (diff.current !== lastDiff.current) {
       fixedRef.current.style.top = `${diff.current}px`
+      setHeaderOffset(diff.current)
     }
 
     lastY.current = y
@@ -170,136 +180,162 @@ const HeaderNew = ({
     }
   }, [])
 
-  return (
-    <ColorContext.Provider value={dark && !expanded ? colors.negative : colors}>
-      <div
-        {...styles.navBar}
-        style={{ backgroundColor: dark ? colors.negative.primaryBg : '#fff' }}
-        ref={fixedRef}
-      >
-        <div {...styles.primary}>
-          <div {...styles.navBarItem}>
-            <div {...styles.leftBarItem}>
-              {backButton && (
-                <a
-                  {...styles.back}
-                  style={{
-                    opacity: 1,
-                    pointerEvents: backButton ? undefined : 'none',
-                    href: '#back'
-                  }}
-                  title={t('header/back')}
-                  onClick={e => {
-                    e.preventDefault()
-                    if (backButton) {
-                      routeChangeStarted = false
-                      window.history.back()
-                      setTimeout(() => {
-                        if (!routeChangeStarted) {
-                          Router.replaceRoute('index').then(() =>
-                            window.scrollTo(0, 0)
-                          )
-                        }
-                      }, 200)
-                    }
-                  }}
-                >
-                  <BackIcon size={24} fill={textFill} />
-                </a>
-              )}
-              <UserNew
-                dark={dark}
-                me={me}
-                backButton={backButton}
-                id='user'
-                title={t(
-                  `header/nav/${expandedNav === 'user' ? 'close' : 'open'}/aria`
-                )}
-                onClick={e => toggleExpanded(e.currentTarget)}
-              />
-              {me && <NotificationIconNew fill={textFill} />}
-            </div>
-          </div>
-          <div {...styles.navBarItem}>
-            <a
-              {...styles.logo}
-              aria-label={t('header/logo/magazine/aria')}
-              href={'/'}
-              onClick={goTo('/', 'index')}
-            >
-              <Logo fill={logoFill} />
-            </a>
-          </div>
-          <div {...styles.navBarItem}>
-            <div {...styles.rightBarItem}>
-              <ToggleNew
-                expanded={expandedNav === 'main'}
-                dark={dark}
-                size={26}
-                id='main'
-                title={t(
-                  `header/nav/${expandedNav === 'main' ? 'close' : 'open'}/aria`
-                )}
-                onClick={e => toggleExpanded(e.currentTarget)}
-              />
-            </div>
-          </div>
-        </div>
-        <HLine formatColor={formatColor} dark={dark} />
-        <SecondaryNav
-          secondaryNav={secondaryNav}
-          isFront={isFront(router)}
-          router={router}
-          dark={dark}
-          showSecondary={showSecondary}
-        />
-      </div>
+  const headerConfig = useMemo(() => {
+    return [
+      {
+        minWidth: 0,
+        headerHeight:
+          HEADER_HEIGHT_MOBILE +
+          (showSecondary ? SUBHEADER_HEIGHT : 0) +
+          headerOffset
+      },
+      {
+        minWidth: mediaQueries.mBreakPoint,
+        headerHeight:
+          HEADER_HEIGHT + (showSecondary ? SUBHEADER_HEIGHT : 0) + headerOffset
+      }
+    ]
+  }, [secondaryNav, headerOffset])
 
-      <div
-        {...styles.popoverBackground}
-        style={{
-          visibility: expandedNav !== null ? 'visible' : 'hidden',
-          opacity: expandedNav !== null ? 1 : 0,
-          transition: 'opacity 0.2s ease-in-out, visibility 0s linear 0.2s'
-        }}
-      />
-      <Popover expanded={expandedNav === 'main'}>
-        <NavPopover
-          me={me}
-          router={router}
-          expanded={expandedNav === 'main'}
-          closeHandler={closeHandler}
-          onSearchSubmit={closeHandler}
-        />
-      </Popover>
-      <Popover expanded={expandedNav === 'user'}>
-        <UserNavPopover
-          me={me}
-          router={router}
-          expanded={expandedNav === 'user'}
-          closeHandler={closeHandler}
-        />
-      </Popover>
-      <LoadingBar
-        onRouteChangeStart={() => {
-          routeChangeStarted = true
-        }}
-      />
-      {inNativeApp && pullable && (
-        <Pullable
-          dark={dark}
-          onRefresh={() => {
-            if (inNativeIOSApp) {
-              postMessage({ type: 'haptic', payload: { type: 'impact' } })
-            }
-            // give the browser 3 frames (1000/30fps) to start animating the spinner
-            setTimeout(() => {
-              window.location.reload(true)
-            }, 33 * 3)
+  return (
+    <HeaderHeightProvider config={headerConfig}>
+      <ColorContext.Provider
+        value={dark && !expanded ? colors.negative : colors}
+      >
+        <div
+          {...styles.navBar}
+          style={{ backgroundColor: dark ? colors.negative.primaryBg : '#fff' }}
+          ref={fixedRef}
+        >
+          <div {...styles.primary}>
+            <div {...styles.navBarItem}>
+              <div {...styles.leftBarItem}>
+                {backButton && (
+                  <a
+                    {...styles.back}
+                    style={{
+                      opacity: 1,
+                      pointerEvents: backButton ? undefined : 'none',
+                      href: '#back'
+                    }}
+                    title={t('header/back')}
+                    onClick={e => {
+                      e.preventDefault()
+                      if (backButton) {
+                        routeChangeStarted = false
+                        window.history.back()
+                        setTimeout(() => {
+                          if (!routeChangeStarted) {
+                            Router.replaceRoute('index').then(() =>
+                              window.scrollTo(0, 0)
+                            )
+                          }
+                        }, 200)
+                      }
+                    }}
+                  >
+                    <BackIcon size={24} fill={textFill} />
+                  </a>
+                )}
+                <UserNew
+                  dark={dark}
+                  me={me}
+                  backButton={backButton}
+                  id='user'
+                  title={t(
+                    `header/nav/${
+                      expandedNav === 'user' ? 'close' : 'open'
+                    }/aria`
+                  )}
+                  onClick={e => toggleExpanded(e.currentTarget)}
+                />
+                {me && <NotificationIconNew fill={textFill} />}
+              </div>
+            </div>
+            <div {...styles.navBarItem}>
+              <a
+                {...styles.logo}
+                aria-label={t('header/logo/magazine/aria')}
+                href={'/'}
+                onClick={goTo('/', 'index')}
+              >
+                <Logo fill={logoFill} />
+              </a>
+            </div>
+            <div {...styles.navBarItem}>
+              <div {...styles.rightBarItem}>
+                <ToggleNew
+                  expanded={expandedNav === 'main'}
+                  dark={dark}
+                  size={26}
+                  id='main'
+                  title={t(
+                    `header/nav/${
+                      expandedNav === 'main' ? 'close' : 'open'
+                    }/aria`
+                  )}
+                  onClick={e => toggleExpanded(e.currentTarget)}
+                />
+              </div>
+            </div>
+          </div>
+          <HLine formatColor={formatColor} dark={dark} />
+          <SecondaryNav
+            secondaryNav={secondaryNav}
+            isFront={isFront(router)}
+            router={router}
+            dark={dark}
+            showSecondary={showSecondary}
+          />
+        </div>
+
+        <div
+          {...styles.popoverBackground}
+          style={{
+            visibility: expandedNav !== null ? 'visible' : 'hidden',
+            opacity: expandedNav !== null ? 1 : 0,
+            transition: 'opacity 0.2s ease-in-out, visibility 0s linear 0.2s'
           }}
         />
-      )}
-    </ColorContext.Provider>
+        <Popover expanded={expandedNav === 'main'}>
+          <NavPopover
+            me={me}
+            router={router}
+            expanded={expandedNav === 'main'}
+            closeHandler={closeHandler}
+            onSearchSubmit={closeHandler}
+          />
+        </Popover>
+        <Popover expanded={expandedNav === 'user'}>
+          <UserNavPopover
+            me={me}
+            router={router}
+            expanded={expandedNav === 'user'}
+            closeHandler={closeHandler}
+          />
+        </Popover>
+        <LoadingBar
+          onRouteChangeStart={() => {
+            routeChangeStarted = true
+          }}
+        />
+        {inNativeApp && pullable && (
+          <Pullable
+            dark={dark}
+            onRefresh={() => {
+              if (inNativeIOSApp) {
+                postMessage({ type: 'haptic', payload: { type: 'impact' } })
+              }
+              // give the browser 3 frames (1000/30fps) to start animating the spinner
+              setTimeout(() => {
+                window.location.reload(true)
+              }, 33 * 3)
+            }}
+          />
+        )}
+      </ColorContext.Provider>
+      {children}
+    </HeaderHeightProvider>
   )
 }
 

@@ -105,6 +105,9 @@ const styles = {
       display: 'block',
       fontSize: 14,
       margin: '0 16px',
+      ':active': {
+        fontWeight: 'bold'
+      },
       ':last-child': {
         paddingRight: 16,
         [mediaQueries.mUp]: {

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { MdClose } from 'react-icons/md'
-import { Field, mediaQueries, useDebounce, usePrevious } from '@project-r/styleguide'
+import {
+  Field,
+  mediaQueries,
+  useDebounce,
+  usePrevious
+} from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'

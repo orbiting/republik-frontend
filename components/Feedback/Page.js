@@ -85,7 +85,12 @@ const FeedbackPage = props => {
       }
 
   return (
-    <Frame raw meta={pageMeta} formatColor={colors.primary}>
+    <Frame
+      hasOverviewNav={true}
+      raw
+      meta={pageMeta}
+      formatColor={colors.primary}
+    >
       <FontSizeSync />
       <Center {...styles.container}>
         {!tab && (

@@ -45,7 +45,6 @@ const SectionNav = ({
             {sections &&
               sections.nodes.map(({ id, meta }, i) => {
                 const match = matchPath(meta.path)
-                console.log(match)
                 if (!match) {
                   return null
                 }

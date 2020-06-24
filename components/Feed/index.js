@@ -108,7 +108,7 @@ class Feed extends Component {
     const mapNodes = node => node.entity
 
     return (
-      <Frame raw meta={meta}>
+      <Frame hasOverviewNav={true} raw meta={meta}>
         <Center {...styles.container}>
           <Loader
             error={error}

@@ -739,10 +739,7 @@ class ArticlePage extends Component {
         { MissingNode }
       )
 
-    const hasOverviewNav =
-      (meta && meta.template === 'section') ||
-      (meta && meta.template === 'discussion')
-
+    const hasOverviewNav = meta && meta.template === 'section'
     return (
       <Frame
         dark={darkMode}

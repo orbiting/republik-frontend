@@ -27,7 +27,6 @@ export const SecondaryNav = ({
   t
 }) => {
   const active = matchPath(router.asPath)
-  console.log(active)
   return (
     <>
       {isFront || hasOverviewNav ? (
@@ -45,7 +44,7 @@ export const SecondaryNav = ({
               {t('navbar/feed')}
             </NavLink>
             <NavLink
-              route='discussion'
+              route='dialog'
               active={active}
               hoverColor={colors.primary}
               minifeed={true}

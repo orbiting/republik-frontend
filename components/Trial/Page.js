@@ -108,12 +108,21 @@ const Page = props => {
     )
   }
 
-  const content = t.first(
+  const intro = t.first(
     getTranslationKeys('intro', { isSignedIn, hasAccess, campaign }),
     {
       email: me && me.email,
       until: until && dayFormat(new Date(until))
-    }
+    },
+    ''
+  )
+  const further = t.first(
+    getTranslationKeys('further', { isSignedIn, hasAccess, campaign }),
+    {
+      email: me && me.email,
+      until: until && dayFormat(new Date(until))
+    },
+    ''
   )
   const image = t.first(
     getTranslationKeys('image', { isSignedIn, hasAccess, campaign }),
@@ -128,7 +137,7 @@ const Page = props => {
         )}
       </H1>
       {!!image && <img {...styles.image} src={image} />}
-      {content
+      {intro
         .split('\n\n')
         .filter(Boolean)
         .map((c, i) => (
@@ -141,10 +150,31 @@ const Page = props => {
           </P>
         ))}
       <Form
+        key={`${accessCampaignId}-a`}
         initialEmail={initialEmail}
         accessCampaignId={accessCampaignId}
         campaign={campaign}
       />
+      {further
+        .split('\n\n')
+        .filter(Boolean)
+        .map((c, i) => (
+          <P key={i} style={{ marginTop: 40, marginBottom: 20 }}>
+            <RawHtml
+              dangerouslySetInnerHTML={{
+                __html: c
+              }}
+            />
+          </P>
+        ))}
+      {further && (
+        <Form
+          key={`${accessCampaignId}-b`}
+          initialEmail={initialEmail}
+          accessCampaignId={accessCampaignId}
+          campaign={campaign}
+        />
+      )}
     </Fragment>
   )
 }

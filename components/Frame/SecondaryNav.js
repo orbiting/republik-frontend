@@ -44,7 +44,7 @@ export const SecondaryNav = ({
               {t('navbar/feed')}
             </NavLink>
             <NavLink
-              route='dialog'
+              route='discussion'
               active={active}
               hoverColor={colors.primary}
               minifeed={true}

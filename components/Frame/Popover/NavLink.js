@@ -68,7 +68,10 @@ const NavLink = ({
   prefetch = false,
   minifeed
 }) => {
-  const activeStyle = minifeed && fontStyles.sansSerifMedium14
+  const activeStyle = minifeed && {
+    ...fontStyles.sansSerifMedium14,
+    marginTop: -1
+  }
   if (
     active &&
     active.route === route &&

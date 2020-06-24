@@ -7,12 +7,7 @@ import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import Loader from '../Loader'
 
-import {
-  mediaQueries,
-  Center,
-  Interaction,
-  useHeaderHeight
-} from '@project-r/styleguide'
+import { mediaQueries, Center, Interaction } from '@project-r/styleguide'
 import DocumentList from './DocumentList'
 import { makeLoadMore, documentFragment } from './DocumentListContainer'
 
@@ -69,56 +64,48 @@ const greetingSubscription = gql`
 
 const Feed = ({
   meta,
-  data,
-  data: { error, loading, greeting, documents: connection, fetchMore }
+  data: {
+    error,
+    loading,
+    greeting,
+    documents: connection,
+    fetchMore,
+    subscribeToMore
+  }
 }) => {
   const mapNodes = node => node.entity
-  const [headerHeight] = useHeaderHeight()
-  console.log('feed' + headerHeight)
-  let unsubscribe = null
-
-  const subscribe = () => {
-    if (!unsubscribe && greeting) {
-      unsubscribe = data.subscribeToMore({
-        document: greetingSubscription,
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) {
-            return prev
-          }
-          const { greeting } = subscriptionData.data.greeting
-          if (greeting) {
-            return {
-              ...prev,
-              greeting: {
-                ...greeting
-              }
-            }
-          } else {
-            return prev
-          }
-        }
-      })
-    }
-  }
 
   useEffect(() => {
-    subscribe()
-    return () => {
-      unsubscribe && unsubscribe()
+    if (!subscribeToMore) {
+      return
     }
-  })
+    let unsubscribe = subscribeToMore({
+      document: greetingSubscription,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev
+        }
+        const { greeting } = subscriptionData.data.greeting
+        if (greeting) {
+          return {
+            ...prev,
+            greeting: {
+              ...greeting
+            }
+          }
+        } else {
+          return prev
+        }
+      }
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [subscribeToMore])
 
   return (
     <Frame hasOverviewNav={true} raw meta={meta}>
-      <Center
-        {...css({
-          paddingTop: headerHeight + 15,
-          paddingBottom: 120,
-          [mediaQueries.mUp]: {
-            paddingTop: headerHeight + 40
-          }
-        })}
-      >
+      <Center {...styles.container}>
         <Loader
           error={error}
           loading={loading}

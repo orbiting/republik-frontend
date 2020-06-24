@@ -1,18 +1,22 @@
 import React, { Component, useEffect, useState, useRef } from 'react'
+import { compose } from 'react-apollo'
+
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
+  SUBHEADER_HEIGHT,
   ZINDEX_FEED_STICKY_SECTION_LABEL
 } from '../constants'
 import { css } from 'glamor'
 import { mediaQueries, colors, useHeaderHeight } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
+import { withTester } from '../Auth/checkRoles'
 
 const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
 const STICKY_HEADER_HEIGHT = 27
 
-const StickySection = ({ children, label, hasSpaceAfter }) => {
+const StickySection = ({ children, label, hasSpaceAfter, isTester }) => {
   const [sticky, setSticky] = useState(false)
   const [isMedium, setIsMedium] = useState(false)
   const [width, setWidth] = useState(0)
@@ -55,6 +59,10 @@ const StickySection = ({ children, label, hasSpaceAfter }) => {
     }
   }, [])
 
+  const stickyTopPosition = isTester
+    ? headerHeight + SUBHEADER_HEIGHT
+    : headerHeight
+
   return (
     <section ref={sectionRef}>
       <div {...style.header}>
@@ -62,7 +70,8 @@ const StickySection = ({ children, label, hasSpaceAfter }) => {
           {...style.label}
           {...(sticky ? style.sticky : undefined)}
           style={{
-            top: sticky ? headerHeight : undefined,
+            borderTop: sticky ? 'none' : '1px solid #000',
+            top: sticky ? stickyTopPosition : undefined,
             position: sticky ? 'fixed' : 'relative',
             width: isMedium ? width : width ? SIDEBAR_WIDTH : '100%'
           }}
@@ -98,11 +107,11 @@ const style = {
     zIndex: ZINDEX_FEED_STICKY_SECTION_LABEL
   }),
   sticky: css({
-    top: HEADER_HEIGHT_MOBILE - 1,
+    // top: HEADER_HEIGHT_MOBILE - 1,
     borderBottom: `0.5px solid ${colors.divider}`,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT - 1
-    },
+    // [mediaQueries.mUp]: {
+    //   top: HEADER_HEIGHT - 1
+    // },
     [mediaQueries.lUp]: {
       borderBottom: 'none'
     }
@@ -118,4 +127,4 @@ StickySection.defaultProps = {
   hasSpaceAfter: true
 }
 
-export default StickySection
+export default compose(withTester)(StickySection)

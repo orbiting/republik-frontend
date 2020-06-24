@@ -198,8 +198,6 @@ const HeaderNew = ({
     ]
   }, [secondaryNav, headerOffset])
 
-  console.log(headerConfig)
-
   return (
     <HeaderHeightProvider config={headerConfig}>
       <ColorContext.Provider

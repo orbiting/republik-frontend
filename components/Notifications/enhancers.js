@@ -14,7 +14,12 @@ export const subInfo = gql`
   fragment subInfo on Subscription {
     id
     active
+    filters
     object {
+      ... on User {
+        id
+        email
+      }
       ... on Document {
         id
         meta {
@@ -127,6 +132,20 @@ export const possibleSubscriptions = gql`
               ...subInfo
             }
           }
+        }
+      }
+    }
+  }
+  ${subInfo}
+`
+
+export const userSubscriptions = gql`
+  query getUserSubscriptions {
+    myUserSubscriptions: me {
+      id
+      subscribedTo(objectType: User) {
+        nodes {
+          ...subInfo
         }
       }
     }

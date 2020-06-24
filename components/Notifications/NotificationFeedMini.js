@@ -96,6 +96,6 @@ const styles = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    [mediaQueries.mUp]: fontStyles.sansSerifMedium16
+    [mediaQueries.mUp]: fontStyles.sansSerifRegular16
   })
 }

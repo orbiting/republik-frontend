@@ -164,7 +164,7 @@ const HeaderNew = ({
       setIsMobile(mobile)
     }
     const { height } = fixedRef.current.getBoundingClientRect()
-    headerHeight.current = height
+    headerHeight.current = showSecondary ? height + SUBHEADER_HEIGHT : height
     if (height !== headerHeightState) {
       setHeaderHeightState(height)
     }
@@ -179,7 +179,7 @@ const HeaderNew = ({
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', measure)
     }
-  }, [])
+  }, [showSecondary])
 
   const headerConfig = useMemo(() => {
     return [

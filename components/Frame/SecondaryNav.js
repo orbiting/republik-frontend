@@ -55,14 +55,17 @@ export const SecondaryNav = ({
           </div>
         </div>
       ) : (
+        // !!showSecondary &&
         secondaryNav && (
           <div
             {...styles.secondaryNav}
             style={{
+              opacity: showSecondary ? 1 : 0,
+              transition: 'opacity 0.2s ease-out 0.2s',
               backgroundColor: dark ? colors.negative.primaryBg : '#fff'
             }}
           >
-            {showSecondary && secondaryNav}
+            {secondaryNav}
           </div>
         )
       )}

@@ -37,7 +37,7 @@ const User = ({ t, me, title, dark, backButton, ...props }) => {
           color,
           paddingLeft: backButton
             ? BUTTON_PADDING_MOBILE / 2
-            : BUTTON_PADDING_MOBILE, 
+            : BUTTON_PADDING_MOBILE
         }}
         role='button'
         title={title}

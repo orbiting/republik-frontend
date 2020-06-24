@@ -87,6 +87,7 @@ const HeaderNew = ({
   router,
   formatColor,
   pullable = true,
+  hasOverviewNav,
   children
 }) => {
   const [expanded, setExpanded] = useState(false)
@@ -286,6 +287,7 @@ const HeaderNew = ({
             router={router}
             dark={dark}
             showSecondary={showSecondary}
+            hasOverviewNav={hasOverviewNav}
           />
         </div>
 
@@ -350,8 +352,6 @@ const styles = {
   navBar: css({
     height: HEADER_HEIGHT_MOBILE,
     zIndex: ZINDEX_POPOVER + 1,
-    display: 'flex',
-    flexDirection: 'column',
     position: 'fixed',
     top: 0,
     left: 0,

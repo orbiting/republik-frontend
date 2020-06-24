@@ -1,16 +1,79 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState, useRef } from 'react'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
   ZINDEX_FEED_STICKY_SECTION_LABEL
 } from '../constants'
 import { css } from 'glamor'
-import { mediaQueries, colors } from '@project-r/styleguide'
+import { mediaQueries, colors, useHeaderHeight } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
 
 const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
 const STICKY_HEADER_HEIGHT = 27
+
+const StickySection = ({ children, label, hasSpaceAfter }) => {
+  const [sticky, setSticky] = useState(false)
+  const [isMedium, setIsMedium] = useState(false)
+  const [width, setWidth] = useState(0)
+  const [height, setHeight] = useState(0)
+
+  const sectionRef = useRef(null)
+
+  const [headerHeight] = useHeaderHeight()
+
+  const onScroll = () => {
+    if (sectionRef.current) {
+      const y = window.pageYOffset + headerHeight
+      const offset = sectionRef.current.offsetTop
+      const nextSticky =
+        y > offset && // scroll pos is below top of section
+        offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y // scroll pos is above bottom
+      if (sticky !== nextSticky) {
+        setSticky(nextSticky)
+      }
+    }
+  }
+
+  const measure = () => {
+    const isMedium = window.innerWidth < mediaQueries.lBreakPoint
+    if (sectionRef.current) {
+      const { width, height } = sectionRef.current.getBoundingClientRect()
+      setWidth(width)
+      setHeight(height)
+      setIsMedium(isMedium)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll)
+    window.addEventListener('resize', measure)
+    measure()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', measure)
+    }
+  }, [])
+
+  return (
+    <section ref={sectionRef}>
+      <div {...style.header}>
+        <div
+          {...style.label}
+          {...(sticky ? style.sticky : undefined)}
+          style={{
+            top: sticky ? headerHeight : undefined,
+            position: sticky ? 'fixed' : 'relative',
+            width: isMedium ? width : width ? SIDEBAR_WIDTH : '100%'
+          }}
+        >
+          {label}
+        </div>
+      </div>
+      {children}
+    </section>
+  )
+}
 
 const style = {
   header: css({
@@ -44,85 +107,6 @@ const style = {
       borderBottom: 'none'
     }
   })
-}
-
-class StickySection extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      sticky: false,
-      isMedium: false,
-      isSmall: false,
-      width: 0,
-      height: 0
-    }
-    this.sectionRef = null
-    this.setSectionRef = el => {
-      this.sectionRef = el
-    }
-
-    this.onScroll = () => {
-      if (this.sectionRef) {
-        const { sticky, isSmall, height } = this.state
-        const { hasSpaceAfter } = this.props
-
-        const headerHeight = isSmall ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-
-        const y = window.pageYOffset + headerHeight
-
-        const offset = this.sectionRef.offsetTop
-        const nextSticky =
-          y > offset && // scroll pos is below top of section
-          offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y // scroll pos is above bottom
-        if (sticky !== nextSticky) {
-          this.setState({ sticky: nextSticky })
-        }
-      }
-    }
-
-    this.measure = () => {
-      const isMedium = window.innerWidth < mediaQueries.lBreakPoint
-      const isSmall = window.innerWidth < mediaQueries.mBreakPoint
-      if (this.sectionRef) {
-        const { width, height } = this.sectionRef.getBoundingClientRect()
-        this.setState({ width, height, isMedium, isSmall })
-      }
-    }
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.onScroll)
-    window.addEventListener('resize', this.measure)
-    this.measure()
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.measure)
-  }
-
-  render() {
-    const { children, label } = this.props
-    const { sticky, width, isMedium } = this.state
-
-    return (
-      <section ref={this.setSectionRef}>
-        <div {...style.header}>
-          <div
-            {...style.label}
-            {...(sticky ? style.sticky : undefined)}
-            style={{
-              position: sticky ? 'fixed' : 'relative',
-              width: isMedium ? width : width ? SIDEBAR_WIDTH : '100%'
-            }}
-          >
-            {label}
-          </div>
-        </div>
-        {children}
-      </section>
-    )
-  }
 }
 
 StickySection.propTypes = {

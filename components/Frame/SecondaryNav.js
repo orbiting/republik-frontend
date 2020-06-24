@@ -23,13 +23,14 @@ export const SecondaryNav = ({
   isFront,
   showSecondary,
   router,
+  hasOverviewNav,
   t
 }) => {
   const active = matchPath(router.asPath)
 
   return (
     <>
-      {isFront ? (
+      {isFront || hasOverviewNav ? (
         <div
           {...styles.miniNav}
           style={{

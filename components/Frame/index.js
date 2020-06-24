@@ -95,7 +95,8 @@ const Index = ({
   footer = true,
   pullable,
   dark,
-  isTester
+  isTester,
+  hasOverviewNav
 }) => {
   const MyHeader = isTester ? HeaderNew : Header
   return (
@@ -125,6 +126,7 @@ const Index = ({
             showSecondary={showSecondary}
             formatColor={formatColor}
             pullable={pullable}
+            hasOverviewNav={hasOverviewNav}
           >
             <noscript>
               <Box style={{ padding: 30 }}>

@@ -80,7 +80,11 @@ import gql from 'graphql-tag'
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
-import { notificationInfo, subInfo, withMarkAsReadMutation } from '../Notifications/enhancers'
+import {
+  notificationInfo,
+  subInfo,
+  withMarkAsReadMutation
+} from '../Notifications/enhancers'
 /* eslint-enable */
 
 const schemaCreators = {
@@ -735,6 +739,9 @@ class ArticlePage extends Component {
         { MissingNode }
       )
 
+    const hasOverviewNav =
+      (meta && meta.template === 'section') || meta.template === 'discussion'
+
     return (
       <Frame
         dark={darkMode}
@@ -747,6 +754,7 @@ class ArticlePage extends Component {
         secondaryNav={seriesNavButton || actionBarNavNew}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
+        hasOverviewNav={hasOverviewNav}
       >
         <Loader
           loading={data.loading}

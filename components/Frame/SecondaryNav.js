@@ -27,7 +27,7 @@ export const SecondaryNav = ({
   t
 }) => {
   const active = matchPath(router.asPath)
-
+  console.log(active)
   return (
     <>
       {isFront || hasOverviewNav ? (
@@ -38,20 +38,21 @@ export const SecondaryNav = ({
           }}
         >
           <div {...styles.navContainer}>
-            <NavLink route='index' active={active}>
+            <NavLink route='index' active={active} minifeed={true}>
               {t('navbar/front')}
             </NavLink>
-            <NavLink prefetch route='feed' active={active}>
+            <NavLink prefetch route='feed' active={active} minifeed={true}>
               {t('navbar/feed')}
             </NavLink>
             <NavLink
               route='discussion'
               active={active}
               hoverColor={colors.primary}
+              minifeed={true}
             >
               {t('navbar/discussion')}
             </NavLink>
-            <Sections />
+            <Sections active={active} minifeed={true} />
           </div>
         </div>
       ) : (

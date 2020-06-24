@@ -113,7 +113,11 @@ const Nav = ({
                 </Link>
               </div>
               <div {...styles.sectionLinks}>
-                <Sections vertical />
+                <Sections
+                  active={active}
+                  vertical
+                  closeHandler={closeHandler}
+                />
               </div>
             </div>
             <hr {...styles.hr} />

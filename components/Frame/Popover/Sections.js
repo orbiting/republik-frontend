@@ -30,7 +30,8 @@ const getSectionNav = gql`
 const SectionNav = ({
   data: { loading, error, sections },
   active,
-  closeHandler
+  closeHandler,
+  minifeed
 }) => {
   return (
     <Loader
@@ -44,6 +45,7 @@ const SectionNav = ({
             {sections &&
               sections.nodes.map(({ id, meta }, i) => {
                 const match = matchPath(meta.path)
+                console.log(match)
                 if (!match) {
                   return null
                 }
@@ -58,6 +60,7 @@ const SectionNav = ({
                       closeHandler={closeHandler}
                       hoverColor={color}
                       inline
+                      minifeed={minifeed}
                     >
                       {meta.title}
                     </NavLink>

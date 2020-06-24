@@ -740,7 +740,8 @@ class ArticlePage extends Component {
       )
 
     const hasOverviewNav =
-      (meta && meta.template === 'section') || meta.template === 'discussion'
+      (meta && meta.template === 'section') ||
+      (meta && meta.template === 'discussion')
 
     return (
       <Frame

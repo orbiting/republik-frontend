@@ -6,7 +6,7 @@ import { routes, Link, Router } from '../../../lib/routes'
 
 import { shouldIgnoreClick } from '../../Link/utils'
 
-import { colors } from '@project-r/styleguide'
+import { colors, fontStyles } from '@project-r/styleguide'
 
 const styles = {
   link: css({
@@ -65,14 +65,20 @@ const NavLink = ({
   style,
   inline,
   hoverColor,
-  prefetch = false
+  prefetch = false,
+  minifeed
 }) => {
-  if (active && active.route === route) {
+  const activeStyle = minifeed && fontStyles.sansSerifMedium14
+  if (
+    active &&
+    active.route === route &&
+    Object.keys(params).every(key => params[key] === active.params[key])
+  ) {
     const r = routes.find(r => r.name === route)
     return (
       <NavA
         inline={inline}
-        style={style}
+        style={(style, { ...activeStyle })}
         hoverColor={hoverColor}
         href={r && r.getAs(params)}
         onClick={e => {
@@ -82,7 +88,7 @@ const NavLink = ({
           e.preventDefault()
           Router.pushRoute(route, params).then(() => {
             window.scroll(0, 0)
-            closeHandler()
+            !minifeed && closeHandler()
           })
         }}
       >

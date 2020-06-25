@@ -30,6 +30,7 @@ const StickySection = ({ children, label, hasSpaceAfter, isTester }) => {
     if (sectionRef.current) {
       const y = window.pageYOffset + headerHeight
       const offset = sectionRef.current.offsetTop
+      console.log(offset)
       const nextSticky =
         y > offset && // scroll pos is below top of section
         offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y // scroll pos is above bottom

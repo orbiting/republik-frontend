@@ -290,15 +290,6 @@ const HeaderNew = ({
             hasOverviewNav={hasOverviewNav}
           />
         </div>
-
-        <div
-          {...styles.popoverBackground}
-          style={{
-            visibility: expandedNav !== null ? 'visible' : 'hidden',
-            opacity: expandedNav !== null ? 1 : 0,
-            transition: 'opacity 0.2s ease-in-out, visibility 0s linear 0.2s'
-          }}
-        />
         <Popover expanded={expandedNav === 'main'}>
           <NavPopover
             me={me}
@@ -404,13 +395,5 @@ const styles = {
       padding: LOGO_PADDING,
       width: LOGO_WIDTH + LOGO_PADDING * 2
     }
-  }),
-  popoverBackground: css({
-    position: 'fixed',
-    zIndex: 2,
-    left: 0,
-    right: 0,
-    backgroundColor: '#fff',
-    minHeight: '100%'
   })
 }

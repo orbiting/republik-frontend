@@ -1,22 +1,22 @@
 import React from 'react'
-
-import withT from '../../lib/withT'
-
-import photoswipeStyle from './photoswipeStyle'
-
-import { Spinner } from '@project-r/styleguide'
-
+import { compose } from 'react-apollo'
+import { css } from 'glamor'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUIDefault from 'photoswipe/dist/photoswipe-ui-default'
-
 import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
+import { Spinner, useHeaderHeight } from '@project-r/styleguide'
+
+import withT from '../../lib/withT'
+import { withTester } from '../Auth/checkRoles'
+import photoswipeStyle from './photoswipeStyle'
 
 const removeQuery = (url = '') => url.split('?')[0]
 
 const MAX_SPREAD_ZOOM = 2
 
-const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
+const Gallery = ({ items, onClose, startItemSrc, children, t, isTester }) => {
   const galleryRef = React.useRef(null)
+  const [headerHeight] = useHeaderHeight()
 
   React.useEffect(() => {
     if (galleryRef) {
@@ -85,7 +85,11 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
         className='pswp'
         tabIndex='-1'
         role='dialog'
-        style={{ background: '#000' }}
+        style={{
+          background: '#000',
+          top: isTester && headerHeight,
+          height: isTester && `calc(100vh - ${headerHeight}px)`
+        }}
       >
         <div className='pswp__bg' />
         <div className='pswp__scroll-wrap'>
@@ -125,4 +129,4 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
   )
 }
 
-export default withT(Gallery)
+export default compose(withTester, withT)(Gallery)

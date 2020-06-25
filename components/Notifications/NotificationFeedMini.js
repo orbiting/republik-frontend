@@ -2,18 +2,15 @@ import React from 'react'
 import {
   colors,
   Interaction,
-  Center,
   RawHtml,
   linkRule,
   mediaQueries,
   Label,
   fontStyles
 } from '@project-r/styleguide'
-import StickySection from '../Feed/StickySection'
 import { timeFormat } from '../../lib/utils/format'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
-import DocumentNotification from './DocumentNotification'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 

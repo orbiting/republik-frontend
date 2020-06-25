@@ -30,7 +30,6 @@ const StickySection = ({ children, label, hasSpaceAfter, isTester }) => {
     if (sectionRef.current) {
       const y = window.pageYOffset + headerHeight
       const offset = sectionRef.current.offsetTop
-      console.log(offset)
       const nextSticky =
         y > offset && // scroll pos is below top of section
         offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y // scroll pos is above bottom
@@ -108,11 +107,7 @@ const style = {
     zIndex: ZINDEX_FEED_STICKY_SECTION_LABEL
   }),
   sticky: css({
-    // top: HEADER_HEIGHT_MOBILE - 1,
     borderBottom: `0.5px solid ${colors.divider}`,
-    // [mediaQueries.mUp]: {
-    //   top: HEADER_HEIGHT - 1
-    // },
     [mediaQueries.lUp]: {
       borderBottom: 'none'
     }

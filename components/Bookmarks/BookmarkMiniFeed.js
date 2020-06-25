@@ -3,11 +3,11 @@ import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import { colors, fontStyles, mediaQueries, Loader } from '@project-r/styleguide'
 
-import ReadingTime from '../ActionBar/ReadingTime'
 import Bookmark from '../ActionBar/Bookmark'
 import UserProgress from '../ActionBar/UserProgress'
 import withT from '../../lib/withT'
 import { withMembership } from '../Auth/checkRoles'
+import Link from '../Link/Path'
 
 import { getBookmarkedDocuments } from './queries'
 
@@ -22,20 +22,23 @@ const BookmarkMiniFeed = ({ t, data, ...props }) => {
           <div {...styles.tilesContainer} {...props}>
             {nodes.slice(0, 8).map(node => {
               const { userProgress, userBookmark } = node.document
+              console.log(node.document)
               const {
                 estimatedReadingMinutes,
-                description
+                description,
+                path
               } = node.document.meta
               return (
-                <div
-                  {...styles.tile}
-                  key={node.id}
-                  onClick={() => console.log('click on first tile')}
-                >
-                  <div {...styles.tileHeadline}>
-                    {description.substring(0, 50)}
-                    {description.length >= 50 ? '...' : ''}
-                  </div>
+                <div {...styles.tile} key={node.id}>
+                  <Link path={path} passHref>
+                    <div
+                      {...styles.tileHeadline}
+                      onClick={() => console.log('click on first tile')}
+                    >
+                      {description.substring(0, 50)}
+                      {description.length >= 50 ? '...' : ''}
+                    </div>
+                  </Link>
                   <div {...styles.iconContainer}>
                     <Bookmark bookmarked={!!userBookmark} />
                     {userProgress && estimatedReadingMinutes > 1 && (
@@ -96,6 +99,7 @@ const styles = {
     }
   }),
   tileHeadline: css({
+    cursor: 'pointer',
     textAlign: 'center',
     ...fontStyles.serifBold17,
     lineHeight: '18px',

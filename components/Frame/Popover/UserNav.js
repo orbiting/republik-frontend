@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import {
@@ -42,6 +42,24 @@ const UserNav = ({
   isMember,
   data: { notifications }
 }) => {
+  const [containerPadding, setContainerPadding] = useState()
+  const containerRef = useRef(null)
+  useEffect(() => {
+    const measureLeftPadding = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.clientWidth
+        const windowWidth = window.innerWidth
+        console.log((windowWidth - containerWidth) / 2)
+        setContainerPadding((windowWidth - containerWidth) / 2)
+      }
+    }
+    window.addEventListener('resize', measureLeftPadding)
+    measureLeftPadding()
+    return () => {
+      window.removeEventListener('resize', measureLeftPadding)
+    }
+  }, [])
+
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
   if (expanded) {
@@ -51,118 +69,125 @@ const UserNav = ({
     <>
       <hr {...styles.hr} {...styles.hrFixed} />
       <Center {...styles.container} id='nav'>
-        {hasExpandedRef.current && (
-          <>
-            {!me && (
-              <>
-                <div {...styles.signInBlock}>
-                  <SignIn style={{ padding: 0 }} />
-                </div>
-              </>
-            )}
-            {!isMember && (
-              <Button
-                style={{ marginTop: 24 }}
-                href='https://www.republik.ch/pledge'
-                black
-                block
-              >
-                {t('nav/becomemember')}
-              </Button>
-            )}
-            {me && (
-              <>
-                <Link
-                  href='/benachrichtigungen'
-                  active={active}
-                  closeHandler={closeHandler}
-                  passHref
-                >
-                  <TeaserSectionTitle small>
-                    {t('pages/notifications/title')}
-                  </TeaserSectionTitle>
-                </Link>
-                <NotificationFeedMini notifications={notifications} me={me} />
-                <br />
-                <Link
-                  href='/sections'
-                  active={active}
-                  closeHandler={closeHandler}
-                  passHref
-                >
-                  <TeaserSectionTitle small>
-                    {`${t('nav/bookmarks')}`}
-                  </TeaserSectionTitle>
-                </Link>
-                <div {...styles.bookmarkContainer}>
-                  <BookmarkMiniFeed style={{ marginTop: 10 }} />
-                </div>
-                <div {...styles.navSection}>
-                  <div {...styles.navLinks}>
-                    <NavLink
-                      route='account'
-                      active={active}
-                      closeHandler={closeHandler}
-                    >
-                      {t('Frame/Popover/myaccount')}
-                    </NavLink>
-                    <NavLink
-                      route='profile'
-                      params={{ slug: me.username || me.id }}
-                      active={active}
-                      closeHandler={closeHandler}
-                    >
-                      {t('Frame/Popover/myprofile')}
-                    </NavLink>
+        <div ref={containerRef}>
+          {hasExpandedRef.current && (
+            <>
+              {!me && (
+                <>
+                  <div {...styles.signInBlock}>
+                    <SignIn style={{ padding: 0 }} />
                   </div>
-                </div>
-                <div {...styles.navSection}>
-                  <div {...styles.navLinks} {...styles.regularLinks}>
-                    {me.accessCampaigns.length > 0 && (
+                </>
+              )}
+              {!isMember && (
+                <Button
+                  style={{ marginTop: 24 }}
+                  href='https://www.republik.ch/pledge'
+                  black
+                  block
+                >
+                  {t('nav/becomemember')}
+                </Button>
+              )}
+              {me && (
+                <>
+                  <Link
+                    href='/benachrichtigungen'
+                    active={active}
+                    closeHandler={closeHandler}
+                    passHref
+                  >
+                    <TeaserSectionTitle small>
+                      {t('pages/notifications/title')}
+                    </TeaserSectionTitle>
+                  </Link>
+                  <NotificationFeedMini notifications={notifications} me={me} />
+                  <br />
+                  <Link
+                    href='/sections'
+                    active={active}
+                    closeHandler={closeHandler}
+                    passHref
+                  >
+                    <TeaserSectionTitle small>
+                      {`${t('nav/bookmarks')}`}
+                    </TeaserSectionTitle>
+                  </Link>
+                  <div {...styles.bookmarkContainer}>
+                    <BookmarkMiniFeed
+                      style={{
+                        marginTop: 10,
+                        paddingLeft: containerPadding - 16
+                      }}
+                    />
+                  </div>
+                  <div {...styles.navSection}>
+                    <div {...styles.navLinks}>
                       <NavLink
-                        route='access'
+                        route='account'
                         active={active}
                         closeHandler={closeHandler}
                       >
-                        {t('nav/share')}
+                        {t('Frame/Popover/myaccount')}
                       </NavLink>
-                    )}
-                    <NavLink
-                      route='pledge'
-                      params={{ group: 'GIVE' }}
-                      active={active}
-                      closeHandler={closeHandler}
-                    >
-                      {t('nav/give')}
-                    </NavLink>
-                    <NavLink
-                      route='legal/imprint'
-                      active={active}
-                      closeHandler={closeHandler}
-                    >
-                      {t('nav/team')}
-                    </NavLink>
-                    <NavLink
-                      {...fontStyles.sansSerifLight16}
-                      route='pledge'
-                      params={{ package: 'DONATE' }}
-                      active={active}
-                      closeHandler={closeHandler}
-                    >
-                      {t('nav/donate')}
-                    </NavLink>
+                      <NavLink
+                        route='profile'
+                        params={{ slug: me.username || me.id }}
+                        active={active}
+                        closeHandler={closeHandler}
+                      >
+                        {t('Frame/Popover/myprofile')}
+                      </NavLink>
+                    </div>
                   </div>
-                </div>
-                <div {...styles.navSection}>
-                  <div {...styles.navLinks} {...styles.smallLinks}>
-                    <SignOut Link={SignoutLink} />
+                  <div {...styles.navSection}>
+                    <div {...styles.navLinks} {...styles.regularLinks}>
+                      {me.accessCampaigns.length > 0 && (
+                        <NavLink
+                          route='access'
+                          active={active}
+                          closeHandler={closeHandler}
+                        >
+                          {t('nav/share')}
+                        </NavLink>
+                      )}
+                      <NavLink
+                        route='pledge'
+                        params={{ group: 'GIVE' }}
+                        active={active}
+                        closeHandler={closeHandler}
+                      >
+                        {t('nav/give')}
+                      </NavLink>
+                      <NavLink
+                        route='legal/imprint'
+                        active={active}
+                        closeHandler={closeHandler}
+                      >
+                        {t('nav/team')}
+                      </NavLink>
+                      <NavLink
+                        {...fontStyles.sansSerifLight16}
+                        route='pledge'
+                        params={{ package: 'DONATE' }}
+                        active={active}
+                        closeHandler={closeHandler}
+                      >
+                        {t('nav/donate')}
+                      </NavLink>
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
-          </>
-        )}
-        {inNativeApp && hasExpandedRef.current && <Footer />}
+                  <div {...styles.navSection}>
+                    <div {...styles.navLinks} {...styles.smallLinks}>
+                      <SignOut Link={SignoutLink} />
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
+          {inNativeApp && hasExpandedRef.current && <Footer />}
+        </div>
       </Center>
     </>
   )
@@ -194,7 +219,12 @@ const styles = {
     display: 'block'
   }),
   bookmarkContainer: css({
-    margin: `0 -15px`
+    width: '100vw',
+    position: 'relative',
+    left: '50%',
+    right: '50%',
+    marginLeft: '-50vw',
+    marginRight: '-50vw'
   }),
   navSection: css({
     display: 'flex',

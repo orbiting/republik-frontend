@@ -12,6 +12,7 @@ import { timeFormat } from '../../lib/utils/format'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
 import { Link } from '../../lib/routes'
+import PathLink from '../Link/Path'
 import withT from '../../lib/withT'
 
 const dateFormat = timeFormat('%d.%m')
@@ -47,8 +48,8 @@ export default withT(({ t, notifications, me }) => {
             {values.map((node, j) => {
               const { object } = node
               if (
-                !node.object ||
-                (node.object.__typename === 'Comment' && !node.object.published)
+                !object ||
+                (object.__typename === 'Comment' && !object.published)
               ) {
                 return (
                   <div {...styles.unpublished} key={j}>
@@ -58,9 +59,18 @@ export default withT(({ t, notifications, me }) => {
               }
               return (
                 <div {...styles.notificationItem} key={j}>
-                  <a {...styles.cleanLink} href={node.content.url}>
-                    {dateFormat(new Date(node.createdAt))} {node.content.title}
-                  </a>
+                  {node.readAt && <span {...styles.unreadDot} />}
+
+                  <PathLink
+                    {...styles.cleanLink}
+                    path={object.meta.path}
+                    passHref
+                  >
+                    <>
+                      {dateFormat(new Date(node.createdAt))}{' '}
+                      {node.content.title}
+                    </>
+                  </PathLink>
                 </div>
               )
             })}
@@ -89,10 +99,20 @@ const styles = {
   }),
   notificationItem: css({
     marginTop: 10,
+    display: 'flex',
+    alignItems: 'center',
     ...fontStyles.sansSerifRegular14,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     [mediaQueries.mUp]: fontStyles.sansSerifRegular16
+  }),
+  unreadDot: css({
+    width: 8,
+    height: 8,
+    borderRadius: 8,
+    marginRight: 8,
+    border: `1px solid ${colors.containerBg}`,
+    background: 'red'
   })
 }

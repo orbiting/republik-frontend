@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import { colors, fontStyles, mediaQueries, Loader } from '@project-r/styleguide'
@@ -22,7 +22,6 @@ const BookmarkMiniFeed = ({ t, data, ...props }) => {
           <div {...styles.tilesContainer} {...props}>
             {nodes.slice(0, 8).map(node => {
               const { userProgress, userBookmark } = node.document
-              console.log(node.document)
               const {
                 estimatedReadingMinutes,
                 description,
@@ -90,7 +89,7 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     ':first-child': {
-      marginLeft: 15
+      marginLeft: 16
     },
     [mediaQueries.mUp]: {
       padding: '12px 8px',

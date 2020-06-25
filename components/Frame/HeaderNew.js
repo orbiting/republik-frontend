@@ -32,36 +32,12 @@ import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
   SUBHEADER_HEIGHT,
-  SUBHEADER_HEIGHT_MOBILE,
-  ZINDEX_HEADER,
   ZINDEX_POPOVER,
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE,
-  HEADER_HEIGHT_CONFIG
+  LOGO_PADDING_MOBILE
 } from '../constants'
-
-// Workaround for WKWebView fixed 0 rendering hickup
-// - iOS 11.4: header is transparent and only appears after triggering a render by scrolling down enough
-const forceRefRedraw = ref => {
-  if (ref) {
-    const redraw = () => {
-      const display = ref.style.display
-      // offsetHeight
-      ref.style.display = 'none'
-      /* eslint-disable-next-line no-unused-expressions */
-      ref.offsetHeight // this force webkit to flush styles (render them)
-      ref.style.display = display
-    }
-    const msPerFrame = 1000 / 30 // assuming 30 fps
-    const frames = [1, 10, 20, 30]
-    // force a redraw on frame x after initial dom mount
-    frames.forEach(frame => {
-      setTimeout(redraw, msPerFrame * frame)
-    })
-  }
-}
 
 const isActiveRoute = (active, route, params = {}) =>
   !!active &&

@@ -6,7 +6,7 @@ import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
-import SeriesNavButton from './SeriesNavButton'
+import SeriesNavButton from './SeriesNavButtonNew'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
@@ -80,7 +80,11 @@ import gql from 'graphql-tag'
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
-import { notificationInfo, subInfo, withMarkAsReadMutation } from '../Notifications/enhancers'
+import {
+  notificationInfo,
+  subInfo,
+  withMarkAsReadMutation
+} from '../Notifications/enhancers'
 /* eslint-enable */
 
 const schemaCreators = {
@@ -135,7 +139,9 @@ const getDocument = gql`
       repoId
       content
       subscribedByMe(includeParents: true) {
-        ...subInfo
+        nodes {
+          ...subInfo
+        }
       }
       linkedDocuments {
         nodes {
@@ -607,7 +613,8 @@ class ArticlePage extends Component {
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-        subscription={article.subscribedByMe}
+        // TODO: replace this code
+        subscription={article.subscribedByMe && article.subscribedByMe.nodes[0]}
         showSubscribe
         isDiscussion={meta && meta.template === 'discussion'}
       />
@@ -620,6 +627,18 @@ class ArticlePage extends Component {
           onPdfClick: undefined,
           pdfUrl: undefined,
           showSubscribe: false
+        })
+      : undefined
+    const actionBarNavNew = actionBar
+      ? React.cloneElement(actionBar, {
+          animate: false,
+          estimatedReadingMinutes: undefined,
+          estimatedConsumptionMinutes: undefined,
+          onPdfClick: undefined,
+          pdfUrl: undefined,
+          showSubscribe: false,
+          fontSize: false,
+          wrapped: true
         })
       : undefined
     const actionBarEnd = actionBar
@@ -723,6 +742,7 @@ class ArticlePage extends Component {
         { MissingNode }
       )
 
+    const hasOverviewNav = meta && meta.template === 'section'
     return (
       <Frame
         dark={darkMode}
@@ -732,9 +752,10 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || actionBarNav}
+        secondaryNav={seriesNavButton || actionBarNavNew}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
+        hasOverviewNav={hasOverviewNav}
       >
         <Loader
           loading={data.loading}

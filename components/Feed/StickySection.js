@@ -21,35 +21,41 @@ const StickySection = ({ children, label, hasSpaceAfter, isTester }) => {
   const [isMedium, setIsMedium] = useState(false)
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
-
-  const sectionRef = useRef(null)
-
   const [headerHeight] = useHeaderHeight()
 
-  const onScroll = () => {
-    if (sectionRef.current) {
-      const y = window.pageYOffset + headerHeight
-      const offset = sectionRef.current.offsetTop
-      const nextSticky =
-        y > offset && // scroll pos is below top of section
-        offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y // scroll pos is above bottom
-      if (sticky !== nextSticky) {
-        setSticky(nextSticky)
-      }
-    }
-  }
-
-  const measure = () => {
-    const isMedium = window.innerWidth < mediaQueries.lBreakPoint
-    if (sectionRef.current) {
-      const { width, height } = sectionRef.current.getBoundingClientRect()
-      setWidth(width)
-      setHeight(height)
-      setIsMedium(isMedium)
-    }
+  const sectionRef = useRef(null)
+  const stateRef = useRef()
+  stateRef.current = {
+    sticky,
+    height,
+    headerHeight,
+    hasSpaceAfter
   }
 
   useEffect(() => {
+    const onScroll = () => {
+      if (sectionRef.current) {
+        const { sticky, height, headerHeight, hasSpaceAfter } = stateRef.current
+        const y = window.pageYOffset + headerHeight
+        const offset = sectionRef.current.offsetTop
+        const nextSticky =
+          y > offset && // scroll pos is below top of section
+          offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y // scroll pos is above bottom
+        if (sticky !== nextSticky) {
+          setSticky(nextSticky)
+        }
+      }
+    }
+
+    const measure = () => {
+      const isMedium = window.innerWidth < mediaQueries.lBreakPoint
+      if (sectionRef.current) {
+        const { width, height } = sectionRef.current.getBoundingClientRect()
+        setWidth(width)
+        setHeight(height)
+        setIsMedium(isMedium)
+      }
+    }
     window.addEventListener('scroll', onScroll)
     window.addEventListener('resize', measure)
     measure()

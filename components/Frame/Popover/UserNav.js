@@ -73,7 +73,7 @@ const UserNav = ({
             {me && (
               <>
                 <Link
-                  href='/sections'
+                  href='/benachrichtigungen'
                   active={active}
                   closeHandler={closeHandler}
                   passHref

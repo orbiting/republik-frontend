@@ -266,16 +266,18 @@ const HeaderNew = ({
             <div {...styles.navBarItem}>
               <div {...styles.rightBarItem}>
                 <ToggleNew
-                  expanded={expandedNav === 'main'}
+                  expanded={expanded}
                   dark={dark}
                   size={26}
-                  id='main'
                   title={t(
                     `header/nav/${
                       expandedNav === 'main' ? 'close' : 'open'
                     }/aria`
                   )}
-                  onClick={e => toggleExpanded(e.currentTarget)}
+                  id='main'
+                  onClick={e =>
+                    expanded ? closeHandler() : toggleExpanded(e.currentTarget)
+                  }
                 />
               </div>
             </div>

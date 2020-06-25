@@ -318,7 +318,7 @@ Damit Sie uns vertrauen können, machen wir ein paar Dinge anders. Zum Beispiel 
 
 Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
-Wir bedanken uns an dieser Stelle auch bei unseren 22’000 Mitgliedern und Abonnentinnen, die uns in unserer [Märzkampagne](/maerzkampagne) unterstützt und damit das [Überleben der Republik gesichert haben](/cockpit).
+Wir bedanken uns an dieser Stelle auch bei unseren 25’000 Mitgliedern und Abonnentinnen, die unsere Arbeit möglich machen und das Überleben der Republik sichern.
 
 ## Was ist die Republik?
 

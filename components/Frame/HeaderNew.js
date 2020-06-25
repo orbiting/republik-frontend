@@ -66,11 +66,12 @@ const HeaderNew = ({
   hasOverviewNav,
   children
 }) => {
-  const [expanded, setExpanded] = useState(false)
+  const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
   const [expandedNav, setExpandedNav] = useState(null)
   const [isMobile, setIsMobile] = useState()
   const [headerHeightState, setHeaderHeightState] = useState()
   const [headerOffset, setHeaderOffset] = useState(0)
+  const [userNavExpanded, setUserNavExpanded] = useState(false)
 
   const fixedRef = useRef()
   const diff = useRef(0)
@@ -84,20 +85,21 @@ const HeaderNew = ({
 
   const toggleExpanded = target => {
     if (target.id === expandedNav) {
-      setExpanded(false)
+      setIsAnyNavExpanded(false)
       setExpandedNav(null)
-    } else if (expanded) {
+    } else if (isAnyNavExpanded) {
       setExpandedNav(target.id)
     } else {
-      setExpanded(!expanded)
+      setIsAnyNavExpanded(!isAnyNavExpanded)
       setExpandedNav(target.id)
     }
   }
 
   const closeHandler = () => {
-    if (expanded) {
-      setExpanded(false)
+    if (isAnyNavExpanded) {
+      setIsAnyNavExpanded(false)
       setExpandedNav(null)
+      setUserNavExpanded(false)
     }
   }
 
@@ -117,7 +119,7 @@ const HeaderNew = ({
   const onScroll = () => {
     const y = Math.max(window.pageYOffset, 0)
 
-    if (expanded) {
+    if (isAnyNavExpanded) {
       diff.current = 0
     } else {
       const newDiff = lastY.current ? lastY.current - y : 0
@@ -177,7 +179,7 @@ const HeaderNew = ({
   return (
     <HeaderHeightProvider config={headerConfig}>
       <ColorContext.Provider
-        value={dark && !expanded ? colors.negative : colors}
+        value={dark && !isAnyNavExpanded ? colors.negative : colors}
       >
         <div
           {...styles.navBar}
@@ -224,7 +226,11 @@ const HeaderNew = ({
                       expandedNav === 'user' ? 'close' : 'open'
                     }/aria`
                   )}
-                  onClick={e => toggleExpanded(e.currentTarget)}
+                  onClick={
+                    isAnyNavExpanded
+                      ? () => setUserNavExpanded(true)
+                      : e => toggleExpanded(e.currentTarget)
+                  }
                 />
                 {me && <NotificationIconNew fill={textFill} />}
               </div>
@@ -242,7 +248,7 @@ const HeaderNew = ({
             <div {...styles.navBarItem}>
               <div {...styles.rightBarItem}>
                 <ToggleNew
-                  expanded={expanded}
+                  expanded={isAnyNavExpanded}
                   dark={dark}
                   size={26}
                   title={t(
@@ -252,7 +258,9 @@ const HeaderNew = ({
                   )}
                   id='main'
                   onClick={e =>
-                    expanded ? closeHandler() : toggleExpanded(e.currentTarget)
+                    isAnyNavExpanded
+                      ? closeHandler()
+                      : toggleExpanded(e.currentTarget)
                   }
                 />
               </div>
@@ -277,11 +285,11 @@ const HeaderNew = ({
             onSearchSubmit={closeHandler}
           />
         </Popover>
-        <Popover expanded={expandedNav === 'user'}>
+        <Popover expanded={userNavExpanded || expandedNav === 'user'}>
           <UserNavPopover
             me={me}
             router={router}
-            expanded={expandedNav === 'user'}
+            expanded={userNavExpanded || expandedNav === 'user'}
             closeHandler={closeHandler}
           />
         </Popover>

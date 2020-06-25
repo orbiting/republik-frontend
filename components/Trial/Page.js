@@ -131,7 +131,7 @@ const Page = props => {
   )
   return (
     <Fragment>
-      <H1 style={{ marginBottom: 10 }}>
+      <H1 style={{ marginBottom: 20 }}>
         {t.first(
           getTranslationKeys('heading', { isSignedIn, hasAccess, campaign })
         )}
@@ -150,31 +150,10 @@ const Page = props => {
           </P>
         ))}
       <Form
-        key={`${accessCampaignId}-a`}
         initialEmail={initialEmail}
         accessCampaignId={accessCampaignId}
         campaign={campaign}
       />
-      {further
-        .split('\n\n')
-        .filter(Boolean)
-        .map((c, i) => (
-          <P key={i} style={{ marginTop: 40, marginBottom: 20 }}>
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: c
-              }}
-            />
-          </P>
-        ))}
-      {further && (
-        <Form
-          key={`${accessCampaignId}-b`}
-          initialEmail={initialEmail}
-          accessCampaignId={accessCampaignId}
-          campaign={campaign}
-        />
-      )}
     </Fragment>
   )
 }

@@ -17,7 +17,7 @@ const paddingTop = 3 + 1 // max hr height from header plus a pixel for zoom case
 
 const menuStyle = css({
   position: 'fixed',
-  zIndex: ZINDEX_POPOVER,
+  zIndex: ZINDEX_POPOVER + 3,
   left: 0,
   right: 0,
   fontFamily: fontFamilies.sansSerifRegular,

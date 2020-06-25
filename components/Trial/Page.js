@@ -52,7 +52,12 @@ const getTranslationKeys = (name, { isSignedIn, hasAccess, campaign }) => {
   ].filter(Boolean)
 }
 
-const ALLOWED_CAMPAIGNS = ['covid-19-uhr-newsletter', 'briefings', 'am-gericht']
+const ALLOWED_CAMPAIGNS = [
+  'covid-19-uhr-newsletter',
+  'briefings',
+  'am-gericht',
+  'sommer'
+]
 
 const Page = props => {
   const {
@@ -103,12 +108,21 @@ const Page = props => {
     )
   }
 
-  const content = t.first(
+  const intro = t.first(
     getTranslationKeys('intro', { isSignedIn, hasAccess, campaign }),
     {
       email: me && me.email,
       until: until && dayFormat(new Date(until))
-    }
+    },
+    ''
+  )
+  const further = t.first(
+    getTranslationKeys('further', { isSignedIn, hasAccess, campaign }),
+    {
+      email: me && me.email,
+      until: until && dayFormat(new Date(until))
+    },
+    ''
   )
   const image = t.first(
     getTranslationKeys('image', { isSignedIn, hasAccess, campaign }),
@@ -123,11 +137,11 @@ const Page = props => {
         )}
       </H1>
       {!!image && <img {...styles.image} src={image} />}
-      {content
+      {intro
         .split('\n\n')
         .filter(Boolean)
         .map((c, i) => (
-          <P key={i} style={{ marginTop: 30, marginBottom: 30 }}>
+          <P key={i} style={{ marginBottom: 20 }}>
             <RawHtml
               dangerouslySetInnerHTML={{
                 __html: c

@@ -38,8 +38,6 @@ import SignIn from '../Auth/SignIn'
 import Employees from './Employees'
 import ShareButtons from '../ActionBar/ShareButtons'
 
-import NewsletterSignUp from '../Auth/NewsletterSignUp'
-
 import { buttonStyles, sharedStyles } from './styles'
 
 import ErrorMessage from '../ErrorMessage'
@@ -320,27 +318,7 @@ Damit Sie uns vertrauen können, machen wir ein paar Dinge anders. Zum Beispiel 
 
 Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
-Wir bedanken uns an dieser Stelle auch bei unseren 22’000 Mitgliedern und Abonnentinnen, die uns in unserer [Märzkampagne](/maerzkampagne) unterstützt und damit das [Überleben der Republik gesichert haben](/cockpit).
-
-        `}
-
-        <div
-          style={{
-            backgroundColor: colors.primaryBg,
-            padding: '10px 15px',
-            marginTop: 30
-          }}
-        >
-          <Interaction.H2>Covid-19-Uhr-Newsletter</Interaction.H2>
-          <Interaction.P style={{ margin: '10px 0' }}>
-            Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen
-            für alle. Auch ohne Mitgliedschaft oder Abo.
-          </Interaction.P>
-          <NewsletterSignUp black skipBox free name='COVID19' />
-        </div>
-
-        {md(mdComponents)`
-<br />
+Wir bedanken uns an dieser Stelle auch bei unseren 25’000 Mitgliedern und Abonnentinnen, die unsere Arbeit möglich machen und das Überleben der Republik sichern.
 
 ## Was ist die Republik?
 

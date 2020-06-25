@@ -3,10 +3,17 @@ import Head from 'next/head'
 
 import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
 
+import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+
 export default ({ data, data: { url, image } }) => {
   const title = data.pageTitle || `${data.title} – Republik`
 
-  const facebookImage = data.facebookImage || image
+  // to prevent facebook from using a random image from the website we fall back to a square avatar and claim it's below 315px in size to trigger the small image layout
+  // - https://developers.facebook.com/docs/sharing/webmasters/images/?locale=en_US
+  const facebookImage =
+    data.facebookImage ||
+    image ||
+    `${CDN_FRONTEND_BASE_URL}/static/avatar310.png?size=310x310`
   const twitterImage = data.twitterImage || image
 
   const fbSizeInfo = facebookImage && imageSizeInfo(facebookImage)

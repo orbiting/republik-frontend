@@ -386,7 +386,4 @@ ${meta.url}
   }
 }
 
-export default compose(
-  withRouter,
-  withInNativeApp
-)(EnPage)
+export default compose(withRouter, withInNativeApp)(EnPage)

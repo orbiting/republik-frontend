@@ -284,7 +284,13 @@ const getPayNote = (subject, seed, tryOrBuy, customPayNotes = []) => {
   if (targetedCustomPaynotes.length)
     return getElementFromSeed(targetedCustomPaynotes, seed, MAX_PAYNOTE_SEED)
 
-  const targetedPredefinedNotes = predefinedNotes.filter(meetTarget(subject))
+  const targetedPredefinedNotes = predefinedNotes.filter(
+    meetTarget({
+      ...subject,
+      // tmp: disallow generic trials pending new strategie
+      isEligibleForTrial: false
+    })
+  )
 
   if (!targetedPredefinedNotes.length) return null
 

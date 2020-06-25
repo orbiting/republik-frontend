@@ -1,5 +1,5 @@
 {
-  "updated": "2020-06-17T12:56:34.298Z",
+  "updated": "2020-06-22T14:47:39.540Z",
   "title": "live",
   "data": [
     {
@@ -796,11 +796,11 @@
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/label",
-      "value": "Das tägliche Covid-19-Update"
+      "value": "Covid-19-Updates"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
-      "value": "montags bis freitags um 19 Uhr"
+      "value": "unregelmässig"
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/label",
@@ -6423,10 +6423,6 @@
       "value": "Zum gesamten Angebot"
     },
     {
-      "key": "crowdfunding/status/goal/PERMANENT/people",
-      "value": "Mitglieder und Abonnenten. Langfristiges Ziel: {count}."
-    },
-    {
       "key": "crowdfunding/SurviveStatus/title",
       "value": "Aktueller Stand der Märzkampagne"
     },
@@ -6675,6 +6671,18 @@
       "value": "Vorschau"
     },
     {
+      "key": "crowdfunding/status/lastSeen/other",
+      "value": "{count} monatlich aktiv"
+    },
+    {
+      "key": "crowdfunding/status/lastSeen/label",
+      "value": "Verlegerinnen, die uns innerhalb der letzten 30 Tage besucht haben"
+    },
+    {
+      "key": "crowdfunding/status/goal/PERMANENT/memberships",
+      "value": "Mitgliedschaften und Abos. Selbsttragend ab: {count}."
+    },
+    {
       "key": "Trial/Page/heading",
       "value": "Danke für Ihre Neugier!"
     },
@@ -6717,6 +6725,18 @@
     {
       "key": "Trial/Form/am-gericht/button",
       "value": "Jetzt ausprobieren"
+    },
+    {
+      "key": "Trial/Page/sommer/heading",
+      "value": "Willkommen bei der Republik"
+    },
+    {
+      "key": "Trial/Page/sommer/intro",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen.\n\nDie Republik ist komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.\n\n<b>Erhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
+    },
+    {
+      "key": "Trial/Form/sommer/button",
+      "value": "Jetzt Probe lesen"
     }
   ]
 }

@@ -20,16 +20,16 @@ import {
 export const SecondaryNav = ({
   secondaryNav,
   dark,
-  isFront,
   showSecondary,
   router,
   hasOverviewNav,
   t
 }) => {
   const active = matchPath(router.asPath)
+  console.log(secondaryNav)
   return (
     <>
-      {isFront || hasOverviewNav ? (
+      {hasOverviewNav ? (
         <div
           {...styles.miniNav}
           style={{
@@ -67,13 +67,12 @@ export const SecondaryNav = ({
           </div>
         </div>
       ) : (
-        // !!showSecondary &&
         secondaryNav && (
           <div
             {...styles.secondaryNav}
             style={{
               opacity: showSecondary ? 1 : 0,
-              transition: 'opacity 0.2s ease-out 0.2s',
+              transition: 'opacity 0.2s ease-out',
               backgroundColor: dark ? colors.negative.primaryBg : '#fff'
             }}
           >

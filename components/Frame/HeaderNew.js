@@ -269,7 +269,6 @@ const HeaderNew = ({
           <HLine formatColor={formatColor} dark={dark} />
           <SecondaryNav
             secondaryNav={secondaryNav}
-            isFront={isFront(router)}
             router={router}
             dark={dark}
             showSecondary={showSecondary}

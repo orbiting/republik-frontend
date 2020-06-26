@@ -275,7 +275,7 @@ const HeaderNew = ({
             hasOverviewNav={hasOverviewNav}
           />
         </div>
-        <Popover expanded={expandedNav === 'main'}>
+        <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
           <NavPopover
             me={me}
             router={router}
@@ -284,7 +284,10 @@ const HeaderNew = ({
             onSearchSubmit={closeHandler}
           />
         </Popover>
-        <Popover expanded={userNavExpanded || expandedNav === 'user'}>
+        <Popover
+          formatColor={formatColor}
+          expanded={userNavExpanded || expandedNav === 'user'}
+        >
           <UserNavPopover
             me={me}
             router={router}

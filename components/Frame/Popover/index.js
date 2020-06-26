@@ -13,8 +13,6 @@ import {
   HEADER_HEIGHT_MOBILE
 } from '../../constants'
 
-const paddingTop = 3 + 1 // max hr height from header plus a pixel for zoom cases
-
 const menuStyle = css({
   position: 'fixed',
   zIndex: ZINDEX_POPOVER + 3,
@@ -32,21 +30,27 @@ const menuStyle = css({
     transition: 'opacity 0.2s ease-in-out'
   },
   overflow: 'auto',
-  WebkitOverflowScrolling: 'touch',
-  paddingTop: paddingTop,
-  top: HEADER_HEIGHT_MOBILE - paddingTop,
-  height: `calc(100vh - ${HEADER_HEIGHT_MOBILE - paddingTop}px)`,
-  [mediaQueries.mUp]: {
-    top: HEADER_HEIGHT - paddingTop,
-    height: `calc(100vh - ${HEADER_HEIGHT - paddingTop}px)`
-  }
+  WebkitOverflowScrolling: 'touch'
 })
 
-const Popover = ({ items, expanded, id, children }) => {
+const Popover = ({ items, expanded, id, children, formatColor }) => {
   const [ref] = useBodyScrollLock(expanded)
-
+  const hLineHeight = formatColor ? 3 : 1
   return (
-    <div id={id} aria-expanded={expanded} {...menuStyle} ref={ref}>
+    <div
+      {...css({
+        top: HEADER_HEIGHT_MOBILE + hLineHeight,
+        height: `calc(100vh - ${HEADER_HEIGHT_MOBILE - hLineHeight}px)`,
+        [mediaQueries.mUp]: {
+          top: HEADER_HEIGHT - hLineHeight,
+          height: `calc(100vh - ${HEADER_HEIGHT - hLineHeight}px)`
+        }
+      })}
+      id={id}
+      aria-expanded={expanded}
+      {...menuStyle}
+      ref={ref}
+    >
       {children}
     </div>
   )

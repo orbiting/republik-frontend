@@ -102,6 +102,7 @@ const styles = {
   }),
   tileHeadline: css({
     color: colors.text,
+    textDecoration: 'none',
     cursor: 'pointer',
     textAlign: 'center',
     ...fontStyles.serifBold17,

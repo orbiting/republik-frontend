@@ -9,6 +9,7 @@ import { Spinner, useHeaderHeight } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { withTester } from '../Auth/checkRoles'
 import photoswipeStyle from './photoswipeStyle'
+import { ZINDEX_LOADINGBAR } from '../constants'
 
 const removeQuery = (url = '') => url.split('?')[0]
 
@@ -87,8 +88,7 @@ const Gallery = ({ items, onClose, startItemSrc, children, t, isTester }) => {
         role='dialog'
         style={{
           background: '#000',
-          top: isTester && headerHeight,
-          height: isTester && `calc(100vh - ${headerHeight}px)`
+          zIndex: ZINDEX_LOADINGBAR
         }}
       >
         <div className='pswp__bg' />

@@ -60,8 +60,7 @@ const ArticleActionBar = (
   useEffect(() => {
     setAlive(true)
   }, [])
-  const Wrapper = ({ children }) =>
-    wrapped ? <div>{children}</div> : <Fragment>{children}</Fragment>
+  const Wrapper = wrapped ? 'div' : Fragment
 
   return (
     <Wrapper>

@@ -1,10 +1,9 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import { css } from 'glamor'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUIDefault from 'photoswipe/dist/photoswipe-ui-default'
 import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
-import { Spinner, useHeaderHeight } from '@project-r/styleguide'
+import { Spinner } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { withTester } from '../Auth/checkRoles'
@@ -17,7 +16,6 @@ const MAX_SPREAD_ZOOM = 2
 
 const Gallery = ({ items, onClose, startItemSrc, children, t, isTester }) => {
   const galleryRef = React.useRef(null)
-  const [headerHeight] = useHeaderHeight()
 
   React.useEffect(() => {
     if (galleryRef) {

@@ -9,9 +9,9 @@ import {
 } from '../constants'
 
 const HLine = ({ formatColor, dark }) => {
-  const hrColor = dark ? colors.negative.containerBg : colors.divider
+  const hrColor = dark ? colors.negative.divider : colors.divider
   const hrColorStyle = { color: hrColor, backgroundColor: hrColor }
-
+  console.log(formatColor)
   return (
     <hr
       {...styles.stickyWithFallback}

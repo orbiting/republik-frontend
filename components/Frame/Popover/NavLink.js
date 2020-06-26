@@ -12,9 +12,6 @@ const styles = {
   link: css({
     textDecoration: 'none',
     color: colors.text,
-    ':visited': {
-      color: colors.text
-    },
     '@media (hover)': {
       ':hover': {
         textDecoration: 'underline',
@@ -81,7 +78,7 @@ const NavLink = ({
     return (
       <NavA
         inline={inline}
-        style={(style, { ...activeStyle })}
+        {...css({ ...style, ...activeStyle })}
         hoverColor={hoverColor}
         href={r && r.getAs(params)}
         onClick={e => {

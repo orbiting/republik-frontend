@@ -31,7 +31,8 @@ const SectionNav = ({
   data: { loading, error, sections },
   active,
   closeHandler,
-  minifeed
+  minifeed,
+  dark
 }) => {
   return (
     <Loader
@@ -53,6 +54,9 @@ const SectionNav = ({
                   <Fragment key={id}>
                     {i > 0 && <br />}
                     <NavLink
+                      style={{
+                        color: dark ? colors.negative.text : colors.text
+                      }}
                       route={match.route}
                       params={match.params}
                       active={active}

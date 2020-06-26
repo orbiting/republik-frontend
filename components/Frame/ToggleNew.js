@@ -19,7 +19,7 @@ const ToggleNew = ({ dark, size, expanded, ...props }) => {
           opacity: expanded ? 0 : 1,
           transition: `opacity ${TRANSITION_MS}ms ease-out`
         }}
-        dark={dark}
+        fill={dark ? colors.negative.text : colors.text}
         size={size}
       />
       <MdClose

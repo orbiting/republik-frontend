@@ -37,13 +37,25 @@ export const SecondaryNav = ({
           }}
         >
           <div {...styles.navContainer}>
-            <NavLink route='index' active={active} minifeed={true}>
+            <NavLink
+              style={{ color: dark ? colors.negative.text : colors.text }}
+              route='index'
+              active={active}
+              minifeed={true}
+            >
               {t('navbar/front')}
             </NavLink>
-            <NavLink prefetch route='feed' active={active} minifeed={true}>
+            <NavLink
+              style={{ color: dark ? colors.negative.text : colors.text }}
+              prefetch
+              route='feed'
+              active={active}
+              minifeed={true}
+            >
               {t('navbar/feed')}
             </NavLink>
             <NavLink
+              style={{ color: dark ? colors.negative.text : colors.text }}
               route='discussion'
               active={active}
               hoverColor={colors.primary}
@@ -51,7 +63,7 @@ export const SecondaryNav = ({
             >
               {t('navbar/discussion')}
             </NavLink>
-            <Sections active={active} minifeed={true} />
+            <Sections dark={dark} active={active} minifeed={true} />
           </div>
         </div>
       ) : (

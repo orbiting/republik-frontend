@@ -5,12 +5,13 @@ import SeriesNavPanel from './SeriesNavPanel'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 
 import ActionBar from '../ActionBar'
-import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT, SUBHEADER_HEIGHT, SUBHEADER_HEIGHT_MOBILE} from '../constants'
+
 import {
   mediaQueries,
   fontFamilies,
   colors,
-  useBodyScrollLock
+  useBodyScrollLock,
+  useHeaderHeight
 } from '@project-r/styleguide'
 
 const plainStyle = {
@@ -51,16 +52,10 @@ const styles = {
     },
     display: 'flex',
     boxSizing: 'border-box',
-    top: HEADER_HEIGHT_MOBILE + SUBHEADER_HEIGHT_MOBILE,
     left: 0,
-    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE + SUBHEADER_HEIGHT_MOBILE}px)`,
     width: '100vw',
     flexDirection: 'column',
-    padding: 0,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT + SUBHEADER_HEIGHT,
-      height: `calc(100vh - ${HEADER_HEIGHT + SUBHEADER_HEIGHT}px)`
-    }
+    padding: 0
   }),
   title: css({
     fontSize: 15,
@@ -95,7 +90,7 @@ const SeriesNavButton = ({
   expanded
 }) => {
   const [ref] = useBodyScrollLock(expanded)
-
+  const [headerHeight] = useHeaderHeight()
   return (
     <Fragment>
       <ActionBar
@@ -121,7 +116,15 @@ const SeriesNavButton = ({
           </span>
         </span>
       </button>
-      <div {...styles.menu} aria-expanded={expanded} ref={ref}>
+      <div
+        styles={{
+          top: headerHeight,
+          height: `calc(100vh - ${headerHeight}px)`
+        }}
+        {...styles.menu}
+        aria-expanded={expanded}
+        ref={ref}
+      >
         <SeriesNavPanel t={t} series={series} />
       </div>
     </Fragment>

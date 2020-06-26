@@ -34,6 +34,7 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
+import { withTester } from '../Auth/checkRoles'
 
 import SurviveStatus from '../Crowdfunding/SurviveStatus'
 
@@ -565,7 +566,8 @@ class ArticlePage extends Component {
       inNativeApp,
       payNoteSeed,
       payNoteTryOrBuy,
-      hasActiveMembership
+      hasActiveMembership,
+      isTester
     } = this.props
 
     const {
@@ -617,33 +619,28 @@ class ArticlePage extends Component {
       />
     )
     const actionBarNav = actionBar
-      ? React.cloneElement(actionBar, {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          onPdfClick: undefined,
-          pdfUrl: undefined,
-          showSubscribe: false
-        })
-      : undefined
-    const actionBarNav = actionBar
-      ? React.cloneElement(actionBar, isTester ? {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          onPdfClick: undefined,
-          pdfUrl: undefined,
-          showSubscribe: false,
-          fontSize: false,
-          wrapped: true
-        } : {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          onPdfClick: undefined,
-          pdfUrl: undefined,
-          showSubscribe: false
-        })
+      ? React.cloneElement(
+          actionBar,
+          isTester
+            ? {
+                animate: false,
+                estimatedReadingMinutes: undefined,
+                estimatedConsumptionMinutes: undefined,
+                onPdfClick: undefined,
+                pdfUrl: undefined,
+                showSubscribe: false,
+                fontSize: false,
+                wrapped: true
+              }
+            : {
+                animate: false,
+                estimatedReadingMinutes: undefined,
+                estimatedConsumptionMinutes: undefined,
+                onPdfClick: undefined,
+                pdfUrl: undefined,
+                showSubscribe: false
+              }
+        )
       : undefined
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
@@ -756,7 +753,7 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || actionBarNavNew}
+        secondaryNav={seriesNavButton || actionBarNav}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}
@@ -1015,6 +1012,7 @@ const ComposedPage = compose(
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation,
+  withTester,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

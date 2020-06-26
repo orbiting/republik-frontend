@@ -626,8 +626,8 @@ class ArticlePage extends Component {
           showSubscribe: false
         })
       : undefined
-    const actionBarNavNew = actionBar
-      ? React.cloneElement(actionBar, {
+    const actionBarNav = actionBar
+      ? React.cloneElement(actionBar, isTester ? {
           animate: false,
           estimatedReadingMinutes: undefined,
           estimatedConsumptionMinutes: undefined,
@@ -636,6 +636,13 @@ class ArticlePage extends Component {
           showSubscribe: false,
           fontSize: false,
           wrapped: true
+        } : {
+          animate: false,
+          estimatedReadingMinutes: undefined,
+          estimatedConsumptionMinutes: undefined,
+          onPdfClick: undefined,
+          pdfUrl: undefined,
+          showSubscribe: false
         })
       : undefined
     const actionBarEnd = actionBar

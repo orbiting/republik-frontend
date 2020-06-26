@@ -166,7 +166,7 @@ const Front = ({
   }
 
   return (
-    <Frame hasOverviewNav={true} raw meta={meta}>
+    <Frame hasOverviewNav raw meta={meta}>
       {renderBefore && renderBefore(meta)}
       <Loader
         loading={data.loading}

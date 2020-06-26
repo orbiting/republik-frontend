@@ -76,6 +76,7 @@ export const SecondaryNav = ({
 const styles = {
   secondaryNav: css({
     position: 'absolute',
+    overflowY: 'hidden',
     zIndex: ZINDEX_HEADER,
     top: HEADER_HEIGHT_MOBILE,
     left: 0,
@@ -93,6 +94,7 @@ const styles = {
   }),
   miniNav: css({
     position: 'absolute',
+    overflowY: 'hidden',
     zIndex: ZINDEX_HEADER,
     top: HEADER_HEIGHT_MOBILE,
     height: SUBHEADER_HEIGHT_MOBILE,

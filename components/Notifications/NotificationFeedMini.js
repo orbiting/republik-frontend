@@ -1,4 +1,7 @@
 import React from 'react'
+import { compose, graphql } from 'react-apollo'
+import { nest } from 'd3-collection'
+import { css } from 'glamor'
 import {
   colors,
   Interaction,
@@ -8,9 +11,10 @@ import {
   Label,
   fontStyles
 } from '@project-r/styleguide'
+
+import { notificationsQuery } from '../Notifications/enhancers'
+import Loader from '../Loader'
 import { timeFormat } from '../../lib/utils/format'
-import { nest } from 'd3-collection'
-import { css } from 'glamor'
 import { Link } from '../../lib/routes'
 import PathLink from '../Link/Path'
 import withT from '../../lib/withT'
@@ -21,65 +25,80 @@ const groupByDate = nest().key(n => {
   return dateFormat(new Date(n.createdAt))
 })
 
-export default withT(({ t, notifications, me }) => {
-  const { nodes, totalCount, unreadCount, pageInfo } = notifications
-  const isNew = node => !node.readAt || new Date() < new Date(node.readAt)
-  if (!nodes) return null
+const NotificationFeedMini = ({
+  t,
+  data: { notifications, loading, error }
+}) => {
   return (
-    <>
-      {!nodes.length && (
-        <>
-          <Link route='subscriptionsSettings' passHref>
-            <a {...linkRule}>{t('Notifications/settings')}</a>
-          </Link>
-          <Interaction.P style={{ marginTop: 40 }}>
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: t('Notifications/empty/paragraph')
-              }}
-            />
-          </Interaction.P>
-        </>
-      )}
-
-      {groupByDate.entries(nodes.slice(0, 3)).map(({ key, values }, i, all) => {
+    <Loader
+      loading={loading}
+      error={error}
+      render={() => {
+        const { nodes } = notifications
+        const isNew = node => !node.readAt || new Date() < new Date(node.readAt)
+        if (!nodes) return null
         return (
           <>
-            {values.map((node, j) => {
-              const { object } = node
-              if (
-                !object ||
-                (object.__typename === 'Comment' && !object.published)
-              ) {
-                return (
-                  <div {...styles.unpublished} key={j}>
-                    <Label>{t('Notifications/unpublished/label')}</Label>
-                  </div>
-                )
-              }
-              return (
-                <div {...styles.notificationItem} key={j}>
-                  {node.readAt && <span {...styles.unreadDot} />}
+            {!nodes.length && (
+              <>
+                <Link route='subscriptionsSettings' passHref>
+                  <a {...linkRule}>{t('Notifications/settings')}</a>
+                </Link>
+                <Interaction.P style={{ marginTop: 40 }}>
+                  <RawHtml
+                    dangerouslySetInnerHTML={{
+                      __html: t('Notifications/empty/paragraph')
+                    }}
+                  />
+                </Interaction.P>
+              </>
+            )}
 
-                  <PathLink
-                    {...styles.cleanLink}
-                    path={object.meta.path}
-                    passHref
-                  >
-                    <>
-                      {dateFormat(new Date(node.createdAt))}{' '}
-                      {node.content.title}
-                    </>
-                  </PathLink>
-                </div>
-              )
-            })}
+            {groupByDate
+              .entries(nodes.slice(0, 3))
+              .map(({ key, values }, i, all) => {
+                return (
+                  <>
+                    {values.map((node, j) => {
+                      const { object } = node
+                      if (
+                        !object ||
+                        (object.__typename === 'Comment' && !object.published)
+                      ) {
+                        return (
+                          <div {...styles.unpublished} key={j}>
+                            <Label>
+                              {t('Notifications/unpublished/label')}
+                            </Label>
+                          </div>
+                        )
+                      }
+                      return (
+                        <div {...styles.notificationItem} key={j}>
+                          {isNew(node) && <span {...styles.unreadDot} />}
+
+                          <PathLink
+                            {...styles.cleanLink}
+                            path={object.meta.path}
+                            passHref
+                          >
+                            <>
+                              {dateFormat(new Date(node.createdAt))}{' '}
+                              {node.content.title}
+                            </>
+                          </PathLink>
+                        </div>
+                      )
+                    })}
+                  </>
+                )
+              })}
           </>
         )
-      })}
-    </>
+      }}
+    />
   )
-})
+}
 
 const styles = {
   unpublished: css({
@@ -116,3 +135,5 @@ const styles = {
     background: 'red'
   })
 }
+
+export default compose(withT, graphql(notificationsQuery))(NotificationFeedMini)

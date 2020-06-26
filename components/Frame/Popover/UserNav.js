@@ -20,7 +20,6 @@ import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import NavLink, { NavA } from './NavLink'
 import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
-import { notificationsQuery } from '../../Notifications/enhancers'
 import Link from '../../Link/Href'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
 
@@ -35,12 +34,9 @@ const UserNav = ({
   router,
   expanded,
   closeHandler,
-  children,
   t,
   inNativeApp,
-  inNativeIOSApp,
-  isMember,
-  data: { notifications }
+  isMember
 }) => {
   const [containerPadding, setContainerPadding] = useState()
   const containerRef = useRef(null)
@@ -101,7 +97,7 @@ const UserNav = ({
                       {t('pages/notifications/title')}
                     </TeaserSectionTitle>
                   </Link>
-                  <NotificationFeedMini notifications={notifications} me={me} />
+                  <NotificationFeedMini />
                   <br />
                   <Link
                     href='/sections'
@@ -271,9 +267,4 @@ const styles = {
   })
 }
 
-export default compose(
-  withT,
-  graphql(notificationsQuery),
-  withInNativeApp,
-  withMembership
-)(UserNav)
+export default compose(withT, withInNativeApp, withMembership)(UserNav)

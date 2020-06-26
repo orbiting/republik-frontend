@@ -107,6 +107,7 @@ const styles = {
     },
     '& a': {
       display: 'block',
+      whiteSpace: 'nowrap',
       fontSize: 14,
       margin: '0 16px',
       ':active': {

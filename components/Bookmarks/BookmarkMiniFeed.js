@@ -1,7 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
-import { colors, fontStyles, mediaQueries, Loader } from '@project-r/styleguide'
+import {
+  colors,
+  fontStyles,
+  mediaQueries,
+  Loader,
+  linkRule
+} from '@project-r/styleguide'
 
 import Bookmark from '../ActionBar/Bookmark'
 import UserProgress from '../ActionBar/UserProgress'
@@ -30,13 +36,10 @@ const BookmarkMiniFeed = ({ t, data, ...props }) => {
               return (
                 <div {...styles.tile} key={node.id}>
                   <Link path={path} passHref>
-                    <div
-                      {...styles.tileHeadline}
-                      onClick={() => console.log('click on first tile')}
-                    >
+                    <a {...styles.tileHeadline}>
                       {description.substring(0, 50)}
                       {description.length >= 50 ? '...' : ''}
-                    </div>
+                    </a>
                   </Link>
                   <div {...styles.iconContainer}>
                     <Bookmark bookmarked={!!userBookmark} />
@@ -98,6 +101,7 @@ const styles = {
     }
   }),
   tileHeadline: css({
+    color: colors.text,
     cursor: 'pointer',
     textAlign: 'center',
     ...fontStyles.serifBold17,

@@ -12,7 +12,6 @@ import Sections from '../Frame/Popover/Sections'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  SUBHEADER_HEIGHT,
   SUBHEADER_HEIGHT_MOBILE,
   ZINDEX_HEADER
 } from '../constants'
@@ -87,19 +86,18 @@ export const SecondaryNav = ({
 const styles = {
   secondaryNav: css({
     position: 'absolute',
-    overflowY: 'hidden',
     zIndex: ZINDEX_HEADER,
     top: HEADER_HEIGHT_MOBILE,
     left: 0,
     right: 0,
     height: SUBHEADER_HEIGHT_MOBILE,
     display: 'flex',
-    flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     borderBottom: `1px solid ${colors.divider}`,
     padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT,
+      justifyContent: 'center',
       padding: `0px ${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
     }
   }),

@@ -104,7 +104,7 @@ const Feed = ({
   }, [subscribeToMore])
 
   return (
-    <Frame hasOverviewNav={true} raw meta={meta}>
+    <Frame hasOverviewNav raw meta={meta}>
       <Center {...styles.container}>
         <Loader
           error={error}

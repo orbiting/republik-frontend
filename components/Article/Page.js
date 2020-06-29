@@ -753,8 +753,8 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || actionBarNav}
-        showSecondary={this.state.showSecondary}
+        secondaryNav={seriesNavButton}
+        showSecondary={seriesNavButton ? true : this.state.showSecondary}
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}
       >

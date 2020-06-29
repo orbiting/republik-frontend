@@ -93,15 +93,6 @@ const SeriesNavButton = ({
   const [headerHeight] = useHeaderHeight()
   return (
     <Fragment>
-      <ActionBar
-        animate={false}
-        estimatedReadingMinutes={undefined}
-        estimatedConsumptionMinutes={undefined}
-        onPdfClick={undefined}
-        pdfUrl={undefined}
-        showSubscribe={false}
-        fontSize={false}
-      />
       <button
         {...styles.button}
         onClick={() => {
@@ -117,7 +108,7 @@ const SeriesNavButton = ({
         </span>
       </button>
       <div
-        styles={{
+        style={{
           top: headerHeight,
           height: `calc(100vh - ${headerHeight}px)`
         }}

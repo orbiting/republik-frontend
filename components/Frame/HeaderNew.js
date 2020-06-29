@@ -142,7 +142,7 @@ const HeaderNew = ({
       setIsMobile(mobile)
     }
     const { height } = fixedRef.current.getBoundingClientRect()
-    headerHeight.current = showSecondary ? height + SUBHEADER_HEIGHT : height
+    headerHeight.current = height
     if (height !== headerHeightState) {
       setHeaderHeightState(height)
     }

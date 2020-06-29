@@ -37,8 +37,8 @@ const BookmarkMiniFeed = ({ t, data, ...props }) => {
                 <div {...styles.tile} key={node.id}>
                   <Link path={path} passHref>
                     <a {...styles.tileHeadline}>
-                      {description.substring(0, 50)}
-                      {description.length >= 50 ? '...' : ''}
+                      {description.substring(0, 50).trim()}
+                      {description.length >= 50 && <>&nbsp;…</>}
                     </a>
                   </Link>
                   <div {...styles.iconContainer}>

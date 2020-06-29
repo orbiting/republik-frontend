@@ -26,7 +26,7 @@ const BookmarkMiniFeed = ({ t, data, ...props }) => {
         const nodes = data.me.collection.items.nodes
         return (
           <div {...styles.tilesContainer} {...props}>
-            {nodes.slice(0, 8).map(node => {
+            {nodes.filter(node => node.document).slice(0, 8).map(node => {
               const { userProgress, userBookmark } = node.document
               const {
                 estimatedReadingMinutes,

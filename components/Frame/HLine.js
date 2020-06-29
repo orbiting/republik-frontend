@@ -11,7 +11,6 @@ import {
 const HLine = ({ formatColor, dark }) => {
   const hrColor = dark ? colors.negative.divider : colors.divider
   const hrColorStyle = { color: hrColor, backgroundColor: hrColor }
-  console.log(formatColor)
   return (
     <hr
       {...styles.stickyWithFallback}

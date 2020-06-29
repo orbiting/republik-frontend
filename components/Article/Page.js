@@ -754,7 +754,9 @@ class ArticlePage extends Component {
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
         secondaryNav={seriesNavButton}
-        showSecondary={isTester && seriesNavButton ? true : this.state.showSecondary}
+        showSecondary={
+          isTester && seriesNavButton ? true : this.state.showSecondary
+        }
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}
       >

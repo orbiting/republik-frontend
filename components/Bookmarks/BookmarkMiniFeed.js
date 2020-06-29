@@ -26,39 +26,42 @@ const BookmarkMiniFeed = ({ t, data, ...props }) => {
         const nodes = data.me.collection.items.nodes
         return (
           <div {...styles.tilesContainer} {...props}>
-            {nodes.filter(node => node.document).slice(0, 8).map(node => {
-              const { userProgress, userBookmark } = node.document
-              const {
-                estimatedReadingMinutes,
-                description,
-                path
-              } = node.document.meta
-              return (
-                <div {...styles.tile} key={node.id}>
-                  <Link path={path} passHref>
-                    <a {...styles.tileHeadline}>
-                      {description.substring(0, 50).trim()}
-                      {description.length >= 50 && <>&nbsp;…</>}
-                    </a>
-                  </Link>
-                  <div {...styles.iconContainer}>
-                    <Bookmark bookmarked={!!userBookmark} />
-                    {userProgress && estimatedReadingMinutes > 1 && (
-                      <UserProgress
-                        small
-                        userProgress={
-                          !userProgress.percentage &&
-                          userProgress.max &&
-                          userProgress.max.percentage === 1
-                            ? userProgress.max
-                            : userProgress
-                        }
-                      />
-                    )}
+            {nodes
+              .filter(node => node.document)
+              .slice(0, 8)
+              .map(node => {
+                const { userProgress, userBookmark } = node.document
+                const {
+                  estimatedReadingMinutes,
+                  description,
+                  path
+                } = node.document.meta
+                return (
+                  <div {...styles.tile} key={node.id}>
+                    <Link path={path} passHref>
+                      <a {...styles.tileHeadline}>
+                        {description.substring(0, 50).trim()}
+                        {description.length >= 50 && <>&nbsp;…</>}
+                      </a>
+                    </Link>
+                    <div {...styles.iconContainer}>
+                      <Bookmark bookmarked={!!userBookmark} />
+                      {userProgress && estimatedReadingMinutes > 1 && (
+                        <UserProgress
+                          small
+                          userProgress={
+                            !userProgress.percentage &&
+                            userProgress.max &&
+                            userProgress.max.percentage === 1
+                              ? userProgress.max
+                              : userProgress
+                          }
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
           </div>
         )
       }}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
-import { colors, mediaQueries } from '@project-r/styleguide'
+import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
 
 import { matchPath } from '../../lib/routes'
 import withT from '../../lib/withT'

@@ -25,7 +25,6 @@ export const SecondaryNav = ({
   t
 }) => {
   const active = matchPath(router.asPath)
-  console.log(secondaryNav)
   return (
     <>
       {hasOverviewNav ? (

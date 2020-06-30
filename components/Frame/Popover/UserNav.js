@@ -45,7 +45,6 @@ const UserNav = ({
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth
         const windowWidth = window.innerWidth
-        console.log((windowWidth - containerWidth) / 2)
         setContainerPadding((windowWidth - containerWidth) / 2)
       }
     }

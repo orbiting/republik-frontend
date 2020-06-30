@@ -1,7 +1,7 @@
 import React from 'react'
 import { Checkbox, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
-import { withSubToDoc, withUnsubFromDoc } from './enhancers'
+import { withSubToDoc, withUnsubFromDoc, withSubToUser } from './enhancers'
 import { css } from 'glamor'
 
 const styles = {
@@ -25,22 +25,32 @@ const styles = {
   })
 }
 
-const SubscribeDocumentCheckbox = ({
+const SubscribeCheckbox = ({
   subToDoc,
   unsubFromDoc,
+  subToUser,
   subscription,
   setAnimate,
   callout
 }) => {
   const isActive = subscription.active
+  const isDocument = subscription.object.__typename === 'Document'
 
   const toggleCallback = () => setAnimate && setAnimate(true)
 
   const toggleSubscribe = () => {
     if (isActive) {
-      unsubFromDoc({ subscriptionId: subscription.id }).then(toggleCallback)
+      if (isDocument) {
+        unsubFromDoc({ subscriptionId: subscription.id }).then(toggleCallback)
+      } else {
+        return
+      }
     } else {
-      subToDoc({ documentId: subscription.object.id }).then(toggleCallback)
+      if (isDocument) {
+        subToDoc({ documentId: subscription.object.id }).then(toggleCallback)
+      } else {
+        subToUser({ userId: subscription.object.id, filter: [] })
+      }
     }
   }
 
@@ -57,5 +67,7 @@ const SubscribeDocumentCheckbox = ({
 
 export default compose(
   withSubToDoc,
-  withUnsubFromDoc
-)(SubscribeDocumentCheckbox)
+  withUnsubFromDoc,
+  withSubToUser
+  // Add unsubscribe
+)(SubscribeCheckbox)

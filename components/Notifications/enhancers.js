@@ -18,7 +18,7 @@ export const subInfo = gql`
     object {
       ... on User {
         id
-        email
+        name
       }
       ... on Document {
         id
@@ -198,6 +198,14 @@ const unsubscribeFromDocumentMutation = gql`
   }
   ${subInfo}
 `
+const subscribeToUserMutation = gql`
+  mutation subToUser($userId: ID!, $filters: [EventObjectType!]) {
+    subscribe(objectId: $userId, type: User, filters: $filter) {
+      ...subInfo
+    }
+  }
+  ${subInfo}
+`
 
 export const notificationSubscription = gql`
   subscription {
@@ -240,6 +248,15 @@ export const withMarkAllAsReadMutation = graphql(markAllAsReadMutation, {
 export const withSubToDoc = graphql(subscribeToDocumentMutation, {
   props: ({ mutate }) => ({
     subToDoc: variables =>
+      mutate({
+        variables
+      })
+  })
+})
+
+export const withSubToUser = graphql(subscribeToUserMutation, {
+  props: ({ mutate }) => ({
+    subToUser: variables =>
       mutate({
         variables
       })

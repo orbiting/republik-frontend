@@ -20,14 +20,29 @@ const styles = {
   })
 }
 
-const checkIfSubscribed = ({ data, subscription }) =>
-  (subscription && subscription.active) ||
-  (data && getSelectedDiscussionPreference(data) !== 'NONE')
+//SPLIT SUBSCRIBTIONS IN THIS FILE
+// formatSubscriptioin, authorSubscription
 
-const SubscribeMenu = ({ data, router, discussionId, subscription, style }) => {
-  const [isSubscribed, setSubscribed] = useState(
-    checkIfSubscribed({ data, subscription })
+const SubscribeMenu = ({
+  data,
+  router,
+  discussionId,
+  subscriptions,
+  style
+}) => {
+  const checkIfSubscribedToAny = ({ data, subscribtions }) =>
+    subscribtions &&
+    subscribtions.nodes.length &&
+    //checks if any of the subscription nodes is set to active
+    subscribtions.nodes
+      .map(node => node.active)
+      .reduce((acc, curr) => acc || curr)
+
+  const [isSubscribedToAny, setIsSubscribedToAny] = useState(
+    checkIfSubscribedToAny({ data, subscriptions })
   )
+  const [formatSubscription, setFormatSubscription] = useState()
+  const [authorSubscriptions, setAuthorSubscriptions] = useState()
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -40,10 +55,24 @@ const SubscribeMenu = ({ data, router, discussionId, subscription, style }) => {
   }, [animate])
 
   useEffect(() => {
-    setSubscribed(checkIfSubscribed({ data, subscription }))
-  }, [data, subscription])
+    setIsSubscribedToAny(checkIfSubscribedToAny({ data, subscriptions }))
+    setFormatSubscription(
+      subscriptions &&
+        subscriptions.nodes.length &&
+        subscriptions.nodes.filter(
+          node => node.object.__typename === 'Document'
+        )
+    )
+    setAuthorSubscriptions(
+      subscriptions &&
+        subscriptions.nodes.length &&
+        subscriptions.nodes.filter(node => node.object.__typename === 'User')
+    )
+  }, [data, subscriptions])
 
-  const icon = <SubscribeIcon animate={animate} isSubscribed={isSubscribed} />
+  const icon = (
+    <SubscribeIcon animate={animate} isSubscribed={isSubscribedToAny} />
+  )
 
   return (
     <div {...styles.container} style={style}>
@@ -53,7 +82,8 @@ const SubscribeMenu = ({ data, router, discussionId, subscription, style }) => {
       >
         <SubscribeCallout
           discussionId={discussionId}
-          subscription={subscription}
+          formatSubscription={formatSubscription}
+          authorSubscriptions={authorSubscriptions}
           setAnimate={setAnimate}
         />
       </CalloutMenu>

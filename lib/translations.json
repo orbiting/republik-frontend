@@ -6623,6 +6623,10 @@
       "value": "Rubrik abonnieren"
     },
     {
+      "key": "SubscribeAuthors/title",
+      "value": "Authoren abonnieren"
+    },
+    {
       "key": "SubscribeDebate/title",
       "value": "Beiträge zu {debate} abonnieren"
     },

@@ -8,7 +8,7 @@ import {
   Interaction
 } from '@project-r/styleguide'
 import { css } from 'glamor'
-import SubscribeDocumentCheckbox from './SubscribeDocumentCheckbox'
+import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
 import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
 import { withMembership } from '../Auth/checkRoles'
@@ -27,7 +27,7 @@ const SECTIONS_ALWAYS_SHOWN = ONBOARDING_SECTIONS_REPO_IDS
 const FormatCheckboxes = ({ formats }) => (
   <div {...styles.checkboxes}>
     {formats.map((format, i) => (
-      <SubscribeDocumentCheckbox subscription={format.subscribedByMe} key={i} />
+      <SubscribeCheckbox subscription={format.subscribedByMe} key={i} />
     ))}
   </div>
 )

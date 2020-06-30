@@ -38,6 +38,7 @@ const ArticleActionBar = (
     userProgress,
     showSubscribe,
     subscription,
+    subscriptions,
     isDiscussion
   },
   { restoreArticleProgress }
@@ -85,6 +86,7 @@ const ArticleActionBar = (
         estimatedConsumptionMinutes={estimatedConsumptionMinutes}
         userProgress={userProgress}
         subscription={subscription}
+        subscriptions={subscriptions}
         showSubscribe={showSubscribe}
         ownDiscussion={ownDiscussion}
         isDiscussion={isDiscussion}

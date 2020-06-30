@@ -1,6 +1,7 @@
 import React from 'react'
 import SubscribeDebate from './SubscribeDebate'
 import SubscribeDocument from './SubscribeDocument'
+import SubscribeAuthors from './SubscribeAuthors'
 import { css } from 'glamor'
 import { A, colors, fontFamilies } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
@@ -31,15 +32,27 @@ const SettingsLink = withT(({ t }) => (
   </p>
 ))
 
-const SubscribeCallout = ({ discussionId, subscription, setAnimate }) => {
+const SubscribeCallout = ({
+  discussionId,
+  formatSubscription,
+  authorSubscriptions,
+  setAnimate
+}) => {
   return (
     <div {...styles.container}>
       {discussionId && (
         <SubscribeDebate discussionId={discussionId} setAnimate={setAnimate} />
       )}
-      {subscription && (
+      {formatSubscription && (
         <SubscribeDocument
-          subscription={subscription}
+          subscription={formatSubscription}
+          setAnimate={setAnimate}
+          style={{ marginTop: discussionId ? 15 : 0 }}
+        />
+      )}
+      {authorSubscriptions && (
+        <SubscribeAuthors
+          subscriptions={authorSubscriptions}
           setAnimate={setAnimate}
           style={{ marginTop: discussionId ? 15 : 0 }}
         />

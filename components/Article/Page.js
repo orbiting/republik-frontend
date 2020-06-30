@@ -6,7 +6,7 @@ import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
-import SeriesNavButton from './SeriesNavButtonNew'
+import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
@@ -139,6 +139,9 @@ const getDocument = gql`
       repoId
       content
       subscribedByMe(includeParents: true) {
+        ...subInfo
+      }
+      subscribedBy(includeParents: true, onlyMe: true) {
         nodes {
           ...subInfo
         }
@@ -614,7 +617,8 @@ class ArticlePage extends Component {
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
         // TODO: replace this code
-        subscription={article.subscribedByMe && article.subscribedByMe.nodes[0]}
+        subscription={article.subscribedByMe}
+        subscriptions={article.subscribedBy}
         showSubscribe
         isDiscussion={meta && meta.template === 'discussion'}
       />

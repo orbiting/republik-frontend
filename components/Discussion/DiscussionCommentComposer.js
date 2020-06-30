@@ -38,8 +38,8 @@ const DiscussionCommentComposer = props => {
     discussionPreferences,
     now,
     parentId,
-    skipPayNotes,
-    inNativeIOSApp
+    inNativeIOSApp,
+    showPayNotes
   } = props
 
   /*
@@ -90,7 +90,7 @@ const DiscussionCommentComposer = props => {
           )
         } else {
           if (!me || !discussionUserCanComment) {
-            if (inNativeIOSApp || skipPayNotes) {
+            if (!showPayNotes || inNativeIOSApp) {
               return null
             }
             return (

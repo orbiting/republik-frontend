@@ -915,6 +915,7 @@ class ArticlePage extends Component {
                       parent={router.query.parent}
                       mute={!!router.query.mute}
                       board={ownDiscussion.isBoard}
+                      showPayNotes
                     />
                   </Center>
                 )}

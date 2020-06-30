@@ -20,9 +20,6 @@ const styles = {
   })
 }
 
-//SPLIT SUBSCRIBTIONS IN THIS FILE
-// formatSubscriptioin, authorSubscription
-
 const SubscribeMenu = ({
   data,
   router,
@@ -31,19 +28,21 @@ const SubscribeMenu = ({
   style
 }) => {
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
+    //checks if any of the subscription nodes is set to active
     (subscriptions &&
       subscriptions.nodes.length &&
-      //checks if any of the subscription nodes is set to active
       subscriptions.nodes
         .map(node => node.active)
         .reduce((acc, curr) => acc || curr)) ||
+    // or if a discussion is being followed
     (data && getSelectedDiscussionPreference(data) !== 'NONE')
-  const [isSubscribedToAny, setIsSubscribedToAny] = useState(
-    checkIfSubscribedToAny({ data, subscriptions })
-  )
+
   const [formatSubscription, setFormatSubscription] = useState()
   const [authorSubscriptions, setAuthorSubscriptions] = useState()
   const [animate, setAnimate] = useState(false)
+  const [isSubscribedToAny, setIsSubscribedToAny] = useState(
+    checkIfSubscribedToAny({ data, subscriptions })
+  )
 
   useEffect(() => {
     if (animate) {
@@ -56,7 +55,6 @@ const SubscribeMenu = ({
 
   useEffect(() => {
     setIsSubscribedToAny(checkIfSubscribedToAny({ data, subscriptions }))
-    console.log(isSubscribedToAny)
     setFormatSubscription(
       subscriptions &&
         subscriptions.nodes.length &&

@@ -1,7 +1,12 @@
 import React from 'react'
 import { Checkbox, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
-import { withSubToDoc, withUnsubFromDoc, withSubToUser } from './enhancers'
+import {
+  withSubToDoc,
+  withUnsubFromDoc,
+  withSubToUser,
+  withUnsubFromUser
+} from './enhancers'
 import { css } from 'glamor'
 
 const styles = {
@@ -40,6 +45,8 @@ const SubscribeCheckbox = ({
     subscription.object &&
     subscription.object.__typename === 'Document'
 
+  // const userSubscriptionFilter = !isDocument && 
+
   const toggleCallback = () => setAnimate && setAnimate(true)
 
   const toggleSubscribe = () => {
@@ -74,6 +81,7 @@ const SubscribeCheckbox = ({
 export default compose(
   withSubToDoc,
   withUnsubFromDoc,
-  withSubToUser
+  withSubToUser,
+  withUnsubFromUser
   // Add unsubscribe
 )(SubscribeCheckbox)

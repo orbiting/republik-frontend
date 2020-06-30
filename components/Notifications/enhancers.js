@@ -207,6 +207,15 @@ const subscribeToUserMutation = gql`
   ${subInfo}
 `
 
+const unsubscribeFromUserMutation = gql`
+  mutation unSubFromUser($userId: ID!, $filters: [EventObjectType!]) {
+    unsubscribe(subscriptionId: $subscriptionId) {
+      ...subInfo
+    }
+  }
+  ${subInfo}
+`
+
 export const notificationSubscription = gql`
   subscription {
     notification {
@@ -257,6 +266,15 @@ export const withSubToDoc = graphql(subscribeToDocumentMutation, {
 export const withSubToUser = graphql(subscribeToUserMutation, {
   props: ({ mutate }) => ({
     subToUser: variables =>
+      mutate({
+        variables
+      })
+  })
+})
+
+export const withUnsubFromUser = graphql(unsubscribeFromUserMutation, {
+  props: ({ mutate }) => ({
+    unsubFromUser: variables =>
       mutate({
         variables
       })

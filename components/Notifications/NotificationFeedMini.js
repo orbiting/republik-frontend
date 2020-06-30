@@ -44,7 +44,7 @@ const NotificationFeedMini = ({
                 <Link route='subscriptionsSettings' passHref>
                   <a {...linkRule}>{t('Notifications/settings')}</a>
                 </Link>
-                <Interaction.P style={{ marginTop: 40 }}>
+                <Interaction.P>
                   <RawHtml
                     dangerouslySetInnerHTML={{
                       __html: t('Notifications/empty/paragraph')

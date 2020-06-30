@@ -55,12 +55,7 @@ const Nav = ({
               </>
             )}
             {!isMember && (
-              <Button
-                style={{ marginTop: 24 }}
-                href='https://www.republik.ch/pledge'
-                black
-                block
-              >
+              <Button style={{ marginTop: 24 }} href='/pledge' black block>
                 {t('nav/becomemember')}
               </Button>
             )}

@@ -99,7 +99,7 @@ const UserNav = ({
                   <NotificationFeedMini />
                   <br />
                   <Link
-                    href='/sections'
+                    href='/lesezeichen'
                     active={active}
                     closeHandler={closeHandler}
                     passHref

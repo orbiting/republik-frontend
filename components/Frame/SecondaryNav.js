@@ -31,7 +31,10 @@ export const SecondaryNav = ({
         <div
           {...styles.miniNav}
           style={{
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff',
+            borderBottom: `1px solid ${
+              dark ? colors.negative.divider : colors.divider
+            }`
           }}
         >
           <div {...styles.navContainer}>
@@ -71,7 +74,10 @@ export const SecondaryNav = ({
             style={{
               opacity: showSecondary ? 1 : 0,
               transition: 'opacity 0.2s ease-out',
-              backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+              backgroundColor: dark ? colors.negative.primaryBg : '#fff',
+              borderBottom: `1px solid ${
+                dark ? colors.negative.divider : colors.divider
+              }`
             }}
           >
             {secondaryNav}
@@ -92,7 +98,6 @@ const styles = {
     height: SUBHEADER_HEIGHT_MOBILE,
     display: 'flex',
     justifyContent: 'flex-start',
-    borderBottom: `1px solid ${colors.divider}`,
     padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT,
@@ -110,7 +115,6 @@ const styles = {
     right: 0,
     display: 'flex',
     justifyContent: 'flex-start',
-    borderBottom: `1px solid ${colors.divider}`,
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT,
       justifyContent: 'center'

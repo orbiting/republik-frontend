@@ -155,13 +155,6 @@ const UserNav = ({
                         {t('nav/give')}
                       </NavLink>
                       <NavLink
-                        route='legal/imprint'
-                        active={active}
-                        closeHandler={closeHandler}
-                      >
-                        {t('nav/team')}
-                      </NavLink>
-                      <NavLink
                         {...fontStyles.sansSerifLight16}
                         route='pledge'
                         params={{ package: 'DONATE' }}

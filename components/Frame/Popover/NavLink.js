@@ -67,6 +67,7 @@ const NavLink = ({
 }) => {
   const activeStyle = minifeed && {
     ...fontStyles.sansSerifMedium14,
+    lineHeight: '16px',
     marginTop: -1
   }
   if (

@@ -183,6 +183,7 @@ const UserNav = ({
 
 const styles = {
   container: css({
+    color: colors.text,
     [mediaQueries.mUp]: {
       marginTop: '40px'
     }

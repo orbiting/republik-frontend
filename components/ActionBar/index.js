@@ -216,14 +216,13 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
-          {showSubscribe &&
-            subscriptions(
-              <SubscribeMenu
-                discussionId={isDiscussion && ownDiscussion && ownDiscussion.id}
-                subscriptions={subscriptions}
-                style={{ marginRight: -2, marginLeft: 2 }}
-              />
-            )}
+          {showSubscribe && subscriptions && (
+            <SubscribeMenu
+              discussionId={isDiscussion && ownDiscussion && ownDiscussion.id}
+              subscriptions={subscriptions}
+              style={{ marginRight: -2, marginLeft: 2 }}
+            />
+          )}
           {icons.filter(Boolean).map((props, i) => (
             <IconLink key={props.icon} fill={fill} {...props} />
           ))}

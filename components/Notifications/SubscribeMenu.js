@@ -30,14 +30,14 @@ const SubscribeMenu = ({
   subscriptions,
   style
 }) => {
-  const checkIfSubscribedToAny = ({ data, subscribtions }) =>
-    subscribtions &&
-    subscribtions.nodes.length &&
-    //checks if any of the subscription nodes is set to active
-    subscribtions.nodes
-      .map(node => node.active)
-      .reduce((acc, curr) => acc || curr)
-
+  const checkIfSubscribedToAny = ({ data, subscriptions }) =>
+    (subscriptions &&
+      subscriptions.nodes.length &&
+      //checks if any of the subscription nodes is set to active
+      subscriptions.nodes
+        .map(node => node.active)
+        .reduce((acc, curr) => acc || curr)) ||
+    (data && getSelectedDiscussionPreference(data) !== 'NONE')
   const [isSubscribedToAny, setIsSubscribedToAny] = useState(
     checkIfSubscribedToAny({ data, subscriptions })
   )
@@ -56,6 +56,7 @@ const SubscribeMenu = ({
 
   useEffect(() => {
     setIsSubscribedToAny(checkIfSubscribedToAny({ data, subscriptions }))
+    console.log(isSubscribedToAny)
     setFormatSubscription(
       subscriptions &&
         subscriptions.nodes.length &&

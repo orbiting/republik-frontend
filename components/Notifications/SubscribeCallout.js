@@ -43,7 +43,7 @@ const SubscribeCallout = ({
       {discussionId && (
         <SubscribeDebate discussionId={discussionId} setAnimate={setAnimate} />
       )}
-      {formatSubscription && (
+      {formatSubscription && formatSubscription.length !== 0 && (
         <SubscribeDocument
           subscription={formatSubscription}
           setAnimate={setAnimate}

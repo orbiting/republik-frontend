@@ -33,8 +33,12 @@ const SubscribeCheckbox = ({
   setAnimate,
   callout
 }) => {
-  const isActive = subscription.active
-  const isDocument = subscription.object.__typename === 'Document'
+  console.log(subscription)
+  const isActive = subscription && subscription.active
+  const isDocument =
+    subscription &&
+    subscription.object &&
+    subscription.object.__typename === 'Document'
 
   const toggleCallback = () => setAnimate && setAnimate(true)
 
@@ -49,7 +53,7 @@ const SubscribeCheckbox = ({
       if (isDocument) {
         subToDoc({ documentId: subscription.object.id }).then(toggleCallback)
       } else {
-        subToUser({ userId: subscription.object.id, filter: [] })
+        subToUser({ userId: subscription.object.id, filters: [] })
       }
     }
   }
@@ -58,7 +62,9 @@ const SubscribeCheckbox = ({
     <div {...(callout ? styles.checkboxCallout : styles.checkbox)}>
       <Checkbox checked={isActive} onChange={toggleSubscribe}>
         <span {...(callout && styles.checkboxLabelCallout)}>
-          {subscription.object.meta.title}
+          {isDocument
+            ? subscription.object.meta.title
+            : subscription.object.name}
         </span>
       </Checkbox>
     </div>

@@ -192,6 +192,7 @@ const FeedbackPage = props => {
             discussionId={activeDiscussionId}
             focusId={query.focus}
             mute={query && !!query.mute}
+            skipPayNotes
             meta
           />
         )}

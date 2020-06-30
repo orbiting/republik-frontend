@@ -14,7 +14,8 @@ const Discussion = ({
   parent,
   parentId = null,
   includeParent,
-  rootCommentOverlay
+  rootCommentOverlay,
+  skipPayNotes
 }) => {
   /*
    * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
@@ -46,6 +47,7 @@ const Discussion = ({
             depth={depth}
             parentId={parentId}
             now={now}
+            skipPayNotes={skipPayNotes}
           />
         </>
       )}

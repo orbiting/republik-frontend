@@ -3,6 +3,7 @@ import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
+import withInNativeApp from '../../lib/withInNativeApp'
 import produce from 'immer'
 
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
@@ -36,7 +37,9 @@ const DiscussionCommentComposer = props => {
     discussionUserCanComment,
     discussionPreferences,
     now,
-    parentId
+    parentId,
+    skipPayNotes,
+    inNativeIOSApp
   } = props
 
   /*
@@ -79,14 +82,17 @@ const DiscussionCommentComposer = props => {
 
         const disableTopLevelComments =
           !!discussion.rules.disableTopLevelComments && parentId === null
-        if (!me || disableTopLevelComments) {
+        if (disableTopLevelComments) {
           return null
         } else if (discussionClosed) {
           return (
             <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
           )
         } else {
-          if (!discussionUserCanComment) {
+          if (!me || !discussionUserCanComment) {
+            if (inNativeIOSApp || skipPayNotes) {
+              return null
+            }
             return (
               <Box style={{ padding: '15px 20px' }}>
                 <Interaction.P>
@@ -211,5 +217,6 @@ export default compose(
   withDiscussionDisplayAuthor,
   withDiscussionPreferences,
   withDiscussionComments,
-  withSubmitComment
+  withSubmitComment,
+  withInNativeApp
 )(DiscussionCommentComposer)

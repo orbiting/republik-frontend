@@ -4,6 +4,7 @@ import { compose, graphql } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
 import { extent } from 'd3-array'
 import gql from 'graphql-tag'
+import { timeMonth } from 'd3-time'
 
 import {
   Button,
@@ -40,7 +41,11 @@ import { swissTime } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
 
 const statusQuery = gql`
-  query CockpitStatus($max: YearMonthDate!, $accessToken: ID) {
+  query CockpitStatus(
+    $prev: YearMonthDate!
+    $max: YearMonthDate!
+    $accessToken: ID
+  ) {
     membershipStats {
       evolution(min: "2018-01", max: $max) {
         updatedAt
@@ -51,7 +56,7 @@ const statusQuery = gql`
           ended
         }
       }
-      lastSeen(min: $max, max: $max) {
+      lastSeen(min: $prev, max: $max) {
         buckets {
           key
           users
@@ -665,6 +670,7 @@ const EnhancedPage = compose(
     },
     options: ({ router: { query } }) => ({
       variables: {
+        prev: formatYearMonth(timeMonth.offset(new Date(), -1)),
         max: formatYearMonth(new Date()),
         accessToken: query.token
       }

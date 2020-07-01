@@ -106,12 +106,12 @@ const Index = ({
   const padHeaderRule = useMemo(() => {
     return css({
       paddingTop:
-        secondaryNav && isTester
+        (secondaryNav || hasOverviewNav) && isTester
           ? HEADER_HEIGHT_MOBILE + SUBHEADER_HEIGHT
           : HEADER_HEIGHT_MOBILE - 1,
       [mediaQueries.mUp]: {
         paddingTop:
-          secondaryNav && isTester
+          (secondaryNav || hasOverviewNav) && isTester
             ? HEADER_HEIGHT + SUBHEADER_HEIGHT
             : HEADER_HEIGHT - 1
       }

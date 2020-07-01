@@ -26,7 +26,7 @@ export const subInfo = gql`
 `
 
 export const notificationsMiniQuery = gql`
-  query getNotifications {
+  query getNotificationsMini {
     notifications(first: 3) {
       nodes {
         id
@@ -34,6 +34,12 @@ export const notificationsMiniQuery = gql`
         createdAt
         object {
           __typename
+          ... on Comment {
+            id
+          }
+          ... on Document {
+            id
+          }
         }
         content {
           title

@@ -72,7 +72,7 @@ const NotificationFeedMini = ({
             )}
 
             {newNodes &&
-              groupByDate.entries(nodes).map(({ key, values }, i, all) => {
+              groupByDate.entries(newNodes).map(({ key, values }, i, all) => {
                 return (
                   <React.Fragment key={key}>
                     {values.map((node, j) => {

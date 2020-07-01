@@ -86,25 +86,15 @@ const UserNav = ({
               )}
               {me && (
                 <>
-                  <Link
-                    href='/benachrichtigungen'
-                    active={active}
-                    closeHandler={closeHandler}
-                    passHref
-                  >
-                    <TeaserSectionTitle small>
+                  <Link href='/benachrichtigungen' active={active} passHref>
+                    <TeaserSectionTitle onClick={() => closeHandler()} small>
                       {t('pages/notifications/title')}
                     </TeaserSectionTitle>
                   </Link>
                   <NotificationFeedMini closeHandler={closeHandler} />
                   <br />
-                  <Link
-                    href='/lesezeichen'
-                    active={active}
-                    closeHandler={closeHandler}
-                    passHref
-                  >
-                    <TeaserSectionTitle small>
+                  <Link href='/lesezeichen' active={active} passHref>
+                    <TeaserSectionTitle onClick={() => closeHandler()} small>
                       {`${t('nav/bookmarks')}`}
                     </TeaserSectionTitle>
                   </Link>

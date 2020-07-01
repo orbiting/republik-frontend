@@ -33,20 +33,22 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
                 const { userProgress, userBookmark } = node.document
                 const {
                   estimatedReadingMinutes,
-                  description,
+                  title,
                   path
                 } = node.document.meta
                 return (
                   <div {...styles.tile} key={node.id}>
-                    <Link path={path} passHref>
-                      <a
-                        onClick={() => closeHandler()}
-                        {...styles.tileHeadline}
-                      >
-                        {description.substring(0, 50).trim()}
-                        {description.length >= 50 && <>&nbsp;…</>}
-                      </a>
-                    </Link>
+                    <div {...styles.tileHeadlineContainer}>
+                      <Link path={path} passHref>
+                        <a
+                          onClick={() => closeHandler()}
+                          {...styles.tileHeadline}
+                        >
+                          {title.substring(0, 50).trim()}
+                          {title.length >= 50 && <>&nbsp;…</>}
+                        </a>
+                      </Link>
+                    </div>
                     <div {...styles.iconContainer}>
                       <Bookmark bookmarked={!!userBookmark} />
                       {userProgress && estimatedReadingMinutes > 1 && (
@@ -105,6 +107,11 @@ const styles = {
       height: 120,
       flex: '0 0 300px'
     }
+  }),
+  tileHeadlineContainer: css({
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center'
   }),
   tileHeadline: css({
     color: colors.text,

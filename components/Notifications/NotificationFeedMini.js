@@ -74,7 +74,7 @@ const NotificationFeedMini = ({
             {true &&
               groupByDate.entries(nodes).map(({ key, values }, i, all) => {
                 return (
-                  <>
+                  <React.Fragment key={key}>
                     {values.map((node, j) => {
                       const { object } = node
                       const path = parse(node.content.url).path
@@ -83,11 +83,7 @@ const NotificationFeedMini = ({
                         (object.__typename === 'Comment' && !object.published)
                       ) {
                         return (
-                          <div {...styles.unpublished} key={j}>
-                            <Label>
-                              {t('Notifications/unpublished/label')}
-                            </Label>
-                          </div>
+                          <p key={j}>{t('Notifications/unpublished/label')}</p>
                         )
                       }
                       return (
@@ -106,7 +102,7 @@ const NotificationFeedMini = ({
                         </div>
                       )
                     })}
-                  </>
+                  </React.Fragment>
                 )
               })}
           </>
@@ -117,17 +113,6 @@ const NotificationFeedMini = ({
 }
 
 const styles = {
-  unpublished: css({
-    borderTop: `1px solid ${colors.text}`,
-    margin: 0,
-    paddingTop: 10,
-    paddingBottom: 40
-  }),
-  unpublishedTitle: css({
-    ...fontStyles.sansSerifMedium14,
-    [mediaQueries.mUp]: fontStyles.sansSerifMedium16,
-    margin: '5px 0 3px'
-  }),
   cleanLink: css({
     color: 'inherit',
     textDecoration: 'none'

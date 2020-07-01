@@ -16,7 +16,7 @@ const IndexPage = ({ t, isMember, router }) => {
     (isMember || router.query.extractId)
   ) {
     // does it's own meta
-    return <Front extractId={router.query.extractId} finite />
+    return <Front hasOverviewNav extractId={router.query.extractId} finite />
   }
 
   const meta = {

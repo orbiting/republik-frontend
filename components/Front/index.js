@@ -102,7 +102,8 @@ const Front = ({
   extractId,
   serverContext,
   isEditor,
-  finite
+  finite,
+  hasOverviewNav
 }) => {
   const meta = front && {
     ...front.meta,
@@ -166,7 +167,7 @@ const Front = ({
   }
 
   return (
-    <Frame hasOverviewNav raw meta={meta}>
+    <Frame hasOverviewNav={hasOverviewNav} raw meta={meta}>
       {renderBefore && renderBefore(meta)}
       <Loader
         loading={data.loading}

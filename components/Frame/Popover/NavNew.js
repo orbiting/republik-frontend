@@ -174,9 +174,9 @@ const styles = {
   }),
   hrFixed: css({
     position: 'fixed',
-    top: HEADER_HEIGHT_MOBILE - 1,
+    top: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT - 1
+      top: HEADER_HEIGHT
     }
   }),
   signInBlock: css({

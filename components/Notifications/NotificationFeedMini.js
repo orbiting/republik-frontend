@@ -60,7 +60,7 @@ const NotificationFeedMini = ({
               </>
             )}
 
-            {false && (
+            {!newNodes.length && (
               <p>
                 {t('pages/notifications/nounread')}{' '}
                 <Link route='/benachrichtigungen' passHref>
@@ -71,7 +71,7 @@ const NotificationFeedMini = ({
               </p>
             )}
 
-            {true &&
+            {newNodes &&
               groupByDate.entries(nodes).map(({ key, values }, i, all) => {
                 return (
                   <React.Fragment key={key}>

@@ -17,7 +17,7 @@ import Link from '../Link/Path'
 
 import { getBookmarkedDocuments } from './queries'
 
-const BookmarkMiniFeed = ({ t, data, ...props }) => {
+const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
   return (
     <Loader
       loading={data.loading}
@@ -39,7 +39,10 @@ const BookmarkMiniFeed = ({ t, data, ...props }) => {
                 return (
                   <div {...styles.tile} key={node.id}>
                     <Link path={path} passHref>
-                      <a {...styles.tileHeadline}>
+                      <a
+                        onClick={() => closeHandler()}
+                        {...styles.tileHeadline}
+                      >
                         {description.substring(0, 50).trim()}
                         {description.length >= 50 && <>&nbsp;…</>}
                       </a>

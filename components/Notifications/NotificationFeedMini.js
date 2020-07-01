@@ -2,6 +2,7 @@ import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
+import { parse } from 'url'
 import {
   colors,
   Interaction,
@@ -12,7 +13,7 @@ import {
   fontStyles
 } from '@project-r/styleguide'
 
-import { notificationsQuery } from '../Notifications/enhancers'
+import { notificationsMiniQuery } from '../Notifications/enhancers'
 import Loader from '../Loader'
 import { timeFormat } from '../../lib/utils/format'
 import { Link } from '../../lib/routes'
@@ -27,7 +28,8 @@ const groupByDate = nest().key(n => {
 
 const NotificationFeedMini = ({
   t,
-  data: { notifications, loading, error }
+  data: { notifications, loading, error },
+  closeHandler
 }) => {
   return (
     <Loader
@@ -36,13 +38,17 @@ const NotificationFeedMini = ({
       render={() => {
         const { nodes } = notifications
         const isNew = node => !node.readAt || new Date() < new Date(node.readAt)
-        if (!nodes) return null
+        if (!nodes) return
+        const newNodes = nodes.filter(node => isNew(node))
+
         return (
           <>
             {!nodes.length && (
               <>
                 <Link route='subscriptionsSettings' passHref>
-                  <a {...linkRule}>{t('Notifications/settings')}</a>
+                  <a onClick={() => closeHandler()} {...linkRule}>
+                    {t('Notifications/settings')}
+                  </a>
                 </Link>
                 <Interaction.P>
                   <RawHtml
@@ -54,13 +60,24 @@ const NotificationFeedMini = ({
               </>
             )}
 
-            {groupByDate
-              .entries(nodes.slice(0, 3))
-              .map(({ key, values }, i, all) => {
+            {false && (
+              <p>
+                {t('pages/notifications/nounread')}{' '}
+                <Link route='/benachrichtigungen' passHref>
+                  <a onClick={() => closeHandler()} {...linkRule}>
+                    {t('pages/notifications/nounread/link')}
+                  </a>
+                </Link>
+              </p>
+            )}
+
+            {true &&
+              groupByDate.entries(nodes).map(({ key, values }, i, all) => {
                 return (
                   <>
                     {values.map((node, j) => {
                       const { object } = node
+                      const path = parse(node.content.url).path
                       if (
                         !object ||
                         (object.__typename === 'Comment' && !object.published)
@@ -77,15 +94,14 @@ const NotificationFeedMini = ({
                         <div {...styles.notificationItem} key={j}>
                           {isNew(node) && <span {...styles.unreadDot} />}
 
-                          <PathLink
-                            {...styles.cleanLink}
-                            path={object.meta.path}
-                            passHref
-                          >
-                            <>
+                          <PathLink path={path} passHref>
+                            <a
+                              {...styles.cleanLink}
+                              onClick={() => closeHandler()}
+                            >
                               {dateFormat(new Date(node.createdAt))}{' '}
                               {node.content.title}
-                            </>
+                            </a>
                           </PathLink>
                         </div>
                       )
@@ -136,4 +152,7 @@ const styles = {
   })
 }
 
-export default compose(withT, graphql(notificationsQuery))(NotificationFeedMini)
+export default compose(
+  withT,
+  graphql(notificationsMiniQuery)
+)(NotificationFeedMini)

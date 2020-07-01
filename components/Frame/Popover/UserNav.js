@@ -96,7 +96,7 @@ const UserNav = ({
                       {t('pages/notifications/title')}
                     </TeaserSectionTitle>
                   </Link>
-                  <NotificationFeedMini />
+                  <NotificationFeedMini closeHandler={closeHandler} />
                   <br />
                   <Link
                     href='/lesezeichen'
@@ -114,6 +114,7 @@ const UserNav = ({
                         marginTop: 10,
                         paddingLeft: containerPadding - 16
                       }}
+                      closeHandler={closeHandler}
                     />
                   </div>
                   <div {...styles.navSection}>

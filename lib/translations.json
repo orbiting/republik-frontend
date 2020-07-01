@@ -119,6 +119,14 @@
       "value": "Benachrichtigungen"
     },
     {
+      "key": "pages/notifications/nounread",
+      "value": "Keine ungelesenen Benachrichtigungen"
+    },
+    {
+      "key": "pages/notifications/nounread/link",
+      "value": "Alle anzeigen"
+    },
+    {
       "key": "pages/search/title",
       "value": "Suche"
     },

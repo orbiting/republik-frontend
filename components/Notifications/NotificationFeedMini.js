@@ -63,7 +63,7 @@ const NotificationFeedMini = ({
             {!newNodes.length && (
               <p>
                 {t('pages/notifications/nounread')}{' '}
-                <Link route='/benachrichtigungen' passHref>
+                <Link route='subscriptions' passHref>
                   <a onClick={() => closeHandler()} {...linkRule}>
                     {t('pages/notifications/nounread/link')}
                   </a>

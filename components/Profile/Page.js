@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { useState, useRef, useEffect, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
@@ -19,7 +19,7 @@ import Card, { styles as cardStyles } from '../Card/Card'
 import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
 
-import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
+import { TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 import ShadowQueryLink from '../Link/ShadowQuery'
 
@@ -42,7 +42,9 @@ import {
   Interaction,
   linkRule,
   mediaQueries,
-  Button
+  Button,
+  usePrevious,
+  useHeaderHeight
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
@@ -255,468 +257,457 @@ const getPublicUser = gql`
   ${cardFragment}
 `
 
-class Profile extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isMobile: false,
-      sticky: false,
-      isEditing: false,
-      showErrors: false,
-      values: {},
-      errors: {},
-      dirty: {}
-    }
+const makeLoadMore = (fetchMore, dataType, variables) => () =>
+  fetchMore({
+    updateQuery: (previousResult, { fetchMoreResult }) => {
+      const getConnection = data => data.user[dataType]
+      const prevCon = getConnection(previousResult)
+      const moreCon = getConnection(fetchMoreResult)
+      const nodes = [...prevCon.nodes, ...moreCon.nodes].filter(
+        // deduplicating due to off by one in pagination API
+        (node, index, all) => all.findIndex(n => n.id === node.id) === index
+      )
+      return {
+        ...previousResult,
+        user: {
+          ...previousResult.user,
+          [dataType]: {
+            ...moreCon,
+            nodes
+          }
+        }
+      }
+    },
+    variables
+  })
 
-    this.onScroll = () => {
+const LoadedProfile = props => {
+  const [state, setRawState] = useState({
+    isEditing: false,
+    showErrors: false,
+    values: {},
+    errors: {},
+    dirty: {}
+  })
+  const setState = newState =>
+    setRawState(prevState => ({
+      ...prevState,
+      ...(typeof newState === 'function' ? newState(prevState) : newState)
+    }))
+
+  const [layout, setLayout] = useState({
+    isMobile: false,
+    isSticky: false
+  })
+  const innerRef = useRef()
+  const sidebarInnerRef = useRef()
+  const mainRef = useRef()
+
+  const [headerHeight] = useHeaderHeight()
+  const currentRef = useRef({})
+  currentRef.current.headerHeight = headerHeight
+  currentRef.current.layout = layout
+
+  useEffect(() => {
+    const onScroll = () => {
+      const { current } = currentRef
       const y = window.pageYOffset
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      let sticky =
+      const isSticky =
         !mobile &&
-        y + HEADER_HEIGHT > this.y + this.innerHeight &&
-        this.mainHeight > this.sidebarHeight &&
-        this.sidebarHeight < window.innerHeight - HEADER_HEIGHT - SIDEBAR_TOP
+        y + current.headerHeight > current.y + current.innerHeight &&
+        current.mainHeight > current.sidebarHeight &&
+        current.sidebarHeight <
+          window.innerHeight - current.headerHeight - SIDEBAR_TOP
 
-      if (sticky !== this.state.sticky) {
-        this.setState({ sticky })
+      if (isSticky !== current.layout.isSticky) {
+        setLayout(prev => ({ ...prev, isSticky }))
       }
     }
-    this.setInnerRef = ref => {
-      this.innerRef = ref
-    }
-    this.setSidebarInnerRef = ref => {
-      this.sidebarInnerRef = ref
-    }
-    this.setMainRef = ref => {
-      this.mainRef = ref
-    }
-    this.measure = () => {
+    const measure = () => {
+      const { current } = currentRef
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (isMobile !== this.state.isMobile) {
-        this.setState({ isMobile })
+      if (isMobile !== current.layout.isMobile) {
+        setLayout(prev => ({ ...prev, isMobile }))
       }
-      if (this.innerRef) {
-        const rect = this.innerRef.getBoundingClientRect()
-        this.y = window.pageYOffset + rect.top
-        this.innerHeight = rect.height
-        this.x = window.pageXOffset + rect.left
+      if (innerRef.current) {
+        const rect = innerRef.current.getBoundingClientRect()
+        current.y = window.pageYOffset + rect.top
+        current.innerHeight = rect.height
+        const x = window.pageXOffset + rect.left
+        if (x !== current.layout.x) {
+          setLayout(prev => ({ ...prev, x }))
+        }
       }
-      if (this.sidebarInnerRef) {
-        this.sidebarHeight = this.sidebarInnerRef.getBoundingClientRect().height
+      if (sidebarInnerRef.current) {
+        current.sidebarHeight = sidebarInnerRef.current.getBoundingClientRect().height
       }
-      if (this.mainRef) {
-        this.mainHeight = this.mainRef.getBoundingClientRect().height
+      if (mainRef.current) {
+        current.mainHeight = mainRef.current.getBoundingClientRect().height
       }
-      this.onScroll()
+      onScroll()
     }
-    this.isMe = () => {
-      const {
-        me,
-        data: { user }
-      } = this.props
-      return me && me.id === user.id
+    window.addEventListener('scroll', onScroll)
+    window.addEventListener('resize', measure)
+    measure()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', measure)
     }
-    this.startEditing = () => {
-      const {
-        data: { user }
-      } = this.props
-      const { isEditing } = this.state
-      if (!isEditing && this.isMe()) {
-        const credential =
-          user.credentials && user.credentials.find(c => c.isListed)
-        this.setState({
-          isEditing: true,
-          values: {
-            ...user,
-            publicUrl: user.publicUrl || DEFAULT_VALUES.publicUrl,
-            credential: credential && credential.description,
-            portrait: undefined
-          }
-        })
-        window.scrollTo(0, 0)
-      }
-    }
-    this.autoEditStart = () => {
-      const {
-        data: { user }
-      } = this.props
-      if (user && !user.username && user.isEligibleForProfile) {
-        this.startEditing() // will check if it's me
-      }
-    }
-    this.onChange = fields => {
-      this.startEditing()
-      this.setState(FieldSet.utils.mergeFields(fields))
-    }
-  }
+  }, [])
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.onScroll)
-    window.addEventListener('resize', this.measure)
-    this.measure()
-    this.autoEditStart()
-  }
-  componentDidUpdate(prevProps) {
-    this.measure()
-    if (!prevProps.data.user) {
-      this.autoEditStart()
-    }
-  }
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.measure)
-  }
+  const {
+    t,
+    me,
+    data: { user, fetchMore },
+    card,
+    metaData
+  } = props
+  const isMe = me && me.id === user.id
 
-  render() {
-    const {
-      t,
-      me,
-      data: { loading, error, user, fetchMore }
-    } = this.props
-
-    const card = user && user.cards && user.cards.nodes && user.cards.nodes[0]
-    const metaData = {
-      url: user ? `${PUBLIC_BASE_URL}/~${user.slug}` : undefined,
-      image:
-        user && user.portrait
-          ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
-              user.updatedAt
-            )}b1&url=${encodeURIComponent(
-              `${PUBLIC_BASE_URL}/community?share=${user.id}`
-            )}`
-          : '',
-      title: card
-        ? `🔥 ${user.name}`
-        : user
-        ? t('pages/profile/pageTitle', { name: user.name })
-        : t('pages/profile/empty/pageTitle'),
-      description: card
-        ? 'Profil anschauen und «Republik Wahltindär» spielen.'
-        : undefined
-    }
-
-    const makeLoadMore = (dataType, variables) => () =>
-      fetchMore({
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          const getConnection = data => data.user[dataType]
-          const prevCon = getConnection(previousResult)
-          const moreCon = getConnection(fetchMoreResult)
-          const nodes = [...prevCon.nodes, ...moreCon.nodes].filter(
-            // deduplicating due to off by one in pagination API
-            (node, index, all) => all.findIndex(n => n.id === node.id) === index
-          )
-          return {
-            ...previousResult,
-            user: {
-              ...previousResult.user,
-              [dataType]: {
-                ...moreCon,
-                nodes
-              }
-            }
-          }
-        },
-        variables
+  const startEditing = () => {
+    const { isEditing } = state
+    if (!isEditing && isMe) {
+      const credential =
+        user.credentials && user.credentials.find(c => c.isListed)
+      setState({
+        isEditing: true,
+        values: {
+          ...user,
+          publicUrl: user.publicUrl || DEFAULT_VALUES.publicUrl,
+          credential: credential && credential.description,
+          portrait: undefined
+        }
       })
-
-    return (
-      <Frame meta={metaData} raw>
-        <Loader
-          loading={loading}
-          error={error}
-          render={() => {
-            if (!user) {
-              return (
-                <StatusError
-                  statusCode={404}
-                  serverContext={this.props.serverContext}
-                >
-                  <Interaction.H2>
-                    {t('pages/profile/empty/title')}
-                  </Interaction.H2>
-                  {!!me && (
-                    <p>
-                      {t.elements('pages/profile/empty/content', {
-                        link: (
-                          <Link
-                            route='profile'
-                            params={{ slug: me.username || me.id }}
-                          >
-                            <a {...linkRule}>
-                              {t('pages/profile/empty/content/linktext')}
-                            </a>
-                          </Link>
-                        )
-                      })}
-                    </p>
-                  )}
-                </StatusError>
-              )
-            }
-            const { isEditing, values, errors, dirty, isMobile } = this.state
-
-            return (
-              <Fragment>
-                {!user.hasPublicProfile && (
-                  <Box>
-                    <MainContainer>
-                      <Interaction.P>{t('profile/private')}</Interaction.P>
-                    </MainContainer>
-                  </Box>
-                )}
-                {card && (
-                  <CardContainer
-                    imprint={false}
-                    style={{ minHeight: 300 * 1.4 + 60 }}
-                  >
-                    <div
-                      {...css({
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexWrap: 'wrap'
-                      })}
-                    >
-                      <div
-                        {...cardStyles.cardInner}
-                        style={{
-                          width: 300,
-                          height: 300 * 1.4,
-                          transform: 'rotate(-1deg)',
-                          margin: '30px 10px'
-                        }}
-                      >
-                        <Card width={300} {...card} t={t} firstSlideOnly />
-                      </div>
-                      <div
-                        {...css({
-                          padding: 30,
-                          [mediaQueries.mUp]: {
-                            margin: '0 30px'
-                          }
-                        })}
-                      >
-                        <ShadowQueryLink
-                          path={`/wahltindaer/${card.group.slug}`}
-                          query={{ top: card.id }}
-                        >
-                          <Button primary>«Wahltindär» spielen</Button>
-                        </ShadowQueryLink>
-                      </div>
-                    </div>
-                  </CardContainer>
-                )}
-                <MainContainer>
-                  <div ref={this.setInnerRef} {...styles.head}>
-                    {!card && (
-                      <>
-                        <p {...styles.statement}>
-                          <Statement
-                            user={user}
-                            isEditing={isEditing}
-                            onChange={this.onChange}
-                            values={values}
-                            errors={errors}
-                            dirty={dirty}
-                          />
-                        </p>
-                        <div {...styles.portrait}>
-                          <Portrait
-                            user={user}
-                            isEditing={isEditing}
-                            isMe={this.isMe()}
-                            onChange={this.onChange}
-                            values={values}
-                            errors={errors}
-                            dirty={dirty}
-                          />
-                        </div>
-                        <div {...styles.headInfo}>
-                          {!!user.hasPublicProfile && (
-                            <span {...styles.headInfoShare}>
-                              <ActionBar
-                                title={t('profile/share/title', {
-                                  name: user.name
-                                })}
-                                emailSubject={t('profile/share/emailSubject', {
-                                  name: user.name
-                                })}
-                                url={`${PUBLIC_BASE_URL}/~${user.slug}`}
-                                download={metaData.image}
-                                shareOverlayTitle={t(
-                                  'profile/share/overlayTitle'
-                                )}
-                              />
-                            </span>
-                          )}
-                          {!!user.sequenceNumber && (
-                            <span {...styles.headInfoNumber}>
-                              {t('memberships/sequenceNumber/label', {
-                                sequenceNumber: user.sequenceNumber
-                              })}
-                            </span>
-                          )}
-                          <div style={{ clear: 'both' }} />
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  <div
-                    {...styles.container}
-                    style={{ borderTop: card ? 'none' : undefined }}
-                  >
-                    <div {...styles.sidebar}>
-                      <div
-                        style={
-                          this.state.sticky && !isEditing
-                            ? {
-                                position: 'fixed',
-                                top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
-                                left: `${this.x}px`,
-                                width: PORTRAIT_SIZE_M
-                              }
-                            : {}
-                        }
-                      >
-                        <div ref={this.setSidebarInnerRef}>
-                          <Interaction.H3>{user.name}</Interaction.H3>
-                          <Credentials
-                            user={user}
-                            isEditing={isEditing}
-                            onChange={this.onChange}
-                            values={values}
-                            errors={errors}
-                            dirty={dirty}
-                          />
-                          {/* show sequence # of profiles with a card here */}
-                          {card && !!user.sequenceNumber && (
-                            <div style={{ color: colors.text }}>
-                              {t('memberships/sequenceNumber/label', {
-                                sequenceNumber: user.sequenceNumber
-                              })}
-                            </div>
-                          )}
-                          {user.badges && (
-                            <div {...styles.badges}>
-                              {user.badges.map((badge, i) => (
-                                <Badge key={i} badge={badge} size={27} />
-                              ))}
-                            </div>
-                          )}
-                          <Settings
-                            user={user}
-                            isEditing={isEditing}
-                            onChange={this.onChange}
-                            values={values}
-                            errors={errors}
-                            dirty={dirty}
-                          />
-                          <Edit
-                            user={user}
-                            state={this.state}
-                            setState={this.setState.bind(this)}
-                            startEditing={this.startEditing}
-                            onChange={this.onChange}
-                          />
-                          <Contact
-                            user={user}
-                            isEditing={isEditing}
-                            onChange={this.onChange}
-                            values={values}
-                            errors={errors}
-                            dirty={dirty}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div {...styles.mainColumn} ref={this.setMainRef}>
-                      <Biography
-                        user={user}
-                        isEditing={isEditing}
-                        onChange={this.onChange}
-                        values={values}
-                        errors={errors}
-                        dirty={dirty}
-                      />
-                      {card && (
-                        <div style={{ marginBottom: 40 }}>
-                          <CardDetails
-                            card={card}
-                            skipSpider={!card.user.portrait}
-                          />
-                        </div>
-                      )}
-                      {isMobile && isEditing && (
-                        <div style={{ marginBottom: 40 }}>
-                          <Edit
-                            user={user}
-                            state={this.state}
-                            setState={this.setState.bind(this)}
-                            startEditing={this.startEditing}
-                          />
-                        </div>
-                      )}
-                      {user.candidacies.map((c, i) => (
-                        <div key={i} style={{ marginBottom: 60 }}>
-                          <Interaction.H3 style={{ marginBottom: 0 }}>
-                            {`${c.election.description}`}
-                          </Interaction.H3>
-                          <div style={{ marginTop: 10 }}>
-                            <ElectionBallotRow
-                              candidate={{ ...c, user }}
-                              expanded
-                              maxVotes={0}
-                              showMeta={false}
-                              profile
-                            />
-                          </div>
-                          {this.isMe() &&
-                            c.election &&
-                            new Date() <
-                              new Date(c.election.candidacyEndDate) && (
-                              <div style={{ marginTop: 10 }}>
-                                <Link
-                                  route='voteSubmit'
-                                  params={{ edit: true }}
-                                  passHref
-                                >
-                                  <A>Kandidatur bearbeiten</A>
-                                </Link>
-                              </div>
-                            )}
-                        </div>
-                      ))}
-                      <Documents
-                        documents={user.documents}
-                        loadMore={makeLoadMore('documents', {
-                          firstComments: 0,
-                          firstDocuments: 20,
-                          afterDocument:
-                            user.documents.pageInfo &&
-                            user.documents.pageInfo.endCursor
-                        })}
-                      />
-                      <Comments
-                        comments={user.comments}
-                        loadMore={makeLoadMore('comments', {
-                          firstDocuments: 0,
-                          firstComments: 40,
-                          afterComment:
-                            user.comments.pageInfo &&
-                            user.comments.pageInfo.endCursor
-                        })}
-                      />
-                    </div>
-                    <div style={{ clear: 'both' }} />
-                  </div>
-                </MainContainer>
-              </Fragment>
-            )
-          }}
-        />
-      </Frame>
-    )
+      window.scrollTo(0, 0)
+    }
   }
+  const prevUser = usePrevious(user)
+  useEffect(() => {
+    if (prevUser) {
+      return
+    }
+    if (user && !user.username && user.isEligibleForProfile) {
+      startEditing() // will check if it's me
+    }
+  }, [prevUser, user])
+
+  const onChange = fields => {
+    startEditing()
+    setState(FieldSet.utils.mergeFields(fields))
+  }
+
+  const { isEditing, values, errors, dirty } = state
+
+  return (
+    <Fragment>
+      {!user.hasPublicProfile && (
+        <Box>
+          <MainContainer>
+            <Interaction.P>{t('profile/private')}</Interaction.P>
+          </MainContainer>
+        </Box>
+      )}
+      {card && (
+        <CardContainer imprint={false} style={{ minHeight: 300 * 1.4 + 60 }}>
+          <div
+            {...css({
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexWrap: 'wrap'
+            })}
+          >
+            <div
+              {...cardStyles.cardInner}
+              style={{
+                width: 300,
+                height: 300 * 1.4,
+                transform: 'rotate(-1deg)',
+                margin: '30px 10px'
+              }}
+            >
+              <Card width={300} {...card} t={t} firstSlideOnly />
+            </div>
+            <div
+              {...css({
+                padding: 30,
+                [mediaQueries.mUp]: {
+                  margin: '0 30px'
+                }
+              })}
+            >
+              <ShadowQueryLink
+                path={`/wahltindaer/${card.group.slug}`}
+                query={{ top: card.id }}
+              >
+                <Button primary>«Wahltindär» spielen</Button>
+              </ShadowQueryLink>
+            </div>
+          </div>
+        </CardContainer>
+      )}
+      <MainContainer>
+        <div ref={innerRef} {...styles.head}>
+          {!card && (
+            <>
+              <p {...styles.statement}>
+                <Statement
+                  user={user}
+                  isEditing={isEditing}
+                  onChange={onChange}
+                  values={values}
+                  errors={errors}
+                  dirty={dirty}
+                />
+              </p>
+              <div {...styles.portrait}>
+                <Portrait
+                  user={user}
+                  isEditing={isEditing}
+                  isMe={isMe}
+                  onChange={onChange}
+                  values={values}
+                  errors={errors}
+                  dirty={dirty}
+                />
+              </div>
+              <div {...styles.headInfo}>
+                {!!user.hasPublicProfile && (
+                  <span {...styles.headInfoShare}>
+                    <ActionBar
+                      title={t('profile/share/title', {
+                        name: user.name
+                      })}
+                      emailSubject={t('profile/share/emailSubject', {
+                        name: user.name
+                      })}
+                      url={`${PUBLIC_BASE_URL}/~${user.slug}`}
+                      download={metaData.image}
+                      shareOverlayTitle={t('profile/share/overlayTitle')}
+                    />
+                  </span>
+                )}
+                {!!user.sequenceNumber && (
+                  <span {...styles.headInfoNumber}>
+                    {t('memberships/sequenceNumber/label', {
+                      sequenceNumber: user.sequenceNumber
+                    })}
+                  </span>
+                )}
+                <div style={{ clear: 'both' }} />
+              </div>
+            </>
+          )}
+        </div>
+        <div
+          {...styles.container}
+          style={{ borderTop: card ? 'none' : undefined }}
+        >
+          <div {...styles.sidebar}>
+            <div
+              style={
+                layout.isSticky && !isEditing
+                  ? {
+                      position: 'fixed',
+                      top: `${headerHeight + SIDEBAR_TOP}px`,
+                      left: `${layout.x}px`,
+                      width: PORTRAIT_SIZE_M
+                    }
+                  : {}
+              }
+            >
+              <div ref={sidebarInnerRef}>
+                <Interaction.H3>{user.name}</Interaction.H3>
+                <Credentials
+                  user={user}
+                  isEditing={isEditing}
+                  onChange={onChange}
+                  values={values}
+                  errors={errors}
+                  dirty={dirty}
+                />
+                {/* show sequence # of profiles with a card here */}
+                {card && !!user.sequenceNumber && (
+                  <div style={{ color: colors.text }}>
+                    {t('memberships/sequenceNumber/label', {
+                      sequenceNumber: user.sequenceNumber
+                    })}
+                  </div>
+                )}
+                {user.badges && (
+                  <div {...styles.badges}>
+                    {user.badges.map((badge, i) => (
+                      <Badge key={i} badge={badge} size={27} />
+                    ))}
+                  </div>
+                )}
+                <Settings
+                  user={user}
+                  isEditing={isEditing}
+                  onChange={onChange}
+                  values={values}
+                  errors={errors}
+                  dirty={dirty}
+                />
+                <Edit
+                  user={user}
+                  state={state}
+                  setState={setState}
+                  startEditing={startEditing}
+                  onChange={onChange}
+                />
+                <Contact
+                  user={user}
+                  isEditing={isEditing}
+                  onChange={onChange}
+                  values={values}
+                  errors={errors}
+                  dirty={dirty}
+                />
+              </div>
+            </div>
+          </div>
+          <div {...styles.mainColumn} ref={mainRef}>
+            <Biography
+              user={user}
+              isEditing={isEditing}
+              onChange={onChange}
+              values={values}
+              errors={errors}
+              dirty={dirty}
+            />
+            {card && (
+              <div style={{ marginBottom: 40 }}>
+                <CardDetails card={card} skipSpider={!card.user.portrait} />
+              </div>
+            )}
+            {layout.isMobile && isEditing && (
+              <div style={{ marginBottom: 40 }}>
+                <Edit
+                  user={user}
+                  state={state}
+                  setState={setState}
+                  startEditing={startEditing}
+                />
+              </div>
+            )}
+            {user.candidacies.map((c, i) => (
+              <div key={i} style={{ marginBottom: 60 }}>
+                <Interaction.H3 style={{ marginBottom: 0 }}>
+                  {`${c.election.description}`}
+                </Interaction.H3>
+                <div style={{ marginTop: 10 }}>
+                  <ElectionBallotRow
+                    candidate={{ ...c, user }}
+                    expanded
+                    maxVotes={0}
+                    showMeta={false}
+                    profile
+                  />
+                </div>
+                {isMe &&
+                  c.election &&
+                  new Date() < new Date(c.election.candidacyEndDate) && (
+                    <div style={{ marginTop: 10 }}>
+                      <Link route='voteSubmit' params={{ edit: true }} passHref>
+                        <A>Kandidatur bearbeiten</A>
+                      </Link>
+                    </div>
+                  )}
+              </div>
+            ))}
+            <Documents
+              documents={user.documents}
+              loadMore={makeLoadMore(fetchMore, 'documents', {
+                firstComments: 0,
+                firstDocuments: 20,
+                afterDocument:
+                  user.documents.pageInfo && user.documents.pageInfo.endCursor
+              })}
+            />
+            <Comments
+              comments={user.comments}
+              loadMore={makeLoadMore(fetchMore, 'comments', {
+                firstDocuments: 0,
+                firstComments: 40,
+                afterComment:
+                  user.comments.pageInfo && user.comments.pageInfo.endCursor
+              })}
+            />
+          </div>
+          <div style={{ clear: 'both' }} />
+        </div>
+      </MainContainer>
+    </Fragment>
+  )
+}
+
+const Profile = props => {
+  const {
+    t,
+    me,
+    data: { loading, error, user }
+  } = props
+
+  const card = user && user.cards && user.cards.nodes && user.cards.nodes[0]
+  const metaData = {
+    url: user ? `${PUBLIC_BASE_URL}/~${user.slug}` : undefined,
+    image:
+      user && user.portrait
+        ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
+            user.updatedAt
+          )}b1&url=${encodeURIComponent(
+            `${PUBLIC_BASE_URL}/community?share=${user.id}`
+          )}`
+        : '',
+    title: card
+      ? `🔥 ${user.name}`
+      : user
+      ? t('pages/profile/pageTitle', { name: user.name })
+      : t('pages/profile/empty/pageTitle'),
+    description: card
+      ? 'Profil anschauen und «Republik Wahltindär» spielen.'
+      : undefined
+  }
+
+  return (
+    <Frame meta={metaData} raw>
+      <Loader
+        loading={loading}
+        error={error}
+        render={() => {
+          if (!user) {
+            return (
+              <StatusError statusCode={404} serverContext={props.serverContext}>
+                <Interaction.H2>
+                  {t('pages/profile/empty/title')}
+                </Interaction.H2>
+                {!!me && (
+                  <p>
+                    {t.elements('pages/profile/empty/content', {
+                      link: (
+                        <Link
+                          route='profile'
+                          params={{ slug: me.username || me.id }}
+                        >
+                          <a {...linkRule}>
+                            {t('pages/profile/empty/content/linktext')}
+                          </a>
+                        </Link>
+                      )
+                    })}
+                  </p>
+                )}
+              </StatusError>
+            )
+          }
+
+          return <LoadedProfile {...props} card={card} metaData={metaData} />
+        }}
+      />
+    </Frame>
+  )
 }
 
 export default compose(

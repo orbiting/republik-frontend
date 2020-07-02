@@ -27,10 +27,10 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, title, dark, backButton, ...props }) => {
+const User = ({ t, me, title, dark, backButton, onClick }) => {
   const color = dark ? colors.negative.text : colors.text
   return (
-    <div {...styles.user} {...props}>
+    <div {...styles.user} onClick={onClick} role='button'>
       <div
         {...styles.button}
         style={{

@@ -84,14 +84,14 @@ const HeaderNew = ({
   const backButton = inNativeIOSApp && me && !isFront(router)
 
   const toggleExpanded = target => {
-    if (target.id === expandedNav) {
+    if (target === expandedNav) {
       setIsAnyNavExpanded(false)
       setExpandedNav(null)
     } else if (isAnyNavExpanded) {
-      setExpandedNav(target.id)
+      setExpandedNav(target)
     } else {
       setIsAnyNavExpanded(!isAnyNavExpanded)
-      setExpandedNav(target.id)
+      setExpandedNav(target)
     }
   }
 
@@ -228,10 +228,10 @@ const HeaderNew = ({
                       expandedNav === 'user' ? 'close' : 'open'
                     }/aria`
                   )}
-                  onClick={
+                  onClick={() =>
                     isAnyNavExpanded
-                      ? () => setUserNavExpanded(true)
-                      : e => toggleExpanded(e.currentTarget)
+                      ? setUserNavExpanded(true)
+                      : toggleExpanded('user')
                   }
                 />
                 {me && <NotificationIconNew fill={textFill} />}
@@ -259,10 +259,8 @@ const HeaderNew = ({
                     }/aria`
                   )}
                   id='main'
-                  onClick={e =>
-                    isAnyNavExpanded
-                      ? closeHandler()
-                      : toggleExpanded(e.currentTarget)
+                  onClick={() =>
+                    isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
                   }
                 />
               </div>

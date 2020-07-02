@@ -298,13 +298,11 @@ class Header extends Component {
       cover,
       secondaryNav,
       showSecondary,
-      onNavExpanded,
       formatColor,
       inNativeApp,
       inNativeIOSApp,
       isMember,
       pullable = true,
-      unreadNotifications = true,
       children
     } = this.props
     const { backButton, renderSecondaryNav } = this.state

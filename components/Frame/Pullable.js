@@ -97,7 +97,7 @@ class Pullable extends React.Component {
       }
     }
 
-    this.onTouchEnd = e => {
+    this.onTouchEnd = () => {
       if (this.props.disabled || this.ignoreTouches) return
 
       if (this.state.status === 'pulling') {

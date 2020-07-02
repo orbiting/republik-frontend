@@ -1,9 +1,7 @@
 import React from 'react'
-import { compose } from 'react-apollo'
-
 import { css } from 'glamor'
-import { routes, Link, Router } from '../../../lib/routes'
 
+import { routes, Link, Router } from '../../../lib/routes'
 import { shouldIgnoreClick } from '../../Link/utils'
 
 import { colors, fontStyles } from '@project-r/styleguide'

@@ -33,7 +33,7 @@ const menuStyle = css({
   WebkitOverflowScrolling: 'touch'
 })
 
-const Popover = ({ items, expanded, id, children, formatColor }) => {
+const Popover = ({ expanded, id, children, formatColor }) => {
   const [ref] = useBodyScrollLock(expanded)
   const hLineHeight = formatColor ? 3 : 1
   return (

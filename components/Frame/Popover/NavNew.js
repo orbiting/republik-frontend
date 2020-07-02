@@ -6,7 +6,6 @@ import {
   colors,
   fontStyles,
   mediaQueries,
-  Label,
   Center,
   Button,
   TeaserSectionTitle
@@ -20,7 +19,7 @@ import SignIn from '../../Auth/SignIn'
 import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import SearchForm from '../../Search/Form'
-import NavLink, { NavA } from './NavLink'
+import NavLink from './NavLink'
 import Sections from './Sections'
 
 const Nav = ({
@@ -28,10 +27,8 @@ const Nav = ({
   router,
   expanded,
   closeHandler,
-  children,
   t,
   inNativeApp,
-  inNativeIOSApp,
   isMember,
   onSearchSubmit
 }) => {

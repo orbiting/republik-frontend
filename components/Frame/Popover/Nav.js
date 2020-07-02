@@ -5,7 +5,7 @@ import { css } from 'glamor'
 import Footer from '../Footer'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
-import { Link, matchPath, Router } from '../../../lib/routes'
+import { matchPath } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 
@@ -110,7 +110,6 @@ const Nav = ({
   router,
   expanded,
   closeHandler,
-  children,
   t,
   inNativeApp,
   inNativeIOSApp,

@@ -54,7 +54,6 @@ let routeChangeStarted
 const HeaderNew = ({
   inNativeApp,
   inNativeIOSApp,
-  isMember,
   dark,
   me,
   t,

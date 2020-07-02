@@ -35,7 +35,7 @@ class LoadingBar extends Component {
       onRouteChangeStart(url)
     }
   }
-  onRouteChangeComplete = url => {
+  onRouteChangeComplete = () => {
     clearTimeout(this.timeout)
     this.setState({ loading: false })
   }

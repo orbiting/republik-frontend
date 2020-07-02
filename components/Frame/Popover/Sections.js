@@ -1,11 +1,8 @@
 import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
-import { ascending } from 'd3-array'
-import { css } from 'glamor'
-import { nest } from 'd3-collection'
 import gql from 'graphql-tag'
 
-import { Loader, mediaQueries, colors } from '@project-r/styleguide'
+import { Loader, colors } from '@project-r/styleguide'
 
 import { matchPath } from '../../../lib/routes'
 

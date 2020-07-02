@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import {
   colors,

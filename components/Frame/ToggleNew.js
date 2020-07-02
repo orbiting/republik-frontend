@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { MdClose } from 'react-icons/md'
 import SearchMenuIcon from '../Icons/SearchMenu'
 import { colors, mediaQueries } from '@project-r/styleguide'

@@ -36,6 +36,7 @@ export const notificationsMiniQuery = gql`
           __typename
           ... on Comment {
             id
+            published
           }
           ... on Document {
             id

@@ -43,23 +43,6 @@ const NotificationFeedMini = ({
 
         return (
           <>
-            {!nodes.length && (
-              <>
-                <Link route='subscriptionsSettings' passHref>
-                  <a onClick={() => closeHandler()} {...linkRule}>
-                    {t('Notifications/settings')}
-                  </a>
-                </Link>
-                <Interaction.P>
-                  <RawHtml
-                    dangerouslySetInnerHTML={{
-                      __html: t('Notifications/empty/paragraph')
-                    }}
-                  />
-                </Interaction.P>
-              </>
-            )}
-
             {!newNodes.length && (
               <p>
                 {t.elements('notifications/minifeed/nounread', {

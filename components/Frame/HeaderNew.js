@@ -54,7 +54,7 @@ let routeChangeStarted
 const HeaderNew = ({
   inNativeApp,
   inNativeIOSApp,
-  dark,
+  dark: darkProp,
   me,
   t,
   secondaryNav,
@@ -79,6 +79,7 @@ const HeaderNew = ({
   const headerHeight = useRef()
   const lastDiff = useRef()
 
+  const dark = darkProp && !isAnyNavExpanded
   const textFill = dark ? colors.negative.text : colors.text
   const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
   const backButton = inNativeIOSApp && me && !isFront(router)
@@ -183,9 +184,7 @@ const HeaderNew = ({
 
   return (
     <HeaderHeightProvider config={headerConfig}>
-      <ColorContext.Provider
-        value={dark && !isAnyNavExpanded ? colors.negative : colors}
-      >
+      <ColorContext.Provider value={dark ? colors.negative : colors}>
         <div
           {...styles.navBar}
           style={{ backgroundColor: dark ? colors.negative.primaryBg : '#fff' }}

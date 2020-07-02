@@ -116,40 +116,43 @@ const HeaderNew = ({
     }
   }
 
-  const onScroll = () => {
-    const y = Math.max(window.pageYOffset, 0)
-
-    if (isAnyNavExpanded) {
-      diff.current = 0
-    } else {
-      const newDiff = lastY.current ? lastY.current - y : 0
-      diff.current += newDiff
-      diff.current = Math.min(Math.max(-headerHeight.current, diff.current), 0)
-    }
-
-    if (diff.current !== lastDiff.current) {
-      fixedRef.current.style.top = `${diff.current}px`
-      setHeaderOffset(diff.current)
-    }
-
-    lastY.current = y
-    lastDiff.current = diff.current
-  }
-
-  const measure = () => {
-    const mobile = window.innerWidth < mediaQueries.mBreakPoint
-    if (mobile !== isMobile) {
-      setIsMobile(mobile)
-    }
-    const { height } = fixedRef.current.getBoundingClientRect()
-    headerHeight.current = height
-    if (height !== headerHeightState) {
-      setHeaderHeightState(height)
-    }
-    onScroll()
-  }
-
   useEffect(() => {
+    const onScroll = () => {
+      const y = Math.max(window.pageYOffset, 0)
+
+      if (isAnyNavExpanded) {
+        diff.current = 0
+      } else {
+        const newDiff = lastY.current ? lastY.current - y : 0
+        diff.current += newDiff
+        diff.current = Math.min(
+          Math.max(-headerHeight.current, diff.current),
+          0
+        )
+      }
+
+      if (diff.current !== lastDiff.current) {
+        fixedRef.current.style.top = `${diff.current}px`
+        setHeaderOffset(diff.current)
+      }
+
+      lastY.current = y
+      lastDiff.current = diff.current
+    }
+
+    const measure = () => {
+      const mobile = window.innerWidth < mediaQueries.mBreakPoint
+      if (mobile !== isMobile) {
+        setIsMobile(mobile)
+      }
+      const { height } = fixedRef.current.getBoundingClientRect()
+      headerHeight.current = height
+      if (height !== headerHeightState) {
+        setHeaderHeightState(height)
+      }
+      onScroll()
+    }
+
     window.addEventListener('scroll', onScroll)
     window.addEventListener('resize', measure)
     measure()
@@ -157,7 +160,7 @@ const HeaderNew = ({
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', measure)
     }
-  }, [showSecondary])
+  }, [isAnyNavExpanded, headerHeightState, isMobile])
 
   const headerConfig = useMemo(() => {
     return [

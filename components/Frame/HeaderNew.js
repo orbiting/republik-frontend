@@ -232,9 +232,11 @@ const HeaderNew = ({
                     }/aria`
                   )}
                   onClick={() =>
-                    isAnyNavExpanded
+                    !isAnyNavExpanded
+                      ? toggleExpanded('user')
+                      : expandedNav !== 'user'
                       ? setUserNavExpanded(true)
-                      : toggleExpanded('user')
+                      : closeHandler()
                   }
                 />
                 {me && <NotificationIconNew fill={textFill} />}

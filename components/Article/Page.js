@@ -6,7 +6,8 @@ import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
-import SeriesNavButton from './SeriesNavButtonNew'
+import SeriesNavButtonNew from './SeriesNavButtonNew'
+import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
@@ -659,8 +660,10 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
+    const MySeriesNavButton = isTester ? SeriesNavButtonNew : SeriesNavButton
+
     const seriesNavButton = showSeriesNav && (
-      <SeriesNavButton
+      <MySeriesNavButton
         t={t}
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}

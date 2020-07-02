@@ -4,8 +4,6 @@ import SeriesNavPanel from './SeriesNavPanel'
 
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 
-import ActionBar from '../ActionBar'
-
 import {
   mediaQueries,
   fontFamilies,

@@ -63,7 +63,8 @@ const HeaderNew = ({
   formatColor,
   pullable = true,
   hasOverviewNav,
-  children
+  children,
+  cover
 }) => {
   const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
   const [expandedNav, setExpandedNav] = useState(null)
@@ -319,6 +320,7 @@ const HeaderNew = ({
           />
         )}
       </ColorContext.Provider>
+      {cover}
       {children}
     </HeaderHeightProvider>
   )

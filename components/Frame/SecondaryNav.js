@@ -6,8 +6,6 @@ import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { matchPath } from '../../lib/routes'
 import withT from '../../lib/withT'
 import NavLink from './Popover/NavLink'
-import Link from '../Link/Path'
-import Sections from '../Frame/Popover/Sections'
 
 import {
   HEADER_HEIGHT,
@@ -15,6 +13,39 @@ import {
   SUBHEADER_HEIGHT_MOBILE,
   ZINDEX_HEADER
 } from '../constants'
+
+const sections = [
+  {
+    title: 'Briefings',
+    path: '/briefings',
+    color: '#07809a',
+    kind: 'editorial'
+  },
+  {
+    title: 'Kolumnen',
+    path: '/kolumnen',
+    color: '#D2933C',
+    kind: null
+  },
+  {
+    title: 'Formate',
+    path: '/formate',
+    color: '#d44438',
+    kind: 'scribble'
+  },
+  {
+    title: 'Audio',
+    path: '/audio',
+    color: null,
+    kind: null
+  },
+  {
+    title: 'Serien',
+    path: '/serien',
+    color: null,
+    kind: null
+  }
+]
 
 export const SecondaryNav = ({
   secondaryNav,
@@ -37,35 +68,44 @@ export const SecondaryNav = ({
             }`
           }}
         >
-          <div {...styles.navContainer}>
-            <NavLink
-              style={{ color: dark ? colors.negative.text : colors.text }}
-              route='index'
-              active={active}
-              minifeed={true}
-            >
-              {t('navbar/front')}
-            </NavLink>
-            <NavLink
-              style={{ color: dark ? colors.negative.text : colors.text }}
-              prefetch
-              route='feed'
-              active={active}
-              minifeed={true}
-            >
-              {t('navbar/feed')}
-            </NavLink>
-            <NavLink
-              style={{ color: dark ? colors.negative.text : colors.text }}
-              route='discussion'
-              active={active}
-              hoverColor={colors.primary}
-              minifeed={true}
-            >
-              {t('navbar/discussion')}
-            </NavLink>
-            <Sections dark={dark} active={active} minifeed={true} />
-          </div>
+          <NavLink dark={dark} route='index' active={active} minifeed={true}>
+            {t('navbar/front')}
+          </NavLink>
+          <NavLink
+            dark={dark}
+            prefetch
+            route='feed'
+            active={active}
+            minifeed={true}
+          >
+            {t('navbar/feed')}
+          </NavLink>
+          <NavLink
+            dark={dark}
+            route='discussion'
+            active={active}
+            hoverColor={colors.primary}
+            minifeed={true}
+          >
+            {t('navbar/discussion')}
+          </NavLink>
+          {sections.map(section => {
+            const match = matchPath(section.path)
+            const color = section.color || colors[section.kind]
+            return (
+              <NavLink
+                key={section.title}
+                route={match.route}
+                params={match.params}
+                active={active}
+                hoverColor={color}
+                minifeed={true}
+                dark={dark}
+              >
+                {section.title}
+              </NavLink>
+            )
+          })}
         </div>
       ) : (
         secondaryNav && (
@@ -108,22 +148,29 @@ const styles = {
   miniNav: css({
     position: 'absolute',
     overflowY: 'hidden',
+    overflowX: 'auto',
+    whiteSpace: 'nowrap',
     zIndex: ZINDEX_HEADER,
     top: HEADER_HEIGHT_MOBILE,
     height: SUBHEADER_HEIGHT_MOBILE,
     left: 0,
     right: 0,
-    display: 'flex',
-    justifyContent: 'flex-start',
+    WebkitOverflowScrolling: 'touch',
+    scrollbarWidth: 'none' /* Firefox */,
+    msOverflowStyle: 'none' /* IE 10+ */,
+    '::-webkit-scrollbar': {
+      height: 0,
+      background: 'transparent'
+    },
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT,
-      justifyContent: 'center'
+      textAlign: 'center'
     },
     '& a': {
-      display: 'block',
+      display: 'inline-block',
       whiteSpace: 'nowrap',
       fontSize: 14,
-      margin: '0 16px',
+      margin: '8px 16px 0px 16px',
       ':active': fontStyles.sansSerifMedium,
       ':last-child': {
         paddingRight: 16,
@@ -131,24 +178,6 @@ const styles = {
           paddingRight: 0
         }
       }
-    }
-  }),
-  navContainer: css({
-    position: 'absolute',
-    top: 8,
-    maxWidth: '100%',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    overflowX: 'scroll',
-    WebkitOverflowScrolling: 'touch',
-    scrollbarWidth: 'none' /* Firefox */,
-    msOverflowStyle: 'none' /* IE 10+ */,
-    '::-webkit-scrollbar': {
-      width: 0,
-      background: 'transparent'
-    },
-    [mediaQueries.mUp]: {
-      justifyContent: 'center'
     }
   }),
   linkItem: css({

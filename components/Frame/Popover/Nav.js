@@ -276,13 +276,6 @@ const Nav = ({
                 <Sections active={active} closeHandler={closeHandler} />
               </div>
               <br />
-              {/*<NavLink
-                route='community'
-                active={active}
-                closeHandler={closeHandler}
-              >
-                {t('nav/community')}
-              </NavLink> */}
               <NavLink
                 inline
                 route='cockpit'
@@ -291,15 +284,6 @@ const Nav = ({
               >
                 {t('nav/cockpit')}
               </NavLink>
-              {/*<NavLink
-                inline
-                route='section'
-                params={{ slug: 'komplizin' }}
-                active={active}
-                closeHandler={closeHandler}
-              >
-                Komplizen
-              </NavLink> */}
               <br />
               <NavLink
                 inline

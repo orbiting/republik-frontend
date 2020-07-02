@@ -54,9 +54,7 @@ const SectionNav = ({
                   <Fragment key={id}>
                     {i > 0 && <br />}
                     <NavLink
-                      style={{
-                        color: dark ? colors.negative.text : colors.text
-                      }}
+                      dark={dark}
                       route={match.route}
                       params={match.params}
                       active={active}

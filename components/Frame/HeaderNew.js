@@ -356,15 +356,18 @@ const styles = {
   }),
   leftBarItem: css({
     marginRight: 'auto',
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'flex-start',
+    width: '100%'
   }),
   rightBarItem: css({
     marginLeft: 'auto',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
     height: HEADER_HEIGHT_MOBILE - 2,
-    width: HEADER_HEIGHT_MOBILE - 2 + 1,
     [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT - 2,
-      width: HEADER_HEIGHT - 2 + 5
+      height: HEADER_HEIGHT - 2
     },
     '@media print': {
       display: 'none'

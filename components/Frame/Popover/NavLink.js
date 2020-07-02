@@ -31,10 +31,11 @@ const styles = {
 }
 
 export const NavA = React.forwardRef(
-  ({ inline, hoverColor, children, ...props }, ref) => (
+  ({ inline, hoverColor, children, dark, ...props }, ref) => (
     <a
       ref={ref}
       {...styles.link}
+      {...css({ color: dark ? colors.negative.text : colors.text })}
       {...(hoverColor &&
         css({
           transition: 'color 200ms ease-in-out',
@@ -59,11 +60,11 @@ const NavLink = ({
   params = {},
   active,
   closeHandler,
-  style,
   inline,
   hoverColor,
   prefetch = false,
-  minifeed
+  minifeed,
+  dark
 }) => {
   const activeStyle = minifeed && {
     ...fontStyles.sansSerifMedium14,
@@ -79,7 +80,10 @@ const NavLink = ({
     return (
       <NavA
         inline={inline}
-        {...css({ ...style, ...activeStyle })}
+        {...css({
+          color: dark ? colors.negative.text : colors.text,
+          ...activeStyle
+        })}
         hoverColor={hoverColor}
         href={r && r.getAs(params)}
         onClick={e => {
@@ -104,7 +108,7 @@ const NavLink = ({
       prefetch={prefetch ? undefined : prefetch}
       passHref
     >
-      <NavA inline={inline} style={style} hoverColor={hoverColor}>
+      <NavA inline={inline} dark={dark} hoverColor={hoverColor}>
         {children}
       </NavA>
     </Link>

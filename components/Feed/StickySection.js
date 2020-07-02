@@ -65,10 +65,6 @@ const StickySection = ({ children, label, hasSpaceAfter, isTester }) => {
     }
   }, [])
 
-  const stickyTopPosition = isTester
-    ? headerHeight + SUBHEADER_HEIGHT
-    : headerHeight
-
   return (
     <section ref={sectionRef}>
       <div {...style.header}>
@@ -77,7 +73,7 @@ const StickySection = ({ children, label, hasSpaceAfter, isTester }) => {
           {...(sticky ? style.sticky : undefined)}
           style={{
             borderTop: sticky ? 'none' : '1px solid #000',
-            top: sticky ? stickyTopPosition : undefined,
+            top: sticky ? headerHeight : undefined,
             position: sticky ? 'fixed' : 'relative',
             width: isMedium ? width : width ? SIDEBAR_WIDTH : '100%'
           }}

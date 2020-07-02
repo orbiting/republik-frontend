@@ -165,16 +165,18 @@ const HeaderNew = ({
         minWidth: 0,
         headerHeight:
           HEADER_HEIGHT_MOBILE +
-          (showSecondary ? SUBHEADER_HEIGHT : 0) +
+          (hasOverviewNav || secondaryNav ? SUBHEADER_HEIGHT : 0) +
           headerOffset
       },
       {
         minWidth: mediaQueries.mBreakPoint,
         headerHeight:
-          HEADER_HEIGHT + (showSecondary ? SUBHEADER_HEIGHT : 0) + headerOffset
+          HEADER_HEIGHT +
+          (hasOverviewNav || secondaryNav ? SUBHEADER_HEIGHT : 0) +
+          headerOffset
       }
     ]
-  }, [secondaryNav, headerOffset])
+  }, [hasOverviewNav, secondaryNav, headerOffset])
 
   return (
     <HeaderHeightProvider config={headerConfig}>

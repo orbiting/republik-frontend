@@ -13,14 +13,13 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
-import { matchPath } from '../../../lib/routes'
+import { Link, matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import NavLink, { NavA } from './NavLink'
 import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
-import Link from '../../Link/Href'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
 
 const SignoutLink = ({ children, ...props }) => (
@@ -86,14 +85,14 @@ const UserNav = ({
               )}
               {me && (
                 <>
-                  <Link href='/benachrichtigungen' active={active} passHref>
+                  <Link route='subscriptions' passHref>
                     <TeaserSectionTitle onClick={() => closeHandler()} small>
                       {t('pages/notifications/title')}
                     </TeaserSectionTitle>
                   </Link>
                   <NotificationFeedMini closeHandler={closeHandler} />
                   <br />
-                  <Link href='/lesezeichen' active={active} passHref>
+                  <Link route='bookmarks' passHref>
                     <TeaserSectionTitle onClick={() => closeHandler()} small>
                       {`${t('nav/bookmarks')}`}
                     </TeaserSectionTitle>

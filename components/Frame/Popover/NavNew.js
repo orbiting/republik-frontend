@@ -15,12 +15,11 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
-import { matchPath } from '../../../lib/routes'
+import { Link, matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import SearchForm from '../../Search/Form'
-import Link from '../../Link/Href'
 import NavLink, { NavA } from './NavLink'
 import Sections from './Sections'
 
@@ -96,13 +95,8 @@ const Nav = ({
             <hr {...styles.hr} />
             <div {...styles.navSection}>
               <div style={{ color: colors.lightText }}>
-                <Link
-                  href='/sections'
-                  active={active}
-                  closeHandler={closeHandler}
-                  passHref
-                >
-                  <TeaserSectionTitle small>
+                <Link route='sections' passHref>
+                  <TeaserSectionTitle onClick={() => closeHandler()} small>
                     {t('nav/sections')}
                   </TeaserSectionTitle>
                 </Link>

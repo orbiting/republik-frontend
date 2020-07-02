@@ -39,7 +39,7 @@ const Popover = ({ expanded, id, children, formatColor }) => {
   return (
     <div
       {...css({
-        top: HEADER_HEIGHT_MOBILE + hLineHeight,
+        top: HEADER_HEIGHT_MOBILE - hLineHeight,
         height: `calc(100vh - ${HEADER_HEIGHT_MOBILE - hLineHeight}px)`,
         [mediaQueries.mUp]: {
           top: HEADER_HEIGHT - hLineHeight,

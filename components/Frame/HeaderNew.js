@@ -96,6 +96,13 @@ const HeaderNew = ({
     }
   }
 
+  const openUserNavOverMainNav = () => {
+    setUserNavExpanded(true)
+    setTimeout(() => {
+      setExpandedNav('user')
+    }, 200)
+  }
+
   const closeHandler = () => {
     if (isAnyNavExpanded) {
       setIsAnyNavExpanded(false)
@@ -234,7 +241,7 @@ const HeaderNew = ({
                     !isAnyNavExpanded
                       ? toggleExpanded('user')
                       : expandedNav !== 'user'
-                      ? setUserNavExpanded(true)
+                      ? openUserNavOverMainNav()
                       : closeHandler()
                   }
                 />

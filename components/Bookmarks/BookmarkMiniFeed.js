@@ -11,13 +11,11 @@ import {
 
 import Bookmark from '../ActionBar/Bookmark'
 import UserProgress from '../ActionBar/UserProgress'
-import withT from '../../lib/withT'
-import { withMembership } from '../Auth/checkRoles'
 import Link from '../Link/Path'
 
 import { getBookmarkedDocuments } from './queries'
 
-const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
+const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
   return (
     <Loader
       loading={data.loading}
@@ -29,7 +27,7 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
         }
         const nodes = data.me.collection.items.nodes
         return (
-          <div {...styles.tilesContainer} {...props}>
+          <div {...styles.tilesContainer} style={style}>
             {nodes
               .filter(node => node.document)
               .slice(0, 3)
@@ -117,7 +115,7 @@ const styles = {
     flex: '0 0 8px',
     [mediaQueries.mUp]: {
       flex: 0,
-      display: 'hidden'
+      display: 'none'
     }
   }),
   tileHeadlineContainer: css({
@@ -139,8 +137,4 @@ const styles = {
   })
 }
 
-export default compose(
-  withT,
-  graphql(getBookmarkedDocuments),
-  withMembership
-)(BookmarkMiniFeed)
+export default compose(graphql(getBookmarkedDocuments))(BookmarkMiniFeed)

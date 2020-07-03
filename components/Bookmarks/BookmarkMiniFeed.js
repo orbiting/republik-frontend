@@ -32,7 +32,6 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
               .filter(node => node.document)
               .slice(0, 3)
               .map(node => {
-                console.log(node)
                 const { userProgress, userBookmark, id } = node.document
                 const {
                   estimatedReadingMinutes,

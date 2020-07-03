@@ -32,7 +32,7 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
           <div {...styles.tilesContainer} {...props}>
             {nodes
               .filter(node => node.document)
-              .slice(0, 8)
+              .slice(0, 3)
               .map(node => {
                 const { userProgress, userBookmark } = node.document
                 const {
@@ -71,6 +71,7 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
                   </div>
                 )
               })}
+            <div {...styles.spacer} />
           </div>
         )
       }}
@@ -88,7 +89,7 @@ const styles = {
     scrollbarWidth: 'none' /* Firefox */,
     msOverflowStyle: 'none' /* IE 10+ */,
     '::-webkit-scrollbar': {
-      width: 0,
+      height: 0,
       background: 'transparent'
     }
   }),
@@ -109,7 +110,14 @@ const styles = {
     [mediaQueries.mUp]: {
       padding: '12px 8px',
       height: 120,
-      flex: '0 0 300px'
+      flex: '0 0 210px'
+    }
+  }),
+  spacer: css({
+    flex: '0 0 8px',
+    [mediaQueries.mUp]: {
+      flex: 0,
+      display: 'hidden'
     }
   }),
   tileHeadlineContainer: css({

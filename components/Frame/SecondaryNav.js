@@ -159,8 +159,7 @@ const styles = {
     scrollbarWidth: 'none' /* Firefox */,
     msOverflowStyle: 'none' /* IE 10+ */,
     '::-webkit-scrollbar': {
-      height: 0,
-      background: 'transparent'
+      display: 'none'
     },
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT,
@@ -170,7 +169,7 @@ const styles = {
       display: 'inline-block',
       whiteSpace: 'nowrap',
       fontSize: 14,
-      margin: '8px 16px 0px 16px',
+      margin: '10px 16px 0px 16px',
       ':active': fontStyles.sansSerifMedium,
       ':last-child': {
         paddingRight: 16,

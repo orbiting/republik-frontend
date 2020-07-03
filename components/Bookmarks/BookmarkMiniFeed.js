@@ -11,13 +11,11 @@ import {
 
 import Bookmark from '../ActionBar/Bookmark'
 import UserProgress from '../ActionBar/UserProgress'
-import withT from '../../lib/withT'
-import { withMembership } from '../Auth/checkRoles'
 import Link from '../Link/Path'
 
 import { getBookmarkedDocuments } from './queries'
 
-const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
+const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
   return (
     <Loader
       loading={data.loading}
@@ -29,12 +27,12 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
         }
         const nodes = data.me.collection.items.nodes
         return (
-          <div {...styles.tilesContainer} {...props}>
+          <div {...styles.tilesContainer} style={style}>
             {nodes
               .filter(node => node.document)
-              .slice(0, 8)
+              .slice(0, 3)
               .map(node => {
-                const { userProgress, userBookmark } = node.document
+                const { userProgress, userBookmark, id } = node.document
                 const {
                   estimatedReadingMinutes,
                   title,
@@ -54,7 +52,7 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
                       </Link>
                     </div>
                     <div {...styles.iconContainer}>
-                      <Bookmark bookmarked={!!userBookmark} />
+                      <Bookmark documentId={id} bookmarked={!!userBookmark} />
                       {userProgress && estimatedReadingMinutes > 1 && (
                         <UserProgress
                           small
@@ -71,6 +69,7 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
                   </div>
                 )
               })}
+            <div {...styles.spacer} />
           </div>
         )
       }}
@@ -88,8 +87,7 @@ const styles = {
     scrollbarWidth: 'none' /* Firefox */,
     msOverflowStyle: 'none' /* IE 10+ */,
     '::-webkit-scrollbar': {
-      width: 0,
-      background: 'transparent'
+      display: 'none'
     }
   }),
   tile: css({
@@ -109,7 +107,14 @@ const styles = {
     [mediaQueries.mUp]: {
       padding: '12px 8px',
       height: 120,
-      flex: '0 0 300px'
+      flex: '0 0 210px'
+    }
+  }),
+  spacer: css({
+    flex: '0 0 8px',
+    [mediaQueries.mUp]: {
+      flex: 0,
+      display: 'none'
     }
   }),
   tileHeadlineContainer: css({
@@ -131,8 +136,4 @@ const styles = {
   })
 }
 
-export default compose(
-  withT,
-  graphql(getBookmarkedDocuments),
-  withMembership
-)(BookmarkMiniFeed)
+export default compose(graphql(getBookmarkedDocuments))(BookmarkMiniFeed)

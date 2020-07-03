@@ -142,8 +142,8 @@ const Nav = ({
             </div>
           </>
         )}
-        {inNativeApp && hasExpandedRef.current && <Footer />}
       </Center>
+      {inNativeApp && hasExpandedRef.current && <Footer />}
     </>
   )
 }

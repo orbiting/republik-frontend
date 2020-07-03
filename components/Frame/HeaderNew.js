@@ -36,7 +36,8 @@ import {
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE
+  LOGO_PADDING_MOBILE,
+  TRANSITION_MS
 } from '../constants'
 
 const isActiveRoute = (active, route, params = {}) =>
@@ -94,6 +95,13 @@ const HeaderNew = ({
       setIsAnyNavExpanded(!isAnyNavExpanded)
       setExpandedNav(target)
     }
+  }
+
+  const openUserNavOverMainNav = () => {
+    setUserNavExpanded(true)
+    setTimeout(() => {
+      setExpandedNav('user')
+    }, TRANSITION_MS)
   }
 
   const closeHandler = () => {
@@ -234,7 +242,7 @@ const HeaderNew = ({
                     !isAnyNavExpanded
                       ? toggleExpanded('user')
                       : expandedNav !== 'user'
-                      ? setUserNavExpanded(true)
+                      ? openUserNavOverMainNav()
                       : closeHandler()
                   }
                 />

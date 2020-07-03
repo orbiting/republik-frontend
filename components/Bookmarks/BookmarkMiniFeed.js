@@ -89,8 +89,7 @@ const styles = {
     scrollbarWidth: 'none' /* Firefox */,
     msOverflowStyle: 'none' /* IE 10+ */,
     '::-webkit-scrollbar': {
-      height: 0,
-      background: 'transparent'
+      display: 'none'
     }
   }),
   tile: css({

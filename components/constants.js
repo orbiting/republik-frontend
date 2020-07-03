@@ -3,8 +3,8 @@ import { Logo, mediaQueries } from '@project-r/styleguide'
 export const HEADER_HEIGHT = 60
 export const HEADER_HEIGHT_MOBILE = 45
 export const HEADER_ICON_SIZE = 22
-export const SUBHEADER_HEIGHT = 32
-export const SUBHEADER_HEIGHT_MOBILE = 32
+export const SUBHEADER_HEIGHT = 36
+export const SUBHEADER_HEIGHT_MOBILE = 36
 
 export const HEADER_HEIGHT_CONFIG = [
   { minWidth: 0, headerHeight: HEADER_HEIGHT_MOBILE },

@@ -6,15 +6,14 @@ import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
 import { Spinner } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import { withTester } from '../Auth/checkRoles'
 import photoswipeStyle from './photoswipeStyle'
-import { ZINDEX_LOADINGBAR } from '../constants'
+import { ZINDEX_GALLERY } from '../constants'
 
 const removeQuery = (url = '') => url.split('?')[0]
 
 const MAX_SPREAD_ZOOM = 2
 
-const Gallery = ({ items, onClose, startItemSrc, children, t, isTester }) => {
+const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
   const galleryRef = React.useRef(null)
 
   React.useEffect(() => {
@@ -86,7 +85,7 @@ const Gallery = ({ items, onClose, startItemSrc, children, t, isTester }) => {
         role='dialog'
         style={{
           background: '#000',
-          zIndex: ZINDEX_LOADINGBAR
+          zIndex: ZINDEX_GALLERY
         }}
       >
         <div className='pswp__bg' />
@@ -127,4 +126,4 @@ const Gallery = ({ items, onClose, startItemSrc, children, t, isTester }) => {
   )
 }
 
-export default compose(withTester, withT)(Gallery)
+export default compose(withT)(Gallery)

@@ -46,8 +46,8 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                           onClick={() => closeHandler()}
                           {...styles.tileHeadline}
                         >
-                          {title.substring(0, 50).trim()}
-                          {title.length >= 50 && <>&nbsp;…</>}
+                          {title.substring(0, 42).trim()}
+                          {title.length >= 42 && <>&nbsp;…</>}
                         </a>
                       </Link>
                     </div>

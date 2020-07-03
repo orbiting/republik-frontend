@@ -36,7 +36,8 @@ import {
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE
+  LOGO_PADDING_MOBILE,
+  TRANSITION_MS
 } from '../constants'
 
 const isActiveRoute = (active, route, params = {}) =>
@@ -100,7 +101,7 @@ const HeaderNew = ({
     setUserNavExpanded(true)
     setTimeout(() => {
       setExpandedNav('user')
-    }, 200)
+    }, TRANSITION_MS)
   }
 
   const closeHandler = () => {

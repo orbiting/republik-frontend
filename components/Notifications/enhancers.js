@@ -25,6 +25,32 @@ export const subInfo = gql`
   }
 `
 
+export const notificationsMiniQuery = gql`
+  query getNotificationsMini {
+    notifications(first: 3) {
+      nodes {
+        id
+        readAt
+        createdAt
+        object {
+          __typename
+          ... on Comment {
+            id
+            published
+          }
+          ... on Document {
+            id
+          }
+        }
+        content {
+          title
+          url
+        }
+      }
+    }
+  }
+`
+
 export const notificationsQuery = gql`
   query getNotifications($after: String) {
     me {

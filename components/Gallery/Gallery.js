@@ -1,15 +1,13 @@
 import React from 'react'
-
-import withT from '../../lib/withT'
-
-import photoswipeStyle from './photoswipeStyle'
-
-import { Spinner } from '@project-r/styleguide'
-
+import { compose } from 'react-apollo'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUIDefault from 'photoswipe/dist/photoswipe-ui-default'
-
 import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
+import { Spinner } from '@project-r/styleguide'
+
+import withT from '../../lib/withT'
+import photoswipeStyle from './photoswipeStyle'
+import { ZINDEX_GALLERY } from '../constants'
 
 const removeQuery = (url = '') => url.split('?')[0]
 
@@ -85,7 +83,10 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
         className='pswp'
         tabIndex='-1'
         role='dialog'
-        style={{ background: '#000' }}
+        style={{
+          background: '#000',
+          zIndex: ZINDEX_GALLERY
+        }}
       >
         <div className='pswp__bg' />
         <div className='pswp__scroll-wrap'>
@@ -125,4 +126,4 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
   )
 }
 
-export default withT(Gallery)
+export default compose(withT)(Gallery)

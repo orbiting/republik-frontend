@@ -3,6 +3,8 @@ import { Logo, mediaQueries } from '@project-r/styleguide'
 export const HEADER_HEIGHT = 60
 export const HEADER_HEIGHT_MOBILE = 45
 export const HEADER_ICON_SIZE = 22
+export const SUBHEADER_HEIGHT = 32
+export const SUBHEADER_HEIGHT_MOBILE = 32
 
 export const HEADER_HEIGHT_CONFIG = [
   { minWidth: 0, headerHeight: HEADER_HEIGHT_MOBILE },
@@ -22,8 +24,9 @@ export const LOGO_PADDING_MOBILE = Math.floor(
 export const TESTIMONIAL_IMAGE_SIZE = 238
 export const CONTENT_PADDING = 60
 
-export const ZINDEX_LOADINGBAR = 3010
-export const ZINDEX_POPOVER = 3000
+export const ZINDEX_GALLERY = 50
+export const ZINDEX_LOADINGBAR = 49
+export const ZINDEX_POPOVER = 40
 export const ZINDEX_HEADER = 20
 export const ZINDEX_BOTTOM_PANEL = 16
 export const ZINDEX_CONTENT = 15
@@ -34,3 +37,5 @@ export const ZINDEX_FRAME_TOGGLE = 1
 
 export const DEFAULT_TOKEN_TYPE = 'EMAIL_TOKEN'
 export const SUPPORTED_TOKEN_TYPES = [DEFAULT_TOKEN_TYPE, 'APP']
+
+export const TRANSITION_MS = 200

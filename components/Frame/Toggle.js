@@ -93,7 +93,7 @@ const styles = {
   })
 }
 
-export default ({ expanded, onClick, id, title, dark }) => {
+export default ({ expanded, onClick, title, dark }) => {
   return (
     <button
       {...styles.button}

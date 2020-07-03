@@ -6,6 +6,7 @@ import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
+import SeriesNavButtonNew from './SeriesNavButtonNew'
 import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
@@ -34,6 +35,7 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
+import { withTester } from '../Auth/checkRoles'
 
 import SurviveStatus from '../Crowdfunding/SurviveStatus'
 
@@ -80,7 +82,11 @@ import gql from 'graphql-tag'
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
-import { notificationInfo, subInfo, withMarkAsReadMutation } from '../Notifications/enhancers'
+import {
+  notificationInfo,
+  subInfo,
+  withMarkAsReadMutation
+} from '../Notifications/enhancers'
 /* eslint-enable */
 
 const schemaCreators = {
@@ -561,7 +567,8 @@ class ArticlePage extends Component {
       inNativeApp,
       payNoteSeed,
       payNoteTryOrBuy,
-      hasActiveMembership
+      hasActiveMembership,
+      isTester
     } = this.props
 
     const {
@@ -613,14 +620,28 @@ class ArticlePage extends Component {
       />
     )
     const actionBarNav = actionBar
-      ? React.cloneElement(actionBar, {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          onPdfClick: undefined,
-          pdfUrl: undefined,
-          showSubscribe: false
-        })
+      ? React.cloneElement(
+          actionBar,
+          isTester
+            ? {
+                animate: false,
+                estimatedReadingMinutes: undefined,
+                estimatedConsumptionMinutes: undefined,
+                onPdfClick: undefined,
+                pdfUrl: undefined,
+                showSubscribe: false,
+                fontSize: false,
+                wrapped: true
+              }
+            : {
+                animate: false,
+                estimatedReadingMinutes: undefined,
+                estimatedConsumptionMinutes: undefined,
+                onPdfClick: undefined,
+                pdfUrl: undefined,
+                showSubscribe: false
+              }
+        )
       : undefined
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
@@ -639,8 +660,10 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
+    const MySeriesNavButton = isTester ? SeriesNavButtonNew : SeriesNavButton
+
     const seriesNavButton = showSeriesNav && (
-      <SeriesNavButton
+      <MySeriesNavButton
         t={t}
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
@@ -723,6 +746,7 @@ class ArticlePage extends Component {
         { MissingNode }
       )
 
+    const hasOverviewNav = meta && meta.template === 'section'
     return (
       <Frame
         dark={darkMode}
@@ -732,9 +756,12 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || actionBarNav}
-        showSecondary={this.state.showSecondary}
+        secondaryNav={seriesNavButton}
+        showSecondary={
+          isTester && seriesNavButton ? true : this.state.showSecondary
+        }
         formatColor={formatColor}
+        hasOverviewNav={hasOverviewNav}
       >
         <Loader
           loading={data.loading}
@@ -991,6 +1018,7 @@ const ComposedPage = compose(
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation,
+  withTester,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

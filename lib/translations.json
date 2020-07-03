@@ -1,5 +1,5 @@
 {
-  "updated": "2020-06-22T14:47:39.540Z",
+  "updated": "2020-07-02T17:53:40.730Z",
   "title": "live",
   "data": [
     {
@@ -53,6 +53,10 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
+    },
+    {
+      "key": "nav/becomemember",
+      "value": "Mitglied werden"
     },
     {
       "key": "navbar/front",
@@ -3453,6 +3457,14 @@
     {
       "key": "notifications/links/merci",
       "value": "Ihre persönliche Übersicht"
+    },
+    {
+      "key": "notifications/minifeed/nounread",
+      "value": "Keine ungelesenen Benachrichtigungen. {link}"
+    },
+    {
+      "key": "notifications/minifeed/nounread/link",
+      "value": "Alle anzeigen"
     },
     {
       "key": "events/pageTitle",

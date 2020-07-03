@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
@@ -62,88 +62,79 @@ const greetingSubscription = gql`
   }
 `
 
-class Feed extends Component {
-  componentDidMount() {
-    this.subscribe()
+const Feed = ({
+  meta,
+  data: {
+    error,
+    loading,
+    greeting,
+    documents: connection,
+    fetchMore,
+    subscribeToMore
   }
+}) => {
+  const mapNodes = node => node.entity
 
-  componentDidUpdate() {
-    this.subscribe()
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
-  }
-
-  subscribe() {
-    if (!this.unsubscribe && this.props.data.greeting) {
-      this.unsubscribe = this.props.data.subscribeToMore({
-        document: greetingSubscription,
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) {
-            return prev
-          }
-          const { greeting } = subscriptionData.data.greeting
-          if (greeting) {
-            return {
-              ...prev,
-              greeting: {
-                ...greeting
-              }
-            }
-          } else {
-            return prev
-          }
-        }
-      })
+  useEffect(() => {
+    if (!subscribeToMore) {
+      return
     }
-  }
+    let unsubscribe = subscribeToMore({
+      document: greetingSubscription,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev
+        }
+        const { greeting } = subscriptionData.data.greeting
+        if (greeting) {
+          return {
+            ...prev,
+            greeting: {
+              ...greeting
+            }
+          }
+        } else {
+          return prev
+        }
+      }
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [subscribeToMore])
 
-  render() {
-    const {
-      meta,
-      data: { error, loading, greeting, documents: connection, fetchMore }
-    } = this.props
+  return (
+    <Frame hasOverviewNav raw meta={meta}>
+      <Center {...styles.container}>
+        <Loader
+          error={error}
+          loading={loading}
+          render={() => {
+            return (
+              <>
+                {greeting && (
+                  <Interaction.H1 style={{ marginBottom: '40px' }}>
+                    {greeting.text}
+                  </Interaction.H1>
+                )}
 
-    const mapNodes = node => node.entity
-
-    return (
-      <Frame raw meta={meta}>
-        <Center {...styles.container}>
-          <Loader
-            error={error}
-            loading={loading}
-            render={() => {
-              return (
-                <>
-                  {greeting && (
-                    <Interaction.H1 style={{ marginBottom: '40px' }}>
-                      {greeting.text}
-                    </Interaction.H1>
-                  )}
-
-                  <DocumentList
-                    documents={connection.nodes.map(mapNodes)}
-                    totalCount={connection.totalCount}
-                    hasMore={connection.pageInfo.hasNextPage}
-                    loadMore={makeLoadMore({
-                      fetchMore,
-                      connection,
-                      mapNodes
-                    })}
-                  />
-                </>
-              )
-            }}
-          />
-        </Center>
-      </Frame>
-    )
-  }
+                <DocumentList
+                  documents={connection.nodes.map(mapNodes)}
+                  totalCount={connection.totalCount}
+                  hasMore={connection.pageInfo.hasNextPage}
+                  loadMore={makeLoadMore({
+                    fetchMore,
+                    connection,
+                    mapNodes
+                  })}
+                />
+              </>
+            )
+          }}
+        />
+      </Center>
+    </Frame>
+  )
 }
 
-export default compose(
-  graphql(query),
-  withT,
-  withInNativeApp
-)(Feed)
+export default compose(graphql(query), withT, withInNativeApp)(Feed)

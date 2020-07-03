@@ -1,20 +1,15 @@
 import React from 'react'
-import { compose } from 'react-apollo'
-
 import { css } from 'glamor'
-import { routes, Link, Router } from '../../../lib/routes'
 
+import { routes, Link, Router } from '../../../lib/routes'
 import { shouldIgnoreClick } from '../../Link/utils'
 
-import { colors } from '@project-r/styleguide'
+import { colors, fontStyles } from '@project-r/styleguide'
 
 const styles = {
   link: css({
     textDecoration: 'none',
     color: colors.text,
-    ':visited': {
-      color: colors.text
-    },
     '@media (hover)': {
       ':hover': {
         textDecoration: 'underline',
@@ -34,10 +29,11 @@ const styles = {
 }
 
 export const NavA = React.forwardRef(
-  ({ inline, hoverColor, children, ...props }, ref) => (
+  ({ inline, hoverColor, children, dark, ...props }, ref) => (
     <a
       ref={ref}
       {...styles.link}
+      {...css({ color: dark ? colors.negative.text : colors.text })}
       {...(hoverColor &&
         css({
           transition: 'color 200ms ease-in-out',
@@ -62,17 +58,30 @@ const NavLink = ({
   params = {},
   active,
   closeHandler,
-  style,
   inline,
   hoverColor,
-  prefetch = false
+  prefetch = false,
+  minifeed,
+  dark
 }) => {
-  if (active && active.route === route) {
+  const activeStyle = minifeed && {
+    ...fontStyles.sansSerifMedium14,
+    lineHeight: '16px',
+    marginTop: -1
+  }
+  if (
+    active &&
+    active.route === route &&
+    Object.keys(params).every(key => params[key] === active.params[key])
+  ) {
     const r = routes.find(r => r.name === route)
     return (
       <NavA
         inline={inline}
-        style={style}
+        {...css({
+          color: dark ? colors.negative.text : colors.text,
+          ...activeStyle
+        })}
         hoverColor={hoverColor}
         href={r && r.getAs(params)}
         onClick={e => {
@@ -82,7 +91,7 @@ const NavLink = ({
           e.preventDefault()
           Router.pushRoute(route, params).then(() => {
             window.scroll(0, 0)
-            closeHandler()
+            !minifeed && closeHandler()
           })
         }}
       >
@@ -97,7 +106,7 @@ const NavLink = ({
       prefetch={prefetch ? undefined : prefetch}
       passHref
     >
-      <NavA inline={inline} style={style} hoverColor={hoverColor}>
+      <NavA inline={inline} dark={dark} hoverColor={hoverColor}>
         {children}
       </NavA>
     </Link>

@@ -6,7 +6,14 @@ import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
 
 const ResultCount = compose(withT)(
-  ({ t, formValue, searchQuery, getSearchParams, dataAggregations }) => {
+  ({
+    t,
+    formValue,
+    searchQuery,
+    getSearchParams,
+    dataAggregations,
+    onClickSearchResults
+  }) => {
     const totalCount =
       dataAggregations.search && dataAggregations.search.totalCount
     const results = t.pluralize('search/pageInfo/total', {
@@ -22,7 +29,16 @@ const ResultCount = compose(withT)(
               params={getSearchParams({ q: searchQuery })}
               passHref
             >
-              <a {...linkRule}>{results}</a>
+              <a
+                {...linkRule}
+                onClick={() => {
+                  if (onClickSearchResults) {
+                    onClickSearchResults()
+                  }
+                }}
+              >
+                {results}
+              </a>
             </Link>
           ) : (
             <span style={{ color: colors.lightText }}>{results}</span>

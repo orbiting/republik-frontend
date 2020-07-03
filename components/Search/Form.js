@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { MdClose } from 'react-icons/md'
-import { Field, mediaQueries, useDebounce } from '@project-r/styleguide'
+import {
+  Field,
+  mediaQueries,
+  useDebounce,
+  usePrevious
+} from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
@@ -31,7 +36,8 @@ const Form = compose(
     dataAggregations,
     t,
     searchQuery,
-    setSearchQuery
+    setSearchQuery,
+    onSearchSubmit
   }) => {
     const [focusRef, setFocusRef] = useState(null)
     const [formValue, setFormValue] = useState(urlQuery)
@@ -45,12 +51,23 @@ const Form = compose(
       setSearchQuery(slowFormValue)
     }, [slowFormValue])
 
+    const previousUrlQuery = usePrevious(urlQuery)
+
+    useEffect(() => {
+      if (previousUrlQuery !== urlQuery) {
+        setFormValue(urlQuery)
+      }
+    }, [urlQuery, previousUrlQuery])
+
     const submit = e => {
       e.preventDefault()
       pushSearchParams({
         q: formValue,
         sort: urlQuery ? undefined : DEFAULT_SORT
       })
+      if (onSearchSubmit) {
+        onSearchSubmit()
+      }
     }
 
     const update = (_, value) => {
@@ -87,6 +104,7 @@ const Form = compose(
             searchQuery={searchQuery}
             dataAggregations={dataAggregations}
             getSearchParams={getSearchParams}
+            onClickSearchResults={onSearchSubmit}
           />
         )}
       </div>
@@ -94,10 +112,16 @@ const Form = compose(
   }
 )
 
-const FormWrapper = () => {
+const FormWrapper = ({ onSearchSubmit }) => {
   const [searchQuery, setSearchQuery] = useState()
 
-  return <Form searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+  return (
+    <Form
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
+      onSearchSubmit={onSearchSubmit}
+    />
+  )
 }
 
 export default FormWrapper

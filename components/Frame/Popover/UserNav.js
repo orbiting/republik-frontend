@@ -164,9 +164,9 @@ const UserNav = ({
               )}
             </>
           )}
-          {inNativeApp && hasExpandedRef.current && <Footer />}
         </div>
       </Center>
+      {inNativeApp && hasExpandedRef.current && <Footer />}
     </>
   )
 }

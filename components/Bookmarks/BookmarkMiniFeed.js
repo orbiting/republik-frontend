@@ -34,7 +34,8 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
               .filter(node => node.document)
               .slice(0, 3)
               .map(node => {
-                const { userProgress, userBookmark } = node.document
+                console.log(node)
+                const { userProgress, userBookmark, id } = node.document
                 const {
                   estimatedReadingMinutes,
                   title,
@@ -54,7 +55,7 @@ const BookmarkMiniFeed = ({ t, data, closeHandler, ...props }) => {
                       </Link>
                     </div>
                     <div {...styles.iconContainer}>
-                      <Bookmark bookmarked={!!userBookmark} />
+                      <Bookmark documentId={id} bookmarked={!!userBookmark} />
                       {userProgress && estimatedReadingMinutes > 1 && (
                         <UserProgress
                           small

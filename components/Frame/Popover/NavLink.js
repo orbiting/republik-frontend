@@ -29,7 +29,7 @@ const styles = {
 }
 
 export const NavA = React.forwardRef(
-  ({ inline, hoverColor, children, dark, ...props }, ref) => (
+  ({ inline, hoverColor, children, dark, style, ...props }, ref) => (
     <a
       ref={ref}
       {...styles.link}
@@ -45,6 +45,7 @@ export const NavA = React.forwardRef(
           }
         }))}
       {...(inline ? styles.inline : styles.block)}
+      style={style}
       {...props}
     >
       {children}
@@ -69,36 +70,11 @@ const NavLink = ({
     lineHeight: '16px',
     marginTop: -1
   }
-  if (
+  const isActive =
     active &&
     active.route === route &&
     Object.keys(params).every(key => params[key] === active.params[key])
-  ) {
-    const r = routes.find(r => r.name === route)
-    return (
-      <NavA
-        inline={inline}
-        {...css({
-          color: dark ? colors.negative.text : colors.text,
-          ...activeStyle
-        })}
-        hoverColor={hoverColor}
-        href={r && r.getAs(params)}
-        onClick={e => {
-          if (shouldIgnoreClick(e)) {
-            return
-          }
-          e.preventDefault()
-          Router.pushRoute(route, params).then(() => {
-            window.scroll(0, 0)
-            !minifeed && closeHandler()
-          })
-        }}
-      >
-        {children}
-      </NavA>
-    )
-  }
+
   return (
     <Link
       route={route}
@@ -106,7 +82,13 @@ const NavLink = ({
       prefetch={prefetch ? undefined : prefetch}
       passHref
     >
-      <NavA inline={inline} dark={dark} hoverColor={hoverColor}>
+      <NavA
+        style={isActive ? activeStyle : undefined}
+        inline={inline}
+        onClick={!minifeed ? closeHandler : undefined}
+        dark={dark}
+        hoverColor={hoverColor}
+      >
         {children}
       </NavA>
     </Link>

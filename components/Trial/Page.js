@@ -55,8 +55,8 @@ const getTranslationKeys = (name, { isSignedIn, hasAccess, campaign }) => {
 const ALLOWED_CAMPAIGNS = [
   'covid-19-uhr-newsletter',
   'briefings',
-  'am-gericht',
-  'sommer'
+  'sommer',
+  'podcast'
 ]
 
 const Page = props => {

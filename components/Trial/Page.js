@@ -55,8 +55,8 @@ const getTranslationKeys = (name, { isSignedIn, hasAccess, campaign }) => {
 const ALLOWED_CAMPAIGNS = [
   'covid-19-uhr-newsletter',
   'briefings',
-  'am-gericht',
-  'sommer'
+  'sommer',
+  'podcast'
 ]
 
 const Page = props => {
@@ -110,14 +110,6 @@ const Page = props => {
 
   const intro = t.first(
     getTranslationKeys('intro', { isSignedIn, hasAccess, campaign }),
-    {
-      email: me && me.email,
-      until: until && dayFormat(new Date(until))
-    },
-    ''
-  )
-  const further = t.first(
-    getTranslationKeys('further', { isSignedIn, hasAccess, campaign }),
     {
       email: me && me.email,
       until: until && dayFormat(new Date(until))

@@ -116,14 +116,6 @@ const Page = props => {
     },
     ''
   )
-  const further = t.first(
-    getTranslationKeys('further', { isSignedIn, hasAccess, campaign }),
-    {
-      email: me && me.email,
-      until: until && dayFormat(new Date(until))
-    },
-    ''
-  )
   const image = t.first(
     getTranslationKeys('image', { isSignedIn, hasAccess, campaign }),
     {},

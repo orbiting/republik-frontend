@@ -45,14 +45,7 @@ const SingleLine = ({ children }) => (
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-const ProlongBox = ({
-  t,
-  prolongBeforeDate,
-  router,
-  inNativeApp,
-  inNativeIOSApp,
-  dark: inDarkFrame
-}) => {
+const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
   if (
     router.pathname === '/pledge' ||
     router.pathname === '/cancel' ||
@@ -128,7 +121,4 @@ const ProlongBox = ({
   return null
 }
 
-export default compose(
-  withRouter,
-  withInNativeApp
-)(ProlongBox)
+export default compose(withRouter, withInNativeApp)(ProlongBox)

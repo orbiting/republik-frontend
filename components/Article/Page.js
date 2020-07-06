@@ -6,6 +6,7 @@ import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
+import SeriesNavButtonNew from './SeriesNavButtonNew'
 import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
@@ -15,7 +16,7 @@ import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
-import FontSizeSync from '../FontSize/Sync'
+import FontSizeSync from '../FontsSize/Sync'
 import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
@@ -34,6 +35,7 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
+import { withTester } from '../Auth/checkRoles'
 
 import SurviveStatus from '../Crowdfunding/SurviveStatus'
 
@@ -570,7 +572,8 @@ class ArticlePage extends Component {
       inNativeApp,
       payNoteSeed,
       payNoteTryOrBuy,
-      hasActiveMembership
+      hasActiveMembership,
+      isTester
     } = this.props
 
     const {
@@ -624,14 +627,28 @@ class ArticlePage extends Component {
       />
     )
     const actionBarNav = actionBar
-      ? React.cloneElement(actionBar, {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          onPdfClick: undefined,
-          pdfUrl: undefined,
-          showSubscribe: false
-        })
+      ? React.cloneElement(
+          actionBar,
+          isTester
+            ? {
+                animate: false,
+                estimatedReadingMinutes: undefined,
+                estimatedConsumptionMinutes: undefined,
+                onPdfClick: undefined,
+                pdfUrl: undefined,
+                showSubscribe: false,
+                fontSize: false,
+                wrapped: true
+              }
+            : {
+                animate: false,
+                estimatedReadingMinutes: undefined,
+                estimatedConsumptionMinutes: undefined,
+                onPdfClick: undefined,
+                pdfUrl: undefined,
+                showSubscribe: false
+              }
+        )
       : undefined
     const actionBarNavNew = actionBar
       ? React.cloneElement(actionBar, {
@@ -662,8 +679,10 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
+    const MySeriesNavButton = isTester ? SeriesNavButtonNew : SeriesNavButton
+
     const seriesNavButton = showSeriesNav && (
-      <SeriesNavButton
+      <MySeriesNavButton
         t={t}
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
@@ -756,8 +775,10 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || actionBarNavNew}
-        showSecondary={this.state.showSecondary}
+        secondaryNav={seriesNavButton}
+        showSecondary={
+          isTester && seriesNavButton ? true : this.state.showSecondary
+        }
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}
       >
@@ -940,6 +961,7 @@ class ArticlePage extends Component {
                       parent={router.query.parent}
                       mute={!!router.query.mute}
                       board={ownDiscussion.isBoard}
+                      showPayNotes
                     />
                   </Center>
                 )}
@@ -1015,6 +1037,7 @@ const ComposedPage = compose(
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation,
+  withTester,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

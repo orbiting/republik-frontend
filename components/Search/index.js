@@ -54,7 +54,8 @@ export default compose(
     pushSearchParams,
     startState,
     data: { search } = {},
-    dataAggregations
+    dataAggregations,
+    reduced
   }) => {
     useEffect(() => {
       cleanupUrl()
@@ -92,12 +93,19 @@ export default compose(
     }, [dataAggregations, urlFilter])
 
     return (
-      <Center {...styles.container}>
+      <Center
+        {...styles.container}
+        style={{ padding: reduced ? 0 : 15, marginTop: reduced ? -15 : 0 }}
+      >
         <Form />
         {startState ? (
           <>
-            <Filters sort={LATEST_SORT} />
-            <CheatSheet />
+            {!reduced && (
+              <>
+                <Filters sort={LATEST_SORT} />
+                <CheatSheet />
+              </>
+            )}
           </>
         ) : (
           <>

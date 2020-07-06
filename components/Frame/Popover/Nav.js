@@ -5,7 +5,7 @@ import { css } from 'glamor'
 import Footer from '../Footer'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
-import { Link, matchPath, Router } from '../../../lib/routes'
+import { matchPath } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 
@@ -110,7 +110,6 @@ const Nav = ({
   router,
   expanded,
   closeHandler,
-  children,
   t,
   inNativeApp,
   inNativeIOSApp,
@@ -276,13 +275,6 @@ const Nav = ({
                 <Sections active={active} closeHandler={closeHandler} />
               </div>
               <br />
-              {/*<NavLink
-                route='community'
-                active={active}
-                closeHandler={closeHandler}
-              >
-                {t('nav/community')}
-              </NavLink> */}
               <NavLink
                 inline
                 route='cockpit'
@@ -291,15 +283,6 @@ const Nav = ({
               >
                 {t('nav/cockpit')}
               </NavLink>
-              {/*<NavLink
-                inline
-                route='section'
-                params={{ slug: 'komplizin' }}
-                active={active}
-                closeHandler={closeHandler}
-              >
-                Komplizen
-              </NavLink> */}
               <br />
               <NavLink
                 inline

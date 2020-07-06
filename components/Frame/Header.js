@@ -7,7 +7,13 @@ import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router, matchPath } from '../../lib/routes'
 
-import { Logo, colors, mediaQueries, ColorContext } from '@project-r/styleguide'
+import {
+  Logo,
+  colors,
+  mediaQueries,
+  ColorContext,
+  HeaderHeightProvider
+} from '@project-r/styleguide'
 
 import { withMembership } from '../Auth/checkRoles'
 
@@ -31,7 +37,8 @@ import {
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE
+  LOGO_PADDING_MOBILE,
+  HEADER_HEIGHT_CONFIG
 } from '../constants'
 
 import HeaderIconA from './HeaderIconA'
@@ -291,13 +298,12 @@ class Header extends Component {
       cover,
       secondaryNav,
       showSecondary,
-      onNavExpanded,
       formatColor,
       inNativeApp,
       inNativeIOSApp,
       isMember,
       pullable = true,
-      unreadNotifications = true
+      children
     } = this.props
     const { backButton, renderSecondaryNav } = this.state
 
@@ -345,150 +351,153 @@ class Header extends Component {
     }
 
     return (
-      <ColorContext.Provider value={dark ? colors.negative : colors}>
-        <div
-          {...barStyle}
-          ref={inNativeIOSApp ? forceRefRedraw : undefined}
-          style={bgStyle}
-        >
-          {opaque && (
-            <Fragment>
-              <div
-                {...styles.center}
-                style={{ opacity: secondaryVisible ? 0 : 1 }}
-              >
-                <a
-                  {...styles.logo}
-                  aria-label={t('header/logo/magazine/aria')}
-                  href={'/'}
-                  onClick={goTo('/', 'index')}
-                >
-                  <Logo fill={logoFill} />
-                </a>
-              </div>
-              <div
-                {...styles.leftItem}
-                style={{
-                  opacity: secondaryVisible || backButton ? 0 : 1
-                }}
-              >
-                <User
-                  dark={dark}
-                  me={me}
-                  expanded={expanded}
-                  title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
-                  onClick={toggleExpanded}
-                />
-              </div>
-              {(inNativeIOSApp || backButton) && (
-                <a
-                  style={{
-                    opacity: backButton ? 1 : 0,
-                    pointerEvents: backButton ? undefined : 'none',
-                    href: '#back'
-                  }}
-                  title={t('header/back')}
-                  onClick={e => {
-                    e.preventDefault()
-                    if (backButton) {
-                      routeChangeStarted = false
-                      window.history.back()
-                      setTimeout(() => {
-                        if (!routeChangeStarted) {
-                          Router.replaceRoute('index').then(() =>
-                            window.scrollTo(0, 0)
-                          )
-                        }
-                      }, 200)
-                    }
-                  }}
-                  {...styles.leftItem}
-                  {...styles.back}
-                >
-                  <BackIcon size={25} fill={textFill} />
-                </a>
-              )}
-              {secondaryNav && (
+      <HeaderHeightProvider config={HEADER_HEIGHT_CONFIG}>
+        <ColorContext.Provider value={dark ? colors.negative : colors}>
+          <div
+            {...barStyle}
+            ref={inNativeIOSApp ? forceRefRedraw : undefined}
+            style={bgStyle}
+          >
+            {opaque && (
+              <Fragment>
                 <div
-                  {...styles.secondary}
+                  {...styles.center}
+                  style={{ opacity: secondaryVisible ? 0 : 1 }}
+                >
+                  <a
+                    {...styles.logo}
+                    aria-label={t('header/logo/magazine/aria')}
+                    href={'/'}
+                    onClick={goTo('/', 'index')}
+                  >
+                    <Logo fill={logoFill} />
+                  </a>
+                </div>
+                <div
+                  {...styles.leftItem}
                   style={{
-                    left: backButton ? 40 : undefined,
-                    opacity: secondaryVisible ? 1 : 0,
-                    pointerEvents: secondaryVisible ? undefined : 'none'
+                    opacity: secondaryVisible || backButton ? 0 : 1
                   }}
                 >
-                  {renderSecondaryNav && secondaryNav}
+                  <User
+                    dark={dark}
+                    me={me}
+                    expanded={expanded}
+                    title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                    onClick={toggleExpanded}
+                  />
                 </div>
-              )}
-              <div {...styles.menuIcons}>
-                {me && <NotificationIcon fill={textFill} />}
-                {isMember && (
-                  <HeaderIconA
-                    {...styles.search}
-                    title={t('header/nav/search/aria')}
-                    href='/suche'
-                    onClick={goTo('/search', 'search')}
+                {(inNativeIOSApp || backButton) && (
+                  <a
+                    style={{
+                      opacity: backButton ? 1 : 0,
+                      pointerEvents: backButton ? undefined : 'none',
+                      href: '#back'
+                    }}
+                    title={t('header/back')}
+                    onClick={e => {
+                      e.preventDefault()
+                      if (backButton) {
+                        routeChangeStarted = false
+                        window.history.back()
+                        setTimeout(() => {
+                          if (!routeChangeStarted) {
+                            Router.replaceRoute('index').then(() =>
+                              window.scrollTo(0, 0)
+                            )
+                          }
+                        }, 200)
+                      }
+                    }}
+                    {...styles.leftItem}
+                    {...styles.back}
                   >
-                    <MdSearch fill={textFill} size={HEADER_ICON_SIZE} />
-                  </HeaderIconA>
+                    <BackIcon size={25} fill={textFill} />
+                  </a>
                 )}
-              </div>
-              <div {...styles.hamburger} style={bgStyle}>
-                <Toggle
-                  dark={dark}
-                  expanded={expanded}
-                  id='primary-menu'
-                  title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
-                  onClick={toggleExpanded}
-                />
-              </div>
-            </Fragment>
-          )}
-        </div>
-        {opaque && (
-          <hr
-            {...styles.stickyWithFallback}
-            {...styles.hr}
-            {...styles[formatColor ? 'hrThick' : 'hrThin']}
-            style={
-              formatColor
-                ? {
-                    color: formatColor,
-                    backgroundColor: formatColor
-                  }
-                : hrColorStyle
-            }
-          />
-        )}
-        <Popover expanded={expanded}>
-          <NavPopover
-            me={me}
-            router={router}
-            expanded={expanded}
-            closeHandler={closeHandler}
-          />
-        </Popover>
-        <LoadingBar
-          onRouteChangeStart={() => {
-            routeChangeStarted = true
-          }}
-        />
-        {!!cover && <div {...styles.cover}>{cover}</div>}
-        {inNativeApp && pullable && (
-          <Pullable
-            dark={dark}
-            onRefresh={() => {
-              if (inNativeIOSApp) {
-                postMessage({ type: 'haptic', payload: { type: 'impact' } })
+                {secondaryNav && (
+                  <div
+                    {...styles.secondary}
+                    style={{
+                      left: backButton ? 40 : undefined,
+                      opacity: secondaryVisible ? 1 : 0,
+                      pointerEvents: secondaryVisible ? undefined : 'none'
+                    }}
+                  >
+                    {renderSecondaryNav && secondaryNav}
+                  </div>
+                )}
+                <div {...styles.menuIcons}>
+                  {me && <NotificationIcon fill={textFill} />}
+                  {isMember && (
+                    <HeaderIconA
+                      {...styles.search}
+                      title={t('header/nav/search/aria')}
+                      href='/suche'
+                      onClick={goTo('/search', 'search')}
+                    >
+                      <MdSearch fill={textFill} size={HEADER_ICON_SIZE} />
+                    </HeaderIconA>
+                  )}
+                </div>
+                <div {...styles.hamburger} style={bgStyle}>
+                  <Toggle
+                    dark={dark}
+                    expanded={expanded}
+                    id='primary-menu'
+                    title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                    onClick={toggleExpanded}
+                  />
+                </div>
+              </Fragment>
+            )}
+          </div>
+          {opaque && (
+            <hr
+              {...styles.stickyWithFallback}
+              {...styles.hr}
+              {...styles[formatColor ? 'hrThick' : 'hrThin']}
+              style={
+                formatColor
+                  ? {
+                      color: formatColor,
+                      backgroundColor: formatColor
+                    }
+                  : hrColorStyle
               }
-              // give the browser 3 frames (1000/30fps) to start animating the spinner
-              setTimeout(() => {
-                window.location.reload(true)
-              }, 33 * 3)
+            />
+          )}
+          <Popover expanded={expanded}>
+            <NavPopover
+              me={me}
+              router={router}
+              expanded={expanded}
+              closeHandler={closeHandler}
+            />
+          </Popover>
+          <LoadingBar
+            onRouteChangeStart={() => {
+              routeChangeStarted = true
             }}
           />
-        )}
-      </ColorContext.Provider>
+          {!!cover && <div {...styles.cover}>{cover}</div>}
+          {inNativeApp && pullable && (
+            <Pullable
+              dark={dark}
+              onRefresh={() => {
+                if (inNativeIOSApp) {
+                  postMessage({ type: 'haptic', payload: { type: 'impact' } })
+                }
+                // give the browser 3 frames (1000/30fps) to start animating the spinner
+                setTimeout(() => {
+                  window.location.reload(true)
+                }, 33 * 3)
+              }}
+            />
+          )}
+        </ColorContext.Provider>
+        {children}
+      </HeaderHeightProvider>
     )
   }
 }

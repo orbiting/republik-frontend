@@ -11,6 +11,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
+import { getUtmParams } from '../../lib/utils/url'
 
 import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 
@@ -162,7 +163,7 @@ class Submit extends Component {
     return customMe && customMe.hasAddress && !customMe.isUserOfCurrentSession
   }
   submitPledge() {
-    const { t, customMe } = this.props
+    const { t, customMe, query } = this.props
     const errorMessages = this.getErrorMessages()
 
     if (errorMessages.length) {
@@ -214,6 +215,7 @@ class Submit extends Component {
     this.props
       .submit({
         ...variables,
+        payload: getUtmParams(query),
         consents: getRequiredConsents(this.props)
       })
       .then(({ data }) => {
@@ -629,6 +631,7 @@ const submitPledge = gql`
     $messageToClaimers: String
     $consents: [String!]
     $accessToken: ID
+    $payload: JSON
   ) {
     submitPledge(
       pledge: {
@@ -638,6 +641,7 @@ const submitPledge = gql`
         reason: $reason
         messageToClaimers: $messageToClaimers
         accessToken: $accessToken
+        payload: $payload
       }
       consents: $consents
     ) {

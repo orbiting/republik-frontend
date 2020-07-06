@@ -1,11 +1,8 @@
 import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
-import { ascending } from 'd3-array'
-import { css } from 'glamor'
-import { nest } from 'd3-collection'
 import gql from 'graphql-tag'
 
-import { Loader, mediaQueries, colors } from '@project-r/styleguide'
+import { Loader, colors } from '@project-r/styleguide'
 
 import { matchPath } from '../../../lib/routes'
 
@@ -30,7 +27,9 @@ const getSectionNav = gql`
 const SectionNav = ({
   data: { loading, error, sections },
   active,
-  closeHandler
+  closeHandler,
+  minifeed,
+  dark
 }) => {
   return (
     <Loader
@@ -52,12 +51,14 @@ const SectionNav = ({
                   <Fragment key={id}>
                     {i > 0 && <br />}
                     <NavLink
+                      dark={dark}
                       route={match.route}
                       params={match.params}
                       active={active}
                       closeHandler={closeHandler}
                       hoverColor={color}
                       inline
+                      minifeed={minifeed}
                     >
                       {meta.title}
                     </NavLink>

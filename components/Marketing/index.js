@@ -73,6 +73,9 @@ const query = gql`
         }
       }
     }
+    membershipStats {
+      count
+    }
   }
 `
 
@@ -159,7 +162,7 @@ const MarketingPage = props => {
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
   const {
     t,
-    data: { loading, error, meGuidance, front, employees },
+    data: { loading, error, meGuidance, front, employees, membershipStats },
     inNativeApp,
     inNativeIOSApp,
     router
@@ -318,7 +321,11 @@ Damit Sie uns vertrauen können, machen wir ein paar Dinge anders. Zum Beispiel 
 
 Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
-Wir bedanken uns an dieser Stelle auch bei unseren 25’000 Mitgliedern und Abonnentinnen, die unsere Arbeit möglich machen und das Überleben der Republik sichern.
+Wir bedanken uns an dieser Stelle auch bei unseren ${
+          membershipStats && membershipStats.count
+            ? countFormat(membershipStats.count)
+            : '25’000'
+        } Mitgliedern und Abonnentinnen, die unsere Arbeit möglich machen und das Überleben der Republik sichern.
 
 ## Was ist die Republik?
 

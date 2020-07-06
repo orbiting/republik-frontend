@@ -1,5 +1,5 @@
 {
-  "updated": "2020-06-22T14:47:39.540Z",
+  "updated": "2020-07-02T17:53:40.730Z",
   "title": "live",
   "data": [
     {
@@ -53,6 +53,10 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
+    },
+    {
+      "key": "nav/becomemember",
+      "value": "Mitglied werden"
     },
     {
       "key": "navbar/front",
@@ -3455,6 +3459,14 @@
       "value": "Ihre persönliche Übersicht"
     },
     {
+      "key": "notifications/minifeed/nounread",
+      "value": "Keine ungelesenen Benachrichtigungen. {link}"
+    },
+    {
+      "key": "notifications/minifeed/nounread/link",
+      "value": "Alle anzeigen"
+    },
+    {
       "key": "events/pageTitle",
       "value": "Anlässe und Veranstaltungen – Republik"
     },
@@ -6736,6 +6748,18 @@
     },
     {
       "key": "Trial/Form/sommer/button",
+      "value": "Jetzt Probe lesen"
+    },
+    {
+      "key": "Trial/Page/podcast/heading",
+      "value": "Willkommen bei der Republik"
+    },
+    {
+      "key": "Trial/Page/podcast/intro",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen.\n\nDie Republik ist komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.\n\n<b>Erhalten Sie für 14 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
+    },
+    {
+      "key": "Trial/Form/podcast/button",
       "value": "Jetzt Probe lesen"
     }
   ]

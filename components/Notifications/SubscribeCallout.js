@@ -38,6 +38,7 @@ const SubscribeCallout = ({
   authorSubscriptions,
   setAnimate
 }) => {
+  console.log(formatSubscription, authorSubscriptions)
   return (
     <div {...styles.container}>
       {discussionId && (
@@ -45,12 +46,12 @@ const SubscribeCallout = ({
       )}
       {formatSubscription && formatSubscription.length !== 0 && (
         <SubscribeDocument
-          subscription={formatSubscription}
+          subscriptions={formatSubscription}
           setAnimate={setAnimate}
           style={{ marginTop: discussionId ? 15 : 0 }}
         />
       )}
-      {authorSubscriptions && (
+      {authorSubscriptions && authorSubscriptions.length !== 0 && (
         <SubscribeAuthors
           subscriptions={authorSubscriptions}
           setAnimate={setAnimate}

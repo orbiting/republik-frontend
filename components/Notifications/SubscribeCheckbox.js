@@ -38,15 +38,13 @@ const SubscribeCheckbox = ({
   setAnimate,
   callout
 }) => {
-  console.log(subscription)
   const isActive = subscription && subscription.active
   const isDocument =
     subscription &&
     subscription.object &&
     subscription.object.__typename === 'Document'
 
-  // const userSubscriptionFilter = !isDocument && 
-
+  // const userSubscriptionFilter = !isDocument &&
   const toggleCallback = () => setAnimate && setAnimate(true)
 
   const toggleSubscribe = () => {
@@ -83,5 +81,4 @@ export default compose(
   withUnsubFromDoc,
   withSubToUser,
   withUnsubFromUser
-  // Add unsubscribe
 )(SubscribeCheckbox)

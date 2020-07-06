@@ -38,9 +38,7 @@ export const AudioProvider = ({ children, t }) => {
   }
 
   useEffect(() => {
-    if (audioState) {
-      setAudioPlayerVisible(true)
-    }
+    setAudioPlayerVisible(!!audioState)
   }, [audioState])
 
   return (

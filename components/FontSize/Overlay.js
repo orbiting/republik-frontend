@@ -24,7 +24,7 @@ import { compose } from 'react-apollo'
 
 import { useFontSize } from '../../lib/fontSize'
 import { css } from 'glamor'
-import track from '../../lib/piwik'
+import { trackEvent } from '../../lib/piwik'
 
 const FONT_SIZE_STEP = 3.2
 const MIN_FONT_SIZE = 8
@@ -79,7 +79,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
   }
 
   const trackFontSize = action => {
-    track(['trackEvent', 'FontSize', action, fontPercentage.current])
+    trackEvent(['FontSize', action, fontPercentage.current])
   }
 
   useEffect(() => {

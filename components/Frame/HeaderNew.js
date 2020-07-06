@@ -14,7 +14,7 @@ import { Router, matchPath } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 import NotificationIconNew from '../Notifications/NotificationIconNew'
 import BackIcon from '../Icons/Back'
 

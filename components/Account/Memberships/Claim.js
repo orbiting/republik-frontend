@@ -204,7 +204,7 @@ class ClaimMembership extends Component {
       const claimWith = (mutation, { code, context = 'unknown' }) =>
         mutation(code)
           .then(() => {
-            trackEvent(['MembershipsClaim', `claim success`, context])
+            trackEvent(['MembershipsClaim', 'claim success', context])
           })
           .then(() => relocateToOnboarding(context))
           .catch(catchError)

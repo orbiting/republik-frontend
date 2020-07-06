@@ -15,7 +15,7 @@ import { Router } from '../../lib/routes'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 import {
   A,

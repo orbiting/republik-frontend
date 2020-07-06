@@ -29,7 +29,7 @@ import { webNotificationSubscription } from './graphql/documents'
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 import { withUpdateNotificationSettings } from './graphql/enhancers/withUpdateNotificationSettings'
 
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const styles = {
   container: css({

@@ -15,7 +15,7 @@ import { trackEvent } from '../../lib/piwik'
 
 import { colors } from '@project-r/styleguide'
 
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
 import SubscribeMenu from '../Notifications/SubscribeMenu'

@@ -12,7 +12,7 @@ import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 import { fontStyles } from '@project-r/styleguide'
 
 import copyToClipboard from 'clipboard-copy'
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const styles = {
   buttonGroup: css({

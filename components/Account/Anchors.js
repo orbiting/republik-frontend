@@ -11,7 +11,7 @@ import withMe from '../../lib/apollo/withMe'
 import query from './belongingsQuery'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const styles = {
   anchorList: css({

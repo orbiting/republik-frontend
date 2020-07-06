@@ -14,7 +14,7 @@ import getPartyColor from './partyColors'
 import InfoIcon from './InfoIcon'
 import DiscussionIconLink from './DiscussionIconLink'
 
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 import sharedStyles from '../sharedStyles'
 
 import { SmallParagraph, Finance } from './Shared'

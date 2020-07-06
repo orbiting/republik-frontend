@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 
 import { routes, Link, Router } from '../../../lib/routes'
-import { shouldIgnoreClick } from '../../Link/utils'
+import { shouldIgnoreClick } from '../../../lib/utils/link'
 
 import { colors, fontStyles } from '@project-r/styleguide'
 

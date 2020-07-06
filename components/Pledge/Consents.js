@@ -5,6 +5,7 @@ import { Checkbox, RawHtml } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import LegalOverlay, { SUPPORTED_HREFS } from './LegalOverlay'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const stringifyCombo = (combo = []) =>
   combo
@@ -51,12 +52,7 @@ const Consents = withT(
                 event.target.getAttribute && event.target.getAttribute('href')
               if (
                 event.target.nodeName === 'A' &&
-                !(
-                  event.metaKey ||
-                  event.ctrlKey ||
-                  event.shiftKey ||
-                  (event.nativeEvent && event.nativeEvent.which === 2)
-                ) &&
+                !shouldIgnoreClick(event) &&
                 SUPPORTED_HREFS.includes(href)
               ) {
                 event.preventDefault()

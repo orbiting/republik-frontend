@@ -25,7 +25,7 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
-import { getUtmParams } from '../../lib/utils/url'
+import { getConversionPayload } from '../../lib/utils/track'
 
 const styles = {
   errorMessages: css({
@@ -60,8 +60,6 @@ const Form = props => {
     campaign
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
-
-  const utmParams = getUtmParams(query)
 
   const [consents, setConsents] = useState(query.token ? REQUIRED_CONSENTS : [])
   const [email, setEmail] = useState({ value: initialEmail || '' })
@@ -127,7 +125,9 @@ const Form = props => {
 
     if (!isMember) {
       props
-        .requestAccess({ payload: { ...payload, ...utmParams } })
+        .requestAccess({
+          payload: { ...getConversionPayload(query), ...payload }
+        })
         .then(() => {
           const shouldRedirect = onSuccess ? onSuccess() : true
           if (shouldRedirect) {

@@ -10,7 +10,7 @@ import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 import Detail from './Detail'
 

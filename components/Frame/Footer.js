@@ -21,7 +21,7 @@ import {
 import { ZINDEX_FOOTER } from '../constants'
 
 import IconLink from '../IconLink'
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const LazyLink = props => <Link {...props} prefetch={false} />
 

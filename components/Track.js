@@ -5,6 +5,7 @@ import { parse, format } from 'url'
 
 import withMe from '../lib/apollo/withMe'
 import track from '../lib/piwik'
+import { payload, getUtmParams } from '../lib/utils/track'
 
 import { PUBLIC_BASE_URL } from '../lib/constants'
 
@@ -22,7 +23,7 @@ const trackRoles = me =>
       : 'guest'
   ])
 
-const trackPageView = url => {
+const trackUrl = url => {
   // sanitize url
   const urlObject = parse(url, true)
   const { query, pathname } = urlObject
@@ -47,6 +48,12 @@ const trackPageView = url => {
 
   const sanitizedUrl = format(urlObject)
 
+  payload.record('paths', parse(sanitizedUrl).path)
+  const referrer = getUtmParams(query)
+  if (Object.keys(referrer).length) {
+    payload.record('referrers', referrer)
+  }
+
   track(['setCustomUrl', sanitizedUrl])
   track(['setDocumentTitle', document.title])
   track(['trackPageView'])
@@ -54,8 +61,9 @@ const trackPageView = url => {
 
 class Track extends Component {
   componentDidMount() {
+    payload.disable(this.props.me && this.props.me.activeMembership)
     trackRoles(this.props.me)
-    trackPageView(window.location.href)
+    trackUrl(window.location.href)
     Router.events.on('routeChangeComplete', this.onRouteChangeComplete)
   }
   onRouteChangeComplete = url => {
@@ -63,7 +71,7 @@ class Track extends Component {
     // may not always be enough, e.g. if data dependent and slow query/network, but works fine for many cases
     setTimeout(() => {
       // update url and title manually, necessary after client navigation
-      trackPageView(`${PUBLIC_BASE_URL}${url}`)
+      trackUrl(`${PUBLIC_BASE_URL}${url}`)
     }, 600)
   }
   componentWillUnmount() {
@@ -79,6 +87,7 @@ class Track extends Component {
       track(['deleteCookies'])
       trackRoles(me)
     }
+    payload.disable(me && me.activeMembership)
   }
   render() {
     return null

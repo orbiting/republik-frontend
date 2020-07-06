@@ -78,7 +78,10 @@ class Bookmark extends Component {
       const mutate = bookmarked
         ? removeDocumentFromCollection
         : addDocumentToCollection
-      mutate(documentId, this.props.router.route !== '/bookmarks')
+      mutate(
+        documentId,
+        !this.props.skipRefetch && this.props.router.route !== '/bookmarks'
+      )
         .then(this.finish)
         .catch(this.catchServerError)
     }

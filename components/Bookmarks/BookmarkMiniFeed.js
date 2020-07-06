@@ -52,7 +52,11 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                       </Link>
                     </div>
                     <div {...styles.iconContainer}>
-                      <Bookmark documentId={id} bookmarked={!!userBookmark} />
+                      <Bookmark
+                        documentId={id}
+                        bookmarked={!!userBookmark}
+                        skipRefetch
+                      />
                       {userProgress && estimatedReadingMinutes > 1 && (
                         <UserProgress
                           small
@@ -136,4 +140,10 @@ const styles = {
   })
 }
 
-export default compose(graphql(getBookmarkedDocuments))(BookmarkMiniFeed)
+export default compose(
+  graphql(getBookmarkedDocuments, {
+    options: {
+      fetchPolicy: 'cache-and-network'
+    }
+  })
+)(BookmarkMiniFeed)

@@ -10,11 +10,11 @@ import {
   linkRule,
   mediaQueries,
   Label,
-  fontStyles
+  fontStyles,
+  Loader
 } from '@project-r/styleguide'
 
 import { notificationsMiniQuery } from '../Notifications/enhancers'
-import Loader from '../Loader'
 import { timeFormat } from '../../lib/utils/format'
 import { Link } from '../../lib/routes'
 import PathLink from '../Link/Path'
@@ -125,5 +125,9 @@ const styles = {
 
 export default compose(
   withT,
-  graphql(notificationsMiniQuery)
+  graphql(notificationsMiniQuery, {
+    options: {
+      fetchPolicy: 'cache-and-network'
+    }
+  })
 )(NotificationFeedMini)

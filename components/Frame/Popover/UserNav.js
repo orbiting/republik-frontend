@@ -7,7 +7,8 @@ import {
   mediaQueries,
   Center,
   Button,
-  TeaserSectionTitle
+  TeaserSectionTitle,
+  Loader
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -90,7 +91,11 @@ const UserNav = ({
                       {t('pages/notifications/title')}
                     </TeaserSectionTitle>
                   </Link>
-                  <NotificationFeedMini closeHandler={closeHandler} />
+                  {expanded ? (
+                    <NotificationFeedMini closeHandler={closeHandler} />
+                  ) : (
+                    <Loader loading />
+                  )}
                   <br />
                   <Link route='bookmarks' passHref>
                     <TeaserSectionTitle onClick={() => closeHandler()} small>
@@ -98,13 +103,17 @@ const UserNav = ({
                     </TeaserSectionTitle>
                   </Link>
                   <div {...styles.bookmarkContainer}>
-                    <BookmarkMiniFeed
-                      style={{
-                        marginTop: 10,
-                        paddingLeft: containerPadding - 16
-                      }}
-                      closeHandler={closeHandler}
-                    />
+                    {expanded ? (
+                      <BookmarkMiniFeed
+                        style={{
+                          marginTop: 10,
+                          paddingLeft: containerPadding - 16
+                        }}
+                        closeHandler={closeHandler}
+                      />
+                    ) : (
+                      <Loader loading />
+                    )}
                   </div>
                   <div {...styles.navSection}>
                     <div {...styles.navLinks}>

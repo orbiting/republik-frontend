@@ -53,6 +53,7 @@ export const SecondaryNav = ({
   showSecondary,
   router,
   hasOverviewNav,
+  formatColor,
   t
 }) => {
   const active = matchPath(router.asPath)
@@ -62,10 +63,10 @@ export const SecondaryNav = ({
         <div
           {...styles.miniNav}
           style={{
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff',
-            borderBottom: `1px solid ${
+            borderTop: `1px solid ${
               dark ? colors.negative.divider : colors.divider
-            }`
+            }`,
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
           }}
         >
           <NavLink dark={dark} route='index' active={active} minifeed={true}>
@@ -121,12 +122,12 @@ export const SecondaryNav = ({
           <div
             {...styles.secondaryNav}
             style={{
+              borderTop: `1px solid ${
+                dark ? colors.negative.divider : colors.divider
+              }`,
               opacity: showSecondary ? 1 : 0,
               transition: 'opacity 0.2s ease-out',
-              backgroundColor: dark ? colors.negative.primaryBg : '#fff',
-              borderBottom: `1px solid ${
-                dark ? colors.negative.divider : colors.divider
-              }`
+              backgroundColor: dark ? colors.negative.primaryBg : '#fff'
             }}
           >
             {secondaryNav}
@@ -139,9 +140,7 @@ export const SecondaryNav = ({
 
 const styles = {
   secondaryNav: css({
-    position: 'absolute',
     zIndex: ZINDEX_HEADER,
-    top: HEADER_HEIGHT_MOBILE,
     left: 0,
     right: 0,
     height: SUBHEADER_HEIGHT_MOBILE,
@@ -149,18 +148,15 @@ const styles = {
     justifyContent: 'flex-start',
     padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
     [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
       justifyContent: 'center',
       padding: `0px ${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
     }
   }),
   miniNav: css({
-    position: 'absolute',
     overflowY: 'hidden',
     overflowX: 'auto',
     whiteSpace: 'nowrap',
     zIndex: ZINDEX_HEADER,
-    top: HEADER_HEIGHT_MOBILE,
     height: SUBHEADER_HEIGHT_MOBILE,
     left: 0,
     right: 0,
@@ -171,7 +167,6 @@ const styles = {
       display: 'none'
     },
     [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
       textAlign: 'center'
     },
     '& a': {

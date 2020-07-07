@@ -39,7 +39,6 @@ const Nav = ({
   }
   return (
     <>
-      <hr {...styles.hr} {...styles.hrFixed} />
       <Center {...styles.container} id='nav'>
         {hasExpandedRef.current && (
           <>

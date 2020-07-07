@@ -17,6 +17,7 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import NotificationIconNew from '../Notifications/NotificationIconNew'
 import BackIcon from '../Icons/Back'
+import HLine from '../Frame/HLine'
 
 import UserNew from './UserNew'
 import Popover from './Popover'
@@ -24,7 +25,6 @@ import NavPopover from './Popover/NavNew'
 import UserNavPopover from './Popover/UserNav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
-import HLine from './HLine'
 import ToggleNew from './ToggleNew'
 import SecondaryNav from './SecondaryNav'
 
@@ -195,7 +195,9 @@ const HeaderNew = ({
       <ColorContext.Provider value={dark ? colors.negative : colors}>
         <div
           {...styles.navBar}
-          style={{ backgroundColor: dark ? colors.negative.primaryBg : '#fff' }}
+          style={{
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff',
+          }}
           ref={fixedRef}
         >
           <div {...styles.primary}>
@@ -278,14 +280,15 @@ const HeaderNew = ({
               </div>
             </div>
           </div>
-          <HLine formatColor={formatColor} dark={dark} />
           <SecondaryNav
             secondaryNav={secondaryNav}
             router={router}
             dark={dark}
+            formatColor={formatColor}
             showSecondary={showSecondary}
             hasOverviewNav={hasOverviewNav}
           />
+          <HLine formatColor={formatColor} dark={dark} />
         </div>
         <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
           <NavPopover

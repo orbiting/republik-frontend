@@ -29,7 +29,7 @@ const styles = {
 }
 
 export const NavA = React.forwardRef(
-  ({ inline, hoverColor, children, dark, style, ...props }, ref) => (
+  ({ inline, hoverColor, children, dark, style, title, ...props }, ref) => (
     <a
       ref={ref}
       {...styles.link}
@@ -46,6 +46,7 @@ export const NavA = React.forwardRef(
         }))}
       {...(inline ? styles.inline : styles.block)}
       style={style}
+      title={title}
       {...props}
     >
       {children}
@@ -63,7 +64,8 @@ const NavLink = ({
   hoverColor,
   prefetch = false,
   minifeed,
-  dark
+  dark,
+  title
 }) => {
   const activeStyle = minifeed && {
     ...fontStyles.sansSerifMedium14,
@@ -84,6 +86,7 @@ const NavLink = ({
       passHref
     >
       <NavA
+        title={title}
         style={isActive ? activeStyle : undefined}
         inline={inline}
         onClick={!minifeed ? closeHandler : undefined}

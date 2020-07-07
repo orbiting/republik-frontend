@@ -80,6 +80,7 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   route='discussion'
+                  title={t('navbar/discussion')}
                   active={active}
                   closeHandler={closeHandler}
                   hoverColor={colors.primary}

@@ -69,7 +69,13 @@ export const SecondaryNav = ({
             backgroundColor: dark ? colors.negative.primaryBg : '#fff'
           }}
         >
-          <NavLink dark={dark} route='index' active={active} minifeed={true}>
+          <NavLink
+            dark={dark}
+            route='index'
+            active={active}
+            minifeed={true}
+            title={t('navbar/front')}
+          >
             {t('navbar/front')}
           </NavLink>
           <NavLink
@@ -78,6 +84,7 @@ export const SecondaryNav = ({
             route='feed'
             active={active}
             minifeed={true}
+            title={t('navbar/feed')}
           >
             {t('navbar/feed')}
           </NavLink>
@@ -87,6 +94,7 @@ export const SecondaryNav = ({
             route='sections'
             active={active}
             minifeed={true}
+            title={t('navbar/formats')}
           >
             {t('navbar/formats')}
           </NavLink>
@@ -96,6 +104,7 @@ export const SecondaryNav = ({
             active={active}
             hoverColor={colors.primary}
             minifeed={true}
+            title={t('navbar/discussion')}
           >
             {t('navbar/discussion')}
           </NavLink>
@@ -111,6 +120,7 @@ export const SecondaryNav = ({
                 hoverColor={color}
                 minifeed={true}
                 dark={dark}
+                title={section.title}
               >
                 {section.title}
               </NavLink>
@@ -174,6 +184,14 @@ const styles = {
       whiteSpace: 'nowrap',
       fontSize: 14,
       margin: '10px 16px 0px 16px',
+      '::after': {
+        ...fontStyles.sansSerifMedium,
+        display: 'block',
+        content: 'attr(title)',
+        height: 0,
+        overflow: 'hidden',
+        visibility: 'hidden'
+      },
       ':last-child': {
         paddingRight: 16,
         [mediaQueries.mUp]: {

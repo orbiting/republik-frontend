@@ -53,6 +53,7 @@ export const SecondaryNav = ({
   showSecondary,
   router,
   hasOverviewNav,
+  formatColor,
   t
 }) => {
   const active = matchPath(router.asPath)
@@ -62,13 +63,19 @@ export const SecondaryNav = ({
         <div
           {...styles.miniNav}
           style={{
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff',
-            borderBottom: `1px solid ${
+            borderTop: `1px solid ${
               dark ? colors.negative.divider : colors.divider
-            }`
+            }`,
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
           }}
         >
-          <NavLink dark={dark} route='index' active={active} minifeed={true}>
+          <NavLink
+            dark={dark}
+            route='index'
+            active={active}
+            minifeed={true}
+            title={t('navbar/front')}
+          >
             {t('navbar/front')}
           </NavLink>
           <NavLink
@@ -77,8 +84,19 @@ export const SecondaryNav = ({
             route='feed'
             active={active}
             minifeed={true}
+            title={t('navbar/feed')}
           >
             {t('navbar/feed')}
+          </NavLink>
+          <NavLink
+            dark={dark}
+            prefetch
+            route='sections'
+            active={active}
+            minifeed={true}
+            title={t('navbar/formats')}
+          >
+            {t('navbar/formats')}
           </NavLink>
           <NavLink
             dark={dark}
@@ -86,6 +104,7 @@ export const SecondaryNav = ({
             active={active}
             hoverColor={colors.primary}
             minifeed={true}
+            title={t('navbar/discussion')}
           >
             {t('navbar/discussion')}
           </NavLink>
@@ -101,6 +120,7 @@ export const SecondaryNav = ({
                 hoverColor={color}
                 minifeed={true}
                 dark={dark}
+                title={section.title}
               >
                 {section.title}
               </NavLink>
@@ -112,12 +132,12 @@ export const SecondaryNav = ({
           <div
             {...styles.secondaryNav}
             style={{
+              borderTop: `1px solid ${
+                dark ? colors.negative.divider : colors.divider
+              }`,
               opacity: showSecondary ? 1 : 0,
               transition: 'opacity 0.2s ease-out',
-              backgroundColor: dark ? colors.negative.primaryBg : '#fff',
-              borderBottom: `1px solid ${
-                dark ? colors.negative.divider : colors.divider
-              }`
+              backgroundColor: dark ? colors.negative.primaryBg : '#fff'
             }}
           >
             {secondaryNav}
@@ -130,9 +150,7 @@ export const SecondaryNav = ({
 
 const styles = {
   secondaryNav: css({
-    position: 'absolute',
     zIndex: ZINDEX_HEADER,
-    top: HEADER_HEIGHT_MOBILE,
     left: 0,
     right: 0,
     height: SUBHEADER_HEIGHT_MOBILE,
@@ -140,18 +158,15 @@ const styles = {
     justifyContent: 'flex-start',
     padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
     [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
       justifyContent: 'center',
       padding: `0px ${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
     }
   }),
   miniNav: css({
-    position: 'absolute',
     overflowY: 'hidden',
     overflowX: 'auto',
     whiteSpace: 'nowrap',
     zIndex: ZINDEX_HEADER,
-    top: HEADER_HEIGHT_MOBILE,
     height: SUBHEADER_HEIGHT_MOBILE,
     left: 0,
     right: 0,
@@ -162,7 +177,6 @@ const styles = {
       display: 'none'
     },
     [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
       textAlign: 'center'
     },
     '& a': {
@@ -170,7 +184,14 @@ const styles = {
       whiteSpace: 'nowrap',
       fontSize: 14,
       margin: '10px 16px 0px 16px',
-      ':active': fontStyles.sansSerifMedium,
+      '::after': {
+        ...fontStyles.sansSerifMedium,
+        display: 'block',
+        content: 'attr(title)',
+        height: 0,
+        overflow: 'hidden',
+        visibility: 'hidden'
+      },
       ':last-child': {
         paddingRight: 16,
         [mediaQueries.mUp]: {

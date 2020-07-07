@@ -39,7 +39,6 @@ const Nav = ({
   }
   return (
     <>
-      <hr {...styles.hr} {...styles.hrFixed} />
       <Center {...styles.container} id='nav'>
         {hasExpandedRef.current && (
           <>
@@ -81,6 +80,7 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   route='discussion'
+                  title={t('navbar/discussion')}
                   active={active}
                   closeHandler={closeHandler}
                   hoverColor={colors.primary}

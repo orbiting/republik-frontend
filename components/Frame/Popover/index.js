@@ -5,7 +5,8 @@ import { css } from 'glamor'
 import {
   mediaQueries,
   fontFamilies,
-  useBodyScrollLock
+  useBodyScrollLock,
+  colors
 } from '@project-r/styleguide'
 import {
   ZINDEX_POPOVER,
@@ -33,17 +34,19 @@ const menuStyle = css({
   WebkitOverflowScrolling: 'touch'
 })
 
-const Popover = ({ expanded, id, children, formatColor }) => {
+const Popover = ({ expanded, id, children, dark }) => {
   const [ref] = useBodyScrollLock(expanded)
-  const hLineHeight = formatColor ? 3 : 1
   return (
     <div
       {...css({
-        top: HEADER_HEIGHT_MOBILE - hLineHeight,
-        height: `calc(100vh - ${HEADER_HEIGHT_MOBILE - hLineHeight}px)`,
+        top: HEADER_HEIGHT_MOBILE,
+        height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
+        borderTop: `1px solid ${
+          dark ? colors.negative.divider : colors.divider
+        }`,
         [mediaQueries.mUp]: {
-          top: HEADER_HEIGHT - hLineHeight,
-          height: `calc(100vh - ${HEADER_HEIGHT - hLineHeight}px)`
+          top: HEADER_HEIGHT,
+          height: `calc(100vh - ${HEADER_HEIGHT}px)`
         }
       })}
       id={id}

@@ -82,6 +82,15 @@ export const SecondaryNav = ({
           </NavLink>
           <NavLink
             dark={dark}
+            prefetch
+            route='sections'
+            active={active}
+            minifeed={true}
+          >
+            {t('navbar/formats')}
+          </NavLink>
+          <NavLink
+            dark={dark}
             route='discussion'
             active={active}
             hoverColor={colors.primary}

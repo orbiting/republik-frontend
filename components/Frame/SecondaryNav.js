@@ -174,7 +174,6 @@ const styles = {
       whiteSpace: 'nowrap',
       fontSize: 14,
       margin: '10px 16px 0px 16px',
-      ':active': fontStyles.sansSerifMedium,
       ':last-child': {
         paddingRight: 16,
         [mediaQueries.mUp]: {

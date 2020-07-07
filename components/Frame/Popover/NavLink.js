@@ -68,7 +68,8 @@ const NavLink = ({
   const activeStyle = minifeed && {
     ...fontStyles.sansSerifMedium14,
     lineHeight: '16px',
-    marginTop: -1
+    marginTop: -1,
+    color: dark ? colors.negative.text : minifeed ? hoverColor : colors.text
   }
   const isActive =
     active &&

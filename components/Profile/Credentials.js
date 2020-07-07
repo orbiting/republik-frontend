@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'
-
+import SubscribeMenu from '../Notifications/SubscribeMenu'
 import FieldSet from '../FieldSet'
 import Credential from '../Credential'
 
@@ -87,6 +87,10 @@ const Credentials = ({
           <Credential textColor {...credential} />
         </div>
       ))}
+      <SubscribeMenu
+        showAuthorFilter={true}
+        subscriptions={{ nodes: Array.of(user.subscribedByMe) }}
+      />
     </Fragment>
   )
 }

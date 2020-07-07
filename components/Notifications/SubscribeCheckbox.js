@@ -8,6 +8,7 @@ import {
   withUnsubFromUser
 } from './enhancers'
 import { css } from 'glamor'
+import withT from '../../lib/withT'
 
 const styles = {
   checkbox: css({
@@ -31,15 +32,21 @@ const styles = {
 }
 
 const SubscribeCheckbox = ({
+  t,
   subToDoc,
   unsubFromDoc,
   subToUser,
   unsubFromUser,
   subscription,
   setAnimate,
-  callout
+  callout,
+  filters,
+  filterName
 }) => {
-  const isActive = subscription && subscription.active
+  console.log(filters)
+  console.log(filterName)
+  const isActive =
+    filters.includes(filterName) && subscription && subscription.active
   const isDocument =
     subscription &&
     subscription.object &&
@@ -58,9 +65,18 @@ const SubscribeCheckbox = ({
       if (isDocument) {
         subToDoc({ documentId: subscription.object.id }).then(toggleCallback)
       } else {
-        subToUser({ userId: subscription.object.id, filters: [] }).then(
-          toggleCallback
-        )
+        subToUser({
+          userId: subscription.object.id,
+          filters:
+            // check if already subscribed to either doc or comment
+            filters && filters.length
+              ? // if so, concat current filter to array
+                filters.concat(filterName)
+              : // else add current filter if there is one or else set to both
+              filterName
+              ? [filterName]
+              : ['Comment', 'Document']
+        }).then(toggleCallback)
       }
     }
   }
@@ -69,7 +85,9 @@ const SubscribeCheckbox = ({
     <div {...(callout ? styles.checkboxCallout : styles.checkbox)}>
       <Checkbox checked={isActive} onChange={toggleSubscribe}>
         <span {...(callout && styles.checkboxLabelCallout)}>
-          {isDocument
+          {filterName
+            ? t(`SubscribeCallout/${filterName}`)
+            : isDocument
             ? subscription.object.meta.title
             : subscription.object.name}
         </span>
@@ -79,6 +97,7 @@ const SubscribeCheckbox = ({
 }
 
 export default compose(
+  withT,
   withSubToDoc,
   withUnsubFromDoc,
   withSubToUser,

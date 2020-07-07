@@ -180,6 +180,23 @@ const getPublicUser = gql`
       documents(first: $firstDocuments, after: $afterDocument) {
         ...DocumentListConnection
       }
+      subscribedByMe {
+        id
+        active
+        filters
+        object {
+          ... on User {
+            id
+            name
+          }
+          ... on Document {
+            id
+            meta {
+              title
+            }
+          }
+        }
+      }
       comments(first: $firstComments, after: $afterComment) {
         totalCount
         pageInfo {
@@ -398,7 +415,6 @@ const LoadedProfile = props => {
   }
 
   const { isEditing, values, errors, dirty } = state
-
   return (
     <Fragment>
       {!user.hasPublicProfile && (

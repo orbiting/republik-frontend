@@ -36,9 +36,9 @@ const SubscribeCallout = ({
   discussionId,
   formatSubscription,
   authorSubscriptions,
+  showAuthorFilter,
   setAnimate
 }) => {
-  console.log(formatSubscription, authorSubscriptions)
   return (
     <div {...styles.container}>
       {discussionId && (
@@ -53,6 +53,7 @@ const SubscribeCallout = ({
       )}
       {authorSubscriptions && authorSubscriptions.length !== 0 && (
         <SubscribeAuthors
+          showAuthorFilter={showAuthorFilter}
           subscriptions={authorSubscriptions}
           setAnimate={setAnimate}
           style={{ marginTop: discussionId ? 15 : 0 }}

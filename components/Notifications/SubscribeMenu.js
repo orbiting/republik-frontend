@@ -25,6 +25,7 @@ const SubscribeMenu = ({
   router,
   discussionId,
   subscriptions,
+  showAuthorFilter,
   style
 }) => {
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
@@ -72,7 +73,6 @@ const SubscribeMenu = ({
   const icon = (
     <SubscribeIcon animate={animate} isSubscribed={isSubscribedToAny} />
   )
-
   return (
     <div {...styles.container} style={style}>
       <CalloutMenu
@@ -80,6 +80,7 @@ const SubscribeMenu = ({
         initiallyOpen={router.query && !!router.query.mute}
       >
         <SubscribeCallout
+          showAuthorFilter={showAuthorFilter}
           discussionId={discussionId}
           formatSubscription={formatSubscription}
           authorSubscriptions={authorSubscriptions}

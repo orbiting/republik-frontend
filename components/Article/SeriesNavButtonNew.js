@@ -57,7 +57,6 @@ const styles = {
   }),
   title: css({
     fontSize: 15,
-    display: 'inline-block',
     verticalAlign: 'middle',
     maxWidth: '100%',
     overflow: 'hidden',

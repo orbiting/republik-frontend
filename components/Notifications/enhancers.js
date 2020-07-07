@@ -167,7 +167,7 @@ export const possibleSubscriptions = gql`
 
 export const possibleAuthorSubscriptions = gql`
   query getPossibleAuthorSubscriptions {
-    authors: employees {
+    authors: employees(onlyPromotedAuthors: true) {
       name
       user {
         id
@@ -249,7 +249,7 @@ const subscribeToUserMutation = gql`
 `
 
 const unsubscribeFromUserMutation = gql`
-  mutation unSubFromUser($userId: ID!, $filters: [EventObjectType!]) {
+  mutation unSubFromUser($subscriptionId: ID!) {
     unsubscribe(subscriptionId: $subscriptionId) {
       ...subInfo
     }

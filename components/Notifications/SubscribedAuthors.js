@@ -21,18 +21,10 @@ const SubscribedAuthors = ({
   isMember
 }) => {
   if (!authors || !authors.length) return null
-
-  const getVisibleAuthors = authors =>
-    authors.filter(author => author.user.subscribedByMe.active)
-
   const [showAll, setShowAll] = useState(false)
-  const [visibleAuthors, setVisibleAuthors] = useState(
-    getVisibleAuthors(authors || [])
-  )
 
-  useEffect(() => {
-    setVisibleAuthors(getVisibleAuthors(authors))
-  }, [authors])
+  const visibleAuthors =
+    authors && authors.filter(author => author.user.subscribedByMe.active)
 
   const totalSubs =
     authors &&
@@ -68,7 +60,6 @@ const SubscribedAuthors = ({
             <button
               {...plainButtonRule}
               onClick={() => {
-                setVisibleAuthors(getVisibleAuthors(authors))
                 setShowAll(!showAll)
               }}
             >

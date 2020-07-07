@@ -45,7 +45,6 @@ const SubscribeCheckbox = ({
     subscription.object &&
     subscription.object.__typename === 'Document'
 
-  // const userSubscriptionFilter = !isDocument &&
   const toggleCallback = () => setAnimate && setAnimate(true)
 
   const toggleSubscribe = () => {
@@ -53,13 +52,15 @@ const SubscribeCheckbox = ({
       if (isDocument) {
         unsubFromDoc({ subscriptionId: subscription.id }).then(toggleCallback)
       } else {
-        unsubFromUser({ userId: subscription.object.id, filters: [] })
+        unsubFromUser({ subscriptionId: subscription.id }).then(toggleCallback)
       }
     } else {
       if (isDocument) {
         subToDoc({ documentId: subscription.object.id }).then(toggleCallback)
       } else {
-        subToUser({ userId: subscription.object.id, filters: [] })
+        subToUser({ userId: subscription.object.id, filters: [] }).then(
+          toggleCallback
+        )
       }
     }
   }

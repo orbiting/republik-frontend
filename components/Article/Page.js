@@ -620,28 +620,14 @@ class ArticlePage extends Component {
       />
     )
     const actionBarNav = actionBar
-      ? React.cloneElement(
-          actionBar,
-          isTester
-            ? {
-                animate: false,
-                estimatedReadingMinutes: undefined,
-                estimatedConsumptionMinutes: undefined,
-                onPdfClick: undefined,
-                pdfUrl: undefined,
-                showSubscribe: false,
-                fontSize: false,
-                wrapped: true
-              }
-            : {
-                animate: false,
-                estimatedReadingMinutes: undefined,
-                estimatedConsumptionMinutes: undefined,
-                onPdfClick: undefined,
-                pdfUrl: undefined,
-                showSubscribe: false
-              }
-        )
+      ? React.cloneElement(actionBar, {
+          animate: false,
+          estimatedReadingMinutes: undefined,
+          estimatedConsumptionMinutes: undefined,
+          onPdfClick: undefined,
+          pdfUrl: undefined,
+          showSubscribe: false
+        })
       : undefined
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
@@ -756,7 +742,7 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton}
+        secondaryNav={seriesNavButton || (!isTester && actionBarNav)}
         showSecondary={
           isTester && seriesNavButton ? true : this.state.showSecondary
         }

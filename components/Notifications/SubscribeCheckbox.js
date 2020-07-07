@@ -34,6 +34,7 @@ const SubscribeCheckbox = ({
   subToDoc,
   unsubFromDoc,
   subToUser,
+  unsubFromUser,
   subscription,
   setAnimate,
   callout
@@ -52,7 +53,7 @@ const SubscribeCheckbox = ({
       if (isDocument) {
         unsubFromDoc({ subscriptionId: subscription.id }).then(toggleCallback)
       } else {
-        return
+        unsubFromUser({ userId: subscription.object.id, filters: [] })
       }
     } else {
       if (isDocument) {

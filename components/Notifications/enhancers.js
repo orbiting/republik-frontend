@@ -165,6 +165,21 @@ export const possibleSubscriptions = gql`
   ${subInfo}
 `
 
+export const possibleAuthorSubscriptions = gql`
+  query getPossibleAuthorSubscriptions {
+    authors: employees {
+      name
+      user {
+        id
+        subscribedByMe {
+          ...subInfo
+        }
+      }
+    }
+  }
+  ${subInfo}
+`
+
 export const userSubscriptions = gql`
   query getUserSubscriptions {
     myUserSubscriptions: me {

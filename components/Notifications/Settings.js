@@ -7,7 +7,8 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
-import SubscribeDocuments from './SubscribeDocuments'
+import SubscribedDocuments from './SubscribedDocuments'
+import SubscribedAuthors from './SubscribedAuthors'
 import NotificationOptions from './NotificationOptions'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
@@ -43,7 +44,14 @@ export default compose(withT)(({ t }) => {
           <H2 style={{ marginBottom: 10 }}>
             {t('Notifications/settings/formats')}
           </H2>
-          <SubscribeDocuments />
+          <SubscribedDocuments />
+        </section>
+
+        <section {...styles.section}>
+          <H2 style={{ marginBottom: 10 }}>
+            {t('Notifications/settings/authors')}
+          </H2>
+          <SubscribedAuthors />
         </section>
 
         <section {...styles.section}>

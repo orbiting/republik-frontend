@@ -43,7 +43,7 @@ const getVisibleSections = (sections, prevShown = []) =>
       SECTIONS_ALWAYS_SHOWN.find(repoId => repoId === section.repoId)
   )
 
-const SubscribeDocuments = ({ t, data: { sections }, isMember }) => {
+const SubscribedDocuments = ({ t, data: { sections }, isMember }) => {
   const [showAll, setShowAll] = useState(false)
 
   const sectionNodes = sections && sections.nodes
@@ -119,4 +119,4 @@ export default compose(
   withT,
   withMembership,
   graphql(possibleSubscriptions)
-)(SubscribeDocuments)
+)(SubscribedDocuments)

@@ -6575,6 +6575,22 @@
       "value": "Journalismus kostet. Deshalb erhalten Sie die Rubrik-Benachrichtigung erst wenn Sie eine aktive Mitgliedschaft oder ein aktives Abo haben."
     },
     {
+      "key": "Notifications/settings/authors",
+      "value": "Meine AuthorInnen"
+    },
+    {
+      "key": "Notifications/settings/authors/summary/0",
+      "value": "Sie haben keine AuthorIn abonniert."
+    },
+    {
+      "key": "Notifications/settings/authors/summary/1",
+      "value": "Sie haben einen_e AuthorIn abonniert:"
+    },
+    {
+      "key": "Notifications/settings/authors/summary/other",
+      "value": "Sie haben {count} AuthorInnen abonniert:"
+    },
+    {
       "key": "Notifications/settings/discussion",
       "value": "Debattenbeiträge"
     },

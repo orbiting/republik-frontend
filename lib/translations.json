@@ -6647,6 +6647,14 @@
       "value": "Allgemeine Einstellungen"
     },
     {
+      "key": "SubscribeCallout/Comment",
+      "value": "Kommentare"
+    },
+    {
+      "key": "SubscribeCallout/Document",
+      "value": "Artikel"
+    },
+    {
       "key": "SubscribeDocument/title",
       "value": "Rubrik abonnieren"
     },

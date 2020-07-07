@@ -196,7 +196,7 @@ const HeaderNew = ({
         <div
           {...styles.navBar}
           style={{
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff',
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
           }}
           ref={fixedRef}
         >

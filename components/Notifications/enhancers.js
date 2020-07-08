@@ -171,6 +171,7 @@ export const possibleAuthorSubscriptions = gql`
       name
       user {
         id
+        slug
         subscribedByMe {
           ...subInfo
         }

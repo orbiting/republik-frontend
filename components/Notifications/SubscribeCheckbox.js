@@ -43,10 +43,9 @@ const SubscribeCheckbox = ({
   filters,
   filterName
 }) => {
-  console.log(filters)
-  console.log(filterName)
-  const isCurrentActive =
-    filters.includes(filterName) && subscription && subscription.active
+  const isCurrentActive = filters
+    ? filters.includes(filterName) && subscription && subscription.active
+    : subscription && subscription.active
   const activeFilters = (subscription.active && subscription.filters) || []
   const isDocument =
     subscription &&
@@ -67,7 +66,7 @@ const SubscribeCheckbox = ({
       // User Subscribe/Unsubscribe without specifying if doc or comments, default to doc
       if (subscription.active) {
         unsubFromUser({
-          documentId: subscription.object.id,
+          subscriptionId: subscription.id,
           filters: ['Document']
         }).then(toggleCallback)
       } else {

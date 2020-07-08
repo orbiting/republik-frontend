@@ -1,17 +1,58 @@
 import React, { useState, useEffect } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { possibleAuthorSubscriptions } from './enhancers'
-import { plainButtonRule, A, Interaction } from '@project-r/styleguide'
+import {
+  plainButtonRule,
+  A,
+  Interaction,
+  mediaQueries,
+  linkRule,
+  colors
+} from '@project-r/styleguide'
 import { css } from 'glamor'
 import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
 import { withMembership } from '../Auth/checkRoles'
 import Box from '../Frame/Box'
 import Loader from '../Loader'
+import { Link } from '../../lib/routes'
 
 const styles = {
   checkboxes: css({
     margin: '20px 0'
+  }),
+  authorContainer: css({
+    display: 'flex',
+    flexDirection: 'column',
+    [mediaQueries.mUp]: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    }
+  }),
+  author: css({
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 10
+  }),
+  userLink: css({
+    color: colors.text,
+    textDecoration: 'underline',
+    '&:visited': {
+      color: colors.text
+    }
+  }),
+  checkbox: css({
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 16,
+    ' div': {
+      marginRight: 16
+    },
+    [mediaQueries.mUp]: {
+      ' div': {
+        marginLeft: 16
+      }
+    }
   })
 }
 
@@ -50,10 +91,25 @@ const SubscribedAuthors = ({
             </Interaction.P>
             <div style={{ margin: '20px 0' }}>
               {(showAll ? authors : visibleAuthors).map(author => (
-                <div key={author.user.id}>
-                  <SubscribeCheckbox
-                    subscription={author.user.subscribedByMe}
-                  />
+                <div {...styles.authorContainer} key={author.user.id}>
+                  <div {...styles.author}>
+                    <Link route='profile' params={{ slug: author.user.slug }}>
+                      <a {...linkRule} {...styles.userLink}>
+                        {author.name}
+                      </a>
+                    </Link>
+                  </div>
+                  <div {...styles.checkbox}>
+                    {['Document', 'Comment'].map(filter => (
+                      <SubscribeCheckbox
+                        key={author.user.subscribedByMe.object.id}
+                        subscription={author.user.subscribedByMe}
+                        filters={author.user.subscribedByMe.filters}
+                        filterName={filter}
+                        callout
+                      />
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>

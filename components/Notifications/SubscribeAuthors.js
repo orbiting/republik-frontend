@@ -9,7 +9,6 @@ const SubscribeAuthor = ({
   showAuthorFilter,
   style
 }) => {
-  console.log(subscriptions)
   return (
     <>
       {showAuthorFilter ? (

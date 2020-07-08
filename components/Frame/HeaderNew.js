@@ -266,7 +266,7 @@ const HeaderNew = ({
                 <ToggleNew
                   expanded={isAnyNavExpanded}
                   dark={dark}
-                  size={26}
+                  size={28}
                   title={t(
                     `header/nav/${
                       expandedNav === 'main' ? 'close' : 'open'

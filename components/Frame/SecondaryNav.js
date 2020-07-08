@@ -10,7 +10,7 @@ import NavLink from './Popover/NavLink'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  SUBHEADER_HEIGHT_MOBILE,
+  SUBHEADER_HEIGHT,
   ZINDEX_HEADER
 } from '../constants'
 
@@ -153,7 +153,7 @@ const styles = {
     zIndex: ZINDEX_HEADER,
     left: 0,
     right: 0,
-    height: SUBHEADER_HEIGHT_MOBILE,
+    height: SUBHEADER_HEIGHT,
     display: 'flex',
     justifyContent: 'flex-start',
     padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
@@ -167,7 +167,7 @@ const styles = {
     overflowX: 'auto',
     whiteSpace: 'nowrap',
     zIndex: ZINDEX_HEADER,
-    height: SUBHEADER_HEIGHT_MOBILE,
+    height: SUBHEADER_HEIGHT,
     left: 0,
     right: 0,
     WebkitOverflowScrolling: 'touch',
@@ -183,7 +183,7 @@ const styles = {
       display: 'inline-block',
       whiteSpace: 'nowrap',
       fontSize: 14,
-      margin: '10px 16px 0px 16px',
+      margin: '12px 16px 0px 16px',
       '::after': {
         ...fontStyles.sansSerifMedium,
         display: 'block',
@@ -201,7 +201,7 @@ const styles = {
     }
   }),
   linkItem: css({
-    height: SUBHEADER_HEIGHT_MOBILE
+    height: SUBHEADER_HEIGHT
   })
 }
 

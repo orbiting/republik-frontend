@@ -45,8 +45,9 @@ const SubscribeCheckbox = ({
 }) => {
   console.log(filters)
   console.log(filterName)
-  const isActive =
+  const isCurrentActive =
     filters.includes(filterName) && subscription && subscription.active
+  const activeFilters = (subscription.active && subscription.filters) || []
   const isDocument =
     subscription &&
     subscription.object &&
@@ -55,35 +56,48 @@ const SubscribeCheckbox = ({
   const toggleCallback = () => setAnimate && setAnimate(true)
 
   const toggleSubscribe = () => {
-    if (isActive) {
-      if (isDocument) {
+    if (isDocument) {
+      // Subscribe to Documents
+      if (subscription.active) {
         unsubFromDoc({ subscriptionId: subscription.id }).then(toggleCallback)
       } else {
-        unsubFromUser({ subscriptionId: subscription.id }).then(toggleCallback)
-      }
-    } else {
-      if (isDocument) {
         subToDoc({ documentId: subscription.object.id }).then(toggleCallback)
+      }
+    } else if (!filters) {
+      // User Subscribe/Unsubscribe without specifying if doc or comments, default to doc
+      if (subscription.active) {
+        unsubFromUser({
+          documentId: subscription.object.id,
+          filters: ['Document']
+        }).then(toggleCallback)
       } else {
         subToUser({
           userId: subscription.object.id,
-          filters:
-            // check if already subscribed to either doc or comment
-            filters && filters.length
-              ? // if so, concat current filter to array
-                filters.concat(filterName)
-              : // else add current filter if there is one or else set to both
-              filterName
-              ? [filterName]
-              : ['Comment', 'Document']
+          filters: ['Document']
         }).then(toggleCallback)
       }
+    }
+    // Case where user can choose filter
+    else if (isCurrentActive) {
+      unsubFromUser({
+        subscriptionId: subscription.id,
+        filters: [filterName]
+      }).then(toggleCallback)
+    } else {
+      subToUser({
+        userId: subscription.object.id,
+        // Check if current filter already exists in filterlist, add if not
+        filters:
+          activeFilters.indexOf(filterName) === -1
+            ? activeFilters.concat(filterName)
+            : activeFilters
+      }).then(toggleCallback)
     }
   }
 
   return (
     <div {...(callout ? styles.checkboxCallout : styles.checkbox)}>
-      <Checkbox checked={isActive} onChange={toggleSubscribe}>
+      <Checkbox checked={isCurrentActive} onChange={toggleSubscribe}>
         <span {...(callout && styles.checkboxLabelCallout)}>
           {filterName
             ? t(`SubscribeCallout/${filterName}`)

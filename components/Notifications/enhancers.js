@@ -249,8 +249,8 @@ const subscribeToUserMutation = gql`
 `
 
 const unsubscribeFromUserMutation = gql`
-  mutation unSubFromUser($subscriptionId: ID!) {
-    unsubscribe(subscriptionId: $subscriptionId) {
+  mutation unSubFromUser($subscriptionId: ID!, $filters: [EventObjectType!]) {
+    unsubscribe(subscriptionId: $subscriptionId, filters: $filters) {
       ...subInfo
     }
   }

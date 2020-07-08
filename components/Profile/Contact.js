@@ -16,12 +16,6 @@ import { Dropdown, Label, Interaction } from '@project-r/styleguide'
 
 import { ADMIN_BASE_URL } from '../../lib/constants'
 
-const styles = {
-  icons: css({
-    margin: '15px 0'
-  })
-}
-
 const fields = t => [
   {
     label: t('profile/contact/facebook/label'),
@@ -187,13 +181,13 @@ const Contact = ({
           icon='key'
           size={20}
           title={t('profile/contact/pgpPublicKey/label')}
-          style={{ paddingBottom: 5, paddingLeft: 0 }}
+          style={{ marginBottom: 16, padding: 0 }}
         >
           {user.pgpPublicKeyId.toUpperCase()}
         </IconLink>
       )}
-      {user.email && (
-        <Label style={{ display: 'block', marginBottom: 20 }}>
+      {user.email && user.emailAccessRole !== 'PUBLIC' && (
+        <Label style={{ display: 'block', marginBottom: 16 }}>
           {t(
             `profile/contact/access/${user.emailAccessRole}/note`,
             {
@@ -216,7 +210,7 @@ const Contact = ({
               {user.phoneNumberNote}
             </Label>
           </Interaction.P>
-          <Label style={{ display: 'block', marginBottom: 20 }}>
+          <Label style={{ display: 'block', marginBottom: 16 }}>
             {t(
               `profile/contact/access/${user.phoneNumberAccessRole}/note`,
               {
@@ -229,6 +223,12 @@ const Contact = ({
       )}
     </Fragment>
   )
+}
+
+const styles = {
+  icons: css({
+    margin: '16px 0'
+  })
 }
 
 export default compose(withT, withInNativeApp, withSupporter)(Contact)

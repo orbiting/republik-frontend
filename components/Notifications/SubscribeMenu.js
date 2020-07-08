@@ -26,7 +26,8 @@ const SubscribeMenu = ({
   discussionId,
   subscriptions,
   showAuthorFilter,
-  style
+  style,
+  label
 }) => {
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
     //checks if any of the subscription nodes is set to active
@@ -76,6 +77,7 @@ const SubscribeMenu = ({
   return (
     <div {...styles.container} style={style}>
       <CalloutMenu
+        label={label}
         icon={icon}
         initiallyOpen={router.query && !!router.query.mute}
       >

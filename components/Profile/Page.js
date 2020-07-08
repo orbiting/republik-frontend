@@ -18,6 +18,7 @@ import { cardFragment } from '../Card/fragments'
 import Card, { styles as cardStyles } from '../Card/Card'
 import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
+import SubscribeMenu from '../Notifications/SubscribeMenu'
 
 import { TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
@@ -581,6 +582,13 @@ const LoadedProfile = props => {
                   errors={errors}
                   dirty={dirty}
                 />
+                <div>
+                  <SubscribeMenu
+                    label='Profil Abonnieren'
+                    showAuthorFilter={true}
+                    subscriptions={{ nodes: Array.of(user.subscribedByMe) }}
+                  />
+                </div>
               </div>
             </div>
           </div>

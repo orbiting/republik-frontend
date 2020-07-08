@@ -40,16 +40,6 @@ import {
   TRANSITION_MS
 } from '../constants'
 
-const isActiveRoute = (active, route, params = {}) =>
-  !!active &&
-  active.route === route &&
-  Object.keys(params).every(key => active.params[key] === params[key])
-
-const isFront = router => {
-  const active = matchPath(router.asPath)
-  return isActiveRoute(active, 'index', {})
-}
-
 let routeChangeStarted
 
 const HeaderNew = ({
@@ -83,7 +73,7 @@ const HeaderNew = ({
   const dark = darkProp && !isAnyNavExpanded
   const textFill = dark ? colors.negative.text : colors.text
   const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
-  const backButton = inNativeIOSApp && me && !isFront(router)
+  const backButton = !hasOverviewNav && inNativeIOSApp && me
 
   const toggleExpanded = target => {
     if (target === expandedNav) {
@@ -266,7 +256,7 @@ const HeaderNew = ({
                 <ToggleNew
                   expanded={isAnyNavExpanded}
                   dark={dark}
-                  size={26}
+                  size={28}
                   title={t(
                     `header/nav/${
                       expandedNav === 'main' ? 'close' : 'open'

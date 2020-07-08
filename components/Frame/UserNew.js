@@ -6,7 +6,7 @@ import { MdPersonOutline } from 'react-icons/md'
 import withT from '../../lib/withT'
 
 const BUTTON_SIZE = 32
-const BUTTON_SIZE_MOBILE = 24
+const BUTTON_SIZE_MOBILE = 26
 const BUTTON_PADDING = (HEADER_HEIGHT - BUTTON_SIZE) / 2
 const BUTTON_PADDING_MOBILE = (HEADER_HEIGHT_MOBILE - BUTTON_SIZE_MOBILE) / 2
 const ICON_SIZE = 26
@@ -35,9 +35,7 @@ const User = ({ t, me, title, dark, backButton, onClick }) => {
         {...styles.button}
         style={{
           color,
-          paddingLeft: backButton
-            ? BUTTON_PADDING_MOBILE / 2
-            : BUTTON_PADDING_MOBILE
+          paddingLeft: backButton ? BUTTON_PADDING_MOBILE / 2 : 16
         }}
         role='button'
         title={title}

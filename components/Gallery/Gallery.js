@@ -87,6 +87,10 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
           background: '#000',
           zIndex: ZINDEX_GALLERY
         }}
+        onTouchStart={e => {
+          // prevent touchstart from bubbling to Pullable
+          e.stopPropagation()
+        }}
       >
         <div className='pswp__bg' />
         <div className='pswp__scroll-wrap'>

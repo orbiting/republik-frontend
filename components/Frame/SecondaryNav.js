@@ -62,6 +62,10 @@ export const SecondaryNav = ({
       {hasOverviewNav ? (
         <div
           {...styles.miniNav}
+          onTouchStart={e => {
+            // prevent touchstart from bubbling to Pullable
+            e.stopPropagation()
+          }}
           style={{
             borderTop: `1px solid ${
               dark ? colors.negative.divider : colors.divider

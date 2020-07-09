@@ -65,9 +65,9 @@ const SubscribeCheckbox = ({
     } else if (!filters) {
       // User Subscribe/Unsubscribe without specifying if doc or comments, default to doc
       if (subscription.active) {
+        console.log('ubsub no filter')
         unsubFromUser({
-          subscriptionId: subscription.id,
-          filters: ['Document']
+          subscriptionId: subscription.id
         }).then(toggleCallback)
       } else {
         subToUser({

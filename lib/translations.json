@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-02T17:53:40.730Z",
+  "updated": "2020-07-09T08:30:43.075Z",
   "title": "live",
   "data": [
     {
@@ -3788,7 +3788,7 @@
     },
     {
       "key": "styleguide/video/dnt/note",
-      "value": "Kleine Warnung: Dies ist ein {player}-Video. Wenn Sie das Video abspielen, kann {platform} Sie tracken."
+      "value": "Dies ist ein {player}-Video. Wenn Sie das Video abspielen, kann {platform} Sie tracken."
     },
     {
       "key": "styleguide/video/dnt/player/youtube",
@@ -6539,6 +6539,22 @@
       "value": "Seite neu laden?"
     },
     {
+      "key": "Notifications/settings/authors",
+      "value": "Abonnierte Profile"
+    },
+    {
+      "key": "Notifications/settings/authors/summary/0",
+      "value": "Sie haben keine Profile abonniert"
+    },
+    {
+      "key": "Notifications/settings/authors/summary/1",
+      "value": "Sie haben ein Profil abonniert:"
+    },
+    {
+      "key": "Notifications/settings/authors/summary/other",
+      "value": "Sie haben {count} Profile abonniert:"
+    },
+    {
       "key": "Notifications/settings/back",
       "value": "Ihre Liste"
     },
@@ -6573,22 +6589,6 @@
     {
       "key": "Notifications/settings/formats/noMembership",
       "value": "Journalismus kostet. Deshalb erhalten Sie die Rubrik-Benachrichtigung erst wenn Sie eine aktive Mitgliedschaft oder ein aktives Abo haben."
-    },
-    {
-      "key": "Notifications/settings/authors",
-      "value": "Meine AuthorInnen"
-    },
-    {
-      "key": "Notifications/settings/authors/summary/0",
-      "value": "Sie haben keine AuthorIn abonniert."
-    },
-    {
-      "key": "Notifications/settings/authors/summary/1",
-      "value": "Sie haben einen_e AuthorIn abonniert:"
-    },
-    {
-      "key": "Notifications/settings/authors/summary/other",
-      "value": "Sie haben {count} AuthorInnen abonniert:"
     },
     {
       "key": "Notifications/settings/discussion",
@@ -6643,10 +6643,6 @@
       "value": "Newsletter per E-Mail"
     },
     {
-      "key": "SubscribeCallout/settingsLink",
-      "value": "Allgemeine Einstellungen"
-    },
-    {
       "key": "SubscribeCallout/comment",
       "value": "Kommentare"
     },
@@ -6655,12 +6651,12 @@
       "value": "Artikel"
     },
     {
-      "key": "SubscribeDocument/title",
-      "value": "Rubrik abonnieren"
+      "key": "SubscribeCallout/settingsLink",
+      "value": "Allgemeine Einstellungen"
     },
     {
-      "key": "SubscribeAuthors/title",
-      "value": "AuthorInnen abonnieren"
+      "key": "SubscribeDocument/title",
+      "value": "Rubrik abonnieren"
     },
     {
       "key": "SubscribeDebate/title",

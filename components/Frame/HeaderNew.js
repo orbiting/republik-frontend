@@ -277,6 +277,7 @@ const HeaderNew = ({
             formatColor={formatColor}
             showSecondary={showSecondary}
             hasOverviewNav={hasOverviewNav}
+            isSecondarySticky={headerOffset === -headerHeightState}
           />
           <HLine formatColor={formatColor} dark={dark} />
         </div>

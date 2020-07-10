@@ -96,13 +96,13 @@ const Nav = ({
               <Sections active={active} vertical closeHandler={closeHandler} />
               <div style={{ marginTop: 24 }}>
                 <NavLink
-                  route='formats'
-                  title={t('navbar/formats')}
+                  route='sections'
+                  title={t('navbar/sections')}
                   active={active}
                   closeHandler={closeHandler}
                   hoverColor={colors.primary}
                 >
-                  {`Alle ${t('navbar/formats')}`}
+                  {t('navbar/sections')}
                 </NavLink>
               </div>
             </div>

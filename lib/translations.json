@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-06T15:03:18.815Z",
+  "updated": "2020-07-10T16:26:42.583Z",
   "title": "live",
   "data": [
     {
@@ -71,8 +71,8 @@
       "value": "Feuilleton"
     },
     {
-      "key": "navbar/formats",
-      "value": "Rubriken"
+      "key": "navbar/sections",
+      "value": "Alle Rubriken"
     },
     {
       "key": "navbar/discussion",

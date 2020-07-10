@@ -2,14 +2,14 @@ import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
-import { MdPersonOutline } from 'react-icons/md'
+import { MdAccountBox } from 'react-icons/md'
 import withT from '../../lib/withT'
 
 const BUTTON_SIZE = 32
 const BUTTON_SIZE_MOBILE = 26
 const BUTTON_PADDING = (HEADER_HEIGHT - BUTTON_SIZE) / 2
 const BUTTON_PADDING_MOBILE = (HEADER_HEIGHT_MOBILE - BUTTON_SIZE_MOBILE) / 2
-const ICON_SIZE = 26
+const ICON_SIZE = 28
 
 const PORTRAIT_HEIGHT_MOBILE = HEADER_HEIGHT_MOBILE - 2 * BUTTON_PADDING_MOBILE
 const PORTRAIT_HEIGHT = HEADER_HEIGHT - 2 * BUTTON_PADDING
@@ -49,7 +49,11 @@ const User = ({ t, me, title, dark, backButton, onClick }) => {
         {!me && (
           <Fragment>
             <span {...styles.anonymous}>
-              <MdPersonOutline size={ICON_SIZE} fill={color} />
+              <MdAccountBox
+                size={ICON_SIZE}
+                style={{ margin: -2 }}
+                fill={dark ? colors.text : colors.text}
+              />
             </span>
             <span {...styles.label}>{t('header/signin')}</span>
           </Fragment>

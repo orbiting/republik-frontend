@@ -53,6 +53,7 @@ export const SecondaryNav = ({
   showSecondary,
   router,
   hasOverviewNav,
+  isSecondarySticky,
   formatColor,
   t
 }) => {
@@ -67,7 +68,7 @@ export const SecondaryNav = ({
             e.stopPropagation()
           }}
           style={{
-            borderTop: `1px solid ${
+            borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
               dark ? colors.negative.divider : colors.divider
             }`,
             backgroundColor: dark ? colors.negative.primaryBg : '#fff'
@@ -126,7 +127,7 @@ export const SecondaryNav = ({
           <div
             {...styles.secondaryNav}
             style={{
-              borderTop: `1px solid ${
+              borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
                 dark ? colors.negative.divider : colors.divider
               }`,
               opacity: showSecondary ? 1 : 0,

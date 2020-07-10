@@ -193,7 +193,7 @@ const HeaderNew = ({
           <div {...styles.primary}>
             <div {...styles.navBarItem}>
               <div {...styles.leftBarItem}>
-                {true && (
+                {backButton && (
                   <a
                     {...styles.back}
                     style={{

@@ -7,8 +7,7 @@ import {
   fontStyles,
   mediaQueries,
   Center,
-  Button,
-  TeaserSectionTitle
+  Button
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -20,7 +19,7 @@ import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import SearchForm from '../../Search/Form'
 import NavLink from './NavLink'
-import Sections from './Sections'
+import Sections from './SectionsNew'
 
 const Nav = ({
   me,
@@ -64,6 +63,7 @@ const Nav = ({
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
                 <NavLink
+                  large
                   route='index'
                   active={active}
                   closeHandler={closeHandler}
@@ -72,6 +72,7 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   prefetch
+                  large
                   route='feed'
                   active={active}
                   closeHandler={closeHandler}
@@ -79,6 +80,7 @@ const Nav = ({
                   {t('navbar/feed')}
                 </NavLink>
                 <NavLink
+                  large
                   route='discussion'
                   title={t('navbar/discussion')}
                   active={active}
@@ -91,19 +93,17 @@ const Nav = ({
             </div>
             <hr {...styles.hr} />
             <div {...styles.navSection}>
-              <div style={{ color: colors.lightText }}>
-                <Link route='sections' passHref>
-                  <TeaserSectionTitle onClick={() => closeHandler()} small>
-                    {t('nav/sections')}
-                  </TeaserSectionTitle>
-                </Link>
-              </div>
-              <div {...styles.sectionLinks}>
-                <Sections
+              <Sections active={active} vertical closeHandler={closeHandler} />
+              <div style={{ marginTop: 24 }}>
+                <NavLink
+                  route='formats'
+                  title={t('navbar/formats')}
                   active={active}
-                  vertical
                   closeHandler={closeHandler}
-                />
+                  hoverColor={colors.primary}
+                >
+                  {`Alle ${t('navbar/formats')}`}
+                </NavLink>
               </div>
             </div>
             <hr {...styles.hr} />
@@ -111,6 +111,7 @@ const Nav = ({
               <div {...styles.navLinks}>
                 <NavLink
                   inline
+                  large
                   route='cockpit'
                   active={active}
                   closeHandler={closeHandler}
@@ -118,6 +119,7 @@ const Nav = ({
                   {t('nav/cockpit')}
                 </NavLink>
                 <NavLink
+                  large
                   route='events'
                   active={active}
                   closeHandler={closeHandler}
@@ -125,6 +127,7 @@ const Nav = ({
                   {t('nav/events')}
                 </NavLink>
                 <NavLink
+                  large
                   route='meta'
                   active={active}
                   closeHandler={closeHandler}
@@ -132,6 +135,7 @@ const Nav = ({
                   {t('nav/meta')}
                 </NavLink>
                 <NavLink
+                  large
                   route='legal/imprint'
                   active={active}
                   closeHandler={closeHandler}
@@ -151,7 +155,8 @@ const Nav = ({
 const styles = {
   container: css({
     [mediaQueries.mUp]: {
-      marginTop: '40px'
+      marginTop: '40px',
+      marginBottom: '40px'
     }
   }),
   hr: css({
@@ -184,31 +189,6 @@ const styles = {
     width: '100%',
     [mediaQueries.mUp]: {
       flexDirection: 'row'
-    },
-    '& a': {
-      ...fontStyles.sansSerifMedium20,
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifMedium22,
-        marginRight: 36
-      }
-    },
-    '& a:not(:last-child)': {
-      marginBottom: 24,
-      [mediaQueries.mUp]: {
-        marginBottom: 0
-      }
-    }
-  }),
-  sectionLinks: css({
-    marginTop: 0,
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& a': {
-      margin: '16px 24px 0px 0px'
-    },
-    ...fontStyles.sansSerifMedium16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifMedium22
     }
   })
 }

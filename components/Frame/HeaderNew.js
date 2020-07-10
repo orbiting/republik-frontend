@@ -10,7 +10,7 @@ import {
   HeaderHeightProvider
 } from '@project-r/styleguide'
 
-import { Router, matchPath } from '../../lib/routes'
+import { Router } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -378,7 +378,7 @@ const styles = {
   }),
   back: css({
     display: 'block',
-    padding: '10px 0px 10px 10px',
+    padding: '12px 0px 12px 12px',
     [mediaQueries.mUp]: {
       top: -1 + 8
     }

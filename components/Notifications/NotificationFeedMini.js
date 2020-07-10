@@ -43,20 +43,6 @@ const NotificationFeedMini = ({
 
         return (
           <>
-            {!newNodes.length && (
-              <p>
-                {t.elements('notifications/minifeed/nounread', {
-                  link: (
-                    <Link key='link' route='subscriptions' passHref>
-                      <a onClick={() => closeHandler()} {...linkRule}>
-                        {t('notifications/minifeed/nounread/link')}
-                      </a>
-                    </Link>
-                  )
-                })}
-              </p>
-            )}
-
             {newNodes &&
               groupByDate.entries(newNodes).map(({ key, values }, i, all) => {
                 return (
@@ -74,7 +60,7 @@ const NotificationFeedMini = ({
                       }
                       return (
                         <div {...styles.notificationItem} key={j}>
-                          {isNew(node) && <span {...styles.unreadDot} />}
+                          {isNew(node) && <div {...styles.unreadDot} />}
 
                           <PathLink path={path} passHref>
                             <a
@@ -101,7 +87,9 @@ const NotificationFeedMini = ({
 const styles = {
   cleanLink: css({
     color: 'inherit',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden'
   }),
   notificationItem: css({
     marginTop: 10,
@@ -110,7 +98,6 @@ const styles = {
     ...fontStyles.sansSerifRegular14,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
     [mediaQueries.mUp]: fontStyles.sansSerifRegular16
   }),
   unreadDot: css({

@@ -1,10 +1,9 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import { routes, Link, Router } from '../../../lib/routes'
-import { shouldIgnoreClick } from '../../../lib/utils/link'
+import { Link } from '../../../lib/routes'
 
-import { colors, fontStyles } from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   link: css({
@@ -25,11 +24,27 @@ const styles = {
   }),
   block: css({
     display: 'block'
+  }),
+  large: css({
+    '& + &': {
+      marginTop: 24
+    },
+    ...fontStyles.sansSerifMedium20,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifMedium22,
+      '& + &': {
+        marginLeft: 36,
+        marginTop: 0
+      }
+    }
   })
 }
 
 export const NavA = React.forwardRef(
-  ({ inline, hoverColor, children, dark, style, title, ...props }, ref) => (
+  (
+    { inline, hoverColor, children, dark, style, title, large, ...props },
+    ref
+  ) => (
     <a
       ref={ref}
       {...styles.link}
@@ -45,6 +60,7 @@ export const NavA = React.forwardRef(
           }
         }))}
       {...(inline ? styles.inline : styles.block)}
+      {...(large && styles.large)}
       style={style}
       title={title}
       {...props}
@@ -65,7 +81,8 @@ const NavLink = ({
   prefetch = false,
   minifeed,
   dark,
-  title
+  title,
+  large
 }) => {
   const activeStyle = minifeed && {
     ...fontStyles.sansSerifMedium14,
@@ -92,6 +109,7 @@ const NavLink = ({
         onClick={!minifeed ? closeHandler : undefined}
         dark={dark}
         hoverColor={hoverColor}
+        large={large}
       >
         {children}
       </NavA>

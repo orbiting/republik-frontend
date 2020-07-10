@@ -29,17 +29,7 @@ const styles = {
 
 export const NavA = React.forwardRef(
   (
-    {
-      inline,
-      hoverColor,
-      children,
-      dark,
-      style,
-      title,
-      large,
-      noBottomMargin,
-      ...props
-    },
+    { inline, hoverColor, children, dark, style, title, large, ...props },
     ref
   ) => (
     <a
@@ -59,15 +49,18 @@ export const NavA = React.forwardRef(
       {...(inline ? styles.inline : styles.block)}
       {...(large &&
         css({
-          marginBottom: 24,
+          '& + &': {
+            marginTop: 24
+          },
           ...fontStyles.sansSerifMedium20,
           [mediaQueries.mUp]: {
             ...fontStyles.sansSerifMedium22,
-            marginRight: 36,
-            marginBottom: 0
+            '& + &': {
+              marginLeft: 36,
+              marginTop: 0
+            }
           }
         }))}
-      {...(noBottomMargin && css({ marginBottom: 0 }))}
       style={style}
       title={title}
       {...props}
@@ -89,8 +82,7 @@ const NavLink = ({
   minifeed,
   dark,
   title,
-  large,
-  noBottomMargin
+  large
 }) => {
   const activeStyle = minifeed && {
     ...fontStyles.sansSerifMedium14,
@@ -118,7 +110,6 @@ const NavLink = ({
         dark={dark}
         hoverColor={hoverColor}
         large={large}
-        noBottomMargin={noBottomMargin}
       >
         {children}
       </NavA>

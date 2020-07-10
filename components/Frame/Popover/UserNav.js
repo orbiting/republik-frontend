@@ -90,7 +90,6 @@ const UserNav = ({
                     passHref
                     closeHandler={closeHandler}
                     large
-                    noBottomMargin
                   >
                     {t('pages/notifications/title')}
                   </NavLink>
@@ -105,7 +104,6 @@ const UserNav = ({
                       passHref
                       closeHandler={closeHandler}
                       large
-                      noBottomMargin
                     >
                       {`${t('nav/bookmarks')}`}
                     </NavLink>
@@ -138,7 +136,6 @@ const UserNav = ({
                         params={{ slug: me.username || me.id }}
                         active={active}
                         large
-                        noBottomMargin
                         closeHandler={closeHandler}
                       >
                         {t('Frame/Popover/myprofile')}
@@ -240,17 +237,6 @@ const styles = {
     width: '100%',
     [mediaQueries.mUp]: {
       flexDirection: 'row'
-    },
-    '& a': {
-      [mediaQueries.mUp]: {
-        marginRight: 36
-      }
-    },
-    '& a:not(:last-child)': {
-      marginBottom: 24,
-      [mediaQueries.mUp]: {
-        marginBottom: 0
-      }
     }
   }),
   smallLinks: css({

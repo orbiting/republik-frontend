@@ -189,15 +189,6 @@ const styles = {
     width: '100%',
     [mediaQueries.mUp]: {
       flexDirection: 'row'
-    },
-    '& a': {
-      marginBottom: 0
-    },
-    '& a:not(:last-child)': {
-      marginBottom: 24,
-      [mediaQueries.mUp]: {
-        marginBottom: 0
-      }
     }
   })
 }

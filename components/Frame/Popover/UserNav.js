@@ -85,24 +85,27 @@ const UserNav = ({
               )}
               {me && (
                 <>
-                  <div {...styles.sectionLinks}>
-                    <NavLink
-                      route='subscriptions'
-                      passHref
-                      closeHandler={closeHandler}
-                    >
-                      {t('pages/notifications/title')}
-                    </NavLink>
-                    {expanded ? (
-                      <NotificationFeedMini closeHandler={closeHandler} />
-                    ) : (
-                      <Loader loading />
-                    )}
+                  <NavLink
+                    route='subscriptions'
+                    passHref
+                    closeHandler={closeHandler}
+                    large
+                    noBottomMargin
+                  >
+                    {t('pages/notifications/title')}
+                  </NavLink>
+                  {expanded ? (
+                    <NotificationFeedMini closeHandler={closeHandler} />
+                  ) : (
+                    <Loader loading />
+                  )}
+                  <div style={{ marginTop: 24 }}>
                     <NavLink
                       route='bookmarks'
                       passHref
                       closeHandler={closeHandler}
-                      {...styles.sectionLink}
+                      large
+                      noBottomMargin
                     >
                       {`${t('nav/bookmarks')}`}
                     </NavLink>
@@ -125,6 +128,7 @@ const UserNav = ({
                       <NavLink
                         route='account'
                         active={active}
+                        large
                         closeHandler={closeHandler}
                       >
                         {t('Frame/Popover/myaccount')}
@@ -133,6 +137,8 @@ const UserNav = ({
                         route='profile'
                         params={{ slug: me.username || me.id }}
                         active={active}
+                        large
+                        noBottomMargin
                         closeHandler={closeHandler}
                       >
                         {t('Frame/Popover/myprofile')}
@@ -141,12 +147,13 @@ const UserNav = ({
                   </div>
                   <hr {...styles.hr} />
                   <div {...styles.navSection}>
-                    <div {...styles.navLinks} {...styles.regularLinks}>
+                    <div {...styles.navLinks}>
                       {me.accessCampaigns.length > 0 && (
                         <NavLink
                           route='access'
                           active={active}
                           closeHandler={closeHandler}
+                          large
                         >
                           {t('nav/share')}
                         </NavLink>
@@ -156,6 +163,7 @@ const UserNav = ({
                         params={{ group: 'GIVE' }}
                         active={active}
                         closeHandler={closeHandler}
+                        large
                       >
                         {t('nav/give')}
                       </NavLink>
@@ -165,6 +173,7 @@ const UserNav = ({
                         params={{ package: 'DONATE' }}
                         active={active}
                         closeHandler={closeHandler}
+                        large
                       >
                         {t('nav/donate')}
                       </NavLink>
@@ -233,10 +242,7 @@ const styles = {
       flexDirection: 'row'
     },
     '& a': {
-      flexShrink: 0,
-      ...fontStyles.sansSerifMedium20,
       [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifMedium22,
         marginRight: 36
       }
     },
@@ -261,15 +267,6 @@ const styles = {
   smallLinks: css({
     '& a': {
       ...fontStyles.sansSerifRegular18
-    }
-  }),
-  sectionLinks: css({
-    '& a': {
-      marginBottom: 24,
-      ...fontStyles.sansSerifMedium20,
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifMedium22
-      }
     }
   })
 }

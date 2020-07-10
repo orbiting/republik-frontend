@@ -56,7 +56,6 @@ const Panel = ({
   active,
   closeHandler,
   color,
-  minifeed,
   meta,
   formats
 }) => {
@@ -95,7 +94,6 @@ const Panel = ({
             closeHandler={closeHandler}
             hoverColor={color}
             inline
-            minifeed={minifeed}
           >
             {meta.title}
           </NavLink>
@@ -123,7 +121,6 @@ const SectionNav = ({
   data: { loading, error, sections },
   active,
   closeHandler,
-  minifeed,
   dark
 }) => {
   const [isMobile, setIsMobile] = useState(false)
@@ -169,7 +166,6 @@ const SectionNav = ({
                         closeHandler={closeHandler}
                         hoverColor={color}
                         inline
-                        minifeed={minifeed}
                       >
                         {meta.title}
                       </NavLink>
@@ -192,7 +188,6 @@ const SectionNav = ({
                           closeHandler={closeHandler}
                           hoverColor={color}
                           inline
-                          minifeed={minifeed}
                         >
                           {meta.title}
                         </NavLink>
@@ -215,7 +210,6 @@ const SectionNav = ({
                       active={active}
                       closeHandler={closeHandler}
                       color={color}
-                      minifeed={minifeed}
                       meta={meta}
                       formats={formats}
                     />

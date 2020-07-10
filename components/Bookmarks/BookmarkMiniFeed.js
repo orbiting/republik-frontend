@@ -27,7 +27,11 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
         }
         const nodes = data.me.collection.items.nodes
         return (
-          <div {...styles.tilesContainer} style={style}>
+          <div
+            {...styles.tilesContainer}
+            data-body-scroll-lock-ignore
+            style={style}
+          >
             {nodes
               .filter(node => node.document)
               .slice(0, 3)

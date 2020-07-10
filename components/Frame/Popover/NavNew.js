@@ -7,8 +7,7 @@ import {
   fontStyles,
   mediaQueries,
   Center,
-  Button,
-  TeaserSectionTitle
+  Button
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -20,7 +19,7 @@ import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import SearchForm from '../../Search/Form'
 import NavLink from './NavLink'
-import Sections from './Sections'
+import Sections from './SectionsNew'
 
 const Nav = ({
   me,
@@ -91,19 +90,17 @@ const Nav = ({
             </div>
             <hr {...styles.hr} />
             <div {...styles.navSection}>
-              <div style={{ color: colors.lightText }}>
-                <Link route='sections' passHref>
-                  <TeaserSectionTitle onClick={() => closeHandler()} small>
-                    {t('nav/sections')}
-                  </TeaserSectionTitle>
-                </Link>
-              </div>
-              <div {...styles.sectionLinks}>
-                <Sections
+              <Sections active={active} vertical closeHandler={closeHandler} />
+              <div style={{ marginTop: 24 }}>
+                <NavLink
+                  route='formats'
+                  title={t('navbar/formats')}
                   active={active}
-                  vertical
                   closeHandler={closeHandler}
-                />
+                  hoverColor={colors.primary}
+                >
+                  {`Alle ${t('navbar/formats')}`}
+                </NavLink>
               </div>
             </div>
             <hr {...styles.hr} />
@@ -151,7 +148,8 @@ const Nav = ({
 const styles = {
   container: css({
     [mediaQueries.mUp]: {
-      marginTop: '40px'
+      marginTop: '40px',
+      marginBottom: '40px'
     }
   }),
   hr: css({
@@ -197,18 +195,6 @@ const styles = {
       [mediaQueries.mUp]: {
         marginBottom: 0
       }
-    }
-  }),
-  sectionLinks: css({
-    marginTop: 0,
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& a': {
-      margin: '16px 24px 0px 0px'
-    },
-    ...fontStyles.sansSerifMedium16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifMedium22
     }
   })
 }

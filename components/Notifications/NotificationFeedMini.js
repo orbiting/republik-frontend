@@ -43,20 +43,6 @@ const NotificationFeedMini = ({
 
         return (
           <>
-            {!newNodes.length && (
-              <p>
-                {t.elements('notifications/minifeed/nounread', {
-                  link: (
-                    <Link key='link' route='subscriptions' passHref>
-                      <a onClick={() => closeHandler()} {...linkRule}>
-                        {t('notifications/minifeed/nounread/link')}
-                      </a>
-                    </Link>
-                  )
-                })}
-              </p>
-            )}
-
             {newNodes &&
               groupByDate.entries(newNodes).map(({ key, values }, i, all) => {
                 return (

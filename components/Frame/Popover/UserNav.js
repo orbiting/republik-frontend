@@ -85,22 +85,28 @@ const UserNav = ({
               )}
               {me && (
                 <>
-                  <Link route='subscriptions' passHref>
-                    <TeaserSectionTitle onClick={() => closeHandler()} small>
+                  <div {...styles.sectionLinks}>
+                    <NavLink
+                      route='subscriptions'
+                      passHref
+                      closeHandler={closeHandler}
+                    >
                       {t('pages/notifications/title')}
-                    </TeaserSectionTitle>
-                  </Link>
-                  {expanded ? (
-                    <NotificationFeedMini closeHandler={closeHandler} />
-                  ) : (
-                    <Loader loading />
-                  )}
-                  <br />
-                  <Link route='bookmarks' passHref>
-                    <TeaserSectionTitle onClick={() => closeHandler()} small>
+                    </NavLink>
+                    {expanded ? (
+                      <NotificationFeedMini closeHandler={closeHandler} />
+                    ) : (
+                      <Loader loading />
+                    )}
+                    <NavLink
+                      route='bookmarks'
+                      passHref
+                      closeHandler={closeHandler}
+                      {...styles.sectionLink}
+                    >
                       {`${t('nav/bookmarks')}`}
-                    </TeaserSectionTitle>
-                  </Link>
+                    </NavLink>
+                  </div>
                   <div {...styles.bookmarkContainer}>
                     {expanded ? (
                       <BookmarkMiniFeed
@@ -133,6 +139,7 @@ const UserNav = ({
                       </NavLink>
                     </div>
                   </div>
+                  <hr {...styles.hr} />
                   <div {...styles.navSection}>
                     <div {...styles.navLinks} {...styles.regularLinks}>
                       {me.accessCampaigns.length > 0 && (
@@ -254,6 +261,15 @@ const styles = {
   smallLinks: css({
     '& a': {
       ...fontStyles.sansSerifRegular18
+    }
+  }),
+  sectionLinks: css({
+    '& a': {
+      marginBottom: 24,
+      ...fontStyles.sansSerifMedium20,
+      [mediaQueries.mUp]: {
+        ...fontStyles.sansSerifMedium22
+      }
     }
   })
 }

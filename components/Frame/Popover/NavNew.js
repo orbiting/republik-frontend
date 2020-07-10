@@ -63,6 +63,7 @@ const Nav = ({
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
                 <NavLink
+                  large
                   route='index'
                   active={active}
                   closeHandler={closeHandler}
@@ -71,6 +72,7 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   prefetch
+                  large
                   route='feed'
                   active={active}
                   closeHandler={closeHandler}
@@ -78,6 +80,7 @@ const Nav = ({
                   {t('navbar/feed')}
                 </NavLink>
                 <NavLink
+                  large
                   route='discussion'
                   title={t('navbar/discussion')}
                   active={active}
@@ -108,6 +111,7 @@ const Nav = ({
               <div {...styles.navLinks}>
                 <NavLink
                   inline
+                  large
                   route='cockpit'
                   active={active}
                   closeHandler={closeHandler}
@@ -115,6 +119,7 @@ const Nav = ({
                   {t('nav/cockpit')}
                 </NavLink>
                 <NavLink
+                  large
                   route='events'
                   active={active}
                   closeHandler={closeHandler}
@@ -122,6 +127,7 @@ const Nav = ({
                   {t('nav/events')}
                 </NavLink>
                 <NavLink
+                  large
                   route='meta'
                   active={active}
                   closeHandler={closeHandler}
@@ -129,6 +135,7 @@ const Nav = ({
                   {t('nav/meta')}
                 </NavLink>
                 <NavLink
+                  large
                   route='legal/imprint'
                   active={active}
                   closeHandler={closeHandler}
@@ -184,11 +191,7 @@ const styles = {
       flexDirection: 'row'
     },
     '& a': {
-      ...fontStyles.sansSerifMedium20,
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifMedium22,
-        marginRight: 36
-      }
+      marginBottom: 0
     },
     '& a:not(:last-child)': {
       marginBottom: 24,

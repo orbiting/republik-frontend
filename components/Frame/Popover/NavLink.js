@@ -62,7 +62,9 @@ export const NavA = React.forwardRef(
           marginBottom: 24,
           ...fontStyles.sansSerifMedium20,
           [mediaQueries.mUp]: {
-            ...fontStyles.sansSerifMedium22
+            ...fontStyles.sansSerifMedium22,
+            marginRight: 36,
+            marginBottom: 0
           }
         }))}
       {...(noBottomMargin && css({ marginBottom: 0 }))}

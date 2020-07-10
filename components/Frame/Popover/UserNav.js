@@ -253,17 +253,6 @@ const styles = {
       }
     }
   }),
-  regularLinks: css({
-    '& a': {
-      ...fontStyles.sansSerifRegular,
-      fontSize: 20,
-      lineHeight: '24px',
-      letterSpacing: 'normal',
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifRegular22
-      }
-    }
-  }),
   smallLinks: css({
     '& a': {
       ...fontStyles.sansSerifRegular18

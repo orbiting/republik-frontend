@@ -24,6 +24,19 @@ const styles = {
   }),
   block: css({
     display: 'block'
+  }),
+  large: css({
+    '& + &': {
+      marginTop: 24
+    },
+    ...fontStyles.sansSerifMedium20,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifMedium22,
+      '& + &': {
+        marginLeft: 36,
+        marginTop: 0
+      }
+    }
   })
 }
 
@@ -47,20 +60,7 @@ export const NavA = React.forwardRef(
           }
         }))}
       {...(inline ? styles.inline : styles.block)}
-      {...(large &&
-        css({
-          '& + &': {
-            marginTop: 24
-          },
-          ...fontStyles.sansSerifMedium20,
-          [mediaQueries.mUp]: {
-            ...fontStyles.sansSerifMedium22,
-            '& + &': {
-              marginLeft: 36,
-              marginTop: 0
-            }
-          }
-        }))}
+      {...(large && styles.large)}
       style={style}
       title={title}
       {...props}

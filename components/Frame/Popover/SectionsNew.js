@@ -194,7 +194,7 @@ const SectionNav = ({
                         <MdChevronRight
                           size={22}
                           style={{
-                            transition: 'transform 0.4s ease-out',
+                            transition: 'transform 0.3s ease-out',
                             transform: isActivePanel
                               ? 'rotate(270deg)'
                               : 'rotate(90deg)'
@@ -267,7 +267,7 @@ const styles = {
   }),
   accordionBody: css({
     overflow: 'hidden',
-    transition: 'height 0.3s ease-out, opacity 0.5s ease-out',
+    transition: 'height 0.2s ease-out, opacity 0.3s ease-out',
     [mediaQueries.mUp]: {
       overflow: 'initial'
     }

@@ -2,10 +2,10 @@ import React, { Fragment } from 'react'
 import { withRouter } from 'next/router'
 
 import { css } from 'glamor'
-import { Link } from '../../lib/routes'
 import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
+import PathLink from '../Link/Path'
 
 import {
   Editorial,
@@ -85,17 +85,17 @@ const LinkContent = ({ episode, index, t }) => {
 }
 
 const EpisodeLink = withRouter(
-  ({ episode, translation, params = {}, router, index, t }) => {
-    const route =
+  ({ episode, translation, params = {}, router, index, t, onClick }) => {
+    const path =
       episode.document && episode.document.meta && episode.document.meta.path
-    if (!route) {
+    if (!path) {
       return (
         <div {...styles.base} {...styles.unpublished}>
           <LinkContent episode={episode} index={index} t={t} />
         </div>
       )
     }
-    if (router.asPath && router.asPath === route) {
+    if (router.asPath === path) {
       return (
         <div {...styles.base} {...styles.current}>
           <LinkContent episode={episode} index={index} t={t} />
@@ -103,21 +103,27 @@ const EpisodeLink = withRouter(
       )
     }
     return (
-      <Link route={route} params={params}>
-        <a {...styles.base} {...styles.link}>
+      <PathLink path={path} passHref>
+        <a {...styles.base} {...styles.link} onClick={onClick}>
           <LinkContent episode={episode} index={index} t={t} />
         </a>
-      </Link>
+      </PathLink>
     )
   }
 )
 
-const Nav = ({ children, t, series }) => {
+const Nav = ({ children, t, series, onClick }) => {
   return (
     <div {...styles.container}>
       {series.episodes &&
         series.episodes.map((episode, i) => (
-          <EpisodeLink t={t} key={i} episode={episode} index={i} />
+          <EpisodeLink
+            t={t}
+            key={i}
+            episode={episode}
+            index={i}
+            onClick={onClick}
+          />
         ))}
     </div>
   )

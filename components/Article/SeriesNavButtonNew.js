@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { css } from 'glamor'
 import SeriesNavPanel from './SeriesNavPanel'
 
@@ -77,15 +77,8 @@ const styles = {
   })
 }
 
-const SeriesNavButton = ({
-  items,
-  id,
-  children,
-  t,
-  series,
-  onSecondaryNavExpandedChange,
-  expanded
-}) => {
+const SeriesNavButton = ({ items, id, children, t, series }) => {
+  const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
   const [headerHeight] = useHeaderHeight()
   return (
@@ -93,7 +86,7 @@ const SeriesNavButton = ({
       <button
         {...styles.button}
         onClick={() => {
-          onSecondaryNavExpandedChange(!expanded)
+          setExpanded(!expanded)
         }}
       >
         <span {...styles.title}>
@@ -113,7 +106,13 @@ const SeriesNavButton = ({
         aria-expanded={expanded}
         ref={ref}
       >
-        <SeriesNavPanel t={t} series={series} />
+        <SeriesNavPanel
+          t={t}
+          series={series}
+          onClick={() => {
+            setExpanded(false)
+          }}
+        />
       </div>
     </Fragment>
   )

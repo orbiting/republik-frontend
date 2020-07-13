@@ -106,7 +106,14 @@ const NavLink = ({
         title={title}
         style={isActive ? activeStyle : undefined}
         inline={inline}
-        onClick={!minifeed ? closeHandler : undefined}
+        onClick={
+          !minifeed
+            ? e => {
+                e.stopPropagation()
+                closeHandler()
+              }
+            : undefined
+        }
         dark={dark}
         hoverColor={hoverColor}
         large={large}

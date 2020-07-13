@@ -104,7 +104,7 @@ const Panel = ({
         .sort((a, b) => ascending(a.meta.title, b.meta.title))
         .map(({ id, meta: formatMeta, linkedDocuments }) => (
           <Link href={formatMeta.path} passHref key={id}>
-            <a {...styles.formatLink}>
+            <a {...styles.formatLink} onClick={() => closeHandler()}>
               <FormatTag
                 color={formatMeta.color || colors[formatMeta.kind]}
                 label={formatMeta.title}
@@ -194,7 +194,7 @@ const SectionNav = ({
                         <MdChevronRight
                           size={22}
                           style={{
-                            transition: 'transform 0.4s ease-out',
+                            transition: 'transform 0.3s ease-out',
                             transform: isActivePanel
                               ? 'rotate(270deg)'
                               : 'rotate(90deg)'
@@ -267,7 +267,7 @@ const styles = {
   }),
   accordionBody: css({
     overflow: 'hidden',
-    transition: 'height 0.3s ease-out, opacity 0.5s ease-out',
+    transition: 'height 0.2s ease-out, opacity 0.3s ease-out',
     [mediaQueries.mUp]: {
       overflow: 'initial'
     }

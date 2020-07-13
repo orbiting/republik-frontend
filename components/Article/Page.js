@@ -898,7 +898,9 @@ class ArticlePage extends Component {
                         </div>
                       )}
                       <SSRCachingBoundary
-                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
+                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}${
+                          isTester ? ':isTester' : ''
+                        }`}
                       >
                         {() => (
                           <ColorContext.Provider

@@ -54,11 +54,7 @@ const Nav = ({
               </Button>
             )}
             {me && (
-              <SearchForm
-                style={{ padding: 0 }}
-                reduced
-                onSearchSubmit={onSearchSubmit}
-              />
+              <SearchForm noInitialFocus onSearchSubmit={onSearchSubmit} />
             )}
             <div {...styles.navSection}>
               <div {...styles.navLinks}>

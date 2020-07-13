@@ -49,7 +49,7 @@ const Form = compose(
         focusRef &&
         focusRef.input &&
         focusRef.input.focus()
-    }, [startState, focusRef])
+    }, [startState, focusRef, noInitialFocus])
 
     useEffect(() => {
       setSearchQuery(slowFormValue)

@@ -43,7 +43,6 @@ const Form = compose(
     const [focusRef, setFocusRef] = useState(null)
     const [formValue, setFormValue] = useState(urlQuery)
     const [slowFormValue] = useDebounce(formValue, 200)
-    console.log(noInitialFocus)
     useEffect(() => {
       startState &&
         !noInitialFocus &&

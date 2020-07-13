@@ -733,7 +733,6 @@ class ArticlePage extends Component {
       )
 
     const hasOverviewNav = meta && meta.template === 'section'
-    // console.log(meta.template)
     return (
       <Frame
         dark={darkMode}

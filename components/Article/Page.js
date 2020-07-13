@@ -733,6 +733,7 @@ class ArticlePage extends Component {
       )
 
     const hasOverviewNav = meta && meta.template === 'section'
+    // console.log(meta.template)
     return (
       <Frame
         dark={darkMode}
@@ -898,7 +899,9 @@ class ArticlePage extends Component {
                         </div>
                       )}
                       <SSRCachingBoundary
-                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
+                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}${
+                          isTester ? ':isTester' : ''
+                        }`}
                       >
                         {() => (
                           <ColorContext.Provider

@@ -619,7 +619,6 @@ class ArticlePage extends Component {
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-        // TODO: replace this code
         subscription={article.subscribedByMe}
         subscriptions={article.subscribedBy}
         showSubscribe
@@ -634,18 +633,6 @@ class ArticlePage extends Component {
           onPdfClick: undefined,
           pdfUrl: undefined,
           showSubscribe: false
-        })
-      : undefined
-    const actionBarNavNew = actionBar
-      ? React.cloneElement(actionBar, {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          onPdfClick: undefined,
-          pdfUrl: undefined,
-          showSubscribe: false,
-          fontSize: false,
-          wrapped: true
         })
       : undefined
     const actionBarEnd = actionBar

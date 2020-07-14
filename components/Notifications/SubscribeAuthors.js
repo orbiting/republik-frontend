@@ -16,7 +16,7 @@ const SubscribeAuthor = ({
           {subscriptions.map(subscription =>
             ['Comment', 'Document'].map(filter => (
               <SubscribeCheckbox
-                key={subscription.object.id}
+                key={subscription.id}
                 subscription={subscription}
                 filters={subscription.filters}
                 filterName={filter}

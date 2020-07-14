@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-10T16:26:42.583Z",
+  "updated": "2020-07-14T09:50:00.209Z",
   "title": "live",
   "data": [
     {
@@ -11,11 +11,11 @@
       "value": "Feed"
     },
     {
-      "key": "nav/sections",
+      "key": "nav/events",
       "value": "Rubriken"
     },
     {
-      "key": "nav/events",
+      "key": null,
       "value": "Anlässe"
     },
     {
@@ -6643,11 +6643,11 @@
       "value": "Newsletter per E-Mail"
     },
     {
-      "key": "SubscribeCallout/comment",
+      "key": "SubscribeCallout/Comment",
       "value": "Kommentare"
     },
     {
-      "key": "SubscribeCallout/document",
+      "key": "SubscribeCallout/Document",
       "value": "Artikel"
     },
     {

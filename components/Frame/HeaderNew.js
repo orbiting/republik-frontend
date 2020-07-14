@@ -10,13 +10,14 @@ import {
   HeaderHeightProvider
 } from '@project-r/styleguide'
 
-import { Router, matchPath } from '../../lib/routes'
+import { Router } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 import NotificationIconNew from '../Notifications/NotificationIconNew'
 import BackIcon from '../Icons/Back'
+import HLine from '../Frame/HLine'
 
 import UserNew from './UserNew'
 import Popover from './Popover'
@@ -24,7 +25,6 @@ import NavPopover from './Popover/NavNew'
 import UserNavPopover from './Popover/UserNav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
-import HLine from './HLine'
 import ToggleNew from './ToggleNew'
 import SecondaryNav from './SecondaryNav'
 
@@ -39,16 +39,6 @@ import {
   LOGO_PADDING_MOBILE,
   TRANSITION_MS
 } from '../constants'
-
-const isActiveRoute = (active, route, params = {}) =>
-  !!active &&
-  active.route === route &&
-  Object.keys(params).every(key => active.params[key] === params[key])
-
-const isFront = router => {
-  const active = matchPath(router.asPath)
-  return isActiveRoute(active, 'index', {})
-}
 
 let routeChangeStarted
 
@@ -83,7 +73,7 @@ const HeaderNew = ({
   const dark = darkProp && !isAnyNavExpanded
   const textFill = dark ? colors.negative.text : colors.text
   const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
-  const backButton = inNativeIOSApp && me && !isFront(router)
+  const backButton = !hasOverviewNav && inNativeIOSApp && me
 
   const toggleExpanded = target => {
     if (target === expandedNav) {
@@ -195,7 +185,9 @@ const HeaderNew = ({
       <ColorContext.Provider value={dark ? colors.negative : colors}>
         <div
           {...styles.navBar}
-          style={{ backgroundColor: dark ? colors.negative.primaryBg : '#fff' }}
+          style={{
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+          }}
           ref={fixedRef}
         >
           <div {...styles.primary}>
@@ -264,7 +256,7 @@ const HeaderNew = ({
                 <ToggleNew
                   expanded={isAnyNavExpanded}
                   dark={dark}
-                  size={26}
+                  size={28}
                   title={t(
                     `header/nav/${
                       expandedNav === 'main' ? 'close' : 'open'
@@ -278,14 +270,16 @@ const HeaderNew = ({
               </div>
             </div>
           </div>
-          <HLine formatColor={formatColor} dark={dark} />
           <SecondaryNav
             secondaryNav={secondaryNav}
             router={router}
             dark={dark}
+            formatColor={formatColor}
             showSecondary={showSecondary}
             hasOverviewNav={hasOverviewNav}
+            isSecondarySticky={headerOffset === -headerHeightState}
           />
+          <HLine formatColor={formatColor} dark={dark} />
         </div>
         <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
           <NavPopover
@@ -385,7 +379,7 @@ const styles = {
   }),
   back: css({
     display: 'block',
-    padding: '10px 0px 10px 10px',
+    padding: '12px 0px 12px 12px',
     [mediaQueries.mUp]: {
       top: -1 + 8
     }

@@ -37,15 +37,19 @@ const Form = compose(
     t,
     searchQuery,
     setSearchQuery,
-    onSearchSubmit
+    onSearchSubmit,
+    noInitialFocus
   }) => {
     const [focusRef, setFocusRef] = useState(null)
     const [formValue, setFormValue] = useState(urlQuery)
     const [slowFormValue] = useDebounce(formValue, 200)
-
     useEffect(() => {
-      startState && focusRef && focusRef.input && focusRef.input.focus()
-    }, [startState, focusRef])
+      startState &&
+        !noInitialFocus &&
+        focusRef &&
+        focusRef.input &&
+        focusRef.input.focus()
+    }, [startState, focusRef, noInitialFocus])
 
     useEffect(() => {
       setSearchQuery(slowFormValue)
@@ -112,7 +116,7 @@ const Form = compose(
   }
 )
 
-const FormWrapper = ({ onSearchSubmit }) => {
+const FormWrapper = ({ onSearchSubmit, noInitialFocus }) => {
   const [searchQuery, setSearchQuery] = useState()
 
   return (
@@ -120,6 +124,7 @@ const FormWrapper = ({ onSearchSubmit }) => {
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}
       onSearchSubmit={onSearchSubmit}
+      noInitialFocus={noInitialFocus}
     />
   )
 }

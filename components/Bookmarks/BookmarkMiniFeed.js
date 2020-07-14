@@ -27,7 +27,11 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
         }
         const nodes = data.me.collection.items.nodes
         return (
-          <div {...styles.tilesContainer} style={style}>
+          <div
+            {...styles.tilesContainer}
+            data-body-scroll-lock-ignore
+            style={style}
+          >
             {nodes
               .filter(node => node.document)
               .slice(0, 3)
@@ -52,7 +56,11 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                       </Link>
                     </div>
                     <div {...styles.iconContainer}>
-                      <Bookmark documentId={id} bookmarked={!!userBookmark} />
+                      <Bookmark
+                        documentId={id}
+                        bookmarked={!!userBookmark}
+                        skipRefetch
+                      />
                       {userProgress && estimatedReadingMinutes > 1 && (
                         <UserProgress
                           small
@@ -136,4 +144,10 @@ const styles = {
   })
 }
 
-export default compose(graphql(getBookmarkedDocuments))(BookmarkMiniFeed)
+export default compose(
+  graphql(getBookmarkedDocuments, {
+    options: {
+      fetchPolicy: 'cache-and-network'
+    }
+  })
+)(BookmarkMiniFeed)

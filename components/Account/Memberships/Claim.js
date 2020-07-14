@@ -10,7 +10,7 @@ import Consents, { getConsentsError } from '../../Pledge/Consents'
 import withT from '../../../lib/withT'
 import withMe, { meQuery } from '../../../lib/apollo/withMe'
 import isEmail from 'validator/lib/isEmail'
-import track from '../../../lib/piwik'
+import { trackEvent } from '../../../lib/piwik'
 
 import SwitchBoard from '../../Auth/SwitchBoard'
 import FieldSet from '../../FieldSet'
@@ -204,7 +204,7 @@ class ClaimMembership extends Component {
       const claimWith = (mutation, { code, context = 'unknown' }) =>
         mutation(code)
           .then(() => {
-            track(['trackEvent', 'MembershipsClaim', `claim success`, context])
+            trackEvent(['MembershipsClaim', 'claim success', context])
           })
           .then(() => relocateToOnboarding(context))
           .catch(catchError)

@@ -7,7 +7,8 @@ import {
   mediaQueries,
   Center,
   Button,
-  TeaserSectionTitle
+  TeaserSectionTitle,
+  Loader
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -61,7 +62,6 @@ const UserNav = ({
   }
   return (
     <>
-      <hr {...styles.hr} {...styles.hrFixed} />
       <Center {...styles.container} id='nav'>
         <div ref={containerRef}>
           {hasExpandedRef.current && (
@@ -85,32 +85,48 @@ const UserNav = ({
               )}
               {me && (
                 <>
-                  <Link route='subscriptions' passHref>
-                    <TeaserSectionTitle onClick={() => closeHandler()} small>
-                      {t('pages/notifications/title')}
-                    </TeaserSectionTitle>
-                  </Link>
-                  <NotificationFeedMini closeHandler={closeHandler} />
-                  <br />
-                  <Link route='bookmarks' passHref>
-                    <TeaserSectionTitle onClick={() => closeHandler()} small>
-                      {`${t('nav/bookmarks')}`}
-                    </TeaserSectionTitle>
-                  </Link>
-                  <div {...styles.bookmarkContainer}>
-                    <BookmarkMiniFeed
-                      style={{
-                        marginTop: 10,
-                        paddingLeft: containerPadding - 16
-                      }}
+                  <NavLink
+                    route='subscriptions'
+                    passHref
+                    closeHandler={closeHandler}
+                    large
+                  >
+                    {t('pages/notifications/title')}
+                  </NavLink>
+                  {expanded ? (
+                    <NotificationFeedMini closeHandler={closeHandler} />
+                  ) : (
+                    <Loader loading />
+                  )}
+                  <div style={{ marginTop: 24 }}>
+                    <NavLink
+                      route='bookmarks'
+                      passHref
                       closeHandler={closeHandler}
-                    />
+                      large
+                    >
+                      {`${t('nav/bookmarks')}`}
+                    </NavLink>
+                  </div>
+                  <div {...styles.bookmarkContainer}>
+                    {expanded ? (
+                      <BookmarkMiniFeed
+                        style={{
+                          marginTop: 10,
+                          paddingLeft: containerPadding - 16
+                        }}
+                        closeHandler={closeHandler}
+                      />
+                    ) : (
+                      <Loader loading />
+                    )}
                   </div>
                   <div {...styles.navSection}>
                     <div {...styles.navLinks}>
                       <NavLink
                         route='account'
                         active={active}
+                        large
                         closeHandler={closeHandler}
                       >
                         {t('Frame/Popover/myaccount')}
@@ -119,19 +135,22 @@ const UserNav = ({
                         route='profile'
                         params={{ slug: me.username || me.id }}
                         active={active}
+                        large
                         closeHandler={closeHandler}
                       >
                         {t('Frame/Popover/myprofile')}
                       </NavLink>
                     </div>
                   </div>
+                  <hr {...styles.hr} />
                   <div {...styles.navSection}>
-                    <div {...styles.navLinks} {...styles.regularLinks}>
+                    <div {...styles.navLinks}>
                       {me.accessCampaigns.length > 0 && (
                         <NavLink
                           route='access'
                           active={active}
                           closeHandler={closeHandler}
+                          large
                         >
                           {t('nav/share')}
                         </NavLink>
@@ -141,6 +160,7 @@ const UserNav = ({
                         params={{ group: 'GIVE' }}
                         active={active}
                         closeHandler={closeHandler}
+                        large
                       >
                         {t('nav/give')}
                       </NavLink>
@@ -150,6 +170,7 @@ const UserNav = ({
                         params={{ package: 'DONATE' }}
                         active={active}
                         closeHandler={closeHandler}
+                        large
                       >
                         {t('nav/donate')}
                       </NavLink>
@@ -216,31 +237,6 @@ const styles = {
     width: '100%',
     [mediaQueries.mUp]: {
       flexDirection: 'row'
-    },
-    '& a': {
-      flexShrink: 0,
-      ...fontStyles.sansSerifMedium20,
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifMedium22,
-        marginRight: 36
-      }
-    },
-    '& a:not(:last-child)': {
-      marginBottom: 24,
-      [mediaQueries.mUp]: {
-        marginBottom: 0
-      }
-    }
-  }),
-  regularLinks: css({
-    '& a': {
-      ...fontStyles.sansSerifRegular,
-      fontSize: 20,
-      lineHeight: '24px',
-      letterSpacing: 'normal',
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifRegular22
-      }
     }
   }),
   smallLinks: css({

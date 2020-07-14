@@ -12,7 +12,7 @@ import {
 import TrialForm from '../Trial/Form'
 import { css, merge } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
-import { trackEventOnClick } from '../../lib/piwik'
+import { trackEvent, trackEventOnClick } from '../../lib/piwik'
 import { Router } from '../../lib/routes'
 import NativeRouter, { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
@@ -23,6 +23,7 @@ import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
 import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
 import { parseJSONObject } from '../../lib/safeJSON'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const trialCampaigns = parseJSONObject(TRIAL_CAMPAIGNS)
 const trialAccessCampaignId =
@@ -341,7 +342,7 @@ const SecondaryCta = ({ payNote, payload, darkMode }) =>
         key='secondary'
         href={payNote.secondary.link}
         onClick={trackEventOnClick(
-          ['PayNote', `secondary ${payload.position}`, payNote.keyShort],
+          ['PayNote', `secondary ${payload.position}`, payload.variation],
           () => goTo(payNote.secondary.link)
         )}
       >
@@ -393,6 +394,21 @@ const PayNoteCta = ({ payNote, payload, darkMode }) =>
       {payNote.note && (
         <div
           style={{ marginTop: 10, marginBottom: 5 }}
+          onClick={e => {
+            if (e.target.nodeName === 'A') {
+              trackEvent([
+                'PayNote',
+                `note ${payload.position}`,
+                payload.variation
+              ])
+              const href =
+                e.target.getAttribute && e.target.getAttribute('href')
+              if (!shouldIgnoreClick(e) && href && href.startsWith('/')) {
+                e.preventDefault()
+                goTo(href)
+              }
+            }
+          }}
           {...(darkMode ? styles.linksDark : styles.links)}
         >
           <Label

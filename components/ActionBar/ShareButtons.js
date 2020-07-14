@@ -5,7 +5,7 @@ import { css } from 'glamor'
 import IconLink from '../IconLink'
 
 import withT from '../../lib/withT'
-import track from '../../lib/piwik'
+import { trackEvent } from '../../lib/piwik'
 
 import copyToClipboard from 'clipboard-copy'
 
@@ -123,7 +123,7 @@ const ShareButtons = ({
           stacked
           {...props}
           onClick={e => {
-            track(['trackEvent', eventCategory, props.icon, url])
+            trackEvent([eventCategory, props.icon, url])
             if (props.onClick) {
               return props.onClick(e)
             }

@@ -4,7 +4,7 @@ import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { MdPersonOutline } from 'react-icons/md'
 import withT from '../../lib/withT'
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const BUTTON_SIZE = 40
 const BUTTON_SIZE_MOBILE = 30

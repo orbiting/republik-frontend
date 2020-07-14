@@ -10,7 +10,7 @@ import NavLink from './Popover/NavLink'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  SUBHEADER_HEIGHT_MOBILE,
+  SUBHEADER_HEIGHT,
   ZINDEX_HEADER
 } from '../constants'
 
@@ -53,6 +53,8 @@ export const SecondaryNav = ({
   showSecondary,
   router,
   hasOverviewNav,
+  isSecondarySticky,
+  formatColor,
   t
 }) => {
   const active = matchPath(router.asPath)
@@ -61,14 +63,24 @@ export const SecondaryNav = ({
       {hasOverviewNav ? (
         <div
           {...styles.miniNav}
+          onTouchStart={e => {
+            // prevent touchstart from bubbling to Pullable
+            e.stopPropagation()
+          }}
           style={{
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff',
-            borderBottom: `1px solid ${
+            borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
               dark ? colors.negative.divider : colors.divider
-            }`
+            }`,
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
           }}
         >
-          <NavLink dark={dark} route='index' active={active} minifeed={true}>
+          <NavLink
+            dark={dark}
+            route='index'
+            active={active}
+            minifeed={true}
+            title={t('navbar/front')}
+          >
             {t('navbar/front')}
           </NavLink>
           <NavLink
@@ -77,6 +89,7 @@ export const SecondaryNav = ({
             route='feed'
             active={active}
             minifeed={true}
+            title={t('navbar/feed')}
           >
             {t('navbar/feed')}
           </NavLink>
@@ -86,6 +99,7 @@ export const SecondaryNav = ({
             active={active}
             hoverColor={colors.primary}
             minifeed={true}
+            title={t('navbar/discussion')}
           >
             {t('navbar/discussion')}
           </NavLink>
@@ -101,6 +115,7 @@ export const SecondaryNav = ({
                 hoverColor={color}
                 minifeed={true}
                 dark={dark}
+                title={section.title}
               >
                 {section.title}
               </NavLink>
@@ -112,12 +127,12 @@ export const SecondaryNav = ({
           <div
             {...styles.secondaryNav}
             style={{
+              borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
+                dark ? colors.negative.divider : colors.divider
+              }`,
               opacity: showSecondary ? 1 : 0,
               transition: 'opacity 0.2s ease-out',
-              backgroundColor: dark ? colors.negative.primaryBg : '#fff',
-              borderBottom: `1px solid ${
-                dark ? colors.negative.divider : colors.divider
-              }`
+              backgroundColor: dark ? colors.negative.primaryBg : '#fff'
             }}
           >
             {secondaryNav}
@@ -130,29 +145,24 @@ export const SecondaryNav = ({
 
 const styles = {
   secondaryNav: css({
-    position: 'absolute',
     zIndex: ZINDEX_HEADER,
-    top: HEADER_HEIGHT_MOBILE,
     left: 0,
     right: 0,
-    height: SUBHEADER_HEIGHT_MOBILE,
+    height: SUBHEADER_HEIGHT,
     display: 'flex',
     justifyContent: 'flex-start',
     padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
     [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
       justifyContent: 'center',
       padding: `0px ${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
     }
   }),
   miniNav: css({
-    position: 'absolute',
     overflowY: 'hidden',
     overflowX: 'auto',
     whiteSpace: 'nowrap',
     zIndex: ZINDEX_HEADER,
-    top: HEADER_HEIGHT_MOBILE,
-    height: SUBHEADER_HEIGHT_MOBILE,
+    height: SUBHEADER_HEIGHT,
     left: 0,
     right: 0,
     WebkitOverflowScrolling: 'touch',
@@ -162,15 +172,21 @@ const styles = {
       display: 'none'
     },
     [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
       textAlign: 'center'
     },
     '& a': {
       display: 'inline-block',
       whiteSpace: 'nowrap',
       fontSize: 14,
-      margin: '10px 16px 0px 16px',
-      ':active': fontStyles.sansSerifMedium,
+      margin: '12px 16px 0px 16px',
+      '::after': {
+        ...fontStyles.sansSerifMedium,
+        display: 'block',
+        content: 'attr(title)',
+        height: 0,
+        overflow: 'hidden',
+        visibility: 'hidden'
+      },
       ':last-child': {
         paddingRight: 16,
         [mediaQueries.mUp]: {
@@ -180,7 +196,7 @@ const styles = {
     }
   }),
   linkItem: css({
-    height: SUBHEADER_HEIGHT_MOBILE
+    height: SUBHEADER_HEIGHT
   })
 }
 

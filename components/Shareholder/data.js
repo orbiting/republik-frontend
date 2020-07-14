@@ -97,11 +97,18 @@ const data = [
     Anzahl: '10000'
   },
   {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Daniel Binswanger',
+    Typ: 'A',
+    'Nominal CHF': '0.10',
+    Anzahl: '10000'
+  },
+  {
     Kategorie: 'Eigenaktien Republik',
     Aktionärin: 'Republik AG',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '30000'
+    Anzahl: '20000'
   },
   {
     Kategorie: 'Geldgeber',
@@ -141,6 +148,48 @@ const data = [
   {
     Kategorie: 'Geldgeber',
     Aktionärin: 'Luzius Meisser',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '2223'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Andrea Jansen',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '1112'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Even Meier, Siolag Holding AG',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '2223'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Sara Rüegg',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '1112'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Sebastian C. Schröder',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '2223'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Michael Wehrli',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '2223'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Monoceros Holding AG',
     Typ: 'B',
     'Nominal CHF': '0.40',
     Anzahl: '2223'

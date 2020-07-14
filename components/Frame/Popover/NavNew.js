@@ -7,8 +7,7 @@ import {
   fontStyles,
   mediaQueries,
   Center,
-  Button,
-  TeaserSectionTitle
+  Button
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -20,7 +19,7 @@ import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import SearchForm from '../../Search/Form'
 import NavLink from './NavLink'
-import Sections from './Sections'
+import Sections from './SectionsNew'
 
 const Nav = ({
   me,
@@ -39,7 +38,6 @@ const Nav = ({
   }
   return (
     <>
-      <hr {...styles.hr} {...styles.hrFixed} />
       <Center {...styles.container} id='nav'>
         {hasExpandedRef.current && (
           <>
@@ -56,15 +54,12 @@ const Nav = ({
               </Button>
             )}
             {me && (
-              <SearchForm
-                style={{ padding: 0 }}
-                reduced
-                onSearchSubmit={onSearchSubmit}
-              />
+              <SearchForm noInitialFocus onSearchSubmit={onSearchSubmit} />
             )}
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
                 <NavLink
+                  large
                   route='index'
                   active={active}
                   closeHandler={closeHandler}
@@ -73,6 +68,7 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   prefetch
+                  large
                   route='feed'
                   active={active}
                   closeHandler={closeHandler}
@@ -80,7 +76,9 @@ const Nav = ({
                   {t('navbar/feed')}
                 </NavLink>
                 <NavLink
+                  large
                   route='discussion'
+                  title={t('navbar/discussion')}
                   active={active}
                   closeHandler={closeHandler}
                   hoverColor={colors.primary}
@@ -91,19 +89,17 @@ const Nav = ({
             </div>
             <hr {...styles.hr} />
             <div {...styles.navSection}>
-              <div style={{ color: colors.lightText }}>
-                <Link route='sections' passHref>
-                  <TeaserSectionTitle onClick={() => closeHandler()} small>
-                    {t('nav/sections')}
-                  </TeaserSectionTitle>
-                </Link>
-              </div>
-              <div {...styles.sectionLinks}>
-                <Sections
+              <Sections active={active} vertical closeHandler={closeHandler} />
+              <div style={{ marginTop: 24 }}>
+                <NavLink
+                  route='sections'
+                  title={t('navbar/sections')}
                   active={active}
-                  vertical
                   closeHandler={closeHandler}
-                />
+                  hoverColor={colors.primary}
+                >
+                  {t('navbar/sections')}
+                </NavLink>
               </div>
             </div>
             <hr {...styles.hr} />
@@ -111,6 +107,7 @@ const Nav = ({
               <div {...styles.navLinks}>
                 <NavLink
                   inline
+                  large
                   route='cockpit'
                   active={active}
                   closeHandler={closeHandler}
@@ -118,6 +115,7 @@ const Nav = ({
                   {t('nav/cockpit')}
                 </NavLink>
                 <NavLink
+                  large
                   route='events'
                   active={active}
                   closeHandler={closeHandler}
@@ -125,6 +123,7 @@ const Nav = ({
                   {t('nav/events')}
                 </NavLink>
                 <NavLink
+                  large
                   route='meta'
                   active={active}
                   closeHandler={closeHandler}
@@ -132,6 +131,7 @@ const Nav = ({
                   {t('nav/meta')}
                 </NavLink>
                 <NavLink
+                  large
                   route='legal/imprint'
                   active={active}
                   closeHandler={closeHandler}
@@ -151,7 +151,8 @@ const Nav = ({
 const styles = {
   container: css({
     [mediaQueries.mUp]: {
-      marginTop: '40px'
+      marginTop: '40px',
+      marginBottom: '40px'
     }
   }),
   hr: css({
@@ -184,31 +185,6 @@ const styles = {
     width: '100%',
     [mediaQueries.mUp]: {
       flexDirection: 'row'
-    },
-    '& a': {
-      ...fontStyles.sansSerifMedium20,
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifMedium22,
-        marginRight: 36
-      }
-    },
-    '& a:not(:last-child)': {
-      marginBottom: 24,
-      [mediaQueries.mUp]: {
-        marginBottom: 0
-      }
-    }
-  }),
-  sectionLinks: css({
-    marginTop: 0,
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& a': {
-      margin: '16px 24px 0px 0px'
-    },
-    ...fontStyles.sansSerifMedium16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifMedium22
     }
   })
 }

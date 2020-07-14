@@ -41,13 +41,14 @@ const styles = {
     boxShadow: 'none',
     outline: 'none',
     padding: `${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
+    paddingRight: 16,
     [mediaQueries.mUp]: {
       padding: `${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
     }
   }),
   closeButton: css({
     position: 'absolute',
-    right: 4,
+    right: 10,
     transition: `opacity ${TRANSITION_MS}ms ease-out`,
     [mediaQueries.mUp]: {
       right: 16

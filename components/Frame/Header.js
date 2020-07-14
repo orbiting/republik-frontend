@@ -27,7 +27,7 @@ import Pullable from './Pullable'
 import { MdSearch } from 'react-icons/md'
 import BackIcon from '../Icons/Back'
 
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 import {
   HEADER_HEIGHT,

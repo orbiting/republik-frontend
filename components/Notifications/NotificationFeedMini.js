@@ -10,11 +10,11 @@ import {
   linkRule,
   mediaQueries,
   Label,
-  fontStyles
+  fontStyles,
+  Loader
 } from '@project-r/styleguide'
 
 import { notificationsMiniQuery } from '../Notifications/enhancers'
-import Loader from '../Loader'
 import { timeFormat } from '../../lib/utils/format'
 import { Link } from '../../lib/routes'
 import PathLink from '../Link/Path'
@@ -43,20 +43,6 @@ const NotificationFeedMini = ({
 
         return (
           <>
-            {!newNodes.length && (
-              <p>
-                {t.elements('notifications/minifeed/nounread', {
-                  link: (
-                    <Link key='link' route='subscriptions' passHref>
-                      <a onClick={() => closeHandler()} {...linkRule}>
-                        {t('notifications/minifeed/nounread/link')}
-                      </a>
-                    </Link>
-                  )
-                })}
-              </p>
-            )}
-
             {newNodes &&
               groupByDate.entries(newNodes).map(({ key, values }, i, all) => {
                 return (
@@ -74,7 +60,7 @@ const NotificationFeedMini = ({
                       }
                       return (
                         <div {...styles.notificationItem} key={j}>
-                          {isNew(node) && <span {...styles.unreadDot} />}
+                          {isNew(node) && <div {...styles.unreadDot} />}
 
                           <PathLink path={path} passHref>
                             <a
@@ -101,7 +87,9 @@ const NotificationFeedMini = ({
 const styles = {
   cleanLink: css({
     color: 'inherit',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden'
   }),
   notificationItem: css({
     marginTop: 10,
@@ -110,7 +98,6 @@ const styles = {
     ...fontStyles.sansSerifRegular14,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
     [mediaQueries.mUp]: fontStyles.sansSerifRegular16
   }),
   unreadDot: css({
@@ -125,5 +112,9 @@ const styles = {
 
 export default compose(
   withT,
-  graphql(notificationsMiniQuery)
+  graphql(notificationsMiniQuery, {
+    options: {
+      fetchPolicy: 'cache-and-network'
+    }
+  })
 )(NotificationFeedMini)

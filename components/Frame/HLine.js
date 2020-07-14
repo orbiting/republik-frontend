@@ -13,7 +13,6 @@ const HLine = ({ formatColor, dark }) => {
   const hrColorStyle = { color: hrColor, backgroundColor: hrColor }
   return (
     <hr
-      {...styles.stickyWithFallback}
       {...styles.hr}
       {...styles[formatColor ? 'hrThick' : 'hrThin']}
       style={
@@ -31,14 +30,6 @@ const HLine = ({ formatColor, dark }) => {
 export default HLine
 
 const styles = {
-  stickyWithFallback: css({
-    // auto prefix does not with multiple values :(
-    // - -webkit-sticky would be missing if not defined explicitly
-    // - glamor 2.20.40 / inline-style-prefixer 3.0.8
-    position: ['fixed', '-webkit-sticky', 'sticky']
-    // - this will produce three position statements
-    // { position: fixed; position: -webkit-sticky; position: sticky; }
-  }),
   hr: css({
     margin: 0,
     display: 'block',
@@ -47,17 +38,9 @@ const styles = {
     zIndex: ZINDEX_POPOVER + 2
   }),
   hrThin: css({
-    height: 1,
-    top: HEADER_HEIGHT_MOBILE - 1,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT - 1
-    }
+    height: 1
   }),
   hrThick: css({
-    height: 3,
-    top: HEADER_HEIGHT_MOBILE - 3,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT - 3
-    }
+    height: 3
   })
 }

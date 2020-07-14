@@ -11,7 +11,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
-import { getUtmParams } from '../../lib/utils/url'
+import { getConversionPayload } from '../../lib/utils/track'
 
 import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 
@@ -215,7 +215,7 @@ class Submit extends Component {
     this.props
       .submit({
         ...variables,
-        payload: getUtmParams(query),
+        payload: getConversionPayload(query),
         consents: getRequiredConsents(this.props)
       })
       .then(({ data }) => {

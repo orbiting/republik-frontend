@@ -11,11 +11,11 @@ import ShareOverlay from './ShareOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import track from '../../lib/piwik'
+import { trackEvent } from '../../lib/piwik'
 
 import { colors } from '@project-r/styleguide'
 
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
@@ -96,7 +96,7 @@ class ActionBar extends Component {
         onClick: e => {
           e.preventDefault()
 
-          track(['trackEvent', 'ActionBar', 'share', url])
+          trackEvent(['ActionBar', 'share', url])
           if (inNativeApp) {
             postMessage({
               type: 'share',
@@ -154,7 +154,7 @@ class ActionBar extends Component {
         href: '#audio',
         onClick: e => {
           e.preventDefault()
-          track(['trackEvent', 'ActionBar', 'audio', url])
+          trackEvent(['ActionBar', 'audio', url])
           onAudioClick && onAudioClick()
         },
         title: t('article/actionbar/audio'),
@@ -165,7 +165,7 @@ class ActionBar extends Component {
         href: '#gallery',
         onClick: e => {
           e.preventDefault()
-          track(['trackEvent', 'ActionBar', 'gallery', url])
+          trackEvent(['ActionBar', 'gallery', url])
           onGalleryClick && onGalleryClick()
         },
         title: t('feed/actionbar/gallery'),

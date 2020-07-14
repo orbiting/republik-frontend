@@ -81,7 +81,7 @@ const FeedbackPage = props => {
 
   return (
     <Frame
-      hasOverviewNav={true}
+      hasOverviewNav={!tab}
       raw
       meta={pageMeta}
       formatColor={colors.primary}

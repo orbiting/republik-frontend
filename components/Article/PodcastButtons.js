@@ -5,14 +5,14 @@ import { css } from 'glamor'
 import IconLink from '../IconLink'
 
 import withT from '../../lib/withT'
-import track from '../../lib/piwik'
+import { trackEvent } from '../../lib/piwik'
 
 import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 
 import { fontStyles } from '@project-r/styleguide'
 
 import copyToClipboard from 'clipboard-copy'
-import { shouldIgnoreClick } from '../Link/utils'
+import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const styles = {
   buttonGroup: css({
@@ -171,8 +171,7 @@ const PodcastButtons = ({
             stacked
             {...props}
             onClick={e => {
-              track([
-                'trackEvent',
+              trackEvent([
                 eventCategory,
                 [plattformWithApp, props.icon].filter(Boolean).join(' '),
                 podigeeSlug

@@ -586,7 +586,7 @@ const LoadedProfile = props => {
                   <SubscribeMenu
                     label={t('SubscribeAuthor/title')}
                     showAuthorFilter={true}
-                    subscriptions={{ nodes: Array.of(user.subscribedByMe) }}
+                    subscriptions={{ nodes: [user.subscribedByMe] }}
                   />
                 </div>
               </div>

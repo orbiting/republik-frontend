@@ -12,8 +12,6 @@ import {
 import { css } from 'glamor'
 import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
-import { withMembership } from '../Auth/checkRoles'
-import Box from '../Frame/Box'
 import Loader from '../Loader'
 import { Link } from '../../lib/routes'
 
@@ -56,11 +54,7 @@ const styles = {
   })
 }
 
-const SubscribedAuthors = ({
-  t,
-  data: { authors, loading, error },
-  isMember
-}) => {
+const SubscribedAuthors = ({ t, data: { authors, loading, error } }) => {
   if (!authors || !authors.length) return null
   const [showAll, setShowAll] = useState(false)
 
@@ -77,13 +71,6 @@ const SubscribedAuthors = ({
       render={() => {
         return (
           <>
-            {!isMember && (
-              <Box style={{ margin: '10px 0', padding: 15 }}>
-                <Interaction.P>
-                  {t('Notifications/settings/formats/noMembership')}
-                </Interaction.P>
-              </Box>
-            )}
             <Interaction.P style={{ marginBottom: 10 }}>
               {t.pluralize('Notifications/settings/authors/summary', {
                 count: totalSubs
@@ -134,6 +121,5 @@ const SubscribedAuthors = ({
 
 export default compose(
   withT,
-  withMembership,
   graphql(possibleAuthorSubscriptions)
 )(SubscribedAuthors)

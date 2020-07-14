@@ -12,7 +12,9 @@ import SubscribedAuthors from './SubscribedAuthors'
 import NotificationOptions from './NotificationOptions'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
+import { withMembership } from '../Auth/checkRoles'
 import { Link } from '../../lib/routes'
+import Box from '../Frame/Box'
 
 const { H1, H2 } = Interaction
 
@@ -29,7 +31,10 @@ const styles = {
   })
 }
 
-export default compose(withT)(({ t }) => {
+export default compose(
+  withT,
+  withMembership
+)(({ t, isMember }) => {
   return (
     <>
       <Center {...styles.container}>
@@ -39,6 +44,13 @@ export default compose(withT)(({ t }) => {
         <Link route='subscriptions' passHref>
           <A {...linkRule}>{t('Notifications/settings/back')}</A>
         </Link>
+        {true && (
+          <Box style={{ margin: '10px 0', padding: 15 }}>
+            <Interaction.P>
+              {t('Notifications/settings/formats/noMembership')}
+            </Interaction.P>
+          </Box>
+        )}
 
         <section {...styles.section}>
           <H2 style={{ marginBottom: 10 }}>

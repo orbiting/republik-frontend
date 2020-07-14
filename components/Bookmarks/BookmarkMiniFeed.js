@@ -127,6 +127,7 @@ const styles = {
   }),
   tileHeadlineContainer: css({
     flex: 1,
+    maxWidth: '100%',
     display: 'flex',
     alignItems: 'center'
   }),
@@ -135,6 +136,8 @@ const styles = {
     textDecoration: 'none',
     cursor: 'pointer',
     textAlign: 'center',
+    wordWrap: 'break-word',
+    width: '100%',
     ...fontStyles.serifBold17,
     lineHeight: '18px',
     [mediaQueries.mUp]: {

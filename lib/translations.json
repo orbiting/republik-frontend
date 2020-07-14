@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-14T09:50:00.209Z",
+  "updated": "2020-07-14T09:57:40.349Z",
   "title": "live",
   "data": [
     {
@@ -6653,6 +6653,10 @@
     {
       "key": "SubscribeCallout/settingsLink",
       "value": "Allgemeine Einstellungen"
+    },
+    {
+      "key": "SubscribeAuthor/title",
+      "value": "Profil abonnieren"
     },
     {
       "key": "SubscribeDocument/title",

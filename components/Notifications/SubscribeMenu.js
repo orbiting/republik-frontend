@@ -34,8 +34,7 @@ const SubscribeMenu = ({
     (subscriptions &&
       subscriptions.nodes.length &&
       subscriptions.nodes
-        .map(node => node.active)
-        .reduce((acc, curr) => acc || curr)) ||
+        .some(node => node.active) ||
     // or if a discussion is being followed
     (data && getSelectedDiscussionPreference(data) !== 'NONE')
 

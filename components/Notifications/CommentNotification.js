@@ -24,7 +24,7 @@ export default compose(withT)(({ t, node, isNew }) => {
         highlighted={isNew}
         menu={
           <SubscribeCallout
-            authorSubscriptions={[node.subscription]}
+            authorSubscriptions={[node.subscription].filter(Boolean)}
             discussionId={node.object.discussion.id}
           />
         }

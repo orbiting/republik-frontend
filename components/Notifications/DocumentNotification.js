@@ -20,7 +20,9 @@ export default compose(withT)(({ t, node, isNew, me }) => {
           authorSubscriptions={
             subscription.object.__typename === 'User' && [subscription]
           }
-          formatSubscription={subscription}
+          formatSubscription={
+            subscription.object.__typename === 'Document' && subscription
+          }
         />
       }
       highlighted={isNew}

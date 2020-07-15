@@ -7,7 +7,6 @@ import SubscribeCallout from './SubscribeCallout'
 
 export default compose(withT)(({ t, node, isNew, me }) => {
   const { subscription, object } = node
-  node.object.__typename === 'User'
   return (
     <TeaserFeed
       {...object.meta}

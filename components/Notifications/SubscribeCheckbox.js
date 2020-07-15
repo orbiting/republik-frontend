@@ -40,16 +40,17 @@ const SubscribeCheckbox = ({
   subscription,
   setAnimate,
   callout,
-  filters,
-  filterName
+  filterName,
+  filterLabel
 }) => {
   const [isMutating, setIsMutating] = useState(false)
   const [serverError, setServerError] = useState()
 
+  const { filters } = subscription
   const isCurrentActive = filters
     ? filters.includes(filterName) && subscription.active
     : subscription.active
-  const activeFilters = (subscription.active && subscription.filters) || []
+  const activeFilters = (subscription.active && filters) || []
   const isDocument =
     subscription.object && subscription.object.__typename === 'Document'
 
@@ -71,25 +72,8 @@ const SubscribeCheckbox = ({
           .then(toggleCallback)
           .catch(err => setServerError(err))
       }
-    } else if (!filters) {
-      // User Subscribe/Unsubscribe without specifying if doc or comments, sub default to doc
-      if (subscription.active) {
-        unsubFromUser({
-          subscriptionId: subscription.id
-        })
-          .then(toggleCallback)
-          .catch(err => setServerError(err))
-      } else {
-        subToUser({
-          userId: subscription.object.id,
-          filters: ['Document']
-        })
-          .then(toggleCallback)
-          .catch(err => setServerError(err))
-      }
-    }
-    // Case where user can choose filter
-    else if (isCurrentActive) {
+    } else if (isCurrentActive) {
+      // Case where user can choose filter
       unsubFromUser({
         subscriptionId: subscription.id,
         filters: [filterName]
@@ -119,7 +103,7 @@ const SubscribeCheckbox = ({
         onChange={toggleSubscribe}
       >
         <span {...(callout && styles.checkboxLabelCallout)}>
-          {filterName
+          {filterLabel
             ? t(`SubscribeCallout/${filterName}`)
             : isDocument
             ? subscription.object.meta.title

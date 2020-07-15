@@ -19,7 +19,7 @@ const SubscribeAuthor = ({
             <SubscribeCheckbox
               key={subscription.id}
               subscription={subscription}
-              filterName={'Comment'}
+              filterName='Comment'
               setAnimate={setAnimate}
               callout
             />
@@ -32,8 +32,8 @@ const SubscribeAuthor = ({
               <SubscribeCheckbox
                 key={`${subscription.id}-${filter}`}
                 subscription={subscription}
-                filters={subscription.filters}
                 filterName={filter}
+                filterLabel
                 setAnimate={setAnimate}
                 callout
               />
@@ -47,6 +47,7 @@ const SubscribeAuthor = ({
             <SubscribeCheckbox
               key={subscription.id}
               subscription={subscription}
+              filterName='Document'
               setAnimate={setAnimate}
               callout
             />

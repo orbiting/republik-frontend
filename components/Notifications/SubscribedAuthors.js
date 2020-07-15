@@ -105,8 +105,8 @@ const SubscribedAuthors = ({
                       <SubscribeCheckbox
                         key={`${author.object.id}-${filter}`}
                         subscription={author}
-                        filters={author.filters}
                         filterName={filter}
+                        filterLabel
                         callout
                       />
                     ))}

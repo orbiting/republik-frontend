@@ -44,7 +44,7 @@ export default compose(
         <Link route='subscriptions' passHref>
           <A {...linkRule}>{t('Notifications/settings/back')}</A>
         </Link>
-        {true && (
+        {!isMember && (
           <Box style={{ margin: '10px 0', padding: 15 }}>
             <Interaction.P>
               {t('Notifications/settings/formats/noMembership')}

@@ -22,7 +22,12 @@ export default compose(withT)(({ t, node, isNew }) => {
         Link={CommentLink}
         t={t}
         highlighted={isNew}
-        menu={<SubscribeCallout discussionId={node.object.discussion.id} />}
+        menu={
+          <SubscribeCallout
+            authorSubscriptions={[node.subscription]}
+            discussionId={node.object.discussion.id}
+          />
+        }
       />
     </div>
   )

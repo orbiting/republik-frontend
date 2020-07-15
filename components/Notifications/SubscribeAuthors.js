@@ -7,11 +7,25 @@ const SubscribeAuthor = ({
   subscriptions,
   setAnimate,
   showAuthorFilter,
-  style
+  style,
+  onlyCommentFilter
 }) => {
   return (
     <>
-      {showAuthorFilter ? (
+      {onlyCommentFilter ? (
+        <>
+          <h4>{t('SubscribeAuthor/title')}</h4>
+          {subscriptions.map(subscription => (
+            <SubscribeCheckbox
+              key={subscription.id}
+              subscription={subscription}
+              filterName={'Comment'}
+              setAnimate={setAnimate}
+              callout
+            />
+          ))}
+        </>
+      ) : showAuthorFilter ? (
         <>
           {subscriptions.map(subscription =>
             ['Comment', 'Document'].map(filter => (

@@ -7,6 +7,7 @@ import SubscribeCallout from './SubscribeCallout'
 
 export default compose(withT)(({ t, node, isNew, me }) => {
   const { subscription, object } = node
+  node.object.__typename === 'User'
   return (
     <TeaserFeed
       {...object.meta}
@@ -14,7 +15,14 @@ export default compose(withT)(({ t, node, isNew, me }) => {
       description={!object.meta.shortTitle && object.meta.description}
       t={t}
       key={object.meta.path}
-      menu={<SubscribeCallout subscription={subscription} />}
+      menu={
+        <SubscribeCallout
+          authorSubscriptions={
+            subscription.object.__typename === 'User' && [subscription]
+          }
+          formatSubscription={subscription}
+        />
+      }
       highlighted={isNew}
     />
   )

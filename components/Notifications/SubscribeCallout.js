@@ -41,9 +41,6 @@ const SubscribeCallout = ({
 }) => {
   return (
     <div {...styles.container}>
-      {discussionId && (
-        <SubscribeDebate discussionId={discussionId} setAnimate={setAnimate} />
-      )}
       {formatSubscription && formatSubscription.length !== 0 && (
         <SubscribeDocument
           subscriptions={formatSubscription}
@@ -53,11 +50,15 @@ const SubscribeCallout = ({
       )}
       {authorSubscriptions && authorSubscriptions.length !== 0 && (
         <SubscribeAuthors
+          onlyCommentFilter={discussionId}
           showAuthorFilter={showAuthorFilter}
           subscriptions={authorSubscriptions}
           setAnimate={setAnimate}
           style={{ marginTop: discussionId ? 15 : 0 }}
         />
+      )}
+      {discussionId && (
+        <SubscribeDebate discussionId={discussionId} setAnimate={setAnimate} />
       )}
       <SettingsLink />
     </div>

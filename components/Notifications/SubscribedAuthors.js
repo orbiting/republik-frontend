@@ -103,7 +103,7 @@ const SubscribedAuthors = ({
                   <div {...styles.checkbox}>
                     {['Document', 'Comment'].map(filter => (
                       <SubscribeCheckbox
-                        key={author.object.id}
+                        key={`${author.object.id}-${filter}`}
                         subscription={author}
                         filters={author.filters}
                         filterName={filter}

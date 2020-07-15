@@ -19,6 +19,7 @@ export const subInfo = gql`
       ... on User {
         id
         name
+        slug
       }
       ... on Document {
         id
@@ -165,8 +166,8 @@ export const possibleSubscriptions = gql`
   ${subInfo}
 `
 
-export const possibleAuthorSubscriptions = gql`
-  query getPossibleAuthorSubscriptions {
+export const myUserSubscriptions = gql`
+  query getMyUserSubscriptions {
     authors: employees(onlyPromotedAuthors: true) {
       name
       user {
@@ -177,12 +178,6 @@ export const possibleAuthorSubscriptions = gql`
         }
       }
     }
-  }
-  ${subInfo}
-`
-
-export const userSubscriptions = gql`
-  query getUserSubscriptions {
     myUserSubscriptions: me {
       id
       subscribedTo(objectType: User) {

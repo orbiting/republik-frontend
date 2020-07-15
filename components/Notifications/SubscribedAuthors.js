@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { compose, graphql } from 'react-apollo'
-import { possibleAuthorSubscriptions } from './enhancers'
+import { myUserSubscriptions } from './enhancers'
 import {
   plainButtonRule,
   A,
@@ -54,20 +54,35 @@ const styles = {
   })
 }
 
-const SubscribedAuthors = ({ t, data: { authors, loading, error } }) => {
+const SubscribedAuthors = ({
+  t,
+  data: { authors, myUserSubscriptions, loading, error }
+}) => {
   const [showAll, setShowAll] = useState(false)
-
   return (
     <Loader
       loading={loading}
       error={error}
       render={() => {
+        const subscribedPromotedAuthors = authors.map(
+          author => author.user.subscribedByMe
+        )
+        const subscribedOtherAuthors = myUserSubscriptions.subscribedTo.nodes
+        const allSusbcribedAuthors = subscribedPromotedAuthors.concat(
+          subscribedOtherAuthors
+        )
+        const filteredAuthors = allSusbcribedAuthors.filter(
+          (author, index, all) =>
+            all.findIndex(e => e.id === author.id) === index
+        )
+
         const visibleAuthors =
-          authors && authors.filter(author => author.user.subscribedByMe.active)
+          filteredAuthors && filteredAuthors.filter(author => author.active)
 
         const totalSubs =
-          authors &&
-          authors.filter(author => author.user.subscribedByMe.active).length
+          filteredAuthors &&
+          filteredAuthors.filter(author => author.active).length
+
         return (
           <>
             <Interaction.P style={{ marginBottom: 10 }}>
@@ -76,21 +91,21 @@ const SubscribedAuthors = ({ t, data: { authors, loading, error } }) => {
               })}
             </Interaction.P>
             <div style={{ margin: '20px 0' }}>
-              {(showAll ? authors : visibleAuthors).map(author => (
-                <div {...styles.authorContainer} key={author.user.id}>
+              {(showAll ? filteredAuthors : visibleAuthors).map(author => (
+                <div {...styles.authorContainer} key={author.object.id}>
                   <div {...styles.author}>
-                    <Link route='profile' params={{ slug: author.user.slug }}>
+                    <Link route='profile' params={{ slug: author.object.slug }}>
                       <a {...linkRule} {...styles.userLink}>
-                        {author.name}
+                        {author.object.name}
                       </a>
                     </Link>
                   </div>
                   <div {...styles.checkbox}>
                     {['Document', 'Comment'].map(filter => (
                       <SubscribeCheckbox
-                        key={author.user.subscribedByMe.object.id}
-                        subscription={author.user.subscribedByMe}
-                        filters={author.user.subscribedByMe.filters}
+                        key={author.object.id}
+                        subscription={author}
+                        filters={author.filters}
                         filterName={filter}
                         callout
                       />
@@ -118,7 +133,4 @@ const SubscribedAuthors = ({ t, data: { authors, loading, error } }) => {
   )
 }
 
-export default compose(
-  withT,
-  graphql(possibleAuthorSubscriptions)
-)(SubscribedAuthors)
+export default compose(withT, graphql(myUserSubscriptions))(SubscribedAuthors)

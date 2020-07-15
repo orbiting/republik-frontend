@@ -48,8 +48,7 @@ const SubscribeCheckbox = ({
     : subscription.active
   const activeFilters = (subscription.active && subscription.filters) || []
   const isDocument =
-    subscription.object &&
-    subscription.object.__typename === 'Document'
+    subscription.object && subscription.object.__typename === 'Document'
 
   const toggleCallback = () => setAnimate && setAnimate(true)
 

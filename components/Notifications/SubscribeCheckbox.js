@@ -44,11 +44,10 @@ const SubscribeCheckbox = ({
   filterName
 }) => {
   const isCurrentActive = filters
-    ? filters.includes(filterName) && subscription && subscription.active
-    : subscription && subscription.active
+    ? filters.includes(filterName) && subscription.active
+    : subscription.active
   const activeFilters = (subscription.active && subscription.filters) || []
   const isDocument =
-    subscription &&
     subscription.object &&
     subscription.object.__typename === 'Document'
 

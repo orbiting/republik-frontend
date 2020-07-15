@@ -16,7 +16,7 @@ const SubscribeAuthor = ({
           {subscriptions.map(subscription =>
             ['Comment', 'Document'].map(filter => (
               <SubscribeCheckbox
-                key={subscription.id}
+                key={`${subscription.id}-${filter}`}
                 subscription={subscription}
                 filters={subscription.filters}
                 filterName={filter}
@@ -31,7 +31,7 @@ const SubscribeAuthor = ({
           <h4>{t('SubscribeAuthor/title')}</h4>
           {subscriptions.map(subscription => (
             <SubscribeCheckbox
-              key={subscription.object.id}
+              key={subscription.id}
               subscription={subscription}
               setAnimate={setAnimate}
               callout

@@ -55,20 +55,19 @@ const styles = {
 }
 
 const SubscribedAuthors = ({ t, data: { authors, loading, error } }) => {
-  if (!authors || !authors.length) return null
   const [showAll, setShowAll] = useState(false)
 
-  const visibleAuthors =
-    authors && authors.filter(author => author.user.subscribedByMe.active)
-
-  const totalSubs =
-    authors &&
-    authors.filter(author => author.user.subscribedByMe.active).length
   return (
     <Loader
       loading={loading}
       error={error}
       render={() => {
+        const visibleAuthors =
+          authors && authors.filter(author => author.user.subscribedByMe.active)
+
+        const totalSubs =
+          authors &&
+          authors.filter(author => author.user.subscribedByMe.active).length
         return (
           <>
             <Interaction.P style={{ marginBottom: 10 }}>

@@ -37,7 +37,6 @@ const ArticleActionBar = (
     userBookmark,
     userProgress,
     showSubscribe,
-    subscription,
     subscriptions,
     isDiscussion,
     wrapped
@@ -87,7 +86,6 @@ const ArticleActionBar = (
         estimatedReadingMinutes={estimatedReadingMinutes}
         estimatedConsumptionMinutes={estimatedConsumptionMinutes}
         userProgress={userProgress}
-        subscription={subscription}
         subscriptions={subscriptions}
         showSubscribe={showSubscribe}
         ownDiscussion={ownDiscussion}

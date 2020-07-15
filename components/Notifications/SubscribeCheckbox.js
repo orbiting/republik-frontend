@@ -93,8 +93,6 @@ const SubscribeCheckbox = ({
     }
   }
 
-  console.log(filterName)
-
   return (
     <div {...(callout ? styles.checkboxCallout : styles.checkbox)}>
       <Checkbox checked={isCurrentActive} onChange={toggleSubscribe}>

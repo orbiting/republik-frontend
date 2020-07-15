@@ -80,7 +80,6 @@ class ActionBar extends Component {
       inNativeApp,
       animate,
       inIOS,
-      subscription,
       subscriptions,
       showSubscribe,
       isDiscussion,
@@ -267,7 +266,7 @@ ActionBar.propTypes = {
   shareOverlayTitle: PropTypes.string,
   showBookmark: PropTypes.bool,
   showSubscribe: PropTypes.bool,
-  subscription: PropTypes.object,
+  subscriptions: PropTypes.array,
   isDiscussion: PropTypes.bool,
   ownDiscussion: PropTypes.object
 }

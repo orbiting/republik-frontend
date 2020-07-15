@@ -140,9 +140,6 @@ const getDocument = gql`
       id
       repoId
       content
-      subscribedByMe(includeParents: true) {
-        ...subInfo
-      }
       subscribedBy(includeParents: true, onlyMe: true) {
         nodes {
           ...subInfo
@@ -619,7 +616,6 @@ class ArticlePage extends Component {
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-        subscription={article.subscribedByMe}
         subscriptions={article.subscribedBy}
         showSubscribe
         isDiscussion={meta && meta.template === 'discussion'}

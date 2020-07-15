@@ -8,7 +8,7 @@ const SubscribeDocument = ({ t, subscriptions, setAnimate, style }) => {
       <h4>{t('SubscribeDocument/title')}</h4>
       {subscriptions.map(subscription => (
         <SubscribeCheckbox
-          key={subscription.object.id}
+          key={subscription.id}
           subscription={subscription}
           setAnimate={setAnimate}
           callout

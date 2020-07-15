@@ -7,6 +7,7 @@ const SubscribeAuthor = ({
   subscriptions,
   setAnimate,
   showAuthorFilter,
+  userHasNoDocuments,
   style,
   onlyCommentFilter
 }) => {
@@ -28,7 +29,10 @@ const SubscribeAuthor = ({
       ) : showAuthorFilter ? (
         <>
           {subscriptions.map(subscription =>
-            ['Comment', 'Document'].map(filter => (
+            (userHasNoDocuments
+              ? ['Comment']
+              : ['Document', 'Comment']
+            ).map(filter => (
               <SubscribeCheckbox
                 key={`${subscription.id}-${filter}`}
                 subscription={subscription}

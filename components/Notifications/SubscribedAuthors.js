@@ -94,14 +94,20 @@ const SubscribedAuthors = ({
               {(showAll ? filteredAuthors : visibleAuthors).map(author => (
                 <div {...styles.authorContainer} key={author.object.id}>
                   <div {...styles.author}>
-                    <Link route='profile' params={{ slug: author.object.slug }}>
+                    <Link
+                      route='profile'
+                      params={{ slug: author.userDetails.slug }}
+                    >
                       <a {...linkRule} {...styles.userLink}>
                         {author.object.name}
                       </a>
                     </Link>
                   </div>
                   <div {...styles.checkbox}>
-                    {['Document', 'Comment'].map(filter => (
+                    {(author.userDetails.documents.totalCount
+                      ? ['Document', 'Comment']
+                      : ['Comment']
+                    ).map(filter => (
                       <SubscribeCheckbox
                         key={`${author.object.id}-${filter}`}
                         subscription={author}

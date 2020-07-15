@@ -19,7 +19,6 @@ export const subInfo = gql`
       ... on User {
         id
         name
-        slug
       }
       ... on Document {
         id
@@ -172,9 +171,17 @@ export const myUserSubscriptions = gql`
       name
       user {
         id
-        slug
         subscribedByMe {
           ...subInfo
+          userDetails: object {
+            ... on User {
+              id
+              slug
+              documents {
+                totalCount
+              }
+            }
+          }
         }
       }
     }
@@ -183,6 +190,15 @@ export const myUserSubscriptions = gql`
       subscribedTo(objectType: User) {
         nodes {
           ...subInfo
+          userDetails: object {
+            ... on User {
+              id
+              slug
+              documents {
+                totalCount
+              }
+            }
+          }
         }
       }
     }

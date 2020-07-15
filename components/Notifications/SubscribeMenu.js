@@ -26,6 +26,7 @@ const SubscribeMenu = ({
   discussionId,
   subscriptions,
   showAuthorFilter,
+  userHasNoDocuments,
   style,
   label
 }) => {
@@ -76,6 +77,7 @@ const SubscribeMenu = ({
       >
         <SubscribeCallout
           showAuthorFilter={showAuthorFilter}
+          userHasNoDocuments={userHasNoDocuments}
           discussionId={discussionId}
           formatSubscription={formatSubscription}
           authorSubscriptions={authorSubscriptions}

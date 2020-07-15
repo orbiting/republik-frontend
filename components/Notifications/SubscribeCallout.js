@@ -37,6 +37,7 @@ const SubscribeCallout = ({
   formatSubscription,
   authorSubscriptions,
   showAuthorFilter,
+  userHasNoDocuments,
   setAnimate
 }) => {
   return (
@@ -52,6 +53,7 @@ const SubscribeCallout = ({
         <SubscribeAuthors
           onlyCommentFilter={discussionId}
           showAuthorFilter={showAuthorFilter}
+          userHasNoDocuments={userHasNoDocuments}
           subscriptions={authorSubscriptions}
           setAnimate={setAnimate}
           style={{ marginTop: discussionId ? 15 : 0 }}

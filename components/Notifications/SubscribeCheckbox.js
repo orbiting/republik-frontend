@@ -47,9 +47,8 @@ const SubscribeCheckbox = ({
   const [serverError, setServerError] = useState()
 
   const { filters } = subscription
-  const isCurrentActive = filters
-    ? filters.includes(filterName) && subscription.active
-    : subscription.active
+  const isCurrentActive =
+    subscription.active && (!filterName || filters.includes(filterName))
   const activeFilters = (subscription.active && filters) || []
   const isDocument =
     subscription.object && subscription.object.__typename === 'Document'

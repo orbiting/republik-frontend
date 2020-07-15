@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { CalloutMenu } from '@project-r/styleguide'
 import SubscribeIcon from './SubscribeIcon'
 import { compose, graphql } from 'react-apollo'
@@ -32,18 +32,11 @@ const SubscribeMenu = ({
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
     //checks if any of the subscription nodes is set to active
     (subscriptions &&
-      subscriptions.nodes.length &&
-      subscriptions.nodes
-        .some(node => node.active) ||
+      subscriptions.some(subscription => subscription.active)) ||
     // or if a discussion is being followed
     (data && getSelectedDiscussionPreference(data) !== 'NONE')
 
-  const [formatSubscription, setFormatSubscription] = useState()
-  const [authorSubscriptions, setAuthorSubscriptions] = useState()
   const [animate, setAnimate] = useState(false)
-  const [isSubscribedToAny, setIsSubscribedToAny] = useState(
-    checkIfSubscribedToAny({ data, subscriptions })
-  )
 
   useEffect(() => {
     if (animate) {
@@ -54,21 +47,22 @@ const SubscribeMenu = ({
     }
   }, [animate])
 
-  useEffect(() => {
-    setIsSubscribedToAny(checkIfSubscribedToAny({ data, subscriptions }))
-    setFormatSubscription(
-      subscriptions &&
-        subscriptions.nodes.length &&
-        subscriptions.nodes.filter(
-          node => node.object.__typename === 'Document'
-        )
-    )
-    setAuthorSubscriptions(
-      subscriptions &&
-        subscriptions.nodes.length &&
-        subscriptions.nodes.filter(node => node.object.__typename === 'User')
-    )
-  }, [data, subscriptions])
+  const {
+    isSubscribedToAny,
+    formatSubscription,
+    authorSubscriptions
+  } = useMemo(
+    () => ({
+      isSubscribedToAny: checkIfSubscribedToAny({ data, subscriptions }),
+      formatSubscription:
+        subscriptions &&
+        subscriptions.filter(node => node.object.__typename === 'Document'),
+      authorSubscriptions:
+        subscriptions &&
+        subscriptions.filter(node => node.object.__typename === 'User')
+    }),
+    [data, subscriptions]
+  )
 
   const icon = (
     <SubscribeIcon animate={animate} isSubscribed={isSubscribedToAny} />

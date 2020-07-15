@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-14T10:09:00.631Z",
+  "updated": "2020-07-15T09:27:16.504Z",
   "title": "live",
   "data": [
     {
@@ -11,11 +11,11 @@
       "value": "Feed"
     },
     {
-      "key": "nav/events",
+      "key": "nav/sections",
       "value": "Rubriken"
     },
     {
-      "key": null,
+      "key": "nav/events",
       "value": "Anlässe"
     },
     {
@@ -6644,11 +6644,11 @@
     },
     {
       "key": "SubscribeCallout/Comment",
-      "value": "Kommentare"
+      "value": "Im Dialog"
     },
     {
       "key": "SubscribeCallout/Document",
-      "value": "Artikel"
+      "value": "Im Magazin"
     },
     {
       "key": "SubscribeCallout/settingsLink",

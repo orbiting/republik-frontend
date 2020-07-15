@@ -442,15 +442,7 @@ class ArticlePage extends Component {
   }
 
   deriveStateFromProps(
-    {
-      t,
-      data: { article },
-      inNativeApp,
-      inNativeIOSApp,
-      router,
-      isMember,
-      isEditor
-    },
+    { t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember },
     state
   ) {
     const meta = article && {
@@ -530,7 +522,7 @@ class ArticlePage extends Component {
     if (
       currentArticle.id !== nextArticle.id ||
       currentArticle.userBookmark !== nextArticle.userBookmark ||
-      currentArticle.subscribedByMe !== nextArticle.subscribedByMe ||
+      currentArticle.subscribedBy !== nextArticle.subscribedBy ||
       currentArticle.unreadNotifications !== nextArticle.unreadNotifications
     ) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
@@ -616,7 +608,7 @@ class ArticlePage extends Component {
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-        subscriptions={article.subscribedBy}
+        subscriptions={article.subscribedBy.nodes}
         showSubscribe
         isDiscussion={meta && meta.template === 'discussion'}
       />

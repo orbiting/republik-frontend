@@ -28,7 +28,7 @@ const SubscribeAuthor = ({
         </>
       ) : (
         <div style={style}>
-          <h4>{t('SubscribeAuthors/title')}</h4>
+          <h4>{t('SubscribeAuthor/title')}</h4>
           {subscriptions.map(subscription => (
             <SubscribeCheckbox
               key={subscription.object.id}

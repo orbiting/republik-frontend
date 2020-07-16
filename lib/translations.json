@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-16T08:29:26.147Z",
+  "updated": "2020-07-16T15:30:04.099Z",
   "title": "live",
   "data": [
     {
@@ -6616,7 +6616,7 @@
     },
     {
       "key": "Onboarding/Sections/Subscriptions/hint",
-      "value": "Die Liste {link} finden Sie jederzeit, indem Sie auf die kleine Glocke oben rechts drücken. Dort können Sie auch diese Einstellungen anpassen."
+      "value": "Die Liste {link} finden Sie jederzeit, indem Sie oben links auf Ihr Profilbild oder Ihre Initialen drücken. Dort können Sie auch diese Einstellungen anpassen."
     },
     {
       "key": "Onboarding/Sections/Subscriptions/hint/link",

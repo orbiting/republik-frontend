@@ -610,16 +610,6 @@ class ArticlePage extends Component {
         isDiscussion={meta && meta.template === 'discussion'}
       />
     )
-    const actionBarNav = actionBar
-      ? React.cloneElement(actionBar, {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          onPdfClick: undefined,
-          pdfUrl: undefined,
-          showSubscribe: false
-        })
-      : undefined
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
           animate: false,
@@ -733,7 +723,7 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || actionBarNav}
+        secondaryNav={seriesNavButton}
         showSecondary={seriesNavButton ? true : this.state.showSecondary}
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}

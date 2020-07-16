@@ -35,7 +35,7 @@ const SettingsLink = withT(({ t }) => (
 
 const SubscribeCallout = ({
   discussionId,
-  formatSubscription,
+  formatSubscriptions,
   authorSubscriptions,
   showAuthorFilter,
   userHasNoDocuments,
@@ -47,9 +47,9 @@ const SubscribeCallout = ({
   )
   return (
     <div {...styles.container}>
-      {formatSubscription && formatSubscription.length !== 0 && (
+      {formatSubscriptions && formatSubscriptions.length !== 0 && (
         <SubscribeDocument
-          subscriptions={formatSubscription}
+          subscriptions={formatSubscriptions}
           setAnimate={setAnimate}
           style={{ marginTop: discussionId ? 15 : 0 }}
         />

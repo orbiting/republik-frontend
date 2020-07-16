@@ -58,12 +58,12 @@ const SubscribeMenu = ({
 
   const {
     isSubscribedToAny,
-    formatSubscription,
+    formatSubscriptions,
     authorSubscriptions
   } = useMemo(
     () => ({
       isSubscribedToAny: checkIfSubscribedToAny({ data, subscriptions }),
-      formatSubscription:
+      formatSubscriptions:
         subscriptions &&
         subscriptions.filter(node => node.object.__typename === 'Document'),
       authorSubscriptions:
@@ -76,7 +76,7 @@ const SubscribeMenu = ({
   )
 
   if (
-    !formatSubscription?.length &&
+    !formatSubscriptions?.length &&
     !authorSubscriptions?.length &&
     !discussionId
   ) {
@@ -97,7 +97,7 @@ const SubscribeMenu = ({
           showAuthorFilter={showAuthorFilter}
           userHasNoDocuments={userHasNoDocuments}
           discussionId={discussionId}
-          formatSubscription={formatSubscription}
+          formatSubscriptions={formatSubscriptions}
           authorSubscriptions={authorSubscriptions}
           setAnimate={setAnimate}
         />

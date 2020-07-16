@@ -582,7 +582,7 @@ const LoadedProfile = props => {
                   errors={errors}
                   dirty={dirty}
                 />
-                {!!me && user.subscribedByMe && (
+                {!!me && user.subscribedByMe && user.id !== me.id && (
                   <div>
                     <SubscribeMenu
                       label={t('SubscribeAuthor/title')}

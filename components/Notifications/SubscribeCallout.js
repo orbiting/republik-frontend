@@ -6,6 +6,7 @@ import { css } from 'glamor'
 import { A, colors, fontFamilies } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 
 const styles = {
   container: css({
@@ -38,8 +39,12 @@ const SubscribeCallout = ({
   authorSubscriptions,
   showAuthorFilter,
   userHasNoDocuments,
-  setAnimate
+  setAnimate,
+  me
 }) => {
+  const authorSubscriptionsWithoutMe = authorSubscriptions.filter(
+    subscription => subscription.object.id !== me?.id
+  )
   return (
     <div {...styles.container}>
       {formatSubscription && formatSubscription.length !== 0 && (
@@ -49,16 +54,17 @@ const SubscribeCallout = ({
           style={{ marginTop: discussionId ? 15 : 0 }}
         />
       )}
-      {authorSubscriptions && authorSubscriptions.length !== 0 && (
-        <SubscribeAuthors
-          onlyCommentFilter={discussionId}
-          showAuthorFilter={showAuthorFilter}
-          userHasNoDocuments={userHasNoDocuments}
-          subscriptions={authorSubscriptions}
-          setAnimate={setAnimate}
-          style={{ marginTop: discussionId ? 15 : 0 }}
-        />
-      )}
+      {authorSubscriptionsWithoutMe &&
+        authorSubscriptionsWithoutMe.length !== 0 && (
+          <SubscribeAuthors
+            onlyCommentFilter={discussionId}
+            showAuthorFilter={showAuthorFilter}
+            userHasNoDocuments={userHasNoDocuments}
+            subscriptions={authorSubscriptionsWithoutMe}
+            setAnimate={setAnimate}
+            style={{ marginTop: discussionId ? 15 : 0 }}
+          />
+        )}
       {discussionId && (
         <SubscribeDebate discussionId={discussionId} setAnimate={setAnimate} />
       )}
@@ -67,4 +73,4 @@ const SubscribeCallout = ({
   )
 }
 
-export default SubscribeCallout
+export default withMe(SubscribeCallout)

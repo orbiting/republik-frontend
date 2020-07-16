@@ -19,6 +19,7 @@ import {
   SUBHEADER_HEIGHT
 } from '../constants'
 import { css } from 'glamor'
+import { withMembership } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -94,8 +95,10 @@ const Index = ({
   footer = true,
   pullable,
   dark,
-  hasOverviewNav
+  isMember,
+  hasOverviewNav: wantOverviewNav
 }) => {
+  const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
   const padHeaderRule = useMemo(() => {
     return css({
@@ -168,4 +171,4 @@ const Index = ({
   )
 }
 
-export default compose(withMe, withT, withInNativeApp)(Index)
+export default compose(withMe, withMembership, withT, withInNativeApp)(Index)

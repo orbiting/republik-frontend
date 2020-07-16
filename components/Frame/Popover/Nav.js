@@ -54,23 +54,27 @@ const Nav = ({
             )}
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
-                <NavLink
-                  large
-                  route='index'
-                  active={active}
-                  closeHandler={closeHandler}
-                >
-                  {t('navbar/front')}
-                </NavLink>
-                <NavLink
-                  prefetch
-                  large
-                  route='feed'
-                  active={active}
-                  closeHandler={closeHandler}
-                >
-                  {t('navbar/feed')}
-                </NavLink>
+                {isMember && (
+                  <>
+                    <NavLink
+                      large
+                      route='index'
+                      active={active}
+                      closeHandler={closeHandler}
+                    >
+                      {t('navbar/front')}
+                    </NavLink>
+                    <NavLink
+                      prefetch
+                      large
+                      route='feed'
+                      active={active}
+                      closeHandler={closeHandler}
+                    >
+                      {t('navbar/feed')}
+                    </NavLink>
+                  </>
+                )}
                 <NavLink
                   large
                   route='discussion'

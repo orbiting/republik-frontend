@@ -10,7 +10,6 @@ import {
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
-import HeaderNew from './HeaderNew'
 import Footer from './Footer'
 import Box from './Box'
 import ProlongBox from './ProlongBox'
@@ -23,7 +22,6 @@ import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { withTester } from '../Auth/checkRoles'
 
 import 'glamor/reset'
 
@@ -97,19 +95,17 @@ const Index = ({
   footer = true,
   pullable,
   dark,
-  isTester,
   hasOverviewNav
 }) => {
-  const MyHeader = isTester ? HeaderNew : Header
   const padHeaderRule = useMemo(() => {
     return css({
       paddingTop:
-        (secondaryNav || hasOverviewNav) && isTester
+        secondaryNav || hasOverviewNav
           ? HEADER_HEIGHT_MOBILE + SUBHEADER_HEIGHT
           : HEADER_HEIGHT_MOBILE - 1,
       [mediaQueries.mUp]: {
         paddingTop:
-          (secondaryNav || hasOverviewNav) && isTester
+          secondaryNav || hasOverviewNav
             ? HEADER_HEIGHT + SUBHEADER_HEIGHT
             : HEADER_HEIGHT - 1
       }
@@ -133,7 +129,7 @@ const Index = ({
             />
           )}
           {!!meta && <Meta data={meta} />}
-          <MyHeader
+          <Header
             dark={dark && !inNativeIOSApp}
             me={me}
             cover={cover}
@@ -167,7 +163,7 @@ const Index = ({
                 <Content>{children}</Content>
               </MainContainer>
             )}
-          </MyHeader>
+          </Header>
         </div>
         {!inNativeApp && footer && <Footer />}
       </div>
@@ -175,4 +171,4 @@ const Index = ({
   )
 }
 
-export default compose(withMe, withT, withInNativeApp, withTester)(Index)
+export default compose(withMe, withT, withInNativeApp)(Index)

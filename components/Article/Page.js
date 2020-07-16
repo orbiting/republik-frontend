@@ -6,7 +6,6 @@ import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
-import SeriesNavButtonNew from './SeriesNavButtonNew'
 import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
@@ -35,7 +34,6 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
-import { withTester } from '../Auth/checkRoles'
 
 import SurviveStatus from '../Crowdfunding/SurviveStatus'
 
@@ -567,8 +565,7 @@ class ArticlePage extends Component {
       inNativeApp,
       payNoteSeed,
       payNoteTryOrBuy,
-      hasActiveMembership,
-      isTester
+      hasActiveMembership
     } = this.props
 
     const {
@@ -646,10 +643,8 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
-    const MySeriesNavButton = isTester ? SeriesNavButtonNew : SeriesNavButton
-
     const seriesNavButton = showSeriesNav && (
-      <MySeriesNavButton
+      <SeriesNavButton
         t={t}
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
@@ -742,10 +737,8 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || (!isTester && actionBarNav)}
-        showSecondary={
-          isTester && seriesNavButton ? true : this.state.showSecondary
-        }
+        secondaryNav={seriesNavButton || actionBarNav}
+        showSecondary={seriesNavButton ? true : this.state.showSecondary}
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}
       >
@@ -898,9 +891,7 @@ class ArticlePage extends Component {
                         </div>
                       )}
                       <SSRCachingBoundary
-                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}${
-                          isTester ? ':isTester' : ''
-                        }`}
+                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
                       >
                         {() => (
                           <ColorContext.Provider
@@ -1006,7 +997,6 @@ const ComposedPage = compose(
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation,
-  withTester,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

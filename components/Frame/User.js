@@ -40,15 +40,22 @@ const User = ({ t, me, title, dark, backButton, onClick, isMobile }) => {
           (me.portrait ? (
             <img src={me.portrait} {...styles.portrait} />
           ) : (
-            <span {...styles.portrait}>{getInitials(me)}</span>
+            <span
+              style={{
+                backgroundColor: dark ? 'white' : colors.divider,
+                color: dark ? colors.text : 'white'
+              }}
+              {...styles.portrait}
+            >
+              {getInitials(me)}
+            </span>
           ))}
         {!me && (
           <Fragment>
             <span {...styles.anonymous}>
               <MdAccountBox
                 size={isMobile ? BUTTON_SIZE_MOBILE : BUTTON_SIZE}
-                // style={{ margin: -2 }}
-                fill={dark ? colors.text : colors.text}
+                fill={dark ? colors.negative.text : colors.text}
               />
             </span>
             <span {...styles.label}>{t('header/signin')}</span>
@@ -83,8 +90,6 @@ const styles = {
     position: 'relative',
     display: 'inline-block',
     verticalAlign: 'top',
-    backgroundColor: '#E1E7E5',
-    color: '#fff',
     textAlign: 'center',
     textTransform: 'uppercase',
     ...fontStyles.serifTitle,

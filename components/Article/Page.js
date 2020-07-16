@@ -643,6 +643,8 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
+    console.log(meta)
+
     const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
         t={t}

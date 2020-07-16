@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react'
+import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import SeriesNavPanel from './SeriesNavPanel'
 
@@ -77,10 +78,17 @@ const styles = {
   })
 }
 
-const SeriesNavButton = ({ items, id, children, t, series }) => {
+const SeriesNavButton = ({ t, series, router }) => {
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
   const [headerHeight] = useHeaderHeight()
+
+  const episodes = series && series.episodes
+  const currentEpisode = episodes.find(
+    episode => episode.document.meta.path === router.asPath
+  )
+  console.log(currentEpisode)
+
   return (
     <Fragment>
       <button
@@ -90,7 +98,7 @@ const SeriesNavButton = ({ items, id, children, t, series }) => {
         }}
       >
         <span {...styles.title}>
-          {series.title}
+          {`${series.title}, ${currentEpisode.label}`}
           <span {...styles.arrow}>
             {expanded && <MdKeyboardArrowUp size='28' fill={colors.text} />}
             {!expanded && <MdKeyboardArrowDown size='28' fill={colors.text} />}
@@ -118,4 +126,4 @@ const SeriesNavButton = ({ items, id, children, t, series }) => {
   )
 }
 
-export default SeriesNavButton
+export default withRouter(SeriesNavButton)

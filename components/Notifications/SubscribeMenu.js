@@ -7,6 +7,7 @@ import SubscribeCallout from './SubscribeCallout'
 import { withRouter } from 'next/router'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
 import { css } from 'glamor'
+import withMe from '../../lib/apollo/withMe'
 
 const styles = {
   container: css({
@@ -28,7 +29,8 @@ const SubscribeMenu = ({
   showAuthorFilter,
   userHasNoDocuments,
   style,
-  label
+  label,
+  me
 }) => {
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
     //checks if any of the subscription nodes is set to active
@@ -66,10 +68,20 @@ const SubscribeMenu = ({
         subscriptions.filter(node => node.object.__typename === 'Document'),
       authorSubscriptions:
         subscriptions &&
-        subscriptions.filter(node => node.object.__typename === 'User')
+        subscriptions.filter(
+          node => node.object.__typename === 'User' && node.object.id !== me?.id
+        )
     }),
     [data, subscriptions]
   )
+
+  if (
+    !formatSubscription?.length &&
+    !authorSubscriptions?.length &&
+    !discussionId
+  ) {
+    return null
+  }
 
   const icon = (
     <SubscribeIcon animate={animate} isSubscribed={isSubscribedToAny} />
@@ -98,5 +110,6 @@ export default compose(
   graphql(discussionPreferencesQuery, {
     skip: props => !props.discussionId
   }),
-  withRouter
+  withRouter,
+  withMe
 )(SubscribeMenu)

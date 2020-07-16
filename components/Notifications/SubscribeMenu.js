@@ -33,7 +33,13 @@ const SubscribeMenu = ({
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
     //checks if any of the subscription nodes is set to active
     (subscriptions &&
-      subscriptions.some(subscription => subscription.active)) ||
+      subscriptions.some(
+        subscription =>
+          subscription.active &&
+          (showAuthorFilter ||
+            subscription.object.__typename !== 'User' ||
+            subscription.filters.includes('Document'))
+      )) ||
     // or if a discussion is being followed
     (data && getSelectedDiscussionPreference(data) !== 'NONE')
 

@@ -74,13 +74,6 @@ const SubscribedDocuments = ({ t, data: { sections }, isMember }) => {
 
   return (
     <>
-      {!isMember && (
-        <Box style={{ margin: '10px 0', padding: 15 }}>
-          <Interaction.P>
-            {t('Notifications/settings/formats/noMembership')}
-          </Interaction.P>
-        </Box>
-      )}
       <Interaction.P style={{ marginBottom: 10 }}>
         {t.pluralize('Notifications/settings/formats/summary', {
           count: totalSubs

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-15T09:27:16.504Z",
+  "updated": "2020-07-16T08:29:26.147Z",
   "title": "live",
   "data": [
     {
@@ -6587,8 +6587,8 @@
       "value": "Sie haben {count} Rubriken abonniert:"
     },
     {
-      "key": "Notifications/settings/formats/noMembership",
-      "value": "Journalismus kostet. Deshalb erhalten Sie Benachrichtigung erst wenn Sie eine aktive Mitgliedschaft oder ein aktives Abo haben."
+      "key": "Notifications/settings/noMembership",
+      "value": "Journalismus kostet. Deshalb erhalten Sie Benachrichtigung zu Beiträgen aus dem Magazin und den Rubriken erst wenn Sie eine aktive Mitgliedschaft oder ein aktives Abo haben."
     },
     {
       "key": "Notifications/settings/discussion",

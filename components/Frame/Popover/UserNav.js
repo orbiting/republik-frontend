@@ -75,7 +75,7 @@ const UserNav = ({
               {!isMember && !inNativeApp && (
                 <Button
                   style={{ marginTop: 24, marginBottom: 24 }}
-                  href='https://www.republik.ch/pledge'
+                  href='/pledge'
                   black
                   block
                 >

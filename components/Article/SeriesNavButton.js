@@ -87,7 +87,6 @@ const SeriesNavButton = ({ t, series, router }) => {
   const currentEpisode = episodes.find(
     episode => episode.document.meta.path === router.asPath
   )
-  console.log(currentEpisode)
 
   return (
     <Fragment>

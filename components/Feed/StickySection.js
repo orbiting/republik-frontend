@@ -1,12 +1,7 @@
-import React, { Component, useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { compose } from 'react-apollo'
 
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  SUBHEADER_HEIGHT,
-  ZINDEX_FEED_STICKY_SECTION_LABEL
-} from '../constants'
+import { ZINDEX_FEED_STICKY_SECTION_LABEL } from '../constants'
 import { css } from 'glamor'
 import { mediaQueries, colors, useHeaderHeight } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
@@ -16,7 +11,7 @@ const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
 const STICKY_HEADER_HEIGHT = 27
 
-const StickySection = ({ children, label, hasSpaceAfter, isTester }) => {
+const StickySection = ({ children, label, hasSpaceAfter }) => {
   const [sticky, setSticky] = useState(false)
   const [isMedium, setIsMedium] = useState(false)
   const [width, setWidth] = useState(0)

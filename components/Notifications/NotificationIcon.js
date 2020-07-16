@@ -1,15 +1,9 @@
-import { css, merge } from 'glamor'
-import { MdNotifications, MdNotificationsNone } from 'react-icons/md'
+import { css } from 'glamor'
 import React, { useState, useEffect } from 'react'
 import { compose } from 'react-apollo'
-
 import { colors, mediaQueries } from '@project-r/styleguide'
 
-import HeaderIconA from '../Frame/HeaderIconA'
-import { HEADER_ICON_SIZE } from '../constants'
-
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
 
 import { notificationSubscription, withNotificationCount } from './enhancers'
 import { containsUnread } from './index'
@@ -26,8 +20,12 @@ const styles = {
       border: `1px solid ${colors.containerBg}`,
       background: 'red',
       position: 'absolute',
-      top: 2,
-      right: 2
+      top: 8,
+      right: 8,
+      [mediaQueries.mUp]: {
+        top: 12,
+        right: 12
+      }
     }
   })
 }
@@ -74,15 +72,5 @@ export default compose(
     }
   }, [refetch])
 
-  const Icon = hasUnread ? MdNotifications : MdNotificationsNone
-
-  return (
-    <Link route='subscriptions' passHref>
-      <HeaderIconA title={t('header/nav/notifications/aria')}>
-        <span {...(hasUnread && styles.unreadNotifications)}>
-          <Icon fill={fill} size={HEADER_ICON_SIZE} />
-        </span>
-      </HeaderIconA>
-    </Link>
-  )
+  return <span {...(hasUnread && styles.unreadNotifications)}></span>
 })

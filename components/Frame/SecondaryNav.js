@@ -50,11 +50,9 @@ const sections = [
 export const SecondaryNav = ({
   secondaryNav,
   dark,
-  showSecondary,
   router,
   hasOverviewNav,
   isSecondarySticky,
-  formatColor,
   t
 }) => {
   const active = matchPath(router.asPath)
@@ -130,7 +128,6 @@ export const SecondaryNav = ({
               borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
                 dark ? colors.negative.divider : colors.divider
               }`,
-              opacity: showSecondary ? 1 : 0,
               transition: 'opacity 0.2s ease-out',
               backgroundColor: dark ? colors.negative.primaryBg : '#fff'
             }}

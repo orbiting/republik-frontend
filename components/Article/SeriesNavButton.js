@@ -1,15 +1,16 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
+import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import SeriesNavPanel from './SeriesNavPanel'
 
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 
-import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
 import {
   mediaQueries,
   fontFamilies,
   colors,
-  useBodyScrollLock
+  useBodyScrollLock,
+  useHeaderHeight
 } from '@project-r/styleguide'
 
 const plainStyle = {
@@ -28,14 +29,9 @@ const styles = {
     },
     fontFamily: fontFamilies.sansSerifRegular,
     padding: 0,
-    position: 'absolute',
     textAlign: 'left',
     top: 0,
-    whiteSpace: 'nowrap',
-    width: `calc(100vw - ${3 * HEADER_HEIGHT_MOBILE}px)`,
-    [mediaQueries.mUp]: {
-      width: `calc(100vw - ${3 * HEADER_HEIGHT}px)`
-    }
+    whiteSpace: 'nowrap'
   }),
   menu: css({
     backgroundColor: colors.negative.primaryBg,
@@ -55,30 +51,21 @@ const styles = {
     },
     display: 'flex',
     boxSizing: 'border-box',
-    top: HEADER_HEIGHT_MOBILE,
     left: 0,
-    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
     width: '100vw',
     flexDirection: 'column',
-    padding: 0,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
-      height: `calc(100vh - ${HEADER_HEIGHT}px)`
-    }
+    padding: 0
   }),
   title: css({
     fontSize: 15,
-    display: 'inline-block',
     verticalAlign: 'middle',
-    lineHeight: `${HEADER_HEIGHT_MOBILE}px`,
     maxWidth: '100%',
     overflow: 'hidden',
     paddingRight: '30px',
     position: 'relative',
     textOverflow: 'ellipsis',
     [mediaQueries.mUp]: {
-      fontSize: 18,
-      lineHeight: `${HEADER_HEIGHT}px`
+      fontSize: 18
     }
   }),
   arrow: css({
@@ -91,38 +78,55 @@ const styles = {
   })
 }
 
-const SeriesNavButton = ({
-  items,
-  id,
-  children,
-  t,
-  series,
-  onSecondaryNavExpandedChange,
-  expanded
-}) => {
+const SeriesNavButton = ({ t, series, router }) => {
+  const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
+  const [headerHeight] = useHeaderHeight()
+
+  const episodes = series && series.episodes
+  const currentEpisode = episodes.find(
+    episode => episode.document.meta.path === router.asPath
+  )
 
   return (
     <Fragment>
       <button
         {...styles.button}
         onClick={() => {
-          onSecondaryNavExpandedChange(!expanded)
+          setExpanded(!expanded)
         }}
       >
         <span {...styles.title}>
           {series.title}
+          {currentEpisode &&
+            (series.title.match(/\?$/)
+              ? ` ${currentEpisode.label}`
+              : ` – ${currentEpisode.label}`)}
           <span {...styles.arrow}>
             {expanded && <MdKeyboardArrowUp size='28' fill={colors.text} />}
             {!expanded && <MdKeyboardArrowDown size='28' fill={colors.text} />}
           </span>
         </span>
       </button>
-      <div {...styles.menu} aria-expanded={expanded} ref={ref}>
-        <SeriesNavPanel t={t} series={series} />
+      <div
+        style={{
+          top: headerHeight,
+          height: `calc(100vh - ${headerHeight}px)`
+        }}
+        {...styles.menu}
+        aria-expanded={expanded}
+        ref={ref}
+      >
+        <SeriesNavPanel
+          t={t}
+          series={series}
+          onClick={() => {
+            setExpanded(false)
+          }}
+        />
       </div>
     </Fragment>
   )
 }
 
-export default SeriesNavButton
+export default withRouter(SeriesNavButton)

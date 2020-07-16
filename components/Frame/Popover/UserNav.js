@@ -7,7 +7,6 @@ import {
   mediaQueries,
   Center,
   Button,
-  TeaserSectionTitle,
   Loader
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
@@ -36,6 +35,7 @@ const UserNav = ({
   closeHandler,
   t,
   inNativeApp,
+  inNativeIOSApp,
   isMember
 }) => {
   const [containerPadding, setContainerPadding] = useState()
@@ -73,15 +73,12 @@ const UserNav = ({
                   </div>
                 </>
               )}
-              {!isMember && (
-                <Button
-                  style={{ marginTop: 24, marginBottom: 24 }}
-                  href='https://www.republik.ch/pledge'
-                  black
-                  block
-                >
-                  {t('nav/becomemember')}
-                </Button>
+              {!me?.activeMembership && !inNativeIOSApp && (
+                <Link route='pledge' passHref>
+                  <Button style={{ marginTop: 24, marginBottom: 24 }} block>
+                    {t('nav/becomemember')}
+                  </Button>
+                </Link>
               )}
               {me && (
                 <>
@@ -155,15 +152,17 @@ const UserNav = ({
                           {t('nav/share')}
                         </NavLink>
                       )}
-                      <NavLink
-                        route='pledge'
-                        params={{ group: 'GIVE' }}
-                        active={active}
-                        closeHandler={closeHandler}
-                        large
-                      >
-                        {t('nav/give')}
-                      </NavLink>
+                      {!inNativeIOSApp && (
+                        <NavLink
+                          route='pledge'
+                          params={{ group: 'GIVE' }}
+                          active={active}
+                          closeHandler={closeHandler}
+                          large
+                        >
+                          {t('nav/give')}
+                        </NavLink>
+                      )}
                       <NavLink
                         {...fontStyles.sansSerifLight16}
                         route='pledge'

@@ -6,7 +6,6 @@ import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
-import SeriesNavButtonNew from './SeriesNavButtonNew'
 import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
@@ -35,7 +34,6 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
-import { withTester } from '../Auth/checkRoles'
 
 import SurviveStatus from '../Crowdfunding/SurviveStatus'
 
@@ -372,72 +370,7 @@ class ArticlePage extends Component {
     }
 
     this.state = {
-      secondaryNavExpanded: false,
-      showSecondary: false,
-      showAudioPlayer: false,
-      isAwayFromBottomBar: true,
-      mobile: true,
       ...this.deriveStateFromProps(props, {})
-    }
-
-    this.onScroll = () => {
-      const y = window.pageYOffset
-
-      const isAwayFromBottomBar =
-        !this.bottomBarY || y + window.innerHeight < this.bottomBarY
-      if (this.state.isAwayFromBottomBar !== isAwayFromBottomBar) {
-        this.setState({ isAwayFromBottomBar })
-      }
-
-      const headerHeight = this.state.mobile
-        ? HEADER_HEIGHT_MOBILE
-        : HEADER_HEIGHT
-
-      if (
-        isAwayFromBottomBar &&
-        (this.state.showSeriesNav
-          ? y > headerHeight
-          : y + headerHeight > this.y + this.barHeight)
-      ) {
-        if (!this.state.showSecondary) {
-          this.setState({ showSecondary: true })
-        }
-      } else {
-        if (this.state.showSecondary) {
-          this.setState({ showSecondary: false })
-        }
-        if (this.state.secondaryNavExpanded) {
-          this.setState({ secondaryNavExpanded: false })
-        }
-      }
-    }
-
-    this.measure = () => {
-      const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (mobile !== this.state.mobile) {
-        this.setState({ mobile })
-      }
-      if (this.bar) {
-        const rect = this.bar.getBoundingClientRect()
-        this.y = window.pageYOffset + rect.top
-        this.barHeight = rect.height
-      }
-      if (this.bottomBar) {
-        const bottomRect = this.bottomBar.getBoundingClientRect()
-        this.bottomBarY = window.pageYOffset + bottomRect.top
-      }
-    }
-
-    this.onPrimaryNavExpandedChange = expanded => {
-      if (expanded && this.state.secondaryNavExpanded) {
-        this.setState({ secondaryNavExpanded: false })
-      }
-    }
-
-    this.onSecondaryNavExpandedChange = expanded => {
-      this.setState({
-        secondaryNavExpanded: expanded
-      })
     }
   }
 
@@ -530,23 +463,13 @@ class ArticlePage extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.onScroll)
-    window.addEventListener('resize', this.measure)
-
-    this.measure()
     this.autoPlayAudioSource()
     this.markNotificationsAsRead()
   }
 
   componentDidUpdate() {
-    this.measure()
     this.autoPlayAudioSource()
     this.markNotificationsAsRead()
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.measure)
   }
 
   render() {
@@ -561,8 +484,7 @@ class ArticlePage extends Component {
       inNativeApp,
       payNoteSeed,
       payNoteTryOrBuy,
-      hasActiveMembership,
-      isTester
+      hasActiveMembership
     } = this.props
 
     const {
@@ -613,16 +535,6 @@ class ArticlePage extends Component {
         isDiscussion={meta && meta.template === 'discussion'}
       />
     )
-    const actionBarNav = actionBar
-      ? React.cloneElement(actionBar, {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          onPdfClick: undefined,
-          pdfUrl: undefined,
-          showSubscribe: false
-        })
-      : undefined
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
           animate: false,
@@ -640,15 +552,8 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
-    const MySeriesNavButton = isTester ? SeriesNavButtonNew : SeriesNavButton
-
     const seriesNavButton = showSeriesNav && (
-      <MySeriesNavButton
-        t={t}
-        series={series}
-        onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
-        expanded={this.state.secondaryNavExpanded}
-      />
+      <SeriesNavButton t={t} series={series} />
     )
 
     const colorMeta =
@@ -736,10 +641,7 @@ class ArticlePage extends Component {
           meta && meta.discussionId && router.query.focus ? undefined : meta
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
-        secondaryNav={seriesNavButton || (!isTester && actionBarNav)}
-        showSecondary={
-          isTester && seriesNavButton ? true : this.state.showSecondary
-        }
+        secondaryNav={seriesNavButton}
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}
       >
@@ -892,9 +794,7 @@ class ArticlePage extends Component {
                         </div>
                       )}
                       <SSRCachingBoundary
-                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}${
-                          isTester ? ':isTester' : ''
-                        }`}
+                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
                       >
                         {() => (
                           <ColorContext.Provider
@@ -1000,7 +900,6 @@ const ComposedPage = compose(
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation,
-  withTester,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

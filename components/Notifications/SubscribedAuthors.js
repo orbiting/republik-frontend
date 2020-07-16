@@ -10,6 +10,7 @@ import {
   colors
 } from '@project-r/styleguide'
 import { css } from 'glamor'
+import { descending } from 'd3-array'
 import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
@@ -22,15 +23,26 @@ const styles = {
   authorContainer: css({
     display: 'flex',
     flexDirection: 'column',
+    paddingTop: 8,
+    ':first-of-type': {
+      paddingTop: 0
+    },
+    paddingBottom: 5,
     [mediaQueries.mUp]: {
       flexDirection: 'row',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      '&:nth-child(even)': {
+        backgroundColor: colors.secondaryBg
+      }
     }
   }),
   author: css({
     display: 'flex',
     flexDirection: 'row',
-    marginBottom: 10
+    marginBottom: 10,
+    [mediaQueries.mUp]: {
+      marginBottom: 0
+    }
   }),
   userLink: css({
     color: colors.text,
@@ -42,14 +54,8 @@ const styles = {
   checkbox: css({
     display: 'flex',
     flexDirection: 'row',
-    marginBottom: 16,
     ' div': {
       marginRight: 16
-    },
-    [mediaQueries.mUp]: {
-      ' div': {
-        marginLeft: 16
-      }
     }
   })
 }
@@ -71,10 +77,12 @@ const SubscribedAuthors = ({
         const allSusbcribedAuthors = subscribedPromotedAuthors.concat(
           subscribedOtherAuthors
         )
-        const filteredAuthors = allSusbcribedAuthors.filter(
-          (author, index, all) =>
-            all.findIndex(e => e.id === author.id) === index
-        )
+        const filteredAuthors = allSusbcribedAuthors
+          .filter(
+            (author, index, all) =>
+              all.findIndex(e => e.id === author.id) === index
+          )
+          .sort((a, b) => descending(+a.active, +b.active))
 
         const visibleAuthors =
           filteredAuthors && filteredAuthors.filter(author => author.active)
@@ -105,7 +113,7 @@ const SubscribedAuthors = ({
                   </div>
                   <div {...styles.checkbox}>
                     {(author.userDetails.documents.totalCount ||
-                    author.filters.includes('Document')
+                    (author.active && author.filters.includes('Document'))
                       ? ['Document', 'Comment']
                       : ['Comment']
                     ).map(filter => (

@@ -42,7 +42,7 @@ const SubscribeCallout = ({
   setAnimate,
   me
 }) => {
-  const authorSubscriptionsWithoutMe = authorSubscriptions.filter(
+  const authorSubscriptionsWithoutMe = authorSubscriptions?.filter(
     subscription => subscription.object.id !== me?.id
   )
   return (
@@ -51,7 +51,7 @@ const SubscribeCallout = ({
         <SubscribeDocument
           subscriptions={formatSubscriptions}
           setAnimate={setAnimate}
-          style={{ marginTop: discussionId ? 15 : 0 }}
+          style={{ marginBottom: 15 }}
         />
       )}
       {authorSubscriptionsWithoutMe &&
@@ -62,11 +62,15 @@ const SubscribeCallout = ({
             userHasNoDocuments={userHasNoDocuments}
             subscriptions={authorSubscriptionsWithoutMe}
             setAnimate={setAnimate}
-            style={{ marginTop: discussionId ? 15 : 0 }}
+            style={{ marginBottom: 15 }}
           />
         )}
       {discussionId && (
-        <SubscribeDebate discussionId={discussionId} setAnimate={setAnimate} />
+        <SubscribeDebate
+          discussionId={discussionId}
+          setAnimate={setAnimate}
+          style={{ marginBottom: 15 }}
+        />
       )}
       <SettingsLink />
     </div>

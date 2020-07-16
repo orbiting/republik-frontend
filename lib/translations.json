@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-16T15:30:04.099Z",
+  "updated": "2020-07-16T15:38:39.018Z",
   "title": "live",
   "data": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "key": "nav/events",
-      "value": "Anlässe"
+      "value": "Veranstaltungen"
     },
     {
       "key": "nav/discussion",

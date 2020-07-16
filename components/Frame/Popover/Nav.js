@@ -43,9 +43,11 @@ const Nav = ({
               </>
             )}
             {!isMember && !inNativeApp && (
-              <Button style={{ marginTop: 24 }} href='/pledge' black block>
-                {t('nav/becomemember')}
-              </Button>
+              <Link route='pledge' passHref>
+                <Button style={{ marginTop: 24 }} black block>
+                  {t('nav/becomemember')}
+                </Button>
+              </Link>
             )}
             {me && (
               <SearchForm noInitialFocus onSearchSubmit={onSearchSubmit} />

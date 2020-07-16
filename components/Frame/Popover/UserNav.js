@@ -13,7 +13,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
-import { matchPath } from '../../../lib/routes'
+import { Link, matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { withMembership } from '../../Auth/checkRoles'
@@ -73,14 +73,15 @@ const UserNav = ({
                 </>
               )}
               {!isMember && !inNativeApp && (
-                <Button
-                  style={{ marginTop: 24, marginBottom: 24 }}
-                  href='/pledge'
-                  black
-                  block
-                >
-                  {t('nav/becomemember')}
-                </Button>
+                <Link route='pledge' passHref>
+                  <Button
+                    style={{ marginTop: 24, marginBottom: 24 }}
+                    black
+                    block
+                  >
+                    {t('nav/becomemember')}
+                  </Button>
+                </Link>
               )}
               {me && (
                 <>

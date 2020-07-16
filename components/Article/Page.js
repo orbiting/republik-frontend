@@ -370,72 +370,7 @@ class ArticlePage extends Component {
     }
 
     this.state = {
-      secondaryNavExpanded: false,
-      showSecondary: false,
-      showAudioPlayer: false,
-      isAwayFromBottomBar: true,
-      mobile: true,
       ...this.deriveStateFromProps(props, {})
-    }
-
-    this.onScroll = () => {
-      const y = window.pageYOffset
-
-      const isAwayFromBottomBar =
-        !this.bottomBarY || y + window.innerHeight < this.bottomBarY
-      if (this.state.isAwayFromBottomBar !== isAwayFromBottomBar) {
-        this.setState({ isAwayFromBottomBar })
-      }
-
-      const headerHeight = this.state.mobile
-        ? HEADER_HEIGHT_MOBILE
-        : HEADER_HEIGHT
-
-      if (
-        isAwayFromBottomBar &&
-        (this.state.showSeriesNav
-          ? y > headerHeight
-          : y + headerHeight > this.y + this.barHeight)
-      ) {
-        if (!this.state.showSecondary) {
-          this.setState({ showSecondary: true })
-        }
-      } else {
-        if (this.state.showSecondary) {
-          this.setState({ showSecondary: false })
-        }
-        if (this.state.secondaryNavExpanded) {
-          this.setState({ secondaryNavExpanded: false })
-        }
-      }
-    }
-
-    this.measure = () => {
-      const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (mobile !== this.state.mobile) {
-        this.setState({ mobile })
-      }
-      if (this.bar) {
-        const rect = this.bar.getBoundingClientRect()
-        this.y = window.pageYOffset + rect.top
-        this.barHeight = rect.height
-      }
-      if (this.bottomBar) {
-        const bottomRect = this.bottomBar.getBoundingClientRect()
-        this.bottomBarY = window.pageYOffset + bottomRect.top
-      }
-    }
-
-    this.onPrimaryNavExpandedChange = expanded => {
-      if (expanded && this.state.secondaryNavExpanded) {
-        this.setState({ secondaryNavExpanded: false })
-      }
-    }
-
-    this.onSecondaryNavExpandedChange = expanded => {
-      this.setState({
-        secondaryNavExpanded: expanded
-      })
     }
   }
 
@@ -528,23 +463,13 @@ class ArticlePage extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.onScroll)
-    window.addEventListener('resize', this.measure)
-
-    this.measure()
     this.autoPlayAudioSource()
     this.markNotificationsAsRead()
   }
 
   componentDidUpdate() {
-    this.measure()
     this.autoPlayAudioSource()
     this.markNotificationsAsRead()
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.measure)
   }
 
   render() {
@@ -627,15 +552,8 @@ class ArticlePage extends Component {
       article.content.meta &&
       article.content.meta.darkMode
 
-    console.log(meta)
-
     const seriesNavButton = showSeriesNav && (
-      <SeriesNavButton
-        t={t}
-        series={series}
-        onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
-        expanded={this.state.secondaryNavExpanded}
-      />
+      <SeriesNavButton t={t} series={series} />
     )
 
     const colorMeta =
@@ -724,7 +642,6 @@ class ArticlePage extends Component {
         }
         onNavExpanded={this.onPrimaryNavExpandedChange}
         secondaryNav={seriesNavButton}
-        showSecondary={seriesNavButton ? true : this.state.showSecondary}
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}
       >

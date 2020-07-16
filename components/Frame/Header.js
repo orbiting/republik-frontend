@@ -49,7 +49,6 @@ const Header = ({
   me,
   t,
   secondaryNav,
-  showSecondary,
   router,
   formatColor,
   pullable = true,
@@ -276,7 +275,6 @@ const Header = ({
             router={router}
             dark={dark}
             formatColor={formatColor}
-            showSecondary={showSecondary}
             hasOverviewNav={hasOverviewNav}
             isSecondarySticky={headerOffset === -headerHeightState}
           />

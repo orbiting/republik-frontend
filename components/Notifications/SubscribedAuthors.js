@@ -104,7 +104,8 @@ const SubscribedAuthors = ({
                     </Link>
                   </div>
                   <div {...styles.checkbox}>
-                    {(author.userDetails.documents.totalCount
+                    {(author.userDetails.documents.totalCount ||
+                    author.filters.includes('Document')
                       ? ['Document', 'Comment']
                       : ['Comment']
                     ).map(filter => (
@@ -120,18 +121,22 @@ const SubscribedAuthors = ({
                 </div>
               ))}
             </div>
-            <button
-              {...plainButtonRule}
-              onClick={() => {
-                setShowAll(!showAll)
-              }}
-            >
-              <A>
-                {t(
-                  `Notifications/settings/formats/${showAll ? 'hide' : 'show'}`
-                )}
-              </A>
-            </button>
+            {filteredAuthors.length !== visibleAuthors.length && (
+              <button
+                {...plainButtonRule}
+                onClick={() => {
+                  setShowAll(!showAll)
+                }}
+              >
+                <A>
+                  {t(
+                    `Notifications/settings/formats/${
+                      showAll ? 'hide' : 'show'
+                    }`
+                  )}
+                </A>
+              </button>
+            )}
           </>
         )
       }}

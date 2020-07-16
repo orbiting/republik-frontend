@@ -138,7 +138,7 @@ export const styles = {
     display: 'inline-block',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    paddingLeft: 3,
+    paddingLeft: 4,
     verticalAlign: 'middle'
   }),
   stackedText: css({

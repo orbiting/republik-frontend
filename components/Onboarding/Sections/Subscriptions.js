@@ -8,7 +8,7 @@ import withT from '../../../lib/withT'
 
 import { Interaction, linkRule } from '@project-r/styleguide'
 import { subInfo } from '../../Notifications/enhancers'
-import SubscribeDocumentCheckbox from '../../Notifications/SubscribeDocumentCheckbox'
+import SubscribeCheckbox from '../../Notifications/SubscribeCheckbox'
 
 const { P } = Interaction
 
@@ -53,11 +53,7 @@ const Subscriptions = props => {
       <P {...styles.p}>{t('Onboarding/Sections/Subscriptions/preamble')}</P>
       <div style={{ margin: '20px 0' }}>
         {formats.map((format, i) => (
-          <SubscribeDocumentCheckbox
-            subscription={format.subscribedByMe}
-            format={format}
-            key={i}
-          />
+          <SubscribeCheckbox subscription={format.subscribedByMe} key={i} />
         ))}
       </div>
       <P {...styles.p}>

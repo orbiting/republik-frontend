@@ -1,10 +1,12 @@
 import React from 'react'
 import SubscribeDebate from './SubscribeDebate'
 import SubscribeDocument from './SubscribeDocument'
+import SubscribeAuthors from './SubscribeAuthors'
 import { css } from 'glamor'
 import { A, colors, fontFamilies } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 
 const styles = {
   container: css({
@@ -31,17 +33,43 @@ const SettingsLink = withT(({ t }) => (
   </p>
 ))
 
-const SubscribeCallout = ({ discussionId, subscription, setAnimate }) => {
+const SubscribeCallout = ({
+  discussionId,
+  formatSubscriptions,
+  authorSubscriptions,
+  showAuthorFilter,
+  userHasNoDocuments,
+  setAnimate,
+  me
+}) => {
+  const authorSubscriptionsWithoutMe = authorSubscriptions?.filter(
+    subscription => subscription.object.id !== me?.id
+  )
   return (
     <div {...styles.container}>
-      {discussionId && (
-        <SubscribeDebate discussionId={discussionId} setAnimate={setAnimate} />
-      )}
-      {subscription && (
+      {formatSubscriptions && formatSubscriptions.length !== 0 && (
         <SubscribeDocument
-          subscription={subscription}
+          subscriptions={formatSubscriptions}
           setAnimate={setAnimate}
-          style={{ marginTop: discussionId ? 15 : 0 }}
+          style={{ marginBottom: 15 }}
+        />
+      )}
+      {authorSubscriptionsWithoutMe &&
+        authorSubscriptionsWithoutMe.length !== 0 && (
+          <SubscribeAuthors
+            onlyCommentFilter={discussionId}
+            showAuthorFilter={showAuthorFilter}
+            userHasNoDocuments={userHasNoDocuments}
+            subscriptions={authorSubscriptionsWithoutMe}
+            setAnimate={setAnimate}
+            style={{ marginBottom: 15 }}
+          />
+        )}
+      {discussionId && (
+        <SubscribeDebate
+          discussionId={discussionId}
+          setAnimate={setAnimate}
+          style={{ marginBottom: 15 }}
         />
       )}
       <SettingsLink />
@@ -49,4 +77,4 @@ const SubscribeCallout = ({ discussionId, subscription, setAnimate }) => {
   )
 }
 
-export default SubscribeCallout
+export default withMe(SubscribeCallout)

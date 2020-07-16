@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'
-
 import FieldSet from '../FieldSet'
 import Credential from '../Credential'
 

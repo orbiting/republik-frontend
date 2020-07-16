@@ -42,7 +42,7 @@ const Nav = ({
                 </div>
               </>
             )}
-            {!isMember && (
+            {!isMember && !inNativeApp && (
               <Button style={{ marginTop: 24 }} href='/pledge' black block>
                 {t('nav/becomemember')}
               </Button>

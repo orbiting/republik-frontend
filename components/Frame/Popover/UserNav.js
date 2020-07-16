@@ -7,14 +7,13 @@ import {
   mediaQueries,
   Center,
   Button,
-  TeaserSectionTitle,
   Loader
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
-import { Link, matchPath } from '../../../lib/routes'
+import { matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { withMembership } from '../../Auth/checkRoles'
@@ -73,7 +72,7 @@ const UserNav = ({
                   </div>
                 </>
               )}
-              {!isMember && (
+              {!isMember && !inNativeApp && (
                 <Button
                   style={{ marginTop: 24, marginBottom: 24 }}
                   href='https://www.republik.ch/pledge'
@@ -155,15 +154,17 @@ const UserNav = ({
                           {t('nav/share')}
                         </NavLink>
                       )}
-                      <NavLink
-                        route='pledge'
-                        params={{ group: 'GIVE' }}
-                        active={active}
-                        closeHandler={closeHandler}
-                        large
-                      >
-                        {t('nav/give')}
-                      </NavLink>
+                      {!inNativeApp && (
+                        <NavLink
+                          route='pledge'
+                          params={{ group: 'GIVE' }}
+                          active={active}
+                          closeHandler={closeHandler}
+                          large
+                        >
+                          {t('nav/give')}
+                        </NavLink>
+                      )}
                       <NavLink
                         {...fontStyles.sansSerifLight16}
                         route='pledge'

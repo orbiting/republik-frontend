@@ -27,16 +27,11 @@ import DiscussionIcon from '../Icons/Discussion'
 
 import {
   A,
-  Button,
   Center,
   Interaction,
   Editorial,
-  Label,
   mediaQueries,
-  colors,
-  InfoBoxListItem,
-  LoadMore,
-  fontStyles
+  colors
 } from '@project-r/styleguide'
 import FontSizeSync from '../FontSize/Sync'
 import FontSizeAdjust from '../FontSize/Adjust'

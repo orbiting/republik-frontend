@@ -80,7 +80,7 @@ class ActionBar extends Component {
       inNativeApp,
       animate,
       inIOS,
-      subscription,
+      subscriptions,
       showSubscribe,
       isDiscussion,
       ownDiscussion,
@@ -215,10 +215,10 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
-          {showSubscribe && subscription && (
+          {showSubscribe && subscriptions && (
             <SubscribeMenu
               discussionId={isDiscussion && ownDiscussion && ownDiscussion.id}
-              subscription={subscription}
+              subscriptions={subscriptions}
               style={{ marginRight: -2, marginLeft: 2 }}
             />
           )}
@@ -266,7 +266,7 @@ ActionBar.propTypes = {
   shareOverlayTitle: PropTypes.string,
   showBookmark: PropTypes.bool,
   showSubscribe: PropTypes.bool,
-  subscription: PropTypes.object,
+  subscriptions: PropTypes.array,
   isDiscussion: PropTypes.bool,
   ownDiscussion: PropTypes.object
 }

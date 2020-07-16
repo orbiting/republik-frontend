@@ -14,7 +14,16 @@ export default compose(withT)(({ t, node, isNew, me }) => {
       description={!object.meta.shortTitle && object.meta.description}
       t={t}
       key={object.meta.path}
-      menu={<SubscribeCallout subscription={subscription} />}
+      menu={
+        <SubscribeCallout
+          authorSubscriptions={
+            subscription.object.__typename === 'User' && [subscription]
+          }
+          formatSubscriptions={
+            subscription.object.__typename === 'Document' && [subscription]
+          }
+        />
+      }
       highlighted={isNew}
     />
   )

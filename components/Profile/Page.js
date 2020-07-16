@@ -18,6 +18,7 @@ import { cardFragment } from '../Card/fragments'
 import Card, { styles as cardStyles } from '../Card/Card'
 import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
+import SubscribeMenu from '../Notifications/SubscribeMenu'
 
 import { TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
@@ -179,6 +180,23 @@ const getPublicUser = gql`
       badges
       documents(first: $firstDocuments, after: $afterDocument) {
         ...DocumentListConnection
+      }
+      subscribedByMe {
+        id
+        active
+        filters
+        object {
+          ... on User {
+            id
+            name
+          }
+          ... on Document {
+            id
+            meta {
+              title
+            }
+          }
+        }
       }
       comments(first: $firstComments, after: $afterComment) {
         totalCount
@@ -398,7 +416,6 @@ const LoadedProfile = props => {
   }
 
   const { isEditing, values, errors, dirty } = state
-
   return (
     <Fragment>
       {!user.hasPublicProfile && (
@@ -565,6 +582,16 @@ const LoadedProfile = props => {
                   errors={errors}
                   dirty={dirty}
                 />
+                {!!me && user.subscribedByMe && user.id !== me.id && (
+                  <div>
+                    <SubscribeMenu
+                      label={t('SubscribeAuthor/title')}
+                      showAuthorFilter
+                      userHasNoDocuments={!user.documents.totalCount}
+                      subscriptions={[user.subscribedByMe]}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

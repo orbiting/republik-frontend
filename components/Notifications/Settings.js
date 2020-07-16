@@ -7,11 +7,14 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
-import SubscribeDocuments from './SubscribeDocuments'
+import SubscribedDocuments from './SubscribedDocuments'
+import SubscribedAuthors from './SubscribedAuthors'
 import NotificationOptions from './NotificationOptions'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
+import { withMembership } from '../Auth/checkRoles'
 import { Link } from '../../lib/routes'
+import Box from '../Frame/Box'
 
 const { H1, H2 } = Interaction
 
@@ -28,7 +31,10 @@ const styles = {
   })
 }
 
-export default compose(withT)(({ t }) => {
+export default compose(
+  withT,
+  withMembership
+)(({ t, isMember }) => {
   return (
     <>
       <Center {...styles.container}>
@@ -38,12 +44,26 @@ export default compose(withT)(({ t }) => {
         <Link route='subscriptions' passHref>
           <A {...linkRule}>{t('Notifications/settings/back')}</A>
         </Link>
+        {!isMember && (
+          <Box style={{ margin: '10px 0', padding: 15 }}>
+            <Interaction.P>
+              {t('Notifications/settings/noMembership')}
+            </Interaction.P>
+          </Box>
+        )}
 
         <section {...styles.section}>
           <H2 style={{ marginBottom: 10 }}>
             {t('Notifications/settings/formats')}
           </H2>
-          <SubscribeDocuments />
+          <SubscribedDocuments />
+        </section>
+
+        <section {...styles.section}>
+          <H2 style={{ marginBottom: 10 }}>
+            {t('Notifications/settings/authors')}
+          </H2>
+          <SubscribedAuthors />
         </section>
 
         <section {...styles.section}>

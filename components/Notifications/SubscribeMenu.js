@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { CalloutMenu } from '@project-r/styleguide'
 import SubscribeIcon from './SubscribeIcon'
 import { compose, graphql } from 'react-apollo'
@@ -7,6 +7,7 @@ import SubscribeCallout from './SubscribeCallout'
 import { withRouter } from 'next/router'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
 import { css } from 'glamor'
+import withMe from '../../lib/apollo/withMe'
 
 const styles = {
   container: css({
@@ -20,14 +21,30 @@ const styles = {
   })
 }
 
-const checkIfSubscribed = ({ data, subscription }) =>
-  (subscription && subscription.active) ||
-  (data && getSelectedDiscussionPreference(data) !== 'NONE')
+const SubscribeMenu = ({
+  data,
+  router,
+  discussionId,
+  subscriptions,
+  showAuthorFilter,
+  userHasNoDocuments,
+  style,
+  label,
+  me
+}) => {
+  const checkIfSubscribedToAny = ({ data, subscriptions }) =>
+    //checks if any of the subscription nodes is set to active
+    (subscriptions &&
+      subscriptions.some(
+        subscription =>
+          subscription.active &&
+          (showAuthorFilter ||
+            subscription.object.__typename !== 'User' ||
+            subscription.filters.includes('Document'))
+      )) ||
+    // or if a discussion is being followed
+    (data && getSelectedDiscussionPreference(data) !== 'NONE')
 
-const SubscribeMenu = ({ data, router, discussionId, subscription, style }) => {
-  const [isSubscribed, setSubscribed] = useState(
-    checkIfSubscribed({ data, subscription })
-  )
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -39,21 +56,49 @@ const SubscribeMenu = ({ data, router, discussionId, subscription, style }) => {
     }
   }, [animate])
 
-  useEffect(() => {
-    setSubscribed(checkIfSubscribed({ data, subscription }))
-  }, [data, subscription])
+  const {
+    isSubscribedToAny,
+    formatSubscriptions,
+    authorSubscriptions
+  } = useMemo(
+    () => ({
+      isSubscribedToAny: checkIfSubscribedToAny({ data, subscriptions }),
+      formatSubscriptions:
+        subscriptions &&
+        subscriptions.filter(node => node.object.__typename === 'Document'),
+      authorSubscriptions:
+        subscriptions &&
+        subscriptions.filter(
+          node => node.object.__typename === 'User' && node.object.id !== me?.id
+        )
+    }),
+    [data, subscriptions]
+  )
 
-  const icon = <SubscribeIcon animate={animate} isSubscribed={isSubscribed} />
+  if (
+    !formatSubscriptions?.length &&
+    !authorSubscriptions?.length &&
+    !discussionId
+  ) {
+    return null
+  }
 
+  const icon = (
+    <SubscribeIcon animate={animate} isSubscribed={isSubscribedToAny} />
+  )
   return (
     <div {...styles.container} style={style}>
       <CalloutMenu
+        label={label}
         icon={icon}
         initiallyOpen={router.query && !!router.query.mute}
       >
         <SubscribeCallout
+          showAuthorFilter={showAuthorFilter}
+          userHasNoDocuments={userHasNoDocuments}
           discussionId={discussionId}
-          subscription={subscription}
+          formatSubscriptions={formatSubscriptions}
+          authorSubscriptions={authorSubscriptions}
           setAnimate={setAnimate}
         />
       </CalloutMenu>
@@ -65,5 +110,6 @@ export default compose(
   graphql(discussionPreferencesQuery, {
     skip: props => !props.discussionId
   }),
-  withRouter
+  withRouter,
+  withMe
 )(SubscribeMenu)

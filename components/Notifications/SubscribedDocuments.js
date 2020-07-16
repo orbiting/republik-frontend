@@ -8,7 +8,7 @@ import {
   Interaction
 } from '@project-r/styleguide'
 import { css } from 'glamor'
-import SubscribeDocumentCheckbox from './SubscribeDocumentCheckbox'
+import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
 import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
 import { withMembership } from '../Auth/checkRoles'
@@ -27,7 +27,7 @@ const SECTIONS_ALWAYS_SHOWN = ONBOARDING_SECTIONS_REPO_IDS
 const FormatCheckboxes = ({ formats }) => (
   <div {...styles.checkboxes}>
     {formats.map((format, i) => (
-      <SubscribeDocumentCheckbox subscription={format.subscribedByMe} key={i} />
+      <SubscribeCheckbox subscription={format.subscribedByMe} key={i} />
     ))}
   </div>
 )
@@ -43,7 +43,7 @@ const getVisibleSections = (sections, prevShown = []) =>
       SECTIONS_ALWAYS_SHOWN.find(repoId => repoId === section.repoId)
   )
 
-const SubscribeDocuments = ({ t, data: { sections }, isMember }) => {
+const SubscribedDocuments = ({ t, data: { sections }, isMember }) => {
   const [showAll, setShowAll] = useState(false)
 
   const sectionNodes = sections && sections.nodes
@@ -74,13 +74,6 @@ const SubscribeDocuments = ({ t, data: { sections }, isMember }) => {
 
   return (
     <>
-      {!isMember && (
-        <Box style={{ margin: '10px 0', padding: 15 }}>
-          <Interaction.P>
-            {t('Notifications/settings/formats/noMembership')}
-          </Interaction.P>
-        </Box>
-      )}
       <Interaction.P style={{ marginBottom: 10 }}>
         {t.pluralize('Notifications/settings/formats/summary', {
           count: totalSubs
@@ -119,4 +112,4 @@ export default compose(
   withT,
   withMembership,
   graphql(possibleSubscriptions)
-)(SubscribeDocuments)
+)(SubscribedDocuments)

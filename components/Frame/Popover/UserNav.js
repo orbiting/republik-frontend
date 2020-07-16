@@ -35,6 +35,7 @@ const UserNav = ({
   closeHandler,
   t,
   inNativeApp,
+  inNativeIOSApp,
   isMember
 }) => {
   const [containerPadding, setContainerPadding] = useState()
@@ -72,7 +73,7 @@ const UserNav = ({
                   </div>
                 </>
               )}
-              {!isMember && !inNativeApp && (
+              {!isMember && !inNativeIOSApp && (
                 <Link route='pledge' passHref>
                   <Button style={{ marginTop: 24, marginBottom: 24 }} block>
                     {t('nav/becomemember')}
@@ -151,7 +152,7 @@ const UserNav = ({
                           {t('nav/share')}
                         </NavLink>
                       )}
-                      {!inNativeApp && (
+                      {!inNativeIOSApp && (
                         <NavLink
                           route='pledge'
                           params={{ group: 'GIVE' }}

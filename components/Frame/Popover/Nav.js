@@ -22,6 +22,7 @@ const Nav = ({
   closeHandler,
   t,
   inNativeApp,
+  inNativeIOSApp,
   isMember,
   onSearchSubmit
 }) => {
@@ -42,7 +43,7 @@ const Nav = ({
                 </div>
               </>
             )}
-            {!isMember && !inNativeApp && (
+            {!isMember && !inNativeIOSApp && (
               <Link route='pledge' passHref>
                 <Button style={{ marginTop: 24 }} block>
                   {t('nav/becomemember')}

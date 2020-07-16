@@ -29,7 +29,8 @@ const SubscribeAuthor = ({
       ) : showAuthorFilter ? (
         <>
           {subscriptions.map(subscription =>
-            (userHasNoDocuments && !subscription.filters.includes('Document')
+            (userHasNoDocuments &&
+            !(subscription.active && subscription.filters.includes('Document'))
               ? ['Comment']
               : ['Document', 'Comment']
             ).map(filter => (

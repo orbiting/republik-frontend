@@ -105,7 +105,7 @@ const SubscribedAuthors = ({
                   </div>
                   <div {...styles.checkbox}>
                     {(author.userDetails.documents.totalCount ||
-                    author.filters.includes('Document')
+                    (author.active && author.filters.includes('Document'))
                       ? ['Document', 'Comment']
                       : ['Comment']
                     ).map(filter => (

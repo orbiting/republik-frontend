@@ -123,7 +123,6 @@ export const SecondaryNav = ({
       ) : (
         secondaryNav && (
           <div
-            id='secondaryNav'
             {...styles.secondaryNav}
             style={{
               borderTop: `${isSecondarySticky ? 0 : 1}px solid ${

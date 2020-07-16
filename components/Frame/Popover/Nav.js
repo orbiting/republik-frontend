@@ -43,7 +43,7 @@ const Nav = ({
                 </div>
               </>
             )}
-            {!isMember && !inNativeIOSApp && (
+            {!me?.activeMembership && !inNativeIOSApp && (
               <Link route='pledge' passHref>
                 <Button style={{ marginTop: 24 }} block>
                   {t('nav/becomemember')}

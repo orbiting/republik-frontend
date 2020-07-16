@@ -370,9 +370,9 @@ const styles = {
     width: '100%',
     display: 'flex',
     justifyContent: 'flex-end',
-    height: HEADER_HEIGHT_MOBILE - 2,
+    height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT - 2
+      height: HEADER_HEIGHT
     },
     '@media print': {
       display: 'none'

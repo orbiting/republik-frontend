@@ -48,6 +48,7 @@ const styles = {
   }),
   closeButton: css({
     position: 'absolute',
+    marginTop: -2,
     right: 10,
     transition: `opacity ${TRANSITION_MS}ms ease-out`,
     [mediaQueries.mUp]: {

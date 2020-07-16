@@ -96,20 +96,19 @@ const Index = ({
   dark,
   hasOverviewNav
 }) => {
+  const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
   const padHeaderRule = useMemo(() => {
     return css({
-      paddingTop:
-        secondaryNav || hasOverviewNav
-          ? HEADER_HEIGHT_MOBILE + SUBHEADER_HEIGHT
-          : HEADER_HEIGHT_MOBILE - 1,
+      paddingTop: hasSecondaryNav
+        ? HEADER_HEIGHT_MOBILE + SUBHEADER_HEIGHT
+        : HEADER_HEIGHT_MOBILE - 1,
       [mediaQueries.mUp]: {
-        paddingTop:
-          secondaryNav || hasOverviewNav
-            ? HEADER_HEIGHT + SUBHEADER_HEIGHT
-            : HEADER_HEIGHT - 1
+        paddingTop: hasSecondaryNav
+          ? HEADER_HEIGHT + SUBHEADER_HEIGHT
+          : HEADER_HEIGHT - 1
       }
     })
-  }, [hasOverviewNav])
+  }, [hasSecondaryNav])
   return (
     <ColorContext.Provider value={dark && colors.negative}>
       <div

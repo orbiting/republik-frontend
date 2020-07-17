@@ -278,7 +278,13 @@ const Header = ({
             hasOverviewNav={hasOverviewNav}
             isSecondarySticky={headerOffset === -headerHeightState}
           />
-          <HLine formatColor={formatColor} dark={dark} />
+          <HLine
+            isHeaderFullyScrolledAway={headerOffset === -headerHeightState}
+            secondaryNav={secondaryNav}
+            hasOverviewNav={hasOverviewNav}
+            formatColor={formatColor}
+            dark={dark}
+          />
         </div>
         <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
           <NavPopover

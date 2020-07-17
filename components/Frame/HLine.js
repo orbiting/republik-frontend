@@ -1,16 +1,22 @@
 import React from 'react'
 import { css } from 'glamor'
-import { colors, mediaQueries } from '@project-r/styleguide'
+import { colors } from '@project-r/styleguide'
 
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  ZINDEX_POPOVER
-} from '../constants'
+import { ZINDEX_POPOVER } from '../constants'
 
-const HLine = ({ formatColor, dark }) => {
+const HLine = ({
+  formatColor,
+  dark,
+  isSecondarySticky,
+  secondaryNav,
+  hasOverviewNav
+}) => {
   const hrColor = dark ? colors.negative.divider : colors.divider
-  const hrColorStyle = { color: hrColor, backgroundColor: hrColor }
+  const hrColorStyle = {
+    color: hrColor,
+    backgroundColor: hrColor,
+    opacity: isSecondarySticky && !secondaryNav && !hasOverviewNav ? 0 : 1
+  }
   return (
     <hr
       {...styles.hr}

@@ -22,6 +22,7 @@ const Nav = ({
   closeHandler,
   t,
   inNativeApp,
+  inIOS,
   inNativeIOSApp,
   isMember,
   onSearchSubmit
@@ -105,7 +106,13 @@ const Nav = ({
             </div>
             <hr {...styles.hr} />
             <div {...styles.navSection}>
-              <div {...styles.navLinks}>
+              <div
+                {...styles.navLinks}
+                style={{
+                  // ensures last item is visible in iOS safari
+                  marginBottom: inIOS && !inNativeApp ? 64 : 24
+                }}
+              >
                 <NavLink
                   inline
                   large

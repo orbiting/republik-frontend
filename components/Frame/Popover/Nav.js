@@ -108,6 +108,7 @@ const Nav = ({
               <div
                 {...styles.navLinks}
                 {...css({
+                  // ensures last item is visible in iOS safari
                   marginBottom: inNativeApp ? 24 : 64,
                   [mediaQueries.mUp]: {
                     marginBottom: 24

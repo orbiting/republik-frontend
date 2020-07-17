@@ -105,7 +105,15 @@ const Nav = ({
             </div>
             <hr {...styles.hr} />
             <div {...styles.navSection}>
-              <div {...styles.navLinks}>
+              <div
+                {...styles.navLinks}
+                {...css({
+                  marginBottom: inNativeApp ? 24 : 64,
+                  [mediaQueries.mUp]: {
+                    marginBottom: 24
+                  }
+                })}
+              >
                 <NavLink
                   inline
                   large

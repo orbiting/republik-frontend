@@ -5,14 +5,14 @@ import { colors } from '@project-r/styleguide'
 import { ZINDEX_POPOVER } from '../constants'
 
 const HLine = ({ formatColor, dark }) => {
-  const hrColor = dark ? colors.negative.divider : colors.divider
+  const color = formatColor || (dark ? colors.negative.divider : colors.divider)
   return (
     <hr
       {...styles.hr}
-      {...styles[formatColor ? 'hrThick' : 'hrThin']}
       style={{
-        color: formatColor || hrColor,
-        backgroundColor: formatColor || hrColor
+        color,
+        backgroundColor: color,
+        height: formatColor ? 3 : 1
       }}
     />
   )
@@ -27,11 +27,5 @@ const styles = {
     border: 0,
     width: '100%',
     zIndex: ZINDEX_POPOVER + 2
-  }),
-  hrThin: css({
-    height: 1
-  }),
-  hrThick: css({
-    height: 3
   })
 }

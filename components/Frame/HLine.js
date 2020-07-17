@@ -4,30 +4,16 @@ import { colors } from '@project-r/styleguide'
 
 import { ZINDEX_POPOVER } from '../constants'
 
-const HLine = ({
-  formatColor,
-  dark,
-  isHeaderFullyScrolledAway,
-  secondaryNav,
-  hasOverviewNav
-}) => {
+const HLine = ({ formatColor, dark }) => {
   const hrColor = dark ? colors.negative.divider : colors.divider
-  const hrStyle = formatColor
-    ? {
-        color: formatColor,
-        backgroundColor: formatColor
-      }
-    : {
-        color: hrColor,
-        backgroundColor: hrColor,
-        opacity:
-          isHeaderFullyScrolledAway && !secondaryNav && !hasOverviewNav ? 0 : 1
-      }
   return (
     <hr
       {...styles.hr}
       {...styles[formatColor ? 'hrThick' : 'hrThin']}
-      style={hrStyle}
+      style={{
+        color: formatColor || hrColor,
+        backgroundColor: formatColor || hrColor
+      }}
     />
   )
 }

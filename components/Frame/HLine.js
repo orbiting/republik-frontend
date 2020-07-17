@@ -7,7 +7,7 @@ import { ZINDEX_POPOVER } from '../constants'
 const HLine = ({
   formatColor,
   dark,
-  isSecondarySticky,
+  isHeaderFullyScrolledAway,
   secondaryNav,
   hasOverviewNav
 }) => {
@@ -15,7 +15,8 @@ const HLine = ({
   const hrColorStyle = {
     color: hrColor,
     backgroundColor: hrColor,
-    opacity: isSecondarySticky && !secondaryNav && !hasOverviewNav ? 0 : 1
+    opacity:
+      isHeaderFullyScrolledAway && !secondaryNav && !hasOverviewNav ? 0 : 1
   }
   return (
     <hr

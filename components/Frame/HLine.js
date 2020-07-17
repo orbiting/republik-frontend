@@ -12,24 +12,22 @@ const HLine = ({
   hasOverviewNav
 }) => {
   const hrColor = dark ? colors.negative.divider : colors.divider
-  const hrColorStyle = {
-    color: hrColor,
-    backgroundColor: hrColor,
-    opacity:
-      isHeaderFullyScrolledAway && !secondaryNav && !hasOverviewNav ? 0 : 1
-  }
+  const hrStyle = formatColor
+    ? {
+        color: formatColor,
+        backgroundColor: formatColor
+      }
+    : {
+        color: hrColor,
+        backgroundColor: hrColor,
+        opacity:
+          isHeaderFullyScrolledAway && !secondaryNav && !hasOverviewNav ? 0 : 1
+      }
   return (
     <hr
       {...styles.hr}
       {...styles[formatColor ? 'hrThick' : 'hrThin']}
-      style={
-        formatColor
-          ? {
-              color: formatColor,
-              backgroundColor: formatColor
-            }
-          : hrColorStyle
-      }
+      style={hrStyle}
     />
   )
 }

@@ -208,7 +208,7 @@ export const myUserSubscriptions = gql`
 
 const notificationCountQuery = gql`
   query getNotificationCount {
-    notifications {
+    notifications(onlyUnread: true) {
       nodes {
         ...notificationInfo
       }

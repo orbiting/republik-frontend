@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-16T15:57:00.990Z",
+  "updated": "2020-07-20T14:15:43.551Z",
   "title": "live",
   "data": [
     {
@@ -3792,7 +3792,7 @@
     },
     {
       "key": "styleguide/video/dnt/player/youtube",
-      "value": "YouTube"
+      "value": "Youtube"
     },
     {
       "key": "styleguide/video/dnt/player/vimeo",

@@ -644,6 +644,7 @@ class ArticlePage extends Component {
         secondaryNav={seriesNavButton}
         formatColor={formatColor}
         hasOverviewNav={hasOverviewNav}
+        stickySecondaryNav={hasOverviewNav}
       >
         <Loader
           loading={data.loading}

@@ -54,7 +54,8 @@ const Header = ({
   pullable = true,
   hasOverviewNav,
   children,
-  cover
+  cover,
+  stickySecondaryNav
 }) => {
   const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
   const [expandedNav, setExpandedNav] = useState(null)
@@ -179,13 +180,18 @@ const Header = ({
     ]
   }, [hasOverviewNav, secondaryNav, headerOffset])
 
+  const navBarSecondaryHeight = stickySecondaryNav ? 0 : SUBHEADER_HEIGHT
+
   return (
     <HeaderHeightProvider config={headerConfig}>
       <ColorContext.Provider value={dark ? colors.negative : colors}>
         <div
           {...styles.navBar}
           style={{
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff',
+            height: isMobile
+              ? HEADER_HEIGHT_MOBILE + navBarSecondaryHeight
+              : HEADER_HEIGHT + navBarSecondaryHeight
           }}
           ref={fixedRef}
         >
@@ -340,15 +346,11 @@ export default compose(
 
 const styles = {
   navBar: css({
-    height: HEADER_HEIGHT_MOBILE,
     zIndex: ZINDEX_POPOVER + 1,
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
-    },
     '@media print': {
       position: 'absolute'
     }

@@ -96,7 +96,8 @@ const Index = ({
   pullable,
   dark,
   isMember,
-  hasOverviewNav: wantOverviewNav
+  hasOverviewNav: wantOverviewNav,
+  stickySecondaryNav
 }) => {
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
@@ -139,6 +140,7 @@ const Index = ({
             formatColor={formatColor}
             pullable={pullable}
             hasOverviewNav={hasOverviewNav}
+            stickySecondaryNav={stickySecondaryNav}
           >
             <noscript>
               <Box style={{ padding: 30 }}>

@@ -33,6 +33,8 @@ const NotificationFeedMini = ({
 }) => {
   return (
     <Loader
+      style={{ minHeight: 60 }}
+      delay={200}
       loading={loading}
       error={error}
       render={() => {

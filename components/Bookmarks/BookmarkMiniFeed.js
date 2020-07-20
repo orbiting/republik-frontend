@@ -18,6 +18,8 @@ import { getBookmarkedDocuments } from './queries'
 const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
   return (
     <Loader
+      style={{ minHeight: 130 }}
+      delay={200}
       loading={data.loading}
       error={data.error}
       render={() => {

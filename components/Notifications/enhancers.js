@@ -32,7 +32,7 @@ export const subInfo = gql`
 
 export const notificationsMiniQuery = gql`
   query getNotificationsMini {
-    notifications(first: 3) {
+    notifications(first: 3, onlyUnread: true) {
       nodes {
         id
         readAt

@@ -374,14 +374,7 @@ const styles = {
     marginLeft: 'auto',
     width: '100%',
     display: 'flex',
-    justifyContent: 'flex-end',
-    height: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
-    },
-    '@media print': {
-      display: 'none'
-    }
+    justifyContent: 'flex-end'
   }),
   back: css({
     display: 'block',

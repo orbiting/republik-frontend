@@ -374,7 +374,10 @@ const styles = {
     marginLeft: 'auto',
     width: '100%',
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    '@media print': {
+      display: 'none'
+    }
   }),
   back: css({
     display: 'block',

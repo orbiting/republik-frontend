@@ -3,9 +3,24 @@ import PropTypes from 'prop-types'
 import ActionBar from './'
 import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
+import { css } from 'glamor'
 
 import { fontStyles, plainButtonRule } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
+
+const styles = {
+  grandSharing: css({
+    marginBottom: 20,
+    marginTop: 20,
+    '@media print': {
+      display: 'none'
+    }
+  }),
+  grandSharingTitle: css({
+    marginBottom: 0,
+    ...fontStyles.sansSerifMedium16
+  })
+}
 
 const ArticleActionBar = (
   {
@@ -102,10 +117,8 @@ const ArticleActionBar = (
         />
       )}
       {!!grandSharing && (
-        <div style={{ marginBottom: 20, marginTop: 20 }}>
-          <h3 style={{ marginBottom: 0, ...fontStyles.sansSerifMedium16 }}>
-            {t('article/share/title')}
-          </h3>
+        <div {...styles.grandSharing}>
+          <h3 {...styles.grandSharingTitle}>{t('article/share/title')}</h3>
           <ShareButtons
             url={url}
             pocket

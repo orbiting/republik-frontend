@@ -190,6 +190,9 @@ const styles = {
           paddingRight: 0
         }
       }
+    },
+    '@media print': {
+      display: 'none'
     }
   }),
   linkItem: css({

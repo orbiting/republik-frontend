@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import Index from '../components/Sections/Index'
-import { enforceMembership } from '../components/Auth/withMembership'
 import withT from '../lib/withT'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
@@ -16,7 +15,7 @@ const FormatsPage = ({ t }) => {
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
   return (
-    <Frame hasOverviewNav={true} raw meta={meta}>
+    <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
       <Center style={{ marginTop: 20, marginBottom: 60 }}>
         <Index />
       </Center>
@@ -24,7 +23,4 @@ const FormatsPage = ({ t }) => {
   )
 }
 
-export default compose(
-  // enforceMembership(),
-  withT
-)(FormatsPage)
+export default compose(withT)(FormatsPage)

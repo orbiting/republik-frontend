@@ -54,19 +54,21 @@ const Header = ({
   pullable = true,
   hasOverviewNav,
   children,
-  cover
+  cover,
+  stickySecondaryNav
 }) => {
   const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
   const [expandedNav, setExpandedNav] = useState(null)
   const [isMobile, setIsMobile] = useState()
-  const [headerHeightState, setHeaderHeightState] = useState()
+  const [scrollableHeaderHeight, setScrollableHeaderHeight] = useState(
+    HEADER_HEIGHT_MOBILE
+  )
   const [headerOffset, setHeaderOffset] = useState(0)
   const [userNavExpanded, setUserNavExpanded] = useState(false)
 
   const fixedRef = useRef()
   const diff = useRef(0)
   const lastY = useRef()
-  const headerHeight = useRef()
   const lastDiff = useRef()
 
   const dark = darkProp && !isAnyNavExpanded
@@ -124,7 +126,7 @@ const Header = ({
         const newDiff = lastY.current ? lastY.current - y : 0
         diff.current += newDiff
         diff.current = Math.min(
-          Math.max(-headerHeight.current, diff.current),
+          Math.max(-scrollableHeaderHeight, diff.current),
           0
         )
       }
@@ -143,11 +145,6 @@ const Header = ({
       if (mobile !== isMobile) {
         setIsMobile(mobile)
       }
-      const { height } = fixedRef.current.getBoundingClientRect()
-      headerHeight.current = height
-      if (height !== headerHeightState) {
-        setHeaderHeightState(height)
-      }
       onScroll()
     }
 
@@ -158,26 +155,37 @@ const Header = ({
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', measure)
     }
-  }, [isAnyNavExpanded, headerHeightState, isMobile])
+  }, [isAnyNavExpanded, scrollableHeaderHeight, isMobile])
 
+  const hasSecondaryNav = hasOverviewNav || secondaryNav
   const headerConfig = useMemo(() => {
     return [
       {
         minWidth: 0,
         headerHeight:
           HEADER_HEIGHT_MOBILE +
-          (hasOverviewNav || secondaryNav ? SUBHEADER_HEIGHT : 0) +
+          (hasSecondaryNav ? SUBHEADER_HEIGHT : 0) +
           headerOffset
       },
       {
         minWidth: mediaQueries.mBreakPoint,
         headerHeight:
           HEADER_HEIGHT +
-          (hasOverviewNav || secondaryNav ? SUBHEADER_HEIGHT : 0) +
+          (hasSecondaryNav ? SUBHEADER_HEIGHT : 0) +
           headerOffset
       }
     ]
-  }, [hasOverviewNav, secondaryNav, headerOffset])
+  }, [hasSecondaryNav, headerOffset])
+
+  const hasStickySecondary = hasSecondaryNav && stickySecondaryNav
+  useEffect(() => {
+    setScrollableHeaderHeight(
+      (isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) +
+        (hasSecondaryNav && !hasStickySecondary ? SUBHEADER_HEIGHT : 0) +
+        // scroll away thin HLine
+        (formatColor || hasStickySecondary ? 0 : 1)
+    )
+  }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
 
   return (
     <HeaderHeightProvider config={headerConfig}>
@@ -256,7 +264,6 @@ const Header = ({
                 <Toggle
                   expanded={isAnyNavExpanded}
                   dark={dark}
-                  size={28}
                   title={t(
                     `header/nav/${
                       expandedNav === 'main' ? 'close' : 'open'
@@ -276,14 +283,9 @@ const Header = ({
             dark={dark}
             formatColor={formatColor}
             hasOverviewNav={hasOverviewNav}
-            isSecondarySticky={headerOffset === -headerHeightState}
+            isSecondarySticky={headerOffset === -scrollableHeaderHeight}
           />
-          {formatColor ||
-          secondaryNav ||
-          hasOverviewNav ||
-          headerOffset !== -headerHeightState ? (
-            <HLine formatColor={formatColor} dark={dark} />
-          ) : null}
+          <HLine formatColor={formatColor} dark={dark} />
         </div>
         <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
           <NavPopover
@@ -341,14 +343,14 @@ export default compose(
 const styles = {
   navBar: css({
     height: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT
+    },
     zIndex: ZINDEX_POPOVER + 1,
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
-    },
     '@media print': {
       position: 'absolute'
     }
@@ -373,10 +375,6 @@ const styles = {
     width: '100%',
     display: 'flex',
     justifyContent: 'flex-end',
-    height: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
-    },
     '@media print': {
       display: 'none'
     }

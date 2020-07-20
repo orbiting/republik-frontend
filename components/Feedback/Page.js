@@ -85,6 +85,7 @@ const FeedbackPage = props => {
       raw
       meta={pageMeta}
       formatColor={colors.primary}
+      stickySecondaryNav={!tab}
     >
       <FontSizeSync />
       <Center {...styles.container}>

@@ -16,8 +16,4 @@ const FeedPage = ({ me, t }) => {
   return <Feed meta={meta} />
 }
 
-export default compose(
-  enforceMembership(),
-  withMe,
-  withT
-)(FeedPage)
+export default compose(enforceMembership(), withMe, withT)(FeedPage)

@@ -226,8 +226,8 @@ export default compose(
             <A href='mailto:bewerbung@republik.ch'>bewerbung@republik.ch</A>.
           </P>
           <P>
-            Deine Bewerbung sollte einen Lebenslauf und (ein Portfolio, ein
-            Github-Profil oder einen Blog) beinhalten. Es ist keine formale
+            Deine Bewerbung sollte einen Lebenslauf und ein Portfolio, ein
+            Github-Profil oder einen Blog beinhalten. Es ist keine formale
             Ausbildung zwingend: Wir interessieren uns für dich, ganz egal, ob
             du einen Master hast oder du dir alles selbst beigebracht hast. Das
             Wichtigste ist, dass du das beste digitale Magazin der Schweiz mit

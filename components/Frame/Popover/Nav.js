@@ -132,14 +132,6 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   large
-                  route='meta'
-                  active={active}
-                  closeHandler={closeHandler}
-                >
-                  {t('nav/meta')}
-                </NavLink>
-                <NavLink
-                  large
                   route='legal/imprint'
                   active={active}
                   closeHandler={closeHandler}

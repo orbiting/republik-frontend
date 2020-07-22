@@ -18,7 +18,6 @@
     "translations-raw": "gsheets --key=1a-8RESf0Yjo2Mu15Q4SGWTmnY3ifuFbCVSD7WyYRhT0 --title=live --pretty --out lib/translations.json",
     "translations": "npm run translations-raw && git add -p lib/translations.json && git checkout -- lib/translations.json",
     "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
-    "meta-gallery": "gsheets --key=1lN4fGI7yHWoWewEbdpaRDWqysAOvO0Xtd1cdImIKG3Q --title=gallery --pretty --out lib/meta/gallery.json",
     "analyze": "ANALYZE=true next build",
     "sg:link": "./scripts/sg_link.sh",
     "sg:unlink": "./scripts/sg_unlink.sh"

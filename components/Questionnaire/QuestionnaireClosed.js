@@ -37,9 +37,7 @@ export default compose(
           {submitted
             ? t.elements('questionnaire/thankyou', {
                 metaLink: (
-                  <Link key='meta' route='/verlag' passHref>
-                    <A>{t('questionnaire/thankyou/metaText')}</A>
-                  </Link>
+                  <A href='/meta'>{t('questionnaire/thankyou/metaText')}</A>
                 )
               })
             : t('questionnaire/ended')}

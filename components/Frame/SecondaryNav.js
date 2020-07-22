@@ -16,6 +16,12 @@ import {
 
 const sections = [
   {
+    title: 'Meta',
+    path: '/meta',
+    color: '#000',
+    kind: null
+  },
+  {
     title: 'Briefings',
     path: '/briefings',
     color: '#07809a',

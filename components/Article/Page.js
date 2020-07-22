@@ -108,7 +108,10 @@ const getSchemaCreator = template => {
   const schema = schemaCreators[key]
 
   if (!schema) {
-    throw new Error(`Unkown Schema ${key}`)
+    try {
+      console.error(`Unkown Schema ${key}`)
+    } catch (e) {}
+    return () => {}
   }
   return schema
 }
@@ -650,7 +653,7 @@ class ArticlePage extends Component {
           loading={data.loading}
           error={data.error}
           render={() => {
-            if (!article) {
+            if (!article || !schema) {
               return (
                 <StatusError
                   statusCode={404}

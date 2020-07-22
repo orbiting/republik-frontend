@@ -382,9 +382,9 @@ Sie haben die Revisionsstelle im Sommer 2019 bestätigt, und damit konnte diese 
                 )}
                 {actionBar}
                 <P>
-                  <Link route='meta' passHref>
-                    <a {...linkRule}>{vt('vote/201912/back')}</a>
-                  </Link>
+                  <a href='/meta' {...linkRule}>
+                    {vt('vote/201912/back')}
+                  </a>
                 </P>
               </Fragment>
             )
@@ -451,7 +451,4 @@ const query = gql`
   }
 `
 
-export default compose(
-  voteT,
-  graphql(query)
-)(VotePage)
+export default compose(voteT, graphql(query))(VotePage)

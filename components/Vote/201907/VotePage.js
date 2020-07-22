@@ -270,9 +270,9 @@ class VotePage extends Component {
                 )}
                 {actionBar}
                 <P>
-                  <Link route='meta' passHref>
-                    <a {...linkRule}>{vt('vote/201907/back')}</a>
-                  </Link>
+                  <a href='/meta' {...linkRule}>
+                    {vt('vote/201907/back')}
+                  </a>
                 </P>
               </Fragment>
             )
@@ -339,7 +339,4 @@ const query = gql`
   }
 `
 
-export default compose(
-  voteT,
-  graphql(query)
-)(VotePage)
+export default compose(voteT, graphql(query))(VotePage)

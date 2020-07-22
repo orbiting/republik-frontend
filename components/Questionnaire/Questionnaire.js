@@ -109,7 +109,7 @@ class Questionnaire extends Component {
       }
     } = this.props
     this.processSubmit(submitQuestionnaire, id).then(() =>
-      Router.pushRoute('/verlag').then(() => window.scrollTo(0, 0))
+      Router.pushRoute('/meta').then(() => window.scrollTo(0, 0))
     )
   }
 

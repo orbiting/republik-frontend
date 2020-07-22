@@ -54,7 +54,7 @@ const getSections = gql`
           color
           kind
         }
-        formats: linkedDocuments(feed: true) {
+        formats: linkedDocuments {
           nodes {
             id
             meta {
@@ -134,7 +134,4 @@ const SectionIndex = ({ data: { loading, error, sections }, t }) => {
   )
 }
 
-export default compose(
-  withT,
-  graphql(getSections)
-)(SectionIndex)
+export default compose(withT, graphql(getSections))(SectionIndex)

@@ -167,8 +167,7 @@ class ActionBar extends Component {
           trackEvent(['ActionBar', 'gallery', url])
           onGalleryClick && onGalleryClick()
         },
-        title: t('feed/actionbar/gallery'),
-        size: 23
+        title: t('feed/actionbar/gallery')
       }
     ]
 

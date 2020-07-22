@@ -2,75 +2,77 @@ import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
-import { mediaQueries, colors, useColorContext } from '@project-r/styleguide'
+import { colors, useColorContext } from '@project-r/styleguide'
 
-import ChartIcon from './Icons/Chart'
-import TimeIcon from './Icons/Time'
 import ShareIOSIcon from './Icons/ShareIOS'
 import FontSizeIcon from './Icons/FontSize'
-import LinkIcon from './Icons/Web'
-import VideoIcon from './Icons/Video'
 import MarkdownIcon from './Icons/Markdown'
 import EtiquetteIcon from './Icons/Etiquette'
+import MdInsertChartOutlined from './Icons/MdInsertChartOutlined'
+import MdCollectionsOutlined from './Icons/MdCollectionsOutlined'
+import Spotify from './Icons/Spotify'
+import Pocket from './Icons/Pocket'
 
 import {
   MdVolumeUp,
   MdChatBubbleOutline,
   MdFileDownload,
-  MdFilter,
   MdLink,
   MdMailOutline,
+  MdMail,
   MdPictureAsPdf,
-  MdShare,
   MdLaunch,
   MdRssFeed,
-  MdPlayCircleOutline
+  MdPlayCircleOutline,
+  MdSlideshow,
+  MdSchedule,
+  MdLanguage,
+  MdFolderOpen,
+  MdCreate,
+  MdVpnKey,
+  MdNoteAdd
 } from 'react-icons/md'
+
 import {
-  FaFacebookF,
-  FaFolderOpen,
-  FaTwitter,
-  FaWhatsapp,
-  FaGetPocket,
-  FaKey,
-  FaEdit,
-  FaSpotify,
-  FaGoogle,
-  FaApple,
-  FaNotesMedical
-} from 'react-icons/fa'
+  IoLogoFacebook,
+  IoLogoTwitter,
+  IoLogoWhatsapp,
+  IoLogoGoogle,
+  IoLogoApple
+} from 'react-icons/io'
 
 const ICONS = {
   copyLink: MdLink,
   audio: MdVolumeUp,
-  chart: ChartIcon,
+  chart: MdInsertChartOutlined,
   discussion: MdChatBubbleOutline,
   download: MdFileDownload,
-  facebook: FaFacebookF,
-  dossier: FaFolderOpen,
-  link: LinkIcon,
+  facebook: IoLogoFacebook,
+  dossier: MdFolderOpen,
+  link: MdLanguage,
   mail: MdMailOutline,
+  mailFilled: MdMail,
   markdown: MarkdownIcon,
-  share: MdShare,
+  share: ShareIOSIcon,
   shareIOS: ShareIOSIcon,
-  twitter: FaTwitter,
-  whatsapp: FaWhatsapp,
-  pocket: FaGetPocket,
-  key: FaKey,
+  twitter: IoLogoTwitter,
+  whatsapp: IoLogoWhatsapp,
+  pocket: Pocket,
+  key: MdVpnKey,
   pdf: MdPictureAsPdf,
-  gallery: MdFilter,
-  time: TimeIcon,
-  video: VideoIcon,
+  gallery: MdCollectionsOutlined,
+  time: MdSchedule,
+  video: MdSlideshow,
   etiquette: EtiquetteIcon,
   fontSize: FontSizeIcon,
-  edit: FaEdit,
+  edit: MdCreate,
   launch: MdLaunch,
   rss: MdRssFeed,
   play: MdPlayCircleOutline,
-  spotify: FaSpotify,
-  google: FaGoogle,
-  apple: FaApple,
-  notesMedical: FaNotesMedical
+  spotify: Spotify,
+  google: IoLogoGoogle,
+  apple: IoLogoApple,
+  notesMedical: MdNoteAdd
 }
 
 const DEFAULT_SIZE = 24
@@ -82,16 +84,9 @@ const stackedStyle = {
   alignItems: 'center'
 }
 
-const mobileOnlyStyle = {
-  [mediaQueries.mUp]: {
-    display: 'none'
-  }
-}
-
-const getExtraStyles = (mobileOnly, stacked) => {
+const getExtraStyles = stacked => {
   return css({
-    ...(stacked && stackedStyle),
-    ...(mobileOnly && mobileOnlyStyle)
+    ...(stacked && stackedStyle)
   })
 }
 
@@ -112,7 +107,6 @@ export const styles = {
     display: 'inline-block',
     maxWidth: '100%',
     textDecoration: 'none',
-    verticalAlign: 'middle',
     whiteSpace: 'nowrap',
     paddingLeft: DEFAULT_PADDING,
     paddingRight: DEFAULT_PADDING,
@@ -147,11 +141,6 @@ export const styles = {
     overflow: 'hidden',
     marginTop: 5
   }),
-  mobileOnly: css({
-    [mediaQueries.mUp]: {
-      display: 'none'
-    }
-  }),
   solid: css({
     position: 'absolute',
     top: 0.5,
@@ -173,7 +162,6 @@ const IconLink = ({
   icon,
   children,
   size = DEFAULT_SIZE,
-  mobileOnly,
   style,
   title,
   onClick,
@@ -213,7 +201,7 @@ const IconLink = ({
   return (
     <a
       {...styles.link}
-      {...getExtraStyles(mobileOnly, stacked)}
+      {...getExtraStyles(stacked)}
       href={href}
       onClick={onClick}
       style={style}

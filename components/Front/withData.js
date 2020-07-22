@@ -4,12 +4,17 @@ import { TeaserActiveDebates } from '@project-r/styleguide/lib/components/Teaser
 
 const feedQuery = gql`
   query getFrontFeed(
+    $specificRepoIds: [ID!]
     $filters: [SearchGenericFilterInput!]
     $minPublishDate: DateRangeInput
   ) {
     feed: search(
       filters: $filters
-      filter: { feed: true, publishedAt: $minPublishDate }
+      filter: {
+        feed: true
+        publishedAt: $minPublishDate
+        repoIds: $specificRepoIds
+      }
       sort: { key: publishedAt, direction: DESC }
     ) {
       totalCount
@@ -53,12 +58,15 @@ export const withFeedData = graphql(feedQuery, {
   options: ({
     priorRepoIds,
     excludeRepoIds: excludeRepoIdsCS = '',
+    specificRepoIds = [],
     minPublishDate,
     lastPublishedAt
   }) => {
     const excludeRepoIds = [
       ...priorRepoIds,
-      ...excludeRepoIdsCS.split(',')
+      ...(typeof excludeRepoIdsCS === 'string'
+        ? excludeRepoIdsCS.split(',')
+        : excludeRepoIdsCS)
     ].filter(Boolean)
 
     let from =
@@ -68,22 +76,24 @@ export const withFeedData = graphql(feedQuery, {
         : undefined)
 
     return {
-      variables: {
-        minPublishDate: from && {
-          from
-        },
-        filters: [
-          { key: 'template', not: true, value: 'section' },
-          { key: 'template', not: true, value: 'format' },
-          { key: 'template', not: true, value: 'front' }
-        ].concat(
-          excludeRepoIds.map(repoId => ({
-            key: 'repoId',
-            not: true,
-            value: repoId
-          }))
-        )
-      }
+      variables: specificRepoIds.filter(Boolean).length
+        ? { specificRepoIds }
+        : {
+            minPublishDate: from && {
+              from
+            },
+            filters: [
+              { key: 'template', not: true, value: 'section' },
+              { key: 'template', not: true, value: 'format' },
+              { key: 'template', not: true, value: 'front' }
+            ].concat(
+              excludeRepoIds.map(repoId => ({
+                key: 'repoId',
+                not: true,
+                value: repoId
+              }))
+            )
+          }
     }
   }
 })

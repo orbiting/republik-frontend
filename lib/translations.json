@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-20T14:15:43.551Z",
+  "updated": "2020-07-22T17:26:42.824Z",
   "title": "live",
   "data": [
     {
@@ -29,10 +29,6 @@
     {
       "key": "nav/community",
       "value": "Community"
-    },
-    {
-      "key": "nav/meta",
-      "value": "Verlag"
     },
     {
       "key": "nav/team",

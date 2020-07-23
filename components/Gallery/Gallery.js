@@ -70,7 +70,14 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
         item.w = maxWidth
         item.h = aspectRatio * maxWidth
       })
-      gallery.listen('close', onClose)
+      gallery.listen('close', () => {
+        // workaround bug opening nav when closing gallery on touch devices
+        // - defer onClose one render frame (1000ms/30frames)
+        // - othwise the component would already be unmounted when the click reaches the React event system and trigger a event on whatever is underneath
+        setTimeout(() => {
+          onClose()
+        }, 33)
+      })
       gallery.init()
     }
   }, [items])

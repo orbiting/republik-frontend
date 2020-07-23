@@ -578,7 +578,7 @@ class CustomizePackage extends Component {
             {text}
           </P>
         ))}
-        {pkg.name === 'ABO_GIVE' && (
+        {pkg.name === 'ABO_GIVE' && accessGrantedOnly && (
           <div {...styles.smallP} style={{ marginTop: -5, marginBottom: 15 }}>
             <Editorial.A
               href={format({

@@ -157,7 +157,7 @@ const SectionNav = ({
                 if (!formats.nodes.length) {
                   // Serien
                   return (
-                    <div {...styles.sectionLink}>
+                    <div key={id} {...styles.sectionLink}>
                       <NavLink
                         dark={dark}
                         route={match.route}

@@ -215,7 +215,7 @@ class Form extends Component {
               </Button>
             )}
             <br />
-            {campaign.slots.free > 1 && (
+            {campaign.slots.free > 1 && campaign.slots.free < 10 && (
               <Label>
                 {t.pluralize('Account/Access/Campaigns/Form/freeSlots', {
                   count: campaign.slots.free

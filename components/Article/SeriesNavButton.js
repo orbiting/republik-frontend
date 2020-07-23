@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import SeriesNavPanel from './SeriesNavPanel'
+import { cleanAsPath } from '../../lib/routes'
 
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 
@@ -84,8 +85,9 @@ const SeriesNavButton = ({ t, series, router }) => {
   const [headerHeight] = useHeaderHeight()
 
   const episodes = series && series.episodes
+  const currentPath = cleanAsPath(router.asPath)
   const currentEpisode = episodes.find(
-    episode => episode.document && episode.document.meta.path === router.asPath
+    episode => episode.document && episode.document.meta.path === currentPath
   )
 
   return (

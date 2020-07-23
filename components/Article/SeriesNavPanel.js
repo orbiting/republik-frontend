@@ -6,6 +6,7 @@ import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
 import PathLink from '../Link/Path'
+import { cleanAsPath } from '../../lib/routes'
 
 import {
   Editorial,
@@ -95,7 +96,7 @@ const EpisodeLink = withRouter(
         </div>
       )
     }
-    if (router.asPath === path) {
+    if (cleanAsPath(router.asPath) === path) {
       return (
         <div {...styles.base} {...styles.current}>
           <LinkContent episode={episode} index={index} t={t} />

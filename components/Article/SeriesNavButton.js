@@ -85,7 +85,7 @@ const SeriesNavButton = ({ t, series, router }) => {
 
   const episodes = series && series.episodes
   const currentEpisode = episodes.find(
-    episode => episode.document.meta.path === router.asPath
+    episode => episode.document && episode.document.meta.path === router.asPath
   )
 
   return (

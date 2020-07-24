@@ -70,7 +70,7 @@ const ActionBar = ({
     indicateGallery && {
       icon: 'gallery',
       title: t('feed/actionbar/gallery'),
-      size: 20,
+      size: 24,
       color: colors.text
     },
     hasAudio && {
@@ -88,8 +88,7 @@ const ActionBar = ({
     indicateChart && {
       icon: 'chart',
       title: t('feed/actionbar/chart'),
-      size: 18,
-      style: { marginTop: '-2px' }
+      size: 24
     }
   ]
 

@@ -81,7 +81,7 @@ const ShareButtons = ({
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
       )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
-      icon: 'mail',
+      icon: 'mailFilled',
       title: t('article/actionbar/email/title'),
       label: t('article/actionbar/email/label')
     },

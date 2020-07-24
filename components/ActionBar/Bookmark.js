@@ -37,7 +37,7 @@ const styles = {
 const BookmarkIcon = ({ error, mutating, bookmarked, small }) => {
   const [colorScheme] = useColorContext()
   const Icon = bookmarked ? MdBookmark : MdBookmarkBorder
-  const size = small ? 23 : 27
+  const size = small ? 24 : 27
 
   return (
     <Icon

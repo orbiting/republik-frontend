@@ -70,14 +70,8 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
         item.w = maxWidth
         item.h = aspectRatio * maxWidth
       })
-      gallery.listen('close', () => {
-        // workaround bug opening nav when closing gallery on touch devices
-        // - defer onClose one render frame (1000ms/30frames)
-        // - othwise the component would already be unmounted when the click reaches the React event system and trigger a event on whatever is underneath
-        setTimeout(() => {
-          onClose()
-        }, 33)
-      })
+      gallery.listen('close', e => console.log('close', e))
+      gallery.listen('pswpTap', e => console.log('tap', e, e.detail))
       gallery.init()
     }
   }, [items])

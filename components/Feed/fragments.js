@@ -22,6 +22,10 @@ export const documentFragment = `
       indicateVideo
       audioSource {
         mp3
+        aac
+        ogg
+        mediaId
+        durationMs
       }
       dossier {
         id

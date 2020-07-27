@@ -43,6 +43,10 @@ const getFeedDocuments = gql`
           indicateVideo
           audioSource {
             mp3
+            aac
+            ogg
+            mediaId
+            durationMs
           }
           ownDiscussion {
             id

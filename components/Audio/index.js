@@ -39,6 +39,10 @@ export const AudioProvider = ({ children, t }) => {
 
   useEffect(() => {
     setAudioPlayerVisible(!!audioState)
+    // ensure auto play is disabled when e.g. closed through another tab (local storage sync)
+    if (!audioState) {
+      setAutoPlayActive(false)
+    }
   }, [audioState])
 
   return (

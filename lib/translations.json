@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-22T17:26:42.824Z",
+  "updated": "2020-07-28T08:06:04.949Z",
   "title": "live",
   "data": [
     {
@@ -4579,6 +4579,10 @@
       "value": "Lesezeichen hinzufügen"
     },
     {
+      "key": "bookmark/label",
+      "value": "Merken"
+    },
+    {
       "key": "pages/bookmarks/title",
       "value": "Lesezeichen"
     },
@@ -6651,8 +6655,8 @@
       "value": "Allgemeine Einstellungen"
     },
     {
-      "key": "SubscribeAuthor/title",
-      "value": "Profil abonnieren"
+      "key": "SubscribeMenu/title",
+      "value": "Folgen"
     },
     {
       "key": "SubscribeDocument/title",

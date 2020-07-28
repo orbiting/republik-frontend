@@ -1,47 +1,66 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { css } from 'glamor'
+import React, { Component, useState } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { withMembership } from '../Auth/checkRoles'
-import withT from '../../lib/withT'
-import { styles as iconLinkStyles } from '../IconLink'
+import { withRouter } from 'next/router'
 import { MdBookmark, MdBookmarkBorder } from 'react-icons/md'
 import { useColorContext } from '@project-r/styleguide'
-import { withRouter } from 'next/router'
 
+import { withMembership } from '../Auth/checkRoles'
+import withT from '../../lib/withT'
+import IconButton from '../IconButton'
 import {
   onDocumentFragment,
   BOOKMARKS_COLLECTION_NAME
 } from '../Bookmarks/fragments'
-
 import { getBookmarkedDocuments } from '../Bookmarks/queries'
 
-const styles = {
-  button: css({
-    outline: 'none',
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    padding: 0,
-    cursor: 'pointer',
-    marginBottom: '-1px',
-    '@media(hover)': {
-      '&:hover': {
-        opacity: 0.6
-      }
-    }
-  })
-}
-
-const BookmarkIcon = ({ error, mutating, bookmarked, small }) => {
+const Bookmark = ({
+  t,
+  bookmarked,
+  isMember,
+  addDocumentToCollection,
+  removeDocumentFromCollection,
+  documentId,
+  skipRefetch,
+  router,
+  label
+}) => {
+  const [mutating, setMutating] = useState(false)
+  const [error, setError] = useState(undefined)
   const [colorScheme] = useColorContext()
   const Icon = bookmarked ? MdBookmark : MdBookmarkBorder
-  const size = small ? 24 : 27
+
+  const toggle = () => {
+    if (mutating) {
+      return
+    }
+    setMutating(true)
+    const mutate = bookmarked
+      ? removeDocumentFromCollection
+      : addDocumentToCollection
+    mutate(documentId, !skipRefetch && router.route !== '/bookmarks')
+      .then(() => {
+        setMutating(false)
+        setError(undefined)
+      })
+      .catch(() => {
+        setMutating(false)
+        setError(true)
+      })
+  }
+
+  const title = t(`bookmark/title/${bookmarked ? 'bookmarked' : 'default'}`)
+
+  if (!isMember) {
+    return null
+  }
 
   return (
-    <Icon
-      size={size}
+    <IconButton
+      Icon={Icon}
+      title={title}
+      label={label}
+      onClick={() => toggle()}
       fill={
         error
           ? colorScheme.error
@@ -51,91 +70,6 @@ const BookmarkIcon = ({ error, mutating, bookmarked, small }) => {
       }
     />
   )
-}
-
-class Bookmark extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      mutating: false
-    }
-
-    this.toggle = () => {
-      const { bookmarked } = this.props
-      const { mutating } = this.state
-      if (mutating) {
-        return
-      }
-      this.setState({
-        mutating: true
-      })
-      const {
-        addDocumentToCollection,
-        removeDocumentFromCollection,
-        documentId
-      } = this.props
-      const mutate = bookmarked
-        ? removeDocumentFromCollection
-        : addDocumentToCollection
-      mutate(
-        documentId,
-        !this.props.skipRefetch && this.props.router.route !== '/bookmarks'
-      )
-        .then(this.finish)
-        .catch(this.catchServerError)
-    }
-
-    this.finish = () => {
-      this.setState({
-        mutating: false,
-        error: undefined
-      })
-    }
-
-    this.catchServerError = () => {
-      this.setState({
-        mutating: false,
-        error: true
-      })
-    }
-  }
-
-  render() {
-    const { t, style, small, isMember, bookmarked } = this.props
-    if (!isMember) {
-      return null
-    }
-    const { mutating, error } = this.state
-    const title = t(`bookmark/title/${bookmarked ? 'bookmarked' : 'default'}`)
-
-    return (
-      <button
-        {...iconLinkStyles.link}
-        {...styles.button}
-        style={style}
-        title={title}
-        onClick={this.toggle}
-      >
-        <BookmarkIcon
-          small={small}
-          bookmarked={bookmarked}
-          error={error}
-          mutating={mutating}
-        />
-      </button>
-    )
-  }
-}
-
-Bookmark.propTypes = {
-  t: PropTypes.func.isRequired,
-  bookmarked: PropTypes.bool,
-  small: PropTypes.bool,
-  style: PropTypes.object,
-  documentId: PropTypes.string.isRequired,
-  addDocumentToCollection: PropTypes.func.isRequired,
-  removeDocumentFromCollection: PropTypes.func.isRequired
 }
 
 const addMutation = gql`

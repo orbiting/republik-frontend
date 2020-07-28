@@ -4,6 +4,8 @@ import { withRouter } from 'next/router'
 
 import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
+import ActionBarNew from '../ActionBarNew'
+
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
@@ -43,7 +45,6 @@ import { userProgressFragment } from './Progress/api'
 import PodcastButtons from './PodcastButtons'
 
 import {
-  AudioPlayer,
   Center,
   ColorContext,
   colors,
@@ -54,7 +55,6 @@ import {
   Editorial
 } from '@project-r/styleguide'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import { renderMdast } from 'mdast-react-render'
@@ -503,40 +503,49 @@ class ArticlePage extends Component {
     const hasPdf = meta && meta.template === 'article'
     const isEditorialNewsletter =
       meta && meta.template === 'editorialNewsletter'
-    const actionBar = meta && (
-      <ArticleActionBar
+    const actionBar = true ? (
+      <ActionBarNew
+        mode='article-top'
         t={t}
-        url={meta.url}
-        title={meta.title}
-        animate={!podcast}
-        template={meta.template}
-        path={meta.path}
-        showShare={
-          !isEditorialNewsletter || (newsletterMeta && newsletterMeta.free)
-        }
-        linkedDiscussion={meta.linkedDiscussion}
-        ownDiscussion={meta.ownDiscussion}
-        dossierUrl={meta.dossier && meta.dossier.meta.path}
-        onAudioClick={meta.audioSource && this.toggleAudio}
-        onGalleryClick={meta.indicateGallery ? this.showGallery : undefined}
-        onPdfClick={
-          hasPdf && countImages(article.content) > 0
-            ? this.togglePdf
-            : undefined
-        }
-        pdfUrl={hasPdf ? getPdfUrl(meta) : undefined}
-        documentId={article.id}
-        repoId={article.repoId}
-        isEditor={isEditor}
-        userBookmark={article.userBookmark}
-        userProgress={article.userProgress}
-        showBookmark={isMember}
-        estimatedReadingMinutes={meta.estimatedReadingMinutes}
-        estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-        subscriptions={article.subscribedBy.nodes}
-        showSubscribe
-        isDiscussion={meta && meta.template === 'discussion'}
+        document={article}
+        inNativeApp={inNativeApp}
       />
+    ) : (
+      meta && (
+        <ArticleActionBar
+          t={t}
+          url={meta.url}
+          title={meta.title}
+          animate={!podcast}
+          template={meta.template}
+          path={meta.path}
+          showShare={
+            !isEditorialNewsletter || (newsletterMeta && newsletterMeta.free)
+          }
+          linkedDiscussion={meta.linkedDiscussion}
+          ownDiscussion={meta.ownDiscussion}
+          dossierUrl={meta.dossier && meta.dossier.meta.path}
+          onAudioClick={meta.audioSource && this.toggleAudio}
+          onGalleryClick={meta.indicateGallery ? this.showGallery : undefined}
+          onPdfClick={
+            hasPdf && countImages(article.content) > 0
+              ? this.togglePdf
+              : undefined
+          }
+          pdfUrl={hasPdf ? getPdfUrl(meta) : undefined}
+          documentId={article.id}
+          repoId={article.repoId}
+          isEditor={isEditor}
+          userBookmark={article.userBookmark}
+          userProgress={article.userProgress}
+          showBookmark={isMember}
+          estimatedReadingMinutes={meta.estimatedReadingMinutes}
+          estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
+          subscriptions={article.subscribedBy.nodes}
+          showSubscribe
+          isDiscussion={meta && meta.template === 'discussion'}
+        />
+      )
     )
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {

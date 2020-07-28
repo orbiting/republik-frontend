@@ -315,36 +315,7 @@ class ArticlePage extends Component {
     this.galleryRef = React.createRef()
 
     this.toggleAudio = () => {
-      if (this.props.inNativeApp) {
-        const { audioSource, title, path } = this.props.data.article.meta
-        if (!audioSource) {
-          return
-        }
-        postMessage({
-          type: 'play-audio',
-          payload: {
-            url:
-              (this.props.inNativeIOSApp && audioSource.aac) ||
-              audioSource.mp3 ||
-              audioSource.ogg,
-            title,
-            sourcePath: path,
-            mediaId: audioSource.mediaId
-          }
-        })
-      } else {
-        const { audioSource, title, path } = this.props.data.article.meta
-        this.props.toggleAudioPlayer({
-          audioSource,
-          url:
-            (this.props.inNativeIOSApp && audioSource.aac) ||
-            audioSource.mp3 ||
-            audioSource.ogg,
-          title,
-          sourcePath: path,
-          mediaId: audioSource.mediaId
-        })
-      }
+      this.props.toggleAudioPlayer(this.props.data.article.meta)
     }
 
     this.showGallery = () => {

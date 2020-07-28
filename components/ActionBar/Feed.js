@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { useContext, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
@@ -11,6 +11,8 @@ import ShadowQueryLink from '../Link/ShadowQuery'
 import ReadingTime from './ReadingTime'
 import UserProgress from './UserProgress'
 import withT from '../../lib/withT'
+import { shouldIgnoreClick } from '../../lib/utils/link'
+import { AudioContext } from '../Audio'
 
 import { colors } from '@project-r/styleguide'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
@@ -24,13 +26,6 @@ const styles = {
 }
 
 const ActionLink = ({ children, path, icon, hasAudio, indicateGallery }) => {
-  if (icon === 'audio' && hasAudio) {
-    return (
-      <ShadowQueryLink path={path} query={{ audio: 1 }} passHref>
-        {children}
-      </ShadowQueryLink>
-    )
-  }
   if (icon === 'gallery' && indicateGallery) {
     return (
       <ShadowQueryLink path={path} query={{ gallery: 1 }} passHref>
@@ -56,11 +51,14 @@ const ActionBar = ({
   ownDiscussion,
   template,
   path,
+  title,
   userBookmark,
   userProgress,
   subscription,
   showSubscribe
 }) => {
+  const { toggleAudioPlayer } = useContext(AudioContext)
+
   const hasAudio = !!audioSource
   const icons = [
     dossier && {
@@ -77,7 +75,15 @@ const ActionBar = ({
       icon: 'audio',
       title: t('feed/actionbar/audio'),
       size: 22,
-      color: colors.text
+      color: colors.text,
+      href: path,
+      onClick: e => {
+        if (shouldIgnoreClick(e)) {
+          return
+        }
+        e.preventDefault()
+        toggleAudioPlayer({ audioSource, title, path })
+      }
     },
     indicateVideo && {
       icon: 'video',

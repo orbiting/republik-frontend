@@ -127,8 +127,8 @@ const AboutPage = ({
 }) => {
   const publishersCount = membershipStats
     ? countFormat(membershipStats.count)
-    : `~${countFormat(18000)}`
-  const documentsCount = (documents && documents.totalCount) || 'Über 1000'
+    : `~${countFormat(25000)}`
+  const documentsCount = (documents && documents.totalCount) || 'Über 2500'
 
   return (
     <Fragment>
@@ -228,6 +228,23 @@ const AboutPage = ({
         </section>
         <section {...styles.section}>
           <Subheader2>Auszeichnungen & Nominierungen</Subheader2>
+          <P {...styles.faqCta}>
+            <a
+              {...styles.link}
+              href='https://www.reporter-forum.ch/reporterpreis-2020'
+            >
+              Schweizer Reporterpreis 2020 für die Serie «Die gefährlichste Frau
+              der&nbsp;Schweiz?»
+            </a>
+          </P>
+          <P {...styles.faqCta}>
+            <a
+              {...styles.link}
+              href='https://swisspressaward.ch/de/user/c00029546/showcase/bj6/'
+            >
+              Swiss Press Award 2020 für den fünfteiligen Podcast «Zündstoff»
+            </a>
+          </P>
           <P {...styles.faqCta}>
             <a
               {...styles.link}

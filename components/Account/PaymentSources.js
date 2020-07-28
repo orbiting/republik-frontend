@@ -72,7 +72,7 @@ class PaymentSources extends Component {
             loading: t('account/paymentSource/3dsecure')
           })
         },
-        returnUrl: `${PUBLIC_BASE_URL}/account?stripe=1`
+        returnUrl: `${PUBLIC_BASE_URL}/konto?stripe=1`
       })
       .then(source => {
         this.addSource(source)

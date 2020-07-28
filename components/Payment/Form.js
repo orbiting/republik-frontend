@@ -229,7 +229,7 @@ class PaymentForm extends Component {
               {
                 type: 'three_d_secure',
                 currency: 'CHF',
-                amount: total,
+                amount: total || 24000,
                 three_d_secure: {
                   card: source.id
                 },

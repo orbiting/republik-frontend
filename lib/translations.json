@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-22T17:26:42.824Z",
+  "updated": "2020-07-28T14:38:31.256Z",
   "title": "live",
   "data": [
     {
@@ -2267,6 +2267,10 @@
       "value": "Bezahlung"
     },
     {
+      "key": "payment/title/single/DEFAULT_SOURCE",
+      "value": "Ihre Kreditkarte"
+    },
+    {
       "key": "payment/secure",
       "value": "Sichere Verbindung"
     },
@@ -2311,8 +2315,12 @@
       "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte (Visa, Mastercard) ist für uns das bevorzugte Zahlungsmittel."
     },
     {
-      "key": "payment/stripe/only",
+      "key": "payment/stripe/only/MONTHLY_ABO",
       "value": "Das Monatsabo ist nur mit Kreditkarte (Visa, Mastercard) verfügbar."
+    },
+    {
+      "key": "payment/stripe/only/DEFAULT_SOURCE",
+      "value": "Automatisch erneuernde Abos können nur mit Kreditkarte (Visa, Mastercard) bezahlt werden."
     },
     {
       "key": "payment/stripe/js/loading",

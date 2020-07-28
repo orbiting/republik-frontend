@@ -490,7 +490,7 @@ class Submit extends Component {
       signInError,
       loading
     } = this.state
-    const { me, user, t, query, paymentMethods } = this.props
+    const { me, user, t, query, paymentMethods, packageName } = this.props
 
     const errorMessages = this.getErrorMessages()
 
@@ -511,6 +511,7 @@ class Submit extends Component {
             pfAliasId: this.state.pfAliasId,
             pfSHA: this.state.pfSHA
           }}
+          context={packageName}
           allowedMethods={paymentMethods}
           onChange={fields => {
             this.setState(state => {

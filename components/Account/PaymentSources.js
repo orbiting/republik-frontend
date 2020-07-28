@@ -133,6 +133,7 @@ class PaymentSources extends Component {
           payload={{
             id: me.id
           }}
+          context='DEFAULT_SOURCE'
           allowedMethods={['STRIPE']}
           onChange={fields => {
             this.setState(state => {
@@ -201,9 +202,6 @@ class PaymentSources extends Component {
             </Button>
           </Fragment>
         )}
-        <br />
-        <br />
-        <br />
       </Fragment>
     )
   }

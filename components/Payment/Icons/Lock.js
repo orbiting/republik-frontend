@@ -12,7 +12,7 @@ const Icon = ({ width, fill }) => (
 )
 
 Icon.defaultProps = {
-  fill: colors.primary
+  fill: colors.text
 }
 
 export default Icon

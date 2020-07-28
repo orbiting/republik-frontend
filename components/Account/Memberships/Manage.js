@@ -60,47 +60,47 @@ class Actions extends Component {
               </Interaction.Cursive>
             </P>
           )}
-        {!membership.canProlong &&
-          membership.active &&
-          membership.renew &&
-          waitingMemberships && (
-            <P>{t('memberships/manage/prolong/awaiting')}</P>
-          )}
-        {!membership.renew && !!membership.periods.length && (
-          <P>
-            <A
-              href='#reactivate'
-              onClick={e => {
-                e.preventDefault()
-                this.setState({
-                  updating: true
-                })
-                this.props
-                  .reactivate({
-                    id: membership.id
-                  })
-                  .then(() => {
-                    this.setState({
-                      updating: false,
-                      remoteError: undefined
-                    })
-                  })
-                  .catch(error => {
-                    this.setState({
-                      updating: false,
-                      remoteError: errorToString(error)
-                    })
-                  })
-              }}
-            >
-              {t.first([
-                `memberships/${membership.type.name}/manage/reactivate`,
-                'memberships/manage/reactivate'
-              ])}
-            </A>
-          </P>
+        {!membership.canProlong && membership.active && waitingMemberships && (
+          <P>{t('memberships/manage/prolong/awaiting')}</P>
         )}
-        {membership.canProlong && (
+        {!waitingMemberships &&
+          membership.active &&
+          !membership.renew &&
+          !!membership.periods.length && (
+            <P>
+              <A
+                href='#reactivate'
+                onClick={e => {
+                  e.preventDefault()
+                  this.setState({
+                    updating: true
+                  })
+                  this.props
+                    .reactivate({
+                      id: membership.id
+                    })
+                    .then(() => {
+                      this.setState({
+                        updating: false,
+                        remoteError: undefined
+                      })
+                    })
+                    .catch(error => {
+                      this.setState({
+                        updating: false,
+                        remoteError: errorToString(error)
+                      })
+                    })
+                }}
+              >
+                {t.first([
+                  `memberships/${membership.type.name}/manage/reactivate`,
+                  'memberships/manage/reactivate'
+                ])}
+              </A>
+            </P>
+          )}
+        {!waitingMemberships && membership.canProlong && (
           <P>
             <TokenPackageLink
               params={{
@@ -117,7 +117,7 @@ class Actions extends Component {
             </TokenPackageLink>
           </P>
         )}
-        {membership.active && membership.renew && (
+        {!waitingMemberships && membership.active && membership.renew && (
           <P>
             <Link
               route='cancel'

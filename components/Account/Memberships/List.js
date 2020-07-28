@@ -77,6 +77,7 @@ export default compose(
               (me.id === m.user.id && !m.voucherCode && !m.accessGranted)
           )) ||
         []
+
       return {
         loading: data.loading,
         error: data.error,

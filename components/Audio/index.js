@@ -8,6 +8,7 @@ import { mediaQueries, zIndex } from '@project-r/styleguide'
 
 import ProgressComponent from '../../components/Article/Progress'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 export const AudioContext = React.createContext({
   audioSource: {},
@@ -17,13 +18,30 @@ export const AudioContext = React.createContext({
 
 const useAudioState = createPersistedState('republik-audioplayer-audiostate')
 
-export const AudioProvider = ({ children, t }) => {
+export const AudioProvider = ({ children, t, inNativeApp, inNativeIOSApp }) => {
   const [audioState, setAudioState] = useAudioState(undefined)
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false)
   const [autoPlayActive, setAutoPlayActive] = useState(false)
   const clearTimeoutId = useRef()
 
-  const toggleAudioPlayer = payload => {
+  const toggleAudioPlayer = ({ audioSource, title, path }) => {
+    const payload = {
+      audioSource,
+      url:
+        (inNativeIOSApp && audioSource.aac) ||
+        audioSource.mp3 ||
+        audioSource.ogg,
+      title,
+      sourcePath: path,
+      mediaId: audioSource.mediaId
+    }
+    if (inNativeApp) {
+      postMessage({
+        type: 'play-audio',
+        payload
+      })
+      return
+    }
     setAudioState(payload)
     setAutoPlayActive(true)
     clearTimeout(clearTimeoutId.current)
@@ -39,6 +57,10 @@ export const AudioProvider = ({ children, t }) => {
 
   useEffect(() => {
     setAudioPlayerVisible(!!audioState)
+    // ensure auto play is disabled when e.g. closed through another tab (local storage sync)
+    if (!audioState) {
+      setAutoPlayActive(false)
+    }
   }, [audioState])
 
   return (
@@ -99,6 +121,6 @@ const styles = {
   })
 }
 
-const ComposedAudioProvider = compose(withT)(AudioProvider)
+const ComposedAudioProvider = compose(withT, withInNativeApp)(AudioProvider)
 
 export default ComposedAudioProvider

@@ -92,17 +92,15 @@ const Nav = ({
             <hr {...styles.hr} />
             <div {...styles.navSection}>
               <Sections active={active} vertical closeHandler={closeHandler} />
-              <div style={{ marginTop: 24 }}>
-                <NavLink
-                  route='sections'
-                  title={t('navbar/sections')}
-                  active={active}
-                  closeHandler={closeHandler}
-                  hoverColor={colors.primary}
-                >
-                  {t('navbar/sections')}
-                </NavLink>
-              </div>
+              <NavLink
+                route='sections'
+                title={t('navbar/sections')}
+                active={active}
+                closeHandler={closeHandler}
+                hoverColor={colors.primary}
+              >
+                {t('navbar/sections')}
+              </NavLink>
             </div>
             <hr {...styles.hr} />
             <div {...styles.navSection}>

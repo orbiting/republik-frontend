@@ -1,69 +1,74 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
-import withT from '../../lib/withT'
-import { styles as iconLinkStyles } from '../IconLink'
-import datetime from '../Article/Progress/datetime'
 
+import withT from '../../lib/withT'
+import datetime from '../Article/Progress/datetime'
+import MdCheckCircleOutlined from '../Icons/MdCheckCircleOutlined'
+import { withProgressApi } from '../Article/Progress/api'
 import {
   ProgressCircle,
   colors,
-  fontStyles,
-  plainButtonRule
+  IconButton,
+  CalloutMenu
 } from '@project-r/styleguide'
 
 const UserProgress = (
-  { t, userProgress, text, small },
+  { t, documentId, userProgress, upsertDocumentProgress },
   { restoreArticleProgress }
 ) => {
   const { percentage, updatedAt } = userProgress
   const percent = Math.round(percentage * 100)
-
-  const Wrapper = restoreArticleProgress ? 'button' : 'div'
   const fill = restoreArticleProgress ? colors.text : colors.lightText
 
-  const textStyle = {
-    color: fill,
-    ...fontStyles.sansSerifMedium16,
-    ...(small
-      ? {
-          fontSize: 15,
-          lineHeight: '20px'
-        }
-      : {})
+  const ReadIcon = React.forwardRef((props, ref) => (
+    <IconButton
+      Icon={MdCheckCircleOutlined}
+      label='Gelesen'
+      ref={ref}
+      {...props}
+    />
+  ))
+
+  if (percent === 100) {
+    return (
+      <CalloutMenu Element={ReadIcon}>
+        <button
+          onClick={() =>
+            upsertDocumentProgress(documentId, 0, '')
+              .then(res => console.log(res))
+              .catch(err => console.log(err))
+          }
+        >
+          Als ungelesen markieren
+        </button>
+      </CalloutMenu>
+    )
   }
 
+  const Icon = () => (
+    <ProgressCircle
+      progress={percent}
+      stroke={fill}
+      strokePlaceholder='#e9e9e9'
+      size={24}
+      strokeWidth={2}
+    />
+  )
+
   return (
-    <Wrapper
-      {...plainButtonRule}
-      {...iconLinkStyles.link}
+    <IconButton
+      Icon={Icon}
       onClick={restoreArticleProgress}
       href={restoreArticleProgress ? '#' : undefined}
       title={datetime(t, new Date(updatedAt))}
-    >
-      <span {...iconLinkStyles.icon} style={{ paddingRight: 1 }}>
-        <ProgressCircle
-          progress={percent}
-          stroke={fill}
-          strokePlaceholder='#e9e9e9'
-          radius={small ? 8.5 : 9.5}
-          strokeWidth={small ? 2 : 2.5}
-        />
-      </span>
-      <span {...iconLinkStyles.text} style={textStyle}>
-        {text || `${percent}%`}
-      </span>
-    </Wrapper>
+      label={`Zur Leseposition: ${percent}%`}
+    />
   )
-}
-
-UserProgress.propTypes = {
-  userProgress: PropTypes.object.isRequired,
-  style: PropTypes.object
 }
 
 UserProgress.contextTypes = {
   restoreArticleProgress: PropTypes.func
 }
 
-export default compose(withT)(UserProgress)
+export default compose(withT, withProgressApi)(UserProgress)

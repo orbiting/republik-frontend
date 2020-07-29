@@ -3,11 +3,10 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
 import { MdBookmark, MdBookmarkBorder } from 'react-icons/md'
-import { useColorContext } from '@project-r/styleguide'
+import { useColorContext, IconButton } from '@project-r/styleguide'
 
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
-import IconButton from '../IconButton'
 import {
   onDocumentFragment,
   BOOKMARKS_COLLECTION_NAME

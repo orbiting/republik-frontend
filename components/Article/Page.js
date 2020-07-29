@@ -4,7 +4,7 @@ import { withRouter } from 'next/router'
 
 import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
-import ActionBarNew from '../ActionBarNew'
+import ActionBarNew from '../ActionBar/ActionBarNew'
 
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'

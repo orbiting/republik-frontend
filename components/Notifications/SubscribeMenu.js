@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { withRouter } from 'next/router'
-import { css } from 'glamor'
-import { CalloutMenu } from '@project-r/styleguide'
+import { CalloutMenu, IconButton } from '@project-r/styleguide'
 import { MdNotifications, MdNotificationsNone } from 'react-icons/md'
 
 import { discussionPreferencesQuery } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
 import withMe from '../../lib/apollo/withMe'
-import IconButton from '../IconButton'
 
 const SubscribeMenu = ({
   data,
@@ -18,7 +16,6 @@ const SubscribeMenu = ({
   subscriptions,
   showAuthorFilter,
   userHasNoDocuments,
-  style,
   label,
   me
 }) => {
@@ -73,18 +70,19 @@ const SubscribeMenu = ({
     return null
   }
 
-  const icon = props => (
+  const Icon = React.forwardRef((props, ref) => (
     <IconButton
       Icon={isSubscribedToAny ? MdNotifications : MdNotificationsNone}
       label={label}
+      ref={ref}
       {...props}
     />
-  )
+  ))
 
   return (
     <>
       <CalloutMenu
-        Element={icon}
+        Element={Icon}
         initiallyOpen={router.query && !!router.query.mute}
       >
         <SubscribeCallout

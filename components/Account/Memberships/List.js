@@ -24,7 +24,6 @@ class MembershipsList extends Component {
       error,
       highlightId,
       activeMembership,
-      primaryMembership,
       hasWaitingMemberships
     } = this.props
 
@@ -54,7 +53,6 @@ class MembershipsList extends Component {
                   key={membership.id}
                   membership={membership}
                   highlighted={highlightId === membership.pledge.id}
-                  primaryMembership={primaryMembership}
                   hasWaitingMemberships={hasWaitingMemberships}
                 />
               ))}
@@ -87,13 +85,11 @@ export default compose(
         []
 
       const activeMembership = memberships.find(membership => membership.active)
-      const primaryMembership = activeMembership || memberships[0]
 
       return {
         loading: data.loading,
         error: data.error,
         activeMembership,
-        primaryMembership,
         memberships,
         hasWaitingMemberships: memberships.some(
           m => !m.active && !m.periods.length

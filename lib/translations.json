@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-28T14:38:31.256Z",
+  "updated": "2020-07-29T09:37:34.926Z",
   "title": "live",
   "data": [
     {
@@ -2319,10 +2319,6 @@
       "value": "Das Monatsabo ist nur mit Kreditkarte (Visa, Mastercard) verfügbar."
     },
     {
-      "key": "payment/stripe/only/DEFAULT_SOURCE",
-      "value": "Automatisch erneuernde Abos können nur mit Kreditkarte (Visa, Mastercard) bezahlt werden."
-    },
-    {
       "key": "payment/stripe/js/loading",
       "value": "Kreditkartenzahlung wird vorbereitet"
     },
@@ -4061,6 +4057,14 @@
     {
       "key": "memberships/manage/cancel/link",
       "value": "Mitgliedschaft kündigen"
+    },
+    {
+      "key": "memberships/manage/autoPay/enable",
+      "value": "Automatische Abbuchung aktivieren"
+    },
+    {
+      "key": "memberships/manage/autoPay/disable",
+      "value": "Automatische Abbuchung deaktivieren"
     },
     {
       "key": "option/PROLONG/additionalPeriods/endDate",

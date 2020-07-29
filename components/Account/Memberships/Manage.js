@@ -100,6 +100,45 @@ class Actions extends Component {
               </A>
             </P>
           )}
+        {membership.active && membership.autoPayIsMutable && (
+          <P>
+            <A
+              href='#autoPay'
+              onClick={e => {
+                e.preventDefault()
+                this.setState({
+                  updating: true
+                })
+                this.props
+                  .setAutoPay({
+                    id: membership.id,
+                    autoPay: !membership.autoPay
+                  })
+                  .then(() => {
+                    this.setState({
+                      updating: false,
+                      remoteError: undefined
+                    })
+                  })
+                  .catch(error => {
+                    this.setState({
+                      updating: false,
+                      remoteError: errorToString(error)
+                    })
+                  })
+              }}
+            >
+              {t.first([
+                `memberships/${membership.type.name}/manage/autoPay/${
+                  membership.autoPay ? 'disable' : 'enable'
+                }`,
+                `memberships/manage/autoPay/${
+                  membership.autoPay ? 'disable' : 'enable'
+                }`
+              ])}
+            </A>
+          </P>
+        )}
         {!waitingMemberships && membership.canProlong && (
           <P>
             <TokenPackageLink
@@ -161,6 +200,15 @@ const reactivateMembership = gql`
   }
 `
 
+const setMembershipAutoPay = gql`
+  mutation setMembershipAutoPay($id: ID!, $autoPay: Boolean!) {
+    setMembershipAutoPay(id: $id, autoPay: $autoPay) {
+      id
+      autoPay
+    }
+  }
+`
+
 const ManageActions = compose(
   withT,
   graphql(cancelMembership, {
@@ -171,6 +219,11 @@ const ManageActions = compose(
   graphql(reactivateMembership, {
     props: ({ mutate }) => ({
       reactivate: variables => mutate({ variables })
+    })
+  }),
+  graphql(setMembershipAutoPay, {
+    props: ({ mutate }) => ({
+      setAutoPay: variables => mutate({ variables })
     })
   })
 )(Actions)

@@ -70,43 +70,61 @@ const Actions = ({
           )}
           {!hasWaitingMemberships && (
             <>
-              {membership.autoPayIsMutable && (
-                <P>
-                  <A
-                    href='#autoPay'
-                    onClick={e => {
-                      e.preventDefault()
-                      setState({
-                        updating: true
-                      })
-                      setAutoPay({
-                        id: membership.id,
-                        autoPay: !membership.autoPay
-                      })
-                        .then(() => {
+              {membership.renew && (
+                <>
+                  {membership.autoPayIsMutable && (
+                    <P>
+                      <A
+                        href='#autoPay'
+                        onClick={e => {
+                          e.preventDefault()
                           setState({
-                            updating: false,
-                            remoteError: undefined
+                            updating: true
                           })
-                        })
-                        .catch(error => {
-                          setState({
-                            updating: false,
-                            remoteError: errorToString(error)
+                          setAutoPay({
+                            id: membership.id,
+                            autoPay: !membership.autoPay
                           })
-                        })
-                    }}
-                  >
-                    {t.first([
-                      `memberships/${membership.type.name}/manage/autoPay/${
-                        membership.autoPay ? 'disable' : 'enable'
-                      }`,
-                      `memberships/manage/autoPay/${
-                        membership.autoPay ? 'disable' : 'enable'
-                      }`
-                    ])}
-                  </A>
-                </P>
+                            .then(() => {
+                              setState({
+                                updating: false,
+                                remoteError: undefined
+                              })
+                            })
+                            .catch(error => {
+                              setState({
+                                updating: false,
+                                remoteError: errorToString(error)
+                              })
+                            })
+                        }}
+                      >
+                        {t.first([
+                          `memberships/${membership.type.name}/manage/autoPay/${
+                            membership.autoPay ? 'disable' : 'enable'
+                          }`,
+                          `memberships/manage/autoPay/${
+                            membership.autoPay ? 'disable' : 'enable'
+                          }`
+                        ])}
+                      </A>
+                    </P>
+                  )}
+                  <P>
+                    <Link
+                      route='cancel'
+                      params={{ membershipId: membership.id }}
+                      passHref
+                    >
+                      <A>
+                        {t.first([
+                          `memberships/${membership.type.name}/manage/cancel/link`,
+                          'memberships/manage/cancel/link'
+                        ])}
+                      </A>
+                    </Link>
+                  </P>
+                </>
               )}
               {!membership.renew && !!membership.periods.length && (
                 <P>
@@ -139,22 +157,6 @@ const Actions = ({
                       'memberships/manage/reactivate'
                     ])}
                   </A>
-                </P>
-              )}
-              {membership.renew && (
-                <P>
-                  <Link
-                    route='cancel'
-                    params={{ membershipId: membership.id }}
-                    passHref
-                  >
-                    <A>
-                      {t.first([
-                        `memberships/${membership.type.name}/manage/cancel/link`,
-                        'memberships/manage/cancel/link'
-                      ])}
-                    </A>
-                  </Link>
                 </P>
               )}
             </>

@@ -73,15 +73,11 @@ export default compose(
           !data.error &&
           data.me &&
           data.me.memberships &&
-          data.me.memberships
-            .filter(
-              m =>
-                m.pledge.package.group !== 'GIVE' ||
-                (me.id === m.user.id && !m.voucherCode && !m.accessGranted)
-            )
-            .sort((a, b) =>
-              descending(new Date(a.periods?.[0]), new Date(b.periods?.[0]))
-            )) ||
+          data.me.memberships.filter(
+            m =>
+              m.pledge.package.group !== 'GIVE' ||
+              (me.id === m.user.id && !m.voucherCode && !m.accessGranted)
+          )) ||
         []
 
       const activeMembership = memberships.find(membership => membership.active)

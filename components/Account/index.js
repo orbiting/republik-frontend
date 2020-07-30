@@ -226,14 +226,12 @@ export default compose(
         hasAccessGrants,
         isAutoPaying:
           hasMemberships &&
-          data.me.memberships.some(m => {
-            if (!m.active || !m.renew) {
-              return false
-            }
-            if (m.type.name === 'MONTHLY_ABO' || m.autoPay) {
-              return true
-            }
-          })
+          data.me.memberships.some(
+            m =>
+              m.active &&
+              m.renew &&
+              (m.type.name === 'MONTHLY_ABO' || m.autoPay)
+          )
       }
     }
   })

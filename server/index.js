@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const next = require('next')
 const compression = require('compression')
 const helmet = require('helmet')
+const bodyParser = require('body-parser')
 
 const DEV = process.env.NODE_ENV ? process.env.NODE_ENV !== 'production' : true
 if (DEV || process.env.DOTENV) {
@@ -14,6 +15,7 @@ if (DEV || process.env.DOTENV) {
 const routes = require('../lib/routes')
 
 const pgp = require('./pgp')
+const useragent = require('./useragent')
 
 const PORT = process.env.PORT || 3005
 
@@ -128,6 +130,16 @@ app.prepare().then(() => {
   // PayPal donate return url can be posted to
   server.post('/en', (req, res) => {
     return app.render(req, res, '/en', req.query)
+  })
+
+  // Report Error
+  server.post('/api/reportError', bodyParser.text(), (req, res) => {
+    console.log('-- reportError --')
+    console.log(useragent(req.get('User-Agent')))
+    console.log(req.body)
+    res.statusCode = 200
+    res.setHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify({ ack: true }))
   })
 
   // iOS app universal links setup

@@ -15,6 +15,7 @@ if (DEV || process.env.DOTENV) {
 const routes = require('../lib/routes')
 
 const pgp = require('./pgp')
+const useragent = require('./useragent')
 
 const PORT = process.env.PORT || 3005
 
@@ -134,6 +135,7 @@ app.prepare().then(() => {
   // Report Error
   server.post('/api/reportError', bodyParser.text(), (req, res) => {
     console.log('-- reportError --')
+    console.log(useragent(req.get('User-Agent')))
     console.log(req.body)
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')

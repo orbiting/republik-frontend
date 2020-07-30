@@ -6,6 +6,7 @@ const next = require('next')
 const compression = require('compression')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
+const chalk = require('chalk')
 
 const DEV = process.env.NODE_ENV ? process.env.NODE_ENV !== 'production' : true
 if (DEV || process.env.DOTENV) {
@@ -134,9 +135,13 @@ app.prepare().then(() => {
 
   // Report Error
   server.post('/api/reportError', bodyParser.text(), (req, res) => {
-    console.log('-- reportError --')
-    console.log(useragent(req.get('User-Agent')))
-    console.log(req.body)
+    console.warn(
+      chalk.yellow(
+        'reportError from',
+        useragent(req.get('User-Agent')),
+        req.body
+      )
+    )
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify({ ack: true }))

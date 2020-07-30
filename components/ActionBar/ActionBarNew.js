@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import { css } from 'glamor'
 import { MdPictureAsPdf, MdQueryBuilder } from 'react-icons/md'
-import { IconButton } from '@project-r/styleguide'
+import { IconButton, mediaQueries } from '@project-r/styleguide'
 
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import { trackEvent } from '../../lib/piwik'
@@ -89,7 +89,7 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
           label={t('SubscribeMenu/title')}
         />
       ),
-      modes: ['article-top']
+      modes: ['article-top', 'article-bottom']
     },
     {
       title: 'Lesezeichen',
@@ -100,7 +100,7 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
           label={t('bookmark/label')}
         />
       ),
-      modes: ['article-top']
+      modes: ['article-top', 'article-overlay']
     },
     {
       title: t('article/actionbar/share'),
@@ -125,7 +125,26 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
         }
       },
       label: 'Teilen',
-      modes: ['article-top']
+      modes: ['article-top', 'article-bottom', 'article-overlay']
+    },
+    {
+      title: 'Leseposition',
+      element:
+        document.userProgress && displayMinutes > 1 ? (
+          <UserProgress
+            documentId={document.id}
+            userProgress={
+              !document.userProgress.percentage &&
+              document.userProgress.max &&
+              document.userProgress.max.percentage === 1
+                ? document.userProgress.max
+                : document.userProgress
+            }
+          />
+        ) : (
+          <></>
+        ),
+      modes: ['article-overlay']
     },
     {
       title: 'Dialog',
@@ -138,7 +157,7 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
           isDiscussionPage={isDiscussionPage}
         />
       ),
-      modes: ['article-top']
+      modes: ['article-top', 'article-bottom', 'article-overlay']
     }
   ]
   const ActionItemsSecondary = [
@@ -172,7 +191,10 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
   ]
   return (
     <>
-      <div {...styles.topRow}>
+      <div
+        {...styles.topRow}
+        {...(mode === 'article-overlay' && { ...styles.overlay })}
+      >
         {ActionItems.filter(item => item.modes.includes(mode)).map(props => (
           <Fragment key={props.title}>
             {props.element || <IconButton {...props} />}
@@ -216,11 +238,26 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
 
 const styles = {
   topRow: css({
-    display: 'flex'
+    display: 'flex',
+    marginTop: 24
   }),
   bottomRow: css({
     display: 'flex',
     marginTop: 24
+  }),
+  overlay: css({
+    marginTop: 0,
+    width: '100%',
+    padding: '0 16px',
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    [mediaQueries.mUp]: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between'
+    }
   })
 }
 

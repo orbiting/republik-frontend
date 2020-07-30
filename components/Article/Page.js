@@ -3,9 +3,8 @@ import { css } from 'glamor'
 import { withRouter } from 'next/router'
 
 import Frame from '../Frame'
-import ArticleActionBar from '../ActionBar/Article'
 import ActionBarNew from '../ActionBar/ActionBarNew'
-
+import ActionBarOverlay from './ActionBarOverlay'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
@@ -128,9 +127,9 @@ const styles = {
     marginBottom: 20
   }),
   actionBar: css({
-    marginBottom: 20,
+    marginBottom: 24,
     [mediaQueries.mUp]: {
-      marginBottom: 50
+      marginBottom: 36
     }
   })
 }
@@ -471,59 +470,28 @@ class ArticlePage extends Component {
       showSeriesNav
     } = this.state
 
-    const hasPdf = meta && meta.template === 'article'
     const isEditorialNewsletter =
       meta && meta.template === 'editorialNewsletter'
-    const actionBar = true ? (
+
+    const actionBar = article && (
       <ActionBarNew
         mode='article-top'
         t={t}
         document={article}
         inNativeApp={inNativeApp}
+        podcast={!!podcast}
       />
-    ) : (
-      meta && (
-        <ArticleActionBar
-          t={t}
-          url={meta.url}
-          title={meta.title}
-          animate={!podcast}
-          template={meta.template}
-          path={meta.path}
-          showShare={
-            !isEditorialNewsletter || (newsletterMeta && newsletterMeta.free)
-          }
-          linkedDiscussion={meta.linkedDiscussion}
-          ownDiscussion={meta.ownDiscussion}
-          dossierUrl={meta.dossier && meta.dossier.meta.path}
-          onAudioClick={meta.audioSource && this.toggleAudio}
-          onGalleryClick={meta.indicateGallery ? this.showGallery : undefined}
-          onPdfClick={
-            hasPdf && countImages(article.content) > 0
-              ? this.togglePdf
-              : undefined
-          }
-          pdfUrl={hasPdf ? getPdfUrl(meta) : undefined}
-          documentId={article.id}
-          repoId={article.repoId}
-          isEditor={isEditor}
-          userBookmark={article.userBookmark}
-          userProgress={article.userProgress}
-          showBookmark={isMember}
-          estimatedReadingMinutes={meta.estimatedReadingMinutes}
-          estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-          subscriptions={article.subscribedBy.nodes}
-          showSubscribe
-          isDiscussion={meta && meta.template === 'discussion'}
-        />
-      )
     )
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          grandSharing: !inNativeApp
+          mode: 'article-bottom'
+        })
+      : undefined
+
+    const actionBarOverlay = actionBar
+      ? React.cloneElement(actionBar, {
+          mode: 'article-overlay'
+          // actionBarTopY
         })
       : undefined
 
@@ -599,8 +567,6 @@ class ArticlePage extends Component {
 
     const payNoteAfter =
       payNote && React.cloneElement(payNote, { position: 'after' })
-    // const payNote = null
-    // const payNoteAfter = null
 
     const splitContent = article && splitByTitle(article.content)
     const renderSchema = content =>
@@ -633,6 +599,7 @@ class ArticlePage extends Component {
           loading={data.loading}
           error={data.error}
           render={() => {
+            console.log(this.barRef)
             if (!article || !schema) {
               return (
                 <StatusError
@@ -857,6 +824,9 @@ class ArticlePage extends Component {
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.repoId} />}
+                <ActionBarOverlay inNativeApp={inNativeApp}>
+                  {actionBarOverlay}
+                </ActionBarOverlay>
                 {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />

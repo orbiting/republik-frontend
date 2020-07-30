@@ -63,6 +63,7 @@ const UserProgress = (
       href={restoreArticleProgress ? '#' : undefined}
       title={datetime(t, new Date(updatedAt))}
       label={`Zur Leseposition: ${percent}%`}
+      labelShort={`${percent}%`}
     />
   )
 }

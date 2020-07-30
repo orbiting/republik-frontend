@@ -15,7 +15,6 @@ import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
 import createPersistedState from '../../../lib/hooks/use-persisted-state'
 
 import { withProgressApi, mediaProgressQuery } from './api'
-import RestoreButton from './RestoreButton'
 
 const MIN_INDEX = 2
 const RESTORE_AREA = 0
@@ -57,14 +56,10 @@ const Progress = ({
   upsertMediaProgress,
   client
 }) => {
-  const [restore, setRestore] = useState(true)
-  const [restoreOpacity, setRestoreOpacity] = useState(1)
-
   const refContainer = useRef()
   const lastClosestIndex = useRef()
   const refSaveProgress = useRef()
   const lastY = useRef()
-  const refRestoreOpacity = useRef()
 
   const isTrackingAllowed = me && me.progressConsent === true
   const mobile = () => window.innerWidth < mediaQueries.mBreakPoint
@@ -262,23 +257,9 @@ const Progress = ({
     return Promise.resolve()
   }
 
-  refRestoreOpacity.current = restoreOpacity
-
   useEffect(() => {
     const onScroll = () => {
       refSaveProgress.current()
-      if (restore) {
-        const y = window.pageYOffset
-        const newRestoreOpacity =
-          1 -
-          Math.min(
-            1,
-            Math.max(RESTORE_MIN, y - RESTORE_AREA) / RESTORE_FADE_AREA
-          )
-        if (newRestoreOpacity !== refRestoreOpacity.current) {
-          setRestoreOpacity(newRestoreOpacity)
-        }
-      }
     }
     window.addEventListener('scroll', onScroll)
     onScroll()
@@ -304,14 +285,6 @@ const Progress = ({
     />
   )
 
-  const showRestore =
-    isArticle &&
-    restore &&
-    restoreOpacity > RESTORE_MIN &&
-    article.userProgress &&
-    article.userProgress.percentage &&
-    article.userProgress.percentage !== 1
-
   return (
     <ProgressContextProvider
       value={{ getMediaProgress, saveMediaProgress, restoreArticleProgress }}
@@ -319,18 +292,6 @@ const Progress = ({
       <div ref={refContainer}>
         {progressPrompt || null}
         {children}
-        {showRestore && (
-          <RestoreButton
-            onClick={restoreArticleProgress}
-            onClose={e => {
-              e.preventDefault()
-              e.stopPropagation()
-              setRestore(false)
-            }}
-            opacity={restoreOpacity}
-            userProgress={article.userProgress}
-          />
-        )}
       </div>
     </ProgressContextProvider>
   )

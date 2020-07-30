@@ -258,7 +258,7 @@ Die Website www.republik.ch der Verantwortlichen verlinkt auf andere Websites, f
 Die Verantwortlichen können die Bestimmungen der vorliegenden Datenschutzerklärung jederzeit und ohne vorangehende Ankündigung ganz oder in Teilen ändern, ergänzen oder ersetzen. Es gilt die jeweils beim Besuch der Website www.republik.ch beziehungsweise beim Besuch einer der zugehörigen Websites in Kraft stehende Version dieser Datenschutzerklärung.
       `
 
-export default () => {
+const PrivacyPage = () => {
   const meta = {
     title: 'Datenschutz',
     description: ''
@@ -271,3 +271,5 @@ export default () => {
     </Frame>
   )
 }
+
+export default PrivacyPage

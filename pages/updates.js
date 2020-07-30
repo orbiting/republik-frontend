@@ -3,8 +3,10 @@ import Frame from '../components/Frame'
 
 import List from '../components/Updates/List'
 
-export default ({ serverContext }) => (
+const UpdatesPage = ({ serverContext }) => (
   <Frame raw>
     <List serverContext={serverContext} />
   </Frame>
 )
+
+export default UpdatesPage

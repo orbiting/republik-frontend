@@ -2,7 +2,6 @@ import React from 'react'
 import Document, { Head as DefaultHead, Main, NextScript } from 'next/document'
 import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces, DEFAULT_FONT_SIZE } from '@project-r/styleguide'
-import { matchUserAgent } from '../lib/withInNativeApp'
 
 // filter our preload links (js files)
 // see https://github.com/zeit/next.js/issues/5054
@@ -58,7 +57,6 @@ export default class MyDocument extends Document {
       ...page,
       ...styles,
       env: require('../lib/constants'),
-      inNativeApp: matchUserAgent(req.headers['user-agent']),
       nojs
     }
   }
@@ -72,7 +70,6 @@ export default class MyDocument extends Document {
   render() {
     const {
       css,
-      inNativeApp,
       env: { PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL },
       nojs
     } = this.props
@@ -81,12 +78,6 @@ export default class MyDocument extends Document {
     return (
       <html lang='de'>
         <Head>
-          <meta
-            name='viewport'
-            content={`width=device-width, initial-scale=1${
-              inNativeApp ? ', maximum-scale=1.0, user-scalable=0' : ''
-            }`}
-          />
           <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
           <style
             dangerouslySetInnerHTML={{

@@ -107,7 +107,7 @@ Ausschliesslicher Gerichtsstand ist Zürich.
 Die Betreiberin behält sich vor, die AGB jederzeit ohne Angabe von Gründen zu ändern. Die geänderten AGB gelten ab Datum der Publikation auf der Website der Betreiberin.
       `
 
-export default () => {
+const TosPage = () => {
   const meta = {
     title: 'AGB',
     description: ''
@@ -120,3 +120,5 @@ export default () => {
     </Frame>
   )
 }
+
+export default TosPage

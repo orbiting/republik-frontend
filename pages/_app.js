@@ -1,6 +1,7 @@
 import App from 'next/app'
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'
+import Head from 'next/head'
 
 import { HeadersProvider } from '../lib/withHeaders'
 import withApolloClient from '../lib/apollo/withApolloClient'
@@ -22,6 +23,12 @@ class WebApp extends App {
         <HeadersProvider headers={headers}>
           <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
             <AudioProvider>
+              <Head>
+                <meta
+                  name='viewport'
+                  content='width=device-width, initial-scale=1'
+                />
+              </Head>
               <Component serverContext={serverContext} {...pageProps} />
               <Track />
             </AudioProvider>

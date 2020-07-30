@@ -20,13 +20,13 @@ if (typeof window !== 'undefined') {
       (error && error.stack) || [msg, url, lineNo, columnNo].join('\n')
     )
   }
-  const prevRejectionHandler = window.onerror
+  const prevRejectionHandler = window.onunhandledrejection
   window.onunhandledrejection = (...args) => {
     prevRejectionHandler && prevRejectionHandler(...args)
-    const [error] = args
+    const [event] = args
     reportError(
       'onunhandledrejection',
-      (error && error.stack) || error.toString()
+      (event.reason && event.reason.stack) || event.reason
     )
   }
 }

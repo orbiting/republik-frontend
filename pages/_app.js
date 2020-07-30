@@ -35,7 +35,7 @@ class WebApp extends App {
   componentDidCatch(error, info) {
     reportError(
       'componentDidCatch',
-      `${error}${info.componentStack}---\n${error && error.stack}`
+      `${error}${info.componentStack}\n${error && error.stack}`
     )
   }
   render() {

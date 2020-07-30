@@ -2,7 +2,7 @@ import React from 'react'
 import Frame from '../../components/Frame'
 import Page from '../../components/Imprint/Page'
 
-export default () => {
+const ImprintPage = () => {
   const meta = {
     title: 'Impressum',
     description: 'Die Köpfe hinter der Republik.'
@@ -13,3 +13,5 @@ export default () => {
     </Frame>
   )
 }
+
+export default ImprintPage

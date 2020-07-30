@@ -25,12 +25,17 @@ export const AudioProvider = ({ children, t, inNativeApp, inNativeIOSApp }) => {
   const clearTimeoutId = useRef()
 
   const toggleAudioPlayer = ({ audioSource, title, path }) => {
+    const url = (
+      (inNativeIOSApp && audioSource.aac) ||
+      audioSource.mp3 ||
+      audioSource.ogg
+    )?.trim()
+    if (!url) {
+      return
+    }
     const payload = {
       audioSource,
-      url:
-        (inNativeIOSApp && audioSource.aac) ||
-        audioSource.mp3 ||
-        audioSource.ogg,
+      url,
       title,
       sourcePath: path,
       mediaId: audioSource.mediaId
@@ -76,7 +81,7 @@ export const AudioProvider = ({ children, t, inNativeApp, inNativeIOSApp }) => {
           <div {...styles.audioPlayerBox}>
             <ProgressComponent isArticle={false}>
               <AudioPlayer
-                key={audioState.mediaId || audioState.audioSource.mp3}
+                key={audioState.mediaId || audioState.url}
                 mediaId={audioState.mediaId}
                 durationMs={audioState.audioSource.durationMs}
                 src={audioState.audioSource}

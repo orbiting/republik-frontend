@@ -402,7 +402,7 @@ Der Vorstand hat folgende unübertragbaren und unentziehbaren Aufgaben:
 2. Der Gerichtsstand für sämtliche aus dem Gesellschafts- und/oder Mitgliedschaftsverhältnis entstehenden Streitigkeiten befindet sich am Sitz der Genossenschaft.
       `
 
-export default () => {
+const StatutePage = () => {
   const meta = {
     title: 'Statuten',
     description: ''
@@ -425,3 +425,5 @@ export default () => {
     </Frame>
   )
 }
+
+export default StatutePage

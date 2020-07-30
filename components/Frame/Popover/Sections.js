@@ -157,18 +157,20 @@ const SectionNav = ({
                 if (!formats.nodes.length) {
                   // Serien
                   return (
-                    <div key={id} {...styles.sectionLink}>
-                      <NavLink
-                        dark={dark}
-                        route={match.route}
-                        params={match.params}
-                        active={active}
-                        closeHandler={closeHandler}
-                        hoverColor={color}
-                        inline
-                      >
-                        {meta.title}
-                      </NavLink>
+                    <div {...styles.container} key={id}>
+                      <div {...styles.sectionLink}>
+                        <NavLink
+                          dark={dark}
+                          route={match.route}
+                          params={match.params}
+                          active={active}
+                          closeHandler={closeHandler}
+                          hoverColor={color}
+                          inline
+                        >
+                          {meta.title}
+                        </NavLink>
+                      </div>
                     </div>
                   )
                 }

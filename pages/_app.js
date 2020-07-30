@@ -33,7 +33,10 @@ if (typeof window !== 'undefined') {
 
 class WebApp extends App {
   componentDidCatch(error, info) {
-    reportError('componentDidCatch', `${error}${info.componentStack}`)
+    reportError(
+      'componentDidCatch',
+      `${error}${info.componentStack}---\n${error && error.stack}`
+    )
   }
   render() {
     const {

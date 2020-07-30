@@ -479,7 +479,8 @@ class ArticlePage extends Component {
         t={t}
         document={article}
         inNativeApp={inNativeApp}
-        podcast={!!podcast}
+        podcast={podcast}
+        onAudioClick={meta.audioSource && this.toggleAudio}
       />
     )
     const actionBarEnd = actionBar

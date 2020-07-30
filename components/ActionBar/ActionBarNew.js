@@ -1,6 +1,11 @@
 import React, { useState, Fragment } from 'react'
 import { css } from 'glamor'
-import { MdPictureAsPdf, MdQueryBuilder } from 'react-icons/md'
+import {
+  MdPictureAsPdf,
+  MdQueryBuilder,
+  MdPlayCircleOutline,
+  MdMic
+} from 'react-icons/md'
 import { IconButton, mediaQueries } from '@project-r/styleguide'
 
 import { shouldIgnoreClick } from '../../lib/utils/link'
@@ -10,6 +15,7 @@ import { PUBLIC_BASE_URL } from '../../lib/constants'
 import PdfOverlay, { getPdfUrl, countImages } from '../Article/PdfOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import ShareOverlay from './ShareOverlay'
+import PodcastOverlay from './PodcastOverlay'
 
 import FontSizeIcon from '../Icons/FontSize'
 import ShareIOSIcon from '../Icons/ShareIOS'
@@ -18,10 +24,18 @@ import Bookmark from './Bookmark'
 import DiscussionButton from './DiscussionButton'
 import UserProgress from './UserProgress'
 
-const ActionBar = ({ t, mode, document, inNativeApp }) => {
+const ActionBar = ({
+  t,
+  mode,
+  document,
+  inNativeApp,
+  podcast,
+  onAudioClick
+}) => {
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
+  const [podcastOverlayVisible, setPodcastOverlayVisible] = useState(false)
 
   const meta = document && {
     ...document.meta,
@@ -32,6 +46,8 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
   const emailSubject = t('article/share/emailSubject', {
     title: document.title
   })
+
+  console.log(podcast)
 
   const {
     discussionId,
@@ -164,11 +180,12 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
     {
       title: 'Lesezeit',
       Icon: MdQueryBuilder,
-      label: `Lesezeit: ${displayHours ? `${displayHours}h\u202F` : ''}
+      label: `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes} Minuten`,
       labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`,
-      noClick: true
+      noClick: true,
+      show: true
     },
     {
       title: 'Leseposition',
@@ -186,7 +203,28 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
           />
         ) : (
           <></>
-        )
+        ),
+      show: (document.userProgress && displayMinutes > 1) || !podcast
+    },
+    {
+      Icon: MdPlayCircleOutline,
+      onClick: e => {
+        e.preventDefault()
+        trackEvent(['ActionBar', 'audio', meta.url])
+        onAudioClick && onAudioClick()
+      },
+      label: t('article/actionbar/audio'),
+      show: !!onAudioClick
+    },
+    {
+      Icon: MdMic,
+      onClick: e => {
+        e.preventDefault()
+        trackEvent(['ActionBar', 'podcasts', meta.url])
+        setPodcastOverlayVisible(!podcastOverlayVisible)
+      },
+      label: t('article/actionbar/audio'),
+      show: !!onAudioClick
     }
   ]
   return (
@@ -203,7 +241,7 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
       </div>
       {mode === 'article-top' && (
         <div {...styles.bottomRow}>
-          {ActionItemsSecondary.map(props => (
+          {ActionItemsSecondary.filter(item => item.show).map(props => (
             <Fragment key={props.title}>
               {props.element || <IconButton {...props} />}
             </Fragment>
@@ -230,6 +268,13 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
           emailSubject={emailSubject}
           emailBody={''}
           emailAttachUrl
+        />
+      )}
+      {podcastOverlayVisible && (
+        <PodcastOverlay
+          onClose={() => setPodcastOverlayVisible(false)}
+          title={t('article/actionbar/share')}
+          podcast={podcast}
         />
       )}
     </>

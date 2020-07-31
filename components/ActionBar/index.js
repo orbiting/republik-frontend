@@ -11,6 +11,7 @@ import { IconButton } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
+import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import { trackEvent } from '../../lib/piwik'
 import { getDiscussionIconLinkProps } from './utils'
@@ -28,7 +29,7 @@ import Bookmark from './Bookmark'
 import DiscussionButton from './DiscussionButton'
 import UserProgress from './UserProgress'
 
-const ActionBar = ({ t, mode, document, inNativeApp }) => {
+const ActionBar = ({ mode, document, t, inNativeApp }) => {
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
@@ -58,6 +59,7 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
     meta.template,
     meta.path
   )
+  const { toggleAudioPlayer } = useContext(AudioContext)
 
   const displayMinutes = Math.max(
     meta.estimatedConsumptionMinutes,
@@ -66,7 +68,19 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
   const displayHours = Math.floor(displayMinutes / 60)
 
   const forceShortLabel = mode === 'article-overlay' || mode === 'feed'
-  const { toggleAudioPlayer } = useContext(AudioContext)
+
+  // centering
+  const splitContent = document.content && splitByTitle(document.content)
+  const titleNode =
+    splitContent &&
+    splitContent.title &&
+    splitContent.title.children[splitContent.title.children.length - 1]
+  const centered =
+    (titleNode && titleNode.data && titleNode.data.center) ||
+    meta.template === 'format' ||
+    meta.template === 'section'
+
+  console.log('centered', centered)
 
   const ActionItems = [
     {
@@ -274,6 +288,7 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
       <div
         {...styles.topRow}
         {...(mode === 'article-overlay' && { ...styles.overlay })}
+        {...(!!centered && { ...styles.centered })}
       >
         {ActionItems.filter(item => item.show && item.modes.includes(mode)).map(
           props => (
@@ -284,7 +299,7 @@ const ActionBar = ({ t, mode, document, inNativeApp }) => {
         )}
       </div>
       {mode === 'article-top' && (
-        <div {...styles.bottomRow}>
+        <div {...styles.bottomRow} {...(!!centered && { ...styles.centered })}>
           {ActionItemsSecondary.filter(item => item.show).map(props => (
             <Fragment key={props.title}>
               {props.element || <IconButton {...props} />}
@@ -339,6 +354,9 @@ const styles = {
     padding: '0 16px',
     display: 'flex',
     justifyContent: 'space-between'
+  }),
+  centered: css({
+    justifyContent: 'center'
   })
 }
 

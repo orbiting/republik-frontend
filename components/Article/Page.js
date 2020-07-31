@@ -591,7 +591,6 @@ class ArticlePage extends Component {
           loading={data.loading}
           error={data.error}
           render={() => {
-            console.log(this.bar)
             if (!article || !schema) {
               return (
                 <StatusError

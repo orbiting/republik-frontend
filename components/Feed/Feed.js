@@ -40,7 +40,6 @@ class Feed extends Component {
 
   render() {
     const { documents, showHeader } = this.props
-    console.log(documents)
 
     if (showHeader) {
       return groupByDate.entries(documents).map(({ key, values }, i, all) => (

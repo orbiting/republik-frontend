@@ -3,7 +3,7 @@ import { css } from 'glamor'
 import { withRouter } from 'next/router'
 
 import Frame from '../Frame'
-import ActionBarNew from '../ActionBar/ActionBarNew'
+import ActionBar from '../ActionBar'
 import ActionBarOverlay from './ActionBarOverlay'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
@@ -303,9 +303,7 @@ class ArticlePage extends Component {
   constructor(props) {
     super(props)
 
-    this.barRef = ref => {
-      this.bar = ref
-    }
+    this.barRef = React.createRef()
 
     this.bottomBarRef = ref => {
       this.bottomBar = ref
@@ -474,14 +472,7 @@ class ArticlePage extends Component {
       meta && meta.template === 'editorialNewsletter'
 
     const actionBar = article && (
-      <ActionBarNew
-        mode='article-top'
-        t={t}
-        document={article}
-        inNativeApp={inNativeApp}
-        podcast={podcast}
-        onAudioClick={meta.audioSource && this.toggleAudio}
-      />
+      <ActionBar mode='article-top' document={article} />
     )
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
@@ -600,7 +591,7 @@ class ArticlePage extends Component {
           loading={data.loading}
           error={data.error}
           render={() => {
-            console.log(this.barRef)
+            console.log(this.bar)
             if (!article || !schema) {
               return (
                 <StatusError
@@ -825,7 +816,10 @@ class ArticlePage extends Component {
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.repoId} />}
-                <ActionBarOverlay inNativeApp={inNativeApp}>
+                <ActionBarOverlay
+                  audioPlayerVisible={this.props.audioPlayerVisible}
+                  inNativeApp={inNativeApp}
+                >
                   {actionBarOverlay}
                 </ActionBarOverlay>
                 {(hasActiveMembership || isFormat) && (
@@ -866,8 +860,12 @@ const ComposedPage = compose(
 
 const ComposedPageWithAudio = props => (
   <AudioContext.Consumer>
-    {({ toggleAudioPlayer }) => (
-      <ComposedPage {...props} toggleAudioPlayer={toggleAudioPlayer} />
+    {({ toggleAudioPlayer, audioPlayerVisible }) => (
+      <ComposedPage
+        {...props}
+        audioPlayerVisible={audioPlayerVisible}
+        toggleAudioPlayer={toggleAudioPlayer}
+      />
     )}
   </AudioContext.Consumer>
 )

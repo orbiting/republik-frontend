@@ -4,7 +4,7 @@ import { mediaQueries } from '@project-r/styleguide'
 
 const ACTIONBAR_FADE_AREA = 400
 
-const ActionBarOverlay = ({ children, actionBarTopY, inNativeApp }) => {
+const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
   const [actionBarOpacity, setActionBarOpacity] = useState(0)
 
   const fixedRef = useRef()
@@ -13,33 +13,29 @@ const ActionBarOverlay = ({ children, actionBarTopY, inNativeApp }) => {
   const lastDiff = useRef()
   const actionBarOpacityRef = useRef()
 
-  const bottomOffset = inNativeApp ? 20 : 44
-  const bottomOffsetShift = bottomOffset + 48
+  const audioPlayerOffset = audioPlayerVisible ? 112 : 0
+  const bottomOffset = audioPlayerOffset ? 24 : inNativeApp ? 20 : 44
+  const bottomPosition = audioPlayerOffset + bottomOffset
 
   actionBarOpacityRef.current = actionBarOpacity
+
   useEffect(() => {
     const onScroll = () => {
       const y = Math.max(window.pageYOffset)
-      const newDiff = lastY.current ? lastY.current - y : bottomOffset
+      const newDiff = lastY.current ? lastY.current - y : bottomPosition
       diff.current += newDiff
-      diff.current = Math.min(
-        Math.max(-bottomOffsetShift, diff.current),
-        bottomOffset
-      )
+      diff.current = Math.min(Math.max(-100, diff.current), bottomPosition)
+      const opacityFromScrenPosition =
+        0 + Math.min(1, Math.max(0, y - 300) / ACTIONBAR_FADE_AREA)
 
-      if (diff.current !== lastDiff.current) {
-        fixedRef.current.style.bottom = `${diff.current}px`
-      }
+      const opacity =
+        opacityFromScrenPosition >= 1
+          ? diff.current / bottomPosition
+          : Math.min(opacityFromScrenPosition, diff.current / bottomPosition)
+      setActionBarOpacity(opacity)
 
       lastY.current = y
       lastDiff.current = diff.current
-
-      // 300 should be replaced with y location of action bar
-      const newActionBarOpacity =
-        0 + Math.min(1, Math.max(0, y - 300) / ACTIONBAR_FADE_AREA)
-      if (newActionBarOpacity !== actionBarOpacityRef.current) {
-        setActionBarOpacity(newActionBarOpacity)
-      }
     }
 
     window.addEventListener('scroll', onScroll)
@@ -51,9 +47,11 @@ const ActionBarOverlay = ({ children, actionBarTopY, inNativeApp }) => {
   return (
     <div
       ref={fixedRef}
-      style={{ opacity: actionBarOpacity }}
+      style={{
+        opacity: actionBarOpacity,
+        bottom: bottomPosition
+      }}
       {...styles.container}
-      {...css({ [mediaQueries.mUp]: { right: 0 } })}
     >
       {children}
     </div>
@@ -63,15 +61,16 @@ const ActionBarOverlay = ({ children, actionBarTopY, inNativeApp }) => {
 const styles = {
   container: css({
     position: 'fixed',
-    bottom: 44,
     left: 0,
     right: 0,
     padding: '12px 0',
     margin: '0 20px',
     boxShadow: '0 0 15px rgba(0,0,0,0.1)',
     backgroundColor: 'white',
+    transition: 'bottom ease-out 0.3s',
     [mediaQueries.mUp]: {
-      boxShadow: 'none'
+      right: 16,
+      left: 'auto'
     }
   })
 }

@@ -11,13 +11,14 @@ const DiscussionButton = ({
   discussionPath,
   discussionQuery,
   discussionCount,
-  isDiscussionPage
+  isDiscussionPage,
+  forceShortLabel
 }) => {
   return (
     <IconButton
       Icon={DiscussionIcon}
       href={isDiscussionPage ? '#' : discussionPath}
-      label={`${discussionCount} Beiträge`}
+      label={forceShortLabel ? discussionCount : `${discussionCount} Beiträge`}
       labelShort={discussionCount}
       query={discussionQuery}
       fill={colors.primary}

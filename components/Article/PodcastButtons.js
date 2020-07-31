@@ -59,7 +59,7 @@ const PodcastButtons = ({
   }, [copyLinkSuffix])
 
   if (!podigeeSlug) {
-    return
+    return null
   }
 
   const mainFeed = `https://${podigeeSlug}.podigee.io/feed/mp3`

@@ -14,7 +14,7 @@ import {
 } from '@project-r/styleguide'
 
 const UserProgress = (
-  { t, documentId, userProgress, upsertDocumentProgress },
+  { t, documentId, userProgress, upsertDocumentProgress, forceShortLabel },
   { restoreArticleProgress }
 ) => {
   const { percentage, updatedAt } = userProgress
@@ -62,7 +62,7 @@ const UserProgress = (
       onClick={restoreArticleProgress}
       href={restoreArticleProgress ? '#' : undefined}
       title={datetime(t, new Date(updatedAt))}
-      label={`Zur Leseposition: ${percent}%`}
+      label={forceShortLabel ? `${percent}%` : `Zur Leseposition: ${percent}%`}
       labelShort={`${percent}%`}
     />
   )

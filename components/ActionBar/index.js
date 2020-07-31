@@ -1,280 +1,345 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, Fragment, useContext } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
-
-import UserProgress from './UserProgress'
-import Bookmark from './Bookmark'
-import IconLink from '../IconLink'
-import ReadingTime from './ReadingTime'
-import ShareOverlay from './ShareOverlay'
-import FontSizeOverlay from '../FontSize/Overlay'
+import {
+  MdPictureAsPdf,
+  MdQueryBuilder,
+  MdPlayCircleOutline,
+  MdMic
+} from 'react-icons/md'
+import { IconButton } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { trackEvent } from '../../lib/piwik'
-
-import { colors } from '@project-r/styleguide'
 
 import { shouldIgnoreClick } from '../../lib/utils/link'
+import { trackEvent } from '../../lib/piwik'
+import { getDiscussionIconLinkProps } from './utils'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
+import PdfOverlay, { getPdfUrl, countImages } from '../Article/PdfOverlay'
+import FontSizeOverlay from '../FontSize/Overlay'
+import ShareOverlay from './ShareOverlay'
+import PodcastOverlay from './PodcastOverlay'
+import { AudioContext } from '../Audio'
 
-import { PUBLIKATOR_BASE_URL } from '../../lib/constants'
+import FontSizeIcon from '../Icons/FontSize'
+import ShareIOSIcon from '../Icons/ShareIOS'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
+import Bookmark from './Bookmark'
+import DiscussionButton from './DiscussionButton'
+import UserProgress from './UserProgress'
+
+const ActionBar = ({ t, mode, document, inNativeApp }) => {
+  const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
+  const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
+  const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
+  const [podcastOverlayVisible, setPodcastOverlayVisible] = useState(false)
+  const meta = document && {
+    ...document.meta,
+    url: `${PUBLIC_BASE_URL}${document.meta.path}`
+  }
+  const podcast =
+    meta.podcast ||
+    (meta.audioSource && meta.format && meta.format.meta.podcast)
+  const hasPdf = meta && meta.template === 'article'
+  const isDiscussion = meta && meta.template === 'discussion'
+  const emailSubject = t('article/share/emailSubject', {
+    title: document.title
+  })
+  console.log(document)
+  const {
+    discussionId,
+    discussionPath,
+    discussionQuery,
+    discussionCount,
+    isDiscussionPage
+  } = getDiscussionIconLinkProps(
+    meta.linkedDiscussion,
+    meta.ownDiscussion,
+    meta.template,
+    meta.path
+  )
+
+  const displayMinutes = Math.max(
+    meta.estimatedConsumptionMinutes,
+    meta.estimatedReadingMinutes
+  )
+  const displayHours = Math.floor(displayMinutes / 60)
+
+  const forceShortLabel = mode === 'article-overlay' || mode === 'feed'
+  const { toggleAudioPlayer } = useContext(AudioContext)
+
+  const ActionItems = [
+    {
+      title: t(`article/actionbar/pdf/options}`),
+      Icon: MdPictureAsPdf,
+      href: hasPdf && getPdfUrl(meta),
+      onClick: e => {
+        if (shouldIgnoreClick(e)) {
+          return
+        }
+        e.preventDefault()
+        hasPdf && countImages(document.content) > 0
+          ? setPdfOverlayVisible(!pdfOverlayVisible)
+          : undefined
+      },
+      modes: ['article-top', 'article-bottom'],
+      show: true
+    },
+    {
+      title: t('article/actionbar/fontSize/title'),
+      Icon: FontSizeIcon,
+      href: meta.url,
+      onClick: e => {
+        e.preventDefault()
+        setFontSizeOverlayVisible(!fontSizeOverlayVisible)
+      },
+      modes: ['article-top'],
+      show: true
+    },
+    {
+      title: 'Folgen',
+      element: (
+        <SubscribeMenu
+          discussionId={
+            isDiscussion && meta.ownDiscussion && meta.ownDiscussion.id
+          }
+          subscriptions={document.subscribedBy && document.subscribedBy.nodes}
+          label={t('SubscribeMenu/title')}
+        />
+      ),
+      modes: ['article-top', 'article-bottom'],
+      show: true
+    },
+    {
+      title: 'Lesezeichen',
+      element: (
+        <Bookmark
+          bookmarked={!!document.userBookmark}
+          documentId={document.id}
+          label={!forceShortLabel ? t('bookmark/label') : ''}
+        />
+      ),
+      modes: ['article-top', 'article-overlay', 'feed'],
+      show: true
+    },
+    {
+      title: 'Lesezeit',
+      Icon: MdQueryBuilder,
+      label: !forceShortLabel
+        ? `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes} Minuten`
+        : `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes}'`,
+      labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes}'`,
+      noClick: true,
+      modes: ['feed'],
+      show: displayMinutes > 0
+    },
+    {
+      Icon: MdPlayCircleOutline,
+      onClick: e => {
+        e.preventDefault()
+        trackEvent(['ActionBar', 'audio', meta.url])
+        toggleAudioPlayer({
+          audioSource: meta.audioSource,
+          title: meta.title,
+          path: meta.path
+        })
+      },
+      label: t('PodcastButtons/play'),
+      modes: ['feed'],
+      show: !!meta.audioSource
+    },
+    {
+      title: t('article/actionbar/share'),
+      Icon: ShareIOSIcon,
+      href: meta.url,
+      onClick: e => {
+        e.preventDefault()
+        trackEvent(['ActionBar', 'share', meta.url])
+        if (inNativeApp) {
+          postMessage({
+            type: 'share',
+            payload: {
+              title: document.title,
+              url: meta.url,
+              subject: emailSubject,
+              dialogTitle: t('article/share/title')
+            }
+          })
+          e.target.blur()
+        } else {
+          setShareOverlayVisible(!shareOverlayVisible)
+        }
+      },
+      label: !forceShortLabel ? 'Teilen' : '',
+      modes: ['article-top', 'article-bottom', 'article-overlay'],
+      show: true
+    },
+    {
+      title: 'Leseposition',
+      element:
+        document.userProgress && displayMinutes > 1 ? (
+          <UserProgress
+            documentId={document.id}
+            forceShortLabel={forceShortLabel}
+            userProgress={
+              !document.userProgress.percentage &&
+              document.userProgress.max &&
+              document.userProgress.max.percentage === 1
+                ? document.userProgress.max
+                : document.userProgress
+            }
+          />
+        ) : (
+          <></>
+        ),
+      modes: ['article-overlay', 'feed'],
+      show: true
+    },
+    {
+      title: 'Dialog',
+      element: (
+        <DiscussionButton
+          discussionId={discussionId}
+          discussionPath={discussionPath}
+          discussionQuery={discussionQuery}
+          discussionCount={discussionCount}
+          isDiscussionPage={isDiscussionPage}
+          forceShortLabel={forceShortLabel}
+        />
+      ),
+      modes: ['article-top', 'article-bottom', 'article-overlay', 'feed'],
+      show: !!discussionId
+    }
+  ]
+  const ActionItemsSecondary = [
+    {
+      title: 'Lesezeit',
+      Icon: MdQueryBuilder,
+      label: `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes} Minuten`,
+      labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes}'`,
+      noClick: true,
+      show: true
+    },
+    {
+      title: 'Leseposition',
+      element:
+        document.userProgress && displayMinutes > 1 ? (
+          <UserProgress
+            documentId={document.id}
+            userProgress={
+              !document.userProgress.percentage &&
+              document.userProgress.max &&
+              document.userProgress.max.percentage === 1
+                ? document.userProgress.max
+                : document.userProgress
+            }
+          />
+        ) : (
+          <></>
+        ),
+      show: (document.userProgress && displayMinutes > 1) || !podcast
+    },
+    {
+      Icon: MdPlayCircleOutline,
+      onClick: e => {
+        e.preventDefault()
+        trackEvent(['ActionBar', 'audio', meta.url])
+        toggleAudioPlayer({
+          audioSource: meta.audioSource,
+          title: meta.title,
+          path: meta.path
+        })
+      },
+      label: t('PodcastButtons/play'),
+      show: !!meta.audioSource
+    },
+    {
+      Icon: MdMic,
+      onClick: e => {
+        e.preventDefault()
+        trackEvent(['ActionBar', 'podcasts', meta.url])
+        setPodcastOverlayVisible(!podcastOverlayVisible)
+      },
+      label: t('PodcastButtons/title'),
+      show: !podcast && !!meta.audioSource
+    }
+  ]
+  return (
+    <>
+      <div
+        {...styles.topRow}
+        {...(mode === 'article-overlay' && { ...styles.overlay })}
+      >
+        {ActionItems.filter(item => item.show && item.modes.includes(mode)).map(
+          props => (
+            <Fragment key={props.title}>
+              {props.element || <IconButton {...props} />}
+            </Fragment>
+          )
+        )}
+      </div>
+      {mode === 'article-top' && (
+        <div {...styles.bottomRow}>
+          {ActionItemsSecondary.filter(item => item.show).map(props => (
+            <Fragment key={props.title}>
+              {props.element || <IconButton {...props} />}
+            </Fragment>
+          ))}
+        </div>
+      )}
+
+      {/* OVERLAYS */}
+      {pdfOverlayVisible && (
+        <PdfOverlay
+          article={document}
+          onClose={() => setPdfOverlayVisible(false)}
+        />
+      )}
+      {fontSizeOverlayVisible && (
+        <FontSizeOverlay onClose={() => setFontSizeOverlayVisible(false)} />
+      )}
+      {shareOverlayVisible && (
+        <ShareOverlay
+          onClose={() => setShareOverlayVisible(false)}
+          url={meta.url}
+          title={t('article/actionbar/share')}
+          tweet={''}
+          emailSubject={emailSubject}
+          emailBody={''}
+          emailAttachUrl
+        />
+      )}
+      {podcastOverlayVisible && (
+        <PodcastOverlay
+          onClose={() => setPodcastOverlayVisible(false)}
+          title={t('article/actionbar/share')}
+          podcast={podcast}
+        />
+      )}
+    </>
+  )
+}
 
 const styles = {
-  buttonGroup: css({
-    '@media print': {
-      display: 'none'
-    }
+  topRow: css({
+    display: 'flex'
+  }),
+  bottomRow: css({
+    display: 'flex',
+    marginTop: 24
+  }),
+  overlay: css({
+    marginTop: 0,
+    width: '100%',
+    padding: '0 16px',
+    display: 'flex',
+    justifyContent: 'space-between'
   })
 }
 
-class ActionBar extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      showShareOverlay: false,
-      showFontSizeOverlay: false
-    }
-
-    this.toggleShare = () => {
-      this.setState({
-        showShareOverlay: !this.state.showShareOverlay
-      })
-    }
-
-    this.toggleFontSize = () => {
-      this.setState({
-        showFontSizeOverlay: !this.state.showFontSizeOverlay
-      })
-    }
-  }
-
-  render() {
-    const {
-      t,
-      url,
-      pocket,
-      title,
-      tweet,
-      emailSubject,
-      emailBody,
-      emailAttachUrl,
-      download,
-      dossierUrl,
-      fill,
-      onAudioClick,
-      onGalleryClick,
-      onPdfClick,
-      pdfUrl,
-      fontSize,
-      estimatedReadingMinutes,
-      estimatedConsumptionMinutes,
-      shareOverlayTitle,
-      showBookmark,
-      showShare,
-      documentId,
-      repoId,
-      isEditor,
-      bookmarked,
-      inNativeApp,
-      animate,
-      inIOS,
-      subscriptions,
-      showSubscribe,
-      isDiscussion,
-      ownDiscussion,
-      userProgress
-    } = this.props
-    const { showShareOverlay, showFontSizeOverlay } = this.state
-
-    const icons = [
-      showShare && {
-        icon: inIOS ? 'shareIOS' : 'share',
-        href: url,
-        onClick: e => {
-          e.preventDefault()
-
-          trackEvent(['ActionBar', 'share', url])
-          if (inNativeApp) {
-            postMessage({
-              type: 'share',
-              payload: {
-                title,
-                url,
-                subject: emailSubject,
-                dialogTitle: shareOverlayTitle
-              }
-            })
-            e.target.blur()
-          } else {
-            this.toggleShare()
-          }
-        },
-        title: t('article/actionbar/share')
-      },
-      dossierUrl && {
-        href: dossierUrl,
-        icon: 'dossier',
-        title: t('article/actionbar/dossier')
-      },
-      download && {
-        target: '_blank',
-        download: true,
-        href: download,
-        icon: 'download',
-        title: t('article/actionbar/download')
-      },
-      pdfUrl && {
-        icon: 'pdf',
-        href: pdfUrl,
-        onClick:
-          onPdfClick &&
-          (e => {
-            if (shouldIgnoreClick(e)) {
-              return
-            }
-            e.preventDefault()
-            onPdfClick()
-          }),
-        title: t(`article/actionbar/pdf/${onPdfClick ? 'options' : 'open'}`)
-      },
-      fontSize && {
-        icon: 'fontSize',
-        href: url,
-        onClick: e => {
-          e.preventDefault()
-          this.toggleFontSize()
-        },
-        title: t('article/actionbar/fontSize/title')
-      },
-      onAudioClick && {
-        icon: 'audio',
-        href: '#audio',
-        onClick: e => {
-          e.preventDefault()
-          trackEvent(['ActionBar', 'audio', url])
-          onAudioClick && onAudioClick()
-        },
-        title: t('article/actionbar/audio'),
-        animate
-      },
-      onGalleryClick && {
-        icon: 'gallery',
-        href: '#gallery',
-        onClick: e => {
-          e.preventDefault()
-          trackEvent(['ActionBar', 'gallery', url])
-          onGalleryClick && onGalleryClick()
-        },
-        title: t('feed/actionbar/gallery')
-      }
-    ]
-
-    const editorIcons = [
-      repoId &&
-        PUBLIKATOR_BASE_URL && {
-          icon: 'edit',
-          href: `${PUBLIKATOR_BASE_URL}/repo/${repoId}/tree`,
-          title: t('feed/actionbar/edit'),
-          size: 23,
-          target: '_blank'
-        }
-    ]
-
-    const displayConsumptionMinutes =
-      estimatedConsumptionMinutes > estimatedReadingMinutes
-        ? estimatedConsumptionMinutes
-        : estimatedReadingMinutes
-
-    return (
-      <Fragment>
-        {showShareOverlay && (
-          <ShareOverlay
-            onClose={this.toggleShare}
-            url={url}
-            pocket={pocket}
-            title={shareOverlayTitle || t('article/actionbar/share')}
-            tweet={tweet}
-            emailSubject={emailSubject}
-            emailBody={emailBody}
-            emailAttachUrl={emailAttachUrl}
-          />
-        )}
-        {showFontSizeOverlay && (
-          <FontSizeOverlay onClose={this.toggleFontSize} />
-        )}
-        <span {...styles.buttonGroup}>
-          {showBookmark && (
-            <Bookmark
-              bookmarked={bookmarked}
-              documentId={documentId}
-              active={false}
-              size={28}
-              style={{ marginLeft: '-4px', paddingRight: 0 }}
-            />
-          )}
-          {showSubscribe && subscriptions && (
-            <SubscribeMenu
-              discussionId={isDiscussion && ownDiscussion && ownDiscussion.id}
-              subscriptions={subscriptions}
-              style={{ marginRight: -2, marginLeft: 2 }}
-            />
-          )}
-          {icons.filter(Boolean).map((props, i) => (
-            <IconLink key={props.icon} fill={fill} {...props} />
-          ))}
-          {displayConsumptionMinutes > 1 && (
-            <ReadingTime minutes={displayConsumptionMinutes} />
-          )}
-          {userProgress && estimatedReadingMinutes > 1 && (
-            <UserProgress
-              userProgress={
-                !userProgress.percentage &&
-                userProgress.max &&
-                userProgress.max.percentage === 1
-                  ? userProgress.max
-                  : userProgress
-              }
-            />
-          )}
-          {isEditor &&
-            editorIcons
-              .filter(Boolean)
-              .map((props, i) => (
-                <IconLink key={props.icon} fill={colors.social} {...props} />
-              ))}
-        </span>
-      </Fragment>
-    )
-  }
-}
-
-ActionBar.propTypes = {
-  url: PropTypes.string.isRequired,
-  tweet: PropTypes.string.isRequired,
-  emailSubject: PropTypes.string.isRequired,
-  emailBody: PropTypes.string.isRequired,
-  emailAttachUrl: PropTypes.bool.isRequired,
-  fill: PropTypes.string,
-  onAudioClick: PropTypes.func,
-  onGalleryClick: PropTypes.func,
-  onPdfClick: PropTypes.func,
-  pdfUrl: PropTypes.string,
-  estimatedReadingMinutes: PropTypes.number,
-  shareOverlayTitle: PropTypes.string,
-  showBookmark: PropTypes.bool,
-  showSubscribe: PropTypes.bool,
-  subscriptions: PropTypes.array,
-  isDiscussion: PropTypes.bool,
-  ownDiscussion: PropTypes.object
-}
-
-ActionBar.defaultProps = {
-  tweet: '',
-  emailBody: '',
-  emailAttachUrl: true,
-  showShare: true
-}
-
-export default compose(withInNativeApp, withT)(ActionBar)
+export default compose(withT, withInNativeApp)(ActionBar)

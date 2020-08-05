@@ -192,6 +192,48 @@ export default {
       <Highlight {...p} ids={['3RaedFB5f']}>
         Her Kindness Jacinda Ardern
       </Highlight>
+      . Und ein Rückblick auf die 50 Jahre seit der Schwarzenbach-Initiative mit{' '}
+      <Highlight {...p} ids={['pdEveftdx']}>
+        Historiker Damir Skenderovic
+      </Highlight>{' '}
+      und Daniel Binswanger.
+    </>
+  ),
+  Juli: p => (
+    <>
+      <Highlight {...p} ids={['dQLQTuH4j']}>
+        «Nau.ch» und die Kurzarbeit
+      </Highlight>
+      . Der{' '}
+      <Highlight {...p} ids={['8mfUVh--V']}>
+        Besuch im Gefängnis Pöschwies bei Brian
+      </Highlight>
+      . Ein{' '}
+      <Highlight {...p} ids={['BuI6ucvUN']}>
+        Asylarzt als Kronzeuge
+      </Highlight>{' '}
+      wider Willen. Das{' '}
+      <Highlight {...p} ids={['yDx4CPiM6']}>
+        Interview mit einem Ex-Gefängnisdirektor
+      </Highlight>
+      , der Gefängnisse nun abschaffen will. In «Geschmacksache» erscheinen nun
+      regelmässig Rezepte, den Auftakt machen{' '}
+      <Highlight {...p} series='republik/article-underneath-the-mango-tree'>
+        Mangos in Sommerrollen
+      </Highlight>
+      . Weiter mit Musik:{' '}
+      <Highlight {...p} ids={['gGijK_HmO']}>
+        Bob Dylan
+      </Highlight>{' '}
+      krönt sein Werk mit einem Präsidentenmord und was{' '}
+      <Highlight {...p} ids={['AM_fsm01y']}>
+        K-Pop
+      </Highlight>{' '}
+      mit einer Wahlkampfveranstaltung in Oklahoma zu tun hat. Und in unserer
+      Sommerserie nehmen wir Sie mit{' '}
+      <Highlight {...p} series='republik/article-auftakt-inseln'>
+        auf Inseln
+      </Highlight>
       .
     </>
   )

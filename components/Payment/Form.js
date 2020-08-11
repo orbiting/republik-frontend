@@ -84,7 +84,6 @@ const styles = {
   secure: css({
     fontFamily: fontFamilies.sansSerifMedium,
     fontSize: 14,
-    color: colors.primary,
     marginBottom: 20,
     marginTop: 10,
     '& svg': {
@@ -230,7 +229,7 @@ class PaymentForm extends Component {
               {
                 type: 'three_d_secure',
                 currency: 'CHF',
-                amount: total,
+                amount: total || 24000,
                 three_d_secure: {
                   card: source.id
                 },
@@ -277,19 +276,37 @@ class PaymentForm extends Component {
       paymentSources,
       loadingPaymentSources,
       onlyChargable,
-      withoutAddress
+      withoutAddress,
+      context
     } = this.props
     const { paymentMethod } = values
     const visibleMethods = allowedMethods || PAYMENT_METHODS.map(pm => pm.key)
 
     const hasChoice = visibleMethods.length > 1
     const onlyStripe = !hasChoice && visibleMethods[0] === 'STRIPE'
+    const stripeNote = t.first(
+      [
+        context &&
+          `payment/stripe/${onlyStripe ? 'only' : 'prefered'}/${context}`,
+        `payment/stripe/${onlyStripe ? 'only' : 'prefered'}`
+      ].filter(Boolean),
+      undefined,
+      ''
+    )
 
     const paymentMethodForm = !values.paymentSource && paymentMethod
 
     return (
       <div>
-        <H2>{t(`payment/title${!hasChoice ? '/single' : ''}`)}</H2>
+        <H2>
+          {t.first(
+            [
+              context &&
+                `payment/title${!hasChoice ? '/single' : ''}/${context}`,
+              `payment/title${!hasChoice ? '/single' : ''}`
+            ].filter(Boolean)
+          )}
+        </H2>
         <div {...styles.secure}>
           <LockIcon /> {t('payment/secure')}
         </div>
@@ -501,9 +518,7 @@ class PaymentForm extends Component {
               e.preventDefault()
             }}
           >
-            <Label>
-              {t(`payment/stripe/${onlyStripe ? 'only' : 'prefered'}`)}
-            </Label>
+            {stripeNote && <Label>{stripeNote}</Label>}
             <FieldSet
               values={values}
               errors={errors}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
+import { descending } from 'd3-array'
 
 import withT from '../../../lib/withT'
 import withMe from '../../../lib/apollo/withMe'
@@ -22,7 +23,8 @@ class MembershipsList extends Component {
       loading,
       error,
       highlightId,
-      waitingMemberships
+      activeMembership,
+      hasWaitingMemberships
     } = this.props
 
     return (
@@ -41,7 +43,7 @@ class MembershipsList extends Component {
                   count: memberships.length
                 })}
               </H2>
-              {!memberships.find(membership => membership.active) && (
+              {!activeMembership && (
                 <Box style={{ padding: '15px 20px', margin: '1em 0em' }}>
                   <P>{t('memberships/noActive')}</P>
                 </Box>
@@ -51,7 +53,7 @@ class MembershipsList extends Component {
                   key={membership.id}
                   membership={membership}
                   highlighted={highlightId === membership.pledge.id}
-                  waitingMemberships={waitingMemberships}
+                  hasWaitingMemberships={hasWaitingMemberships}
                 />
               ))}
             </div>
@@ -77,11 +79,15 @@ export default compose(
               (me.id === m.user.id && !m.voucherCode && !m.accessGranted)
           )) ||
         []
+
+      const activeMembership = memberships.find(membership => membership.active)
+
       return {
         loading: data.loading,
         error: data.error,
+        activeMembership,
         memberships,
-        waitingMemberships: memberships.some(
+        hasWaitingMemberships: memberships.some(
           m => !m.active && !m.periods.length
         )
       }

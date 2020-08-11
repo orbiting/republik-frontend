@@ -82,7 +82,7 @@ class Account extends Component {
       hasActiveMemberships,
       hasAccessGrants,
       acceptedStatue,
-      recurringAmount,
+      isAutoPaying,
       hasPledges,
       merci,
       inNativeIOSApp,
@@ -137,9 +137,7 @@ class Account extends Component {
                   {!inNativeIOSApp && (
                     <AccountAnchor id='abos'>
                       <MembershipList highlightId={query.id} />
-                      {recurringAmount > 0 && (
-                        <PaymentSources query={query} total={recurringAmount} />
-                      )}
+                      {isAutoPaying && <PaymentSources query={query} />}
                     </AccountAnchor>
                   )}
 
@@ -226,16 +224,14 @@ export default compose(
         hasActiveMemberships,
         memberships: hasMemberships && data.me.memberships,
         hasAccessGrants,
-        recurringAmount: hasMemberships
-          ? max(
-              data.me.memberships.map(m => {
-                const recurringOptions = m.pledge.options.filter(
-                  o => o.reward && o.reward.name === 'MONTHLY_ABO'
-                )
-                return max(recurringOptions.map(o => o.price)) || 0
-              })
-            )
-          : 0
+        isAutoPaying:
+          hasMemberships &&
+          data.me.memberships.some(
+            m =>
+              m.active &&
+              m.renew &&
+              (m.type.name === 'MONTHLY_ABO' || m.autoPay)
+          )
       }
     }
   })

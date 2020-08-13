@@ -189,7 +189,6 @@ class CancelMembership extends Component {
                   this.props
                     .cancel({
                       id: membership.id,
-                      immediately: true,
                       details: {
                         type: cancellationType,
                         reason

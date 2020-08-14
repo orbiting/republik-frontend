@@ -9,6 +9,7 @@ import withApolloClient from '../lib/apollo/withApolloClient'
 import { IconContext } from 'react-icons'
 import Track from '../components/Track'
 import AudioProvider from '../components/Audio'
+import AppVariableContext from '../components/Article/AppVariableContext'
 
 if (typeof window !== 'undefined') {
   const prevErrorHandler = window.onerror
@@ -51,14 +52,16 @@ class WebApp extends App {
         <HeadersProvider headers={headers}>
           <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
             <AudioProvider>
-              <Head>
-                <meta
-                  name='viewport'
-                  content='width=device-width, initial-scale=1'
-                />
-              </Head>
-              <Component serverContext={serverContext} {...pageProps} />
-              <Track />
+              <AppVariableContext>
+                <Head>
+                  <meta
+                    name='viewport'
+                    content='width=device-width, initial-scale=1'
+                  />
+                </Head>
+                <Component serverContext={serverContext} {...pageProps} />
+                <Track />
+              </AppVariableContext>
             </AudioProvider>
           </IconContext.Provider>
         </HeadersProvider>

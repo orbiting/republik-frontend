@@ -9,6 +9,7 @@ import withApolloClient from '../lib/apollo/withApolloClient'
 import { IconContext } from 'react-icons'
 import Track from '../components/Track'
 import AudioProvider from '../components/Audio'
+import AppVariableContext from '../components/Article/AppVariableContext'
 
 if (typeof window !== 'undefined') {
   const prevErrorHandler = window.onerror
@@ -20,20 +21,23 @@ if (typeof window !== 'undefined') {
       (error && error.stack) || [msg, url, lineNo, columnNo].join('\n')
     )
   }
-  const prevRejectionHandler = window.onerror
+  const prevRejectionHandler = window.onunhandledrejection
   window.onunhandledrejection = (...args) => {
     prevRejectionHandler && prevRejectionHandler(...args)
-    const [error] = args
+    const [event] = args
     reportError(
       'onunhandledrejection',
-      (error && error.stack) || error.toString()
+      (event.reason && event.reason.stack) || event.reason
     )
   }
 }
 
 class WebApp extends App {
   componentDidCatch(error, info) {
-    reportError('componentDidCatch', `${error}${info.componentStack}`)
+    reportError(
+      'componentDidCatch',
+      `${error}${info.componentStack}\n${error && error.stack}`
+    )
   }
   render() {
     const {
@@ -48,14 +52,16 @@ class WebApp extends App {
         <HeadersProvider headers={headers}>
           <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
             <AudioProvider>
-              <Head>
-                <meta
-                  name='viewport'
-                  content='width=device-width, initial-scale=1'
-                />
-              </Head>
-              <Component serverContext={serverContext} {...pageProps} />
-              <Track />
+              <AppVariableContext>
+                <Head>
+                  <meta
+                    name='viewport'
+                    content='width=device-width, initial-scale=1'
+                  />
+                </Head>
+                <Component serverContext={serverContext} {...pageProps} />
+                <Track />
+              </AppVariableContext>
             </AudioProvider>
           </IconContext.Provider>
         </HeadersProvider>

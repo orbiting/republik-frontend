@@ -15,6 +15,7 @@ export default gql`
         active
         overdue
         autoPay
+        autoPayIsMutable
         canProlong
         user {
           id

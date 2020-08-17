@@ -102,7 +102,7 @@ class CancelMembership extends Component {
           const latestPeriod = membership.periods[0]
           const formattedEndDate =
             latestPeriod && dayFormat(new Date(latestPeriod.endDate))
-          if (isCancelled) {
+          if (isCancelled || !membership.renew) {
             return (
               <Fragment>
                 <Interaction.H1>
@@ -189,7 +189,6 @@ class CancelMembership extends Component {
                   this.props
                     .cancel({
                       id: membership.id,
-                      immediately: true,
                       details: {
                         type: cancellationType,
                         reason

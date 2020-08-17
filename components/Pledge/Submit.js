@@ -313,7 +313,10 @@ class Submit extends Component {
       loading: t('pledge/submit/loading/pay')
     }))
     this.props
-      .pay(data)
+      .pay({
+        ...data,
+        makeDefault: this.getAutoPayValue()
+      })
       .then(({ data: { payPledge } }) => {
         const baseQuery = {
           package: packageName,
@@ -490,7 +493,7 @@ class Submit extends Component {
       signInError,
       loading
     } = this.state
-    const { me, user, t, query, paymentMethods } = this.props
+    const { me, user, t, query, paymentMethods, packageName } = this.props
 
     const errorMessages = this.getErrorMessages()
 
@@ -511,6 +514,7 @@ class Submit extends Component {
             pfAliasId: this.state.pfAliasId,
             pfSHA: this.state.pfSHA
           }}
+          context={packageName}
           allowedMethods={paymentMethods}
           onChange={fields => {
             this.setState(state => {
@@ -662,12 +666,14 @@ const payPledge = gql`
     $pspPayload: JSON
     $address: AddressInput
     $paperInvoice: Boolean
+    $makeDefault: Boolean
   ) {
     payPledge(
       pledgePayment: {
         pledgeId: $pledgeId
         method: $method
         sourceId: $sourceId
+        makeDefault: $makeDefault
         pspPayload: $pspPayload
         address: $address
         paperInvoice: $paperInvoice
@@ -694,7 +700,7 @@ export const withPay = Component => {
             variables,
             refetchQueries: [{ query: addressQuery }]
           }).then(response => {
-            return new Promise((resolve, reject) => {
+            return new Promise(resolve => {
               if (!pendingOrder) {
                 resolve(response)
               } else {

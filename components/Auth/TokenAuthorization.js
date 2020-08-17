@@ -19,6 +19,7 @@ import Consents, { getConsentsError } from '../Pledge/Consents'
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
 import { Router } from '../../lib/routes'
+import { reportError } from '../../lib/errors'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -154,6 +155,12 @@ class TokenAuthorization extends Component {
       <Loader
         loading={loading || shouldAutoAuthorize(this.props)}
         render={() => {
+          if (!target) {
+            reportError(
+              'TokenAuthorization !target',
+              JSON.stringify(this.props.data, null, 2)
+            )
+          }
           const { authorizeError, consents, values, dirty, errors } = this.state
 
           const errorMessages = Object.keys(errors)
@@ -418,6 +425,7 @@ export default compose(
   graphql(unauthorizedSessionQuery, {
     props: ({ data }) => {
       return {
+        data,
         target: data.target,
         echo: data.echo,
         loading: data.loading,

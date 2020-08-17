@@ -72,7 +72,7 @@ class PaymentSources extends Component {
             loading: t('account/paymentSource/3dsecure')
           })
         },
-        returnUrl: `${PUBLIC_BASE_URL}/account?stripe=1`
+        returnUrl: `${PUBLIC_BASE_URL}/konto?stripe=1`
       })
       .then(source => {
         this.addSource(source)
@@ -133,6 +133,7 @@ class PaymentSources extends Component {
           payload={{
             id: me.id
           }}
+          context='DEFAULT_SOURCE'
           allowedMethods={['STRIPE']}
           onChange={fields => {
             this.setState(state => {
@@ -201,9 +202,6 @@ class PaymentSources extends Component {
             </Button>
           </Fragment>
         )}
-        <br />
-        <br />
-        <br />
       </Fragment>
     )
   }

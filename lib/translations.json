@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-28T08:06:04.949Z",
+  "updated": "2020-07-29T09:37:34.926Z",
   "title": "live",
   "data": [
     {
@@ -2267,6 +2267,10 @@
       "value": "Bezahlung"
     },
     {
+      "key": "payment/title/single/DEFAULT_SOURCE",
+      "value": "Ihre Kreditkarte"
+    },
+    {
       "key": "payment/secure",
       "value": "Sichere Verbindung"
     },
@@ -2311,7 +2315,7 @@
       "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte (Visa, Mastercard) ist für uns das bevorzugte Zahlungsmittel."
     },
     {
-      "key": "payment/stripe/only",
+      "key": "payment/stripe/only/MONTHLY_ABO",
       "value": "Das Monatsabo ist nur mit Kreditkarte (Visa, Mastercard) verfügbar."
     },
     {
@@ -4053,6 +4057,14 @@
     {
       "key": "memberships/manage/cancel/link",
       "value": "Mitgliedschaft kündigen"
+    },
+    {
+      "key": "memberships/manage/autoPay/enable",
+      "value": "Automatische Abbuchung aktivieren"
+    },
+    {
+      "key": "memberships/manage/autoPay/disable",
+      "value": "Automatische Abbuchung deaktivieren"
     },
     {
       "key": "option/PROLONG/additionalPeriods/endDate",

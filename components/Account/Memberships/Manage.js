@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, useState } from 'react'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -21,124 +21,156 @@ import {
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-class Actions extends Component {
-  constructor(...args) {
-    super(...args)
-    this.state = {
-      isCancelling: false,
-      values: {},
-      dirty: {},
-      errors: {}
-    }
+const Actions = ({
+  t,
+  membership,
+  hasWaitingMemberships,
+  reactivate,
+  setAutoPay
+}) => {
+  const [{ updating, remoteError }, setState] = useState({})
+
+  if (updating) {
+    return <InlineSpinner />
   }
-  render() {
-    const { t, membership, waitingMemberships } = this.props
-    const { updating, remoteError } = this.state
 
-    if (updating) {
-      return <InlineSpinner />
-    }
-
-    return (
-      <Fragment>
-        {membership.active &&
-          membership.renew &&
-          membership.type.name === 'MONTHLY_ABO' && (
-            <P>
-              <Interaction.Cursive>
-                {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
-                  buyLink: (
-                    <Link route='pledge' params={{ package: 'ABO' }}>
-                      <a {...linkRule}>
-                        {t(
-                          'memberships/MONTHLY_ABO/manage/upgrade/link/buyText'
-                        )}
-                      </a>
-                    </Link>
-                  )
-                })}
-              </Interaction.Cursive>
-            </P>
-          )}
-        {!membership.canProlong &&
-          membership.active &&
-          membership.renew &&
-          waitingMemberships && (
-            <P>{t('memberships/manage/prolong/awaiting')}</P>
-          )}
-        {!membership.renew && !!membership.periods.length && (
-          <P>
-            <A
-              href='#reactivate'
-              onClick={e => {
-                e.preventDefault()
-                this.setState({
-                  updating: true
-                })
-                this.props
-                  .reactivate({
-                    id: membership.id
-                  })
-                  .then(() => {
-                    this.setState({
-                      updating: false,
-                      remoteError: undefined
-                    })
-                  })
-                  .catch(error => {
-                    this.setState({
-                      updating: false,
-                      remoteError: errorToString(error)
-                    })
-                  })
-              }}
-            >
+  return (
+    <>
+      {!hasWaitingMemberships && membership.canProlong && (
+        <P>
+          <TokenPackageLink
+            params={{
+              package: 'PROLONG'
+            }}
+            passHref
+          >
+            <A>
               {t.first([
-                `memberships/${membership.type.name}/manage/reactivate`,
-                'memberships/manage/reactivate'
+                `memberships/${membership.type.name}/manage/prolong/link`,
+                'memberships/manage/prolong/link'
               ])}
             </A>
-          </P>
-        )}
-        {membership.canProlong && (
-          <P>
-            <TokenPackageLink
-              params={{
-                package: 'PROLONG'
-              }}
-              passHref
-            >
-              <A>
-                {t.first([
-                  `memberships/${membership.type.name}/manage/prolong/link`,
-                  'memberships/manage/prolong/link'
-                ])}
-              </A>
-            </TokenPackageLink>
-          </P>
-        )}
-        {membership.active && membership.renew && (
-          <P>
-            <Link
-              route='cancel'
-              params={{ membershipId: membership.id }}
-              passHref
-            >
-              <A>
-                {t.first([
-                  `memberships/${membership.type.name}/manage/cancel/link`,
-                  'memberships/manage/cancel/link'
-                ])}
-              </A>
-            </Link>
-          </P>
-        )}
-        {!!remoteError && (
-          <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>
-        )}
-      </Fragment>
-    )
-  }
+          </TokenPackageLink>
+        </P>
+      )}
+      {membership.active && (
+        <>
+          {membership.renew && membership.type.name === 'MONTHLY_ABO' && (
+            <P>
+              {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
+                buyLink: (
+                  <Link route='pledge' params={{ package: 'ABO' }}>
+                    <a {...linkRule}>
+                      {t('memberships/MONTHLY_ABO/manage/upgrade/link/buyText')}
+                    </a>
+                  </Link>
+                )
+              })}
+            </P>
+          )}
+          {!hasWaitingMemberships && (
+            <>
+              {membership.renew && (
+                <>
+                  {membership.autoPayIsMutable && (
+                    <P>
+                      <A
+                        href='#autoPay'
+                        onClick={e => {
+                          e.preventDefault()
+                          setState({
+                            updating: true
+                          })
+                          setAutoPay({
+                            id: membership.id,
+                            autoPay: !membership.autoPay
+                          })
+                            .then(() => {
+                              setState({
+                                updating: false,
+                                remoteError: undefined
+                              })
+                            })
+                            .catch(error => {
+                              setState({
+                                updating: false,
+                                remoteError: errorToString(error)
+                              })
+                            })
+                        }}
+                      >
+                        {t.first([
+                          `memberships/${membership.type.name}/manage/autoPay/${
+                            membership.autoPay ? 'disable' : 'enable'
+                          }`,
+                          `memberships/manage/autoPay/${
+                            membership.autoPay ? 'disable' : 'enable'
+                          }`
+                        ])}
+                      </A>
+                    </P>
+                  )}
+                  <P>
+                    <Link
+                      route='cancel'
+                      params={{ membershipId: membership.id }}
+                      passHref
+                    >
+                      <A>
+                        {t.first([
+                          `memberships/${membership.type.name}/manage/cancel/link`,
+                          'memberships/manage/cancel/link'
+                        ])}
+                      </A>
+                    </Link>
+                  </P>
+                </>
+              )}
+              {!membership.renew && !!membership.periods.length && (
+                <P>
+                  <A
+                    href='#reactivate'
+                    onClick={e => {
+                      e.preventDefault()
+                      setState({
+                        updating: true
+                      })
+                      reactivate({
+                        id: membership.id
+                      })
+                        .then(() => {
+                          setState({
+                            updating: false,
+                            remoteError: undefined
+                          })
+                        })
+                        .catch(error => {
+                          setState({
+                            updating: false,
+                            remoteError: errorToString(error)
+                          })
+                        })
+                    }}
+                  >
+                    {t.first([
+                      `memberships/${membership.type.name}/manage/reactivate`,
+                      'memberships/manage/reactivate'
+                    ])}
+                  </A>
+                </P>
+              )}
+            </>
+          )}
+          {hasWaitingMemberships && !membership.canProlong && (
+            <P>{t('memberships/manage/prolong/awaiting')}</P>
+          )}
+        </>
+      )}
+      {!!remoteError && (
+        <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>
+      )}
+    </>
+  )
 }
 
 const cancelMembership = gql`
@@ -161,6 +193,15 @@ const reactivateMembership = gql`
   }
 `
 
+const setMembershipAutoPay = gql`
+  mutation setMembershipAutoPay($id: ID!, $autoPay: Boolean!) {
+    setMembershipAutoPay(id: $id, autoPay: $autoPay) {
+      id
+      autoPay
+    }
+  }
+`
+
 const ManageActions = compose(
   withT,
   graphql(cancelMembership, {
@@ -172,6 +213,11 @@ const ManageActions = compose(
     props: ({ mutate }) => ({
       reactivate: variables => mutate({ variables })
     })
+  }),
+  graphql(setMembershipAutoPay, {
+    props: ({ mutate }) => ({
+      setAutoPay: variables => mutate({ variables })
+    })
   })
 )(Actions)
 
@@ -179,24 +225,17 @@ const Manage = ({
   t,
   membership,
   highlighted,
-  waitingMemberships,
+  hasWaitingMemberships,
   title,
   compact,
   actions
 }) => {
   const createdAt = new Date(membership.createdAt)
-  const latestPeriod =
-    membership.periods &&
-    membership.periods.length > 0 &&
-    membership.periods.reduce((acc, period) => {
-      return acc && new Date(period.endDate) < new Date(acc.endDate)
-        ? acc
-        : period
-    })
+  const latestPeriod = membership.periods?.[0]
 
-  const latestPeriodEndDate = latestPeriod && new Date(latestPeriod.endDate)
-  const formattedEndDate = latestPeriod && dayFormat(latestPeriodEndDate)
-  const overdue = latestPeriod && latestPeriodEndDate < new Date()
+  const endDate = latestPeriod && new Date(latestPeriod.endDate)
+  const formattedEndDate = latestPeriod && dayFormat(endDate)
+  const overdue = latestPeriod && endDate < new Date()
 
   return (
     <AccountItem
@@ -249,7 +288,7 @@ const Manage = ({
       {actions && (
         <ManageActions
           membership={membership}
-          waitingMemberships={waitingMemberships}
+          hasWaitingMemberships={hasWaitingMemberships}
         />
       )}
     </AccountItem>

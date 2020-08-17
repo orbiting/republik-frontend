@@ -46,7 +46,6 @@ const ActionBar = ({ mode, document, t, inNativeApp }) => {
   const emailSubject = t('article/share/emailSubject', {
     title: document.title
   })
-  console.log(document)
   const {
     discussionId,
     discussionPath,
@@ -79,8 +78,6 @@ const ActionBar = ({ mode, document, t, inNativeApp }) => {
     (titleNode && titleNode.data && titleNode.data.center) ||
     meta.template === 'format' ||
     meta.template === 'section'
-
-  console.log('centered', centered)
 
   const ActionItems = [
     {

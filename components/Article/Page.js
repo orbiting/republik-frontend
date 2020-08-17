@@ -8,7 +8,7 @@ import ActionBarOverlay from './ActionBarOverlay'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
-import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
+import PdfOverlay from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
@@ -127,6 +127,7 @@ const styles = {
     marginBottom: 20
   }),
   actionBar: css({
+    marginTop: 16,
     marginBottom: 24,
     [mediaQueries.mUp]: {
       marginBottom: 36
@@ -700,7 +701,6 @@ class ArticlePage extends Component {
                               {...styles.actionBar}
                               style={{
                                 textAlign: titleAlign,
-                                marginTop: isSection || isFormat ? 20 : 0,
                                 marginBottom: isEditorialNewsletter
                                   ? 0
                                   : undefined

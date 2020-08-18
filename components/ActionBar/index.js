@@ -30,7 +30,15 @@ import Bookmark from './Bookmark'
 import DiscussionButton from './DiscussionButton'
 import UserProgress from './UserProgress'
 
-const ActionBar = ({ mode, document, t, inNativeApp, share, download }) => {
+const ActionBar = ({
+  mode,
+  document,
+  t,
+  inNativeApp,
+  share,
+  download,
+  isCentered
+}) => {
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
@@ -38,18 +46,18 @@ const ActionBar = ({ mode, document, t, inNativeApp, share, download }) => {
 
   if (!document) {
     return (
-      <>
+      <div {...styles.topRow} {...(isCentered && { ...styles.centered })}>
         {download && (
           <IconButton
             href={download}
             Icon={MdFileDownload}
-            title={t('article/actionbar/download')}
+            label={share.label || ''}
             target='_blank'
           />
         )}
 
         <IconButton
-          title={share.title}
+          label={share.label || ''}
           Icon={ShareIOSIcon}
           href={share.url}
           onClick={e => {
@@ -82,7 +90,7 @@ const ActionBar = ({ mode, document, t, inNativeApp, share, download }) => {
             emailAttachUrl={share.emailAttachUrl}
           />
         )}
-      </>
+      </div>
     )
   }
 
@@ -236,7 +244,7 @@ const ActionBar = ({ mode, document, t, inNativeApp, share, download }) => {
           setShareOverlayVisible(!shareOverlayVisible)
         }
       },
-      label: !forceShortLabel ? 'Teilen' : '',
+      label: !forceShortLabel ? t('article/actionbar/share') : '',
       modes: ['article-top', 'article-bottom', 'article-overlay'],
       show: true
     },

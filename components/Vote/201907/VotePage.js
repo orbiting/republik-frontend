@@ -37,6 +37,7 @@ const { P } = Interaction
 
 const styles = {
   actions: css({
+    display: 'flex',
     margin: '0 0 20px 0',
     [mediaQueries.lUp]: {
       margin: '30px 0'

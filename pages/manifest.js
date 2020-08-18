@@ -179,7 +179,7 @@ const Page = ({ router, inNativeApp }) => {
       <div style={{ textAlign: 'center', marginBottom: SPACE }}>
         <P>Manifest teilen</P>
         <P style={{ marginBottom: SPACE / 2 }}>
-          <ActionBar share={shareObject} />
+          <ActionBar isCentered share={shareObject} />
         </P>
         <P>
           <A href={`${CDN_FRONTEND_BASE_URL}/static/manifest.pdf`}>

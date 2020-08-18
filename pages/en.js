@@ -176,6 +176,7 @@ class EnPage extends Component {
     }
     const shareObject = {
       url: meta.url,
+      label: 'Share',
       emailSubject: 'Republik Manifesto',
       emailAttachUrl: false,
       emailBody: `Manifesto for journalism by republik.ch: ${meta.url}`,
@@ -279,7 +280,7 @@ class EnPage extends Component {
         <div style={{ textAlign: 'center', marginBottom: SPACE }}>
           <P>Share manifesto</P>
           <P style={{ marginBottom: SPACE / 2 }}>
-            <ActionBar share={shareObject} />
+            <ActionBar isCentered share={shareObject} />
           </P>
           <P>
             <A href={`${CDN_FRONTEND_BASE_URL}/static/manifesto_en.pdf`}>

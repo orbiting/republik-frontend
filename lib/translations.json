@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-29T09:37:34.926Z",
+  "updated": "2020-08-18T08:08:59.202Z",
   "title": "live",
   "data": [
     {
@@ -2911,6 +2911,14 @@
       "value": "Beispiel"
     },
     {
+      "key": "article/actionbar/progress/read",
+      "value": "Gelesen"
+    },
+    {
+      "key": "article/actionbar/progress/unread",
+      "value": "Als ungelesen markieren"
+    },
+    {
       "key": "article/series/episode",
       "value": "Episode {count}"
     },
@@ -3252,7 +3260,7 @@
     },
     {
       "key": "memberships/noActive",
-      "value": "Sie haben keine aktiven Mitgliedschaften oder Abonnements"
+      "value": "Sie haben keine aktiven Mitgliedschaften oder Abonnements."
     },
     {
       "key": "memberships/latestPeriod/renew/true/autoPay/true",
@@ -3641,6 +3649,10 @@
     {
       "key": "feedback/articleItem/newPage/title",
       "value": "Zur Debattenseite"
+    },
+    {
+      "key": "tokenAuthorization/notFound",
+      "value": null
     },
     {
       "key": "tokenAuthorization/error",

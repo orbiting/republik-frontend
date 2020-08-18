@@ -118,6 +118,7 @@ const ActionBar = ({
     meta.template,
     meta.path
   )
+
   const { toggleAudioPlayer } = useContext(AudioContext)
 
   const displayMinutes = Math.max(

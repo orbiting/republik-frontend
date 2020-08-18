@@ -15,6 +15,7 @@ const DiscussionButton = ({
   isDiscussionPage,
   forceShortLabel
 }) => {
+  console.log(discussionPath)
   return (
     <IconButton
       Icon={DiscussionIcon}
@@ -40,5 +41,3 @@ const DiscussionButton = ({
 }
 
 export default withDiscussionCommentsCount(DiscussionButton)
-
-export const DiscussionButtonLinkWithoutEnhancer = DiscussionButton

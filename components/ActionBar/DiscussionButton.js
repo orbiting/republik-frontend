@@ -15,7 +15,6 @@ const DiscussionButton = ({
   isDiscussionPage,
   forceShortLabel
 }) => {
-  console.log(discussionPath)
   return (
     <IconButton
       Icon={DiscussionIcon}

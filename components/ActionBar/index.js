@@ -37,6 +37,8 @@ const ActionBar = ({
   inNativeApp,
   share,
   download,
+  discussion,
+  fontSize,
   isCentered
 }) => {
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
@@ -55,30 +57,46 @@ const ActionBar = ({
             target='_blank'
           />
         )}
-
-        <IconButton
-          label={share.label || ''}
-          Icon={ShareIOSIcon}
-          href={share.url}
-          onClick={e => {
-            e.preventDefault()
-            trackEvent(['ActionBar', 'share', share.url])
-            if (inNativeApp) {
-              postMessage({
-                type: 'share',
-                payload: {
-                  title: share.title,
-                  url: share.url,
-                  subject: share.emailSubject || '',
-                  dialogTitle: t('article/share/title')
-                }
-              })
-              e.target.blur()
-            } else {
-              setShareOverlayVisible(!shareOverlayVisible)
-            }
-          }}
-        />
+        {fontSize && (
+          <IconButton
+            Icon={FontSizeIcon}
+            onClick={e => {
+              e.preventDefault()
+              setFontSizeOverlayVisible(!fontSizeOverlayVisible)
+            }}
+          />
+        )}
+        {discussion && (
+          <SubscribeMenu
+            discussionId={discussion}
+            label={t('SubscribeMenu/title')}
+          />
+        )}
+        {share && (
+          <IconButton
+            label={share.label || ''}
+            Icon={ShareIOSIcon}
+            href={share.url}
+            onClick={e => {
+              e.preventDefault()
+              trackEvent(['ActionBar', 'share', share.url])
+              if (inNativeApp) {
+                postMessage({
+                  type: 'share',
+                  payload: {
+                    title: share.title,
+                    url: share.url,
+                    subject: share.emailSubject || '',
+                    dialogTitle: t('article/share/title')
+                  }
+                })
+                e.target.blur()
+              } else {
+                setShareOverlayVisible(!shareOverlayVisible)
+              }
+            }}
+          />
+        )}
         {shareOverlayVisible && (
           <ShareOverlay
             onClose={() => setShareOverlayVisible(false)}
@@ -89,6 +107,9 @@ const ActionBar = ({
             emailBody={share.emailBody || ''}
             emailAttachUrl={share.emailAttachUrl}
           />
+        )}
+        {fontSizeOverlayVisible && (
+          <FontSizeOverlay onClose={() => setFontSizeOverlayVisible(false)} />
         )}
       </div>
     )

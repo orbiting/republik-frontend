@@ -3,20 +3,10 @@ import { compose, graphql } from 'react-apollo'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
 import { parse } from 'url'
-import {
-  colors,
-  Interaction,
-  RawHtml,
-  linkRule,
-  mediaQueries,
-  Label,
-  fontStyles,
-  Loader
-} from '@project-r/styleguide'
+import { colors, mediaQueries, fontStyles, Loader } from '@project-r/styleguide'
 
 import { notificationsMiniQuery } from '../Notifications/enhancers'
 import { timeFormat } from '../../lib/utils/format'
-import { Link } from '../../lib/routes'
 import PathLink from '../Link/Path'
 import withT from '../../lib/withT'
 

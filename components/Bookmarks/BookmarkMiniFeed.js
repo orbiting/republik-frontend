@@ -1,13 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
-import {
-  colors,
-  fontStyles,
-  mediaQueries,
-  Loader,
-  linkRule
-} from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries, Loader } from '@project-r/styleguide'
 
 import Bookmark from '../ActionBar/Bookmark'
 import UserProgress from '../ActionBar/UserProgress'
@@ -65,7 +59,8 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                       />
                       {userProgress && estimatedReadingMinutes > 1 && (
                         <UserProgress
-                          small
+                          forceShortLabel
+                          noCallout
                           userProgress={
                             !userProgress.percentage &&
                             userProgress.max &&
@@ -146,6 +141,9 @@ const styles = {
       ...fontStyles.serifBold19,
       lineHeight: '21px'
     }
+  }),
+  iconContainer: css({
+    display: 'flex'
   })
 }
 

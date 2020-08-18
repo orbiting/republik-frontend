@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
-import { Link, Router } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 import {
   UnauthorizedMessage,
   WithMembership,
@@ -15,7 +15,6 @@ import {
   CDN_FRONTEND_BASE_URL,
   GENERAL_FEEDBACK_DISCUSSION_ID
 } from '../../lib/constants'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import Frame from '../Frame'
 
@@ -24,6 +23,7 @@ import DiscussionTitle from './DiscussionTitle'
 import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
 import DiscussionIcon from '../Icons/Discussion'
+import ActionBar from '../ActionBar'
 
 import {
   A,
@@ -33,11 +33,8 @@ import {
   mediaQueries,
   colors
 } from '@project-r/styleguide'
-import FontSizeSync from '../FontSize/Sync'
-import FontSizeAdjust from '../FontSize/Adjust'
 
 import { ListWithQuery as TestimonialList } from '../Testimonial/List'
-import SubscribeMenu from '../Notifications/SubscribeMenu'
 
 const tabMq = '@media only screen and (min-width: 468px)'
 
@@ -87,7 +84,6 @@ const FeedbackPage = props => {
       formatColor={colors.primary}
       stickySecondaryNav={!tab}
     >
-      <FontSizeSync />
       <Center {...styles.container}>
         {!tab && (
           <>
@@ -128,8 +124,7 @@ const FeedbackPage = props => {
               </Interaction.P>
             )}
             <br />
-            <SubscribeMenu discussionId={activeDiscussionId} />
-            <FontSizeAdjust t={t} />
+            <ActionBar discussion={activeDiscussionId} fontSize />
           </div>
         )}
         <WithoutMembership

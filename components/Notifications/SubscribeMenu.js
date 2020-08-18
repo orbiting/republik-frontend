@@ -17,6 +17,7 @@ const SubscribeMenu = ({
   showAuthorFilter,
   userHasNoDocuments,
   label,
+  labelShort,
   me
 }) => {
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
@@ -74,6 +75,7 @@ const SubscribeMenu = ({
     <IconButton
       Icon={isSubscribedToAny ? MdNotifications : MdNotificationsNone}
       label={label}
+      labelShort={labelShort}
       ref={ref}
       {...props}
     />

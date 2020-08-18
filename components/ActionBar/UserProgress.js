@@ -5,6 +5,7 @@ import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import datetime from '../Article/Progress/datetime'
 import MdCheckCircleOutlined from '../Icons/MdCheckCircleOutlined'
+import { MdHighlightOff } from 'react-icons/md'
 import { withProgressApi } from '../Article/Progress/api'
 import {
   ProgressCircle,
@@ -14,7 +15,14 @@ import {
 } from '@project-r/styleguide'
 
 const UserProgress = (
-  { t, documentId, userProgress, upsertDocumentProgress, forceShortLabel },
+  {
+    t,
+    documentId,
+    userProgress,
+    upsertDocumentProgress,
+    forceShortLabel,
+    noCallout
+  },
   { restoreArticleProgress }
 ) => {
   const { percentage, updatedAt } = userProgress
@@ -25,25 +33,30 @@ const UserProgress = (
     <IconButton
       Icon={MdCheckCircleOutlined}
       label='Gelesen'
+      noClick={noCallout}
       ref={ref}
       {...props}
     />
   ))
 
   if (percent === 100) {
-    return (
-      <CalloutMenu Element={ReadIcon}>
-        <button
-          onClick={() =>
-            upsertDocumentProgress(documentId, 0, '')
-              .then(res => console.log(res))
-              .catch(err => console.log(err))
-          }
-        >
-          Als ungelesen markieren
-        </button>
-      </CalloutMenu>
-    )
+    if (noCallout) {
+      return <ReadIcon />
+    } else {
+      return (
+        <CalloutMenu Element={ReadIcon}>
+          <IconButton
+            Icon={MdHighlightOff}
+            label='Als ungelesen markieren'
+            onClick={() =>
+              upsertDocumentProgress(documentId, 0, '')
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+            }
+          />
+        </CalloutMenu>
+      )
+    }
   }
 
   const Icon = () => (
@@ -59,6 +72,7 @@ const UserProgress = (
   return (
     <IconButton
       Icon={Icon}
+      noClick={noCallout}
       onClick={restoreArticleProgress}
       href={restoreArticleProgress ? '#' : undefined}
       title={datetime(t, new Date(updatedAt))}

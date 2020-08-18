@@ -202,6 +202,7 @@ const ActionBar = ({ mode, document, t, inNativeApp }) => {
                 ? document.userProgress.max
                 : document.userProgress
             }
+            noCallout={mode === 'article-overlay'}
           />
         ) : (
           <></>

@@ -174,15 +174,12 @@ class EnPage extends Component {
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/en.png`,
       url: `${PUBLIC_BASE_URL}${router.pathname}`
     }
-    const share = {
+    const shareObject = {
       url: meta.url,
       emailSubject: 'Republik Manifesto',
       emailAttachUrl: false,
-      emailBody: `
-
-Manifesto for journalism by republik.ch:
-${meta.url}
-`
+      emailBody: `Manifesto for journalism by republik.ch: ${meta.url}`,
+      overlayTitle: 'Share manifesto'
     }
     const message = router.query.m
 
@@ -282,11 +279,7 @@ ${meta.url}
         <div style={{ textAlign: 'center', marginBottom: SPACE }}>
           <P>Share manifesto</P>
           <P style={{ marginBottom: SPACE / 2 }}>
-            <ActionBar
-              fill='#000'
-              {...share}
-              shareOverlayTitle={'Share manifesto'}
-            />
+            <ActionBar share={shareObject} />
           </P>
           <P>
             <A href={`${CDN_FRONTEND_BASE_URL}/static/manifesto_en.pdf`}>

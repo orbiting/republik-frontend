@@ -84,6 +84,13 @@ const Event = withT(
         </A>
       )
     }
+    const shareObject = {
+      title: title,
+      url: `${PUBLIC_BASE_URL}/veranstaltung/${slug}`,
+      emailSubject: title,
+      tweet: title,
+      shareOverlayTitle: t('events/share/title')
+    }
 
     return (
       <div {...styles.container}>
@@ -116,13 +123,7 @@ const Event = withT(
           {!!where && <P>{location}</P>}
           {!!where && <hr {...styles.hr} />}
           <P>
-            <ActionBar
-              title={title}
-              url={`${PUBLIC_BASE_URL}/veranstaltung/${slug}`}
-              emailSubject={title}
-              tweet={title}
-              shareOverlayTitle={t('events/share/title')}
-            />
+            <ActionBar share={shareObject} />
           </P>
         </div>
       </div>

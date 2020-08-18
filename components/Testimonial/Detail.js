@@ -10,7 +10,6 @@ import {
   Interaction,
   fontFamilies,
   P as SerifP,
-  colors,
   linkRule,
   VideoPlayer,
   mediaQueries,
@@ -57,6 +56,14 @@ const Detail = ({
   }
 }) => {
   const [colorScheme] = useColorContext()
+  const shareObject = {
+    title: t('statement/share/title', { name }),
+    url: `${PUBLIC_BASE_URL}/community?id=${id}`,
+    emailSubject: t('statement/share/title', { name }),
+    emailAttachUrl: false,
+    emailBody: `${PUBLIC_BASE_URL}/community?id=${id}`,
+    overlayTitle: t('statement/share/overlayTitle', { name })
+  }
   return (
     <div {...styles.detail}>
       <div
@@ -113,21 +120,12 @@ const Detail = ({
         )}
         {share && (
           <ActionBar
-            url={`${PUBLIC_BASE_URL}/community?id=${id}`}
-            title={t('statement/share/title', {
-              name
-            })}
-            emailSubject={t('statement/share/title', {
-              name
-            })}
+            share={shareObject}
             download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
               updatedAt
             )}&url=${encodeURIComponent(
               `${PUBLIC_BASE_URL}/community?share=${id}`
             )}`}
-            shareOverlayTitle={t('statement/share/overlayTitle', {
-              name
-            })}
           />
         )}
       </div>

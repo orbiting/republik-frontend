@@ -103,17 +103,13 @@ const Page = ({ router, inNativeApp }) => {
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/manifest.png`,
     url: `${PUBLIC_BASE_URL}${router.pathname}`
   }
-  const share = {
-    url: meta.url,
-    emailSubject: 'Republik Manifest',
-    emailAttachUrl: false,
-    emailBody: `
-Für diesen Journalismus steht Project R:
-${meta.url}
 
-Jetzt Mitglied und Abonnentin werden:
-${PUBLIC_BASE_URL}
-`
+  const shareObject = {
+    url: meta.url,
+    emailSubject: 'Republik Manifesto',
+    emailAttachUrl: false,
+    emailBody: ` Für diesen Journalismus steht Project R: ${meta.url} Jetzt Mitglied und Abonnentin werden: ${PUBLIC_BASE_URL}`,
+    overlayTitle: 'Manifesto teilen'
   }
 
   return (
@@ -183,11 +179,7 @@ ${PUBLIC_BASE_URL}
       <div style={{ textAlign: 'center', marginBottom: SPACE }}>
         <P>Manifest teilen</P>
         <P style={{ marginBottom: SPACE / 2 }}>
-          <ActionBar
-            fill='#000'
-            {...share}
-            shareOverlayTitle={'Manifest teilen'}
-          />
+          <ActionBar share={shareObject} />
         </P>
         <P>
           <A href={`${CDN_FRONTEND_BASE_URL}/static/manifest.pdf`}>
@@ -201,7 +193,4 @@ ${PUBLIC_BASE_URL}
   )
 }
 
-export default compose(
-  withInNativeApp,
-  withRouter
-)(Page)
+export default compose(withInNativeApp, withRouter)(Page)

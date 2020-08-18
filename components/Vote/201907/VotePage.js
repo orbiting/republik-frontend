@@ -131,15 +131,17 @@ class VotePage extends Component {
               ? vt('common/missingAddressDisabledMessage')
               : undefined
 
+            const shareObject = {
+              url: `${PUBLIC_BASE_URL}/vote/juli19`,
+              title: vt('vote/201907/page/title'),
+              tweet: vt('vote/201907/sm/tweet'),
+              emailSubject: vt('vote/201907/sm/emailSubject'),
+              emailBody: vt('vote/201907/sm/emailBody')
+            }
+
             const actionBar = (
               <div {...styles.actions}>
-                <ActionBar
-                  url={`${PUBLIC_BASE_URL}/vote/juli19`}
-                  title={vt('vote/201907/page/title')}
-                  tweet={vt('vote/201907/sm/tweet')}
-                  emailSubject={vt('vote/201907/sm/emailSubject')}
-                  emailBody={vt('vote/201907/sm/emailBody')}
-                />
+                <ActionBar share={shareObject} />
                 {discussion && (
                   <DiscussionIconLinkWithoutEnhancer
                     discussionId={discussion.id}

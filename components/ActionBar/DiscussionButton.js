@@ -7,6 +7,7 @@ import { focusSelector } from '../../lib/utils/scroll'
 import { withDiscussionCommentsCount } from '../Discussion/graphql/enhancers/withDiscussionCommentsCount'
 
 const DiscussionButton = ({
+  t,
   discussionId,
   discussionPath,
   discussionQuery,
@@ -18,7 +19,11 @@ const DiscussionButton = ({
     <IconButton
       Icon={DiscussionIcon}
       href={isDiscussionPage ? '#' : discussionPath}
-      label={forceShortLabel ? discussionCount : `${discussionCount} Beiträge`}
+      label={
+        forceShortLabel
+          ? discussionCount
+          : t('profile/documents/title/other', { count: discussionCount })
+      }
       labelShort={discussionCount}
       query={discussionQuery}
       fill={colors.primary}

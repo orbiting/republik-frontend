@@ -110,6 +110,11 @@ export const Page = ({ router, t, inNativeIOSApp }) => {
     }
   ]
 
+  const shareObject = {
+    url: PUBLIC_BASE_URL + router.pathname,
+    emailSubject: 'Es ist Zeit.'
+  }
+
   return (
     <Frame
       raw
@@ -155,10 +160,7 @@ ${pledgeLink}
           <Label style={{ display: 'block', marginBottom: 5 }}>
             Teilen Sie diese Seite mit Ihren Freunden:
           </Label>
-          <ActionBar
-            url={PUBLIC_BASE_URL + router.pathname}
-            emailSubject={'Es ist Zeit.'}
-          />
+          <ActionBar share={shareObject} />
         </div>
 
         <div {...styles.stretchLead}>
@@ -375,10 +377,7 @@ Willkommen an Bord!
           <Label style={{ display: 'block', marginBottom: 5 }}>
             Jetzt andere auf die Republik aufmerksam machen:
           </Label>
-          <ActionBar
-            url={PUBLIC_BASE_URL + router.pathname}
-            emailSubject={'Es ist Zeit.'}
-          />
+          <ActionBar share={shareObject} />
         </div>
 
         {md(mdComponents)`

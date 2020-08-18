@@ -75,7 +75,12 @@ const publishedDateTimeFormat = swissTime.format('%e. %B %Y %H Uhr')
 const Update = withT(
   ({ t, data: { slug, title, text, children, publishedDateTime } }) => {
     const date = new Date(publishedDateTime)
-
+    const shareObject = {
+      title: title,
+      url: `${PUBLIC_BASE_URL}/updates/${slug}`,
+      emailSubject: title,
+      tweet: title
+    }
     return (
       <div {...styles.container}>
         <H1 {...styles.title}>{title}</H1>
@@ -93,12 +98,7 @@ const Update = withT(
         )}
 
         <P>
-          <ActionBar
-            title={title}
-            url={`${PUBLIC_BASE_URL}/updates/${slug}`}
-            emailSubject={title}
-            tweet={title}
-          />
+          <ActionBar share={shareObject} />
         </P>
       </div>
     )

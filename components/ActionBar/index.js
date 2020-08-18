@@ -5,6 +5,7 @@ import {
   MdPictureAsPdf,
   MdQueryBuilder,
   MdPlayCircleOutline,
+  MdFileDownload,
   MdMic
 } from 'react-icons/md'
 import { IconButton } from '@project-r/styleguide'
@@ -29,18 +30,69 @@ import Bookmark from './Bookmark'
 import DiscussionButton from './DiscussionButton'
 import UserProgress from './UserProgress'
 
-const ActionBar = ({ mode, document, t, inNativeApp }) => {
+const ActionBar = ({ mode, document, t, inNativeApp, share, download }) => {
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
   const [podcastOverlayVisible, setPodcastOverlayVisible] = useState(false)
+
+  if (!document) {
+    return (
+      <>
+        {download && (
+          <IconButton
+            href={download}
+            Icon={MdFileDownload}
+            title={t('article/actionbar/download')}
+            target='_blank'
+          />
+        )}
+
+        <IconButton
+          title={share.title}
+          Icon={ShareIOSIcon}
+          href={share.url}
+          onClick={e => {
+            e.preventDefault()
+            trackEvent(['ActionBar', 'share', share.url])
+            if (inNativeApp) {
+              postMessage({
+                type: 'share',
+                payload: {
+                  title: share.title,
+                  url: share.url,
+                  subject: share.emailSubject || '',
+                  dialogTitle: t('article/share/title')
+                }
+              })
+              e.target.blur()
+            } else {
+              setShareOverlayVisible(!shareOverlayVisible)
+            }
+          }}
+        />
+        {shareOverlayVisible && (
+          <ShareOverlay
+            onClose={() => setShareOverlayVisible(false)}
+            url={share.url}
+            title={share.overlayTitle || t('article/actionbar/share')}
+            tweet={share.tweet || ''}
+            emailSubject={share.emailSubject || ''}
+            emailBody={share.emailBody || ''}
+            emailAttachUrl={share.emailAttachUrl}
+          />
+        )}
+      </>
+    )
+  }
+
   const meta = document && {
     ...document.meta,
     url: `${PUBLIC_BASE_URL}${document.meta.path}`
   }
   const podcast =
-    meta.podcast ||
-    (meta.audioSource && meta.format && meta.format.meta.podcast)
+    (meta && meta.podcast) ||
+    (meta && meta.audioSource && meta.format && meta.format.meta.podcast)
   const hasPdf = meta && meta.template === 'article'
   const isDiscussion = meta && meta.template === 'discussion'
   const emailSubject = t('article/share/emailSubject', {
@@ -214,6 +266,7 @@ const ActionBar = ({ mode, document, t, inNativeApp }) => {
       title: 'Dialog',
       element: (
         <DiscussionButton
+          t={t}
           discussionId={discussionId}
           discussionPath={discussionPath}
           discussionQuery={discussionQuery}

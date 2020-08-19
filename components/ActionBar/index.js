@@ -27,7 +27,7 @@ import FontSizeIcon from '../Icons/FontSize'
 import ShareIOSIcon from '../Icons/ShareIOS'
 import MdInsertChartOutlined from '../Icons/MdInsertChartOutlined'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
-import Bookmark from './Bookmark'
+import BookmarkButton from './BookmarkButton'
 import DiscussionButton from './DiscussionButton'
 import UserProgress from './UserProgress'
 
@@ -251,7 +251,7 @@ const ActionBar = ({
     {
       title: 'Lesezeichen',
       element: (
-        <Bookmark
+        <BookmarkButton
           bookmarked={!!document.userBookmark}
           documentId={document.id}
           label={!forceShortLabel ? t('bookmark/label') : ''}

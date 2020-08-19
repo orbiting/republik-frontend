@@ -717,11 +717,14 @@ class ArticlePage extends Component {
                               </Breakout>
                             )}
                             {!!podcast && meta.template === 'article' && (
-                              <PodcastButtons
-                                {...podcast}
-                                audioSource={audioSource}
-                                onAudioClick={this.toggleAudio}
-                              />
+                              <>
+                                <h3>{t(`PodcastButtons/title`)}</h3>
+                                <PodcastButtons
+                                  {...podcast}
+                                  audioSource={audioSource}
+                                  onAudioClick={this.toggleAudio}
+                                />
+                              </>
                             )}
                             {!me &&
                               isEditorialNewsletter &&
@@ -782,13 +785,19 @@ class ArticlePage extends Component {
                   <Center>
                     <div ref={this.bottomBarRef}>{actionBarEnd}</div>
                     {!!podcast && meta.template === 'article' && (
-                      <PodcastButtons {...podcast} />
+                      <>
+                        <h3>{t(`PodcastButtons/title`)}</h3>
+                        <PodcastButtons {...podcast} />
+                      </>
                     )}
                   </Center>
                 )}
                 {!!podcast && meta.template !== 'article' && (
                   <Center>
-                    <PodcastButtons {...podcast} />
+                    <>
+                      <h3>{t(`PodcastButtons/title`)}</h3>
+                      <PodcastButtons {...podcast} />
+                    </>
                   </Center>
                 )}
                 {false &&

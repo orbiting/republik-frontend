@@ -122,6 +122,7 @@ const ActionBar = ({
   const podcast =
     (meta && meta.podcast) ||
     (meta && meta.audioSource && meta.format && meta.format.meta.podcast)
+  console.log(meta)
   const hasPdf = meta && meta.template === 'article'
   const isDiscussion = meta && meta.template === 'discussion'
   const emailSubject = t('article/share/emailSubject', {
@@ -361,7 +362,7 @@ const ActionBar = ({
         setPodcastOverlayVisible(!podcastOverlayVisible)
       },
       label: t('PodcastButtons/title'),
-      show: !podcast && !!meta.audioSource
+      show: !!podcast
     }
   ]
   return (
@@ -413,7 +414,7 @@ const ActionBar = ({
       {podcastOverlayVisible && (
         <PodcastOverlay
           onClose={() => setPodcastOverlayVisible(false)}
-          title={t('article/actionbar/share')}
+          title={t('PodcastButtons/title')}
           podcast={podcast}
         />
       )}

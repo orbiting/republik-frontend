@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
-
+import { IoLogoFacebook, IoLogoTwitter } from 'react-icons/io'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
@@ -15,12 +15,12 @@ import {
   Logo,
   mediaQueries,
   fontFamilies,
-  colors
+  colors,
+  IconButton
 } from '@project-r/styleguide'
 
 import { ZINDEX_FOOTER } from '../constants'
 
-import IconLink from '../IconLink'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const LazyLink = props => <Link {...props} prefetch={false} />
@@ -112,7 +112,8 @@ const styles = {
   icons: css({
     position: 'absolute',
     bottom: 0,
-    right: 0
+    right: 0,
+    display: 'flex'
   }),
   left: css({
     position: 'absolute',
@@ -320,14 +321,14 @@ class Footer extends Component {
             </LazyLink>
             <span {...styles.since}>{t('footer/since')}</span>
             <div {...styles.icons}>
-              <IconLink
-                icon='facebook'
+              <IconButton
+                Icon={IoLogoFacebook}
                 href='https://www.facebook.com/RepublikMagazin'
                 target='_blank'
                 fill={colors.negative.text}
               />
-              <IconLink
-                icon='twitter'
+              <IconButton
+                Icon={IoLogoTwitter}
                 href='https://twitter.com/RepublikMagazin'
                 target='_blank'
                 fill={colors.negative.text}

@@ -25,6 +25,7 @@ import { AudioContext } from '../Audio'
 
 import FontSizeIcon from '../Icons/FontSize'
 import ShareIOSIcon from '../Icons/ShareIOS'
+import MdInsertChartOutlined from '../Icons/MdInsertChartOutlined'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
 import Bookmark from './Bookmark'
 import DiscussionButton from './DiscussionButton'
@@ -122,7 +123,6 @@ const ActionBar = ({
   const podcast =
     (meta && meta.podcast) ||
     (meta && meta.audioSource && meta.format && meta.format.meta.podcast)
-  console.log(meta)
   const hasPdf = meta && meta.template === 'article'
   const isDiscussion = meta && meta.template === 'discussion'
   const emailSubject = t('article/share/emailSubject', {
@@ -163,6 +163,50 @@ const ActionBar = ({
     meta.template === 'section'
 
   const ActionItems = [
+    {
+      title: 'Leseposition',
+      element:
+        document.userProgress && displayMinutes > 1 ? (
+          <UserProgress
+            documentId={document.id}
+            forceShortLabel={forceShortLabel}
+            userProgress={
+              !document.userProgress.percentage &&
+              document.userProgress.max &&
+              document.userProgress.max.percentage === 1
+                ? document.userProgress.max
+                : document.userProgress
+            }
+            noCallout={mode === 'article-overlay'}
+            noScroll={mode === 'feed'}
+          />
+        ) : (
+          <></>
+        ),
+      modes: ['article-overlay', 'feed'],
+      show: true
+    },
+    {
+      title: 'Lesezeit',
+      Icon: MdQueryBuilder,
+      label: !forceShortLabel
+        ? `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes} Minuten`
+        : `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes}'`,
+      labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes}'`,
+      noClick: true,
+      modes: ['feed'],
+      show: displayMinutes > 0
+    },
+    {
+      title: t('feed/actionbar/chart'),
+      Icon: MdInsertChartOutlined,
+      noClick: true,
+      modes: ['feed'],
+      show: meta && meta.indicateChart
+    },
     {
       title: t(`article/actionbar/pdf/options}`),
       Icon: MdPictureAsPdf,
@@ -217,20 +261,6 @@ const ActionBar = ({
       show: true
     },
     {
-      title: 'Lesezeit',
-      Icon: MdQueryBuilder,
-      label: !forceShortLabel
-        ? `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes} Minuten`
-        : `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes}'`,
-      labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes}'`,
-      noClick: true,
-      modes: ['feed'],
-      show: displayMinutes > 0
-    },
-    {
       Icon: MdPlayCircleOutline,
       onClick: e => {
         e.preventDefault()
@@ -269,28 +299,6 @@ const ActionBar = ({
       },
       label: !forceShortLabel ? t('article/actionbar/share') : '',
       modes: ['article-top', 'article-bottom', 'article-overlay'],
-      show: true
-    },
-    {
-      title: 'Leseposition',
-      element:
-        document.userProgress && displayMinutes > 1 ? (
-          <UserProgress
-            documentId={document.id}
-            forceShortLabel={forceShortLabel}
-            userProgress={
-              !document.userProgress.percentage &&
-              document.userProgress.max &&
-              document.userProgress.max.percentage === 1
-                ? document.userProgress.max
-                : document.userProgress
-            }
-            noCallout={mode === 'article-overlay'}
-          />
-        ) : (
-          <></>
-        ),
-      modes: ['article-overlay', 'feed'],
       show: true
     },
     {

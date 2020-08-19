@@ -18,7 +18,6 @@ const ShareOverlay = ({
   t,
   title,
   url,
-  pocket,
   tweet,
   emailSubject,
   emailBody,
@@ -42,7 +41,6 @@ const ShareOverlay = ({
           <ShareButtons
             onClose={onClose}
             url={url}
-            pocket={pocket}
             tweet={tweet}
             grid
             emailSubject={emailSubject}

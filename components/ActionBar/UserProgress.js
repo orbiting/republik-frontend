@@ -21,18 +21,18 @@ const UserProgress = (
     userProgress,
     upsertDocumentProgress,
     forceShortLabel,
-    noCallout
+    noCallout,
+    noScroll
   },
   { restoreArticleProgress }
 ) => {
   const { percentage, updatedAt } = userProgress
   const percent = Math.round(percentage * 100)
-  const fill = restoreArticleProgress ? colors.text : colors.lightText
 
   const ReadIcon = React.forwardRef((props, ref) => (
     <IconButton
       Icon={MdCheckCircleOutlined}
-      label={t('article/actionbar/progress/read')}
+      label={!forceShortLabel && t('article/actionbar/progress/read')}
       noClick={noCallout}
       ref={ref}
       {...props}
@@ -59,10 +59,10 @@ const UserProgress = (
     }
   }
 
-  const Icon = () => (
+  const ProgressCircleIcon = () => (
     <ProgressCircle
       progress={percent}
-      stroke={fill}
+      stroke={colors.text}
       strokePlaceholder='#e9e9e9'
       size={24}
       strokeWidth={2}
@@ -71,8 +71,8 @@ const UserProgress = (
 
   return (
     <IconButton
-      Icon={Icon}
-      noClick={noCallout}
+      Icon={ProgressCircleIcon}
+      noClick={noScroll}
       onClick={restoreArticleProgress}
       href={restoreArticleProgress ? '#' : undefined}
       title={datetime(t, new Date(updatedAt))}

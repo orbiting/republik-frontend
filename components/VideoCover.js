@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-
 import { css } from 'glamor'
-import Play from './Icons/Play'
+import { VideoPlayer, mediaQueries } from '@project-r/styleguide'
+import { MdPlayArrow } from 'react-icons/md'
 
 import { scrollIt } from '../lib/utils/scroll'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_HEADER } from './constants'
-
-import { VideoPlayer, mediaQueries } from '@project-r/styleguide'
 
 const blinkBg = css.keyframes({
   'from, to': {
@@ -168,7 +166,7 @@ class VideoCover extends Component {
             {!!cursor && <div {...styles.cursor} />}
             {!customCover && (
               <div {...styles.play} style={{ top: playTop }}>
-                <Play />
+                <MdPlayArrow />
               </div>
             )}
           </div>

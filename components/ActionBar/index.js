@@ -170,13 +170,7 @@ const ActionBar = ({
           <UserProgress
             documentId={document.id}
             forceShortLabel={forceShortLabel}
-            userProgress={
-              !document.userProgress.percentage &&
-              document.userProgress.max &&
-              document.userProgress.max.percentage === 1
-                ? document.userProgress.max
-                : document.userProgress
-            }
+            userProgress={document.userProgress}
             noCallout={mode === 'article-overlay'}
             noScroll={mode === 'feed'}
           />
@@ -208,7 +202,7 @@ const ActionBar = ({
       show: meta && meta.indicateChart
     },
     {
-      title: t(`article/actionbar/pdf/options}`),
+      title: t('article/actionbar/pdf/options'),
       Icon: MdPictureAsPdf,
       href: hasPdf && getPdfUrl(meta),
       onClick: e => {
@@ -335,13 +329,7 @@ const ActionBar = ({
         document.userProgress && displayMinutes > 1 ? (
           <UserProgress
             documentId={document.id}
-            userProgress={
-              !document.userProgress.percentage &&
-              document.userProgress.max &&
-              document.userProgress.max.percentage === 1
-                ? document.userProgress.max
-                : document.userProgress
-            }
+            userProgress={document.userProgress}
           />
         ) : (
           <></>

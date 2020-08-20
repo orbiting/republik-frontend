@@ -750,6 +750,12 @@ class ArticlePage extends Component {
                         )}
                       </SSRCachingBoundary>
                     </article>
+                    <ActionBarOverlay
+                      audioPlayerVisible={this.props.audioPlayerVisible}
+                      inNativeApp={inNativeApp}
+                    >
+                      {actionBarOverlay}
+                    </ActionBarOverlay>
                   </ProgressComponent>
                 </ArticleGallery>
                 {meta.template === 'article' &&
@@ -824,12 +830,6 @@ class ArticlePage extends Component {
                   />
                 )}
                 {isFormat && <FormatFeed formatId={article.repoId} />}
-                <ActionBarOverlay
-                  audioPlayerVisible={this.props.audioPlayerVisible}
-                  inNativeApp={inNativeApp}
-                >
-                  {actionBarOverlay}
-                </ActionBarOverlay>
                 {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />

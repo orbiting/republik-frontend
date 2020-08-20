@@ -27,6 +27,7 @@ const UserProgress = (
   { restoreArticleProgress }
 ) => {
   const { percentage, updatedAt } = userProgress
+  console.log(userProgress)
   const percent = Math.round(percentage * 100)
 
   const ReadIcon = React.forwardRef((props, ref) => (
@@ -48,11 +49,11 @@ const UserProgress = (
           <IconButton
             Icon={MdHighlightOff}
             label={t('article/actionbar/progress/unread')}
-            onClick={() =>
+            onClick={() => {
               upsertDocumentProgress(documentId, 0, '')
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
-            }
+                .then(res => console.log('res', res))
+                .catch(err => console.log('err', err))
+            }}
           />
         </CalloutMenu>
       )

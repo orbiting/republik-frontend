@@ -24,6 +24,7 @@ const dayFormat = timeFormat('%d. %B %Y')
 const Actions = ({
   t,
   membership,
+  activeMembership,
   hasWaitingMemberships,
   reactivate,
   setAutoPay
@@ -53,6 +54,43 @@ const Actions = ({
           </TokenPackageLink>
         </P>
       )}
+      {!hasWaitingMemberships &&
+        !membership.renew &&
+        !!membership.periods.length &&
+        (membership.active ||
+          (membership.type.name === 'MONTHLY_ABO' && !activeMembership)) && (
+          <P>
+            <A
+              href='#reactivate'
+              onClick={e => {
+                e.preventDefault()
+                setState({
+                  updating: true
+                })
+                reactivate({
+                  id: membership.id
+                })
+                  .then(() => {
+                    setState({
+                      updating: false,
+                      remoteError: undefined
+                    })
+                  })
+                  .catch(error => {
+                    setState({
+                      updating: false,
+                      remoteError: errorToString(error)
+                    })
+                  })
+              }}
+            >
+              {t.first([
+                `memberships/${membership.type.name}/manage/reactivate`,
+                'memberships/manage/reactivate'
+              ])}
+            </A>
+          </P>
+        )}
       {membership.active && (
         <>
           {membership.renew && membership.type.name === 'MONTHLY_ABO' && (
@@ -126,39 +164,6 @@ const Actions = ({
                   </P>
                 </>
               )}
-              {!membership.renew && !!membership.periods.length && (
-                <P>
-                  <A
-                    href='#reactivate'
-                    onClick={e => {
-                      e.preventDefault()
-                      setState({
-                        updating: true
-                      })
-                      reactivate({
-                        id: membership.id
-                      })
-                        .then(() => {
-                          setState({
-                            updating: false,
-                            remoteError: undefined
-                          })
-                        })
-                        .catch(error => {
-                          setState({
-                            updating: false,
-                            remoteError: errorToString(error)
-                          })
-                        })
-                    }}
-                  >
-                    {t.first([
-                      `memberships/${membership.type.name}/manage/reactivate`,
-                      'memberships/manage/reactivate'
-                    ])}
-                  </A>
-                </P>
-              )}
             </>
           )}
           {hasWaitingMemberships && !membership.canProlong && (
@@ -225,6 +230,7 @@ const Manage = ({
   t,
   membership,
   highlighted,
+  activeMembership,
   hasWaitingMemberships,
   title,
   compact,
@@ -288,6 +294,7 @@ const Manage = ({
       {actions && (
         <ManageActions
           membership={membership}
+          activeMembership={activeMembership}
           hasWaitingMemberships={hasWaitingMemberships}
         />
       )}

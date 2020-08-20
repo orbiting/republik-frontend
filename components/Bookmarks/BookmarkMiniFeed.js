@@ -61,6 +61,7 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                         <UserProgress
                           forceShortLabel
                           noCallout
+                          noScroll
                           userProgress={
                             !userProgress.percentage &&
                             userProgress.max &&

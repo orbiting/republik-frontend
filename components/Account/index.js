@@ -82,7 +82,7 @@ class Account extends Component {
       hasActiveMemberships,
       hasAccessGrants,
       acceptedStatue,
-      isAutoPaying,
+      showPaymentSources,
       hasPledges,
       merci,
       inNativeIOSApp,
@@ -137,7 +137,7 @@ class Account extends Component {
                   {!inNativeIOSApp && (
                     <AccountAnchor id='abos'>
                       <MembershipList highlightId={query.id} />
-                      {isAutoPaying && <PaymentSources query={query} />}
+                      {showPaymentSources && <PaymentSources query={query} />}
                     </AccountAnchor>
                   )}
 
@@ -206,9 +206,23 @@ export default compose(
         isReady && data.me.memberships && !!data.me.memberships.length
       const hasActiveMemberships =
         isReady && hasMemberships && data.me.memberships.some(m => m.active)
+      const hasMonthlyMembership =
+        isReady &&
+        hasMemberships &&
+        data.me.memberships.some(m => m.type.name === 'MONTHLY_ABO')
       const hasPledges = isReady && data.me.pledges && !!data.me.pledges.length
       const hasAccessGrants =
         isReady && data.me.accessGrants && !!data.me.accessGrants.length
+
+      const isAutoPaying =
+        hasMemberships &&
+        data.me.memberships.some(
+          m =>
+            m.active && m.renew && (m.type.name === 'MONTHLY_ABO' || m.autoPay)
+        )
+      const showPaymentSources =
+        isAutoPaying || (!hasActiveMemberships && hasMonthlyMembership)
+
       return {
         loading: data.loading,
         error: data.error,
@@ -224,14 +238,7 @@ export default compose(
         hasActiveMemberships,
         memberships: hasMemberships && data.me.memberships,
         hasAccessGrants,
-        isAutoPaying:
-          hasMemberships &&
-          data.me.memberships.some(
-            m =>
-              m.active &&
-              m.renew &&
-              (m.type.name === 'MONTHLY_ABO' || m.autoPay)
-          )
+        showPaymentSources
       }
     }
   })

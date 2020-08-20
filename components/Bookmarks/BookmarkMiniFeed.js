@@ -3,7 +3,7 @@ import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import { colors, fontStyles, mediaQueries, Loader } from '@project-r/styleguide'
 
-import Bookmark from '../ActionBar/Bookmark'
+import BookmarkButton from '../ActionBar/BookmarkButton'
 import UserProgress from '../ActionBar/UserProgress'
 import Link from '../Link/Path'
 
@@ -52,7 +52,7 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                       </Link>
                     </div>
                     <div {...styles.iconContainer}>
-                      <Bookmark
+                      <BookmarkButton
                         documentId={id}
                         bookmarked={!!userBookmark}
                         skipRefetch

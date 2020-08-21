@@ -206,7 +206,7 @@ const ActionBar = ({
     {
       title: t('article/actionbar/pdf/options'),
       Icon: MdPictureAsPdf,
-      href: hasPdf && getPdfUrl(meta),
+      href: hasPdf ? getPdfUrl(meta) : undefined,
       onClick: e => {
         if (shouldIgnoreClick(e)) {
           return

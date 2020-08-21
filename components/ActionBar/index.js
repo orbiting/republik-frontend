@@ -165,9 +165,9 @@ const ActionBar = ({
     displayHours ? `${displayHours}h\u202F` : ''
   } ${displayMinutes} Minuten`
   const readingTimeLabel = !forceShortLabel
-  ? `${displayHours ? `${displayHours}h\u202F` : ''}
+    ? `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes} Minuten`
-  : `${displayHours ? `${displayHours}h\u202F` : ''}
+    : `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`
 
   const ActionItems = [

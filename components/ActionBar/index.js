@@ -161,10 +161,18 @@ const ActionBar = ({
     (titleNode && titleNode.data && titleNode.data.center) ||
     meta.template === 'format' ||
     meta.template === 'section'
+  const readingTimeTitle = `${
+    displayHours ? `${displayHours}h\u202F` : ''
+  } ${displayMinutes} Minuten`
+  const readingTimeLabel = !forceShortLabel
+  ? `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes} Minuten`
+  : `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes}'`
 
   const ActionItems = [
     {
-      title: 'Leseposition',
+      title: t('article/actionbar/userprogress'),
       element:
         document.userProgress && displayMinutes > 1 ? (
           <UserProgress
@@ -181,23 +189,17 @@ const ActionBar = ({
       show: true
     },
     {
-      title: 'Lesezeit',
+      title: readingTimeTitle,
       Icon: MdQueryBuilder,
-      label: !forceShortLabel
-        ? `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes} Minuten`
-        : `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes}'`,
+      label: readingTimeLabel,
       labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`,
-      noClick: true,
       modes: ['feed'],
       show: displayMinutes > 0
     },
     {
       title: t('feed/actionbar/chart'),
       Icon: MdInsertChartOutlined,
-      noClick: true,
       modes: ['feed'],
       show: meta && meta.indicateChart
     },
@@ -229,7 +231,7 @@ const ActionBar = ({
       show: true
     },
     {
-      title: 'Folgen',
+      title: t('SubscribeMenu/title'),
       element: (
         <SubscribeMenu
           discussionId={
@@ -243,7 +245,7 @@ const ActionBar = ({
       show: true
     },
     {
-      title: 'Lesezeichen',
+      title: t('bookmark/title/default'),
       element: (
         <BookmarkButton
           bookmarked={!!document.userBookmark}
@@ -296,7 +298,7 @@ const ActionBar = ({
       show: true
     },
     {
-      title: 'Dialog',
+      title: t('article/actionbar/discussion'),
       element: (
         <DiscussionButton
           t={t}
@@ -314,17 +316,16 @@ const ActionBar = ({
   ]
   const ActionItemsSecondary = [
     {
-      title: 'Lesezeit',
+      title: readingTimeTitle,
       Icon: MdQueryBuilder,
-      label: `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes} Minuten`,
+      label: readingTimeLabel,
       labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`,
-      noClick: true,
+      no: true,
       show: true
     },
     {
-      title: 'Leseposition',
+      title: t('article/actionbar/userprogress'),
       element:
         document.userProgress && displayMinutes > 1 ? (
           <UserProgress

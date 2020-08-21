@@ -1,5 +1,5 @@
 {
-  "updated": "2020-08-18T08:08:59.202Z",
+  "updated": "2020-08-21T11:31:17.453Z",
   "title": "live",
   "data": [
     {
@@ -2917,6 +2917,14 @@
     {
       "key": "article/actionbar/progress/unread",
       "value": "Als ungelesen markieren"
+    },
+    {
+      "key": "article/actionbar/discussion",
+      "value": "Zum Dialog"
+    },
+    {
+      "key": "article/actionbar/userprogress",
+      "value": "Leseposition"
     },
     {
       "key": "article/series/episode",

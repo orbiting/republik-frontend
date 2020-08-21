@@ -27,14 +27,12 @@ const UserProgress = (
   { restoreArticleProgress }
 ) => {
   const { percentage, updatedAt } = userProgress
-  console.log(userProgress)
   const percent = Math.round(percentage * 100)
 
   const ReadIcon = React.forwardRef((props, ref) => (
     <IconButton
       Icon={MdCheckCircleOutlined}
       label={!forceShortLabel && t('article/actionbar/progress/read')}
-      noClick={noCallout}
       ref={ref}
       {...props}
     />
@@ -51,8 +49,6 @@ const UserProgress = (
             label={t('article/actionbar/progress/unread')}
             onClick={() => {
               upsertDocumentProgress(documentId, 0, '')
-                .then(res => console.log('res', res))
-                .catch(err => console.log('err', err))
             }}
           />
         </CalloutMenu>
@@ -73,8 +69,7 @@ const UserProgress = (
   return (
     <IconButton
       Icon={ProgressCircleIcon}
-      noClick={noScroll}
-      onClick={restoreArticleProgress}
+      onClick={!noScroll && restoreArticleProgress}
       href={restoreArticleProgress ? '#' : undefined}
       title={datetime(t, new Date(updatedAt))}
       label={

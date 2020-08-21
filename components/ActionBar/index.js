@@ -28,7 +28,7 @@ import ShareIOSIcon from '../Icons/ShareIOS'
 import MdInsertChartOutlined from '../Icons/MdInsertChartOutlined'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
 import BookmarkButton from './BookmarkButton'
-import DiscussionButton from './DiscussionButton'
+import DiscussionLinkButton from './DiscussionLinkButton'
 import UserProgress from './UserProgress'
 
 const ActionBar = ({
@@ -128,13 +128,7 @@ const ActionBar = ({
   const emailSubject = t('article/share/emailSubject', {
     title: document.title
   })
-  const {
-    discussionId,
-    discussionPath,
-    discussionQuery,
-    discussionCount,
-    isDiscussionPage
-  } = getDiscussionIconLinkProps(
+  const { discussionId } = getDiscussionIconLinkProps(
     meta.linkedDiscussion,
     meta.ownDiscussion,
     meta.template,
@@ -300,13 +294,9 @@ const ActionBar = ({
     {
       title: t('article/actionbar/discussion'),
       element: (
-        <DiscussionButton
+        <DiscussionLinkButton
           t={t}
-          discussionId={discussionId}
-          discussionPath={discussionPath}
-          discussionQuery={discussionQuery}
-          discussionCount={discussionCount}
-          isDiscussionPage={isDiscussionPage}
+          document={document}
           forceShortLabel={forceShortLabel}
         />
       ),

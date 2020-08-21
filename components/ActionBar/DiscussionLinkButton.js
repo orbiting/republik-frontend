@@ -4,17 +4,23 @@ import { IconButton, colors } from '@project-r/styleguide'
 import DiscussionIcon from '../Icons/Discussion'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
-import { withDiscussionCommentsCount } from '../Discussion/graphql/enhancers/withDiscussionCommentsCount'
+import { getDiscussionIconLinkProps } from './utils'
 
-const DiscussionButton = ({
-  t,
-  discussionId,
-  discussionPath,
-  discussionQuery,
-  discussionCount,
-  isDiscussionPage,
-  forceShortLabel
-}) => {
+const DiscussionLinkButton = ({ t, document, forceShortLabel }) => {
+  const meta = document && document.meta
+  const {
+    discussionId,
+    discussionPath,
+    discussionQuery,
+    discussionCount,
+    isDiscussionPage
+  } = getDiscussionIconLinkProps(
+    meta.linkedDiscussion,
+    meta.ownDiscussion,
+    meta.template,
+    meta.path
+  )
+
   return (
     <PathLink path={discussionPath} query={discussionQuery} passHref>
       <IconButton
@@ -39,4 +45,4 @@ const DiscussionButton = ({
   )
 }
 
-export default withDiscussionCommentsCount(DiscussionButton)
+export default DiscussionLinkButton

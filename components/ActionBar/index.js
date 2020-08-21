@@ -15,7 +15,7 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import { trackEvent } from '../../lib/piwik'
-import { getDiscussionIconLinkProps } from './utils'
+import { getDiscussionLinkProps } from './utils'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 import PdfOverlay, { getPdfUrl, countImages } from '../Article/PdfOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
@@ -128,7 +128,7 @@ const ActionBar = ({
   const emailSubject = t('article/share/emailSubject', {
     title: document.title
   })
-  const { discussionId } = getDiscussionIconLinkProps(
+  const { discussionId } = getDiscussionLinkProps(
     meta.linkedDiscussion,
     meta.ownDiscussion,
     meta.template,

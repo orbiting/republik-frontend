@@ -4,7 +4,7 @@ import { IconButton, colors } from '@project-r/styleguide'
 import DiscussionIcon from '../Icons/Discussion'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
-import { getDiscussionIconLinkProps } from './utils'
+import { getDiscussionLinkProps } from './utils'
 
 const DiscussionLinkButton = ({ t, document, forceShortLabel }) => {
   const meta = document && document.meta
@@ -14,7 +14,7 @@ const DiscussionLinkButton = ({ t, document, forceShortLabel }) => {
     discussionQuery,
     discussionCount,
     isDiscussionPage
-  } = getDiscussionIconLinkProps(
+  } = getDiscussionLinkProps(
     meta.linkedDiscussion,
     meta.ownDiscussion,
     meta.template,

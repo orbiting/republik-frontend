@@ -1,6 +1,6 @@
 import { routes } from '../../lib/routes'
 
-export const getDiscussionIconLinkProps = (
+export const getDiscussionLinkProps = (
   linkedDiscussion,
   ownDiscussion,
   template,

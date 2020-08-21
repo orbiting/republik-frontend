@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
-import { descending } from 'd3-array'
 
 import withT from '../../../lib/withT'
 import withMe from '../../../lib/apollo/withMe'
@@ -53,6 +52,7 @@ class MembershipsList extends Component {
                   key={membership.id}
                   membership={membership}
                   highlighted={highlightId === membership.pledge.id}
+                  activeMembership={activeMembership}
                   hasWaitingMemberships={hasWaitingMemberships}
                 />
               ))}

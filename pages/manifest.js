@@ -106,10 +106,15 @@ const Page = ({ router, inNativeApp }) => {
 
   const shareObject = {
     url: meta.url,
-    emailSubject: 'Republik Manifesto',
+    emailSubject: 'Republik Manifest',
     emailAttachUrl: false,
-    emailBody: ` Für diesen Journalismus steht Project R: ${meta.url} Jetzt Mitglied und Abonnentin werden: ${PUBLIC_BASE_URL}`,
-    overlayTitle: 'Manifesto teilen'
+    emailBody: `
+      Für diesen Journalismus steht Project R: ${meta.url}
+      
+      Jetzt Mitglied und Abonnentin werden:
+      ${PUBLIC_BASE_URL}
+      `,
+    overlayTitle: 'Manifest teilen'
   }
 
   return (

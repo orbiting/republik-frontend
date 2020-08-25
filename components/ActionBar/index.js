@@ -189,7 +189,7 @@ const ActionBar = ({
       labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`,
       modes: ['feed'],
-      show: displayMinutes > 0
+      show: displayMinutes > 0 || displayHours > 0
     },
     {
       title: t('feed/actionbar/chart'),
@@ -312,7 +312,7 @@ const ActionBar = ({
       labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`,
       no: true,
-      show: true
+      show: displayMinutes > 0 || displayHours > 0
     },
     {
       title: t('article/actionbar/userprogress'),

@@ -27,12 +27,12 @@ const DiscussionLinkButton = ({ t, document, forceShortLabel }) => {
         Icon={DiscussionIcon}
         label={
           forceShortLabel
-            ? discussionCount || 0
+            ? discussionCount
             : t('profile/documents/title/other', {
-                count: discussionCount || 0
+                count: discussionCount || ''
               })
         }
-        labelShort={discussionCount || 0}
+        labelShort={discussionCount || ''}
         fill={colors.primary}
         onClick={
           isDiscussionPage

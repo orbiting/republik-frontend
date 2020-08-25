@@ -166,6 +166,15 @@ const ActionBar = ({
 
   const ActionItems = [
     {
+      title: readingTimeTitle,
+      Icon: MdQueryBuilder,
+      label: readingTimeLabel,
+      labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
+      ${displayMinutes}'`,
+      modes: ['feed'],
+      show: displayMinutes > 0 || displayHours > 0
+    },
+    {
       title: t('article/actionbar/userprogress'),
       element:
         document.userProgress && displayMinutes > 1 ? (
@@ -181,15 +190,6 @@ const ActionBar = ({
         ),
       modes: ['article-overlay', 'feed'],
       show: true
-    },
-    {
-      title: readingTimeTitle,
-      Icon: MdQueryBuilder,
-      label: readingTimeLabel,
-      labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes}'`,
-      modes: ['feed'],
-      show: displayMinutes > 0 || displayHours > 0
     },
     {
       title: t('feed/actionbar/chart'),

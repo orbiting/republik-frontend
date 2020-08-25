@@ -1,5 +1,5 @@
 {
-  "updated": "2020-08-21T11:31:17.453Z",
+  "updated": "2020-08-25T13:22:29.958Z",
   "title": "live",
   "data": [
     {
@@ -2917,6 +2917,10 @@
     {
       "key": "article/actionbar/progress/unread",
       "value": "Als ungelesen markieren"
+    },
+    {
+      "key": "article/actionbar/progress/markasread",
+      "value": "Als gelesen markieren"
     },
     {
       "key": "article/actionbar/discussion",

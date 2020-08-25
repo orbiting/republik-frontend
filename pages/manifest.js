@@ -98,8 +98,7 @@ const Strong = ({ children }) => <span {...styles.strong}>{children}</span>
 const Page = ({ router, inNativeApp }) => {
   const meta = {
     title: 'Das Project-R-Manifest für die Republik',
-    description:
-      'Jetzt unser Crowdfunding für das digitale Magazin unterstützen.',
+    description: 'Jetzt Mitglied und Abonnentin werden.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/manifest.png`,
     url: `${PUBLIC_BASE_URL}${router.pathname}`
   }
@@ -201,7 +200,4 @@ ${PUBLIC_BASE_URL}
   )
 }
 
-export default compose(
-  withInNativeApp,
-  withRouter
-)(Page)
+export default compose(withInNativeApp, withRouter)(Page)

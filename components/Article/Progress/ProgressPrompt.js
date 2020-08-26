@@ -14,7 +14,8 @@ import {
   Interaction,
   colors,
   linkRule,
-  mediaQueries
+  mediaQueries,
+  ColorContext
 } from '@project-r/styleguide'
 
 const styles = {
@@ -70,30 +71,32 @@ const ProgressPrompt = compose(withT)(
       render={() => {
         return (
           <div {...styles.box}>
-            <Center>
-              <H2>{t('article/progressprompt/headline')}</H2>
-              <P {...styles.pMargin}>{getFeatureDescription(t)}</P>
-              <P {...styles.pMargin}>
-                <Emphasis>{t('article/progressprompt/question')}</Emphasis>
-                <span {...styles.actions}>
-                  <Button onClick={onSubmitConsent}>
-                    {t('article/progressprompt/button/confirm')}
-                  </Button>
-                  <Button onClick={onRevokeConsent}>
-                    {t('article/progressprompt/button/reject')}
-                  </Button>
-                </span>
-              </P>
-              <P>
-                {t.elements('article/progressprompt/description/settings', {
-                  link: (
-                    <AnchorLink id='position' key='link'>
-                      {t('article/progressprompt/description/settings/link')}
-                    </AnchorLink>
-                  )
-                })}
-              </P>
-            </Center>
+            <ColorContext.Provider value={colors}>
+              <Center>
+                <H2>{t('article/progressprompt/headline')}</H2>
+                <P {...styles.pMargin}>{getFeatureDescription(t)}</P>
+                <P {...styles.pMargin}>
+                  <Emphasis>{t('article/progressprompt/question')}</Emphasis>
+                  <span {...styles.actions}>
+                    <Button onClick={onSubmitConsent}>
+                      {t('article/progressprompt/button/confirm')}
+                    </Button>
+                    <Button onClick={onRevokeConsent}>
+                      {t('article/progressprompt/button/reject')}
+                    </Button>
+                  </span>
+                </P>
+                <P>
+                  {t.elements('article/progressprompt/description/settings', {
+                    link: (
+                      <AnchorLink id='position' key='link'>
+                        {t('article/progressprompt/description/settings/link')}
+                      </AnchorLink>
+                    )
+                  })}
+                </P>
+              </Center>
+            </ColorContext.Provider>
           </div>
         )
       }}

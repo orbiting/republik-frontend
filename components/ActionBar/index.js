@@ -8,7 +8,7 @@ import {
   MdFileDownload,
   MdMic
 } from 'react-icons/md'
-import { IconButton } from '@project-r/styleguide'
+import { IconButton, colors } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
@@ -163,6 +163,9 @@ const ActionBar = ({
       ${displayMinutes} Minuten`
     : `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`
+  const showReadingTime =
+    (displayMinutes > 0 || displayHours > 0) &&
+    (meta.template === 'article' || meta.template === 'editorialNewsletter')
 
   const ActionItems = [
     {
@@ -172,7 +175,7 @@ const ActionBar = ({
       labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`,
       modes: ['feed'],
-      show: displayMinutes > 0 || displayHours > 0
+      show: showReadingTime
     },
     {
       title: t('article/actionbar/userprogress'),
@@ -211,7 +214,7 @@ const ActionBar = ({
           : undefined
       },
       modes: ['article-top', 'article-bottom'],
-      show: true
+      show: hasPdf
     },
     {
       title: t('article/actionbar/fontSize/title'),
@@ -312,7 +315,7 @@ const ActionBar = ({
       labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
       ${displayMinutes}'`,
       no: true,
-      show: displayMinutes > 0 || displayHours > 0
+      show: showReadingTime
     },
     {
       title: t('article/actionbar/userprogress'),

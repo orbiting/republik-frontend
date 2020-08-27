@@ -1,5 +1,5 @@
 {
-  "updated": "2020-08-25T13:22:29.958Z",
+  "updated": "2020-08-27T14:42:02.253Z",
   "title": "live",
   "data": [
     {
@@ -3661,10 +3661,6 @@
     {
       "key": "feedback/articleItem/newPage/title",
       "value": "Zur Debattenseite"
-    },
-    {
-      "key": "tokenAuthorization/notFound",
-      "value": null
     },
     {
       "key": "tokenAuthorization/error",

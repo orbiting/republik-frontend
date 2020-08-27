@@ -109,11 +109,11 @@ const Page = ({ router, inNativeApp }) => {
     emailSubject: 'Republik Manifest',
     emailAttachUrl: false,
     emailBody: `
-      Für diesen Journalismus steht Project R: ${meta.url}
-      
-      Jetzt Mitglied und Abonnentin werden:
-      ${PUBLIC_BASE_URL}
-      `,
+Für diesen Journalismus steht Project R: ${meta.url}
+
+Jetzt Mitglied und Abonnentin werden:
+${PUBLIC_BASE_URL}
+`,
     overlayTitle: 'Manifest teilen'
   }
 

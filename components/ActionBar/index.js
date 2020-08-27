@@ -6,7 +6,8 @@ import {
   MdQueryBuilder,
   MdPlayCircleOutline,
   MdFileDownload,
-  MdMic
+  MdMic,
+  MdModeEdit
 } from 'react-icons/md'
 import { IconButton, colors } from '@project-r/styleguide'
 import withT from '../../lib/withT'
@@ -16,7 +17,7 @@ import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import { trackEvent } from '../../lib/piwik'
 import { getDiscussionLinkProps } from './utils'
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, PUBLIKATOR_BASE_URL } from '../../lib/constants'
 import PdfOverlay, { getPdfUrl, countImages } from '../Article/PdfOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import ShareOverlay from './ShareOverlay'
@@ -305,8 +306,18 @@ const ActionBar = ({
       ),
       modes: ['article-top', 'article-bottom', 'article-overlay', 'feed'],
       show: !!discussionId
+    },
+    {
+      Icon: MdModeEdit,
+      href: `${PUBLIKATOR_BASE_URL}/repo/${document.repoId}/tree`,
+      title: t('feed/actionbar/edit'),
+      target: '_blank',
+      show: document.repoId && PUBLIKATOR_BASE_URL,
+      fill: colors.social,
+      modes: ['article-top']
     }
   ]
+
   const ActionItemsSecondary = [
     {
       title: readingTimeTitle,

@@ -128,7 +128,7 @@ const ActionBar = ({
   const hasPdf = meta && meta.template === 'article'
   const isDiscussion = meta && meta.template === 'discussion'
   const emailSubject = t('article/share/emailSubject', {
-    title: document.title
+    title: document.meta.title
   })
   const { discussionId } = getDiscussionLinkProps(
     meta.linkedDiscussion,
@@ -364,7 +364,7 @@ const ActionBar = ({
         setPodcastOverlayVisible(!podcastOverlayVisible)
       },
       label: t('PodcastButtons/title'),
-      show: !!podcast
+      show: !!podcast && meta.template !== 'format'
     }
   ]
   return (

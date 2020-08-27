@@ -716,16 +716,6 @@ class ArticlePage extends Component {
                                 />
                               </Breakout>
                             )}
-                            {!!podcast && meta.template === 'article' && (
-                              <>
-                                <h3>{t(`PodcastButtons/title`)}</h3>
-                                <PodcastButtons
-                                  {...podcast}
-                                  audioSource={audioSource}
-                                  onAudioClick={this.toggleAudio}
-                                />
-                              </>
-                            )}
                             {!me &&
                               isEditorialNewsletter &&
                               !!newsletterMeta &&
@@ -792,7 +782,9 @@ class ArticlePage extends Component {
                     <div ref={this.bottomBarRef}>{actionBarEnd}</div>
                     {!!podcast && meta.template === 'article' && (
                       <>
-                        <h3>{t(`PodcastButtons/title`)}</h3>
+                        <Interaction.H3>
+                          {t(`PodcastButtons/title`)}
+                        </Interaction.H3>
                         <PodcastButtons {...podcast} />
                       </>
                     )}
@@ -801,7 +793,9 @@ class ArticlePage extends Component {
                 {!!podcast && meta.template !== 'article' && (
                   <Center>
                     <>
-                      <h3>{t(`PodcastButtons/title`)}</h3>
+                      <Interaction.H3>
+                        {t(`PodcastButtons/title`)}
+                      </Interaction.H3>
                       <PodcastButtons {...podcast} />
                     </>
                   </Center>

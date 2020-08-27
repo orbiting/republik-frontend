@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ size = 24, fill }) => (
+const MdCheckCircleOutlined = ({ size = 24, fill }) => (
   <svg width={size} height={size} viewBox='0 0 24 24'>
     <path d='M0 0h24v24H0V0zm0 0h24v24H0V0z' fill='none' />
     <path
@@ -9,3 +9,5 @@ export default ({ size = 24, fill }) => (
     />
   </svg>
 )
+
+export default MdCheckCircleOutlined

@@ -34,6 +34,30 @@ const ShareButtons = ({
 
   const shareOptions = [
     {
+      href: `mailto:?subject=${encodeURIComponent(
+        emailSubject
+      )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
+      icon: MdMail,
+      title: t('article/actionbar/email/title'),
+      label: t('article/actionbar/email/label')
+    },
+    {
+      href: url,
+      icon: MdLink,
+      title: t('article/actionbar/link/title'),
+      label: t(
+        `article/actionbar/link/label${
+          copyLinkSuffix ? `/${copyLinkSuffix}` : ''
+        }`
+      ),
+      onClick: e => {
+        e.preventDefault()
+        copyToClipboard(url)
+          .then(() => setLinkCopySuffix('success'))
+          .catch(() => setLinkCopySuffix('error'))
+      }
+    },
+    {
       target: '_blank',
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         url
@@ -57,30 +81,6 @@ const ShareButtons = ({
       icon: IoLogoWhatsapp,
       title: t('article/actionbar/whatsapp/title'),
       label: t('article/actionbar/whatsapp/label')
-    },
-    {
-      href: `mailto:?subject=${encodeURIComponent(
-        emailSubject
-      )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
-      icon: MdMail,
-      title: t('article/actionbar/email/title'),
-      label: t('article/actionbar/email/label')
-    },
-    {
-      href: url,
-      icon: MdLink,
-      title: t('article/actionbar/link/title'),
-      label: t(
-        `article/actionbar/link/label${
-          copyLinkSuffix ? `/${copyLinkSuffix}` : ''
-        }`
-      ),
-      onClick: e => {
-        e.preventDefault()
-        copyToClipboard(url)
-          .then(() => setLinkCopySuffix('success'))
-          .catch(() => setLinkCopySuffix('error'))
-      }
     }
   ].filter(Boolean)
 

@@ -9,7 +9,7 @@ import {
   MdMic,
   MdModeEdit
 } from 'react-icons/md'
-import { IconButton, colors } from '@project-r/styleguide'
+import { IconButton, colors, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
@@ -31,6 +31,7 @@ import SubscribeMenu from '../Notifications/SubscribeMenu'
 import BookmarkButton from './BookmarkButton'
 import DiscussionLinkButton from './DiscussionLinkButton'
 import UserProgress from './UserProgress'
+import ShareButtons from './ShareButtons'
 
 const ActionBar = ({
   mode,
@@ -292,7 +293,7 @@ const ActionBar = ({
         }
       },
       label: !forceShortLabel ? t('article/actionbar/share') : '',
-      modes: ['article-top', 'article-bottom', 'article-overlay'],
+      modes: ['article-top', 'article-overlay'],
       show: true
     },
     {
@@ -390,6 +391,20 @@ const ActionBar = ({
           ))}
         </div>
       )}
+      {mode === 'article-bottom' && (
+        <>
+          <Interaction.P style={{ marginTop: 24 }}>
+            <strong>{t('article/actionbar/share')}</strong>
+          </Interaction.P>
+          <ShareButtons
+            url={meta.url}
+            tweet=''
+            emailSubject={emailSubject}
+            emailBody=''
+            emailAttachUrl
+          />
+        </>
+      )}
 
       {/* OVERLAYS */}
       {pdfOverlayVisible && (
@@ -440,6 +455,9 @@ const styles = {
   }),
   centered: css({
     justifyContent: 'center'
+  }),
+  shareTitle: css({
+    margin: '16px 0 0 0'
   })
 }
 

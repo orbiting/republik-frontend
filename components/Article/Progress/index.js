@@ -168,7 +168,10 @@ const Progress = ({
     }
   }, 300)
 
-  const restoreArticleProgress = () => {
+  const restoreArticleProgress = e => {
+    if (e) {
+      e.preventDefault()
+    }
     const { userProgress } = article
     const { percentage, nodeId } = userProgress
 
@@ -188,7 +191,10 @@ const Progress = ({
       // We don't scroll on mobile if the element of interest is already in viewport
       // This may happen on swipe navigation in iPhone X.
       if (!mobile() || !isInViewport) {
-        scrollIt(top - headerHeight() - (mobile() ? 10 : 20), 400)
+        scrollIt(
+          window.pageYOffset + top - headerHeight() - (mobile() ? 10 : 20),
+          400
+        )
       }
       return
     }

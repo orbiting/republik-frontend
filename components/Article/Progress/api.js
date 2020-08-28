@@ -40,6 +40,19 @@ const upsertDocumentProgressMutation = gql`
   ${userProgressFragment}
 `
 
+const removeDocumentProgress = gql`
+  mutation removeDocumentProgress($documentId: ID!) {
+    removeDocumentProgress(documentId: $documentId) {
+      id
+      document {
+        id
+        ...UserProgressOnDocument
+      }
+    }
+  }
+  ${userProgressFragment}
+`
+
 export const progressConsentQuery = gql`
   query progressConset {
     me {
@@ -107,6 +120,16 @@ export const withProgressApi = compose(
             documentId,
             percentage,
             nodeId
+          }
+        })
+    })
+  }),
+  graphql(removeDocumentProgress, {
+    props: ({ mutate }) => ({
+      removeDocumentProgress: documentId =>
+        mutate({
+          variables: {
+            documentId
           }
         })
     })

@@ -1,30 +1,12 @@
 import React, { useState, useEffect } from 'react'
-
 import { css } from 'glamor'
-
-import IconLink from '../IconLink'
-
+import { IconButton } from '@project-r/styleguide'
+import { IoLogoFacebook, IoLogoTwitter, IoLogoWhatsapp } from 'react-icons/io'
+import { MdMail, MdLink } from 'react-icons/md'
 import withT from '../../lib/withT'
 import { trackEvent } from '../../lib/piwik'
 
 import copyToClipboard from 'clipboard-copy'
-
-const styles = {
-  buttonGroup: css({
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    '& > a': {
-      flex: 'auto',
-      marginTop: 15,
-      marginBottom: 15,
-      flexGrow: 0
-    },
-    '@media print': {
-      display: 'none'
-    }
-  })
-}
 
 const ShareButtons = ({
   t,
@@ -36,8 +18,7 @@ const ShareButtons = ({
   eventCategory = 'ShareButtons',
   fill,
   onClose,
-  grid,
-  pocket = false
+  grid
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
   useEffect(() => {
@@ -53,48 +34,16 @@ const ShareButtons = ({
 
   const shareOptions = [
     {
-      target: '_blank',
-      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        url
-      )}`,
-      icon: 'facebook',
-      title: t('article/actionbar/facebook/title'),
-      label: t('article/actionbar/facebook/label')
-    },
-    {
-      target: '_blank',
-      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        tweet
-      )}&url=${encodeURIComponent(url)}`,
-      icon: 'twitter',
-      title: t('article/actionbar/twitter/title'),
-      label: t('article/actionbar/twitter/label')
-    },
-    {
-      target: '_blank',
-      href: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`,
-      icon: 'whatsapp',
-      title: t('article/actionbar/whatsapp/title'),
-      label: t('article/actionbar/whatsapp/label')
-    },
-    {
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
       )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
-      icon: 'mail',
+      icon: MdMail,
       title: t('article/actionbar/email/title'),
       label: t('article/actionbar/email/label')
     },
-    pocket && {
-      target: '_blank',
-      href: `https://getpocket.com/save?url=${encodeURIComponent(url)}`,
-      icon: 'pocket',
-      title: t('article/actionbar/pocket/title'),
-      label: t('article/actionbar/pocket/label')
-    },
     {
       href: url,
-      icon: 'copyLink',
+      icon: MdLink,
       title: t('article/actionbar/link/title'),
       label: t(
         `article/actionbar/link/label${
@@ -106,22 +55,44 @@ const ShareButtons = ({
         copyToClipboard(url)
           .then(() => setLinkCopySuffix('success'))
           .catch(() => setLinkCopySuffix('error'))
-      },
-      style: {
-        minWidth: 105
       }
+    },
+    {
+      target: '_blank',
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        url
+      )}`,
+      icon: IoLogoFacebook,
+      title: t('article/actionbar/facebook/title'),
+      label: t('article/actionbar/facebook/label')
+    },
+    {
+      target: '_blank',
+      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        tweet
+      )}&url=${encodeURIComponent(url)}`,
+      icon: IoLogoTwitter,
+      title: t('article/actionbar/twitter/title'),
+      label: t('article/actionbar/twitter/label')
+    },
+    {
+      target: '_blank',
+      href: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`,
+      icon: IoLogoWhatsapp,
+      title: t('article/actionbar/whatsapp/title'),
+      label: t('article/actionbar/whatsapp/label')
     }
   ].filter(Boolean)
 
   return (
-    <div {...styles.buttonGroup}>
+    <div {...styles.buttonGroup} {...(grid && styles.grid)}>
       {shareOptions.map(props => (
-        <IconLink
-          key={props.icon}
+        <IconButton
+          key={props.title}
+          Icon={props.icon}
+          label={props.label}
+          labelShort={props.label}
           fill={fill}
-          size={32}
-          stacked
-          {...props}
           onClick={e => {
             trackEvent([eventCategory, props.icon, url])
             if (props.onClick) {
@@ -129,24 +100,32 @@ const ShareButtons = ({
             }
             onClose && onClose()
           }}
-          style={
-            grid
-              ? {
-                  padding: 0,
-                  width: '33%',
-                  ...props.style
-                }
-              : {
-                  marginRight: 20,
-                  ...props.style
-                }
-          }
-        >
-          {props.label}
-        </IconLink>
+          {...props}
+        />
       ))}
     </div>
   )
+}
+
+const styles = {
+  buttonGroup: css({
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    '& > a': {
+      flex: 'auto',
+      marginTop: 15,
+      marginBottom: 15,
+      flexGrow: 0
+    },
+    '@media print': {
+      display: 'none'
+    }
+  }),
+  grid: css({
+    alignItems: 'center',
+    justifyContent: 'center'
+  })
 }
 
 export default withT(ShareButtons)

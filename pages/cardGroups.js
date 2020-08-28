@@ -19,9 +19,13 @@ import Cantons, {
   sSeatsPerCanton
 } from '../components/Card/Cantons'
 import Logo from '../components/Card/Logo'
-import { Center, Editorial, Interaction, colors } from '@project-r/styleguide'
-import DiscussionIconLink from '../components/Card/DiscussionIconLink'
-import LatestComments from '../components/Feedback/LatestComments'
+import {
+  Editorial,
+  Interaction,
+  colors,
+  IconButton
+} from '@project-r/styleguide'
+import DiscussionIcon from '../components/Icons/Discussion'
 
 const query = gql`
   query {
@@ -321,7 +325,11 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                             }}
                             passHref
                           >
-                            <DiscussionIconLink count={commentCount} />
+                            <IconButton
+                              Icon={DiscussionIcon}
+                              label={commentCount}
+                              fill={colors.primary}
+                            />
                           </Link>
                         </span>
                       )}

@@ -1,69 +1,129 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
-import withT from '../../lib/withT'
-import { styles as iconLinkStyles } from '../IconLink'
-import datetime from '../Article/Progress/datetime'
 
+import withT from '../../lib/withT'
+import datetime from '../Article/Progress/datetime'
+import MdCheckCircleOutlined from '../Icons/MdCheckCircleOutlined'
+import MdCheckSmall from '../Icons/MdCheckSmall'
+import { MdHighlightOff } from 'react-icons/md'
+import { withProgressApi } from '../Article/Progress/api'
 import {
   ProgressCircle,
   colors,
-  fontStyles,
-  plainButtonRule
+  IconButton,
+  CalloutMenu
 } from '@project-r/styleguide'
 
 const UserProgress = (
-  { t, userProgress, text, small },
+  {
+    t,
+    documentId,
+    userProgress,
+    upsertDocumentProgress,
+    removeDocumentProgress,
+    forceShortLabel,
+    noCallout,
+    noScroll
+  },
   { restoreArticleProgress }
 ) => {
   const { percentage, updatedAt } = userProgress
   const percent = Math.round(percentage * 100)
 
-  const Wrapper = restoreArticleProgress ? 'button' : 'div'
-  const fill = restoreArticleProgress ? colors.text : colors.lightText
+  const ReadIcon = React.forwardRef((props, ref) => (
+    <IconButton
+      Icon={MdCheckCircleOutlined}
+      label={!forceShortLabel && t('article/actionbar/progress/read')}
+      title={t('article/actionbar/progress/read')}
+      onClick={() => {
+        removeDocumentProgress(documentId)
+      }}
+      ref={ref}
+      {...props}
+    />
+  ))
 
-  const textStyle = {
-    color: fill,
-    ...fontStyles.sansSerifMedium16,
-    ...(small
-      ? {
-          fontSize: 15,
-          lineHeight: '20px'
-        }
-      : {})
+  const MarkAsReadIcon = React.forwardRef((props, ref) => (
+    <IconButton
+      Icon={MdCheckSmall}
+      title={t('article/actionbar/progress/markasread')}
+      onClick={() => {
+        upsertDocumentProgress(documentId, 1, '')
+      }}
+      ref={ref}
+      {...props}
+    />
+  ))
+
+  const ProgressCircleIcon = () => (
+    <ProgressCircle
+      progress={percent}
+      stroke={colors.text}
+      strokePlaceholder='#e9e9e9'
+      size={24}
+      strokeWidth={2}
+    />
+  )
+
+  if (percent === 100) {
+    if (noCallout) {
+      return <ReadIcon />
+    } else {
+      return (
+        <CalloutMenu Element={ReadIcon}>
+          <IconButton
+            Icon={MdHighlightOff}
+            title={t('article/actionbar/progress/unread')}
+            label={t('article/actionbar/progress/unread')}
+            labelShort={t('article/actionbar/progress/unread')}
+            onClick={() => {
+              removeDocumentProgress(documentId)
+            }}
+          />
+        </CalloutMenu>
+      )
+    }
   }
 
   return (
-    <Wrapper
-      {...plainButtonRule}
-      {...iconLinkStyles.link}
-      onClick={restoreArticleProgress}
-      href={restoreArticleProgress ? '#' : undefined}
-      title={datetime(t, new Date(updatedAt))}
-    >
-      <span {...iconLinkStyles.icon} style={{ paddingRight: 1 }}>
-        <ProgressCircle
-          progress={percent}
-          stroke={fill}
-          strokePlaceholder='#e9e9e9'
-          radius={small ? 8.5 : 9.5}
-          strokeWidth={small ? 2 : 2.5}
-        />
-      </span>
-      <span {...iconLinkStyles.text} style={textStyle}>
-        {text || `${percent}%`}
-      </span>
-    </Wrapper>
+    <>
+      <IconButton
+        Icon={ProgressCircleIcon}
+        onClick={!noScroll && restoreArticleProgress}
+        href={restoreArticleProgress ? '#' : undefined}
+        title={datetime(t, new Date(updatedAt))}
+        label={
+          forceShortLabel
+            ? `${percent}%`
+            : t('progress/restore/title', {
+                percent: `${percent}%`
+              })
+        }
+        labelShort={`${percent}%`}
+        style={{ marginRight: 10 }}
+      />
+      {noCallout ? (
+        <MarkAsReadIcon />
+      ) : (
+        <CalloutMenu Element={MarkAsReadIcon}>
+          <IconButton
+            Icon={MdCheckCircleOutlined}
+            title={t('article/actionbar/progress/markasread')}
+            label={t('article/actionbar/progress/markasread')}
+            labelShort={t('article/actionbar/progress/markasread')}
+            onClick={() => {
+              upsertDocumentProgress(documentId, 1, '')
+            }}
+          />
+        </CalloutMenu>
+      )}
+    </>
   )
-}
-
-UserProgress.propTypes = {
-  userProgress: PropTypes.object.isRequired,
-  style: PropTypes.object
 }
 
 UserProgress.contextTypes = {
   restoreArticleProgress: PropTypes.func
 }
 
-export default compose(withT)(UserProgress)
+export default compose(withT, withProgressApi)(UserProgress)

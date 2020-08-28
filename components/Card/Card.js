@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { css } from 'glamor'
 
-import { Interaction, colors } from '@project-r/styleguide'
+import { Interaction, colors, IconButton } from '@project-r/styleguide'
 
 import { MdCheck } from 'react-icons/md'
 
@@ -12,7 +12,7 @@ import { countFormat } from '../../lib/utils/format'
 import Spider from './Spider'
 import getPartyColor from './partyColors'
 import InfoIcon from './InfoIcon'
-import DiscussionIconLink from './DiscussionIconLink'
+import DiscussionIcon from '../Icons/Discussion'
 
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import sharedStyles from '../sharedStyles'
@@ -264,13 +264,10 @@ const Card = ({
                 }}
                 passHref
               >
-                <DiscussionIconLink
-                  style={{
-                    marginLeft: 0,
-                    verticalAlign: 'top',
-                    marginTop: 1
-                  }}
-                  count={1 + statement.comments.totalCount}
+                <IconButton
+                  Icon={DiscussionIcon}
+                  label={1 + statement.comments.totalCount}
+                  fill={colors.primary}
                 />
               </Link>
             </>

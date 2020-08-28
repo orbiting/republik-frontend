@@ -4,8 +4,8 @@ import { Body, Heading, Section, Small, Title } from '../text'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import Frame from '../../Frame'
-import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
-import { Link } from '../../../lib/routes'
+import DiscussionIcon from '../../Icons/Discussion'
+import Link from '../../Link/Path'
 import SignIn from '../../Auth/SignIn'
 import Collapsible from '../Collapsible'
 import Voting from '../Voting'
@@ -14,7 +14,8 @@ import {
   linkRule,
   Interaction,
   mediaQueries,
-  RawHtml
+  RawHtml,
+  IconButton
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import voteT from '../voteT'
@@ -37,10 +38,12 @@ const { P } = Interaction
 
 const styles = {
   actions: css({
+    display: 'flex',
     margin: '0 0 20px 0',
     [mediaQueries.lUp]: {
       margin: '30px 0'
-    }
+    },
+    '& a': { marginLeft: 16 }
   }),
   anchor: css({
     display: 'block',
@@ -131,26 +134,34 @@ class VotePage extends Component {
               ? vt('common/missingAddressDisabledMessage')
               : undefined
 
+            const shareObject = {
+              url: `${PUBLIC_BASE_URL}/vote/juli19`,
+              title: vt('vote/201907/page/title'),
+              tweet: vt('vote/201907/sm/tweet'),
+              emailSubject: vt('vote/201907/sm/emailSubject'),
+              emailBody: vt('vote/201907/sm/emailBody')
+            }
+
             const actionBar = (
               <div {...styles.actions}>
-                <ActionBar
-                  url={`${PUBLIC_BASE_URL}/vote/juli19`}
-                  title={vt('vote/201907/page/title')}
-                  tweet={vt('vote/201907/sm/tweet')}
-                  emailSubject={vt('vote/201907/sm/emailSubject')}
-                  emailBody={vt('vote/201907/sm/emailBody')}
-                />
+                <ActionBar share={shareObject} />
                 {discussion && (
-                  <DiscussionIconLinkWithoutEnhancer
-                    discussionId={discussion.id}
-                    path={discussion.path}
-                    discussionCommentsCount={
-                      discussion.comments
-                        ? discussion.comments.totalCount
-                        : undefined
-                    }
-                    style={{ marginLeft: 5, lineHeight: 0 }}
-                  />
+                  <Link path={discussion.path} passHref>
+                    <IconButton
+                      Icon={DiscussionIcon}
+                      label={
+                        discussion.comments
+                          ? discussion.comments.totalCount
+                          : undefined
+                      }
+                      labelShort={
+                        discussion.comments
+                          ? discussion.comments.totalCount
+                          : undefined
+                      }
+                      fill={colors.primary}
+                    />
+                  </Link>
                 )}
               </div>
             )

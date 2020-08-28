@@ -12,13 +12,13 @@ import { Link, Router } from '../../lib/routes'
 import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
-import ActionBar from '../ActionBar'
 import StatusError from '../StatusError'
 import { cardFragment } from '../Card/fragments'
 import Card, { styles as cardStyles } from '../Card/Card'
 import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
+import ActionBar from '../ActionBar'
 
 import { TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
@@ -120,7 +120,7 @@ const styles = {
     }
   }),
   headInfoShare: css({
-    display: 'inline-block',
+    display: 'flex',
     float: 'right',
     verticalAlign: 'middle'
   }),
@@ -416,6 +416,16 @@ const LoadedProfile = props => {
   }
 
   const { isEditing, values, errors, dirty } = state
+
+  const shareObject = {
+    title: t('profile/share/title', { name: user.name }),
+    url: `${PUBLIC_BASE_URL}/~${user.slug}`,
+    emailSubject: t('profile/share/emailSubject', { name: user.name }),
+    emailAttachUrl: false,
+    emailBody: `${PUBLIC_BASE_URL}/~${user.slug}`,
+    overlayTitle: t('profile/share/overlayTitle')
+  }
+
   return (
     <Fragment>
       {!user.hasPublicProfile && (
@@ -492,17 +502,7 @@ const LoadedProfile = props => {
               <div {...styles.headInfo}>
                 {!!user.hasPublicProfile && (
                   <span {...styles.headInfoShare}>
-                    <ActionBar
-                      title={t('profile/share/title', {
-                        name: user.name
-                      })}
-                      emailSubject={t('profile/share/emailSubject', {
-                        name: user.name
-                      })}
-                      url={`${PUBLIC_BASE_URL}/~${user.slug}`}
-                      download={metaData.image}
-                      shareOverlayTitle={t('profile/share/overlayTitle')}
-                    />
+                    <ActionBar share={shareObject} download={metaData.image} />
                   </span>
                 )}
                 {!!user.sequenceNumber && (
@@ -583,9 +583,10 @@ const LoadedProfile = props => {
                   dirty={dirty}
                 />
                 {!!me && user.subscribedByMe && user.id !== me.id && (
-                  <div>
+                  <div style={{ marginTop: 16 }}>
                     <SubscribeMenu
-                      label={t('SubscribeAuthor/title')}
+                      label={t('SubscribeMenu/title')}
+                      labelShort={t('SubscribeMenu/title')}
                       showAuthorFilter
                       userHasNoDocuments={!user.documents.totalCount}
                       subscriptions={[user.subscribedByMe]}

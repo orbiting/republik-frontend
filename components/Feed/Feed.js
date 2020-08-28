@@ -4,7 +4,7 @@ import { nest } from 'd3-collection'
 import { timeFormat } from '../../lib/utils/format'
 import Link from '../Link/Href'
 import withT from '../../lib/withT'
-import ActionBar from '../ActionBar/Feed'
+import ActionBar from '../ActionBar'
 import StickySection from './StickySection'
 import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
@@ -34,17 +34,7 @@ class Feed extends Component {
         }
         Link={Link}
         key={doc.meta.path}
-        bar={
-          <ActionBar
-            documentId={doc.id}
-            userBookmark={doc.userBookmark}
-            userProgress={doc.userProgress}
-            format={doc.meta.format}
-            subscription={doc.subscribedByMe}
-            showSubscribe={this.props.showSubscribe}
-            {...doc.meta}
-          />
-        }
+        bar={<ActionBar mode='feed' document={doc} />}
       />
     ) : null
 

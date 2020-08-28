@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { CommentComposerSecondaryAction } from '@project-r/styleguide'
-
-import IconLink from '../IconLink'
+import {
+  CommentComposerSecondaryAction,
+  IconButton
+} from '@project-r/styleguide'
+import MarkdownIcon from '../Icons/Markdown'
+import EtiquetteIcon from '../Icons/Etiquette'
 
 const styles = {
   action: css({
@@ -16,18 +19,18 @@ const styles = {
 const SecondaryActions = ({ t }) => (
   <Fragment>
     <CommentComposerSecondaryAction as='span' {...styles.action}>
-      <IconLink
+      <IconButton
         size={28}
-        icon='etiquette'
+        Icon={EtiquetteIcon}
         href='/etikette'
         target='_blank'
         title={t('components/Discussion/etiquette')}
       />
     </CommentComposerSecondaryAction>
     <CommentComposerSecondaryAction as='span' {...styles.action}>
-      <IconLink
+      <IconButton
         size={28}
-        icon='markdown'
+        Icon={MarkdownIcon}
         href='/markdown'
         target='_blank'
         title={t('components/Discussion/markdown/title')}

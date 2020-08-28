@@ -12,19 +12,9 @@ import { MdClose } from 'react-icons/md'
 
 import withT from '../../lib/withT'
 
-import ShareButtons from './ShareButtons'
+import PodcastButtons from '../Article/PodcastButtons'
 
-const ShareOverlay = ({
-  t,
-  title,
-  url,
-  tweet,
-  emailSubject,
-  emailBody,
-  emailAttachUrl,
-  fill,
-  onClose
-}) => {
+const PodcastOverlay = ({ t, title, podcast, onClose }) => {
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
@@ -38,20 +28,11 @@ const ShareOverlay = ({
       </OverlayToolbar>
       <OverlayBody>
         <div style={{ textAlign: 'center' }}>
-          <ShareButtons
-            onClose={onClose}
-            url={url}
-            tweet={tweet}
-            grid
-            emailSubject={emailSubject}
-            emailBody={emailBody}
-            emailAttachUrl={emailAttachUrl}
-            eventCategory='ShareOverlay'
-          />
+          <PodcastButtons {...podcast} />
         </div>
       </OverlayBody>
     </Overlay>
   )
 }
 
-export default withT(ShareOverlay)
+export default withT(PodcastOverlay)

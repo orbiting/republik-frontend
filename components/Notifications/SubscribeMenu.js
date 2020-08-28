@@ -1,25 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { CalloutMenu } from '@project-r/styleguide'
-import SubscribeIcon from './SubscribeIcon'
 import { compose, graphql } from 'react-apollo'
+import { withRouter } from 'next/router'
+import { CalloutMenu, IconButton } from '@project-r/styleguide'
+import { MdNotifications, MdNotificationsNone } from 'react-icons/md'
+
 import { discussionPreferencesQuery } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
-import { withRouter } from 'next/router'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
-import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
-
-const styles = {
-  container: css({
-    display: 'inline-block',
-    marginLeft: 'auto',
-    position: 'relative',
-    lineHeight: 'initial',
-    '@media print': {
-      display: 'none'
-    }
-  })
-}
 
 const SubscribeMenu = ({
   data,
@@ -28,8 +16,8 @@ const SubscribeMenu = ({
   subscriptions,
   showAuthorFilter,
   userHasNoDocuments,
-  style,
   label,
+  labelShort,
   me
 }) => {
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
@@ -83,14 +71,20 @@ const SubscribeMenu = ({
     return null
   }
 
-  const icon = (
-    <SubscribeIcon animate={animate} isSubscribed={isSubscribedToAny} />
-  )
+  const Icon = React.forwardRef((props, ref) => (
+    <IconButton
+      Icon={isSubscribedToAny ? MdNotifications : MdNotificationsNone}
+      label={label}
+      labelShort={labelShort}
+      ref={ref}
+      {...props}
+    />
+  ))
+
   return (
-    <div {...styles.container} style={style}>
+    <>
       <CalloutMenu
-        label={label}
-        icon={icon}
+        Element={Icon}
         initiallyOpen={router.query && !!router.query.mute}
       >
         <SubscribeCallout
@@ -102,7 +96,7 @@ const SubscribeMenu = ({
           setAnimate={setAnimate}
         />
       </CalloutMenu>
-    </div>
+    </>
   )
 }
 

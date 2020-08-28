@@ -1,20 +1,17 @@
 import React, { Fragment } from 'react'
+import { isWebUri } from 'valid-url'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
-
+import { Dropdown, Label, Interaction, IconButton } from '@project-r/styleguide'
+import { IoLogoFacebook, IoLogoTwitter } from 'react-icons/io'
+import { MdLanguage, MdMailOutline, MdNoteAdd, MdVpnKey } from 'react-icons/md'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { withSupporter } from '../Auth/checkRoles'
-import { isWebUri } from 'valid-url'
-
-import IconLink from '../IconLink'
+import { ADMIN_BASE_URL } from '../../lib/constants'
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
 import { DEFAULT_VALUES } from './Page'
-
-import { Dropdown, Label, Interaction } from '@project-r/styleguide'
-
-import { ADMIN_BASE_URL } from '../../lib/constants'
 
 const fields = t => [
   {
@@ -148,26 +145,28 @@ const Contact = ({
 
   return (
     <Fragment>
-      <div {...styles.icons}>
+      <div {...styles.icons} {...styles.contactRow}>
         {user.facebookId && (
-          <IconLink
-            icon='facebook'
+          <IconButton
+            Icon={IoLogoFacebook}
             href={`https://www.facebook.com/${user.facebookId}`}
           />
         )}
         {user.twitterHandle && (
-          <IconLink
-            icon='twitter'
+          <IconButton
+            Icon={IoLogoTwitter}
             href={`https://twitter.com/${user.twitterHandle}`}
           />
         )}
-        {user.email && <IconLink icon='mail' href={`mailto:${user.email}`} />}
+        {user.email && (
+          <IconButton Icon={MdMailOutline} href={`mailto:${user.email}`} />
+        )}
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
-          <IconLink icon='link' href={user.publicUrl} />
+          <IconButton Icon={MdLanguage} href={user.publicUrl} />
         )}
         {isSupporter && (
-          <IconLink
-            icon='notesMedical'
+          <IconButton
+            Icon={MdNoteAdd}
             fill='#FF10D9'
             size={22}
             href={`${ADMIN_BASE_URL}/users/${user.id}`}
@@ -176,29 +175,30 @@ const Contact = ({
         )}
       </div>
       {!inNativeIOSApp && user.pgpPublicKeyId && (
-        <IconLink
-          href={`/pgp/${user.username || user.id}.asc`}
-          icon='key'
-          size={20}
-          title={t('profile/contact/pgpPublicKey/label')}
-          style={{ marginBottom: 16, padding: 0 }}
-        >
-          {user.pgpPublicKeyId.toUpperCase()}
-        </IconLink>
+        <div {...styles.contactRow}>
+          <IconButton
+            href={`/pgp/${user.username || user.id}.asc`}
+            Icon={MdVpnKey}
+            label={user.pgpPublicKeyId.toUpperCase()}
+            labelShort={user.pgpPublicKeyId.toUpperCase()}
+          />
+        </div>
       )}
       {user.email && user.emailAccessRole !== 'PUBLIC' && (
-        <Label style={{ display: 'block', marginBottom: 16 }}>
-          {t(
-            `profile/contact/access/${user.emailAccessRole}/note`,
-            {
-              field: t('profile/contact/email/label')
-            },
-            ''
-          )}
-        </Label>
+        <div {...styles.contactRow}>
+          <Label style={{ display: 'block', marginBottom: 16 }}>
+            {t(
+              `profile/contact/access/${user.emailAccessRole}/note`,
+              {
+                field: t('profile/contact/email/label')
+              },
+              ''
+            )}
+          </Label>
+        </div>
       )}
       {user.phoneNumber && (
-        <Fragment>
+        <div {...styles.contactRow}>
           <Interaction.P>
             <a
               href={`tel:${user.phoneNumber}`}
@@ -219,7 +219,7 @@ const Contact = ({
               ''
             )}
           </Label>
-        </Fragment>
+        </div>
       )}
     </Fragment>
   )
@@ -227,7 +227,10 @@ const Contact = ({
 
 const styles = {
   icons: css({
-    margin: '16px 0'
+    display: 'flex'
+  }),
+  contactRow: css({
+    marginTop: 16
   })
 }
 

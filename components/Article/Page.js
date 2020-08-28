@@ -3,11 +3,12 @@ import { css } from 'glamor'
 import { withRouter } from 'next/router'
 
 import Frame from '../Frame'
-import ArticleActionBar from '../ActionBar/Article'
+import ActionBar from '../ActionBar'
+import ActionBarOverlay from './ActionBarOverlay'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
-import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
+import PdfOverlay from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
@@ -43,7 +44,6 @@ import { userProgressFragment } from './Progress/api'
 import PodcastButtons from './PodcastButtons'
 
 import {
-  AudioPlayer,
   Center,
   ColorContext,
   colors,
@@ -54,7 +54,6 @@ import {
   Editorial
 } from '@project-r/styleguide'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import { renderMdast } from 'mdast-react-render'
@@ -128,9 +127,10 @@ const styles = {
     marginBottom: 20
   }),
   actionBar: css({
-    marginBottom: 20,
+    marginTop: 16,
+    marginBottom: 24,
     [mediaQueries.mUp]: {
-      marginBottom: 50
+      marginBottom: 36
     }
   })
 }
@@ -304,9 +304,7 @@ class ArticlePage extends Component {
   constructor(props) {
     super(props)
 
-    this.barRef = ref => {
-      this.bar = ref
-    }
+    this.barRef = React.createRef()
 
     this.bottomBarRef = ref => {
       this.bottomBar = ref
@@ -471,50 +469,22 @@ class ArticlePage extends Component {
       showSeriesNav
     } = this.state
 
-    const hasPdf = meta && meta.template === 'article'
     const isEditorialNewsletter =
       meta && meta.template === 'editorialNewsletter'
-    const actionBar = meta && (
-      <ArticleActionBar
-        t={t}
-        url={meta.url}
-        title={meta.title}
-        animate={!podcast}
-        template={meta.template}
-        path={meta.path}
-        showShare={
-          !isEditorialNewsletter || (newsletterMeta && newsletterMeta.free)
-        }
-        linkedDiscussion={meta.linkedDiscussion}
-        ownDiscussion={meta.ownDiscussion}
-        dossierUrl={meta.dossier && meta.dossier.meta.path}
-        onAudioClick={meta.audioSource && this.toggleAudio}
-        onGalleryClick={meta.indicateGallery ? this.showGallery : undefined}
-        onPdfClick={
-          hasPdf && countImages(article.content) > 0
-            ? this.togglePdf
-            : undefined
-        }
-        pdfUrl={hasPdf ? getPdfUrl(meta) : undefined}
-        documentId={article.id}
-        repoId={article.repoId}
-        isEditor={isEditor}
-        userBookmark={article.userBookmark}
-        userProgress={article.userProgress}
-        showBookmark={isMember}
-        estimatedReadingMinutes={meta.estimatedReadingMinutes}
-        estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
-        subscriptions={article.subscribedBy.nodes}
-        showSubscribe
-        isDiscussion={meta && meta.template === 'discussion'}
-      />
+
+    const actionBar = article && (
+      <ActionBar mode='article-top' document={article} />
     )
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
-          animate: false,
-          estimatedReadingMinutes: undefined,
-          estimatedConsumptionMinutes: undefined,
-          grandSharing: !inNativeApp
+          mode: 'article-bottom'
+        })
+      : undefined
+
+    const actionBarOverlay = actionBar
+      ? React.cloneElement(actionBar, {
+          mode: 'article-overlay'
+          // actionBarTopY
         })
       : undefined
 
@@ -590,8 +560,6 @@ class ArticlePage extends Component {
 
     const payNoteAfter =
       payNote && React.cloneElement(payNote, { position: 'after' })
-    // const payNote = null
-    // const payNoteAfter = null
 
     const splitContent = article && splitByTitle(article.content)
     const renderSchema = content =>
@@ -733,7 +701,6 @@ class ArticlePage extends Component {
                               {...styles.actionBar}
                               style={{
                                 textAlign: titleAlign,
-                                marginTop: isSection || isFormat ? 20 : 0,
                                 marginBottom: isEditorialNewsletter
                                   ? 0
                                   : undefined
@@ -748,13 +715,6 @@ class ArticlePage extends Component {
                                   linkedDocuments={article.linkedDocuments}
                                 />
                               </Breakout>
-                            )}
-                            {!!podcast && meta.template === 'article' && (
-                              <PodcastButtons
-                                {...podcast}
-                                audioSource={audioSource}
-                                onAudioClick={this.toggleAudio}
-                              />
                             )}
                             {!me &&
                               isEditorialNewsletter &&
@@ -780,6 +740,12 @@ class ArticlePage extends Component {
                         )}
                       </SSRCachingBoundary>
                     </article>
+                    <ActionBarOverlay
+                      audioPlayerVisible={this.props.audioPlayerVisible}
+                      inNativeApp={inNativeApp}
+                    >
+                      {actionBarOverlay}
+                    </ActionBarOverlay>
                   </ProgressComponent>
                 </ArticleGallery>
                 {meta.template === 'article' &&
@@ -815,13 +781,23 @@ class ArticlePage extends Component {
                   <Center>
                     <div ref={this.bottomBarRef}>{actionBarEnd}</div>
                     {!!podcast && meta.template === 'article' && (
-                      <PodcastButtons {...podcast} />
+                      <>
+                        <Interaction.H3>
+                          {t(`PodcastButtons/title`)}
+                        </Interaction.H3>
+                        <PodcastButtons {...podcast} />
+                      </>
                     )}
                   </Center>
                 )}
                 {!!podcast && meta.template !== 'article' && (
                   <Center>
-                    <PodcastButtons {...podcast} />
+                    <>
+                      <Interaction.H3>
+                        {t(`PodcastButtons/title`)}
+                      </Interaction.H3>
+                      <PodcastButtons {...podcast} />
+                    </>
                   </Center>
                 )}
                 {false &&
@@ -886,8 +862,12 @@ const ComposedPage = compose(
 
 const ComposedPageWithAudio = props => (
   <AudioContext.Consumer>
-    {({ toggleAudioPlayer }) => (
-      <ComposedPage {...props} toggleAudioPlayer={toggleAudioPlayer} />
+    {({ toggleAudioPlayer, audioPlayerVisible }) => (
+      <ComposedPage
+        {...props}
+        audioPlayerVisible={audioPlayerVisible}
+        toggleAudioPlayer={toggleAudioPlayer}
+      />
     )}
   </AudioContext.Consumer>
 )

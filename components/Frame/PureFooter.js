@@ -1,8 +1,13 @@
 import React from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
-import IconLink from '../IconLink'
-import { mediaQueries, fontFamilies, Label } from '@project-r/styleguide'
+import { IoLogoFacebook, IoLogoTwitter } from 'react-icons/io'
+import {
+  mediaQueries,
+  fontFamilies,
+  Label,
+  IconButton
+} from '@project-r/styleguide'
 import { EMAIL_CONTACT } from '../../lib/constants'
 
 css.global('html', { boxSizing: 'border-box' })
@@ -84,15 +89,15 @@ const Footer = ({ inverted, en }) => (
       <A href={`mailto:${EMAIL_CONTACT}`}>{EMAIL_CONTACT}</A>
     </address>
 
-    <IconLink
+    <IconButton
       fill={inverted ? '#fff' : '#000'}
-      icon='facebook'
+      Icon={IoLogoFacebook}
       href='https://www.facebook.com/RepublikMagazin'
       target='_blank'
     />
-    <IconLink
+    <IconButton
       fill={inverted ? '#fff' : '#000'}
-      icon='twitter'
+      Icon={IoLogoTwitter}
       href='https://twitter.com/RepublikMagazin'
       target='_blank'
     />

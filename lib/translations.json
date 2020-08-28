@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-29T09:37:34.926Z",
+  "updated": "2020-08-27T14:42:02.253Z",
   "title": "live",
   "data": [
     {
@@ -2911,6 +2911,26 @@
       "value": "Beispiel"
     },
     {
+      "key": "article/actionbar/progress/read",
+      "value": "Gelesen"
+    },
+    {
+      "key": "article/actionbar/progress/unread",
+      "value": "Als ungelesen markieren"
+    },
+    {
+      "key": "article/actionbar/progress/markasread",
+      "value": "Als gelesen markieren"
+    },
+    {
+      "key": "article/actionbar/discussion",
+      "value": "Zum Dialog"
+    },
+    {
+      "key": "article/actionbar/userprogress",
+      "value": "Leseposition"
+    },
+    {
       "key": "article/series/episode",
       "value": "Episode {count}"
     },
@@ -3252,7 +3272,7 @@
     },
     {
       "key": "memberships/noActive",
-      "value": "Sie haben keine aktiven Mitgliedschaften oder Abonnements"
+      "value": "Sie haben keine aktiven Mitgliedschaften oder Abonnements."
     },
     {
       "key": "memberships/latestPeriod/renew/true/autoPay/true",
@@ -4589,6 +4609,10 @@
     {
       "key": "bookmark/title/default",
       "value": "Lesezeichen hinzufügen"
+    },
+    {
+      "key": "bookmark/label",
+      "value": "Merken"
     },
     {
       "key": "pages/bookmarks/title",
@@ -6663,8 +6687,8 @@
       "value": "Allgemeine Einstellungen"
     },
     {
-      "key": "SubscribeAuthor/title",
-      "value": "Profil abonnieren"
+      "key": "SubscribeMenu/title",
+      "value": "Folgen"
     },
     {
       "key": "SubscribeDocument/title",

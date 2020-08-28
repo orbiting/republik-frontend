@@ -2,7 +2,7 @@ import React from 'react'
 import { Interaction, TeaserFeed } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import HrefLink from '../Link/Href'
-import FeedActionBar from '../ActionBar/Feed'
+import ActionBar from '../ActionBar'
 import InfiniteScroll from '../Frame/InfiniteScroll'
 import { css } from 'glamor'
 
@@ -42,15 +42,7 @@ const Documents = ({ t, documents, loadMore }) => {
           description={!doc.meta.shortTitle && doc.meta.description}
           Link={HrefLink}
           key={doc.meta.path}
-          bar={
-            <FeedActionBar
-              documentId={doc.id}
-              userBookmark={doc.userBookmark}
-              userProgress={doc.userProgress}
-              {...doc.meta}
-              meta={doc.meta}
-            />
-          }
+          bar={<ActionBar mode='feed' document={doc} />}
         />
       ))}
     </InfiniteScroll>

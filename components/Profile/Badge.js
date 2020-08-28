@@ -1,7 +1,6 @@
 import React from 'react'
 import { merge } from 'glamor'
-import { colors } from '@project-r/styleguide'
-import IconLink from '../IconLink'
+import { colors, IconButton } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 
 // currently unused, example:
@@ -38,7 +37,7 @@ const Badge = ({ t, badge, size }) => {
       })}
       title={t(badgeData.translation)}
     >
-      <IconLink icon={badgeData.icon} size={size - 8} style={{ padding: 0 }} />
+      <IconButton Icon={badgeData.icon} />
     </span>
   )
 }

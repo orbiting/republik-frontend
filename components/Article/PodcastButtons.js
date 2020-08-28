@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'
-
+import copyToClipboard from 'clipboard-copy'
 import { css } from 'glamor'
-
-import IconLink from '../IconLink'
+import { fontStyles, IconButton } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { trackEvent } from '../../lib/piwik'
-
 import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
-
-import { fontStyles } from '@project-r/styleguide'
-
-import copyToClipboard from 'clipboard-copy'
 import { shouldIgnoreClick } from '../../lib/utils/link'
+import {
+  MdPlayCircleOutline,
+  MdLink,
+  MdLaunch,
+  MdRssFeed
+} from 'react-icons/md'
+import { IoLogoGoogle, IoLogoApple } from 'react-icons/io'
+import Spotify from '../Icons/Spotify'
 
 const styles = {
   buttonGroup: css({
@@ -59,7 +61,7 @@ const PodcastButtons = ({
   }, [copyLinkSuffix])
 
   if (!podigeeSlug) {
-    return
+    return null
   }
 
   const mainFeed = `https://${podigeeSlug}.podigee.io/feed/mp3`
@@ -82,12 +84,9 @@ const PodcastButtons = ({
     canPlay && {
       animate: true,
       href: audioSource.mp3,
-      icon: 'play',
+      icon: MdPlayCircleOutline,
       title: t('PodcastButtons/play'),
       label: t('PodcastButtons/play'),
-      // label: audioSource.durationMs
-      // ? getFormattedTime(audioSource.durationMs / 1000)
-      // : t('PodcastButtons/play'),
       onClick: e => {
         if (shouldIgnoreClick(e)) {
           return
@@ -101,38 +100,38 @@ const PodcastButtons = ({
         plattformWithApp === 'android' || plattformWithApp === 'chrome'
           ? `pcast:${podigeeSlug}.podigee.io/feed/mp3`
           : `podcast://${podigeeSlug}.podigee.io/feed/aac`,
-      icon: 'launch',
+      icon: MdLaunch,
       label: t('PodcastButtons/app')
     },
     spotifyUrl && {
       href: spotifyUrl,
       target: '_blank',
-      icon: 'spotify',
+      icon: Spotify,
       label: t('PodcastButtons/spotify')
     },
     appleUrl &&
       !isAndroid && {
         href: appleUrl,
         target: '_blank',
-        icon: 'apple',
+        icon: IoLogoApple,
         label: t('PodcastButtons/apple')
       },
     googleUrl &&
       !isIOS && {
         href: googleUrl,
         target: '_blank',
-        icon: 'google',
+        icon: IoLogoGoogle,
         label: t('PodcastButtons/google')
       },
     {
       href: `https://${podigeeSlug}.podigee.io/feed/mp3`,
       target: '_blank',
-      icon: 'rss',
+      icon: MdRssFeed,
       label: t('PodcastButtons/rss')
     },
     {
       href: mainFeed,
-      icon: 'copyLink',
+      icon: MdLink,
       title: t('PodcastButtons/copy'),
       label: t(
         `PodcastButtons/copy${copyLinkSuffix ? `/${copyLinkSuffix}` : ''}`
@@ -150,54 +149,30 @@ const PodcastButtons = ({
   ].filter(Boolean)
 
   return (
-    <>
-      <h3
-        style={{
-          textAlign: center ? 'center' : 'left',
-          marginBottom: 0,
-          ...fontStyles.sansSerifMedium16
-        }}
-      >
-        {t(`PodcastButtons/title${canPlay ? '/play' : ''}`)}
-      </h3>
-      <div
-        {...styles.buttonGroup}
-        {...(center ? styles.buttonGroupCenter : styles.buttonGroupLeft)}
-      >
-        {shareOptions.map(props => (
-          <IconLink
-            key={props.icon}
-            size={32}
-            stacked
-            {...props}
-            onClick={e => {
-              trackEvent([
-                eventCategory,
-                [plattformWithApp, props.icon].filter(Boolean).join(' '),
-                podigeeSlug
-              ])
-              if (props.onClick) {
-                return props.onClick(e)
-              }
-            }}
-            style={{
-              ...(center
-                ? {
-                    marginLeft: 10,
-                    marginRight: 10,
-                    minWidth: copyMinWidth
-                  }
-                : {
-                    marginRight: 20
-                  }),
-              ...props.style
-            }}
-          >
-            {props.label}
-          </IconLink>
-        ))}
-      </div>
-    </>
+    <div
+      {...styles.buttonGroup}
+      {...(center ? styles.buttonGroupCenter : styles.buttonGroupLeft)}
+    >
+      {shareOptions.map(props => (
+        <IconButton
+          key={props.title}
+          Icon={props.icon}
+          label={props.label}
+          labelShort={props.label}
+          {...props}
+          onClick={e => {
+            trackEvent([
+              eventCategory,
+              [plattformWithApp, props.icon].filter(Boolean).join(' '),
+              podigeeSlug
+            ])
+            if (props.onClick) {
+              return props.onClick(e)
+            }
+          }}
+        />
+      ))}
+    </div>
   )
 }
 

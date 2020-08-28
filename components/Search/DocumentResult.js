@@ -1,6 +1,6 @@
 import React from 'react'
 import { TeaserFeed, colors } from '@project-r/styleguide'
-import ActionBar from '../ActionBar/Feed'
+import ActionBar from '../ActionBar'
 import Link from '../Link/Href'
 import { css } from 'glamor'
 import { findHighlight } from '../../lib/utils/mdast'
@@ -27,12 +27,7 @@ export default withT(({ t, node }) => {
     !titleHighlight && !authorHighlight && !descHighlight && textHighlight
 
   const actionBar = node.entity.meta ? (
-    <ActionBar
-      documentId={node.entity.id}
-      userBookmark={node.entity.userBookmark}
-      userProgress={node.entity.userProgress}
-      {...node.entity.meta}
-    />
+    <ActionBar mode='feed' document={node.entity} />
   ) : null
 
   return (

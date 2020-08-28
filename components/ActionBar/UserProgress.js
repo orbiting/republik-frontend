@@ -100,7 +100,13 @@ const UserProgress = (
                 percent: `${percent}%`
               })
         }
-        labelShort={`${percent}%`}
+        labelShort={
+          forceShortLabel
+            ? `${percent}%`
+            : t('progress/restore/titleShort', {
+                percent: `${percent}%`
+              })
+        }
         style={{ marginRight: 10 }}
       />
       {noCallout ? (

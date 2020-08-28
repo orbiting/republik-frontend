@@ -12,6 +12,7 @@ import {
 import { IconButton, colors, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
+import { withEditor } from '../Auth/checkRoles'
 
 import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
@@ -37,6 +38,7 @@ const ActionBar = ({
   mode,
   document,
   t,
+  isEditor,
   inNativeApp,
   share,
   download,
@@ -313,9 +315,9 @@ const ActionBar = ({
       href: `${PUBLIKATOR_BASE_URL}/repo/${document.repoId}/tree`,
       title: t('feed/actionbar/edit'),
       target: '_blank',
-      show: document.repoId && PUBLIKATOR_BASE_URL,
       fill: colors.social,
-      modes: ['article-top']
+      modes: ['article-top'],
+      show: isEditor && document.repoId && PUBLIKATOR_BASE_URL
     }
   ]
 
@@ -461,4 +463,4 @@ const styles = {
   })
 }
 
-export default compose(withT, withInNativeApp)(ActionBar)
+export default compose(withT, withInNativeApp, withEditor)(ActionBar)

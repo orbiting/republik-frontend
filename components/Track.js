@@ -43,6 +43,18 @@ const trackUrl = url => {
   if (query.token) {
     query.token = 'R'
   }
+  if (pathname === '/abholen') {
+    if (query.code) {
+      query.code = 'R'
+    }
+  }
+  // rm fb and google click ids
+  if (query.fbclid) {
+    query.fbclid = 'R'
+  }
+  if (query.gclid) {
+    query.gclid = 'R'
+  }
   // ensure query string is calculated from query object
   urlObject.search = undefined
 

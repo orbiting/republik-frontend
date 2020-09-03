@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { css } from 'glamor'
-import { mediaQueries } from '@project-r/styleguide'
+import { mediaQueries, useColorContext } from '@project-r/styleguide'
 
 const ACTIONBAR_FADE_AREA = 400
 
 const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
+  const [colorScheme] = useColorContext()
   const [actionBarOpacity, setActionBarOpacity] = useState(0)
 
   const fixedRef = useRef()
@@ -49,7 +50,8 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
       ref={fixedRef}
       style={{
         opacity: actionBarOpacity,
-        bottom: bottomPosition
+        bottom: bottomPosition,
+        backgroundColor: colorScheme.containerBg
       }}
       {...styles.container}
     >
@@ -65,7 +67,6 @@ const styles = {
     padding: '12px 0',
     margin: '0 20px',
     boxShadow: '0 0 15px rgba(0,0,0,0.1)',
-    backgroundColor: 'white',
     transition: 'bottom ease-out 0.3s',
     [mediaQueries.mUp]: {
       right: 16,

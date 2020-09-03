@@ -121,7 +121,7 @@ const Index = ({
         {/* body growing only needed when rendering a footer */}
         <div
           {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-          {...(!cover ? padHeaderRule : undefined)}
+          {...padHeaderRule}
         >
           {dark && (
             <style

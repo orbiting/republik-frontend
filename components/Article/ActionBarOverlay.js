@@ -61,7 +61,6 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
 const styles = {
   container: css({
     position: 'fixed',
-    left: 0,
     right: 0,
     padding: '12px 0',
     margin: '0 20px',

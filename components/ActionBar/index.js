@@ -254,7 +254,7 @@ const ActionBar = ({
           label={!forceShortLabel ? t('bookmark/label') : ''}
         />
       ),
-      modes: ['article-top', 'article-overlay', 'feed'],
+      modes: ['article-top', 'article-bottom', 'article-overlay', 'feed'],
       show: true
     },
     {

@@ -56,7 +56,9 @@ const ALLOWED_CAMPAIGNS = [
   'covid-19-uhr-newsletter',
   'briefings',
   'sommer',
-  'podcast'
+  'podcast',
+  'fmw',
+  'buchbasel'
 ]
 
 const Page = props => {
@@ -77,6 +79,8 @@ const Page = props => {
 
   const accessCampaignId =
     (trailCampaignes[campaign] && trailCampaignes[campaign].accessCampaignId) ||
+    (ALLOWED_CAMPAIGNS.includes(campaign) &&
+      trailCampaignes.sammelkampagne?.accessCampaignId) ||
     TRIAL_CAMPAIGN
 
   // only allow specific trials

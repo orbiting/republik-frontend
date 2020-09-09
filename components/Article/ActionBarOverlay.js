@@ -6,37 +6,32 @@ const ACTIONBAR_FADE_AREA = 400
 
 const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
   const [colorScheme] = useColorContext()
-  const [actionBarOpacity, setActionBarOpacity] = useState(0)
-
-  const fixedRef = useRef()
-  const diff = useRef(0)
-  const lastY = useRef()
-  const lastDiff = useRef()
-  const actionBarOpacityRef = useRef()
+  const [overlayVisible, setOverlayVisible] = useState(false)
 
   const audioPlayerOffset = audioPlayerVisible ? 112 : 0
   const bottomOffset = audioPlayerOffset ? 24 : inNativeApp ? 20 : 44
   const bottomPosition = audioPlayerOffset + bottomOffset
 
-  actionBarOpacityRef.current = actionBarOpacity
-
+  const lastY = useRef()
+  const diff = useRef(0)
   useEffect(() => {
     const onScroll = () => {
       const y = Math.max(window.pageYOffset)
-      const newDiff = lastY.current ? lastY.current - y : bottomPosition
+      const articleActionBarVisible = ACTIONBAR_FADE_AREA - y >= 0
+      const newDiff = lastY.current ? lastY.current - y : 0
+
       diff.current += newDiff
-      diff.current = Math.min(Math.max(-100, diff.current), bottomPosition)
-      const opacityFromScrenPosition =
-        0 + Math.min(1, Math.max(0, y - 300) / ACTIONBAR_FADE_AREA)
-
-      const opacity =
-        opacityFromScrenPosition >= 1
-          ? diff.current / bottomPosition
-          : Math.min(opacityFromScrenPosition, diff.current / bottomPosition)
-      setActionBarOpacity(opacity)
-
+      diff.current = Math.max(Math.min(30, diff.current), 0)
+      if (y > lastY.current) {
+        // downscroll
+        setOverlayVisible(false)
+      } else {
+        // upscroll
+        setOverlayVisible(
+          articleActionBarVisible || diff.current < 30 ? false : true
+        )
+      }
       lastY.current = y
-      lastDiff.current = diff.current
     }
 
     window.addEventListener('scroll', onScroll)
@@ -47,9 +42,8 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
   }, [])
   return (
     <div
-      ref={fixedRef}
       style={{
-        opacity: actionBarOpacity,
+        opacity: overlayVisible ? 1 : 0,
         bottom: bottomPosition,
         backgroundColor: colorScheme.containerBg
       }}
@@ -67,7 +61,7 @@ const styles = {
     padding: '12px 0',
     margin: '0 20px',
     boxShadow: '0 0 15px rgba(0,0,0,0.1)',
-    transition: 'bottom ease-out 0.3s',
+    transition: 'opacity ease-out 0.3s',
     [mediaQueries.mUp]: {
       right: 16,
       left: 'auto'

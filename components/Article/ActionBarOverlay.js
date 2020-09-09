@@ -13,17 +13,24 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
   const bottomPosition = audioPlayerOffset + bottomOffset
 
   const lastY = useRef()
-
+  const diff = useRef(0)
   useEffect(() => {
     const onScroll = () => {
       const y = Math.max(window.pageYOffset)
       const articleActionBarVisible = ACTIONBAR_FADE_AREA - y >= 0
+      const newDiff = lastY.current ? lastY.current - y : 0
+
+      diff.current += newDiff
+      diff.current = Math.max(Math.min(30, diff.current), 0)
+      console.log(diff.current < 30)
       if (y > lastY.current) {
         // downscroll
         setOverlayVisible(false)
       } else {
         // upscroll
-        setOverlayVisible(articleActionBarVisible ? false : true)
+        setOverlayVisible(
+          articleActionBarVisible || diff.current < 30 ? false : true
+        )
       }
       lastY.current = y
     }
@@ -55,7 +62,7 @@ const styles = {
     padding: '12px 0',
     margin: '0 20px',
     boxShadow: '0 0 15px rgba(0,0,0,0.1)',
-    transition: 'all ease-out 0.3s',
+    transition: 'opacity ease-out 0.3s',
     [mediaQueries.mUp]: {
       right: 16,
       left: 'auto'

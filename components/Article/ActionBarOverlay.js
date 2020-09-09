@@ -22,7 +22,6 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
 
       diff.current += newDiff
       diff.current = Math.max(Math.min(30, diff.current), 0)
-      console.log(diff.current < 30)
       if (y > lastY.current) {
         // downscroll
         setOverlayVisible(false)

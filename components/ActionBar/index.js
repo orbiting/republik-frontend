@@ -213,9 +213,7 @@ const ActionBar = ({
           return
         }
         e.preventDefault()
-        hasPdf && countImages(document.content) > 0
-          ? setPdfOverlayVisible(!pdfOverlayVisible)
-          : undefined
+        setPdfOverlayVisible(!pdfOverlayVisible)
       },
       modes: ['article-top', 'article-bottom'],
       show: hasPdf

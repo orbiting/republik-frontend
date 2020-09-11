@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdClose } from 'react-icons/md'
 import SearchMenuIcon from '../Icons/SearchMenu'
-import { colors, mediaQueries } from '@project-r/styleguide'
+import { colors, mediaQueries, plainButtonRule } from '@project-r/styleguide'
 import { css } from 'glamor'
 
 import {
@@ -13,9 +13,9 @@ import {
 
 const SIZE = 28
 
-const Toggle = ({ dark, expanded, ...props }) => {
+const Toggle = ({ dark, expanded, onClick, ...props }) => {
   return (
-    <div {...styles.menuToggle} {...props}>
+    <button {...styles.menuToggle} onClick={onClick} {...props}>
       <SearchMenuIcon
         style={{
           opacity: expanded ? 0 : 1,
@@ -30,12 +30,12 @@ const Toggle = ({ dark, expanded, ...props }) => {
         size={SIZE}
         fill={dark ? colors.negative.text : colors.text}
       />
-    </div>
+    </button>
   )
 }
 
 const styles = {
-  menuToggle: css({
+  menuToggle: css(plainButtonRule, {
     cursor: 'pointer',
     zIndex: ZINDEX_FRAME_TOGGLE,
     backgroundColor: 'transparent',

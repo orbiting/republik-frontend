@@ -26,6 +26,7 @@ import HrefLink from '../Link/Href'
 import ErrorMessage from '../ErrorMessage'
 import CommentLink from '../Discussion/CommentLink'
 import DiscussionLink from '../Discussion/DiscussionLink'
+import ActionBar from '../ActionBar'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -127,6 +128,7 @@ const Front = ({
         CommentLink,
         DiscussionLink,
         ...withData,
+        ActionBar,
         t
       }),
     []

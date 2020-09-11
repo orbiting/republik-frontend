@@ -31,15 +31,13 @@ const getInitials = me =>
 const User = ({ t, me, title, dark, backButton, onClick, isMobile }) => {
   const color = dark ? colors.negative.text : colors.text
   return (
-    <button {...styles.user} onClick={onClick}>
+    <button {...styles.user} onClick={onClick} title={title}>
       <span
         {...styles.button}
         style={{
           color,
           paddingLeft: backButton ? BUTTON_PADDING_MOBILE / 2 : 16
         }}
-        role='button'
-        title={title}
       >
         {me &&
           (me.portrait ? (

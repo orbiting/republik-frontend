@@ -257,6 +257,7 @@ const ActionBar = ({
       show: true
     },
     {
+      title: t('PodcastButtons/play'),
       Icon: MdPlayCircleOutline,
       onClick: e => {
         e.preventDefault()
@@ -344,6 +345,7 @@ const ActionBar = ({
       show: (document.userProgress && displayMinutes > 1) || !podcast
     },
     {
+      title: t('PodcastButtons/play'),
       Icon: MdPlayCircleOutline,
       onClick: e => {
         e.preventDefault()
@@ -358,6 +360,7 @@ const ActionBar = ({
       show: !!meta.audioSource
     },
     {
+      title: t('PodcastButtons/title'),
       Icon: MdMic,
       onClick: e => {
         e.preventDefault()

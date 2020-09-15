@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
@@ -29,7 +29,6 @@ import { Breakout } from '@project-r/styleguide/lib/components/Center'
 import ActionBarOverlay from './ActionBarOverlay'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
-import PdfOverlay from './PdfOverlay'
 import Extract from './Extract'
 import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
 import Progress from './Progress'
@@ -132,20 +131,17 @@ const ArticlePage = ({
   markAsReadMutation,
   serverContext
 }) => {
-  console.log(
-    data.loading,
-    data.error,
-    article,
-    data.article,
-    data.article.meta
-  )
-
   const barRef = useRef()
   const bottomBarRef = useRef()
   const galleryRef = useRef()
 
+  const articleMeta = article?.meta
+  const articleContent = article?.content
+  const articleUnreadNotifications = article?.unreadNotifications
+  const routerQuery = router.query
+
   const markNotificationsAsRead = () => {
-    const unreadNotifications = article?.unreadNotifications?.nodes?.filter(
+    const unreadNotifications = articleUnreadNotifications?.nodes?.filter(
       n => !n.readAt
     )
     if (unreadNotifications && unreadNotifications.length) {
@@ -153,26 +149,38 @@ const ArticlePage = ({
     }
   }
 
-  const meta = useMemo(() => {
-    article && {
-      ...article.meta,
-      url: `${PUBLIC_BASE_URL}${article.meta.path}`,
-      ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
-    }
-  }, [article.meta, article.content, router.query])
+  useEffect(() => {
+    markNotificationsAsRead()
+  }, [articleUnreadNotifications])
 
-  const podcast = useMemo(() => {
-    meta &&
+  const meta = useMemo(
+    () =>
+      articleMeta &&
+      articleContent && {
+        ...articleMeta,
+        url: `${PUBLIC_BASE_URL}${articleMeta.path}`,
+        ...runMetaFromQuery(articleContent.meta.fromQuery, routerQuery)
+      },
+    [articleMeta, articleContent, routerQuery]
+  )
+
+  const podcast = useMemo(
+    () =>
+      meta &&
       (meta.podcast ||
-        (meta.audioSource && meta.format && meta.format.meta.podcast))
-  }, [meta])
+        (meta.audioSource && meta.format && meta.format.meta.podcast)),
+    [meta]
+  )
 
-  const newsletterMeta = useMemo(() => {
-    meta && (meta.newsletter || (meta.format && meta.format.meta.newsletter))
-  }, [meta])
+  const newsletterMeta = useMemo(
+    () =>
+      meta && (meta.newsletter || (meta.format && meta.format.meta.newsletter)),
+    [meta]
+  )
 
-  const schema = useMemo(() => {
-    meta &&
+  const schema = useMemo(
+    () =>
+      meta &&
       getSchemaCreator(meta.template)({
         t,
         Link: HrefLink,
@@ -181,7 +189,7 @@ const ArticlePage = ({
           : undefined,
         dynamicComponentRequire,
         titleMargin: false,
-        onAudioCoverClick: toggleAudioPlayer(data.article.meta),
+        onAudioCoverClick: () => toggleAudioPlayer(meta),
         getVideoPlayerProps:
           inNativeApp && !inNativeIOSApp
             ? props => ({
@@ -194,27 +202,18 @@ const ArticlePage = ({
                 }
               })
             : undefined
-      })
-  }, [meta, inNativeIOSApp, inNativeApp])
+      }),
+    [meta, inNativeIOSApp, inNativeApp]
+  )
 
-  const showSeriesNav = useMemo(() => {
-    isMember && meta && !!meta.series
-  }, [meta, isMember])
+  const showSeriesNav = useMemo(() => isMember && meta && !!meta.series, [
+    meta,
+    isMember
+  ])
 
-  const documentId = useMemo(() => {
-    article && article?.id
-  }, [article])
-
-  const repoId = useMemo(() => {
-    article && article.repoId
-  }, [article])
-
-  useEffect(() => {
-    markNotificationsAsRead()
-  }, [article.unreadNotifications])
-
+  const documentId = useMemo(() => article && article?.id, [article])
+  const repoId = useMemo(() => article && article.repoId, [article])
   const isEditorialNewsletter = meta && meta.template === 'editorialNewsletter'
-
   const actionBar = article && (
     <ActionBar mode='article-top' document={article} />
   )
@@ -247,7 +246,6 @@ const ArticlePage = ({
       ? meta
       : meta.format && meta.format.meta)
   const formatColor = colorMeta && (colorMeta.color || colors[colorMeta.kind])
-
   const sectionColor = meta && meta.template === 'section' && meta.color
   const MissingNode = isEditor ? undefined : ({ children }) => children
 

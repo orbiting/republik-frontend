@@ -308,251 +308,255 @@ const ArticlePage = ({
   const hasOverviewNav = meta && meta.template === 'section'
 
   return (
-    <Frame
-      dark={darkMode}
-      raw
-      // Meta tags for a focus comment are rendered in Discussion/Commments.js
-      meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
-      secondaryNav={seriesNavButton}
-      formatColor={formatColor}
-      hasOverviewNav={hasOverviewNav}
-      stickySecondaryNav={hasOverviewNav}
-    >
-      <Loader
-        loading={data.loading}
-        error={data.error}
-        render={() => {
-          if (!article || !schema) {
+    <ColorContext.Provider value={darkMode && colors.negative}>
+      <Frame
+        raw
+        // Meta tags for a focus comment are rendered in Discussion/Commments.js
+        meta={
+          meta && meta.discussionId && router.query.focus ? undefined : meta
+        }
+        secondaryNav={seriesNavButton}
+        formatColor={formatColor}
+        hasOverviewNav={hasOverviewNav}
+        stickySecondaryNav={hasOverviewNav}
+      >
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          render={() => {
+            if (!article || !schema) {
+              return (
+                <StatusError statusCode={404} serverContext={serverContext} />
+              )
+            }
+
+            const isFormat = meta.template === 'format'
+            const isSection = meta.template === 'section'
+
+            const hasNewsletterUtms =
+              router.query.utm_source &&
+              router.query.utm_source === 'newsletter'
+
+            const suppressPayNotes = isSection || isFormat
+            const suppressFirstPayNote =
+              suppressPayNotes ||
+              podcast ||
+              isEditorialNewsletter ||
+              meta.path === '/top-storys' ||
+              hasNewsletterUtms ||
+              (router.query.utm_source &&
+                router.query.utm_source === 'flyer-v1')
+            const ownDiscussion = meta.ownDiscussion
+            const linkedDiscussion =
+              meta.linkedDiscussion && !meta.linkedDiscussion.closed
+
+            const ProgressComponent =
+              isMember &&
+              !isSection &&
+              !isFormat &&
+              meta.template !== 'discussion'
+                ? Progress
+                : EmptyComponent
+
+            const titleNode =
+              splitContent.title &&
+              splitContent.title.children[
+                splitContent.title.children.length - 1
+              ]
+            const titleAlign =
+              (titleNode && titleNode.data && titleNode.data.center) ||
+              isFormat ||
+              isSection
+                ? 'center'
+                : undefined
+
+            const format = meta.format
+
             return (
-              <StatusError statusCode={404} serverContext={serverContext} />
-            )
-          }
-
-          const isFormat = meta.template === 'format'
-          const isSection = meta.template === 'section'
-
-          const hasNewsletterUtms =
-            router.query.utm_source && router.query.utm_source === 'newsletter'
-
-          const suppressPayNotes = isSection || isFormat
-          const suppressFirstPayNote =
-            suppressPayNotes ||
-            podcast ||
-            isEditorialNewsletter ||
-            meta.path === '/top-storys' ||
-            hasNewsletterUtms ||
-            (router.query.utm_source && router.query.utm_source === 'flyer-v1')
-          const ownDiscussion = meta.ownDiscussion
-          const linkedDiscussion =
-            meta.linkedDiscussion && !meta.linkedDiscussion.closed
-
-          const ProgressComponent =
-            isMember &&
-            !isSection &&
-            !isFormat &&
-            meta.template !== 'discussion'
-              ? Progress
-              : EmptyComponent
-
-          const titleNode =
-            splitContent.title &&
-            splitContent.title.children[splitContent.title.children.length - 1]
-          const titleAlign =
-            (titleNode && titleNode.data && titleNode.data.center) ||
-            isFormat ||
-            isSection
-              ? 'center'
-              : undefined
-
-          const format = meta.format
-
-          return (
-            <>
-              <FontSizeSync />
-              {meta.prepublication && (
-                <div {...styles.prepublicationNotice}>
-                  <Center>
-                    <Interaction.P>
-                      {t('article/prepublication/notice')}
-                    </Interaction.P>
-                  </Center>
-                </div>
-              )}
-              <ArticleGallery
-                article={article}
-                show={!!router.query.gallery}
-                ref={galleryRef}
-              >
-                <ProgressComponent article={article}>
-                  <article style={{ display: 'block' }}>
-                    {splitContent.title && (
-                      <div {...styles.titleBlock}>
-                        {renderSchema(splitContent.title)}
-                        {isEditorialNewsletter && (
-                          <TitleBlock margin={false}>
-                            {format && format.meta && (
-                              <Editorial.Format
-                                color={
-                                  format.meta.color || colors[format.meta.kind]
-                                }
-                                contentEditable={false}
-                              >
-                                <HrefLink href={format.meta.path} passHref>
-                                  <a {...styles.link} href={format.meta.path}>
-                                    {format.meta.title}
-                                  </a>
-                                </HrefLink>
-                              </Editorial.Format>
-                            )}
-                            <Interaction.Headline>
-                              {meta.title}
-                            </Interaction.Headline>
-                            <Editorial.Credit>
-                              {formatDate(new Date(meta.publishDate))}
-                            </Editorial.Credit>
-                          </TitleBlock>
-                        )}
-                        <Center>
-                          <div
-                            ref={actionBarRef}
-                            {...styles.actionBarContainer}
-                            style={{
-                              textAlign: titleAlign,
-                              marginBottom: isEditorialNewsletter
-                                ? 0
-                                : undefined
-                            }}
-                          >
-                            {actionBar}
-                          </div>
-                          {isSection && (
-                            <Breakout size='breakout'>
-                              <SectionNav
-                                color={sectionColor}
-                                linkedDocuments={article.linkedDocuments}
-                              />
-                            </Breakout>
+              <>
+                <FontSizeSync />
+                {meta.prepublication && (
+                  <div {...styles.prepublicationNotice}>
+                    <Center>
+                      <Interaction.P>
+                        {t('article/prepublication/notice')}
+                      </Interaction.P>
+                    </Center>
+                  </div>
+                )}
+                <ArticleGallery
+                  article={article}
+                  show={!!router.query.gallery}
+                  ref={galleryRef}
+                >
+                  <ProgressComponent article={article}>
+                    <article style={{ display: 'block' }}>
+                      {splitContent.title && (
+                        <div {...styles.titleBlock}>
+                          {renderSchema(splitContent.title)}
+                          {isEditorialNewsletter && (
+                            <TitleBlock margin={false}>
+                              {format && format.meta && (
+                                <Editorial.Format
+                                  color={
+                                    format.meta.color ||
+                                    colors[format.meta.kind]
+                                  }
+                                  contentEditable={false}
+                                >
+                                  <HrefLink href={format.meta.path} passHref>
+                                    <a {...styles.link} href={format.meta.path}>
+                                      {format.meta.title}
+                                    </a>
+                                  </HrefLink>
+                                </Editorial.Format>
+                              )}
+                              <Interaction.Headline>
+                                {meta.title}
+                              </Interaction.Headline>
+                              <Editorial.Credit>
+                                {formatDate(new Date(meta.publishDate))}
+                              </Editorial.Credit>
+                            </TitleBlock>
                           )}
-                          {!me &&
-                            isEditorialNewsletter &&
-                            !!newsletterMeta &&
-                            newsletterMeta.free && (
-                              <div style={{ marginTop: 10 }}>
-                                <NewsletterSignUp {...newsletterMeta} />
-                              </div>
+                          <Center>
+                            <div
+                              ref={actionBarRef}
+                              {...styles.actionBarContainer}
+                              style={{
+                                textAlign: titleAlign,
+                                marginBottom: isEditorialNewsletter
+                                  ? 0
+                                  : undefined
+                              }}
+                            >
+                              {actionBar}
+                            </div>
+                            {isSection && (
+                              <Breakout size='breakout'>
+                                <SectionNav
+                                  color={sectionColor}
+                                  linkedDocuments={article.linkedDocuments}
+                                />
+                              </Breakout>
                             )}
-                        </Center>
-                        {!suppressFirstPayNote && payNote}
-                      </div>
-                    )}
-                    <SSRCachingBoundary
-                      cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
-                    >
-                      {() => (
-                        <ColorContext.Provider
-                          value={darkMode && colors.negative}
-                        >
-                          {renderSchema(splitContent.main)}
-                        </ColorContext.Provider>
+                            {!me &&
+                              isEditorialNewsletter &&
+                              !!newsletterMeta &&
+                              newsletterMeta.free && (
+                                <div style={{ marginTop: 10 }}>
+                                  <NewsletterSignUp {...newsletterMeta} />
+                                </div>
+                              )}
+                          </Center>
+                          {!suppressFirstPayNote && payNote}
+                        </div>
                       )}
-                    </SSRCachingBoundary>
-                  </article>
-                  <ActionBarOverlay
-                    audioPlayerVisible={audioPlayerVisible}
-                    inNativeApp={inNativeApp}
-                  >
-                    {actionBarOverlay}
-                  </ActionBarOverlay>
-                </ProgressComponent>
-              </ArticleGallery>
-              {meta.template === 'article' &&
-                ownDiscussion &&
-                !ownDiscussion.closed &&
-                !linkedDiscussion &&
-                isMember && (
+                      <SSRCachingBoundary
+                        cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
+                      >
+                        {() => <>{renderSchema(splitContent.main)}</>}
+                      </SSRCachingBoundary>
+                    </article>
+                    <ActionBarOverlay
+                      audioPlayerVisible={audioPlayerVisible}
+                      inNativeApp={inNativeApp}
+                    >
+                      {actionBarOverlay}
+                    </ActionBarOverlay>
+                  </ProgressComponent>
+                </ArticleGallery>
+                {meta.template === 'article' &&
+                  ownDiscussion &&
+                  !ownDiscussion.closed &&
+                  !linkedDiscussion &&
+                  isMember && (
+                    <Center>
+                      <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
+                    </Center>
+                  )}
+                {meta.template === 'discussion' && ownDiscussion && (
                   <Center>
-                    <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
+                    <Discussion
+                      discussionId={ownDiscussion.id}
+                      focusId={router.query.focus}
+                      parent={router.query.parent}
+                      mute={!!router.query.mute}
+                      board={ownDiscussion.isBoard}
+                      showPayNotes
+                    />
                   </Center>
                 )}
-              {meta.template === 'discussion' && ownDiscussion && (
-                <Center>
-                  <Discussion
-                    discussionId={ownDiscussion.id}
-                    focusId={router.query.focus}
-                    parent={router.query.parent}
-                    mute={!!router.query.mute}
-                    board={ownDiscussion.isBoard}
-                    showPayNotes
-                  />
-                </Center>
-              )}
-              {!!newsletterMeta && (
-                <Center>
-                  <NewsletterSignUp {...newsletterMeta} />
-                </Center>
-              )}
-              {((isMember && meta.template === 'article') ||
-                (isEditorialNewsletter &&
-                  newsletterMeta &&
-                  newsletterMeta.free)) && (
-                <Center>
-                  <div ref={bottomActionBarRef}>{actionBarEnd}</div>
-                  {!!podcast && meta.template === 'article' && (
+                {!!newsletterMeta && (
+                  <Center>
+                    <NewsletterSignUp {...newsletterMeta} />
+                  </Center>
+                )}
+                {((isMember && meta.template === 'article') ||
+                  (isEditorialNewsletter &&
+                    newsletterMeta &&
+                    newsletterMeta.free)) && (
+                  <Center>
+                    <div ref={bottomActionBarRef}>{actionBarEnd}</div>
+                    {!!podcast && meta.template === 'article' && (
+                      <>
+                        <Interaction.H3>
+                          {t(`PodcastButtons/title`)}
+                        </Interaction.H3>
+                        <PodcastButtons {...podcast} />
+                      </>
+                    )}
+                  </Center>
+                )}
+                {!!podcast && meta.template !== 'article' && (
+                  <Center>
                     <>
                       <Interaction.H3>
                         {t(`PodcastButtons/title`)}
                       </Interaction.H3>
                       <PodcastButtons {...podcast} />
                     </>
-                  )}
-                </Center>
-              )}
-              {!!podcast && meta.template !== 'article' && (
-                <Center>
-                  <>
-                    <Interaction.H3>{t(`PodcastButtons/title`)}</Interaction.H3>
-                    <PodcastButtons {...podcast} />
-                  </>
-                </Center>
-              )}
-              {false &&
-                !suppressPayNotes &&
-                !darkMode &&
-                !(customPayNotes && customPayNotes.length) && (
-                  <Center>
-                    <LazyLoad style={{ display: 'block', minHeight: 120 }}>
-                      <SurviveStatus />
-                    </LazyLoad>
                   </Center>
                 )}
-              {isMember && episodes && (
-                <RelatedEpisodes
-                  title={series.title}
-                  episodes={episodes}
-                  path={meta.path}
-                />
-              )}
-              {isSection && (
-                <SectionFeed
-                  formats={article.linkedDocuments.nodes.map(n => n.id)}
-                  variablesAsString={article.content.meta.feedQueryVariables}
-                />
-              )}
-              {isFormat && <FormatFeed formatId={article.repoId} />}
-              {(hasActiveMembership || isFormat) && (
-                <>
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                </>
-              )}
-              {!suppressPayNotes && payNoteAfter}
-            </>
-          )
-        }}
-      />
-    </Frame>
+                {false &&
+                  !suppressPayNotes &&
+                  !darkMode &&
+                  !(customPayNotes && customPayNotes.length) && (
+                    <Center>
+                      <LazyLoad style={{ display: 'block', minHeight: 120 }}>
+                        <SurviveStatus />
+                      </LazyLoad>
+                    </Center>
+                  )}
+                {isMember && episodes && (
+                  <RelatedEpisodes
+                    title={series.title}
+                    episodes={episodes}
+                    path={meta.path}
+                  />
+                )}
+                {isSection && (
+                  <SectionFeed
+                    formats={article.linkedDocuments.nodes.map(n => n.id)}
+                    variablesAsString={article.content.meta.feedQueryVariables}
+                  />
+                )}
+                {isFormat && <FormatFeed formatId={article.repoId} />}
+                {(hasActiveMembership || isFormat) && (
+                  <>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                  </>
+                )}
+                {!suppressPayNotes && payNoteAfter}
+              </>
+            )
+          }}
+        />
+      </Frame>
+    </ColorContext.Provider>
   )
 }
 

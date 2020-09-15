@@ -3,7 +3,11 @@ import { compose } from 'react-apollo'
 
 import { ZINDEX_FEED_STICKY_SECTION_LABEL } from '../constants'
 import { css } from 'glamor'
-import { mediaQueries, colors, useHeaderHeight } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  useHeaderHeight,
+  useColorContext
+} from '@project-r/styleguide'
 import PropTypes from 'prop-types'
 import { withTester } from '../Auth/checkRoles'
 
@@ -12,6 +16,8 @@ const MARGIN_WIDTH = 20
 const STICKY_HEADER_HEIGHT = 27
 
 const StickySection = ({ children, label, hasSpaceAfter }) => {
+  const [colorScheme] = useColorContext()
+
   const [sticky, setSticky] = useState(false)
   const [isMedium, setIsMedium] = useState(false)
   const [width, setWidth] = useState(0)
@@ -59,19 +65,20 @@ const StickySection = ({ children, label, hasSpaceAfter }) => {
       window.removeEventListener('resize', measure)
     }
   }, [])
-
   return (
     <section ref={sectionRef}>
-      <div {...style.header}>
+      <div
+        {...css(styles.header, { backgroundColor: colorScheme.containerBg })}
+      >
         <div
-          {...style.label}
-          {...(sticky ? style.sticky : undefined)}
-          style={{
-            borderTop: sticky ? 'none' : '1px solid #000',
+          {...css(styles.label, sticky && styles.sticky, {
+            color: colorScheme.text,
+            borderBottom: `0.5px solid ${colorScheme.divider}`,
+            borderTop: sticky ? 'none' : `1px solid ${colorScheme.divider}`,
             top: sticky ? headerHeight : undefined,
             position: sticky ? 'fixed' : 'relative',
             width: isMedium ? width : width ? SIDEBAR_WIDTH : '100%'
-          }}
+          })}
         >
           {label}
         </div>
@@ -81,9 +88,8 @@ const StickySection = ({ children, label, hasSpaceAfter }) => {
   )
 }
 
-const style = {
+const styles = {
   header: css({
-    backgroundColor: '#fff',
     margin: '0 0 30px 0',
     width: '100%',
     height: STICKY_HEADER_HEIGHT,
@@ -104,7 +110,6 @@ const style = {
     zIndex: ZINDEX_FEED_STICKY_SECTION_LABEL
   }),
   sticky: css({
-    borderBottom: `0.5px solid ${colors.divider}`,
     [mediaQueries.lUp]: {
       borderBottom: 'none'
     }

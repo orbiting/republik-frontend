@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdClose } from 'react-icons/md'
 import SearchMenuIcon from '../Icons/SearchMenu'
-import { colors, mediaQueries } from '@project-r/styleguide'
+import { mediaQueries, useColorContext } from '@project-r/styleguide'
 import { css } from 'glamor'
 
 import {
@@ -13,7 +13,8 @@ import {
 
 const SIZE = 28
 
-const Toggle = ({ dark, expanded, ...props }) => {
+const Toggle = ({ expanded, ...props }) => {
+  const [colorScheme] = useColorContext()
   return (
     <div {...styles.menuToggle} {...props}>
       <SearchMenuIcon
@@ -21,14 +22,14 @@ const Toggle = ({ dark, expanded, ...props }) => {
           opacity: expanded ? 0 : 1,
           transition: `opacity ${TRANSITION_MS}ms ease-out`
         }}
-        fill={dark ? colors.negative.text : colors.text}
+        fill={colorScheme.text}
         size={SIZE}
       />
       <MdClose
         style={{ opacity: expanded ? 1 : 0 }}
         {...styles.closeButton}
         size={SIZE}
-        fill={dark ? colors.negative.text : colors.text}
+        fill={colorScheme.text}
       />
     </div>
   )

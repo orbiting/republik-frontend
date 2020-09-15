@@ -8,7 +8,8 @@ import { css } from 'glamor'
 import {
   InlineSpinner,
   colors,
-  isBodyScrollLocked
+  isBodyScrollLocked,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { MdArrowDownward } from 'react-icons/md'
@@ -23,24 +24,31 @@ const styles = {
   })
 }
 
-const Container = props => (
-  <div
-    {...styles.container}
-    {...(props.shouldReset
-      ? css({
-          transition: `height ${props.resetDuration}ms ${props.resetEase}`
-        })
-      : undefined)}
-    style={{
-      height: props.height,
-      backgroundColor: props.dark
-        ? colors.negative.primaryBg
-        : colors.secondaryBg
-    }}
-  >
-    {props.children}
-  </div>
-)
+const Container = ({
+  resetDuration,
+  shouldReset,
+  height,
+  resetEase,
+  children
+}) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div
+      {...styles.container}
+      {...(shouldReset
+        ? css({
+            transition: `height ${resetDuration}ms ${resetEase}`
+          })
+        : undefined)}
+      style={{
+        height: height,
+        backgroundColor: colorScheme.primaryBg
+      }}
+    >
+      {children}
+    </div>
+  )
+}
 
 class Pullable extends React.Component {
   constructor(props) {

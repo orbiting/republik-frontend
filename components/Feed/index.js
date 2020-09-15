@@ -7,7 +7,14 @@ import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import Loader from '../Loader'
 
-import { mediaQueries, Center, Interaction } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  Center,
+  Interaction,
+  useMediaQuery,
+  ColorContext,
+  colors
+} from '@project-r/styleguide'
 import DocumentList from './DocumentList'
 import { makeLoadMore, documentFragment } from './DocumentListContainer'
 
@@ -74,6 +81,9 @@ const Feed = ({
   }
 }) => {
   const mapNodes = node => node.entity
+  const darkMode =
+    meta?.darkMode || useMediaQuery('(prefers-color-scheme: dark)')
+  //  OR get user settings darkmode
 
   useEffect(() => {
     if (!subscribeToMore) {
@@ -104,36 +114,38 @@ const Feed = ({
   }, [subscribeToMore])
 
   return (
-    <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
-      <Center {...styles.container}>
-        <Loader
-          error={error}
-          loading={loading}
-          render={() => {
-            return (
-              <>
-                {greeting && (
-                  <Interaction.H1 style={{ marginBottom: '40px' }}>
-                    {greeting.text}
-                  </Interaction.H1>
-                )}
+    <ColorContext.Provider value={darkMode && colors.negative}>
+      <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
+        <Center {...styles.container}>
+          <Loader
+            error={error}
+            loading={loading}
+            render={() => {
+              return (
+                <>
+                  {greeting && (
+                    <Interaction.H1 style={{ marginBottom: '40px' }}>
+                      {greeting.text}
+                    </Interaction.H1>
+                  )}
 
-                <DocumentList
-                  documents={connection.nodes.map(mapNodes)}
-                  totalCount={connection.totalCount}
-                  hasMore={connection.pageInfo.hasNextPage}
-                  loadMore={makeLoadMore({
-                    fetchMore,
-                    connection,
-                    mapNodes
-                  })}
-                />
-              </>
-            )
-          }}
-        />
-      </Center>
-    </Frame>
+                  <DocumentList
+                    documents={connection.nodes.map(mapNodes)}
+                    totalCount={connection.totalCount}
+                    hasMore={connection.pageInfo.hasNextPage}
+                    loadMore={makeLoadMore({
+                      fetchMore,
+                      connection,
+                      mapNodes
+                    })}
+                  />
+                </>
+              )
+            }}
+          />
+        </Center>
+      </Frame>
+    </ColorContext.Provider>
   )
 }
 

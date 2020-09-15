@@ -6,7 +6,7 @@ import {
   mediaQueries,
   fontFamilies,
   useBodyScrollLock,
-  colors
+  useColorContext
 } from '@project-r/styleguide'
 import {
   ZINDEX_POPOVER,
@@ -36,14 +36,13 @@ const menuStyle = css({
 
 const Popover = ({ expanded, id, children, dark }) => {
   const [ref] = useBodyScrollLock(expanded)
+  const [colorScheme] = useColorContext()
   return (
     <div
       {...css({
         top: HEADER_HEIGHT_MOBILE,
         height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
-        borderTop: `1px solid ${
-          dark ? colors.negative.divider : colors.divider
-        }`,
+        borderTop: `1px solid ${colorScheme.divider}`,
         [mediaQueries.mUp]: {
           top: HEADER_HEIGHT,
           height: `calc(100vh - ${HEADER_HEIGHT}px)`

@@ -1,7 +1,12 @@
 import React from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
-import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
+import {
+  colors,
+  mediaQueries,
+  fontStyles,
+  useColorContext
+} from '@project-r/styleguide'
 
 import { matchPath } from '../../lib/routes'
 import withT from '../../lib/withT'
@@ -55,13 +60,13 @@ const sections = [
 
 export const SecondaryNav = ({
   secondaryNav,
-  dark,
   router,
   hasOverviewNav,
   isSecondarySticky,
   t
 }) => {
   const active = matchPath(router.asPath)
+  const [colorScheme] = useColorContext()
   return (
     <>
       {hasOverviewNav ? (
@@ -73,13 +78,12 @@ export const SecondaryNav = ({
           }}
           style={{
             borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
-              dark ? colors.negative.divider : colors.divider
+              colorScheme.divider
             }`,
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+            backgroundColor: colorScheme.primaryBg
           }}
         >
           <NavLink
-            dark={dark}
             route='index'
             active={active}
             minifeed={true}
@@ -88,7 +92,6 @@ export const SecondaryNav = ({
             {t('navbar/front')}
           </NavLink>
           <NavLink
-            dark={dark}
             prefetch
             route='feed'
             active={active}
@@ -98,7 +101,6 @@ export const SecondaryNav = ({
             {t('navbar/feed')}
           </NavLink>
           <NavLink
-            dark={dark}
             route='discussion'
             active={active}
             hoverColor={colors.primary}
@@ -118,7 +120,6 @@ export const SecondaryNav = ({
                 active={active}
                 hoverColor={color}
                 minifeed={true}
-                dark={dark}
                 title={section.title}
               >
                 {section.title}
@@ -132,10 +133,10 @@ export const SecondaryNav = ({
             {...styles.secondaryNav}
             style={{
               borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
-                dark ? colors.negative.divider : colors.divider
+                colorScheme.divider
               }`,
               transition: 'opacity 0.2s ease-out',
-              backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+              backgroundColor: colorScheme.primaryBg
             }}
           >
             {secondaryNav}

@@ -3,7 +3,12 @@ import { css } from 'glamor'
 
 import { Link } from '../../../lib/routes'
 
-import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
+import {
+  colors,
+  fontStyles,
+  mediaQueries,
+  useColorContext
+} from '@project-r/styleguide'
 
 const styles = {
   link: css({
@@ -41,33 +46,32 @@ const styles = {
 }
 
 export const NavA = React.forwardRef(
-  (
-    { inline, hoverColor, children, dark, style, title, large, ...props },
-    ref
-  ) => (
-    <a
-      ref={ref}
-      {...styles.link}
-      {...css({ color: dark ? colors.negative.text : colors.text })}
-      {...(hoverColor &&
-        css({
-          transition: 'color 200ms ease-in-out',
-          transitionDelay: '33ms',
-          '@media (hover)': {
-            ':hover': {
-              color: hoverColor
+  ({ inline, hoverColor, children, style, title, large, ...props }, ref) => {
+    const [colorScheme] = useColorContext()
+    return (
+      <a
+        ref={ref}
+        {...css(styles.link, { color: colorScheme.text })}
+        {...(hoverColor &&
+          css({
+            transition: 'color 200ms ease-in-out',
+            transitionDelay: '33ms',
+            '@media (hover)': {
+              ':hover': {
+                color: hoverColor
+              }
             }
-          }
-        }))}
-      {...(inline ? styles.inline : styles.block)}
-      {...(large && styles.large)}
-      style={style}
-      title={title}
-      {...props}
-    >
-      {children}
-    </a>
-  )
+          }))}
+        {...(inline ? styles.inline : styles.block)}
+        {...(large && styles.large)}
+        style={style}
+        title={title}
+        {...props}
+      >
+        {children}
+      </a>
+    )
+  }
 )
 
 const NavLink = ({
@@ -80,15 +84,15 @@ const NavLink = ({
   hoverColor,
   prefetch = false,
   minifeed,
-  dark,
   title,
   large
 }) => {
+  const [colorScheme] = useColorContext()
   const activeStyle = minifeed && {
     ...fontStyles.sansSerifMedium14,
     lineHeight: '16px',
     marginTop: -1,
-    color: dark ? colors.negative.text : minifeed ? hoverColor : colors.text
+    color: minifeed ? hoverColor : colorScheme.text
   }
   const isActive =
     active &&
@@ -114,7 +118,6 @@ const NavLink = ({
               }
             : undefined
         }
-        dark={dark}
         hoverColor={hoverColor}
         large={large}
       >

@@ -9,7 +9,8 @@ import {
   colors,
   mediaQueries,
   Button,
-  Center
+  Center,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { css } from 'glamor'
@@ -45,7 +46,8 @@ const SingleLine = ({ children }) => (
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
+const ProlongBox = ({ t, prolongBeforeDate, router }) => {
+  const [colorScheme] = useColorContext()
   if (
     router.pathname === '/pledge' ||
     router.pathname === '/cancel' ||
@@ -61,7 +63,7 @@ const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
       numberOfDays <= 2 ? (numberOfDays < 0 ? 'overdue' : 'due') : 'before'
     const baseKey = `prolongNecessary/${key}`
 
-    const dark = inDarkFrame || key !== 'before'
+    const dark = (colorScheme.text = '#f0f0f0' || key !== 'before')
     const colorStyle = { color: dark ? '#fff' : undefined }
 
     const explanation = t.elements(

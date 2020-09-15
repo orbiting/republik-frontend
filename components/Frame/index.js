@@ -4,9 +4,7 @@ import {
   Container,
   RawHtml,
   fontFamilies,
-  mediaQueries,
-  colors,
-  ColorContext
+  mediaQueries
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
@@ -88,12 +86,10 @@ const Index = ({
   meta,
   cover,
   inNativeApp,
-  inNativeIOSApp,
   secondaryNav,
   formatColor,
   footer = true,
   pullable,
-  dark,
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav
@@ -113,61 +109,45 @@ const Index = ({
     })
   }, [hasSecondaryNav])
   return (
-    <ColorContext.Provider value={dark && colors.negative}>
+    <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
+      {/* body growing only needed when rendering a footer */}
       <div
-        {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
+        {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
+        {...padHeaderRule}
       >
-        {/* body growing only needed when rendering a footer */}
-        <div
-          {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-          {...padHeaderRule}
+        {!!meta && <Meta data={meta} />}
+        <Header
+          me={me}
+          cover={cover}
+          secondaryNav={secondaryNav}
+          formatColor={formatColor}
+          pullable={pullable}
+          hasOverviewNav={hasOverviewNav}
+          stickySecondaryNav={stickySecondaryNav}
         >
-          {dark && (
-            <style
-              dangerouslySetInnerHTML={{
-                __html: `html, body { background-color: ${colors.negative.containerBg}; color: ${colors.negative.text}; }`
-              }}
-            />
-          )}
-          {!!meta && <Meta data={meta} />}
-          <Header
-            dark={dark && !inNativeIOSApp}
-            me={me}
-            cover={cover}
-            secondaryNav={secondaryNav}
-            formatColor={formatColor}
-            pullable={pullable}
-            hasOverviewNav={hasOverviewNav}
-            stickySecondaryNav={stickySecondaryNav}
-          >
-            <noscript>
-              <Box style={{ padding: 30 }}>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: t('noscript')
-                  }}
-                />
-              </Box>
-            </noscript>
-            {me && me.prolongBeforeDate !== null && (
-              <ProlongBox
-                t={t}
-                prolongBeforeDate={me.prolongBeforeDate}
-                dark={dark}
+          <noscript>
+            <Box style={{ padding: 30 }}>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: t('noscript')
+                }}
               />
-            )}
-            {raw ? (
-              children
-            ) : (
-              <MainContainer>
-                <Content>{children}</Content>
-              </MainContainer>
-            )}
-          </Header>
-        </div>
-        {!inNativeApp && footer && <Footer />}
+            </Box>
+          </noscript>
+          {me && me.prolongBeforeDate !== null && (
+            <ProlongBox t={t} prolongBeforeDate={me.prolongBeforeDate} />
+          )}
+          {raw ? (
+            children
+          ) : (
+            <MainContainer>
+              <Content>{children}</Content>
+            </MainContainer>
+          )}
+        </Header>
       </div>
-    </ColorContext.Provider>
+      {!inNativeApp && footer && <Footer />}
+    </div>
   )
 }
 

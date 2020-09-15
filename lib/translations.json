@@ -1,5 +1,5 @@
 {
-  "updated": "2020-09-04T16:23:13.312Z",
+  "updated": "2020-09-11T20:44:06.366Z",
   "title": "live",
   "data": [
     {
@@ -1401,6 +1401,14 @@
     {
       "key": "header/nav/close/aria",
       "value": "Navigation schliessen"
+    },
+    {
+      "key": "header/nav/user/open/aria",
+      "value": "Meine Republik öffnen"
+    },
+    {
+      "key": "header/nav/user/close/aria",
+      "value": "Meine Republik schliessen"
     },
     {
       "key": "header/nav/search/aria",

@@ -131,8 +131,8 @@ const ArticlePage = ({
   markAsReadMutation,
   serverContext
 }) => {
-  const barRef = useRef()
-  const bottomBarRef = useRef()
+  const actionBarRef = useRef()
+  const bottomActionBarRef = useRef()
   const galleryRef = useRef()
 
   const articleMeta = article?.meta
@@ -414,7 +414,7 @@ const ArticlePage = ({
                         )}
                         <Center>
                           <div
-                            ref={barRef}
+                            ref={actionBarRef}
                             {...styles.actionBarContainer}
                             style={{
                               textAlign: titleAlign,
@@ -496,7 +496,7 @@ const ArticlePage = ({
                   newsletterMeta &&
                   newsletterMeta.free)) && (
                 <Center>
-                  <div ref={bottomBarRef}>{actionBarEnd}</div>
+                  <div ref={bottomActionBarRef}>{actionBarEnd}</div>
                   {!!podcast && meta.template === 'article' && (
                     <>
                       <Interaction.H3>

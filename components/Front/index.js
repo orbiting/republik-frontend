@@ -18,7 +18,7 @@ import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 
 import { MdCheckCircle } from 'react-icons/md'
 
-import { withEditor } from '../Auth/checkRoles'
+import { withEditor, withTester } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
@@ -27,7 +27,6 @@ import ErrorMessage from '../ErrorMessage'
 import CommentLink from '../Discussion/CommentLink'
 import DiscussionLink from '../Discussion/DiscussionLink'
 import ActionBar from '../ActionBar'
-import { withTester } from '../Auth/checkRoles'
 
 import { renderMdast } from 'mdast-react-render'
 

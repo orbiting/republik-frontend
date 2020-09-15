@@ -89,7 +89,6 @@ const Index = ({
   cover,
   inNativeApp,
   inNativeIOSApp,
-  onNavExpanded,
   secondaryNav,
   formatColor,
   footer = true,
@@ -135,7 +134,6 @@ const Index = ({
             dark={dark && !inNativeIOSApp}
             me={me}
             cover={cover}
-            onNavExpanded={onNavExpanded}
             secondaryNav={secondaryNav}
             formatColor={formatColor}
             pullable={pullable}

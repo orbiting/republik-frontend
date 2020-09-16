@@ -4,7 +4,6 @@ import { css } from 'glamor'
 import { Link } from '../../../lib/routes'
 
 import {
-  colors,
   fontStyles,
   mediaQueries,
   useColorContext
@@ -13,7 +12,6 @@ import {
 const styles = {
   link: css({
     textDecoration: 'none',
-    color: colors.text,
     '@media (hover)': {
       ':hover': {
         textDecoration: 'underline',

@@ -80,7 +80,7 @@ export const SecondaryNav = ({
             borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
               colorScheme.divider
             }`,
-            backgroundColor: colorScheme.primaryBg
+            backgroundColor: colorScheme.containerBg
           }}
         >
           <NavLink
@@ -136,7 +136,7 @@ export const SecondaryNav = ({
                 colorScheme.divider
               }`,
               transition: 'opacity 0.2s ease-out',
-              backgroundColor: colorScheme.primaryBg
+              backgroundColor: colorScheme.containerBg
             }}
           >
             {secondaryNav}

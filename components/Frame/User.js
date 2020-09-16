@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import {
-  colors,
   mediaQueries,
   fontStyles,
   useColorContext

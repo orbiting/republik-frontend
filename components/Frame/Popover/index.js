@@ -20,7 +20,6 @@ const menuStyle = css({
   left: 0,
   right: 0,
   fontFamily: fontFamilies.sansSerifRegular,
-  backgroundColor: '#fff',
   flexDirection: 'column',
   opacity: 0,
   visibility: 'hidden',
@@ -39,10 +38,11 @@ const Popover = ({ expanded, id, children, dark }) => {
   const [colorScheme] = useColorContext()
   return (
     <div
-      {...css({
+      {...css(menuStyle, {
         top: HEADER_HEIGHT_MOBILE,
         height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
         borderTop: `1px solid ${colorScheme.divider}`,
+        backgroundColor: colorScheme.containerBg,
         [mediaQueries.mUp]: {
           top: HEADER_HEIGHT,
           height: `calc(100vh - ${HEADER_HEIGHT}px)`
@@ -50,7 +50,6 @@ const Popover = ({ expanded, id, children, dark }) => {
       })}
       id={id}
       aria-expanded={expanded}
-      {...menuStyle}
       ref={ref}
     >
       {children}

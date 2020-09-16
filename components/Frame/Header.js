@@ -4,9 +4,7 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import {
   Logo,
-  colors,
   mediaQueries,
-  ColorContext,
   HeaderHeightProvider,
   useColorContext
 } from '@project-r/styleguide'
@@ -193,7 +191,7 @@ const Header = ({
       <div
         {...styles.navBar}
         style={{
-          backgroundColor: colorScheme.primaryBg
+          backgroundColor: colorScheme.containerBg
         }}
         ref={fixedRef}
       >

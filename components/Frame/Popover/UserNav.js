@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import {
-  colors,
+  useColorContext,
   fontStyles,
   mediaQueries,
   Center,
@@ -57,12 +57,13 @@ const UserNav = ({
 
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
+  const [colorScheme] = useColorContext()
   if (expanded) {
     hasExpandedRef.current = true
   }
   return (
     <>
-      <Center {...styles.container} id='nav'>
+      <Center {...css(styles.container, { color: colorScheme.text })} id='nav'>
         <div ref={containerRef}>
           {hasExpandedRef.current && (
             <>
@@ -139,7 +140,12 @@ const UserNav = ({
                       </NavLink>
                     </div>
                   </div>
-                  <hr {...styles.hr} />
+                  <hr
+                    {...css(styles.hr, {
+                      color: colorScheme.divider,
+                      backgroundColor: colorScheme.divider
+                    })}
+                  />
                   <div {...styles.navSection}>
                     <div {...styles.navLinks}>
                       {me.accessCampaigns.length > 0 && (
@@ -193,7 +199,6 @@ const UserNav = ({
 
 const styles = {
   container: css({
-    color: colors.text,
     [mediaQueries.mUp]: {
       marginTop: '40px'
     }
@@ -203,8 +208,6 @@ const styles = {
     display: 'block',
     border: 0,
     height: 1,
-    color: colors.divider,
-    backgroundColor: colors.divider,
     width: '100%'
   }),
   hrFixed: css({

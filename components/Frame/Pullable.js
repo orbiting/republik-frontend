@@ -42,7 +42,7 @@ const Container = ({
         : undefined)}
       style={{
         height: height,
-        backgroundColor: colorScheme.primaryBg
+        backgroundColor: colorScheme.containerBg
       }}
     >
       {children}

@@ -4,7 +4,9 @@ import {
   Container,
   RawHtml,
   fontFamilies,
-  mediaQueries
+  mediaQueries,
+  ColorContextProvider,
+  colors
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
@@ -21,6 +23,7 @@ import { withMembership } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
+import ColorSchemeSync from '../ColorScheme/Sync'
 
 import 'glamor/reset'
 
@@ -90,6 +93,7 @@ const Index = ({
   formatColor,
   footer = true,
   pullable,
+  dark,
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav
@@ -109,45 +113,50 @@ const Index = ({
     })
   }, [hasSecondaryNav])
   return (
-    <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
-      {/* body growing only needed when rendering a footer */}
+    <ColorContextProvider value={dark && colors.negative}>
+      <ColorSchemeSync />
       <div
-        {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-        {...padHeaderRule}
+        {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
       >
-        {!!meta && <Meta data={meta} />}
-        <Header
-          me={me}
-          cover={cover}
-          secondaryNav={secondaryNav}
-          formatColor={formatColor}
-          pullable={pullable}
-          hasOverviewNav={hasOverviewNav}
-          stickySecondaryNav={stickySecondaryNav}
+        {/* body growing only needed when rendering a footer */}
+        <div
+          {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
+          {...padHeaderRule}
         >
-          <noscript>
-            <Box style={{ padding: 30 }}>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('noscript')
-                }}
-              />
-            </Box>
-          </noscript>
-          {me && me.prolongBeforeDate !== null && (
-            <ProlongBox t={t} prolongBeforeDate={me.prolongBeforeDate} />
-          )}
-          {raw ? (
-            children
-          ) : (
-            <MainContainer>
-              <Content>{children}</Content>
-            </MainContainer>
-          )}
-        </Header>
+          {!!meta && <Meta data={meta} />}
+          <Header
+            me={me}
+            cover={cover}
+            secondaryNav={secondaryNav}
+            formatColor={formatColor}
+            pullable={pullable}
+            hasOverviewNav={hasOverviewNav}
+            stickySecondaryNav={stickySecondaryNav}
+          >
+            <noscript>
+              <Box style={{ padding: 30 }}>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('noscript')
+                  }}
+                />
+              </Box>
+            </noscript>
+            {me && me.prolongBeforeDate !== null && (
+              <ProlongBox t={t} prolongBeforeDate={me.prolongBeforeDate} />
+            )}
+            {raw ? (
+              children
+            ) : (
+              <MainContainer>
+                <Content>{children}</Content>
+              </MainContainer>
+            )}
+          </Header>
+        </div>
+        {!inNativeApp && footer && <Footer />}
       </div>
-      {!inNativeApp && footer && <Footer />}
-    </div>
+    </ColorContextProvider>
   )
 }
 

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { Fragment, useRef, useEffect, useState } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import {
@@ -21,6 +21,7 @@ import Footer from '../Footer'
 import NavLink, { NavA } from './NavLink'
 import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
+import { useColorSchemeKey } from '../../ColorScheme/lib'
 
 const SignoutLink = ({ children, ...props }) => (
   <div {...styles.signout}>
@@ -58,6 +59,8 @@ const UserNav = ({
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
   const [colorScheme] = useColorContext()
+  const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
+
   if (expanded) {
     hasExpandedRef.current = true
   }
@@ -67,6 +70,16 @@ const UserNav = ({
         <div ref={containerRef}>
           {hasExpandedRef.current && (
             <>
+              <div>
+                Colors:{' '}
+                {[undefined, 'light', 'dark'].map(key => (
+                  <Fragment key={key || 'auto'}>
+                    <button onClick={() => setColorSchemeKey(key)}>
+                      {key || 'auto'}
+                    </button>{' '}
+                  </Fragment>
+                ))}
+              </div>
               {!me && (
                 <>
                   <div {...styles.signInBlock}>

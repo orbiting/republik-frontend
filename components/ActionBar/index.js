@@ -195,7 +195,7 @@ const ActionBar = ({
         ) : (
           <></>
         ),
-      modes: ['article-overlay', 'feed'],
+      modes: ['article-overlay', 'feed', 'bookmark'],
       show: true
     },
     {
@@ -252,7 +252,13 @@ const ActionBar = ({
           label={!forceShortLabel ? t('bookmark/label') : ''}
         />
       ),
-      modes: ['article-top', 'article-bottom', 'article-overlay', 'feed'],
+      modes: [
+        'article-top',
+        'article-bottom',
+        'article-overlay',
+        'feed',
+        'bookmark'
+      ],
       show: true
     },
     {

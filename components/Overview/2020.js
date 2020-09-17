@@ -236,5 +236,47 @@ export default {
       </Highlight>
       .
     </>
+  ),
+  August: p => (
+    <>
+      Cornel West, einer der führenden schwarzen Intellektuellen in den USA,{' '}
+      <Highlight {...p} ids={['ndqLkhEdI']}>
+        im Gespräch
+      </Highlight>
+      . Franziska Schutzbach zur «Cancel-Culture»-Debatte –{' '}
+      <Highlight {...p} ids={['yMd-dVGWP']}>
+        Bis die Blasen platzen
+      </Highlight>{' '}
+      und eine Analyse der durch die Corona-Krise{' '}
+      <Highlight {...p} ids={['dTywk2u5K']}>
+        platzenden Blase fossiler Energien
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['9fFVuSojI']}>
+        Hoffnung für Beirut
+      </Highlight>{' '}
+      allen Umständen zum Trotz, die ersten zwei Folgen unserer Serie{' '}
+      <Highlight {...p} series='republik/article-auftakt-grenz-serie'>
+        «Grenzerfahrungen»
+      </Highlight>{' '}
+      und der Zürcher Nationalrat{' '}
+      <Highlight {...p} ids={['QfbymF59_']}>
+        Alfred Heer im Interview
+      </Highlight>
+      . Ausserdem: Eltern drängen auf eine{' '}
+      <Highlight {...p} ids={['c3LknDMlM']}>
+        Reform der Krippenbranche
+      </Highlight>
+      , Constantin Seibt mit{' '}
+      <Highlight {...p} ids={['mREs7Bwk4']}>
+        erstaunlichen Erkenntnissen
+      </Highlight>{' '}
+      über Jessica Jurassicas vermeintlichen Schundroman «Die verbotenste Frucht
+      im Bundeshaus» und eine zweiteilige Reportage über die{' '}
+      <Highlight {...p} series='republik/article-das-dunkle-gesetz'>
+        Blutrache in Albanien
+      </Highlight>
+      .
+    </>
   )
 }

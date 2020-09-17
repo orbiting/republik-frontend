@@ -147,7 +147,8 @@ const ActionBar = ({
   )
   const displayHours = Math.floor(displayMinutes / 60)
 
-  const forceShortLabel = mode === 'article-overlay' || mode === 'feed'
+  const forceShortLabel =
+    mode === 'article-overlay' || mode === 'feed' || mode === 'bookmark'
 
   // centering
   const splitContent = document.content && splitByTitle(document.content)

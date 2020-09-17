@@ -501,7 +501,8 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                     yAnnotations: [
                       {
                         value: numMembersNeeded,
-                        label: 'selbsttragend ab'
+                        label: 'selbsttragend ab',
+                        dy: '1.1em'
                       }
                     ],
                     xBandPadding: 0

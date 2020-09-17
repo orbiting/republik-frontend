@@ -234,7 +234,7 @@ const Header = ({
                   isMobile={isMobile}
                   id='user'
                   title={t(
-                    `header/nav/${
+                    `header/nav/user/${
                       expandedNav === 'user' ? 'close' : 'open'
                     }/aria`
                   )}

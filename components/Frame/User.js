@@ -1,6 +1,11 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
+import {
+  colors,
+  mediaQueries,
+  fontStyles,
+  plainButtonRule
+} from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { MdAccountBox } from 'react-icons/md'
 import withT from '../../lib/withT'
@@ -26,15 +31,13 @@ const getInitials = me =>
 const User = ({ t, me, title, dark, backButton, onClick, isMobile }) => {
   const color = dark ? colors.negative.text : colors.text
   return (
-    <div {...styles.user} onClick={onClick} role='button'>
-      <div
+    <button {...styles.user} onClick={onClick} title={title}>
+      <span
         {...styles.button}
         style={{
           color,
           paddingLeft: backButton ? BUTTON_PADDING_MOBILE / 2 : 16
         }}
-        role='button'
-        title={title}
       >
         {me &&
           (me.portrait ? (
@@ -61,13 +64,13 @@ const User = ({ t, me, title, dark, backButton, onClick, isMobile }) => {
             <span {...styles.label}>{t('header/signin')}</span>
           </Fragment>
         )}
-      </div>
-    </div>
+      </span>
+    </button>
   )
 }
 
 const styles = {
-  user: css({
+  user: css(plainButtonRule, {
     cursor: 'pointer',
     opacity: 'inherit',
     textAlign: 'left',

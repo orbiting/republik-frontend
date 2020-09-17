@@ -141,12 +141,13 @@ const ActionBar = ({
 
   const { toggleAudioPlayer } = useContext(AudioContext)
 
-  const displayMinutes = Math.max(
+  const readingMinutes = Math.max(
     meta.estimatedConsumptionMinutes,
     meta.estimatedReadingMinutes
   )
-  const displayHours = Math.floor(displayMinutes / 60)
 
+  const displayMinutes = readingMinutes % 60
+  const displayHours = Math.floor(readingMinutes / 60)
   const forceShortLabel =
     mode === 'article-overlay' || mode === 'feed' || mode === 'bookmark'
 
@@ -263,6 +264,7 @@ const ActionBar = ({
       show: true
     },
     {
+      title: t('PodcastButtons/play'),
       Icon: MdPlayCircleOutline,
       onClick: e => {
         e.preventDefault()
@@ -350,6 +352,7 @@ const ActionBar = ({
       show: (document.userProgress && displayMinutes > 1) || !podcast
     },
     {
+      title: t('PodcastButtons/play'),
       Icon: MdPlayCircleOutline,
       onClick: e => {
         e.preventDefault()
@@ -364,6 +367,7 @@ const ActionBar = ({
       show: !!meta.audioSource
     },
     {
+      title: t('PodcastButtons/title'),
       Icon: MdMic,
       onClick: e => {
         e.preventDefault()

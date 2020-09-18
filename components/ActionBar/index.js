@@ -19,7 +19,7 @@ import { shouldIgnoreClick } from '../../lib/utils/link'
 import { trackEvent } from '../../lib/piwik'
 import { getDiscussionLinkProps } from './utils'
 import { PUBLIC_BASE_URL, PUBLIKATOR_BASE_URL } from '../../lib/constants'
-import PdfOverlay, { getPdfUrl, countImages } from '../Article/PdfOverlay'
+import PdfOverlay, { getPdfUrl } from '../Article/PdfOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import ShareOverlay from './ShareOverlay'
 import PodcastOverlay from './PodcastOverlay'
@@ -50,6 +50,8 @@ const ActionBar = ({
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
   const [podcastOverlayVisible, setPodcastOverlayVisible] = useState(false)
+
+  const { toggleAudioPlayer } = useContext(AudioContext)
 
   if (!document) {
     return (
@@ -138,8 +140,6 @@ const ActionBar = ({
     meta.template,
     meta.path
   )
-
-  const { toggleAudioPlayer } = useContext(AudioContext)
 
   const readingMinutes = Math.max(
     meta.estimatedConsumptionMinutes,

@@ -254,29 +254,24 @@ export default {
       .{' '}
       <Highlight {...p} ids={['9fFVuSojI']}>
         Hoffnung für Beirut
-      </Highlight>{' '}
-      allen Umständen zum Trotz, die ersten zwei Folgen unserer Serie{' '}
+      </Highlight>
+      , die ersten zwei Folgen unserer Serie{' '}
       <Highlight {...p} series='republik/article-auftakt-grenz-serie'>
         «Grenzerfahrungen»
       </Highlight>{' '}
-      und der Zürcher Nationalrat{' '}
+      und{' '}
       <Highlight {...p} ids={['QfbymF59_']}>
         Alfred Heer im Interview
       </Highlight>
-      . Ausserdem: Eltern drängen auf eine{' '}
+      . Eltern drängen auf eine{' '}
       <Highlight {...p} ids={['c3LknDMlM']}>
         Reform der Krippenbranche
-      </Highlight>
-      , Constantin Seibt mit{' '}
+      </Highlight>{' '}
+      und Constantin Seibt mit{' '}
       <Highlight {...p} ids={['mREs7Bwk4']}>
         erstaunlichen Erkenntnissen
       </Highlight>{' '}
-      über Jessica Jurassicas vermeintlichen Schundroman «Die verbotenste Frucht
-      im Bundeshaus» und eine zweiteilige Reportage über die{' '}
-      <Highlight {...p} series='republik/article-das-dunkle-gesetz'>
-        Blutrache in Albanien
-      </Highlight>
-      .
+      über einen vermeintlichen Schundroman.
     </>
   )
 }

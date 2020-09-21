@@ -59,6 +59,7 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                       />
                       {userProgress && estimatedReadingMinutes > 1 && (
                         <UserProgress
+                          documentId={id}
                           forceShortLabel
                           noCallout
                           noScroll

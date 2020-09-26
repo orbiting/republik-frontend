@@ -18,7 +18,7 @@ import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 
 import { MdCheckCircle } from 'react-icons/md'
 
-import { withEditor } from '../Auth/checkRoles'
+import { withEditor, withTester } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
@@ -26,6 +26,7 @@ import HrefLink from '../Link/Href'
 import ErrorMessage from '../ErrorMessage'
 import CommentLink from '../Discussion/CommentLink'
 import DiscussionLink from '../Discussion/DiscussionLink'
+import ActionBar from '../ActionBar'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -34,7 +35,6 @@ import { Link, cleanAsPath } from '../../lib/routes'
 
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 import { intersperse } from '../../lib/utils/helpers'
-
 import * as withData from './withData'
 
 const getDocument = gql`
@@ -103,7 +103,8 @@ const Front = ({
   serverContext,
   isEditor,
   finite,
-  hasOverviewNav
+  hasOverviewNav,
+  isTester
 }) => {
   const meta = front && {
     ...front.meta,
@@ -127,9 +128,11 @@ const Front = ({
         CommentLink,
         DiscussionLink,
         ...withData,
+        ActionBar,
+        showMyMagazine: isTester,
         t
       }),
-    []
+    [isTester]
   )
 
   const MissingNode = isEditor ? undefined : ({ children }) => children
@@ -292,6 +295,7 @@ export default compose(
   withEditor,
   withT,
   withRouter,
+  withTester,
   graphql(getDocument, {
     options: props => ({
       variables: {

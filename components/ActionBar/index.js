@@ -148,7 +148,8 @@ const ActionBar = ({
 
   const displayMinutes = readingMinutes % 60
   const displayHours = Math.floor(readingMinutes / 60)
-  const forceShortLabel = mode === 'article-overlay' || mode === 'feed'
+  const forceShortLabel =
+    mode === 'article-overlay' || mode === 'feed' || mode === 'bookmark'
 
   // centering
   const splitContent = document.content && splitByTitle(document.content)
@@ -196,7 +197,7 @@ const ActionBar = ({
         ) : (
           <></>
         ),
-      modes: ['article-overlay', 'feed'],
+      modes: ['article-overlay', 'feed', 'bookmark'],
       show: true
     },
     {
@@ -253,7 +254,13 @@ const ActionBar = ({
           label={!forceShortLabel ? t('bookmark/label') : ''}
         />
       ),
-      modes: ['article-top', 'article-bottom', 'article-overlay', 'feed'],
+      modes: [
+        'article-top',
+        'article-bottom',
+        'article-overlay',
+        'feed',
+        'bookmark'
+      ],
       show: true
     },
     {

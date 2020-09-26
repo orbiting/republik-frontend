@@ -12,7 +12,7 @@
     "node": true
   },
    "rules": {
-    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": 0,
     "react/jsx-no-target-blank": 0,
     "react/display-name": 0,

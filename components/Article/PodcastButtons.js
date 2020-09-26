@@ -153,9 +153,9 @@ const PodcastButtons = ({
       {...styles.buttonGroup}
       {...(center ? styles.buttonGroupCenter : styles.buttonGroupLeft)}
     >
-      {shareOptions.map(props => (
+      {shareOptions.map((props, i) => (
         <IconButton
-          key={props.title}
+          key={i}
           Icon={props.icon}
           label={props.label}
           labelShort={props.label}

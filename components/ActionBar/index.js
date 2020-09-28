@@ -311,6 +311,11 @@ const ActionBar = ({
         <DiscussionLinkButton
           t={t}
           document={document}
+          isOnArticlePage={[
+            'article-top',
+            'article-bottom',
+            'article-overlay'
+          ].includes(mode)}
           forceShortLabel={forceShortLabel}
         />
       ),

@@ -6,7 +6,12 @@ import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
 import { getDiscussionLinkProps } from './utils'
 
-const DiscussionLinkButton = ({ t, document, forceShortLabel }) => {
+const DiscussionLinkButton = ({
+  t,
+  document,
+  forceShortLabel,
+  isOnArticlePage
+}) => {
   const meta = document && document.meta
   const {
     discussionId,
@@ -35,7 +40,7 @@ const DiscussionLinkButton = ({ t, document, forceShortLabel }) => {
         labelShort={discussionCount || ''}
         fill={colors.primary}
         onClick={
-          isDiscussionPage
+          isDiscussionPage && isOnArticlePage
             ? e => {
                 e.preventDefault()
                 focusSelector(`[data-discussion-id='${discussionId}']`)

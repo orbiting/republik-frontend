@@ -90,7 +90,7 @@ const UserProgress = (
     <>
       <IconButton
         Icon={ProgressCircleIcon}
-        onClick={!noScroll && restoreArticleProgress}
+        onClick={!noScroll ? restoreArticleProgress : undefined}
         href={restoreArticleProgress ? '#' : undefined}
         title={datetime(t, new Date(updatedAt))}
         label={

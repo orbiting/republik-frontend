@@ -111,11 +111,13 @@ export const makeLoadMore = ({
     updateQuery: (previousResult, { fetchMoreResult }) => {
       const prevCon = getConnection(previousResult)
       const moreCon = getConnection(fetchMoreResult)
-      const nodes = [...prevCon.nodes, ...moreCon.nodes].filter(
-        // deduplicating due to off by one in pagination API
-        (node, index, all) =>
-          all.findIndex(n => mapNodes(n).id === mapNodes(node).id) === index
-      )
+      const nodes = [...prevCon.nodes, ...moreCon.nodes]
+        .filter(node => mapNodes(node))
+        .filter(
+          // deduplicating due to off by one in pagination API
+          (node, index, all) =>
+            all.findIndex(n => mapNodes(n).id === mapNodes(node).id) === index
+        )
       return mergeConnection(fetchMoreResult, {
         ...prevCon,
         ...moreCon,
@@ -172,7 +174,9 @@ class DocumentListContainer extends Component {
                   return (
                     <>
                       <DocumentList
-                        documents={connection.nodes.map(mapNodes)}
+                        documents={connection.nodes
+                          .map(mapNodes)
+                          .filter(Boolean)}
                         totalCount={connection.totalCount}
                         hasMore={hasMore}
                         loadMore={makeLoadMore({

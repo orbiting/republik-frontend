@@ -192,8 +192,8 @@ const styles = {
     textAlign: 'left'
   }),
   helpText: css({
-    ...fontStyles.sansSerifRegular18,
-    marginBottom: 24
+    ...fontStyles.sansSerifRegular16,
+    marginBottom: 36
   })
 }
 

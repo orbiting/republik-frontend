@@ -5,6 +5,7 @@ import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
 import DocumentListContainer from '../Feed/DocumentListContainer'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 
 import {
   mediaQueries,
@@ -33,7 +34,7 @@ const mergeConnection = (data, connection) => {
 
 const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
 
-const Page = ({ t }) => {
+const Page = ({ t, me }) => {
   const [filter, setFilter] = useState('continue')
   const [variables, setVariables] = useState({
     collections: ['progress', 'bookmarks'],
@@ -67,7 +68,7 @@ const Page = ({ t }) => {
         break
     }
   }
-
+  const progressConsent = me && me.progressConsent === true
   return (
     <Frame
       meta={{
@@ -77,56 +78,66 @@ const Page = ({ t }) => {
     >
       <Center>
         <div {...styles.title}>{t('pages/bookmarks/title')}</div>
-        <div {...styles.filter}>
-          <button
-            onClick={() => handleFilterClick('continue')}
-            {...plainButtonRule}
-            {...styles.filterItem}
-          >
-            <Interaction.P
-              title='Weiterlesen'
-              {...styles.fiterItemText}
-              style={{
-                textDecoration: filter === 'continue' ? 'underline' : 'none'
-              }}
+        {progressConsent ? (
+          <div {...styles.filter}>
+            <button
+              onClick={() => handleFilterClick('continue')}
+              {...plainButtonRule}
+              {...styles.filterItem}
             >
-              Weiterlesen
-            </Interaction.P>
-          </button>
-          <button
-            onClick={() => handleFilterClick('bookmarks')}
-            {...plainButtonRule}
-            {...styles.filterItem}
-          >
-            <Interaction.P
-              title='Lesezeichen'
-              {...styles.fiterItemText}
-              style={{
-                textDecoration: filter === 'bookmarks' ? 'underline' : 'none'
-              }}
+              <Interaction.P
+                title='Weiterlesen'
+                {...styles.fiterItemText}
+                style={{
+                  textDecoration: filter === 'continue' ? 'underline' : 'none'
+                }}
+              >
+                Weiterlesen
+              </Interaction.P>
+            </button>
+            <button
+              onClick={() => handleFilterClick('bookmarks')}
+              {...plainButtonRule}
+              {...styles.filterItem}
             >
-              Lesezeichen
-            </Interaction.P>
-          </button>
-          <button
-            onClick={() => handleFilterClick('read')}
-            {...plainButtonRule}
-            {...styles.filterItem}
-          >
-            <Interaction.P
-              title='Gelesen'
-              {...styles.fiterItemText}
-              style={{
-                textDecoration: filter === 'read' ? 'underline' : 'none'
-              }}
+              <Interaction.P
+                title='Lesezeichen'
+                {...styles.fiterItemText}
+                style={{
+                  textDecoration: filter === 'bookmarks' ? 'underline' : 'none'
+                }}
+              >
+                Lesezeichen
+              </Interaction.P>
+            </button>
+            <button
+              onClick={() => handleFilterClick('read')}
+              {...plainButtonRule}
+              {...styles.filterItem}
             >
-              Gelesen
-            </Interaction.P>
-          </button>
-        </div>
+              <Interaction.P
+                title='Gelesen'
+                {...styles.fiterItemText}
+                style={{
+                  textDecoration: filter === 'read' ? 'underline' : 'none'
+                }}
+              >
+                Gelesen
+              </Interaction.P>
+            </button>
+          </div>
+        ) : null}
+
         <DocumentListContainer
           query={getBookmarkedDocuments}
-          variables={variables}
+          variables={
+            progressConsent
+              ? variables
+              : {
+                  collections: ['bookmarks'],
+                  progress: 'UNFINISHED'
+                }
+          }
           refetchOnUnmount
           getConnection={getConnection}
           mergeConnection={mergeConnection}
@@ -148,7 +159,9 @@ const Page = ({ t }) => {
           }
           help={
             <Interaction.P {...styles.helpText}>
-              {t(`pages/bookmarks/help/${filter}`)}
+              {progressConsent
+                ? t(`pages/bookmarks/help/${filter}`)
+                : t(`pages/bookmarks/help`)}
             </Interaction.P>
           }
         />
@@ -184,4 +197,4 @@ const styles = {
   })
 }
 
-export default compose(withT, enforceMembership())(Page)
+export default compose(withT, withMe, enforceMembership())(Page)

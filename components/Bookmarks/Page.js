@@ -95,45 +95,45 @@ const Page = ({ t }) => {
             {...plainButtonRule}
             {...styles.filterItem}
           >
-            <Interaction.H3
+            <Interaction.P
               title='Weiterlesen'
               {...styles.fiterItemText}
               style={{
-                fontWeight: filter === 'continue' ? 'bold' : 'normal'
+                textDecoration: filter === 'continue' ? 'underline' : 'none'
               }}
             >
               Weiterlesen
-            </Interaction.H3>
+            </Interaction.P>
           </button>
           <button
             onClick={() => handleFilterClick('bookmarks')}
             {...plainButtonRule}
             {...styles.filterItem}
           >
-            <Interaction.H3
+            <Interaction.P
               title='Lesezeichen'
               {...styles.fiterItemText}
               style={{
-                fontWeight: filter === 'bookmarks' ? 'bold' : 'normal'
+                textDecoration: filter === 'bookmarks' ? 'underline' : 'none'
               }}
             >
               Lesezeichen
-            </Interaction.H3>
+            </Interaction.P>
           </button>
           <button
             onClick={() => handleFilterClick('read')}
             {...plainButtonRule}
             {...styles.filterItem}
           >
-            <Interaction.H3
+            <Interaction.P
               title='Gelesen'
               {...styles.fiterItemText}
               style={{
-                fontWeight: filter === 'read' ? 'bold' : 'normal'
+                textDecoration: filter === 'read' ? 'underline' : 'none'
               }}
             >
               Gelesen
-            </Interaction.H3>
+            </Interaction.P>
           </button>
         </div>
         <DocumentListContainer
@@ -188,16 +188,7 @@ const styles = {
     marginRight: 24
   }),
   fiterItemText: css({
-    textAlign: 'left',
-    '&:after': {
-      display: 'block',
-      content: 'attr(title)',
-      fontWeight: 'bold',
-      height: 1,
-      color: 'transparent',
-      overflow: 'hidden',
-      visibility: 'hidden'
-    }
+    textAlign: 'left'
   })
 }
 

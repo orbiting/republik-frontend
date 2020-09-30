@@ -122,7 +122,9 @@ export const makeLoadMore = ({
       })
     },
     variables: {
-      cursor: connection.pageInfo.endCursor
+      cursor: connection.pageInfo.endCursor,
+      collections: [],
+      progress: 'UNFINISHED'
     }
   })
 

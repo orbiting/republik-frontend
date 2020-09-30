@@ -1,5 +1,5 @@
 {
-  "updated": "2020-09-11T20:44:06.366Z",
+  "updated": "2020-09-30T09:21:02.369Z",
   "title": "live",
   "data": [
     {
@@ -4641,6 +4641,18 @@
     {
       "key": "pages/bookmarks/placeholder/feedText",
       "value": "Feed"
+    },
+    {
+      "key": "pages/bookmarks/help/bookmarks",
+      "value": "Beiträge mit Lesezeichen. Neu hinzugefügte Beiträge erscheinen zuoberst"
+    },
+    {
+      "key": "pages/bookmarks/help/continue",
+      "value": "Angefangene Beiträge und Beiträge mit Lesezeichen."
+    },
+    {
+      "key": "pages/bookmarks/help/read",
+      "value": "Alle gelesenen Beiträge."
     },
     {
       "key": "styleguide/TeaserFeed/InternalOnlyTag",

@@ -24,7 +24,8 @@ const getConnection = data => {
     ...data.me.collectionItems,
     // [TODO] deduplicate connection, not working yet
     nodes: data.me.collectionItems.nodes.filter(
-      (elem, index, array) => index === array.indexOf(elem)
+      (elem, index, array) =>
+        index === array.findIndex(item => item.id === elem.id)
     )
   }
 }
@@ -46,25 +47,37 @@ const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
 
 const Page = ({ t }) => {
   const [filter, setFilter] = useState('continue')
-  const variables = {
+  const [variables, setVariables] = useState({
     collections: ['progress', 'bookmarks'],
     progress: 'UNFINISHED'
-  }
-  switch (filter) {
-    case 'bookmarks':
-      variables.collections = ['bookmarks']
-      variables.progress = 'UNFINISHED'
-      break
+  })
 
-    case 'read':
-      variables.collections = ['progress', 'bookmarks']
-      variables.progress = 'FINISHED'
-      break
+  const handleFilterClick = passedFilter => {
+    switch (passedFilter) {
+      case 'bookmarks':
+        setVariables({
+          collections: ['bookmarks'],
+          progress: 'UNFINISHED'
+        })
+        setFilter('bookmarks')
+        break
 
-    default:
-      variables.collections = ['progress', 'bookmarks']
-      variables.progress = 'UNFINISHED'
-      break
+      case 'read':
+        setVariables({
+          collections: ['progress', 'bookmarks'],
+          progress: 'FINISHED'
+        })
+        setFilter('read')
+        break
+
+      default:
+        setVariables({
+          collections: ['progress', 'bookmarks'],
+          progress: 'UNFINISHED'
+        })
+        setFilter('continue')
+        break
+    }
   }
 
   return (
@@ -78,7 +91,7 @@ const Page = ({ t }) => {
         <div {...styles.title}>{t('pages/bookmarks/title')}</div>
         <div {...styles.filter}>
           <button
-            onClick={() => setFilter('continue')}
+            onClick={() => handleFilterClick('continue')}
             {...plainButtonRule}
             {...styles.filterItem}
           >
@@ -93,7 +106,7 @@ const Page = ({ t }) => {
             </Interaction.H3>
           </button>
           <button
-            onClick={() => setFilter('bookmarks')}
+            onClick={() => handleFilterClick('bookmarks')}
             {...plainButtonRule}
             {...styles.filterItem}
           >
@@ -108,7 +121,7 @@ const Page = ({ t }) => {
             </Interaction.H3>
           </button>
           <button
-            onClick={() => setFilter('read')}
+            onClick={() => handleFilterClick('read')}
             {...plainButtonRule}
             {...styles.filterItem}
           >

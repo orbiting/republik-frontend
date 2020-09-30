@@ -5,7 +5,7 @@ export const getBookmarkedDocuments = gql`
   query getBookmarkedDocuments(
     $cursor: String
     $collections: [String!]!
-    $progress: ProgressState!
+    $progress: ProgressState
   ) {
     me {
       id

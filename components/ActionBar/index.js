@@ -158,7 +158,10 @@ const ActionBar = ({
     splitContent.title &&
     splitContent.title.children[splitContent.title.children.length - 1]
   const centered =
-    (titleNode && titleNode.data && titleNode.data.center) ||
+    (titleNode &&
+      titleNode.data &&
+      titleNode.data.center &&
+      mode !== 'article-bottom') ||
     meta.template === 'format' ||
     meta.template === 'section'
   const readingTimeTitle = `${

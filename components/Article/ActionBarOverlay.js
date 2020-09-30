@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { css } from 'glamor'
 import { mediaQueries, useColorContext } from '@project-r/styleguide'
+import { ZINDEX_HEADER } from '../constants'
 
 const ACTIONBAR_FADE_AREA = 400
 
@@ -45,7 +46,8 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
       style={{
         opacity: overlayVisible ? 1 : 0,
         bottom: bottomPosition,
-        backgroundColor: colorScheme.containerBg
+        backgroundColor: colorScheme.containerBg,
+        zIndex: ZINDEX_HEADER
       }}
       {...styles.container}
     >

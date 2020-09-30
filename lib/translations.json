@@ -1,5 +1,5 @@
 {
-  "updated": "2020-09-30T09:21:02.369Z",
+  "updated": "2020-09-30T15:20:37.505Z",
   "title": "live",
   "data": [
     {
@@ -4644,15 +4644,15 @@
     },
     {
       "key": "pages/bookmarks/help/bookmarks",
-      "value": "Beiträge mit Lesezeichen. Neu hinzugefügte Beiträge erscheinen zuoberst"
+      "value": "Alle Lesezeichen. Neu hinzugefügte Beiträge erscheinen zuoberst."
     },
     {
       "key": "pages/bookmarks/help/continue",
-      "value": "Angefangene Beiträge und Beiträge mit Lesezeichen."
+      "value": "Angefangene Beiträge und noch nicht gelesene Lesezeichen. Zuletzt angefangene oder hinzugefügte Beiträge erscheinen zuoberst."
     },
     {
       "key": "pages/bookmarks/help/read",
-      "value": "Alle gelesenen Beiträge."
+      "value": "Alle fertig gelesene Beiträge. Zuletzt gelesene Beiträge erscheinen zuoberst."
     },
     {
       "key": "styleguide/TeaserFeed/InternalOnlyTag",

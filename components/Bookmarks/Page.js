@@ -68,7 +68,7 @@ const Page = ({ t, me }) => {
         break
     }
   }
-  const progressConsent = me && me.progressConsent === true
+  const progressConsent = !!me?.progressConsent
   return (
     <Frame
       meta={{

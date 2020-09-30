@@ -1,22 +1,137 @@
-import React, { Component } from 'react'
+import React, { useState, useMemo } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
+import { withTester } from '../Auth/checkRoles'
 import DocumentListContainer from '../Feed/DocumentListContainer'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 
 import {
   mediaQueries,
   fontStyles,
   Center,
   Interaction,
-  linkRule
+  linkRule,
+  plainButtonRule
 } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import { MdBookmarkBorder } from 'react-icons/md'
 
-import { getBookmarkedDocuments } from './queries'
+import { getCollectionItems, registerQueryVariables } from './queries'
+
+const getConnection = data => data.me.collectionItems
+
+const mergeConnection = (data, connection) => {
+  return {
+    ...data,
+    me: {
+      ...data.me,
+      collectionItems: connection
+    }
+  }
+}
+
+const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
+
+const Page = ({ t, me, isTester }) => {
+  const showProgressTabs = !!(me?.progressConsent && isTester)
+
+  const [filter, setFilter] = useState('continue')
+  const variables = useMemo(() => {
+    if (showProgressTabs) {
+      if (filter === 'read') {
+        return {
+          collections: ['progress', 'bookmarks'],
+          progress: 'FINISHED'
+        }
+      }
+      if (filter === 'continue') {
+        return {
+          collections: ['progress', 'bookmarks'],
+          progress: 'UNFINISHED'
+        }
+      }
+    }
+    return {
+      collections: ['bookmarks']
+    }
+  }, [filter, showProgressTabs])
+  registerQueryVariables(variables)
+
+  return (
+    <Frame
+      meta={{
+        title: t('nav/bookmarks')
+      }}
+      raw
+    >
+      <Center>
+        <div {...styles.title}>{t('pages/bookmarks/title')}</div>
+        {showProgressTabs ? (
+          <div {...styles.filter}>
+            <Interaction.P>
+              {['continue', 'bookmarks', 'read'].map(key => (
+                <button
+                  key={key}
+                  onClick={() => setFilter(key)}
+                  {...plainButtonRule}
+                  {...styles.filterItem}
+                  style={{
+                    textDecoration: filter === key ? 'underline' : 'none'
+                  }}
+                >
+                  {t(`pages/bookmarks/tab/${key}`)}
+                </button>
+              ))}
+            </Interaction.P>
+          </div>
+        ) : null}
+
+        <DocumentListContainer
+          query={getCollectionItems}
+          variables={variables}
+          refetchOnUnmount
+          getConnection={getConnection}
+          mergeConnection={mergeConnection}
+          mapNodes={node => node.document}
+          feedProps={{ showHeader: false, showSubscribe: true }}
+          placeholder={
+            <Interaction.P style={{ marginBottom: 60 }}>
+              {t.first.elements(
+                [
+                  showProgressTabs && `pages/bookmarks/placeholder/${filter}`,
+                  'pages/bookmarks/placeholder'
+                ].filter(Boolean),
+                {
+                  feedLink: (
+                    <Link route='feed' key='link'>
+                      <a {...linkRule}>
+                        {t('pages/bookmarks/placeholder/feedText')}
+                      </a>
+                    </Link>
+                  ),
+                  bookmarkIcon
+                }
+              )}
+            </Interaction.P>
+          }
+          help={
+            <Interaction.P {...styles.helpText}>
+              {t.first(
+                [
+                  showProgressTabs && `pages/bookmarks/help/${filter}`,
+                  'pages/bookmarks/help'
+                ].filter(Boolean)
+              )}
+            </Interaction.P>
+          }
+        />
+      </Center>
+    </Frame>
+  )
+}
 
 const styles = {
   title: css({
@@ -28,65 +143,19 @@ const styles = {
       ...fontStyles.sansSerifMedium40,
       marginBottom: 50
     }
+  }),
+  filter: css({
+    display: 'flex',
+    marginBottom: 16
+  }),
+  filterItem: css({
+    marginRight: 24,
+    textAlign: 'left'
+  }),
+  helpText: css({
+    ...fontStyles.sansSerifRegular16,
+    marginBottom: 36
   })
 }
 
-const getConnection = data => data.me.collection.items
-const mergeConnection = (data, connection) => ({
-  ...data,
-  me: {
-    ...data.me,
-    collection: {
-      ...data.me.collection,
-      items: connection
-    }
-  }
-})
-
-const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
-
-class Page extends Component {
-  render() {
-    const { t } = this.props
-    const meta = {
-      title: t('nav/bookmarks')
-    }
-
-    return (
-      <Frame meta={meta} raw>
-        <Center>
-          <div {...styles.title}>{t('pages/bookmarks/title')}</div>
-          <DocumentListContainer
-            query={getBookmarkedDocuments}
-            refetchOnUnmount
-            getConnection={getConnection}
-            mergeConnection={mergeConnection}
-            mapNodes={node => node.document}
-            feedProps={{ showHeader: false, showSubscribe: true }}
-            placeholder={
-              <Interaction.P style={{ marginBottom: 60 }}>
-                {t.elements('pages/bookmarks/placeholder', {
-                  feedLink: (
-                    <Link route='feed' key='link'>
-                      <a {...linkRule}>
-                        {t('pages/bookmarks/placeholder/feedText')}
-                      </a>
-                    </Link>
-                  ),
-                  bookmarkIcon
-                })}
-              </Interaction.P>
-            }
-            help={
-              <Interaction.P style={{ marginBottom: 60 }}>
-                {t('pages/bookmarks/help')}
-              </Interaction.P>
-            }
-          />
-        </Center>
-      </Frame>
-    )
-  }
-}
-
-export default compose(withT, enforceMembership())(Page)
+export default compose(withT, withMe, enforceMembership(), withTester)(Page)

@@ -1,34 +1,50 @@
-import { BOOKMARKS_COLLECTION_NAME } from './fragments'
 import gql from 'graphql-tag'
 import { documentFragment } from '../Feed/fragments'
-import { subInfo } from '../Notifications/enhancers'
 
-export const getBookmarkedDocuments = gql`
-  query getBookmarkedDocuments($cursor: String) {
+const variablesAsJSONStrings = []
+
+export const getRefetchQueries = () =>
+  variablesAsJSONStrings.map(string => ({
+    query: getCollectionItems,
+    variables: JSON.parse(string)
+  }))
+
+export const registerQueryVariables = variables => {
+  const string = JSON.stringify(variables)
+  if (!variablesAsJSONStrings.includes(string)) {
+    variablesAsJSONStrings.push(string)
+  }
+}
+
+export const getCollectionItems = gql`
+  query getCollectionItems(
+    $cursor: String
+    $collections: [String!]!
+    $progress: ProgressState
+  ) {
     me {
       id
-      collection(name: "${BOOKMARKS_COLLECTION_NAME}") {
-        id
-        items(first: 50, after: $cursor) {
-          totalCount
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
-          nodes {
-            id
-            createdAt
-            document {
-              ...FeedDocument
-              subscribedByMe(includeParents: true) {
-                ...subInfo
-              }
-            }
+      collectionItems(
+        names: $collections
+        first: 50
+        after: $cursor
+        progress: $progress
+        uniqueDocuments: true
+      ) {
+        totalCount
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        nodes {
+          id
+          createdAt
+          document {
+            ...FeedDocument
           }
         }
       }
     }
   }
-  ${subInfo}
   ${documentFragment}
 `

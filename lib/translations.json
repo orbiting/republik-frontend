@@ -1,5 +1,5 @@
 {
-  "updated": "2020-09-11T20:44:06.366Z",
+  "updated": "2020-09-30T17:17:03.670Z",
   "title": "live",
   "data": [
     {
@@ -4635,12 +4635,44 @@
       "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Beitrag auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
     },
     {
+      "key": "pages/bookmarks/placeholder/continue",
+      "value": "Sie haben zur Zeit keine angefangen Lesepositionen und keine nicht gelesenen Lesezeichen. Stöbern Sie im {feedLink} um etwas Neues zu finden. "
+    },
+    {
+      "key": "pages/bookmarks/placeholder/read",
+      "value": "Es sind noch keine fertig gelesenen Beiträge gespeicherte."
+    },
+    {
       "key": "pages/bookmarks/help",
       "value": "Neu hinzugefügte Beiträge erscheinen zuoberst."
     },
     {
       "key": "pages/bookmarks/placeholder/feedText",
       "value": "Feed"
+    },
+    {
+      "key": "pages/bookmarks/help/bookmarks",
+      "value": "Alle Lesezeichen. Neu hinzugefügte Beiträge erscheinen zuoberst."
+    },
+    {
+      "key": "pages/bookmarks/help/continue",
+      "value": "Angefangene Beiträge und noch nicht gelesene Lesezeichen. Zuletzt angefangene oder hinzugefügte Beiträge erscheinen zuoberst."
+    },
+    {
+      "key": "pages/bookmarks/help/read",
+      "value": "Alle fertig gelesenen Beiträge. Zuletzt gelesene Beiträge erscheinen zuoberst."
+    },
+    {
+      "key": "pages/bookmarks/tab/bookmarks",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "pages/bookmarks/tab/continue",
+      "value": "Weiterlesen"
+    },
+    {
+      "key": "pages/bookmarks/tab/read",
+      "value": "Gelesen"
     },
     {
       "key": "styleguide/TeaserFeed/InternalOnlyTag",

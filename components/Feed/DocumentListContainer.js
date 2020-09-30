@@ -104,7 +104,8 @@ export const makeLoadMore = ({
   connection,
   getConnection = defaultProps.getConnection,
   mergeConnection = defaultProps.mergeConnection,
-  mapNodes = defaultProps.mapNodes
+  mapNodes = defaultProps.mapNodes,
+  variables
 }) => () =>
   fetchMore({
     updateQuery: (previousResult, { fetchMoreResult }) => {
@@ -122,9 +123,8 @@ export const makeLoadMore = ({
       })
     },
     variables: {
-      cursor: connection.pageInfo.endCursor,
-      collections: [],
-      progress: 'UNFINISHED'
+      ...variables,
+      cursor: connection.pageInfo.endCursor
     }
   })
 
@@ -180,7 +180,8 @@ class DocumentListContainer extends Component {
                           connection,
                           getConnection,
                           mergeConnection,
-                          mapNodes
+                          mapNodes,
+                          variables
                         })}
                         feedProps={feedProps}
                         showTotal={showTotal}

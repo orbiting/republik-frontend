@@ -19,26 +19,14 @@ import { MdBookmarkBorder } from 'react-icons/md'
 
 import { getBookmarkedDocuments } from './queries'
 
-const getConnection = data => {
-  return {
-    ...data.me.collectionItems,
-    // [TODO] deduplicate connection, not working yet
-    nodes: data.me.collectionItems.nodes.filter(
-      (elem, index, array) =>
-        index === array.findIndex(item => item.id === elem.id)
-    )
-  }
-}
+const getConnection = data => data.me.collectionItems
 
 const mergeConnection = (data, connection) => {
   return {
     ...data,
     me: {
       ...data.me,
-      collectionItems: {
-        ...data.me.collectionItems,
-        collectionItems: connection
-      }
+      collectionItems: connection
     }
   }
 }
@@ -159,7 +147,7 @@ const Page = ({ t }) => {
             </Interaction.P>
           }
           help={
-            <Interaction.P style={{ marginBottom: 24 }}>
+            <Interaction.P {...styles.helpText}>
               {t(`pages/bookmarks/help/${filter}`)}
             </Interaction.P>
           }
@@ -182,13 +170,17 @@ const styles = {
   }),
   filter: css({
     display: 'flex',
-    marginBottom: 40
+    marginBottom: 16
   }),
   filterItem: css({
     marginRight: 24
   }),
   fiterItemText: css({
     textAlign: 'left'
+  }),
+  helpText: css({
+    ...fontStyles.sansSerifRegular18,
+    marginBottom: 24
   })
 }
 

@@ -14,6 +14,7 @@ export const getBookmarkedDocuments = gql`
         first: 50
         after: $cursor
         progress: $progress
+        uniqueDocuments: true
       ) {
         totalCount
         pageInfo {

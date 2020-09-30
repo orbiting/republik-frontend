@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
@@ -11,7 +11,7 @@ import {
   onDocumentFragment,
   BOOKMARKS_COLLECTION_NAME
 } from '../Bookmarks/fragments'
-import { getBookmarkedDocuments } from '../Bookmarks/queries'
+import { getRefetchQueries } from '../Bookmarks/queries'
 
 const Bookmark = ({
   t,
@@ -117,7 +117,7 @@ export default compose(
             documentId,
             collectionName: BOOKMARKS_COLLECTION_NAME
           },
-          refetchQueries: update ? [{ query: getBookmarkedDocuments }] : []
+          refetchQueries: update ? getRefetchQueries() : []
         })
     })
   }),
@@ -129,7 +129,7 @@ export default compose(
             documentId,
             collectionName: BOOKMARKS_COLLECTION_NAME
           },
-          refetchQueries: update ? [{ query: getBookmarkedDocuments }] : []
+          refetchQueries: update ? getRefetchQueries() : []
         })
     })
   }),

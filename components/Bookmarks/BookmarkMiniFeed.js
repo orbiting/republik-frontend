@@ -7,9 +7,14 @@ import BookmarkButton from '../ActionBar/BookmarkButton'
 import UserProgress from '../ActionBar/UserProgress'
 import Link from '../Link/Path'
 
-import { getBookmarkedDocuments } from './queries'
+import { getCollectionItems, registerQueryVariables } from './queries'
+
+const variables = {
+  collections: ['bookmarks']
+}
 
 const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
+  registerQueryVariables(variables)
   return (
     <Loader
       style={{ minHeight: 130 }}
@@ -144,12 +149,10 @@ const styles = {
 }
 
 export default compose(
-  graphql(getBookmarkedDocuments, {
+  graphql(getCollectionItems, {
     options: {
       fetchPolicy: 'cache-and-network',
-      variables: {
-        collections: ['bookmarks']
-      }
+      variables
     }
   })
 )(BookmarkMiniFeed)

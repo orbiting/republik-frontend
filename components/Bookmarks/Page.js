@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { css, merge } from 'glamor'
+import React, { useState, useMemo } from 'react'
+import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
@@ -19,7 +19,7 @@ import {
 import { Link } from '../../lib/routes'
 import { MdBookmarkBorder } from 'react-icons/md'
 
-import { getBookmarkedDocuments } from './queries'
+import { getCollectionItems, registerQueryVariables } from './queries'
 
 const getConnection = data => data.me.collectionItems
 
@@ -36,40 +36,30 @@ const mergeConnection = (data, connection) => {
 const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
 
 const Page = ({ t, me, isTester }) => {
+  const showProgressTabs = !!(me?.progressConsent && isTester)
+
   const [filter, setFilter] = useState('continue')
-  const [variables, setVariables] = useState({
-    collections: ['progress', 'bookmarks'],
-    progress: 'UNFINISHED'
-  })
-
-  const handleFilterClick = passedFilter => {
-    switch (passedFilter) {
-      case 'bookmarks':
-        setVariables({
-          collections: ['bookmarks'],
-          progress: 'UNFINISHED'
-        })
-        setFilter('bookmarks')
-        break
-
-      case 'read':
-        setVariables({
+  const variables = useMemo(() => {
+    if (showProgressTabs) {
+      if (filter === 'read') {
+        return {
           collections: ['progress', 'bookmarks'],
           progress: 'FINISHED'
-        })
-        setFilter('read')
-        break
-
-      default:
-        setVariables({
+        }
+      }
+      if (filter === 'continue') {
+        return {
           collections: ['progress', 'bookmarks'],
           progress: 'UNFINISHED'
-        })
-        setFilter('continue')
-        break
+        }
+      }
     }
-  }
-  const showProgressTabs = !!(me?.progressConsent && isTester)
+    return {
+      collections: ['bookmarks']
+    }
+  }, [filter, showProgressTabs])
+  registerQueryVariables(variables)
+
   return (
     <Frame
       meta={{
@@ -85,7 +75,7 @@ const Page = ({ t, me, isTester }) => {
               {['continue', 'bookmarks', 'read'].map(key => (
                 <button
                   key={key}
-                  onClick={() => handleFilterClick(key)}
+                  onClick={() => setFilter(key)}
                   {...plainButtonRule}
                   {...styles.filterItem}
                   style={{
@@ -100,15 +90,8 @@ const Page = ({ t, me, isTester }) => {
         ) : null}
 
         <DocumentListContainer
-          query={getBookmarkedDocuments}
-          variables={
-            showProgressTabs
-              ? variables
-              : {
-                  collections: ['bookmarks'],
-                  progress: 'UNFINISHED'
-                }
-          }
+          query={getCollectionItems}
+          variables={variables}
           refetchOnUnmount
           getConnection={getConnection}
           mergeConnection={mergeConnection}

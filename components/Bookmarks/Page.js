@@ -81,51 +81,21 @@ const Page = ({ t, me, isTester }) => {
         <div {...styles.title}>{t('pages/bookmarks/title')}</div>
         {showProgressTabs ? (
           <div {...styles.filter}>
-            <button
-              onClick={() => handleFilterClick('continue')}
-              {...plainButtonRule}
-              {...styles.filterItem}
-            >
-              <Interaction.P
-                title='Weiterlesen'
-                {...styles.fiterItemText}
-                style={{
-                  textDecoration: filter === 'continue' ? 'underline' : 'none'
-                }}
-              >
-                Weiterlesen
-              </Interaction.P>
-            </button>
-            <button
-              onClick={() => handleFilterClick('bookmarks')}
-              {...plainButtonRule}
-              {...styles.filterItem}
-            >
-              <Interaction.P
-                title='Lesezeichen'
-                {...styles.fiterItemText}
-                style={{
-                  textDecoration: filter === 'bookmarks' ? 'underline' : 'none'
-                }}
-              >
-                Lesezeichen
-              </Interaction.P>
-            </button>
-            <button
-              onClick={() => handleFilterClick('read')}
-              {...plainButtonRule}
-              {...styles.filterItem}
-            >
-              <Interaction.P
-                title='Gelesen'
-                {...styles.fiterItemText}
-                style={{
-                  textDecoration: filter === 'read' ? 'underline' : 'none'
-                }}
-              >
-                Gelesen
-              </Interaction.P>
-            </button>
+            <Interaction.P>
+              {['continue', 'bookmarks', 'read'].map(key => (
+                <button
+                  key={key}
+                  onClick={() => handleFilterClick(key)}
+                  {...plainButtonRule}
+                  {...styles.filterItem}
+                  style={{
+                    textDecoration: filter === key ? 'underline' : 'none'
+                  }}
+                >
+                  {t(`pages/bookmarks/tab/${key}`)}
+                </button>
+              ))}
+            </Interaction.P>
           </div>
         ) : null}
 
@@ -187,9 +157,7 @@ const styles = {
     marginBottom: 16
   }),
   filterItem: css({
-    marginRight: 24
-  }),
-  fiterItemText: css({
+    marginRight: 24,
     textAlign: 'left'
   }),
   helpText: css({

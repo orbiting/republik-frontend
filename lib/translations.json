@@ -1,5 +1,5 @@
 {
-  "updated": "2020-09-30T15:20:37.505Z",
+  "updated": "2020-09-30T17:00:09.936Z",
   "title": "live",
   "data": [
     {
@@ -4652,7 +4652,19 @@
     },
     {
       "key": "pages/bookmarks/help/read",
-      "value": "Alle fertig gelesene Beiträge. Zuletzt gelesene Beiträge erscheinen zuoberst."
+      "value": "Alle fertig gelesenen Beiträge. Zuletzt gelesene Beiträge erscheinen zuoberst."
+    },
+    {
+      "key": "pages/bookmarks/tab/bookmarks",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "pages/bookmarks/tab/continue",
+      "value": "Weiterlesen"
+    },
+    {
+      "key": "pages/bookmarks/tab/read",
+      "value": "Gelesen"
     },
     {
       "key": "styleguide/TeaserFeed/InternalOnlyTag",

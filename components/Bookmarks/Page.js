@@ -116,23 +116,32 @@ const Page = ({ t, me, isTester }) => {
           feedProps={{ showHeader: false, showSubscribe: true }}
           placeholder={
             <Interaction.P style={{ marginBottom: 60 }}>
-              {t.elements('pages/bookmarks/placeholder', {
-                feedLink: (
-                  <Link route='feed' key='link'>
-                    <a {...linkRule}>
-                      {t('pages/bookmarks/placeholder/feedText')}
-                    </a>
-                  </Link>
-                ),
-                bookmarkIcon
-              })}
+              {t.first.elements(
+                [
+                  showProgressTabs && `pages/bookmarks/placeholder/${filter}`,
+                  'pages/bookmarks/placeholder'
+                ].filter(Boolean),
+                {
+                  feedLink: (
+                    <Link route='feed' key='link'>
+                      <a {...linkRule}>
+                        {t('pages/bookmarks/placeholder/feedText')}
+                      </a>
+                    </Link>
+                  ),
+                  bookmarkIcon
+                }
+              )}
             </Interaction.P>
           }
           help={
             <Interaction.P {...styles.helpText}>
-              {showProgressTabs
-                ? t(`pages/bookmarks/help/${filter}`)
-                : t(`pages/bookmarks/help`)}
+              {t.first(
+                [
+                  showProgressTabs && `pages/bookmarks/help/${filter}`,
+                  'pages/bookmarks/help'
+                ].filter(Boolean)
+              )}
             </Interaction.P>
           }
         />

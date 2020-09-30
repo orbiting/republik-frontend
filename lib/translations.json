@@ -1,5 +1,5 @@
 {
-  "updated": "2020-09-30T17:00:09.936Z",
+  "updated": "2020-09-30T17:17:03.670Z",
   "title": "live",
   "data": [
     {
@@ -4633,6 +4633,14 @@
     {
       "key": "pages/bookmarks/placeholder",
       "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Beitrag auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
+    },
+    {
+      "key": "pages/bookmarks/placeholder/continue",
+      "value": "Sie haben zur Zeit keine angefangen Lesepositionen und keine nicht gelesenen Lesezeichen. Stöbern Sie im {feedLink} um etwas Neues zu finden. "
+    },
+    {
+      "key": "pages/bookmarks/placeholder/read",
+      "value": "Es sind noch keine fertig gelesenen Beiträge gespeicherte."
     },
     {
       "key": "pages/bookmarks/help",

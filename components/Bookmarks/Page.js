@@ -3,6 +3,7 @@ import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
+import { withTester } from '../Auth/checkRoles'
 import DocumentListContainer from '../Feed/DocumentListContainer'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -34,7 +35,7 @@ const mergeConnection = (data, connection) => {
 
 const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
 
-const Page = ({ t, me }) => {
+const Page = ({ t, me, isTester }) => {
   const [filter, setFilter] = useState('continue')
   const [variables, setVariables] = useState({
     collections: ['progress', 'bookmarks'],
@@ -68,7 +69,7 @@ const Page = ({ t, me }) => {
         break
     }
   }
-  const progressConsent = !!me?.progressConsent
+  const showProgressTabs = !!(me?.progressConsent && isTester)
   return (
     <Frame
       meta={{
@@ -78,7 +79,7 @@ const Page = ({ t, me }) => {
     >
       <Center>
         <div {...styles.title}>{t('pages/bookmarks/title')}</div>
-        {progressConsent ? (
+        {showProgressTabs ? (
           <div {...styles.filter}>
             <button
               onClick={() => handleFilterClick('continue')}
@@ -131,7 +132,7 @@ const Page = ({ t, me }) => {
         <DocumentListContainer
           query={getBookmarkedDocuments}
           variables={
-            progressConsent
+            showProgressTabs
               ? variables
               : {
                   collections: ['bookmarks'],
@@ -159,7 +160,7 @@ const Page = ({ t, me }) => {
           }
           help={
             <Interaction.P {...styles.helpText}>
-              {progressConsent
+              {showProgressTabs
                 ? t(`pages/bookmarks/help/${filter}`)
                 : t(`pages/bookmarks/help`)}
             </Interaction.P>
@@ -197,4 +198,4 @@ const styles = {
   })
 }
 
-export default compose(withT, withMe, enforceMembership())(Page)
+export default compose(withT, withMe, enforceMembership(), withTester)(Page)

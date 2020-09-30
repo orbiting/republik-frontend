@@ -189,7 +189,7 @@ export const enforceMembership = (
 ) => WrappedComponent =>
   withAuthorization(['member'])(({ isAuthorized, me, ...props }) => {
     if (isAuthorized) {
-      return <WrappedComponent meta={meta} {...props} />
+      return <WrappedComponent meta={meta} me={me} {...props} />
     }
     return <UnauthorizedPage {...{ me, meta, unauthorizedTexts }} />
   })

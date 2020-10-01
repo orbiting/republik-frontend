@@ -117,6 +117,7 @@ class TeaserBlock extends Component {
       >
         <LazyLoad
           visible={!lazy}
+          consistentPlaceholder
           attributes={{
             ...styles.container,
             ...css({

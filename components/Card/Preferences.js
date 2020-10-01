@@ -44,7 +44,7 @@ const styles = {
   mySmartspiderSlider: css({
     marginBottom: 5
   }),
-  medianSmartspider: css({
+  medianSmartspider: css(plainButtonRule, {
     border: '2px solid transparent',
     display: 'inline-block',
     textAlign: 'center',
@@ -166,7 +166,6 @@ const Filters = ({ t, party, onParty, forcedVariables = {} }) => {
           return (
             <button
               key={medianSmartspider.value}
-              {...plainButtonRule}
               {...styles.medianSmartspider}
               onClick={e => {
                 e.preventDefault()

@@ -64,11 +64,11 @@ const FontSizeOverlay = ({ t, onClose }) => {
         fontSize: '1.1875em'
       }
     }),
-    iconButton: css({
+    iconButton: css(plainButtonRule, {
       fontSize: 24,
       padding: '20px 20px 10px'
     }),
-    reset: css({
+    reset: css(plainButtonRule, {
       ...fontStyles.sansSerifRegular13,
       color: colors.lightText,
       padding: '0 20px 20px'
@@ -111,7 +111,6 @@ const FontSizeOverlay = ({ t, onClose }) => {
       <OverlayBody>
         <div {...styles.container}>
           <button
-            {...plainButtonRule}
             {...styles.iconButton}
             title={t('article/actionbar/fontSize/decrease')}
             onClick={decreaseFontSize}
@@ -120,7 +119,6 @@ const FontSizeOverlay = ({ t, onClose }) => {
           </button>
           <label {...styles.label}>{fontPercentage.current}</label>
           <button
-            {...plainButtonRule}
             {...styles.iconButton}
             title={t('article/actionbar/fontSize/increase')}
             onClick={increaseFontSize}
@@ -129,7 +127,6 @@ const FontSizeOverlay = ({ t, onClose }) => {
           </button>
           <div {...styles.container}>
             <button
-              {...plainButtonRule}
               {...styles.reset}
               onClick={resetFontSize}
               title={t('article/actionbar/fontSize/reset')}

@@ -273,5 +273,49 @@ export default {
       </Highlight>{' '}
       über einen vermeintlichen Schundroman.
     </>
+  ),
+  September: p => (
+    <>
+      <Highlight {...p} ids={['f94RWb5Bs']}>
+        Sexismus-Vorwürfe
+      </Highlight>{' '}
+      gegen die Schweizerische Nationalbank und{' '}
+      <Highlight {...p} ids={['iOBMO2fto']}>
+        der spektakulärste Unternehmensbetrug
+      </Highlight>{' '}
+      der jüngsten Wirtschaftsgeschichte.{' '}
+      <Highlight {...p} ids={['MVC5tHjNO']}>
+        Das System Lukaschenko
+      </Highlight>{' '}
+      und warum die Schweiz zum{' '}
+      <Highlight {...p} ids={['6d769uZv7']}>
+        Vorbild für Autokraten
+      </Highlight>{' '}
+      wird.{' '}
+      <Highlight {...p} ids={['0fvoVXL8P']}>
+        Was Väter wollen
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['HCVgof6UY']}>
+        was Mütter stört
+      </Highlight>
+      . Die Recherche zum{' '}
+      <Highlight {...p} ids={['OUV7B9WNN']}>
+        Einsatz unsicherer Software
+      </Highlight>{' '}
+      bei Wahlen und Abstimmungen. Sowie:{' '}
+      <Highlight {...p} series='republik/article-auftakt-grenz-serie'>
+        Grenzerfahrungen
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} series='republik/article-underneath-the-mango-tree'>
+        Genuss
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['CLGueeEzb']}>
+        Tanzen bis zum Umfallen
+      </Highlight>
+      .
+    </>
   )
 }

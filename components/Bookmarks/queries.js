@@ -30,6 +30,7 @@ export const getCollectionItems = gql`
         after: $cursor
         progress: $progress
         uniqueDocuments: true
+        lastDays: 30
       ) {
         totalCount
         pageInfo {

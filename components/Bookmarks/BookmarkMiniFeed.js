@@ -10,7 +10,8 @@ import Link from '../Link/Path'
 import { getCollectionItems, registerQueryVariables } from './queries'
 
 const variables = {
-  collections: ['bookmarks']
+  collections: ['progress', 'bookmarks'],
+  progress: 'UNFINISHED'
 }
 
 const BookmarkMiniFeed = ({ data, closeHandler, style }) => {

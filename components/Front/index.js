@@ -120,15 +120,17 @@ const Front = ({
     loadMore: fetchMore
   })
 
-  const schema = useMemo(() =>
-    createFrontSchema({
-      Link: HrefLink,
-      CommentLink,
-      DiscussionLink,
-      ...withData,
-      ActionBar,
-      t
-    })
+  const schema = useMemo(
+    () =>
+      createFrontSchema({
+        Link: HrefLink,
+        CommentLink,
+        DiscussionLink,
+        ...withData,
+        ActionBar,
+        t
+      }),
+    []
   )
 
   const MissingNode = isEditor ? undefined : ({ children }) => children

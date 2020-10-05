@@ -67,7 +67,7 @@ const Page = ({ t, me }) => {
       }}
       raw
     >
-      <Center>
+      <Center style={{ marginBottom: 56 }}>
         <div {...styles.title}>{t('pages/bookmarks/title')}</div>
         {showProgressTabs ? (
           <div {...styles.filter}>

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useMemo } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import {
@@ -21,6 +21,7 @@ import Footer from '../Footer'
 import NavLink, { NavA } from './NavLink'
 import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
+import { registerQueryVariables } from '../../Bookmarks/queries'
 
 const SignoutLink = ({ children, ...props }) => (
   <div {...styles.signout}>
@@ -54,9 +55,23 @@ const UserNav = ({
       window.removeEventListener('resize', measureLeftPadding)
     }
   }, [])
-
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
+  const hasProgress = !!me?.progressConsent
+  const variables = useMemo(() => {
+    if (hasProgress) {
+      return {
+        collections: ['progress', 'bookmarks'],
+        progress: 'UNFINISHED',
+        lastDays: 30
+      }
+    }
+    return {
+      collections: ['bookmarks']
+    }
+  }, [hasProgress])
+  registerQueryVariables(variables)
+
   if (expanded) {
     hasExpandedRef.current = true
   }
@@ -113,6 +128,7 @@ const UserNav = ({
                           paddingLeft: containerPadding - 16
                         }}
                         closeHandler={closeHandler}
+                        variables={variables}
                       />
                     ) : (
                       <Loader loading />

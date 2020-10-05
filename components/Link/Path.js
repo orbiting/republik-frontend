@@ -2,7 +2,7 @@ import React from 'react'
 import { matchPath, Link } from '../../lib/routes'
 import AreaLink from './Area'
 
-export default ({ path, query = {}, passHref, replace, scroll, children }) => {
+const Path = ({ path, query = {}, passHref, replace, scroll, children }) => {
   const result = matchPath(path)
   if (result) {
     const Component = passHref ? Link : AreaLink
@@ -22,3 +22,4 @@ export default ({ path, query = {}, passHref, replace, scroll, children }) => {
   // unrecognized links are handled by regular a tags
   return children
 }
+export default Path

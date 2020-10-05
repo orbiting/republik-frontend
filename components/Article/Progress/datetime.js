@@ -10,7 +10,7 @@ const getLastMidnight = () => {
   return today
 }
 
-export default (
+const DateTime = (
   t,
   date,
   baseKey = 'progress',
@@ -33,3 +33,4 @@ export default (
     time: displayTime
   })
 }
+export default DateTime

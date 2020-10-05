@@ -1,5 +1,5 @@
 {
-  "updated": "2020-09-30T17:17:03.670Z",
+  "updated": "2020-10-05T12:29:46.464Z",
   "title": "live",
   "data": [
     {
@@ -4664,7 +4664,7 @@
     },
     {
       "key": "pages/bookmarks/tab/bookmarks",
-      "value": "Lesezeichen"
+      "value": "Gemerkt"
     },
     {
       "key": "pages/bookmarks/tab/continue",

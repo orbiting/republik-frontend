@@ -194,7 +194,7 @@ const ActionBar = ({
             documentId={document.id}
             forceShortLabel={forceShortLabel}
             userProgress={document.userProgress}
-            noCallout={mode === 'article-overlay'}
+            noCallout={mode === 'article-overlay' || mode === 'bookmark'}
             noScroll={mode === 'feed'}
           />
         ) : (

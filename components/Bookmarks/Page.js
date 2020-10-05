@@ -35,8 +35,8 @@ const mergeConnection = (data, connection) => {
 
 const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
 
-const Page = ({ t, me, isTester }) => {
-  const showProgressTabs = !!(me?.progressConsent && isTester)
+const Page = ({ t, me }) => {
+  const showProgressTabs = !!me?.progressConsent
 
   const [filter, setFilter] = useState('continue')
   const variables = useMemo(() => {

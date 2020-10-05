@@ -103,8 +103,7 @@ const Front = ({
   serverContext,
   isEditor,
   finite,
-  hasOverviewNav,
-  isTester
+  hasOverviewNav
 }) => {
   const meta = front && {
     ...front.meta,
@@ -121,18 +120,15 @@ const Front = ({
     loadMore: fetchMore
   })
 
-  const schema = useMemo(
-    () =>
-      createFrontSchema({
-        Link: HrefLink,
-        CommentLink,
-        DiscussionLink,
-        ...withData,
-        ActionBar,
-        showMyMagazine: isTester,
-        t
-      }),
-    [isTester]
+  const schema = useMemo(() =>
+    createFrontSchema({
+      Link: HrefLink,
+      CommentLink,
+      DiscussionLink,
+      ...withData,
+      ActionBar,
+      t
+    })
   )
 
   const MissingNode = isEditor ? undefined : ({ children }) => children

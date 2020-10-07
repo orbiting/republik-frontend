@@ -23,7 +23,7 @@ import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 import createSectionSchema from '@project-r/styleguide/lib/templates/Section'
-import createStaticPageSchema from '@project-r/styleguide/lib/templates/StaticPage'
+import createPageSchema from '@project-r/styleguide/lib/templates/Page'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
 
 import ActionBarOverlay from './ActionBarOverlay'
@@ -74,7 +74,7 @@ const schemaCreators = {
   discussion: createDiscussionSchema,
   editorialNewsletter: createNewsletterSchema,
   section: createSectionSchema,
-  staticPage: createStaticPageSchema
+  page: createPageSchema
 }
 
 const dynamicComponentRequire = createRequire().alias({

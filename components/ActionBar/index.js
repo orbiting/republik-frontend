@@ -130,7 +130,7 @@ const ActionBar = ({
     (meta && meta.podcast) ||
     (meta && meta.audioSource && meta.format && meta.format.meta.podcast)
   const hasPdf = meta && meta.template === 'article'
-  const notBookmarkable = meta && meta.template === 'staticPage'
+  const notBookmarkable = meta && meta.template === 'page'
   const isDiscussion = meta && meta.template === 'discussion'
   const emailSubject = t('article/share/emailSubject', {
     title: document.meta.title

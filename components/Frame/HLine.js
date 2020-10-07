@@ -1,11 +1,12 @@
 import React from 'react'
 import { css } from 'glamor'
-import { colors } from '@project-r/styleguide'
+import { colors, useColorContext } from '@project-r/styleguide'
 
 import { ZINDEX_POPOVER } from '../constants'
 
-const HLine = ({ formatColor, dark }) => {
-  const color = formatColor || (dark ? colors.negative.divider : colors.divider)
+const HLine = ({ formatColor }) => {
+  const [colorScheme] = useColorContext()
+  const color = formatColor || colorScheme.divider
   return (
     <hr
       {...styles.hr}

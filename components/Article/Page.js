@@ -14,7 +14,8 @@ import {
   mediaQueries,
   LazyLoad,
   TitleBlock,
-  Editorial
+  Editorial,
+  ColorContextProvider
 } from '@project-r/styleguide'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
@@ -302,10 +303,11 @@ const ArticlePage = ({
     )
 
   const hasOverviewNav = meta && meta.template === 'section'
+  const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
   return (
     <Frame
-      dark={darkMode}
+      colorSchemeKey={colorSchemeKey}
       raw
       // Meta tags for a focus comment are rendered in Discussion/Commments.js
       meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
@@ -445,11 +447,9 @@ const ArticlePage = ({
                       cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
                     >
                       {() => (
-                        <ColorContext.Provider
-                          value={darkMode && colors.negative}
-                        >
+                        <ColorContextProvider colorSchemeKey={colorSchemeKey}>
                           {renderSchema(splitContent.main)}
-                        </ColorContext.Provider>
+                        </ColorContextProvider>
                       )}
                     </SSRCachingBoundary>
                   </article>

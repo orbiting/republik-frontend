@@ -9,7 +9,6 @@ import HrefLink from '../Link/Href'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 
 import {
-  colors,
   Breakout,
   Center,
   Editorial,
@@ -17,7 +16,8 @@ import {
   TeaserFrontTileHeadline,
   TeaserFrontTileRow,
   TeaserFrontCredit,
-  Interaction
+  Interaction,
+  useColorContext
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -40,6 +40,7 @@ const styles = {
 }
 
 const Tile = ({ t, episode, index, prev, next }) => {
+  const [colorScheme] = useColorContext()
   const date = episode && episode.publishDate
   const label = episode && episode.label
   const meta = episode && episode.document && episode.document.meta
@@ -53,10 +54,12 @@ const Tile = ({ t, episode, index, prev, next }) => {
     </TeaserFrontTileHeadline.Editorial>
   )
 
+  // ToDo: figure solution to use css rules
   return (
     <Link href={path}>
       <TeaserFrontTile
-        color={path ? colors.text : colors.lightText}
+        bgColor={colorScheme.default}
+        color={path ? colorScheme.text : colorScheme.lightText}
         image={image}
         align={image ? 'top' : undefined}
       >

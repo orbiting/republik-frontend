@@ -7,7 +7,9 @@ import {
   colors,
   mediaQueries,
   ColorContext,
-  HeaderHeightProvider
+  HeaderHeightProvider,
+  ColorContextProvider,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { Router } from '../../lib/routes'
@@ -43,9 +45,13 @@ import {
 let routeChangeStarted
 
 const Header = ({
+  isAnyNavExpanded,
+  setIsAnyNavExpanded,
+  headerOffset,
+  setHeaderOffset,
+  hasSecondaryNav,
   inNativeApp,
   inNativeIOSApp,
-  dark: darkProp,
   me,
   t,
   secondaryNav,
@@ -53,17 +59,14 @@ const Header = ({
   formatColor,
   pullable = true,
   hasOverviewNav,
-  children,
-  cover,
   stickySecondaryNav
 }) => {
-  const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
-  const [expandedNav, setExpandedNav] = useState(null)
+  const [colorScheme] = useColorContext()
   const [isMobile, setIsMobile] = useState()
   const [scrollableHeaderHeight, setScrollableHeaderHeight] = useState(
     HEADER_HEIGHT_MOBILE
   )
-  const [headerOffset, setHeaderOffset] = useState(0)
+  const [expandedNav, setExpandedNav] = useState(null)
   const [userNavExpanded, setUserNavExpanded] = useState(false)
 
   const fixedRef = useRef()
@@ -71,9 +74,10 @@ const Header = ({
   const lastY = useRef()
   const lastDiff = useRef()
 
-  const dark = darkProp && !isAnyNavExpanded
-  const textFill = dark ? colors.negative.text : colors.text
-  const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
+  // ToDo use CSS rules for SVGs
+  const textFill = colorScheme.text
+  const logoFill = colorScheme.logo || colorScheme.text
+
   const backButton = !hasOverviewNav && inNativeIOSApp && me
 
   const toggleExpanded = target => {
@@ -157,6 +161,165 @@ const Header = ({
     }
   }, [isAnyNavExpanded, scrollableHeaderHeight, isMobile])
 
+  const hasStickySecondary = hasSecondaryNav && stickySecondaryNav
+  useEffect(() => {
+    setScrollableHeaderHeight(
+      (isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) +
+        (hasSecondaryNav && !hasStickySecondary ? SUBHEADER_HEIGHT : 0) +
+        // scroll away thin HLine
+        (formatColor || hasStickySecondary ? 0 : 1)
+    )
+  }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
+
+  return (
+    <>
+      <div
+        {...styles.navBar}
+        style={{
+          backgroundColor: colorScheme.default
+        }}
+        ref={fixedRef}
+      >
+        <div {...styles.primary}>
+          <div {...styles.navBarItem}>
+            <div {...styles.leftBarItem}>
+              {backButton && (
+                <a
+                  {...styles.back}
+                  style={{
+                    opacity: 1,
+                    pointerEvents: backButton ? undefined : 'none',
+                    href: '#back'
+                  }}
+                  title={t('header/back')}
+                  onClick={e => {
+                    e.preventDefault()
+                    if (backButton) {
+                      routeChangeStarted = false
+                      window.history.back()
+                      setTimeout(() => {
+                        if (!routeChangeStarted) {
+                          Router.replaceRoute('index').then(() =>
+                            window.scrollTo(0, 0)
+                          )
+                        }
+                      }, 200)
+                    }
+                  }}
+                >
+                  <BackIcon size={24} fill={textFill} />
+                </a>
+              )}
+              <User
+                me={me}
+                backButton={backButton}
+                isMobile={isMobile}
+                id='user'
+                title={t(
+                  `header/nav/user/${
+                    expandedNav === 'user' ? 'close' : 'open'
+                  }/aria`
+                )}
+                onClick={() =>
+                  !isAnyNavExpanded
+                    ? toggleExpanded('user')
+                    : expandedNav !== 'user'
+                    ? openUserNavOverMainNav()
+                    : closeHandler()
+                }
+              />
+              {me && <NotificationIcon fill={textFill} />}
+            </div>
+          </div>
+          <div {...styles.navBarItem}>
+            <a
+              {...styles.logo}
+              aria-label={t('header/logo/magazine/aria')}
+              href={'/'}
+              onClick={goTo('/', 'index')}
+            >
+              <Logo fill={logoFill} />
+            </a>
+          </div>
+          <div {...styles.navBarItem}>
+            <div {...styles.rightBarItem}>
+              <Toggle
+                expanded={isAnyNavExpanded}
+                title={t(
+                  `header/nav/${expandedNav === 'main' ? 'close' : 'open'}/aria`
+                )}
+                id='main'
+                onClick={() =>
+                  isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <SecondaryNav
+          secondaryNav={secondaryNav}
+          router={router}
+          formatColor={formatColor}
+          hasOverviewNav={hasOverviewNav}
+          isSecondarySticky={headerOffset === -scrollableHeaderHeight}
+        />
+        <HLine formatColor={formatColor} />
+      </div>
+      <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
+        <NavPopover
+          me={me}
+          router={router}
+          expanded={expandedNav === 'main'}
+          closeHandler={closeHandler}
+          onSearchSubmit={closeHandler}
+        />
+      </Popover>
+      <Popover
+        formatColor={formatColor}
+        expanded={userNavExpanded || expandedNav === 'user'}
+      >
+        <UserNavPopover
+          me={me}
+          router={router}
+          expanded={userNavExpanded || expandedNav === 'user'}
+          closeHandler={closeHandler}
+        />
+      </Popover>
+      <LoadingBar
+        onRouteChangeStart={() => {
+          routeChangeStarted = true
+        }}
+      />
+      {inNativeApp && pullable && (
+        <Pullable
+          onRefresh={() => {
+            if (inNativeIOSApp) {
+              postMessage({ type: 'haptic', payload: { type: 'impact' } })
+            }
+            // give the browser 3 frames (1000/30fps) to start animating the spinner
+            setTimeout(() => {
+              window.location.reload(true)
+            }, 33 * 3)
+          }}
+        />
+      )}
+    </>
+  )
+}
+
+const HeaderWithContext = props => {
+  const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
+  const [headerOffset, setHeaderOffset] = useState(0)
+
+  const {
+    cover,
+    children,
+    hasOverviewNav,
+    secondaryNav,
+    inNativeIOSApp,
+    colorSchemeKey: colorSchemeKeyProp
+  } = props
+
   const hasSecondaryNav = hasOverviewNav || secondaryNav
   const headerConfig = useMemo(() => {
     return [
@@ -177,156 +340,21 @@ const Header = ({
     ]
   }, [hasSecondaryNav, headerOffset])
 
-  const hasStickySecondary = hasSecondaryNav && stickySecondaryNav
-  useEffect(() => {
-    setScrollableHeaderHeight(
-      (isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) +
-        (hasSecondaryNav && !hasStickySecondary ? SUBHEADER_HEIGHT : 0) +
-        // scroll away thin HLine
-        (formatColor || hasStickySecondary ? 0 : 1)
-    )
-  }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
+  const colorSchemeKey =
+    inNativeIOSApp || isAnyNavExpanded ? 'bright' : colorSchemeKeyProp
 
   return (
     <HeaderHeightProvider config={headerConfig}>
-      <ColorContext.Provider value={dark ? colors.negative : colors}>
-        <div
-          {...styles.navBar}
-          style={{
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
-          }}
-          ref={fixedRef}
-        >
-          <div {...styles.primary}>
-            <div {...styles.navBarItem}>
-              <div {...styles.leftBarItem}>
-                {backButton && (
-                  <a
-                    {...styles.back}
-                    style={{
-                      opacity: 1,
-                      pointerEvents: backButton ? undefined : 'none',
-                      href: '#back'
-                    }}
-                    title={t('header/back')}
-                    onClick={e => {
-                      e.preventDefault()
-                      if (backButton) {
-                        routeChangeStarted = false
-                        window.history.back()
-                        setTimeout(() => {
-                          if (!routeChangeStarted) {
-                            Router.replaceRoute('index').then(() =>
-                              window.scrollTo(0, 0)
-                            )
-                          }
-                        }, 200)
-                      }
-                    }}
-                  >
-                    <BackIcon size={24} fill={textFill} />
-                  </a>
-                )}
-                <User
-                  dark={dark}
-                  me={me}
-                  backButton={backButton}
-                  isMobile={isMobile}
-                  id='user'
-                  title={t(
-                    `header/nav/user/${
-                      expandedNav === 'user' ? 'close' : 'open'
-                    }/aria`
-                  )}
-                  onClick={() =>
-                    !isAnyNavExpanded
-                      ? toggleExpanded('user')
-                      : expandedNav !== 'user'
-                      ? openUserNavOverMainNav()
-                      : closeHandler()
-                  }
-                />
-                {me && <NotificationIcon fill={textFill} />}
-              </div>
-            </div>
-            <div {...styles.navBarItem}>
-              <a
-                {...styles.logo}
-                aria-label={t('header/logo/magazine/aria')}
-                href={'/'}
-                onClick={goTo('/', 'index')}
-              >
-                <Logo fill={logoFill} />
-              </a>
-            </div>
-            <div {...styles.navBarItem}>
-              <div {...styles.rightBarItem}>
-                <Toggle
-                  expanded={isAnyNavExpanded}
-                  dark={dark}
-                  title={t(
-                    `header/nav/${
-                      expandedNav === 'main' ? 'close' : 'open'
-                    }/aria`
-                  )}
-                  id='main'
-                  onClick={() =>
-                    isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
-                  }
-                />
-              </div>
-            </div>
-          </div>
-          <SecondaryNav
-            secondaryNav={secondaryNav}
-            router={router}
-            dark={dark}
-            formatColor={formatColor}
-            hasOverviewNav={hasOverviewNav}
-            isSecondarySticky={headerOffset === -scrollableHeaderHeight}
-          />
-          <HLine formatColor={formatColor} dark={dark} />
-        </div>
-        <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
-          <NavPopover
-            me={me}
-            router={router}
-            expanded={expandedNav === 'main'}
-            closeHandler={closeHandler}
-            onSearchSubmit={closeHandler}
-          />
-        </Popover>
-        <Popover
-          formatColor={formatColor}
-          expanded={userNavExpanded || expandedNav === 'user'}
-        >
-          <UserNavPopover
-            me={me}
-            router={router}
-            expanded={userNavExpanded || expandedNav === 'user'}
-            closeHandler={closeHandler}
-          />
-        </Popover>
-        <LoadingBar
-          onRouteChangeStart={() => {
-            routeChangeStarted = true
-          }}
+      <ColorContextProvider colorSchemeKey={colorSchemeKey}>
+        <Header
+          {...props}
+          hasSecondaryNav={hasSecondaryNav}
+          isAnyNavExpanded={isAnyNavExpanded}
+          setIsAnyNavExpanded={setIsAnyNavExpanded}
+          headerOffset={headerOffset}
+          setHeaderOffset={setHeaderOffset}
         />
-        {inNativeApp && pullable && (
-          <Pullable
-            dark={dark}
-            onRefresh={() => {
-              if (inNativeIOSApp) {
-                postMessage({ type: 'haptic', payload: { type: 'impact' } })
-              }
-              // give the browser 3 frames (1000/30fps) to start animating the spinner
-              setTimeout(() => {
-                window.location.reload(true)
-              }, 33 * 3)
-            }}
-          />
-        )}
-      </ColorContext.Provider>
+      </ColorContextProvider>
       {cover}
       {children}
     </HeaderHeightProvider>
@@ -338,7 +366,7 @@ export default compose(
   withMembership,
   withRouter,
   withInNativeApp
-)(Header)
+)(HeaderWithContext)
 
 const styles = {
   navBar: css({

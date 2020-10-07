@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react'
+import React, { useRef, useEffect, useState, useMemo, Fragment } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import {
@@ -7,7 +7,8 @@ import {
   mediaQueries,
   Center,
   Button,
-  Loader
+  Loader,
+  plainButtonRule
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -22,6 +23,7 @@ import NavLink, { NavA } from './NavLink'
 import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
 import { registerQueryVariables } from '../../Bookmarks/queries'
+import { useColorSchemeKey } from '../../ColorScheme/lib'
 
 const SignoutLink = ({ children, ...props }) => (
   <div {...styles.signout}>
@@ -55,6 +57,9 @@ const UserNav = ({
       window.removeEventListener('resize', measureLeftPadding)
     }
   }, [])
+
+  const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
+
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
   const hasProgress = !!me?.progressConsent
@@ -81,6 +86,23 @@ const UserNav = ({
         <div ref={containerRef}>
           {hasExpandedRef.current && (
             <>
+              <div style={{ marginBottom: 10 }}>
+                Colors:{' '}
+                {[undefined, 'light', 'dark'].map(key => (
+                  <Fragment key={key || 'auto'}>
+                    <button
+                      {...plainButtonRule}
+                      style={{
+                        textDecoration:
+                          key === colorSchemeKey ? 'underline' : undefined
+                      }}
+                      onClick={() => setColorSchemeKey(key)}
+                    >
+                      {key || 'auto'}
+                    </button>{' '}
+                  </Fragment>
+                ))}
+              </div>
               {!me && (
                 <>
                   <div {...styles.signInBlock}>

@@ -215,7 +215,8 @@ const ArticlePage = ({
   const documentId = useMemo(() => article && article?.id, [article])
   const repoId = useMemo(() => article && article.repoId, [article])
   const isEditorialNewsletter = meta && meta.template === 'editorialNewsletter'
-  const actionBar = article && (
+  const disableActionBar = meta && meta.disableActionBar
+  const actionBar = article && !disableActionBar && (
     <ActionBar mode='article-top' document={article} />
   )
   const actionBarEnd = actionBar

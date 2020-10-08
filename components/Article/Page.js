@@ -348,6 +348,7 @@ const ArticlePage = ({
             isMember &&
             !isSection &&
             !isFormat &&
+            !isPage &&
             meta.template !== 'discussion'
               ? Progress
               : EmptyComponent

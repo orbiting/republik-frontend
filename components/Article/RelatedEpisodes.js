@@ -54,12 +54,14 @@ const Tile = ({ t, episode, index, prev, next }) => {
     </TeaserFrontTileHeadline.Editorial>
   )
 
-  // ToDo: figure solution to use css rules
   return (
     <Link href={path}>
       <TeaserFrontTile
-        bgColor={colorScheme.default}
-        color={path ? colorScheme.text : colorScheme.lightText}
+        attributes={{
+          ...colorScheme.rules[path ? 'textColor' : 'lightTextColor']
+        }}
+        bgColor='inherit'
+        color='inherit'
         image={image}
         align={image ? 'top' : undefined}
       >

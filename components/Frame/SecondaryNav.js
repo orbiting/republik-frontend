@@ -72,16 +72,15 @@ export const SecondaryNav = ({
       {hasOverviewNav ? (
         <div
           {...styles.miniNav}
+          {...colorScheme.rules.dividerBorderColor}
+          {...colorScheme.rules.defaultBackgroundColor}
           onTouchStart={e => {
             // prevent touchstart from bubbling to Pullable
             e.stopPropagation()
           }}
           style={{
-            // todo: use CSS rule
-            borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
-              colorScheme.divider
-            }`,
-            backgroundColor: colorScheme.default
+            borderTopWidth: isSecondarySticky ? 0 : 1,
+            borderTopStyle: 'solid'
           }}
         >
           <NavLink
@@ -132,14 +131,13 @@ export const SecondaryNav = ({
         secondaryNav && (
           <div
             {...styles.secondaryNav}
+            {...colorScheme.rules.textColor}
+            {...colorScheme.rules.dividerBorderColor}
+            {...colorScheme.rules.defaultBackgroundColor}
             style={{
-              // todo: use CSS rule
-              borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
-                colorScheme.divider
-              }`,
-              transition: 'opacity 0.2s ease-out',
-              color: colorScheme.text,
-              backgroundColor: colorScheme.default
+              borderTopWidth: isSecondarySticky ? 0 : 1,
+              borderTopStyle: 'solid',
+              transition: 'opacity 0.2s ease-out'
             }}
           >
             {secondaryNav}

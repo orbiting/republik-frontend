@@ -74,10 +74,6 @@ const Header = ({
   const lastY = useRef()
   const lastDiff = useRef()
 
-  // ToDo use CSS rules for SVGs
-  const textFill = colorScheme.text
-  const logoFill = colorScheme.logo || colorScheme.text
-
   const backButton = !hasOverviewNav && inNativeIOSApp && me
 
   const toggleExpanded = target => {
@@ -175,9 +171,7 @@ const Header = ({
     <>
       <div
         {...styles.navBar}
-        style={{
-          backgroundColor: colorScheme.default
-        }}
+        {...colorScheme.rules.defaultBackgroundColor}
         ref={fixedRef}
       >
         <div {...styles.primary}>
@@ -207,7 +201,7 @@ const Header = ({
                     }
                   }}
                 >
-                  <BackIcon size={24} fill={textFill} />
+                  <BackIcon size={24} {...colorScheme.rules.textFill} />
                 </a>
               )}
               <User
@@ -228,7 +222,7 @@ const Header = ({
                     : closeHandler()
                 }
               />
-              {me && <NotificationIcon fill={textFill} />}
+              {me && <NotificationIcon {...colorScheme.rules.textFill} />}
             </div>
           </div>
           <div {...styles.navBarItem}>
@@ -238,7 +232,7 @@ const Header = ({
               href={'/'}
               onClick={goTo('/', 'index')}
             >
-              <Logo fill={logoFill} />
+              <Logo />
             </a>
           </div>
           <div {...styles.navBarItem}>

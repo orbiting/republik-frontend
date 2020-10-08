@@ -4,7 +4,6 @@ import { css } from 'glamor'
 import { Link } from '../../../lib/routes'
 
 import {
-  colors,
   fontStyles,
   mediaQueries,
   useColorContext
@@ -13,7 +12,6 @@ import {
 const styles = {
   link: css({
     textDecoration: 'none',
-    color: colors.text,
     '@media (hover)': {
       ':hover': {
         textDecoration: 'underline',
@@ -88,17 +86,19 @@ const NavLink = ({
   title,
   large
 }) => {
-  const [colorScheme] = useColorContext()
-  const activeStyle = minifeed && {
-    ...fontStyles.sansSerifMedium14,
-    lineHeight: '16px',
-    marginTop: -1,
-    color: minifeed ? hoverColor : colorScheme.text
-  }
   const isActive =
     active &&
     active.route === route &&
     Object.keys(params).every(key => params[key] === active.params[key])
+  const activeStyle =
+    isActive && minifeed
+      ? {
+          ...fontStyles.sansSerifMedium14,
+          lineHeight: '16px',
+          marginTop: -1,
+          color: hoverColor
+        }
+      : undefined
 
   return (
     <Link
@@ -109,7 +109,7 @@ const NavLink = ({
     >
       <NavA
         title={title}
-        style={isActive ? activeStyle : undefined}
+        style={activeStyle}
         inline={inline}
         onClick={
           !minifeed

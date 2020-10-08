@@ -20,7 +20,6 @@ const SIZE = 28
 
 const Toggle = ({ expanded, onClick, ...props }) => {
   const [colorScheme] = useColorContext()
-  // ToDo: use CSS rule for SVGs
   return (
     <button {...styles.menuToggle} onClick={onClick} {...props}>
       <SearchMenuIcon
@@ -28,14 +27,14 @@ const Toggle = ({ expanded, onClick, ...props }) => {
           opacity: expanded ? 0 : 1,
           transition: `opacity ${TRANSITION_MS}ms ease-out`
         }}
-        fill={colorScheme.text}
+        {...colorScheme.rules.textFill}
         size={SIZE}
       />
       <MdClose
         style={{ opacity: expanded ? 1 : 0 }}
         {...styles.closeButton}
+        {...colorScheme.rules.textFill}
         size={SIZE}
-        fill={colorScheme.text}
       />
     </button>
   )

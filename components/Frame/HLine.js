@@ -6,13 +6,14 @@ import { ZINDEX_POPOVER } from '../constants'
 
 const HLine = ({ formatColor }) => {
   const [colorScheme] = useColorContext()
-  const color = formatColor || colorScheme.divider
   return (
     <hr
       {...styles.hr}
+      {...colorScheme.rules.dividerBackgroundColor}
+      {...colorScheme.rules.dividerColor}
       style={{
-        color,
-        backgroundColor: color,
+        color: formatColor,
+        backgroundColor: formatColor,
         height: formatColor ? 3 : 1
       }}
     />

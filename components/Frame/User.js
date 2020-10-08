@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import {
-  colors,
   mediaQueries,
   fontStyles,
   plainButtonRule,
@@ -45,12 +44,9 @@ const User = ({ t, me, title, backButton, onClick, isMobile }) => {
             <img src={me.portrait} {...styles.portrait} />
           ) : (
             <span
-              style={{
-                // ToDo: use css
-                backgroundColor: colorScheme.divider,
-                color: colorScheme.text
-              }}
               {...styles.portrait}
+              {...colorScheme.rules.hoverBackgroundColor}
+              {...colorScheme.rules.textColor}
             >
               {getInitials(me)}
             </span>
@@ -60,7 +56,7 @@ const User = ({ t, me, title, backButton, onClick, isMobile }) => {
             <span {...styles.anonymous}>
               <MdAccountBox
                 size={isMobile ? BUTTON_SIZE_MOBILE : BUTTON_SIZE}
-                fill={colorScheme.text}
+                {...colorScheme.rules.textFill}
               />
             </span>
             <span {...styles.label}>{t('header/signin')}</span>

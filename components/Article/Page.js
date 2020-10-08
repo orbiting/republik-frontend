@@ -365,6 +365,12 @@ const ArticlePage = ({
 
           const format = meta.format
 
+          const showNewsletterSignup =
+            !me &&
+            isEditorialNewsletter &&
+            !!newsletterMeta &&
+            newsletterMeta.free
+
           return (
             <>
               <FontSizeSync />
@@ -411,36 +417,37 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        <Center>
-                          <div
-                            ref={actionBarRef}
-                            {...styles.actionBarContainer}
-                            style={{
-                              textAlign: titleAlign,
-                              marginBottom: isEditorialNewsletter
-                                ? 0
-                                : undefined
-                            }}
-                          >
-                            {actionBar}
-                          </div>
-                          {isSection && (
-                            <Breakout size='breakout'>
-                              <SectionNav
-                                color={sectionColor}
-                                linkedDocuments={article.linkedDocuments}
-                              />
-                            </Breakout>
-                          )}
-                          {!me &&
-                            isEditorialNewsletter &&
-                            !!newsletterMeta &&
-                            newsletterMeta.free && (
+                        {(actionBar || isSection || showNewsletterSignup) && (
+                          <Center>
+                            {actionBar && (
+                              <div
+                                ref={actionBarRef}
+                                {...styles.actionBarContainer}
+                                style={{
+                                  textAlign: titleAlign,
+                                  marginBottom: isEditorialNewsletter
+                                    ? 0
+                                    : undefined
+                                }}
+                              >
+                                {actionBar}
+                              </div>
+                            )}
+                            {isSection && (
+                              <Breakout size='breakout'>
+                                <SectionNav
+                                  color={sectionColor}
+                                  linkedDocuments={article.linkedDocuments}
+                                />
+                              </Breakout>
+                            )}
+                            {showNewsletterSignup && (
                               <div style={{ marginTop: 10 }}>
                                 <NewsletterSignUp {...newsletterMeta} />
                               </div>
                             )}
-                        </Center>
+                          </Center>
+                        )}
                         {!suppressFirstPayNote && payNote}
                       </div>
                     )}

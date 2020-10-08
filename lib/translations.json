@@ -1,5 +1,5 @@
 {
-  "updated": "2020-10-08T12:22:42.396Z",
+  "updated": "2020-10-08T13:12:11.728Z",
   "title": "live",
   "data": [
     {
@@ -437,22 +437,6 @@
     {
       "key": "sections/description",
       "value": "Hier finden Sie alles, was regelmässig in der Republik auftaucht: Briefings, Kolumnen, Formate, Audio und Kleinzeug."
-    },
-    {
-      "key": "crew/pageTitle",
-      "value": "Crew – Republik"
-    },
-    {
-      "key": "crew/title",
-      "value": "Wer steckt dahinter?"
-    },
-    {
-      "key": "crew/description",
-      "value": "Die Crew stellt sich vor – jetzt Mitglied werden."
-    },
-    {
-      "key": "crew/lead",
-      "value": "Zur Crew gehören:"
     },
     {
       "key": "etiquette/pageTitle",

@@ -329,6 +329,7 @@ const ArticlePage = ({
 
           const isFormat = meta.template === 'format'
           const isSection = meta.template === 'section'
+          const isPage = meta.template === 'page'
 
           const hasNewsletterUtms =
             router.query.utm_source && router.query.utm_source === 'newsletter'
@@ -545,7 +546,7 @@ const ArticlePage = ({
                 />
               )}
               {isFormat && <FormatFeed formatId={article.repoId} />}
-              {(hasActiveMembership || isFormat) && (
+              {(hasActiveMembership || isFormat || isPage) && (
                 <>
                   <br />
                   <br />

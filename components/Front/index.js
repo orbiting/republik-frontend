@@ -103,8 +103,7 @@ const Front = ({
   serverContext,
   isEditor,
   finite,
-  hasOverviewNav,
-  isTester
+  hasOverviewNav
 }) => {
   const meta = front && {
     ...front.meta,
@@ -129,10 +128,9 @@ const Front = ({
         DiscussionLink,
         ...withData,
         ActionBar,
-        showMyMagazine: isTester,
         t
       }),
-    [isTester]
+    []
   )
 
   const MissingNode = isEditor ? undefined : ({ children }) => children

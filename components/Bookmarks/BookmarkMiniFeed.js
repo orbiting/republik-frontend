@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import { colors, fontStyles, mediaQueries, Loader } from '@project-r/styleguide'
@@ -7,14 +7,9 @@ import BookmarkButton from '../ActionBar/BookmarkButton'
 import UserProgress from '../ActionBar/UserProgress'
 import Link from '../Link/Path'
 
-import { getCollectionItems, registerQueryVariables } from './queries'
-
-const variables = {
-  collections: ['bookmarks']
-}
+import { getCollectionItems } from './queries'
 
 const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
-  registerQueryVariables(variables)
   return (
     <Loader
       style={{ minHeight: 130 }}
@@ -150,9 +145,9 @@ const styles = {
 
 export default compose(
   graphql(getCollectionItems, {
-    options: {
+    options: props => ({
       fetchPolicy: 'cache-and-network',
-      variables
-    }
+      variables: props.variables
+    })
   })
 )(BookmarkMiniFeed)

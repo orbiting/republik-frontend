@@ -21,6 +21,7 @@ export const getCollectionItems = gql`
     $cursor: String
     $collections: [String!]!
     $progress: ProgressState
+    $lastDays: Int
   ) {
     me {
       id
@@ -30,6 +31,7 @@ export const getCollectionItems = gql`
         after: $cursor
         progress: $progress
         uniqueDocuments: true
+        lastDays: $lastDays
       ) {
         totalCount
         pageInfo {

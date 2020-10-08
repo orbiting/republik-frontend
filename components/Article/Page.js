@@ -12,7 +12,6 @@ import {
   colors,
   Interaction,
   mediaQueries,
-  LazyLoad,
   TitleBlock,
   Editorial
 } from '@project-r/styleguide'
@@ -62,7 +61,6 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
-import SurviveStatus from '../Crowdfunding/SurviveStatus'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
 
 const schemaCreators = {
@@ -522,16 +520,6 @@ const ArticlePage = ({
                   </>
                 </Center>
               )}
-              {false &&
-                !suppressPayNotes &&
-                !darkMode &&
-                !(customPayNotes && customPayNotes.length) && (
-                  <Center>
-                    <LazyLoad style={{ display: 'block', minHeight: 120 }}>
-                      <SurviveStatus />
-                    </LazyLoad>
-                  </Center>
-                )}
               {isMember && episodes && (
                 <RelatedEpisodes
                   title={series.title}

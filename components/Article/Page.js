@@ -23,6 +23,7 @@ import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 import createSectionSchema from '@project-r/styleguide/lib/templates/Section'
+import createPageSchema from '@project-r/styleguide/lib/templates/Page'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
 
 import ActionBarOverlay from './ActionBarOverlay'
@@ -72,7 +73,8 @@ const schemaCreators = {
   dossier: createDossierSchema,
   discussion: createDiscussionSchema,
   editorialNewsletter: createNewsletterSchema,
-  section: createSectionSchema
+  section: createSectionSchema,
+  page: createPageSchema
 }
 
 const dynamicComponentRequire = createRequire().alias({
@@ -213,7 +215,8 @@ const ArticlePage = ({
   const documentId = useMemo(() => article && article?.id, [article])
   const repoId = useMemo(() => article && article.repoId, [article])
   const isEditorialNewsletter = meta && meta.template === 'editorialNewsletter'
-  const actionBar = article && (
+  const disableActionBar = meta && meta.disableActionBar
+  const actionBar = article && !disableActionBar && (
     <ActionBar mode='article-top' document={article} />
   )
   const actionBarEnd = actionBar
@@ -362,6 +365,12 @@ const ArticlePage = ({
 
           const format = meta.format
 
+          const showNewsletterSignup =
+            !me &&
+            isEditorialNewsletter &&
+            !!newsletterMeta &&
+            newsletterMeta.free
+
           return (
             <>
               <FontSizeSync />
@@ -408,36 +417,37 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        <Center>
-                          <div
-                            ref={actionBarRef}
-                            {...styles.actionBarContainer}
-                            style={{
-                              textAlign: titleAlign,
-                              marginBottom: isEditorialNewsletter
-                                ? 0
-                                : undefined
-                            }}
-                          >
-                            {actionBar}
-                          </div>
-                          {isSection && (
-                            <Breakout size='breakout'>
-                              <SectionNav
-                                color={sectionColor}
-                                linkedDocuments={article.linkedDocuments}
-                              />
-                            </Breakout>
-                          )}
-                          {!me &&
-                            isEditorialNewsletter &&
-                            !!newsletterMeta &&
-                            newsletterMeta.free && (
+                        {(actionBar || isSection || showNewsletterSignup) && (
+                          <Center>
+                            {actionBar && (
+                              <div
+                                ref={actionBarRef}
+                                {...styles.actionBarContainer}
+                                style={{
+                                  textAlign: titleAlign,
+                                  marginBottom: isEditorialNewsletter
+                                    ? 0
+                                    : undefined
+                                }}
+                              >
+                                {actionBar}
+                              </div>
+                            )}
+                            {isSection && (
+                              <Breakout size='breakout'>
+                                <SectionNav
+                                  color={sectionColor}
+                                  linkedDocuments={article.linkedDocuments}
+                                />
+                              </Breakout>
+                            )}
+                            {showNewsletterSignup && (
                               <div style={{ marginTop: 10 }}>
                                 <NewsletterSignUp {...newsletterMeta} />
                               </div>
                             )}
-                        </Center>
+                          </Center>
+                        )}
                         {!suppressFirstPayNote && payNote}
                       </div>
                     )}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ size = 24, fill }) => (
+const Icon = ({ size = 24, fill }) => (
   <svg width={size} height={size} viewBox='0 0 24 24'>
     <path
       fill={fill}
@@ -8,3 +8,4 @@ export default ({ size = 24, fill }) => (
     />
   </svg>
 )
+export default Icon

@@ -13,7 +13,7 @@ const FILTER_VALUE_PARAM = 'fvalue'
 const SORT_KEY_PARAM = 'skey'
 const SORT_DIRECTION_PARAM = 'sdir'
 
-export default WrappedComponent =>
+const WrapperRouter = WrappedComponent =>
   compose(withRouter)(({ router: { query }, ...props }) => {
     const urlQuery = query[QUERY_PARAM]
     const urlFilter = {
@@ -117,3 +117,5 @@ export default WrappedComponent =>
       />
     )
   })
+
+export default WrapperRouter

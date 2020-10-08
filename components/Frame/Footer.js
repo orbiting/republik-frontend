@@ -8,6 +8,7 @@ import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
 import { Link, Router } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
+import HrefLink from '../Link/Href'
 
 import {
   BrandMark,
@@ -177,9 +178,9 @@ class Footer extends Component {
                 <a>{t('footer/about')}</a>
               </LazyLink>
               <br />
-              <LazyLink route='jobs'>
-                <a>{t('footer/jobs')}</a>
-              </LazyLink>
+              <HrefLink href='/jobs' passHref>
+                <a href='/jobs'>{t('footer/jobs')}</a>
+              </HrefLink>
               <br />
               <LazyLink route='community'>
                 <a>{t('nav/community')}</a>

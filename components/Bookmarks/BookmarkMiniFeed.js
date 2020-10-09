@@ -1,7 +1,12 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
-import { colors, fontStyles, mediaQueries, Loader } from '@project-r/styleguide'
+import {
+  fontStyles,
+  mediaQueries,
+  Loader,
+  useColorContext
+} from '@project-r/styleguide'
 
 import BookmarkButton from '../ActionBar/BookmarkButton'
 import UserProgress from '../ActionBar/UserProgress'
@@ -10,6 +15,7 @@ import Link from '../Link/Path'
 import { getCollectionItems } from './queries'
 
 const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
+  const [colorScheme] = useColorContext()
   return (
     <Loader
       style={{ minHeight: 130 }}
@@ -39,12 +45,17 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                   path
                 } = node.document.meta
                 return (
-                  <div {...styles.tile} key={node.id}>
+                  <div
+                    {...styles.tile}
+                    {...colorScheme.rules.divider.borderColor}
+                    key={node.id}
+                  >
                     <div {...styles.tileHeadlineContainer}>
                       <Link path={path} passHref>
                         <a
                           onClick={() => closeHandler()}
                           {...styles.tileHeadline}
+                          {...colorScheme.rules.text.color}
                         >
                           {title.substring(0, 42).trim()}
                           {title.length >= 42 && <>&nbsp;…</>}
@@ -97,7 +108,7 @@ const styles = {
     flex: '0 0 150px',
     marginRight: 16,
     padding: '16px 8px 12px 8px',
-    border: `1px solid ${colors.divider}`,
+    border: `1px solid`,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -125,7 +136,6 @@ const styles = {
     alignItems: 'center'
   }),
   tileHeadline: css({
-    color: colors.text,
     textDecoration: 'none',
     cursor: 'pointer',
     textAlign: 'center',

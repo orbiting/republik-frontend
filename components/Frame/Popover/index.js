@@ -6,7 +6,7 @@ import {
   mediaQueries,
   fontFamilies,
   useBodyScrollLock,
-  colors
+  useColorContext
 } from '@project-r/styleguide'
 import {
   ZINDEX_POPOVER,
@@ -14,13 +14,38 @@ import {
   HEADER_HEIGHT_MOBILE
 } from '../../constants'
 
+const Popover = ({ expanded, id, children, dark }) => {
+  const [ref] = useBodyScrollLock(expanded)
+  const [colorScheme] = useColorContext()
+  return (
+    <div
+      {...css({
+        top: HEADER_HEIGHT_MOBILE,
+        height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
+        borderTop: `1px solid`,
+        [mediaQueries.mUp]: {
+          top: HEADER_HEIGHT,
+          height: `calc(100vh - ${HEADER_HEIGHT}px)`
+        }
+      })}
+      {...colorScheme.rules.divider.borderColor}
+      {...colorScheme.rules.default.backgroundColor}
+      {...menuStyle}
+      ref={ref}
+      id={id}
+      aria-expanded={expanded}
+    >
+      {children}
+    </div>
+  )
+}
+
 const menuStyle = css({
   position: 'fixed',
   zIndex: ZINDEX_POPOVER + 3,
   left: 0,
   right: 0,
   fontFamily: fontFamilies.sansSerifRegular,
-  backgroundColor: '#fff',
   flexDirection: 'column',
   opacity: 0,
   visibility: 'hidden',
@@ -33,31 +58,6 @@ const menuStyle = css({
   overflow: 'auto',
   WebkitOverflowScrolling: 'touch'
 })
-
-const Popover = ({ expanded, id, children, dark }) => {
-  const [ref] = useBodyScrollLock(expanded)
-  return (
-    <div
-      {...css({
-        top: HEADER_HEIGHT_MOBILE,
-        height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
-        borderTop: `1px solid ${
-          dark ? colors.negative.divider : colors.divider
-        }`,
-        [mediaQueries.mUp]: {
-          top: HEADER_HEIGHT,
-          height: `calc(100vh - ${HEADER_HEIGHT}px)`
-        }
-      })}
-      id={id}
-      aria-expanded={expanded}
-      {...menuStyle}
-      ref={ref}
-    >
-      {children}
-    </div>
-  )
-}
 
 Popover.propTypes = {
   expanded: PropTypes.bool

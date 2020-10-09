@@ -4,9 +4,7 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import {
   Logo,
-  colors,
   mediaQueries,
-  ColorContext,
   HeaderHeightProvider,
   ColorContextProvider,
   useColorContext
@@ -334,8 +332,7 @@ const HeaderWithContext = props => {
     ]
   }, [hasSecondaryNav, headerOffset])
 
-  const colorSchemeKey =
-    inNativeIOSApp || isAnyNavExpanded ? 'bright' : colorSchemeKeyProp
+  const colorSchemeKey = inNativeIOSApp ? 'bright' : colorSchemeKeyProp
 
   return (
     <HeaderHeightProvider config={headerConfig}>

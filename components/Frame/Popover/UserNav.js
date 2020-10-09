@@ -2,13 +2,13 @@ import React, { useRef, useEffect, useState, useMemo, Fragment } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import {
-  colors,
   fontStyles,
   mediaQueries,
   Center,
   Button,
   Loader,
-  plainButtonRule
+  plainButtonRule,
+  useColorContext
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -59,7 +59,7 @@ const UserNav = ({
   }, [])
 
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
-
+  const [colorScheme] = useColorContext()
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
   const hasProgress = !!me?.progressConsent
@@ -82,7 +82,7 @@ const UserNav = ({
   }
   return (
     <>
-      <Center {...styles.container} id='nav'>
+      <Center {...styles.container} {...colorScheme.rules.text.color} id='nav'>
         <div ref={containerRef}>
           {hasExpandedRef.current && (
             <>
@@ -177,7 +177,11 @@ const UserNav = ({
                       </NavLink>
                     </div>
                   </div>
-                  <hr {...styles.hr} />
+                  <hr
+                    {...styles.hr}
+                    {...colorScheme.rules.divider.color}
+                    {...colorScheme.rules.divider.backgroundColor}
+                  />
                   <div {...styles.navSection}>
                     <div {...styles.navLinks}>
                       {me.accessCampaigns.length > 0 && (
@@ -231,7 +235,6 @@ const UserNav = ({
 
 const styles = {
   container: css({
-    color: colors.text,
     [mediaQueries.mUp]: {
       marginTop: '40px'
     }
@@ -241,8 +244,6 @@ const styles = {
     display: 'block',
     border: 0,
     height: 1,
-    color: colors.divider,
-    backgroundColor: colors.divider,
     width: '100%'
   }),
   hrFixed: css({

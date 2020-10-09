@@ -2,7 +2,13 @@ import React, { useRef } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
-import { colors, mediaQueries, Center, Button } from '@project-r/styleguide'
+import {
+  colors,
+  mediaQueries,
+  Center,
+  Button,
+  useColorContext
+} from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import withT from '../../../lib/withT'
@@ -27,6 +33,7 @@ const Nav = ({
   isMember,
   onSearchSubmit
 }) => {
+  const [colorScheme] = useColorContext()
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
   if (expanded) {
@@ -89,7 +96,11 @@ const Nav = ({
                 </NavLink>
               </div>
             </div>
-            <hr {...styles.hr} />
+            <hr
+              {...styles.hr}
+              {...colorScheme.rules.divider.color}
+              {...colorScheme.rules.divider.backgroundColor}
+            />
             <div {...styles.navSection}>
               <Sections active={active} vertical closeHandler={closeHandler} />
               <NavLink
@@ -158,8 +169,6 @@ const styles = {
     display: 'block',
     border: 0,
     height: 1,
-    color: colors.divider,
-    backgroundColor: colors.divider,
     width: '100%'
   }),
   hrFixed: css({

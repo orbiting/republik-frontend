@@ -68,11 +68,11 @@ const StickySection = ({ children, label, hasSpaceAfter }) => {
 
   return (
     <section ref={sectionRef}>
-      <div {...style.header} {...colorScheme.rules.defaultBackgroundColor}>
+      <div {...style.header} {...colorScheme.rules.default.backgroundColor}>
         <div
           {...style.label}
-          {...colorScheme.rules.textBorderColor}
-          {...colorScheme.rules.defaultBackgroundColor}
+          {...colorScheme.rules.text.borderColor}
+          {...colorScheme.rules.default.backgroundColor}
           {...(sticky ? style.sticky : undefined)}
           style={{
             borderTopWidth: sticky ? 0 : 1,

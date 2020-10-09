@@ -171,7 +171,7 @@ const Header = ({
     <>
       <div
         {...styles.navBar}
-        {...colorScheme.rules.defaultBackgroundColor}
+        {...colorScheme.rules.default.backgroundColor}
         ref={fixedRef}
       >
         <div {...styles.primary}>
@@ -201,7 +201,7 @@ const Header = ({
                     }
                   }}
                 >
-                  <BackIcon size={24} {...colorScheme.rules.textFill} />
+                  <BackIcon size={24} {...colorScheme.rules.text.fill} />
                 </a>
               )}
               <User
@@ -222,7 +222,7 @@ const Header = ({
                     : closeHandler()
                 }
               />
-              {me && <NotificationIcon {...colorScheme.rules.textFill} />}
+              {me && <NotificationIcon {...colorScheme.rules.text.fill} />}
             </div>
           </div>
           <div {...styles.navBarItem}>

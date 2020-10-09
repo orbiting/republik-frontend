@@ -50,7 +50,7 @@ export const NavA = React.forwardRef(
       <a
         ref={ref}
         {...styles.link}
-        {...colorScheme.rules.textColor}
+        {...colorScheme.rules.text.color}
         {...(hoverColor &&
           css({
             transition: 'color 200ms ease-in-out',

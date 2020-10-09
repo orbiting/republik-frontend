@@ -27,13 +27,13 @@ const Toggle = ({ expanded, onClick, ...props }) => {
           opacity: expanded ? 0 : 1,
           transition: `opacity ${TRANSITION_MS}ms ease-out`
         }}
-        {...colorScheme.rules.textFill}
+        {...colorScheme.rules.text.fill}
         size={SIZE}
       />
       <MdClose
         style={{ opacity: expanded ? 1 : 0 }}
         {...styles.closeButton}
-        {...colorScheme.rules.textFill}
+        {...colorScheme.rules.text.fill}
         size={SIZE}
       />
     </button>

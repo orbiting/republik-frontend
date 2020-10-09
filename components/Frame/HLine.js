@@ -9,8 +9,8 @@ const HLine = ({ formatColor }) => {
   return (
     <hr
       {...styles.hr}
-      {...colorScheme.rules.dividerBackgroundColor}
-      {...colorScheme.rules.dividerColor}
+      {...colorScheme.rules.divider.backgroundColor}
+      {...colorScheme.rules.divider.color}
       style={{
         color: formatColor,
         backgroundColor: formatColor,

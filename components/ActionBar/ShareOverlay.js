@@ -15,14 +15,12 @@ import withT from '../../lib/withT'
 import ShareButtons from './ShareButtons'
 
 const ShareOverlay = ({
-  t,
   title,
   url,
   tweet,
   emailSubject,
   emailBody,
   emailAttachUrl,
-  fill,
   onClose
 }) => {
   return (

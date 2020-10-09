@@ -65,6 +65,19 @@ const SubscribedAuthors = ({
   data: { authors, myUserSubscriptions, loading, error }
 }) => {
   const [showAll, setShowAll] = useState(false)
+  const [
+    initiallySubscribedAuthorIds,
+    setInitiallySubscribedAuthorIds
+  ] = useState([])
+
+  useEffect(() => {
+    InitializeSubscribedAuthorIds(
+      authors,
+      myUserSubscriptions.subscribedTo.nodes,
+      setInitiallySubscribedAuthorIds
+    )
+  }, [])
+
   return (
     <Loader
       loading={loading}
@@ -82,7 +95,12 @@ const SubscribedAuthors = ({
             (author, index, all) =>
               all.findIndex(e => e.id === author.id) === index
           )
-          .sort((a, b) => descending(+a.active, +b.active))
+          .sort((a, b) =>
+            descending(
+              +initiallySubscribedAuthorIds.includes(a.object.id),
+              +initiallySubscribedAuthorIds.includes(b.object.id)
+            )
+          )
 
         const visibleAuthors =
           filteredAuthors && filteredAuthors.filter(author => author.active)
@@ -133,6 +151,11 @@ const SubscribedAuthors = ({
               <button
                 {...plainButtonRule}
                 onClick={() => {
+                  InitializeSubscribedAuthorIds(
+                    authors,
+                    myUserSubscriptions,
+                    setInitiallySubscribedAuthorIds
+                  )
                   setShowAll(!showAll)
                 }}
               >
@@ -153,3 +176,20 @@ const SubscribedAuthors = ({
 }
 
 export default compose(withT, graphql(myUserSubscriptions))(SubscribedAuthors)
+
+function InitializeSubscribedAuthorIds(
+  authors,
+  subscribedOtherAuthors,
+  setInitialySubscribedAuthorIds
+) {
+  const subscribedPromotedAuthors = authors.map(
+    author => author.user.subscribedByMe
+  )
+
+  const allSusbcribedAuthors = subscribedPromotedAuthors
+    .concat(subscribedOtherAuthors)
+    .filter(author => author.active)
+    .map(author => author.object.id)
+
+  setInitialySubscribedAuthorIds(allSusbcribedAuthors)
+}

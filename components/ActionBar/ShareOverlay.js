@@ -5,13 +5,12 @@ import {
   OverlayBody,
   OverlayToolbar,
   OverlayToolbarConfirm,
-  Interaction
+  Interaction,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { MdClose } from 'react-icons/md'
-
 import withT from '../../lib/withT'
-
 import ShareButtons from './ShareButtons'
 
 const ShareOverlay = ({
@@ -23,6 +22,7 @@ const ShareOverlay = ({
   emailAttachUrl,
   onClose
 }) => {
+  const [colorScheme] = useColorContext()
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
@@ -31,7 +31,7 @@ const ShareOverlay = ({
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} fill='#000' />}
+          label={<MdClose size={24} {...colorScheme.rules.text.fill} />}
         />
       </OverlayToolbar>
       <OverlayBody>

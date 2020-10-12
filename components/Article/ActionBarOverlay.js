@@ -49,6 +49,7 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
         zIndex: ZINDEX_HEADER
       }}
       {...colorScheme.rules.overlay.backgroundColor}
+      {...colorScheme.rules.overlay.boxShadow}
       {...styles.container}
     >
       {children}
@@ -62,7 +63,6 @@ const styles = {
     right: 0,
     padding: '12px 0',
     margin: '0 20px',
-    boxShadow: '0 0 15px rgba(0,0,0,0.5)',
     transition: 'opacity ease-out 0.3s',
     [mediaQueries.mUp]: {
       right: 16,

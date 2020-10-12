@@ -40,27 +40,37 @@ const styles = {
         marginTop: 0
       }
     }
+  }),
+  colorTransition: css({
+    transition: 'color 200ms ease-in-out',
+    transitionDelay: '33ms'
   })
 }
 
 export const NavA = React.forwardRef(
-  ({ inline, hoverColor, children, style, title, large, ...props }, ref) => {
+  (
+    {
+      inline,
+      hoverCSSColor,
+      hoverColor: hoverColorProp,
+      children,
+      style,
+      title,
+      large,
+      ...props
+    },
+    ref
+  ) => {
     const [colorScheme] = useColorContext()
+    const hoverColor = hoverCSSColor || hoverColorProp
     return (
       <a
         ref={ref}
         {...styles.link}
         {...colorScheme.rules.text.color}
+        {...(hoverColor && styles.colorTransition)}
         {...(hoverColor &&
-          css({
-            transition: 'color 200ms ease-in-out',
-            transitionDelay: '33ms',
-            '@media (hover)': {
-              ':hover': {
-                color: hoverColor
-              }
-            }
-          }))}
+          colorScheme.getColorRule('color', hoverColor, ':hover'))}
         {...(inline ? styles.inline : styles.block)}
         {...(large && styles.large)}
         style={style}
@@ -81,6 +91,7 @@ const NavLink = ({
   closeHandler,
   inline,
   hoverColor,
+  hoverCSSColor,
   prefetch = false,
   minifeed,
   title,
@@ -120,6 +131,7 @@ const NavLink = ({
             : undefined
         }
         hoverColor={hoverColor}
+        hoverCSSColor={hoverCSSColor}
         large={large}
       >
         {children}

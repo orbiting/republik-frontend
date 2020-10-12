@@ -118,7 +118,7 @@ export const SecondaryNav = ({
                 route={match.route}
                 params={match.params}
                 active={active}
-                hoverColor={colorScheme.formatColorMapper(color)}
+                hoverCSSColor={colorScheme.getFormatCSSColor(color)}
                 minifeed
                 title={section.title}
               >

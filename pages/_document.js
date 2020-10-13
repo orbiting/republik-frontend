@@ -1,5 +1,10 @@
 import React from 'react'
-import Document, { Head as DefaultHead, Main, NextScript } from 'next/document'
+import Document, {
+  Html,
+  Head as DefaultHead,
+  Main,
+  NextScript
+} from 'next/document'
 import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces, DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 
@@ -76,7 +81,7 @@ export default class MyDocument extends Document {
     const piwik = !!PIWIK_URL_BASE && !!PIWIK_SITE_ID
     const Head = nojs ? NoJsHead : DefaultHead
     return (
-      <html lang='de'>
+      <Html lang='de'>
         <Head>
           <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
           <style
@@ -163,7 +168,7 @@ export default class MyDocument extends Document {
             </noscript>
           )}
         </body>
-      </html>
+      </Html>
     )
   }
 }

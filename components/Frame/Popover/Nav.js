@@ -90,7 +90,7 @@ const Nav = ({
                   title={t('navbar/discussion')}
                   active={active}
                   closeHandler={closeHandler}
-                  hoverColor={colors.primary}
+                  formatColor={colors.primary}
                 >
                   {t('navbar/discussion')}
                 </NavLink>
@@ -108,7 +108,7 @@ const Nav = ({
                 title={t('navbar/sections')}
                 active={active}
                 closeHandler={closeHandler}
-                hoverColor={colors.primary}
+                formatColor={colors.primary}
               >
                 {t('navbar/sections')}
               </NavLink>

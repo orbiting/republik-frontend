@@ -103,7 +103,7 @@ export const SecondaryNav = ({
           <NavLink
             route='discussion'
             active={active}
-            hoverColor={colors.primary}
+            formatColor={colors.primary}
             minifeed
             title={t('navbar/discussion')}
           >
@@ -118,7 +118,7 @@ export const SecondaryNav = ({
                 route={match.route}
                 params={match.params}
                 active={active}
-                hoverCSSColor={colorScheme.getFormatCSSColor(color)}
+                formatColor={color}
                 minifeed
                 title={section.title}
               >
@@ -197,6 +197,11 @@ const styles = {
         [mediaQueries.mUp]: {
           paddingRight: 0
         }
+      },
+      '&.is-active': {
+        ...fontStyles.sansSerifMedium,
+        lineHeight: '16px',
+        marginTop: -1
       }
     },
     '@media print': {

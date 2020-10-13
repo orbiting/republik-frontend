@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 
 import { Link } from '../../../lib/routes'
@@ -40,10 +40,6 @@ const styles = {
         marginTop: 0
       }
     }
-  }),
-  colorTransition: css({
-    transition: 'color 200ms ease-in-out',
-    transitionDelay: '33ms'
   })
 }
 
@@ -51,29 +47,53 @@ export const NavA = React.forwardRef(
   (
     {
       inline,
-      hoverCSSColor,
-      hoverColor: hoverColorProp,
+      formatColor,
+      activeFormatColor,
       children,
       style,
       title,
       large,
+      isActive,
       ...props
     },
     ref
   ) => {
     const [colorScheme] = useColorContext()
-    const hoverColor = hoverCSSColor || hoverColorProp
+    const hoverRule = useMemo(
+      () =>
+        formatColor &&
+        css({
+          transition: 'color 200ms ease-in-out',
+          transitionDelay: '33ms',
+          '@media (hover)': {
+            ':hover': {
+              color: colorScheme.getFormatCSSColor(formatColor)
+            }
+          }
+        }),
+      [colorScheme, formatColor]
+    )
+
+    const colorRule = useMemo(
+      () =>
+        isActive && activeFormatColor && formatColor
+          ? css({
+              color: colorScheme.getFormatCSSColor(formatColor)
+            })
+          : colorScheme.set('color', 'text'),
+      [isActive, activeFormatColor, formatColor]
+    )
+
     return (
       <a
         ref={ref}
         {...styles.link}
-        {...colorScheme.rules.text.color}
-        {...(hoverColor && styles.colorTransition)}
-        {...(hoverColor &&
-          colorScheme.getColorRule('color', hoverColor, ':hover'))}
+        {...colorRule}
+        {...hoverRule}
         {...(inline ? styles.inline : styles.block)}
         {...(large && styles.large)}
         style={style}
+        className={isActive ? 'is-active' : undefined}
         title={title}
         {...props}
       >
@@ -90,8 +110,7 @@ const NavLink = ({
   active,
   closeHandler,
   inline,
-  hoverColor,
-  hoverCSSColor,
+  formatColor,
   prefetch = false,
   minifeed,
   title,
@@ -101,15 +120,6 @@ const NavLink = ({
     active &&
     active.route === route &&
     Object.keys(params).every(key => params[key] === active.params[key])
-  const activeStyle =
-    isActive && minifeed
-      ? {
-          ...fontStyles.sansSerifMedium14,
-          lineHeight: '16px',
-          marginTop: -1,
-          color: hoverColor
-        }
-      : undefined
 
   return (
     <Link
@@ -120,7 +130,6 @@ const NavLink = ({
     >
       <NavA
         title={title}
-        style={activeStyle}
         inline={inline}
         onClick={
           !minifeed
@@ -130,9 +139,10 @@ const NavLink = ({
               }
             : undefined
         }
-        hoverColor={hoverColor}
-        hoverCSSColor={hoverCSSColor}
+        formatColor={formatColor}
+        activeFormatColor={minifeed}
         large={large}
+        isActive={isActive}
       >
         {children}
       </NavA>

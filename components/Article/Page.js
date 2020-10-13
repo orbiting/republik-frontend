@@ -8,7 +8,6 @@ import * as graphqlTag from 'graphql-tag'
 
 import {
   Center,
-  ColorContext,
   colors,
   Interaction,
   mediaQueries,
@@ -402,7 +401,6 @@ const ArticlePage = ({
                                 color={
                                   format.meta.color || colors[format.meta.kind]
                                 }
-                                contentEditable={false}
                               >
                                 <HrefLink href={format.meta.path} passHref>
                                   <a {...styles.link} href={format.meta.path}>
@@ -454,7 +452,13 @@ const ArticlePage = ({
                       </div>
                     )}
                     <SSRCachingBoundary
-                      cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
+                      cacheKey={[
+                        article.id,
+                        isMember && 'isMember',
+                        colorSchemeKey
+                      ]
+                        .filter(Boolean)
+                        .join(':')}
                     >
                       {() => (
                         <ColorContextProvider colorSchemeKey={colorSchemeKey}>

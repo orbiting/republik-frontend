@@ -7,7 +7,6 @@ import {
   Center,
   Button,
   Loader,
-  plainButtonRule,
   useColorContext
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
@@ -24,6 +23,7 @@ import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
 import { registerQueryVariables } from '../../Bookmarks/queries'
 import { useColorSchemeKey } from '../../ColorScheme/lib'
+import DarkmodeSwitch from '../DarkmodeSwitch'
 
 const SignoutLink = ({ children, ...props }) => (
   <div {...styles.signout}>
@@ -87,21 +87,7 @@ const UserNav = ({
           {hasExpandedRef.current && (
             <>
               <div style={{ marginBottom: 10 }}>
-                Colors:{' '}
-                {[undefined, 'light', 'dark'].map(key => (
-                  <Fragment key={key || 'auto'}>
-                    <button
-                      {...plainButtonRule}
-                      style={{
-                        textDecoration:
-                          key === colorSchemeKey ? 'underline' : undefined
-                      }}
-                      onClick={() => setColorSchemeKey(key)}
-                    >
-                      {key || 'auto'}
-                    </button>{' '}
-                  </Fragment>
-                ))}
+                <DarkmodeSwitch />
               </div>
               {!me && (
                 <>

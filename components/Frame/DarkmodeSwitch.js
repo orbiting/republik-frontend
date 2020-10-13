@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useColorContext, IconButton } from '@project-r/styleguide'
+import React from 'react'
+import { IconButton } from '@project-r/styleguide'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 import Darkmode from '../Icons/Darkmode'

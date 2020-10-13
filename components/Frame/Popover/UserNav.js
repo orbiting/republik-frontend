@@ -22,7 +22,6 @@ import NavLink, { NavA } from './NavLink'
 import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
 import { registerQueryVariables } from '../../Bookmarks/queries'
-import { useColorSchemeKey } from '../../ColorScheme/lib'
 import DarkmodeSwitch from '../DarkmodeSwitch'
 
 const SignoutLink = ({ children, ...props }) => (
@@ -58,7 +57,6 @@ const UserNav = ({
     }
   }, [])
 
-  const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
   const [colorScheme] = useColorContext()
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)

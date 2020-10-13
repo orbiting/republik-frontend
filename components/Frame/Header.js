@@ -332,7 +332,7 @@ const HeaderWithContext = props => {
     ]
   }, [hasSecondaryNav, headerOffset])
 
-  const colorSchemeKey = inNativeIOSApp ? 'bright' : colorSchemeKeyProp
+  const colorSchemeKey = inNativeIOSApp ? 'light' : colorSchemeKeyProp
 
   return (
     <HeaderHeightProvider config={headerConfig}>

@@ -100,7 +100,7 @@ const Frame = ({
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
-  colorSchemeKey = 'bright'
+  colorSchemeKey = 'light'
 }) => {
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)

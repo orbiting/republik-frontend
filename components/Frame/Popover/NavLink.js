@@ -67,22 +67,17 @@ export const NavA = React.forwardRef(
           transitionDelay: '33ms',
           '@media (hover)': {
             ':hover': {
-              color: colorScheme.getFormatCSSColor(formatColor)
+              color: colorScheme.getCSSColor(formatColor, 'format')
             }
           }
         }),
       [colorScheme, formatColor]
     )
 
-    const colorRule = useMemo(
-      () =>
-        isActive && activeFormatColor && formatColor
-          ? css({
-              color: colorScheme.getFormatCSSColor(formatColor)
-            })
-          : colorScheme.set('color', 'text'),
-      [isActive, activeFormatColor, formatColor]
-    )
+    const colorRule =
+      isActive && activeFormatColor && formatColor
+        ? colorScheme.set('color', formatColor, 'format')
+        : colorScheme.set('color', 'text')
 
     return (
       <a

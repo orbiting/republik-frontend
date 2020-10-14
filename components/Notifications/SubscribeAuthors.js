@@ -1,6 +1,8 @@
 import React from 'react'
 import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
+import { css } from 'glamor'
+import { Interaction, fontFamilies } from '@project-r/styleguide'
 
 const SubscribeAuthor = ({
   t,
@@ -15,7 +17,9 @@ const SubscribeAuthor = ({
     <>
       {onlyCommentFilter ? (
         <>
-          <h4>{t('SubscribeMenu/title')}</h4>
+          <Interaction.P {...styles.title}>
+            {t('SubscribeMenu/title')}
+          </Interaction.P>
           {subscriptions.map(subscription => (
             <SubscribeCheckbox
               key={subscription.id}
@@ -47,7 +51,9 @@ const SubscribeAuthor = ({
         </>
       ) : (
         <div style={style}>
-          <h4>{t('SubscribeMenu/title')}</h4>
+          <Interaction.P {...styles.title}>
+            {t('SubscribeMenu/title')}
+          </Interaction.P>
           {subscriptions.map(subscription => (
             <SubscribeCheckbox
               key={subscription.id}
@@ -61,6 +67,13 @@ const SubscribeAuthor = ({
       )}
     </>
   )
+}
+
+const styles = {
+  title: css({
+    margin: '0 0 12px',
+    fontWeight: 'inherit'
+  })
 }
 
 export default withT(SubscribeAuthor)

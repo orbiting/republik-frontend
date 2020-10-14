@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import {
   Field,
   colors,
   Interaction,
   Button,
   fontStyles,
+  fontFamilies,
   Editorial,
   A,
   Label,
@@ -20,7 +21,10 @@ import {
   useStripe
 } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import { STRIPE_PUBLISHABLE_KEY } from '../../lib/constants'
+import {
+  STRIPE_PUBLISHABLE_KEY,
+  STRIPE_PUBLISHABLE_KEY_CONNECTED
+} from '../../lib/constants'
 import { css } from 'glamor'
 
 import SignIn, { withSignIn } from '../Auth/SignIn'
@@ -28,6 +32,13 @@ import { withSignOut } from '../Auth/SignOut'
 import withMe from '../../lib/apollo/withMe'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
+
+// from components/Payment/Form.js
+import * as PSPIcons from '../Payment/Icons/PSP'
+import { format } from 'd3-format'
+const pad2 = format('02')
+const PAYMENT_METHOD_HEIGHT = 64
+//
 
 const OFFERS = [
   {
@@ -47,7 +58,8 @@ const OFFERS = [
           autoPay: true
         }
       ]
-    }
+    },
+    companyId: 'c0000000-0000-0000-0001-000000000002'
   },
   {
     package: 'ABO',
@@ -66,11 +78,11 @@ const OFFERS = [
           autoPay: true
         }
       ]
-    }
+    },
+    companyId: 'c0000000-0000-0000-0001-000000000001'
   }
 ]
 
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY)
 const styles = {
   label: css({
     color: '#B7C1BD',
@@ -83,10 +95,61 @@ const styles = {
       fontSize: 14,
       lineHeight: '15px'
     }
+  }),
+  // from components/Payment/Form.js
+  paymentMethod: css({
+    fontFamily: fontFamilies.sansSerifMedium,
+    fontSize: 14,
+    color: '#000',
+    display: 'inline-block',
+    backgroundColor: '#fff',
+    border: `1px solid ${colors.secondary}`,
+    height: PAYMENT_METHOD_HEIGHT - 2, // 2px borders
+    padding: 10,
+    cursor: 'pointer',
+    marginRight: 10,
+    marginBottom: 10,
+    lineHeight: 0,
+    verticalAlign: 'top',
+    '& input': {
+      display: 'none'
+    }
+  }),
+  paymentMethodText: css({
+    lineHeight: '40px',
+    verticalAlign: 'middle'
+  }),
+  paymentMethodSourceText: css({
+    display: 'inline-block',
+    paddingLeft: 15,
+    paddingRight: 10,
+    lineHeight: '20px',
+    verticalAlign: 'middle'
+  }),
+  paymentMethodHiddenText: css({
+    position: 'absolute',
+    left: -10000,
+    top: 'auto'
   })
+  //
 }
 
-const Join = ({ t, black, start, submit, pay, me }) => {
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY)
+
+const stripeClients = [
+  {
+    companyId: 'c0000000-0000-0000-0001-000000000001',
+    client: stripePromise
+  },
+  {
+    companyId: 'c0000000-0000-0000-0001-000000000002',
+    client: loadStripe(STRIPE_PUBLISHABLE_KEY_CONNECTED)
+  }
+]
+
+const Join = ({ t, black, start, submit, pay, me, stripePaymentMethods }) => {
+  const [currentOffer, setOffer] = useState(OFFERS[1])
+
   return (
     <Elements
       stripe={stripePromise}
@@ -99,27 +162,6 @@ const Join = ({ t, black, start, submit, pay, me }) => {
         }
       ]}
     >
-      <Form
-        t={t}
-        black={black}
-        start={start}
-        submit={submit}
-        pay={pay}
-        me={me}
-      />
-    </Elements>
-  )
-}
-
-const Form = ({ t, black, start, submit, pay, me }) => {
-  const [currentOffer, setOffer] = useState(OFFERS[1])
-  const [emailState, setEmailState] = useState({ value: me?.email || '' })
-  const [consents, setConsents] = useState([])
-  const stripe = useStripe()
-  const elements = useElements()
-
-  return (
-    <form style={{ display: 'block', minHeight: 1000 }}>
       <Interaction.H1 id='join' style={{ marginBottom: 15 }}>
         Abonnentin und Mitglied werden
       </Interaction.H1>
@@ -162,6 +204,38 @@ const Form = ({ t, black, start, submit, pay, me }) => {
       <Interaction.P style={{ fontSize: 17, lineHeight: '26px' }}>
         {currentOffer.text}
       </Interaction.P>
+      <Form
+        t={t}
+        black={black}
+        start={start}
+        submit={submit}
+        pay={pay}
+        me={me}
+        stripePaymentMethods={stripePaymentMethods}
+        currentOffer={currentOffer}
+      />
+    </Elements>
+  )
+}
+
+const Form = ({
+  t,
+  black,
+  start,
+  submit,
+  pay,
+  me,
+  stripePaymentMethods,
+  currentOffer
+}) => {
+  const [emailState, setEmailState] = useState({ value: me?.email || '' })
+  const [consents, setConsents] = useState([])
+  const [currentStripePaymentMethod, setStripePaymentMethod] = useState()
+  const stripe = useStripe()
+  const elements = useElements()
+
+  return (
+    <form style={{ display: 'block', minHeight: 1000 }}>
       <Field
         black={black}
         name='email'
@@ -189,7 +263,7 @@ const Form = ({ t, black, start, submit, pay, me }) => {
           marginBottom: 20
         }}
       >
-        <div {...styles.label}>Ihre Kreditkarte</div>
+        <div {...styles.label}>Ihre Kreditkarte eingeben...</div>
         <CardElement
           options={{
             hidePostalCode: true,
@@ -213,6 +287,65 @@ const Form = ({ t, black, start, submit, pay, me }) => {
             }
           }}
         />
+        {stripePaymentMethods?.length && (
+          <Fragment>
+            <Label>...oder eine gespeicherte Kreditkarte auswählen</Label>
+            <br />
+            {stripePaymentMethods.map((stripePaymentMethod, i) => {
+              const Icon =
+                (stripePaymentMethod.card.brand === 'Visa' && (
+                  <PSPIcons.Visa />
+                )) ||
+                (stripePaymentMethod.card.brand === 'MasterCard' && (
+                  <PSPIcons.Mastercard />
+                ))
+
+              return (
+                <label
+                  key={i}
+                  {...styles.paymentMethod}
+                  style={{
+                    opacity:
+                      currentStripePaymentMethod?.id === stripePaymentMethod.id
+                        ? 1
+                        : 0.4
+                  }}
+                >
+                  <input
+                    type='radio'
+                    name='paymentMethod'
+                    onChange={event => {
+                      event.preventDefault()
+                      const value = event.target.value
+                      setStripePaymentMethod(
+                        stripePaymentMethods.find(pm => pm.id === value)
+                      )
+                    }}
+                    value={stripePaymentMethod.id}
+                    checked={
+                      currentStripePaymentMethod?.id === stripePaymentMethod.id
+                    }
+                  />
+                  {Icon && Icon}
+                  {Icon && (
+                    <span {...styles.paymentMethodHiddenText}>
+                      {stripePaymentMethod.card.brand}
+                    </span>
+                  )}
+                  <span {...styles.paymentMethodSourceText}>
+                    {!Icon && stripePaymentMethod.card.brand}
+                    {'**** '}
+                    {stripePaymentMethod.card.last4}
+                    <br />
+                    {pad2(stripePaymentMethod.card.expMonth)}/
+                    {stripePaymentMethod.card.expYear}
+                  </span>
+                </label>
+              )
+            })}
+            <br />
+          </Fragment>
+        )}
       </div>
       <Button
         block
@@ -221,13 +354,40 @@ const Form = ({ t, black, start, submit, pay, me }) => {
         style={black ? { backgroundColor: 'black', color: 'white' } : undefined}
         onClick={async e => {
           e.preventDefault()
-          console.log('submiting...')
 
           if (!emailState.value?.length) {
             alert('email missing')
             return
           }
+          console.log(`let's go...`)
 
+          let paymentMethodId
+          if (currentStripePaymentMethod) {
+            console.log('using existing card')
+            paymentMethodId = currentStripePaymentMethod.id
+          } else {
+            console.log('using new card')
+            await stripe
+              .createPaymentMethod({
+                type: 'card',
+                card: elements.getElement(CardElement)
+              })
+              .then(result => {
+                if (result.error) {
+                  console.error(result.error)
+                  alert('problem with createPaymentMethod' + result.error)
+                } else {
+                  paymentMethodId = result.paymentMethod.id
+                  console.log(`new PaymentMethod created ${paymentMethodId}`)
+                }
+              })
+          }
+
+          if (!paymentMethodId) {
+            return
+          }
+
+          console.log('submiting...')
           submit({
             ...currentOffer.submitPledgeProps,
             user: {
@@ -236,27 +396,30 @@ const Form = ({ t, black, start, submit, pay, me }) => {
               email: emailState.value
             },
             consents: ['PRIVACY', 'TOS', 'STATUTE'],
-            payload: {}
+            payload: {},
+            method: 'STRIPE',
+            stripePlatformPaymentMethodId: paymentMethodId
           })
             .then(async ({ data }) => {
               console.log('submitPledge', { data })
 
               const { stripeClientSecret } = data.submitPledge
 
-              const card = elements.getElement(CardElement)
-              const { paymentIntent, error } = await stripe.confirmCardPayment(
-                stripeClientSecret,
-                {
-                  payment_method: { card }
-                }
-              )
-              console.log({ paymentIntent, error })
+              const stripeClient = stripeClients.find(
+                c => c.companyId === currentOffer.companyId
+              ).client
+
+              const { paymentIntent, error } = await (
+                await stripeClient
+              ).confirmCardPayment(stripeClientSecret)
               if (error) {
                 console.warn(error)
                 alert('there was a problem with confirmCardPayment')
                 return
               }
+              console.log('paymentConfirmed')
 
+              /*
               pay({
                 pledgeId: data.submitPledge.pledgeId,
                 method: 'STRIPE',
@@ -264,11 +427,12 @@ const Form = ({ t, black, start, submit, pay, me }) => {
                 pspPayload: paymentIntent
               })
                 .then(result => {
-                  console.log('payPledge', result)
+                  console.log('payPledge success!', result)
                 })
                 .catch(error => {
                   console.warn(error)
                 })
+              */
             })
             .catch(error => {
               console.warn(error)
@@ -281,6 +445,25 @@ const Form = ({ t, black, start, submit, pay, me }) => {
   )
 }
 
+export const query = gql`
+  query myPaymentMethods($accessToken: ID) {
+    me(accessToken: $accessToken) {
+      id
+      stripePaymentMethods {
+        id
+        isDefault
+        card {
+          brand
+          last4
+          expMonth
+          expYear
+          isExpired
+        }
+      }
+    }
+  }
+`
+
 const submitPledge = gql`
   mutation submitPledge(
     $total: Int!
@@ -291,6 +474,8 @@ const submitPledge = gql`
     $consents: [String!]
     $accessToken: ID
     $payload: JSON
+    $method: PaymentMethod
+    $stripePlatformPaymentMethodId: ID
   ) {
     submitPledge(
       pledge: {
@@ -301,6 +486,8 @@ const submitPledge = gql`
         messageToClaimers: $messageToClaimers
         accessToken: $accessToken
         payload: $payload
+        method: $method
+        stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
       }
       consents: $consents
     ) {
@@ -369,6 +556,18 @@ const JoinWithMutations = compose(
           variables
         })
       }
+    })
+  }),
+  graphql(query, {
+    withRef: true,
+    options: ({ accessToken }) => ({
+      fetchPolicy: 'network-only',
+      ssr: false,
+      variables: { accessToken }
+    }),
+    props: ({ data }) => ({
+      stripePaymentMethods: data.me && data.me.stripePaymentMethods,
+      loadingStripePaymentMethods: data.loading
     })
   }),
   withSignOut,

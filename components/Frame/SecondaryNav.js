@@ -73,7 +73,7 @@ export const SecondaryNav = ({
         <div
           {...styles.miniNav}
           {...colorScheme.set('backgroundColor', 'default')}
-          {...colorScheme.set('backgroundColor', 'divider')}
+          {...colorScheme.set('borderColor', 'divider')}
           onTouchStart={e => {
             // prevent touchstart from bubbling to Pullable
             e.stopPropagation()

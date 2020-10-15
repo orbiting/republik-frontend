@@ -47,7 +47,7 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                 return (
                   <div
                     {...styles.tile}
-                    {...colorScheme.rules.divider.borderColor}
+                    {...colorScheme.set('borderColor', 'divider')}
                     key={node.id}
                   >
                     <div {...styles.tileHeadlineContainer}>
@@ -55,7 +55,7 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                         <a
                           onClick={() => closeHandler()}
                           {...styles.tileHeadline}
-                          {...colorScheme.rules.text.color}
+                          {...colorScheme.set('color', 'text')}
                         >
                           {title.substring(0, 42).trim()}
                           {title.length >= 42 && <>&nbsp;…</>}

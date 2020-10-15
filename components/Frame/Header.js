@@ -169,7 +169,7 @@ const Header = ({
     <>
       <div
         {...styles.navBar}
-        {...colorScheme.rules.default.backgroundColor}
+        {...colorScheme.set('backgroundColor', 'default')}
         ref={fixedRef}
       >
         <div {...styles.primary}>
@@ -199,7 +199,7 @@ const Header = ({
                     }
                   }}
                 >
-                  <BackIcon size={24} {...colorScheme.rules.text.fill} />
+                  <BackIcon size={24} {...colorScheme.set('fill', 'text')} />
                 </a>
               )}
               <User

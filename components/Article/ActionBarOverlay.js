@@ -48,8 +48,8 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
         bottom: bottomPosition,
         zIndex: ZINDEX_HEADER
       }}
-      {...colorScheme.rules.overlay.backgroundColor}
-      {...colorScheme.rules.overlay.boxShadow}
+      {...colorScheme.set('backgroundColor', 'overlay')}
+      {...colorScheme.set('boxShadow', 'overlay')}
       {...styles.container}
     >
       {children}

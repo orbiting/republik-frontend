@@ -31,7 +31,7 @@ const ShareOverlay = ({
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} {...colorScheme.rules.text.fill} />}
+          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody>

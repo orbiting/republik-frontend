@@ -34,7 +34,7 @@ const User = ({ t, me, title, backButton, onClick, isMobile }) => {
     <button {...styles.user} onClick={onClick} title={title}>
       <span
         {...styles.button}
-        {...colorScheme.rules.text.color}
+        {...colorScheme.set('color', 'text')}
         style={{
           paddingLeft: backButton ? BUTTON_PADDING_MOBILE / 2 : 16
         }}
@@ -56,7 +56,7 @@ const User = ({ t, me, title, backButton, onClick, isMobile }) => {
             <span {...styles.anonymous}>
               <MdAccountBox
                 size={isMobile ? BUTTON_SIZE_MOBILE : BUTTON_SIZE}
-                {...colorScheme.rules.text.fill}
+                {...colorScheme.set('fill', 'text')}
               />
             </span>
             <span {...styles.label}>{t('header/signin')}</span>

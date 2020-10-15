@@ -98,8 +98,8 @@ const Nav = ({
             </div>
             <hr
               {...styles.hr}
-              {...colorScheme.rules.divider.color}
-              {...colorScheme.rules.divider.backgroundColor}
+              {...colorScheme.set('color', 'divider')}
+              {...colorScheme.set('backgroundColor', 'divider')}
             />
             <div {...styles.navSection}>
               <Sections active={active} vertical closeHandler={closeHandler} />

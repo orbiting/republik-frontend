@@ -61,7 +61,7 @@ const NotificationFeedMini = ({
                           {isNew(node) && (
                             <div
                               {...styles.unreadDot}
-                              {...colorScheme.rules.default.borderColor}
+                              {...colorScheme.set('borderColor', 'default')}
                             />
                           )}
 

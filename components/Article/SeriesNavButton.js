@@ -97,10 +97,16 @@ const SeriesNavButton = ({ t, series, router }) => {
               : ` – ${currentEpisode.label}`)}
           <span {...styles.arrow}>
             {expanded && (
-              <MdKeyboardArrowUp size='28' {...colorScheme.rules.text.fill} />
+              <MdKeyboardArrowUp
+                size='28'
+                {...colorScheme.set('fill', 'text')}
+              />
             )}
             {!expanded && (
-              <MdKeyboardArrowDown size='28' {...colorScheme.rules.text.fill} />
+              <MdKeyboardArrowDown
+                size='28'
+                {...colorScheme.set('fill', 'text')}
+              />
             )}
           </span>
         </span>

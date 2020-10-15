@@ -4,7 +4,8 @@ import {
   Field,
   mediaQueries,
   useDebounce,
-  usePrevious
+  usePrevious,
+  useColorContext
 } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
@@ -43,6 +44,7 @@ const Form = compose(
     const [focusRef, setFocusRef] = useState(null)
     const [formValue, setFormValue] = useState(urlQuery)
     const [slowFormValue] = useDebounce(formValue, 200)
+    const [colorScheme] = useColorContext()
     useEffect(() => {
       startState &&
         !noInitialFocus &&
@@ -97,6 +99,7 @@ const Form = compose(
                   style={{ cursor: 'pointer' }}
                   size={30}
                   onClick={reset}
+                  {...colorScheme.set('fill', 'text')}
                 />
               )
             }

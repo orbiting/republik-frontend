@@ -80,7 +80,11 @@ const UserNav = ({
   }
   return (
     <>
-      <Center {...styles.container} {...colorScheme.rules.text.color} id='nav'>
+      <Center
+        {...styles.container}
+        {...colorScheme.set('color', 'text')}
+        id='nav'
+      >
         <div ref={containerRef}>
           {hasExpandedRef.current && (
             <>
@@ -163,8 +167,8 @@ const UserNav = ({
                   </div>
                   <hr
                     {...styles.hr}
-                    {...colorScheme.rules.divider.color}
-                    {...colorScheme.rules.divider.backgroundColor}
+                    {...colorScheme.set('color', 'divider')}
+                    {...colorScheme.set('backgroundColor', 'divider')}
                   />
                   <div {...styles.navSection}>
                     <div {...styles.navLinks}>

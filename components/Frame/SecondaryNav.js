@@ -72,8 +72,8 @@ export const SecondaryNav = ({
       {hasOverviewNav ? (
         <div
           {...styles.miniNav}
-          {...colorScheme.rules.divider.borderColor}
-          {...colorScheme.rules.default.backgroundColor}
+          {...colorScheme.set('backgroundColor', 'default')}
+          {...colorScheme.set('backgroundColor', 'divider')}
           onTouchStart={e => {
             // prevent touchstart from bubbling to Pullable
             e.stopPropagation()
@@ -131,9 +131,9 @@ export const SecondaryNav = ({
         secondaryNav && (
           <div
             {...styles.secondaryNav}
-            {...colorScheme.rules.text.color}
-            {...colorScheme.rules.divider.borderColor}
-            {...colorScheme.rules.default.backgroundColor}
+            {...colorScheme.set('color', 'text')}
+            {...colorScheme.set('borderColor', 'divider')}
+            {...colorScheme.set('backgroundColor', 'default')}
             style={{
               borderTopWidth: isSecondarySticky ? 0 : 1,
               borderTopStyle: 'solid',

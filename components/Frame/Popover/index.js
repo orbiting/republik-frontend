@@ -28,8 +28,8 @@ const Popover = ({ expanded, id, children, dark }) => {
           height: `calc(100vh - ${HEADER_HEIGHT}px)`
         }
       })}
-      {...colorScheme.rules.divider.borderColor}
-      {...colorScheme.rules.default.backgroundColor}
+      {...colorScheme.set('borderColor', 'divider')}
+      {...colorScheme.set('backgroundColor', 'default')}
       {...menuStyle}
       ref={ref}
       id={id}

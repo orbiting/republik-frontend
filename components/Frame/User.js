@@ -45,8 +45,8 @@ const User = ({ t, me, title, backButton, onClick, isMobile }) => {
           ) : (
             <span
               {...styles.portrait}
-              {...colorScheme.rules.hover.backgroundColor}
-              {...colorScheme.rules.text.color}
+              {...colorScheme.set('backgroundColor', 'hover')}
+              {...colorScheme.set('color', 'text')}
             >
               {getInitials(me)}
             </span>

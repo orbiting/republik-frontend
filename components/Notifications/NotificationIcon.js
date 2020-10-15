@@ -11,20 +11,18 @@ import { containsUnread } from './index'
 const styles = {
   unreadNotifications: css({
     display: 'inline-block',
-    position: 'relative'
-  }),
-  dot: css({
+    position: 'relative',
     width: 8,
     height: 8,
     borderRadius: 8,
-    border: '1px solid',
-    background: 'red',
-    position: 'absolute',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    backgroundColor: 'red',
     top: 8,
-    right: 8,
+    right: 15,
     [mediaQueries.mUp]: {
       top: 12,
-      right: 12
+      right: 19
     }
   })
 }
@@ -73,8 +71,9 @@ export default compose(
   const [colorScheme] = useColorContext()
 
   return (
-    <span {...(hasUnread && styles.unreadNotifications)}>
-      <div {...styles.dot} {...colorScheme.rules.default.borderColor} />
-    </span>
+    <span
+      {...(hasUnread && styles.unreadNotifications)}
+      {...colorScheme.set('borderColor', 'default')}
+    ></span>
   )
 })

@@ -220,7 +220,7 @@ const Header = ({
                     : closeHandler()
                 }
               />
-              {me && <NotificationIcon {...colorScheme.rules.text.fill} />}
+              {me && <NotificationIcon {...colorScheme.set('fill', 'text')} />}
             </div>
           </div>
           <div {...styles.navBarItem}>

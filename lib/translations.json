@@ -1,5 +1,5 @@
 {
-  "updated": "2020-10-18T23:03:18.089Z",
+  "updated": "2020-10-19T16:05:12.082Z",
   "title": "live",
   "data": [
     {
@@ -764,11 +764,11 @@
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/label",
-      "value": "Covid-19-Updates"
+      "value": "Covid-19-Uhr-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
-      "value": "unregelmässig"
+      "value": "montags bis freitags um 19 Uhr"
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/label",

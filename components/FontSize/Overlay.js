@@ -104,7 +104,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
             <Editorial.Subhead {...styles.subhead}>
               Hinter den Wortbergen
             </Editorial.Subhead>
-            <Collapsable t={t} alwaysCollapsed>
+            <Collapsable t={t} alwaysCollapsed isOnOverlay>
               <Editorial.P {...styles.paragraph}>
                 Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und
                 Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in

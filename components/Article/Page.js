@@ -365,11 +365,10 @@ const ArticlePage = ({
 
           const format = meta.format
 
-          const showNewsletterSignup =
-            !me &&
-            isEditorialNewsletter &&
-            !!newsletterMeta &&
-            newsletterMeta.free
+          const isFreeNewsletter = !!newsletterMeta && newsletterMeta.free
+          const showNewsletterSignupTop = isFreeNewsletter && !me && isFormat
+          const showNewsletterSignupBottom =
+            isFreeNewsletter && !showNewsletterSignupTop
 
           return (
             <>
@@ -417,7 +416,9 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        {(actionBar || isSection || showNewsletterSignup) && (
+                        {(actionBar ||
+                          isSection ||
+                          showNewsletterSignupTop) && (
                           <Center>
                             {actionBar && (
                               <div
@@ -441,7 +442,7 @@ const ArticlePage = ({
                                 />
                               </Breakout>
                             )}
-                            {showNewsletterSignup && (
+                            {showNewsletterSignupTop && (
                               <div style={{ marginTop: 10 }}>
                                 <NewsletterSignUp {...newsletterMeta} />
                               </div>
@@ -492,8 +493,13 @@ const ArticlePage = ({
                   />
                 </Center>
               )}
-              {!!newsletterMeta && (
+              {showNewsletterSignupBottom && (
                 <Center>
+                  {format && !me && (
+                    <Interaction.P>
+                      <strong>{format.meta.title}</strong>
+                    </Interaction.P>
+                  )}
                   <NewsletterSignUp {...newsletterMeta} />
                 </Center>
               )}

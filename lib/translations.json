@@ -1,5 +1,5 @@
 {
-  "updated": "2020-10-08T13:12:11.728Z",
+  "updated": "2020-10-18T23:03:18.089Z",
   "title": "live",
   "data": [
     {
@@ -728,7 +728,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/unsubscribed",
-      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter auswählen, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können."
+      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter abonnieren, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können."
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",
@@ -6544,7 +6544,11 @@
     },
     {
       "key": "Auth/NewsletterSignUp/settingTitle",
-      "value": "Ihre Einstellung"
+      "value": "Newsletter per E-Mail"
+    },
+    {
+      "key": "Auth/NewsletterSignUp/settingLabel",
+      "value": "abonniert"
     },
     {
       "key": "Notifications/title/0",

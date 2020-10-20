@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { myUserSubscriptions } from './enhancers'
 import {
@@ -70,13 +70,27 @@ const SubscribedAuthors = ({
     setInitiallySubscribedAuthorIds
   ] = useState([])
 
-  useEffect(() => {
-    InitializeSubscribedAuthorIds(
-      authors,
-      myUserSubscriptions.subscribedTo.nodes,
-      setInitiallySubscribedAuthorIds
+  const initializeSubscribedAuthorIds = (
+    authors,
+    myUserSubscriptions,
+    setInitialySubscribedAuthorIds
+  ) => {
+    if (!authors || !myUserSubscriptions) {
+      return
+    }
+
+    const subscribedOtherAuthors = myUserSubscriptions.subscribedTo.nodes
+    const subscribedPromotedAuthors = authors.map(
+      author => author.user.subscribedByMe
     )
-  }, [])
+
+    const allSusbcribedAuthors = subscribedPromotedAuthors
+      .concat(subscribedOtherAuthors)
+      .filter(author => author.active)
+      .map(author => author.object.id)
+
+    setInitialySubscribedAuthorIds(allSusbcribedAuthors)
+  }
 
   return (
     <Loader
@@ -151,7 +165,7 @@ const SubscribedAuthors = ({
               <button
                 {...plainButtonRule}
                 onClick={() => {
-                  InitializeSubscribedAuthorIds(
+                  initializeSubscribedAuthorIds(
                     authors,
                     myUserSubscriptions,
                     setInitiallySubscribedAuthorIds
@@ -176,20 +190,3 @@ const SubscribedAuthors = ({
 }
 
 export default compose(withT, graphql(myUserSubscriptions))(SubscribedAuthors)
-
-function InitializeSubscribedAuthorIds(
-  authors,
-  subscribedOtherAuthors,
-  setInitialySubscribedAuthorIds
-) {
-  const subscribedPromotedAuthors = authors.map(
-    author => author.user.subscribedByMe
-  )
-
-  const allSusbcribedAuthors = subscribedPromotedAuthors
-    .concat(subscribedOtherAuthors)
-    .filter(author => author.active)
-    .map(author => author.object.id)
-
-  setInitialySubscribedAuthorIds(allSusbcribedAuthors)
-}

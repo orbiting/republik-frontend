@@ -1,18 +1,19 @@
 import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
+import { css } from 'glamor'
+import 'glamor/reset'
 import { compose } from 'react-apollo'
 import {
   Container,
   RawHtml,
   fontFamilies,
   mediaQueries,
-  colors,
   ColorContextProvider
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
+import AudioPlayer from '../Audio/AudioPlayer'
 import ProlongBox from './ProlongBox'
 import ColorSchemeSync from '../ColorScheme/Sync'
 import {
@@ -20,13 +21,10 @@ import {
   HEADER_HEIGHT_MOBILE,
   SUBHEADER_HEIGHT
 } from '../constants'
-import { css } from 'glamor'
 import { withMembership } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-
-import 'glamor/reset'
 
 css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })
@@ -167,6 +165,7 @@ const Frame = ({
         </div>
         {!inNativeApp && footer && <Footer />}
       </div>
+      <AudioPlayer />
     </ColorContextProvider>
   )
 }

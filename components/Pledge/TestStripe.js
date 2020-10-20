@@ -397,45 +397,42 @@ const Form = ({
             },
             consents: ['PRIVACY', 'TOS', 'STATUTE'],
             payload: {},
-            method: 'STRIPE',
-            stripePlatformPaymentMethodId: paymentMethodId
+            method: 'STRIPE'
           })
             .then(async ({ data }) => {
-              console.log('submitPledge', { data })
-
-              const {
-                stripeClientSecret,
-                stripePaymentMethodId
-              } = data.submitPledge
-
-              let paymentIntent
-              if (stripeClientSecret) {
-                // get stripe client belonging to company of package
-                const stripeClient = stripeClients.find(
-                  c => c.companyId === currentOffer.companyId
-                ).client
-
-                const confirmResult = await (
-                  await stripeClient
-                ).confirmCardPayment(stripeClientSecret)
-
-                const { paymentIntent, error } = confirmResult
-                if (error) {
-                  console.warn(error)
-                  alert('there was a problem with confirmCardPayment')
-                  return
-                }
-                console.log('paymentConfirmed')
-              }
+              console.log('submitPledge success!', data)
 
               pay({
                 pledgeId: data.submitPledge.pledgeId,
                 method: 'STRIPE',
-                paymentMethodId: stripePaymentMethodId,
-                pspPayload: paymentIntent
+                stripePlatformPaymentMethodId: paymentMethodId
               })
-                .then(result => {
+                .then(async result => {
                   console.log('payPledge success!', result)
+
+                  const { stripeClientSecret } = result.data.payPledge
+
+                  if (stripeClientSecret) {
+                    // get stripe client belonging to company of package
+                    const stripeClient = stripeClients.find(
+                      c => c.companyId === currentOffer.companyId
+                    ).client
+
+                    console.log('confirmCardPayment...')
+                    const confirmResult = await (
+                      await stripeClient
+                    ).confirmCardPayment(stripeClientSecret)
+
+                    const { paymentIntent, error } = confirmResult
+                    if (error) {
+                      console.warn(error)
+                      alert('there was a problem with confirmCardPayment')
+                      return
+                    }
+                    console.log('paymentConfirmed')
+                  }
+
+                  console.log('finished')
                 })
                 .catch(error => {
                   console.warn(error)
@@ -482,7 +479,6 @@ const submitPledge = gql`
     $accessToken: ID
     $payload: JSON
     $method: PaymentMethod
-    $stripePlatformPaymentMethodId: ID
   ) {
     submitPledge(
       pledge: {
@@ -494,7 +490,6 @@ const submitPledge = gql`
         accessToken: $accessToken
         payload: $payload
         method: $method
-        stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
       }
       consents: $consents
     ) {
@@ -503,8 +498,6 @@ const submitPledge = gql`
       emailVerify
       pfAliasId
       pfSHA
-      stripeClientSecret
-      stripePaymentMethodId
     }
   }
 `
@@ -514,7 +507,7 @@ const payPledge = gql`
     $pledgeId: ID!
     $method: PaymentMethod!
     $sourceId: String
-    $paymentMethodId: String
+    $stripePlatformPaymentMethodId: ID
     $pspPayload: JSON
     $address: AddressInput
     $paperInvoice: Boolean
@@ -525,7 +518,7 @@ const payPledge = gql`
         pledgeId: $pledgeId
         method: $method
         sourceId: $sourceId
-        paymentMethodId: $paymentMethodId
+        stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
         makeDefault: $makeDefault
         pspPayload: $pspPayload
         address: $address
@@ -535,6 +528,7 @@ const payPledge = gql`
       pledgeId
       userId
       emailVerify
+      stripeClientSecret
     }
   }
 `
@@ -543,12 +537,11 @@ export const withPay = Component => {
   const EnhancedComponent = compose(
     graphql(payPledge, {
       props: ({ mutate }) => ({
-        pay: variables =>
-          mutate({
+        pay: variables => {
+          return mutate({
             variables
-          }).then(response => {
-            console.log('payPledge response:', response)
           })
+        }
       })
     }),
     withSignIn

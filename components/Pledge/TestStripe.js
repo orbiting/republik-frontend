@@ -403,27 +403,35 @@ const Form = ({
             .then(async ({ data }) => {
               console.log('submitPledge', { data })
 
-              const { stripeClientSecret } = data.submitPledge
+              const {
+                stripeClientSecret,
+                stripePaymentMethodId
+              } = data.submitPledge
 
-              const stripeClient = stripeClients.find(
-                c => c.companyId === currentOffer.companyId
-              ).client
+              let paymentIntent
+              if (stripeClientSecret) {
+                // get stripe client belonging to company of package
+                const stripeClient = stripeClients.find(
+                  c => c.companyId === currentOffer.companyId
+                ).client
 
-              const { paymentIntent, error } = await (
-                await stripeClient
-              ).confirmCardPayment(stripeClientSecret)
-              if (error) {
-                console.warn(error)
-                alert('there was a problem with confirmCardPayment')
-                return
+                const confirmResult = await (
+                  await stripeClient
+                ).confirmCardPayment(stripeClientSecret)
+
+                const { paymentIntent, error } = confirmResult
+                if (error) {
+                  console.warn(error)
+                  alert('there was a problem with confirmCardPayment')
+                  return
+                }
+                console.log('paymentConfirmed')
               }
-              console.log('paymentConfirmed')
 
-              /*
               pay({
                 pledgeId: data.submitPledge.pledgeId,
                 method: 'STRIPE',
-                paymentMethodId: paymentIntent.payment_method,
+                paymentMethodId: stripePaymentMethodId,
                 pspPayload: paymentIntent
               })
                 .then(result => {
@@ -432,7 +440,6 @@ const Form = ({
                 .catch(error => {
                   console.warn(error)
                 })
-              */
             })
             .catch(error => {
               console.warn(error)
@@ -497,6 +504,7 @@ const submitPledge = gql`
       pfAliasId
       pfSHA
       stripeClientSecret
+      stripePaymentMethodId
     }
   }
 `

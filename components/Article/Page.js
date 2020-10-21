@@ -187,6 +187,12 @@ const ArticlePage = ({
           ? t('plattformUnauthorizedZoneText/ios')
           : undefined,
         dynamicComponentRequire,
+        dynamicComponentIdentifiers: {
+          // ToDo: needs next dynamic import wrapper
+          VOTEBOX: ({ text }) => {
+            return <p>Hello World {text}</p>
+          }
+        },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),
         getVideoPlayerProps:

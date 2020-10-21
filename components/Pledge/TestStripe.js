@@ -402,6 +402,7 @@ const Form = ({
             .then(async ({ data }) => {
               console.log('submitPledge success!', data)
 
+              console.log('paying...')
               pay({
                 pledgeId: data.submitPledge.pledgeId,
                 method: 'STRIPE',

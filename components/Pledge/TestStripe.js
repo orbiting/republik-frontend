@@ -396,8 +396,7 @@ const Form = ({
               email: emailState.value
             },
             consents: ['PRIVACY', 'TOS', 'STATUTE'],
-            payload: {},
-            method: 'STRIPE'
+            payload: {}
           })
             .then(async ({ data }) => {
               console.log('submitPledge success!', data)
@@ -479,7 +478,6 @@ const submitPledge = gql`
     $consents: [String!]
     $accessToken: ID
     $payload: JSON
-    $method: PaymentMethod
   ) {
     submitPledge(
       pledge: {
@@ -490,7 +488,6 @@ const submitPledge = gql`
         messageToClaimers: $messageToClaimers
         accessToken: $accessToken
         payload: $payload
-        method: $method
       }
       consents: $consents
     ) {

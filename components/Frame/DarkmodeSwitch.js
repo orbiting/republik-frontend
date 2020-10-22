@@ -18,7 +18,6 @@ const DarkmodeSwitch = () => {
         return undefined
     }
   }
-  console.log(colorSchemeKey)
   return (
     <IconButton
       Icon={Darkmode}

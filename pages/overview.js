@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
-import { max } from 'd3-array'
-import { timeMonth } from 'd3-time'
+import { max, ascending } from 'd3-array'
+import { timeMonth, timeWeek } from 'd3-time'
 
 import { swissTime } from '../lib/utils/format'
 
@@ -57,7 +57,13 @@ const getKnownYear = gql`
   }
 `
 
-const formatMonth = swissTime.format('%B')
+const formatWeekRaw = swissTime.format('%W')
+const formatWeek = date => `Woche ${+formatWeekRaw(date) + 1}`
+
+const formatByInterval = {
+  wochen: formatWeek,
+  monate: swissTime.format('%B')
+}
 
 class FrontOverview extends Component {
   constructor(props, ...args) {
@@ -87,13 +93,28 @@ class FrontOverview extends Component {
     const year = +query.year
     const startDate = new Date(`${year - 1}-12-31T23:00:00.000Z`)
     const endDate = new Date(`${year}-12-31T23:00:00.000Z`)
+    const interval = query.interval || 'monate'
+    const formatDate = formatByInterval[interval]
 
     const meta = {
-      title: t.first([`overview/${year}/meta/title`, 'overview/meta/title'], {
-        year
-      }),
+      title: t.first(
+        [
+          `overview/${year}/meta/title/${interval}`,
+          `overview/meta/title/${interval}`,
+          `overview/${year}/meta/title`,
+          'overview/meta/title'
+        ],
+        {
+          year
+        }
+      ),
       description: t.first(
-        [`overview/${year}/meta/description`, 'overview/meta/description'],
+        [
+          `overview/${year}/meta/description/${interval}`,
+          `overview/meta/description/${interval}`,
+          `overview/${year}/meta/description`,
+          'overview/meta/description'
+        ],
         { year },
         ''
       ),
@@ -127,6 +148,7 @@ class FrontOverview extends Component {
           teaser.publishDate < endDate
         )
       })
+      .sort((a, b) => ascending(a.publishDate, b.publishDate))
 
     if (!data.loading && !data.error && !teasers.length) {
       return (
@@ -141,20 +163,19 @@ class FrontOverview extends Component {
 
     const { highlight } = this.state
 
-    const teasersByMonth = teasers.reduce(
+    const groupedTeasers = teasers.reduce(
       ([all, last], teaser) => {
-        const key = formatMonth(teaser.publishDate)
+        const key = formatDate(teaser.publishDate)
         if (!last || key !== last.key) {
-          // ignore unexpected jumps
-          // - this happens when a previously published article was placed
-          // - or an articles publish date was later updated
-          // mostly happens for debates or meta articles
-          const prevKey = formatMonth(timeMonth.offset(teaser.publishDate, -1))
-          if (!last || prevKey === last.key) {
-            const newMonth = { key, values: [teaser] }
-            all.push(newMonth)
-            return [all, newMonth]
+          const existingGroup = all.find(d => d.key === key)
+          if (existingGroup) {
+            existingGroup.values.push(teaser)
+            return [all, existingGroup]
           }
+
+          const newGroup = { key, values: [teaser] }
+          all.push(newGroup)
+          return [all, newGroup]
         }
         last.values.push(teaser)
         return [all, last]
@@ -164,9 +185,9 @@ class FrontOverview extends Component {
 
     // // WANT ALL TEASERS AS HIGH RES IMAGES?
     //     let curls = ''
-    //     teasersByMonth.forEach(({ key: month, values }) => {
+    //     groupedTeasers.forEach(({ key, values }) => {
     //       const path = (knownYears[year] && knownYears[year].path) || '/'
-    //       let m = `\n# ${month}\n`
+    //       let m = `\n# ${key}\n`
     //       m += values.map((t, i) => (
     //         `curl -o "pngs/${swissTime.format('%Y-%m-%dT%H')(t.publishDate)}-${t.id}-${i}.png" "${getImgSrc(t, path, null, false).replace('https://cdn.repub.ch/', 'https://assets.republik.space/') + '&zoomFactor=2'}"; sleep 1;`
     //       )).join('\n')
@@ -181,8 +202,8 @@ class FrontOverview extends Component {
       !knownYears[year] ||
       (!knownYears[year].after && !knownYears[year].path)
     ) {
-      teasersByMonth.reverse()
-      teasersByMonth.forEach(m => m.values.reverse())
+      groupedTeasers.reverse()
+      groupedTeasers.forEach(m => m.values.reverse())
     }
 
     return (
@@ -190,7 +211,15 @@ class FrontOverview extends Component {
         <Interaction.H1
           style={{ color: colors.negative.text, marginBottom: 5 }}
         >
-          {t.first([`overview/${year}/title`, 'overview/title'], { year })}
+          {t.first(
+            [
+              `overview/${year}/title/${interval}`,
+              `overview/title/${interval}`,
+              `overview/${year}/title`,
+              'overview/title'
+            ],
+            { year }
+          )}
         </Interaction.H1>
 
         <P style={{ marginBottom: 10 }}>
@@ -209,12 +238,12 @@ class FrontOverview extends Component {
           error={data.error}
           style={{ minHeight: `calc(90vh)` }}
           render={() => {
-            return teasersByMonth.map(({ key: month, values }, i) => {
-              const Text = texts[year] && texts[year][month]
+            return groupedTeasers.map(({ key, values }, i) => {
+              const Text = texts[year] && texts[year][key]
               return (
                 <div
                   style={{ marginTop: 50 }}
-                  key={month}
+                  key={key}
                   onClick={() => {
                     // a no-op for mobile safari
                     // - causes mouse enter and leave to be triggered
@@ -227,7 +256,7 @@ class FrontOverview extends Component {
                       marginTop: 0
                     }}
                   >
-                    {month}
+                    {key}
                   </Interaction.H2>
                   <P style={{ marginBottom: 20 }}>
                     {Text && (

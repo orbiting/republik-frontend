@@ -1,5 +1,5 @@
 {
-  "updated": "2020-10-08T13:12:11.728Z",
+  "updated": "2020-10-22T09:53:14.698Z",
   "title": "live",
   "data": [
     {
@@ -728,7 +728,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/unsubscribed",
-      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter auswählen, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können."
+      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter abonnieren, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können."
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",
@@ -764,11 +764,11 @@
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/label",
-      "value": "Covid-19-Updates"
+      "value": "Covid-19-Uhr-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
-      "value": "unregelmässig"
+      "value": "montags bis freitags um 19 Uhr"
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/label",
@@ -4515,8 +4515,16 @@
       "value": "Jahresüberblick {year}"
     },
     {
+      "key": "overview/meta/title/wochen",
+      "value": "Jahresüberblick {year} Wochen"
+    },
+    {
       "key": "overview/meta/description",
       "value": "Lassen Sie Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren – Monat für Monat, Tag für Tag."
+    },
+    {
+      "key": "overview/meta/description/wochen",
+      "value": "Lassen Sie Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren – Woche für Woche, Tag für Tag."
     },
     {
       "key": "overview/2018/meta/title",
@@ -4529,6 +4537,10 @@
     {
       "key": "overview/title",
       "value": "{year}, Monat für Monat"
+    },
+    {
+      "key": "overview/title/wochen",
+      "value": "{year}, Woche für Woche"
     },
     {
       "key": "overview/2018/lead",
@@ -6544,7 +6556,11 @@
     },
     {
       "key": "Auth/NewsletterSignUp/settingTitle",
-      "value": "Ihre Einstellung"
+      "value": "Newsletter per E-Mail"
+    },
+    {
+      "key": "Auth/NewsletterSignUp/settingLabel",
+      "value": "abonniert"
     },
     {
       "key": "Notifications/title/0",

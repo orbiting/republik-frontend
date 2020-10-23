@@ -62,6 +62,7 @@ import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
+import Voting from '../Vote/Voting'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -189,9 +190,7 @@ const ArticlePage = ({
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
           // ToDo: needs next dynamic import wrapper
-          VOTEBOX: ({ text }) => {
-            return <p>Hello World {text}</p>
-          }
+          VOTEBOX: Voting
         },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),

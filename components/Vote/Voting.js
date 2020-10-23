@@ -288,7 +288,7 @@ class Voting extends React.Component {
   }
 
   render() {
-    const { data } = this.props
+    const { data, description } = this.props
     return (
       <Loader
         loading={data.loading}
@@ -303,7 +303,7 @@ class Voting extends React.Component {
 
           return (
             <div {...styles.card}>
-              <H3>{voting.description}</H3>
+              <H3>{description || voting.description}</H3>
               {error && <ErrorMessage error={error} />}
               {this.renderVotingBody()}
             </div>

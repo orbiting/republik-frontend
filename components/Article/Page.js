@@ -62,7 +62,10 @@ import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
-import Voting from '../Vote/Voting'
+
+// Identifier-based dynamic components mapping
+import dynamic from 'next/dynamic'
+const Voting = dynamic(() => import('../Vote/Voting'))
 
 const schemaCreators = {
   editorial: createArticleSchema,

@@ -57,9 +57,6 @@ const Tile = ({ t, episode, index, prev, next }) => {
   return (
     <Link href={path}>
       <TeaserFrontTile
-        attributes={{
-          ...colorScheme.rules[path ? 'textColor' : 'lightTextColor']
-        }}
         bgColor='inherit'
         color='inherit'
         image={image}

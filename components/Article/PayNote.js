@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
   Interaction,
   Center,
   mediaQueries,
   Button,
-  colors,
   fontStyles,
-  linkRule,
-  Label
+  Label,
+  ColorContextProvider,
+  useColorContext
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
 import { css, merge } from 'glamor'
@@ -15,11 +15,10 @@ import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEvent, trackEventOnClick } from '../../lib/piwik'
 import { Router } from '../../lib/routes'
 import NativeRouter, { withRouter } from 'next/router'
-import { compose, graphql } from 'react-apollo'
+import { compose } from 'react-apollo'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
-import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
 import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
 import { parseJSONObject } from '../../lib/safeJSON'
@@ -55,29 +54,9 @@ const styles = {
       flexDirection: 'row'
     }
   }),
-  links: css({
-    '& a': linkRule
-  }),
-  linksDark: css({
-    '& a': {
-      textDecoration: 'none',
-      color: colors.negative.text,
-      ':visited': {
-        color: colors.negative.text
-      },
-      '@media (hover)': {
-        ':hover': {
-          color: colors.negative.text,
-          textDecoration: 'underline',
-          textDecorationSkip: 'ink'
-        }
-      }
-    }
-  }),
   aside: css({
     maxWidth: '50%',
     marginTop: 15,
-    color: colors.lightText,
     ...fontStyles.sansSerifRegular16,
     lineHeight: 1.4,
     [mediaQueries.mUp]: {
@@ -86,9 +65,6 @@ const styles = {
       marginLeft: 30,
       marginTop: 0
     }
-  }),
-  asideDark: css({
-    color: colors.negative.text
   })
 }
 
@@ -317,11 +293,10 @@ const withCounts = (text, replacements) => {
   return message
 }
 
-const BuyButton = ({ payNote, payload, darkMode }) => (
+const BuyButton = ({ payNote, payload }) => (
   <Button
     primary
     href={payNote.button.link}
-    white={darkMode}
     onClick={trackEventOnClick(
       ['PayNote', `pledge ${payload.position}`, payload.variation],
       () => goTo(payNote.button.link)
@@ -331,34 +306,56 @@ const BuyButton = ({ payNote, payload, darkMode }) => (
   </Button>
 )
 
-const SecondaryCta = ({ payNote, payload, darkMode }) =>
-  payNote.secondary && payNote.secondary.link ? (
-    <div
-      {...merge(styles.aside, darkMode && styles.asideDark)}
-      {...(darkMode ? styles.linksDark : styles.links)}
-    >
-      <span>{payNote.secondary.prefix} </span>
-      <a
-        key='secondary'
-        href={payNote.secondary.link}
-        onClick={trackEventOnClick(
-          ['PayNote', `secondary ${payload.position}`, payload.variation],
-          () => goTo(payNote.secondary.link)
-        )}
-      >
-        {payNote.secondary.label}
-      </a>
-    </div>
-  ) : null
+const SecondaryCta = ({ payNote, payload }) => {
+  const [colorScheme] = useColorContext()
+  const linkRule = useMemo(
+    () =>
+      css({
+        '& a': {
+          textDecoration: 'none',
+          color: colorScheme.getCSSColors('primary'),
+          '@media (hover)': {
+            ':hover': {
+              color: colorScheme.getCSSColors('textSoft')
+            }
+          }
+        }
+      }),
+    [colorScheme]
+  )
+  return (
+    <>
+      {payNote.secondary && payNote.secondary.link ? (
+        <div
+          {...styles.aside}
+          {...colorScheme.set('color', 'textSoft')}
+          {...linkRule}
+        >
+          <span>{payNote.secondary.prefix} </span>
+          <a
+            key='secondary'
+            href={payNote.secondary.link}
+            onClick={trackEventOnClick(
+              ['PayNote', `secondary ${payload.position}`, payload.variation],
+              () => goTo(payNote.secondary.link)
+            )}
+          >
+            {payNote.secondary.label}
+          </a>
+        </div>
+      ) : null}
+    </>
+  )
+}
 
-const BuyNoteCta = ({ payNote, payload, darkMode }) => (
+const BuyNoteCta = ({ payNote, payload }) => (
   <div {...styles.actions}>
-    <BuyButton darkMode={darkMode} payNote={payNote} payload={payload} />
-    <SecondaryCta darkMode={darkMode} payNote={payNote} payload={payload} />
+    <BuyButton payNote={payNote} payload={payload} />
+    <SecondaryCta payNote={payNote} payload={payload} />
   </div>
 )
 
-const TryNoteCta = compose(withRouter)(({ router, darkMode, payload }) => {
+const TryNoteCta = compose(withRouter)(({ router, payload }) => {
   return (
     <TrialForm
       beforeSignIn={() => {
@@ -377,66 +374,67 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode, payload }) => {
       }}
       accessCampaignId={trialAccessCampaignId}
       payload={payload}
-      darkMode={darkMode}
       minimal
     />
   )
 })
 
-const PayNoteCta = ({ payNote, payload, darkMode }) =>
-  payNote.cta ? (
-    <div {...styles.cta}>
-      {payNote.cta === 'trialForm' ? (
-        <TryNoteCta darkMode={darkMode} payload={payload} />
-      ) : (
-        <BuyNoteCta darkMode={darkMode} payNote={payNote} payload={payload} />
-      )}
-      {payNote.note && (
-        <div
-          style={{ marginTop: 10, marginBottom: 5 }}
-          onClick={e => {
-            if (e.target.nodeName === 'A') {
-              trackEvent([
-                'PayNote',
-                `note ${payload.position}`,
-                payload.variation
-              ])
-              const href =
-                e.target.getAttribute && e.target.getAttribute('href')
-              if (!shouldIgnoreClick(e) && href && href.startsWith('/')) {
-                e.preventDefault()
-                goTo(href)
-              }
-            }
-          }}
-          {...(darkMode ? styles.linksDark : styles.links)}
-        >
-          <Label
-            dangerouslySetInnerHTML={{
-              __html: payNote.note
-            }}
-          />
+const PayNoteCta = ({ payNote, payload }) => {
+  return (
+    <>
+      {payNote.cta ? (
+        <div {...styles.cta}>
+          {payNote.cta === 'trialForm' ? (
+            <TryNoteCta payload={payload} />
+          ) : (
+            <BuyNoteCta payNote={payNote} payload={payload} />
+          )}
+          {payNote.note && (
+            <div
+              style={{ marginTop: 10, marginBottom: 5 }}
+              onClick={e => {
+                if (e.target.nodeName === 'A') {
+                  trackEvent([
+                    'PayNote',
+                    `note ${payload.position}`,
+                    payload.variation
+                  ])
+                  const href =
+                    e.target.getAttribute && e.target.getAttribute('href')
+                  if (!shouldIgnoreClick(e) && href && href.startsWith('/')) {
+                    e.preventDefault()
+                    goTo(href)
+                  }
+                }
+              }}
+            >
+              <Label
+                dangerouslySetInnerHTML={{
+                  __html: payNote.note
+                }}
+              />
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  ) : null
+      ) : null}
+    </>
+  )
+}
 
-const PayNoteP = ({ content, darkMode }) => (
+const PayNoteP = ({ content }) => (
   <Interaction.P
     {...styles.content}
-    {...(darkMode ? styles.linksDark : styles.links)}
-    style={{ color: darkMode ? colors.negative.text : '#000000' }}
     dangerouslySetInnerHTML={{
       __html: content
     }}
   />
 )
 
-const PayNoteContent = ({ content, darkMode }) =>
+const PayNoteContent = ({ content }) =>
   content ? (
     <>
       {content.split('\n\n').map((c, i) => (
-        <PayNoteP key={i} content={c} darkMode={darkMode} />
+        <PayNoteP key={i} content={c} />
       ))}
     </>
   ) : null
@@ -445,42 +443,6 @@ export const PayNote = compose(
   withRouter,
   withInNativeApp,
   withMemberStatus
-  //   graphql(memberShipQuery, {
-  //     skip: props => props.hasActiveMembership,
-  //     props: ({ data: { membershipStats, revenueStats, crowdfunding } }) => {
-  //       const latestGoal = crowdfunding && [].concat(crowdfunding.goals).pop()
-  //
-  //       if (membershipStats && membershipStats.count && latestGoal) {
-  //         const remainingMemberships = Math.max(
-  //           0,
-  //           latestGoal.memberships - membershipStats.marchCount
-  //         )
-  //         const remainingMoney = Math.max(
-  //           0,
-  //           (latestGoal.money - revenueStats.surplus.total) / 100
-  //         )
-  //
-  //         return {
-  //           statReplacements: {
-  //             reached: remainingMemberships === 0,
-  //             count: countFormat(membershipStats.count),
-  //             remainingMemberships: countFormat(remainingMemberships),
-  //             remainingMoney: countFormat(remainingMoney)
-  //           }
-  //         }
-  //       }
-  //
-  //       return {
-  //         statReplacements: {
-  //           count: countFormat(
-  //             (membershipStats && membershipStats.count) || 19500
-  //           ),
-  //           remainingMemberships: 'viele',
-  //           remainingMoney: 'viele'
-  //         }
-  //       }
-  //     }
-  //   })
 )(
   ({
     router: { query },
@@ -495,6 +457,7 @@ export const PayNote = compose(
     position,
     customPayNotes
   }) => {
+    const [colorScheme] = useColorContext()
     const subject = {
       inNativeIOSApp,
       isEligibleForTrial,
@@ -516,33 +479,34 @@ export const PayNote = compose(
       position
     }
     const isBefore = position === 'before'
-    const darkMode = isBefore
+
+    const ConditionalColorContext = ({ condition, children }) =>
+      condition ? (
+        <ColorContextProvider colorSchemeKey='dark'>
+          {children}
+        </ColorContextProvider>
+      ) : (
+        children
+      )
 
     return (
-      <div
-        {...styles.banner}
-        style={{
-          backgroundColor: isBefore
-            ? colors.negative.primaryBg
-            : colors.primaryBg
-        }}
-      >
-        <Center>
-          <PayNoteContent
-            content={withCounts(
-              (statReplacements.reached && positionedNote.contentReached) ||
-                positionedNote.content,
-              statReplacements
-            )}
-            darkMode={darkMode}
-          />
-          <PayNoteCta
-            darkMode={darkMode}
-            payNote={positionedNote}
-            payload={payload}
-          />
-        </Center>
-      </div>
+      <ConditionalColorContext condition={isBefore}>
+        <div
+          {...styles.banner}
+          {...colorScheme.set('backgroundColor', 'default')}
+        >
+          <Center>
+            <PayNoteContent
+              content={withCounts(
+                (statReplacements.reached && positionedNote.contentReached) ||
+                  positionedNote.content,
+                statReplacements
+              )}
+            />
+            <PayNoteCta payNote={positionedNote} payload={payload} />
+          </Center>
+        </div>
+      </ConditionalColorContext>
     )
   }
 )

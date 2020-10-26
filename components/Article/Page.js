@@ -63,6 +63,13 @@ import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
 
+// Identifier-based dynamic components mapping
+import dynamic from 'next/dynamic'
+const Votebox = dynamic(() => import('../Vote/Voting'), {
+  loading: () => <Loader />,
+  ssr: false
+})
+
 const schemaCreators = {
   editorial: createArticleSchema,
   meta: createArticleSchema,
@@ -187,6 +194,9 @@ const ArticlePage = ({
           ? t('plattformUnauthorizedZoneText/ios')
           : undefined,
         dynamicComponentRequire,
+        dynamicComponentIdentifiers: {
+          VOTEBOX: Votebox
+        },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),
         getVideoPlayerProps:

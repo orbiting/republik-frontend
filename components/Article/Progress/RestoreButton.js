@@ -59,7 +59,7 @@ const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
                 <ProgressCircle
                   progress={userProgress.percentage * 100}
                   stroke={colorScheme.fill}
-                  strokePlaceholder={colorScheme.lightFill}
+                  strokePlaceholder
                   radius={RADIUS}
                   strokeWidth={3}
                 />

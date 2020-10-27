@@ -60,7 +60,7 @@ const UserProgress = (
     <ProgressCircle
       progress={percent}
       stroke={colors.text}
-      strokePlaceholder='#e9e9e9'
+      strokePlaceholder
       size={24}
       strokeWidth={2}
     />

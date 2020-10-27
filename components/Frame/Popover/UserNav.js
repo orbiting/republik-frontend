@@ -38,7 +38,7 @@ const UserNav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
-  isMember
+  colorSchemeKey
 }) => {
   const [containerPadding, setContainerPadding] = useState()
   const containerRef = useRef(null)
@@ -89,7 +89,7 @@ const UserNav = ({
           {hasExpandedRef.current && (
             <>
               <div style={{ marginBottom: 10 }}>
-                <DarkmodeSwitch />
+                <DarkmodeSwitch colorSchemeKey={colorSchemeKey} />
               </div>
               {!me && (
                 <>

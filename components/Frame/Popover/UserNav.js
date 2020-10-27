@@ -89,7 +89,7 @@ const UserNav = ({
           {hasExpandedRef.current && (
             <>
               <div style={{ marginBottom: 10 }}>
-                <DarkmodeSwitch colorSchemeKey={colorSchemeKey} />
+                <DarkmodeSwitch colorSchemeKey={colorSchemeKey} t={t} />
               </div>
               {!me && (
                 <>

@@ -10,7 +10,7 @@ import { MdBrightness2 } from 'react-icons/md'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 
-const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey }) => {
+const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
 
   const colorSchemaKeyForLable =
@@ -18,16 +18,20 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey }) => {
 
   const iconLabel =
     colorSchemaKeyForLable === 'light'
-      ? 'aus'
+      ? `${t('darkmode/switch/off')}`
       : colorSchemaKeyForLable === 'dark'
-      ? 'ein'
-      : 'auto'
+      ? `${t('darkmode/switch/on')}`
+      : `${t('darkmode/switch/auto')}`
 
   const Icon = React.forwardRef((props, ref) => (
     <IconButton
       Icon={MdBrightness2}
-      label={`Nachtmodus: ${iconLabel}`}
-      labelShort={`Nachtmodus: ${iconLabel}`}
+      label={t.elements('darkmode/switch/label', {
+        iconLabel
+      })}
+      labelShort={t.elements('darkmode/switch/label', {
+        iconLabel
+      })}
       ref={ref}
       {...props}
     />
@@ -37,7 +41,7 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey }) => {
     <CalloutMenu Element={Icon}>
       <div style={{ maxWidth: 180 }}>
         {pageColorSchemeKey !== 'auto' ? (
-          <Label>Diese Seite unterstütz den Nachtmodus nicht</Label>
+          <Label>{t('darkmode/switch/notavailable')}</Label>
         ) : (
           <Interaction.P>
             <Radio
@@ -45,7 +49,7 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey }) => {
               checked={colorSchemeKey === 'dark'}
               onChange={event => setColorSchemeKey(event.target.value)}
             >
-              Ein
+              {t('darkmode/switch/on')}
             </Radio>
             <br />
             <Radio
@@ -53,7 +57,7 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey }) => {
               checked={colorSchemeKey === 'light'}
               onChange={event => setColorSchemeKey(event.target.value)}
             >
-              Aus
+              {t('darkmode/switch/off')}
             </Radio>
             <br />
             <Radio
@@ -62,7 +66,7 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey }) => {
               checked={!colorSchemeKey}
               onChange={event => setColorSchemeKey(event.target.value)}
             >
-              Automatisch
+              {t('darkmode/switch/auto')}
             </Radio>
           </Interaction.P>
         )}

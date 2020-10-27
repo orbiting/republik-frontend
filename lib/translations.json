@@ -1,5 +1,5 @@
 {
-  "updated": "2020-10-22T09:53:14.698Z",
+  "updated": "2020-10-27T13:34:14.566Z",
   "title": "live",
   "data": [
     {
@@ -6873,6 +6873,26 @@
     {
       "key": "Trial/Form/buchbasel/button",
       "value": "Jetzt Probe lesen"
+    },
+    {
+      "key": "darkmode/switch/label",
+      "value": "Nachtmodus: {iconLabel}"
+    },
+    {
+      "key": "darkmode/switch/notavailable",
+      "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar"
+    },
+    {
+      "key": "darkmode/switch/on",
+      "value": "Ein"
+    },
+    {
+      "key": "darkmode/switch/off",
+      "value": "Aus"
+    },
+    {
+      "key": "darkmode/switch/auto",
+      "value": "Automatisch"
     }
   ]
 }

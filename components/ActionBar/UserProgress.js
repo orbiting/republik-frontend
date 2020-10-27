@@ -59,7 +59,7 @@ const UserProgress = (
   const ProgressCircleIcon = () => (
     <ProgressCircle
       progress={percent}
-      stroke={colors.text}
+      stroke='text'
       strokePlaceholder
       size={24}
       strokeWidth={2}

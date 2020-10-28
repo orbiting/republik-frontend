@@ -13,7 +13,6 @@ import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
-import AudioPlayer from '../Audio/AudioPlayer'
 import ProlongBox from './ProlongBox'
 import ColorSchemeSync from '../ColorScheme/Sync'
 import {
@@ -165,7 +164,6 @@ const Frame = ({
         </div>
         {!inNativeApp && footer && <Footer />}
       </div>
-      <AudioPlayer />
     </ColorContextProvider>
   )
 }

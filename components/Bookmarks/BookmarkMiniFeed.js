@@ -109,7 +109,7 @@ const styles = {
     marginRight: 16,
     padding: '16px 8px 12px 8px',
     borderWidth: 1,
-    boderStyle: 'solid',
+    borderStyle: 'solid',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',

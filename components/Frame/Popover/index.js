@@ -23,7 +23,7 @@ const Popover = ({ expanded, id, children, dark }) => {
         top: HEADER_HEIGHT_MOBILE,
         height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
         borderTopWidth: 1,
-        boderTopStyle: 'solid',
+        borderTopStyle: 'solid',
         [mediaQueries.mUp]: {
           top: HEADER_HEIGHT,
           height: `calc(100vh - ${HEADER_HEIGHT}px)`

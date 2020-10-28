@@ -128,7 +128,7 @@ const styles = {
   }),
   preview: css({
     borderTopWidth: 1,
-    boderStyle: 'solid'
+    borderStyle: 'solid'
   }),
   subhead: css({
     marginTop: 12,

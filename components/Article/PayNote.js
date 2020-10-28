@@ -313,10 +313,10 @@ const SecondaryCta = ({ payNote, payload }) => {
       css({
         '& a': {
           textDecoration: 'none',
-          color: colorScheme.getCSSColors('primary'),
+          color: colorScheme.getCSSColor('primary'),
           '@media (hover)': {
             ':hover': {
-              color: colorScheme.getCSSColors('textSoft')
+              color: colorScheme.getCSSColor('textSoft')
             }
           }
         }
@@ -440,10 +440,22 @@ const PayNoteContent = ({ content }) =>
     </>
   ) : null
 
+const withDarkContextWhenBefore = WrappedComponent => props => {
+  if (props.position === 'before') {
+    return (
+      <ColorContextProvider colorSchemeKey='dark'>
+        <WrappedComponent {...props} />
+      </ColorContextProvider>
+    )
+  }
+  return <WrappedComponent {...props} />
+}
+
 export const PayNote = compose(
   withRouter,
   withInNativeApp,
-  withMemberStatus
+  withMemberStatus,
+  withDarkContextWhenBefore
 )(
   ({
     router: { query },
@@ -481,33 +493,22 @@ export const PayNote = compose(
     }
     const isBefore = position === 'before'
 
-    const ConditionalColorContext = ({ condition, children }) =>
-      condition ? (
-        <ColorContextProvider colorSchemeKey='dark'>
-          {children}
-        </ColorContextProvider>
-      ) : (
-        children
-      )
-
     return (
-      <ConditionalColorContext condition={isBefore}>
-        <div
-          {...styles.banner}
-          {...colorScheme.set('backgroundColor', 'default')}
-        >
-          <Center>
-            <PayNoteContent
-              content={withCounts(
-                (statReplacements.reached && positionedNote.contentReached) ||
-                  positionedNote.content,
-                statReplacements
-              )}
-            />
-            <PayNoteCta payNote={positionedNote} payload={payload} />
-          </Center>
-        </div>
-      </ConditionalColorContext>
+      <div
+        {...styles.banner}
+        {...colorScheme.set('backgroundColor', isBefore ? 'default' : 'alert')}
+      >
+        <Center>
+          <PayNoteContent
+            content={withCounts(
+              (statReplacements.reached && positionedNote.contentReached) ||
+                positionedNote.content,
+              statReplacements
+            )}
+          />
+          <PayNoteCta payNote={positionedNote} payload={payload} />
+        </Center>
+      </div>
     )
   }
 )

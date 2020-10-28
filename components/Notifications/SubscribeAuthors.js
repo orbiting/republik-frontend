@@ -2,7 +2,7 @@ import React from 'react'
 import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
 import { css } from 'glamor'
-import { Interaction, fontFamilies } from '@project-r/styleguide'
+import { fontStyles } from '@project-r/styleguide'
 
 const SubscribeAuthor = ({
   t,
@@ -17,9 +17,7 @@ const SubscribeAuthor = ({
     <>
       {onlyCommentFilter ? (
         <>
-          <Interaction.P {...styles.title}>
-            {t('SubscribeMenu/title')}
-          </Interaction.P>
+          <h4 {...styles.title}>{t('SubscribeMenu/title')}</h4>
           {subscriptions.map(subscription => (
             <SubscribeCheckbox
               key={subscription.id}
@@ -51,9 +49,7 @@ const SubscribeAuthor = ({
         </>
       ) : (
         <div style={style}>
-          <Interaction.P {...styles.title}>
-            {t('SubscribeMenu/title')}
-          </Interaction.P>
+          <h4 {...styles.title}>{t('SubscribeMenu/title')}</h4>
           {subscriptions.map(subscription => (
             <SubscribeCheckbox
               key={subscription.id}
@@ -72,7 +68,8 @@ const SubscribeAuthor = ({
 const styles = {
   title: css({
     margin: '0 0 12px',
-    fontWeight: 'inherit'
+    fontWeight: 'inherit',
+    ...fontStyles.sansSerifMedium
   })
 }
 

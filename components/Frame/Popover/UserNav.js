@@ -90,7 +90,7 @@ const UserNav = ({
           {hasExpandedRef.current && (
             <>
               {isTester ? (
-                <div style={{ marginBottom: 10 }}>
+                <div style={{ marginBottom: 20 }}>
                   <DarkmodeSwitch colorSchemeKey={colorSchemeKey} t={t} />
                 </div>
               ) : null}

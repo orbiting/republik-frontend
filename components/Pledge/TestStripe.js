@@ -147,8 +147,17 @@ const stripeClients = [
   }
 ]
 
-const Join = ({ t, black, start, submit, pay, me, stripePaymentMethods }) => {
-  const [currentOffer, setOffer] = useState(OFFERS[1])
+const Join = ({
+  t,
+  black,
+  start,
+  submit,
+  pay,
+  addPaymentMethod,
+  me,
+  stripePaymentMethods
+}) => {
+  const [currentOffer, setOffer] = useState(OFFERS[0])
 
   return (
     <Elements
@@ -210,6 +219,7 @@ const Join = ({ t, black, start, submit, pay, me, stripePaymentMethods }) => {
         start={start}
         submit={submit}
         pay={pay}
+        addPaymentMethod={addPaymentMethod}
         me={me}
         stripePaymentMethods={stripePaymentMethods}
         currentOffer={currentOffer}
@@ -224,6 +234,7 @@ const Form = ({
   start,
   submit,
   pay,
+  addPaymentMethod,
   me,
   stripePaymentMethods,
   currentOffer
@@ -233,6 +244,31 @@ const Form = ({
   const [currentStripePaymentMethod, setStripePaymentMethod] = useState()
   const stripe = useStripe()
   const elements = useElements()
+
+  const getPaymentMethodId = async () => {
+    let paymentMethodId
+    if (currentStripePaymentMethod) {
+      console.log('using existing card')
+      paymentMethodId = currentStripePaymentMethod.id
+    } else {
+      console.log('using new card')
+      await stripe
+        .createPaymentMethod({
+          type: 'card',
+          card: elements.getElement(CardElement)
+        })
+        .then(result => {
+          if (result.error) {
+            console.error(result.error)
+            alert('problem with createPaymentMethod: ' + result.error.message)
+          } else {
+            paymentMethodId = result.paymentMethod.id
+            console.log(`new PaymentMethod created ${paymentMethodId}`)
+          }
+        })
+    }
+    return paymentMethodId
+  }
 
   return (
     <form style={{ display: 'block', minHeight: 1000 }}>
@@ -355,33 +391,63 @@ const Form = ({
         onClick={async e => {
           e.preventDefault()
 
+          console.log(`let's go...`)
+
+          const paymentMethodId = await getPaymentMethodId()
+
+          if (!paymentMethodId) {
+            return
+          }
+
+          console.log('adding paymentMethod...')
+          addPaymentMethod({
+            stripePlatformPaymentMethodId: paymentMethodId,
+            companyId: currentOffer.companyId
+          }).then(async result => {
+            console.log('addPaymentMethod success!', result)
+
+            const { stripeClientSecret } = result.data.addPaymentMethod
+
+            if (stripeClientSecret) {
+              // get stripe client belonging to company of package
+              const stripeClient = stripeClients.find(
+                c => c.companyId === currentOffer.companyId
+              ).client
+
+              console.log('confirmCardSetup...')
+              const confirmResult = await (await stripeClient).confirmCardSetup(
+                stripeClientSecret
+              )
+
+              const { paymentIntent, error } = confirmResult
+              if (error) {
+                console.warn(error)
+                alert('there was a problem with confirmCardSetup')
+                return
+              }
+              console.log('stripeClientSecret confirmed')
+            }
+          })
+        }}
+      >
+        Only AddPaymentMethod
+      </Button>
+      <br />
+      <Button
+        block
+        primary
+        black={black}
+        style={black ? { backgroundColor: 'black', color: 'white' } : undefined}
+        onClick={async e => {
+          e.preventDefault()
+
           if (!emailState.value?.length) {
             alert('email missing')
             return
           }
           console.log(`let's go...`)
 
-          let paymentMethodId
-          if (currentStripePaymentMethod) {
-            console.log('using existing card')
-            paymentMethodId = currentStripePaymentMethod.id
-          } else {
-            console.log('using new card')
-            await stripe
-              .createPaymentMethod({
-                type: 'card',
-                card: elements.getElement(CardElement)
-              })
-              .then(result => {
-                if (result.error) {
-                  console.error(result.error)
-                  alert('problem with createPaymentMethod' + result.error)
-                } else {
-                  paymentMethodId = result.paymentMethod.id
-                  console.log(`new PaymentMethod created ${paymentMethodId}`)
-                }
-              })
-          }
+          const paymentMethodId = await getPaymentMethodId()
 
           if (!paymentMethodId) {
             return
@@ -443,7 +509,7 @@ const Form = ({
             })
         }}
       >
-        {currentOffer.price}
+        Pledge: {currentOffer.price}
       </Button>
     </form>
   )
@@ -531,6 +597,20 @@ const payPledge = gql`
   }
 `
 
+const addPaymentMethodQuery = gql`
+  mutation addPaymentMethod(
+    $stripePlatformPaymentMethodId: ID!
+    $companyId: ID!
+  ) {
+    addPaymentMethod(
+      stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
+      companyId: $companyId
+    ) {
+      stripeClientSecret
+    }
+  }
+`
+
 export const withPay = Component => {
   const EnhancedComponent = compose(
     graphql(payPledge, {
@@ -548,6 +628,15 @@ export const withPay = Component => {
 }
 
 const JoinWithMutations = compose(
+  graphql(addPaymentMethodQuery, {
+    props: ({ mutate }) => ({
+      addPaymentMethod: variables => {
+        return mutate({
+          variables
+        })
+      }
+    })
+  }),
   graphql(submitPledge, {
     props: ({ mutate }) => ({
       submit: variables => {

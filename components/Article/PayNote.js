@@ -408,7 +408,8 @@ const PayNoteCta = ({ payNote, payload }) => {
                 }
               }}
             >
-              <Label
+              <RawHtml
+                type={Label}
                 dangerouslySetInnerHTML={{
                   __html: payNote.note
                 }}

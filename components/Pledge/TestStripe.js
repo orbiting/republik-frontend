@@ -536,7 +536,7 @@ const Form = ({
   )
 }
 
-export const query = gql`
+export const myPaymentMethodsQuery = gql`
   query myPaymentMethods($accessToken: ID) {
     me(accessToken: $accessToken) {
       id
@@ -638,7 +638,8 @@ export const withPay = Component => {
       props: ({ mutate }) => ({
         pay: variables => {
           return mutate({
-            variables
+            variables,
+            refetchQueries: [{ query: myPaymentMethodsQuery }]
           })
         }
       })
@@ -653,7 +654,8 @@ const JoinWithMutations = compose(
     props: ({ mutate }) => ({
       addPaymentMethod: variables => {
         return mutate({
-          variables
+          variables,
+          refetchQueries: [{ query: myPaymentMethodsQuery }]
         })
       }
     })
@@ -667,7 +669,7 @@ const JoinWithMutations = compose(
       }
     })
   }),
-  graphql(query, {
+  graphql(myPaymentMethodsQuery, {
     withRef: true,
     options: ({ accessToken }) => ({
       fetchPolicy: 'network-only',

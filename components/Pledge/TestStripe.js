@@ -281,7 +281,7 @@ const Form = ({
         .then(result => {
           if (result.error) {
             console.error(result.error)
-            alert('problem with createPaymentMethod: ' + result.error.message)
+            alert(`createPaymentMethod: ${result.error.message}`)
           } else {
             paymentMethodId = result.paymentMethod.id
             console.log(`new PaymentMethod created ${paymentMethodId}`)
@@ -443,7 +443,7 @@ const Form = ({
               const { paymentIntent, error } = confirmResult
               if (error) {
                 console.warn(error)
-                alert('there was a problem with confirmCardSetup')
+                alert(`confirmCardSetup ${error.message}`)
                 return
               }
               console.log('stripeClientSecret confirmed')
@@ -513,7 +513,7 @@ const Form = ({
                     const { paymentIntent, error } = confirmResult
                     if (error) {
                       console.warn(error)
-                      alert('there was a problem with confirmCardPayment')
+                      alert(`confirmCardPayment: ${error.message}`)
                       return
                     }
                     console.log('paymentConfirmed')

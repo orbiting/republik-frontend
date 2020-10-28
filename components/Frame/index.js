@@ -97,8 +97,12 @@ const Frame = ({
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
-  colorSchemeKey = 'light'
+  isTester,
+  colorSchemeKey: colorSchemeKeyProp = 'light'
 }) => {
+  const colorSchemeKey = isTester
+    ? colorSchemeKeyProp
+    : colorSchemeKeyProp === 'auto' ? 'light' : colorSchemeKeyProp
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
   const padHeaderRule = useMemo(() => {

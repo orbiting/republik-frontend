@@ -198,13 +198,7 @@ const MarketingPage = props => {
                 padding: 0
               }}
             >
-              <h1 {...styles.lead}>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: t('marketing/overview/title')
-                  }}
-                />
-              </h1>
+              <h1 {...styles.lead}>{t('marketing/overview/title')}</h1>
               <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
                 <Loader
                   loading={loading}

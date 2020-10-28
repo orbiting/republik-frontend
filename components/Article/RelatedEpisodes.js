@@ -16,8 +16,7 @@ import {
   TeaserFrontTileHeadline,
   TeaserFrontTileRow,
   TeaserFrontCredit,
-  Interaction,
-  useColorContext
+  Interaction
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -40,7 +39,6 @@ const styles = {
 }
 
 const Tile = ({ t, episode, index, prev, next }) => {
-  const [colorScheme] = useColorContext()
   const date = episode && episode.publishDate
   const label = episode && episode.label
   const meta = episode && episode.document && episode.document.meta
@@ -56,12 +54,7 @@ const Tile = ({ t, episode, index, prev, next }) => {
 
   return (
     <Link href={path}>
-      <TeaserFrontTile
-        bgColor='inherit'
-        color='inherit'
-        image={image}
-        align={image ? 'top' : undefined}
-      >
+      <TeaserFrontTile image={image} align={image ? 'top' : undefined}>
         <Editorial.Format>
           {prev && <MdKeyboardArrowLeft {...styles.prev} />}
           {label || t('article/series/episode', { count: romanize(index + 1) })}

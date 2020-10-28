@@ -8,7 +8,6 @@ import {
   Container,
   Editorial,
   Interaction,
-  RawHtml,
   colors,
   mediaQueries
 } from '@project-r/styleguide'

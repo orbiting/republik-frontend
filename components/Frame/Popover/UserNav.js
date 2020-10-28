@@ -1,13 +1,13 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react'
+import React, { useRef, useEffect, useState, useMemo, Fragment } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import {
-  colors,
   fontStyles,
   mediaQueries,
   Center,
   Button,
-  Loader
+  Loader,
+  useColorContext
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -16,12 +16,13 @@ import withInNativeApp from '../../../lib/withInNativeApp'
 import { Link, matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
-import { withMembership } from '../../Auth/checkRoles'
+import { withMembership, withTester } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import NavLink, { NavA } from './NavLink'
 import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
 import { registerQueryVariables } from '../../Bookmarks/queries'
+import DarkmodeSwitch from '../DarkmodeSwitch'
 
 const SignoutLink = ({ children, ...props }) => (
   <div {...styles.signout}>
@@ -37,7 +38,8 @@ const UserNav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
-  isMember
+  colorSchemeKey,
+  isTester
 }) => {
   const [containerPadding, setContainerPadding] = useState()
   const containerRef = useRef(null)
@@ -55,6 +57,8 @@ const UserNav = ({
       window.removeEventListener('resize', measureLeftPadding)
     }
   }, [])
+
+  const [colorScheme] = useColorContext()
   const active = matchPath(router.asPath)
   const hasExpandedRef = useRef(expanded)
   const hasProgress = !!me?.progressConsent
@@ -77,10 +81,19 @@ const UserNav = ({
   }
   return (
     <>
-      <Center {...styles.container} id='nav'>
+      <Center
+        {...styles.container}
+        {...colorScheme.set('color', 'text')}
+        id='nav'
+      >
         <div ref={containerRef}>
           {hasExpandedRef.current && (
             <>
+              {isTester ? (
+                <div style={{ marginBottom: 20 }}>
+                  <DarkmodeSwitch colorSchemeKey={colorSchemeKey} t={t} />
+                </div>
+              ) : null}
               {!me && (
                 <>
                   <div {...styles.signInBlock}>
@@ -155,7 +168,11 @@ const UserNav = ({
                       </NavLink>
                     </div>
                   </div>
-                  <hr {...styles.hr} />
+                  <hr
+                    {...styles.hr}
+                    {...colorScheme.set('color', 'divider')}
+                    {...colorScheme.set('backgroundColor', 'divider')}
+                  />
                   <div {...styles.navSection}>
                     <div {...styles.navLinks}>
                       {me.accessCampaigns.length > 0 && (
@@ -209,7 +226,6 @@ const UserNav = ({
 
 const styles = {
   container: css({
-    color: colors.text,
     [mediaQueries.mUp]: {
       marginTop: '40px'
     }
@@ -219,8 +235,6 @@ const styles = {
     display: 'block',
     border: 0,
     height: 1,
-    color: colors.divider,
-    backgroundColor: colors.divider,
     width: '100%'
   }),
   hrFixed: css({
@@ -261,4 +275,9 @@ const styles = {
   })
 }
 
-export default compose(withT, withInNativeApp, withMembership)(UserNav)
+export default compose(
+  withT,
+  withInNativeApp,
+  withMembership,
+  withTester
+)(UserNav)

@@ -3,20 +3,14 @@ import SubscribeDebate from './SubscribeDebate'
 import SubscribeDocument from './SubscribeDocument'
 import SubscribeAuthors from './SubscribeAuthors'
 import { css } from 'glamor'
-import { A, colors, fontFamilies } from '@project-r/styleguide'
+import { A, fontFamilies } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
 const styles = {
   container: css({
-    minWidth: 180,
-    '& h4': {
-      margin: '0 0 12px',
-      fontFamily: fontFamilies.sansSerifMedium,
-      fontWeight: 'inherit',
-      color: colors.text
-    }
+    minWidth: 180
   }),
   settings: css({
     margin: '5px 0 0'

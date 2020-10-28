@@ -3,7 +3,12 @@ import { compose, graphql } from 'react-apollo'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
 import { parse } from 'url'
-import { colors, mediaQueries, fontStyles, Loader } from '@project-r/styleguide'
+import {
+  useColorContext,
+  mediaQueries,
+  fontStyles,
+  Loader
+} from '@project-r/styleguide'
 
 import { notificationsMiniQuery } from '../Notifications/enhancers'
 import { timeFormat } from '../../lib/utils/format'
@@ -21,6 +26,7 @@ const NotificationFeedMini = ({
   data: { notifications, loading, error },
   closeHandler
 }) => {
+  const [colorScheme] = useColorContext()
   return (
     <Loader
       style={{ minHeight: 60 }}
@@ -52,7 +58,12 @@ const NotificationFeedMini = ({
                       }
                       return (
                         <div {...styles.notificationItem} key={j}>
-                          {isNew(node) && <div {...styles.unreadDot} />}
+                          {isNew(node) && (
+                            <div
+                              {...styles.unreadDot}
+                              {...colorScheme.set('borderColor', 'default')}
+                            />
+                          )}
 
                           <PathLink path={path} passHref>
                             <a
@@ -97,7 +108,7 @@ const styles = {
     height: 8,
     borderRadius: 8,
     marginRight: 8,
-    border: `1px solid ${colors.containerBg}`,
+    border: `1px solid`,
     background: 'red'
   })
 }

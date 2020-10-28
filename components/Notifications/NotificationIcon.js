@@ -1,7 +1,7 @@
 import { css } from 'glamor'
 import React, { useState, useEffect } from 'react'
 import { compose } from 'react-apollo'
-import { colors, mediaQueries } from '@project-r/styleguide'
+import { useColorContext, mediaQueries } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 
@@ -12,20 +12,17 @@ const styles = {
   unreadNotifications: css({
     display: 'inline-block',
     position: 'relative',
-    '&:after': {
-      content: ' ',
-      width: 8,
-      height: 8,
-      borderRadius: 8,
-      border: `1px solid ${colors.containerBg}`,
-      background: 'red',
-      position: 'absolute',
-      top: 8,
-      right: 8,
-      [mediaQueries.mUp]: {
-        top: 12,
-        right: 12
-      }
+    width: 8,
+    height: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    backgroundColor: 'red',
+    top: 8,
+    right: 15,
+    [mediaQueries.mUp]: {
+      top: 12,
+      right: 19
     }
   })
 }
@@ -71,6 +68,12 @@ export default compose(
       window.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [refetch])
+  const [colorScheme] = useColorContext()
 
-  return <span {...(hasUnread && styles.unreadNotifications)}></span>
+  return (
+    <span
+      {...(hasUnread && styles.unreadNotifications)}
+      {...colorScheme.set('borderColor', 'default')}
+    ></span>
+  )
 })

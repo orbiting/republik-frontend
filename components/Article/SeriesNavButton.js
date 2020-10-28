@@ -9,25 +9,15 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 import {
   mediaQueries,
   fontFamilies,
+  useColorContext,
   colors,
   useBodyScrollLock,
-  useHeaderHeight
+  useHeaderHeight,
+  plainButtonRule
 } from '@project-r/styleguide'
 
-const plainStyle = {
-  backgroundColor: 'transparent',
-  border: 'none',
-  boxShadow: 'none',
-  outline: 'none'
-}
-
 const styles = {
-  button: css({
-    cursor: 'pointer',
-    '&, &:focus': plainStyle,
-    '@media (hover)': {
-      ':hover': plainStyle
-    },
+  button: css(plainButtonRule, {
     fontFamily: fontFamilies.sansSerifRegular,
     padding: 0,
     textAlign: 'left',
@@ -80,6 +70,7 @@ const styles = {
 }
 
 const SeriesNavButton = ({ t, series, router }) => {
+  const [colorScheme] = useColorContext()
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
   const [headerHeight] = useHeaderHeight()
@@ -105,8 +96,18 @@ const SeriesNavButton = ({ t, series, router }) => {
               ? ` ${currentEpisode.label}`
               : ` – ${currentEpisode.label}`)}
           <span {...styles.arrow}>
-            {expanded && <MdKeyboardArrowUp size='28' fill={colors.text} />}
-            {!expanded && <MdKeyboardArrowDown size='28' fill={colors.text} />}
+            {expanded && (
+              <MdKeyboardArrowUp
+                size='28'
+                {...colorScheme.set('fill', 'text')}
+              />
+            )}
+            {!expanded && (
+              <MdKeyboardArrowDown
+                size='28'
+                {...colorScheme.set('fill', 'text')}
+              />
+            )}
           </span>
         </span>
       </button>

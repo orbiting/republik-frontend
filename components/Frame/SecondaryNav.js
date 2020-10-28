@@ -1,7 +1,12 @@
 import React from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
-import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
+import {
+  colors,
+  mediaQueries,
+  fontStyles,
+  useColorContext
+} from '@project-r/styleguide'
 
 import { matchPath } from '../../lib/routes'
 import withT from '../../lib/withT'
@@ -55,54 +60,51 @@ const sections = [
 
 export const SecondaryNav = ({
   secondaryNav,
-  dark,
   router,
   hasOverviewNav,
   isSecondarySticky,
   t
 }) => {
+  const [colorScheme] = useColorContext()
   const active = matchPath(router.asPath)
   return (
     <>
       {hasOverviewNav ? (
         <div
           {...styles.miniNav}
+          {...colorScheme.set('backgroundColor', 'default')}
+          {...colorScheme.set('borderColor', 'divider')}
           onTouchStart={e => {
             // prevent touchstart from bubbling to Pullable
             e.stopPropagation()
           }}
           style={{
-            borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
-              dark ? colors.negative.divider : colors.divider
-            }`,
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+            borderTopWidth: isSecondarySticky ? 0 : 1,
+            borderTopStyle: 'solid'
           }}
         >
           <NavLink
-            dark={dark}
             route='index'
             active={active}
-            minifeed={true}
+            minifeed
             title={t('navbar/front')}
           >
             {t('navbar/front')}
           </NavLink>
           <NavLink
-            dark={dark}
             prefetch
             route='feed'
             active={active}
-            minifeed={true}
+            minifeed
             title={t('navbar/feed')}
           >
             {t('navbar/feed')}
           </NavLink>
           <NavLink
-            dark={dark}
             route='discussion'
             active={active}
-            hoverColor={colors.primary}
-            minifeed={true}
+            formatColor={colors.primary}
+            minifeed
             title={t('navbar/discussion')}
           >
             {t('navbar/discussion')}
@@ -116,9 +118,8 @@ export const SecondaryNav = ({
                 route={match.route}
                 params={match.params}
                 active={active}
-                hoverColor={color}
-                minifeed={true}
-                dark={dark}
+                formatColor={color}
+                minifeed
                 title={section.title}
               >
                 {section.title}
@@ -130,12 +131,13 @@ export const SecondaryNav = ({
         secondaryNav && (
           <div
             {...styles.secondaryNav}
+            {...colorScheme.set('color', 'text')}
+            {...colorScheme.set('borderColor', 'divider')}
+            {...colorScheme.set('backgroundColor', 'default')}
             style={{
-              borderTop: `${isSecondarySticky ? 0 : 1}px solid ${
-                dark ? colors.negative.divider : colors.divider
-              }`,
-              transition: 'opacity 0.2s ease-out',
-              backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+              borderTopWidth: isSecondarySticky ? 0 : 1,
+              borderTopStyle: 'solid',
+              transition: 'opacity 0.2s ease-out'
             }}
           >
             {secondaryNav}
@@ -195,6 +197,11 @@ const styles = {
         [mediaQueries.mUp]: {
           paddingRight: 0
         }
+      },
+      '&.is-active': {
+        ...fontStyles.sansSerifMedium,
+        lineHeight: '16px',
+        marginTop: -1
       }
     },
     '@media print': {

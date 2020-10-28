@@ -333,7 +333,7 @@ const Page = ({
   }, [query.token])
 
   return (
-    <Frame meta={meta} dark>
+    <Frame meta={meta} colorSchemeKey='dark'>
       <Loader
         loading={data.loading || actionsLoading}
         error={data.error}

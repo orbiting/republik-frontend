@@ -3,7 +3,12 @@ import { compose } from 'react-apollo'
 
 import { ZINDEX_FEED_STICKY_SECTION_LABEL } from '../constants'
 import { css } from 'glamor'
-import { mediaQueries, colors, useHeaderHeight } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  colors,
+  useHeaderHeight,
+  useColorContext
+} from '@project-r/styleguide'
 import PropTypes from 'prop-types'
 import { withTester } from '../Auth/checkRoles'
 
@@ -12,6 +17,7 @@ const MARGIN_WIDTH = 20
 const STICKY_HEADER_HEIGHT = 27
 
 const StickySection = ({ children, label, hasSpaceAfter }) => {
+  const [colorScheme] = useColorContext()
   const [sticky, setSticky] = useState(false)
   const [isMedium, setIsMedium] = useState(false)
   const [width, setWidth] = useState(0)
@@ -62,12 +68,14 @@ const StickySection = ({ children, label, hasSpaceAfter }) => {
 
   return (
     <section ref={sectionRef}>
-      <div {...style.header}>
+      <div {...style.header} {...colorScheme.set('backgroundColor', 'default')}>
         <div
           {...style.label}
+          {...colorScheme.set('borderColor', 'text')}
+          {...colorScheme.set('backgroundColor', 'default')}
           {...(sticky ? style.sticky : undefined)}
           style={{
-            borderTop: sticky ? 'none' : '1px solid #000',
+            borderTopWidth: sticky ? 0 : 1,
             top: sticky ? headerHeight : undefined,
             position: sticky ? 'fixed' : 'relative',
             width: isMedium ? width : width ? SIDEBAR_WIDTH : '100%'
@@ -83,7 +91,6 @@ const StickySection = ({ children, label, hasSpaceAfter }) => {
 
 const style = {
   header: css({
-    backgroundColor: '#fff',
     margin: '0 0 30px 0',
     width: '100%',
     height: STICKY_HEADER_HEIGHT,
@@ -99,8 +106,7 @@ const style = {
   }),
   label: css({
     padding: '8px 0',
-    borderTop: '1px solid #000',
-    backgroundColor: '#fff',
+    borderTopStyle: 'solid',
     zIndex: ZINDEX_FEED_STICKY_SECTION_LABEL
   }),
   sticky: css({

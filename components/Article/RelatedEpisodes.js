@@ -9,7 +9,6 @@ import HrefLink from '../Link/Href'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 
 import {
-  colors,
   Breakout,
   Center,
   Editorial,
@@ -55,11 +54,7 @@ const Tile = ({ t, episode, index, prev, next }) => {
 
   return (
     <Link href={path}>
-      <TeaserFrontTile
-        color={path ? colors.text : colors.lightText}
-        image={image}
-        align={image ? 'top' : undefined}
-      >
+      <TeaserFrontTile image={image} align={image ? 'top' : undefined}>
         <Editorial.Format>
           {prev && <MdKeyboardArrowLeft {...styles.prev} />}
           {label || t('article/series/episode', { count: romanize(index + 1) })}

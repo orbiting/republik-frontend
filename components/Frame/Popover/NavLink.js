@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 
 import { Link } from '../../../lib/routes'
 
-import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
+import {
+  fontStyles,
+  mediaQueries,
+  useColorContext
+} from '@project-r/styleguide'
 
 const styles = {
   link: css({
     textDecoration: 'none',
-    color: colors.text,
     '@media (hover)': {
       ':hover': {
         textDecoration: 'underline',
@@ -42,32 +45,57 @@ const styles = {
 
 export const NavA = React.forwardRef(
   (
-    { inline, hoverColor, children, dark, style, title, large, ...props },
+    {
+      inline,
+      formatColor,
+      activeFormatColor,
+      children,
+      style,
+      title,
+      large,
+      isActive,
+      ...props
+    },
     ref
-  ) => (
-    <a
-      ref={ref}
-      {...styles.link}
-      {...css({ color: dark ? colors.negative.text : colors.text })}
-      {...(hoverColor &&
+  ) => {
+    const [colorScheme] = useColorContext()
+    const hoverRule = useMemo(
+      () =>
+        formatColor &&
         css({
           transition: 'color 200ms ease-in-out',
           transitionDelay: '33ms',
           '@media (hover)': {
             ':hover': {
-              color: hoverColor
+              color: colorScheme.getCSSColor(formatColor, 'format')
             }
           }
-        }))}
-      {...(inline ? styles.inline : styles.block)}
-      {...(large && styles.large)}
-      style={style}
-      title={title}
-      {...props}
-    >
-      {children}
-    </a>
-  )
+        }),
+      [colorScheme, formatColor]
+    )
+
+    const colorRule =
+      isActive && activeFormatColor && formatColor
+        ? colorScheme.set('color', formatColor, 'format')
+        : colorScheme.set('color', 'text')
+
+    return (
+      <a
+        ref={ref}
+        {...styles.link}
+        {...colorRule}
+        {...hoverRule}
+        {...(inline ? styles.inline : styles.block)}
+        {...(large && styles.large)}
+        style={style}
+        className={isActive ? 'is-active' : undefined}
+        title={title}
+        {...props}
+      >
+        {children}
+      </a>
+    )
+  }
 )
 
 const NavLink = ({
@@ -77,19 +105,12 @@ const NavLink = ({
   active,
   closeHandler,
   inline,
-  hoverColor,
+  formatColor,
   prefetch = false,
   minifeed,
-  dark,
   title,
   large
 }) => {
-  const activeStyle = minifeed && {
-    ...fontStyles.sansSerifMedium14,
-    lineHeight: '16px',
-    marginTop: -1,
-    color: dark ? colors.negative.text : minifeed ? hoverColor : colors.text
-  }
   const isActive =
     active &&
     active.route === route &&
@@ -104,7 +125,6 @@ const NavLink = ({
     >
       <NavA
         title={title}
-        style={isActive ? activeStyle : undefined}
         inline={inline}
         onClick={
           !minifeed
@@ -114,9 +134,10 @@ const NavLink = ({
               }
             : undefined
         }
-        dark={dark}
-        hoverColor={hoverColor}
+        formatColor={formatColor}
+        activeFormatColor={minifeed}
         large={large}
+        isActive={isActive}
       >
         {children}
       </NavA>

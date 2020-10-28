@@ -16,7 +16,7 @@ import withInNativeApp from '../../../lib/withInNativeApp'
 import { Link, matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
-import { withMembership } from '../../Auth/checkRoles'
+import { withMembership, withTester } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import NavLink, { NavA } from './NavLink'
 import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
@@ -38,7 +38,8 @@ const UserNav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
-  colorSchemeKey
+  colorSchemeKey,
+  isTester
 }) => {
   const [containerPadding, setContainerPadding] = useState()
   const containerRef = useRef(null)
@@ -88,9 +89,11 @@ const UserNav = ({
         <div ref={containerRef}>
           {hasExpandedRef.current && (
             <>
-              <div style={{ marginBottom: 10 }}>
-                <DarkmodeSwitch colorSchemeKey={colorSchemeKey} t={t} />
-              </div>
+              {isTester ? (
+                <div style={{ marginBottom: 10 }}>
+                  <DarkmodeSwitch colorSchemeKey={colorSchemeKey} t={t} />
+                </div>
+              ) : null}
               {!me && (
                 <>
                   <div {...styles.signInBlock}>
@@ -272,4 +275,9 @@ const styles = {
   })
 }
 
-export default compose(withT, withInNativeApp, withMembership)(UserNav)
+export default compose(
+  withT,
+  withInNativeApp,
+  withMembership,
+  withTester
+)(UserNav)

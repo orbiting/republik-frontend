@@ -20,7 +20,7 @@ import {
   HEADER_HEIGHT_MOBILE,
   SUBHEADER_HEIGHT
 } from '../constants'
-import { withMembership } from '../Auth/checkRoles'
+import { withMembership, withTester } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -102,7 +102,9 @@ const Frame = ({
 }) => {
   const colorSchemeKey = isTester
     ? colorSchemeKeyProp
-    : colorSchemeKeyProp === 'auto' ? 'light' : colorSchemeKeyProp
+    : colorSchemeKeyProp === 'auto'
+    ? 'light'
+    : colorSchemeKeyProp
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
   const padHeaderRule = useMemo(() => {
@@ -172,4 +174,10 @@ const Frame = ({
   )
 }
 
-export default compose(withMe, withMembership, withT, withInNativeApp)(Frame)
+export default compose(
+  withMe,
+  withMembership,
+  withT,
+  withInNativeApp,
+  withTester
+)(Frame)

@@ -42,6 +42,26 @@ const PAYMENT_METHOD_HEIGHT = 64
 
 const OFFERS = [
   {
+    package: 'ABO',
+    label: 'Jährlich',
+    price: 'CHF 240 pro Jahr',
+    text:
+      'Sie erhalten täglich eine bis drei neue Geschichten und werden Mitglied der Project R Genossenschaft. Und sicheren so die Zukunft der Republik.',
+    submitPledgeProps: {
+      total: 24000,
+      options: [
+        {
+          amount: 1,
+          periods: 1,
+          price: 24000,
+          templateId: '00000000-0000-0000-0008-000000000001',
+          autoPay: true
+        }
+      ]
+    },
+    companyId: 'c0000000-0000-0000-0001-000000000001'
+  },
+  {
     package: 'MONTHLY_ABO',
     label: 'Monatlich',
     price: 'CHF 22 pro Monat',
@@ -61,25 +81,26 @@ const OFFERS = [
     },
     companyId: 'c0000000-0000-0000-0001-000000000002'
   },
+  // test data to check if buying !subscription on COMPANY_TWO works
   {
-    package: 'ABO',
-    label: 'Jährlich',
-    price: 'CHF 240 pro Jahr',
+    package: 'ABO_COMPANY_TWO',
+    label: 'Halbjährlich',
+    price: 'CHF 120 pro Halbjahr',
     text:
-      'Sie erhalten täglich eine bis drei neue Geschichten und werden Mitglied der Project R Genossenschaft. Und sicheren so die Zukunft der Republik.',
+      'Schön, dass Sie dabei sind. Sie erhalten täglich eine bis drei neue Geschichten.',
     submitPledgeProps: {
-      total: 24000,
+      total: 12000,
       options: [
         {
           amount: 1,
           periods: 1,
-          price: 24000,
-          templateId: '00000000-0000-0000-0008-000000000001',
+          price: 12000,
+          templateId: '00000000-0000-0000-0008-000000000020',
           autoPay: true
         }
       ]
     },
-    companyId: 'c0000000-0000-0000-0001-000000000001'
+    companyId: 'c0000000-0000-0000-0001-000000000002'
   }
 ]
 

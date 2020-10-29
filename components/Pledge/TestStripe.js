@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import {
   Field,
   colors,
@@ -18,7 +18,8 @@ import {
   Elements,
   CardElement,
   useElements,
-  useStripe
+  useStripe,
+  PaymentRequestButtonElement
 } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import {
@@ -155,7 +156,9 @@ const styles = {
   //
 }
 
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY)
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY, {
+  apiVersion: '2020-08-27'
+})
 
 const stripeClients = [
   {
@@ -167,6 +170,13 @@ const stripeClients = [
     client: loadStripe(STRIPE_PUBLISHABLE_KEY_CONNECTED)
   }
 ]
+const getLoadedStripeClientForCompany = async ({ companyId }) => {
+  // get stripe client belonging to company of package
+  const stripeClient = stripeClients.find(c => c.companyId === companyId).client
+
+  const loadedStripeClient = await stripeClient
+  return loadedStripeClient
+}
 
 const Join = ({
   t,
@@ -289,6 +299,37 @@ const Form = ({
         })
     }
     return paymentMethodId
+  }
+
+  // uses currentOffer and email from context
+  const submitAndPay = async ({ paymentMethodId }) => {
+    console.log('submiting...')
+    return submit({
+      ...currentOffer.submitPledgeProps,
+      user: {
+        firstName: 'Patrick',
+        lastName: 'Tester',
+        email: emailState.value
+      },
+      consents: ['PRIVACY', 'TOS', 'STATUTE'],
+      payload: {}
+    }).then(({ data: submitData }) => {
+      console.log('submitPledge success!', submitData)
+
+      console.log('paying...')
+      return pay({
+        pledgeId: submitData.submitPledge.pledgeId,
+        method: 'STRIPE',
+        stripePlatformPaymentMethodId: paymentMethodId
+      }).then(({ data: payData }) => {
+        console.log('payPledge success!', payData)
+
+        return {
+          submitPledge: submitData.submitPledge,
+          payPledge: payData.payPledge
+        }
+      })
+    })
   }
 
   return (
@@ -431,12 +472,12 @@ const Form = ({
 
             if (stripeClientSecret) {
               // get stripe client belonging to company of package
-              const stripeClient = stripeClients.find(
-                c => c.companyId === currentOffer.companyId
-              ).client
+              const stripeClient = await getLoadedStripeClientForCompany({
+                companyId: currentOffer.companyId
+              })
 
               console.log('confirmCardSetup...')
-              const confirmResult = await (await stripeClient).confirmCardSetup(
+              const confirmResult = await stripeClient.confirmCardSetup(
                 stripeClientSecret
               )
 
@@ -466,74 +507,151 @@ const Form = ({
             alert('email missing')
             return
           }
-          console.log(`let's go...`)
 
           const paymentMethodId = await getPaymentMethodId()
-
           if (!paymentMethodId) {
             return
           }
 
-          console.log('submiting...')
-          submit({
-            ...currentOffer.submitPledgeProps,
-            user: {
-              firstName: 'Patrick',
-              lastName: 'Tester',
-              email: emailState.value
-            },
-            consents: ['PRIVACY', 'TOS', 'STATUTE'],
-            payload: {}
+          const {
+            payPledge: { stripeClientSecret }
+          } = await submitAndPay({
+            paymentMethodId
           })
-            .then(async ({ data }) => {
-              console.log('submitPledge success!', data)
 
-              console.log('paying...')
-              pay({
-                pledgeId: data.submitPledge.pledgeId,
-                method: 'STRIPE',
-                stripePlatformPaymentMethodId: paymentMethodId
-              })
-                .then(async result => {
-                  console.log('payPledge success!', result)
-
-                  const { stripeClientSecret } = result.data.payPledge
-
-                  if (stripeClientSecret) {
-                    // get stripe client belonging to company of package
-                    const stripeClient = stripeClients.find(
-                      c => c.companyId === currentOffer.companyId
-                    ).client
-
-                    console.log('confirmCardPayment...')
-                    const confirmResult = await (
-                      await stripeClient
-                    ).confirmCardPayment(stripeClientSecret)
-
-                    const { paymentIntent, error } = confirmResult
-                    if (error) {
-                      console.warn(error)
-                      alert(`confirmCardPayment: ${error.message}`)
-                      return
-                    }
-                    console.log('paymentConfirmed')
-                  }
-
-                  console.log('finished')
-                })
-                .catch(error => {
-                  console.warn(error)
-                })
+          if (stripeClientSecret) {
+            // get stripe client belonging to company of package
+            const stripeClient = await getLoadedStripeClientForCompany({
+              companyId: currentOffer.companyId
             })
-            .catch(error => {
+
+            console.log('confirmCardPayment...')
+            const confirmResult = await stripeClient.confirmCardPayment(
+              stripeClientSecret
+            )
+
+            const { paymentIntent, error } = confirmResult
+            if (error) {
               console.warn(error)
-            })
+              alert(`confirmCardPayment: ${error.message}`)
+              return
+            }
+            console.log('paymentConfirmed')
+          }
+
+          console.log('finished')
         }}
       >
         Pledge: {currentOffer.price}
       </Button>
+      <br />
+      <CheckoutForm
+        // This is a workarround to rerender the PaymentRequestButtonElement
+        // if the currentOffer changes.
+        // On updating the paymentRequest of the button:
+        // https://github.com/stripe/react-stripe-elements/issues/284
+        key={currentOffer.label}
+        currentOffer={currentOffer}
+        submitAndPay={submitAndPay}
+      />
     </form>
   )
+}
+
+// https://stripe.com/docs/stripe-js/elements/payment-request-button#html-js-testing
+const CheckoutForm = ({ currentOffer, submitAndPay }) => {
+  const stripe = useStripe()
+  const [paymentRequest, setPaymentRequest] = useState(null)
+
+  useEffect(() => {
+    if (stripe && currentOffer) {
+      const pr = stripe.paymentRequest({
+        country: 'CH',
+        currency: 'chf',
+        total: {
+          label: currentOffer.label,
+          amount: currentOffer.submitPledgeProps.total
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+        requestShipping: false
+      })
+
+      // Check the availability of the Payment Request API.
+      pr.canMakePayment().then(result => {
+        if (result) {
+          setPaymentRequest(pr)
+        }
+      })
+
+      pr.on('paymentmethod', async ev => {
+        const paymentMethodId = ev.paymentMethod.id
+
+        const {
+          payPledge: { stripeClientSecret }
+        } = await submitAndPay({
+          paymentMethodId
+        })
+
+        if (stripeClientSecret) {
+          // get stripe client belonging to company of package
+          const stripeClient = await getLoadedStripeClientForCompany({
+            companyId: currentOffer.companyId
+          })
+
+          // Confirm the PaymentIntent without handling potential next actions (yet).
+          const {
+            paymentIntent,
+            error: confirmError
+          } = await stripeClient.confirmCardPayment(
+            stripeClientSecret,
+            {},
+            { handleActions: false }
+          )
+
+          if (confirmError) {
+            // Report to the browser that the payment failed, prompting it to
+            // re-show the payment interface, or show an error message and close
+            // the payment interface.
+            ev.complete('fail')
+            console.log({ confirmError })
+          } else {
+            // Report to the browser that the confirmation was successful, prompting
+            // it to close the browser payment method collection interface.
+            ev.complete('success')
+            // Check if the PaymentIntent requires any actions and if so let Stripe.js
+            // handle the flow. If using an API version older than "2019-02-11" instead
+            // instead check for: `paymentIntent.status === "requires_source_action"`.
+            if (paymentIntent.status === 'requires_action') {
+              // Let Stripe.js handle the rest of the payment flow.
+              const { error } = await stripeClient.confirmCardPayment(
+                stripeClientSecret
+              )
+              if (error) {
+                console.log({ error })
+                alert(`confirmCardPayment: ${error.message}`)
+                // The payment failed -- ask your customer for a new payment method.
+              } else {
+                console.log('paymentIntent requires_action success')
+                // The payment has succeeded.
+              }
+            } else {
+              console.log('paymentIntent success')
+              // The payment has succeeded.
+            }
+          }
+        } else {
+          ev.complete('success')
+        }
+      })
+    }
+  }, [stripe, currentOffer])
+
+  if (paymentRequest) {
+    return <PaymentRequestButtonElement options={{ paymentRequest }} />
+  }
+
+  return <p>paymentRequest not available</p>
 }
 
 export const myPaymentMethodsQuery = gql`

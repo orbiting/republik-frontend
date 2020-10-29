@@ -572,8 +572,8 @@ const CheckoutForm = ({ currentOffer, submitAndPay }) => {
           label: currentOffer.label,
           amount: currentOffer.submitPledgeProps.total
         },
-        requestPayerName: true,
-        requestPayerEmail: true,
+        requestPayerName: false,
+        requestPayerEmail: false,
         requestShipping: false
       })
 

@@ -3,15 +3,18 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import PropTypes from 'prop-types'
+import {
+  InlineSpinner,
+  Button,
+  useColorContext,
+  Interaction
+} from '@project-r/styleguide'
 
 import { DEFAULT_VALUES } from './Page'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-
 import { errorToString } from '../../lib/utils/errors'
-
-import { InlineSpinner, Button, linkRule, colors } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -25,22 +28,23 @@ const styles = {
 }
 
 const EditLink = ({ children, onClick, ...props }) => (
-  <a
+  <Interaction.A
     href='#edit'
     onClick={e => {
       e.preventDefault()
       onClick(e)
     }}
     {...props}
-    {...linkRule}
     {...styles.editLink}
   >
     {children}
-  </a>
+  </Interaction.A>
 )
 
 const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
   const { isEditing } = state
+  const [colorScheme] = useColorContext()
+
   if (!me || me.id !== user.id) {
     return null
   }
@@ -74,7 +78,10 @@ const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
   return (
     <div {...styles.container}>
       {!!state.showErrors && errorMessages.length > 0 && (
-        <div style={{ color: colors.error, marginBottom: 15 }}>
+        <div
+          style={{ marginBottom: 15 }}
+          {...colorScheme.set('color', 'error')}
+        >
           {t('profile/edit/errors')}
           <br />
           <ul>
@@ -85,7 +92,10 @@ const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
         </div>
       )}
       {!!state.error && (
-        <div style={{ color: colors.error, marginBottom: 15 }}>
+        <div
+          style={{ marginBottom: 15 }}
+          {...colorScheme.set('color', 'error')}
+        >
           {state.error}
         </div>
       )}

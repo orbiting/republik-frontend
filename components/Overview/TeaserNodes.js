@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
+import { useColorContext } from '@project-r/styleguide'
 
 import HrefLink from '../Link/Href'
 
@@ -16,6 +17,7 @@ const styles = {
 const TeaserNodes = ({ nodes, highlight, noClick }) => {
   const nodeWidth = 100 / nodes.length
   const maxIndex = nodes.length - 1
+  const [colorScheme] = useColorContext()
 
   return (
     <Fragment>
@@ -27,11 +29,9 @@ const TeaserNodes = ({ nodes, highlight, noClick }) => {
             style={{
               left: `${nodeWidth * i}%`,
               right: `${nodeWidth * (maxIndex - i)}%`,
-              backgroundColor:
-                highlight && !highlight(node.data)
-                  ? 'rgba(0,0,0,0.6)'
-                  : 'rgba(0,0,0,0.0)'
+              opacity: highlight && !highlight(node.data) ? '0.6' : '0'
             }}
+            {...colorScheme.set('backgroundColor', 'default')}
           />
         )
         if (node.data.url && !noClick) {

@@ -5,7 +5,7 @@ import {
   fontStyles,
   mediaQueries,
   Editorial,
-  colors
+  useColorContext
 } from '@project-r/styleguide'
 
 const styles = {
@@ -14,26 +14,33 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular21
     },
-    color: colors.negative.text,
     margin: 0
   })
 }
 
-export const P = ({ children, ...props }) => (
-  <p {...styles.p} {...props}>
-    {children}
-  </p>
-)
+export const P = ({ children, ...props }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <p {...styles.p} {...colorScheme.set('color', 'text')} {...props}>
+      {children}
+    </p>
+  )
+}
 
-export const A = ({ children, ...props }) => (
-  <Editorial.A style={{ color: colors.negative.text }} {...props}>
-    {children}
-  </Editorial.A>
-)
+export const A = ({ children, ...props }) => {
+  return <Editorial.A {...props}>{children}</Editorial.A>
+}
 
-export class Highlight extends Component {
-  highlight = data => {
-    const { ids, format, series } = this.props
+export const Highlight = ({
+  ids,
+  format,
+  series,
+  children,
+  highlight: highlightProps,
+  onHighlight
+}) => {
+  const [colorScheme] = useColorContext()
+  const highlight = data => {
     if (ids && ids.includes(data.id)) {
       return true
     }
@@ -46,27 +53,25 @@ export class Highlight extends Component {
       }
     }
   }
-  render() {
-    const { children, highlight, onHighlight } = this.props
-    const isHighlighted = highlight === this.highlight
-    const color = isHighlighted ? colors.negative.lightText : '#fff'
-    return (
-      <Editorial.A
-        style={{
-          textDecoration: 'none',
-          borderBottom: `1px dotted ${color}`,
-          color,
-          cursor: 'default'
-        }}
-        onMouseEnter={() => {
-          onHighlight(this.highlight)
-        }}
-        onMouseLeave={() => {
-          onHighlight()
-        }}
-      >
-        {children}
-      </Editorial.A>
-    )
-  }
+  const isHighlighted = highlight === highlightProps
+  return (
+    <Editorial.A
+      style={{
+        textDecoration: 'none',
+        borderBottomWidth: 1,
+        borderBottomStyle: 'dotted',
+        cursor: 'default'
+      }}
+      {...colorScheme.set('color', isHighlighted ? 'textSoft' : 'text')}
+      {...colorScheme.set('borderColor', isHighlighted ? 'textSoft' : 'text')}
+      onMouseEnter={() => {
+        onHighlight(highlight)
+      }}
+      onMouseLeave={() => {
+        onHighlight()
+      }}
+    >
+      {children}
+    </Editorial.A>
+  )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
-import { Interaction, linkRule, colors } from '@project-r/styleguide'
+import { Interaction, linkRule, useColorContext } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
 
@@ -19,7 +19,7 @@ const ResultCount = compose(withT)(
     const results = t.pluralize('search/pageInfo/total', {
       count: countFormat(totalCount)
     })
-
+    const [colorScheme] = useColorContext()
     return (
       <Interaction.P style={{ marginBottom: 20 }}>
         {formValue === searchQuery && !dataAggregations.loading ? (
@@ -41,7 +41,7 @@ const ResultCount = compose(withT)(
               </a>
             </Link>
           ) : (
-            <span style={{ color: colors.lightText }}>{results}</span>
+            <span {...colorScheme.set('color', 'textSoft')}>{results}</span>
           )
         ) : (
           <>&nbsp;</>

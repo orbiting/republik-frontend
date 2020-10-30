@@ -1,5 +1,5 @@
-import React from 'react'
-import { TeaserFeed, colors } from '@project-r/styleguide'
+import React, { useMemo } from 'react'
+import { TeaserFeed, useColorContext } from '@project-r/styleguide'
 import ActionBar from '../ActionBar'
 import Link from '../Link/Href'
 import { css } from 'glamor'
@@ -7,16 +7,8 @@ import { findHighlight } from '../../lib/utils/mdast'
 import withT from '../../lib/withT'
 import { formatExcerpt } from '../../lib/utils/format'
 
-const styles = {
-  highlight: css({
-    '& em': {
-      background: colors.highlight,
-      fontStyle: 'inherit'
-    }
-  })
-}
-
 export default withT(({ t, node }) => {
+  const [colorScheme] = useColorContext()
   const titleHighlight = findHighlight(node, 'meta.title')
   const descHighlight = findHighlight(node, 'meta.description')
   const authorHighlight = findHighlight(node, 'meta.authors')
@@ -30,13 +22,25 @@ export default withT(({ t, node }) => {
     <ActionBar mode='feed' document={node.entity} />
   ) : null
 
+  const highlightStyle = useMemo(
+    () =>
+      css({
+        '& em': {
+          background: colorScheme.getCSSColor('overlayInverted'),
+          color: colorScheme.getCSSColor('textInverted'),
+          fontStyle: 'inherit'
+        }
+      }),
+    [colorScheme]
+  )
   return (
     <TeaserFeed
       {...node.entity.meta}
       title={
         titleHighlight ? (
           <span
-            {...styles.highlight}
+            {...highlightStyle}
+            {...colorScheme.set('color', 'textInverted')}
             dangerouslySetInnerHTML={{
               __html: titleHighlight.fragments[0]
             }}
@@ -49,7 +53,7 @@ export default withT(({ t, node }) => {
         (showDescHighlight || !showTextHighlight) &&
         (descHighlight ? (
           <span
-            {...styles.highlight}
+            {...highlightStyle}
             dangerouslySetInnerHTML={{
               __html: descHighlight.fragments[0]
             }}
@@ -61,7 +65,7 @@ export default withT(({ t, node }) => {
       highlight={
         showTextHighlight && (
           <span
-            {...styles.highlight}
+            {...highlightStyle}
             dangerouslySetInnerHTML={{
               __html: formatExcerpt(textHighlight.fragments[0])
             }}

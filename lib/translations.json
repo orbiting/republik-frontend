@@ -1,5 +1,5 @@
 {
-  "updated": "2020-10-27T13:34:14.566Z",
+  "updated": "2020-10-30T13:29:56.541Z",
   "title": "live",
   "data": [
     {
@@ -6893,6 +6893,18 @@
     {
       "key": "darkmode/switch/auto",
       "value": "Automatisch"
+    },
+    {
+      "key": "Trial/Page/bern/heading",
+      "value": "Willkommen bei der Republik"
+    },
+    {
+      "key": "Trial/Page/bern/intro",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen. Die Republik ist komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.\n\nAusserdem möchten wir Sie auf unseren «Salon der Republik» hinweisen – ein Forum für Literatur und Debatte. Über aktuelle Bücher und relevante Themen diskutieren die Feuilleton-Crew der Republik, ausgewählte Gäste – und Sie, falls Sie möchten. Regelmässig im Cabaret Voltaire und als Audioversion im Podcast.\n\n<b>Erhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
+    },
+    {
+      "key": "Trial/Form/bern/button",
+      "value": "Jetzt Probe lesen"
     }
   ]
 }

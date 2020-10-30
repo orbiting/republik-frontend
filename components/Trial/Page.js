@@ -58,7 +58,8 @@ const ALLOWED_CAMPAIGNS = [
   'sommer',
   'podcast',
   'fmw',
-  'buchbasel'
+  'buchbasel',
+  'bern'
 ]
 
 const Page = props => {

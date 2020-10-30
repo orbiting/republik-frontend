@@ -2,8 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'
-
-import { Interaction, colors } from '@project-r/styleguide'
+import { Interaction, useColorContext } from '@project-r/styleguide'
 
 const { P } = Interaction
 
@@ -18,39 +17,37 @@ const styles = {
   }),
   count: css({
     fontFeatureSettings: '"tnum" 1, "kern" 1',
-    color: colors.primary,
     position: 'absolute',
     right: 0
   })
 }
 
-export const NoResultsItem = ({ title }) => (
-  <P style={{ color: colors.disabled }}>{title}</P>
-)
+export const NoResultsItem = ({ title }) => {
+  const [colorScheme] = useColorContext()
+  return <P {...colorScheme.set('color', 'disabled')}>{title}</P>
+}
 
 const DefaultWrapper = ({ children, ...props }) => (
   <span {...props}>{children}</span>
 )
 
-const ArticleItem = ({
-  t,
-  title,
-  selected,
-  iconSize,
-  count,
-  Wrapper = DefaultWrapper
-}) => (
-  <Wrapper
-    {...styles.container}
-    style={{
-      paddingRight: count ? 10 + String(count).length * 12 : 0
-    }}
-  >
-    <span style={{ color: selected ? colors.primary : undefined }}>
-      {title}
-    </span>
-    {count && <span {...styles.count}>{count}</span>}
-  </Wrapper>
-)
+const ArticleItem = ({ title, selected, count, Wrapper = DefaultWrapper }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <Wrapper
+      {...styles.container}
+      style={{
+        paddingRight: count ? 10 + String(count).length * 12 : 0
+      }}
+    >
+      <span {...(selected && colorScheme.set('color', 'text'))}>{title}</span>
+      {count && (
+        <span {...styles.count} {...colorScheme.set('color', 'primary')}>
+          {count}
+        </span>
+      )}
+    </Wrapper>
+  )
+}
 
 export default withT(ArticleItem)

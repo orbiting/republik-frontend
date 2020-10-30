@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component, useMemo } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
@@ -11,20 +10,16 @@ import DiscussionLink from '../Discussion/DiscussionLink'
 import {
   Interaction,
   Loader,
-  colors,
   fontStyles,
   mediaQueries,
-  linkRule
+  linkRule,
+  useColorContext
 } from '@project-r/styleguide'
 
 const styles = {
   item: merge(
     linkRule,
     css({
-      color: colors.text,
-      ':visited': {
-        color: colors.text
-      },
       textDecoration: 'none',
       display: 'flex',
       alignItems: 'center',
@@ -33,11 +28,11 @@ const styles = {
       padding: '10px 0',
       cursor: 'pointer',
       '& ~ &': {
-        borderTop: `1px solid ${colors.divider}`
+        borderTopWidth: 1,
+        borderTopStyle: 'solid'
       },
       '@media(hover)': {
         '&:hover': {
-          background: colors.secondaryBg,
           margin: '0 -15px',
           padding: '10px 15px',
           width: 'calc(100% + 30px)'
@@ -57,29 +52,43 @@ const styles = {
   )
 }
 
-const ActiveDiscussionItem = ({
-  discussion,
-  onClick,
-  label,
-  selected,
-  count,
-  path
-}) => (
-  <DiscussionLink discussion={discussion} passHref>
-    <a
-      {...styles.item}
-      style={{ color: selected ? colors.primary : undefined }}
-    >
-      <ArticleItem
-        title={label}
-        selected={selected}
-        iconSize={24}
-        count={count}
-        wrapper={Interaction.P}
-      />
-    </a>
-  </DiscussionLink>
-)
+const ActiveDiscussionItem = ({ discussion, label, selected, count }) => {
+  const [colorScheme] = useColorContext()
+  const itemRule = useMemo(
+    () =>
+      css({
+        ':visited': {
+          color: colorScheme.getCSSColor('text')
+        },
+        '& ~ &': {
+          borderColor: colorScheme.getCSSColor('divider')
+        },
+        '@media(hover)': {
+          '&:hover': {
+            background: colorScheme.getCSSColor('hover')
+          }
+        }
+      }),
+    [colorScheme]
+  )
+  return (
+    <DiscussionLink discussion={discussion} passHref>
+      <a
+        {...styles.item}
+        {...itemRule}
+        {...colorScheme.set('color', selected ? 'primary' : 'text')}
+      >
+        <ArticleItem
+          title={label}
+          selected={selected}
+          iconSize={24}
+          count={count}
+          wrapper={Interaction.P}
+        />
+      </a>
+    </DiscussionLink>
+  )
+}
 
 class ActiveDiscussions extends Component {
   render() {

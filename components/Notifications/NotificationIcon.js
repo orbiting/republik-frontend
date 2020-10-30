@@ -30,7 +30,7 @@ const styles = {
 export default compose(
   withT,
   withNotificationCount
-)(({ t, countData: { notifications, subscribeToMore, refetch }, fill }) => {
+)(({ countData: { notifications, subscribeToMore, refetch } }) => {
   const [hasUnread, setUnread] = useState(containsUnread(notifications))
   const subscribe = () =>
     subscribeToMore({

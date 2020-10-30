@@ -221,7 +221,7 @@ const Header = ({
                     : closeHandler()
                 }
               />
-              {me && <NotificationIcon {...colorScheme.set('fill', 'text')} />}
+              {me && <NotificationIcon />}
             </div>
           </div>
           <div {...styles.navBarItem}>

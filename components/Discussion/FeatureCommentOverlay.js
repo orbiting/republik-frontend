@@ -8,7 +8,8 @@ import {
   ActiveDebateTeaser,
   Field,
   Button,
-  Label
+  Label,
+  useColorContext
 } from '@project-r/styleguide'
 import { MdClose } from 'react-icons/md'
 import { compose, graphql } from 'react-apollo'
@@ -26,6 +27,7 @@ export const FeatureCommentOverlay = compose(
 )(({ t, discussion, comment, onClose, mutate }) => {
   const [mutatingState, setMutatingState] = useState({})
   const [text, setText] = useState(comment.featuredText || comment.text)
+  const [colorScheme] = useColorContext()
   return (
     <Overlay onClose={onClose} mUpStyle={{ minHeight: 'none' }}>
       <OverlayToolbar>
@@ -34,7 +36,7 @@ export const FeatureCommentOverlay = compose(
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} fill='#000' />}
+          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody style={{ paddingTop: 58 }}>

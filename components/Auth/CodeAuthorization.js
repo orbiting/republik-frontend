@@ -71,7 +71,6 @@ const CodeAuthorization = ({
           t('Auth/CodeAuthorization/code/tooShort'))
     )
     setDirty(shouldValidate)
-    autoSubmit()
   }
 
   const handleMutateError = () => {
@@ -90,12 +89,6 @@ const CodeAuthorization = ({
     }).catch(handleMutateError)
   }
 
-  const autoSubmit = () => {
-    if (payload && payload.length === CODE_LENGTH) {
-      onSubmit()
-    }
-  }
-
   const listStyle = merge(styles.help, minimal && styles.minimalHelp)
 
   useEffect(() => {
@@ -107,8 +100,20 @@ const CodeAuthorization = ({
     if (!inViewport) {
       scrollIt(target, 400)
     }
-    onSuccess(me)
-  }, [formRef, me])
+  }, [])
+
+  useEffect(() => {
+    if (me) {
+      onSuccess(me)
+    }
+  }, [me])
+
+  // auto submit
+  useEffect(() => {
+    if (payload && payload.length === CODE_LENGTH) {
+      onSubmit()
+    }
+  }, [payload])
 
   return (
     <form onSubmit={onSubmit} ref={formRef}>
@@ -148,7 +153,7 @@ const CodeAuthorization = ({
         renderInput={props => <input {...props} pattern={'[0-9]*'} />}
         label={t('Auth/CodeAuthorization/code/label')}
         value={code}
-        autoComplete={'false'}
+        autoComplete='false'
         error={dirty && error}
         icon={
           minimal &&

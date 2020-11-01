@@ -1,5 +1,5 @@
 {
-  "updated": "2020-10-30T13:29:56.541Z",
+  "updated": "2020-11-01T19:26:17.216Z",
   "title": "live",
   "data": [
     {
@@ -4991,6 +4991,14 @@
       "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 14.11.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
     },
     {
+      "key": "Trial/Page/unauthorized/bern/heading",
+      "value": "Unser Spezialangebot"
+    },
+    {
+      "key": "Trial/Page/unauthorized/bern/intro",
+      "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 14.11.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
+    },
+    {
       "key": "Trial/Page/unauthorized/science-et-cite/heading",
       "value": "Spezialangebot für «Science et Cité»"
     },
@@ -6875,12 +6883,16 @@
       "value": "Jetzt Probe lesen"
     },
     {
-      "key": "darkmode/switch/label",
-      "value": "Nachtmodus: {iconLabel}"
+      "key": "Trial/Page/bern/heading",
+      "value": "Willkommen bei der Republik"
     },
     {
-      "key": "darkmode/switch/notavailable",
-      "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar"
+      "key": "Trial/Page/bern/intro",
+      "value": "<b>Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und komplett werbefrei. Warum?</b>\n\nZeitungen fusionieren, Redaktionen werden zusammengelegt, es gibt immer weniger Vielfalt im Schweizer Medienmarkt. In der Deutschschweiz verfügen Tamedia, Ringier und die NZZ mit ihren Zeitungen bereits über einen Marktanteil von rund 80&nbsp;Prozent. Und seit 2011 sind in der Schweiz unter dem Strich mehr als 3000 Stellen im Journalismus verschwunden.\n\nKurz: Es steht nicht unbedingt gut um die Medienbranche und die Zukunft des Journalismus. Doch ohne Journalismus keine Demokratie. Als Antwort auf diese Entwicklungen – und aus Leidenschaft für guten Journalismus – bauen wir die Republik auf. Als konkreten Beitrag zur Vielfalt. \n\n<b>Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen? Lernen Sie uns kennen.\nErhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
+    },
+    {
+      "key": "Trial/Form/bern/button",
+      "value": "Jetzt Probe lesen"
     },
     {
       "key": "darkmode/switch/on",
@@ -6893,18 +6905,6 @@
     {
       "key": "darkmode/switch/auto",
       "value": "Automatisch"
-    },
-    {
-      "key": "Trial/Page/bern/heading",
-      "value": "Willkommen bei der Republik"
-    },
-    {
-      "key": "Trial/Page/bern/intro",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen. Die Republik ist komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.\n\nAusserdem möchten wir Sie auf unseren «Salon der Republik» hinweisen – ein Forum für Literatur und Debatte. Über aktuelle Bücher und relevante Themen diskutieren die Feuilleton-Crew der Republik, ausgewählte Gäste – und Sie, falls Sie möchten. Regelmässig im Cabaret Voltaire und als Audioversion im Podcast.\n\n<b>Erhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
-    },
-    {
-      "key": "Trial/Form/bern/button",
-      "value": "Jetzt Probe lesen"
     }
   ]
 }

@@ -6895,6 +6895,14 @@
       "value": "Jetzt Probe lesen"
     },
     {
+      "key": "darkmode/switch/label",
+      "value": "Nachtmodus: {iconLabel}"
+    },
+    {
+      "key": "darkmode/switch/notavailable",
+      "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar"
+    },
+    {
       "key": "darkmode/switch/on",
       "value": "Ein"
     },

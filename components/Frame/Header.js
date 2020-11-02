@@ -6,7 +6,6 @@ import {
   Logo,
   mediaQueries,
   HeaderHeightProvider,
-  ColorContextProvider,
   useColorContext
 } from '@project-r/styleguide'
 
@@ -334,20 +333,16 @@ const HeaderWithContext = props => {
     ]
   }, [hasSecondaryNav, headerOffset])
 
-  const colorSchemeKey = inNativeIOSApp ? 'light' : colorSchemeKeyProp
-
   return (
     <HeaderHeightProvider config={headerConfig}>
-      <ColorContextProvider colorSchemeKey={colorSchemeKey}>
-        <Header
-          {...props}
-          hasSecondaryNav={hasSecondaryNav}
-          isAnyNavExpanded={isAnyNavExpanded}
-          setIsAnyNavExpanded={setIsAnyNavExpanded}
-          headerOffset={headerOffset}
-          setHeaderOffset={setHeaderOffset}
-        />
-      </ColorContextProvider>
+      <Header
+        {...props}
+        hasSecondaryNav={hasSecondaryNav}
+        isAnyNavExpanded={isAnyNavExpanded}
+        setIsAnyNavExpanded={setIsAnyNavExpanded}
+        headerOffset={headerOffset}
+        setHeaderOffset={setHeaderOffset}
+      />
       {cover}
       {children}
     </HeaderHeightProvider>

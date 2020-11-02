@@ -7,7 +7,7 @@ import {
   InlineSpinner,
   Button,
   useColorContext,
-  Interaction
+  A
 } from '@project-r/styleguide'
 
 import { DEFAULT_VALUES } from './Page'
@@ -28,7 +28,7 @@ const styles = {
 }
 
 const EditLink = ({ children, onClick, ...props }) => (
-  <Interaction.A
+  <A
     href='#edit'
     onClick={e => {
       e.preventDefault()
@@ -38,7 +38,7 @@ const EditLink = ({ children, onClick, ...props }) => (
     {...styles.editLink}
   >
     {children}
-  </Interaction.A>
+  </A>
 )
 
 const Edit = ({ me, user, t, state, setState, startEditing, update }) => {

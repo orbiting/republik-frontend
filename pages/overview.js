@@ -201,7 +201,7 @@ const FrontOverview = ({
   }
 
   return (
-    <Frame meta={meta} colorSchemeKey='auto'>
+    <Frame meta={meta} colorSchemeKey='dark'>
       <Interaction.H1
         {...colorScheme.set('color', 'text')}
         style={{ marginBottom: 5 }}

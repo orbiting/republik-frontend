@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useMemo } from 'react'
 
 import { css } from 'glamor'
 import {
@@ -40,19 +40,22 @@ export const Highlight = ({
   onHighlight
 }) => {
   const [colorScheme] = useColorContext()
-  const highlight = data => {
-    if (ids && ids.includes(data.id)) {
-      return true
-    }
-    if (data.urlMeta) {
-      if (format && data.urlMeta.format === format) {
+  const highlight = useMemo(
+    () => data => {
+      if (ids && ids.includes(data.id)) {
         return true
       }
-      if (series && data.urlMeta.series === series) {
-        return true
+      if (data.urlMeta) {
+        if (format && data.urlMeta.format === format) {
+          return true
+        }
+        if (series && data.urlMeta.series === series) {
+          return true
+        }
       }
-    }
-  }
+    },
+    [ids && ids.join('|'), format, series]
+  )
   const isHighlighted = highlight === highlightProps
   return (
     <Editorial.A

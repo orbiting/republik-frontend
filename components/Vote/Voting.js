@@ -5,13 +5,13 @@ import {
   A,
   Button,
   colors,
-  fontFamilies,
   fontStyles,
   InlineSpinner,
   Interaction,
   Radio,
   RawHtml,
-  Loader
+  Loader,
+  useColorContext
 } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
@@ -31,14 +31,13 @@ const POLL_STATES = {
 const styles = {
   card: css({
     margin: '40px auto',
-    background: colors.primaryBg,
     padding: 25,
     maxWidth: 550,
     width: '100%'
   }),
   cardTitle: css({
     fontSize: 22,
-    fontFamily: fontFamilies.sansSerifMedium
+    ...fontStyles.sansSerifMedium
   }),
   cardBody: css({
     marginTop: 15,
@@ -62,12 +61,6 @@ const styles = {
     textAlign: 'center',
     ...fontStyles.sansSerifRegular14
   }),
-  error: css({
-    textAlign: 'center',
-    width: '80%',
-    margin: '10px auto',
-    color: colors.error
-  }),
   thankyou: css({
     padding: '30px 20px',
     display: 'flex',
@@ -81,6 +74,15 @@ const styles = {
 }
 
 const messageDateFormat = timeFormat('%e. %B %Y')
+
+const Card = ({ children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div {...styles.card} {...colorScheme.set('backgroundColor', 'alert')}>
+      {children}
+    </div>
+  )
+}
 
 class Voting extends React.Component {
   constructor(props) {
@@ -302,11 +304,11 @@ class Voting extends React.Component {
           const { error } = this.state
 
           return (
-            <div {...styles.card}>
+            <Card>
               <H3>{description || voting.description}</H3>
               {error && <ErrorMessage error={error} />}
               {this.renderVotingBody()}
-            </div>
+            </Card>
           )
         }}
       />

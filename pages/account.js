@@ -22,7 +22,4 @@ const AccountPage = ({ router, t }) => {
   )
 }
 
-export default compose(
-  withT,
-  withRouter
-)(AccountPage)
+export default compose(withT, withRouter)(AccountPage)

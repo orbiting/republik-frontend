@@ -1,11 +1,8 @@
 import React, { Fragment } from 'react'
-
-import withT from '../../lib/withT'
-
-import UsernameField from './UsernameField'
-
 import { Label, Checkbox, A } from '@project-r/styleguide'
 
+import withT from '../../lib/withT'
+import UsernameField from './UsernameField'
 import { Link } from '../../lib/routes'
 
 const Settings = ({ user, isEditing, onChange, values, errors, dirty, t }) => {

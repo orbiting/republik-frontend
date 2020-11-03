@@ -108,7 +108,8 @@ const styles = {
     height: 8,
     borderRadius: 8,
     marginRight: 8,
-    border: `1px solid`,
+    borderWidth: 1,
+    borderStyle: 'solid',
     background: 'red'
   })
 }

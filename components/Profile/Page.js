@@ -6,7 +6,6 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-
 import { Link, Router } from '../../lib/routes'
 
 import Loader from '../Loader'
@@ -19,11 +18,9 @@ import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
 import ActionBar from '../ActionBar'
-
 import { TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 import ShadowQueryLink from '../Link/ShadowQuery'
-
 import Badge from './Badge'
 import Comments from './Comments'
 import Documents from './Documents'
@@ -37,7 +34,6 @@ import Settings from './Settings'
 
 import {
   A,
-  colors,
   FieldSet,
   fontStyles,
   Interaction,
@@ -45,19 +41,20 @@ import {
   mediaQueries,
   Button,
   usePrevious,
-  useHeaderHeight
+  useHeaderHeight,
+  useColorContext
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
 
 const SIDEBAR_TOP = 20
-
 const PORTRAIT_SIZE_M = TESTIMONIAL_IMAGE_SIZE
 const PORTRAIT_SIZE_S = 101
 
 const styles = {
   container: css({
-    borderTop: `1px solid ${colors.divider}`,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
     position: 'relative',
     paddingBottom: 60,
     paddingTop: 10,
@@ -425,7 +422,7 @@ const LoadedProfile = props => {
     emailBody: `${PUBLIC_BASE_URL}/~${user.slug}`,
     overlayTitle: t('profile/share/overlayTitle')
   }
-
+  const [colorScheme] = useColorContext()
   return (
     <Fragment>
       {!user.hasPublicProfile && (
@@ -519,6 +516,7 @@ const LoadedProfile = props => {
         </div>
         <div
           {...styles.container}
+          {...colorScheme.set('borderColor', 'divider')}
           style={{ borderTop: card ? 'none' : undefined }}
         >
           <div {...styles.sidebar}>
@@ -546,7 +544,7 @@ const LoadedProfile = props => {
                 />
                 {/* show sequence # of profiles with a card here */}
                 {card && !!user.sequenceNumber && (
-                  <div style={{ color: colors.text }}>
+                  <div {...colorScheme.set('color', 'text')}>
                     {t('memberships/sequenceNumber/label', {
                       sequenceNumber: user.sequenceNumber
                     })}
@@ -700,7 +698,7 @@ const Profile = props => {
   }
 
   return (
-    <Frame meta={metaData} raw>
+    <Frame meta={metaData} raw colorSchemeKey='auto'>
       <Loader
         loading={loading}
         error={error}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { merge } from 'glamor'
-import { colors, IconButton } from '@project-r/styleguide'
+import { IconButton, useColorContext } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 
 // currently unused, example:
@@ -13,8 +13,8 @@ const BADGES = {
 
 const styles = {
   badge: {
-    backgroundColor: colors.divider,
-    border: `1px solid ${colors.lightText}`,
+    borderWidth: 1,
+    borderStyle: 'solid',
     display: 'inline-block',
     textAlign: 'center',
     '& + &': {
@@ -25,6 +25,7 @@ const styles = {
 
 const Badge = ({ t, badge, size }) => {
   const badgeData = BADGES[badge]
+  const [colorScheme] = useColorContext()
   if (!badgeData) {
     return null
   }
@@ -35,6 +36,8 @@ const Badge = ({ t, badge, size }) => {
         width: `${size}px`,
         borderRadius: `${size}px`
       })}
+      {...colorScheme.set('backgroundColor', 'divider')}
+      {...colorScheme.set('borderColor', 'textSoft')}
       title={t(badgeData.translation)}
     >
       <IconButton Icon={badgeData.icon} />

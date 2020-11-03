@@ -133,7 +133,6 @@ const Frame = ({
           {!!meta && <Meta data={meta} />}
           <Header
             colorSchemeKey={colorSchemeKey}
-            dark={dark && !inNativeIOSApp}
             me={me}
             cover={cover}
             onNavExpanded={onNavExpanded}

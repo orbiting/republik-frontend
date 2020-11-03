@@ -55,7 +55,7 @@ import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
 import withMembership from '../Auth/withMembership'
-import { withEditor } from '../Auth/checkRoles'
+import { withEditor, withTester } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
@@ -129,6 +129,7 @@ const ArticlePage = ({
   data: { article },
   isMember,
   isEditor,
+  isTester,
   inNativeApp,
   inNativeIOSApp,
   payNoteSeed,
@@ -313,7 +314,7 @@ const ArticlePage = ({
     )
 
   const hasOverviewNav = meta && meta.template === 'section'
-  const colorSchemeKey = darkMode ? 'dark' : 'auto'
+  const colorSchemeKey = darkMode ? 'dark' : isTester ? 'auto' : 'light'
 
   return (
     <Frame
@@ -598,6 +599,7 @@ const ComposedPage = compose(
   withMembership,
   withMemberStatus,
   withEditor,
+  withTester,
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation,

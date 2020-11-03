@@ -26,8 +26,8 @@ export default withT(({ t, node }) => {
     () =>
       css({
         '& em': {
-          background: colorScheme.getCSSColor('overlayInverted'),
-          color: colorScheme.getCSSColor('textInverted'),
+          background: colorScheme.getCSSColor('alert'),
+          color: colorScheme.getCSSColor('text'),
           fontStyle: 'inherit'
         }
       }),

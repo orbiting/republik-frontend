@@ -40,7 +40,7 @@ export default withT(({ t, node }) => {
         titleHighlight ? (
           <span
             {...highlightStyle}
-            {...colorScheme.set('color', 'textInverted')}
+            {...colorScheme.set('color', 'text')}
             dangerouslySetInnerHTML={{
               __html: titleHighlight.fragments[0]
             }}

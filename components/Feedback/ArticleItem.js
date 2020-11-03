@@ -24,7 +24,7 @@ const styles = {
 
 export const NoResultsItem = ({ title }) => {
   const [colorScheme] = useColorContext()
-  return <P {...colorScheme.set('color', 'disabled')}>{title}</P>
+  return <P><span {...colorScheme.set('color', 'disabled')}>{title}</span></P>
 }
 
 const DefaultWrapper = ({ children, ...props }) => (

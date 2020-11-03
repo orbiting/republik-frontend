@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import { MdCheck } from 'react-icons/md'
 import { Link } from '../../lib/routes'
 
 import {
-  colors,
   Editorial,
   fontStyles,
-  mediaQueries
+  mediaQueries,
+  useColorContext
 } from '@project-r/styleguide'
 import { findHighlight } from '../../lib/utils/mdast'
 import { formatExcerpt } from '../../lib/utils/format'
@@ -20,13 +20,13 @@ const styles = {
   root: css({
     display: 'flex',
     alignItems: 'center',
-    borderTop: `1px solid ${colors.text}`,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
     margin: '0 0 40px 0',
     paddingTop: 12
   }),
   highlight: css({
     '& em': {
-      background: colors.highlight,
       fontStyle: 'inherit',
       fontFamily: 'inherit'
     }
@@ -49,7 +49,6 @@ const styles = {
   name: css({
     ...fontStyles.sansSerifMedium20,
     lineHeight: '24px',
-    color: colors.text,
     display: 'flex',
     alignItems: 'center',
     marginBottom: 2,
@@ -59,7 +58,6 @@ const styles = {
   }),
   description: css({
     ...fontStyles.sansSerifRegular14,
-    color: colors.text,
     display: 'flex',
     alignItems: 'center',
     [mediaQueries.mUp]: {
@@ -68,7 +66,6 @@ const styles = {
     }
   }),
   verifiedCheck: css({
-    color: colors.primary,
     flexShrink: 0,
     display: 'inline-block',
     marginLeft: 4,
@@ -89,9 +86,20 @@ export const UserResult = ({ node }) => {
   const textHighlight =
     findHighlight(node, 'biography') || findHighlight(node, 'statement')
   const credential = credentials && credentials.find(c => c.isListed)
+  const [colorScheme] = useColorContext()
+  const highlightEMRule = useMemo(
+    () =>
+      css({
+        '& em': {
+          background: colorScheme.getCSSColor('overlayInverted'),
+          color: colorScheme.getCSSColor('textInverted')
+        }
+      }),
+    [colorScheme]
+  )
   return (
     <div>
-      <div {...styles.root}>
+      <div {...styles.root} {...colorScheme.set('borderColor', 'text')}>
         {portrait && (
           <Link route='profile' params={{ slug: slug || id }}>
             <a {...styles.link}>
@@ -104,11 +112,12 @@ export const UserResult = ({ node }) => {
           </Link>
         )}
         <div {...styles.meta}>
-          <div {...styles.name}>
+          <div {...styles.name} {...colorScheme.set('color', 'text')}>
             <Link route='profile' params={{ slug: slug || id }}>
               <a {...styles.link}>
                 <span
                   {...styles.highlight}
+                  {...highlightEMRule}
                   dangerouslySetInnerHTML={{
                     __html: nameHighlight
                       ? nameHighlight.fragments[0]
@@ -119,16 +128,22 @@ export const UserResult = ({ node }) => {
             </Link>
           </div>
           {credential && (
-            <div {...styles.description}>
+            <div {...styles.description} {...colorScheme.set('color', 'text')}>
               <div
                 {...styles.descriptionText}
-                style={{
-                  color: credential.verified ? colors.text : colors.lightText
-                }}
+                {...colorScheme.set(
+                  'color',
+                  credential.verified ? 'text' : 'textSoft'
+                )}
               >
                 {credential.description}
               </div>
-              {credential.verified && <MdCheck {...styles.verifiedCheck} />}
+              {credential.verified && (
+                <MdCheck
+                  {...styles.verifiedCheck}
+                  {...colorScheme.set('fill', 'primary')}
+                />
+              )}
             </div>
           )}
         </div>

@@ -8,10 +8,10 @@ import DocumentResult from './DocumentResult'
 import CommentResult from './CommentResult'
 import { withResults } from './enhancers'
 import {
-  colors,
   fontStyles,
   linkRule,
-  mediaQueries
+  mediaQueries,
+  useColorContext
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
 import { countFormat } from '../../lib/utils/format'
@@ -31,7 +31,8 @@ const styles = {
     paddingTop: 5
   }),
   countLoaded: css({
-    borderTop: `1px solid ${colors.text}`,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
     display: 'flex',
     justifyContent: 'space-between',
     padding: '15px 0',
@@ -71,8 +72,9 @@ const ResultsList = ({ nodes }) => {
 
 const ResultsFooter = compose(withT)(
   ({ t, search: { nodes, totalCount, pageInfo }, fetchMore }) => {
+    const [colorScheme] = useColorContext()
     return (
-      <div {...styles.countLoaded}>
+      <div {...styles.countLoaded} {...colorScheme.set('borderColor', 'text')}>
         {nodes.length === totalCount
           ? t.pluralize('search/pageInfo/total', {
               count: countFormat(totalCount)

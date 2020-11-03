@@ -1,13 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { compose } from 'react-apollo'
 
 import { withDiscussionDocumentMeta } from './enhancers'
-import { WithMembership, WithoutMembership } from '../Auth/withMembership'
 import withT from '../../lib/withT'
-
 import Link from '../Link/Href'
-
-import { Interaction, inQuotes, linkRule } from '@project-r/styleguide'
+import { inQuotes, linkRule } from '@project-r/styleguide'
 
 const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
   const articleMeta = meta || documentMeta

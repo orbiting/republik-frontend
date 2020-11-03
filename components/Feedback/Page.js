@@ -83,6 +83,7 @@ const FeedbackPage = props => {
       meta={pageMeta}
       formatColor={colors.primary}
       stickySecondaryNav={!tab}
+      colorSchemeKey='auto'
     >
       <Center {...styles.container}>
         {!tab && (

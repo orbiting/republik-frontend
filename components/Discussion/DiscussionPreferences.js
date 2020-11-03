@@ -58,10 +58,7 @@ DiscussionPreferences.propTypes = {
   setDiscussionPreferences: PropTypes.func.isRequired
 }
 
-export default compose(
-  withT,
-  withDiscussionPreferences
-)(DiscussionPreferences)
+export default compose(withT, withDiscussionPreferences)(DiscussionPreferences)
 
 class DiscussionPreferencesEditor extends PureComponent {
   constructor(props) {

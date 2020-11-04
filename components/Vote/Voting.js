@@ -46,12 +46,11 @@ const styles = {
   cardActions: css({
     marginTop: 15,
     height: 90,
-    position: 'sticky',
-
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
+    textAlign: 'center',
+    '& button': {
+      display: 'block',
+      margin: '10px auto'
+    }
   }),
   optionText: css({
     fontSize: 19

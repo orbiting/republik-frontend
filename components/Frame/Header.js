@@ -6,7 +6,8 @@ import {
   Logo,
   mediaQueries,
   HeaderHeightProvider,
-  useColorContext
+  useColorContext,
+  Button
 } from '@project-r/styleguide'
 
 import { Router } from '../../lib/routes'
@@ -57,7 +58,8 @@ const Header = ({
   pullable = true,
   hasOverviewNav,
   stickySecondaryNav,
-  colorSchemeKey
+  colorSchemeKey,
+  isOnMarketingPage
 }) => {
   const [colorScheme] = useColorContext()
   const [isMobile, setIsMobile] = useState()
@@ -212,6 +214,7 @@ const Header = ({
                     expandedNav === 'user' ? 'close' : 'open'
                   }/aria`
                 )}
+                isOnMarketingPage={isOnMarketingPage}
                 onClick={() =>
                   !isAnyNavExpanded
                     ? toggleExpanded('user')
@@ -223,28 +226,45 @@ const Header = ({
               {me && <NotificationIcon />}
             </div>
           </div>
-          <div {...styles.navBarItem}>
-            <a
-              {...styles.logo}
-              aria-label={t('header/logo/magazine/aria')}
-              href={'/'}
-              onClick={goTo('/', 'index')}
-            >
-              <Logo />
-            </a>
-          </div>
+          {!isOnMarketingPage ? (
+            <div {...styles.navBarItem}>
+              <a
+                {...styles.logo}
+                aria-label={t('header/logo/magazine/aria')}
+                href={'/'}
+                onClick={goTo('/', 'index')}
+              >
+                <Logo />
+              </a>
+            </div>
+          ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              <Toggle
-                expanded={isAnyNavExpanded}
-                title={t(
-                  `header/nav/${expandedNav === 'main' ? 'close' : 'open'}/aria`
-                )}
-                id='main'
-                onClick={() =>
-                  isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
-                }
-              />
+              {me ? (
+                <Toggle
+                  expanded={isAnyNavExpanded}
+                  title={t(
+                    `header/nav/${
+                      expandedNav === 'main' ? 'close' : 'open'
+                    }/aria`
+                  )}
+                  id='main'
+                  onClick={() =>
+                    isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
+                  }
+                />
+              ) : (
+                <Button
+                  primary
+                  style={{
+                    height: scrollableHeaderHeight - 1,
+                    padding: isOnMarketingPage && !isMobile && '10px 80px',
+                    minWidth: isMobile && 'initial'
+                  }}
+                >
+                  {isMobile ? 'Abo' : 'Jetzt abonnieren'}
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -255,7 +275,7 @@ const Header = ({
           hasOverviewNav={hasOverviewNav}
           isSecondarySticky={headerOffset === -scrollableHeaderHeight}
         />
-        <HLine formatColor={formatColor} />
+        {!isOnMarketingPage ? <HLine formatColor={formatColor} /> : 'null'}
       </div>
       <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
         <NavPopover

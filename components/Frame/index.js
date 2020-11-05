@@ -98,7 +98,8 @@ const Frame = ({
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
   isTester,
-  colorSchemeKey: colorSchemeKeyProp = 'light'
+  colorSchemeKey: colorSchemeKeyProp = 'light',
+  isOnMarketingPage
 }) => {
   const colorSchemeKey = isTester
     ? colorSchemeKeyProp
@@ -141,6 +142,7 @@ const Frame = ({
             pullable={pullable}
             hasOverviewNav={hasOverviewNav}
             stickySecondaryNav={stickySecondaryNav}
+            isOnMarketingPage={isOnMarketingPage}
           >
             <noscript>
               <Box style={{ padding: 30 }}>

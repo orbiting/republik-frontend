@@ -15,7 +15,7 @@ const NotificationsPage = ({ t, me }) => {
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
   return (
-    <Frame raw={!!me} meta={meta}>
+    <Frame raw={!!me} meta={meta} colorSchemeKey='auto'>
       {me ? (
         <Notifications />
       ) : (

@@ -26,7 +26,6 @@ import ActionBar from '../../ActionBar'
 import BudgetChart from './BudgetChart'
 import Loader from '../../Loader'
 import VoteInfo from './VoteInfo'
-import AddressEditor from '../AddressEditor'
 import VoteResult from '../VoteResult'
 
 import {
@@ -128,12 +127,6 @@ class VotePage extends Component {
 
             const hasResults = votings.map(d => d.result).every(Boolean)
 
-            const missingAdress = userIsEligible && !me.address
-
-            const dangerousDisabledHTML = missingAdress
-              ? vt('common/missingAddressDisabledMessage')
-              : undefined
-
             const shareObject = {
               url: `${PUBLIC_BASE_URL}/vote/juli19`,
               title: vt('vote/201907/page/title'),
@@ -221,16 +214,6 @@ class VotePage extends Component {
                   <Collapsible>
                     <Small dangerousHTML={vt('vote/201907/intro/more2')} />
                   </Collapsible>
-                  {missingAdress && (
-                    <Fragment>
-                      <a {...styles.anchor} id='adresse' />
-                      <Heading>{vt('common/missingAddressTitle')}</Heading>
-                      <P>{vt('common/missingAddressBody')}</P>
-                      <div style={{ margin: '30px 0' }}>
-                        <AddressEditor />
-                      </div>
-                    </Fragment>
-                  )}
                   {!me && !hasEnded && (
                     <div style={{ margin: '30px 0' }}>
                       <SignIn
@@ -258,10 +241,7 @@ class VotePage extends Component {
                     <Collapsible>
                       <Small dangerousHTML={vt(`vote/${id}/more`)} />
                     </Collapsible>
-                    <Voting
-                      slug={slug}
-                      dangerousDisabledHTML={dangerousDisabledHTML}
-                    />
+                    <Voting slug={slug} />
                   </Section>
                 ))}
 

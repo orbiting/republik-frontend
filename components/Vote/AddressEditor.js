@@ -3,8 +3,8 @@ import AddressForm, { COUNTRIES } from '../Account/AddressForm'
 import FieldSet from '../FieldSet'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
-import { Button, InlineSpinner, colors } from '@project-r/styleguide'
-import ErrorMessage from '../ErrorMessage'
+import { Button, InlineSpinner, Interaction } from '@project-r/styleguide'
+import ErrorMessage, { ErrorContainer } from '../ErrorMessage'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import voteT from './voteT'
@@ -19,31 +19,10 @@ class AddressEditor extends Component {
       dirty: {},
       ...this.deriveStateFromProps(props)
     }
-
-    this.save = async () => {
-      const { updateAddress } = props
-      const { values } = this.state
-
-      this.setState({ updating: true })
-
-      await updateAddress(values)
-        .then(() =>
-          this.setState(() => ({
-            updating: false,
-            error: null
-          }))
-        )
-        .catch(error => {
-          this.setState(() => ({
-            updating: false,
-            error
-          }))
-        })
-    }
   }
 
-  deriveStateFromProps({ data }) {
-    const { name: meName, address } = data.me || {}
+  deriveStateFromProps({ addressData }) {
+    const { name: meName, address } = addressData.voteMe || {}
     const name = (address && address.name) || meName
     const { line1, line2, city, postalCode, country = DEFAULT_COUNTRY } =
       address || {}
@@ -60,57 +39,77 @@ class AddressEditor extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.data.me && nextProps.data.me !== this.props.data.me) {
+    if (
+      nextProps.addressData.voteMe &&
+      nextProps.addressData.voteMe !== this.props.addressData.voteMe
+    ) {
       this.setState(this.deriveStateFromProps(nextProps))
     }
   }
 
   render() {
-    const { data, t, vt } = this.props
-    const { values, errors, error, dirty, updating } = this.state
+    const { addressData, t, vt } = this.props
+    const { values, errors, error, dirty, updating, showErrors } = this.state
     const isValid = !Object.keys(errors).some(k => Boolean(errors[k]))
+
+    const save = () => {
+      if (!isValid) {
+        this.setState({ showErrors: true })
+        return
+      }
+
+      this.setState({ updating: true })
+
+      this.props
+        .updateAddress(values)
+        .then(() =>
+          this.setState(() => ({
+            updating: false,
+            error: null
+          }))
+        )
+        .catch(error => {
+          this.setState(() => ({
+            updating: false,
+            error
+          }))
+        })
+    }
 
     return (
       <Loader
-        loading={data.loading}
-        error={data.error}
+        loading={addressData.loading}
+        error={addressData.error}
         render={() => (
-          <>
-            <div>
-              <AddressForm
-                values={values}
-                errors={errors}
-                dirty={dirty}
-                onChange={fields => {
-                  this.setState(FieldSet.utils.mergeFields(fields))
-                }}
-              />
-            </div>
-            {error && (
-              <div>
-                <ErrorMessage error={error} />
-              </div>
-            )}
-            {!isValid && (
-              <div style={{ color: colors.error }}>
+          <div style={{ marginTop: 30 }}>
+            <Interaction.P>{vt('common/missingAddressBody')}</Interaction.P>
+            <AddressForm
+              values={values}
+              errors={errors}
+              dirty={dirty}
+              onChange={fields => {
+                this.setState(FieldSet.utils.mergeFields(fields))
+              }}
+            />
+            {error && <ErrorMessage error={error} />}
+            {!isValid && showErrors && (
+              <ErrorContainer>
                 {vt('info/candidacy/missingFields')}
-                <ul>
+                <ul style={{ marginTop: 10 }}>
                   {Object.keys(errors).map(
                     k => !!errors[k] && <li key={k}>{errors[k]}</li>
                   )}
                 </ul>
-              </div>
+              </ErrorContainer>
             )}
-            <div>
-              <Button primary onClick={this.save} disabled={!isValid}>
-                {updating ? (
-                  <InlineSpinner size={40} />
-                ) : (
-                  t('Account/Update/submit')
-                )}
-              </Button>
-            </div>
-          </>
+            <Button primary={isValid} onClick={save}>
+              {updating ? (
+                <InlineSpinner size={40} />
+              ) : (
+                t('Account/Update/submit')
+              )}
+            </Button>
+          </div>
         )}
       />
     )
@@ -135,7 +134,7 @@ const updateAddressMutation = gql`
 
 const query = gql`
   query {
-    me {
+    voteMe: me {
       id
       name
       address {
@@ -149,6 +148,8 @@ const query = gql`
     }
   }
 `
+
+export const withAddressData = graphql(query, { name: 'addressData' })
 
 export default compose(
   withT,
@@ -164,5 +165,5 @@ export default compose(
       }
     })
   }),
-  graphql(query)
+  withAddressData
 )(AddressEditor)

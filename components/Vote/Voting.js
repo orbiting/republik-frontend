@@ -19,6 +19,7 @@ import voteT from './voteT'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import ErrorMessage from '../ErrorMessage'
+import AddressEditor, { withAddressData } from './AddressEditor'
 
 const { H3, P } = Interaction
 
@@ -226,12 +227,13 @@ class Voting extends React.Component {
       const {
         vt,
         data: { voting },
+        addressData,
         me
       } = this.props
       const { selectedValue } = this.state
       const { P } = Interaction
 
-      let dangerousDisabledHTML = this.props.dangerousDisabledHTML
+      let dangerousDisabledHTML
       if (voting.userHasSubmitted) {
         dangerousDisabledHTML = vt('vote/voting/thankyou', {
           submissionDate: messageDateFormat(new Date(voting.userSubmitDate))
@@ -242,6 +244,10 @@ class Voting extends React.Component {
         dangerousDisabledHTML = vt('vote/voting/notSignedIn')
       } else if (!voting.userIsEligible) {
         dangerousDisabledHTML = vt('vote/voting/notEligible')
+      }
+
+      if (voting.userIsEligible && !addressData.voteMe?.address) {
+        return <AddressEditor />
       }
 
       if (dangerousDisabledHTML) {
@@ -380,5 +386,6 @@ export default compose(
         slug
       }
     })
-  })
+  }),
+  withAddressData
 )(Voting)

@@ -320,7 +320,7 @@ const Form = ({
       return pay({
         pledgeId: submitData.submitPledge.pledgeId,
         method: 'STRIPE',
-        stripePlatformPaymentMethodId: paymentMethodId
+        sourceId: paymentMethodId
       }).then(({ data: payData }) => {
         console.log('payPledge success!', payData)
 
@@ -391,10 +391,8 @@ const Form = ({
             <br />
             {stripePaymentMethods.map((stripePaymentMethod, i) => {
               const Icon =
-                (stripePaymentMethod.card.brand === 'Visa' && (
-                  <PSPIcons.Visa />
-                )) ||
-                (stripePaymentMethod.card.brand === 'MasterCard' && (
+                (stripePaymentMethod.brand === 'Visa' && <PSPIcons.Visa />) ||
+                (stripePaymentMethod.brand === 'MasterCard' && (
                   <PSPIcons.Mastercard />
                 ))
 
@@ -427,16 +425,16 @@ const Form = ({
                   {Icon && Icon}
                   {Icon && (
                     <span {...styles.paymentMethodHiddenText}>
-                      {stripePaymentMethod.card.brand}
+                      {stripePaymentMethod.brand}
                     </span>
                   )}
                   <span {...styles.paymentMethodSourceText}>
-                    {!Icon && stripePaymentMethod.card.brand}
+                    {!Icon && stripePaymentMethod.brand}
                     {'**** '}
-                    {stripePaymentMethod.card.last4}
+                    {stripePaymentMethod.last4}
                     <br />
-                    {pad2(stripePaymentMethod.card.expMonth)}/
-                    {stripePaymentMethod.card.expYear}
+                    {pad2(stripePaymentMethod.expMonth)}/
+                    {stripePaymentMethod.expYear}
                   </span>
                 </label>
               )
@@ -658,16 +656,14 @@ export const myPaymentMethodsQuery = gql`
   query myPaymentMethods($accessToken: ID) {
     me(accessToken: $accessToken) {
       id
-      stripePaymentMethods {
+      paymentSources {
         id
         isDefault
-        card {
-          brand
-          last4
-          expMonth
-          expYear
-          isExpired
-        }
+        brand
+        last4
+        expMonth
+        expYear
+        isExpired
       }
     }
   }
@@ -710,7 +706,6 @@ const payPledge = gql`
     $pledgeId: ID!
     $method: PaymentMethod!
     $sourceId: String
-    $stripePlatformPaymentMethodId: ID
     $pspPayload: JSON
     $address: AddressInput
     $paperInvoice: Boolean
@@ -721,7 +716,6 @@ const payPledge = gql`
         pledgeId: $pledgeId
         method: $method
         sourceId: $sourceId
-        stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
         makeDefault: $makeDefault
         pspPayload: $pspPayload
         address: $address
@@ -795,7 +789,7 @@ const JoinWithMutations = compose(
       variables: { accessToken }
     }),
     props: ({ data }) => ({
-      stripePaymentMethods: data.me && data.me.stripePaymentMethods,
+      stripePaymentMethods: data.me && data.me.paymentSources,
       loadingStripePaymentMethods: data.loading
     })
   }),

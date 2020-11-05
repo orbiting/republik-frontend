@@ -37,6 +37,7 @@ const styles = {
   }),
   lead: css({
     ...fontStyles.serifRegular25,
-    textAlign: 'center'
+    textAlign: 'center',
+    maxWidth: 960
   })
 }

@@ -46,7 +46,7 @@ const styles = {
   }),
   cardActions: css({
     marginTop: 15,
-    height: 90,
+    minHeight: 90,
     textAlign: 'center',
     '& button': {
       display: 'block',
@@ -126,7 +126,7 @@ class Voting extends React.Component {
       }
     }
 
-    this.submitVotingBallot = async () => {
+    this.submitVotingBallot = () => {
       const { submitVotingBallot } = this.props
       const {
         data: { voting }
@@ -135,19 +135,19 @@ class Voting extends React.Component {
 
       this.setState({ updating: true })
 
-      await submitVotingBallot(voting.id, selectedValue)
+      submitVotingBallot(voting.id, selectedValue)
         .then(() => {
-          this.setState(() => ({
+          this.setState({
             updating: false,
             error: null
-          }))
+          })
         })
         .catch(error => {
-          this.setState(() => ({
+          this.setState({
             pollState: POLL_STATES.DIRTY,
             updating: false,
             error
-          }))
+          })
         })
     }
 
@@ -170,9 +170,9 @@ class Voting extends React.Component {
                 primary
                 onClick={e => {
                   e.preventDefault()
-                  this.setState(() => ({
+                  this.setState({
                     pollState: POLL_STATES.READY
-                  }))
+                  })
                 }}
               >
                 {vt('vote/voting/labelVote')}
@@ -188,9 +188,9 @@ class Voting extends React.Component {
                 primary
                 onClick={e => {
                   e.preventDefault()
-                  this.setState(() => ({
+                  this.setState({
                     pollState: POLL_STATES.READY
-                  }))
+                  })
                 }}
               >
                 {vt('vote/voting/labelVote')}
@@ -230,7 +230,7 @@ class Voting extends React.Component {
         addressData,
         me
       } = this.props
-      const { selectedValue } = this.state
+      const { selectedValue, updating } = this.state
       const { P } = Interaction
 
       let dangerousDisabledHTML
@@ -272,6 +272,7 @@ class Voting extends React.Component {
                   black
                   value={id}
                   checked={id === selectedValue}
+                  disabled={!!updating}
                   onChange={() =>
                     this.setState({
                       selectedValue: id,

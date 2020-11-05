@@ -131,7 +131,7 @@ const Header = ({
         )
       }
 
-      if (diff.current !== lastDiff.current) {
+      if (!isOnMarketingPage && diff.current !== lastDiff.current) {
         fixedRef.current.style.top = `${diff.current}px`
         setHeaderOffset(diff.current)
       }
@@ -256,6 +256,7 @@ const Header = ({
               ) : (
                 <Button
                   primary
+                  href='/pledge'
                   style={{
                     height: scrollableHeaderHeight - 1,
                     padding: isOnMarketingPage && !isMobile && '10px 80px',
@@ -275,7 +276,7 @@ const Header = ({
           hasOverviewNav={hasOverviewNav}
           isSecondarySticky={headerOffset === -scrollableHeaderHeight}
         />
-        {!isOnMarketingPage ? <HLine formatColor={formatColor} /> : 'null'}
+        {!isOnMarketingPage ? <HLine formatColor={formatColor} /> : null}
       </div>
       <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
         <NavPopover

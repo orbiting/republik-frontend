@@ -351,7 +351,7 @@ const Page = ({
   const [autoPlay, setAutoPlay] = useState(false)
 
   return (
-    <Frame meta={meta} dark>
+    <Frame meta={meta} colorSchemeKey='dark'>
       <Loader
         loading={surviveData.loading || actionsLoading}
         error={surviveData.error}

@@ -38,6 +38,8 @@ import SignIn from '../Auth/SignIn'
 import Employees from './Employees'
 import ShareButtons from '../ActionBar/ShareButtons'
 
+import NewsletterSignUp from '../Auth/NewsletterSignUp'
+
 import { buttonStyles, sharedStyles } from './styles'
 
 import ErrorMessage from '../ErrorMessage'
@@ -196,13 +198,7 @@ const MarketingPage = props => {
                 padding: 0
               }}
             >
-              <h1 {...styles.lead}>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: t('marketing/overview/title')
-                  }}
-                />
-              </h1>
+              <h1 {...styles.lead}>{t('marketing/overview/title')}</h1>
               <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
                 <Loader
                   loading={loading}
@@ -326,6 +322,26 @@ Wir bedanken uns an dieser Stelle auch bei unseren ${
             ? countFormat(membershipStats.count)
             : '25’000'
         } Mitgliedern und Abonnentinnen, die unsere Arbeit möglich machen und das Überleben der Republik sichern.
+
+        `}
+
+        <div
+          style={{
+            backgroundColor: colors.primaryBg,
+            padding: '10px 15px',
+            marginTop: 30
+          }}
+        >
+          <Interaction.H2>Covid-19-Uhr-Newsletter</Interaction.H2>
+          <Interaction.P style={{ margin: '10px 0' }}>
+            Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen
+            für alle. Auch ohne Mitgliedschaft oder Abo.
+          </Interaction.P>
+          <NewsletterSignUp black skipBox free name='COVID19' />
+        </div>
+
+        {md(mdComponents)`
+<br />
 
 ## Was ist die Republik?
 

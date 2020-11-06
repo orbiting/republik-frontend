@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { withAggregations } from './enhancers'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { SUPPORTED_FILTERS, isSameFilter, findAggregation } from './constants'
 import { css, merge } from 'glamor'
-import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
+import {
+  fontStyles,
+  mediaQueries,
+  useColorContext
+} from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
@@ -25,22 +29,11 @@ const styles = {
     }
   }),
   link: css({
-    color: colors.text,
-    '@media (hover)': {
-      ':hover': {
-        color: colors.lightText
-      }
-    },
     textDecoration: 'none'
   }),
   linkSelected: css({
     textDecoration: 'underline',
-    textDecorationSkip: 'ink',
-    '@media (hover)': {
-      ':hover': {
-        color: colors.text
-      }
-    }
+    textDecorationSkip: 'ink'
   })
 }
 
@@ -49,11 +42,22 @@ const Filters = compose(
   withAggregations
 )(({ dataAggregations, urlFilter, getSearchParams, sort }) => {
   const { search, loading, error } = dataAggregations
+  const [colorScheme] = useColorContext()
   if (loading || error) return null
 
   const { aggregations } = search
   if (!aggregations) return null
-
+  const styleRules = useMemo(() => {
+    return {
+      link: css({
+        '@media (hover)': {
+          ':hover': {
+            color: colorScheme.getCSSColor('textSoft')
+          }
+        }
+      })
+    }
+  }, [colorScheme])
   return (
     <ul {...styles.list}>
       {SUPPORTED_FILTERS.map((filter, key) => {
@@ -77,12 +81,11 @@ const Filters = compose(
                 passHref
               >
                 <a
-                  {...merge(
-                    styles.link,
-                    !sort &&
-                      isSameFilter(filter, urlFilter) &&
-                      styles.linkSelected
-                  )}
+                  {...styles.link}
+                  {...colorScheme.set('color', 'text')}
+                  {...(sort &&
+                    !isSameFilter(filter, urlFilter) &&
+                    styleRules.link)}
                 >
                   {text}
                 </a>

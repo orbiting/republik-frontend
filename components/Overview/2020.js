@@ -317,5 +317,46 @@ export default {
       </Highlight>
       .
     </>
+  ),
+  Oktober: p => (
+    <>
+      Grundsätzliches: Sollten Affen, Hunde und Schweine{' '}
+      <Highlight {...p} ids={['m2LZ4JMTX']}>
+        Rechte haben
+      </Highlight>
+      ? Bis wann würden Sie eine{' '}
+      <Highlight {...p} ids={['tKBh63dMD']}>
+        Schwangerschaft abbrechen
+      </Highlight>
+      ? Dazu{' '}
+      <Highlight {...p} ids={['6peJ9-cPO']}>
+        Aufregendes
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['VVNPTy5mQ']}>
+        Urchiges
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['BkoX7baub']}>
+        Klassenkämpferisches
+      </Highlight>{' '}
+      aus der Literatur. Brauchbares rund um den US-Wahlkampf: Das{' '}
+      <Highlight {...p} ids={['2-5uCRkUS']}>
+        Interview
+      </Highlight>{' '}
+      mit einem republikanischen Top-Strategen, der{' '}
+      <Highlight {...p} ids={['7Stq-lvcJ']}>
+        Essay über Amerikas Abdriften ins Autoritäre
+      </Highlight>{' '}
+      und die Anleitung,{' '}
+      <Highlight {...p} ids={['EasSZxpGQ']}>
+        wie man in Wahrscheinlichkeiten denkt
+      </Highlight>
+      . Und der dreiteilige{' '}
+      <Highlight {...p} series='republik/article-der-kovi-report'>
+        Report über die Konzern-Initiative
+      </Highlight>
+      .
+    </>
   )
 }

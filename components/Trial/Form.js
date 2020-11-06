@@ -21,15 +21,13 @@ import {
   Button,
   Field,
   InlineSpinner,
-  colors,
-  mediaQueries
+  useColorContext
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import { getConversionPayload } from '../../lib/utils/track'
 
 const styles = {
   errorMessages: css({
-    color: colors.error,
     marginTop: 40
   }),
   switchBoard: css({
@@ -55,7 +53,6 @@ const Form = props => {
     meRefetch,
     t,
     minimal,
-    darkMode,
     initialEmail,
     campaign
   } = props
@@ -72,6 +69,7 @@ const Form = props => {
 
   const [showErrors, setShowErrors] = useState(false)
   const [autoRequestAccess, setAutoRequestAccess] = useState(false)
+  const [colorScheme] = useColorContext()
 
   useEffect(() => {
     autoRequestAccess && !signingIn && me && requestAccess()
@@ -176,8 +174,6 @@ const Form = props => {
           {t('Trial/Form/withAccess/button/label')}
         </Button>
         <Button
-          white={minimal && darkMode}
-          secondary={minimal && !darkMode}
           onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}
         >
           {t('Trial/Form/withAccess/setup/label')}
@@ -204,8 +200,6 @@ const Form = props => {
               <Field
                 name='email'
                 type='email'
-                black={minimal && !darkMode}
-                white={minimal && darkMode}
                 label={t('Trial/Form/email/label')}
                 value={email.value}
                 error={email.dirty && email.error}
@@ -231,7 +225,6 @@ const Form = props => {
                 style={{ marginTop: (narrow && 10) || (minimal && '0') || 20 }}
               >
                 <Consents
-                  darkMode={darkMode}
                   error={showErrors && consentErrors}
                   required={REQUIRED_CONSENTS}
                   accepted={consents}
@@ -243,7 +236,10 @@ const Form = props => {
           )}
 
           {!minimal && showErrors && errorMessages.length > 0 && (
-            <div {...styles.errorMessages}>
+            <div
+              {...styles.errorMessages}
+              {...colorScheme.set('color', 'error')}
+            >
               {t('Trial/Form/error/title')}
               <br />
               <ul>
@@ -294,7 +290,6 @@ const Form = props => {
             onTokenTypeChange={reset}
             onSuccess={onSuccessSwitchBoard}
             minimal={minimal}
-            darkMode={darkMode}
           />
         </div>
       )}

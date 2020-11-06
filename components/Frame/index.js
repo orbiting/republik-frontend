@@ -1,30 +1,29 @@
 import React, { useMemo } from 'react'
+import { css } from 'glamor'
+import 'glamor/reset'
 import { compose } from 'react-apollo'
 import {
   Container,
   RawHtml,
   fontFamilies,
   mediaQueries,
-  colors,
-  ColorContext
+  ColorContextProvider
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
 import ProlongBox from './ProlongBox'
+import ColorSchemeSync from '../ColorScheme/Sync'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
   SUBHEADER_HEIGHT
 } from '../constants'
-import { css } from 'glamor'
-import { withMembership } from '../Auth/checkRoles'
+import { withMembership, withTester } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-
-import 'glamor/reset'
 
 css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })
@@ -80,7 +79,7 @@ export const Content = ({ children, style }) => (
   </div>
 )
 
-const Index = ({
+const Frame = ({
   t,
   me,
   children,
@@ -97,8 +96,15 @@ const Index = ({
   dark,
   isMember,
   hasOverviewNav: wantOverviewNav,
-  stickySecondaryNav
+  stickySecondaryNav,
+  isTester,
+  colorSchemeKey: colorSchemeKeyProp = 'light'
 }) => {
+  const colorSchemeKey = isTester
+    ? colorSchemeKeyProp
+    : colorSchemeKeyProp === 'auto'
+    ? 'light'
+    : colorSchemeKeyProp
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
   const padHeaderRule = useMemo(() => {
@@ -114,7 +120,8 @@ const Index = ({
     })
   }, [hasSecondaryNav])
   return (
-    <ColorContext.Provider value={dark && colors.negative}>
+    <ColorContextProvider root colorSchemeKey={colorSchemeKey}>
+      {colorSchemeKey === 'auto' && <ColorSchemeSync />}
       <div
         {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
       >
@@ -123,16 +130,9 @@ const Index = ({
           {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
           {...padHeaderRule}
         >
-          {dark && (
-            <style
-              dangerouslySetInnerHTML={{
-                __html: `html, body { background-color: ${colors.negative.containerBg}; color: ${colors.negative.text}; }`
-              }}
-            />
-          )}
           {!!meta && <Meta data={meta} />}
           <Header
-            dark={dark && !inNativeIOSApp}
+            colorSchemeKey={colorSchemeKey}
             me={me}
             cover={cover}
             onNavExpanded={onNavExpanded}
@@ -169,8 +169,14 @@ const Index = ({
         </div>
         {!inNativeApp && footer && <Footer />}
       </div>
-    </ColorContext.Provider>
+    </ColorContextProvider>
   )
 }
 
-export default compose(withMe, withMembership, withT, withInNativeApp)(Index)
+export default compose(
+  withMe,
+  withMembership,
+  withT,
+  withInNativeApp,
+  withTester
+)(Frame)

@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react'
-
+import React, { useEffect, useRef, useMemo } from 'react'
 import {
   DEFAULT_FONT_SIZE,
   Overlay,
@@ -7,23 +6,19 @@ import {
   OverlayToolbar,
   OverlayToolbarConfirm,
   Interaction,
-  Slider,
   mediaQueries,
   fontStyles,
-  colors,
   Editorial,
   Collapsable,
-  Button,
-  plainButtonRule
+  plainButtonRule,
+  useColorContext
 } from '@project-r/styleguide'
-
 import { MdClose, MdAdd, MdRemove } from 'react-icons/md'
+import { compose } from 'react-apollo'
+import { css } from 'glamor'
 
 import withT from '../../lib/withT'
-import { compose } from 'react-apollo'
-
 import { useFontSize } from '../../lib/fontSize'
-import { css } from 'glamor'
 import { trackEvent } from '../../lib/piwik'
 
 const FONT_SIZE_STEP = 3.2
@@ -33,50 +28,11 @@ const MAX_FONT_SIZE = 48
 const FontSizeOverlay = ({ t, onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
   const fontPercentage = useRef()
+  const [colorScheme] = useColorContext()
+
   fontPercentage.current = `${Math.round(
     (100 * fontSize) / DEFAULT_FONT_SIZE
   )}%`
-
-  const styles = {
-    label: css({
-      ...fontStyles.sansSerifRegular17,
-      color: colors.text
-    }),
-    preview: css({
-      borderTop: `1px solid ${colors.text}`,
-      fontSize: fontSize
-    }),
-    subhead: css({
-      marginTop: 12,
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      fontSize: '1.1875em',
-      lineHeight: '1.25',
-      [mediaQueries.mUp]: {
-        fontSize: '1.5em'
-      }
-    }),
-    paragraph: css({
-      fontSize: '1.0625em',
-      lineHeight: '1.578em',
-      [mediaQueries.mUp]: {
-        fontSize: '1.1875em'
-      }
-    }),
-    iconButton: css(plainButtonRule, {
-      fontSize: 24,
-      padding: '20px 20px 10px'
-    }),
-    reset: css(plainButtonRule, {
-      ...fontStyles.sansSerifRegular13,
-      color: colors.lightText,
-      padding: '0 20px 20px'
-    }),
-    container: css({
-      textAlign: 'center'
-    })
-  }
 
   const trackFontSize = action => {
     trackEvent(['FontSize', action, fontPercentage.current])
@@ -96,7 +52,11 @@ const FontSizeOverlay = ({ t, onClose }) => {
     fontSize > MIN_FONT_SIZE && setFontSize(fontSize - FONT_SIZE_STEP)
 
   const resetFontSize = () => setFontSize(DEFAULT_FONT_SIZE)
-
+  const fontSizeRule = useMemo(
+    () =>
+      css({ fontSize: fontSize, borderColor: colorScheme.getCSSColor('text') }),
+    [fontSize, colorScheme]
+  )
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 375, minHeight: 'none' }}>
       <OverlayToolbar>
@@ -105,7 +65,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} fill='#000' />}
+          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody>
@@ -117,7 +77,9 @@ const FontSizeOverlay = ({ t, onClose }) => {
           >
             <MdRemove />
           </button>
-          <label {...styles.label}>{fontPercentage.current}</label>
+          <label {...styles.label} {...colorScheme.set('color', 'text')}>
+            {fontPercentage.current}
+          </label>
           <button
             {...styles.iconButton}
             title={t('article/actionbar/fontSize/increase')}
@@ -128,6 +90,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
           <div {...styles.container}>
             <button
               {...styles.reset}
+              {...colorScheme.set('color', 'textSoft')}
               onClick={resetFontSize}
               title={t('article/actionbar/fontSize/reset')}
             >
@@ -137,11 +100,11 @@ const FontSizeOverlay = ({ t, onClose }) => {
         </div>
         <div>
           <p>{t('article/actionbar/fontSize/example')}</p>
-          <div {...styles.preview}>
+          <div {...styles.preview} {...fontSizeRule}>
             <Editorial.Subhead {...styles.subhead}>
               Hinter den Wortbergen
             </Editorial.Subhead>
-            <Collapsable t={t} alwaysCollapsed>
+            <Collapsable t={t} alwaysCollapsed isOnOverlay>
               <Editorial.P {...styles.paragraph}>
                 Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und
                 Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in
@@ -157,6 +120,45 @@ const FontSizeOverlay = ({ t, onClose }) => {
       </OverlayBody>
     </Overlay>
   )
+}
+
+const styles = {
+  label: css({
+    ...fontStyles.sansSerifRegular17
+  }),
+  preview: css({
+    borderTopWidth: 1,
+    borderTopStyle: 'solid'
+  }),
+  subhead: css({
+    marginTop: 12,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    fontSize: '1.1875em',
+    lineHeight: '1.25',
+    [mediaQueries.mUp]: {
+      fontSize: '1.5em'
+    }
+  }),
+  paragraph: css({
+    fontSize: '1.0625em',
+    lineHeight: '1.578em',
+    [mediaQueries.mUp]: {
+      fontSize: '1.1875em'
+    }
+  }),
+  iconButton: css(plainButtonRule, {
+    fontSize: 24,
+    padding: '20px 20px 10px'
+  }),
+  reset: css(plainButtonRule, {
+    ...fontStyles.sansSerifRegular13,
+    padding: '0 20px 20px'
+  }),
+  container: css({
+    textAlign: 'center'
+  })
 }
 
 export default compose(withT)(FontSizeOverlay)

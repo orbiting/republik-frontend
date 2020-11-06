@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
 
-import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
+import {
+  fontStyles,
+  mediaQueries,
+  useColorContext
+} from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { SUPPORTED_SORT } from './constants'
@@ -21,12 +25,6 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular16,
       marginRight: '30px'
-    },
-    color: colors.text,
-    '@media (hover)': {
-      ':hover': {
-        color: colors.lightText
-      }
     },
     textDecoration: 'none'
   }),
@@ -51,10 +49,20 @@ const getNextDirection = (sort, directions) => {
 
 const SortToggle = compose(withT)(({ t, sort, urlSort, getSearchParams }) => {
   const selected = urlSort.key === sort.key
-  const color = selected ? colors.primary : undefined
   const label = t(`search/sort/${sort.key}`)
   const direction = selected ? urlSort.direction : getDefaultDirection(sort)
-
+  const [colorScheme] = useColorContext()
+  const linkHover = useMemo(
+    () =>
+      css({
+        '@media (hover)': {
+          ':hover': {
+            color: colorScheme.getCSSColor('textSoft')
+          }
+        }
+      }),
+    [colorScheme]
+  )
   return (
     <Link
       route='search'
@@ -69,7 +77,11 @@ const SortToggle = compose(withT)(({ t, sort, urlSort, getSearchParams }) => {
       })}
       passHref
     >
-      <a {...styles.link} style={{ color }}>
+      <a
+        {...styles.link}
+        {...linkHover}
+        {...colorScheme.set('color', selected ? 'primary' : 'text')}
+      >
         {label}
         {direction && (
           <span

@@ -26,7 +26,6 @@ import { getVotingStage, VOTING_STAGES } from '../votingStage'
 import ActionBar from '../../ActionBar'
 import Loader from '../../Loader'
 import VoteInfo from './VoteInfo'
-import AddressEditor from '../AddressEditor'
 import VoteResult from '../VoteResult'
 import md from 'markdown-in-js'
 import { mdComponents } from '../text'
@@ -131,12 +130,6 @@ class VotePage extends Component {
 
             const hasResults = votings.map(d => d.result).every(Boolean)
 
-            const missingAdress = userIsEligible && !me.address
-
-            const dangerousDisabledHTML = missingAdress
-              ? vt('common/missingAddressDisabledMessage')
-              : undefined
-
             const shareObject = {
               url: `${PUBLIC_BASE_URL}/vote/dez19`,
               title: vt('vote/201912/page/title'),
@@ -204,16 +197,6 @@ class VotePage extends Component {
                   />
                   <FigureCaption>{vt('vote/201912/caption')}</FigureCaption>
                 </div>
-                {missingAdress && (
-                  <Fragment>
-                    <a {...styles.anchor} id='adresse' />
-                    <H2>{vt('common/missingAddressTitle')}</H2>
-                    <P>{vt('common/missingAddressBody')}</P>
-                    <div style={{ margin: '30px 0' }}>
-                      <AddressEditor />
-                    </div>
-                  </Fragment>
-                )}
                 {!me && !hasEnded && (
                   <div style={{ margin: '80px 0' }}>
                     <SignIn
@@ -312,10 +295,7 @@ Ganz einfach: weil uns das Geld ausgeht. Wenn wir im laufenden Geschäftsjahr gl
 Schreiben Sie uns in der [Abstimmungsdebatte](/vote/dez19/diskutieren). Auch wenn Sie von den Revisoren zur Durchführung und zum Ergebnis der Prüfung etwas wissen möchten. Wir sammeln die Fragen an die Revisionsstelle bis zum 17. Dezember, und Sie erhalten in der Abstimmungsdebatte bis zum 19. Dezember eine Antwort.
                 `}</Collapsible>
 
-                <Voting
-                  slug={'gen1819report'}
-                  dangerousDisabledHTML={dangerousDisabledHTML}
-                />
+                <Voting slug={'gen1819report'} />
                 {md(mdComponents)`
 ## Jahresrechnung Project R
 
@@ -336,10 +316,7 @@ Nun, dann wird es richtig kompliziert. Wir könnten zum Beispiel die Steuererkl�
 Schreiben Sie uns in der [Abstimmungsdebatte](/vote/dez19/diskutieren). Auch wenn Sie von den Revisoren zur Durchführung und zum Ergebnis der Prüfung etwas wissen möchten. Wir sammeln die Fragen an die Revisionsstelle bis zum 17. Dezember, und Sie erhalten in der Abstimmungsdebatte bis zum 19. Dezember eine Antwort.
                 `}</Collapsible>
 
-                <Voting
-                  slug={'gen1819accounts'}
-                  dangerousDisabledHTML={dangerousDisabledHTML}
-                />
+                <Voting slug={'gen1819accounts'} />
 
                 {md(mdComponents)`
 ## Entlastung
@@ -356,10 +333,7 @@ Die Entlastung gilt gegenüber den Mitgliedern des Vorstands sowie gegenüber 
 Schreiben Sie uns in der [Abstimmungsdebatte](/vote/dez19/diskutieren).
                 `}</Collapsible>
 
-                <Voting
-                  slug={'gen19discharge'}
-                  dangerousDisabledHTML={dangerousDisabledHTML}
-                />
+                <Voting slug={'gen19discharge'} />
 
                 {md(mdComponents)`
 ## Revisionsstelle
@@ -373,10 +347,7 @@ Wir würden das abklären – wahrscheinlich müssten Vorstand und Genossenschaf
 **Warum schon wieder?**  
 Sie haben die Revisionsstelle im Sommer 2019 bestätigt, und damit konnte diese die Finanzen des vergangenen Geschäftsjahres prüfen. In [Artikel 35 unserer Statuten](https://www.republik.ch/statuten) ist festgelegt, dass die Revisionsstelle jedes Jahr gewählt werden muss. Heute geht es darum, ob die BDO auch das laufende Geschäftsjahr prüfen und im Jahr 2020 die Revisionsberichte erstellen soll.
                 `}</Collapsible>
-                <Voting
-                  slug={'gen1920revision'}
-                  dangerousDisabledHTML={dangerousDisabledHTML}
-                />
+                <Voting slug={'gen1920revision'} />
 
                 {!hasEnded && (
                   <Body dangerousHTML={vt('vote/201912/nextsteps')} />

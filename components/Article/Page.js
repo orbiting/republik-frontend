@@ -8,13 +8,12 @@ import * as graphqlTag from 'graphql-tag'
 
 import {
   Center,
-  ColorContext,
   colors,
   Interaction,
   mediaQueries,
-  LazyLoad,
   TitleBlock,
-  Editorial
+  Editorial,
+  ColorContextProvider
 } from '@project-r/styleguide'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
@@ -23,6 +22,7 @@ import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 import createSectionSchema from '@project-r/styleguide/lib/templates/Section'
+import createPageSchema from '@project-r/styleguide/lib/templates/Page'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
 
 import ActionBarOverlay from './ActionBarOverlay'
@@ -55,14 +55,20 @@ import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
 import withMembership from '../Auth/withMembership'
-import { withEditor } from '../Auth/checkRoles'
+import { withEditor, withTester } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
-import SurviveStatus from '../Crowdfunding/SurviveStatus'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
+
+// Identifier-based dynamic components mapping
+import dynamic from 'next/dynamic'
+const Votebox = dynamic(() => import('../Vote/Voting'), {
+  loading: () => <Loader />,
+  ssr: false
+})
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -72,7 +78,8 @@ const schemaCreators = {
   dossier: createDossierSchema,
   discussion: createDiscussionSchema,
   editorialNewsletter: createNewsletterSchema,
-  section: createSectionSchema
+  section: createSectionSchema,
+  page: createPageSchema
 }
 
 const dynamicComponentRequire = createRequire().alias({
@@ -122,6 +129,7 @@ const ArticlePage = ({
   data: { article },
   isMember,
   isEditor,
+  isTester,
   inNativeApp,
   inNativeIOSApp,
   payNoteSeed,
@@ -187,6 +195,9 @@ const ArticlePage = ({
           ? t('plattformUnauthorizedZoneText/ios')
           : undefined,
         dynamicComponentRequire,
+        dynamicComponentIdentifiers: {
+          VOTEBOX: Votebox
+        },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),
         getVideoPlayerProps:
@@ -213,7 +224,8 @@ const ArticlePage = ({
   const documentId = useMemo(() => article && article?.id, [article])
   const repoId = useMemo(() => article && article.repoId, [article])
   const isEditorialNewsletter = meta && meta.template === 'editorialNewsletter'
-  const actionBar = article && (
+  const disableActionBar = meta && meta.disableActionBar
+  const actionBar = article && !disableActionBar && (
     <ActionBar mode='article-top' document={article} />
   )
   const actionBarEnd = actionBar
@@ -302,10 +314,11 @@ const ArticlePage = ({
     )
 
   const hasOverviewNav = meta && meta.template === 'section'
+  const colorSchemeKey = darkMode ? 'dark' : isTester ? 'auto' : 'light'
 
   return (
     <Frame
-      dark={darkMode}
+      colorSchemeKey={colorSchemeKey}
       raw
       // Meta tags for a focus comment are rendered in Discussion/Commments.js
       meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
@@ -326,6 +339,7 @@ const ArticlePage = ({
 
           const isFormat = meta.template === 'format'
           const isSection = meta.template === 'section'
+          const isPage = meta.template === 'page'
 
           const hasNewsletterUtms =
             router.query.utm_source && router.query.utm_source === 'newsletter'
@@ -346,6 +360,7 @@ const ArticlePage = ({
             isMember &&
             !isSection &&
             !isFormat &&
+            !isPage &&
             meta.template !== 'discussion'
               ? Progress
               : EmptyComponent
@@ -361,6 +376,11 @@ const ArticlePage = ({
               : undefined
 
           const format = meta.format
+
+          const isFreeNewsletter = !!newsletterMeta && newsletterMeta.free
+          const showNewsletterSignupTop = isFreeNewsletter && !me && isFormat
+          const showNewsletterSignupBottom =
+            isFreeNewsletter && !showNewsletterSignupTop
 
           return (
             <>
@@ -391,7 +411,6 @@ const ArticlePage = ({
                                 color={
                                   format.meta.color || colors[format.meta.kind]
                                 }
-                                contentEditable={false}
                               >
                                 <HrefLink href={format.meta.path} passHref>
                                   <a {...styles.link} href={format.meta.path}>
@@ -408,48 +427,55 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        <Center>
-                          <div
-                            ref={actionBarRef}
-                            {...styles.actionBarContainer}
-                            style={{
-                              textAlign: titleAlign,
-                              marginBottom: isEditorialNewsletter
-                                ? 0
-                                : undefined
-                            }}
-                          >
-                            {actionBar}
-                          </div>
-                          {isSection && (
-                            <Breakout size='breakout'>
-                              <SectionNav
-                                color={sectionColor}
-                                linkedDocuments={article.linkedDocuments}
-                              />
-                            </Breakout>
-                          )}
-                          {!me &&
-                            isEditorialNewsletter &&
-                            !!newsletterMeta &&
-                            newsletterMeta.free && (
+                        {(actionBar ||
+                          isSection ||
+                          showNewsletterSignupTop) && (
+                          <Center>
+                            {actionBar && (
+                              <div
+                                ref={actionBarRef}
+                                {...styles.actionBarContainer}
+                                style={{
+                                  textAlign: titleAlign,
+                                  marginBottom: isEditorialNewsletter
+                                    ? 0
+                                    : undefined
+                                }}
+                              >
+                                {actionBar}
+                              </div>
+                            )}
+                            {isSection && (
+                              <Breakout size='breakout'>
+                                <SectionNav
+                                  color={sectionColor}
+                                  linkedDocuments={article.linkedDocuments}
+                                />
+                              </Breakout>
+                            )}
+                            {showNewsletterSignupTop && (
                               <div style={{ marginTop: 10 }}>
                                 <NewsletterSignUp {...newsletterMeta} />
                               </div>
                             )}
-                        </Center>
+                          </Center>
+                        )}
                         {!suppressFirstPayNote && payNote}
                       </div>
                     )}
                     <SSRCachingBoundary
-                      cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
+                      cacheKey={[
+                        article.id,
+                        isMember && 'isMember',
+                        colorSchemeKey
+                      ]
+                        .filter(Boolean)
+                        .join(':')}
                     >
                       {() => (
-                        <ColorContext.Provider
-                          value={darkMode && colors.negative}
-                        >
+                        <ColorContextProvider colorSchemeKey={colorSchemeKey}>
                           {renderSchema(splitContent.main)}
-                        </ColorContext.Provider>
+                        </ColorContextProvider>
                       )}
                     </SSRCachingBoundary>
                   </article>
@@ -482,8 +508,13 @@ const ArticlePage = ({
                   />
                 </Center>
               )}
-              {!!newsletterMeta && (
+              {showNewsletterSignupBottom && (
                 <Center>
+                  {format && !me && (
+                    <Interaction.P>
+                      <strong>{format.meta.title}</strong>
+                    </Interaction.P>
+                  )}
                   <NewsletterSignUp {...newsletterMeta} />
                 </Center>
               )}
@@ -511,16 +542,6 @@ const ArticlePage = ({
                   </>
                 </Center>
               )}
-              {false &&
-                !suppressPayNotes &&
-                !darkMode &&
-                !(customPayNotes && customPayNotes.length) && (
-                  <Center>
-                    <LazyLoad style={{ display: 'block', minHeight: 120 }}>
-                      <SurviveStatus />
-                    </LazyLoad>
-                  </Center>
-                )}
               {isMember && episodes && (
                 <RelatedEpisodes
                   title={series.title}
@@ -535,7 +556,7 @@ const ArticlePage = ({
                 />
               )}
               {isFormat && <FormatFeed formatId={article.repoId} />}
-              {(hasActiveMembership || isFormat) && (
+              {(hasActiveMembership || isFormat || isPage) && (
                 <>
                   <br />
                   <br />
@@ -578,6 +599,7 @@ const ComposedPage = compose(
   withMembership,
   withMemberStatus,
   withEditor,
+  withTester,
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation,

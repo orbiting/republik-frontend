@@ -8,12 +8,7 @@ import MdCheckCircleOutlined from '../Icons/MdCheckCircleOutlined'
 import MdCheckSmall from '../Icons/MdCheckSmall'
 import { MdHighlightOff } from 'react-icons/md'
 import { withProgressApi } from '../Article/Progress/api'
-import {
-  ProgressCircle,
-  colors,
-  IconButton,
-  CalloutMenu
-} from '@project-r/styleguide'
+import { ProgressCircle, IconButton, CalloutMenu } from '@project-r/styleguide'
 
 const UserProgress = (
   {
@@ -59,8 +54,8 @@ const UserProgress = (
   const ProgressCircleIcon = () => (
     <ProgressCircle
       progress={percent}
-      stroke={colors.text}
-      strokePlaceholder='#e9e9e9'
+      strokeColorName='text'
+      strokePlaceholder
       size={24}
       strokeWidth={2}
     />

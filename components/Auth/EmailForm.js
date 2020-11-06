@@ -12,8 +12,7 @@ import {
   InlineSpinner,
   Interaction,
   Field,
-  RawHtml,
-  colors,
+  useColorContext,
   Editorial
 } from '@project-r/styleguide'
 
@@ -35,7 +34,6 @@ const styles = {
     marginBottom: 15
   }),
   hints: css({
-    color: colors.text,
     marginTop: -5,
     fontSize: 16,
     lineHeight: '24px'
@@ -65,6 +63,8 @@ const EmailForm = props => {
     serverError,
     black
   } = props
+
+  const [colorScheme] = useColorContext()
 
   return (
     <div>
@@ -101,7 +101,11 @@ const EmailForm = props => {
           </div>
         </div>
       </form>
-      {!!hints && <div {...styles.hints}>{hints}</div>}
+      {!!hints && (
+        <div {...styles.hints} {...colorScheme.set('color', 'text')}>
+          {hints}
+        </div>
+      )}
       {!!serverError && <ErrorMessage error={serverError} />}
     </div>
   )

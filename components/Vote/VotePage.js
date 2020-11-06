@@ -157,10 +157,9 @@ class VotePage extends Component {
                     <Fragment>
                       <a {...styles.anchor} id='adresse' />
                       <Heading>{vt('common/missingAddressTitle')}</Heading>
-                      <P>{vt('common/missingAddressBody')}</P>
-                      <div style={{ margin: '30px 0' }}>
-                        <AddressEditor />
-                      </div>
+                      <AddressEditor />
+                      <br />
+                      <br />
                     </Fragment>
                   )}
                   {!me && !hasEnded && (
@@ -194,10 +193,7 @@ class VotePage extends Component {
                     <Collapsible>
                       <Small dangerousHTML={vt(`vote/${id}/more`)} />
                     </Collapsible>
-                    <Voting
-                      slug={slug}
-                      dangerousDisabledHTML={dangerousDisabledHTML}
-                    />
+                    <Voting slug={slug} />
                   </Section>
                 ))}
 
@@ -332,7 +328,4 @@ const query = gql`
   }
 `
 
-export default compose(
-  voteT,
-  graphql(query)
-)(VotePage)
+export default compose(voteT, graphql(query))(VotePage)

@@ -1,19 +1,12 @@
 import React from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
+import { CommentTeaser, Loader, fontStyles } from '@project-r/styleguide'
+
 import { withComments } from './enhancers'
 import withT from '../../lib/withT'
 import InfiniteScroll from '../Frame/InfiniteScroll'
-
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
-
-import {
-  CommentTeaser,
-  Loader,
-  fontStyles,
-  linkRule
-} from '@project-r/styleguide'
-
 import CommentLink from '../Discussion/CommentLink'
 
 const styles = {
@@ -86,7 +79,4 @@ const LatestComments = ({ t, data, fetchMore }) => {
   )
 }
 
-export default compose(
-  withT,
-  withComments()
-)(LatestComments)
+export default compose(withT, withComments())(LatestComments)

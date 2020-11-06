@@ -92,7 +92,7 @@ const Panel = ({
             params={match.params}
             active={active}
             closeHandler={closeHandler}
-            hoverColor={color}
+            formatColor={color}
             inline
           >
             {meta.title}
@@ -165,7 +165,7 @@ const SectionNav = ({
                           params={match.params}
                           active={active}
                           closeHandler={closeHandler}
-                          hoverColor={color}
+                          formatColor={color}
                           inline
                         >
                           {meta.title}
@@ -188,7 +188,7 @@ const SectionNav = ({
                           params={match.params}
                           active={active}
                           closeHandler={closeHandler}
-                          hoverColor={color}
+                          formatColor={color}
                           inline
                         >
                           {meta.title}

@@ -135,6 +135,7 @@ export const getDocument = gql`
           name
           free
         }
+        disableActionBar
         estimatedReadingMinutes
         estimatedConsumptionMinutes
         indicateGallery

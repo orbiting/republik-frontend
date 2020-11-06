@@ -1,11 +1,9 @@
 import React from 'react'
 import { css } from 'glamor'
+import { Editorial, renderCommentMdast } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-
 import FieldSet from '../FieldSet'
-
-import { Editorial, renderCommentMdast } from '@project-r/styleguide'
 
 const styles = {
   text: css({

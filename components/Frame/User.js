@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import {
-  colors,
   mediaQueries,
   fontStyles,
-  plainButtonRule
+  plainButtonRule,
+  useColorContext
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { MdAccountBox } from 'react-icons/md'
@@ -28,14 +28,14 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, title, dark, backButton, onClick, isMobile }) => {
-  const color = dark ? colors.negative.text : colors.text
+const User = ({ t, me, title, backButton, onClick, isMobile }) => {
+  const [colorScheme] = useColorContext()
   return (
     <button {...styles.user} onClick={onClick} title={title}>
       <span
         {...styles.button}
+        {...colorScheme.set('color', 'text')}
         style={{
-          color,
           paddingLeft: backButton ? BUTTON_PADDING_MOBILE / 2 : 16
         }}
       >
@@ -44,11 +44,9 @@ const User = ({ t, me, title, dark, backButton, onClick, isMobile }) => {
             <img src={me.portrait} {...styles.portrait} />
           ) : (
             <span
-              style={{
-                backgroundColor: dark ? 'white' : colors.divider,
-                color: dark ? colors.text : 'white'
-              }}
               {...styles.portrait}
+              {...colorScheme.set('backgroundColor', 'hover')}
+              {...colorScheme.set('color', 'text')}
             >
               {getInitials(me)}
             </span>
@@ -58,7 +56,7 @@ const User = ({ t, me, title, dark, backButton, onClick, isMobile }) => {
             <span {...styles.anonymous}>
               <MdAccountBox
                 size={isMobile ? BUTTON_SIZE_MOBILE : BUTTON_SIZE}
-                fill={dark ? colors.negative.text : colors.text}
+                {...colorScheme.set('fill', 'text')}
               />
             </span>
             <span {...styles.label}>{t('header/signin')}</span>

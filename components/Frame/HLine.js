@@ -1,17 +1,21 @@
 import React from 'react'
 import { css } from 'glamor'
-import { colors } from '@project-r/styleguide'
+import { useColorContext } from '@project-r/styleguide'
 
 import { ZINDEX_POPOVER } from '../constants'
 
-const HLine = ({ formatColor, dark }) => {
-  const color = formatColor || (dark ? colors.negative.divider : colors.divider)
+const HLine = ({ formatColor }) => {
+  const [colorScheme] = useColorContext()
   return (
     <hr
       {...styles.hr}
+      {...(formatColor
+        ? colorScheme.set('backgroundColor', formatColor, 'format')
+        : colorScheme.set('backgroundColor', 'divider'))}
+      {...(formatColor
+        ? colorScheme.set('color', formatColor, 'format')
+        : colorScheme.set('color', 'divider'))}
       style={{
-        color,
-        backgroundColor: color,
         height: formatColor ? 3 : 1
       }}
     />

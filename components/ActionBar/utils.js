@@ -8,7 +8,7 @@ export const getDiscussionLinkProps = (
 ) => {
   const isLinkedDiscussion =
     linkedDiscussion &&
-    template === 'article' &&
+    (template === 'article' || template === 'page') &&
     (!linkedDiscussion.closed ||
       (linkedDiscussion.comments && linkedDiscussion.comments.totalCount > 0))
   const isOwnDiscussion =

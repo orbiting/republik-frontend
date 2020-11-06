@@ -9,6 +9,7 @@ import withApolloClient from '../lib/apollo/withApolloClient'
 import { IconContext } from 'react-icons'
 import Track from '../components/Track'
 import AudioProvider from '../components/Audio'
+import AudioPlayer from '../components/Audio/AudioPlayer'
 import AppVariableContext from '../components/Article/AppVariableContext'
 
 if (typeof window !== 'undefined') {
@@ -61,6 +62,7 @@ class WebApp extends App {
                 </Head>
                 <Component serverContext={serverContext} {...pageProps} />
                 <Track />
+                <AudioPlayer />
               </AppVariableContext>
             </AudioProvider>
           </IconContext.Provider>

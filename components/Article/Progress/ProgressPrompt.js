@@ -12,10 +12,10 @@ import {
   Button,
   Center,
   Interaction,
-  colors,
   linkRule,
   mediaQueries,
-  ColorContext
+  ColorContextProvider,
+  useColorContext
 } from '@project-r/styleguide'
 
 const styles = {
@@ -23,7 +23,6 @@ const styles = {
     paddingTop: 10,
     paddingBottom: 10,
     position: 'relative',
-    backgroundColor: colors.primaryBg,
     [mediaQueries.mUp]: {
       paddingTop: 30,
       paddingBottom: 30
@@ -66,42 +65,41 @@ export const getFeatureDescription = t =>
   })
 
 const ProgressPrompt = compose(withT)(
-  ({ t, onSubmitConsent, onRevokeConsent }) => (
-    <WithMembership
-      render={() => {
-        return (
-          <div {...styles.box}>
-            <ColorContext.Provider value={colors}>
-              <Center>
-                <H2>{t('article/progressprompt/headline')}</H2>
-                <P {...styles.pMargin}>{getFeatureDescription(t)}</P>
-                <P {...styles.pMargin}>
-                  <Emphasis>{t('article/progressprompt/question')}</Emphasis>
-                  <span {...styles.actions}>
-                    <Button onClick={onSubmitConsent}>
-                      {t('article/progressprompt/button/confirm')}
-                    </Button>
-                    <Button onClick={onRevokeConsent}>
-                      {t('article/progressprompt/button/reject')}
-                    </Button>
-                  </span>
-                </P>
-                <P>
-                  {t.elements('article/progressprompt/description/settings', {
-                    link: (
-                      <AnchorLink id='position' key='link'>
-                        {t('article/progressprompt/description/settings/link')}
-                      </AnchorLink>
-                    )
-                  })}
-                </P>
-              </Center>
-            </ColorContext.Provider>
+  ({ t, onSubmitConsent, onRevokeConsent }) => {
+    const [colorScheme] = useColorContext()
+    return (
+      <WithMembership
+        render={() => (
+          <div {...styles.box} {...colorScheme.set('backgroundColor', 'alert')}>
+            <Center>
+              <H2>{t('article/progressprompt/headline')}</H2>
+              <P {...styles.pMargin}>{getFeatureDescription(t)}</P>
+              <P {...styles.pMargin}>
+                <Emphasis>{t('article/progressprompt/question')}</Emphasis>
+                <span {...styles.actions}>
+                  <Button onClick={onSubmitConsent}>
+                    {t('article/progressprompt/button/confirm')}
+                  </Button>
+                  <Button onClick={onRevokeConsent}>
+                    {t('article/progressprompt/button/reject')}
+                  </Button>
+                </span>
+              </P>
+              <P>
+                {t.elements('article/progressprompt/description/settings', {
+                  link: (
+                    <AnchorLink id='position' key='link'>
+                      {t('article/progressprompt/description/settings/link')}
+                    </AnchorLink>
+                  )
+                })}
+              </P>
+            </Center>
           </div>
-        )
-      }}
-    />
-  )
+        )}
+      />
+    )
+  }
 )
 
 export default ProgressPrompt

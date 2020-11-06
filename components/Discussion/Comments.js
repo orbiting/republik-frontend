@@ -21,13 +21,13 @@ import {
   DiscussionContext,
   CommentList,
   A,
-  colors,
   fontStyles,
   convertStyleToRem,
   pxToRem,
   mediaQueries,
   useMediaQuery,
-  inQuotes
+  inQuotes,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { withEditor } from '../Auth/checkRoles'
@@ -44,7 +44,6 @@ const styles = {
   orderBy: css({
     ...convertStyleToRem(fontStyles.sansSerifRegular16),
     outline: 'none',
-    color: colors.text,
     WebkitAppearance: 'none',
     background: 'transparent',
     border: 'none',
@@ -520,14 +519,18 @@ const EmptyDiscussion = ({ t }) => (
   <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
 )
 
-const OrderBy = ({ t, orderBy, setOrderBy, value }) => (
-  <button
-    {...styles.orderBy}
-    {...(orderBy === value ? styles.selectedOrderBy : {})}
-    onClick={() => {
-      setOrderBy(value)
-    }}
-  >
-    {t(`components/Discussion/OrderBy/${value}`)}
-  </button>
-)
+const OrderBy = ({ t, orderBy, setOrderBy, value }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <button
+      {...styles.orderBy}
+      {...colorScheme.set('color', 'text')}
+      {...(orderBy === value ? styles.selectedOrderBy : {})}
+      onClick={() => {
+        setOrderBy(value)
+      }}
+    >
+      {t(`components/Discussion/OrderBy/${value}`)}
+    </button>
+  )
+}

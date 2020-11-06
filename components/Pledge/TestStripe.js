@@ -185,6 +185,7 @@ const Join = ({
   submit,
   pay,
   addPaymentMethod,
+  setDefaultPaymentMethod,
   me,
   stripePaymentMethods
 }) => {
@@ -251,6 +252,7 @@ const Join = ({
         submit={submit}
         pay={pay}
         addPaymentMethod={addPaymentMethod}
+        setDefaultPaymentMethod={setDefaultPaymentMethod}
         me={me}
         stripePaymentMethods={stripePaymentMethods}
         currentOffer={currentOffer}
@@ -266,6 +268,7 @@ const Form = ({
   submit,
   pay,
   addPaymentMethod,
+  setDefaultPaymentMethod,
   me,
   stripePaymentMethods,
   currentOffer
@@ -487,6 +490,12 @@ const Form = ({
               }
               console.log('stripeClientSecret confirmed')
             }
+
+            console.log('setting default')
+            await setDefaultPaymentMethod({
+              stripePlatformPaymentMethodId: paymentMethodId
+            })
+            console.log('default set')
           })
         }}
       >
@@ -744,6 +753,22 @@ const addPaymentMethodQuery = gql`
   }
 `
 
+const setDefaultPaymentMethodQuery = gql`
+  mutation setDefaultPaymentMethod($stripePlatformPaymentMethodId: ID!) {
+    setDefaultPaymentMethod(
+      stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
+    ) {
+      id
+      isDefault
+      brand
+      last4
+      expMonth
+      expYear
+      isExpired
+    }
+  }
+`
+
 export const withPay = Component => {
   const EnhancedComponent = compose(
     graphql(payPledge, {
@@ -765,6 +790,16 @@ const JoinWithMutations = compose(
   graphql(addPaymentMethodQuery, {
     props: ({ mutate }) => ({
       addPaymentMethod: variables => {
+        return mutate({
+          variables,
+          refetchQueries: [{ query: myPaymentMethodsQuery }]
+        })
+      }
+    })
+  }),
+  graphql(setDefaultPaymentMethodQuery, {
+    props: ({ mutate }) => ({
+      setDefaultPaymentMethod: variables => {
         return mutate({
           variables,
           refetchQueries: [{ query: myPaymentMethodsQuery }]

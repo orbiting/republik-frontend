@@ -194,11 +194,28 @@ const AboutPage = ({
           </P>
         </section>
         <section {...styles.section}>
+          <Subheader2>Geschäftsbericht 2019–2020</Subheader2>
+          <P {...styles.faqCta}>
+            Zu Beginn{' '}
+            <a
+              {...styles.link}
+              href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2019-2020.pdf'
+            >
+              des dritten Geschäftsjahres
+            </a>{' '}
+            mussten wir uns auf den drohenden Absturz unseres gemeinsamen
+            Unternehmens einstellen. Und nur Monate später erreichten wir zum
+            ersten Mal in der Geschichte der «Republik» die Schwelle zum
+            selbsttragenden Unternehmen. Die magische Marke von 25’000 zahlenden
+            Mitgliedern und Abonnentinnen wurde erreicht.
+          </P>
+        </section>
+        <section {...styles.section}>
           <Subheader2>Geschäftsbericht 2018–2019</Subheader2>
           <P {...styles.faqCta}>
             <a
               {...styles.link}
-              href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf'
+              href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf'
             >
               Im zweiten Geschäftsjahr
             </a>{' '}
@@ -214,7 +231,7 @@ const AboutPage = ({
           <P {...styles.faqCta}>
             <a
               {...styles.link}
-              href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf'
+              href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf'
             >
               Der erste Geschäftsbericht
             </a>{' '}

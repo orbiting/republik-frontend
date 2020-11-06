@@ -115,13 +115,7 @@ const Nav = ({
             </div>
             <hr {...styles.hr} />
             <div {...styles.navSection}>
-              <div
-                {...styles.navLinks}
-                style={{
-                  // ensures last item is visible in iOS safari
-                  marginBottom: inIOS && !inNativeApp ? 64 : 24
-                }}
-              >
+              <div {...styles.navLinks}>
                 <NavLink
                   inline
                   large
@@ -146,6 +140,24 @@ const Nav = ({
                   closeHandler={closeHandler}
                 >
                   {t('nav/team')}
+                </NavLink>
+              </div>
+            </div>
+            <div {...styles.navSection}>
+              <div
+                {...styles.navLinks}
+                style={{
+                  // ensures last item is visible in iOS safari
+                  marginBottom: inIOS && !inNativeApp ? 64 : 24
+                }}
+              >
+                <NavLink
+                  large
+                  route='vote/nov20'
+                  active={active}
+                  closeHandler={closeHandler}
+                >
+                  Urbastimmung
                 </NavLink>
               </div>
             </div>

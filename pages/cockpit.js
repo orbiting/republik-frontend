@@ -520,7 +520,7 @@ Mit konstant ${countFormat(
                 numMembersNeeded
               )} Abonnentinnen und Mitgliedern haben wir genügend Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
 
-Das aktuelle Ausgabenbudget haben wir im Juli 2019 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/juli19).
+Das aktuelle Ausgabenbudget haben wir im November 2020 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/nov20#unser-gesamtbudget-erklaert-und-aufgeschluesselt).
 
 ## ${countFormat(lastSeen)} Mitglieder sind monatlich&nbsp;aktiv
 

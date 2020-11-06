@@ -215,7 +215,7 @@ const AboutPage = ({
           <P {...styles.faqCta}>
             <a
               {...styles.link}
-              href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf'
+              href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf'
             >
               Im zweiten Geschäftsjahr
             </a>{' '}
@@ -231,7 +231,7 @@ const AboutPage = ({
           <P {...styles.faqCta}>
             <a
               {...styles.link}
-              href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf'
+              href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf'
             >
               Der erste Geschäftsbericht
             </a>{' '}

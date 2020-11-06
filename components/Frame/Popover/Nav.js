@@ -157,7 +157,7 @@ const Nav = ({
                   active={active}
                   closeHandler={closeHandler}
                 >
-                  Urbastimmung
+                  Urabstimmung
                 </NavLink>
               </div>
             </div>

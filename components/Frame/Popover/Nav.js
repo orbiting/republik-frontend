@@ -153,7 +153,8 @@ const Nav = ({
               >
                 <NavLink
                   large
-                  route='vote/nov20'
+                  route='votePage'
+                  params={{slug: 'nov20'}}
                   active={active}
                   closeHandler={closeHandler}
                 >

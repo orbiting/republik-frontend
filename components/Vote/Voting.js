@@ -20,6 +20,7 @@ import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import ErrorMessage from '../ErrorMessage'
 import AddressEditor, { withAddressData } from './AddressEditor'
+import SignIn from '../Auth/SignIn'
 
 const { H3, P } = Interaction
 
@@ -241,7 +242,9 @@ class Voting extends React.Component {
       } else if (Date.now() > new Date(voting.endDate)) {
         dangerousDisabledHTML = vt('vote/voting/ended')
       } else if (!me) {
-        dangerousDisabledHTML = vt('vote/voting/notSignedIn')
+        dangerousDisabledHTML = vt('vote/voting/notSignedIn', {
+          beginDate: timeFormat('%d.%m.%Y')(new Date(voting.beginDate))
+        })
       } else if (!voting.userIsEligible) {
         dangerousDisabledHTML = vt('vote/voting/notEligible')
       }
@@ -261,6 +264,7 @@ class Voting extends React.Component {
                 }}
               />
             </div>
+            {!me && <SignIn />}
           </div>
         )
       } else {

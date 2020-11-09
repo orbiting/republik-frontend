@@ -165,14 +165,33 @@ const ActionBar = ({
       mode !== 'article-bottom') ||
     meta.template === 'format' ||
     meta.template === 'section'
-  const readingTimeTitle = `${
-    displayHours ? `${displayHours}h\u202F` : ''
-  } ${displayMinutes} Minuten`
+
+  const hours =
+    displayHours > 0
+      ? t.pluralize('feed/actionbar/readingTime/hours', { count: displayHours })
+      : ''
+  const minutes =
+    displayMinutes > 0
+      ? t.pluralize('feed/actionbar/readingTime/minutes', {
+          count: displayMinutes
+        })
+      : ''
+  const minutesShort =
+    displayMinutes > 0
+      ? t.pluralize('feed/actionbar/readingTime/minutesShort', {
+          count: displayMinutes
+        })
+      : ''
+
+  const readingTimeTitle = t('feed/actionbar/readingTime/title', {
+    minutes,
+    hours
+  })
   const readingTimeLabel = !forceShortLabel
-    ? `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes} Minuten`
-    : `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes}'`
+    ? `${hours}${minutes}`
+    : `${hours}${minutesShort}`
+  const readingTimeLabelShort = `${hours}${minutesShort}`
+
   const showReadingTime =
     (displayMinutes > 0 || displayHours > 0) &&
     (meta.template === 'article' || meta.template === 'editorialNewsletter')
@@ -182,8 +201,7 @@ const ActionBar = ({
       title: readingTimeTitle,
       Icon: MdQueryBuilder,
       label: readingTimeLabel,
-      labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes}'`,
+      labelShort: readingTimeLabelShort,
       modes: ['feed'],
       show: showReadingTime
     },
@@ -342,8 +360,7 @@ const ActionBar = ({
       title: readingTimeTitle,
       Icon: MdQueryBuilder,
       label: readingTimeLabel,
-      labelShort: `${displayHours ? `${displayHours}h\u202F` : ''}
-      ${displayMinutes}'`,
+      labelShort: readingTimeLabelShort,
       no: true,
       show: showReadingTime
     },

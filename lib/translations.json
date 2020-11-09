@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-01T19:26:17.216Z",
+  "updated": "2020-11-06T11:27:50.033Z",
   "title": "live",
   "data": [
     {
@@ -2695,12 +2695,24 @@
       "value": "Chart"
     },
     {
-      "key": "feed/actionbar/readingTime/1",
-      "value": "ungefähr {minutes} Minute"
+      "key": "feed/actionbar/readingTime/hours/other",
+      "value": "{count}h "
     },
     {
-      "key": "feed/actionbar/readingTime/other",
-      "value": "ungefähr {minutes} Minuten"
+      "key": "feed/actionbar/readingTime/minutes/1",
+      "value": "1 Minute"
+    },
+    {
+      "key": "feed/actionbar/readingTime/minutes/other",
+      "value": "{count} Minuten"
+    },
+    {
+      "key": "feed/actionbar/readingTime/minutesShort/other",
+      "value": "{count}'"
+    },
+    {
+      "key": "feed/actionbar/readingTime/title",
+      "value": "ungefähr {hours}{minutes}"
     },
     {
       "key": "feed/actionbar/edit",

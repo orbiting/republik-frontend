@@ -80,17 +80,15 @@ export const Content = ({ children, style }) => (
   </div>
 )
 
-const ColorContainer = ({ children }) => {
+const OverrideRootDefaultColors = () => {
   const [colorScheme] = useColorContext()
 
   return (
-    <div
-      {...colorScheme.set('color', 'text')}
-      {...colorScheme.set('backgroundColor', 'default')}
-    >
-      <div style={{ height: 1, width: '100%' }} />
-      {children}
-    </div>
+    <style
+      dangerouslySetInnerHTML={{
+        __html: `html, body { background-color: ${colorScheme.default} !important; color: ${colorScheme.text} !important; }`
+      }}
+    />
   )
 }
 
@@ -164,31 +162,32 @@ const Frame = ({
             stickySecondaryNav={stickySecondaryNav}
           >
             <ColorContextProvider colorSchemeKey={contentColorSchemeKey}>
-              <ColorContainer>
-                <noscript>
-                  <Box style={{ padding: 30 }}>
-                    <RawHtml
-                      dangerouslySetInnerHTML={{
-                        __html: t('noscript')
-                      }}
-                    />
-                  </Box>
-                </noscript>
-                {me && me.prolongBeforeDate !== null && (
-                  <ProlongBox
-                    t={t}
-                    prolongBeforeDate={me.prolongBeforeDate}
-                    dark={dark}
+              {contentColorSchemeKey !== rootColorSchemeKey && (
+                <OverrideRootDefaultColors />
+              )}
+              <noscript>
+                <Box style={{ padding: 30 }}>
+                  <RawHtml
+                    dangerouslySetInnerHTML={{
+                      __html: t('noscript')
+                    }}
                   />
-                )}
-                {raw ? (
-                  children
-                ) : (
-                  <MainContainer>
-                    <Content>{children}</Content>
-                  </MainContainer>
-                )}
-              </ColorContainer>
+                </Box>
+              </noscript>
+              {me && me.prolongBeforeDate !== null && (
+                <ProlongBox
+                  t={t}
+                  prolongBeforeDate={me.prolongBeforeDate}
+                  dark={dark}
+                />
+              )}
+              {raw ? (
+                children
+              ) : (
+                <MainContainer>
+                  <Content>{children}</Content>
+                </MainContainer>
+              )}
             </ColorContextProvider>
           </Header>
         </div>

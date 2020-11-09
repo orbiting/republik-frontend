@@ -309,8 +309,7 @@ const HeaderWithContext = props => {
     children,
     hasOverviewNav,
     secondaryNav,
-    inNativeIOSApp,
-    colorSchemeKey: colorSchemeKeyProp
+    inNativeIOSApp
   } = props
 
   const hasSecondaryNav = hasOverviewNav || secondaryNav

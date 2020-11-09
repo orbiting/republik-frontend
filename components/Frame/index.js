@@ -7,7 +7,8 @@ import {
   RawHtml,
   fontFamilies,
   mediaQueries,
-  ColorContextProvider
+  ColorContextProvider,
+  useColorContext
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
@@ -79,6 +80,18 @@ export const Content = ({ children, style }) => (
   </div>
 )
 
+const OverrideRootDefaultColors = () => {
+  const [colorScheme] = useColorContext()
+
+  return (
+    <style
+      dangerouslySetInnerHTML={{
+        __html: `html, body { background-color: ${colorScheme.default} !important; color: ${colorScheme.text} !important; }`
+      }}
+    />
+  )
+}
+
 const Frame = ({
   t,
   me,
@@ -100,11 +113,17 @@ const Frame = ({
   isTester,
   colorSchemeKey: colorSchemeKeyProp = 'light'
 }) => {
-  const colorSchemeKey = isTester
+  const rootColorSchemeKey = isTester
+    ? 'auto'
+    : colorSchemeKeyProp === 'dark'
+    ? 'dark'
+    : 'light'
+  const contentColorSchemeKey = isTester
     ? colorSchemeKeyProp
     : colorSchemeKeyProp === 'auto'
     ? 'light'
     : colorSchemeKeyProp
+
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
   const padHeaderRule = useMemo(() => {
@@ -120,8 +139,8 @@ const Frame = ({
     })
   }, [hasSecondaryNav])
   return (
-    <ColorContextProvider root colorSchemeKey={colorSchemeKey}>
-      {colorSchemeKey === 'auto' && <ColorSchemeSync />}
+    <ColorContextProvider root colorSchemeKey={rootColorSchemeKey}>
+      {rootColorSchemeKey === 'auto' && <ColorSchemeSync />}
       <div
         {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
       >
@@ -132,7 +151,7 @@ const Frame = ({
         >
           {!!meta && <Meta data={meta} />}
           <Header
-            colorSchemeKey={colorSchemeKey}
+            colorSchemeKey={rootColorSchemeKey}
             me={me}
             cover={cover}
             onNavExpanded={onNavExpanded}
@@ -142,29 +161,34 @@ const Frame = ({
             hasOverviewNav={hasOverviewNav}
             stickySecondaryNav={stickySecondaryNav}
           >
-            <noscript>
-              <Box style={{ padding: 30 }}>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: t('noscript')
-                  }}
+            <ColorContextProvider colorSchemeKey={contentColorSchemeKey}>
+              {contentColorSchemeKey !== rootColorSchemeKey && (
+                <OverrideRootDefaultColors />
+              )}
+              <noscript>
+                <Box style={{ padding: 30 }}>
+                  <RawHtml
+                    dangerouslySetInnerHTML={{
+                      __html: t('noscript')
+                    }}
+                  />
+                </Box>
+              </noscript>
+              {me && me.prolongBeforeDate !== null && (
+                <ProlongBox
+                  t={t}
+                  prolongBeforeDate={me.prolongBeforeDate}
+                  dark={dark}
                 />
-              </Box>
-            </noscript>
-            {me && me.prolongBeforeDate !== null && (
-              <ProlongBox
-                t={t}
-                prolongBeforeDate={me.prolongBeforeDate}
-                dark={dark}
-              />
-            )}
-            {raw ? (
-              children
-            ) : (
-              <MainContainer>
-                <Content>{children}</Content>
-              </MainContainer>
-            )}
+              )}
+              {raw ? (
+                children
+              ) : (
+                <MainContainer>
+                  <Content>{children}</Content>
+                </MainContainer>
+              )}
+            </ColorContextProvider>
           </Header>
         </div>
         {!inNativeApp && footer && <Footer />}

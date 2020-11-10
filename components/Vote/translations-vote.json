@@ -1,5 +1,5 @@
 {
-  "updated": "2020-07-24T14:09:34.216Z",
+  "updated": "2020-11-09T16:11:19.280Z",
   "title": "live",
   "data": [
     {
@@ -696,7 +696,7 @@
     },
     {
       "key": "vote/voting/notSignedIn",
-      "value": "Um an dieser Abstimmung teilnehmen zu können, müssen Sie sich anmelden und eine Jahresmitgliedschaft haben."
+      "value": "Um an dieser Abstimmung teilnehmen zu können, müssen Sie sich anmelden und eine Jahresmitgliedschaft haben, die vor dem {beginDate} begonnen hat."
     },
     {
       "key": "vote/voting/notEligible",

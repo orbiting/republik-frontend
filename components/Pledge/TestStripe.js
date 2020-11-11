@@ -186,6 +186,7 @@ const Join = ({
   pay,
   addPaymentMethod,
   setDefaultPaymentMethod,
+  syncPaymentIntent,
   me,
   stripePaymentMethods
 }) => {
@@ -253,6 +254,7 @@ const Join = ({
         pay={pay}
         addPaymentMethod={addPaymentMethod}
         setDefaultPaymentMethod={setDefaultPaymentMethod}
+        syncPaymentIntent={syncPaymentIntent}
         me={me}
         stripePaymentMethods={stripePaymentMethods}
         currentOffer={currentOffer}
@@ -269,6 +271,7 @@ const Form = ({
   pay,
   addPaymentMethod,
   setDefaultPaymentMethod,
+  syncPaymentIntent,
   me,
   stripePaymentMethods,
   currentOffer
@@ -324,7 +327,7 @@ const Form = ({
         pledgeId: submitData.submitPledge.pledgeId,
         method: 'STRIPE',
         sourceId: paymentMethodId
-      }).then(({ data: payData }) => {
+      }).then(async ({ data: payData }) => {
         console.log('payPledge success!', payData)
 
         return {
@@ -521,7 +524,7 @@ const Form = ({
           }
 
           const {
-            payPledge: { stripeClientSecret }
+            payPledge: { stripeClientSecret, stripePaymentIntentId, companyId }
           } = await submitAndPay({
             paymentMethodId
           })
@@ -546,6 +549,13 @@ const Form = ({
             console.log('paymentConfirmed')
           }
 
+          console.log('syncPaymentIntent...')
+          const syncData = await syncPaymentIntent({
+            stripePaymentIntentId,
+            companyId
+          })
+          console.log('syncPaymentIntent success!', syncData)
+
           console.log('finished')
         }}
       >
@@ -560,13 +570,14 @@ const Form = ({
         key={currentOffer.label}
         currentOffer={currentOffer}
         submitAndPay={submitAndPay}
+        syncPaymentIntent={syncPaymentIntent}
       />
     </form>
   )
 }
 
 // https://stripe.com/docs/stripe-js/elements/payment-request-button#html-js-testing
-const CheckoutForm = ({ currentOffer, submitAndPay }) => {
+const CheckoutForm = ({ currentOffer, submitAndPay, syncPaymentIntent }) => {
   const stripe = useStripe()
   const [paymentRequest, setPaymentRequest] = useState(null)
 
@@ -595,7 +606,7 @@ const CheckoutForm = ({ currentOffer, submitAndPay }) => {
         const paymentMethodId = ev.paymentMethod.id
 
         const {
-          payPledge: { stripeClientSecret }
+          payPledge: { stripeClientSecret, stripePaymentIntentId, companyId }
         } = await submitAndPay({
           paymentMethodId
         })
@@ -650,6 +661,15 @@ const CheckoutForm = ({ currentOffer, submitAndPay }) => {
         } else {
           ev.complete('success')
         }
+
+        console.log('syncPaymentIntent...')
+        const syncData = await syncPaymentIntent({
+          stripePaymentIntentId,
+          companyId
+        })
+        console.log('syncPaymentIntent success!', syncData)
+
+        console.log('finished')
       })
     }
   }, [stripe, currentOffer])
@@ -735,6 +755,8 @@ const payPledge = gql`
       userId
       emailVerify
       stripeClientSecret
+      stripePaymentIntentId
+      companyId
     }
   }
 `
@@ -769,6 +791,18 @@ const setDefaultPaymentMethodQuery = gql`
   }
 `
 
+const syncPaymentIntentQuery = gql`
+  mutation syncPaymentIntent($stripePaymentIntentId: ID!, $companyId: ID!) {
+    syncPaymentIntent(
+      stripePaymentIntentId: $stripePaymentIntentId
+      companyId: $companyId
+    ) {
+      pledgeStatus
+      updatedPledge
+    }
+  }
+`
+
 export const withPay = Component => {
   const EnhancedComponent = compose(
     graphql(payPledge, {
@@ -787,6 +821,15 @@ export const withPay = Component => {
 }
 
 const JoinWithMutations = compose(
+  graphql(syncPaymentIntentQuery, {
+    props: ({ mutate }) => ({
+      syncPaymentIntent: variables => {
+        return mutate({
+          variables
+        })
+      }
+    })
+  }),
   graphql(addPaymentMethodQuery, {
     props: ({ mutate }) => ({
       addPaymentMethod: variables => {

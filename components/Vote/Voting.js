@@ -235,6 +235,7 @@ class Voting extends React.Component {
       const { P } = Interaction
 
       let dangerousDisabledHTML
+      let showSignIn
       if (voting.userHasSubmitted) {
         dangerousDisabledHTML = vt('vote/voting/thankyou', {
           submissionDate: messageDateFormat(new Date(voting.userSubmitDate))
@@ -245,6 +246,7 @@ class Voting extends React.Component {
         dangerousDisabledHTML = vt('vote/voting/notSignedIn', {
           beginDate: timeFormat('%d.%m.%Y')(new Date(voting.beginDate))
         })
+        showSignIn = true
       } else if (!voting.userIsEligible) {
         dangerousDisabledHTML = vt('vote/voting/notEligible')
       }
@@ -264,7 +266,7 @@ class Voting extends React.Component {
                 }}
               />
             </div>
-            {!me && <SignIn />}
+            {showSignIn && <SignIn />}
           </div>
         )
       } else {

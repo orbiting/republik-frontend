@@ -69,6 +69,11 @@ const Votebox = dynamic(() => import('../Vote/Voting'), {
   loading: () => <Loader />,
   ssr: false
 })
+const VoteCounter = () => null
+const VoteResult = dynamic(() => import('../Vote/VoteResultAuto'), {
+  loading: () => <Loader />,
+  ssr: false
+})
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -196,7 +201,9 @@ const ArticlePage = ({
           : undefined,
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
-          VOTEBOX: Votebox
+          VOTEBOX: Votebox,
+          VOTE_COUNTER: VoteCounter,
+          VOTE_RESULT: VoteResult
         },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),

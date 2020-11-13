@@ -27,7 +27,10 @@ const VOTE_BAR_CONFIG = {
   inlineSecondaryLabel: 'votes'
 }
 
-const VoteResult = ({ data, vt, t }) => {
+const VoteResultSingle = compose(
+  voteT,
+  withT
+)(({ data, vt, t }) => {
   const results = data.result.options.filter(result => result.option)
   const winner = results.find(result => result.winner)
   const filledCount = sum(results, r => r.count)
@@ -63,6 +66,6 @@ const VoteResult = ({ data, vt, t }) => {
       </Editorial.Note>
     </div>
   )
-}
+})
 
-export default compose(voteT, withT)(VoteResult)
+export default VoteResultSingle

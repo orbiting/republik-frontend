@@ -4,7 +4,8 @@ import {
   Interaction,
   mediaQueries,
   P,
-  pxToRem
+  pxToRem,
+  useColorContext
 } from '@project-r/styleguide'
 import { timeMinute } from 'd3-time'
 import withT from '../../lib/withT'
@@ -33,6 +34,7 @@ const styles = {
 }
 
 const Countdown = withT(({ t, endDate, caption, over }) => {
+  const [colorScheme] = useColorContext()
   const [lastUpdate, setLastUpdate] = useState()
   const [currentTimeout, setCurrentTimeout] = useState()
 
@@ -82,7 +84,7 @@ const Countdown = withT(({ t, endDate, caption, over }) => {
   const isRunning = minutes >= 0
 
   return (
-    <P>
+    <P {...colorScheme.set('color', 'text')}>
       <span
         {...styles.smallNumber}
         style={isRunning ? undefined : { lineHeight: 1.3 }}

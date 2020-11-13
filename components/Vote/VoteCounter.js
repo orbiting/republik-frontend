@@ -15,6 +15,7 @@ import {
 
 import gql from 'graphql-tag'
 import { swissNumbers } from '../../lib/utils/format'
+import VoteCountdown from './VoteCountdown'
 
 const count3Format = swissNumbers.format('.0f')
 const count4Format = swissNumbers.format(',.0f')
@@ -32,7 +33,7 @@ const styles = {
   bar: css({
     height: 8,
     marginTop: -20,
-    marginBottom: 80,
+    marginBottom: 30,
     position: 'relative'
   }),
   barInner: css({
@@ -115,6 +116,7 @@ const query = gql`
   query getVotingTurnout($voting: String!) {
     voting(slug: $voting) {
       id
+      endDate
       result {
         groupTurnout {
           eligible
@@ -129,7 +131,14 @@ const widthForGoal = (target, current) => {
   return Math.ceil(Math.min(1, current / target) * 1000000) / 10000 + '%'
 }
 
-const GoalBar = ({ data, goals, caption }) => {
+const GoalBar = ({
+  data,
+  goals,
+  caption,
+  showCountdown,
+  countdownCaption,
+  countdownOver
+}) => {
   const [hover, setHover] = useState(undefined)
   const [colorScheme] = useColorContext()
 
@@ -249,6 +258,13 @@ const GoalBar = ({ data, goals, caption }) => {
                 </div>
               )}
             </div>
+            {showCountdown && (
+              <VoteCountdown
+                endDate={voting.endDate}
+                caption={countdownCaption}
+                over={countdownOver}
+              />
+            )}
           </div>
         )
       }}

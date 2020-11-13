@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { myUserSubscriptions } from './enhancers'
 import {
@@ -65,6 +65,33 @@ const SubscribedAuthors = ({
   data: { authors, myUserSubscriptions, loading, error }
 }) => {
   const [showAll, setShowAll] = useState(false)
+  const [
+    initiallySubscribedAuthorIds,
+    setInitiallySubscribedAuthorIds
+  ] = useState([])
+
+  const initializeSubscribedAuthorIds = (
+    authors,
+    myUserSubscriptions,
+    setInitialySubscribedAuthorIds
+  ) => {
+    if (!authors || !myUserSubscriptions) {
+      return
+    }
+
+    const subscribedOtherAuthors = myUserSubscriptions.subscribedTo.nodes
+    const subscribedPromotedAuthors = authors.map(
+      author => author.user.subscribedByMe
+    )
+
+    const allSusbcribedAuthors = subscribedPromotedAuthors
+      .concat(subscribedOtherAuthors)
+      .filter(author => author.active)
+      .map(author => author.object.id)
+
+    setInitialySubscribedAuthorIds(allSusbcribedAuthors)
+  }
+
   return (
     <Loader
       loading={loading}
@@ -82,7 +109,12 @@ const SubscribedAuthors = ({
             (author, index, all) =>
               all.findIndex(e => e.id === author.id) === index
           )
-          .sort((a, b) => descending(+a.active, +b.active))
+          .sort((a, b) =>
+            descending(
+              +initiallySubscribedAuthorIds.includes(a.object.id),
+              +initiallySubscribedAuthorIds.includes(b.object.id)
+            )
+          )
 
         const visibleAuthors =
           filteredAuthors && filteredAuthors.filter(author => author.active)
@@ -133,6 +165,11 @@ const SubscribedAuthors = ({
               <button
                 {...plainButtonRule}
                 onClick={() => {
+                  initializeSubscribedAuthorIds(
+                    authors,
+                    myUserSubscriptions,
+                    setInitiallySubscribedAuthorIds
+                  )
                   setShowAll(!showAll)
                 }}
               >

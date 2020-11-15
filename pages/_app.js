@@ -8,6 +8,7 @@ import { HeadersProvider } from '../lib/withHeaders'
 import withApolloClient from '../lib/apollo/withApolloClient'
 import { IconContext } from 'react-icons'
 import Track from '../components/Track'
+import MessageSync from '../components/NativeApp/MessageSync'
 import AudioProvider from '../components/Audio'
 import AudioPlayer from '../components/Audio/AudioPlayer'
 import AppVariableContext from '../components/Article/AppVariableContext'
@@ -63,6 +64,7 @@ class WebApp extends App {
                 <Component serverContext={serverContext} {...pageProps} />
                 <Track />
                 <AudioPlayer />
+                <MessageSync />
               </AppVariableContext>
             </AudioProvider>
           </IconContext.Provider>

@@ -39,7 +39,7 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
 
   return (
     <CalloutMenu Element={Icon}>
-      <div style={{ maxWidth: 180 }}>
+      <div style={{ width: 180 }}>
         {pageColorSchemeKey !== 'auto' ? (
           <Label>{t('darkmode/switch/notavailable')}</Label>
         ) : (
@@ -58,13 +58,19 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
               value='light'
               checked={colorSchemeKey === 'light'}
               onChange={() => {
-                setColorSchemeKey('light')
+                // ToDo activating auto
+                // - replace with 'light' when activating auto
+                setColorSchemeKey('')
               }}
             >
               {t('darkmode/switch/off')}
             </Radio>
             <br />
-            <Radio
+            {/*
+              // ToDo activating auto 
+              // - uncomment Radio below
+            */}
+            {/*<Radio
               checked={!colorSchemeKey}
               onChange={() => {
                 // default is undefined
@@ -72,7 +78,7 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
               }}
             >
               {t('darkmode/switch/auto')}
-            </Radio>
+            </Radio>*/}
           </Interaction.P>
         )}
       </div>

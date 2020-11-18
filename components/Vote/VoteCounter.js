@@ -192,7 +192,7 @@ const GoalBar = ({
                   width: widthForGoal(endGoal.number, submitted)
                 }}
               />
-              {goals.length > 1 &&
+              {goals.length >= 1 &&
                 sortedGoals.reverse().map((currentGoal, i) => (
                   <div
                     key={i}

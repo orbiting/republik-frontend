@@ -85,9 +85,6 @@ const styles = {
       margin: '15px 0'
     }
   }),
-  link: css({
-    textDecoration: 'underline'
-  }),
   tiles: css({
     marginLeft: '-5px',
     flexWrap: 'wrap',
@@ -195,10 +192,7 @@ const AboutPage = ({
           <Subheader2>Geschäftsbericht 2019–2020</Subheader2>
           <P {...styles.faqCta}>
             Zu Beginn{' '}
-            <Editorial.A
-              {...styles.link}
-              href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2019-2020.pdf'
-            >
+            <Editorial.A href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2019-2020.pdf'>
               des dritten Geschäftsjahres
             </Editorial.A>{' '}
             mussten wir uns auf den drohenden Absturz unseres gemeinsamen
@@ -211,10 +205,7 @@ const AboutPage = ({
         <section {...styles.section}>
           <Subheader2>Geschäftsbericht 2018–2019</Subheader2>
           <P {...styles.faqCta}>
-            <Editorial.A
-              {...styles.link}
-              href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf'
-            >
+            <Editorial.A href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf'>
               Im zweiten Geschäftsjahr
             </Editorial.A>{' '}
             eines Start-ups geht der adrenalingeladene Sprint der Gründungsphase
@@ -227,10 +218,7 @@ const AboutPage = ({
         <section {...styles.section}>
           <Subheader2>Geschäftsbericht 2017–2018</Subheader2>
           <P {...styles.faqCta}>
-            <Editorial.A
-              {...styles.link}
-              href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf'
-            >
+            <Editorial.A href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf'>
               Der erste Geschäftsbericht
             </Editorial.A>{' '}
             beleuchtet die Periode zwischen Januar 2017 und Juni 2018. Also nur
@@ -243,43 +231,28 @@ const AboutPage = ({
         <section {...styles.section}>
           <Subheader2>Auszeichnungen & Nominierungen</Subheader2>
           <P {...styles.faqCta}>
-            <Editorial.A
-              {...styles.link}
-              href='https://www.reporter-forum.ch/reporterpreis-2020'
-            >
+            <Editorial.A href='https://www.reporter-forum.ch/reporterpreis-2020'>
               Schweizer Reporterpreis 2020 für die Serie «Die gefährlichste Frau
               der&nbsp;Schweiz?»
             </Editorial.A>
           </P>
           <P {...styles.faqCta}>
-            <Editorial.A
-              {...styles.link}
-              href='https://swisspressaward.ch/de/user/c00029546/showcase/bj6/'
-            >
+            <Editorial.A href='https://swisspressaward.ch/de/user/c00029546/showcase/bj6/'>
               Swiss Press Award 2020 für den fünfteiligen Podcast «Zündstoff»
             </Editorial.A>
           </P>
           <P {...styles.faqCta}>
-            <Editorial.A
-              {...styles.link}
-              href='https://www.grimme-online-award.de/2019/nominierte/'
-            >
+            <Editorial.A href='https://www.grimme-online-award.de/2019/nominierte/'>
               Nominierung für «Grimme online award» Kategorie Information
             </Editorial.A>
           </P>
           <P {...styles.faqCta}>
-            <Editorial.A
-              {...styles.link}
-              href='https://newspaper-congress.eu/wp-content/uploads/2019/04/European_Digital-Publishing-Award_2019_Winners2.pdf'
-            >
+            <Editorial.A href='https://newspaper-congress.eu/wp-content/uploads/2019/04/European_Digital-Publishing-Award_2019_Winners2.pdf'>
               European Publishing Award: European Start-Up of the Year 2019
             </Editorial.A>
           </P>
           <P {...styles.faqCta}>
-            <Editorial.A
-              {...styles.link}
-              href='https://www.reporter-forum.ch/reporterpreis-2019'
-            >
+            <Editorial.A href='https://www.reporter-forum.ch/reporterpreis-2019'>
               Schweizer Reporterpreis 2019 für die Serie «Das Kartell»
             </Editorial.A>
           </P>
@@ -294,7 +267,7 @@ const AboutPage = ({
                 {data.mediaResponses.map((mediaResponse, index) => (
                   <P {...styles.faqCta} key={index}>
                     {mediaResponse.medium}, {mediaResponse.publishDate}:<br />
-                    <Editorial.A {...styles.link} href={mediaResponse.url}>
+                    <Editorial.A href={mediaResponse.url}>
                       {mediaResponse.title}
                     </Editorial.A>
                   </P>

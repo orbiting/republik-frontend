@@ -8,7 +8,6 @@ import {
   Container,
   Editorial,
   Interaction,
-  colors,
   mediaQueries
 } from '@project-r/styleguide'
 import Loader from '../Loader'
@@ -87,7 +86,6 @@ const styles = {
     }
   }),
   link: css({
-    color: colors.text,
     textDecoration: 'underline'
   }),
   tiles: css({
@@ -197,12 +195,12 @@ const AboutPage = ({
           <Subheader2>Geschäftsbericht 2019–2020</Subheader2>
           <P {...styles.faqCta}>
             Zu Beginn{' '}
-            <a
+            <Editorial.A
               {...styles.link}
               href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2019-2020.pdf'
             >
               des dritten Geschäftsjahres
-            </a>{' '}
+            </Editorial.A>{' '}
             mussten wir uns auf den drohenden Absturz unseres gemeinsamen
             Unternehmens einstellen. Und nur Monate später erreichten wir zum
             ersten Mal in der Geschichte der «Republik» die Schwelle zum
@@ -213,12 +211,12 @@ const AboutPage = ({
         <section {...styles.section}>
           <Subheader2>Geschäftsbericht 2018–2019</Subheader2>
           <P {...styles.faqCta}>
-            <a
+            <Editorial.A
               {...styles.link}
               href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf'
             >
               Im zweiten Geschäftsjahr
-            </a>{' '}
+            </Editorial.A>{' '}
             eines Start-ups geht der adrenalingeladene Sprint der Gründungsphase
             über in den Marathon des Alltags. Die Republik erreichte in diesem
             Zeitraum einen Mitgliederfinanzierungsgrad von über 70 Prozent und
@@ -229,12 +227,12 @@ const AboutPage = ({
         <section {...styles.section}>
           <Subheader2>Geschäftsbericht 2017–2018</Subheader2>
           <P {...styles.faqCta}>
-            <a
+            <Editorial.A
               {...styles.link}
               href='https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf'
             >
               Der erste Geschäftsbericht
-            </a>{' '}
+            </Editorial.A>{' '}
             beleuchtet die Periode zwischen Januar 2017 und Juni 2018. Also nur
             ein halbes Jahr der bisherigen Publikationstätigkeit der Republik.
             Anfang Januar 2017 hatten wir nicht mehr als 8 Leute, 3 Hotelzimmer
@@ -245,45 +243,45 @@ const AboutPage = ({
         <section {...styles.section}>
           <Subheader2>Auszeichnungen & Nominierungen</Subheader2>
           <P {...styles.faqCta}>
-            <a
+            <Editorial.A
               {...styles.link}
               href='https://www.reporter-forum.ch/reporterpreis-2020'
             >
               Schweizer Reporterpreis 2020 für die Serie «Die gefährlichste Frau
               der&nbsp;Schweiz?»
-            </a>
+            </Editorial.A>
           </P>
           <P {...styles.faqCta}>
-            <a
+            <Editorial.A
               {...styles.link}
               href='https://swisspressaward.ch/de/user/c00029546/showcase/bj6/'
             >
               Swiss Press Award 2020 für den fünfteiligen Podcast «Zündstoff»
-            </a>
+            </Editorial.A>
           </P>
           <P {...styles.faqCta}>
-            <a
+            <Editorial.A
               {...styles.link}
               href='https://www.grimme-online-award.de/2019/nominierte/'
             >
               Nominierung für «Grimme online award» Kategorie Information
-            </a>
+            </Editorial.A>
           </P>
           <P {...styles.faqCta}>
-            <a
+            <Editorial.A
               {...styles.link}
               href='https://newspaper-congress.eu/wp-content/uploads/2019/04/European_Digital-Publishing-Award_2019_Winners2.pdf'
             >
               European Publishing Award: European Start-Up of the Year 2019
-            </a>
+            </Editorial.A>
           </P>
           <P {...styles.faqCta}>
-            <a
+            <Editorial.A
               {...styles.link}
               href='https://www.reporter-forum.ch/reporterpreis-2019'
             >
               Schweizer Reporterpreis 2019 für die Serie «Das Kartell»
-            </a>
+            </Editorial.A>
           </P>
         </section>
         <section {...styles.section}>
@@ -296,9 +294,9 @@ const AboutPage = ({
                 {data.mediaResponses.map((mediaResponse, index) => (
                   <P {...styles.faqCta} key={index}>
                     {mediaResponse.medium}, {mediaResponse.publishDate}:<br />
-                    <a {...styles.link} href={mediaResponse.url}>
+                    <Editorial.A {...styles.link} href={mediaResponse.url}>
                       {mediaResponse.title}
-                    </a>
+                    </Editorial.A>
                   </P>
                 ))}
               </Fragment>

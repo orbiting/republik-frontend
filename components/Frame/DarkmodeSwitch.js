@@ -47,7 +47,9 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
             <Radio
               value='dark'
               checked={colorSchemeKey === 'dark'}
-              onChange={event => setColorSchemeKey(event.target.value)}
+              onChange={() => {
+                setColorSchemeKey('dark')
+              }}
             >
               {t('darkmode/switch/on')}
             </Radio>
@@ -55,16 +57,19 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
             <Radio
               value='light'
               checked={colorSchemeKey === 'light'}
-              onChange={event => setColorSchemeKey(event.target.value)}
+              onChange={() => {
+                setColorSchemeKey('light')
+              }}
             >
               {t('darkmode/switch/off')}
             </Radio>
             <br />
             <Radio
-              // default auto is undefined
-              value={undefined}
               checked={!colorSchemeKey}
-              onChange={event => setColorSchemeKey(event.target.value)}
+              onChange={() => {
+                // default is undefined
+                setColorSchemeKey()
+              }}
             >
               {t('darkmode/switch/auto')}
             </Radio>

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-01T19:26:17.216Z",
+  "updated": "2020-11-18T13:43:20.084Z",
   "title": "live",
   "data": [
     {
@@ -389,6 +389,30 @@
     {
       "key": "marketing/signup/button/label",
       "value": "Anmelden"
+    },
+    {
+      "key": "marketing/page/reasons/1/title",
+      "value": "Kompromisslos"
+    },
+    {
+      "key": "marketing/page/reasons/1/text",
+      "value": "Sorgfältiger, hartnäckiger Journalismus. Gute Sprache. Gute Bilder. Gutes Design."
+    },
+    {
+      "key": "marketing/page/reasons/2/title",
+      "value": "Unabhängig"
+    },
+    {
+      "key": "marketing/page/reasons/2/text",
+      "value": "Recherchen, Fakten, Zusammenhänge. Kein Klickbait oder bezahlte Beiträge."
+    },
+    {
+      "key": "marketing/page/reasons/3/title",
+      "value": "Werbefrei"
+    },
+    {
+      "key": "marketing/page/reasons/3/text",
+      "value": "Leserfinanziert und Transparent. Kein Tracking oder Profit mit ihren persönlichen Daten."
     },
     {
       "key": "marketing/offers/students",
@@ -2695,12 +2719,24 @@
       "value": "Chart"
     },
     {
-      "key": "feed/actionbar/readingTime/1",
-      "value": "ungefähr {minutes} Minute"
+      "key": "feed/actionbar/readingTime/hours/other",
+      "value": "{count}h "
     },
     {
-      "key": "feed/actionbar/readingTime/other",
-      "value": "ungefähr {minutes} Minuten"
+      "key": "feed/actionbar/readingTime/minutes/1",
+      "value": "1 Minute"
+    },
+    {
+      "key": "feed/actionbar/readingTime/minutes/other",
+      "value": "{count} Minuten"
+    },
+    {
+      "key": "feed/actionbar/readingTime/minutesShort/other",
+      "value": "{count}'"
+    },
+    {
+      "key": "feed/actionbar/readingTime/title",
+      "value": "ungefähr {hours}{minutes}"
     },
     {
       "key": "feed/actionbar/edit",
@@ -6897,10 +6933,6 @@
     {
       "key": "darkmode/switch/label",
       "value": "Nachtmodus: {iconLabel}"
-    },
-    {
-      "key": "darkmode/switch/notavailable",
-      "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar"
     },
     {
       "key": "darkmode/switch/on",

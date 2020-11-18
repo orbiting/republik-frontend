@@ -65,10 +65,16 @@ import { withMarkAsReadMutation } from '../Notifications/enhancers'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
-const Votebox = dynamic(() => import('../Vote/Voting'), {
+const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
-})
+}
+const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
+const VoteCounter = dynamic(() => import('../Vote/VoteCounter'), dynamicOptions)
+const VoteResult = dynamic(
+  () => import('../Vote/VoteResultAuto'),
+  dynamicOptions
+)
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -196,7 +202,9 @@ const ArticlePage = ({
           : undefined,
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
-          VOTEBOX: Votebox
+          VOTEBOX: Votebox,
+          VOTE_COUNTER: VoteCounter,
+          VOTE_RESULT: VoteResult
         },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),

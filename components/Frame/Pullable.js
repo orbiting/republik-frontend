@@ -28,6 +28,7 @@ const Container = props => {
   const [colorScheme] = useColorContext()
   return (
     <div
+      {...colorScheme.set('color', 'text')}
       {...styles.container}
       {...(props.shouldReset
         ? css({

@@ -8,7 +8,7 @@ const ImprintPage = () => {
     description: 'Die Köpfe hinter der Republik.'
   }
   return (
-    <Frame meta={meta}>
+    <Frame meta={meta} colorSchemeKey='auto'>
       <Page />
     </Frame>
   )

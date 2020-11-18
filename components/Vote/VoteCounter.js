@@ -117,11 +117,9 @@ const query = gql`
     voting(slug: $voting) {
       id
       endDate
-      result {
-        groupTurnout {
-          eligible
-          submitted
-        }
+      groupTurnout {
+        eligible
+        submitted
       }
     }
   }
@@ -148,7 +146,7 @@ const GoalBar = ({
       error={data.error}
       render={() => {
         const { voting } = data
-        const { submitted, eligible } = voting.result.groupTurnout
+        const { submitted, eligible } = voting.groupTurnout
 
         const sortedGoals = goals
           .map(g => ({

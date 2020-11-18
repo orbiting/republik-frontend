@@ -62,9 +62,7 @@ const VoteResult = ({ votings, elections, vt, t }) => (
   <Fragment>
     {votings &&
       votings.map(({ id, data }) => (
-        <Fragment key={id}>
-          <VoteResultSingle data={data} />
-        </Fragment>
+        <VoteResultSingle key={id} data={data} />
       ))}
     {elections &&
       elections.map(({ id, data }) => {

@@ -247,25 +247,27 @@ const getPublicUser = gql`
           }
         }
       }
-      candidacies {
-        election {
-          slug
-          description
-          beginDate
-          endDate
-          candidacyEndDate
-          discussion {
-            id
-          }
-        }
-        id
-        yearOfBirth
-        city
-        recommendation
-        comment {
-          id
-        }
-      }
+      # # uncomment to show candidacies during elections
+      # # and filter in backend to only return currently active elections
+      # candidacies {
+      #   election {
+      #     slug
+      #     description
+      #     beginDate
+      #     endDate
+      #     candidacyEndDate
+      #     discussion {
+      #       id
+      #     }
+      #   }
+      #   id
+      #   yearOfBirth
+      #   city
+      #   recommendation
+      #   comment {
+      #     id
+      #   }
+      # }
     }
   }
   ${documentListQueryFragment}
@@ -618,7 +620,7 @@ const LoadedProfile = props => {
                 />
               </div>
             )}
-            {user.candidacies.map((c, i) => (
+            {user.candidacies?.map((c, i) => (
               <div key={i} style={{ marginBottom: 60 }}>
                 <Interaction.H3 style={{ marginBottom: 0 }}>
                   {`${c.election.description}`}

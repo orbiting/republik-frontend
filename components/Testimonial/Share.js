@@ -209,17 +209,18 @@ const query = gql`
       statement
       portrait
       sequenceNumber
-      cards(first: 1) {
-        nodes {
-          id
-          ...Card
-          group {
-            id
-            name
-            slug
-          }
-        }
-      }
+      # # uncomment to show special card preview for profiles
+      # cards(first: 1) {
+      #   nodes {
+      #     id
+      #     ...Card
+      #     group {
+      #       id
+      #       name
+      #       slug
+      #     }
+      #   }
+      # }
     }
     statements(focus: $focus, first: 1) {
       totalCount

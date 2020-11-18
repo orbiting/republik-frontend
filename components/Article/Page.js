@@ -73,7 +73,7 @@ const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
 const VoteCounter = dynamic(() => import('../Vote/VoteCounter'), dynamicOptions)
 const VoteResult = dynamic(
   () => import('../Vote/VoteResultAuto'),
-  { loading: () => <Loader /> }
+  dynamicOptions
 )
 
 const schemaCreators = {

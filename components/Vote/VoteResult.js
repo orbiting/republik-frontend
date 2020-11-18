@@ -61,9 +61,7 @@ const ELECTION_BAR_CONFIG_MULTIPLE = {
 const VoteResult = ({ votings, elections, vt, t }) => (
   <Fragment>
     {votings &&
-      votings.map(({ id, data }) => (
-        <VoteResultSingle key={id} data={data} />
-      ))}
+      votings.map(({ id, data }) => <VoteResultSingle key={id} data={data} />)}
     {elections &&
       elections.map(({ id, data }) => {
         const results = data.result.candidacies.filter(

@@ -272,4 +272,8 @@ const GoalBar = ({
   )
 }
 
-export default compose(graphql(query))(GoalBar)
+export default compose(graphql(query, {
+  options: ({ pollInterval }) => ({
+    pollInterval: pollInterval || 0
+  })
+}))(GoalBar)

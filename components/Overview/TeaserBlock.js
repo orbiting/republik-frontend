@@ -83,7 +83,8 @@ class TeaserBlock extends Component {
       onHighlight,
       lazy,
       maxHeight,
-      maxColumns = 6
+      maxColumns = 6,
+      noHover
     } = this.props
 
     const teasers = this.props.teasers.filter(
@@ -210,9 +211,9 @@ class TeaserBlock extends Component {
                 onTouchStart={() => {
                   touch = true
                 }}
-                onMouseEnter={focus}
-                onMouseMove={focus}
-                onMouseLeave={hoverOff}
+                onMouseEnter={!noHover && focus}
+                onMouseMove={!noHover && focus}
+                onMouseLeave={!noHover && hoverOff}
                 onClick={() => {
                   touch = undefined
                 }}

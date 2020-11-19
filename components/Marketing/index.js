@@ -2,17 +2,19 @@ import React from 'react'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
+
 import Lead from './Lead'
+import Carpet from './Carpet'
 import Team from './Team'
 import Reasons from './Reasons'
 import Sections from './Sections'
 import Vision from './Vision'
-import Pledge from '../Pledge/Form'
 
 const Marketing = ({ t }) => {
   return (
     <>
       <Lead t={t} />
+      <Carpet />
       <Team t={t} />
       <Reasons t={t} />
       <Sections />

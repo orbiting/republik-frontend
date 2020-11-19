@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
@@ -13,7 +13,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import { Link } from '../../../lib/routes'
+import { Link } from '../../lib/routes'
 
 const query = gql`
   query MarketingPage {

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-18T13:43:20.084Z",
+  "updated": "2020-11-19T15:39:28.014Z",
   "title": "live",
   "data": [
     {
@@ -413,6 +413,14 @@
     {
       "key": "marketing/page/reasons/3/text",
       "value": "Leserfinanziert und Transparent. Kein Tracking oder Profit mit ihren persönlichen Daten."
+    },
+    {
+      "key": "marketing/page/vision/headline",
+      "value": "Ohne Journalismus keine Demokratie. Und ohne Demokratie keine Freiheit."
+    },
+    {
+      "key": "marketing/page/vision/text",
+      "value": "Damit sie uns vertrauen können, machen wir ein paar Dinge anders. Zum Beispiel sind wir komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie."
     },
     {
       "key": "marketing/offers/students",

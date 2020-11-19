@@ -7,6 +7,7 @@ import {
   RawHtml,
   fontFamilies,
   mediaQueries,
+  ColorHtmlBodyColors,
   ColorContextProvider,
   useColorContext
 } from '@project-r/styleguide'
@@ -80,18 +81,6 @@ export const Content = ({ children, style }) => (
   </div>
 )
 
-const OverrideRootDefaultColors = () => {
-  const [colorScheme] = useColorContext()
-
-  return (
-    <style
-      dangerouslySetInnerHTML={{
-        __html: `html, body { background-color: ${colorScheme.default} !important; color: ${colorScheme.text} !important; }`
-      }}
-    />
-  )
-}
-
 const Frame = ({
   t,
   me,
@@ -140,6 +129,7 @@ const Frame = ({
   }, [hasSecondaryNav])
   return (
     <ColorContextProvider root colorSchemeKey={rootColorSchemeKey}>
+      <ColorHtmlBodyColors colorSchemeKey={contentColorSchemeKey} />
       {rootColorSchemeKey === 'auto' && <ColorSchemeSync />}
       <div
         {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
@@ -162,9 +152,6 @@ const Frame = ({
             stickySecondaryNav={stickySecondaryNav}
           >
             <ColorContextProvider colorSchemeKey={contentColorSchemeKey}>
-              {contentColorSchemeKey !== rootColorSchemeKey && (
-                <OverrideRootDefaultColors />
-              )}
               <noscript>
                 <Box style={{ padding: 30 }}>
                   <RawHtml

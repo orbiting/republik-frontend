@@ -29,6 +29,7 @@ const Container = props => {
   return (
     <div
       {...colorScheme.set('color', 'text')}
+      {...colorScheme.set('backgroundColor', 'hover')}
       {...styles.container}
       {...(props.shouldReset
         ? css({
@@ -36,8 +37,7 @@ const Container = props => {
           })
         : undefined)}
       style={{
-        height: props.height,
-        backgroundColor: colorScheme.hover
+        height: props.height
       }}
     >
       {props.children}

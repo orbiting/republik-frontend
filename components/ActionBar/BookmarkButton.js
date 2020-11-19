@@ -60,13 +60,7 @@ const Bookmark = ({
       title={title}
       label={label}
       onClick={() => toggle()}
-      fill={
-        error
-          ? colorScheme.error
-          : mutating
-          ? colorScheme.disabled
-          : colorScheme.text
-      }
+      fillColorName={error ? 'error' : mutating ? 'disabled' : 'text'}
     />
   )
 }

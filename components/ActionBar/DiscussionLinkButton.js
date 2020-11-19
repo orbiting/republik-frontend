@@ -38,7 +38,7 @@ const DiscussionLinkButton = ({
               })
         }
         labelShort={discussionCount || ''}
-        fill={colors.primary}
+        fillColorName='primary'
         onClick={
           isDiscussionPage && isOnArticlePage
             ? e => {

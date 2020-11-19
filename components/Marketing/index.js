@@ -5,6 +5,7 @@ import withT from '../../lib/withT'
 import LeadSection from './Sections/Lead'
 import TeamSection from './Sections/Team'
 import ReasonsSection from './Sections/Reasons'
+import SectionsSection from './Sections/Sections'
 
 const Marketing = ({ t }) => {
   return (
@@ -12,6 +13,7 @@ const Marketing = ({ t }) => {
       <LeadSection t={t} />
       <TeamSection t={t} />
       <ReasonsSection t={t} />
+      <SectionsSection t={t} />
     </>
   )
 }

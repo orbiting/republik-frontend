@@ -91,7 +91,11 @@ const UserNav = ({
             <>
               {isTester && colorSchemeKey === 'auto' ? (
                 <div style={{ marginBottom: 20 }}>
-                  <DarkmodeSwitch colorSchemeKey={colorSchemeKey} t={t} />
+                  <DarkmodeSwitch
+                    colorSchemeKey={colorSchemeKey}
+                    t={t}
+                    inNativeApp={inNativeApp}
+                  />
                 </div>
               ) : null}
               {!me && (

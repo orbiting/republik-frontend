@@ -10,7 +10,11 @@ import { MdBrightness2 } from 'react-icons/md'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 
-const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
+const DarkmodeSwitch = ({
+  colorSchemeKey: pageColorSchemeKey,
+  t,
+  inNativeApp
+}) => {
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
 
   const colorSchemaKeyForLable =
@@ -67,18 +71,23 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
             </Radio>
             <br />
             {/*
-              // ToDo activating auto 
-              // - uncomment Radio below
+              // ToDo App has been updated 
+              // - remove condition below
             */}
-            {/*<Radio
-              checked={!colorSchemeKey}
-              onChange={() => {
-                // default is undefined
-                setColorSchemeKey()
-              }}
-            >
-              {t('darkmode/switch/auto')}
-            </Radio>*/}
+            {!inNativeApp ? (
+              <Radio
+                value='auto'
+                checked={colorSchemeKey === 'auto'}
+                onChange={() => {
+                  // ToDo activating auto by default
+                  // - handle all «ToDo activating auto» comments
+                  // - rm explicit auto value
+                  setColorSchemeKey('auto')
+                }}
+              >
+                {t('darkmode/switch/auto')}
+              </Radio>
+            ) : null}
           </Interaction.P>
         )}
       </div>

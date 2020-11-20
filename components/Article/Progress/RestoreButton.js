@@ -25,17 +25,6 @@ const PADDING = 16
 
 const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
   const [colorScheme] = useColorContext()
-  const colors = {
-    container: css({
-      color: colorScheme.text
-    }),
-    button: css({
-      backgroundColor: colorScheme.containerBg
-    }),
-    note: css({
-      color: colorScheme.lightText
-    })
-  }
   const title = t('progress/restore/title', {
     percent: formatPercent(userProgress.percentage)
   })
@@ -45,7 +34,7 @@ const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
       {value => (
         <div
           {...styles.container}
-          {...colors.container}
+          {...colorScheme.set('color', 'text')}
           style={{ opacity, bottom: value.audioPlayerVisible ? 130 : 44 }}
           onClick={onClick}
         >
@@ -54,7 +43,7 @@ const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
               <button
                 {...sharedStyles.plainButton}
                 {...styles.button}
-                {...colors.button}
+                {...colorScheme.set('backgroundColor', 'default')}
               >
                 <ProgressCircle
                   progress={userProgress.percentage * 100}
@@ -65,7 +54,7 @@ const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
                 />
                 <MdArrowDownward
                   {...styles.buttonIcon}
-                  fill={colorScheme.fill}
+                  {...colorScheme.set('fill', 'text')}
                 />
               </button>
               <div {...styles.textBox}>
@@ -73,7 +62,7 @@ const RestoreButton = ({ t, onClick, onClose, opacity, userProgress }) => {
                 <div
                   styles={{ fontSize: 16 }}
                   {...styles.note}
-                  {...colors.note}
+                  {...colorScheme.set('color', 'textSoft')}
                 >
                   {datetime(
                     t,

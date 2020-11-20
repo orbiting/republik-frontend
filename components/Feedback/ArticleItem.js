@@ -1,10 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import withT from '../../lib/withT'
 import { Interaction, useColorContext } from '@project-r/styleguide'
-
-const { P } = Interaction
 
 const styles = {
   container: css({
@@ -22,32 +19,23 @@ const styles = {
   })
 }
 
-export const NoResultsItem = ({ title }) => {
-  const [colorScheme] = useColorContext()
-  return <P><span {...colorScheme.set('color', 'disabled')}>{title}</span></P>
-}
-
-const DefaultWrapper = ({ children, ...props }) => (
-  <span {...props}>{children}</span>
-)
-
-const ArticleItem = ({ title, selected, count, Wrapper = DefaultWrapper }) => {
+const ArticleItem = ({ title, count }) => {
   const [colorScheme] = useColorContext()
   return (
-    <Wrapper
+    <span
       {...styles.container}
       style={{
         paddingRight: count ? 10 + String(count).length * 12 : 0
       }}
     >
-      <span {...(selected && colorScheme.set('color', 'text'))}>{title}</span>
+      <span>{title}</span>
       {count && (
         <span {...styles.count} {...colorScheme.set('color', 'primary')}>
           {count}
         </span>
       )}
-    </Wrapper>
+    </span>
   )
 }
 
-export default withT(ArticleItem)
+export default ArticleItem

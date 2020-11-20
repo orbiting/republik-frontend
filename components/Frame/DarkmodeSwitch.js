@@ -71,8 +71,8 @@ const DarkmodeSwitch = ({
             </Radio>
             <br />
             {/*
-              // ToDo activating auto 
-              // - uncomment Radio below
+              // ToDo App has been updated 
+              // - remove condition below
             */}
             {!inNativeApp ? (
               <Radio

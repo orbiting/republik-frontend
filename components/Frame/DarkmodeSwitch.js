@@ -78,7 +78,9 @@ const DarkmodeSwitch = ({
               <Radio
                 checked={!colorSchemeKey}
                 onChange={() => {
-                  // default is undefined
+                  // ToDo activating auto by default
+                  // - handle all «ToDo activating auto» comments
+                  // - rm explicit auto value
                   setColorSchemeKey()
                 }}
               >

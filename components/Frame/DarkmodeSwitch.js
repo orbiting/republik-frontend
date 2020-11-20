@@ -81,7 +81,7 @@ const DarkmodeSwitch = ({
                   // ToDo activating auto by default
                   // - handle all «ToDo activating auto» comments
                   // - rm explicit auto value
-                  setColorSchemeKey()
+                  setColorSchemeKey('auto')
                 }}
               >
                 {t('darkmode/switch/auto')}

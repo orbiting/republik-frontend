@@ -59,6 +59,8 @@ const statusQuery = gql`
           active
           overdue
           ended
+          pending
+          pendingSubscriptionsOnly
         }
       }
       lastSeen(min: $prev, max: $max) {
@@ -353,7 +355,8 @@ const Page = ({
             { key: 'preactive', color: '#256900', label: 'Crowdfunder' },
             { key: 'active', color: '#3CAD00', label: 'aktive' },
             { key: 'loss', color: '#9970ab', label: 'Abgänge' },
-            { key: 'missing', color: '#333', label: 'fehlende' }
+            { key: 'missing', color: '#333', label: 'fehlende' },
+            { key: 'pending', color: '#1B4D00', label: 'offene' }
           ]
           const labelMap = labels.reduce((map, d) => {
             map[d.key] = d.label
@@ -373,21 +376,40 @@ const Page = ({
               value: bucket.preactive
             }))
             .concat(
-              buckets.reduce((acc, { key, active, overdue, ended }) => {
-                minMaxValues.push(active + overdue)
-                minMaxValues.push(-ended)
-                acc.push({
-                  month: key,
-                  label: labelMap.active,
-                  value: active + overdue
-                })
-                acc.push({
-                  month: key,
-                  label: labelMap.loss,
-                  value: -ended
-                })
-                return acc
-              }, [])
+              buckets.reduce(
+                (
+                  acc,
+                  {
+                    key,
+                    active,
+                    overdue,
+                    ended,
+                    pending,
+                    pendingSubscriptionsOnly
+                  }
+                ) => {
+                  minMaxValues.push(active + overdue)
+                  minMaxValues.push(-ended)
+                  const pendingYearly = pending - pendingSubscriptionsOnly
+                  acc.push({
+                    month: key,
+                    label: labelMap.active,
+                    value: active + overdue - pendingYearly
+                  })
+                  acc.push({
+                    month: key,
+                    label: labelMap.pending,
+                    value: pendingYearly
+                  })
+                  acc.push({
+                    month: key,
+                    label: labelMap.loss,
+                    value: -ended
+                  })
+                  return acc
+                },
+                []
+              )
             )
           const activeCount = lastBucket.active + lastBucket.overdue
           const missingCount = numMembersNeeded - activeCount
@@ -487,7 +509,13 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                     timeParse: '%Y-%m',
                     timeFormat: '%b %y',
                     xInterval: 'month',
-                    xTicks: ['2017-04', '2018-01', '2019-01', '2020-01'],
+                    xTicks: [
+                      '2017-04',
+                      '2018-01',
+                      '2019-01',
+                      '2020-01',
+                      '2021-01'
+                    ],
                     domain: [minValue, maxValue],
                     yTicks: [0, 10000, 20000],
                     yAnnotations: [
@@ -652,7 +680,7 @@ const EnhancedPage = compose(
     options: ({ router: { query } }) => ({
       variables: {
         prev: formatYearMonth(timeMonth.offset(new Date(), -1)),
-        max: formatYearMonth(new Date()),
+        max: formatYearMonth(timeMonth.offset(new Date(), 4)),
         accessToken: query.token
       }
     })

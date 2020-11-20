@@ -76,7 +76,8 @@ const DarkmodeSwitch = ({
             */}
             {!inNativeApp ? (
               <Radio
-                checked={!colorSchemeKey}
+                value='auto'
+                checked={colorSchemeKey === 'auto'}
                 onChange={() => {
                   // ToDo activating auto by default
                   // - handle all «ToDo activating auto» comments

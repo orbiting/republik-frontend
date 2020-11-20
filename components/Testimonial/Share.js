@@ -9,7 +9,8 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 
 import CardLogo from '../Card/Logo'
-import { cardFragment } from '../Card/fragments'
+// // uncomment to show special card preview for profiles
+// import { cardFragment } from '../Card/fragments'
 import Card, { styles as cardStyles } from '../Card/Card'
 import { BACKGROUND_COLOR } from '../Card/Container'
 
@@ -233,8 +234,9 @@ const query = gql`
       }
     }
   }
-  ${cardFragment}
 `
+// // re add fragment to query to show special card preview for profiles
+// ${cardFragment}
 
 export default compose(
   withT,

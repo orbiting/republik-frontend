@@ -18,7 +18,6 @@ import {
 
 const styles = {
   item: merge(
-    linkRule,
     css({
       textDecoration: 'none',
       display: 'flex',
@@ -57,9 +56,6 @@ const ActiveDiscussionItem = ({ discussion, label, selected, count }) => {
   const itemRule = useMemo(
     () =>
       css({
-        ':visited': {
-          color: colorScheme.getCSSColor('text')
-        },
         '& ~ &': {
           borderColor: colorScheme.getCSSColor('divider')
         },
@@ -73,18 +69,8 @@ const ActiveDiscussionItem = ({ discussion, label, selected, count }) => {
   )
   return (
     <DiscussionLink discussion={discussion} passHref>
-      <a
-        {...styles.item}
-        {...itemRule}
-        {...colorScheme.set('color', selected ? 'primary' : 'text')}
-      >
-        <ArticleItem
-          title={label}
-          selected={selected}
-          iconSize={24}
-          count={count}
-          wrapper={Interaction.P}
-        />
+      <a {...styles.item} {...itemRule} {...colorScheme.set('color', 'text')}>
+        <ArticleItem title={label} iconSize={24} count={count} />
       </a>
     </DiscussionLink>
   )

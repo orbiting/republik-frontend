@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "updated": "2020-11-19T15:39:28.014Z",
+=======
+  "updated": "2020-11-06T11:27:50.033Z",
+>>>>>>> master
   "title": "live",
   "data": [
     {
@@ -2729,12 +2733,21 @@
     {
       "key": "feed/actionbar/readingTime/hours/other",
       "value": "{count}h "
+<<<<<<< HEAD
     },
     {
       "key": "feed/actionbar/readingTime/minutes/1",
       "value": "1 Minute"
     },
     {
+=======
+    },
+    {
+      "key": "feed/actionbar/readingTime/minutes/1",
+      "value": "1 Minute"
+    },
+    {
+>>>>>>> master
       "key": "feed/actionbar/readingTime/minutes/other",
       "value": "{count} Minuten"
     },

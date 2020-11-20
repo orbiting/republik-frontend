@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
@@ -9,7 +9,8 @@ import {
   DEFAULT_PROFILE_PICTURE,
   fontStyles,
   mediaQueries,
-  Radio
+  Radio,
+  useColorContext
 } from '@project-r/styleguide'
 import { Strong } from './text'
 import {
@@ -40,7 +41,6 @@ const styles = {
   }),
   summaryWrapper: css({
     padding: '13px 20px 15px 20px',
-    background: colors.secondaryBg,
     marginTop: 8,
     marginBottom: 8,
     // marginLeft: -26,
@@ -162,173 +162,166 @@ const styles = {
   })
 }
 
-class ElectionBallotRow extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      expanded: props.expanded || false
-    }
-    this.toggleExpanded = () => {
-      this.setState(({ expanded }) => ({
-        expanded: !expanded
-      }))
-    }
+const ElectionBallotRow = props => {
+  const [expanded, setExpanded] = useState(props.expanded || false)
+  const [colorScheme] = useColorContext()
+
+  const toggleExpanded = () => {
+    setExpanded(expanded => !expanded)
   }
 
-  render() {
-    const {
-      candidate,
-      maxVotes,
-      selected,
-      onChange,
-      disabled,
-      interactive,
-      mandatory,
-      vt,
-      t,
-      showMeta,
-      inNativeApp,
-      profile
-    } = this.props
-    const { expanded } = this.state
-    const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
+  const {
+    candidate,
+    maxVotes,
+    selected,
+    onChange,
+    disabled,
+    interactive,
+    mandatory,
+    vt,
+    t,
+    showMeta,
+    inNativeApp,
+    profile
+  } = props
+  const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
-    const { user: d } = candidate
+  const { user: d } = candidate
 
-    const summary = (
-      <Fragment>
-        <div>{candidate.yearOfBirth}</div>
-        <div>
-          {(d.credentials.find(c => c.isListed) || {}).description ||
-            MISSING_VALUE}
-        </div>
-        <div>{candidate.city}</div>
-      </Fragment>
-    )
+  const summary = (
+    <Fragment>
+      <div>{candidate.yearOfBirth}</div>
+      <div>
+        {(d.credentials.find(c => c.isListed) || {}).description ||
+          MISSING_VALUE}
+      </div>
+      <div>{candidate.city}</div>
+    </Fragment>
+  )
 
-    const target = inNativeApp || profile ? undefined : '_blank'
+  const target = inNativeApp || profile ? undefined : '_blank'
 
-    return (
-      <div {...styles.wrapper} {...(expanded && styles.wrapperSelected)}>
-        <div
-          onClick={e => {
-            e.preventDefault()
-            interactive && this.toggleExpanded(d.id)
-          }}
-        >
-          {expanded ? (
-            <div {...styles.icon}>
-              <MdExpandMore />
-            </div>
-          ) : (
-            <div {...styles.icon}>
-              <MdChevronRight />
-            </div>
-          )}
-        </div>
-        <div {...styles.row}>
-          <div
-            {...styles.summary}
-            style={{ cursor: onChange ? 'pointer' : 'default' }}
-            onClick={onChange ? () => onChange(candidate) : undefined}
-          >
-            <div>
-              {interactive ? (
-                <A
-                  href='#'
-                  onClick={e => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    this.toggleExpanded(d.id)
-                  }}
-                >
-                  {d.name}
-                </A>
-              ) : (
-                d.name
-              )}
-            </div>
-            {summary}
-            {showMeta && (
-              <div>
-                <div style={{ width: 36, height: 18 }}>
-                  {candidate.recommendation && <MdStars size={18} />}
-                  {mandatory && <MdFavorite size={18} />}
-                </div>
-              </div>
-            )}
+  return (
+    <div {...styles.wrapper} {...(expanded && styles.wrapperSelected)}>
+      <div
+        onClick={e => {
+          e.preventDefault()
+          interactive && toggleExpanded(d.id)
+        }}
+      >
+        {expanded ? (
+          <div {...styles.icon}>
+            <MdExpandMore />
           </div>
-          {expanded && (
-            <div {...styles.summaryWrapper}>
-              <div {...styles.summaryMobile}>{summary}</div>
-              <div {...styles.details}>
-                <div {...styles.profile}>
-                  <div>
-                    <div
-                      style={{
-                        backgroundImage: `url(${d.portrait ||
-                          DEFAULT_PROFILE_PICTURE})`
-                      }}
-                      {...styles.portrait}
-                    />
-                    <div>
-                      {!profile && (
-                        <div {...styles.profileFooter}>
-                          <A href={`/~${d.username || d.id}`} target={target}>
-                            Profil
-                          </A>
-                        </div>
-                      )}
-                      {candidate.comment && candidate.comment.id && (
-                        <div>
-                          <Link
-                            route='voteDiscuss'
-                            params={{
-                              discussion: candidate.election.slug,
-                              focus: candidate.comment.id
-                            }}
-                            passHref
-                          >
-                            <A target={target}>
-                              {vt('vote/election/discussion')}
-                            </A>
-                          </Link>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div {...styles.statement}>
-                    {d.statement || MISSING_VALUE}
-                  </div>
-                </div>
-                {d.disclosures && (
-                  <div {...styles.moreInfo}>
-                    <Strong>{t('profile/disclosures/label')}:</Strong>{' '}
-                    {d.disclosures}
-                  </div>
-                )}
-                {candidate.recommendation && (
-                  <div {...styles.moreInfo}>
-                    <Strong>{vt('vote/election/recommendation')}</Strong>{' '}
-                    {candidate.recommendation}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-        {maxVotes > 0 && onChange && (
-          <div {...styles.selection}>
-            <SelectionComponent
-              disabled={maxVotes > 1 && !selected && disabled}
-              checked={selected}
-              onChange={() => onChange(candidate)}
-            />
+        ) : (
+          <div {...styles.icon}>
+            <MdChevronRight />
           </div>
         )}
       </div>
-    )
-  }
+      <div {...styles.row}>
+        <div
+          {...styles.summary}
+          style={{ cursor: onChange ? 'pointer' : 'default' }}
+          onClick={onChange ? () => onChange(candidate) : undefined}
+        >
+          <div>
+            {interactive ? (
+              <A
+                href='#'
+                onClick={e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  toggleExpanded(d.id)
+                }}
+              >
+                {d.name}
+              </A>
+            ) : (
+              d.name
+            )}
+          </div>
+          {summary}
+          {showMeta && (
+            <div>
+              <div style={{ width: 36, height: 18 }}>
+                {candidate.recommendation && <MdStars size={18} />}
+                {mandatory && <MdFavorite size={18} />}
+              </div>
+            </div>
+          )}
+        </div>
+        {expanded && (
+          <div
+            {...styles.summaryWrapper}
+            {...colorScheme.set('backgroundColor', 'alert')}
+          >
+            <div {...styles.summaryMobile}>{summary}</div>
+            <div {...styles.details}>
+              <div {...styles.profile}>
+                <div>
+                  <div
+                    style={{
+                      backgroundImage: `url(${d.portrait ||
+                        DEFAULT_PROFILE_PICTURE})`
+                    }}
+                    {...styles.portrait}
+                  />
+                  <div>
+                    {!profile && (
+                      <div {...styles.profileFooter}>
+                        <A href={`/~${d.username || d.id}`} target={target}>
+                          Profil
+                        </A>
+                      </div>
+                    )}
+                    {candidate.comment && candidate.comment.id && (
+                      <div>
+                        <Link
+                          route='voteDiscuss'
+                          params={{
+                            discussion: candidate.election.slug,
+                            focus: candidate.comment.id
+                          }}
+                          passHref
+                        >
+                          <A target={target}>
+                            {vt('vote/election/discussion')}
+                          </A>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div {...styles.statement}>{d.statement || MISSING_VALUE}</div>
+              </div>
+              {d.disclosures && (
+                <div {...styles.moreInfo}>
+                  <Strong>{t('profile/disclosures/label')}:</Strong>{' '}
+                  {d.disclosures}
+                </div>
+              )}
+              {candidate.recommendation && (
+                <div {...styles.moreInfo}>
+                  <Strong>{vt('vote/election/recommendation')}</Strong>{' '}
+                  {candidate.recommendation}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+      {maxVotes > 0 && onChange && (
+        <div {...styles.selection}>
+          <SelectionComponent
+            disabled={maxVotes > 1 && !selected && disabled}
+            checked={selected}
+            onChange={() => onChange(candidate)}
+          />
+        </div>
+      )}
+    </div>
+  )
 }
 
 ElectionBallotRow.propTypes = {

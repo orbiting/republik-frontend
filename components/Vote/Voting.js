@@ -19,6 +19,8 @@ import voteT from './voteT'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import ErrorMessage from '../ErrorMessage'
+import AddressEditor, { withAddressData } from './AddressEditor'
+import SignIn from '../Auth/SignIn'
 
 const { H3, P } = Interaction
 
@@ -45,7 +47,7 @@ const styles = {
   }),
   cardActions: css({
     marginTop: 15,
-    height: 90,
+    minHeight: 90,
     textAlign: 'center',
     '& button': {
       display: 'block',
@@ -125,7 +127,7 @@ class Voting extends React.Component {
       }
     }
 
-    this.submitVotingBallot = async () => {
+    this.submitVotingBallot = () => {
       const { submitVotingBallot } = this.props
       const {
         data: { voting }
@@ -134,19 +136,19 @@ class Voting extends React.Component {
 
       this.setState({ updating: true })
 
-      await submitVotingBallot(voting.id, selectedValue)
+      submitVotingBallot(voting.id, selectedValue)
         .then(() => {
-          this.setState(() => ({
+          this.setState({
             updating: false,
             error: null
-          }))
+          })
         })
         .catch(error => {
-          this.setState(() => ({
+          this.setState({
             pollState: POLL_STATES.DIRTY,
             updating: false,
             error
-          }))
+          })
         })
     }
 
@@ -169,9 +171,9 @@ class Voting extends React.Component {
                 primary
                 onClick={e => {
                   e.preventDefault()
-                  this.setState(() => ({
+                  this.setState({
                     pollState: POLL_STATES.READY
-                  }))
+                  })
                 }}
               >
                 {vt('vote/voting/labelVote')}
@@ -187,9 +189,9 @@ class Voting extends React.Component {
                 primary
                 onClick={e => {
                   e.preventDefault()
-                  this.setState(() => ({
+                  this.setState({
                     pollState: POLL_STATES.READY
-                  }))
+                  })
                 }}
               >
                 {vt('vote/voting/labelVote')}
@@ -226,12 +228,14 @@ class Voting extends React.Component {
       const {
         vt,
         data: { voting },
+        addressData,
         me
       } = this.props
-      const { selectedValue } = this.state
+      const { selectedValue, updating } = this.state
       const { P } = Interaction
 
-      let dangerousDisabledHTML = this.props.dangerousDisabledHTML
+      let dangerousDisabledHTML
+      let showSignIn
       if (voting.userHasSubmitted) {
         dangerousDisabledHTML = vt('vote/voting/thankyou', {
           submissionDate: messageDateFormat(new Date(voting.userSubmitDate))
@@ -239,9 +243,16 @@ class Voting extends React.Component {
       } else if (Date.now() > new Date(voting.endDate)) {
         dangerousDisabledHTML = vt('vote/voting/ended')
       } else if (!me) {
-        dangerousDisabledHTML = vt('vote/voting/notSignedIn')
+        dangerousDisabledHTML = vt('vote/voting/notSignedIn', {
+          beginDate: timeFormat('%d.%m.%Y')(new Date(voting.beginDate))
+        })
+        showSignIn = true
       } else if (!voting.userIsEligible) {
         dangerousDisabledHTML = vt('vote/voting/notEligible')
+      }
+
+      if (voting.userIsEligible && !addressData.voteMe?.address) {
+        return <AddressEditor />
       }
 
       if (dangerousDisabledHTML) {
@@ -255,6 +266,7 @@ class Voting extends React.Component {
                 }}
               />
             </div>
+            {showSignIn && <SignIn />}
           </div>
         )
       } else {
@@ -266,6 +278,7 @@ class Voting extends React.Component {
                   black
                   value={id}
                   checked={id === selectedValue}
+                  disabled={!!updating}
                   onChange={() =>
                     this.setState({
                       selectedValue: id,
@@ -380,5 +393,6 @@ export default compose(
         slug
       }
     })
-  })
+  }),
+  withAddressData
 )(Voting)

@@ -25,8 +25,8 @@ const styles = {
   })
 }
 
-const Details = ({ card, t, mySmartspider, skipSpider }) => {
-  const { payload, user } = card
+const Details = ({ card, t, mySmartspider, skipSpider, postElection }) => {
+  const { payload, user, group } = card
 
   const { electionPlausibility } = payload.nationalCouncil
   const plausibilityText = t(
@@ -60,7 +60,7 @@ const Details = ({ card, t, mySmartspider, skipSpider }) => {
           />
         </div>
       )}
-      {!!payload.nationalCouncil.listName && (
+      {!postElection && !!payload.nationalCouncil.listName && (
         <Paragraph>
           Liste: {payload.nationalCouncil.listName}
           <br />
@@ -80,7 +80,17 @@ const Details = ({ card, t, mySmartspider, skipSpider }) => {
           )}
         </Paragraph>
       )}
-      <Paragraph>Beruf: {payload.occupation}</Paragraph>
+      <Paragraph>
+        {postElection && (
+          <>
+            Partei: {payload.party}
+            <br />
+            Kanton: {group.name}
+            <br />
+          </>
+        )}
+        Beruf: {payload.occupation}
+      </Paragraph>
       <Paragraph style={{ marginTop: 10 }}>
         <strong>{t('components/Card/Details/links')}</strong>
       </Paragraph>
@@ -93,7 +103,7 @@ const Details = ({ card, t, mySmartspider, skipSpider }) => {
           <small>{t('components/Card/Details/smartvote/note')}</small>
         </Paragraph>
       )}
-      {!!incumbent && (
+      {!!payload.lobbywatch?.link && (
         <Paragraph style={{ marginBottom: 10 }}>
           <Editorial.A
             href={
@@ -107,7 +117,7 @@ const Details = ({ card, t, mySmartspider, skipSpider }) => {
           <small>{t('components/Card/Details/lobbywatch/note')}</small>
         </Paragraph>
       )}
-      <Finance payload={payload} />
+      {!postElection && <Finance payload={payload} />}
       <Paragraph style={{ marginTop: 20 }}>
         <strong>{t('profile/share/overlayTitle')}</strong>
       </Paragraph>

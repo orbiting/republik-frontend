@@ -53,6 +53,10 @@ const styles = {
   address: css({
     lineHeight: 1.6,
     fontStyle: 'normal'
+  }),
+  icons: css({
+    display: 'flex',
+    justifyContent: 'center'
   })
 }
 
@@ -89,18 +93,20 @@ const Footer = ({ inverted, en }) => (
       <A href={`mailto:${EMAIL_CONTACT}`}>{EMAIL_CONTACT}</A>
     </address>
 
-    <IconButton
-      fill={inverted ? '#fff' : '#000'}
-      Icon={IoLogoFacebook}
-      href='https://www.facebook.com/RepublikMagazin'
-      target='_blank'
-    />
-    <IconButton
-      fill={inverted ? '#fff' : '#000'}
-      Icon={IoLogoTwitter}
-      href='https://twitter.com/RepublikMagazin'
-      target='_blank'
-    />
+    <div {...styles.icons}>
+      <IconButton
+        fill={inverted ? '#fff' : '#000'}
+        Icon={IoLogoFacebook}
+        href='https://www.facebook.com/RepublikMagazin'
+        target='_blank'
+      />
+      <IconButton
+        fill={inverted ? '#fff' : '#000'}
+        Icon={IoLogoTwitter}
+        href='https://twitter.com/RepublikMagazin'
+        target='_blank'
+      />
+    </div>
   </div>
 )
 

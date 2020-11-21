@@ -10,7 +10,11 @@ import { MdBrightness2 } from 'react-icons/md'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 
-const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
+const DarkmodeSwitch = ({
+  colorSchemeKey: pageColorSchemeKey,
+  t,
+  inNativeApp
+}) => {
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
 
   const colorSchemaKeyForLable =
@@ -39,7 +43,7 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
 
   return (
     <CalloutMenu Element={Icon}>
-      <div style={{ maxWidth: 180 }}>
+      <div style={{ width: 180 }}>
         {pageColorSchemeKey !== 'auto' ? (
           <Label>{t('darkmode/switch/notavailable')}</Label>
         ) : (
@@ -47,7 +51,9 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
             <Radio
               value='dark'
               checked={colorSchemeKey === 'dark'}
-              onChange={event => setColorSchemeKey(event.target.value)}
+              onChange={() => {
+                setColorSchemeKey('dark')
+              }}
             >
               {t('darkmode/switch/on')}
             </Radio>
@@ -55,19 +61,33 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
             <Radio
               value='light'
               checked={colorSchemeKey === 'light'}
-              onChange={event => setColorSchemeKey(event.target.value)}
+              onChange={() => {
+                // ToDo activating auto
+                // - replace with 'light' when activating auto
+                setColorSchemeKey('')
+              }}
             >
               {t('darkmode/switch/off')}
             </Radio>
             <br />
-            <Radio
-              // default auto is undefined
-              value={undefined}
-              checked={!colorSchemeKey}
-              onChange={event => setColorSchemeKey(event.target.value)}
-            >
-              {t('darkmode/switch/auto')}
-            </Radio>
+            {/*
+              // ToDo App has been updated 
+              // - remove condition below
+            */}
+            {!inNativeApp ? (
+              <Radio
+                value='auto'
+                checked={colorSchemeKey === 'auto'}
+                onChange={() => {
+                  // ToDo activating auto by default
+                  // - handle all «ToDo activating auto» comments
+                  // - rm explicit auto value
+                  setColorSchemeKey('auto')
+                }}
+              >
+                {t('darkmode/switch/auto')}
+              </Radio>
+            ) : null}
           </Interaction.P>
         )}
       </div>

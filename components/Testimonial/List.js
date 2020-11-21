@@ -200,10 +200,12 @@ export const Item = ({
       {!isActive && <span {...styles.name}>{name}</span>}
       {isActive && (
         <span
-          {...merge(styles.itemArrow)}
-          style={{
-            borderColor: `transparent transparent ${colorScheme.containerBg} transparent`
-          }}
+          {...styles.itemArrow}
+          {...css({
+            borderColor: []
+              .concat(colorScheme.getCSSColor('default'))
+              .map(color => `transparent transparent ${color} transparent`)
+          })}
         />
       )}
     </Element>

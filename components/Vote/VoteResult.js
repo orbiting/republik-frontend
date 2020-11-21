@@ -12,6 +12,7 @@ import voteT from './voteT'
 
 import withT from '../../lib/withT'
 import { countFormat, swissNumbers } from '../../lib/utils/format'
+import VoteResultSingle from './VoteResultSingle'
 
 const percentFormat = swissNumbers.format('.1%')
 
@@ -60,45 +61,7 @@ const ELECTION_BAR_CONFIG_MULTIPLE = {
 const VoteResult = ({ votings, elections, vt, t }) => (
   <Fragment>
     {votings &&
-      votings.map(({ id, data }) => {
-        const results = data.result.options.filter(result => result.option)
-        const winner = results.find(result => result.winner)
-        const filledCount = sum(results, r => r.count)
-        const values = results.map(result => ({
-          value: String(result.count / filledCount),
-          option: vt(`vote/voting/option${result.option.label}`),
-          votes: vt('vote/votes', {
-            formattedCount: countFormat(result.count)
-          })
-        }))
-
-        const empty = data.result.options.find(result => !result.option)
-        const emptyVotes = empty ? empty.count : 0
-
-        const { eligible, submitted } = data.turnout
-
-        return (
-          <Fragment key={id}>
-            <ChartTitle>{data.description}</ChartTitle>
-            {!!winner && (
-              <ChartLead>
-                {vt(`vote/voting/winner/${winner.option.label}`, {
-                  formattedPercent: percentFormat(winner.count / filledCount)
-                })}
-              </ChartLead>
-            )}
-            <Chart t={t} config={VOTE_BAR_CONFIG} values={values} />
-            <Editorial.Note style={{ marginTop: 10 }}>
-              {vt('vote/voting/turnout', {
-                formattedPercent: percentFormat(submitted / eligible),
-                formattedCount: countFormat(emptyVotes + filledCount),
-                formattedEmptyCount: countFormat(emptyVotes),
-                formattedFilledCount: countFormat(filledCount)
-              })}
-            </Editorial.Note>
-          </Fragment>
-        )
-      })}
+      votings.map(({ id, data }) => <VoteResultSingle key={id} data={data} />)}
     {elections &&
       elections.map(({ id, data }) => {
         const results = data.result.candidacies.filter(
@@ -159,7 +122,4 @@ const VoteResult = ({ votings, elections, vt, t }) => (
   </Fragment>
 )
 
-export default compose(
-  voteT,
-  withT
-)(VoteResult)
+export default compose(voteT, withT)(VoteResult)

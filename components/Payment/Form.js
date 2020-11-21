@@ -8,9 +8,9 @@ import {
   Interaction,
   Label,
   A,
-  colors,
   fontFamilies,
-  Loader
+  Loader,
+  useColorContext
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
@@ -93,10 +93,10 @@ const styles = {
   paymentMethod: css({
     fontFamily: fontFamilies.sansSerifMedium,
     fontSize: 14,
-    color: '#000',
     display: 'inline-block',
     backgroundColor: '#fff',
-    border: `1px solid ${colors.secondary}`,
+    borderWidth: 1,
+    borderStyle: 'solid',
     height: PAYMENT_METHOD_HEIGHT - 2, // 2px borders
     padding: 10,
     cursor: 'pointer',
@@ -124,6 +124,23 @@ const styles = {
     left: -10000,
     top: 'auto'
   })
+}
+
+const PaymentMethodLabel = ({ backgroundColor, active, error, children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <label
+      {...styles.paymentMethod}
+      {...colorScheme.set('borderColor', error ? 'error' : 'text')}
+      {...colorScheme.set('color', error ? 'error' : 'text')}
+      style={{
+        backgroundColor,
+        opacity: active ? 1 : 0.4
+      }}
+    >
+      {children}
+    </label>
+  )
 }
 
 const { H2, P } = Interaction
@@ -340,20 +357,12 @@ class PaymentForm extends Component {
                         ))
 
                       const disabled = paymentSource.status !== 'CHARGEABLE'
-                      const color = disabled ? colors.error : undefined
 
                       return (
-                        <label
+                        <PaymentMethodLabel
                           key={i}
-                          {...styles.paymentMethod}
-                          style={{
-                            opacity:
-                              values.paymentSource === paymentSource.id
-                                ? 1
-                                : 0.4,
-                            borderColor: color,
-                            color
-                          }}
+                          active={values.paymentSource === paymentSource.id}
+                          error={disabled}
                         >
                           <input
                             type='radio'
@@ -387,7 +396,7 @@ class PaymentForm extends Component {
                             {pad2(paymentSource.expMonth)}/
                             {paymentSource.expYear}
                           </span>
-                        </label>
+                        </PaymentMethodLabel>
                       )
                     })}
                     <br />
@@ -424,16 +433,10 @@ class PaymentForm extends Component {
                   PAYMENT_METHODS.filter(
                     pm => !pm.disabled && visibleMethods.indexOf(pm.key) !== -1
                   ).map(pm => (
-                    <label
+                    <PaymentMethodLabel
                       key={pm.key}
-                      {...styles.paymentMethod}
-                      style={{
-                        backgroundColor: pm.bgColor,
-                        opacity:
-                          paymentMethod === pm.key && !values.paymentSource
-                            ? 1
-                            : 0.4
-                      }}
+                      backgroundColor={pm.bgColor}
+                      active={paymentMethod === pm.key && !values.paymentSource}
                     >
                       <input
                         type='radio'
@@ -465,7 +468,7 @@ class PaymentForm extends Component {
                       >
                         {t(`payment/method/${pm.key}`)}
                       </span>
-                    </label>
+                    </PaymentMethodLabel>
                   ))}
               </P>
             )

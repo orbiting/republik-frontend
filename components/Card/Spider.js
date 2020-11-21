@@ -1,12 +1,11 @@
 import React from 'react'
 import { range, max } from 'd3-array'
 import { color } from 'd3-color'
-import { colors, fontStyles } from '@project-r/styleguide'
+import { fontStyles, useColorContext } from '@project-r/styleguide'
 
 const maxDomain = 100
 const radians = 2 * Math.PI
 const levels = 2
-const axisLineColor = 'rgba(0,0,0,0.17)'
 
 function getHorizontalPosition(i, range, factor = 1) {
   return range * (1 - factor * Math.sin((-i * radians) / nAxes))
@@ -36,6 +35,8 @@ const Spider = ({
   reference,
   label = true
 }) => {
+  const [colorScheme] = useColorContext()
+
   const cx = size / 2
   const cy = size / 2
   const factor = label ? 0.75 : 0.95
@@ -65,7 +66,8 @@ const Spider = ({
           {range(0, nAxes).map(i => (
             <line
               key={i}
-              stroke={axisLineColor}
+              {...colorScheme.set('stroke', 'text')}
+              strokeOpacity={0.17}
               strokeWidth='1'
               x1={getHorizontalPosition(i, levelFactor)}
               y1={getVerticalPosition(i, levelFactor)}
@@ -79,7 +81,8 @@ const Spider = ({
       {axes.map((_, i) => (
         <line
           key={`axis-${i}`}
-          stroke={axisLineColor}
+          {...colorScheme.set('stroke', 'text')}
+          strokeOpacity={0.17}
           strokeWidth='1'
           x1={cx}
           y1={cy}
@@ -104,7 +107,7 @@ const Spider = ({
               transform={`translate(${x} ${y}) rotate(${rot})`}
             >
               <text
-                fill={colors.text}
+                {...colorScheme.set('fill', 'text')}
                 style={{
                   ...fontStyles[highlight ? 'sansSerifMedium' : 'sansSerif'],
                   fontSize: highlight ? 11 : 10
@@ -180,7 +183,7 @@ const Spider = ({
             return (
               <line
                 key={i}
-                stroke='#000'
+                {...colorScheme.set('stroke', 'text')}
                 strokeWidth='1'
                 x1={p[0]}
                 y1={p[1]}

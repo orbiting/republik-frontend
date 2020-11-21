@@ -77,7 +77,7 @@ const Detail = ({
             : {}
         }
       >
-        <H3 {...styles.detailTitle} style={{ color: colorScheme.text }}>
+        <H3 {...styles.detailTitle} {...colorScheme.set('color', 'text')}>
           {slug ? (
             <Link route='profile' params={{ slug }}>
               <a {...linkRule} style={{ color: 'inherit' }}>
@@ -87,7 +87,10 @@ const Detail = ({
           ) : (
             <span>{name}</span>
           )}{' '}
-          <span {...styles.detailRole} style={{ color: colorScheme.lightText }}>
+          <span
+            {...styles.detailRole}
+            {...colorScheme.set('color', 'textSoft')}
+          >
             {credentials && credentials[0] && credentials[0].description}
           </span>
         </H3>
@@ -105,14 +108,14 @@ const Detail = ({
             />
           </div>
         ) : statement ? (
-          <SerifP style={{ color: colorScheme.text }}>
+          <SerifP {...colorScheme.set('color', 'text')}>
             {inQuotes(statement)}
           </SerifP>
         ) : (
           <br />
         )}
         {!!sequenceNumber && (
-          <P {...styles.number} style={{ color: colorScheme.text }}>
+          <P {...styles.number} {...colorScheme.set('color', 'text')}>
             {t('memberships/sequenceNumber/label', {
               sequenceNumber
             })}

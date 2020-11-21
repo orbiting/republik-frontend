@@ -27,10 +27,15 @@ const ColorSchemeSync = () => {
     <NextHead>
       <script
         dangerouslySetInnerHTML={{
-          __html: `try {${[
-            `var key = JSON.parse(localStorage.getItem('${COLOR_SCHEME_KEY}'))`,
-            `if(key){document.documentElement.setAttribute('data-user-color-scheme', key)}`
-          ].join(';')}} catch (e) {}`
+          __html: [
+            'var key;try {',
+            `key = JSON.parse(localStorage.getItem('${COLOR_SCHEME_KEY}'))`,
+            '} catch (e) {}',
+            // ToDo activating auto
+            // - rm || 'light'
+            // - wrap in if(key){}
+            `document.documentElement.setAttribute('data-user-color-scheme', key || 'light')`
+          ].join('')
         }}
       />
     </NextHead>

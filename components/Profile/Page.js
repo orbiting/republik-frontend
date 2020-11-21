@@ -13,7 +13,6 @@ import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 import StatusError from '../StatusError'
 import { cardFragment } from '../Card/fragments'
-import Card, { styles as cardStyles } from '../Card/Card'
 import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
@@ -247,25 +246,27 @@ const getPublicUser = gql`
           }
         }
       }
-      candidacies {
-        election {
-          slug
-          description
-          beginDate
-          endDate
-          candidacyEndDate
-          discussion {
-            id
-          }
-        }
-        id
-        yearOfBirth
-        city
-        recommendation
-        comment {
-          id
-        }
-      }
+      # # uncomment to show candidacies during elections
+      # # and filter in backend to only return currently active elections
+      # candidacies {
+      #   election {
+      #     slug
+      #     description
+      #     beginDate
+      #     endDate
+      #     candidacyEndDate
+      #     discussion {
+      #       id
+      #     }
+      #   }
+      #   id
+      #   yearOfBirth
+      #   city
+      #   recommendation
+      #   comment {
+      #     id
+      #   }
+      # }
     }
   }
   ${documentListQueryFragment}
@@ -432,92 +433,48 @@ const LoadedProfile = props => {
           </MainContainer>
         </Box>
       )}
-      {card && (
-        <CardContainer imprint={false} style={{ minHeight: 300 * 1.4 + 60 }}>
-          <div
-            {...css({
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexWrap: 'wrap'
-            })}
-          >
-            <div
-              {...cardStyles.cardInner}
-              style={{
-                width: 300,
-                height: 300 * 1.4,
-                transform: 'rotate(-1deg)',
-                margin: '30px 10px'
-              }}
-            >
-              <Card width={300} {...card} t={t} firstSlideOnly />
-            </div>
-            <div
-              {...css({
-                padding: 30,
-                [mediaQueries.mUp]: {
-                  margin: '0 30px'
-                }
-              })}
-            >
-              <ShadowQueryLink
-                path={`/wahltindaer/${card.group.slug}`}
-                query={{ top: card.id }}
-              >
-                <Button primary>«Wahltindär» spielen</Button>
-              </ShadowQueryLink>
-            </div>
-          </div>
-        </CardContainer>
-      )}
       <MainContainer>
         <div ref={innerRef} {...styles.head}>
-          {!card && (
-            <>
-              <p {...styles.statement}>
-                <Statement
-                  user={user}
-                  isEditing={isEditing}
-                  onChange={onChange}
-                  values={values}
-                  errors={errors}
-                  dirty={dirty}
-                />
-              </p>
-              <div {...styles.portrait}>
-                <Portrait
-                  user={user}
-                  isEditing={isEditing}
-                  isMe={isMe}
-                  onChange={onChange}
-                  values={values}
-                  errors={errors}
-                  dirty={dirty}
-                />
-              </div>
-              <div {...styles.headInfo}>
-                {!!user.hasPublicProfile && (
-                  <span {...styles.headInfoShare}>
-                    <ActionBar share={shareObject} download={metaData.image} />
-                  </span>
-                )}
-                {!!user.sequenceNumber && (
-                  <span {...styles.headInfoNumber}>
-                    {t('memberships/sequenceNumber/label', {
-                      sequenceNumber: user.sequenceNumber
-                    })}
-                  </span>
-                )}
-                <div style={{ clear: 'both' }} />
-              </div>
-            </>
-          )}
+          <p {...styles.statement}>
+            <Statement
+              user={user}
+              isEditing={isEditing}
+              onChange={onChange}
+              values={values}
+              errors={errors}
+              dirty={dirty}
+            />
+          </p>
+          <div {...styles.portrait}>
+            <Portrait
+              user={user}
+              isEditing={isEditing}
+              isMe={isMe}
+              onChange={onChange}
+              values={values}
+              errors={errors}
+              dirty={dirty}
+            />
+          </div>
+          <div {...styles.headInfo}>
+            {!!user.hasPublicProfile && (
+              <span {...styles.headInfoShare}>
+                <ActionBar share={shareObject} download={metaData.image} />
+              </span>
+            )}
+            {!!user.sequenceNumber && (
+              <span {...styles.headInfoNumber}>
+                {t('memberships/sequenceNumber/label', {
+                  sequenceNumber: user.sequenceNumber
+                })}
+              </span>
+            )}
+            <div style={{ clear: 'both' }} />
+          </div>
         </div>
         <div
           {...styles.container}
           {...colorScheme.set('borderColor', 'divider')}
-          style={{ borderTop: card ? 'none' : undefined }}
         >
           <div {...styles.sidebar}>
             <div
@@ -542,14 +499,6 @@ const LoadedProfile = props => {
                   errors={errors}
                   dirty={dirty}
                 />
-                {/* show sequence # of profiles with a card here */}
-                {card && !!user.sequenceNumber && (
-                  <div {...colorScheme.set('color', 'text')}>
-                    {t('memberships/sequenceNumber/label', {
-                      sequenceNumber: user.sequenceNumber
-                    })}
-                  </div>
-                )}
                 {user.badges && (
                   <div {...styles.badges}>
                     {user.badges.map((badge, i) => (
@@ -605,7 +554,11 @@ const LoadedProfile = props => {
             />
             {card && (
               <div style={{ marginBottom: 40 }}>
-                <CardDetails card={card} skipSpider={!card.user.portrait} />
+                <CardDetails
+                  card={card}
+                  postElection
+                  skipSpider={!card.user.portrait}
+                />
               </div>
             )}
             {layout.isMobile && isEditing && (
@@ -618,7 +571,7 @@ const LoadedProfile = props => {
                 />
               </div>
             )}
-            {user.candidacies.map((c, i) => (
+            {user.candidacies?.map((c, i) => (
               <div key={i} style={{ marginBottom: 60 }}>
                 <Interaction.H3 style={{ marginBottom: 0 }}>
                   {`${c.election.description}`}
@@ -683,18 +636,13 @@ const Profile = props => {
       user && user.portrait
         ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
             user.updatedAt
-          )}b1&url=${encodeURIComponent(
+          )}b2&url=${encodeURIComponent(
             `${PUBLIC_BASE_URL}/community?share=${user.id}`
           )}`
         : '',
-    title: card
-      ? `🔥 ${user.name}`
-      : user
+    title: user
       ? t('pages/profile/pageTitle', { name: user.name })
-      : t('pages/profile/empty/pageTitle'),
-    description: card
-      ? 'Profil anschauen und «Republik Wahltindär» spielen.'
-      : undefined
+      : t('pages/profile/empty/pageTitle')
   }
 
   return (

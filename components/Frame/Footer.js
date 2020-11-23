@@ -37,6 +37,7 @@ const styles = {
     position: 'relative',
     zIndex: ZINDEX_FOOTER, // goes over sidebar
     backgroundColor: colors.negative.primaryBg,
+    borderTop: `0.5px solid ${colors.divider}`,
     paddingTop: 30,
     paddingBottom: 30,
     textRendering: 'optimizeLegibility',

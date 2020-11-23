@@ -497,7 +497,7 @@ export const PayNote = compose(
     return (
       <div
         {...styles.banner}
-        {...colorScheme.set('backgroundColor', isBefore ? 'default' : 'alert')}
+        {...colorScheme.set('backgroundColor', isBefore ? 'hover' : 'alert')}
       >
         <Center>
           <PayNoteContent

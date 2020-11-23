@@ -115,7 +115,7 @@ class Poller extends Component {
         <H3>
           {!!Icon && (
             <Icon
-              fill='inherit'
+              fill='currentColor'
               size='1.2em'
               style={{
                 verticalAlign: 'baseline',

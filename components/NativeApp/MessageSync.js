@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import withInNativeApp from '../../lib/withInNativeApp'
+import { useEffect } from 'react'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { parseJSONObject } from '../../lib/safeJSON'
 
 const MessageSync = ({ inNativeApp, inNativeAppLegacy }) => {
@@ -8,14 +8,19 @@ const MessageSync = ({ inNativeApp, inNativeAppLegacy }) => {
       return
     }
     const onMessage = event => {
-      const message = parseJSONObject(event.data)
-      if (message.type === 'onPushRegistered') {
-        console.log('onPushRegistered', message.data)
+      const { content = {}, id } = parseJSONObject(event.data)
+      if (content.type === 'onPushRegistered') {
+        console.log('onPushRegistered', content)
       }
+
+      postMessage({
+        type: 'ackMessage',
+        id: id
+      })
     }
-    document.addEventListener('message', onMessage)
+    window.addEventListener('message', onMessage)
     return () => {
-      document.removeEventListener('message', onMessage)
+      window.removeEventListener('message', onMessage)
     }
   }, [inNativeApp, inNativeAppLegacy])
   return null

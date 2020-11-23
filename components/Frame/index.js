@@ -89,7 +89,6 @@ const Frame = ({
   meta,
   cover,
   inNativeApp,
-  inNativeIOSApp,
   onNavExpanded,
   secondaryNav,
   formatColor,
@@ -99,20 +98,8 @@ const Frame = ({
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
-  isTester,
-  colorSchemeKey: colorSchemeKeyProp = 'light'
+  colorSchemeKey = 'light'
 }) => {
-  const rootColorSchemeKey = isTester
-    ? 'auto'
-    : colorSchemeKeyProp === 'dark'
-    ? 'dark'
-    : 'light'
-  const contentColorSchemeKey = isTester
-    ? colorSchemeKeyProp
-    : colorSchemeKeyProp === 'auto'
-    ? 'light'
-    : colorSchemeKeyProp
-
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
   const padHeaderRule = useMemo(() => {
@@ -128,9 +115,9 @@ const Frame = ({
     })
   }, [hasSecondaryNav])
   return (
-    <ColorContextProvider root colorSchemeKey={rootColorSchemeKey}>
-      <ColorHtmlBodyColors colorSchemeKey={contentColorSchemeKey} />
-      {rootColorSchemeKey === 'auto' && <ColorSchemeSync />}
+    <ColorContextProvider root colorSchemeKey='auto'>
+      <ColorHtmlBodyColors colorSchemeKey={colorSchemeKey} />
+      <ColorSchemeSync />
       <div
         {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
       >
@@ -141,7 +128,7 @@ const Frame = ({
         >
           {!!meta && <Meta data={meta} />}
           <Header
-            colorSchemeKey={rootColorSchemeKey}
+            colorSchemeKey='auto'
             me={me}
             cover={cover}
             onNavExpanded={onNavExpanded}
@@ -151,7 +138,7 @@ const Frame = ({
             hasOverviewNav={hasOverviewNav}
             stickySecondaryNav={stickySecondaryNav}
           >
-            <ColorContextProvider colorSchemeKey={contentColorSchemeKey}>
+            <ColorContextProvider colorSchemeKey={colorSchemeKey}>
               <noscript>
                 <Box style={{ padding: 30 }}>
                   <RawHtml
@@ -184,10 +171,4 @@ const Frame = ({
   )
 }
 
-export default compose(
-  withMe,
-  withMembership,
-  withT,
-  withInNativeApp,
-  withTester
-)(Frame)
+export default compose(withMe, withMembership, withT, withInNativeApp)(Frame)

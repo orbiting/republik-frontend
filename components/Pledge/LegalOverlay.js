@@ -9,7 +9,8 @@ import {
   OverlayToolbar,
   OverlayToolbarConfirm,
   Interaction,
-  A
+  A,
+  ColorContextProvider
 } from '@project-r/styleguide'
 
 import { MdClose } from 'react-icons/md'
@@ -45,28 +46,33 @@ const LegalOverlay = ({ onClose, href, title }) => {
   const page = pages.find(p => p.href === href)
 
   return (
-    <Overlay mUpStyle={{ maxWidth: 720, minHeight: 'none' }} onClose={onClose}>
-      <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {title}
-        </Interaction.Emphasis>
-        <OverlayToolbarConfirm
-          onClick={onClose}
-          label={<MdClose size={24} fill='#000' />}
-        />
-      </OverlayToolbar>
-      <OverlayBody>
-        {page ? (
-          <page.content />
-        ) : (
-          <Interaction.P>
-            <A href={href} target='_blank'>
-              Jetzt anzeigen
-            </A>
-          </Interaction.P>
-        )}
-      </OverlayBody>
-    </Overlay>
+    <ColorContextProvider colorSchemeKey='light'>
+      <Overlay
+        mUpStyle={{ maxWidth: 720, minHeight: 'none' }}
+        onClose={onClose}
+      >
+        <OverlayToolbar>
+          <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
+            {title}
+          </Interaction.Emphasis>
+          <OverlayToolbarConfirm
+            onClick={onClose}
+            label={<MdClose size={24} fill='#000' />}
+          />
+        </OverlayToolbar>
+        <OverlayBody>
+          {page ? (
+            <page.content />
+          ) : (
+            <Interaction.P>
+              <A href={href} target='_blank'>
+                Jetzt anzeigen
+              </A>
+            </Interaction.P>
+          )}
+        </OverlayBody>
+      </Overlay>
+    </ColorContextProvider>
   )
 }
 

@@ -210,6 +210,7 @@ const MarketingPage = props => {
                       onHighlight={onHighlight}
                       maxHeight={500}
                       maxColumns={8}
+                      backgroundColor={colors.negative.containerBg}
                     />
                   )}
                 />

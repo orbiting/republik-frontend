@@ -292,7 +292,7 @@ class Footer extends Component {
                 <a>{t('footer/me/faq')}</a>
               </LazyLink>
               <br />
-              <LazyLink route='etiquette'>
+              <LazyLink route='section' params={{ slug: 'etikette' }}>
                 <a>{t('footer/me/etiquette')}</a>
               </LazyLink>
               <br />

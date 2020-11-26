@@ -115,9 +115,9 @@ class Form extends Component {
         error: dirty.message && errors.message,
         value: values.message,
         validator: message =>
-          message.trim().length > 255 &&
+          message.trim().length > 3000 &&
           this.props.t('Account/Access/Campaigns/Form/input/message/tooLong', {
-            maxLength: 255
+            maxLength: 3000
           }),
         autoSize: true
       }

@@ -4,7 +4,8 @@ import {
   IconButton,
   Radio,
   Interaction,
-  Label
+  Label,
+  useColorContext
 } from '@project-r/styleguide'
 import { MdBrightness2 } from 'react-icons/md'
 
@@ -16,24 +17,25 @@ const DarkmodeSwitch = ({
   inNativeApp
 }) => {
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
+  const [colorScheme] = useColorContext()
 
   const colorSchemaKeyForLable =
     pageColorSchemeKey !== 'auto' ? pageColorSchemeKey : colorSchemeKey
 
   const iconLabel =
     colorSchemaKeyForLable === 'light'
-      ? `${t('darkmode/switch/off')}`
+      ? t('darkmode/switch/off')
       : colorSchemaKeyForLable === 'dark'
-      ? `${t('darkmode/switch/on')}`
-      : `${t('darkmode/switch/auto')}`
+      ? t('darkmode/switch/on')
+      : t('darkmode/switch/auto')
 
   const Icon = React.forwardRef((props, ref) => (
     <IconButton
       Icon={MdBrightness2}
-      label={t.elements('darkmode/switch/label', {
+      label={t('darkmode/switch/label', {
         iconLabel
       })}
-      labelShort={t.elements('darkmode/switch/label', {
+      labelShort={t('darkmode/switch/label', {
         iconLabel
       })}
       ref={ref}
@@ -44,8 +46,10 @@ const DarkmodeSwitch = ({
   return (
     <CalloutMenu Element={Icon}>
       <div style={{ width: 180 }}>
-        {pageColorSchemeKey !== 'auto' ? (
-          <Label>{t('darkmode/switch/notavailable')}</Label>
+        {!colorScheme.CSSVarSupport ? (
+          <Label>{t('darkmode/switch/notSupported')}</Label>
+        ) : pageColorSchemeKey !== 'auto' ? (
+          <Label>{t('darkmode/switch/notAvailable')}</Label>
         ) : (
           <Interaction.P>
             <Radio

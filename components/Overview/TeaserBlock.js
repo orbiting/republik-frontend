@@ -83,7 +83,8 @@ class TeaserBlock extends Component {
       onHighlight,
       lazy,
       maxHeight,
-      maxColumns = 6
+      maxColumns = 6,
+      backgroundColor
     } = this.props
 
     const teasers = this.props.teasers.filter(
@@ -242,6 +243,7 @@ class TeaserBlock extends Component {
                     nodes={teaser.nodes}
                     highlight={highlight}
                     noClick={hover && hover.touch}
+                    backgroundColor={backgroundColor}
                   />
                 </div>
               </div>

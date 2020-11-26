@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-06T11:27:50.033Z",
+  "updated": "2020-11-23T15:31:14.135Z",
   "title": "live",
   "data": [
     {
@@ -6911,10 +6911,6 @@
       "value": "Nachtmodus: {iconLabel}"
     },
     {
-      "key": "darkmode/switch/notavailable",
-      "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar"
-    },
-    {
       "key": "darkmode/switch/on",
       "value": "Ein"
     },
@@ -6925,6 +6921,14 @@
     {
       "key": "darkmode/switch/auto",
       "value": "Automatisch"
+    },
+    {
+      "key": "darkmode/switch/notSupported",
+      "value": "Der Nachtmodus wird in Ihrem Browser nicht unterstützt."
+    },
+    {
+      "key": "darkmode/switch/notAvailable",
+      "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar."
     }
   ]
 }

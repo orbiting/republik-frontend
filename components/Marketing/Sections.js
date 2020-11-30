@@ -30,7 +30,7 @@ const Sections = ({
         style={{ minHeight: 400 }}
         render={() => (
           <>
-            {sections.map(section => (
+            {sections.filter(Boolean).map(section => (
               <div
                 key={section.meta.title}
                 {...styles.section}

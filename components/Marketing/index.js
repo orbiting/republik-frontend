@@ -10,6 +10,7 @@ import Reasons from './Reasons'
 import Sections from './Sections'
 import Vision from './Vision'
 import Logo from './Logo'
+import MiniFront from './MiniFront'
 
 const Marketing = ({ t }) => {
   const [isMobile, setIsMobile] = useState()
@@ -28,6 +29,7 @@ const Marketing = ({ t }) => {
   return (
     <>
       <Lead isMobile={isMobile} t={t} />
+      <MiniFront t={t} />
       <Carpet isMobile={isMobile} t={t} />
       <Reasons t={t} />
       <Team t={t} />

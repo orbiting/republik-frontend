@@ -12,42 +12,6 @@ import {
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
 
-const query = gql`
-  query sections {
-    covid19: document(path: "/format/covid-19-uhr-newsletter") {
-      meta {
-        title
-        description
-        image
-      }
-    }
-    briefings: document(path: "/briefings") {
-      meta {
-        title
-        description
-        image
-        color
-      }
-    }
-    columns: document(path: "/kolumnen") {
-      meta {
-        title
-        description
-        image
-        color
-      }
-    }
-    audio: document(path: "/audio") {
-      meta {
-        title
-        description
-        image
-        color
-      }
-    }
-  }
-`
-
 const Sections = ({
   t,
   data: { loading, covid19, briefings, columns, audio }
@@ -117,5 +81,41 @@ const styles = {
     ...fontStyles.sansSerifRegular18
   }
 }
+
+const query = gql`
+  query sections {
+    covid19: document(path: "/format/covid-19-uhr-newsletter") {
+      meta {
+        title
+        description
+        image
+      }
+    }
+    briefings: document(path: "/briefings") {
+      meta {
+        title
+        description
+        image
+        color
+      }
+    }
+    columns: document(path: "/kolumnen") {
+      meta {
+        title
+        description
+        image
+        color
+      }
+    }
+    audio: document(path: "/audio") {
+      meta {
+        title
+        description
+        image
+        color
+      }
+    }
+  }
+`
 
 export default compose(graphql(query))(Sections)

@@ -17,23 +17,6 @@ import { Link } from '../../lib/routes'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
 
-const query = gql`
-  query MarketingPage {
-    employees(withBoosted: true, shuffle: 50) {
-      title
-      name
-      group
-      subgroup
-      user {
-        id
-        portrait
-        slug
-        statement
-      }
-    }
-  }
-`
-
 const Team = ({ data: { loading, employees } }) => {
   const [colorScheme] = useColorContext()
   return (
@@ -114,5 +97,22 @@ const styles = {
     margin: 0
   })
 }
+
+const query = gql`
+  query MarketingPage {
+    employees(withBoosted: true, shuffle: 50) {
+      title
+      name
+      group
+      subgroup
+      user {
+        id
+        portrait
+        slug
+        statement
+      }
+    }
+  }
+`
 
 export default compose(graphql(query))(Team)

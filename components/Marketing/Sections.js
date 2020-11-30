@@ -1,42 +1,59 @@
 import React from 'react'
 import { css } from 'glamor'
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import { fontStyles, Meta, useColorContext } from '@project-r/styleguide'
+import {
+  fontStyles,
+  Meta,
+  useColorContext,
+  Loader
+} from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
 
-const Sections = ({ t }) => {
-  const [colorScheme] = useColorContext()
-  const sections = [
-    {
-      name: 'Formate',
-      color: '#d44438',
-      description:
-        'Updates zur Aktualität, Watchblogs, Glossen, der literarische «Salon Der Republik» und alles, was in der Republik sonst noch regelmässig unregelmässig erscheint.',
-      imageURL: '/'
-    },
-    {
-      name: 'Briefings',
-      color: '#07809B',
-      description:
-        'Durch die Woche mit der Republik: das Datenbriefing «Auf lange Sicht» am Montag, das Justizbriefing «Am Gericht» am Mittwoch, das «Briefing aus Bern» am Donnerstag und «Was diese Woche wichtig war» am Freitag.',
-      imageURL: '/'
-    },
-    {
-      name: 'Kolumnen',
-      color: '#D3933C',
-      description:
-        'Die Köpfe der Republik: Immer wieder dienstags eine Kolumne von Mely Kiyak, Daniel Strassberg oder Sibylle Berg, jeden Samstag von Daniel Binswanger. Und immer dann, wenn sie da ist, von Constantin Seibt. Ausserdem jeden Samstag: die Fotokolumne «Blickwechsel».',
-      imageURL: '/'
-    },
-    {
-      name: 'Audio',
-      color: '#000000',
-      description:
-        'Wenn Sie gerade keine Hand frei haben – hier finden Sie Journalismus fürs Ohr: Diskussionen, Podcasts, Audio-Serien. Und vorgelesene Geschichten.',
-      imageURL: '/'
+const query = gql`
+  query sections {
+    covid19: document(path: "/format/covid-19-uhr-newsletter") {
+      meta {
+        title
+        description
+        image
+      }
     }
-  ]
+    briefings: document(path: "/briefings") {
+      meta {
+        title
+        description
+        image
+        color
+      }
+    }
+    columns: document(path: "/kolumnen") {
+      meta {
+        title
+        description
+        image
+        color
+      }
+    }
+    audio: document(path: "/audio") {
+      meta {
+        title
+        description
+        image
+        color
+      }
+    }
+  }
+`
+
+const Sections = ({
+  t,
+  data: { loading, covid19, briefings, columns, audio }
+}) => {
+  const [colorScheme] = useColorContext()
+  const sections = [covid19, briefings, columns, audio]
   return (
     <SectionContainer>
       <SectionTitle
@@ -44,24 +61,32 @@ const Sections = ({ t }) => {
         lead='Recherchen, Fakten, Zusammenhänge. Kein Klickbait oder bezahlte
         Beiträge.'
       />
-      {sections.map(section => (
-        <div
-          key={section.name}
-          {...styles.section}
-          {...colorScheme.set('borderColor', 'divider')}
-        >
-          <img {...styles.picture} src={section.imageURL} alt='' />
-          <div {...styles.description}>
-            <Meta.Subhead
-              style={{ marginTop: 0 }}
-              {...colorScheme.set('color', section.color, 'format')}
-            >
-              {section.name}
-            </Meta.Subhead>
-            <Meta.P>{section.description}</Meta.P>
-          </div>
-        </div>
-      ))}
+      <Loader
+        loading={loading}
+        style={{ minHeight: 400 }}
+        render={() => (
+          <>
+            {sections.map(section => (
+              <div
+                key={section.meta.title}
+                {...styles.section}
+                {...colorScheme.set('borderColor', 'divider')}
+              >
+                <img {...styles.picture} src={section.meta.image} alt='' />
+                <div {...styles.description}>
+                  <Meta.Subhead
+                    style={{ marginTop: 0 }}
+                    {...colorScheme.set('color', section.meta.color, 'format')}
+                  >
+                    {section.meta.title}
+                  </Meta.Subhead>
+                  <Meta.P>{section.meta.description}</Meta.P>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      />
     </SectionContainer>
   )
 }
@@ -92,4 +117,4 @@ const styles = {
   }
 }
 
-export default Sections
+export default compose(graphql(query))(Sections)

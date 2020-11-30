@@ -7,8 +7,8 @@ export default function SectionContainer({ children }) {
 }
 
 export const sectionContainerStyle = css({
-  marginTop: '8em',
+  marginTop: '4em',
   [mediaQueries.mUp]: {
-    marginTop: '4em'
+    marginTop: '6em'
   }
 })

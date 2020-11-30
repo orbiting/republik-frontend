@@ -1,12 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import {
-  fontStyles,
-  Center,
-  Meta,
-  useColorContext
-} from '@project-r/styleguide'
+import { fontStyles, Meta, useColorContext } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
 

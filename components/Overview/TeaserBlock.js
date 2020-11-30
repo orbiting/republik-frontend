@@ -213,9 +213,9 @@ class TeaserBlock extends Component {
                 onTouchStart={() => {
                   touch = true
                 }}
-                onMouseEnter={!noHover && focus}
-                onMouseMove={!noHover && focus}
-                onMouseLeave={!noHover && hoverOff}
+                onMouseEnter={!noHover ? focus : () => {}}
+                onMouseMove={!noHover ? focus : () => {}}
+                onMouseLeave={!noHover ? hoverOff : () => {}}
                 onClick={() => {
                   touch = undefined
                 }}

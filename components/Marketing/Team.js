@@ -8,7 +8,7 @@ import {
   TeaserFrontTile,
   Label,
   fontStyles,
-  Center,
+  Editorial,
   Breakout,
   useColorContext
 } from '@project-r/styleguide'
@@ -78,6 +78,11 @@ const Team = ({ data: { loading, employees } }) => {
             </TeaserFrontTileRow>
           )}
         />
+        <Editorial.P style={{ textAlign: 'center' }}>
+          <Link route='team' passHref>
+            <Editorial.A>Alle Teammitglieder</Editorial.A>
+          </Link>
+        </Editorial.P>
       </Breakout>
     </SectionContainer>
   )

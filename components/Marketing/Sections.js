@@ -107,7 +107,8 @@ const styles = {
   picture: css({
     width: 80,
     height: 80,
-    marginRight: 48
+    marginRight: 48,
+    objectFit: 'cover'
   }),
   title: css({
     ...fontStyles.sansSerifRegular22

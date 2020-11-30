@@ -11,6 +11,7 @@ import Sections from './Sections'
 import Vision from './Vision'
 import Logo from './Logo'
 import MiniFront from './MiniFront'
+import Community from './Community'
 
 const Marketing = ({ t }) => {
   const [isMobile, setIsMobile] = useState()
@@ -33,6 +34,7 @@ const Marketing = ({ t }) => {
       <Carpet isMobile={isMobile} t={t} />
       <Reasons t={t} />
       <Team t={t} />
+      <Community t={t} />
       <Sections />
       <Vision t={t} />
       <Logo isMobile={isMobile} />

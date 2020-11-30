@@ -15,7 +15,7 @@ const IndexPage = ({ t, isMember, router }) => {
     router.query.stale !== 'marketing' &&
     (isMember || router.query.extractId)
   ) {
-    // does it's own meta
+    // does its own meta
     return <Front hasOverviewNav extractId={router.query.extractId} finite />
   }
 

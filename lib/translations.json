@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-06T11:27:50.033Z",
+  "updated": "2020-11-30T13:22:16.709Z",
   "title": "live",
   "data": [
     {
@@ -359,10 +359,6 @@
       "value": "Sie haben einen Gutschein? {claimLink}"
     },
     {
-      "key": "marketing/overview/title",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
-    },
-    {
       "key": "marketing/community/title/plain",
       "value": "Unsere Verlegerinnen und Verleger"
     },
@@ -389,6 +385,10 @@
     {
       "key": "marketing/signup/button/label",
       "value": "Anmelden"
+    },
+    {
+      "key": "marketing/page/lead/subtitle",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
     },
     {
       "key": "marketing/page/reasons/1/title",
@@ -421,6 +421,14 @@
     {
       "key": "marketing/page/vision/text",
       "value": "Damit sie uns vertrauen können, machen wir ein paar Dinge anders. Zum Beispiel sind wir komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie."
+    },
+    {
+      "key": "marketing/page/carpet/text",
+      "value": "Täglich ein bis drei neue Beiträge. Im Web, in der App oder als Newsletter. "
+    },
+    {
+      "key": "marketing/page/carpet/button",
+      "value": "Jetzt abonnieren"
     },
     {
       "key": "marketing/offers/students",
@@ -6953,6 +6961,14 @@
     {
       "key": "darkmode/switch/auto",
       "value": "Automatisch"
+    },
+    {
+      "key": "darkmode/switch/notSupported",
+      "value": "Der Nachtmodus wird in Ihrem Browser nicht unterstützt."
+    },
+    {
+      "key": "darkmode/switch/notAvailable",
+      "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar."
     }
   ]
 }

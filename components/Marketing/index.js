@@ -1,6 +1,5 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-
 import withT from '../../lib/withT'
 
 import Lead from './Lead'
@@ -14,9 +13,9 @@ const Marketing = ({ t }) => {
   return (
     <>
       <Lead t={t} />
-      <Carpet />
-      <Team t={t} />
+      <Carpet t={t} />
       <Reasons t={t} />
+      <Team t={t} />
       <Sections />
       <Vision t={t} />
     </>

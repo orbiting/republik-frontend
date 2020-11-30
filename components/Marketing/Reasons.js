@@ -6,13 +6,13 @@ import {
   TeaserFrontTile,
   fontStyles,
   Editorial,
-  Center,
   Breakout
 } from '@project-r/styleguide'
+import SectionContainer from './Common/SectionContainer'
 
 const Reasons = ({ t }) => {
   return (
-    <Center>
+    <SectionContainer>
       <Breakout size='breakout'>
         <TeaserFrontTileRow columns={3}>
           <TeaserFrontTile align='top'>
@@ -35,13 +35,13 @@ const Reasons = ({ t }) => {
           </TeaserFrontTile>
         </TeaserFrontTileRow>
       </Breakout>
-    </Center>
+    </SectionContainer>
   )
 }
 
 const styles = {
   title: css({
-    ...fontStyles.sansSerifRegular22
+    ...fontStyles.sansSerifMedium22
   })
 }
 

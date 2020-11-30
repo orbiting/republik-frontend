@@ -13,7 +13,7 @@ export default function LeadSection({ t }) {
       <div {...styles.logo}>
         <Logo />
       </div>
-      <h1 {...styles.lead}>{t('marketing/overview/title')}</h1>
+      <h1 {...styles.lead}>{t('marketing/page/lead/subtitle')}</h1>
     </Container>
   )
 }

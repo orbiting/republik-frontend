@@ -14,6 +14,8 @@ import {
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
+import SectionTitle from './Common/SectionTitle'
+import SectionContainer from './Common/SectionContainer'
 
 const query = gql`
   query MarketingPage {
@@ -35,7 +37,12 @@ const query = gql`
 const Team = ({ data: { loading, employees } }) => {
   const [colorScheme] = useColorContext()
   return (
-    <Center>
+    <SectionContainer>
+      <SectionTitle
+        title='Wir sind ein Team'
+        lead='Unsere Crew besteht aus kompetenten Profis. Den besten, die wir finden
+          konnten. Uns eint die Leidenschaft für guten Journalismus.'
+      />
       <Breakout size='breakout'>
         <Loader
           loading={loading}
@@ -72,7 +79,7 @@ const Team = ({ data: { loading, employees } }) => {
           )}
         />
       </Breakout>
-    </Center>
+    </SectionContainer>
   )
 }
 

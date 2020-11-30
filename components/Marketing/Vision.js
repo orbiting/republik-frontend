@@ -1,23 +1,31 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import { Center, Editorial } from '@project-r/styleguide'
-
+import { Center, Editorial, A } from '@project-r/styleguide'
+import SectionTitle from './Common/SectionTitle'
+import SectionContainer from './Common/SectionContainer'
+import { Link } from '../../lib/routes'
 const Vision = ({ t }) => {
   return (
-    <Center>
+    <SectionContainer>
+      <SectionTitle title='Unsere Vision' />
       <Editorial.Subhead>
         {t('marketing/page/vision/headline')}
       </Editorial.Subhead>
-      <Editorial.P {...styles.pledge}>
-        {t('marketing/page/vision/text')}
+      <Editorial.P>{t('marketing/page/vision/text')}</Editorial.P>
+      <Editorial.P {...styles.more}>
+        <Link route='vision' passHref>
+          <Editorial.A>Mehr erfahren</Editorial.A>
+        </Link>
       </Editorial.P>
-    </Center>
+    </SectionContainer>
   )
 }
 
 const styles = {
-  pledge: css({})
+  more: css({
+    textAlign: 'center'
+  })
 }
 
 export default Vision

@@ -2,15 +2,13 @@ import React from 'react'
 import { css } from 'glamor'
 
 import {
-  TeaserFrontTileRow,
-  TeaserFrontTile,
   fontStyles,
-  Interaction,
   Center,
   Meta,
-  Breakout,
   useColorContext
 } from '@project-r/styleguide'
+import SectionTitle from './Common/SectionTitle'
+import SectionContainer from './Common/SectionContainer'
 
 const Sections = ({ t }) => {
   const [colorScheme] = useColorContext()
@@ -45,7 +43,12 @@ const Sections = ({ t }) => {
     }
   ]
   return (
-    <Center>
+    <SectionContainer>
+      <SectionTitle
+        title='Unsere Rubriken'
+        lead='Recherchen, Fakten, Zusammenhänge. Kein Klickbait oder bezahlte
+        Beiträge.'
+      />
       {sections.map(section => (
         <div
           key={section.name}
@@ -64,7 +67,7 @@ const Sections = ({ t }) => {
           </div>
         </div>
       ))}
-    </Center>
+    </SectionContainer>
   )
 }
 

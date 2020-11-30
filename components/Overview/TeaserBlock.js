@@ -125,7 +125,9 @@ class TeaserBlock extends Component {
               ...SIZES.filter(s => s.columns <= maxColumns).reduce(
                 (styles, size) => {
                   // SSR approximation
-                  const minHeight = (teasers.length / size.columns) * 50
+                  const minHeight = maxHeight
+                    ? 300
+                    : (teasers.length / size.columns) * 50
                   if (size.minWidth) {
                     styles[
                       `@media only screen and (min-width: ${size.minWidth}px)`

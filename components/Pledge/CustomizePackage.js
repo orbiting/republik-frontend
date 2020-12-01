@@ -342,6 +342,9 @@ class CustomizePackage extends Component {
     const hasTablebook = !!goodies.find(
       option => option.reward && option.reward.name === 'TABLEBOOK'
     )
+    const hasMask = !!goodies.find(
+      option => option.reward && option.reward.name === 'MASK'
+    )
     const goodieNames = goodies
       .map(option => option.reward.name)
       .sort((a, b) => ascending(a, b))
@@ -509,6 +512,13 @@ class CustomizePackage extends Component {
         null
       )
     const goodiesImage =
+      (hasMask && hasNotebook && hasTotebag && hasTablebook && (
+        <img
+          {...styles.packageImage}
+          style={{ maxWidth: 180, paddingLeft: 10 }}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_tablebook_totebag.jpg`}
+        />
+      )) ||
       (hasNotebook && hasTotebag && hasTablebook && (
         <img
           {...styles.packageImage}
@@ -532,6 +542,12 @@ class CustomizePackage extends Component {
         <img
           {...styles.packageImage}
           src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
+        />
+      )) ||
+      (hasMask && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask.jpg`}
         />
       ))
 
@@ -575,7 +591,11 @@ class CustomizePackage extends Component {
         {description.split('\n\n').map((text, i) => (
           <P style={{ marginBottom: 10 }} key={i}>
             {i === 0 && !goodiesDescription && goodiesImage}
-            {text}
+            {text.indexOf('<') !== -1 ? (
+              <RawHtml dangerouslySetInnerHTML={{ __html: text }} />
+            ) : (
+              text
+            )}
           </P>
         ))}
         {pkg.name === 'ABO_GIVE' && accessGrantedOnly && (
@@ -744,7 +764,13 @@ class CustomizePackage extends Component {
                 {isGoodies && goodiesDescription && (
                   <P>
                     {goodiesImage}
-                    {goodiesDescription}
+                    {goodiesDescription.indexOf('<') !== -1 ? (
+                      <RawHtml
+                        dangerouslySetInnerHTML={{ __html: goodiesDescription }}
+                      />
+                    ) : (
+                      goodiesDescription
+                    )}
                   </P>
                 )}
                 {membership && (

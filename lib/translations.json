@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-30T13:22:16.709Z",
+  "updated": "2020-12-01T15:27:24.300Z",
   "title": "live",
   "data": [
     {
@@ -383,6 +383,10 @@
       "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
     },
     {
+      "key": "marketing/page/new",
+      "value": "Täglich ein bis drei neue Beiträge. Im Web, in der App oder als Newsletter. "
+    },
+    {
       "key": "marketing/signup/button/label",
       "value": "Anmelden"
     },
@@ -392,35 +396,39 @@
     },
     {
       "key": "marketing/page/reasons/1/title",
-      "value": "Kompromisslos"
+      "value": "Transparent"
     },
     {
       "key": "marketing/page/reasons/1/text",
-      "value": "Sorgfältiger, hartnäckiger Journalismus. Gute Sprache. Gute Bilder. Gutes Design."
+      "value": "Wir legen alles offen: unsere Finanzen, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass Transparenz wichtig ist."
     },
     {
       "key": "marketing/page/reasons/2/title",
-      "value": "Unabhängig"
-    },
-    {
-      "key": "marketing/page/reasons/2/text",
-      "value": "Recherchen, Fakten, Zusammenhänge. Kein Klickbait oder bezahlte Beiträge."
-    },
-    {
-      "key": "marketing/page/reasons/3/title",
       "value": "Werbefrei"
     },
     {
+      "key": "marketing/page/reasons/2/text",
+      "value": "Die Republik ist komplett werbefrei. So können wir uns auf unseren einzigen Kunden konzentrieren: Sie. "
+    },
+    {
+      "key": "marketing/page/reasons/3/title",
+      "value": "Leserinnenfinanziert"
+    },
+    {
       "key": "marketing/page/reasons/3/text",
-      "value": "Leserfinanziert und Transparent. Kein Tracking oder Profit mit ihren persönlichen Daten."
+      "value": "Die Republik wird finanziert durch Ihre 27'089 Abonnentinnen. Wir gehören niemandem – aber jedem unserer Mitglieder ein bisschen."
     },
     {
       "key": "marketing/page/vision/headline",
       "value": "Ohne Journalismus keine Demokratie. Und ohne Demokratie keine Freiheit."
     },
     {
-      "key": "marketing/page/vision/text",
-      "value": "Damit sie uns vertrauen können, machen wir ein paar Dinge anders. Zum Beispiel sind wir komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie."
+      "key": "marketing/page/vision/paragraph1",
+      "value": "Bei der Republik und beim Journalismus überhaupt geht es nicht nur um den individuellen Nutzen. Es geht auch darum, eine wichtige Funktion in einer Demokratie auszuüben: den Mächtigen auf die Finger zu schauen, unabhängig zu recherchieren und Missstände aufzudecken. "
+    },
+    {
+      "key": "marketing/page/vision/paragraph2",
+      "value": "Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie."
     },
     {
       "key": "marketing/page/carpet/text",
@@ -429,6 +437,34 @@
     {
       "key": "marketing/page/carpet/button",
       "value": "Jetzt abonnieren"
+    },
+    {
+      "key": "marketing/page/team/title",
+      "value": "Wir sind ein Team"
+    },
+    {
+      "key": "marketing/page/team/lead",
+      "value": "Unsere Crew besteht aus kompetenten Profis. Den besten, die wir finden konnten. Uns eint die Leidenschaft für guten Journalismus."
+    },
+    {
+      "key": "marketing/page/community/title",
+      "value": "Wir stehen mit Ihnen in Dialog"
+    },
+    {
+      "key": "marketing/page/community/lead",
+      "value": "Und wir lieben es! Die Republik wird mit Ihrer Stimme vielfältiger, interessanter und reflektierter."
+    },
+    {
+      "key": "marketing/page/sections/title",
+      "value": "Wir sind nützlich"
+    },
+    {
+      "key": "marketing/page/sections/lead",
+      "value": "Die Republik ist eine Dienstleistung für interessierte Menschen in einer komplexen Welt. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen. Auch in regelmässigen Briefings, Kolumnen und  Audioformaten. "
+    },
+    {
+      "key": "marketing/page/vision/title",
+      "value": "Wir haben eine Vision"
     },
     {
       "key": "marketing/offers/students",
@@ -3171,6 +3207,10 @@
       "value": "Guten Tag, {name}"
     },
     {
+      "key": "merci/title/package/MASK",
+      "value": "Guten Tag, {name}"
+    },
+    {
       "key": "merci/title/package/DONATE_POT",
       "value": "Guten Tag, {name}"
     },
@@ -3188,6 +3228,10 @@
     },
     {
       "key": "merci/title/package/TABLEBOOK/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/title/package/MASK/noName",
       "value": "Guten Tag"
     },
     {
@@ -4147,6 +4191,10 @@
       "value": "Buch «Republik bei Stromausfall»"
     },
     {
+      "key": "package/MASK/title",
+      "value": "Republik-Maske"
+    },
+    {
       "key": "memberships/title/ABO",
       "value": "Mitgliedschaft (#{sequenceNumber})"
     },
@@ -4297,6 +4345,14 @@
     {
       "key": "pledge/form/instruction/TABLEBOOK/signIn",
       "value": "Die «Republik bei Stromausfall» ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
+    },
+    {
+      "key": "pledge/form/instruction/MASK/notAvailable",
+      "value": "Die Republik-Maske kann nur in Verbindung mit einer Jahresmitgliedschaft oder einer Verlängerung bestellt werden."
+    },
+    {
+      "key": "pledge/form/instruction/MASK/signIn",
+      "value": "Die Republik-Maske ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
     },
     {
       "key": "pledge/meta/title",
@@ -6139,6 +6195,10 @@
       "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
+      "key": "package/PROLONG/description/goodies/MASK",
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine Republik-Maske bestellen können. "
+    },
+    {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen. Durch Ihren jährlichen Beitrag werden Sie Mitglied der Project R Genossenschaft."
     },
@@ -6149,6 +6209,10 @@
     {
       "key": "package/TABLEBOOK/description",
       "value": "Die «Republik bei Stromausfall» ist eine auf 2000 Exemplare limitierte, gedruckte Edition der liebsten Geschichten und Bilder unserer Autorinnen und Autoren – auf rund 600 Seiten. Wie es sich für einen Sammel­band gehört, enthält er ein launiges Vorwort. Und jedem ausgewählten Text ist ein kleiner persönlicher Essay vorangestellt."
+    },
+    {
+      "key": "package/MASK/description",
+      "value": "Ob als Statement-Piece oder praktische Ergänzung Ihrer MNS-Kollektion: Die Republik-Maske sieht mit weissen Rs auf schwarzem Grund verrrrrrdammt gut aus. Die dreilagige Stoffmaske ist ausserdem mit HeiQ Viroblock behandelt."
     },
     {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
@@ -6165,6 +6229,10 @@
     {
       "key": "option/TABLEBOOK/label/other",
       "value": "Republik bei Stromausfall"
+    },
+    {
+      "key": "option/MASK/label/other",
+      "value": "Republik-Maske"
     },
     {
       "key": "package/customize/price/payMore",

@@ -21,9 +21,8 @@ const Sections = ({
   return (
     <SectionContainer>
       <SectionTitle
-        title='Unsere Rubriken'
-        lead='Recherchen, Fakten, Zusammenhänge. Kein Klickbait oder bezahlte
-        Beiträge.'
+        title={t('marketing/page/sections/title')}
+        lead={t('marketing/page/sections/lead')}
       />
       <Loader
         loading={loading}

@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import {
-  Loader,
-  mediaQueries,
-  Editorial,
-  Center,
-  Button
-} from '@project-r/styleguide'
+import { Loader, Editorial, Center, Button } from '@project-r/styleguide'
 
-import TeaserBlock, { GAP as TEASER_BLOCK_GAP } from '../Overview/TeaserBlock'
+import TeaserBlock from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
 const query = gql`
   query MarketingPage {
@@ -25,22 +19,8 @@ const query = gql`
   }
 `
 
-const Carpet = ({ t, data: { loading, front } }) => {
+const Carpet = ({ isMobile, t, data: { loading, front } }) => {
   const [highlight, setHighlight] = useState()
-  const [isMobile, setIsMobile] = useState()
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < mediaQueries.mBreakPoint)
-    }
-    window.addEventListener('resize', handleResize)
-    handleResize()
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  console.log(isMobile)
 
   // ensure the highlighFunction is not dedected as an state update function
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)

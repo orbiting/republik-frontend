@@ -1,7 +1,6 @@
 import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
 import {
   Loader,
   TeaserFrontTileRow,
@@ -17,9 +16,8 @@ const Community = ({ t, data: { loading, error, featured } }) => {
   return (
     <SectionContainer>
       <SectionTitle
-        title='Wir stehen mit Ihnen im Dialog'
-        lead='Unsere Community besteht aus kompetenten Profis. Den besten, die wir finden
-          konnten. Uns eint die Leidenschaft für guten Journalismus.'
+        title={t('marketing/page/community/title')}
+        lead={t('marketing/page/community/lead')}
       />
       <Breakout size='breakout'>
         <Loader

@@ -35,7 +35,7 @@ const Marketing = ({ t }) => {
       <Reasons t={t} />
       <Team t={t} />
       <Community t={t} />
-      <Sections />
+      <Sections t={t} />
       <Vision t={t} />
       <Logo isMobile={isMobile} />
     </>

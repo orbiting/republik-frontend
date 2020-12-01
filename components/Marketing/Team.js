@@ -17,14 +17,13 @@ import { Link } from '../../lib/routes'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
 
-const Team = ({ data: { loading, employees } }) => {
+const Team = ({ t, data: { loading, employees } }) => {
   const [colorScheme] = useColorContext()
   return (
     <SectionContainer>
       <SectionTitle
-        title='Wir sind ein Team'
-        lead='Unsere Crew besteht aus kompetenten Profis. Den besten, die wir finden
-          konnten. Uns eint die Leidenschaft für guten Journalismus.'
+        title={t('marketing/page/team/title')}
+        lead={t('marketing/page/team/lead')}
       />
       <Breakout size='breakout'>
         <Loader
@@ -32,12 +31,10 @@ const Team = ({ data: { loading, employees } }) => {
           style={{ minHeight: 400 }}
           render={() => (
             <TeaserFrontTileRow autoColumns>
-              {employees.slice(0, 3).map(employee => {
+              {employees.map(employee => {
                 return (
                   <TeaserFrontTile key={employee.name}>
-                    <h3
-                      {...styles.statement}
-                    >{`«${employee.user.statement}»`}</h3>
+                    <h3 {...styles.pitch}>{`«${employee.pitch}»`}</h3>
                     <div {...styles.employee}>
                       <Link href={`~${employee.user.slug}`} passHref>
                         <a>
@@ -79,7 +76,7 @@ const styles = {
     height: 46,
     marginRight: 8
   }),
-  statement: css({
+  pitch: css({
     ...fontStyles.serifTitle22
   }),
   employee: css({
@@ -100,16 +97,16 @@ const styles = {
 
 const query = gql`
   query MarketingPage {
-    employees(withBoosted: true, shuffle: 50) {
+    employees(withBoosted: true, shuffle: 3, withPitch: true) {
       title
       name
       group
       subgroup
+      pitch
       user {
         id
         portrait
         slug
-        statement
       }
     }
   }

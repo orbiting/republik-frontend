@@ -8,6 +8,7 @@ export default function SectionContainer({ children }) {
 
 export const sectionContainerStyle = css({
   marginTop: '4em',
+  padding: '0px 15px',
   [mediaQueries.mUp]: {
     marginTop: '6em'
   }

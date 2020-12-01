@@ -259,8 +259,12 @@ const Header = ({
                   href='/pledge'
                   style={{
                     height: scrollableHeaderHeight - 1,
-                    padding: isOnMarketingPage && !isMobile && '10px 80px',
-                    minWidth: isMobile && 'initial'
+                    padding:
+                      isOnMarketingPage && !isMobile
+                        ? '10px 80px'
+                        : isOnMarketingPage && isMobile && '6px 20px',
+                    minHeight: isMobile && 'auto',
+                    minWidth: isMobile && 'auto'
                   }}
                 >
                   {isMobile ? 'Abo' : 'Jetzt abonnieren'}

@@ -8,7 +8,7 @@ const LogoSection = ({ isMobile }) => {
   return (
     <SectionContainer>
       <div {...styles.logo}>
-        <Logo width={isMobile ? 320 : 350} />
+        <Logo width={isMobile ? 290 : 350} />
       </div>
     </SectionContainer>
   )

@@ -6,17 +6,17 @@ import {
   TeaserFrontTile,
   fontStyles,
   Editorial,
+  Interaction,
   Breakout,
   Button,
   Center
 } from '@project-r/styleguide'
-import SectionContainer from './Common/SectionContainer'
 
 const Reasons = ({ t }) => {
   return (
-    <Center>
+    <Center style={{ padding: '50px 15px 0 15px' }}>
       <div {...styles.center}>
-        <Editorial.P>{t('marketing/page/carpet/text')}</Editorial.P>
+        <Interaction.P>{t('marketing/page/carpet/text')}</Interaction.P>
       </div>
       <Breakout size='breakout'>
         <TeaserFrontTileRow columns={3}>

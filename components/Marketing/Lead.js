@@ -10,8 +10,8 @@ import {
 export default function LeadSection({ t, isMobile }) {
   return (
     <Container {...styles.container}>
-      <Logo width={isMobile ? 320 : 350} />
-      <h1 {...styles.lead}>{t('marketing/page/lead/subtitle')}</h1>
+      <Logo style={{ maxWidth: '90%' }} width={isMobile ? 290 : 350} />
+      <h2 {...styles.lead}>{t('marketing/page/lead/subtitle')}</h2>
     </Container>
   )
 }
@@ -28,8 +28,11 @@ const styles = {
     }
   }),
   lead: css({
-    ...fontStyles.serifRegular25,
+    ...fontStyles.serifRegular19,
     textAlign: 'center',
-    maxWidth: 960
+    maxWidth: 960,
+    [mediaQueries.mUp]: {
+      ...fontStyles.serifRegular25
+    }
   })
 }

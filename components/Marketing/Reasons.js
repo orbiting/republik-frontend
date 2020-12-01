@@ -6,13 +6,18 @@ import {
   TeaserFrontTile,
   fontStyles,
   Editorial,
-  Breakout
+  Breakout,
+  Button,
+  Center
 } from '@project-r/styleguide'
 import SectionContainer from './Common/SectionContainer'
 
 const Reasons = ({ t }) => {
   return (
-    <SectionContainer>
+    <Center>
+      <div {...styles.center}>
+        <Editorial.P>{t('marketing/page/carpet/text')}</Editorial.P>
+      </div>
       <Breakout size='breakout'>
         <TeaserFrontTileRow columns={3}>
           <TeaserFrontTile align='top'>
@@ -28,14 +33,23 @@ const Reasons = ({ t }) => {
             <Editorial.P>{t('marketing/page/reasons/3/text')}</Editorial.P>
           </TeaserFrontTile>
         </TeaserFrontTileRow>
+        <div {...styles.center}>
+          <Button primary>{t('marketing/page/carpet/button')}</Button>
+        </div>
       </Breakout>
-    </SectionContainer>
+    </Center>
   )
 }
 
 const styles = {
   title: css({
     ...fontStyles.sansSerifMedium24
+  }),
+  center: css({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center'
   })
 }
 

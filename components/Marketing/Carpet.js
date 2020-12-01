@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
-import { Loader, Editorial, Center, Button } from '@project-r/styleguide'
+import { Loader } from '@project-r/styleguide'
 
 import TeaserBlock from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
@@ -50,24 +49,8 @@ const Carpet = ({ isMobile, t, data: { loading, front } }) => {
           />
         )}
       />
-      <Center>
-        <div {...styles.center}>
-          <Editorial.P>{t('marketing/page/carpet/text')}</Editorial.P>
-          <Button primary>{t('marketing/page/carpet/button')}</Button>
-        </div>
-      </Center>
     </div>
   )
-}
-
-const styles = {
-  center: css({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    marginTop: '3em'
-  })
 }
 
 export default compose(graphql(query))(Carpet)

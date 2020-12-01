@@ -16,21 +16,15 @@ const Reasons = ({ t }) => {
       <Breakout size='breakout'>
         <TeaserFrontTileRow columns={3}>
           <TeaserFrontTile align='top'>
-            <h3 {...styles.title}>
-              {`1. ${t('marketing/page/reasons/1/title')}`}
-            </h3>
+            <h2 {...styles.title}>{t('marketing/page/reasons/1/title')}</h2>
             <Editorial.P>{t('marketing/page/reasons/1/text')}</Editorial.P>
           </TeaserFrontTile>
           <TeaserFrontTile align='top'>
-            <h3 {...styles.title}>
-              {`2. ${t('marketing/page/reasons/2/title')}`}
-            </h3>
+            <h2 {...styles.title}>{t('marketing/page/reasons/2/title')}</h2>
             <Editorial.P>{t('marketing/page/reasons/2/text')}</Editorial.P>
           </TeaserFrontTile>
           <TeaserFrontTile align='top'>
-            <h3 {...styles.title}>
-              {`2. ${t('marketing/page/reasons/3/title')}`}
-            </h3>
+            <h2 {...styles.title}>{t('marketing/page/reasons/3/title')}</h2>
             <Editorial.P>{t('marketing/page/reasons/3/text')}</Editorial.P>
           </TeaserFrontTile>
         </TeaserFrontTileRow>
@@ -41,7 +35,7 @@ const Reasons = ({ t }) => {
 
 const styles = {
   title: css({
-    ...fontStyles.sansSerifMedium22
+    ...fontStyles.sansSerifMedium24
   })
 }
 

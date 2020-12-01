@@ -44,7 +44,7 @@ const Carpet = ({ isMobile, t, data: { loading, front } }) => {
             teasers={getTeasersFromDocument(front)}
             highlight={highlight}
             onHighlight={onHighlight}
-            maxHeight={isMobile ? 300 : 600}
+            maxHeight={isMobile ? 300 : 500}
             maxColumns={6}
             noHover
           />
@@ -65,7 +65,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '2em'
+    textAlign: 'center',
+    marginTop: '3em'
   })
 }
 

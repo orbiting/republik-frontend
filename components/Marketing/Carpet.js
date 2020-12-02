@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
+import { css } from 'glamor'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Loader } from '@project-r/styleguide'
+import {
+  Loader,
+  Interaction,
+  Button,
+  mediaQueries
+} from '@project-r/styleguide'
 
 import TeaserBlock from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
@@ -49,8 +55,25 @@ const Carpet = ({ isMobile, t, data: { loading, front } }) => {
           />
         )}
       />
+      <div {...styles.center}>
+        <Interaction.P>{t('marketing/page/carpet/text')}</Interaction.P>
+        <br />
+        <Button primary>{t('marketing/page/carpet/button')}</Button>
+      </div>
     </div>
   )
+}
+
+const styles = {
+  center: css({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    padding: '0 15px',
+    marginTop: '4em',
+    [mediaQueries.mUp]: { marginTop: '6em' }
+  })
 }
 
 export default compose(graphql(query))(Carpet)

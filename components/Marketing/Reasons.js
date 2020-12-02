@@ -6,18 +6,13 @@ import {
   TeaserFrontTile,
   fontStyles,
   Editorial,
-  Interaction,
   Breakout,
-  Button,
   Center
 } from '@project-r/styleguide'
 
 const Reasons = ({ t }) => {
   return (
     <Center style={{ padding: '50px 15px 0 15px' }}>
-      <div {...styles.center}>
-        <Interaction.P>{t('marketing/page/carpet/text')}</Interaction.P>
-      </div>
       <Breakout size='breakout'>
         <TeaserFrontTileRow columns={3}>
           <TeaserFrontTile align='top'>
@@ -33,9 +28,6 @@ const Reasons = ({ t }) => {
             <Editorial.P>{t('marketing/page/reasons/3/text')}</Editorial.P>
           </TeaserFrontTile>
         </TeaserFrontTileRow>
-        <div {...styles.center}>
-          <Button primary>{t('marketing/page/carpet/button')}</Button>
-        </div>
       </Breakout>
     </Center>
   )
@@ -44,12 +36,6 @@ const Reasons = ({ t }) => {
 const styles = {
   title: css({
     ...fontStyles.sansSerifMedium24
-  }),
-  center: css({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center'
   })
 }
 

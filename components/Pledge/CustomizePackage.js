@@ -881,20 +881,25 @@ class CustomizePackage extends Component {
                       onChange(this.calculateNextPrice(fields))
                     }
 
-                    if (group && field.min === 0 && field.max === 1) {
+                    const isBooleanOption = field.min === 0 && field.max === 1
+                    const isCheckboxOption =
+                      checkboxGroup || (isGoodies && isBooleanOption)
+                    if (isBooleanOption && (group || isCheckboxOption)) {
                       const children = (
                         <span
                           style={{
                             display: 'inline-block',
                             verticalAlign: 'top',
                             marginRight: 20,
-                            marginTop: checkboxGroup ? -2 : 0
+                            marginTop: isCheckboxOption ? -2 : 0
                           }}
                         >
                           <Interaction.Emphasis>{label}</Interaction.Emphasis>
                           <br />
                           {t.first(
                             [
+                              option.price === 0 && 'package/price/free',
+                              isGoodies && 'package/price/goodie',
                               isAboGive && `package/${pkg.name}/price/give`,
                               `package/${pkg.name}/price`,
                               'package/price'
@@ -905,8 +910,8 @@ class CustomizePackage extends Component {
                           )}
                         </span>
                       )
-                      if (checkboxGroup) {
-                        return (
+                      if (isCheckboxOption) {
+                        const checkboxElement = (
                           <Checkbox
                             key={elementKey}
                             checked={!!value}
@@ -921,6 +926,23 @@ class CustomizePackage extends Component {
                             {children}
                           </Checkbox>
                         )
+
+                        if (!group) {
+                          return (
+                            <div
+                              key={elementKey}
+                              {...styles.span}
+                              {...styles.group}
+                              style={{
+                                width: '100%'
+                              }}
+                            >
+                              {checkboxElement}
+                            </div>
+                          )
+                        }
+
+                        return checkboxElement
                       }
                       return (
                         <Fragment key={elementKey}>

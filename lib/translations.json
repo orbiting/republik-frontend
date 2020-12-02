@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-01T16:33:39.543Z",
+  "updated": "2020-12-02T13:58:18.821Z",
   "title": "live",
   "data": [
     {
@@ -2113,6 +2113,14 @@
     {
       "key": "package/price",
       "value": "{formattedCHF}"
+    },
+    {
+      "key": "package/price/goodie",
+      "value": "{formattedCHF}"
+    },
+    {
+      "key": "package/price/free",
+      "value": "kostenlos"
     },
     {
       "key": "package/DONATE/title",

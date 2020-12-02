@@ -211,8 +211,12 @@ export const reportCommentMutation = gql`
 `
 
 export const featureCommentMutation = gql`
-  mutation featureCommentMutation($commentId: ID!, $content: String) {
-    featureComment(id: $commentId, content: $content) {
+  mutation featureCommentMutation(
+    $commentId: ID!
+    $content: String
+    $targets: [CommentFeaturedTarget!]
+  ) {
+    featureComment(id: $commentId, content: $content, targets: $targets) {
       ...Comment
     }
   }

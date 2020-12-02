@@ -262,12 +262,13 @@ const Header = ({
                     padding:
                       isOnMarketingPage && !isMobile
                         ? '10px 80px'
-                        : isOnMarketingPage && isMobile && '6px 20px',
+                        : isMobile && '6px 20px',
                     minHeight: isMobile && 'auto',
-                    minWidth: isMobile && 'auto'
+                    minWidth: isMobile && 'auto',
+                    whiteSpace: 'nowrap'
                   }}
                 >
-                  {isMobile ? 'Abo' : 'Jetzt abonnieren'}
+                  {isMobile && !isOnMarketingPage ? 'Abo' : 'Jetzt abonnieren'}
                 </Button>
               )}
             </div>
@@ -280,7 +281,7 @@ const Header = ({
           hasOverviewNav={hasOverviewNav}
           isSecondarySticky={headerOffset === -scrollableHeaderHeight}
         />
-        {!isOnMarketingPage ? <HLine formatColor={formatColor} /> : null}
+        {!me && !isMobile ? <HLine formatColor={formatColor} /> : null}
       </div>
       <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
         <NavPopover

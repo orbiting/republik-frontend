@@ -53,7 +53,7 @@ const query = gql`
       orderBy: FEATURED_AT
       orderDirection: DESC
       first: 2
-      featured: true
+      featuredTarget: MARKETING
     ) {
       id
       nodes {

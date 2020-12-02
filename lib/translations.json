@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-02T14:24:11.777Z",
+  "updated": "2020-12-02T15:25:39.490Z",
   "title": "live",
   "data": [
     {
@@ -6883,20 +6883,16 @@
       "value": "Beitrag hervorheben"
     },
     {
-      "key": "FeatureCommentOverlay/front/add",
-      "value": "Auf der Front hervorheben"
+      "key": "FeatureCommentOverlay/DEFAULT/add",
+      "value": "Front"
     },
     {
-      "key": "FeatureCommentOverlay/marketing/add",
-      "value": "Auf der Marketingseite hervorheben"
+      "key": "FeatureCommentOverlay/MARKETING/add",
+      "value": "Marketingseite"
     },
     {
-      "key": "FeatureCommentOverlay/front/text/label",
-      "value": "Zitat für die Front"
-    },
-    {
-      "key": "FeatureCommentOverlay/marketing/text/label",
-      "value": "Zitat für die Marketingseite"
+      "key": "FeatureCommentOverlay/text/label",
+      "value": "Hervorgehobenes Zitat"
     },
     {
       "key": "FeatureCommentOverlay/submit",

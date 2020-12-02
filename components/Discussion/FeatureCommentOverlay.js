@@ -10,10 +10,10 @@ import {
   Button,
   Label,
   useColorContext,
-  A,
-  CommentTeaser
+  CommentTeaser,
+  Checkbox
 } from '@project-r/styleguide'
-import { MdClose, MdVisibilityOff, MdAdd } from 'react-icons/md'
+import { MdClose } from 'react-icons/md'
 import { compose, graphql } from 'react-apollo'
 import AutosizeInput from 'react-textarea-autosize'
 
@@ -24,54 +24,32 @@ import ErrorMessage from '../ErrorMessage'
 import { featureCommentMutation } from './graphql/documents'
 import { css } from 'glamor'
 
-const FeaturedText = ({ t, translationKey, text, setText, defaultText }) => {
-  const [colorScheme] = useColorContext()
+const TARGETS = ['DEFAULT', 'MARKETING']
 
-  const ref = useRef(null)
-  return (
-    <div {...styles.formContainer}>
-      {text ? (
-        <>
-          <A
-            href='#'
-            onClick={() => setText(null)}
-            {...styles.removeText}
-            title={t('FeatureCommentOverlay/remove')}
-          >
-            <MdVisibilityOff
-              size={20}
-              {...colorScheme.set('fill', 'textSoft')}
-            />
-          </A>
-          <Field
-            label={t(`FeatureCommentOverlay/${translationKey}/text/label`)}
-            renderInput={({ ref, ...inputProps }) => (
-              <AutosizeInput
-                {...inputProps}
-                {...fieldSetStyles.autoSize}
-                inputRef={ref}
-              />
-            )}
-            value={text}
-            onChange={(_, value, shouldValidate) => setText(value)}
-          />
-        </>
-      ) : (
-        <A href='#' onClick={() => setText(defaultText)}>
-          {t(`FeatureCommentOverlay/${translationKey}/add`)}
-        </A>
-      )}
-    </div>
-  )
-}
+const TargetCheckbox = ({ t, targets, setTargets, targetKey }) => (
+  <div {...styles.checkbox}>
+    <Checkbox
+      checked={targets.includes(targetKey)}
+      onChange={(_, checked) => {
+        setTargets(
+          targets.filter(t => t !== targetKey).concat(checked ? targetKey : [])
+        )
+      }}
+    >
+      {t(`FeatureCommentOverlay/${targetKey}/add`)}
+    </Checkbox>
+  </div>
+)
 
 export const FeatureCommentOverlay = compose(
   withT,
   graphql(featureCommentMutation)
 )(({ t, discussion, comment, onClose, mutate }) => {
   const [mutatingState, setMutatingState] = useState({})
-  const [frontText, setFrontText] = useState(comment.featuredText)
-  const [marketingText, setMarketingText] = useState(comment.featuredText)
+  const [targets, setTargets] = useState(
+    comment.featuredTargets || [TARGETS[0]]
+  )
+  const [text, setText] = useState(comment.featuredText || comment.text)
   const [colorScheme] = useColorContext()
   return (
     <Overlay onClose={onClose} mUpStyle={{ minHeight: 'none' }}>
@@ -85,30 +63,38 @@ export const FeatureCommentOverlay = compose(
         />
       </OverlayToolbar>
       <OverlayBody>
-        <div {...styles.formsContainer}>
-          <FeaturedText
-            t={t}
-            translationKey='front'
-            text={frontText}
-            setText={setFrontText}
-            defaultText={comment.text}
-          />
-          <FeaturedText
-            t={t}
-            translationKey='marketing'
-            text={marketingText}
-            setText={setMarketingText}
-            defaultText={comment.text}
-          />
-          {!frontText && !marketingText && (
-            <Interaction.P {...colorScheme.set('color', 'textSoft')}>
-              <small>
-                <em>{t('FeatureCommentOverlay/warning')}</em>
-              </small>
-            </Interaction.P>
-          )}
-          {mutatingState.error && <ErrorMessage error={mutatingState.error} />}
+        <div>
+          {TARGETS.map(target => (
+            <TargetCheckbox
+              key={target}
+              targetKey={target}
+              targets={targets}
+              setTargets={setTargets}
+              t={t}
+            />
+          ))}
         </div>
+        {targets.length ? (
+          <Field
+            label={t(`FeatureCommentOverlay/text/label`)}
+            renderInput={({ ref, ...inputProps }) => (
+              <AutosizeInput
+                {...inputProps}
+                {...fieldSetStyles.autoSize}
+                inputRef={ref}
+              />
+            )}
+            value={text}
+            onChange={(_, value, shouldValidate) => setText(value)}
+          />
+        ) : (
+          <Interaction.P {...colorScheme.set('color', 'textSoft')}>
+            <small>
+              <em>{t('FeatureCommentOverlay/warning')}</em>
+            </small>
+          </Interaction.P>
+        )}
+        {mutatingState.error && <ErrorMessage error={mutatingState.error} />}
         <Button
           disabled={mutatingState.loading}
           primary
@@ -120,7 +106,8 @@ export const FeatureCommentOverlay = compose(
             mutate({
               variables: {
                 commentId: comment.id,
-                content: frontText
+                content: targets.length ? text : null,
+                targets
               }
             })
               .then(() => {
@@ -136,7 +123,7 @@ export const FeatureCommentOverlay = compose(
           {t('FeatureCommentOverlay/submit')}
         </Button>
         <div {...styles.preview}>
-          {frontText && (
+          {targets.includes('DEFAULT') && (
             <div>
               <Label>{t('FeatureCommentOverlay/front/preview')}</Label>
               <ActiveDebateTeaser
@@ -148,7 +135,7 @@ export const FeatureCommentOverlay = compose(
                     nodes: [
                       {
                         ...comment,
-                        highlight: frontText
+                        highlight: text
                       }
                     ]
                   }
@@ -156,11 +143,11 @@ export const FeatureCommentOverlay = compose(
               />
             </div>
           )}
-          {marketingText && (
+          {targets.includes('MARKETING') && (
             <div>
               <Label>{t('FeatureCommentOverlay/marketing/preview')}</Label>
               <CommentTeaser
-                {...{ ...comment, featuredText: marketingText }}
+                {...{ ...comment, featuredText: text }}
                 discussion={discussion}
                 t={t}
               />
@@ -173,18 +160,9 @@ export const FeatureCommentOverlay = compose(
 })
 
 const styles = {
-  formContainer: css({
-    position: 'relative',
-    marginBottom: 5
-  }),
-  removeText: css({
-    position: 'absolute',
-    right: 0,
-    top: 5,
-    zIndex: 2
-  }),
-  formsContainer: css({
-    marginBottom: 20
+  checkbox: css({
+    display: 'inline-block',
+    marginRight: 25
   }),
   preview: css({
     marginTop: 30

@@ -66,6 +66,7 @@ export const comment = gql`
     adminUnpublished
     featuredAt
     featuredText
+    featuredTargets
     downVotes
     upVotes
     userVote

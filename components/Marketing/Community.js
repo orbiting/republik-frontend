@@ -11,6 +11,7 @@ import {
 
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
+import CommentLink from '../Discussion/CommentLink'
 
 const Community = ({ t, data: { loading, error, featured } }) => {
   return (
@@ -34,7 +35,7 @@ const Community = ({ t, data: { loading, error, featured } }) => {
                     textLeft
                     aboveTheFold
                   >
-                    <CommentTeaser {...comment} t={t} />
+                    <CommentTeaser {...comment} Link={CommentLink} t={t} />
                   </TeaserFrontTile>
                 )
               })}

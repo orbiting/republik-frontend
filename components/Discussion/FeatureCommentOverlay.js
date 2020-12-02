@@ -58,7 +58,7 @@ const FeaturedText = ({ t, translationKey, text, setText, defaultText }) => {
         </>
       ) : (
         <A href='#' onClick={() => setText(defaultText)}>
-          <MdAdd /> {t(`FeatureCommentOverlay/${translationKey}/add`)}
+          {t(`FeatureCommentOverlay/${translationKey}/add`)}
         </A>
       )}
     </div>

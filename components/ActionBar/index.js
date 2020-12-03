@@ -159,12 +159,9 @@ const ActionBar = ({
     splitContent.title &&
     splitContent.title.children[splitContent.title.children.length - 1]
   const centered =
-    (titleNode &&
-      titleNode.data &&
-      titleNode.data.center &&
-      mode !== 'article-bottom') ||
-    meta.template === 'format' ||
-    meta.template === 'section'
+    (mode !== 'feed' && titleNode?.data?.center && mode !== 'article-bottom') ||
+    (mode !== 'feed' && meta.template === 'format') ||
+    (mode !== 'feed' && meta.template === 'section')
 
   const hours =
     displayHours > 0

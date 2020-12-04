@@ -15,7 +15,7 @@ import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 
 import Box from '../components/Frame/Box'
-import Employees from '../components/Marketing/Employees'
+import Employees from '../components/Marketing/legacy/Employees'
 import Frame from '../components/Frame'
 import VideoCover from '../components/VideoCover'
 import ShareButtons from '../components/ActionBar/ShareButtons'

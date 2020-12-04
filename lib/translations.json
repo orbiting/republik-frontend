@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-02T15:25:39.490Z",
+  "updated": "2020-12-04T09:43:46.897Z",
   "title": "live",
   "data": [
     {
@@ -1837,6 +1837,10 @@
     {
       "key": "styleguide/CommentTeaser/comment/link",
       "value": "Beitrag in {link}"
+    },
+    {
+      "key": "styleguide/CommentTeaser/commentWithCount/link",
+      "value": "{count} weitere Beiträge zu {link}"
     },
     {
       "key": "styleguide/CommentTeaser/reply/link",

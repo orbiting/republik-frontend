@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-23T15:31:14.135Z",
+  "updated": "2020-12-02T14:24:11.777Z",
   "title": "live",
   "data": [
     {
@@ -6771,24 +6771,40 @@
       "value": "Beitrag hervorheben"
     },
     {
-      "key": "FeatureCommentOverlay/text/label",
-      "value": "Hervorgehobenes Zitat"
+      "key": "FeatureCommentOverlay/front/add",
+      "value": "Auf der Front hervorheben"
+    },
+    {
+      "key": "FeatureCommentOverlay/marketing/add",
+      "value": "Auf der Marketingseite hervorheben"
+    },
+    {
+      "key": "FeatureCommentOverlay/front/text/label",
+      "value": "Zitat für die Front"
+    },
+    {
+      "key": "FeatureCommentOverlay/marketing/text/label",
+      "value": "Zitat für die Marketingseite"
     },
     {
       "key": "FeatureCommentOverlay/submit",
-      "value": "Jetzt hervorheben"
+      "value": "Publizieren"
     },
     {
-      "key": "FeatureCommentOverlay/resubmit",
-      "value": "Aktualisieren"
+      "key": "FeatureCommentOverlay/warning",
+      "value": "Dieses Beitrag ist nicht hervorgehoben."
     },
     {
       "key": "FeatureCommentOverlay/remove",
       "value": "Zurückziehen"
     },
     {
-      "key": "FeatureCommentOverlay/preview",
-      "value": "Vorschau"
+      "key": "FeatureCommentOverlay/front/preview",
+      "value": "Front Vorschau"
+    },
+    {
+      "key": "FeatureCommentOverlay/marketing/preview",
+      "value": "Marketingseite Vorschau"
     },
     {
       "key": "crowdfunding/status/lastSeen/other",

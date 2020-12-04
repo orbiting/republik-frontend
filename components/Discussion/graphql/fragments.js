@@ -38,6 +38,7 @@ export const discussion = gql`
       id
       meta {
         path
+        twitterImage
         template
         ownDiscussion {
           id

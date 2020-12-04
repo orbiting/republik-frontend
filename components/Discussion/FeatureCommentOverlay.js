@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   Interaction,
   Overlay,
@@ -9,9 +9,11 @@ import {
   Field,
   Button,
   Label,
-  useColorContext
+  useColorContext,
+  A,
+  CommentTeaser
 } from '@project-r/styleguide'
-import { MdClose } from 'react-icons/md'
+import { MdClose, MdVisibilityOff, MdAdd } from 'react-icons/md'
 import { compose, graphql } from 'react-apollo'
 import AutosizeInput from 'react-textarea-autosize'
 
@@ -20,13 +22,56 @@ import { styles as fieldSetStyles } from '../FieldSet'
 import ErrorMessage from '../ErrorMessage'
 
 import { featureCommentMutation } from './graphql/documents'
+import { css } from 'glamor'
+
+const FeaturedText = ({ t, translationKey, text, setText, defaultText }) => {
+  const [colorScheme] = useColorContext()
+
+  const ref = useRef(null)
+  return (
+    <div {...styles.formContainer}>
+      {text ? (
+        <>
+          <A
+            href='#'
+            onClick={() => setText(null)}
+            {...styles.removeText}
+            title={t('FeatureCommentOverlay/remove')}
+          >
+            <MdVisibilityOff
+              size={20}
+              {...colorScheme.set('fill', 'textSoft')}
+            />
+          </A>
+          <Field
+            label={t(`FeatureCommentOverlay/${translationKey}/text/label`)}
+            renderInput={({ ref, ...inputProps }) => (
+              <AutosizeInput
+                {...inputProps}
+                {...fieldSetStyles.autoSize}
+                inputRef={ref}
+              />
+            )}
+            value={text}
+            onChange={(_, value, shouldValidate) => setText(value)}
+          />
+        </>
+      ) : (
+        <A href='#' onClick={() => setText(defaultText)}>
+          <MdAdd /> {t(`FeatureCommentOverlay/${translationKey}/add`)}
+        </A>
+      )}
+    </div>
+  )
+}
 
 export const FeatureCommentOverlay = compose(
   withT,
   graphql(featureCommentMutation)
 )(({ t, discussion, comment, onClose, mutate }) => {
   const [mutatingState, setMutatingState] = useState({})
-  const [text, setText] = useState(comment.featuredText || comment.text)
+  const [frontText, setFrontText] = useState(comment.featuredText)
+  const [marketingText, setMarketingText] = useState(comment.featuredText)
   const [colorScheme] = useColorContext()
   return (
     <Overlay onClose={onClose} mUpStyle={{ minHeight: 'none' }}>
@@ -39,20 +84,31 @@ export const FeatureCommentOverlay = compose(
           label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
-      <OverlayBody style={{ paddingTop: 58 }}>
-        <Field
-          label={t('FeatureCommentOverlay/text/label')}
-          renderInput={({ ref, ...inputProps }) => (
-            <AutosizeInput
-              {...inputProps}
-              {...fieldSetStyles.autoSize}
-              inputRef={ref}
-            />
+      <OverlayBody>
+        <div {...styles.formsContainer}>
+          <FeaturedText
+            t={t}
+            translationKey='front'
+            text={frontText}
+            setText={setFrontText}
+            defaultText={comment.text}
+          />
+          <FeaturedText
+            t={t}
+            translationKey='marketing'
+            text={marketingText}
+            setText={setMarketingText}
+            defaultText={comment.text}
+          />
+          {!frontText && !marketingText && (
+            <Interaction.P {...colorScheme.set('color', 'textSoft')}>
+              <small>
+                <em>{t('FeatureCommentOverlay/warning')}</em>
+              </small>
+            </Interaction.P>
           )}
-          value={text}
-          onChange={(_, value, shouldValidate) => setText(value)}
-        />
-        {mutatingState.error && <ErrorMessage error={mutatingState.error} />}
+          {mutatingState.error && <ErrorMessage error={mutatingState.error} />}
+        </div>
         <Button
           disabled={mutatingState.loading}
           primary
@@ -64,7 +120,7 @@ export const FeatureCommentOverlay = compose(
             mutate({
               variables: {
                 commentId: comment.id,
-                content: text
+                content: frontText
               }
             })
               .then(() => {
@@ -77,62 +133,60 @@ export const FeatureCommentOverlay = compose(
               })
           }}
         >
-          {t(
-            comment.featuredText
-              ? 'FeatureCommentOverlay/resubmit'
-              : 'FeatureCommentOverlay/submit'
-          )}
+          {t('FeatureCommentOverlay/submit')}
         </Button>
-        {!!comment.featuredText && (
-          <>
-            {' '}
-            <Button
-              disabled={mutatingState.loading}
-              onClick={() => {
-                setMutatingState({
-                  loading: true
-                })
-                mutate({
-                  variables: {
-                    commentId: comment.id,
-                    content: null
+        <div {...styles.preview}>
+          {frontText && (
+            <div>
+              <Label>{t('FeatureCommentOverlay/front/preview')}</Label>
+              <ActiveDebateTeaser
+                t={t}
+                discussion={{
+                  ...discussion,
+                  comments: {
+                    ...discussion.comments,
+                    nodes: [
+                      {
+                        ...comment,
+                        highlight: frontText
+                      }
+                    ]
                   }
-                })
-                  .then(() => {
-                    onClose()
-                  })
-                  .catch(error => {
-                    setMutatingState({
-                      error
-                    })
-                  })
-              }}
-            >
-              {t('FeatureCommentOverlay/remove')}
-            </Button>
-          </>
-        )}
-        <br />
-        <br />
-        <Label>{t('FeatureCommentOverlay/preview')}</Label>
-        <br />
-        <br />
-        <ActiveDebateTeaser
-          t={t}
-          discussion={{
-            ...discussion,
-            comments: {
-              ...discussion.comments,
-              nodes: [
-                {
-                  ...comment,
-                  highlight: text
-                }
-              ]
-            }
-          }}
-        />
+                }}
+              />
+            </div>
+          )}
+          {marketingText && (
+            <div>
+              <Label>{t('FeatureCommentOverlay/marketing/preview')}</Label>
+              <CommentTeaser
+                {...{ ...comment, featuredText: marketingText }}
+                discussion={discussion}
+                t={t}
+              />
+            </div>
+          )}
+        </div>
       </OverlayBody>
     </Overlay>
   )
 })
+
+const styles = {
+  formContainer: css({
+    position: 'relative',
+    marginBottom: 5
+  }),
+  removeText: css({
+    position: 'absolute',
+    right: 0,
+    top: 5,
+    zIndex: 2
+  }),
+  formsContainer: css({
+    marginBottom: 20
+  }),
+  preview: css({
+    marginTop: 30
+  })
+}

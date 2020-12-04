@@ -35,7 +35,18 @@ const Community = ({ t, data: { loading, error, featured } }) => {
                     textLeft
                     aboveTheFold
                   >
-                    <CommentTeaser {...comment} Link={CommentLink} t={t} />
+                    <CommentTeaser
+                      {...{
+                        ...comment,
+                        discussion: {
+                          ...comment.discussion,
+                          image:
+                            comment.discussion?.document?.meta?.twitterImage
+                        }
+                      }}
+                      Link={CommentLink}
+                      t={t}
+                    />
                   </TeaserFrontTile>
                 )
               })}

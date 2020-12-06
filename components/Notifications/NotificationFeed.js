@@ -1,13 +1,13 @@
 import React from 'react'
 import {
-  colors,
   Interaction,
   Center,
   RawHtml,
-  linkRule,
   mediaQueries,
   Label,
-  fontStyles
+  fontStyles,
+  useColorContext,
+  A
 } from '@project-r/styleguide'
 import StickySection from '../Feed/StickySection'
 import CommentNotification from './CommentNotification'
@@ -38,15 +38,13 @@ const styles = {
     height: 50,
     padding: '20px 0 0 0'
   }),
-  reloadBanner: css({
-    backgroundColor: colors.primaryBg
-  }),
   reloadBannerButton: css({
     cursor: 'pointer',
     textDecoration: 'underline'
   }),
   unpublished: css({
-    borderTop: `1px solid ${colors.text}`,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
     margin: 0,
     paddingTop: 10,
     paddingBottom: 40
@@ -67,22 +65,27 @@ const styles = {
   })
 }
 
-const ReloadBanner = withT(({ t, futureNotifications, onReload }) =>
-  futureNotifications ? (
-    <div {...styles.reloadBanner}>
-      <Center>
-        <Interaction.P>
-          {t.pluralize('Notifications/refresh', {
-            count: futureNotifications
-          })}{' '}
-          <span {...styles.reloadBannerButton} onClick={() => onReload()}>
-            {t('Notifications/refresh/link')}
-          </span>
-        </Interaction.P>
-      </Center>
-    </div>
-  ) : null
-)
+const ReloadBanner = withT(({ t, futureNotifications, onReload }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <>
+      {futureNotifications ? (
+        <div {...colorScheme.set('backgroundColor', 'alert')}>
+          <Center>
+            <Interaction.P>
+              {t.pluralize('Notifications/refresh', {
+                count: futureNotifications
+              })}{' '}
+              <span {...styles.reloadBannerButton} onClick={() => onReload()}>
+                {t('Notifications/refresh/link')}
+              </span>
+            </Interaction.P>
+          </Center>
+        </div>
+      ) : null}
+    </>
+  )
+})
 
 export default withT(
   ({
@@ -96,6 +99,7 @@ export default withT(
   }) => {
     const { nodes, totalCount, unreadCount, pageInfo } = notifications
     const hasNextPage = pageInfo && pageInfo.hasNextPage
+    const [colorScheme] = useColorContext()
 
     const loadMore = () =>
       fetchMore({
@@ -144,7 +148,7 @@ export default withT(
             </Interaction.H1>
 
             <Link route='subscriptionsSettings' passHref>
-              <a {...linkRule}>{t('Notifications/settings')}</a>
+              <A>{t('Notifications/settings')}</A>
             </Link>
 
             {isEmpty && (
@@ -181,11 +185,11 @@ export default withT(
                       return (
                         <div
                           {...styles.unpublished}
-                          style={{
-                            backgroundColor: isNew(node)
-                              ? colors.primaryBg
-                              : 'none'
-                          }}
+                          {...colorScheme.set('borderColor', 'text')}
+                          {...colorScheme.set(
+                            'backgroundColor',
+                            isNew(node) ? 'alert' : 'none'
+                          )}
                           key={j}
                         >
                           {node.content && (

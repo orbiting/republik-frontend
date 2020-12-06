@@ -4,7 +4,7 @@ import { compose } from 'react-apollo'
 import { withDiscussionDocumentMeta } from './enhancers'
 import withT from '../../lib/withT'
 import Link from '../Link/Href'
-import { inQuotes, linkRule } from '@project-r/styleguide'
+import { inQuotes, A } from '@project-r/styleguide'
 
 const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
   const articleMeta = meta || documentMeta
@@ -14,9 +14,7 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
 
   const ArticleLink = (
     <Link href={articleMeta.path} passHref key='articlelink'>
-      <a {...linkRule} href={articleMeta.path}>
-        {inQuotes(articleMeta.title)}
-      </a>
+      <A href={articleMeta.path}>{inQuotes(articleMeta.title)}</A>
     </Link>
   )
 

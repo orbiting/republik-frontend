@@ -14,7 +14,12 @@ import {
   colors,
   LazyLoad
 } from '@project-r/styleguide'
-import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
+import {
+  ChartTitle,
+  ChartLead,
+  ChartLegend,
+  Chart
+} from '@project-r/styleguide/chart'
 
 import md from 'markdown-in-js'
 
@@ -115,7 +120,7 @@ const Accordion = withInNativeApp(
 
       return (
         <div style={{ marginTop: 10, marginBottom: 30 }}>
-          <Interaction.P style={{ color: '#fff', marginBottom: 10 }}>
+          <Interaction.P style={{ marginBottom: 10 }}>
             <strong>So können Sie uns jetzt unterstützen:</strong>
           </Interaction.P>
           {me && me.activeMembership && (
@@ -277,7 +282,7 @@ const Accordion = withInNativeApp(
               </Link>
               <PackageBuffer />
               {false && !me && !shouldBuyProlong && !inNativeIOSApp && (
-                <Interaction.P style={{ color: '#fff', marginTop: 10 }}>
+                <Interaction.P style={{ marginTop: 10 }}>
                   Falls Sie bereits Mitglied sind: Melden Sie sich an, um Ihr
                   Abo zu verlängern.
                 </Interaction.P>
@@ -451,7 +456,7 @@ const Page = ({
                   }
                 />
               </div>
-              <Interaction.Headline style={{ color: '#fff', marginBottom: 20 }}>
+              <Interaction.Headline style={{ marginBottom: 20 }}>
                 Das Cockpit zum Stand unseres Unternehmens
               </Interaction.Headline>
               {md(mdComponents)`
@@ -462,25 +467,12 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
 
 `}
 
-              <div
-                {...css({
-                  marginTop: 20,
-                  '& text': {
-                    fill: '#fff !important'
-                  },
-                  '& line': {
-                    stroke: 'rgba(255, 255, 255, 0.4) !important'
-                  },
-                  '& div': {
-                    color: '#fff !important'
-                  }
-                })}
-              >
-                <ChartTitle style={{ color: '#fff' }}>
+              <div style={{ marginTop: 20 }}>
+                <ChartTitle>
                   Aktuell {countFormat(activeCount)} Mitglieder
                   und&nbsp;Abonnentinnen
                 </ChartTitle>
-                <ChartLead style={{ color: '#fff' }}>
+                <ChartLead>
                   Entwicklung vom Crowdfunding im April 2017 bis heute.{' '}
                   {missingCount > 0 &&
                     `Es fehlen ${countFormat(missingCount)} Mitglieder.`}
@@ -509,9 +501,9 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                   }}
                   values={values.map(d => ({ ...d, value: String(d.value) }))}
                 />
-                <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
+                <ChartLegend>
                   Datenstand: {formatDateTime(new Date(updatedAt))}
-                </Editorial.Note>
+                </ChartLegend>
               </div>
 
               {md(mdComponents)`
@@ -528,24 +520,11 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
 
 `}
 
-              <div
-                {...css({
-                  marginTop: 20,
-                  '& text, & tspan': {
-                    fill: '#fff !important'
-                  },
-                  '& svg > g > g > g > line': {
-                    stroke: 'rgba(255, 255, 255, 0.4) !important'
-                  },
-                  '& div': {
-                    color: '#fff !important'
-                  }
-                })}
-              >
-                <ChartTitle style={{ color: '#fff' }}>
+              <div style={{ marginTop: 20 }}>
+                <ChartTitle>
                   Wie beliebt sind Dialog, Lesezeichen und Leseposition?
                 </ChartTitle>
-                <ChartLead style={{ color: '#fff' }}>
+                <ChartLead>
                   Anzahl Mitglieder, welche pro Monat eine Funktion benutzen.
                 </ChartLead>
                 <Chart
@@ -574,11 +553,11 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
                   }}
                   values={engagedUsers}
                 />
-                <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
+                <ChartLegend>
                   Beim Dialog werden Schreibende und Reagierende (Up- und
                   Downvotes) gezählt. Lesezeichen wurden Mitte Januar 2019
                   eingeführt, die Leseposition Ende März&nbsp;2019.
-                </Editorial.Note>
+                </ChartLegend>
               </div>
 
               {md(mdComponents)`

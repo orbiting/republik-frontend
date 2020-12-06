@@ -444,7 +444,9 @@ class CustomizePackage extends Component {
       !payMoreReached &&
       pkg.name === 'PROLONG' &&
       pkg.options.every(option => {
-        return !getOptionValue(option, values) || option.userPrice
+        return (
+          !getOptionValue(option, values) || option.userPrice || !option.price
+        )
       })
 
     const optionGroups = nest()

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-05T23:04:53.198Z",
+  "updated": "2020-12-06T13:49:45.403Z",
   "title": "live",
   "data": [
     {
@@ -2379,10 +2379,6 @@
       "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
     },
     {
-      "key": "payment/paymentslip/title",
-      "value": "Ihre Adresse"
-    },
-    {
       "key": "payment/paymentslip/explanation",
       "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
     },
@@ -2497,6 +2493,10 @@
     {
       "key": "pledge/address/payment/title",
       "value": "Rechnungsadresse"
+    },
+    {
+      "key": "pledge/address/payment/likeShipping",
+      "value": "Gleich wie Lieferadresse"
     },
     {
       "key": "pledge/submit/emailVerify/note",
@@ -6192,7 +6192,7 @@
     },
     {
       "key": "package/customize/price/payMore",
-      "value": "Möchten Sie Ihr Investment erhöhen?"
+      "value": "Möchten Sie vergünstigte Mitgliedschaften ermöglichen?"
     },
     {
       "key": "package/customize/price/payMore/1.5",

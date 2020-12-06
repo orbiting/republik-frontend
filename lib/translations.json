@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-02T13:58:18.821Z",
+  "updated": "2020-12-05T23:04:53.198Z",
   "title": "live",
   "data": [
     {
@@ -2489,6 +2489,14 @@
     {
       "key": "noscript",
       "value": "JavaScript ist deaktiviert. Formulare – u. a. die Anmeldung – und interaktive Elemente funktionieren nur wenn Sie JavaScript aktivieren. Anleitung um <a href=\"https://wiki.selfhtml.org/wiki/JavaScript/Tutorials/JavaScript_aktivieren\">JavaScript zu aktivieren auf selfhtml.org lesen</a>."
+    },
+    {
+      "key": "pledge/address/shipping/title",
+      "value": "Lieferadresse"
+    },
+    {
+      "key": "pledge/address/payment/title",
+      "value": "Rechnungsadresse"
     },
     {
       "key": "pledge/submit/emailVerify/note",

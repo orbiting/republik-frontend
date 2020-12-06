@@ -293,8 +293,10 @@ class PaymentForm extends Component {
       paymentSources,
       loadingPaymentSources,
       onlyChargable,
-      withoutAddress,
-      context
+      addressState,
+      shippingAddressState,
+      context,
+      hasGoodies
     } = this.props
     const { paymentMethod } = values
     const visibleMethods = allowedMethods || PAYMENT_METHODS.map(pm => pm.key)
@@ -315,6 +317,12 @@ class PaymentForm extends Component {
 
     return (
       <div>
+        {hasGoodies && (
+          <div style={{ marginBottom: 40 }}>
+            <H2 style={{ marginBottom: 20 }}>Lieferadresse</H2>
+            <AddressForm {...shippingAddressState} />
+          </div>
+        )}
         <H2>
           {t.first(
             [
@@ -474,18 +482,13 @@ class PaymentForm extends Component {
             )
           }}
         />
-        {paymentMethodForm === 'PAYMENTSLIP' && !withoutAddress && (
+        {paymentMethodForm === 'PAYMENTSLIP' && (
           <div>
             <Label>{t('payment/paymentslip/explanation')}</Label>
             <br />
             <br />
-            <Label>{t('payment/paymentslip/title')}</Label>
-            <AddressForm
-              values={values}
-              errors={errors}
-              dirty={dirty}
-              onChange={onChange}
-            />
+            <Label>{t('pledge/address/payment/title')}</Label>
+            <AddressForm {...addressState} />
             {/* <div style={{marginBottom: 5}}>
               <Radio
                 checked={!values.paperInvoice}

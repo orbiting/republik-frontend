@@ -191,6 +191,7 @@ class Pledge extends Component {
     const userPrice = !!query.userPrice
 
     let hasAccessGranted
+    let hasGoodies = false
     const options = pkg
       ? pkg.options.map(option => {
           const fieldKey = getOptionFieldKey(option)
@@ -201,8 +202,13 @@ class Pledge extends Component {
               ? option.defaultAmount
               : // can be '', but PackageOptionInput needs Int! here
                 +values[fieldKey]
-          if (option.accessGranted && amount) {
-            hasAccessGranted = true
+          if (amount) {
+            if (option.accessGranted) {
+              hasAccessGranted = true
+            }
+            if (option.reward?.__typename === 'Goodie') {
+              hasGoodies = true
+            }
           }
 
           return {
@@ -247,7 +253,8 @@ class Pledge extends Component {
       messageToClaimers: hasAccessGranted
         ? values.messageToClaimers
         : undefined,
-      id: pledge ? pledge.id : undefined
+      id: pledge ? pledge.id : undefined,
+      hasGoodies
     }
   }
   handleFirstName(value, shouldValidate, t) {
@@ -724,7 +731,6 @@ const query = gql`
       email
       isUserOfCurrentSession
       isListed
-      hasAddress
       address {
         name
         line1

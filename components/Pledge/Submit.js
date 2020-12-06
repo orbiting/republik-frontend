@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment, Component, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -35,6 +35,8 @@ import PaymentForm from '../Payment/Form'
 import { STRIPE_PLEDGE_ID_QUERY_KEY } from '../Payment/constants'
 import Consents, { getConsentsError } from './Consents'
 
+import { useFieldSetState } from './utils'
+
 const { P } = Interaction
 
 const objectValues = object => Object.keys(object).map(key => object[key])
@@ -52,19 +54,43 @@ const simpleHash = (object, delimiter = '|') => {
 const getRequiredConsents = ({ requiresStatutes }) =>
   ['PRIVACY', 'TOS', requiresStatutes && 'STATUTE'].filter(Boolean)
 
+const SubmitWithHooks = props => {
+  const { t } = props
+  const addressFields = useMemo(() => getAddressFields(t), [t])
+
+  const name = [props.user.firstName, props.user.lastName]
+    .filter(Boolean)
+    .join(' ')
+  const address = props.customMe?.address
+
+  const defaultAddress = useMemo(
+    () => ({
+      country: COUNTRIES[0],
+      name,
+      ...address
+    }),
+    [name, address]
+  )
+
+  const addressState = useFieldSetState(addressFields, defaultAddress)
+  const shippingAddressState = useFieldSetState(addressFields, defaultAddress)
+
+  return (
+    <Submit
+      {...props}
+      addressState={addressState}
+      shippingAddressState={shippingAddressState}
+    />
+  )
+}
+
 class Submit extends Component {
   constructor(props) {
     super(props)
     this.state = {
       emailVerify: false,
       consents: [],
-      values: {
-        country: COUNTRIES[0],
-        name: [props.user.firstName, props.user.lastName]
-          .filter(Boolean)
-          .join(' '),
-        ...(props.customMe && props.customMe.address)
-      },
+      values: {},
       errors: {},
       dirty: {},
       loading: false
@@ -83,67 +109,18 @@ class Submit extends Component {
         ref && ref.getWrappedInstance ? ref.getWrappedInstance() : ref
     }
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dirty, values } = this.state
-    const prevName = [this.props.user.firstName, this.props.user.lastName]
-      .filter(Boolean)
-      .join(' ')
-    const nextName = [nextProps.user.firstName, nextProps.user.lastName]
-      .filter(Boolean)
-      .join(' ')
-    const addressFields = getAddressFields(this.props.t)
-    if (
-      nextName !== values.name &&
-      (!dirty.name || !(values.name || '').trim() || values.name === prevName)
-    ) {
-      this.setState(state => {
-        const values = {
-          ...state.values,
-          name: nextName
-        }
-        return {
-          values,
-          errors: {
-            ...state.errors,
-            ...(values.paymentMethod === 'PAYMENTSLIP'
-              ? FieldSet.utils.getErrors(addressFields, values)
-              : {})
-          }
-        }
-      })
-    }
-
-    const addressDirty = addressFields.find(field => dirty[field.name])
-    if (!addressDirty) {
-      const nextAddress =
-        (nextProps.customMe && nextProps.customMe.address) ||
-        addressFields.reduce((values, field) => {
-          values[field.name] = field.name === 'name' ? nextName : ''
-          return values
-        }, {})
-      if (
-        nextAddress !== (this.props.customMe && this.props.customMe.address)
-      ) {
-        this.setState(state => {
-          const values = {
-            ...state.values,
-            ...nextAddress
-          }
-          return {
-            values,
-            errors: {
-              ...state.errors,
-              ...(values.paymentMethod === 'PAYMENTSLIP'
-                ? FieldSet.utils.getErrors(addressFields, values)
-                : {})
-            }
-          }
-        })
-      }
-    }
-  }
   submitVariables(props) {
-    const { user, total, options, reason, accessToken, customMe } = props
+    const {
+      user,
+      total,
+      options,
+      reason,
+      accessToken,
+      customMe,
+      hasGoodies,
+      shippingAddressState,
+      addressState
+    } = props
 
     return {
       total,
@@ -154,16 +131,20 @@ class Submit extends Component {
       })),
       reason,
       user,
+      shippingAddress: hasGoodies ? shippingAddressState.values : undefined,
       accessToken:
         customMe && customMe.isUserOfCurrentSession ? undefined : accessToken
     }
   }
-  withoutAddress() {
-    const { customMe } = this.props
-    return customMe && customMe.hasAddress && !customMe.isUserOfCurrentSession
-  }
   submitPledge() {
-    const { t, customMe, query } = this.props
+    const {
+      t,
+      customMe,
+      query,
+      addressState,
+      shippingAddressState,
+      hasGoodies
+    } = this.props
     const errorMessages = this.getErrorMessages()
 
     if (errorMessages.length) {
@@ -182,6 +163,22 @@ class Submit extends Component {
           showErrors: true
         }
       })
+      if (this.state.values.paymentMethod === 'PAYMENTSLIP') {
+        addressState.onChange({
+          dirty: Object.keys(addressState.errors).reduce((agg, key) => {
+            agg[key] = true
+            return agg
+          }, {})
+        })
+      }
+      if (hasGoodies) {
+        shippingAddressState.onChange({
+          dirty: Object.keys(shippingAddressState.errors).reduce((agg, key) => {
+            agg[key] = true
+            return agg
+          }, {})
+        })
+      }
       return
     }
 
@@ -290,20 +287,12 @@ class Submit extends Component {
   }
   payWithPaymentSlip(pledgeId) {
     const { values } = this.state
+    const { addressState } = this.props
     this.pay({
       pledgeId,
       method: 'PAYMENTSLIP',
       paperInvoice: values.paperInvoice || false,
-      address: this.withoutAddress()
-        ? undefined
-        : {
-            name: values.name,
-            line1: values.line1,
-            line2: values.line2,
-            postalCode: values.postalCode,
-            city: values.city,
-            country: values.country
-          }
+      address: addressState.values
     })
   }
   pay(data) {
@@ -411,16 +400,42 @@ class Submit extends Component {
   }
   getErrorMessages() {
     const { consents, values } = this.state
-    const { t, options } = this.props
+    const {
+      t,
+      options,
+      addressState,
+      hasGoodies,
+      shippingAddressState
+    } = this.props
 
-    return [options.length < 1 && t('pledge/submit/package/error')]
-      .concat(objectValues(this.props.errors))
-      .concat(objectValues(this.state.errors))
-      .concat([
-        !values.paymentMethod && t('pledge/submit/payMethod/error'),
-        getConsentsError(t, getRequiredConsents(this.props), consents)
-      ])
-      .filter(Boolean)
+    return [
+      {
+        category: t('pledge/submit/error/title'),
+        messages: [options.length < 1 && t('pledge/submit/package/error')]
+          .concat(objectValues(this.props.errors))
+          .concat(objectValues(this.state.errors))
+          .concat([
+            !values.paymentMethod && t('pledge/submit/payMethod/error'),
+            getConsentsError(t, getRequiredConsents(this.props), consents)
+          ])
+          .filter(Boolean)
+      },
+      {
+        category: t('pledge/address/shipping/title'),
+        messages: []
+          .concat(hasGoodies && objectValues(shippingAddressState.errors))
+          .filter(Boolean)
+      },
+      {
+        category: t('pledge/address/payment/title'),
+        messages: []
+          .concat(
+            values.paymentMethod === 'PAYMENTSLIP' &&
+              objectValues(addressState.errors)
+          )
+          .filter(Boolean)
+      }
+    ].filter(d => d.messages.length)
   }
   getAutoPayValue() {
     const { forceAutoPay, options } = this.props
@@ -493,7 +508,17 @@ class Submit extends Component {
       signInError,
       loading
     } = this.state
-    const { me, user, t, query, paymentMethods, packageName } = this.props
+    const {
+      me,
+      user,
+      t,
+      query,
+      paymentMethods,
+      packageName,
+      hasGoodies,
+      addressState,
+      shippingAddressState
+    } = this.props
 
     const errorMessages = this.getErrorMessages()
 
@@ -506,7 +531,7 @@ class Submit extends Component {
           loadSources={!!me || !!query.token}
           accessToken={query.token}
           onlyChargable
-          withoutAddress={this.withoutAddress()}
+          hasGoodies={hasGoodies}
           payload={{
             id: this.state.pledgeId,
             userId: this.state.userId,
@@ -516,6 +541,8 @@ class Submit extends Component {
           }}
           context={packageName}
           allowedMethods={paymentMethods}
+          addressState={addressState}
+          shippingAddressState={shippingAddressState}
           onChange={fields => {
             this.setState(state => {
               const nextState = FieldSet.utils.mergeFields(fields)(state)
@@ -571,13 +598,17 @@ class Submit extends Component {
           <div>
             {!!this.state.showErrors && errorMessages.length > 0 && (
               <div style={{ color: colors.error, marginBottom: 40 }}>
-                {t('pledge/submit/error/title')}
-                <br />
-                <ul>
-                  {errorMessages.map((error, i) => (
-                    <li key={i}>{error}</li>
-                  ))}
-                </ul>
+                {errorMessages.map(({ category, messages }, i) => (
+                  <Fragment key={i}>
+                    {category}
+                    <br />
+                    <ul>
+                      {messages.map((error, i) => (
+                        <li key={i}>{error}</li>
+                      ))}
+                    </ul>
+                  </Fragment>
+                ))}
               </div>
             )}
             <Consents
@@ -636,12 +667,16 @@ const submitPledge = gql`
     $consents: [String!]
     $accessToken: ID
     $payload: JSON
+    $address: AddressInput
+    $shippingAddress: AddressInput
   ) {
     submitPledge(
       pledge: {
         total: $total
         options: $options
         user: $user
+        address: $address
+        shippingAddress: $shippingAddress
         reason: $reason
         messageToClaimers: $messageToClaimers
         accessToken: $accessToken
@@ -753,6 +788,6 @@ const SubmitWithMutations = compose(
   withPay,
   withMe,
   withT
-)(Submit)
+)(SubmitWithHooks)
 
 export default SubmitWithMutations

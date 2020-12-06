@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import {
+  FieldSet,
+  Label,
+  colors,
+  Interaction,
+  A,
+  usePrevious
+} from '@project-r/styleguide'
+
 import withT from '../../lib/withT'
-import { FieldSet, Label, colors } from '@project-r/styleguide'
+import { intersperse } from '../../lib/utils/helpers'
 
 export const COUNTRIES = ['Schweiz', 'Deutschland', 'Österreich']
 
@@ -10,6 +19,7 @@ export const fields = t => [
   {
     label: t('Account/AddressForm/name/label'),
     name: 'name',
+    autoComplete: 'name',
     validator: value => !value && t('Account/AddressForm/name/error/empty'),
     explanation: (
       <Label
@@ -27,26 +37,31 @@ export const fields = t => [
   {
     label: t('Account/AddressForm/line1/label'),
     name: 'line1',
+    autoComplete: 'address-line1',
     validator: value => !value && t('Account/AddressForm/line1/error/empty')
   },
   {
     label: t('Account/AddressForm/line2/label'),
-    name: 'line2'
+    name: 'line2',
+    autoComplete: 'address-line2'
   },
   {
     label: t('Account/AddressForm/postalCode/label'),
     name: 'postalCode',
+    autoComplete: 'postal-code',
     validator: value =>
       !value && t('Account/AddressForm/postalCode/error/empty')
   },
   {
     label: t('Account/AddressForm/city/label'),
     name: 'city',
+    autoComplete: 'address-level2',
     validator: value => !value && t('Account/AddressForm/city/error/empty')
   },
   {
     label: t('Account/AddressForm/country/label'),
     name: 'country',
+    autoComplete: 'country-name',
     validator: value => !value && t('Account/AddressForm/country/error/empty')
   }
 ]
@@ -75,6 +90,107 @@ const Form = ({ t, values, errors, dirty, onChange }) => (
     fields={fields(t)}
     onChange={onChange}
   />
+)
+
+export const AutoForm = withT(
+  ({
+    values,
+    errors,
+    dirty,
+    fields,
+    onChange,
+    existingAddress,
+    name,
+    t,
+    afterEdit,
+    onEdit,
+    onReset
+  }) => {
+    const [mode, setMode] = useState(existingAddress ? 'view' : 'edit')
+
+    const previousName = usePrevious(name)
+    const currentName = values.name
+    const dirtyName = dirty.name
+    useEffect(() => {
+      if (
+        currentName !== name &&
+        ((!dirtyName && previousName === currentName) ||
+          (!currentName && previousName !== name))
+      ) {
+        onChange({
+          values: { name },
+          dirty: {
+            name: false
+          },
+          errors: FieldSet.utils.getErrors(fields, { ...values, name })
+        })
+      }
+    }, [previousName, currentName, name, dirtyName])
+
+    if (mode === 'view' && existingAddress) {
+      return (
+        <>
+          <Interaction.P>
+            {intersperse(
+              [
+                existingAddress.name,
+                existingAddress.line1,
+                existingAddress.line2,
+                `${existingAddress.postalCode} ${existingAddress.city}`,
+                existingAddress.country
+              ].filter(Boolean),
+              (_, i) => (
+                <br key={i} />
+              )
+            )}
+          </Interaction.P>
+          <br />
+          <A
+            href='#'
+            onClick={e => {
+              e.preventDefault()
+              setMode('edit')
+              onEdit && onEdit()
+            }}
+          >
+            {t('Account/AddressForm/edit')}
+          </A>
+        </>
+      )
+    }
+
+    return (
+      <>
+        <FieldSet
+          values={values}
+          errors={errors}
+          dirty={dirty}
+          fields={fields}
+          onChange={onChange}
+        />
+        {afterEdit}
+        {existingAddress && (
+          <>
+            <br />
+            <A
+              href='#'
+              onClick={e => {
+                e.preventDefault()
+                onChange({
+                  values: existingAddress,
+                  errors: FieldSet.utils.getErrors(fields, existingAddress)
+                })
+                setMode('view')
+                onReset && onReset()
+              }}
+            >
+              {t('Account/AddressForm/reset')}
+            </A>
+          </>
+        )}
+      </>
+    )
+  }
 )
 
 export default withT(Form)

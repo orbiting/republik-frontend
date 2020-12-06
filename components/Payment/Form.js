@@ -10,12 +10,13 @@ import {
   A,
   fontFamilies,
   Loader,
-  useColorContext
+  useColorContext,
+  Checkbox
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
 
-import AddressForm from '../Account/AddressForm'
+import { AutoForm as AddressForm } from '../Account/AddressForm'
 
 import { PF_FORM_ACTION, PAYPAL_FORM_ACTION } from '../../lib/constants'
 
@@ -296,7 +297,11 @@ class PaymentForm extends Component {
       addressState,
       shippingAddressState,
       context,
-      hasGoodies
+      requireShippingAddress,
+      userName,
+      userAddress,
+      syncAddresses,
+      setSyncAddresses
     } = this.props
     const { paymentMethod } = values
     const visibleMethods = allowedMethods || PAYMENT_METHODS.map(pm => pm.key)
@@ -317,10 +322,33 @@ class PaymentForm extends Component {
 
     return (
       <div>
-        {hasGoodies && (
+        {requireShippingAddress && (
           <div style={{ marginBottom: 40 }}>
-            <H2 style={{ marginBottom: 20 }}>Lieferadresse</H2>
-            <AddressForm {...shippingAddressState} />
+            <H2 style={{ marginBottom: 10 }}>
+              {t('pledge/address/shipping/title')}
+            </H2>
+            <AddressForm
+              {...shippingAddressState}
+              afterEdit={
+                userAddress ? (
+                  <>
+                    <Checkbox
+                      checked={syncAddresses}
+                      onChange={(_, checked) => {
+                        setSyncAddresses(checked)
+                      }}
+                    >
+                      {t('pledge/address/shipping/updateAccount')}
+                    </Checkbox>
+                    <br style={{ clear: 'left' }} />
+                  </>
+                ) : (
+                  undefined
+                )
+              }
+              existingAddress={userAddress}
+              name={userName}
+            />
           </div>
         )}
         <H2>
@@ -487,8 +515,25 @@ class PaymentForm extends Component {
             <Label>{t('payment/paymentslip/explanation')}</Label>
             <br />
             <br />
-            <Label>{t('pledge/address/payment/title')}</Label>
-            <AddressForm {...addressState} />
+            <div style={{ marginBottom: 10 }}>
+              <P>{t('pledge/address/payment/title')}</P>
+              {syncAddresses && (
+                <Label>{t('pledge/address/payment/likeShipping')}</Label>
+              )}
+            </div>
+            <AddressForm
+              {...addressState}
+              existingAddress={
+                syncAddresses ? shippingAddressState.values : userAddress
+              }
+              name={userName}
+              onEdit={() => {
+                setSyncAddresses(false)
+              }}
+              onReset={() => {
+                setSyncAddresses(true)
+              }}
+            />
             {/* <div style={{marginBottom: 5}}>
               <Radio
                 checked={!values.paperInvoice}

@@ -1,4 +1,4 @@
-import React, { Fragment, Component, useMemo } from 'react'
+import React, { Fragment, Component, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -58,28 +58,33 @@ const SubmitWithHooks = props => {
   const { t } = props
   const addressFields = useMemo(() => getAddressFields(t), [t])
 
-  const name = [props.user.firstName, props.user.lastName]
+  const userName = [props.user.firstName, props.user.lastName]
     .filter(Boolean)
     .join(' ')
-  const address = props.customMe?.address
+  const userAddress = props.customMe?.address
 
   const defaultAddress = useMemo(
     () => ({
       country: COUNTRIES[0],
-      name,
-      ...address
+      ...userAddress
     }),
-    [name, address]
+    [userAddress]
   )
 
   const addressState = useFieldSetState(addressFields, defaultAddress)
   const shippingAddressState = useFieldSetState(addressFields, defaultAddress)
 
+  const [syncAddresses, setSyncAddresses] = useState(true)
+
   return (
     <Submit
       {...props}
+      userName={userName}
+      userAddress={userAddress}
       addressState={addressState}
       shippingAddressState={shippingAddressState}
+      syncAddresses={props.requireShippingAddress && syncAddresses}
+      setSyncAddresses={setSyncAddresses}
     />
   )
 }
@@ -117,10 +122,15 @@ class Submit extends Component {
       reason,
       accessToken,
       customMe,
-      hasGoodies,
+      requireShippingAddress,
       shippingAddressState,
-      addressState
+      addressState,
+      syncAddresses
     } = props
+
+    const shippingAddress = requireShippingAddress
+      ? shippingAddressState.values
+      : undefined
 
     return {
       total,
@@ -131,7 +141,8 @@ class Submit extends Component {
       })),
       reason,
       user,
-      shippingAddress: hasGoodies ? shippingAddressState.values : undefined,
+      address: syncAddresses ? shippingAddress : undefined,
+      shippingAddress,
       accessToken:
         customMe && customMe.isUserOfCurrentSession ? undefined : accessToken
     }
@@ -143,7 +154,7 @@ class Submit extends Component {
       query,
       addressState,
       shippingAddressState,
-      hasGoodies
+      requireShippingAddress
     } = this.props
     const errorMessages = this.getErrorMessages()
 
@@ -171,7 +182,7 @@ class Submit extends Component {
           }, {})
         })
       }
-      if (hasGoodies) {
+      if (requireShippingAddress) {
         shippingAddressState.onChange({
           dirty: Object.keys(shippingAddressState.errors).reduce((agg, key) => {
             agg[key] = true
@@ -287,12 +298,12 @@ class Submit extends Component {
   }
   payWithPaymentSlip(pledgeId) {
     const { values } = this.state
-    const { addressState } = this.props
+    const { addressState, shippingAddressState, syncAddresses } = this.props
     this.pay({
       pledgeId,
       method: 'PAYMENTSLIP',
       paperInvoice: values.paperInvoice || false,
-      address: addressState.values
+      address: syncAddresses ? shippingAddressState.values : addressState.values
     })
   }
   pay(data) {
@@ -404,8 +415,9 @@ class Submit extends Component {
       t,
       options,
       addressState,
-      hasGoodies,
-      shippingAddressState
+      requireShippingAddress,
+      shippingAddressState,
+      syncAddresses
     } = this.props
 
     return [
@@ -423,7 +435,9 @@ class Submit extends Component {
       {
         category: t('pledge/address/shipping/title'),
         messages: []
-          .concat(hasGoodies && objectValues(shippingAddressState.errors))
+          .concat(
+            requireShippingAddress && objectValues(shippingAddressState.errors)
+          )
           .filter(Boolean)
       },
       {
@@ -431,6 +445,7 @@ class Submit extends Component {
         messages: []
           .concat(
             values.paymentMethod === 'PAYMENTSLIP' &&
+              !syncAddresses &&
               objectValues(addressState.errors)
           )
           .filter(Boolean)
@@ -515,9 +530,13 @@ class Submit extends Component {
       query,
       paymentMethods,
       packageName,
-      hasGoodies,
+      requireShippingAddress,
+      userName,
+      userAddress,
       addressState,
-      shippingAddressState
+      shippingAddressState,
+      syncAddresses,
+      setSyncAddresses
     } = this.props
 
     const errorMessages = this.getErrorMessages()
@@ -531,7 +550,7 @@ class Submit extends Component {
           loadSources={!!me || !!query.token}
           accessToken={query.token}
           onlyChargable
-          hasGoodies={hasGoodies}
+          requireShippingAddress={requireShippingAddress}
           payload={{
             id: this.state.pledgeId,
             userId: this.state.userId,
@@ -541,8 +560,12 @@ class Submit extends Component {
           }}
           context={packageName}
           allowedMethods={paymentMethods}
+          userName={userName}
+          userAddress={userAddress}
           addressState={addressState}
           shippingAddressState={shippingAddressState}
+          syncAddresses={syncAddresses}
+          setSyncAddresses={setSyncAddresses}
           onChange={fields => {
             this.setState(state => {
               const nextState = FieldSet.utils.mergeFields(fields)(state)

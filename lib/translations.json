@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-06T13:49:45.403Z",
+  "updated": "2020-12-06T18:52:57.812Z",
   "title": "live",
   "data": [
     {
@@ -693,6 +693,18 @@
     {
       "key": "Account/AddressForm/country/error/empty",
       "value": "Land fehlt"
+    },
+    {
+      "key": "Account/AddressForm/edit",
+      "value": "ändern"
+    },
+    {
+      "key": "Account/AddressForm/editName",
+      "value": "bearbeiten"
+    },
+    {
+      "key": "Account/AddressForm/reset",
+      "value": "zurücksetzen"
     },
     {
       "key": "account/paymentSource/3dsecure",
@@ -2489,6 +2501,10 @@
     {
       "key": "pledge/address/shipping/title",
       "value": "Lieferadresse"
+    },
+    {
+      "key": "pledge/address/shipping/updateAccount",
+      "value": "Ihre Adresse in Ihrem Konto aktualisieren."
     },
     {
       "key": "pledge/address/payment/title",

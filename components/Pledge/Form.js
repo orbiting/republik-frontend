@@ -191,7 +191,7 @@ class Pledge extends Component {
     const userPrice = !!query.userPrice
 
     let hasAccessGranted
-    let hasGoodies = false
+    let requireShippingAddress = false
     const options = pkg
       ? pkg.options.map(option => {
           const fieldKey = getOptionFieldKey(option)
@@ -207,7 +207,7 @@ class Pledge extends Component {
               hasAccessGranted = true
             }
             if (option.reward?.__typename === 'Goodie') {
-              hasGoodies = true
+              requireShippingAddress = true
             }
           }
 
@@ -254,7 +254,7 @@ class Pledge extends Component {
         ? values.messageToClaimers
         : undefined,
       id: pledge ? pledge.id : undefined,
-      hasGoodies
+      requireShippingAddress
     }
   }
   handleFirstName(value, shouldValidate, t) {

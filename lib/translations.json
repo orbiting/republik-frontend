@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-06T18:52:57.812Z",
+  "updated": "2020-12-07T13:18:31.219Z",
   "title": "live",
   "data": [
     {
@@ -2504,7 +2504,7 @@
     },
     {
       "key": "pledge/address/shipping/updateAccount",
-      "value": "Ihre Adresse in Ihrem Konto aktualisieren."
+      "value": "Standardadresse aktualisieren"
     },
     {
       "key": "pledge/address/payment/title",
@@ -6204,6 +6204,10 @@
     },
     {
       "key": "option/MASK/label/other",
+      "value": "Republik-Masken"
+    },
+    {
+      "key": "option/MASK/label/1",
       "value": "Republik-Maske"
     },
     {

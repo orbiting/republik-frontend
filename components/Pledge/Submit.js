@@ -66,7 +66,16 @@ const SubmitWithHooks = props => {
   const defaultAddress = useMemo(
     () => ({
       country: COUNTRIES[0],
-      ...userAddress
+      ...(userAddress
+        ? {
+            name: userAddress.name,
+            line1: userAddress.line1,
+            line2: userAddress.line2,
+            postalCode: userAddress.postalCode,
+            city: userAddress.city,
+            country: userAddress.country
+          }
+        : {})
     }),
     [userAddress]
   )

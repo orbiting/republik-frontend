@@ -69,6 +69,10 @@ const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
 }
+const ReasonsVideo = dynamic(
+  () => import('../Crowdfunding/ReasonsVideo'),
+  dynamicOptions
+)
 const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
 const VoteCounter = dynamic(() => import('../Vote/VoteCounter'), dynamicOptions)
 const VoteResult = dynamic(
@@ -201,6 +205,7 @@ const ArticlePage = ({
           : undefined,
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
+          REASONS_VIDEO: ReasonsVideo,
           VOTEBOX: Votebox,
           VOTE_COUNTER: VoteCounter,
           VOTE_RESULT: VoteResult

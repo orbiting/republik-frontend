@@ -360,8 +360,8 @@ const Page = ({
             { key: 'loss', color: '#9970ab', label: 'Abgänge' },
             { key: 'missing', color: '#444', label: 'fehlende' },
             { key: 'pending', color: '#444', label: 'offene' },
-            { key: 'base', color: '#3CAD00', label: 'bestehende' },
-            { key: 'gaining', color: '#2A7A00', label: 'neue' }
+            { key: 'base', color: '#3CAD00', label: 'bestehende' }
+            // { key: 'gaining', color: '#2A7A00', label: 'neue' }
           ]
           const labelMap = labels.reduce((map, d) => {
             map[d.key] = d.label
@@ -428,13 +428,13 @@ const Page = ({
                 {
                   month: month.key,
                   label: labelMap.base,
-                  value: month.active - month.gaining - pendingYearly
+                  value: month.active - pendingYearly // - month.gaining
                 },
-                {
-                  month: month.key,
-                  label: labelMap.gaining,
-                  value: month.gaining
-                },
+                // {
+                //   month: month.key,
+                //   label: labelMap.gaining,
+                //   value: month.gaining
+                // },
                 {
                   month: month.key,
                   label: labelMap.pending,
@@ -575,8 +575,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                   anstehende Verläng&shy;erungen in den nächsten 3&nbsp;Monaten
                 </ChartTitle>
                 <ChartLead>
-                  Anzahl bestehende, offene und neue Mitgliedschaften und
-                  Monatsabos per Monatsende.
+                  Anzahl Mitgliedschaften und Abos per Monatsende.
                 </ChartLead>
                 <Chart
                   config={{

@@ -147,8 +147,14 @@ export const FeatureCommentOverlay = compose(
             <div>
               <Label>{t('FeatureCommentOverlay/marketing/preview')}</Label>
               <CommentTeaser
-                {...{ ...comment, featuredText: text }}
-                discussion={discussion}
+                {...{
+                  ...comment,
+                  featuredText: text,
+                  discussion: {
+                    ...discussion,
+                    image: discussion?.document?.meta?.twitterImage
+                  }
+                }}
                 t={t}
               />
             </div>

@@ -92,6 +92,25 @@ const Form = ({ t, values, errors, dirty, onChange }) => (
   />
 )
 
+export const AddressView = ({ values }) => {
+  return (
+    <Interaction.P>
+      {intersperse(
+        [
+          values.name,
+          values.line1,
+          values.line2,
+          `${values.postalCode} ${values.city}`,
+          values.country
+        ].filter(Boolean),
+        (_, i) => (
+          <br key={i} />
+        )
+      )}
+    </Interaction.P>
+  )
+}
+
 export const AutoForm = withT(
   ({
     values,
@@ -103,7 +122,6 @@ export const AutoForm = withT(
     name,
     t,
     afterEdit,
-    onEdit,
     onReset
   }) => {
     const [mode, setMode] = useState(existingAddress ? 'view' : 'edit')
@@ -127,30 +145,16 @@ export const AutoForm = withT(
       }
     }, [previousName, currentName, name, dirtyName])
 
-    if (mode === 'view' && existingAddress) {
+    if (mode === 'view') {
       return (
         <>
-          <Interaction.P>
-            {intersperse(
-              [
-                existingAddress.name,
-                existingAddress.line1,
-                existingAddress.line2,
-                `${existingAddress.postalCode} ${existingAddress.city}`,
-                existingAddress.country
-              ].filter(Boolean),
-              (_, i) => (
-                <br key={i} />
-              )
-            )}
-          </Interaction.P>
+          <AddressView values={values} />
           <br />
           <A
             href='#'
             onClick={e => {
               e.preventDefault()
               setMode('edit')
-              onEdit && onEdit()
             }}
           >
             {t('Account/AddressForm/edit')}
@@ -181,7 +185,6 @@ export const AutoForm = withT(
                   errors: FieldSet.utils.getErrors(fields, existingAddress)
                 })
                 setMode('view')
-                onReset && onReset()
               }}
             >
               {t('Account/AddressForm/reset')}

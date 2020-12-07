@@ -11,12 +11,13 @@ import {
   fontFamilies,
   Loader,
   useColorContext,
-  Checkbox
+  Checkbox,
+  Radio
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
 
-import { AutoForm as AddressForm } from '../Account/AddressForm'
+import { AutoForm as AddressForm, AddressView } from '../Account/AddressForm'
 
 import { PF_FORM_ACTION, PAYPAL_FORM_ACTION } from '../../lib/constants'
 
@@ -516,24 +517,45 @@ class PaymentForm extends Component {
             <br />
             <br />
             <div style={{ marginBottom: 10 }}>
-              <P>{t('pledge/address/payment/title')}</P>
-              {syncAddresses && (
-                <Label>{t('pledge/address/payment/likeShipping')}</Label>
-              )}
+              <Label>{t('pledge/address/payment/title')}</Label>
             </div>
-            <AddressForm
-              {...addressState}
-              existingAddress={
-                syncAddresses ? shippingAddressState.values : userAddress
-              }
-              name={userName}
-              onEdit={() => {
-                setSyncAddresses(false)
-              }}
-              onReset={() => {
-                setSyncAddresses(true)
-              }}
-            />
+            {requireShippingAddress && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ marginBottom: 5 }}>
+                  <Radio
+                    checked={syncAddresses}
+                    onChange={() => {
+                      setSyncAddresses(true)
+                    }}
+                  >
+                    {t('pledge/address/payment/likeShipping')}
+                  </Radio>
+                </div>
+                <div>
+                  <Radio
+                    checked={!syncAddresses}
+                    onChange={() => {
+                      setSyncAddresses(false)
+                    }}
+                  >
+                    {t('pledge/address/payment/other')}
+                  </Radio>
+                </div>
+              </div>
+            )}
+            {syncAddresses ? (
+              shippingAddressState.isValid && (
+                <AddressView values={shippingAddressState.values} />
+              )
+            ) : (
+              <AddressForm
+                {...addressState}
+                existingAddress={
+                  requireShippingAddress ? undefined : userAddress
+                }
+                name={userName}
+              />
+            )}
             {/* <div style={{marginBottom: 5}}>
               <Radio
                 checked={!values.paperInvoice}

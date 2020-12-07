@@ -24,8 +24,8 @@ export const useFieldSetState = (fields, defaultValues) => {
 
   useEffect(() => {
     setState(state => {
-      const isDirty = Object.keys(state.dirty).some(key => state.dirty[key])
-      const isPresent = Object.keys(state.values).some(key => state.values[key])
+      const isDirty = fields.some(({ name }) => state.dirty[name])
+      const isPresent = fields.some(({ name }) => state.values[name])
       if (isDirty && isPresent) {
         return state
       }
@@ -41,7 +41,8 @@ export const useFieldSetState = (fields, defaultValues) => {
     () => ({
       ...state,
       fields,
-      onChange
+      onChange,
+      isValid: !fields.some(({ name }) => state.errors[name])
     }),
     [fields, state, onChange]
   )

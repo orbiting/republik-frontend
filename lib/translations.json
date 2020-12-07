@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-07T13:18:31.219Z",
+  "updated": "2020-12-07T23:06:18.483Z",
   "title": "live",
   "data": [
     {
@@ -2513,6 +2513,10 @@
     {
       "key": "pledge/address/payment/likeShipping",
       "value": "Gleich wie Lieferadresse"
+    },
+    {
+      "key": "pledge/address/payment/other",
+      "value": "Andere Adresse"
     },
     {
       "key": "pledge/submit/emailVerify/note",

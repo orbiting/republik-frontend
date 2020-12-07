@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-23T15:31:14.135Z",
+  "updated": "2020-12-04T09:43:46.897Z",
   "title": "live",
   "data": [
     {
@@ -1837,6 +1837,10 @@
     {
       "key": "styleguide/CommentTeaser/comment/link",
       "value": "Beitrag in {link}"
+    },
+    {
+      "key": "styleguide/CommentTeaser/commentWithCount/link",
+      "value": "{count} weitere Beiträge zu {link}"
     },
     {
       "key": "styleguide/CommentTeaser/reply/link",
@@ -6771,24 +6775,36 @@
       "value": "Beitrag hervorheben"
     },
     {
+      "key": "FeatureCommentOverlay/DEFAULT/add",
+      "value": "Front"
+    },
+    {
+      "key": "FeatureCommentOverlay/MARKETING/add",
+      "value": "Marketingseite"
+    },
+    {
       "key": "FeatureCommentOverlay/text/label",
       "value": "Hervorgehobenes Zitat"
     },
     {
       "key": "FeatureCommentOverlay/submit",
-      "value": "Jetzt hervorheben"
+      "value": "Publizieren"
     },
     {
-      "key": "FeatureCommentOverlay/resubmit",
-      "value": "Aktualisieren"
+      "key": "FeatureCommentOverlay/warning",
+      "value": "Dieses Beitrag ist nicht hervorgehoben."
     },
     {
       "key": "FeatureCommentOverlay/remove",
       "value": "Zurückziehen"
     },
     {
-      "key": "FeatureCommentOverlay/preview",
-      "value": "Vorschau"
+      "key": "FeatureCommentOverlay/front/preview",
+      "value": "Front Vorschau"
+    },
+    {
+      "key": "FeatureCommentOverlay/marketing/preview",
+      "value": "Marketingseite Vorschau"
     },
     {
       "key": "crowdfunding/status/lastSeen/other",

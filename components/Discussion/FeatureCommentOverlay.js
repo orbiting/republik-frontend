@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   Interaction,
   Overlay,
@@ -9,7 +9,9 @@ import {
   Field,
   Button,
   Label,
-  useColorContext
+  useColorContext,
+  CommentTeaser,
+  Checkbox
 } from '@project-r/styleguide'
 import { MdClose } from 'react-icons/md'
 import { compose, graphql } from 'react-apollo'
@@ -20,12 +22,33 @@ import { styles as fieldSetStyles } from '../FieldSet'
 import ErrorMessage from '../ErrorMessage'
 
 import { featureCommentMutation } from './graphql/documents'
+import { css } from 'glamor'
+
+const TARGETS = ['DEFAULT', 'MARKETING']
+
+const TargetCheckbox = ({ t, targets, setTargets, targetKey }) => (
+  <div {...styles.checkbox}>
+    <Checkbox
+      checked={targets.includes(targetKey)}
+      onChange={(_, checked) => {
+        setTargets(
+          targets.filter(t => t !== targetKey).concat(checked ? targetKey : [])
+        )
+      }}
+    >
+      {t(`FeatureCommentOverlay/${targetKey}/add`)}
+    </Checkbox>
+  </div>
+)
 
 export const FeatureCommentOverlay = compose(
   withT,
   graphql(featureCommentMutation)
 )(({ t, discussion, comment, onClose, mutate }) => {
   const [mutatingState, setMutatingState] = useState({})
+  const [targets, setTargets] = useState(
+    comment.featuredTargets || [TARGETS[0]]
+  )
   const [text, setText] = useState(comment.featuredText || comment.text)
   const [colorScheme] = useColorContext()
   return (
@@ -39,19 +62,38 @@ export const FeatureCommentOverlay = compose(
           label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
-      <OverlayBody style={{ paddingTop: 58 }}>
-        <Field
-          label={t('FeatureCommentOverlay/text/label')}
-          renderInput={({ ref, ...inputProps }) => (
-            <AutosizeInput
-              {...inputProps}
-              {...fieldSetStyles.autoSize}
-              inputRef={ref}
+      <OverlayBody>
+        <div>
+          {TARGETS.map(target => (
+            <TargetCheckbox
+              key={target}
+              targetKey={target}
+              targets={targets}
+              setTargets={setTargets}
+              t={t}
             />
-          )}
-          value={text}
-          onChange={(_, value, shouldValidate) => setText(value)}
-        />
+          ))}
+        </div>
+        {targets.length ? (
+          <Field
+            label={t(`FeatureCommentOverlay/text/label`)}
+            renderInput={({ ref, ...inputProps }) => (
+              <AutosizeInput
+                {...inputProps}
+                {...fieldSetStyles.autoSize}
+                inputRef={ref}
+              />
+            )}
+            value={text}
+            onChange={(_, value, shouldValidate) => setText(value)}
+          />
+        ) : (
+          <Interaction.P {...colorScheme.set('color', 'textSoft')}>
+            <small>
+              <em>{t('FeatureCommentOverlay/warning')}</em>
+            </small>
+          </Interaction.P>
+        )}
         {mutatingState.error && <ErrorMessage error={mutatingState.error} />}
         <Button
           disabled={mutatingState.loading}
@@ -64,7 +106,8 @@ export const FeatureCommentOverlay = compose(
             mutate({
               variables: {
                 commentId: comment.id,
-                content: text
+                content: targets.length ? text : null,
+                targets
               }
             })
               .then(() => {
@@ -77,62 +120,51 @@ export const FeatureCommentOverlay = compose(
               })
           }}
         >
-          {t(
-            comment.featuredText
-              ? 'FeatureCommentOverlay/resubmit'
-              : 'FeatureCommentOverlay/submit'
-          )}
+          {t('FeatureCommentOverlay/submit')}
         </Button>
-        {!!comment.featuredText && (
-          <>
-            {' '}
-            <Button
-              disabled={mutatingState.loading}
-              onClick={() => {
-                setMutatingState({
-                  loading: true
-                })
-                mutate({
-                  variables: {
-                    commentId: comment.id,
-                    content: null
+        <div {...styles.preview}>
+          {targets.includes('DEFAULT') && (
+            <div>
+              <Label>{t('FeatureCommentOverlay/front/preview')}</Label>
+              <ActiveDebateTeaser
+                t={t}
+                discussion={{
+                  ...discussion,
+                  comments: {
+                    ...discussion.comments,
+                    nodes: [
+                      {
+                        ...comment,
+                        highlight: text
+                      }
+                    ]
                   }
-                })
-                  .then(() => {
-                    onClose()
-                  })
-                  .catch(error => {
-                    setMutatingState({
-                      error
-                    })
-                  })
-              }}
-            >
-              {t('FeatureCommentOverlay/remove')}
-            </Button>
-          </>
-        )}
-        <br />
-        <br />
-        <Label>{t('FeatureCommentOverlay/preview')}</Label>
-        <br />
-        <br />
-        <ActiveDebateTeaser
-          t={t}
-          discussion={{
-            ...discussion,
-            comments: {
-              ...discussion.comments,
-              nodes: [
-                {
-                  ...comment,
-                  highlight: text
-                }
-              ]
-            }
-          }}
-        />
+                }}
+              />
+            </div>
+          )}
+          {targets.includes('MARKETING') && (
+            <div>
+              <Label>{t('FeatureCommentOverlay/marketing/preview')}</Label>
+              <CommentTeaser
+                {...{ ...comment, featuredText: text }}
+                discussion={discussion}
+                t={t}
+              />
+            </div>
+          )}
+        </div>
       </OverlayBody>
     </Overlay>
   )
 })
+
+const styles = {
+  checkbox: css({
+    display: 'inline-block',
+    marginRight: 25
+  }),
+  preview: css({
+    marginTop: 30
+  })
+}

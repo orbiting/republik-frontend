@@ -61,6 +61,7 @@ const statusQuery = gql`
           ended
           pending
           pendingSubscriptionsOnly
+          gaining
         }
       }
       lastSeen(min: $prev, max: $max) {
@@ -105,7 +106,10 @@ const numMembersNeeded = 25000
 const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 
 const YEAR_MONTH_FORMAT = '%Y-%m'
-const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
+const formatYearMonthKey = swissTime.format(YEAR_MONTH_FORMAT)
+const parseYearMonthKey = swissTime.parse(YEAR_MONTH_FORMAT)
+
+const formatYearMonth = swissTime.format('%B %Y')
 
 const Accordion = withInNativeApp(
   withT(
@@ -349,14 +353,15 @@ const Page = ({
           const {
             evolution: { buckets, updatedAt }
           } = data.membershipStats
-          const lastMonth = buckets[buckets.length - 1]
 
           const labels = [
             { key: 'preactive', color: '#256900', label: 'Crowdfunder' },
             { key: 'active', color: '#3CAD00', label: 'aktive' },
             { key: 'loss', color: '#9970ab', label: 'Abgänge' },
-            { key: 'missing', color: '#333', label: 'fehlende' },
-            { key: 'pending', color: '#1B4D00', label: 'offene' }
+            { key: 'missing', color: '#444', label: 'fehlende' },
+            { key: 'pending', color: '#444', label: 'offene' },
+            { key: 'base', color: '#3CAD00', label: 'bestehende' },
+            { key: 'gaining', color: '#2A7A00', label: 'neue' }
           ]
           const labelMap = labels.reduce((map, d) => {
             map[d.key] = d.label
@@ -367,8 +372,12 @@ const Page = ({
             return map
           }, {})
 
-          const minMaxValues = []
+          const currentKey = formatYearMonthKey(new Date())
           const lastBucket = buckets[buckets.length - 1]
+          const currentBucket =
+            buckets.find(bucket => bucket.key === currentKey) || lastBucket
+
+          const minMaxValues = []
           const values = bucketsBefore
             .map(bucket => ({
               month: bucket.key,
@@ -376,46 +385,77 @@ const Page = ({
               value: bucket.preactive
             }))
             .concat(
-              buckets.reduce(
-                (
-                  acc,
-                  {
-                    key,
-                    active,
-                    overdue,
-                    ended,
-                    pending,
-                    pendingSubscriptionsOnly
-                  }
-                ) => {
-                  minMaxValues.push(active + overdue)
-                  minMaxValues.push(-ended)
-                  const pendingYearly = pending - pendingSubscriptionsOnly
-                  acc.push({
-                    month: key,
-                    label: labelMap.active,
-                    value: active + overdue - pendingYearly
-                  })
-                  acc.push({
-                    month: key,
-                    label: labelMap.pending,
-                    value: pendingYearly
-                  })
-                  acc.push({
-                    month: key,
-                    label: labelMap.loss,
-                    value: -ended
-                  })
-                  return acc
-                },
-                []
-              )
+              buckets
+                .slice(0, -3)
+                .reduce(
+                  (
+                    acc,
+                    {
+                      key,
+                      active,
+                      overdue,
+                      ended,
+                      pending,
+                      pendingSubscriptionsOnly
+                    }
+                  ) => {
+                    minMaxValues.push(active + overdue)
+                    minMaxValues.push(-ended)
+
+                    acc.push({
+                      month: key,
+                      label: labelMap.active,
+                      value: active + overdue
+                    })
+                    acc.push({
+                      month: key,
+                      label: labelMap.loss,
+                      value: -ended
+                    })
+                    return acc
+                  },
+                  []
+                )
             )
-          const activeCount = lastBucket.active + lastBucket.overdue
+
+          const pendingBuckets = buckets.slice(-7)
+          const pendingValues = pendingBuckets.reduce(
+            (agg, month) => {
+              // agg.gaining += month.gaining
+              const pendingYearly =
+                month.pending - month.pendingSubscriptionsOnly
+              agg.values = agg.values.concat([
+                {
+                  month: month.key,
+                  label: labelMap.base,
+                  value: month.active - month.gaining - pendingYearly
+                },
+                {
+                  month: month.key,
+                  label: labelMap.gaining,
+                  value: month.gaining
+                },
+                {
+                  month: month.key,
+                  label: labelMap.pending,
+                  value: pendingYearly
+                },
+                {
+                  month: month.key,
+                  label: labelMap.loss,
+                  value: -month.ended
+                }
+              ])
+              return agg
+            },
+            { gaining: 0, values: [] }
+          ).values
+
+          const activeCount = currentBucket.active + currentBucket.overdue
           const missingCount = numMembersNeeded - activeCount
           if (missingCount > 0) {
             values.push({
-              month: lastBucket.key,
+              month: currentBucket.key,
               label: labelMap.missing,
               value: missingCount
             })
@@ -463,7 +503,7 @@ const Page = ({
                   hasEnd={false}
                   crowdfundingName='PERMANENT'
                   crowdfunding={
-                    lastMonth && {
+                    currentBucket && {
                       name: 'PERMANENT',
                       goals: [
                         {
@@ -509,28 +549,66 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                     timeParse: '%Y-%m',
                     timeFormat: '%b %y',
                     xInterval: 'month',
-                    xTicks: [
-                      '2017-04',
-                      '2018-01',
-                      '2019-01',
-                      '2020-01',
-                      '2021-01'
-                    ],
-                    domain: [minValue, maxValue],
-                    yTicks: [0, 10000, 20000],
-                    yAnnotations: [
+                    xTicks: ['2018-01', '2019-01', '2020-01', currentKey],
+                    height: 300,
+                    domain: [minValue, maxValue + 2000],
+                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000],
+                    xAnnotations: [
                       {
-                        value: numMembersNeeded,
-                        label: 'selbsttragend ab',
-                        dy: '1.1em'
+                        x1: currentBucket.key,
+                        x2: currentBucket.key,
+                        value: currentBucket.active,
+                        label: 'Stand jetzt'
                       }
                     ],
                     xBandPadding: 0
                   }}
                   values={values.map(d => ({ ...d, value: String(d.value) }))}
                 />
+              </div>
+
+              <div style={{ marginTop: 20 }}>
+                <ChartTitle>
+                  {countFormat(
+                    lastBucket.pending - lastBucket.pendingSubscriptionsOnly
+                  )}{' '}
+                  anstehende Verläng&shy;erungen in den nächsten 3&nbsp;Monaten
+                </ChartTitle>
+                <ChartLead>
+                  Anzahl bestehende, offene und neue Mitgliedschaften und
+                  Monatsabos per Monatsende.
+                </ChartLead>
+                <Chart
+                  config={{
+                    type: 'TimeBar',
+                    color: 'label',
+                    colorMap,
+                    numberFormat: 's',
+                    x: 'month',
+                    timeParse: '%Y-%m',
+                    timeFormat: '%b %y',
+                    xInterval: 'month',
+                    height: 300,
+                    domain: [minValue, maxValue + 2000],
+                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000],
+                    xAnnotations: [
+                      {
+                        x1: currentBucket.key,
+                        x2: currentBucket.key,
+                        value: currentBucket.active,
+                        label: 'Stand jetzt'
+                      }
+                    ]
+                  }}
+                  values={pendingValues.map(d => ({
+                    ...d,
+                    value: String(d.value)
+                  }))}
+                />
                 <ChartLegend>
-                  Datenstand: {formatDateTime(new Date(updatedAt))}
+                  Als offen gelten Jahres­mitgliedschaften ohne
+                  Verlängerungszahlung. Datenstand:{' '}
+                  {formatDateTime(new Date(updatedAt))}
                 </ChartLegend>
               </div>
 
@@ -679,8 +757,8 @@ const EnhancedPage = compose(
     },
     options: ({ router: { query } }) => ({
       variables: {
-        prev: formatYearMonth(timeMonth.offset(new Date(), -1)),
-        max: formatYearMonth(timeMonth.offset(new Date(), 4)),
+        prev: formatYearMonthKey(timeMonth.offset(new Date(), -1)),
+        max: formatYearMonthKey(timeMonth.offset(new Date(), 3)),
         accessToken: query.token
       }
     })

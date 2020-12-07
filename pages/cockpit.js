@@ -590,7 +590,14 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                     xInterval: 'month',
                     height: 300,
                     domain: [minValue, maxValue + 2000],
-                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000],
+                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000],
+                    yAnnotations: [
+                      {
+                        value: numMembersNeeded,
+                        label: 'selbsttragend ab',
+                        dy: '1.1em'
+                      }
+                    ],
                     xAnnotations: [
                       {
                         x1: currentBucket.key,

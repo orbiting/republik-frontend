@@ -268,7 +268,9 @@ const Header = ({
                     whiteSpace: 'nowrap'
                   }}
                 >
-                  {isMobile && !isOnMarketingPage ? 'Abo' : 'Jetzt abonnieren'}
+                  {isMobile && !isOnMarketingPage
+                    ? 'Abo'
+                    : t('marketing/page/carpet/button')}
                 </Button>
               )}
             </div>

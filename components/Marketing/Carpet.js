@@ -58,7 +58,9 @@ const Carpet = ({ isMobile, t, data: { loading, front } }) => {
       <div {...styles.center}>
         <Interaction.P>{t('marketing/page/carpet/text')}</Interaction.P>
         <br />
-        <Button primary>{t('marketing/page/carpet/button')}</Button>
+        <Button href='/pledge' primary>
+          {t('marketing/page/carpet/button')}
+        </Button>
       </div>
     </div>
   )

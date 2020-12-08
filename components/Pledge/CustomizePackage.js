@@ -786,7 +786,7 @@ class CustomizePackage extends Component {
                     title={
                       isAboGive
                         ? t(`memberships/title/${membership.type.name}/give`, {
-                            name: membership.user.name,
+                            name: membership.claimerName,
                             sequenceNumber: membership.sequenceNumber
                           })
                         : undefined
@@ -1090,7 +1090,7 @@ class CustomizePackage extends Component {
                       {isAboGive && (
                         <SmallP>
                           {t(`option/${pkg.name}/additionalPeriods/give`, {
-                            name: membership.user.name
+                            name: membership.claimerName
                           })}
                         </SmallP>
                       )}

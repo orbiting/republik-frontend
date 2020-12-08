@@ -775,8 +775,8 @@ const query = gql`
             id
             user {
               id
-              name
             }
+            claimerName
             createdAt
             sequenceNumber
             renew

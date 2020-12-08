@@ -521,6 +521,12 @@ class CustomizePackage extends Component {
           src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_tablebook_totebag.jpg`}
         />
       )) ||
+      (hasMask && hasNotebook && hasTotebag && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_totebag.jpg`}
+        />
+      )) ||
       (hasNotebook && hasTotebag && hasTablebook && (
         <img
           {...styles.packageImage}

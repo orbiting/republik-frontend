@@ -254,6 +254,7 @@ class Pledge extends Component {
         ? values.messageToClaimers
         : undefined,
       id: pledge ? pledge.id : undefined,
+      pledgeShippingAddress: pledge ? pledge.shippingAddress : undefined,
       requireShippingAddress
     }
   }

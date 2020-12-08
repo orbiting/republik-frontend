@@ -81,7 +81,10 @@ const SubmitWithHooks = props => {
   )
 
   const addressState = useFieldSetState(addressFields, defaultAddress)
-  const shippingAddressState = useFieldSetState(addressFields, defaultAddress)
+  const shippingAddressState = useFieldSetState(
+    addressFields,
+    props.basePledge?.pledgeShippingAddress || defaultAddress
+  )
 
   const [syncAddresses, setSyncAddresses] = useState(true)
 
@@ -110,7 +113,10 @@ class Submit extends Component {
       loading: false
     }
     if (props.basePledge) {
-      const variables = this.submitVariables(props.basePledge)
+      const variables = this.submitVariables({
+        ...props,
+        ...props.basePledge
+      })
       const hash = simpleHash(variables)
 
       setPendingOrder(variables)
@@ -133,7 +139,6 @@ class Submit extends Component {
       customMe,
       requireShippingAddress,
       shippingAddressState,
-      addressState,
       syncAddresses
     } = props
 

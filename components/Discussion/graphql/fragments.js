@@ -38,6 +38,7 @@ export const discussion = gql`
       id
       meta {
         path
+        twitterImage
         template
         ownDiscussion {
           id
@@ -65,6 +66,7 @@ export const comment = gql`
     adminUnpublished
     featuredAt
     featuredText
+    featuredTargets
     downVotes
     upVotes
     userVote

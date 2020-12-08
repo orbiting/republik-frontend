@@ -24,6 +24,7 @@ import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
 import DiscussionIcon from '../Icons/Discussion'
 import ActionBar from '../ActionBar'
+import FontSizeSync from '../FontSize/Sync'
 
 import {
   A,
@@ -93,6 +94,7 @@ const FeedbackPage = props => {
       stickySecondaryNav={!tab}
       colorSchemeKey='auto'
     >
+      {!!tab && <FontSizeSync />}
       <Center>
         <div {...styles.container}>
           {!tab && (

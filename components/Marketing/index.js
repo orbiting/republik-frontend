@@ -33,9 +33,9 @@ const Marketing = ({ t }) => {
       <MiniFront t={t} />
       <Carpet isMobile={isMobile} t={t} />
       <Reasons t={t} />
+      <Sections t={t} />
       <Team t={t} />
       <Community t={t} />
-      <Sections t={t} />
       <Vision t={t} />
       <Logo isMobile={isMobile} />
     </>

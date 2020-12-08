@@ -236,6 +236,7 @@ class Pledge extends Component {
 
     return {
       accessToken: query.token,
+      packageGroup: pkg ? pkg.group : undefined,
       packageName: pkg ? pkg.name : undefined,
       forceAutoPay: pkg ? pkg.name === 'MONTHLY_ABO' : undefined,
       requiresStatutes: pkg

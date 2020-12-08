@@ -301,6 +301,7 @@ class PaymentForm extends Component {
       requireShippingAddress,
       userName,
       userAddress,
+      packageGroup,
       syncAddresses,
       setSyncAddresses
     } = this.props
@@ -331,7 +332,7 @@ class PaymentForm extends Component {
             <AddressForm
               {...shippingAddressState}
               afterEdit={
-                userAddress ? (
+                userAddress || packageGroup === 'GIVE' ? (
                   <>
                     <Checkbox
                       checked={syncAddresses}
@@ -339,7 +340,11 @@ class PaymentForm extends Component {
                         setSyncAddresses(checked)
                       }}
                     >
-                      {t('pledge/address/shipping/updateAccount')}
+                      {t(
+                        `pledge/address/shipping/${
+                          userAddress ? 'updateAccount' : 'setAccount'
+                        }`
+                      )}
                     </Checkbox>
                     <br style={{ clear: 'left' }} />
                   </>

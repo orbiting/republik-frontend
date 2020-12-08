@@ -550,7 +550,8 @@ class Submit extends Component {
       addressState,
       shippingAddressState,
       syncAddresses,
-      setSyncAddresses
+      setSyncAddresses,
+      packageGroup
     } = this.props
 
     const errorMessages = this.getErrorMessages()
@@ -579,6 +580,7 @@ class Submit extends Component {
           addressState={addressState}
           shippingAddressState={shippingAddressState}
           syncAddresses={syncAddresses}
+          packageGroup={packageGroup}
           setSyncAddresses={setSyncAddresses}
           onChange={fields => {
             this.setState(state => {

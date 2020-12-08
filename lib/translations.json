@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-07T23:06:18.483Z",
+  "updated": "2020-12-08T13:24:50.906Z",
   "title": "live",
   "data": [
     {
@@ -2504,7 +2504,11 @@
     },
     {
       "key": "pledge/address/shipping/updateAccount",
-      "value": "Standardadresse aktualisieren"
+      "value": "Ihre Standardadresse aktualisieren"
+    },
+    {
+      "key": "pledge/address/shipping/setAccount",
+      "value": "Als Ihre Standardadresse speichern"
     },
     {
       "key": "pledge/address/payment/title",

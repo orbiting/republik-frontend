@@ -805,6 +805,13 @@ class CustomizePackage extends Component {
                       values[fieldKey] === undefined
                         ? field.default
                         : values[fieldKey]
+
+                    const isBooleanOption = field.min === 0 && field.max === 1
+                    const isCheckboxOption =
+                      checkboxGroup || (isGoodies && isBooleanOption)
+
+                    // always use singular for goodie checkbox
+                    const labelValue = isCheckboxOption ? 1 : value
                     const label = t.first(
                       [
                         ...(isAboGive
@@ -815,28 +822,28 @@ class CustomizePackage extends Component {
                           : []),
                         ...(option.accessGranted
                           ? [
-                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/${value}`,
+                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/${labelValue}`,
                               `option/${pkg.name}/${option.reward.name}/accessGranted/label/other`,
                               `option/${pkg.name}/${option.reward.name}/accessGranted/label`,
-                              `option/${option.reward.name}/accessGranted/label/${value}`,
+                              `option/${option.reward.name}/accessGranted/label/${labelValue}`,
                               `option/${option.reward.name}/accessGranted/label/other`,
                               `option/${option.reward.name}/accessGranted/label`
                             ]
                           : []),
                         ...(field.interval
                           ? [
-                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${value}`,
+                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
                               `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/other`,
                               `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label`,
-                              `option/${option.reward.name}/interval/${field.interval}/label/${value}`,
+                              `option/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
                               `option/${option.reward.name}/interval/${field.interval}/label/other`,
                               `option/${option.reward.name}/interval/${field.interval}/label`
                             ]
                           : []),
-                        `option/${pkg.name}/${option.reward.name}/label/${value}`,
+                        `option/${pkg.name}/${option.reward.name}/label/${labelValue}`,
                         `option/${pkg.name}/${option.reward.name}/label/other`,
                         `option/${pkg.name}/${option.reward.name}/label`,
-                        `option/${option.reward.name}/label/${value}`,
+                        `option/${option.reward.name}/label/${labelValue}`,
                         `option/${option.reward.name}/label/other`,
                         `option/${option.reward.name}/label`
                       ],
@@ -889,9 +896,6 @@ class CustomizePackage extends Component {
                       onChange(this.calculateNextPrice(fields))
                     }
 
-                    const isBooleanOption = field.min === 0 && field.max === 1
-                    const isCheckboxOption =
-                      checkboxGroup || (isGoodies && isBooleanOption)
                     if (isBooleanOption && (group || isCheckboxOption)) {
                       const children = (
                         <span

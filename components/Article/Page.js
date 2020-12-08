@@ -135,7 +135,6 @@ const ArticlePage = ({
   data: { article },
   isMember,
   isEditor,
-  isTester,
   inNativeApp,
   inNativeIOSApp,
   payNoteSeed,
@@ -322,7 +321,7 @@ const ArticlePage = ({
     )
 
   const hasOverviewNav = meta && meta.template === 'section'
-  const colorSchemeKey = darkMode ? 'dark' : isTester ? 'auto' : 'light'
+  const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
   return (
     <Frame
@@ -607,7 +606,6 @@ const ComposedPage = compose(
   withMembership,
   withMemberStatus,
   withEditor,
-  withTester,
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation,

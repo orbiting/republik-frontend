@@ -4,32 +4,38 @@ import {
   IconButton,
   Radio,
   Interaction,
-  Label
+  Label,
+  useColorContext
 } from '@project-r/styleguide'
 import { MdBrightness2 } from 'react-icons/md'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 
-const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
+const DarkmodeSwitch = ({
+  colorSchemeKey: pageColorSchemeKey,
+  t,
+  inNativeApp
+}) => {
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
+  const [colorScheme] = useColorContext()
 
   const colorSchemaKeyForLable =
     pageColorSchemeKey !== 'auto' ? pageColorSchemeKey : colorSchemeKey
 
   const iconLabel =
     colorSchemaKeyForLable === 'light'
-      ? `${t('darkmode/switch/off')}`
+      ? t('darkmode/switch/off')
       : colorSchemaKeyForLable === 'dark'
-      ? `${t('darkmode/switch/on')}`
-      : `${t('darkmode/switch/auto')}`
+      ? t('darkmode/switch/on')
+      : t('darkmode/switch/auto')
 
   const Icon = React.forwardRef((props, ref) => (
     <IconButton
       Icon={MdBrightness2}
-      label={t.elements('darkmode/switch/label', {
+      label={t('darkmode/switch/label', {
         iconLabel
       })}
-      labelShort={t.elements('darkmode/switch/label', {
+      labelShort={t('darkmode/switch/label', {
         iconLabel
       })}
       ref={ref}
@@ -40,8 +46,10 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
   return (
     <CalloutMenu Element={Icon}>
       <div style={{ width: 180 }}>
-        {pageColorSchemeKey !== 'auto' ? (
-          <Label>{t('darkmode/switch/notavailable')}</Label>
+        {!colorScheme.CSSVarSupport ? (
+          <Label>{t('darkmode/switch/notSupported')}</Label>
+        ) : pageColorSchemeKey !== 'auto' ? (
+          <Label>{t('darkmode/switch/notAvailable')}</Label>
         ) : (
           <Interaction.P>
             <Radio
@@ -67,18 +75,23 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
             </Radio>
             <br />
             {/*
-              // ToDo activating auto 
-              // - uncomment Radio below
+              // ToDo App has been updated 
+              // - remove condition below
             */}
-            {/*<Radio
-              checked={!colorSchemeKey}
-              onChange={() => {
-                // default is undefined
-                setColorSchemeKey()
-              }}
-            >
-              {t('darkmode/switch/auto')}
-            </Radio>*/}
+            {!inNativeApp ? (
+              <Radio
+                value='auto'
+                checked={colorSchemeKey === 'auto'}
+                onChange={() => {
+                  // ToDo activating auto by default
+                  // - handle all «ToDo activating auto» comments
+                  // - rm explicit auto value
+                  setColorSchemeKey('auto')
+                }}
+              >
+                {t('darkmode/switch/auto')}
+              </Radio>
+            ) : null}
           </Interaction.P>
         )}
       </div>

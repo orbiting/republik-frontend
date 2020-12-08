@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-02T15:25:39.490Z",
+  "updated": "2020-12-08T13:44:27.255Z",
   "title": "live",
   "data": [
     {
@@ -769,6 +769,18 @@
     {
       "key": "Account/AddressForm/country/error/empty",
       "value": "Land fehlt"
+    },
+    {
+      "key": "Account/AddressForm/edit",
+      "value": "ändern"
+    },
+    {
+      "key": "Account/AddressForm/editName",
+      "value": "bearbeiten"
+    },
+    {
+      "key": "Account/AddressForm/reset",
+      "value": "zurücksetzen"
     },
     {
       "key": "account/paymentSource/3dsecure",
@@ -2195,6 +2207,14 @@
       "value": "{formattedCHF}"
     },
     {
+      "key": "package/price/goodie",
+      "value": "{formattedCHF}"
+    },
+    {
+      "key": "package/price/free",
+      "value": "kostenlos"
+    },
+    {
       "key": "package/DONATE/title",
       "value": "Spenden"
     },
@@ -2228,7 +2248,7 @@
     },
     {
       "key": "package/ABO_GIVE_MONTHS/description",
-      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazuschenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazuschenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken. Im Dezember 2020 ausserdem die <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> für CHF 10."
     },
     {
       "key": "package/BENEFACTOR/title",
@@ -2451,10 +2471,6 @@
       "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
     },
     {
-      "key": "payment/paymentslip/title",
-      "value": "Ihre Adresse"
-    },
-    {
       "key": "payment/paymentslip/explanation",
       "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
     },
@@ -2561,6 +2577,30 @@
     {
       "key": "noscript",
       "value": "JavaScript ist deaktiviert. Formulare – u. a. die Anmeldung – und interaktive Elemente funktionieren nur wenn Sie JavaScript aktivieren. Anleitung um <a href=\"https://wiki.selfhtml.org/wiki/JavaScript/Tutorials/JavaScript_aktivieren\">JavaScript zu aktivieren auf selfhtml.org lesen</a>."
+    },
+    {
+      "key": "pledge/address/shipping/title",
+      "value": "Lieferadresse"
+    },
+    {
+      "key": "pledge/address/shipping/updateAccount",
+      "value": "Ihre Standardadresse aktualisieren"
+    },
+    {
+      "key": "pledge/address/shipping/setAccount",
+      "value": "Als Ihre Standardadresse speichern"
+    },
+    {
+      "key": "pledge/address/payment/title",
+      "value": "Rechnungsadresse"
+    },
+    {
+      "key": "pledge/address/payment/likeShipping",
+      "value": "Gleich wie Lieferadresse"
+    },
+    {
+      "key": "pledge/address/payment/other",
+      "value": "Andere Adresse"
     },
     {
       "key": "pledge/submit/emailVerify/note",
@@ -6183,12 +6223,20 @@
       "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
+      "key": "package/ABO/description/goodies/MASK",
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten hundert, die zu ihrer Jahresmitgliedschaft kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
+    },
+    {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold sowie ein signiertes «Handbuch für Journalismus im 21. Jahrhundert»."
     },
     {
       "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",
       "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
+    },
+    {
+      "key": "package/BENEFACTOR/description/goodies/MASK",
+      "value": "Und für begrenzte Zeit zudem auf Wunsch eine exklusive <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a>."
     },
     {
       "key": "package/PROLONG/description",
@@ -6200,7 +6248,7 @@
     },
     {
       "key": "package/PROLONG/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine Republik-Maske bestellen können. "
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
@@ -6211,24 +6259,32 @@
       "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
+      "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/MASK",
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können. "
+    },
+    {
       "key": "package/TABLEBOOK/description",
       "value": "Die «Republik bei Stromausfall» ist eine auf 2000 Exemplare limitierte, gedruckte Edition der liebsten Geschichten und Bilder unserer Autorinnen und Autoren – auf rund 600 Seiten. Wie es sich für einen Sammel­band gehört, enthält er ein launiges Vorwort. Und jedem ausgewählten Text ist ein kleiner persönlicher Essay vorangestellt."
     },
     {
       "key": "package/MASK/description",
-      "value": "Ob als Statement-Piece oder praktische Ergänzung Ihrer MNS-Kollektion: Die Republik-Maske sieht mit weissen Rs auf schwarzem Grund verrrrrrdammt gut aus. Die dreilagige Stoffmaske ist ausserdem mit HeiQ Viroblock behandelt."
+      "value": "Ob als Statement-Piece oder praktische Ergänzung Ihrer MNS-Kollektion: Die Republik-Maske sieht mit weissen Rs auf schwarzem Grund verrrrrrdammt gut aus. Die dreilagige Stoffmaske ist ausserdem mit <a href=\"https://www.republik.ch/maske\" target=\"_blank\">HeiQ Viroblock</a> behandelt."
     },
     {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Hinweis: Bücher liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bestellungen bis zum 21. Dezember werden rechtzeitig zu Weihnachten geliefert."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bestellungen bis zum 21. Dezember werden rechtzeitig zu Weihnachten geliefert."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bestellungen bis zum 21. Dezember werden rechtzeitig zu Weihnachten geliefert."
+    },
+    {
+      "key": "pledge/notice/goodies/delivery/MASK",
+      "value": "Hinweis: Bestellungen bis zum 21. Dezember werden rechtzeitig zu Weihnachten geliefert."
     },
     {
       "key": "option/TABLEBOOK/label/other",
@@ -6236,11 +6292,15 @@
     },
     {
       "key": "option/MASK/label/other",
+      "value": "Republik-Masken"
+    },
+    {
+      "key": "option/MASK/label/1",
       "value": "Republik-Maske"
     },
     {
       "key": "package/customize/price/payMore",
-      "value": "Möchten Sie Ihr Investment erhöhen?"
+      "value": "Möchten Sie vergünstigte Mitgliedschaften ermöglichen?"
     },
     {
       "key": "package/customize/price/payMore/1.5",
@@ -6541,6 +6601,10 @@
     {
       "key": "package/customize/messageToClaimers/note",
       "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder übermitteln Sie Ihre Grüsse. Falls Sie mit dem Beschenkten in Kontakt treten möchten, geben Sie hier Ihre E-Mail Adresse an."
+    },
+    {
+      "key": "package/ABO_GIVE/description/goodies/MASK_NOTEBOOK_TABLEBOOK_TOTEBAG",
+      "value": "Etwas Handfestes dazuschenken? Zur Auswahl stehen das Buch «Republik bei Stromausfall» für CHF 58, die Republik-Tasche oder das Republik-Notizbuch für je CHF 20. Und im Dezember 2020 die <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> für CHF 10."
     },
     {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",

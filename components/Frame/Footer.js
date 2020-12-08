@@ -37,6 +37,7 @@ const styles = {
     position: 'relative',
     zIndex: ZINDEX_FOOTER, // goes over sidebar
     backgroundColor: colors.negative.primaryBg,
+    borderTop: `1px solid ${colors.negative.divider}`,
     paddingTop: 30,
     paddingBottom: 30,
     textRendering: 'optimizeLegibility',
@@ -291,7 +292,7 @@ class Footer extends Component {
                 <a>{t('footer/me/faq')}</a>
               </LazyLink>
               <br />
-              <LazyLink route='etiquette'>
+              <LazyLink route='section' params={{ slug: 'etikette' }}>
                 <a>{t('footer/me/etiquette')}</a>
               </LazyLink>
               <br />

@@ -38,8 +38,7 @@ const UserNav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
-  colorSchemeKey,
-  isTester
+  colorSchemeKey
 }) => {
   const [containerPadding, setContainerPadding] = useState()
   const containerRef = useRef(null)
@@ -89,11 +88,13 @@ const UserNav = ({
         <div ref={containerRef}>
           {hasExpandedRef.current && (
             <>
-              {isTester && colorSchemeKey === 'auto' ? (
-                <div style={{ marginBottom: 20 }}>
-                  <DarkmodeSwitch colorSchemeKey={colorSchemeKey} t={t} />
-                </div>
-              ) : null}
+              <div style={{ marginBottom: 20 }}>
+                <DarkmodeSwitch
+                  colorSchemeKey={colorSchemeKey}
+                  t={t}
+                  inNativeApp={inNativeApp}
+                />
+              </div>
               {!me && (
                 <>
                   <div {...styles.signInBlock}>
@@ -275,9 +276,4 @@ const styles = {
   })
 }
 
-export default compose(
-  withT,
-  withInNativeApp,
-  withMembership,
-  withTester
-)(UserNav)
+export default compose(withT, withInNativeApp, withMembership)(UserNav)

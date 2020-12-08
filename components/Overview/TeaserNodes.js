@@ -14,7 +14,7 @@ const styles = {
   })
 }
 
-const TeaserNodes = ({ nodes, highlight, noClick }) => {
+const TeaserNodes = ({ nodes, highlight, noClick, backgroundColor }) => {
   const nodeWidth = 100 / nodes.length
   const maxIndex = nodes.length - 1
   const [colorScheme] = useColorContext()
@@ -29,7 +29,8 @@ const TeaserNodes = ({ nodes, highlight, noClick }) => {
             style={{
               left: `${nodeWidth * i}%`,
               right: `${nodeWidth * (maxIndex - i)}%`,
-              opacity: highlight && !highlight(node.data) ? '0.6' : '0'
+              opacity: highlight && !highlight(node.data) ? '0.6' : '0',
+              backgroundColor
             }}
             {...colorScheme.set('backgroundColor', 'default')}
           />

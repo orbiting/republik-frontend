@@ -13,7 +13,7 @@ import {
   fontStyles,
   Center,
   Interaction,
-  linkRule,
+  A,
   plainButtonRule
 } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
@@ -107,10 +107,8 @@ const Page = ({ t, me }) => {
                 ].filter(Boolean),
                 {
                   feedLink: (
-                    <Link route='feed' key='link'>
-                      <a {...linkRule}>
-                        {t('pages/bookmarks/placeholder/feedText')}
-                      </a>
+                    <Link route='feed' key='link' passHref>
+                      <A>{t('pages/bookmarks/placeholder/feedText')}</A>
                     </Link>
                   ),
                   bookmarkIcon

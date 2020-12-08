@@ -14,7 +14,12 @@ import {
   colors,
   LazyLoad
 } from '@project-r/styleguide'
-import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
+import {
+  ChartTitle,
+  ChartLead,
+  ChartLegend,
+  Chart
+} from '@project-r/styleguide/chart'
 
 import md from 'markdown-in-js'
 
@@ -54,6 +59,9 @@ const statusQuery = gql`
           active
           overdue
           ended
+          pending
+          pendingSubscriptionsOnly
+          gaining
         }
       }
       lastSeen(min: $prev, max: $max) {
@@ -98,7 +106,10 @@ const numMembersNeeded = 25000
 const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 
 const YEAR_MONTH_FORMAT = '%Y-%m'
-const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
+const formatYearMonthKey = swissTime.format(YEAR_MONTH_FORMAT)
+const parseYearMonthKey = swissTime.parse(YEAR_MONTH_FORMAT)
+
+const formatYearMonth = swissTime.format('%B %Y')
 
 const Accordion = withInNativeApp(
   withT(
@@ -115,7 +126,7 @@ const Accordion = withInNativeApp(
 
       return (
         <div style={{ marginTop: 10, marginBottom: 30 }}>
-          <Interaction.P style={{ color: '#fff', marginBottom: 10 }}>
+          <Interaction.P style={{ marginBottom: 10 }}>
             <strong>So können Sie uns jetzt unterstützen:</strong>
           </Interaction.P>
           {me && me.activeMembership && (
@@ -277,7 +288,7 @@ const Accordion = withInNativeApp(
               </Link>
               <PackageBuffer />
               {false && !me && !shouldBuyProlong && !inNativeIOSApp && (
-                <Interaction.P style={{ color: '#fff', marginTop: 10 }}>
+                <Interaction.P style={{ marginTop: 10 }}>
                   Falls Sie bereits Mitglied sind: Melden Sie sich an, um Ihr
                   Abo zu verlängern.
                 </Interaction.P>
@@ -342,13 +353,15 @@ const Page = ({
           const {
             evolution: { buckets, updatedAt }
           } = data.membershipStats
-          const lastMonth = buckets[buckets.length - 1]
 
           const labels = [
             { key: 'preactive', color: '#256900', label: 'Crowdfunder' },
             { key: 'active', color: '#3CAD00', label: 'aktive' },
             { key: 'loss', color: '#9970ab', label: 'Abgänge' },
-            { key: 'missing', color: '#333', label: 'fehlende' }
+            { key: 'missing', color: '#444', label: 'fehlende' },
+            { key: 'pending', color: '#444', label: 'offene' },
+            { key: 'base', color: '#3CAD00', label: 'bestehende' }
+            // { key: 'gaining', color: '#2A7A00', label: 'neue' }
           ]
           const labelMap = labels.reduce((map, d) => {
             map[d.key] = d.label
@@ -359,8 +372,12 @@ const Page = ({
             return map
           }, {})
 
-          const minMaxValues = []
+          const currentKey = formatYearMonthKey(new Date())
           const lastBucket = buckets[buckets.length - 1]
+          const currentBucket =
+            buckets.find(bucket => bucket.key === currentKey) || lastBucket
+
+          const minMaxValues = []
           const values = bucketsBefore
             .map(bucket => ({
               month: bucket.key,
@@ -368,27 +385,77 @@ const Page = ({
               value: bucket.preactive
             }))
             .concat(
-              buckets.reduce((acc, { key, active, overdue, ended }) => {
-                minMaxValues.push(active + overdue)
-                minMaxValues.push(-ended)
-                acc.push({
-                  month: key,
-                  label: labelMap.active,
-                  value: active + overdue
-                })
-                acc.push({
-                  month: key,
-                  label: labelMap.loss,
-                  value: -ended
-                })
-                return acc
-              }, [])
+              buckets
+                .slice(0, -3)
+                .reduce(
+                  (
+                    acc,
+                    {
+                      key,
+                      active,
+                      overdue,
+                      ended,
+                      pending,
+                      pendingSubscriptionsOnly
+                    }
+                  ) => {
+                    minMaxValues.push(active + overdue)
+                    minMaxValues.push(-ended)
+
+                    acc.push({
+                      month: key,
+                      label: labelMap.active,
+                      value: active + overdue
+                    })
+                    acc.push({
+                      month: key,
+                      label: labelMap.loss,
+                      value: -ended
+                    })
+                    return acc
+                  },
+                  []
+                )
             )
-          const activeCount = lastBucket.active + lastBucket.overdue
+
+          const pendingBuckets = buckets.slice(-7)
+          const pendingValues = pendingBuckets.reduce(
+            (agg, month) => {
+              // agg.gaining += month.gaining
+              const pendingYearly =
+                month.pending - month.pendingSubscriptionsOnly
+              agg.values = agg.values.concat([
+                {
+                  month: month.key,
+                  label: labelMap.base,
+                  value: month.active - pendingYearly // - month.gaining
+                },
+                // {
+                //   month: month.key,
+                //   label: labelMap.gaining,
+                //   value: month.gaining
+                // },
+                {
+                  month: month.key,
+                  label: labelMap.pending,
+                  value: pendingYearly
+                },
+                {
+                  month: month.key,
+                  label: labelMap.loss,
+                  value: -month.ended
+                }
+              ])
+              return agg
+            },
+            { gaining: 0, values: [] }
+          ).values
+
+          const activeCount = currentBucket.active + currentBucket.overdue
           const missingCount = numMembersNeeded - activeCount
           if (missingCount > 0) {
             values.push({
-              month: lastBucket.key,
+              month: currentBucket.key,
               label: labelMap.missing,
               value: missingCount
             })
@@ -436,7 +503,7 @@ const Page = ({
                   hasEnd={false}
                   crowdfundingName='PERMANENT'
                   crowdfunding={
-                    lastMonth && {
+                    currentBucket && {
                       name: 'PERMANENT',
                       goals: [
                         {
@@ -451,7 +518,7 @@ const Page = ({
                   }
                 />
               </div>
-              <Interaction.Headline style={{ color: '#fff', marginBottom: 20 }}>
+              <Interaction.Headline style={{ marginBottom: 20 }}>
                 Das Cockpit zum Stand unseres Unternehmens
               </Interaction.Headline>
               {md(mdComponents)`
@@ -462,25 +529,12 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
 
 `}
 
-              <div
-                {...css({
-                  marginTop: 20,
-                  '& text': {
-                    fill: '#fff !important'
-                  },
-                  '& line': {
-                    stroke: 'rgba(255, 255, 255, 0.4) !important'
-                  },
-                  '& div': {
-                    color: '#fff !important'
-                  }
-                })}
-              >
-                <ChartTitle style={{ color: '#fff' }}>
+              <div style={{ marginTop: 20 }}>
+                <ChartTitle>
                   Aktuell {countFormat(activeCount)} Mitglieder
                   und&nbsp;Abonnentinnen
                 </ChartTitle>
-                <ChartLead style={{ color: '#fff' }}>
+                <ChartLead>
                   Entwicklung vom Crowdfunding im April 2017 bis heute.{' '}
                   {missingCount > 0 &&
                     `Es fehlen ${countFormat(missingCount)} Mitglieder.`}
@@ -495,9 +549,47 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                     timeParse: '%Y-%m',
                     timeFormat: '%b %y',
                     xInterval: 'month',
-                    xTicks: ['2017-04', '2018-01', '2019-01', '2020-01'],
-                    domain: [minValue, maxValue],
-                    yTicks: [0, 10000, 20000],
+                    xTicks: ['2018-01', '2019-01', '2020-01', currentKey],
+                    height: 300,
+                    domain: [minValue, maxValue + 2000],
+                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000],
+                    xAnnotations: [
+                      {
+                        x1: currentBucket.key,
+                        x2: currentBucket.key,
+                        value: currentBucket.active,
+                        label: 'Stand jetzt'
+                      }
+                    ],
+                    xBandPadding: 0
+                  }}
+                  values={values.map(d => ({ ...d, value: String(d.value) }))}
+                />
+              </div>
+
+              <div style={{ marginTop: 20 }}>
+                <ChartTitle>
+                  {countFormat(
+                    lastBucket.pending - lastBucket.pendingSubscriptionsOnly
+                  )}{' '}
+                  anstehende Verläng&shy;erungen in den nächsten 3&nbsp;Monaten
+                </ChartTitle>
+                <ChartLead>
+                  Anzahl Mitgliedschaften und Abos per Monatsende.
+                </ChartLead>
+                <Chart
+                  config={{
+                    type: 'TimeBar',
+                    color: 'label',
+                    colorMap,
+                    numberFormat: 's',
+                    x: 'month',
+                    timeParse: '%Y-%m',
+                    timeFormat: '%b %y',
+                    xInterval: 'month',
+                    height: 300,
+                    domain: [minValue, maxValue + 2000],
+                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000],
                     yAnnotations: [
                       {
                         value: numMembersNeeded,
@@ -505,13 +597,25 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                         dy: '1.1em'
                       }
                     ],
-                    xBandPadding: 0
+                    xAnnotations: [
+                      {
+                        x1: currentBucket.key,
+                        x2: currentBucket.key,
+                        value: currentBucket.active,
+                        label: 'Stand jetzt'
+                      }
+                    ]
                   }}
-                  values={values.map(d => ({ ...d, value: String(d.value) }))}
+                  values={pendingValues.map(d => ({
+                    ...d,
+                    value: String(d.value)
+                  }))}
                 />
-                <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
-                  Datenstand: {formatDateTime(new Date(updatedAt))}
-                </Editorial.Note>
+                <ChartLegend>
+                  Als offen gelten Jahres­mitgliedschaften ohne
+                  Verlängerungszahlung. Datenstand:{' '}
+                  {formatDateTime(new Date(updatedAt))}
+                </ChartLegend>
               </div>
 
               {md(mdComponents)`
@@ -528,24 +632,11 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
 
 `}
 
-              <div
-                {...css({
-                  marginTop: 20,
-                  '& text, & tspan': {
-                    fill: '#fff !important'
-                  },
-                  '& svg > g > g > g > line': {
-                    stroke: 'rgba(255, 255, 255, 0.4) !important'
-                  },
-                  '& div': {
-                    color: '#fff !important'
-                  }
-                })}
-              >
-                <ChartTitle style={{ color: '#fff' }}>
+              <div style={{ marginTop: 20 }}>
+                <ChartTitle>
                   Wie beliebt sind Dialog, Lesezeichen und Leseposition?
                 </ChartTitle>
-                <ChartLead style={{ color: '#fff' }}>
+                <ChartLead>
                   Anzahl Mitglieder, welche pro Monat eine Funktion benutzen.
                 </ChartLead>
                 <Chart
@@ -574,11 +665,11 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
                   }}
                   values={engagedUsers}
                 />
-                <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
+                <ChartLegend>
                   Beim Dialog werden Schreibende und Reagierende (Up- und
                   Downvotes) gezählt. Lesezeichen wurden Mitte Januar 2019
                   eingeführt, die Leseposition Ende März&nbsp;2019.
-                </Editorial.Note>
+                </ChartLegend>
               </div>
 
               {md(mdComponents)`
@@ -672,8 +763,8 @@ const EnhancedPage = compose(
     },
     options: ({ router: { query } }) => ({
       variables: {
-        prev: formatYearMonth(timeMonth.offset(new Date(), -1)),
-        max: formatYearMonth(new Date()),
+        prev: formatYearMonthKey(timeMonth.offset(new Date(), -1)),
+        max: formatYearMonthKey(timeMonth.offset(new Date(), 3)),
         accessToken: query.token
       }
     })

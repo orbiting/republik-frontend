@@ -69,10 +69,14 @@ const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
 }
-const Manifest = dynamic(() => import('../Crowdfunding/Manifest'), {
+const Manifest = dynamic(() => import('../About/Manifest'), {
   ssr: true
 })
-const ReasonsVideo = dynamic(() => import('../Crowdfunding/ReasonsVideo'), {
+const EmployeesRow = dynamic(
+  () => import('../About/EmployeesRow'),
+  dynamicOptions
+)
+const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {
   ssr: true
 })
 const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
@@ -208,6 +212,7 @@ const ArticlePage = ({
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
           MANIFEST: Manifest,
+          EMPLOYEES_ROW: EmployeesRow,
           REASONS_VIDEO: ReasonsVideo,
           VOTEBOX: Votebox,
           VOTE_COUNTER: VoteCounter,

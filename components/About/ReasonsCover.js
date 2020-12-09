@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 
 import { inQuotes, fontStyles } from '@project-r/styleguide'
-import { getRandomReason } from './reasonData'
+import { getRandomReason } from '../Crowdfunding/reasonData'
 
 const WIDTH = 1200
 const HEIGHT = 628

@@ -11,9 +11,17 @@ const ProfileLink = ({ children, slug }) => {
   )
 }
 
-const Employee = ({ name, title, user, style, minColumns, maxColumns }) => {
+const Employee = ({
+  name,
+  title,
+  user,
+  style,
+  minColumns,
+  maxColumns,
+  singleRow
+}) => {
   const displayName = name + (title ? `, ${title}` : '')
-  const columnProps = { minColumns, maxColumns }
+  const columnProps = { minColumns, maxColumns, singleRow }
   if (!user) {
     return (
       <Item

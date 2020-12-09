@@ -48,7 +48,7 @@ import {
   mediaQueries,
   LazyLoad
 } from '@project-r/styleguide'
-import ReasonsVideo from '../components/Crowdfunding/ReasonsVideo'
+import ReasonsVideo from '../components/About/ReasonsVideo'
 
 const query = gql`
   query cf2($accessToken: ID) {

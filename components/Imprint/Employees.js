@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import { entries, nest } from 'd3-collection'
 
 import Employee from './Employee'
@@ -45,6 +45,10 @@ const styles = {
     flexWrap: 'wrap',
     display: 'flex',
     flexDirection: 'row'
+  }),
+  tilesSingleRow: css({
+    flexWrap: 'nowrap',
+    overflow: 'hidden'
   })
 }
 
@@ -64,7 +68,18 @@ const getEmployees = gql`
   }
 `
 
-const renderEmployee = (employee, i) => <Employee {...employee} key={i} />
+const renderEmployee = ({ minColumns, maxColumns, singleRow }) => (
+  employee,
+  i
+) => (
+  <Employee
+    {...employee}
+    key={i}
+    minColumns={minColumns}
+    maxColumns={maxColumns}
+    singleRow={singleRow}
+  />
+)
 
 const Employees = compose(
   graphql(getEmployees, {
@@ -72,53 +87,69 @@ const Employees = compose(
       ssr
     })
   })
-)(({ data: { loading, error, employees }, filter, slice }) => (
-  <Loader
-    loading={loading}
-    error={error}
-    render={() => {
-      if (filter) {
+)(
+  ({
+    data: { loading, error, employees },
+    filter,
+    slice,
+    minColumns,
+    maxColumns,
+    singleRow
+  }) => (
+    <Loader
+      loading={loading}
+      error={error}
+      render={() => {
+        const tilesStyle = merge(
+          styles.tiles,
+          singleRow && styles.tilesSingleRow
+        )
+        if (filter) {
+          return (
+            <div {...styles.container}>
+              <div {...tilesStyle}>
+                {employees
+                  .filter(filter)
+                  .slice(0, slice)
+                  .map(renderEmployee({ minColumns, maxColumns, singleRow }))}
+              </div>
+            </div>
+          )
+        }
+        const employeeGroups = nest()
+          .key(d => d['group'])
+          .key(d => d['subgroup'] || 'group')
+          .object(employees)
         return (
           <div {...styles.container}>
-            <div {...styles.tiles}>
-              {employees
-                .filter(filter)
-                .slice(0, slice)
-                .map(renderEmployee)}
-            </div>
+            {entries(employeeGroups).map(group => (
+              <section {...styles.group} key={group.key}>
+                <H2 {...styles.groupHeading}>{group.key}</H2>
+                {group.value.group ? (
+                  <div {...tilesStyle}>
+                    {group.value.group.map(
+                      renderEmployee({ minColumns, maxColumns, singleRow })
+                    )}
+                  </div>
+                ) : (
+                  entries(group.value).map(subgroup => (
+                    <section {...styles.subgroup} key={subgroup.key}>
+                      <H3 {...styles.subgroupHeading}>{subgroup.key}</H3>
+                      <div {...tilesStyle}>
+                        {subgroup.value.map(
+                          renderEmployee({ minColumns, maxColumns, singleRow })
+                        )}
+                      </div>
+                    </section>
+                  ))
+                )}
+              </section>
+            ))}
           </div>
         )
-      }
-
-      const employeeGroups = nest()
-        .key(d => d['group'])
-        .key(d => d['subgroup'] || 'group')
-        .object(employees)
-      return (
-        <div {...styles.container}>
-          {entries(employeeGroups).map(group => (
-            <section {...styles.group} key={group.key}>
-              <H2 {...styles.groupHeading}>{group.key}</H2>
-              {group.value.group ? (
-                <div {...styles.tiles}>
-                  {group.value.group.map(renderEmployee)}
-                </div>
-              ) : (
-                entries(group.value).map(subgroup => (
-                  <section {...styles.subgroup} key={subgroup.key}>
-                    <H3 {...styles.subgroupHeading}>{subgroup.key}</H3>
-                    <div {...styles.tiles}>
-                      {subgroup.value.map(renderEmployee)}
-                    </div>
-                  </section>
-                ))
-              )}
-            </section>
-          ))}
-        </div>
-      )
-    }}
-  />
-))
+      }}
+    />
+  )
+)
 
 export default Employees

@@ -34,54 +34,52 @@ const ReasonsCover = () => {
   })
 
   useEffect(() => {
-    setTimeout(() => {
-      const reason = getRandomReason()
-      const text = inQuotes(reason.text)
-      const words = text.split(' ')
-      const lines = words.reduce((ls, word, i) => {
-        let line = ls[ls.length - 1]
-        const lineLength = line && line.join(' ').length
-        if (
-          !line ||
-          (((lineLength + word.length > 20 && lineLength > 3) ||
-            (i === 2 && words.length === 4) ||
-            (i === 3 && words.length === 5) ||
-            (word.length === 2 && line.join(' ').length > 12)) &&
-            word.length > 1 &&
-            (i !== words.length - 1 || lineLength + word.length > 24))
-        ) {
-          line = []
-          ls.push(line)
-        }
-        line.push(word)
-        return ls
-      }, [])
-      const maxLineLength = lines.reduce(
-        (n, line) => Math.max(n, line.join(' ').length),
-        0
-      )
-      const fontSize =
-        text.length > 70
-          ? text.length > 110 || lines.length > 4
-            ? lines.length > 6
-              ? 35
-              : 40
-            : 60
-          : maxLineLength > 20 || lines.length > 3
-          ? 60
-          : 80
+    const reason = getRandomReason()
+    const text = inQuotes(reason.text)
+    const words = text.split(' ')
+    const lines = words.reduce((ls, word, i) => {
+      let line = ls[ls.length - 1]
+      const lineLength = line && line.join(' ').length
+      if (
+        !line ||
+        (((lineLength + word.length > 20 && lineLength > 3) ||
+          (i === 2 && words.length === 4) ||
+          (i === 3 && words.length === 5) ||
+          (word.length === 2 && line.join(' ').length > 12)) &&
+          word.length > 1 &&
+          (i !== words.length - 1 || lineLength + word.length > 24))
+      ) {
+        line = []
+        ls.push(line)
+      }
+      line.push(word)
+      return ls
+    }, [])
+    const maxLineLength = lines.reduce(
+      (n, line) => Math.max(n, line.join(' ').length),
+      0
+    )
+    const fontSize =
+      text.length > 70
+        ? text.length > 110 || lines.length > 4
+          ? lines.length > 6
+            ? 35
+            : 40
+          : 60
+        : maxLineLength > 20 || lines.length > 3
+        ? 60
+        : 80
 
-      const textHeight = fontSize * 1.1 * lines.length + 100
-      const remainingSpace = HEIGHT - textHeight - 100 - 120
-      const topOffset = 80 + remainingSpace / 2
-      setReason(reason)
-      setFormatting({
-        lines,
-        fontSize,
-        topOffset,
-        textHeight
-      })
-    }, 3000)
+    const textHeight = fontSize * 1.1 * lines.length + 100
+    const remainingSpace = HEIGHT - textHeight - 100 - 120
+    const topOffset = 80 + remainingSpace / 2
+    setReason(reason)
+    setFormatting({
+      lines,
+      fontSize,
+      topOffset,
+      textHeight
+    })
   }, [])
 
   return (

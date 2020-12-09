@@ -121,7 +121,10 @@ const Frame = ({
     })
   }, [hasSecondaryNav])
   return (
-    <ColorContextProvider root colorSchemeKey='auto'>
+    <ColorContextProvider
+      root
+      colorSchemeKey={isOnMarketingPage ? colorSchemeKey : 'auto'}
+    >
       <ColorHtmlBodyColors colorSchemeKey={colorSchemeKey} />
       <ColorSchemeSync />
       <div

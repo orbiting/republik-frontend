@@ -12,6 +12,7 @@ import Vision from './Vision'
 import Logo from './Logo'
 import MiniFront from './MiniFront'
 import Community from './Community'
+import Pledge from './Pledge'
 
 const Marketing = ({ t }) => {
   const [isMobile, setIsMobile] = useState()
@@ -37,6 +38,7 @@ const Marketing = ({ t }) => {
       <Team t={t} />
       <Community t={t} />
       <Vision t={t} />
+      <Pledge />
       <Logo isMobile={isMobile} />
     </>
   )

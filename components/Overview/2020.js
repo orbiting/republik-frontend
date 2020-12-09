@@ -358,5 +358,66 @@ export default {
       </Highlight>
       .
     </>
+  ),
+  November: p => (
+    <>
+      Blick nach aussen:{' '}
+      <Highlight {...p} ids={['YpwBdE4EQ']}>
+        Abtreibungsdebatte in Polen
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['CDo9zxr7O']}>
+        Mord in Thailand
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['u70uTHT8W']}>
+        kritische Stimmen aus dem Irak
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['ITFDEp_1z']}>
+        Religion und Terrorismus in Frankreich
+      </Highlight>{' '}
+      sowie{' '}
+      <Highlight {...p} ids={['AnQI0ybyi']}>
+        Grossbritannien nach dem Brexit
+      </Highlight>
+      . Schwerpunkt Wahlen in den USA: der{' '}
+      <Highlight {...p} ids={['iTDWtztmY']}>
+        Hürdenlauf bis zur Urne
+      </Highlight>
+      , das{' '}
+      <Highlight {...p} ids={['F19japVAf']}>
+        ungewisse Ergebnis
+      </Highlight>{' '}
+      und die Erkenntnis, dass der{' '}
+      <Highlight {...p} ids={['jSb886gTO']}>
+        Trumpismus bleibt
+      </Highlight>
+      . Blick nach innen: der{' '}
+      <Highlight {...p} ids={['vHhzne3rq']}>
+        SVP-Werber
+      </Highlight>
+      , der die Angst toll findet, der{' '}
+      <Highlight {...p} ids={['vVJEePZ4c']}>
+        Abstimmungskampf
+      </Highlight>
+      , der entgleiste, und die{' '}
+      <Highlight {...p} series='republik/article-die-friedensbrecher-von-basel'>
+        Basler Staatsanwaltschaft ausser Kontrolle
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['wJl81zXl4', 'QfWsz39x_', 'JvZ_UTfOd']}>
+        Neue Recherchen zum Crypto-Skandal
+      </Highlight>
+      . Nicht zu vergessen: eine{' '}
+      <Highlight {...p} ids={['GFviWI5DGQ']}>
+        neue Podcast-Staffel
+      </Highlight>{' '}
+      und die heiss diskutierte{' '}
+      <Highlight {...p} ids={['MqcODMbrN']}>
+        Helm-Frage
+      </Highlight>
+      .
+    </>
   )
 }

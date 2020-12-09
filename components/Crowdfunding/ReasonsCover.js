@@ -13,7 +13,8 @@ const styles = {
     position: 'relative',
     height: 0,
     width: '100%',
-    paddingBottom: `${(HEIGHT / WIDTH) * 100}%`
+    paddingBottom: `${(HEIGHT / WIDTH) * 100}%`,
+    background: 'black'
   }),
   svg: css({
     position: 'absolute',
@@ -26,7 +27,11 @@ const styles = {
 
 const ReasonsCover = () => {
   const [reason, setReason] = useState(undefined)
-  const [formatting, setFormatting] = useState({})
+  const [formatting, setFormatting] = useState({
+    lines: [],
+    textHeight: 0,
+    topOffset: HEIGHT / 2
+  })
 
   useEffect(() => {
     setTimeout(() => {
@@ -83,7 +88,7 @@ const ReasonsCover = () => {
     <div {...styles.container}>
       <svg {...styles.svg} viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
         <rect x='0' y='0' width={WIDTH} height={HEIGHT} fill='#000' />
-        {reason && formatting.lines && (
+        {reason && (
           <text fill='#fff' y={formatting.topOffset}>
             <tspan
               style={fontStyles.sansSerifRegular}

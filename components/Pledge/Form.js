@@ -88,7 +88,8 @@ class Pledge extends Component {
           option =>
             option.membership &&
             option.reward &&
-            option.reward.name === query.membershipType
+            option.reward.name === query.membershipType &&
+            option.membership.user?.id === props.customMe?.id // only preselect own membership
         )
         if (matchingOptions.length) {
           // we set all other options to the min amount (normally 0)

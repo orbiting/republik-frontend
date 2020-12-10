@@ -283,7 +283,7 @@ const Header = ({
           hasOverviewNav={hasOverviewNav}
           isSecondarySticky={headerOffset === -scrollableHeaderHeight}
         />
-        {me && !isMobile ? <HLine formatColor={formatColor} /> : null}
+        {!isOnMarketingPage ? <HLine formatColor={formatColor} /> : null}
       </div>
       <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
         <NavPopover

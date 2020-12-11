@@ -72,10 +72,7 @@ const dynamicOptions = {
 const Manifest = dynamic(() => import('../About/Manifest'), {
   ssr: true
 })
-const EmployeesRow = dynamic(
-  () => import('../About/EmployeesRow'),
-  dynamicOptions
-)
+const TeamTeaser = dynamic(() => import('../About/TeamTeaser'), dynamicOptions)
 const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {
   ssr: true
 })
@@ -212,7 +209,7 @@ const ArticlePage = ({
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
           MANIFEST: Manifest,
-          EMPLOYEES_ROW: EmployeesRow,
+          TEAM_TEASER: TeamTeaser,
           REASONS_VIDEO: ReasonsVideo,
           VOTEBOX: Votebox,
           VOTE_COUNTER: VoteCounter,

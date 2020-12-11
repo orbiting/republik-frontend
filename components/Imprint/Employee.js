@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from '../../lib/routes'
 
-import { Item } from '../../components/Testimonial/List'
+import { Item } from '../Testimonial/List'
 
 const ProfileLink = ({ children, slug }) => {
   return (

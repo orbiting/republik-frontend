@@ -9,13 +9,17 @@ const Vision = ({ t }) => {
   return (
     <SectionContainer>
       <SectionTitle title={t('marketing/page/vision/title')} />
-      <Editorial.Subhead>
+      <Editorial.Subhead {...styles.center}>
         {t('marketing/page/vision/headline')}
       </Editorial.Subhead>
-      <Editorial.P>{t('marketing/page/vision/paragraph1')}</Editorial.P>
-      <Editorial.P>{t('marketing/page/vision/paragraph2')}</Editorial.P>
-      <Editorial.P {...styles.more}>
-        <Link route='vision' passHref>
+      <Editorial.P {...styles.center}>
+        {t('marketing/page/vision/paragraph1')}
+      </Editorial.P>
+      <Editorial.P {...styles.center}>
+        {t('marketing/page/vision/paragraph2')}
+      </Editorial.P>
+      <Editorial.P {...styles.center}>
+        <Link route='about' passHref>
           <Editorial.A>Mehr erfahren</Editorial.A>
         </Link>
       </Editorial.P>
@@ -24,7 +28,7 @@ const Vision = ({ t }) => {
 }
 
 const styles = {
-  more: css({
+  center: css({
     textAlign: 'center'
   })
 }

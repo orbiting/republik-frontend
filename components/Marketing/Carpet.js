@@ -6,7 +6,8 @@ import {
   Loader,
   Interaction,
   Button,
-  mediaQueries
+  mediaQueries,
+  LazyLoad
 } from '@project-r/styleguide'
 
 import TeaserBlock from '../Overview/TeaserBlock'
@@ -30,39 +31,41 @@ const Carpet = ({ isMobile, t, data: { loading, front } }) => {
   // ensure the highlighFunction is not dedected as an state update function
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
   return (
-    <div style={{ position: 'relative' }}>
-      <div
-        style={{
-          position: 'absolute',
-          top: 50,
-          zIndex: 2,
-          width: '100%',
-          height: 100,
-          backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0))'
-        }}
-      />
-      <Loader
-        loading={loading}
-        style={{ minHeight: 300 }}
-        render={() => (
-          <TeaserBlock
-            teasers={getTeasersFromDocument(front)}
-            highlight={highlight}
-            onHighlight={onHighlight}
-            maxHeight={isMobile ? 300 : 500}
-            maxColumns={6}
-            noHover
-          />
-        )}
-      />
-      <div {...styles.center}>
-        <Interaction.P>{t('marketing/page/carpet/text')}</Interaction.P>
-        <br />
-        <Button href='/pledge' primary>
-          {t('marketing/page/carpet/button')}
-        </Button>
+    <LazyLoad offset={1}>
+      <div style={{ position: 'relative' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: 50,
+            zIndex: 2,
+            width: '100%',
+            height: 100,
+            backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0))'
+          }}
+        />
+        <Loader
+          loading={loading}
+          style={{ minHeight: 300 }}
+          render={() => (
+            <TeaserBlock
+              teasers={getTeasersFromDocument(front)}
+              highlight={highlight}
+              onHighlight={onHighlight}
+              maxHeight={isMobile ? 300 : 450}
+              maxColumns={6}
+              noHover
+            />
+          )}
+        />
+        <div {...styles.center}>
+          <Interaction.P>{t('marketing/page/carpet/text')}</Interaction.P>
+          <br />
+          <Button href='/pledge' primary>
+            {t('marketing/page/carpet/button')}
+          </Button>
+        </div>
       </div>
-    </div>
+    </LazyLoad>
   )
 }
 

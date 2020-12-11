@@ -262,7 +262,7 @@ const Header = ({
                     padding:
                       isOnMarketingPage && !isMobile
                         ? '10px 80px'
-                        : isMobile && '6px 20px',
+                        : isMobile && '6px 10px',
                     minHeight: isMobile && 'auto',
                     minWidth: isMobile && 'auto',
                     whiteSpace: 'nowrap'

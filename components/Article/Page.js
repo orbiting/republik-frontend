@@ -55,7 +55,7 @@ import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
 import withMembership from '../Auth/withMembership'
-import { withEditor, withTester } from '../Auth/checkRoles'
+import { withEditor } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
@@ -69,6 +69,13 @@ const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
 }
+const Manifest = dynamic(() => import('../About/Manifest'), {
+  ssr: true
+})
+const TeamTeaser = dynamic(() => import('../About/TeamTeaser'), dynamicOptions)
+const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {
+  ssr: true
+})
 const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
 const VoteCounter = dynamic(() => import('../Vote/VoteCounter'), dynamicOptions)
 const VoteResult = dynamic(
@@ -201,6 +208,9 @@ const ArticlePage = ({
           : undefined,
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
+          MANIFEST: Manifest,
+          TEAM_TEASER: TeamTeaser,
+          REASONS_VIDEO: ReasonsVideo,
           VOTEBOX: Votebox,
           VOTE_COUNTER: VoteCounter,
           VOTE_RESULT: VoteResult

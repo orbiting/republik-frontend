@@ -2423,6 +2423,14 @@
       "value": "Willkommen an Bord!"
     },
     {
+      "key": "pledge/contact/preface/ABO_GIVE",
+      "value": "Eine Mitgliedschaft als Geschenk erhalten Sie in Form eines Gutscheincodes, den Sie direkt der zu beschenkenden Person überreichen können."
+    },
+    {
+      "key": "pledge/contact/preface/ABO_GIVE_MONTHS",
+      "value": "Ein Monats-Abo als Geschenk erhalten Sie in Form eines Gutscheincodes, den Sie direkt der zu beschenkenden Person überreichen können."
+    },
+    {
       "key": "pledge/contact/title",
       "value": "Ihre Kontaktinformationen"
     },

@@ -191,6 +191,7 @@ class Pledge extends Component {
     const userPrice = !!query.userPrice
 
     let hasAccessGranted
+    let requireShippingAddress = false
     const options = pkg
       ? pkg.options.map(option => {
           const fieldKey = getOptionFieldKey(option)
@@ -201,8 +202,13 @@ class Pledge extends Component {
               ? option.defaultAmount
               : // can be '', but PackageOptionInput needs Int! here
                 +values[fieldKey]
-          if (option.accessGranted && amount) {
-            hasAccessGranted = true
+          if (amount) {
+            if (option.accessGranted) {
+              hasAccessGranted = true
+            }
+            if (option.reward?.__typename === 'Goodie') {
+              requireShippingAddress = true
+            }
           }
 
           return {
@@ -230,6 +236,7 @@ class Pledge extends Component {
 
     return {
       accessToken: query.token,
+      packageGroup: pkg ? pkg.group : undefined,
       packageName: pkg ? pkg.name : undefined,
       forceAutoPay: pkg ? pkg.name === 'MONTHLY_ABO' : undefined,
       requiresStatutes: pkg
@@ -247,7 +254,9 @@ class Pledge extends Component {
       messageToClaimers: hasAccessGranted
         ? values.messageToClaimers
         : undefined,
-      id: pledge ? pledge.id : undefined
+      id: pledge ? pledge.id : undefined,
+      pledgeShippingAddress: pledge ? pledge.shippingAddress : undefined,
+      requireShippingAddress
     }
   }
   handleFirstName(value, shouldValidate, t) {
@@ -724,7 +733,6 @@ const query = gql`
       email
       isUserOfCurrentSession
       isListed
-      hasAddress
       address {
         name
         line1
@@ -767,8 +775,8 @@ const query = gql`
             id
             user {
               id
-              name
             }
+            claimerName
             createdAt
             sequenceNumber
             renew

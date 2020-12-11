@@ -3,8 +3,8 @@ import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { css } from 'glamor'
 import { Interaction, mediaQueries, usePrevious } from '@project-r/styleguide'
-import { t } from '../../lib/withT'
-import { useWindowSize } from '../../lib/hooks/useWindowSize'
+import { t } from '../../../lib/withT'
+import { useWindowSize } from '../../../lib/hooks/useWindowSize'
 import { shuffle } from 'd3-array'
 
 const MAX_WIDTH = 800

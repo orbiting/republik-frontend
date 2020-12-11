@@ -28,7 +28,15 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, title, backButton, onClick, isMobile }) => {
+const User = ({
+  t,
+  me,
+  title,
+  backButton,
+  onClick,
+  isMobile,
+  isOnMarketingPage
+}) => {
   const [colorScheme] = useColorContext()
   return (
     <button {...styles.user} onClick={onClick} title={title}>
@@ -59,7 +67,9 @@ const User = ({ t, me, title, backButton, onClick, isMobile }) => {
                 {...colorScheme.set('fill', 'text')}
               />
             </span>
-            <span {...styles.label}>{t('header/signin')}</span>
+            {isOnMarketingPage || !isMobile ? (
+              <span {...styles.label}>{t('header/signin')}</span>
+            ) : null}
           </Fragment>
         )}
       </span>
@@ -109,12 +119,9 @@ const styles = {
     display: 'inline-block'
   }),
   label: css({
-    display: 'none',
-    [mediaQueries.mUp]: {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      marginLeft: 5
-    }
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    marginLeft: 5
   })
 }
 

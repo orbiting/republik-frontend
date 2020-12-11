@@ -35,6 +35,10 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
+css.global('button', {
+  fontFamily: fontFamilies.sansSerifRegular
+})
+
 // avoid gray rects over links and icons on iOS
 css.global('*', {
   WebkitTapHighlightColor: 'transparent'
@@ -98,6 +102,8 @@ const Frame = ({
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
+  isTester,
+  isOnMarketingPage,
   colorSchemeKey = 'light'
 }) => {
   const hasOverviewNav = isMember && wantOverviewNav
@@ -115,7 +121,10 @@ const Frame = ({
     })
   }, [hasSecondaryNav])
   return (
-    <ColorContextProvider root colorSchemeKey='auto'>
+    <ColorContextProvider
+      root
+      colorSchemeKey={isOnMarketingPage ? colorSchemeKey : 'auto'}
+    >
       <ColorHtmlBodyColors colorSchemeKey={colorSchemeKey} />
       <ColorSchemeSync />
       <div
@@ -137,6 +146,7 @@ const Frame = ({
             pullable={pullable}
             hasOverviewNav={hasOverviewNav}
             stickySecondaryNav={stickySecondaryNav}
+            isOnMarketingPage={isOnMarketingPage}
           >
             <ColorContextProvider colorSchemeKey={colorSchemeKey}>
               <noscript>

@@ -7,6 +7,7 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 export const AudioContext = React.createContext({
   audioSource: {},
   audioPlayerVisible: false,
+  setAudioPlayerVisibility: () => {},
   toggleAudioPlayer: () => {},
   onCloseAudioPlayer: () => {},
   audioState: {},
@@ -57,6 +58,10 @@ export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
     }, 300)
   }
 
+  const setAudioPlayerVisibility = isVisible => {
+    setAudioPlayerVisible(isVisible)
+  }
+
   useEffect(() => {
     setAudioPlayerVisible(!!audioState)
     // ensure auto play is disabled when e.g. closed through another tab (local storage sync)
@@ -71,6 +76,7 @@ export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
         toggleAudioPlayer,
         onCloseAudioPlayer,
         audioPlayerVisible,
+        setAudioPlayerVisibility,
         audioState,
         autoPlayActive
       }}

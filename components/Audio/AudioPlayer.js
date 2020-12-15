@@ -12,6 +12,7 @@ import {
 import ProgressComponent from '../../components/Article/Progress'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
+import { AUDIO_PLAYER_HEIGHT } from '../constants'
 
 const AudioPlayerFrontend = ({ t }) => {
   const [colorScheme] = useColorContext()
@@ -57,7 +58,7 @@ const AudioPlayerFrontend = ({ t }) => {
                       t={t}
                       fixed
                       timePosition='left'
-                      height={68}
+                      height={AUDIO_PLAYER_HEIGHT}
                       controlsPadding={18}
                       Link={Link}
                     />

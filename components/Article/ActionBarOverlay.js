@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { css } from 'glamor'
 import { mediaQueries, useColorContext } from '@project-r/styleguide'
-import { ZINDEX_HEADER } from '../constants'
-
+import { ZINDEX_HEADER, AUDIO_PLAYER_HEIGHT } from '../constants'
 const ACTIONBAR_FADE_AREA = 400
 
 const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
@@ -15,15 +14,11 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
   useEffect(() => {
     const iPhoneRoundedCorners =
       !!navigator.userAgent.match(/iPhone/) && window.screen.width > 375
-    const audioPlayerOffset = audioPlayerVisible ? 112 : 0
+    const audioPlayerOffset = audioPlayerVisible ? AUDIO_PLAYER_HEIGHT + 20 : 0
 
     // iOS with devices with rounded corners extend webview all to bottom screen edge.
     // This requires adding margin: 44 instead of 20
-    const bottomOffset = audioPlayerOffset
-      ? 24
-      : inNativeApp && !iPhoneRoundedCorners
-      ? 20
-      : 44
+    const bottomOffset = inNativeApp && !iPhoneRoundedCorners ? 20 : 44
 
     setBottomPosition(audioPlayerOffset + bottomOffset)
   }, [audioPlayerVisible, inNativeApp])
@@ -75,7 +70,7 @@ const styles = {
     position: 'fixed',
     right: 0,
     padding: '12px 0',
-    margin: '0 20px',
+    margin: '0 16px',
     transition: 'opacity ease-out 0.3s, bottom ease-out 0.3s',
     [mediaQueries.mUp]: {
       right: 16,

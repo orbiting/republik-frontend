@@ -61,8 +61,6 @@ const getComments = gql`
           string
           more
         }
-        published
-        adminUnpublished
         displayAuthor {
           id
           name

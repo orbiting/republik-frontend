@@ -16,7 +16,8 @@ import {
   TeaserFrontTileHeadline,
   TeaserFrontTileRow,
   TeaserFrontCredit,
-  Interaction
+  Interaction,
+  useColorContext
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -39,6 +40,8 @@ const styles = {
 }
 
 const Tile = ({ t, episode, index, prev, next }) => {
+  const [colorScheme] = useColorContext()
+
   const date = episode && episode.publishDate
   const label = episode && episode.label
   const meta = episode && episode.document && episode.document.meta
@@ -56,19 +59,30 @@ const Tile = ({ t, episode, index, prev, next }) => {
     <Link href={path}>
       <TeaserFrontTile image={image} align={image ? 'top' : undefined}>
         <Editorial.Format>
-          {prev && <MdKeyboardArrowLeft {...styles.prev} />}
-          {label || t('article/series/episode', { count: romanize(index + 1) })}
-          {next && <MdKeyboardArrowRight {...styles.next} />}
+          <span {...colorScheme.set('color', path ? 'text' : 'disabled')}>
+            {prev && <MdKeyboardArrowLeft {...styles.prev} />}
+            {label ||
+              t('article/series/episode', { count: romanize(index + 1) })}
+            {next && <MdKeyboardArrowRight {...styles.next} />}
+          </span>
         </Editorial.Format>
-        {path ? (
-          <Link href={path} passHref>
-            <a {...styles.link}>{headline}</a>
-          </Link>
-        ) : (
-          headline
-        )}
+        <TeaserFrontTileHeadline.Editorial>
+          {path ? (
+            <Link href={path} passHref>
+              <a {...styles.link}>{episode.title}</a>
+            </Link>
+          ) : (
+            <span {...colorScheme.set('color', 'disabled')}>
+              {episode.title}
+            </span>
+          )}
+        </TeaserFrontTileHeadline.Editorial>
         {!!date && (
-          <TeaserFrontCredit>{dayFormat(new Date(date))}</TeaserFrontCredit>
+          <TeaserFrontCredit>
+            <span {...colorScheme.set('color', path ? 'text' : 'disabled')}>
+              {dayFormat(new Date(date))}
+            </span>
+          </TeaserFrontCredit>
         )}
       </TeaserFrontTile>
     </Link>

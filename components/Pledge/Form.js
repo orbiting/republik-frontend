@@ -88,7 +88,8 @@ class Pledge extends Component {
           option =>
             option.membership &&
             option.reward &&
-            option.reward.name === query.membershipType
+            option.reward.name === query.membershipType &&
+            option.membership.user?.id === props.customMe?.id // only preselect own membership
         )
         if (matchingOptions.length) {
           // we set all other options to the min amount (normally 0)
@@ -459,6 +460,17 @@ class Pledge extends Component {
               ''
             )
 
+            const contactPreface =
+              pkg &&
+              t.first(
+                [
+                  `pledge/contact/preface/${pkg.name}`,
+                  'pledge/contact/preface'
+                ],
+                undefined,
+                ''
+              )
+
             return (
               <div>
                 {(statementTitle ||
@@ -518,6 +530,11 @@ class Pledge extends Component {
                 </div>
                 {pkg && (
                   <Fragment>
+                    {contactPreface && (
+                      <div style={{ marginBottom: 40 }}>
+                        <P>{contactPreface}</P>
+                      </div>
+                    )}
                     <H2>
                       {t.first([
                         `pledge/contact/title/${pkg.name}`,

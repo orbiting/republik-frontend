@@ -438,7 +438,7 @@ const Page = ({
                 {
                   month: month.key,
                   label: labelMap.pending,
-                  value: pendingYearly
+                  value: pendingYearly + month.overdue
                 },
                 {
                   month: month.key,
@@ -557,7 +557,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                       {
                         x1: currentBucket.key,
                         x2: currentBucket.key,
-                        value: currentBucket.active,
+                        value: activeCount,
                         label: 'Stand jetzt'
                       }
                     ],
@@ -601,7 +601,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                       {
                         x1: currentBucket.key,
                         x2: currentBucket.key,
-                        value: currentBucket.active,
+                        value: activeCount,
                         label: 'Stand jetzt'
                       }
                     ]

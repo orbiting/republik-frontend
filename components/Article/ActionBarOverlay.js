@@ -8,13 +8,26 @@ const ACTIONBAR_FADE_AREA = 400
 const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
   const [colorScheme] = useColorContext()
   const [overlayVisible, setOverlayVisible] = useState(false)
-
-  const audioPlayerOffset = audioPlayerVisible ? 112 : 0
-  const bottomOffset = audioPlayerOffset ? 24 : inNativeApp ? 20 : 44
-  const bottomPosition = audioPlayerOffset + bottomOffset
-
+  const [bottomPosition, setBottomPosition] = useState()
   const lastY = useRef()
   const diff = useRef(0)
+
+  useEffect(() => {
+    const iPhoneRoundedCorners =
+      !!navigator.userAgent.match(/iPhone/) && window.screen.width > 375
+    const audioPlayerOffset = audioPlayerVisible ? 112 : 0
+
+    // iOS with devices with rounded corners extend webview all to bottom screen edge.
+    // This requires adding margin: 44 instead of 20
+    const bottomOffset = audioPlayerOffset
+      ? 24
+      : inNativeApp && !iPhoneRoundedCorners
+      ? 20
+      : 44
+
+    setBottomPosition(audioPlayerOffset + bottomOffset)
+  }, [audioPlayerVisible, inNativeApp])
+
   useEffect(() => {
     const onScroll = () => {
       const y = Math.max(window.pageYOffset)
@@ -63,7 +76,7 @@ const styles = {
     right: 0,
     padding: '12px 0',
     margin: '0 20px',
-    transition: 'opacity ease-out 0.3s',
+    transition: 'opacity ease-out 0.3s, bottom ease-out 0.3s',
     [mediaQueries.mUp]: {
       right: 16,
       left: 'auto'

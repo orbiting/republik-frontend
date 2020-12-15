@@ -1891,6 +1891,14 @@
       "value": "Verifizierte Rolle"
     },
     {
+      "key": "styleguide/comment/header/unpublishedByUser",
+      "value": "Beitrag zurückgezogen"
+    },
+    {
+      "key": "styleguide/comment/header/unpublishedByAdmin",
+      "value": "Beitrag von Redaktion verborgen"
+    },
+    {
       "key": "styleguide/comment/edit/submit",
       "value": "bearbeiten"
     },

@@ -44,6 +44,8 @@ const LatestComments = ({ t, data, fetchMore }) => {
                 id,
                 discussion,
                 preview,
+                published,
+                adminUnpublished,
                 displayAuthor,
                 createdAt,
                 updatedAt,
@@ -61,6 +63,8 @@ const LatestComments = ({ t, data, fetchMore }) => {
                   key={id}
                   id={id}
                   t={t}
+                  published={published}
+                  adminUnpublished={adminUnpublished}
                   displayAuthor={displayAuthor}
                   preview={preview}
                   createdAt={createdAt}

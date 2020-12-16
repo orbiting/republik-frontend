@@ -1,9 +1,20 @@
 import { useEffect, useContext } from 'react'
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
+
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { parseJSONObject } from '../../lib/safeJSON'
 import { AudioContext } from '../Audio'
 
-const MessageSync = ({ inNativeApp, inNativeAppLegacy }) => {
+const upsertDeviceQuery = gql`
+  mutation UpsertDevice($token: ID!, $information: DeviceInformationInput!) {
+    upsertDevice(token: $token, information: $information) {
+      id
+    }
+  }
+`
+
+const MessageSync = ({ inNativeApp, inNativeAppLegacy, upsertDevice }) => {
   const { setAudioPlayerVisibility } = useContext(AudioContext)
 
   useEffect(() => {
@@ -13,7 +24,30 @@ const MessageSync = ({ inNativeApp, inNativeAppLegacy }) => {
     const onMessage = event => {
       const { content = {}, id } = parseJSONObject(event.data)
       if (content.type === 'onPushRegistered') {
-        // TODO save tokens to backend
+        const {
+          token,
+          os,
+          osVersion,
+          brand,
+          model,
+          deviceId,
+          appVersion,
+          userAgent
+        } = content.data
+        upsertDevice({
+          variables: {
+            token,
+            information: {
+              os,
+              osVersion,
+              model,
+              brand,
+              deviceId,
+              appVersion,
+              userAgent
+            }
+          }
+        })
         console.log('onPushRegistered', content)
       }
       if (content.type === 'onAudioPlayerVisibilityChange') {
@@ -33,4 +67,19 @@ const MessageSync = ({ inNativeApp, inNativeAppLegacy }) => {
   return null
 }
 
-export default withInNativeApp(MessageSync)
+export default compose(
+  graphql(
+    gql`
+      mutation UpsertDevice(
+        $token: ID!
+        $information: DeviceInformationInput!
+      ) {
+        upsertDevice(token: $token, information: $information) {
+          id
+        }
+      }
+    `,
+    { name: 'upsertDevice' }
+  ),
+  withInNativeApp
+)(MessageSync)

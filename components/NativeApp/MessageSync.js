@@ -5,6 +5,9 @@ import gql from 'graphql-tag'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { parseJSONObject } from '../../lib/safeJSON'
 import { AudioContext } from '../Audio'
+import createPersistedState from '../../lib/hooks/use-persisted-state'
+import withMe from '../../lib/apollo/withMe'
+import { withProgressApi } from '../Article/Progress/api'
 
 const upsertDeviceQuery = gql`
   mutation UpsertDevice($token: ID!, $information: DeviceInformationInput!) {
@@ -14,8 +17,23 @@ const upsertDeviceQuery = gql`
   }
 `
 
-const MessageSync = ({ inNativeApp, inNativeAppLegacy, upsertDevice }) => {
+const useLocalMediaProgressState = createPersistedState(
+  'republik-progress-media'
+)
+
+const MessageSync = ({
+  inNativeApp,
+  inNativeAppLegacy,
+  upsertDevice,
+  me,
+  upsertMediaProgress
+}) => {
   const { setAudioPlayerVisibility } = useContext(AudioContext)
+  const [
+    localMediaProgress,
+    setLocalMediaProgress
+  ] = useLocalMediaProgressState()
+  const isTrackingAllowed = me && me.progressConsent === true
 
   useEffect(() => {
     if (!inNativeApp || inNativeAppLegacy) {
@@ -49,10 +67,17 @@ const MessageSync = ({ inNativeApp, inNativeAppLegacy, upsertDevice }) => {
           }
         })
         console.log('onPushRegistered', content)
-      }
-      if (content.type === 'onAudioPlayerVisibilityChange') {
+      } else if (content.type === 'onAudioPlayerVisibilityChange') {
         console.log('onAudioPlayerVisibilityChange', content)
         setAudioPlayerVisibility(content.isVisible)
+      } else if (content.type === 'onAppMediaProgressUpdate') {
+        console.log('onAppMediaProgressUpdate', content)
+        const { currentTime, mediaId } = content
+        if (isTrackingAllowed) {
+          upsertMediaProgress(mediaId, currentTime)
+        } else {
+          setLocalMediaProgress({ mediaId, currentTime })
+        }
       }
       postMessage({
         type: 'ackMessage',
@@ -81,5 +106,7 @@ export default compose(
     `,
     { name: 'upsertDevice' }
   ),
-  withInNativeApp
+  withInNativeApp,
+  withProgressApi,
+  withMe
 )(MessageSync)

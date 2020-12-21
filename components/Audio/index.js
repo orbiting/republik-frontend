@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { compose } from 'react-apollo'
+import { ProgressContext } from '@project-r/styleguide'
 
+import ProgressContextProvider from '../Article/Progress/index'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-
 export const AudioContext = React.createContext({
   audioSource: {},
   audioPlayerVisible: false,
@@ -15,12 +16,12 @@ export const AudioContext = React.createContext({
 })
 
 const useAudioState = createPersistedState('republik-audioplayer-audiostate')
-
 export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
   const [audioState, setAudioState] = useAudioState(undefined)
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false)
   const [autoPlayActive, setAutoPlayActive] = useState(false)
   const clearTimeoutId = useRef()
+  const { getMediaProgress } = useContext(ProgressContext)
 
   const toggleAudioPlayer = ({ audioSource, title, path }) => {
     const url = (
@@ -39,9 +40,14 @@ export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
       mediaId: audioSource.mediaId
     }
     if (inNativeApp) {
-      postMessage({
-        type: 'play-audio',
-        payload
+      getMediaProgress(audioSource).then(currentTime => {
+        postMessage({
+          type: 'play-audio',
+          payload: {
+            ...payload,
+            currentTime
+          }
+        })
       })
       return
     }
@@ -88,4 +94,10 @@ export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
 
 const ComposedAudioProvider = compose(withInNativeApp)(AudioProvider)
 
-export default ComposedAudioProvider
+const ComposedAudioProviderWithProgress = props => (
+  <ProgressContextProvider isArticle={false}>
+    <ComposedAudioProvider {...props} />
+  </ProgressContextProvider>
+)
+
+export default ComposedAudioProviderWithProgress

@@ -6,7 +6,7 @@ import throttle from 'lodash/throttle'
 import { withRouter } from 'next/router'
 
 import ProgressPrompt from './ProgressPrompt'
-import { mediaQueries } from '@project-r/styleguide'
+import { mediaQueries, ProgressContext } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import { scrollIt } from '../../../lib/utils/scroll'
@@ -24,25 +24,6 @@ const RESTORE_MIN = 0.4
 const useLocalMediaProgressState = createPersistedState(
   'republik-progress-media'
 )
-
-class ProgressContextProvider extends React.Component {
-  getChildContext() {
-    return {
-      getMediaProgress: this.props.value.getMediaProgress,
-      saveMediaProgress: this.props.value.saveMediaProgress,
-      restoreArticleProgress: this.props.value.restoreArticleProgress
-    }
-  }
-  render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>
-  }
-}
-
-ProgressContextProvider.childContextTypes = {
-  getMediaProgress: PropTypes.func,
-  saveMediaProgress: PropTypes.func,
-  restoreArticleProgress: PropTypes.func
-}
 
 const Progress = ({
   children,
@@ -292,14 +273,14 @@ const Progress = ({
   )
 
   return (
-    <ProgressContextProvider
+    <ProgressContext.Provider
       value={{ getMediaProgress, saveMediaProgress, restoreArticleProgress }}
     >
       <div ref={refContainer}>
         {progressPrompt || null}
         {children}
       </div>
-    </ProgressContextProvider>
+    </ProgressContext.Provider>
   )
 }
 

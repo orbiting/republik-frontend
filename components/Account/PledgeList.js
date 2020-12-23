@@ -15,7 +15,7 @@ import GiveMemberships from './Memberships/Give'
 
 import query from './belongingsQuery'
 
-import { RawHtml, linkRule } from '@project-r/styleguide'
+import { A, linkRule } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -126,51 +126,43 @@ class PledgeList extends Component {
                     )
                   })}
                 {pledge.payments.map((payment, i) => (
-                  <Item key={`payment-${i}`}>
-                    {payment.method === 'PAYMENTSLIP' &&
-                      payment.status === 'WAITING' && (
-                        <span>
-                          <RawHtml
-                            dangerouslySetInnerHTML={{
-                              __html: t(
-                                `account/pledges/payment/PAYMENTSLIP/paperInvoice/${+payment.paperInvoice}`
-                              )
-                            }}
-                          />
-                          <br />
-                          <br />
-                        </span>
+                  <>
+                    <Item key={`payment-${i}`}>
+                      {t(
+                        `account/pledges/payment/status/generic/${payment.status}`,
+                        {
+                          formattedTotal: chfFormat(payment.total / 100),
+                          dateSuffix:
+                            pledge.payments.length === 1
+                              ? ''
+                              : t(
+                                  'account/pledges/payment/status/generic/PAID/dateSuffix',
+                                  {
+                                    createdAt: dayFormat(
+                                      new Date(payment.createdAt)
+                                    )
+                                  }
+                                ),
+                          hrid: payment.hrid,
+                          method: t(
+                            `account/pledges/payment/method/${payment.method}`
+                          )
+                        }
                       )}
-                    <RawHtml
-                      dangerouslySetInnerHTML={{
-                        __html: t.first(
-                          [
-                            `account/pledges/payment/status/${payment.method}/${pledge.package.company.name}/${payment.status}`,
-                            `account/pledges/payment/status/${payment.method}/${payment.status}`,
-                            `account/pledges/payment/status/generic/${payment.status}`
-                          ],
-                          {
-                            formattedTotal: chfFormat(payment.total / 100),
-                            dateSuffix:
-                              pledge.payments.length === 1
-                                ? ''
-                                : t(
-                                    'account/pledges/payment/status/generic/PAID/dateSuffix',
-                                    {
-                                      createdAt: dayFormat(
-                                        new Date(payment.createdAt)
-                                      )
-                                    }
-                                  ),
-                            hrid: payment.hrid,
-                            method: t(
-                              `account/pledges/payment/method/${payment.method}`
-                            )
-                          }
-                        )
-                      }}
-                    />
-                  </Item>
+                    </Item>
+                    {payment.paymentslipUrl && (
+                      <>
+                        <Item key={`paymentslip-${i}`}>
+                          <A href={payment.paymentslipUrl} target='_blank'>
+                            {t('account/pledges/payment/paymentslipLink')}
+                          </A>
+                        </Item>
+                        <Item key={`paymentslip-hint-${i}`}>
+                          {t('account/pledges/payment/paymentslipHint')}
+                        </Item>
+                      </>
+                    )}
+                  </>
                 ))}
               </List>
               <GiveMemberships

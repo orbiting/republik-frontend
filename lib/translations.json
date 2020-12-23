@@ -888,7 +888,7 @@
     },
     {
       "key": "account/pledges/payment/method/PAYMENTSLIP",
-      "value": "Banküberweisung"
+      "value": "Rechnung"
     },
     {
       "key": "account/pledges/payment/status/generic/WAITING",
@@ -912,7 +912,15 @@
     },
     {
       "key": "account/pledges/payment/status/generic/CANCELLED",
-      "value": "{formattedTotal} annulliert"
+      "value": "{formattedTotal} storniert"
+    },
+    {
+      "key": "account/pledges/payment/paymentslipLink",
+      "value": "QR-Rechnung anzeigen"
+    },
+    {
+      "key": "account/pledges/payment/paymentslipHint",
+      "value": "Die QR-Rechnung ersetzt den Einzahlungsschein. Sie können damit die Zahlung via Mobile Banking, E-Banking oder am Schalter bei Bank und Post auslösen."
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/WAITING",
@@ -2296,7 +2304,7 @@
     },
     {
       "key": "payment/method/PAYMENTSLIP",
-      "value": "Banküberweisung"
+      "value": "Rechnung"
     },
     {
       "key": "payment/method/POSTFINANCECARD",
@@ -2404,7 +2412,7 @@
     },
     {
       "key": "payment/paymentslip/explanation",
-      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
+      "value": "Nach der Bestellung senden wir Ihnen per E-Mail eine QR-Rechnung."
     },
     {
       "key": "payment/paymentslip/emailInvoice",

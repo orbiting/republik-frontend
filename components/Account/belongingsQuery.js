@@ -98,6 +98,8 @@ export default gql`
           total
           status
           hrid
+          reference(pretty: true)
+          paymentslipUrl
           createdAt
           updatedAt
         }

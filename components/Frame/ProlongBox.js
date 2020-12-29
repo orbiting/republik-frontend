@@ -6,10 +6,10 @@ import { timeDay } from 'd3-time'
 import {
   Editorial,
   Interaction,
-  colors,
   mediaQueries,
   Button,
-  Center
+  Center,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { css } from 'glamor'
@@ -29,13 +29,6 @@ const styles = {
     [mediaQueries.mUp]: {
       fontSize: 16
     }
-  }),
-  boxLight: css({
-    backgroundColor: colors.primaryBg
-  }),
-  boxDark: css({
-    backgroundColor: colors.negative.primaryBg,
-    color: '#fff'
   })
 }
 
@@ -45,7 +38,9 @@ const SingleLine = ({ children }) => (
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
+const ProlongBox = ({ t, prolongBeforeDate, router }) => {
+  const [colorScheme] = useColorContext()
+
   if (
     router.pathname === '/pledge' ||
     router.pathname === '/cancel' ||
@@ -60,16 +55,14 @@ const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
     const key =
       numberOfDays <= 2 ? (numberOfDays < 0 ? 'overdue' : 'due') : 'before'
     const baseKey = `prolongNecessary/${key}`
-
-    const dark = inDarkFrame || key !== 'before'
-    const colorStyle = { color: dark ? '#fff' : undefined }
+    const styleTextColor = colorScheme.set('color', 'text')
 
     const explanation = t.elements(
       `${baseKey}/explanation`,
       {
         cancelLink: (
           <Link key='cancelLink' route='cancel' passHref>
-            <Editorial.A style={colorStyle}>
+            <Editorial.A {...styleTextColor}>
               {t(`${baseKey}/explanation/cancelText`)}
             </Editorial.A>
           </Link>
@@ -85,9 +78,13 @@ const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
     const buttonText = t(`${baseKey}/button`, undefined, '')
 
     return (
-      <div {...styles.box} {...styles[dark ? 'boxDark' : 'boxLight']}>
+      <div
+        {...styles.box}
+        {...styleTextColor}
+        {...colorScheme.set('backgroundColor', 'alert')}
+      >
         <Wrapper>
-          <Title style={colorStyle}>
+          <Title>
             {t.elements(baseKey, {
               link: (
                 <TokenPackageLink
@@ -95,7 +92,7 @@ const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
                   params={{ package: 'PROLONG' }}
                   passHref
                 >
-                  <Editorial.A style={colorStyle}>
+                  <Editorial.A {...styleTextColor}>
                     {t(`${baseKey}/linkText`)}
                   </Editorial.A>
                 </TokenPackageLink>
@@ -110,7 +107,7 @@ const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
             </TokenPackageLink>
           )}
           {hasExplanation && (
-            <Interaction.P style={{ ...colorStyle, marginTop: 10 }}>
+            <Interaction.P style={{ marginTop: 10 }} {...styleTextColor}>
               {explanation}
             </Interaction.P>
           )}

@@ -126,8 +126,8 @@ class PledgeList extends Component {
                     )
                   })}
                 {pledge.payments.map((payment, i) => (
-                  <>
-                    <Item key={`payment-${i}`}>
+                  <Fragment key={`payment-${i}`}>
+                    <Item>
                       {t(
                         `account/pledges/payment/status/generic/${payment.status}`,
                         {
@@ -151,17 +151,17 @@ class PledgeList extends Component {
                     </Item>
                     {payment.paymentslipUrl && (
                       <>
-                        <Item key={`paymentslip-${i}`}>
+                        <Item>
                           <A href={payment.paymentslipUrl} target='_blank'>
                             {t('account/pledges/payment/paymentslipLink')}
                           </A>
                         </Item>
-                        <Item key={`paymentslip-hint-${i}`}>
+                        <Item>
                           {t('account/pledges/payment/paymentslipHint')}
                         </Item>
                       </>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </List>
               <GiveMemberships

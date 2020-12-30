@@ -143,7 +143,6 @@ class PledgeList extends Component {
                                     )
                                   }
                                 ),
-                          hrid: payment.hrid,
                           method: t(
                             `account/pledges/payment/method/${payment.method}`
                           )

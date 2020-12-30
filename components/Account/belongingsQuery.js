@@ -94,14 +94,10 @@ export default gql`
         donation
         payments {
           method
-          paperInvoice
           total
           status
-          hrid
-          reference(pretty: true)
           paymentslipUrl
           createdAt
-          updatedAt
         }
         memberships {
           id

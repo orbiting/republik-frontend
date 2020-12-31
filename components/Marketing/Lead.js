@@ -28,7 +28,7 @@ const styles = {
     [mediaQueries.mUp]: {
       height: '70vh',
       minHeight: 600,
-      maxHeight: 960
+      maxHeight: 'none'
     }
   }),
   lead: css({

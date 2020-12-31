@@ -9,7 +9,6 @@ import {
   Label,
   fontStyles,
   Editorial,
-  Breakout,
   useColorContext
 } from '@project-r/styleguide'
 

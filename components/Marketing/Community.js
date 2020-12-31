@@ -20,40 +20,32 @@ const Community = ({ t, data: { loading, error, featured } }) => {
         title={t('marketing/page/community/title')}
         lead={t('marketing/page/community/lead')}
       />
-      <Breakout size='breakout'>
-        <Loader
-          loading={loading}
-          error={error}
-          style={{ minHeight: 400 }}
-          render={() => (
-            <TeaserFrontTileRow>
-              {featured.nodes.map(comment => {
-                return (
-                  <TeaserFrontTile
-                    key={comment.id}
-                    align='top'
-                    textLeft
-                    aboveTheFold
-                  >
-                    <CommentTeaser
-                      {...{
-                        ...comment,
-                        discussion: {
-                          ...comment.discussion,
-                          image:
-                            comment.discussion?.document?.meta?.twitterImage
-                        }
-                      }}
-                      Link={CommentLink}
-                      t={t}
-                    />
-                  </TeaserFrontTile>
-                )
-              })}
-            </TeaserFrontTileRow>
-          )}
-        />
-      </Breakout>
+      <Loader
+        loading={loading}
+        error={error}
+        style={{ minHeight: 400 }}
+        render={() => (
+          <TeaserFrontTileRow columns={2}>
+            {featured.nodes.map(comment => {
+              return (
+                <TeaserFrontTile key={comment.id} align='top' aboveTheFold>
+                  <CommentTeaser
+                    {...{
+                      ...comment,
+                      discussion: {
+                        ...comment.discussion,
+                        image: comment.discussion?.document?.meta?.twitterImage
+                      }
+                    }}
+                    Link={CommentLink}
+                    t={t}
+                  />
+                </TeaserFrontTile>
+              )
+            })}
+          </TeaserFrontTileRow>
+        )}
+      />
     </SectionContainer>
   )
 }

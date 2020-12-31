@@ -25,45 +25,45 @@ const Team = ({ t, data: { loading, employees } }) => {
         title={t('marketing/page/team/title')}
         lead={t('marketing/page/team/lead')}
       />
-      <Breakout size='breakout'>
-        <Loader
-          loading={loading}
-          style={{ minHeight: 400 }}
-          render={() => (
-            <TeaserFrontTileRow autoColumns>
-              {employees.map(employee => {
-                return (
-                  <TeaserFrontTile key={employee.name}>
-                    <h3 {...styles.pitch}>{`«${employee.pitch}»`}</h3>
-                    <div {...styles.employee}>
-                      <Link href={`~${employee.user.slug}`} passHref>
-                        <a>
-                          <img
-                            {...styles.profilePicture}
-                            src={employee.user.portrait}
-                            alt=''
-                          />
-                        </a>
-                      </Link>
-                      <div {...styles.employeeText}>
-                        <p {...styles.employeeName}>{employee.name}</p>
-                        <Label {...colorScheme.set('color', 'disabled')}>
-                          {employee.title}
-                        </Label>
-                      </div>
+      <Loader
+        loading={loading}
+        style={{ minHeight: 400 }}
+        render={() => (
+          <TeaserFrontTileRow autoColumns>
+            {employees.map(employee => {
+              return (
+                <TeaserFrontTile key={employee.name} padding={'0 5%'}>
+                  <h3 {...styles.pitch}>{`«${employee.pitch}»`}</h3>
+                  <div {...styles.employee}>
+                    <Link href={`~${employee.user.slug}`} passHref>
+                      <a>
+                        <img
+                          {...styles.profilePicture}
+                          src={employee.user.portrait}
+                          alt=''
+                        />
+                      </a>
+                    </Link>
+                    <div {...styles.employeeText}>
+                      <p {...styles.employeeName}>{employee.name}</p>
+                      <Label {...colorScheme.set('color', 'disabled')}>
+                        {employee.title}
+                      </Label>
                     </div>
-                  </TeaserFrontTile>
-                )
-              })}
-            </TeaserFrontTileRow>
-          )}
-        />
-        <Editorial.P style={{ textAlign: 'center' }}>
-          <Link route='team' passHref>
-            <Editorial.A>Alle Teammitglieder</Editorial.A>
-          </Link>
-        </Editorial.P>
-      </Breakout>
+                  </div>
+                </TeaserFrontTile>
+              )
+            })}
+          </TeaserFrontTileRow>
+        )}
+      />
+      <Editorial.P style={{ textAlign: 'center' }}>
+        <Link route='team' passHref>
+          <Editorial.A style={{ ...fontStyles.sansSerifRegular18 }}>
+            Alle Teammitglieder
+          </Editorial.A>
+        </Link>
+      </Editorial.P>
     </SectionContainer>
   )
 }
@@ -77,7 +77,7 @@ const styles = {
     marginRight: 8
   }),
   pitch: css({
-    ...fontStyles.serifTitle22
+    ...fontStyles.serifTitle26
   }),
   employee: css({
     display: 'flex',

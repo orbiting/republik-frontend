@@ -7,7 +7,8 @@ import {
   fontStyles,
   Meta,
   useColorContext,
-  Loader
+  Loader,
+  mediaQueries
 } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
@@ -19,7 +20,7 @@ const Sections = ({
   const [colorScheme] = useColorContext()
   const sections = [covid19, briefings, columns, audio]
   return (
-    <SectionContainer>
+    <SectionContainer maxWidth={720}>
       <SectionTitle
         title={t('marketing/page/sections/title')}
         lead={t('marketing/page/sections/lead')}
@@ -70,8 +71,11 @@ const styles = {
   picture: css({
     width: 80,
     height: 80,
-    marginRight: 48,
-    objectFit: 'cover'
+    marginRight: 24,
+    objectFit: 'cover',
+    [mediaQueries.mUp]: {
+      marginRight: 48
+    }
   }),
   title: css({
     ...fontStyles.sansSerifRegular22

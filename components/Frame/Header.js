@@ -259,13 +259,11 @@ const Header = ({
                   href='/pledge'
                   style={{
                     height: scrollableHeaderHeight - 1,
-                    padding:
-                      isOnMarketingPage && !isMobile
-                        ? '10px 80px'
-                        : isMobile && '6px 10px',
+                    padding: isOnMarketingPage && !isMobile && '10px 80px',
                     minHeight: isMobile && 'auto',
                     minWidth: isMobile && 'auto',
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    fontSize: isMobile ? 16 : 22
                   }}
                 >
                   {isMobile && !isOnMarketingPage

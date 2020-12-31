@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { css } from 'glamor'
 import { graphql, compose } from 'react-apollo'
+import { css } from 'glamor'
 import gql from 'graphql-tag'
 import {
   Loader,
-  Interaction,
-  Button,
-  mediaQueries,
-  LazyLoad
+  LazyLoad,
+  Editorial,
+  mediaQueries
 } from '@project-r/styleguide'
 
 import TeaserBlock from '../Overview/TeaserBlock'
@@ -45,24 +44,22 @@ const Carpet = ({ isMobile, t, data: { loading, front } }) => {
         />
         <Loader
           loading={loading}
-          style={{ minHeight: 300 }}
           render={() => (
-            <TeaserBlock
-              teasers={getTeasersFromDocument(front)}
-              highlight={highlight}
-              onHighlight={onHighlight}
-              maxHeight={isMobile ? 300 : 450}
-              maxColumns={6}
-              noHover
-            />
+            <div style={{ opacity: 0.6 }}>
+              <TeaserBlock
+                teasers={getTeasersFromDocument(front)}
+                highlight={highlight}
+                onHighlight={onHighlight}
+                maxHeight={isMobile ? 300 : 450}
+                maxColumns={6}
+                noHover
+                style={{ marginTop: 0, marginBottom: 0 }}
+              />
+            </div>
           )}
         />
         <div {...styles.center}>
-          <Interaction.P>{t('marketing/page/carpet/text')}</Interaction.P>
-          <br />
-          <Button href='/pledge' primary>
-            {t('marketing/page/carpet/button')}
-          </Button>
+          <Editorial.Lead>{t('marketing/page/carpet/text')}</Editorial.Lead>
         </div>
       </div>
     </LazyLoad>
@@ -77,7 +74,7 @@ const styles = {
     textAlign: 'center',
     padding: '0 15px',
     marginTop: '4em',
-    [mediaQueries.mUp]: { marginTop: '6em' }
+    [mediaQueries.mUp]: { marginTop: '4em' }
   })
 }
 

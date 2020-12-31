@@ -55,7 +55,7 @@ const Pledge = ({ router: { query }, serverContext }) => {
     }
   }
   return (
-    <SectionContainer>
+    <SectionContainer maxWidth={720}>
       {pledgeId ? (
         <PledgeReceivePayment
           crowdfundingName={CROWDFUNDING_PLEDGE}

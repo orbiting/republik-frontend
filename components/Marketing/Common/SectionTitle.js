@@ -6,13 +6,17 @@ export default function SectionTitle({ title, lead }) {
   return (
     <div {...styles.container}>
       <h2 {...styles.title}>{title}</h2>
-      {lead ? <Editorial.Lead>{lead}</Editorial.Lead> : null}
+      {lead ? (
+        <Editorial.Lead style={{ lineHeight: '2.2rem' }}>{lead}</Editorial.Lead>
+      ) : null}
     </div>
   )
 }
 
 const styles = {
   container: css({
+    margin: '0 auto',
+    maxWidth: 720,
     textAlign: 'center',
     marginBottom: '2em'
   }),

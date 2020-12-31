@@ -7,29 +7,40 @@ import {
   fontStyles,
   Editorial,
   Breakout,
-  Center
+  Center,
+  Button
 } from '@project-r/styleguide'
 
 const Reasons = ({ t }) => {
   return (
-    <Center style={{ padding: '50px 15px 0 15px' }}>
-      <Breakout size='breakout'>
-        <TeaserFrontTileRow columns={3}>
-          <TeaserFrontTile align='top'>
-            <h2 {...styles.title}>{t('marketing/page/reasons/1/title')}</h2>
-            <Editorial.P>{t('marketing/page/reasons/1/text')}</Editorial.P>
-          </TeaserFrontTile>
-          <TeaserFrontTile align='top'>
-            <h2 {...styles.title}>{t('marketing/page/reasons/2/title')}</h2>
-            <Editorial.P>{t('marketing/page/reasons/2/text')}</Editorial.P>
-          </TeaserFrontTile>
-          <TeaserFrontTile align='top'>
-            <h2 {...styles.title}>{t('marketing/page/reasons/3/title')}</h2>
-            <Editorial.P>{t('marketing/page/reasons/3/text')}</Editorial.P>
-          </TeaserFrontTile>
-        </TeaserFrontTileRow>
-      </Breakout>
-    </Center>
+    <div style={{ maxWidth: 1280, margin: '0 auto', padding: 15 }}>
+      <TeaserFrontTileRow columns={3}>
+        <TeaserFrontTile align='top' padding={'0 5%'}>
+          <h2 {...styles.title}>{t('marketing/page/reasons/1/title')}</h2>
+          <Editorial.P>{t('marketing/page/reasons/1/text')}</Editorial.P>
+        </TeaserFrontTile>
+        <TeaserFrontTile align='top' padding={'0 5%'}>
+          <h2 {...styles.title}>{t('marketing/page/reasons/2/title')}</h2>
+          <Editorial.P>{t('marketing/page/reasons/2/text')}</Editorial.P>
+        </TeaserFrontTile>
+        <TeaserFrontTile align='top' padding={'0 5%'}>
+          <h2 {...styles.title}>{t('marketing/page/reasons/3/title')}</h2>
+          <Editorial.P>{t('marketing/page/reasons/3/text')}</Editorial.P>
+        </TeaserFrontTile>
+      </TeaserFrontTileRow>
+      <Center style={{ display: 'flex', justifyContent: 'center' }}>
+        <Button
+          style={{
+            padding: '10px 80px',
+            whiteSpace: 'nowrap'
+          }}
+          href='/pledge'
+          primary
+        >
+          {t('marketing/page/carpet/button')}
+        </Button>
+      </Center>
+    </div>
   )
 }
 

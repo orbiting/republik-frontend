@@ -10,7 +10,7 @@ import {
 export default function LeadSection({ t, isMobile }) {
   return (
     <Container {...styles.container}>
-      <Logo style={{ maxWidth: '90%' }} width={isMobile ? 290 : 350} />
+      <Logo height={isMobile ? 30 : 60} />
       <h2 {...styles.lead}>{t('marketing/page/lead/subtitle')}</h2>
     </Container>
   )
@@ -18,21 +18,29 @@ export default function LeadSection({ t, isMobile }) {
 
 const styles = {
   container: css({
-    height: 360,
+    height: '70vh',
+    minHeight: 360,
+    maxHeight: 600,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     [mediaQueries.mUp]: {
-      height: 500
+      height: '70vh',
+      minHeight: 600,
+      maxHeight: 960
     }
   }),
   lead: css({
-    ...fontStyles.serifRegular19,
+    ...fontStyles.serifRegular,
+    fontSize: 24,
+    lineHeight: '36px',
     textAlign: 'center',
+    width: '90%',
     maxWidth: 960,
     [mediaQueries.mUp]: {
-      ...fontStyles.serifRegular25
+      fontSize: 36,
+      lineHeight: '48px'
     }
   })
 }

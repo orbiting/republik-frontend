@@ -45,7 +45,6 @@ const MessageSync = ({
 }) => {
   const [signInOverlayVisible, setSignInOverlayVisible] = useState(false)
   const [signInData, setsignInData] = useState()
-  const { setAudioPlayerVisibility } = useContext(AudioContext)
   const [
     localMediaProgress,
     setLocalMediaProgress
@@ -111,10 +110,6 @@ const MessageSync = ({
           }
         })
         console.log('onPushRegistered', content)
-      } else if (content.type === 'onAudioPlayerVisibilityChange') {
-        // Audio Player is Visible
-        setAudioPlayerVisibility(content.isVisible)
-        console.log('onAudioPlayerVisibilityChange', content)
       } else if (content.type === 'onAppMediaProgressUpdate') {
         // Audio Player sent media progress update
         const { currentTime, mediaId } = content

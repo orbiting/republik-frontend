@@ -44,15 +44,19 @@ const DarkmodeSwitch = ({
     />
   ))
 
+  const calloutPaddingNativeApp = inNativeApp
+    ? '15px 15px 25px'
+    : '15px 15px 50px'
+
   return (
-    <CalloutMenu Element={Icon}>
-      <div style={{ width: 180 }}>
+    <CalloutMenu contentPaddingMobile={calloutPaddingNativeApp} Element={Icon}>
+      <div style={{ width: 180, lineHeight: '2.5rem' }}>
         {!colorScheme.CSSVarSupport ? (
           <Label>{t('darkmode/switch/notSupported')}</Label>
         ) : pageColorSchemeKey !== 'auto' ? (
           <Label>{t('darkmode/switch/notAvailable')}</Label>
         ) : (
-          <Interaction.P>
+          <>
             <Radio
               value='dark'
               checked={colorSchemeKey === 'dark'}
@@ -103,7 +107,7 @@ const DarkmodeSwitch = ({
             >
               {t('darkmode/switch/auto')}
             </Radio>
-          </Interaction.P>
+          </>
         )}
       </div>
     </CalloutMenu>

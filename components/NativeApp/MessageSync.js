@@ -122,7 +122,9 @@ const MessageSync = ({
         // Check Whenever App becomes active (foreground)
         // opens signin page if theres a pending request
         if (content.current === 'active') {
-          openSignInPageIfRequest()
+          if (me) {
+            openSignInPageIfRequest()
+          }
         }
       }
       postMessage({

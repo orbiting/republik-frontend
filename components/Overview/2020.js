@@ -419,5 +419,55 @@ export default {
       </Highlight>
       .
     </>
+  ),
+  Dezember: p => (
+    <>
+      Die grosse Serie über den{' '}
+      <Highlight {...p} series='republik/article-auftakt-tamedia-serie-1-13'>
+        mächtigsten Medienkonzern des Landes
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['1YBnfZrTE']}>
+        Wie Europa spricht
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['boM7fesoU']}>
+        wie wir miteinander
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['WDjhX_a1H']}>
+        mit dem Jenseits sprechen
+      </Highlight>{' '}
+      – und{' '}
+      <Highlight {...p} ids={['kosj3u1Xv']}>
+        welche Sprache Politikerinnen in der Krise wählen (sollten)
+      </Highlight>
+      .Die{' '}
+      <Highlight {...p} ids={['79yAATB_Y']}>
+        {' '}
+        Spitäler sind am Limit
+      </Highlight>
+      , es gibt{' '}
+      <Highlight {...p} ids={['oJ8fh4mwI']}>
+        Hoffnung aus der Spritze
+      </Highlight>
+      , aber:{' '}
+      <Highlight {...p} ids={['iQwhoWopo']}>
+        Ist Covid-19 erst der Anfang
+      </Highlight>
+      ? Dazu pandemiekonforme Geselligkeit mit{' '}
+      <Highlight {...p} ids={['XWHk2aYkv']}>
+        handverlesenen Dokumentarfilmen im Dokdown
+      </Highlight>
+      . Und eine ganz persönliche Reise mit fünf Menschen durch das Jahr 2020 in
+      der{' '}
+      <Highlight
+        {...p}
+        ids={['republik/template-podcast-serie-podcast-serie-auftakt-master']}
+      >
+        Podcast-Serie «Ungefiltert»
+      </Highlight>
+      .
+    </>
   )
 }

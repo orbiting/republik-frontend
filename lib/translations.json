@@ -4663,6 +4663,14 @@
       "value": "Jetzt Mitglied werden"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/due",
+      "value": "Ihr Abonnement läuft aus: {link}"
+    },
+    {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/due/linkText",
+      "value": "Jetzt verlängern"
+    },
+    {
       "key": "prolongNecessary/due",
       "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}"
     },
@@ -4671,20 +4679,48 @@
       "value": "Jetzt bezahlen"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue",
+      "value": "Ihr Abonnement ist überfällig."
+    },
+    {
       "key": "prolongNecessary/overdue",
       "value": "Ihr Mitglied­schafts­beitrag ist überfällig."
+    },
+    {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/button",
+      "value": "Jetzt verlängern"
     },
     {
       "key": "prolongNecessary/overdue/button",
       "value": "Jetzt bezahlen"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/explanation",
+      "value": "Ihr Abonnement lief {daysAgo} aus und wird am {graceEndDate} deaktiviert. Sie möchten uns nicht mehr lesen? {cancelLink}."
+    },
+    {
       "key": "prolongNecessary/overdue/explanation",
       "value": "Ihre Mitgliedschaft wird am {graceEndDate} deaktiviert, wenn Sie bis dahin nicht bezahlen. Wollen Sie die Republik nicht mehr lesen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/explanation/cancelText",
+      "value": "Sagen Sie uns, warum"
+    },
+    {
       "key": "prolongNecessary/overdue/explanation/cancelText",
       "value": "Teilen Sie uns mit, warum"
+    },
+    {
+      "key": "prolongNecessary/days/0",
+      "value": "heute"
+    },
+    {
+      "key": "prolongNecessary/days/1",
+      "value": "gestern"
+    },
+    {
+      "key": "prolongNecessary/days/other",
+      "value": "vor {count} Tagen"
     },
     {
       "key": "crowdfunding/status/time/ended/PROLONG",

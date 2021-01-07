@@ -38,7 +38,7 @@ const SingleLine = ({ children }) => (
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-const ProlongBox = ({ t, prolongBeforeDate, router }) => {
+const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
   const [colorScheme] = useColorContext()
 
   if (
@@ -51,7 +51,10 @@ const ProlongBox = ({ t, prolongBeforeDate, router }) => {
   }
   const date = new Date(prolongBeforeDate)
   const numberOfDays = timeDay.count(new Date(), date)
-  if (numberOfDays <= 30) {
+  if (
+    (membership.type.name === 'ABO_GIVE_MONTHS' && numberOfDays <= 7) ||
+    (membership.type.name !== 'ABO_GIVE_MONTHS' && numberOfDays <= 30)
+  ) {
     const key =
       numberOfDays <= 2 ? (numberOfDays < 0 ? 'overdue' : 'due') : 'before'
     const baseKey = `prolongNecessary/${key}`

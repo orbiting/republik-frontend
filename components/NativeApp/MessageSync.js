@@ -68,8 +68,9 @@ const MessageSync = ({
 
   useEffect(() => {
     const checkIfPendingSignInRequest = setInterval(() => {
-      console.log('checkIfPendingSignInRequest')
-      openSignInPageIfRequest()
+      if (me) {
+        openSignInPageIfRequest()
+      }
     }, 3000)
     return () => {
       clearInterval(checkIfPendingSignInRequest)

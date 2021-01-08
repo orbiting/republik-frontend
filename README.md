@@ -17,8 +17,8 @@ cp .env.example .env
 Install and run:
 
 ```
-npm install
-npm run dev
+yarn
+yarn run dev
 ```
 
 The example env assumes a backend running on port 5000. The backend needs to run on the same TLD for cookie sharing.
@@ -41,12 +41,12 @@ PORT=5000 TARGET=https://api.republik.ch CORS_ORIGIN=http://localhost:3010 npx y
 
 Run a test locally:
 ```
-npm run tape components/Me/index.test.js
+yarn run tape components/Me/index.test.js
 ```
 
 Run all tests:
 ```
-npm run test
+yarn run test
 ```
 
 ### Pledge
@@ -112,26 +112,26 @@ Here are the steps:
 
 ```
 cd ../styleguide
-npm i
+yarn
 # run dev before linking
-npm run dev
-npm link
+yarn dev
+yarn link
 
 cd ../republik-frontend
-npm i
+yarn
 # deeply link styleguide and some peers
 # and add a tmp preinstall script to unlink
-npm run sg:link
+yarn sg:link
 
 # do your work
 
-# simply run npm install to unlink
+# simply run yarn to unlink
 # rm the links and the tmp preinstall script
-# reinstall stuff via npm
-npm i
+# reinstall stuff via yarn
+yarn
 ```
 
-_Why? `glamor`, `react` and `react-dom` use singletons. And `peerDependencies` are not flattened when `npm link`ed—two versions with their own singletons end up running. While linked this way those packages are linked to the styleguide node_modules folder._
+_Why? `glamor`, `react` and `react-dom` use singletons. And `peerDependencies` are not flattened when `yarn link`ed—two versions with their own singletons end up running. While linked this way those packages are linked to the styleguide node_modules folder._
 
 ### Curtain
 

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-21T07:38:55.752Z",
+  "updated": "2021-01-08T14:37:45.193Z",
   "title": "live",
   "data": [
     {
@@ -2889,14 +2889,6 @@
     {
       "key": "article/actionbar/twitter/label",
       "value": "Twitter"
-    },
-    {
-      "key": "article/actionbar/whatsapp/title",
-      "value": "Auf WhatsApp teilen"
-    },
-    {
-      "key": "article/actionbar/whatsapp/label",
-      "value": "WhatsApp"
     },
     {
       "key": "article/actionbar/email/title",

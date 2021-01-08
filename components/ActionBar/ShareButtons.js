@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import { IconButton } from '@project-r/styleguide'
-import { IoLogoFacebook, IoLogoTwitter, IoLogoWhatsapp } from 'react-icons/io'
+import { IoLogoFacebook, IoLogoTwitter } from 'react-icons/io'
 import { MdMail, MdLink } from 'react-icons/md'
 import withT from '../../lib/withT'
 import { trackEvent } from '../../lib/piwik'
@@ -74,13 +74,6 @@ const ShareButtons = ({
       icon: IoLogoTwitter,
       title: t('article/actionbar/twitter/title'),
       label: t('article/actionbar/twitter/label')
-    },
-    {
-      target: '_blank',
-      href: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`,
-      icon: IoLogoWhatsapp,
-      title: t('article/actionbar/whatsapp/title'),
-      label: t('article/actionbar/whatsapp/label')
     }
   ].filter(Boolean)
 

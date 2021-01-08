@@ -40,7 +40,12 @@ export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
     if (inNativeApp) {
       postMessage({
         type: 'play-audio',
-        payload
+        payload: {
+          audio: {
+            ...payload
+          }
+          // Todo: add currentTime to payload
+        }
       })
       return
     }

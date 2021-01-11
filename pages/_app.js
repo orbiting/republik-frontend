@@ -11,6 +11,13 @@ import Track from '../components/Track'
 import AudioProvider from '../components/Audio'
 import AudioPlayer from '../components/Audio/AudioPlayer'
 import AppVariableContext from '../components/Article/AppVariableContext'
+import {
+  ColorContextProvider,
+  ColorHtmlBodyColors
+} from '@project-r/styleguide'
+import ColorSchemeSync from '../components/ColorScheme/Sync'
+
+const DEFAULT_COLOR_SCHEME = 'auto'
 
 if (typeof window !== 'undefined') {
   const prevErrorHandler = window.onerror
@@ -54,15 +61,22 @@ class WebApp extends App {
           <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
             <AudioProvider>
               <AppVariableContext>
-                <Head>
-                  <meta
-                    name='viewport'
-                    content='width=device-width, initial-scale=1'
-                  />
-                </Head>
-                <Component serverContext={serverContext} {...pageProps} />
-                <Track />
-                <AudioPlayer />
+                <ColorContextProvider
+                  root
+                  colorSchemeKey={DEFAULT_COLOR_SCHEME}
+                >
+                  <ColorHtmlBodyColors colorSchemeKey={DEFAULT_COLOR_SCHEME} />
+                  <ColorSchemeSync />
+                  <Head>
+                    <meta
+                      name='viewport'
+                      content='width=device-width, initial-scale=1'
+                    />
+                  </Head>
+                  <Component serverContext={serverContext} {...pageProps} />
+                  <Track />
+                  <AudioPlayer />
+                </ColorContextProvider>
               </AppVariableContext>
             </AudioProvider>
           </IconContext.Provider>

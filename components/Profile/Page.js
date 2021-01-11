@@ -646,7 +646,7 @@ const Profile = props => {
   }
 
   return (
-    <Frame meta={metaData} raw colorSchemeKey='auto'>
+    <Frame meta={metaData} raw>
       <Loader
         loading={loading}
         error={error}

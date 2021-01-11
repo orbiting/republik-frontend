@@ -15,7 +15,7 @@ const SearchPage = ({ router, me, t }) => {
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
   return (
-    <Frame raw meta={meta} colorSchemeKey='auto'>
+    <Frame raw meta={meta}>
       <Search query={router.query} />
     </Frame>
   )

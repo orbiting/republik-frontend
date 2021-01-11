@@ -5,6 +5,7 @@ import { withRouter } from 'next/router'
 import { max, ascending } from 'd3-array'
 import {
   Button,
+  ColorContextProvider,
   Interaction,
   Loader,
   useColorContext
@@ -202,84 +203,86 @@ const FrontOverview = ({
   }
 
   return (
-    <Frame meta={meta} colorSchemeKey='dark'>
-      <Interaction.H1
-        {...colorScheme.set('color', 'text')}
-        style={{ marginBottom: 5 }}
-      >
-        {t.first(
-          [
-            `overview/${year}/title/${interval}`,
-            `overview/title/${interval}`,
-            `overview/${year}/title`,
-            'overview/title'
-          ],
-          { year }
+    <ColorContextProvider colorSchemeKey='dark'>
+      <Frame meta={meta}>
+        <Interaction.H1
+          {...colorScheme.set('color', 'text')}
+          style={{ marginBottom: 5 }}
+        >
+          {t.first(
+            [
+              `overview/${year}/title/${interval}`,
+              `overview/title/${interval}`,
+              `overview/${year}/title`,
+              'overview/title'
+            ],
+            { year }
+          )}
+        </Interaction.H1>
+
+        <P style={{ marginBottom: 10 }}>
+          {isMember
+            ? t.first([`overview/${year}/lead`, 'overview/lead'], { year }, '')
+            : t.elements(`overview/lead/${me ? 'pledge' : 'signIn'}`)}
+        </P>
+        {!isMember && (
+          <Link key='pledgeBefore' route='pledge' passHref>
+            <Button white>{t('overview/lead/pledgeButton')}</Button>
+          </Link>
         )}
-      </Interaction.H1>
 
-      <P style={{ marginBottom: 10 }}>
-        {isMember
-          ? t.first([`overview/${year}/lead`, 'overview/lead'], { year }, '')
-          : t.elements(`overview/lead/${me ? 'pledge' : 'signIn'}`)}
-      </P>
-      {!isMember && (
-        <Link key='pledgeBefore' route='pledge' passHref>
-          <Button white>{t('overview/lead/pledgeButton')}</Button>
-        </Link>
-      )}
-
-      <Loader
-        loading={data.loading}
-        error={data.error}
-        style={{ minHeight: `calc(90vh)` }}
-        render={() => {
-          return groupedTeasers.map(({ key, values }, i) => {
-            const Text = texts[year] && texts[year][key]
-            return (
-              <div
-                style={{ marginTop: 50 }}
-                key={key}
-                onClick={() => {
-                  // a no-op for mobile safari
-                  // - causes mouse enter and leave to be triggered
-                }}
-              >
-                <Interaction.H2
-                  style={{
-                    marginBottom: 5,
-                    marginTop: 0
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          style={{ minHeight: `calc(90vh)` }}
+          render={() => {
+            return groupedTeasers.map(({ key, values }, i) => {
+              const Text = texts[year] && texts[year][key]
+              return (
+                <div
+                  style={{ marginTop: 50 }}
+                  key={key}
+                  onClick={() => {
+                    // a no-op for mobile safari
+                    // - causes mouse enter and leave to be triggered
                   }}
-                  {...colorScheme.set('color', 'text')}
                 >
-                  {key}
-                </Interaction.H2>
-                <P style={{ marginBottom: 20 }}>
-                  {Text && (
-                    <Text highlight={highlight} onHighlight={onHighlight} />
-                  )}
-                </P>
-                <TeaserBlock
-                  {...knownYears[+query.year]}
-                  teasers={values}
-                  highlight={highlight}
-                  onHighlight={onHighlight}
-                  lazy={i !== 0}
-                />
-              </div>
-            )
-          })
-        }}
-      />
+                  <Interaction.H2
+                    style={{
+                      marginBottom: 5,
+                      marginTop: 0
+                    }}
+                    {...colorScheme.set('color', 'text')}
+                  >
+                    {key}
+                  </Interaction.H2>
+                  <P style={{ marginBottom: 20 }}>
+                    {Text && (
+                      <Text highlight={highlight} onHighlight={onHighlight} />
+                    )}
+                  </P>
+                  <TeaserBlock
+                    {...knownYears[+query.year]}
+                    teasers={values}
+                    highlight={highlight}
+                    onHighlight={onHighlight}
+                    lazy={i !== 0}
+                  />
+                </div>
+              )
+            })
+          }}
+        />
 
-      {!isMember && (
-        <Link key='pledgeAfter' route='pledge' passHref>
-          <Button white style={{ marginTop: 100 }}>
-            {t('overview/after/pledgeButton')}
-          </Button>
-        </Link>
-      )}
-    </Frame>
+        {!isMember && (
+          <Link key='pledgeAfter' route='pledge' passHref>
+            <Button white style={{ marginTop: 100 }}>
+              {t('overview/after/pledgeButton')}
+            </Button>
+          </Link>
+        )}
+      </Frame>
+    </ColorContextProvider>
   )
 }
 

@@ -12,7 +12,8 @@ import {
   Interaction,
   Loader,
   colors,
-  LazyLoad
+  LazyLoad,
+  ColorContextProvider
 } from '@project-r/styleguide'
 import {
   ChartTitle,
@@ -344,184 +345,187 @@ const Page = ({
   }, [query.token])
 
   return (
-    <Frame meta={meta} colorSchemeKey='dark'>
-      <Loader
-        loading={data.loading || actionsLoading}
-        error={data.error}
-        style={{ minHeight: `calc(90vh)` }}
-        render={() => {
-          const {
-            evolution: { buckets, updatedAt }
-          } = data.membershipStats
+    <ColorContextProvider colorSchemeKey='dark'>
+      <Frame meta={meta}>
+        <Loader
+          loading={data.loading || actionsLoading}
+          error={data.error}
+          style={{ minHeight: `calc(90vh)` }}
+          render={() => {
+            const {
+              evolution: { buckets, updatedAt }
+            } = data.membershipStats
 
-          const labels = [
-            { key: 'preactive', color: '#256900', label: 'Crowdfunder' },
-            { key: 'active', color: '#3CAD00', label: 'aktive' },
-            { key: 'loss', color: '#9970ab', label: 'Abgänge' },
-            { key: 'missing', color: '#444', label: 'fehlende' },
-            { key: 'pending', color: '#444', label: 'offene' },
-            { key: 'base', color: '#3CAD00', label: 'bestehende' }
-            // { key: 'gaining', color: '#2A7A00', label: 'neue' }
-          ]
-          const labelMap = labels.reduce((map, d) => {
-            map[d.key] = d.label
-            return map
-          }, {})
-          const colorMap = labels.reduce((map, d) => {
-            map[d.label] = d.color
-            return map
-          }, {})
+            const labels = [
+              { key: 'preactive', color: '#256900', label: 'Crowdfunder' },
+              { key: 'active', color: '#3CAD00', label: 'aktive' },
+              { key: 'loss', color: '#9970ab', label: 'Abgänge' },
+              { key: 'missing', color: '#444', label: 'fehlende' },
+              { key: 'pending', color: '#444', label: 'offene' },
+              { key: 'base', color: '#3CAD00', label: 'bestehende' }
+              // { key: 'gaining', color: '#2A7A00', label: 'neue' }
+            ]
+            const labelMap = labels.reduce((map, d) => {
+              map[d.key] = d.label
+              return map
+            }, {})
+            const colorMap = labels.reduce((map, d) => {
+              map[d.label] = d.color
+              return map
+            }, {})
 
-          const currentKey = formatYearMonthKey(new Date())
-          const lastBucket = buckets[buckets.length - 1]
-          const currentBucket =
-            buckets.find(bucket => bucket.key === currentKey) || lastBucket
+            const currentKey = formatYearMonthKey(new Date())
+            const lastBucket = buckets[buckets.length - 1]
+            const currentBucket =
+              buckets.find(bucket => bucket.key === currentKey) || lastBucket
 
-          const minMaxValues = []
-          const values = bucketsBefore
-            .map(bucket => ({
-              month: bucket.key,
-              label: labelMap.preactive,
-              value: bucket.preactive
-            }))
-            .concat(
-              buckets
-                .slice(0, -3)
-                .reduce(
-                  (
-                    acc,
-                    {
-                      key,
-                      active,
-                      overdue,
-                      ended,
-                      pending,
-                      pendingSubscriptionsOnly
-                    }
-                  ) => {
-                    minMaxValues.push(active + overdue)
-                    minMaxValues.push(-ended)
+            const minMaxValues = []
+            const values = bucketsBefore
+              .map(bucket => ({
+                month: bucket.key,
+                label: labelMap.preactive,
+                value: bucket.preactive
+              }))
+              .concat(
+                buckets
+                  .slice(0, -3)
+                  .reduce(
+                    (
+                      acc,
+                      {
+                        key,
+                        active,
+                        overdue,
+                        ended,
+                        pending,
+                        pendingSubscriptionsOnly
+                      }
+                    ) => {
+                      minMaxValues.push(active + overdue)
+                      minMaxValues.push(-ended)
 
-                    acc.push({
-                      month: key,
-                      label: labelMap.active,
-                      value: active + overdue
-                    })
-                    acc.push({
-                      month: key,
-                      label: labelMap.loss,
-                      value: -ended
-                    })
-                    return acc
+                      acc.push({
+                        month: key,
+                        label: labelMap.active,
+                        value: active + overdue
+                      })
+                      acc.push({
+                        month: key,
+                        label: labelMap.loss,
+                        value: -ended
+                      })
+                      return acc
+                    },
+                    []
+                  )
+              )
+
+            const pendingBuckets = buckets.slice(-7)
+            const pendingValues = pendingBuckets.reduce(
+              (agg, month) => {
+                // agg.gaining += month.gaining
+                const pendingYearly =
+                  month.pending - month.pendingSubscriptionsOnly
+                agg.values = agg.values.concat([
+                  {
+                    month: month.key,
+                    label: labelMap.base,
+                    value: month.active - pendingYearly // - month.gaining
                   },
-                  []
-                )
+                  // {
+                  //   month: month.key,
+                  //   label: labelMap.gaining,
+                  //   value: month.gaining
+                  // },
+                  {
+                    month: month.key,
+                    label: labelMap.pending,
+                    value: pendingYearly + month.overdue
+                  },
+                  {
+                    month: month.key,
+                    label: labelMap.loss,
+                    value: -month.ended
+                  }
+                ])
+                return agg
+              },
+              { gaining: 0, values: [] }
+            ).values
+
+            const activeCount = currentBucket.active + currentBucket.overdue
+            const missingCount = numMembersNeeded - activeCount
+            if (missingCount > 0) {
+              values.push({
+                month: currentBucket.key,
+                label: labelMap.missing,
+                value: missingCount
+              })
+            }
+            minMaxValues.push(numMembersNeeded)
+            const [minValue, maxValue] = extent(minMaxValues).map((d, i) =>
+              Math[i ? 'ceil' : 'floor'](Math.round(d / 1000) * 1000)
             )
 
-          const pendingBuckets = buckets.slice(-7)
-          const pendingValues = pendingBuckets.reduce(
-            (agg, month) => {
-              // agg.gaining += month.gaining
-              const pendingYearly =
-                month.pending - month.pendingSubscriptionsOnly
-              agg.values = agg.values.concat([
-                {
-                  month: month.key,
-                  label: labelMap.base,
-                  value: month.active - pendingYearly // - month.gaining
-                },
-                // {
-                //   month: month.key,
-                //   label: labelMap.gaining,
-                //   value: month.gaining
-                // },
-                {
-                  month: month.key,
-                  label: labelMap.pending,
-                  value: pendingYearly + month.overdue
-                },
-                {
-                  month: month.key,
-                  label: labelMap.loss,
-                  value: -month.ended
-                }
-              ])
-              return agg
-            },
-            { gaining: 0, values: [] }
-          ).values
+            const lastSeenBucket = data.membershipStats.lastSeen.buckets.slice(
+              -1
+            )[0]
+            const lastSeen = lastSeenBucket.users
 
-          const activeCount = currentBucket.active + currentBucket.overdue
-          const missingCount = numMembersNeeded - activeCount
-          if (missingCount > 0) {
-            values.push({
-              month: currentBucket.key,
-              label: labelMap.missing,
-              value: missingCount
-            })
-          }
-          minMaxValues.push(numMembersNeeded)
-          const [minValue, maxValue] = extent(minMaxValues).map((d, i) =>
-            Math[i ? 'ceil' : 'floor'](Math.round(d / 1000) * 1000)
-          )
+            const engagedUsers = [].concat(
+              data.discussionsStats.evolution.buckets
+                .slice(0, -1)
+                .map(bucket => ({
+                  type: 'Dialog',
+                  date: bucket.key,
+                  value: String(bucket.users)
+                })),
+              data.collectionsStats.progress.buckets
+                .slice(0, -1)
+                .map(bucket => ({
+                  type: 'Lesepositionen',
+                  date: bucket.key,
+                  value: String(bucket.users)
+                })),
+              data.collectionsStats.bookmarks.buckets
+                .slice(0, -1)
+                .map(bucket => ({
+                  type: 'Lesezeichen',
+                  date: bucket.key,
+                  value: String(bucket.users)
+                }))
+            )
 
-          const lastSeenBucket = data.membershipStats.lastSeen.buckets.slice(
-            -1
-          )[0]
-          const lastSeen = lastSeenBucket.users
-
-          const engagedUsers = [].concat(
-            data.discussionsStats.evolution.buckets
-              .slice(0, -1)
-              .map(bucket => ({
-                type: 'Dialog',
-                date: bucket.key,
-                value: String(bucket.users)
-              })),
-            data.collectionsStats.progress.buckets.slice(0, -1).map(bucket => ({
-              type: 'Lesepositionen',
-              date: bucket.key,
-              value: String(bucket.users)
-            })),
-            data.collectionsStats.bookmarks.buckets
-              .slice(0, -1)
-              .map(bucket => ({
-                type: 'Lesezeichen',
-                date: bucket.key,
-                value: String(bucket.users)
-              }))
-          )
-
-          return (
-            <>
-              <div style={{ marginBottom: 60 }}>
-                <RawStatus
-                  t={t}
-                  color='#fff'
-                  barColor='#333'
-                  memberships
-                  hasEnd={false}
-                  crowdfundingName='PERMANENT'
-                  crowdfunding={
-                    currentBucket && {
-                      name: 'PERMANENT',
-                      goals: [
-                        {
-                          memberships: numMembersNeeded
+            return (
+              <>
+                <div style={{ marginBottom: 60 }}>
+                  <RawStatus
+                    t={t}
+                    color='#fff'
+                    barColor='#333'
+                    memberships
+                    hasEnd={false}
+                    crowdfundingName='PERMANENT'
+                    crowdfunding={
+                      currentBucket && {
+                        name: 'PERMANENT',
+                        goals: [
+                          {
+                            memberships: numMembersNeeded
+                          }
+                        ],
+                        status: {
+                          memberships: activeCount,
+                          lastSeen
                         }
-                      ],
-                      status: {
-                        memberships: activeCount,
-                        lastSeen
                       }
                     }
-                  }
-                />
-              </div>
-              <Interaction.Headline style={{ marginBottom: 20 }}>
-                Das Cockpit zum Stand unseres Unternehmens
-              </Interaction.Headline>
-              {md(mdComponents)`
+                  />
+                </div>
+                <Interaction.Headline style={{ marginBottom: 20 }}>
+                  Das Cockpit zum Stand unseres Unternehmens
+                </Interaction.Headline>
+                {md(mdComponents)`
 
 Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
@@ -529,100 +533,101 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
 
 `}
 
-              <div style={{ marginTop: 20 }}>
-                <ChartTitle>
-                  Aktuell {countFormat(activeCount)} Mitglieder
-                  und&nbsp;Abonnentinnen
-                </ChartTitle>
-                <ChartLead>
-                  Entwicklung vom Crowdfunding im April 2017 bis heute.{' '}
-                  {missingCount > 0 &&
-                    `Es fehlen ${countFormat(missingCount)} Mitglieder.`}
-                </ChartLead>
-                <Chart
-                  config={{
-                    type: 'TimeBar',
-                    color: 'label',
-                    colorMap,
-                    numberFormat: 's',
-                    x: 'month',
-                    timeParse: '%Y-%m',
-                    timeFormat: '%b %y',
-                    xInterval: 'month',
-                    xTicks: ['2018-01', '2019-01', '2020-01', currentKey],
-                    height: 300,
-                    domain: [minValue, maxValue + 2000],
-                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000],
-                    xAnnotations: [
-                      {
-                        x1: currentBucket.key,
-                        x2: currentBucket.key,
-                        value: activeCount,
-                        label: 'Stand jetzt'
-                      }
-                    ],
-                    xBandPadding: 0
-                  }}
-                  values={values.map(d => ({ ...d, value: String(d.value) }))}
-                />
-              </div>
+                <div style={{ marginTop: 20 }}>
+                  <ChartTitle>
+                    Aktuell {countFormat(activeCount)} Mitglieder
+                    und&nbsp;Abonnentinnen
+                  </ChartTitle>
+                  <ChartLead>
+                    Entwicklung vom Crowdfunding im April 2017 bis heute.{' '}
+                    {missingCount > 0 &&
+                      `Es fehlen ${countFormat(missingCount)} Mitglieder.`}
+                  </ChartLead>
+                  <Chart
+                    config={{
+                      type: 'TimeBar',
+                      color: 'label',
+                      colorMap,
+                      numberFormat: 's',
+                      x: 'month',
+                      timeParse: '%Y-%m',
+                      timeFormat: '%b %y',
+                      xInterval: 'month',
+                      xTicks: ['2018-01', '2019-01', '2020-01', currentKey],
+                      height: 300,
+                      domain: [minValue, maxValue + 2000],
+                      yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000],
+                      xAnnotations: [
+                        {
+                          x1: currentBucket.key,
+                          x2: currentBucket.key,
+                          value: activeCount,
+                          label: 'Stand jetzt'
+                        }
+                      ],
+                      xBandPadding: 0
+                    }}
+                    values={values.map(d => ({ ...d, value: String(d.value) }))}
+                  />
+                </div>
 
-              <div style={{ marginTop: 20 }}>
-                <ChartTitle>
-                  {countFormat(
-                    lastBucket.pending - lastBucket.pendingSubscriptionsOnly
-                  )}{' '}
-                  anstehende Verläng&shy;erungen in den nächsten 3&nbsp;Monaten
-                </ChartTitle>
-                <ChartLead>
-                  Anzahl Mitgliedschaften und Abos per Monatsende.
-                </ChartLead>
-                <Chart
-                  config={{
-                    type: 'TimeBar',
-                    color: 'label',
-                    colorMap,
-                    numberFormat: 's',
-                    x: 'month',
-                    timeParse: '%Y-%m',
-                    timeFormat: '%b %y',
-                    xInterval: 'month',
-                    height: 300,
-                    domain: [minValue, maxValue + 2000],
-                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000],
-                    yAnnotations: [
-                      {
-                        value: numMembersNeeded,
-                        label: 'selbsttragend ab',
-                        dy: '1.1em'
-                      }
-                    ],
-                    xAnnotations: [
-                      {
-                        x1: currentBucket.key,
-                        x2: currentBucket.key,
-                        value: activeCount,
-                        label: 'Stand jetzt'
-                      }
-                    ]
-                  }}
-                  values={pendingValues.map(d => ({
-                    ...d,
-                    value: String(d.value)
-                  }))}
-                />
-                <ChartLegend>
-                  Als offen gelten Jahres­mitgliedschaften ohne
-                  Verlängerungszahlung. Datenstand:{' '}
-                  {formatDateTime(new Date(updatedAt))}
-                </ChartLegend>
-              </div>
+                <div style={{ marginTop: 20 }}>
+                  <ChartTitle>
+                    {countFormat(
+                      lastBucket.pending - lastBucket.pendingSubscriptionsOnly
+                    )}{' '}
+                    anstehende Verläng&shy;erungen in den nächsten
+                    3&nbsp;Monaten
+                  </ChartTitle>
+                  <ChartLead>
+                    Anzahl Mitgliedschaften und Abos per Monatsende.
+                  </ChartLead>
+                  <Chart
+                    config={{
+                      type: 'TimeBar',
+                      color: 'label',
+                      colorMap,
+                      numberFormat: 's',
+                      x: 'month',
+                      timeParse: '%Y-%m',
+                      timeFormat: '%b %y',
+                      xInterval: 'month',
+                      height: 300,
+                      domain: [minValue, maxValue + 2000],
+                      yTicks: [-5000, 0, 5000, 10000, 15000, 20000],
+                      yAnnotations: [
+                        {
+                          value: numMembersNeeded,
+                          label: 'selbsttragend ab',
+                          dy: '1.1em'
+                        }
+                      ],
+                      xAnnotations: [
+                        {
+                          x1: currentBucket.key,
+                          x2: currentBucket.key,
+                          value: activeCount,
+                          label: 'Stand jetzt'
+                        }
+                      ]
+                    }}
+                    values={pendingValues.map(d => ({
+                      ...d,
+                      value: String(d.value)
+                    }))}
+                  />
+                  <ChartLegend>
+                    Als offen gelten Jahres­mitgliedschaften ohne
+                    Verlängerungszahlung. Datenstand:{' '}
+                    {formatDateTime(new Date(updatedAt))}
+                  </ChartLegend>
+                </div>
 
-              {md(mdComponents)`
+                {md(mdComponents)`
 
 Mit konstant ${countFormat(
-                numMembersNeeded
-              )} Abonnentinnen und Mitgliedern haben wir genügend Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
+                  numMembersNeeded
+                )} Abonnentinnen und Mitgliedern haben wir genügend Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
 
 Das aktuelle Ausgabenbudget haben wir im November 2020 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/nov20#unser-gesamtbudget-erklaert-und-aufgeschluesselt).
 
@@ -632,47 +637,47 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
 
 `}
 
-              <div style={{ marginTop: 20 }}>
-                <ChartTitle>
-                  Wie beliebt sind Dialog, Lesezeichen und Leseposition?
-                </ChartTitle>
-                <ChartLead>
-                  Anzahl Mitglieder, welche pro Monat eine Funktion benutzen.
-                </ChartLead>
-                <Chart
-                  config={{
-                    type: 'Line',
-                    sort: 'none',
-                    color: 'type',
-                    colorSort: 'none',
-                    numberFormat: 's',
-                    x: 'date',
-                    timeParse: '%Y-%m',
-                    timeFormat: '%b %y',
-                    xTicks: [
-                      '2018-01',
-                      '2019-01',
-                      '2020-01'
-                      // lastSeenBucket.key
-                    ],
-                    yNice: 0,
-                    yTicks: [0, 3000, 6000, 9000, 12000],
-                    colorMap: {
-                      Lesepositionen: '#9467bd',
-                      Lesezeichen: '#e377c2',
-                      Dialog: '#bcbd22'
-                    }
-                  }}
-                  values={engagedUsers}
-                />
-                <ChartLegend>
-                  Beim Dialog werden Schreibende und Reagierende (Up- und
-                  Downvotes) gezählt. Lesezeichen wurden Mitte Januar 2019
-                  eingeführt, die Leseposition Ende März&nbsp;2019.
-                </ChartLegend>
-              </div>
+                <div style={{ marginTop: 20 }}>
+                  <ChartTitle>
+                    Wie beliebt sind Dialog, Lesezeichen und Leseposition?
+                  </ChartTitle>
+                  <ChartLead>
+                    Anzahl Mitglieder, welche pro Monat eine Funktion benutzen.
+                  </ChartLead>
+                  <Chart
+                    config={{
+                      type: 'Line',
+                      sort: 'none',
+                      color: 'type',
+                      colorSort: 'none',
+                      numberFormat: 's',
+                      x: 'date',
+                      timeParse: '%Y-%m',
+                      timeFormat: '%b %y',
+                      xTicks: [
+                        '2018-01',
+                        '2019-01',
+                        '2020-01'
+                        // lastSeenBucket.key
+                      ],
+                      yNice: 0,
+                      yTicks: [0, 3000, 6000, 9000, 12000],
+                      colorMap: {
+                        Lesepositionen: '#9467bd',
+                        Lesezeichen: '#e377c2',
+                        Dialog: '#bcbd22'
+                      }
+                    }}
+                    values={engagedUsers}
+                  />
+                  <ChartLegend>
+                    Beim Dialog werden Schreibende und Reagierende (Up- und
+                    Downvotes) gezählt. Lesezeichen wurden Mitte Januar 2019
+                    eingeführt, die Leseposition Ende März&nbsp;2019.
+                  </ChartLegend>
+                </div>
 
-              {md(mdComponents)`
+                {md(mdComponents)`
 
 ## Was bisher geschah
 
@@ -689,63 +694,64 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
 Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in unserem Unternehmen. Sie können alles nachlesen, im [Archiv der Project-R-Newsletter](https://project-r.construction/news) und in der [Rubrik «An die Verlagsetage](/format/an-die-verlagsetage "An die Verlagsetage")».
 
 `}
-              <br />
-              <Accordion
-                me={me}
-                query={query}
-                shouldBuyProlong={shouldBuyProlong}
-                isReactivating={isReactivating}
-                defaultBenefactor={defaultBenefactor}
-                questionnaire={questionnaire}
-              />
+                <br />
+                <Accordion
+                  me={me}
+                  query={query}
+                  shouldBuyProlong={shouldBuyProlong}
+                  isReactivating={isReactivating}
+                  defaultBenefactor={defaultBenefactor}
+                  questionnaire={questionnaire}
+                />
 
-              {inNativeIOSApp && (
-                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
-                  {t('cockpit/ios')}
-                </Interaction.P>
-              )}
+                {inNativeIOSApp && (
+                  <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
+                    {t('cockpit/ios')}
+                  </Interaction.P>
+                )}
 
-              {md(mdComponents)`
+                {md(mdComponents)`
 
 
 
 ## ${countFormat(activeCount)} sind dabei.`}
 
-              <LazyLoad>
-                <TestimonialList
-                  ssr={false}
-                  singleRow
-                  minColumns={3}
-                  share={false}
-                />
-              </LazyLoad>
-              <br />
+                <LazyLoad>
+                  <TestimonialList
+                    ssr={false}
+                    singleRow
+                    minColumns={3}
+                    share={false}
+                  />
+                </LazyLoad>
+                <br />
 
-              {md(mdComponents)`
+                {md(mdComponents)`
 [Alle anschauen](/community)${
-                me && me.activeMembership ? (
-                  <Fragment>
-                    {'\u00a0– '}
-                    <Editorial.A
-                      style={{ color: colors.negative.text }}
-                      href='/einrichten'
-                    >
-                      Ihr Profil einrichten
-                    </Editorial.A>
-                  </Fragment>
-                ) : (
-                  ''
-                )
-              }
+                  me && me.activeMembership ? (
+                    <Fragment>
+                      {'\u00a0– '}
+                      <Editorial.A
+                        style={{ color: colors.negative.text }}
+                        href='/einrichten'
+                      >
+                        Ihr Profil einrichten
+                      </Editorial.A>
+                    </Fragment>
+                  ) : (
+                    ''
+                  )
+                }
       `}
 
-              <br />
-              <br />
-            </>
-          )
-        }}
-      />
-    </Frame>
+                <br />
+                <br />
+              </>
+            )
+          }}
+        />
+      </Frame>
+    </ColorContextProvider>
   )
 }
 

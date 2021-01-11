@@ -39,7 +39,8 @@ import {
   linkRule,
   mediaQueries,
   colors,
-  Button
+  Button,
+  useColorContext
 } from '@project-r/styleguide'
 
 const styles = {
@@ -48,7 +49,6 @@ const styles = {
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#fff',
     textAlign: 'center',
     height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
@@ -58,7 +58,8 @@ const styles = {
       position: 'absolute',
       backgroundColor: 'transparent'
     },
-    borderBottom: `1px solid ${colors.divider}`
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid'
   }),
   padHeader: css({
     // minus 1px for first sticky hr from header
@@ -139,6 +140,7 @@ const knownTypes = [
 ]
 
 const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
+  const [colorScheme] = useColorContext()
   const query = fixAmpsInQuery(rawQuery)
   const { context, token, tokenType, noAutoAuthorize } = query
   let { type, email } = query
@@ -276,11 +278,16 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
         <meta name='robots' content='noindex' />
       </Head>
       <NarrowContainer>
-        <div {...(stickyBar ? styles.bar : undefined)}>{logo}</div>
+        <div
+          {...(stickyBar ? styles.bar : undefined)}
+          {...colorScheme.set('borderBottomColor', 'divider')}
+        >
+          {logo}
+        </div>
         {inNativeApp && (
           <Link route='index'>
             <a {...styles.close}>
-              <MdClose size={32} fill='#000' />
+              <MdClose size={32} />
             </a>
           </Link>
         )}

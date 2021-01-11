@@ -20,6 +20,7 @@ import {
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import { Link } from '../lib/routes'
+import { useColorContext } from '@project-r/styleguide/lib/components/Colors/ColorContext'
 
 const pRule = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -96,6 +97,8 @@ const Highlight = ({ children, ...props }) => (
 const Strong = ({ children }) => <span {...styles.strong}>{children}</span>
 
 const Page = ({ router, inNativeApp }) => {
+  const [colorScheme] = useColorContext()
+
   const meta = {
     title: 'Das Project-R-Manifest für die Republik',
     description: 'Jetzt Mitglied und Abonnentin werden.',
@@ -133,7 +136,7 @@ ${PUBLIC_BASE_URL}
       {inNativeApp && (
         <Link route='index'>
           <a {...styles.back}>
-            <BackIcon size={25} style={{ marginTop: -3 }} fill='#000' />
+            <BackIcon size={25} style={{ marginTop: -3 }} />
             Magazin
           </a>
         </Link>

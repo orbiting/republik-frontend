@@ -18,8 +18,7 @@ import {
   BrandMark as R,
   fontFamilies,
   mediaQueries,
-  P as EP,
-  H1 as EH1,
+  Editorial,
   A,
   Label,
   Interaction,
@@ -33,6 +32,7 @@ import {
 } from '../lib/constants'
 import { Link } from '../lib/routes'
 
+const { Headline: EH1, P: EP } = Editorial
 const { H2, P: IP } = Interaction
 
 const enVideo = {
@@ -60,7 +60,6 @@ const styles = {
     fontFamily: fontFamilies.sansSerifRegular,
     textDecoration: 'none',
     fontSize: 20,
-    color: '#000',
     marginTop: 9 + 4,
     marginBottom: -20,
     display: 'block'
@@ -201,7 +200,7 @@ class EnPage extends Component {
         {inNativeApp && (
           <Link route='index'>
             <a {...styles.back}>
-              <BackIcon size={25} style={{ marginTop: -3 }} fill='#000' />
+              <BackIcon size={25} style={{ marginTop: -3 }} />
               Magazine
             </a>
           </Link>

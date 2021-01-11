@@ -19,13 +19,12 @@ const DarkmodeSwitch = ({
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
   const [colorScheme] = useColorContext()
 
-  const colorSchemaKeyForLable =
-    pageColorSchemeKey !== 'auto' ? pageColorSchemeKey : colorSchemeKey
+  const colorSchemaKeyForLabel = pageColorSchemeKey || colorSchemeKey
 
   const iconLabel =
-    colorSchemaKeyForLable === 'light'
+    colorSchemaKeyForLabel === 'light'
       ? t('darkmode/switch/off')
-      : colorSchemaKeyForLable === 'dark'
+      : colorSchemaKeyForLabel === 'dark'
       ? t('darkmode/switch/on')
       : t('darkmode/switch/auto')
 
@@ -48,7 +47,7 @@ const DarkmodeSwitch = ({
       <div style={{ width: 180 }}>
         {!colorScheme.CSSVarSupport ? (
           <Label>{t('darkmode/switch/notSupported')}</Label>
-        ) : pageColorSchemeKey !== 'auto' ? (
+        ) : pageColorSchemeKey ? (
           <Label>{t('darkmode/switch/notAvailable')}</Label>
         ) : (
           <Interaction.P>

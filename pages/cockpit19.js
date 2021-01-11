@@ -127,7 +127,6 @@ const Accordion = withInNativeApp(
               >
                 <PackageItem
                   t={t}
-                  dark
                   crowdfundingName={CROWDFUNDING}
                   name='PROLONG'
                   title={isReactivating ? 'Zurückkehren' : undefined}
@@ -147,7 +146,6 @@ const Accordion = withInNativeApp(
               >
                 <PackageItem
                   t={t}
-                  dark
                   crowdfundingName={CROWDFUNDING}
                   name='PROLONG-BIG'
                   hover={hover}
@@ -171,7 +169,6 @@ const Accordion = withInNativeApp(
               >
                 <PackageItem
                   t={t}
-                  dark
                   crowdfundingName={CROWDFUNDING}
                   name='PROLONG-BEN'
                   hover={hover}
@@ -187,7 +184,6 @@ const Accordion = withInNativeApp(
                 <Link route='pledge' params={{ package: 'ABO_GIVE' }} passHref>
                   <PackageItem
                     t={t}
-                    dark
                     crowdfundingName={CROWDFUNDING}
                     name='ABO_GIVE'
                     hover={hover}
@@ -204,7 +200,6 @@ const Accordion = withInNativeApp(
                   >
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='MONTHLY_ABO'
                       hover={hover}
@@ -215,7 +210,6 @@ const Accordion = withInNativeApp(
                   <Link route='pledge' params={{ package: 'ABO' }} passHref>
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='ABO'
                       hover={hover}
@@ -230,7 +224,6 @@ const Accordion = withInNativeApp(
                   >
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='BENEFACTOR'
                       hover={hover}
@@ -245,7 +238,6 @@ const Accordion = withInNativeApp(
           <Link route='pledge' params={{ package: 'DONATE' }} passHref>
             <PackageItem
               t={t}
-              dark
               crowdfundingName={CROWDFUNDING}
               name='DONATE'
               hover={hover}

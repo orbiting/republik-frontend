@@ -5,7 +5,6 @@ import { parse } from 'url'
 
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { parseJSONObject } from '../../lib/safeJSON'
-import { AudioContext } from '../Audio'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withMe from '../../lib/apollo/withMe'
 import { withProgressApi } from '../Article/Progress/api'
@@ -90,9 +89,7 @@ const MessageSync = ({
           token,
           os,
           osVersion,
-          brand,
           model,
-          deviceId,
           appVersion,
           userAgent
         } = content.data
@@ -103,14 +100,11 @@ const MessageSync = ({
               os,
               osVersion,
               model,
-              brand,
-              deviceId,
               appVersion,
               userAgent
             }
           }
         })
-        console.log('onPushRegistered', content)
       } else if (content.type === 'onAppMediaProgressUpdate') {
         // Audio Player sent media progress update
         const { currentTime, mediaId } = content
@@ -155,7 +149,7 @@ export default compose(
   withMe,
   graphql(upsertDeviceQuery, { name: 'upsertDevice' }),
   graphql(pendingAppSignInQuery, {
-    // skip: props => !props.me, What's this for?
+    skip: props => !props.me,
     options: {
       fetchPolicy: 'network-only'
     },

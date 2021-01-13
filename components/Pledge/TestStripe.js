@@ -55,12 +55,12 @@ const OFFERS = [
           amount: 1,
           periods: 1,
           price: 24000,
-          templateId: '00000000-0000-0000-0008-000000000001',
+          templateId: '53de5c29-7e96-487a-8075-8e0376bde21b',
           autoPay: true
         }
       ]
     },
-    companyId: 'c0000000-0000-0000-0001-000000000001'
+    companyId: '240ef27d-cf26-48c1-81df-54b2a10732f4'
   },
   {
     package: 'MONTHLY_ABO',
@@ -69,24 +69,24 @@ const OFFERS = [
     text:
       'Schön, dass Sie dabei sind. Sie erhalten täglich eine bis drei neue Geschichten.',
     submitPledgeProps: {
-      total: 2000,
+      total: 2200,
       options: [
         {
           amount: 1,
           periods: 1,
-          price: 2000,
-          templateId: '00000000-0000-0000-0008-000000000002',
+          price: 2200,
+          templateId: 'e1c09501-2120-4483-87d5-b3dbbb51191b',
           autoPay: true
         }
       ]
     },
-    companyId: 'c0000000-0000-0000-0001-000000000002'
+    companyId: '7f6fb263-1d36-4550-91c6-4562b94141e3'
   },
   // test data to check if buying !subscription on COMPANY_TWO works
   {
-    package: 'ABO_COMPANY_TWO',
-    label: 'Halbjährlich',
-    price: 'CHF 120 pro Halbjahr',
+    package: 'ABO_GIVE',
+    label: 'Jahresmitgliedschaft als Geschenk',
+    price: 'CHF 240',
     text:
       'Schön, dass Sie dabei sind. Sie erhalten täglich eine bis drei neue Geschichten.',
     submitPledgeProps: {
@@ -96,12 +96,12 @@ const OFFERS = [
           amount: 1,
           periods: 1,
           price: 12000,
-          templateId: '00000000-0000-0000-0008-000000000020',
+          templateId: '4fb698dc-e8ee-4bad-9eed-51914ab2da59',
           autoPay: true
         }
       ]
     },
-    companyId: 'c0000000-0000-0000-0001-000000000002'
+    companyId: '240ef27d-cf26-48c1-81df-54b2a10732f4'
   }
 ]
 
@@ -162,14 +162,17 @@ const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY, {
 
 const stripeClients = [
   {
-    companyId: 'c0000000-0000-0000-0001-000000000001',
+    companyId: '240ef27d-cf26-48c1-81df-54b2a10732f4',
     client: stripePromise
   },
   {
-    companyId: 'c0000000-0000-0000-0001-000000000002',
-    client: loadStripe(STRIPE_PUBLISHABLE_KEY_CONNECTED)
+    companyId: '7f6fb263-1d36-4550-91c6-4562b94141e3',
+    client: loadStripe(STRIPE_PUBLISHABLE_KEY_CONNECTED, {
+      apiVersion: '2020-08-27'
+    })
   }
 ]
+
 const getLoadedStripeClientForCompany = async ({ companyId }) => {
   // get stripe client belonging to company of package
   const stripeClient = stripeClients.find(c => c.companyId === companyId).client

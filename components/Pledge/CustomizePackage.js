@@ -1259,7 +1259,10 @@ class CustomizePackage extends Component {
               {pkg.name === 'ABO_GIVE_MONTHS' && (
                 <Fragment>
                   <Interaction.Emphasis>
-                    {t('package/customize/price/payMore')}
+                    {t.first([
+                      `package/customize/price/payMore/${pkg.name}`,
+                      'package/customize/price/payMore'
+                    ])}
                   </Interaction.Emphasis>
                   <ul {...styles.ul}>
                     <li>

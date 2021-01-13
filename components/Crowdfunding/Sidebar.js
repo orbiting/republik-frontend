@@ -1,8 +1,6 @@
 import React, { Component, useState } from 'react'
-import { gql, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
-import { errorToString } from '../../lib/utils/errors'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { Link } from '../../lib/routes'
 
@@ -15,14 +13,7 @@ import { css } from 'glamor'
 import { HEADER_HEIGHT } from '../constants'
 import { SIDEBAR_WIDTH } from './constants'
 
-import {
-  Button,
-  P,
-  A,
-  Label,
-  colors,
-  mediaQueries
-} from '@project-r/styleguide'
+import { Button, A, mediaQueries } from '@project-r/styleguide'
 
 export const minWindowHeight = 400
 
@@ -40,8 +31,7 @@ const styles = {
       position: 'fixed',
       zIndex: 1,
       width: SIDEBAR_WIDTH,
-      top: HEADER_HEIGHT,
-      backgroundColor: '#fff'
+      top: HEADER_HEIGHT
     }
   }),
   button: css({
@@ -267,8 +257,4 @@ class Sidebar extends Component {
   }
 }
 
-export default compose(
-  withInNativeApp,
-  withStatus,
-  withT
-)(Sidebar)
+export default compose(withInNativeApp, withStatus, withT)(Sidebar)

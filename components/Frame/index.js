@@ -7,6 +7,7 @@ import {
   RawHtml,
   fontFamilies,
   mediaQueries,
+  ColorHtmlBodyColors,
   ColorContextProvider
 } from '@project-r/styleguide'
 import Meta from './Meta'
@@ -98,7 +99,8 @@ const Frame = ({
   dark,
   isMember,
   hasOverviewNav: wantOverviewNav,
-  stickySecondaryNav
+  stickySecondaryNav,
+  pageColorSchemeKey
 }) => {
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
@@ -115,51 +117,59 @@ const Frame = ({
     })
   }, [hasSecondaryNav])
   return (
-    <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
-      {/* body growing only needed when rendering a footer */}
+    <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
+      {pageColorSchemeKey && (
+        <ColorHtmlBodyColors colorSchemeKey={pageColorSchemeKey} />
+      )}
       <div
-        {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-        {...padHeaderRule}
+        {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
       >
-        {!!meta && <Meta data={meta} />}
-        <Header
-          me={me}
-          cover={cover}
-          onNavExpanded={onNavExpanded}
-          secondaryNav={secondaryNav}
-          formatColor={formatColor}
-          pullable={pullable}
-          hasOverviewNav={hasOverviewNav}
-          stickySecondaryNav={stickySecondaryNav}
+        {/* body growing only needed when rendering a footer */}
+        <div
+          {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
+          {...padHeaderRule}
         >
-          <noscript>
-            <Box style={{ padding: 30 }}>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('noscript')
-                }}
+          {!!meta && <Meta data={meta} />}
+          <Header
+            me={me}
+            cover={cover}
+            onNavExpanded={onNavExpanded}
+            secondaryNav={secondaryNav}
+            formatColor={formatColor}
+            pullable={pullable}
+            hasOverviewNav={hasOverviewNav}
+            stickySecondaryNav={stickySecondaryNav}
+            pageColorSchemeKey={pageColorSchemeKey}
+          >
+            <noscript>
+              <Box style={{ padding: 30 }}>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('noscript')
+                  }}
+                />
+              </Box>
+            </noscript>
+            {me && me.prolongBeforeDate !== null && (
+              <ProlongBox
+                t={t}
+                prolongBeforeDate={me.prolongBeforeDate}
+                membership={me.activeMembership}
+                dark={dark}
               />
-            </Box>
-          </noscript>
-          {me && me.prolongBeforeDate !== null && (
-            <ProlongBox
-              t={t}
-              prolongBeforeDate={me.prolongBeforeDate}
-              membership={me.activeMembership}
-              dark={dark}
-            />
-          )}
-          {raw ? (
-            children
-          ) : (
-            <MainContainer>
-              <Content>{children}</Content>
-            </MainContainer>
-          )}
-        </Header>
+            )}
+            {raw ? (
+              children
+            ) : (
+              <MainContainer>
+                <Content>{children}</Content>
+              </MainContainer>
+            )}
+          </Header>
+        </div>
+        {!inNativeApp && footer && <Footer />}
       </div>
-      {!inNativeApp && footer && <Footer />}
-    </div>
+    </ColorContextProvider>
   )
 }
 

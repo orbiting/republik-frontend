@@ -2,14 +2,14 @@ import React, { Fragment } from 'react'
 import Frame from '../../../components/Frame'
 import Discussion from '../../../components/Discussion/Discussion'
 import { withRouter } from 'next/router'
-import { mediaQueries } from '@project-r/styleguide'
+import { mediaQueries, In } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import { VOTING_COOP_201912_REPORT_SLUG } from '../constants'
 import voteT from '../voteT'
-import { Body, Section, Title } from '../text'
+import { Title } from '../text'
 import Loader from '../../Loader'
 import md from 'markdown-in-js'
 import { mdComponents } from '../text'
@@ -79,8 +79,4 @@ const query = gql`
   }
 `
 
-export default compose(
-  voteT,
-  withRouter,
-  graphql(query)
-)(DiscussionPage)
+export default compose(voteT, withRouter, graphql(query))(DiscussionPage)

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import sharedStyles from '../../sharedStyles'
@@ -8,7 +8,8 @@ import {
   colors,
   fontFamilies,
   fontStyles,
-  mediaQueries
+  mediaQueries,
+  useColorContext
 } from '@project-r/styleguide'
 import voteT from '../voteT'
 
@@ -66,7 +67,6 @@ const styles = {
   }),
   toggleIconContent: css({
     padding: 0,
-    color: '#000',
     width: ICON_SIZE,
     marginLeft: 0,
     display: 'inline-block',
@@ -85,101 +85,89 @@ const styles = {
   })
 }
 
-class BudgetChartItem extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      collapsed: true
-    }
+const BudgetChartItem = ({
+  vt,
+  children,
+  category,
+  height,
+  background,
+  color,
+  total,
+  highlight,
+  last
+}) => {
+  const [colorScheme] = useColorContext()
+  const [collapsed, setCollapsed] = useState(true)
+  const toggleCollapsed = () => setCollapsed(!collapsed)
 
-    this.toggleCollapsed = () => {
-      this.setState(({ collapsed }) => ({
-        collapsed: !collapsed
-      }))
-    }
-  }
+  const hasMore = !!children
+  const ExpandIcon = collapsed ? MdExpandMore : MdExpandLess
+  const iconTitle = vt(
+    `vote/201907/budget/icon/${collapsed ? 'more' : 'less'}/title`
+  )
 
-  render() {
-    const {
-      vt,
-      children,
-      category,
-      height,
-      background,
-      color,
-      total,
-      highlight,
-      last
-    } = this.props
-    const { collapsed } = this.state
+  const compact = !!height && height < 35
+  const minHeight = compact ? 25 : 35
 
-    const hasMore = !!children
-    const ExpandIcon = collapsed ? MdExpandMore : MdExpandLess
-    const iconTitle = vt(
-      `vote/201907/budget/icon/${collapsed ? 'more' : 'less'}/title`
-    )
-
-    const compact = !!height && height < 35
-    const minHeight = compact ? 25 : 35
-
-    return (
-      <Fragment>
+  return (
+    <Fragment>
+      <div
+        {...styles.wrapper}
+        style={{
+          background,
+          borderBottomWidth: collapsed ? 1 : 0,
+          borderBottomStyle: 'solid'
+        }}
+        {...colorScheme.set('borderBottomColor', 'default')}
+      >
         <div
-          {...styles.wrapper}
+          {...styles.toggle}
+          onClick={hasMore ? toggleCollapsed : undefined}
           style={{
-            background,
-            borderBottom: collapsed ? '1px solid #fff' : undefined
+            color: highlight ? colorScheme.getCSSColor('text') : color,
+            height: Math.max(height || 0, minHeight),
+            cursor: hasMore ? 'pointer' : undefined,
+            fontFamily: highlight ? fontFamilies.sansSerifMedium : undefined
           }}
         >
-          <div
-            {...styles.toggle}
-            onClick={hasMore ? this.toggleCollapsed : undefined}
-            style={{
-              color,
-              height: Math.max(height || 0, minHeight),
-              cursor: hasMore ? 'pointer' : undefined,
-              fontFamily: highlight ? fontFamilies.sansSerifMedium : undefined
-            }}
-          >
-            {hasMore && (
-              <span {...styles.label} {...styles.category}>
-                {category}
-                <button
-                  {...sharedStyles.plainButton}
-                  {...styles.toggleIcon}
-                  title={iconTitle}
-                >
-                  <ExpandIcon size={ICON_SIZE} fill={'#fff'} />
-                </button>
-              </span>
-            )}
-            {!hasMore && <span {...styles.label}>{category}</span>}
-            {total && <span {...styles.label}>{total}</span>}
-          </div>
-        </div>
-        {collapsed || (
-          <div {...styles.content}>
-            {children}
-            <div
-              {...styles.toggleContent}
-              onClick={this.toggleCollapsed}
-              style={{
-                borderBottom: last ? `1px solid ${colors.divider}` : undefined
-              }}
-            >
+          {hasMore && (
+            <span {...styles.label} {...styles.category}>
+              {category}
               <button
                 {...sharedStyles.plainButton}
-                {...styles.toggleIconContent}
+                {...styles.toggleIcon}
                 title={iconTitle}
               >
-                <ExpandIcon size={ICON_SIZE} />
+                <ExpandIcon size={ICON_SIZE} fill={'#fff'} />
               </button>
-            </div>
+            </span>
+          )}
+          {!hasMore && <span {...styles.label}>{category}</span>}
+          {total && <span {...styles.label}>{total}</span>}
+        </div>
+      </div>
+      {collapsed || (
+        <div {...styles.content}>
+          {children}
+          <div
+            {...styles.toggleContent}
+            onClick={toggleCollapsed}
+            style={{
+              borderBottom: last ? `1px solid ${colors.divider}` : undefined
+            }}
+          >
+            <button
+              {...sharedStyles.plainButton}
+              {...styles.toggleIconContent}
+              title={iconTitle}
+            >
+              <ExpandIcon size={ICON_SIZE} />
+            </button>
           </div>
-        )}
-      </Fragment>
-    )
-  }
+        </div>
+      )}
+    </Fragment>
+  )
 }
 
 BudgetChartItem.propTypes = {

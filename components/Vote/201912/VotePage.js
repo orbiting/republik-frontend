@@ -62,7 +62,6 @@ const styles = {
     margin: '25px auto',
     maxWidth: 550,
     padding: 25,
-    background: colors.primaryBg,
     textAlign: 'center'
   }),
   chart: css({

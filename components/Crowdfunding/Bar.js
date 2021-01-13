@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import { css, merge } from 'glamor'
 
-import { colors, fontFamilies, RawHtml } from '@project-r/styleguide'
+import { fontFamilies, RawHtml, useColorContext } from '@project-r/styleguide'
 
 const HEIGHT = 8
 
@@ -13,7 +13,6 @@ const styles = {
     position: 'relative'
   }),
   barInner: css({
-    backgroundColor: colors.primary,
     height: '100%'
   }),
   goal: css({
@@ -29,14 +28,15 @@ const styles = {
     borderRight: 'none'
   }),
   lowerGoal: css({
-    borderRight: '2px solid #fff'
+    borderRightWidth: 2,
+    borderRightStyle: 'solid'
   }),
   goalNumber: css({
-    color: colors.secondary,
     fontFamiliy: fontFamilies.sansSerifMedium,
     fontSize: 14,
     lineHeight: '14px',
-    borderRight: `1px solid ${colors.secondary}`,
+    borderRightWidth: 1,
+    borderRightStyle: 'solid',
     textAlign: 'right',
     paddingTop: 12,
     paddingRight: 4
@@ -45,7 +45,6 @@ const styles = {
     position: 'absolute',
     top: 0,
     left: 0,
-    backgroundColor: colors.secondary,
     height: 8
   }),
   box: css({
@@ -53,12 +52,11 @@ const styles = {
     top: 40,
     left: 5,
     right: 5,
-    backgroundColor: colors.secondary,
-    color: '#fff',
     fontFamiliy: fontFamilies.sansSerifMedium,
     fontSize: 14,
     lineHeight: '19px',
-    padding: '12px 17px'
+    padding: '12px 17px',
+    color: '#fff'
   }),
   arrow: css({
     position: 'absolute',
@@ -68,7 +66,9 @@ const styles = {
     height: 0,
     borderStyle: 'solid',
     borderWidth: '0 4px 8px 4px',
-    borderColor: `transparent transparent ${colors.secondary} transparent`
+    borderColorTop: 'transparent',
+    borderColorRight: 'transparent',
+    borderColorLeft: 'transparent'
   }),
   noInteraction: css({
     pointerEvents: 'none'
@@ -83,106 +83,106 @@ const widthForGoal = (goal, status, accessor) => {
   )
 }
 
-class GoalBar extends Component {
-  constructor(props) {
-    super(props)
+const GoalBar = ({ status, goals, accessor, format, showLast, color }) => {
+  const [colorScheme] = useColorContext()
+  const [hover, setHover] = useState(undefined)
+  const [goal, setGoal] = useState(undefined)
+  const [uniqueGoals, setUniqueGoals] = useState([])
 
-    this.state = {}
-  }
-  render() {
-    const {
-      status,
-      goals,
-      accessor,
-      format,
-      showLast,
-      color = '#EAEDEB'
-    } = this.props
-    const goal = goals[goals.length - 1]
-
-    const uniqueGoals = goals
-      .filter((d, i) => i === goals.findIndex(g => g[accessor] === d[accessor]))
-      .reverse()
-
-    const hover = this.state.hover || (showLast && uniqueGoals[0])
-
-    return (
-      <div
-        {...styles.bar}
-        style={{
-          zIndex: hover ? 1 : 0,
-          backgroundColor: color
-        }}
-      >
-        <div
-          {...styles.barInner}
-          style={{
-            width: widthForGoal(goal, status, accessor)
-          }}
-        />
-        {uniqueGoals.length > 1 &&
-          uniqueGoals.map((uniqueGoal, i) => (
-            <div
-              key={i}
-              {...merge(
-                styles.goal,
-                i === 0 && styles.currentGoal,
-                i > 0 && status[accessor] < goal[accessor] && styles.lowerGoal
-              )}
-              style={{
-                width: widthForGoal(goal, uniqueGoal, accessor),
-                borderBottomColor: color
-              }}
-              onTouchStart={e => {
-                e.preventDefault()
-                this.setState({
-                  hover: uniqueGoal
-                })
-              }}
-              onTouchEnd={() =>
-                this.setState({
-                  hover: undefined
-                })
-              }
-              onMouseOver={() =>
-                this.setState({
-                  hover: uniqueGoal
-                })
-              }
-              onMouseOut={() =>
-                this.setState({
-                  hover: undefined
-                })
-              }
-            >
-              {uniqueGoal === hover && (
-                <div {...styles.noInteraction}>
-                  <div
-                    {...styles.goalBar}
-                    style={{
-                      width: widthForGoal(uniqueGoal, status, accessor)
-                    }}
-                  />
-                  <div {...styles.goalNumber}>
-                    {format(uniqueGoal[accessor])}
-                  </div>
-                  {!!hover.description && <div {...styles.arrow} />}
-                </div>
-              )}
-            </div>
-          ))}
-        {!!hover && !!hover.description && (
-          <div {...styles.box}>
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: hover.description
-              }}
-            />
-          </div>
-        )}
-      </div>
+  useEffect(() => {
+    setGoal(goals[goals.length - 1])
+    setUniqueGoals(
+      goals
+        .filter(
+          (d, i) => i === goals.findIndex(g => g[accessor] === d[accessor])
+        )
+        .reverse()
     )
-  }
+  }, goals)
+
+  useEffect(() => {
+    setHover(showLast ? uniqueGoals[0] : undefined)
+  }, uniqueGoals)
+
+  if (!goal) return null
+
+  return (
+    <div
+      {...styles.bar}
+      style={{
+        zIndex: hover ? 1 : 0
+      }}
+      {...colorScheme.set('background', 'divider')}
+    >
+      <div
+        {...styles.barInner}
+        {...colorScheme.set('background', 'primary')}
+        style={{
+          width: widthForGoal(goal, status, accessor)
+        }}
+      />
+      {uniqueGoals.length > 1 &&
+        uniqueGoals.map((uniqueGoal, i) => (
+          <div
+            key={i}
+            {...merge(
+              styles.goal,
+              i === 0 && styles.currentGoal,
+              i > 0 && status[accessor] < goal[accessor] && styles.lowerGoal
+            )}
+            {...colorScheme.set('borderRightColor', 'default')}
+            style={{
+              width: widthForGoal(goal, uniqueGoal, accessor)
+            }}
+            onTouchStart={e => {
+              e.preventDefault()
+              setHover(uniqueGoal)
+            }}
+            onTouchEnd={() => setHover(undefined)}
+            onMouseOver={() => setHover(uniqueGoal)}
+            onMouseOut={() => setHover(undefined)}
+          >
+            {uniqueGoal === hover && (
+              <div {...styles.noInteraction}>
+                <div
+                  {...styles.goalBar}
+                  {...colorScheme.set('backgroundColor', 'primaryHover')}
+                  style={{
+                    width: widthForGoal(uniqueGoal, status, accessor)
+                  }}
+                />
+                <div
+                  {...styles.goalNumber}
+                  {...colorScheme.set('color', 'primaryHover')}
+                  {...colorScheme.set('borderRightColor', 'primaryHover')}
+                >
+                  {format(uniqueGoal[accessor])}
+                </div>
+                {!!hover.description && (
+                  <div
+                    {...styles.arrow}
+                    {...colorScheme.set('borderBottomColor', 'primaryHover')}
+                  />
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      {!!hover && !!hover.description && (
+        <div
+          {...styles.box}
+          {...colorScheme.set('backgroundColor', 'primaryHover')}
+        >
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html:
+                '<span style="color: white;">' + hover.description + '</span>'
+            }}
+          />
+        </div>
+      )}
+    </div>
+  )
 }
 
 GoalBar.defaultProps = {

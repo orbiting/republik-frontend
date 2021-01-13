@@ -349,79 +349,76 @@ const Page = ({
   const [autoPlay, setAutoPlay] = useState(false)
 
   return (
-    <ColorContextProvider colorSchemeKey='dark'>
-      <Frame meta={meta}>
-        <Loader
-          loading={surviveData.loading || actionsLoading}
-          error={surviveData.error}
-          style={{ minHeight: `calc(90vh)` }}
-          render={() => {
-            const { evolution, count } = surviveData.membershipStats
-            const lastMonth = evolution.buckets[evolution.buckets.length - 1]
-            const reachedMemberGoal =
-              lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly >
-              19000
+    <Frame meta={meta} pageColorSchemeKey='dark'>
+      <Loader
+        loading={surviveData.loading || actionsLoading}
+        error={surviveData.error}
+        style={{ minHeight: `calc(90vh)` }}
+        render={() => {
+          const { evolution, count } = surviveData.membershipStats
+          const lastMonth = evolution.buckets[evolution.buckets.length - 1]
+          const reachedMemberGoal =
+            lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly >
+            19000
 
-            const currentYearMonth = formatYearMonth(new Date())
+          const currentYearMonth = formatYearMonth(new Date())
 
-            return (
-              <>
-                <div style={{ marginBottom: 60 }}>
-                  {md(mdComponents)`
+          return (
+            <>
+              <div style={{ marginBottom: 60 }}>
+                {md(mdComponents)`
 
 ${t('cockpit19/beforeNote')} ${(
-                    <Link route='cockpit' passHref>
-                      <Editorial.A>
-                        {t('cockpit19/beforeNote/link')}
-                      </Editorial.A>
-                    </Link>
-                  )}
+                  <Link route='cockpit' passHref>
+                    <Editorial.A>{t('cockpit19/beforeNote/link')}</Editorial.A>
+                  </Link>
+                )}
 
                 `}
-                  <br />
-                  <RawStatus
-                    t={t}
-                    color='#fff'
-                    barColor='#333'
-                    people
-                    money
-                    crowdfundingName={crowdfunding.name}
-                    labelReplacements={{
-                      openPeople: countFormat(
-                        lastMonth.pending - lastMonth.pendingSubscriptionsOnly
-                      )
-                    }}
-                    crowdfunding={crowdfunding}
-                  />
-                </div>
-                {md(mdComponents)`
+                <br />
+                <RawStatus
+                  t={t}
+                  color='#fff'
+                  barColor='#333'
+                  people
+                  money
+                  crowdfundingName={crowdfunding.name}
+                  labelReplacements={{
+                    openPeople: countFormat(
+                      lastMonth.pending - lastMonth.pendingSubscriptionsOnly
+                    )
+                  }}
+                  crowdfunding={crowdfunding}
+                />
+              </div>
+              {md(mdComponents)`
 
 # Die Republik braucht Ihre Unterstützung, Ihren Mut und Ihren Einsatz, damit sie in Zukunft bestehen kann!
 
       `}
-                <Accordion
-                  me={me}
-                  query={query}
-                  shouldBuyProlong={shouldBuyProlong}
-                  isReactivating={isReactivating}
-                  defaultBenefactor={defaultBenefactor}
-                  questionnaire={questionnaire}
-                />
+              <Accordion
+                me={me}
+                query={query}
+                shouldBuyProlong={shouldBuyProlong}
+                isReactivating={isReactivating}
+                defaultBenefactor={defaultBenefactor}
+                questionnaire={questionnaire}
+              />
 
-                {md(mdComponents)`
+              {md(mdComponents)`
 
 ## Unsere Verlegerinnen – Sie!`}
 
-                <TestimonialList
-                  seed={communitySeed.start}
-                  membershipAfter={END_DATE}
-                  singleRow
-                  minColumns={3}
-                  share={false}
-                />
-                <br />
+              <TestimonialList
+                seed={communitySeed.start}
+                membershipAfter={END_DATE}
+                singleRow
+                minColumns={3}
+                share={false}
+              />
+              <br />
 
-                {md(mdComponents)`
+              {md(mdComponents)`
 
 Seit zwei Jahren ist die Republik jetzt da – als digitales Magazin, als Labor für den Journalismus des 21. Jahrhunderts.
 
@@ -432,34 +429,34 @@ Die Aufgabe der Republik ist, brauchbaren Journalismus zu machen. Einen, der die
 Dafür haben wir eine funktionierende Redaktion aufgebaut, die ordentlichen und immer öfter auch ausserordentlichen Journalismus liefert und sich weiterentwickeln will. Was wir leider noch nicht geschafft haben: ein funktionierendes Geschäftsmodell für diesen werbefreien, unabhängigen, leserfinanzierten Journalismus zu etablieren.
 
 Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb kämpfen wir für die Republik. ${(
-                  <PrimaryCTA
-                    me={me}
-                    query={query}
-                    questionnaire={questionnaire}
-                    shouldBuyProlong={shouldBuyProlong}
-                    isReactivating={isReactivating}
-                  >
-                    <Editorial.A style={{ color: colors.negative.text }}>
-                      Kämpfen Sie mit.
-                    </Editorial.A>
-                  </PrimaryCTA>
-                )}
+                <PrimaryCTA
+                  me={me}
+                  query={query}
+                  questionnaire={questionnaire}
+                  shouldBuyProlong={shouldBuyProlong}
+                  isReactivating={isReactivating}
+                >
+                  <Editorial.A style={{ color: colors.negative.text }}>
+                    Kämpfen Sie mit.
+                  </Editorial.A>
+                </PrimaryCTA>
+              )}
 
   `}
 
-                {inNativeIOSApp && (
-                  <Interaction.P
-                    style={{
-                      color: '#ef4533',
-                      marginBottom: 15,
-                      marginTop: 15
-                    }}
-                  >
-                    {t('cockpit/ios')}
-                  </Interaction.P>
-                )}
+              {inNativeIOSApp && (
+                <Interaction.P
+                  style={{
+                    color: '#ef4533',
+                    marginBottom: 15,
+                    marginTop: 15
+                  }}
+                >
+                  {t('cockpit/ios')}
+                </Interaction.P>
+              )}
 
-                {md(mdComponents)`
+              {md(mdComponents)`
 ## Darum geht es
 
 Die Republik hatte 2019 im Schnitt 18’220 Verlegerinnen. Das deckt 70 Prozent der Kosten. Die restlichen 30 Prozent reissen ein tiefes Loch in die Bilanz. Defizite sind in der Aufbauphase eines Start-ups normal. Ein wachsendes Defizit ist für ein junges Unternehmen aber schnell tödlich.
@@ -472,57 +469,57 @@ Konkret brauchen wir bis Ende März wieder 19’000 Mitglieder und Abonnenten un
 
 
 `}
-                <Fragment>
-                  <VideoPlayer
-                    key={activeVideo.hls}
-                    autoPlay={autoPlay}
-                    src={activeVideo}
-                  />
-                  <div style={{ marginTop: 10 }}>
-                    <FigureCaption>{activeVideo.caption}</FigureCaption>
-                  </div>
+              <Fragment>
+                <VideoPlayer
+                  key={activeVideo.hls}
+                  autoPlay={autoPlay}
+                  src={activeVideo}
+                />
+                <div style={{ marginTop: 10 }}>
+                  <FigureCaption>{activeVideo.caption}</FigureCaption>
+                </div>
 
-                  <div style={{ marginTop: 20, marginBottom: 20 }}>
-                    {videos.map(v => (
-                      <a
-                        href={v !== activeVideo ? '#' : undefined}
-                        key={v.hls}
-                        onClick={e => {
-                          e.preventDefault()
-                          setActiveVideo(v)
-                          setAutoPlay(true)
-                        }}
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  {videos.map(v => (
+                    <a
+                      href={v !== activeVideo ? '#' : undefined}
+                      key={v.hls}
+                      onClick={e => {
+                        e.preventDefault()
+                        setActiveVideo(v)
+                        setAutoPlay(true)
+                      }}
+                      style={{
+                        display: 'inline-block',
+                        width: 130,
+                        marginRight: 10,
+                        marginBottom: 10,
+                        color: '#fff',
+                        verticalAlign: 'top',
+                        backgroundColor:
+                          v === activeVideo
+                            ? colors.primary
+                            : colors.negative.primaryBg
+                      }}
+                    >
+                      <img src={v.thumbnail} width='100%' />
+                      <span
                         style={{
                           display: 'inline-block',
-                          width: 130,
-                          marginRight: 10,
-                          marginBottom: 10,
-                          color: '#fff',
-                          verticalAlign: 'top',
-                          backgroundColor:
-                            v === activeVideo
-                              ? colors.primary
-                              : colors.negative.primaryBg
+                          minHeight: 38,
+                          padding: '2px 5px 5px',
+                          ...fontStyles.sansSerifRegular12
                         }}
                       >
-                        <img src={v.thumbnail} width='100%' />
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            minHeight: 38,
-                            padding: '2px 5px 5px',
-                            ...fontStyles.sansSerifRegular12
-                          }}
-                        >
-                          {v.title}
-                          <br />
-                          {v.duration}
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-                </Fragment>
-                {md(mdComponents)`
+                        {v.title}
+                        <br />
+                        {v.duration}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </Fragment>
+              {md(mdComponents)`
 
 _17.03.2020, 7-Uhr-Newsletter_  
 [Gemeinsam haben wir die Ziele erreicht. Danke!](https://www.republik.ch/2020/03/17/7-uhr-newsletter)
@@ -602,140 +599,140 @@ ${
 
 `}
 
-                <div style={{ width: '50%', margin: '20px 0' }}>
-                  <FigureImage
-                    {...FigureImage.utils.getResizedSrcs(
-                      `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/swag.jpg`,
-                      405
-                    )}
-                    alt='Flyer, Visitenkarten, Kleber und Poster'
-                  />
-                </div>
+              <div style={{ width: '50%', margin: '20px 0' }}>
+                <FigureImage
+                  {...FigureImage.utils.getResizedSrcs(
+                    `${CDN_FRONTEND_BASE_URL}/static/video/cockpit/swag.jpg`,
+                    405
+                  )}
+                  alt='Flyer, Visitenkarten, Kleber und Poster'
+                />
+              </div>
 
-                {md(mdComponents)`
+              {md(mdComponents)`
 
 Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtchen, Sticker und Plakate bestellen. Es wäre uns eine Ehre, wenn Sie die Republik bekannter machen.
 
 `}
 
-                <Button
-                  style={{ marginTop: 20 }}
-                  href='https://docs.google.com/forms/d/e/1FAIpQLScV8mIr0mllc5ImdNUZg6xYV0rV8zy2sAVThVXAS1nA4oTJVw/viewform'
-                  primary
-                >
-                  Material anfordern
-                </Button>
+              <Button
+                style={{ marginTop: 20 }}
+                href='https://docs.google.com/forms/d/e/1FAIpQLScV8mIr0mllc5ImdNUZg6xYV0rV8zy2sAVThVXAS1nA4oTJVw/viewform'
+                primary
+              >
+                Material anfordern
+              </Button>
 
-                <Editorial.Note>
-                  Die Bestellungen laufen über ein Google-Formular und werden
-                  von Züriwerk verschickt.
-                </Editorial.Note>
+              <Editorial.Note>
+                Die Bestellungen laufen über ein Google-Formular und werden von
+                Züriwerk verschickt.
+              </Editorial.Note>
 
-                <div style={{ marginTop: 20 }}>
-                  <ChartTitle>
-                    Die entscheidende Frage: Wie gross ist die
-                    Republik-Verlegerschaft per 31.{'\u00a0'}März?
-                  </ChartTitle>
-                  <ChartLead>
-                    Anzahl bestehende, offene und neue Mitgliedschaften und
-                    Monatsabos per Monatsende
-                  </ChartLead>
-                  <Chart
-                    config={{
-                      type: 'TimeBar',
-                      color: 'action',
-                      numberFormat: 's',
-                      colorRange: ['#3CAD00', '#2A7A00', '#333333', '#9970ab'],
-                      x: 'date',
-                      timeParse: YEAR_MONTH_FORMAT,
-                      timeFormat: '%b',
-                      xTicks: ['2019-12', '2020-01', '2020-02', '2020-03'],
-                      domain: [
-                        0,
-                        max(
-                          evolution.buckets
-                            .map(
-                              month =>
-                                month.activeEndOfMonth +
-                                month.pendingSubscriptionsOnly -
-                                month.gaining +
-                                month.pending -
+              <div style={{ marginTop: 20 }}>
+                <ChartTitle>
+                  Die entscheidende Frage: Wie gross ist die
+                  Republik-Verlegerschaft per 31.{'\u00a0'}März?
+                </ChartTitle>
+                <ChartLead>
+                  Anzahl bestehende, offene und neue Mitgliedschaften und
+                  Monatsabos per Monatsende
+                </ChartLead>
+                <Chart
+                  config={{
+                    type: 'TimeBar',
+                    color: 'action',
+                    numberFormat: 's',
+                    colorRange: ['#3CAD00', '#2A7A00', '#333333', '#9970ab'],
+                    x: 'date',
+                    timeParse: YEAR_MONTH_FORMAT,
+                    timeFormat: '%b',
+                    xTicks: ['2019-12', '2020-01', '2020-02', '2020-03'],
+                    domain: [
+                      0,
+                      max(
+                        evolution.buckets
+                          .map(
+                            month =>
+                              month.activeEndOfMonth +
+                              month.pendingSubscriptionsOnly -
+                              month.gaining +
+                              month.pending -
+                              month.pendingSubscriptionsOnly
+                          )
+                          .concat([20000, count * 1.05])
+                      )
+                    ],
+                    yTicks: [0, 10000, 20000],
+                    padding: 55,
+                    xAnnotations: [
+                      {
+                        x1: '2020-03',
+                        x2: '2020-03',
+                        label: 'bereits dabei',
+                        value:
+                          lastMonth.activeEndOfMonth +
+                          lastMonth.pendingSubscriptionsOnly,
+                        position: reachedMemberGoal ? 'top' : 'bottom'
+                      },
+                      {
+                        x1: '2020-03',
+                        x2: '2020-03',
+                        label: 'Ziel per 31. März',
+                        value: 19000,
+                        position: reachedMemberGoal ? 'bottom' : 'top'
+                      }
+                    ].filter(Boolean)
+                  }}
+                  values={
+                    evolution.buckets.reduce(
+                      (agg, month) => {
+                        agg.gaining += month.gaining
+                        // agg.exit += month.expired + month.cancelled
+                        agg.values = agg.values.concat([
+                          {
+                            date: month.key,
+                            action: 'bestehende',
+                            value: String(
+                              month.activeEndOfMonth -
+                                agg.gaining +
                                 month.pendingSubscriptionsOnly
                             )
-                            .concat([20000, count * 1.05])
-                        )
-                      ],
-                      yTicks: [0, 10000, 20000],
-                      padding: 55,
-                      xAnnotations: [
-                        {
-                          x1: '2020-03',
-                          x2: '2020-03',
-                          label: 'bereits dabei',
-                          value:
-                            lastMonth.activeEndOfMonth +
-                            lastMonth.pendingSubscriptionsOnly,
-                          position: reachedMemberGoal ? 'top' : 'bottom'
-                        },
-                        {
-                          x1: '2020-03',
-                          x2: '2020-03',
-                          label: 'Ziel per 31. März',
-                          value: 19000,
-                          position: reachedMemberGoal ? 'bottom' : 'top'
-                        }
-                      ].filter(Boolean)
-                    }}
-                    values={
-                      evolution.buckets.reduce(
-                        (agg, month) => {
-                          agg.gaining += month.gaining
-                          // agg.exit += month.expired + month.cancelled
-                          agg.values = agg.values.concat([
-                            {
-                              date: month.key,
-                              action: 'bestehende',
-                              value: String(
-                                month.activeEndOfMonth -
-                                  agg.gaining +
-                                  month.pendingSubscriptionsOnly
-                              )
-                            },
-                            {
-                              date: month.key,
-                              action: 'neue',
-                              value: String(agg.gaining)
-                            },
-                            {
-                              date: month.key,
-                              action: 'offene',
-                              value: String(
-                                month.pending - month.pendingSubscriptionsOnly
-                              )
-                            }
-                            // {
-                            //   date: month.key,
-                            //   action: 'Abgänge',
-                            //   value: String(
-                            //     agg.exit
-                            //   )
-                            // }
-                          ])
-                          return agg
-                        },
-                        { gaining: 0, exit: 0, values: [] }
-                      ).values
-                    }
-                  />
-                  <ChartLegend>
-                    Als offen gelten Jahres­mitgliedschaften ohne
-                    Verlängerungszahlung. Als neue gelten alle die nach dem 1.
-                    Dezember an Bord gekommen sind. Datenstand:{' '}
-                    {formatDateTime(new Date(evolution.updatedAt))}
-                  </ChartLegend>
-                </div>
+                          },
+                          {
+                            date: month.key,
+                            action: 'neue',
+                            value: String(agg.gaining)
+                          },
+                          {
+                            date: month.key,
+                            action: 'offene',
+                            value: String(
+                              month.pending - month.pendingSubscriptionsOnly
+                            )
+                          }
+                          // {
+                          //   date: month.key,
+                          //   action: 'Abgänge',
+                          //   value: String(
+                          //     agg.exit
+                          //   )
+                          // }
+                        ])
+                        return agg
+                      },
+                      { gaining: 0, exit: 0, values: [] }
+                    ).values
+                  }
+                />
+                <ChartLegend>
+                  Als offen gelten Jahres­mitgliedschaften ohne
+                  Verlängerungszahlung. Als neue gelten alle die nach dem 1.
+                  Dezember an Bord gekommen sind. Datenstand:{' '}
+                  {formatDateTime(new Date(evolution.updatedAt))}
+                </ChartLegend>
+              </div>
 
-                {md(mdComponents)`
+              {md(mdComponents)`
 ## Gemeinsam sind wir weit gekommen
 
 Abgesehen von den Finanzen war 2019 ein gutes Jahr:
@@ -775,82 +772,80 @@ Gemeinsam haben wir drei nicht ganz einfache Dinge zu erledigen:
 Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik kämpfen.
 
 `}
-                <br />
-                <Accordion
-                  me={me}
-                  query={query}
-                  shouldBuyProlong={shouldBuyProlong}
-                  isReactivating={isReactivating}
-                  defaultBenefactor={defaultBenefactor}
-                  questionnaire={questionnaire}
-                />
+              <br />
+              <Accordion
+                me={me}
+                query={query}
+                shouldBuyProlong={shouldBuyProlong}
+                isReactivating={isReactivating}
+                defaultBenefactor={defaultBenefactor}
+                questionnaire={questionnaire}
+              />
 
-                {inNativeIOSApp && (
-                  <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
-                    {t('cockpit/ios')}
-                  </Interaction.P>
-                )}
+              {inNativeIOSApp && (
+                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
+                  {t('cockpit/ios')}
+                </Interaction.P>
+              )}
 
-                {md(mdComponents)`
+              {md(mdComponents)`
 
 
 
 ## ${countFormat(
-                  lastMonth.activeEndOfMonth +
-                    lastMonth.pendingSubscriptionsOnly
-                )} sind dabei.`}
+                lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly
+              )} sind dabei.`}
 
-                <TestimonialList
-                  seed={communitySeed.end}
-                  membershipAfter={END_DATE}
-                  ssr={false}
-                  singleRow
-                  minColumns={3}
-                  share={false}
-                />
-                <br />
+              <TestimonialList
+                seed={communitySeed.end}
+                membershipAfter={END_DATE}
+                ssr={false}
+                singleRow
+                minColumns={3}
+                share={false}
+              />
+              <br />
 
-                {md(mdComponents)`
+              {md(mdComponents)`
 [Alle anschauen](/community)${
-                  me && me.activeMembership ? (
-                    <Fragment>
-                      {'\u00a0– '}
-                      <Editorial.A
-                        style={{ color: colors.negative.text }}
-                        href='/einrichten'
-                      >
-                        Ihr Profil einrichten
-                      </Editorial.A>
-                    </Fragment>
-                  ) : (
-                    ''
-                  )
-                }
+                me && me.activeMembership ? (
+                  <Fragment>
+                    {'\u00a0– '}
+                    <Editorial.A
+                      style={{ color: colors.negative.text }}
+                      href='/einrichten'
+                    >
+                      Ihr Profil einrichten
+                    </Editorial.A>
+                  </Fragment>
+                ) : (
+                  ''
+                )
+              }
       `}
 
-                <br />
-                <br />
+              <br />
+              <br />
 
-                {questionnaire && questionnaire.shouldAnswer && (
-                  <Link
-                    route='questionnaireCrowd'
-                    params={{ slug: questionnaireCrowdSlug }}
-                    passHref
-                  >
-                    <Button white block>
-                      Komplizin werden
-                    </Button>
-                  </Link>
-                )}
+              {questionnaire && questionnaire.shouldAnswer && (
+                <Link
+                  route='questionnaireCrowd'
+                  params={{ slug: questionnaireCrowdSlug }}
+                  passHref
+                >
+                  <Button white block>
+                    Komplizin werden
+                  </Button>
+                </Link>
+              )}
 
-                <br />
-                <br />
-              </>
-            )
-          }}
-        />
-      </Frame>
-    </ColorContextProvider>
+              <br />
+              <br />
+            </>
+          )
+        }}
+      />
+    </Frame>
   )
 }
 

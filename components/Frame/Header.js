@@ -56,7 +56,8 @@ const Header = ({
   formatColor,
   pullable = true,
   hasOverviewNav,
-  stickySecondaryNav
+  stickySecondaryNav,
+  pageColorSchemeKey
 }) => {
   const [colorScheme] = useColorContext()
   const [isMobile, setIsMobile] = useState()
@@ -274,6 +275,7 @@ const Header = ({
           router={router}
           expanded={userNavExpanded || expandedNav === 'user'}
           closeHandler={closeHandler}
+          pageColorSchemeKey={pageColorSchemeKey}
         />
       </Popover>
       <LoadingBar

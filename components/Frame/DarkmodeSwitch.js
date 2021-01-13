@@ -11,13 +11,11 @@ import { MdBrightness2 } from 'react-icons/md'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 
-const DarkmodeSwitch = ({
-  colorSchemeKey: pageColorSchemeKey,
-  t,
-  inNativeApp
-}) => {
+const DarkmodeSwitch = ({ pageColorSchemeKey, t, inNativeApp }) => {
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
   const [colorScheme] = useColorContext()
+
+  console.log('colorScheme', colorScheme)
 
   const colorSchemaKeyForLabel = pageColorSchemeKey || colorSchemeKey
 
@@ -45,10 +43,10 @@ const DarkmodeSwitch = ({
   return (
     <CalloutMenu Element={Icon}>
       <div style={{ width: 180 }}>
-        {!colorScheme.CSSVarSupport ? (
-          <Label>{t('darkmode/switch/notSupported')}</Label>
-        ) : pageColorSchemeKey ? (
+        {pageColorSchemeKey ? (
           <Label>{t('darkmode/switch/notAvailable')}</Label>
+        ) : !colorScheme.CSSVarSupport ? (
+          <Label>{t('darkmode/switch/notSupported')}</Label>
         ) : (
           <Interaction.P>
             <Radio

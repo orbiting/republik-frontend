@@ -37,7 +37,8 @@ const UserNav = ({
   closeHandler,
   t,
   inNativeApp,
-  inNativeIOSApp
+  inNativeIOSApp,
+  pageColorSchemeKey
 }) => {
   const [containerPadding, setContainerPadding] = useState()
   const containerRef = useRef(null)
@@ -88,7 +89,11 @@ const UserNav = ({
           {hasExpandedRef.current && (
             <>
               <div style={{ marginBottom: 20 }}>
-                <DarkmodeSwitch t={t} inNativeApp={inNativeApp} />
+                <DarkmodeSwitch
+                  t={t}
+                  inNativeApp={inNativeApp}
+                  pageColorSchemeKey={pageColorSchemeKey}
+                />
               </div>
               {!me && (
                 <>

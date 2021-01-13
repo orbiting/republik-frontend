@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import Head from 'next/head'
-import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
 import withInNativeApp from '../lib/withInNativeApp'
@@ -18,9 +17,12 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import {
+  PUBLIC_BASE_URL,
+  CDN_FRONTEND_BASE_URL,
+  useColorContext
+} from '../lib/constants'
 import { Link } from '../lib/routes'
-import { useColorContext } from '@project-r/styleguide/lib/components/Colors/ColorContext'
 
 const pRule = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -33,12 +35,11 @@ const P = ({ children, ...props }) => (
   </p>
 )
 
-const styles = {
+export const styles = {
   back: css({
     fontFamily: fontFamilies.sansSerifRegular,
     textDecoration: 'none',
     fontSize: 20,
-    color: '#000',
     marginTop: 9 + 4,
     marginBottom: -20,
     display: 'block'
@@ -64,11 +65,7 @@ const styles = {
   }),
   column: css({
     maxWidth: 500,
-    margin: `${SPACE}px auto`,
-    '& ::selection': {
-      color: '#fff',
-      backgroundColor: '#000'
-    }
+    margin: `${SPACE}px auto`
   }),
   nav: css({
     marginTop: SPACE,
@@ -89,15 +86,41 @@ const styles = {
   })
 }
 
-const Highlight = ({ children, ...props }) => (
+export const Highlight = ({ children, ...props }) => (
   <span {...props} {...styles.highlight}>
     {children}
   </span>
 )
-const Strong = ({ children }) => <span {...styles.strong}>{children}</span>
+export const Strong = ({ children }) => (
+  <span {...styles.strong}>{children}</span>
+)
 
-const Page = ({ router, inNativeApp }) => {
+export const Back = withInNativeApp(({ inNativeApp, label }) => {
   const [colorScheme] = useColorContext()
+  if (!inNativeApp) return null
+  return (
+    <Link route='index'>
+      <a {...styles.back} {...colorScheme.set('color', 'logo')}>
+        <BackIcon size={25} style={{ marginTop: -3 }} />
+        {label}
+      </a>
+    </Link>
+  )
+})
+
+const Page = ({ router }) => {
+  const [colorScheme] = useColorContext()
+
+  const selectionRule = useMemo(
+    () =>
+      css({
+        '& ::selection': {
+          color: colorScheme.getCSSColor('default'),
+          background: colorScheme.getCSSColor('accentColorMeta')
+        }
+      }),
+    [colorScheme]
+  )
 
   const meta = {
     title: 'Das Project-R-Manifest für die Republik',
@@ -133,15 +156,8 @@ ${PUBLIC_BASE_URL}
         <meta name='twitter:site' content='@RepublikMagazin' />
         <meta name='twitter:creator' content='@RepublikMagazin' />
       </Head>
-      {inNativeApp && (
-        <Link route='index'>
-          <a {...styles.back}>
-            <BackIcon size={25} style={{ marginTop: -3 }} />
-            Magazin
-          </a>
-        </Link>
-      )}
-      <div {...styles.column}>
+      <Back label='Magazin' />
+      <div {...styles.column} {...selectionRule}>
         <R />
 
         <div {...styles.text}>
@@ -200,4 +216,4 @@ ${PUBLIC_BASE_URL}
   )
 }
 
-export default compose(withInNativeApp, withRouter)(Page)
+export default withRouter(Page)

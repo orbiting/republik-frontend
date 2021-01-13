@@ -15,9 +15,9 @@ import {
   fontStyles,
   Loader,
   mediaQueries,
-  Editorial
+  Editorial,
+  useColorContext
 } from '@project-r/styleguide'
-import { useColorContext } from '@project-r/styleguide/lib/components/Colors/ColorContext'
 
 const styles = {
   packageHeader: css({

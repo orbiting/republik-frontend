@@ -67,7 +67,6 @@ class BudgetChart extends Component {
     return (
       <div {...styles.wrapper}>
         <BudgetChartItem
-          color={colors.text}
           category={vt('vote/201907/budget/total')}
           total={displayAmount(total)}
           highlight

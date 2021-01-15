@@ -12,7 +12,8 @@ import {
   Loader,
   useColorContext,
   Checkbox,
-  Radio
+  Radio,
+  colors
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
@@ -89,7 +90,8 @@ const styles = {
     marginBottom: 20,
     marginTop: 10,
     '& svg': {
-      marginRight: 5
+      marginRight: 5,
+      marginBottom: -2
     }
   }),
   paymentMethod: css({
@@ -112,7 +114,8 @@ const styles = {
   }),
   paymentMethodText: css({
     lineHeight: '40px',
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
+    color: colors.light.text
   }),
   paymentMethodSourceText: css({
     display: 'inline-block',

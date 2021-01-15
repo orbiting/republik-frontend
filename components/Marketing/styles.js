@@ -133,7 +133,6 @@ export const sharedStyles = {
     }
   }),
   links: css({
-    color: colors.text,
     fontSize: 16,
     lineHeight: '24px'
   })

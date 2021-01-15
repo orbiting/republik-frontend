@@ -5,14 +5,13 @@ import { css } from 'glamor'
 import {
   Container,
   Button,
-  RawHtml,
   Interaction,
   Editorial,
   Loader,
   fontStyles,
   mediaQueries,
   colors,
-  linkRule,
+  A,
   Lead,
   Label,
   LazyLoad
@@ -519,7 +518,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
         </div>
 
         <Link route='community'>
-          <a {...linkRule}>Alle ansehen</a>
+          <A>Alle ansehen</A>
         </Link>
 
         <br />

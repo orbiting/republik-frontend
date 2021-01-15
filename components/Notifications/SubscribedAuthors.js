@@ -6,8 +6,6 @@ import {
   A,
   Interaction,
   mediaQueries,
-  linkRule,
-  colors,
   useColorContext
 } from '@project-r/styleguide'
 import { css } from 'glamor'
@@ -153,9 +151,7 @@ const SubscribedAuthors = ({
                       route='profile'
                       params={{ slug: author.userDetails.slug }}
                     >
-                      <a {...linkRule} {...styles.userLink}>
-                        {author.object.name}
-                      </a>
+                      <A {...styles.userLink}>{author.object.name}</A>
                     </Link>
                   </div>
                   <div {...styles.checkbox}>

@@ -26,7 +26,6 @@ import {
   colors,
   P,
   A,
-  linkRule,
   Interaction,
   VideoPlayer
 } from '@project-r/styleguide'
@@ -71,7 +70,7 @@ export const VIDEOS = {
 export const Page = ({ router, t, inNativeIOSApp }) => {
   const pledgeLink = inNativeIOSApp ? null : (
     <Link route='pledge'>
-      <a {...linkRule}>Jetzt mitmachen!</a>
+      <A>Jetzt mitmachen!</A>
     </Link>
   )
 
@@ -214,12 +213,9 @@ ${pledgeLink}
               Mittwoch, 31. Mai um 20 Uhr. Das Ziel bei Erreichung von 14
               {thousandSeparator}000 Abonnentinnen haben unsere Verlegerinnen
               und Verleger in einer{' '}
-              <a
-                {...linkRule}
-                href='https://web.archive.org/web/20170708151956/https://www.republik.ch/vote'
-              >
+              <A href='https://web.archive.org/web/20170708151956/https://www.republik.ch/vote'>
                 Abstimmung
-              </a>{' '}
+              </A>{' '}
               bestimmt: den Ausbau des Datenjournalismus-Teams. Gemeinsam
               schaffen wir das! Danke fürs Mitmachen und Weitersagen!
             </List.Item>
@@ -253,7 +249,7 @@ Ihre Partnerin bei diesem Projekt ist die Aufbaucrew der Republik und von Projec
         <P>
           Die Kurzporträts der Crew finden Sie{' '}
           <Link route='legal/imprint'>
-            <a {...linkRule}>hier</a>
+            <A>hier</A>
           </Link>
           . Und dazu im Video die Lesung unseres{' '}
           <A href='/manifest' target='_blank'>
@@ -397,7 +393,7 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
         </div>
 
         <Link route='community'>
-          <a {...linkRule}>Alle ansehen</a>
+          <A>Alle ansehen</A>
         </Link>
 
         <br />

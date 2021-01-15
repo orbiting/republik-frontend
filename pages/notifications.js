@@ -36,9 +36,8 @@ import {
   Interaction,
   NarrowContainer,
   Logo,
-  linkRule,
+  A,
   mediaQueries,
-  colors,
   Button,
   useColorContext
 } from '@project-r/styleguide'
@@ -315,7 +314,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
               {intersperse(
                 links.map((link, i) => (
                   <Link key={i} route={link.route} params={link.params}>
-                    <a {...linkRule}>{link.label}</a>
+                    <A>{link.label}</A>
                   </Link>
                 )),
                 () => ' – '

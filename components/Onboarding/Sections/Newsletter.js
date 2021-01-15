@@ -7,7 +7,7 @@ import NewsletterSubscriptions from '../../Account/NewsletterSubscriptions'
 import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 
-import { Interaction, linkRule } from '@project-r/styleguide'
+import { Interaction, A } from '@project-r/styleguide'
 
 const { P } = Interaction
 
@@ -52,9 +52,7 @@ const Newsletter = props => {
         {t.elements('Onboarding/Sections/Newsletter/hint', {
           link: (
             <Link key='account' route='account' passHref>
-              <a {...linkRule}>
-                {t('Onboarding/Sections/Newsletter/hint/link')}
-              </a>
+              <A>{t('Onboarding/Sections/Newsletter/hint/link')}</A>
             </Link>
           )
         })}

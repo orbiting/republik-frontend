@@ -36,9 +36,7 @@ import {
   FieldSet,
   fontStyles,
   Interaction,
-  linkRule,
   mediaQueries,
-  Button,
   usePrevious,
   useHeaderHeight,
   useColorContext
@@ -665,9 +663,7 @@ const Profile = props => {
                           route='profile'
                           params={{ slug: me.username || me.id }}
                         >
-                          <a {...linkRule}>
-                            {t('pages/profile/empty/content/linktext')}
-                          </a>
+                          <A>{t('pages/profile/empty/content/linktext')}</A>
                         </Link>
                       )
                     })}

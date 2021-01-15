@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { compose } from 'react-apollo'
 import { format } from 'url'
 
 import withT from '../../lib/withT'
@@ -20,20 +20,16 @@ import ClaimPledge from './Claim'
 import { EMAIL_CONTACT, ONBOARDING_PACKAGES } from '../../lib/constants'
 
 import {
-  linkRule,
+  A,
   Interaction,
   RawHtml,
   InlineSpinner,
   Button,
   Lead,
-  Loader,
-  Editorial,
-  InfoBoxListItem
+  Loader
 } from '@project-r/styleguide'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
-import gql from 'graphql-tag'
-import StatusError from '../StatusError'
 
 const { H1, P } = Interaction
 
@@ -152,11 +148,11 @@ class Merci extends Component {
                   route='account'
                   params={{ claim: query.id, package: query.package }}
                 >
-                  <a {...linkRule}>
+                  <A>
                     <br />
                     <br />
                     {t('merci/postpay/reclaim')}
-                  </a>
+                  </A>
                 </Link>
               )}
             </P>
@@ -176,9 +172,8 @@ class Merci extends Component {
                 replacements={{
                   email: query.email,
                   contactEmailLink: (
-                    <a
+                    <A
                       key='contact'
-                      {...linkRule}
                       href={`mailto:${EMAIL_CONTACT}?subject=${encodeURIComponent(
                         t('merci/postpay/signInError/email/subject')
                       )}&body=${encodeURIComponent(
@@ -190,7 +185,7 @@ class Merci extends Component {
                       )}`}
                     >
                       {EMAIL_CONTACT}
-                    </a>
+                    </A>
                   )
                 }}
               />
@@ -232,11 +227,11 @@ class Merci extends Component {
               )}
             </div>
             <Link route='account' params={{ claim: query.id }}>
-              <a {...linkRule}>
+              <A>
                 <br />
                 <br />
                 {t('merci/postpay/reclaim')}
-              </a>
+              </A>
             </Link>
           </Content>
         </MainContainer>

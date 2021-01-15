@@ -11,13 +11,7 @@ import { Item as AccountItem, P } from '../Elements'
 
 import TokenPackageLink from '../../Link/TokenPackage'
 
-import {
-  InlineSpinner,
-  colors,
-  linkRule,
-  Interaction,
-  A
-} from '@project-r/styleguide'
+import { InlineSpinner, colors, Interaction, A } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -98,9 +92,9 @@ const Actions = ({
               {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
                 buyLink: (
                   <Link route='pledge' params={{ package: 'ABO' }}>
-                    <a {...linkRule}>
+                    <A>
                       {t('memberships/MONTHLY_ABO/manage/upgrade/link/buyText')}
-                    </a>
+                    </A>
                   </Link>
                 )
               })}

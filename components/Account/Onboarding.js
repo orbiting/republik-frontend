@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Interaction, linkRule } from '@project-r/styleguide'
+import { Interaction, A } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -14,7 +14,7 @@ export default withT(({ t }) => (
       {t.elements('Account/Onboarding/text', {
         link: (
           <Link key='link' route='onboarding'>
-            <a {...linkRule}>{t('Account/Onboarding/link')}</a>
+            <A>{t('Account/Onboarding/link')}</A>
           </Link>
         )
       })}

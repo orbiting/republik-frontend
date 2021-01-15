@@ -12,9 +12,8 @@ import {
   Button,
   Center,
   Interaction,
-  linkRule,
+  A,
   mediaQueries,
-  ColorContextProvider,
   useColorContext
 } from '@project-r/styleguide'
 
@@ -57,9 +56,7 @@ export const getFeatureDescription = t =>
   t.elements('article/progressprompt/description/feature', {
     link: PROGRESS_EXPLAINER_PATH ? (
       <PathLink path={PROGRESS_EXPLAINER_PATH} passHref key='link'>
-        <a {...linkRule}>
-          {t('article/progressprompt/description/feature/link')}
-        </a>
+        <A>{t('article/progressprompt/description/feature/link')}</A>
       </PathLink>
     ) : null
   })

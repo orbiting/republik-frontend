@@ -46,7 +46,6 @@ import {
   Lead,
   A,
   colors,
-  linkRule,
   Interaction,
   mediaQueries,
   LazyLoad
@@ -189,11 +188,11 @@ const Page = ({
     : { package: 'ABO' }
   const pledgeLink = inNativeIOSApp ? null : (
     <Link route='pledge' params={primaryParams}>
-      <a {...linkRule}>
+      <A>
         {activeMembership && !shouldBuyProlong
           ? 'Wachstum schenken'
           : 'Jetzt mitmachen!'}
-      </a>
+      </A>
     </Link>
   )
 
@@ -667,7 +666,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
           )}
 
           <Link route='community'>
-            <a {...linkRule}>Alle ansehen</a>
+            <A>Alle ansehen</A>
           </Link>
 
           <br />

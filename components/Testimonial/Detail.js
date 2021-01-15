@@ -10,7 +10,7 @@ import {
   Interaction,
   fontFamilies,
   P as SerifP,
-  linkRule,
+  A,
   VideoPlayer,
   mediaQueries,
   inQuotes,
@@ -80,9 +80,7 @@ const Detail = ({
         <H3 {...styles.detailTitle} {...colorScheme.set('color', 'text')}>
           {slug ? (
             <Link route='profile' params={{ slug }}>
-              <a {...linkRule} style={{ color: 'inherit' }}>
-                {name}
-              </a>
+              <A style={{ color: 'inherit' }}>{name}</A>
             </Link>
           ) : (
             <span>{name}</span>

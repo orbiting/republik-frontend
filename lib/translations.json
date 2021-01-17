@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-21T07:38:55.752Z",
+  "updated": "2021-01-13T13:33:57.080Z",
   "title": "live",
   "data": [
     {
@@ -6283,6 +6283,14 @@
       "value": "Republik-Maske"
     },
     {
+      "key": "package/customize/price/payMore/DONATE_POT",
+      "value": "Vorschläge"
+    },
+    {
+      "key": "package/customize/price/payMore/ABO_GIVE_MONTHS",
+      "value": "Möchten Sie Ihr Investment erhöhen?"
+    },
+    {
       "key": "package/customize/price/payMore",
       "value": "Möchten Sie vergünstigte Mitgliedschaften ermöglichen?"
     },
@@ -6661,10 +6669,6 @@
     {
       "key": "crowdfunding2/beforeNote/link",
       "value": "Zum aktuellen Stand unseres Unternehmens."
-    },
-    {
-      "key": "package/customize/price/payMore/DONATE_POT",
-      "value": "Vorschläge"
     },
     {
       "key": "package/customize/changePackage",

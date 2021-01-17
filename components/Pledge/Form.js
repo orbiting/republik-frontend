@@ -192,7 +192,7 @@ class Pledge extends Component {
     const userPrice = !!query.userPrice
 
     let hasAccessGranted
-    let requireShippingAddress = false
+    let requireShippingAddress = pkg ? pkg.name === 'BENEFACTOR' : false
     const options = pkg
       ? pkg.options.map(option => {
           const fieldKey = getOptionFieldKey(option)

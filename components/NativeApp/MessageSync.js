@@ -82,6 +82,7 @@ const MessageSync = ({
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
+  }, [])
 
   useEffect(() => {
     const checkIfPendingSignInRequest = setInterval(() => {

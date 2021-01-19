@@ -97,11 +97,12 @@ const MessageSync = ({
 
   useEffect(() => {
     if (!inNativeApp || inNativeAppLegacy) {
+      console.log('Iexited')
       return
     }
-
     const onMessage = event => {
       const { content = {}, id } = parseJSONObject(event.data)
+      console.log(content.type)
       if (content.type === 'onPushRegistered') {
         // Register Notification Token
         const {
@@ -112,6 +113,7 @@ const MessageSync = ({
           appVersion,
           userAgent
         } = content.data
+        console.log(token)
         upsertDevice({
           variables: {
             token,
@@ -124,6 +126,8 @@ const MessageSync = ({
             }
           }
         })
+          .then(val => console.log(val))
+          .err(err => console.log(err))
       } else if (content.type === 'onAppMediaProgressUpdate') {
         // Audio Player sent media progress update
         const { currentTime, mediaId } = content

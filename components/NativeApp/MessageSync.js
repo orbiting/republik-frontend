@@ -37,6 +37,7 @@ const useLocalMediaProgressState = createPersistedState(
 
 const MessageSync = ({
   inNativeApp,
+  inNativeIOSApp,
   inNativeAppLegacy,
   upsertDevice,
   me,
@@ -150,11 +151,24 @@ const MessageSync = ({
         id: id
       })
     }
-    window.addEventListener('message', onMessage)
-    return () => {
-      window.removeEventListener('message', onMessage)
+    if (inNativeIOSApp) {
+      window.addEventListener('message', onMessage)
+    } else {
+      document.addEventListener('message', onMessage)
     }
-  }, [inNativeApp, inNativeAppLegacy, refetchPendingSignInRequests])
+    return () => {
+      if (inNativeIOSApp) {
+        window.addEventListener('message', onMessage)
+      } else {
+        document.addEventListener('message', onMessage)
+      }
+    }
+  }, [
+    inNativeApp,
+    inNativeAppLegacy,
+    refetchPendingSignInRequests,
+    inNativeIOSApp
+  ])
 
   if (signInOverlayVisible && signInData) {
     return (

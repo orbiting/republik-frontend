@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { parse } from 'url'
+import { useRouter } from 'next/router'
 
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { parseJSONObject } from '../../lib/safeJSON'
@@ -49,6 +50,7 @@ const MessageSync = ({
     setLocalMediaProgress
   ] = useLocalMediaProgressState()
   const isTrackingAllowed = me && me.progressConsent === true
+  const router = useRouter()
 
   async function openSignInPageIfRequest() {
     const {
@@ -64,6 +66,22 @@ const MessageSync = ({
       setSignInOverlayVisible(true)
     }
   }
+
+  useEffect(() => {
+    const handleRouteChange = url => {
+      console.log(`App is changing to ${url}`)
+      postMessage({
+        type: 'routeChange',
+        // ToDo: replace default "canGoBack: true "
+        payload: { url, canGoBack: true }
+      })
+    }
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    // If the component is unmounted, unsubscribe with the `off` method:
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
 
   useEffect(() => {
     const checkIfPendingSignInRequest = setInterval(() => {

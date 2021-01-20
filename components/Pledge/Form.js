@@ -88,7 +88,8 @@ class Pledge extends Component {
           option =>
             option.membership &&
             option.reward &&
-            option.reward.name === query.membershipType
+            option.reward.name === query.membershipType &&
+            option.membership.user?.id === props.customMe?.id // only preselect own membership
         )
         if (matchingOptions.length) {
           // we set all other options to the min amount (normally 0)
@@ -191,6 +192,7 @@ class Pledge extends Component {
     const userPrice = !!query.userPrice
 
     let hasAccessGranted
+    let requireShippingAddress = pkg ? pkg.name === 'BENEFACTOR' : false
     const options = pkg
       ? pkg.options.map(option => {
           const fieldKey = getOptionFieldKey(option)
@@ -201,8 +203,13 @@ class Pledge extends Component {
               ? option.defaultAmount
               : // can be '', but PackageOptionInput needs Int! here
                 +values[fieldKey]
-          if (option.accessGranted && amount) {
-            hasAccessGranted = true
+          if (amount) {
+            if (option.accessGranted) {
+              hasAccessGranted = true
+            }
+            if (option.reward?.__typename === 'Goodie') {
+              requireShippingAddress = true
+            }
           }
 
           return {
@@ -230,6 +237,7 @@ class Pledge extends Component {
 
     return {
       accessToken: query.token,
+      packageGroup: pkg ? pkg.group : undefined,
       packageName: pkg ? pkg.name : undefined,
       forceAutoPay: pkg ? pkg.name === 'MONTHLY_ABO' : undefined,
       requiresStatutes: pkg
@@ -247,7 +255,9 @@ class Pledge extends Component {
       messageToClaimers: hasAccessGranted
         ? values.messageToClaimers
         : undefined,
-      id: pledge ? pledge.id : undefined
+      id: pledge ? pledge.id : undefined,
+      pledgeShippingAddress: pledge ? pledge.shippingAddress : undefined,
+      requireShippingAddress
     }
   }
   handleFirstName(value, shouldValidate, t) {
@@ -450,6 +460,17 @@ class Pledge extends Component {
               ''
             )
 
+            const contactPreface =
+              pkg &&
+              t.first(
+                [
+                  `pledge/contact/preface/${pkg.name}`,
+                  'pledge/contact/preface'
+                ],
+                undefined,
+                ''
+              )
+
             return (
               <div>
                 {(statementTitle ||
@@ -509,6 +530,11 @@ class Pledge extends Component {
                 </div>
                 {pkg && (
                   <Fragment>
+                    {contactPreface && (
+                      <div style={{ marginBottom: 40 }}>
+                        <P>{contactPreface}</P>
+                      </div>
+                    )}
                     <H2>
                       {t.first([
                         `pledge/contact/title/${pkg.name}`,
@@ -724,7 +750,6 @@ const query = gql`
       email
       isUserOfCurrentSession
       isListed
-      hasAddress
       address {
         name
         line1
@@ -767,8 +792,8 @@ const query = gql`
             id
             user {
               id
-              name
             }
+            claimerName
             createdAt
             sequenceNumber
             renew

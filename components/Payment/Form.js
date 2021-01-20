@@ -10,12 +10,14 @@ import {
   A,
   fontFamilies,
   Loader,
-  useColorContext
+  useColorContext,
+  Checkbox,
+  Radio
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
 
-import AddressForm from '../Account/AddressForm'
+import { AutoForm as AddressForm, AddressView } from '../Account/AddressForm'
 
 import { PF_FORM_ACTION, PAYPAL_FORM_ACTION } from '../../lib/constants'
 
@@ -293,8 +295,15 @@ class PaymentForm extends Component {
       paymentSources,
       loadingPaymentSources,
       onlyChargable,
-      withoutAddress,
-      context
+      addressState,
+      shippingAddressState,
+      context,
+      requireShippingAddress,
+      userName,
+      userAddress,
+      packageGroup,
+      syncAddresses,
+      setSyncAddresses
     } = this.props
     const { paymentMethod } = values
     const visibleMethods = allowedMethods || PAYMENT_METHODS.map(pm => pm.key)
@@ -315,6 +324,39 @@ class PaymentForm extends Component {
 
     return (
       <div>
+        {requireShippingAddress && (
+          <div style={{ marginBottom: 40 }}>
+            <H2 style={{ marginBottom: 10 }}>
+              {t('pledge/address/shipping/title')}
+            </H2>
+            <AddressForm
+              {...shippingAddressState}
+              afterEdit={
+                userAddress || packageGroup === 'GIVE' ? (
+                  <>
+                    <Checkbox
+                      checked={syncAddresses}
+                      onChange={(_, checked) => {
+                        setSyncAddresses(checked)
+                      }}
+                    >
+                      {t(
+                        `pledge/address/shipping/${
+                          userAddress ? 'updateAccount' : 'setAccount'
+                        }`
+                      )}
+                    </Checkbox>
+                    <br style={{ clear: 'left' }} />
+                  </>
+                ) : (
+                  undefined
+                )
+              }
+              existingAddress={userAddress}
+              name={userName}
+            />
+          </div>
+        )}
         <H2>
           {t.first(
             [
@@ -474,18 +516,51 @@ class PaymentForm extends Component {
             )
           }}
         />
-        {paymentMethodForm === 'PAYMENTSLIP' && !withoutAddress && (
+        {paymentMethodForm === 'PAYMENTSLIP' && (
           <div>
             <Label>{t('payment/paymentslip/explanation')}</Label>
             <br />
             <br />
-            <Label>{t('payment/paymentslip/title')}</Label>
-            <AddressForm
-              values={values}
-              errors={errors}
-              dirty={dirty}
-              onChange={onChange}
-            />
+            <div style={{ marginBottom: 10 }}>
+              <Label>{t('pledge/address/payment/title')}</Label>
+            </div>
+            {requireShippingAddress && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ marginBottom: 5 }}>
+                  <Radio
+                    checked={syncAddresses}
+                    onChange={() => {
+                      setSyncAddresses(true)
+                    }}
+                  >
+                    {t('pledge/address/payment/likeShipping')}
+                  </Radio>
+                </div>
+                <div>
+                  <Radio
+                    checked={!syncAddresses}
+                    onChange={() => {
+                      setSyncAddresses(false)
+                    }}
+                  >
+                    {t('pledge/address/payment/other')}
+                  </Radio>
+                </div>
+              </div>
+            )}
+            {syncAddresses ? (
+              shippingAddressState.isValid && (
+                <AddressView values={shippingAddressState.values} />
+              )
+            ) : (
+              <AddressForm
+                {...addressState}
+                existingAddress={
+                  requireShippingAddress ? undefined : userAddress
+                }
+                name={userName}
+              />
+            )}
             {/* <div style={{marginBottom: 5}}>
               <Radio
                 checked={!values.paperInvoice}

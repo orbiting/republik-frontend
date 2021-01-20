@@ -1,5 +1,5 @@
 {
-  "updated": "2020-11-23T15:31:14.135Z",
+  "updated": "2021-01-13T13:33:57.080Z",
   "title": "live",
   "data": [
     {
@@ -695,6 +695,18 @@
       "value": "Land fehlt"
     },
     {
+      "key": "Account/AddressForm/edit",
+      "value": "ändern"
+    },
+    {
+      "key": "Account/AddressForm/editName",
+      "value": "bearbeiten"
+    },
+    {
+      "key": "Account/AddressForm/reset",
+      "value": "zurücksetzen"
+    },
+    {
       "key": "account/paymentSource/3dsecure",
       "value": "3-D Secure"
     },
@@ -876,7 +888,7 @@
     },
     {
       "key": "account/pledges/payment/method/PAYMENTSLIP",
-      "value": "Banküberweisung"
+      "value": "Rechnung"
     },
     {
       "key": "account/pledges/payment/status/generic/WAITING",
@@ -900,7 +912,15 @@
     },
     {
       "key": "account/pledges/payment/status/generic/CANCELLED",
-      "value": "{formattedTotal} annulliert"
+      "value": "{formattedTotal} storniert"
+    },
+    {
+      "key": "account/pledges/payment/paymentslipLink",
+      "value": "QR-Rechnung anzeigen"
+    },
+    {
+      "key": "account/pledges/payment/paymentslipHint",
+      "value": "Die QR-Rechnung ersetzt den Einzahlungsschein. Sie können damit die Zahlung via Mobile Banking, E-Banking oder am Schalter bei Bank und Post auslösen."
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/WAITING",
@@ -1839,6 +1859,10 @@
       "value": "Beitrag in {link}"
     },
     {
+      "key": "styleguide/CommentTeaser/commentWithCount/link",
+      "value": "{count} weitere Beiträge zu {link}"
+    },
+    {
       "key": "styleguide/CommentTeaser/reply/link",
       "value": "Antwort in {link}"
     },
@@ -1873,6 +1897,14 @@
     {
       "key": "styleguide/comment/header/verifiedCredential",
       "value": "Verifizierte Rolle"
+    },
+    {
+      "key": "styleguide/comment/header/unpublishedByUser",
+      "value": "(durch User zurückgezogen)"
+    },
+    {
+      "key": "styleguide/comment/header/unpublishedByAdmin",
+      "value": "(von der Redaktion verborgen)"
     },
     {
       "key": "styleguide/comment/edit/submit",
@@ -2115,6 +2147,14 @@
       "value": "{formattedCHF}"
     },
     {
+      "key": "package/price/goodie",
+      "value": "{formattedCHF}"
+    },
+    {
+      "key": "package/price/free",
+      "value": "kostenlos"
+    },
+    {
       "key": "package/DONATE/title",
       "value": "Spenden"
     },
@@ -2264,7 +2304,7 @@
     },
     {
       "key": "payment/method/PAYMENTSLIP",
-      "value": "Banküberweisung"
+      "value": "Rechnung"
     },
     {
       "key": "payment/method/POSTFINANCECARD",
@@ -2371,12 +2411,8 @@
       "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
     },
     {
-      "key": "payment/paymentslip/title",
-      "value": "Ihre Adresse"
-    },
-    {
       "key": "payment/paymentslip/explanation",
-      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
+      "value": "Nach der Bestellung senden wir Ihnen per E-Mail eine QR-Rechnung."
     },
     {
       "key": "payment/paymentslip/emailInvoice",
@@ -2401,6 +2437,14 @@
     {
       "key": "pledge/title",
       "value": "Willkommen an Bord!"
+    },
+    {
+      "key": "pledge/contact/preface/ABO_GIVE",
+      "value": "Eine Mitgliedschaft als Geschenk erhalten Sie in Form eines Gutscheincodes, den Sie direkt der zu beschenkenden Person überreichen können."
+    },
+    {
+      "key": "pledge/contact/preface/ABO_GIVE_MONTHS",
+      "value": "Ein Monats-Abo als Geschenk erhalten Sie in Form eines Gutscheincodes, den Sie direkt der zu beschenkenden Person überreichen können."
     },
     {
       "key": "pledge/contact/title",
@@ -2481,6 +2525,30 @@
     {
       "key": "noscript",
       "value": "JavaScript ist deaktiviert. Formulare – u. a. die Anmeldung – und interaktive Elemente funktionieren nur wenn Sie JavaScript aktivieren. Anleitung um <a href=\"https://wiki.selfhtml.org/wiki/JavaScript/Tutorials/JavaScript_aktivieren\">JavaScript zu aktivieren auf selfhtml.org lesen</a>."
+    },
+    {
+      "key": "pledge/address/shipping/title",
+      "value": "Lieferadresse"
+    },
+    {
+      "key": "pledge/address/shipping/updateAccount",
+      "value": "Ihre Standardadresse aktualisieren"
+    },
+    {
+      "key": "pledge/address/shipping/setAccount",
+      "value": "Als Ihre Standardadresse speichern"
+    },
+    {
+      "key": "pledge/address/payment/title",
+      "value": "Rechnungsadresse"
+    },
+    {
+      "key": "pledge/address/payment/likeShipping",
+      "value": "Gleich wie Lieferadresse"
+    },
+    {
+      "key": "pledge/address/payment/other",
+      "value": "Andere Adresse"
     },
     {
       "key": "pledge/submit/emailVerify/note",
@@ -3131,6 +3199,10 @@
       "value": "Guten Tag, {name}"
     },
     {
+      "key": "merci/title/package/MASK",
+      "value": "Guten Tag, {name}"
+    },
+    {
       "key": "merci/title/package/DONATE_POT",
       "value": "Guten Tag, {name}"
     },
@@ -3148,6 +3220,10 @@
     },
     {
       "key": "merci/title/package/TABLEBOOK/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/title/package/MASK/noName",
       "value": "Guten Tag"
     },
     {
@@ -4107,6 +4183,10 @@
       "value": "Buch «Republik bei Stromausfall»"
     },
     {
+      "key": "package/MASK/title",
+      "value": "Republik-Maske"
+    },
+    {
       "key": "memberships/title/ABO",
       "value": "Mitgliedschaft (#{sequenceNumber})"
     },
@@ -4257,6 +4337,14 @@
     {
       "key": "pledge/form/instruction/TABLEBOOK/signIn",
       "value": "Die «Republik bei Stromausfall» ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
+    },
+    {
+      "key": "pledge/form/instruction/MASK/notAvailable",
+      "value": "Die Republik-Maske kann nur in Verbindung mit einer Jahresmitgliedschaft oder einer Verlängerung bestellt werden."
+    },
+    {
+      "key": "pledge/form/instruction/MASK/signIn",
+      "value": "Die Republik-Maske ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
     },
     {
       "key": "pledge/meta/title",
@@ -4575,6 +4663,14 @@
       "value": "Jetzt Mitglied werden"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/due",
+      "value": "Ihr Abonnement läuft aus: {link}"
+    },
+    {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/due/linkText",
+      "value": "Jetzt verlängern"
+    },
+    {
       "key": "prolongNecessary/due",
       "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}"
     },
@@ -4583,20 +4679,48 @@
       "value": "Jetzt bezahlen"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue",
+      "value": "Ihr Abonnement ist überfällig."
+    },
+    {
       "key": "prolongNecessary/overdue",
       "value": "Ihr Mitglied­schafts­beitrag ist überfällig."
+    },
+    {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/button",
+      "value": "Jetzt verlängern"
     },
     {
       "key": "prolongNecessary/overdue/button",
       "value": "Jetzt bezahlen"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/explanation",
+      "value": "Ihr Abonnement lief {daysAgo} aus und wird am {graceEndDate} deaktiviert. Sie möchten uns nicht mehr lesen? {cancelLink}."
+    },
+    {
       "key": "prolongNecessary/overdue/explanation",
       "value": "Ihre Mitgliedschaft wird am {graceEndDate} deaktiviert, wenn Sie bis dahin nicht bezahlen. Wollen Sie die Republik nicht mehr lesen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/explanation/cancelText",
+      "value": "Sagen Sie uns, warum"
+    },
+    {
       "key": "prolongNecessary/overdue/explanation/cancelText",
       "value": "Teilen Sie uns mit, warum"
+    },
+    {
+      "key": "prolongNecessary/days/0",
+      "value": "heute"
+    },
+    {
+      "key": "prolongNecessary/days/1",
+      "value": "gestern"
+    },
+    {
+      "key": "prolongNecessary/days/other",
+      "value": "vor {count} Tagen"
     },
     {
       "key": "crowdfunding/status/time/ended/PROLONG",
@@ -6083,12 +6207,20 @@
       "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
     },
     {
+      "key": "package/ABO/description/goodies/MASK",
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten hundert, die zu ihrer Jahresmitgliedschaft kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
+    },
+    {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold sowie ein signiertes «Handbuch für Journalismus im 21. Jahrhundert»."
     },
     {
       "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",
       "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
+    },
+    {
+      "key": "package/BENEFACTOR/description/goodies/MASK",
+      "value": "Und für begrenzte Zeit zudem auf Wunsch eine exklusive <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a>."
     },
     {
       "key": "package/PROLONG/description",
@@ -6099,6 +6231,10 @@
       "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
+      "key": "package/PROLONG/description/goodies/MASK",
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
+    },
+    {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen. Durch Ihren jährlichen Beitrag werden Sie Mitglied der Project R Genossenschaft."
     },
@@ -6107,12 +6243,20 @@
       "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
     },
     {
+      "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/MASK",
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können. "
+    },
+    {
       "key": "package/TABLEBOOK/description",
       "value": "Die «Republik bei Stromausfall» ist eine auf 2000 Exemplare limitierte, gedruckte Edition der liebsten Geschichten und Bilder unserer Autorinnen und Autoren – auf rund 600 Seiten. Wie es sich für einen Sammel­band gehört, enthält er ein launiges Vorwort. Und jedem ausgewählten Text ist ein kleiner persönlicher Essay vorangestellt."
     },
     {
+      "key": "package/MASK/description",
+      "value": "Ob als Statement-Piece oder praktische Ergänzung Ihrer MNS-Kollektion: Die Republik-Maske sieht mit weissen Rs auf schwarzem Grund verrrrrrdammt gut aus. Die dreilagige Stoffmaske ist ausserdem mit <a href=\"https://www.republik.ch/maske\" target=\"_blank\">HeiQ Viroblock</a> behandelt."
+    },
+    {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Hinweis: Bücher liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
@@ -6123,12 +6267,32 @@
       "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
+      "key": "pledge/notice/goodies/delivery/MASK",
+      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+    },
+    {
       "key": "option/TABLEBOOK/label/other",
       "value": "Republik bei Stromausfall"
     },
     {
-      "key": "package/customize/price/payMore",
+      "key": "option/MASK/label/other",
+      "value": "Republik-Masken"
+    },
+    {
+      "key": "option/MASK/label/1",
+      "value": "Republik-Maske"
+    },
+    {
+      "key": "package/customize/price/payMore/DONATE_POT",
+      "value": "Vorschläge"
+    },
+    {
+      "key": "package/customize/price/payMore/ABO_GIVE_MONTHS",
       "value": "Möchten Sie Ihr Investment erhöhen?"
+    },
+    {
+      "key": "package/customize/price/payMore",
+      "value": "Möchten Sie vergünstigte Mitgliedschaften ermöglichen?"
     },
     {
       "key": "package/customize/price/payMore/1.5",
@@ -6431,6 +6595,10 @@
       "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder übermitteln Sie Ihre Grüsse. Falls Sie mit dem Beschenkten in Kontakt treten möchten, geben Sie hier Ihre E-Mail Adresse an."
     },
     {
+      "key": "package/ABO_GIVE/description/goodies/MASK_NOTEBOOK_TABLEBOOK_TOTEBAG",
+      "value": "Etwas Handfestes dazuschenken? Zur Auswahl stehen das Buch «Republik bei Stromausfall» für CHF 58, die Republik-Tasche oder das Republik-Notizbuch für je CHF 20. Und im Dezember 2020 die <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> für CHF 10."
+    },
+    {
       "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
       "value": "Etwas Handfestes dazuschenken? Zur Auswahl steht das Buch «Republik bei Stromausfall» für CHF 58, die Republik-Tasche oder das Republik-Notizbuch für je CHF 20. Die Objekte werden Ihnen geschickt."
     },
@@ -6501,10 +6669,6 @@
     {
       "key": "crowdfunding2/beforeNote/link",
       "value": "Zum aktuellen Stand unseres Unternehmens."
-    },
-    {
-      "key": "package/customize/price/payMore/DONATE_POT",
-      "value": "Vorschläge"
     },
     {
       "key": "package/customize/changePackage",
@@ -6771,24 +6935,36 @@
       "value": "Beitrag hervorheben"
     },
     {
+      "key": "FeatureCommentOverlay/DEFAULT/add",
+      "value": "Front"
+    },
+    {
+      "key": "FeatureCommentOverlay/MARKETING/add",
+      "value": "Marketingseite"
+    },
+    {
       "key": "FeatureCommentOverlay/text/label",
       "value": "Hervorgehobenes Zitat"
     },
     {
       "key": "FeatureCommentOverlay/submit",
-      "value": "Jetzt hervorheben"
+      "value": "Publizieren"
     },
     {
-      "key": "FeatureCommentOverlay/resubmit",
-      "value": "Aktualisieren"
+      "key": "FeatureCommentOverlay/warning",
+      "value": "Dieses Beitrag ist nicht hervorgehoben."
     },
     {
       "key": "FeatureCommentOverlay/remove",
       "value": "Zurückziehen"
     },
     {
-      "key": "FeatureCommentOverlay/preview",
-      "value": "Vorschau"
+      "key": "FeatureCommentOverlay/front/preview",
+      "value": "Front Vorschau"
+    },
+    {
+      "key": "FeatureCommentOverlay/marketing/preview",
+      "value": "Marketingseite Vorschau"
     },
     {
       "key": "crowdfunding/status/lastSeen/other",

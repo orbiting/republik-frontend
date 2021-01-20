@@ -84,18 +84,9 @@ class TeaserBlock extends Component {
       lazy,
       maxHeight,
       maxColumns = 6,
-      backgroundColor
+      backgroundColor,
+      teasers
     } = this.props
-
-    const teasers = this.props.teasers.filter(
-      teaser =>
-        teaser.nodes[0].identifier !== 'LIVETEASER' &&
-        !(
-          teaser.nodes[0].identifier === 'TEASER' &&
-          teaser.nodes[0].data &&
-          teaser.nodes[0].data.teaserType === 'carousel'
-        )
-    )
 
     const hoverOff = () => {
       // prevent flicker

@@ -94,12 +94,10 @@ export default gql`
         donation
         payments {
           method
-          paperInvoice
           total
           status
-          hrid
+          paymentslipUrl
           createdAt
-          updatedAt
         }
         memberships {
           id

@@ -8,11 +8,9 @@ import { withActiveDiscussions } from './enhancers'
 import DiscussionLink from '../Discussion/DiscussionLink'
 
 import {
-  Interaction,
   Loader,
   fontStyles,
   mediaQueries,
-  linkRule,
   useColorContext
 } from '@project-r/styleguide'
 

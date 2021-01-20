@@ -6,10 +6,10 @@ import { timeDay } from 'd3-time'
 import {
   Editorial,
   Interaction,
-  colors,
   mediaQueries,
   Button,
-  Center
+  Center,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { css } from 'glamor'
@@ -29,13 +29,6 @@ const styles = {
     [mediaQueries.mUp]: {
       fontSize: 16
     }
-  }),
-  boxLight: css({
-    backgroundColor: colors.primaryBg
-  }),
-  boxDark: css({
-    backgroundColor: colors.negative.primaryBg,
-    color: '#fff'
   })
 }
 
@@ -45,7 +38,9 @@ const SingleLine = ({ children }) => (
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
+const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
+  const [colorScheme] = useColorContext()
+
   if (
     router.pathname === '/pledge' ||
     router.pathname === '/cancel' ||
@@ -56,25 +51,46 @@ const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
   }
   const date = new Date(prolongBeforeDate)
   const numberOfDays = timeDay.count(new Date(), date)
-  if (numberOfDays <= 30) {
+
+  if (
+    (membership.type.name === 'ABO_GIVE_MONTHS' && numberOfDays <= 7) ||
+    (membership.type.name !== 'ABO_GIVE_MONTHS' && numberOfDays <= 30)
+  ) {
     const key =
-      numberOfDays <= 2 ? (numberOfDays < 0 ? 'overdue' : 'due') : 'before'
-    const baseKey = `prolongNecessary/${key}`
+      (numberOfDays < 0 && 'overdue') ||
+      (numberOfDays <= 2 && 'due') ||
+      'before'
 
-    const dark = inDarkFrame || key !== 'before'
-    const colorStyle = { color: dark ? '#fff' : undefined }
+    const prefixTranslationKeys = [
+      `prolongNecessary/${membership.type.name}/${key}`,
+      `prolongNecessary/${key}`
+    ]
 
-    const explanation = t.elements(
-      `${baseKey}/explanation`,
+    const endDate = new Date(membership.endDate)
+    const graceEndDate = new Date(membership.graceEndDate)
+
+    const styleTextColor = colorScheme.set('color', 'text')
+
+    const explanation = t.first.elements(
+      prefixTranslationKeys.map(k => `${k}/explanation`),
       {
         cancelLink: (
           <Link key='cancelLink' route='cancel' passHref>
-            <Editorial.A style={colorStyle}>
-              {t(`${baseKey}/explanation/cancelText`)}
+            <Editorial.A {...styleTextColor}>
+              {t.first(
+                prefixTranslationKeys.map(k => `${k}/explanation/cancelText`),
+                undefined,
+                ''
+              )}
             </Editorial.A>
           </Link>
         ),
-        graceEndDate: dayFormat(timeDay.offset(date, 14))
+        daysAgo: t.pluralize('prolongNecessary/days', {
+          count: Math.abs(numberOfDays)
+        }),
+        prolongBeforeDate: dayFormat(date),
+        endDate: dayFormat(endDate),
+        graceEndDate: dayFormat(graceEndDate)
       },
       ''
     )
@@ -82,21 +98,29 @@ const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
     const Title = hasExplanation ? Interaction.H2 : Fragment
     const Wrapper = hasExplanation ? Center : SingleLine
 
-    const buttonText = t(`${baseKey}/button`, undefined, '')
+    const buttonText = t.first(
+      prefixTranslationKeys.map(k => `${k}/button`),
+      undefined,
+      ''
+    )
 
     return (
-      <div {...styles.box} {...styles[dark ? 'boxDark' : 'boxLight']}>
+      <div
+        {...styles.box}
+        {...styleTextColor}
+        {...colorScheme.set('backgroundColor', 'alert')}
+      >
         <Wrapper>
-          <Title style={colorStyle}>
-            {t.elements(baseKey, {
+          <Title>
+            {t.first.elements(prefixTranslationKeys, {
               link: (
                 <TokenPackageLink
                   key='link'
                   params={{ package: 'PROLONG' }}
                   passHref
                 >
-                  <Editorial.A style={colorStyle}>
-                    {t(`${baseKey}/linkText`)}
+                  <Editorial.A {...styleTextColor}>
+                    {t.first(prefixTranslationKeys.map(k => `${k}/linkText`))}
                   </Editorial.A>
                 </TokenPackageLink>
               )
@@ -110,7 +134,7 @@ const ProlongBox = ({ t, prolongBeforeDate, router, dark: inDarkFrame }) => {
             </TokenPackageLink>
           )}
           {hasExplanation && (
-            <Interaction.P style={{ ...colorStyle, marginTop: 10 }}>
+            <Interaction.P style={{ marginTop: 10 }} {...styleTextColor}>
               {explanation}
             </Interaction.P>
           )}

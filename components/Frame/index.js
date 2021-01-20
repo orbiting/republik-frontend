@@ -35,6 +35,10 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
+css.global('button', {
+  fontFamily: fontFamilies.sansSerifRegular
+})
+
 // avoid gray rects over links and icons on iOS
 css.global('*', {
   WebkitTapHighlightColor: 'transparent'
@@ -152,6 +156,7 @@ const Frame = ({
                 <ProlongBox
                   t={t}
                   prolongBeforeDate={me.prolongBeforeDate}
+                  membership={me.activeMembership}
                   dark={dark}
                 />
               )}

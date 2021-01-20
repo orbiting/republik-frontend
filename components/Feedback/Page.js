@@ -24,6 +24,7 @@ import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
 import DiscussionIcon from '../Icons/Discussion'
 import ActionBar from '../ActionBar'
+import FontSizeSync from '../FontSize/Sync'
 
 import {
   A,
@@ -40,9 +41,11 @@ const tabMq = '@media only screen and (min-width: 468px)'
 
 const styles = {
   container: css({
-    padding: '20px 15px 120px 15px',
+    // aligned with article view
+    paddingTop: 15,
+    paddingBottom: 120,
     [mediaQueries.mUp]: {
-      padding: '55px 0 120px 0'
+      paddingTop: 25
     }
   }),
   h3: css({
@@ -53,6 +56,12 @@ const styles = {
     marginBottom: 20
   })
 }
+
+const H3 = ({ style, children }) => (
+  <div {...styles.h3} style={style}>
+    <Interaction.H3>{children}</Interaction.H3>
+  </div>
+)
 
 const FeedbackPage = props => {
   const {
@@ -85,125 +94,132 @@ const FeedbackPage = props => {
       stickySecondaryNav={!tab}
       colorSchemeKey='auto'
     >
-      <Center {...styles.container}>
-        {!tab && (
-          <>
-            <Interaction.Headline>{t('feedback/title')}</Interaction.Headline>
-            <br />
-            <WithMembership
-              render={() => (
-                <>
-                  <Interaction.P>{t('feedback/lead')}</Interaction.P>
-                  <Interaction.P style={{ marginTop: 10 }}>
-                    <Link route='discussion' params={{ t: 'general' }} passHref>
-                      <A>{t('feedback/link/general')}</A>
-                    </Link>
-                  </Interaction.P>
-                </>
-              )}
-            />
-          </>
-        )}
-        {!!tab && (
-          <div style={{ marginBottom: 30 }}>
-            <Editorial.Format color={colors.primary}>
-              <Link route='discussion' passHref>
-                <a style={{ color: 'inherit', textDecoration: 'none' }}>
-                  {t('feedback/title')}
-                </a>
-              </Link>
-            </Editorial.Format>
-            <Interaction.H1>
-              {tab === 'article' && (
-                <DiscussionTitle discussionId={activeDiscussionId} />
-              )}
-              {tab === 'general' && t('feedback/general/title')}
-            </Interaction.H1>
-            {tab === 'general' && (
-              <Interaction.P style={{ marginTop: 10 }}>
-                {t('feedback/general/lead')}
-              </Interaction.P>
-            )}
-            <br />
-            <ActionBar discussion={activeDiscussionId} fontSize />
-          </div>
-        )}
-        <WithoutMembership
-          render={() => (
+      {!!tab && <FontSizeSync />}
+      <Center>
+        <div {...styles.container}>
+          {!tab && (
             <>
-              <UnauthorizedMessage
-                {...{
-                  me,
-                  unauthorizedTexts: {
-                    title: ' ',
-                    description: t.elements('feedback/unauthorized', {
-                      buyLink: (
-                        <Link key='pledge' route='pledge' passHref>
-                          <A>{t('feedback/unauthorized/buyText')}</A>
-                        </Link>
-                      )
-                    })
-                  }
-                }}
+              <Interaction.Headline>{t('feedback/title')}</Interaction.Headline>
+              <br />
+              <WithMembership
+                render={() => (
+                  <>
+                    <Interaction.P>{t('feedback/lead')}</Interaction.P>
+                    <Interaction.P style={{ marginTop: 10 }}>
+                      <Link
+                        route='discussion'
+                        params={{ t: 'general' }}
+                        passHref
+                      >
+                        <A>{t('feedback/link/general')}</A>
+                      </Link>
+                    </Interaction.P>
+                  </>
+                )}
               />
-              <br />
-              <br />
-              <br />
             </>
           )}
-        />
-        {!tab && (
-          <>
-            <Interaction.H3 {...styles.h3}>
-              {t('marketing/community/title/plain')}
-            </Interaction.H3>
-            <TestimonialList singleRow minColumns={3} first={5} share={false} />
-            <div style={{ marginTop: 10 }}>
-              <Link route='community' passHref>
-                <A>{t('marketing/community/link')}</A>
-              </Link>
+          {!!tab && (
+            <div style={{ marginBottom: 30 }}>
+              <Editorial.Format color={colors.primary}>
+                <Link route='discussion' passHref>
+                  <a style={{ color: 'inherit', textDecoration: 'none' }}>
+                    {t('feedback/title')}
+                  </a>
+                </Link>
+              </Editorial.Format>
+              <Interaction.H1>
+                {tab === 'article' && (
+                  <DiscussionTitle discussionId={activeDiscussionId} />
+                )}
+                {tab === 'general' && t('feedback/general/title')}
+              </Interaction.H1>
+              {tab === 'general' && (
+                <Interaction.P style={{ marginTop: 10 }}>
+                  {t('feedback/general/lead')}
+                </Interaction.P>
+              )}
+              <br />
+              <ActionBar discussion={activeDiscussionId} fontSize />
             </div>
+          )}
+          <WithoutMembership
+            render={() => (
+              <>
+                <UnauthorizedMessage
+                  {...{
+                    me,
+                    unauthorizedTexts: {
+                      title: ' ',
+                      description: t.elements('feedback/unauthorized', {
+                        buyLink: (
+                          <Link key='pledge' route='pledge' passHref>
+                            <A>{t('feedback/unauthorized/buyText')}</A>
+                          </Link>
+                        )
+                      })
+                    }
+                  }}
+                />
+                <br />
+                <br />
+                <br />
+              </>
+            )}
+          />
+          {!tab && (
+            <>
+              <H3>{t('marketing/community/title/plain')}</H3>
+              <TestimonialList
+                singleRow
+                minColumns={3}
+                first={5}
+                share={false}
+              />
+              <div style={{ marginTop: 10 }}>
+                <Link route='community' passHref>
+                  <A>{t('marketing/community/link')}</A>
+                </Link>
+              </div>
+              <WithMembership
+                render={() => (
+                  <Fragment>
+                    <H3
+                      style={{
+                        position: 'relative',
+                        paddingRight: 40
+                      }}
+                    >
+                      {t('feedback/activeDiscussions/label')}
+                      <span style={{ position: 'absolute', right: 0, top: -1 }}>
+                        <DiscussionIcon size={24} fill={colors.primary} />
+                      </span>
+                    </H3>
+                    <ActiveDiscussions first={5} />
+                  </Fragment>
+                )}
+              />
+            </>
+          )}
+          {activeDiscussionId && (
+            <Discussion
+              discussionId={activeDiscussionId}
+              focusId={query.focus}
+              mute={query && !!query.mute}
+              meta
+            />
+          )}
+          {!tab && (
             <WithMembership
               render={() => (
                 <Fragment>
-                  <Interaction.H3
-                    {...styles.h3}
-                    style={{
-                      position: 'relative',
-                      paddingRight: 40
-                    }}
-                  >
-                    {t('feedback/activeDiscussions/label')}
-                    <span style={{ position: 'absolute', right: 0, top: -1 }}>
-                      <DiscussionIcon size={24} fill={colors.primary} />
-                    </span>
-                  </Interaction.H3>
-                  <ActiveDiscussions first={5} />
+                  <H3>{t('feedback/latestComments/headline')}</H3>
+                  <LatestComments />
                 </Fragment>
               )}
             />
-          </>
-        )}
-        {activeDiscussionId && (
-          <Discussion
-            discussionId={activeDiscussionId}
-            focusId={query.focus}
-            mute={query && !!query.mute}
-            meta
-          />
-        )}
-        {!tab && (
-          <WithMembership
-            render={() => (
-              <Fragment>
-                <Interaction.H3 {...styles.h3}>
-                  {t('feedback/latestComments/headline')}
-                </Interaction.H3>
-                <LatestComments />
-              </Fragment>
-            )}
-          />
-        )}
+          )}
+        </div>
       </Center>
     </Frame>
   )

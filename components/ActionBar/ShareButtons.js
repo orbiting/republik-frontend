@@ -34,6 +34,7 @@ const ShareButtons = ({
 
   const shareOptions = [
     {
+      name: 'mail',
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
       )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
@@ -42,6 +43,7 @@ const ShareButtons = ({
       label: t('article/actionbar/email/label')
     },
     {
+      name: 'copyLink',
       href: url,
       icon: MdLink,
       title: t('article/actionbar/link/title'),
@@ -58,6 +60,7 @@ const ShareButtons = ({
       }
     },
     {
+      name: 'facebook',
       target: '_blank',
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         url
@@ -67,6 +70,7 @@ const ShareButtons = ({
       label: t('article/actionbar/facebook/label')
     },
     {
+      name: 'twitter',
       target: '_blank',
       href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         tweet
@@ -76,6 +80,7 @@ const ShareButtons = ({
       label: t('article/actionbar/twitter/label')
     },
     {
+      name: 'whatsapp',
       target: '_blank',
       href: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`,
       icon: IoLogoWhatsapp,
@@ -88,19 +93,19 @@ const ShareButtons = ({
     <div {...styles.buttonGroup} {...(grid && styles.grid)}>
       {shareOptions.map(props => (
         <IconButton
+          {...props}
           key={props.title}
           Icon={props.icon}
           label={props.label}
           labelShort={props.label}
           fill={fill}
           onClick={e => {
-            trackEvent([eventCategory, props.icon, url])
+            trackEvent([eventCategory, props.name, url])
             if (props.onClick) {
               return props.onClick(e)
             }
             onClose && onClose()
           }}
-          {...props}
         />
       ))}
     </div>

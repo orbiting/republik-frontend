@@ -15,7 +15,12 @@ import {
   FigureCaption,
   fontStyles
 } from '@project-r/styleguide'
-import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
+import {
+  ChartTitle,
+  ChartLead,
+  ChartLegend,
+  Chart
+} from '@project-r/styleguide/chart'
 
 import md from 'markdown-in-js'
 
@@ -109,7 +114,7 @@ const Accordion = withInNativeApp(
 
       return (
         <div style={{ marginTop: 10, marginBottom: 30 }}>
-          <Interaction.P style={{ color: '#fff', marginBottom: 10 }}>
+          <Interaction.P style={{ marginBottom: 10 }}>
             <strong>So können Sie uns jetzt unterstützen:</strong>
           </Interaction.P>
           {shouldBuyProlong ? (
@@ -248,7 +253,7 @@ const Accordion = withInNativeApp(
           </Link>
           <PackageBuffer />
           {!me && !shouldBuyProlong && !inNativeIOSApp && (
-            <Interaction.P style={{ color: '#fff', marginTop: 10 }}>
+            <Interaction.P style={{ marginTop: 10 }}>
               Falls Sie bereits Mitglied sind: Melden Sie sich an, um Ihr Abo zu
               verlängern.
             </Interaction.P>
@@ -590,7 +595,7 @@ ${
       params={{ slug: questionnaireCrowdSlug }}
       passHref
     >
-      <Editorial.A style={{ color: '#fff' }}>Komplizin werden</Editorial.A>
+      <Editorial.A>Komplizin werden</Editorial.A>
     </Link>
   )
 }
@@ -626,25 +631,12 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtch
                 Züriwerk verschickt.
               </Editorial.Note>
 
-              <div
-                {...css({
-                  marginTop: 20,
-                  '& text': {
-                    fill: '#fff !important'
-                  },
-                  '& line': {
-                    stroke: 'rgba(255, 255, 255, 0.4) !important'
-                  },
-                  '& div': {
-                    color: '#fff !important'
-                  }
-                })}
-              >
-                <ChartTitle style={{ color: '#fff' }}>
+              <div style={{ marginTop: 20 }}>
+                <ChartTitle>
                   Die entscheidende Frage: Wie gross ist die
                   Republik-Verlegerschaft per 31.{'\u00a0'}März?
                 </ChartTitle>
-                <ChartLead style={{ color: '#fff' }}>
+                <ChartLead>
                   Anzahl bestehende, offene und neue Mitgliedschaften und
                   Monatsabos per Monatsende
                 </ChartLead>
@@ -735,12 +727,12 @@ Für die Bekanntmachung der Republik können Sie bei uns Flyer, Probeabo-Kärtch
                     ).values
                   }
                 />
-                <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
+                <ChartLegend>
                   Als offen gelten Jahres­mitgliedschaften ohne
                   Verlängerungszahlung. Als neue gelten alle die nach dem 1.
                   Dezember an Bord gekommen sind. Datenstand:{' '}
                   {formatDateTime(new Date(evolution.updatedAt))}
-                </Editorial.Note>
+                </ChartLegend>
               </div>
 
               {md(mdComponents)`

@@ -26,14 +26,24 @@ export const getTeasersFromDocument = doc => {
     ? doc.children.nodes.map(c => c.body)
     : doc.content.children
 
-  return children.map(rootChild => {
-    return {
-      id: rootChild.data.id,
-      contentHash: rootChild.data.contentHash,
-      nodes:
-        rootChild.identifier === 'TEASERGROUP'
-          ? rootChild.children
-          : [rootChild]
-    }
-  })
+  return children
+    .map(rootChild => {
+      return {
+        id: rootChild.data.id,
+        contentHash: rootChild.data.contentHash,
+        nodes:
+          rootChild.identifier === 'TEASERGROUP'
+            ? rootChild.children
+            : [rootChild]
+      }
+    })
+    .filter(
+      teaser =>
+        teaser.nodes[0].identifier !== 'LIVETEASER' &&
+        !(
+          teaser.nodes[0].identifier === 'TEASER' &&
+          teaser.nodes[0].data &&
+          teaser.nodes[0].data.teaserType === 'carousel'
+        )
+    )
 }

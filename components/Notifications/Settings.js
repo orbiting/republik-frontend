@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Interaction,
-  Center,
-  linkRule,
-  A,
-  mediaQueries
-} from '@project-r/styleguide'
+import { Interaction, Center, A, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import SubscribedDocuments from './SubscribedDocuments'
 import SubscribedAuthors from './SubscribedAuthors'
@@ -42,7 +36,7 @@ export default compose(
           {t('Notifications/settings/title')}
         </H1>
         <Link route='subscriptions' passHref>
-          <A {...linkRule}>{t('Notifications/settings/back')}</A>
+          <A>{t('Notifications/settings/back')}</A>
         </Link>
         {!isMember && (
           <Box style={{ margin: '10px 0', padding: 15 }}>
@@ -80,7 +74,7 @@ export default compose(
           <Interaction.P>
             {t.elements('Notifications/settings/newsletter', {
               link: (
-                <A key='link' href='/konto#newsletter' {...linkRule}>
+                <A key='link' href='/konto#newsletter'>
                   {t('Notifications/settings/newsletter/link')}
                 </A>
               )

@@ -358,5 +358,116 @@ export default {
       </Highlight>
       .
     </>
+  ),
+  November: p => (
+    <>
+      Blick nach aussen:{' '}
+      <Highlight {...p} ids={['YpwBdE4EQ']}>
+        Abtreibungsdebatte in Polen
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['CDo9zxr7O']}>
+        Mord in Thailand
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['u70uTHT8W']}>
+        kritische Stimmen aus dem Irak
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['ITFDEp_1z']}>
+        Religion und Terrorismus in Frankreich
+      </Highlight>{' '}
+      sowie{' '}
+      <Highlight {...p} ids={['AnQI0ybyi']}>
+        Grossbritannien nach dem Brexit
+      </Highlight>
+      . Schwerpunkt Wahlen in den USA: der{' '}
+      <Highlight {...p} ids={['iTDWtztmY']}>
+        Hürdenlauf bis zur Urne
+      </Highlight>
+      , das{' '}
+      <Highlight {...p} ids={['F19japVAf']}>
+        ungewisse Ergebnis
+      </Highlight>{' '}
+      und die Erkenntnis, dass der{' '}
+      <Highlight {...p} ids={['jSb886gTO']}>
+        Trumpismus bleibt
+      </Highlight>
+      . Blick nach innen: der{' '}
+      <Highlight {...p} ids={['vHhzne3rq']}>
+        SVP-Werber
+      </Highlight>
+      , der die Angst toll findet, der{' '}
+      <Highlight {...p} ids={['vVJEePZ4c']}>
+        Abstimmungskampf
+      </Highlight>
+      , der entgleiste, und die{' '}
+      <Highlight {...p} series='republik/article-die-friedensbrecher-von-basel'>
+        Basler Staatsanwaltschaft ausser Kontrolle
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['wJl81zXl4', 'QfWsz39x_', 'JvZ_UTfOd']}>
+        Neue Recherchen zum Crypto-Skandal
+      </Highlight>
+      . Nicht zu vergessen: eine{' '}
+      <Highlight {...p} ids={['GFviWI5DGQ']}>
+        neue Podcast-Staffel
+      </Highlight>{' '}
+      und die heiss diskutierte{' '}
+      <Highlight {...p} ids={['MqcODMbrN']}>
+        Helm-Frage
+      </Highlight>
+      .
+    </>
+  ),
+  Dezember: p => (
+    <>
+      Die grosse Serie über den{' '}
+      <Highlight {...p} series='republik/article-auftakt-tamedia-serie-1-13'>
+        mächtigsten Medienkonzern des Landes
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['1YBnfZrTE']}>
+        Wie Europa spricht
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['boM7fesoU']}>
+        wie wir miteinander
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['WDjhX_a1H']}>
+        mit dem Jenseits sprechen
+      </Highlight>{' '}
+      – und{' '}
+      <Highlight {...p} ids={['kosj3u1Xv']}>
+        welche Sprache Politikerinnen in der Krise wählen (sollten)
+      </Highlight>
+      .Die{' '}
+      <Highlight {...p} ids={['79yAATB_Y']}>
+        {' '}
+        Spitäler sind am Limit
+      </Highlight>
+      , es gibt{' '}
+      <Highlight {...p} ids={['oJ8fh4mwI']}>
+        Hoffnung aus der Spritze
+      </Highlight>
+      , aber:{' '}
+      <Highlight {...p} ids={['iQwhoWopo']}>
+        Ist Covid-19 erst der Anfang
+      </Highlight>
+      ? Dazu pandemiekonforme Geselligkeit mit{' '}
+      <Highlight {...p} ids={['XWHk2aYkv']}>
+        handverlesenen Dokumentarfilmen im Dokdown
+      </Highlight>
+      . Und eine ganz persönliche Reise mit fünf Menschen durch das Jahr 2020 in
+      der{' '}
+      <Highlight
+        {...p}
+        ids={['republik/template-podcast-serie-podcast-serie-auftakt-master']}
+      >
+        Podcast-Serie «Ungefiltert»
+      </Highlight>
+      .
+    </>
   )
 }

@@ -342,6 +342,9 @@ class CustomizePackage extends Component {
     const hasTablebook = !!goodies.find(
       option => option.reward && option.reward.name === 'TABLEBOOK'
     )
+    const hasMask = !!goodies.find(
+      option => option.reward && option.reward.name === 'MASK'
+    )
     const goodieNames = goodies
       .map(option => option.reward.name)
       .sort((a, b) => ascending(a, b))
@@ -441,7 +444,9 @@ class CustomizePackage extends Component {
       !payMoreReached &&
       pkg.name === 'PROLONG' &&
       pkg.options.every(option => {
-        return !getOptionValue(option, values) || option.userPrice
+        return (
+          !getOptionValue(option, values) || option.userPrice || !option.price
+        )
       })
 
     const optionGroups = nest()
@@ -509,6 +514,19 @@ class CustomizePackage extends Component {
         null
       )
     const goodiesImage =
+      (hasMask && hasNotebook && hasTotebag && hasTablebook && (
+        <img
+          {...styles.packageImage}
+          style={{ maxWidth: 180, paddingLeft: 10 }}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_tablebook_totebag.jpg`}
+        />
+      )) ||
+      (hasMask && hasNotebook && hasTotebag && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_totebag.jpg`}
+        />
+      )) ||
       (hasNotebook && hasTotebag && hasTablebook && (
         <img
           {...styles.packageImage}
@@ -532,6 +550,12 @@ class CustomizePackage extends Component {
         <img
           {...styles.packageImage}
           src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
+        />
+      )) ||
+      (hasMask && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask.jpg`}
         />
       ))
 
@@ -575,7 +599,11 @@ class CustomizePackage extends Component {
         {description.split('\n\n').map((text, i) => (
           <P style={{ marginBottom: 10 }} key={i}>
             {i === 0 && !goodiesDescription && goodiesImage}
-            {text}
+            {text.indexOf('<') !== -1 ? (
+              <RawHtml dangerouslySetInnerHTML={{ __html: text }} />
+            ) : (
+              text
+            )}
           </P>
         ))}
         {pkg.name === 'ABO_GIVE' && accessGrantedOnly && (
@@ -744,7 +772,13 @@ class CustomizePackage extends Component {
                 {isGoodies && goodiesDescription && (
                   <P>
                     {goodiesImage}
-                    {goodiesDescription}
+                    {goodiesDescription.indexOf('<') !== -1 ? (
+                      <RawHtml
+                        dangerouslySetInnerHTML={{ __html: goodiesDescription }}
+                      />
+                    ) : (
+                      goodiesDescription
+                    )}
                   </P>
                 )}
                 {membership && (
@@ -752,7 +786,7 @@ class CustomizePackage extends Component {
                     title={
                       isAboGive
                         ? t(`memberships/title/${membership.type.name}/give`, {
-                            name: membership.user.name,
+                            name: membership.claimerName,
                             sequenceNumber: membership.sequenceNumber
                           })
                         : undefined
@@ -771,6 +805,13 @@ class CustomizePackage extends Component {
                       values[fieldKey] === undefined
                         ? field.default
                         : values[fieldKey]
+
+                    const isBooleanOption = field.min === 0 && field.max === 1
+                    const isCheckboxOption =
+                      checkboxGroup || (isGoodies && isBooleanOption)
+
+                    // always use singular for goodie checkbox
+                    const labelValue = isCheckboxOption ? 1 : value
                     const label = t.first(
                       [
                         ...(isAboGive
@@ -781,28 +822,28 @@ class CustomizePackage extends Component {
                           : []),
                         ...(option.accessGranted
                           ? [
-                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/${value}`,
+                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/${labelValue}`,
                               `option/${pkg.name}/${option.reward.name}/accessGranted/label/other`,
                               `option/${pkg.name}/${option.reward.name}/accessGranted/label`,
-                              `option/${option.reward.name}/accessGranted/label/${value}`,
+                              `option/${option.reward.name}/accessGranted/label/${labelValue}`,
                               `option/${option.reward.name}/accessGranted/label/other`,
                               `option/${option.reward.name}/accessGranted/label`
                             ]
                           : []),
                         ...(field.interval
                           ? [
-                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${value}`,
+                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
                               `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/other`,
                               `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label`,
-                              `option/${option.reward.name}/interval/${field.interval}/label/${value}`,
+                              `option/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
                               `option/${option.reward.name}/interval/${field.interval}/label/other`,
                               `option/${option.reward.name}/interval/${field.interval}/label`
                             ]
                           : []),
-                        `option/${pkg.name}/${option.reward.name}/label/${value}`,
+                        `option/${pkg.name}/${option.reward.name}/label/${labelValue}`,
                         `option/${pkg.name}/${option.reward.name}/label/other`,
                         `option/${pkg.name}/${option.reward.name}/label`,
-                        `option/${option.reward.name}/label/${value}`,
+                        `option/${option.reward.name}/label/${labelValue}`,
                         `option/${option.reward.name}/label/other`,
                         `option/${option.reward.name}/label`
                       ],
@@ -855,20 +896,22 @@ class CustomizePackage extends Component {
                       onChange(this.calculateNextPrice(fields))
                     }
 
-                    if (group && field.min === 0 && field.max === 1) {
+                    if (isBooleanOption && (group || isCheckboxOption)) {
                       const children = (
                         <span
                           style={{
                             display: 'inline-block',
                             verticalAlign: 'top',
                             marginRight: 20,
-                            marginTop: checkboxGroup ? -2 : 0
+                            marginTop: isCheckboxOption ? -2 : 0
                           }}
                         >
                           <Interaction.Emphasis>{label}</Interaction.Emphasis>
                           <br />
                           {t.first(
                             [
+                              option.price === 0 && 'package/price/free',
+                              isGoodies && 'package/price/goodie',
                               isAboGive && `package/${pkg.name}/price/give`,
                               `package/${pkg.name}/price`,
                               'package/price'
@@ -879,8 +922,8 @@ class CustomizePackage extends Component {
                           )}
                         </span>
                       )
-                      if (checkboxGroup) {
-                        return (
+                      if (isCheckboxOption) {
+                        const checkboxElement = (
                           <Checkbox
                             key={elementKey}
                             checked={!!value}
@@ -895,6 +938,23 @@ class CustomizePackage extends Component {
                             {children}
                           </Checkbox>
                         )
+
+                        if (!group) {
+                          return (
+                            <div
+                              key={elementKey}
+                              {...styles.span}
+                              {...styles.group}
+                              style={{
+                                width: '100%'
+                              }}
+                            >
+                              {checkboxElement}
+                            </div>
+                          )
+                        }
+
+                        return checkboxElement
                       }
                       return (
                         <Fragment key={elementKey}>
@@ -1034,7 +1094,7 @@ class CustomizePackage extends Component {
                       {isAboGive && (
                         <SmallP>
                           {t(`option/${pkg.name}/additionalPeriods/give`, {
-                            name: membership.user.name
+                            name: membership.claimerName
                           })}
                         </SmallP>
                       )}
@@ -1199,7 +1259,10 @@ class CustomizePackage extends Component {
               {pkg.name === 'ABO_GIVE_MONTHS' && (
                 <Fragment>
                   <Interaction.Emphasis>
-                    {t('package/customize/price/payMore')}
+                    {t.first([
+                      `package/customize/price/payMore/${pkg.name}`,
+                      'package/customize/price/payMore'
+                    ])}
                   </Interaction.Emphasis>
                   <ul {...styles.ul}>
                     <li>

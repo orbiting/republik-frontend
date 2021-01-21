@@ -70,7 +70,10 @@ const CancelMembership = ({
     value: ''
   })
   const reasonRef = useRef()
-  const reasonError = needsReason && t('memberships/cancel/description/empty')
+  const reasonError =
+    needsReason &&
+    !reason.value.trim() &&
+    t('memberships/cancel/description/empty')
 
   const isMoneyReason = ['TOO_EXPENSIVE', 'NO_MONEY'].includes(cancellationType)
 
@@ -225,7 +228,7 @@ const CancelMembership = ({
                   id: membership.id,
                   details: {
                     type: cancellationType,
-                    reason
+                    reason: needsReason ? reason.value : ''
                   }
                 })
                   .then(() => {

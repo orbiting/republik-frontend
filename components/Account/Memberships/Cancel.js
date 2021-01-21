@@ -72,6 +72,8 @@ const CancelMembership = ({
   const reasonRef = useRef()
   const reasonError = needsReason && t('memberships/cancel/description/empty')
 
+  const isMoneyReason = ['TOO_EXPENSIVE', 'NO_MONEY'].includes(cancellationType)
+
   const [remoteState, setRemoteState] = useState({
     processing: false,
     success: false,
@@ -191,6 +193,21 @@ const CancelMembership = ({
                 }}
               />
             </div>
+            {isMoneyReason && (
+              <Interaction.P style={{ marginTop: 20 }}>
+                {t('memberships/cancel/userPrice')}{' '}
+                <Link
+                  route='pledge'
+                  params={{
+                    package: membership.canProlong ? 'PROLONG' : 'ABO',
+                    userPrice: 1
+                  }}
+                  passHref
+                >
+                  <A>{t('memberships/cancel/userPriceLink')}</A>
+                </Link>
+              </Interaction.P>
+            )}
             <Button
               style={{ marginTop: '30px' }}
               primary={!remoteState.processing}

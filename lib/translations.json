@@ -1,5 +1,5 @@
 {
-  "updated": "2021-01-21T10:01:37.683Z",
+  "updated": "2021-01-21T13:52:14.401Z",
   "title": "live",
   "data": [
     {
@@ -4305,6 +4305,14 @@
     {
       "key": "memberships/cancel/button",
       "value": "Kündigung abschicken"
+    },
+    {
+      "key": "memberships/cancel/userPrice",
+      "value": "Sie können sich den Betrag nicht leisten? Journalismus kostet. Aber wir wollen niemanden ausschliessen."
+    },
+    {
+      "key": "memberships/cancel/userPriceLink",
+      "value": "Wie viel können Sie bezahlen?"
     },
     {
       "key": "account/app/prolong/link",

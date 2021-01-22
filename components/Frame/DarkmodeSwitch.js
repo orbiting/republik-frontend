@@ -8,16 +8,13 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 import { MdBrightness2 } from 'react-icons/md'
-import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
+import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
 
-import { usePersistedColorSchemeKey } from '../ColorScheme/lib'
+import { useColorSchemeKey } from '../ColorScheme/lib'
 
-const DarkmodeSwitch = ({
-  colorSchemeKey: pageColorSchemeKey,
-  t,
-  inNativeApp
-}) => {
-  const [colorSchemeKey, setColorSchemeKey] = usePersistedColorSchemeKey()
+const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
+  const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
+  const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
   const [colorScheme] = useColorContext()
 
   const colorSchemaKeyForLable =
@@ -62,12 +59,6 @@ const DarkmodeSwitch = ({
               checked={colorSchemeKey === 'dark'}
               onChange={() => {
                 setColorSchemeKey('dark')
-                if (inNativeApp) {
-                  postMessage({
-                    type: 'setColorScheme',
-                    colorSchemeKey: 'dark'
-                  })
-                }
               }}
             >
               {t('darkmode/switch/on')}
@@ -77,36 +68,23 @@ const DarkmodeSwitch = ({
               value='light'
               checked={colorSchemeKey === 'light'}
               onChange={() => {
-                setColorSchemeKey('light')
-                if (inNativeApp) {
-                  postMessage({
-                    type: 'setColorScheme',
-                    colorSchemeKey: 'light'
-                  })
-                }
+                setColorSchemeKey(inNativeAppLegacy ? '' : 'light')
               }}
             >
               {t('darkmode/switch/off')}
             </Radio>
             <br />
-            <Radio
-              value='auto'
-              checked={colorSchemeKey === 'auto'}
-              onChange={() => {
-                // ToDo activating auto by default
-                // - handle all «ToDo activating auto» comments
-                // - rm explicit auto value
-                setColorSchemeKey('auto')
-                if (inNativeApp) {
-                  postMessage({
-                    type: 'setColorScheme',
-                    colorSchemeKey: 'auto'
-                  })
-                }
-              }}
-            >
-              {t('darkmode/switch/auto')}
-            </Radio>
+            {!inNativeAppLegacy && (
+              <Radio
+                value='auto'
+                checked={colorSchemeKey === 'auto'}
+                onChange={() => {
+                  setColorSchemeKey('auto')
+                }}
+              >
+                {t('darkmode/switch/auto')}
+              </Radio>
+            )}
           </>
         )}
       </div>
@@ -114,4 +92,4 @@ const DarkmodeSwitch = ({
   )
 }
 
-export default withInNativeApp(DarkmodeSwitch)
+export default DarkmodeSwitch

@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import { parse } from 'url'
 import { useRouter } from 'next/router'
@@ -42,10 +42,9 @@ const MessageSync = ({
   upsertDevice,
   me,
   upsertMediaProgress,
-  refetchPendingSignInRequests
+  client
 }) => {
-  const [signInOverlayVisible, setSignInOverlayVisible] = useState(false)
-  const [signInData, setSignInData] = useState()
+  const [signInQuery, setSignInQuery] = useState()
   const [
     localMediaProgress,
     setLocalMediaProgress
@@ -54,18 +53,20 @@ const MessageSync = ({
   const router = useRouter()
   const inNewApp = inNativeApp && !inNativeAppLegacy
 
-  async function openSignInPageIfRequest() {
+  async function checkPendingAppSignIn() {
     const {
       data: { pendingAppSignIn }
-    } = await refetchPendingSignInRequests()
+    } = await client.query({
+      query: pendingAppSignInQuery,
+      fetchPolicy: 'network-only'
+    })
     if (pendingAppSignIn) {
       const verificationUrlObject = parse(
         pendingAppSignIn.verificationUrl,
         true
       )
       const { query } = verificationUrlObject
-      setSignInData(query)
-      setSignInOverlayVisible(true)
+      setSignInQuery(query)
     }
   }
 
@@ -90,15 +91,11 @@ const MessageSync = ({
   }, [inNewApp])
 
   useEffect(() => {
-    const checkIfPendingSignInRequest = setInterval(() => {
-      if (me) {
-        openSignInPageIfRequest()
-      }
-    }, 3000)
-    return () => {
-      clearInterval(checkIfPendingSignInRequest)
+    if (!me) {
+      return
     }
-  }, [])
+    checkPendingAppSignIn()
+  }, [me])
 
   useEffect(() => {
     if (!inNewApp) {
@@ -139,11 +136,11 @@ const MessageSync = ({
       } else if (content.type === 'appState') {
         // Check Whenever App becomes active (foreground)
         // opens signin page if theres a pending request
-        if (content.current === 'active') {
-          if (me) {
-            openSignInPageIfRequest()
-          }
+        if (content.current === 'active' && me) {
+          checkPendingAppSignIn()
         }
+      } else if (content.type === 'authorization') {
+        checkPendingAppSignIn()
       }
       postMessage({
         type: 'ackMessage',
@@ -162,35 +159,24 @@ const MessageSync = ({
         document.addEventListener('message', onMessage)
       }
     }
-  }, [inNewApp, refetchPendingSignInRequests, inNativeIOSApp])
+  }, [inNewApp, inNativeIOSApp, me])
 
-  if (signInOverlayVisible && signInData) {
+  if (signInQuery) {
     return (
       <AppSignInOverlay
-        signInData={signInData}
-        closeSignInOverlay={() => setSignInOverlayVisible(false)}
+        query={signInQuery}
+        setQuery={setSignInQuery}
+        onClose={() => setSignInQuery(null)}
       />
     )
-  } else {
-    return null
   }
+  return null
 }
 
 export default compose(
   withMe,
   graphql(upsertDeviceQuery, { name: 'upsertDevice' }),
-  graphql(pendingAppSignInQuery, {
-    skip: props => !props.me,
-    options: {
-      fetchPolicy: 'network-only'
-    },
-    props: ({ data }) => {
-      return {
-        pendingAppSignIn: data.pendingAppSignIn,
-        refetchPendingSignInRequests: data.refetch
-      }
-    }
-  }),
+  withApollo,
   withInNativeApp,
   withProgressApi
 )(MessageSync)

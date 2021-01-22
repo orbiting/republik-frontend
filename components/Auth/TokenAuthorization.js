@@ -17,7 +17,6 @@ import {
 import Consents, { getConsentsError } from '../Pledge/Consents'
 
 import withT from '../../lib/withT'
-import withInNativeApp from '../../lib/withInNativeApp'
 import { meQuery } from '../../lib/apollo/withMe'
 import { Router } from '../../lib/routes'
 import { reportError } from '../../lib/errors'
@@ -38,7 +37,7 @@ const styles = {
   })
 }
 
-const { P, H2 } = Interaction
+const { P } = Interaction
 
 const shouldAutoAuthorize = ({ error, target, noAutoAuthorize }) => {
   return (
@@ -63,14 +62,8 @@ class TokenAuthorization extends Component {
   }
 
   goTo = (type, email, context) => {
-    // In Native app, don't navigate but either display denial screen
-    // or close the overlay on success.
-    if (this.props.inNativeApp || !this.props.inNativeAppLegacy) {
-      if (type === 'session-denied') {
-        this.setState({ authorizationFailed: type === 'session-denied' })
-      } else {
-        this.props.onCloseAuthorization()
-      }
+    if (this.props.goTo) {
+      this.props.goTo(type, email, context)
       return
     }
     Router.replaceRoute('notifications', { type, email, context })
@@ -160,28 +153,6 @@ class TokenAuthorization extends Component {
           <div style={{ marginTop: 80, marginBottom: 80 }}>
             <Me email={email} />
           </div>
-        </Fragment>
-      )
-    }
-
-    // If in new App, render failed state
-    if (
-      this.state.authorizationFailed &&
-      (this.props.inNativeApp || !this.props.inNativeAppLegacy)
-    ) {
-      return (
-        <Fragment>
-          <H2>{t('notifications/session-denied/title')}</H2>
-          <br />
-          <P>{t('notifications/session-denied/text')}</P>
-          <br />
-          <Button
-            block
-            primary
-            onClick={() => this.props.onCloseAuthorization()}
-          >
-            {t('notifications/closeButton/app')}
-          </Button>
         </Fragment>
       )
     }
@@ -445,7 +416,6 @@ const unauthorizedSessionQuery = gql`
 export default compose(
   withT,
   withAuthorizeSession,
-  withInNativeApp,
   graphql(denySession, {
     props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
       deny: () =>

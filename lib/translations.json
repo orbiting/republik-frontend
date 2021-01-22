@@ -1,5 +1,5 @@
 {
-  "updated": "2021-01-21T13:52:14.401Z",
+  "updated": "2021-01-22T13:52:09.115Z",
   "title": "live",
   "data": [
     {
@@ -217,6 +217,14 @@
     {
       "key": "withMembership/ios/unauthorized/claimLink",
       "value": "Jetzt einlösen"
+    },
+    {
+      "key": "network-error/failed",
+      "value": "Die Verbindung zur Republik ist fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
+    },
+    {
+      "key": "network-error/misc",
+      "value": "Bei Ihrer Anfrage ist ein Fehler aufgetreten: «{error}». Erste-Hilfe-Team: kontakt@republik.ch."
     },
     {
       "key": "signIn/button",

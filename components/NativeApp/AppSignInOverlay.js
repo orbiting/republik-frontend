@@ -1,17 +1,21 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { graphql, compose } from 'react-apollo'
 import {
   Overlay,
   OverlayToolbar,
-  OverlayToolbarClose,
-  OverlayBody
+  OverlayToolbarConfirm,
+  Interaction,
+  OverlayBody,
+  useColorContext
 } from '@project-r/styleguide'
 import TokenAuthorization from '../Auth/TokenAuthorization'
 import { DEFAULT_TOKEN_TYPE } from '../constants'
 import * as base64u from '../../lib/utils/base64u'
 import isEmail from 'validator/lib/isEmail'
+import { MdClose } from 'react-icons/md'
+import withT from '../../lib/withT'
 
-const AppSignInOverlay = ({ closeSignInOverlay, signInData }) => {
+const AppSignInOverlay = ({ closeSignInOverlay, signInData, t }) => {
+  const [colorScheme] = useColorContext()
   const { context, token, tokenType, noAutoAuthorize } = signInData
   let { email, type } = signInData
   if (email !== undefined) {
@@ -29,7 +33,13 @@ const AppSignInOverlay = ({ closeSignInOverlay, signInData }) => {
   return (
     <Overlay onClose={() => closeSignInOverlay()}>
       <OverlayToolbar>
-        <OverlayToolbarClose onClick={() => closeSignInOverlay()} />
+        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
+          {t('AppSignInOverlay/title')}
+        </Interaction.Emphasis>
+        <OverlayToolbarConfirm
+          onClick={() => closeSignInOverlay()}
+          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
+        />
       </OverlayToolbar>
       <OverlayBody>
         <TokenAuthorization
@@ -45,4 +55,4 @@ const AppSignInOverlay = ({ closeSignInOverlay, signInData }) => {
   )
 }
 
-export default AppSignInOverlay
+export default withT(AppSignInOverlay)

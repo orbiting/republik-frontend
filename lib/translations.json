@@ -1,5 +1,5 @@
 {
-  "updated": "2021-01-22T13:52:09.115Z",
+  "updated": "2021-01-22T15:33:23.034Z",
   "title": "live",
   "data": [
     {
@@ -7125,6 +7125,10 @@
     {
       "key": "darkmode/switch/notAvailable",
       "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar."
+    },
+    {
+      "key": "AppSignInOverlay/title",
+      "value": "Zugriff bestätigen"
     }
   ]
 }

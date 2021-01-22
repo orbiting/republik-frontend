@@ -17,13 +17,13 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
   const [colorScheme] = useColorContext()
 
-  const colorSchemaKeyForLable =
+  const colorSchemaKeyForLabel =
     pageColorSchemeKey !== 'auto' ? pageColorSchemeKey : colorSchemeKey
 
   const iconLabel =
-    colorSchemaKeyForLable === 'light'
+    colorSchemaKeyForLabel === 'light'
       ? t('darkmode/switch/off')
-      : colorSchemaKeyForLable === 'dark'
+      : colorSchemaKeyForLabel === 'dark'
       ? t('darkmode/switch/on')
       : t('darkmode/switch/auto')
 

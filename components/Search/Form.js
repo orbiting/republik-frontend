@@ -46,11 +46,7 @@ const Form = compose(
     const [slowFormValue] = useDebounce(formValue, 200)
     const [colorScheme] = useColorContext()
     useEffect(() => {
-      startState &&
-        !noInitialFocus &&
-        focusRef &&
-        focusRef.input &&
-        focusRef.input.focus()
+      startState && !noInitialFocus && focusRef && focusRef.focus()
     }, [startState, focusRef, noInitialFocus])
 
     useEffect(() => {

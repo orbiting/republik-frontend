@@ -5,7 +5,8 @@ import {
   OverlayBody,
   OverlayToolbar,
   OverlayToolbarConfirm,
-  Interaction
+  Interaction,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { MdClose } from 'react-icons/md'
@@ -15,6 +16,7 @@ import withT from '../../lib/withT'
 import PodcastButtons from '../Article/PodcastButtons'
 
 const PodcastOverlay = ({ t, title, podcast, onClose }) => {
+  const [colorScheme] = useColorContext()
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
@@ -23,7 +25,7 @@ const PodcastOverlay = ({ t, title, podcast, onClose }) => {
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} fill='#000' />}
+          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody>

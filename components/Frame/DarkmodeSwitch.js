@@ -3,12 +3,11 @@ import {
   CalloutMenu,
   IconButton,
   Radio,
-  Interaction,
   Label,
   useColorContext
 } from '@project-r/styleguide'
 import { MdBrightness2 } from 'react-icons/md'
-import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
+import { useInNativeApp } from '../../lib/withInNativeApp'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 

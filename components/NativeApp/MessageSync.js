@@ -45,13 +45,14 @@ const MessageSync = ({
   refetchPendingSignInRequests
 }) => {
   const [signInOverlayVisible, setSignInOverlayVisible] = useState(false)
-  const [signInData, setsignInData] = useState()
+  const [signInData, setSignInData] = useState()
   const [
     localMediaProgress,
     setLocalMediaProgress
   ] = useLocalMediaProgressState()
   const isTrackingAllowed = me && me.progressConsent === true
   const router = useRouter()
+  const inNewApp = inNativeApp && !inNativeAppLegacy
 
   async function openSignInPageIfRequest() {
     const {
@@ -63,12 +64,15 @@ const MessageSync = ({
         true
       )
       const { query } = verificationUrlObject
-      setsignInData(query)
+      setSignInData(query)
       setSignInOverlayVisible(true)
     }
   }
 
   useEffect(() => {
+    if (!inNewApp) {
+      return
+    }
     const handleRouteChange = url => {
       console.log(`App is changing to ${url}`)
       postMessage({
@@ -83,7 +87,7 @@ const MessageSync = ({
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
-  }, [])
+  }, [inNewApp])
 
   useEffect(() => {
     const checkIfPendingSignInRequest = setInterval(() => {
@@ -97,7 +101,7 @@ const MessageSync = ({
   }, [])
 
   useEffect(() => {
-    if (!inNativeApp || inNativeAppLegacy) {
+    if (!inNewApp) {
       return
     }
     const onMessage = event => {
@@ -158,12 +162,7 @@ const MessageSync = ({
         document.addEventListener('message', onMessage)
       }
     }
-  }, [
-    inNativeApp,
-    inNativeAppLegacy,
-    refetchPendingSignInRequests,
-    inNativeIOSApp
-  ])
+  }, [inNewApp, refetchPendingSignInRequests, inNativeIOSApp])
 
   if (signInOverlayVisible && signInData) {
     return (

@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 
 import Link from '../Link/Href'
-import { AudioContext } from './index'
+import { AudioContext } from './AudioProvider'
 import {
   mediaQueries,
   zIndex,

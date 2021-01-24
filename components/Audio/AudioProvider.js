@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { compose } from 'react-apollo'
 
 import createPersistedState from '../../lib/hooks/use-persisted-state'
-import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
+import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
 
 export const AudioContext = React.createContext({
   audioSource: {},
@@ -15,7 +14,8 @@ export const AudioContext = React.createContext({
 
 const useAudioState = createPersistedState('republik-audioplayer-audiostate')
 
-export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
+const AudioProvider = ({ children }) => {
+  const { inNativeApp, inNativeIOSApp } = useInNativeApp()
   const [audioState, setAudioState] = useAudioState(undefined)
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false)
   const [autoPlayActive, setAutoPlayActive] = useState(false)
@@ -83,6 +83,4 @@ export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
   )
 }
 
-const ComposedAudioProvider = compose(withInNativeApp)(AudioProvider)
-
-export default ComposedAudioProvider
+export default AudioProvider

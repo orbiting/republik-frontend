@@ -9,8 +9,9 @@ import withApolloClient from '../lib/apollo/withApolloClient'
 import { IconContext } from 'react-icons'
 import Track from '../components/Track'
 import MessageSync from '../components/NativeApp/MessageSync'
-import AudioProvider from '../components/Audio'
+import AudioProvider from '../components/Audio/AudioProvider'
 import AudioPlayer from '../components/Audio/AudioPlayer'
+import MediaProgressContext from '../components/Audio/MediaProgress'
 import AppVariableContext from '../components/Article/AppVariableContext'
 
 if (typeof window !== 'undefined') {
@@ -52,22 +53,26 @@ class WebApp extends App {
     return (
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
-          <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
-            <AudioProvider>
-              <AppVariableContext>
-                <Head>
-                  <meta
-                    name='viewport'
-                    content='width=device-width, initial-scale=1'
-                  />
-                </Head>
-                <Component serverContext={serverContext} {...pageProps} />
-                <Track />
-                <AudioPlayer />
-                <MessageSync />
-              </AppVariableContext>
-            </AudioProvider>
-          </IconContext.Provider>
+          <MediaProgressContext>
+            <IconContext.Provider
+              value={{ style: { verticalAlign: 'middle' } }}
+            >
+              <AudioProvider>
+                <AppVariableContext>
+                  <Head>
+                    <meta
+                      name='viewport'
+                      content='width=device-width, initial-scale=1'
+                    />
+                  </Head>
+                  <Component serverContext={serverContext} {...pageProps} />
+                  <Track />
+                  <AudioPlayer />
+                  <MessageSync />
+                </AppVariableContext>
+              </AudioProvider>
+            </IconContext.Provider>
+          </MediaProgressContext>
         </HeadersProvider>
       </ApolloProvider>
     )

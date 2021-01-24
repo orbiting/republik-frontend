@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import { parse } from 'url'
@@ -6,11 +6,10 @@ import { useRouter } from 'next/router'
 
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { parseJSONObject } from '../../lib/safeJSON'
-import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withMe from '../../lib/apollo/withMe'
-import { withProgressApi } from '../Article/Progress/api'
 
 import AppSignInOverlay from './AppSignInOverlay'
+import { useMediaProgress } from '../Audio/MediaProgress'
 
 const upsertDeviceQuery = gql`
   mutation UpsertDevice($token: ID!, $information: DeviceInformationInput!) {
@@ -31,25 +30,15 @@ const pendingAppSignInQuery = gql`
   }
 `
 
-const useLocalMediaProgressState = createPersistedState(
-  'republik-progress-media'
-)
-
 const MessageSync = ({
   inNativeApp,
   inNativeIOSApp,
   inNativeAppLegacy,
   upsertDevice,
   me,
-  upsertMediaProgress,
   client
 }) => {
   const [signInQuery, setSignInQuery] = useState()
-  const [
-    localMediaProgress,
-    setLocalMediaProgress
-  ] = useLocalMediaProgressState()
-  const isTrackingAllowed = me && me.progressConsent === true
   const router = useRouter()
   const inNewApp = inNativeApp && !inNativeAppLegacy
 
@@ -97,6 +86,7 @@ const MessageSync = ({
     checkPendingAppSignIn()
   }, [me])
 
+  const { saveMediaProgress } = useMediaProgress()
   useEffect(() => {
     if (!inNewApp) {
       return
@@ -128,11 +118,7 @@ const MessageSync = ({
       } else if (content.type === 'onAppMediaProgressUpdate') {
         // Audio Player sent media progress update
         const { currentTime, mediaId } = content
-        if (isTrackingAllowed) {
-          upsertMediaProgress(mediaId, currentTime)
-        } else {
-          setLocalMediaProgress({ mediaId, currentTime })
-        }
+        saveMediaProgress({ mediaId }, { currentTime })
       } else if (content.type === 'appState') {
         // Check Whenever App becomes active (foreground)
         // opens signin page if theres a pending request
@@ -177,6 +163,5 @@ export default compose(
   withMe,
   graphql(upsertDeviceQuery, { name: 'upsertDevice' }),
   withApollo,
-  withInNativeApp,
-  withProgressApi
+  withInNativeApp
 )(MessageSync)

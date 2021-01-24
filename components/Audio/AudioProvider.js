@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
 
+import { useMediaProgress } from './MediaProgress'
+
 export const AudioContext = React.createContext({
   audioSource: {},
   audioPlayerVisible: false,
@@ -21,7 +23,9 @@ const AudioProvider = ({ children }) => {
   const [autoPlayActive, setAutoPlayActive] = useState(false)
   const clearTimeoutId = useRef()
 
-  const toggleAudioPlayer = ({ audioSource, title, path }) => {
+  const { getMediaProgress } = useMediaProgress()
+
+  const toggleAudioPlayer = async ({ audioSource, title, path }) => {
     const url = (
       (inNativeIOSApp && audioSource.aac) ||
       audioSource.mp3 ||
@@ -30,19 +34,24 @@ const AudioProvider = ({ children }) => {
     if (!url) {
       return
     }
+    const mediaId = audioSource.mediaId
     const payload = {
       audioSource,
       url,
       title,
       sourcePath: path,
-      mediaId: audioSource.mediaId
+      mediaId
     }
     if (inNativeApp) {
+      let currentTime
+      if (mediaId) {
+        currentTime = await getMediaProgress({ mediaId })
+      }
       postMessage({
         type: 'play-audio',
         payload: {
-          ...payload
-          // Todo: add currentTime to payload
+          ...payload,
+          currentTime
         }
       })
       return

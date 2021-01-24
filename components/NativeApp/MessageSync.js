@@ -92,7 +92,7 @@ const MessageSync = ({
       return
     }
     const onMessage = event => {
-      const { content = {}, id } = parseJSONObject(event.data)
+      const { content = {}, id } = event.data
       if (content.type === 'onPushRegistered') {
         // Register Notification Token
         const {
@@ -133,17 +133,9 @@ const MessageSync = ({
         id: id
       })
     }
-    if (inNativeIOSApp) {
-      window.addEventListener('message', onMessage)
-    } else {
-      document.addEventListener('message', onMessage)
-    }
+    document.addEventListener('message', onMessage)
     return () => {
-      if (inNativeIOSApp) {
-        window.addEventListener('message', onMessage)
-      } else {
-        document.addEventListener('message', onMessage)
-      }
+      document.removeEventListener('message', onMessage)
     }
   }, [inNewApp, inNativeIOSApp, me])
 

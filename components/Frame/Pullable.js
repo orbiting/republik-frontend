@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import {
   InlineSpinner,
-  colors,
   isBodyScrollLocked,
   useColorContext
 } from '@project-r/styleguide'

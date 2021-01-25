@@ -2,7 +2,6 @@ import React from 'react'
 import { MdClose } from 'react-icons/md'
 import SearchMenuIcon from '../Icons/SearchMenu'
 import {
-  colors,
   mediaQueries,
   plainButtonRule,
   useColorContext

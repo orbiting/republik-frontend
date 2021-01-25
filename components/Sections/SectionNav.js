@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  mediaQueries,
-  colors,
-  fontStyles,
-  A,
-  FormatTag
-} from '@project-r/styleguide'
+import { mediaQueries, fontStyles, FormatTag } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { ascending } from 'd3-array'
 import { Link } from '../../lib/routes'
@@ -28,13 +22,6 @@ const styles = {
     ...fontStyles.sansSerifMedium19,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifMedium26
-    }
-  }),
-  counter: css({
-    color: colors.lightText,
-    ...fontStyles.sansSerifMedium15,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifMedium20
     }
   }),
   link: css({

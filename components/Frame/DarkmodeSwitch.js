@@ -15,8 +15,6 @@ const DarkmodeSwitch = ({ pageColorSchemeKey, t, inNativeApp }) => {
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
   const [colorScheme] = useColorContext()
 
-  console.log('colorScheme', colorScheme)
-
   const colorSchemaKeyForLabel = pageColorSchemeKey || colorSchemeKey
 
   const iconLabel =

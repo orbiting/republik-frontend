@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { colors } from '@project-r/styleguide'
 import Loader from '../Loader'
 import { compose, graphql } from 'react-apollo'
 import {

@@ -19,7 +19,7 @@
     "translations": "npm run translations-raw && git add -p lib/translations.json && git checkout -- lib/translations.json",
     "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "analyze": "ANALYZE=true next build",
-    "sg:link": "./scripts/sg_link.sh",
+    "sg:link": "./scripts/sg_link.sh" , "preinstall": "npm run sg:unlink",
     "sg:unlink": "./scripts/sg_unlink.sh"
   },
   "cacheDirectories": [

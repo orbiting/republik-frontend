@@ -1,7 +1,11 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import { colors, fontFamilies, fontStyles } from '@project-r/styleguide'
+import {
+  fontFamilies,
+  fontStyles,
+  useColorContext
+} from '@project-r/styleguide'
 
 const styles = {
   list: css({
@@ -11,10 +15,12 @@ const styles = {
     padding: 0
   }),
   item: css({
-    borderTop: `1px solid ${colors.divider}`,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
     padding: '5px 0',
     ':last-child': {
-      borderBottom: `1px solid ${colors.divider}`
+      borderBottomWidth: 1,
+      borderBottomStyle: 'solid'
     }
   }),
   highlight: css({
@@ -23,7 +29,14 @@ const styles = {
   })
 }
 
-export const Item = ({ children }) => <li {...styles.item}>{children}</li>
+export const Item = ({ children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <li {...styles.item} {...colorScheme.set('borderColor', 'divider')}>
+      {children}
+    </li>
+  )
+}
 
 const List = ({ children, ...props }) => (
   <ul {...props} {...styles.list}>

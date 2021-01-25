@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-21T07:38:55.752Z",
+  "updated": "2021-01-21T13:52:14.401Z",
   "title": "live",
   "data": [
     {
@@ -4371,12 +4371,24 @@
       "value": "Erläuterungen"
     },
     {
+      "key": "memberships/cancel/description/empty",
+      "value": "Erläuterungen fehlt"
+    },
+    {
       "key": "memberships/cancel/accountLink",
       "value": "Zum Konto"
     },
     {
       "key": "memberships/cancel/button",
       "value": "Kündigung abschicken"
+    },
+    {
+      "key": "memberships/cancel/userPrice",
+      "value": "Sie können sich den Betrag nicht leisten? Journalismus kostet. Aber wir wollen niemanden ausschliessen."
+    },
+    {
+      "key": "memberships/cancel/userPriceLink",
+      "value": "Wie viel können Sie bezahlen?"
     },
     {
       "key": "account/app/prolong/link",
@@ -4739,6 +4751,14 @@
       "value": "Jetzt Mitglied werden"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/due",
+      "value": "Ihr Abonnement läuft aus: {link}"
+    },
+    {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/due/linkText",
+      "value": "Jetzt verlängern"
+    },
+    {
       "key": "prolongNecessary/due",
       "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}"
     },
@@ -4747,20 +4767,48 @@
       "value": "Jetzt bezahlen"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue",
+      "value": "Ihr Abonnement ist überfällig."
+    },
+    {
       "key": "prolongNecessary/overdue",
       "value": "Ihr Mitglied­schafts­beitrag ist überfällig."
+    },
+    {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/button",
+      "value": "Jetzt verlängern"
     },
     {
       "key": "prolongNecessary/overdue/button",
       "value": "Jetzt bezahlen"
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/explanation",
+      "value": "Ihr Abonnement lief {daysAgo} aus und wird am {graceEndDate} deaktiviert. Sie möchten uns nicht mehr lesen? {cancelLink}."
+    },
+    {
       "key": "prolongNecessary/overdue/explanation",
       "value": "Ihre Mitgliedschaft wird am {graceEndDate} deaktiviert, wenn Sie bis dahin nicht bezahlen. Wollen Sie die Republik nicht mehr lesen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
     },
     {
+      "key": "prolongNecessary/ABO_GIVE_MONTHS/overdue/explanation/cancelText",
+      "value": "Sagen Sie uns, warum"
+    },
+    {
       "key": "prolongNecessary/overdue/explanation/cancelText",
       "value": "Teilen Sie uns mit, warum"
+    },
+    {
+      "key": "prolongNecessary/days/0",
+      "value": "heute"
+    },
+    {
+      "key": "prolongNecessary/days/1",
+      "value": "gestern"
+    },
+    {
+      "key": "prolongNecessary/days/other",
+      "value": "vor {count} Tagen"
     },
     {
       "key": "crowdfunding/status/time/ended/PROLONG",
@@ -6323,6 +6371,14 @@
       "value": "Republik-Maske"
     },
     {
+      "key": "package/customize/price/payMore/DONATE_POT",
+      "value": "Vorschläge"
+    },
+    {
+      "key": "package/customize/price/payMore/ABO_GIVE_MONTHS",
+      "value": "Möchten Sie Ihr Investment erhöhen?"
+    },
+    {
       "key": "package/customize/price/payMore",
       "value": "Möchten Sie vergünstigte Mitgliedschaften ermöglichen?"
     },
@@ -6701,10 +6757,6 @@
     {
       "key": "crowdfunding2/beforeNote/link",
       "value": "Zum aktuellen Stand unseres Unternehmens."
-    },
-    {
-      "key": "package/customize/price/payMore/DONATE_POT",
-      "value": "Vorschläge"
     },
     {
       "key": "package/customize/changePackage",

@@ -572,7 +572,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                   {countFormat(
                     lastBucket.pending - lastBucket.pendingSubscriptionsOnly
                   )}{' '}
-                  anstehende Verläng&shy;erungen in den nächsten 3&nbsp;Monaten
+                  anstehende Verläng&shy;erungen in den nächsten&nbsp;Monaten
                 </ChartTitle>
                 <ChartLead>
                   Anzahl Mitgliedschaften und Abos per Monatsende.

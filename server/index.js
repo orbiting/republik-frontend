@@ -66,6 +66,7 @@ app.prepare().then(() => {
       '/manifest',
       '/mitteilung',
       '/.well-known/apple-app-site-association',
+      '/.well-known/apple-developer-merchantid-domain-association',
       '/.well-known/assetlinks.json'
     ]
     const ALLOWED_UAS = (process.env.CURTAIN_UA_ALLOW_LIST || '')

@@ -162,6 +162,7 @@ const Frame = ({
                 <ProlongBox
                   t={t}
                   prolongBeforeDate={me.prolongBeforeDate}
+                  membership={me.activeMembership}
                   dark={dark}
                 />
               )}

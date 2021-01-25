@@ -38,7 +38,7 @@ const SingleLine = ({ children }) => (
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-const ProlongBox = ({ t, prolongBeforeDate, router }) => {
+const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
   const [colorScheme] = useColorContext()
 
   if (
@@ -51,23 +51,46 @@ const ProlongBox = ({ t, prolongBeforeDate, router }) => {
   }
   const date = new Date(prolongBeforeDate)
   const numberOfDays = timeDay.count(new Date(), date)
-  if (numberOfDays <= 30) {
+
+  if (
+    (membership.type.name === 'ABO_GIVE_MONTHS' && numberOfDays <= 7) ||
+    (membership.type.name !== 'ABO_GIVE_MONTHS' && numberOfDays <= 30)
+  ) {
     const key =
-      numberOfDays <= 2 ? (numberOfDays < 0 ? 'overdue' : 'due') : 'before'
-    const baseKey = `prolongNecessary/${key}`
+      (numberOfDays < 0 && 'overdue') ||
+      (numberOfDays <= 2 && 'due') ||
+      'before'
+
+    const prefixTranslationKeys = [
+      `prolongNecessary/${membership.type.name}/${key}`,
+      `prolongNecessary/${key}`
+    ]
+
+    const endDate = new Date(membership.endDate)
+    const graceEndDate = new Date(membership.graceEndDate)
+
     const styleTextColor = colorScheme.set('color', 'text')
 
-    const explanation = t.elements(
-      `${baseKey}/explanation`,
+    const explanation = t.first.elements(
+      prefixTranslationKeys.map(k => `${k}/explanation`),
       {
         cancelLink: (
           <Link key='cancelLink' route='cancel' passHref>
             <Editorial.A {...styleTextColor}>
-              {t(`${baseKey}/explanation/cancelText`)}
+              {t.first(
+                prefixTranslationKeys.map(k => `${k}/explanation/cancelText`),
+                undefined,
+                ''
+              )}
             </Editorial.A>
           </Link>
         ),
-        graceEndDate: dayFormat(timeDay.offset(date, 14))
+        daysAgo: t.pluralize('prolongNecessary/days', {
+          count: Math.abs(numberOfDays)
+        }),
+        prolongBeforeDate: dayFormat(date),
+        endDate: dayFormat(endDate),
+        graceEndDate: dayFormat(graceEndDate)
       },
       ''
     )
@@ -75,7 +98,11 @@ const ProlongBox = ({ t, prolongBeforeDate, router }) => {
     const Title = hasExplanation ? Interaction.H2 : Fragment
     const Wrapper = hasExplanation ? Center : SingleLine
 
-    const buttonText = t(`${baseKey}/button`, undefined, '')
+    const buttonText = t.first(
+      prefixTranslationKeys.map(k => `${k}/button`),
+      undefined,
+      ''
+    )
 
     return (
       <div
@@ -85,7 +112,7 @@ const ProlongBox = ({ t, prolongBeforeDate, router }) => {
       >
         <Wrapper>
           <Title>
-            {t.elements(baseKey, {
+            {t.first.elements(prefixTranslationKeys, {
               link: (
                 <TokenPackageLink
                   key='link'
@@ -93,7 +120,7 @@ const ProlongBox = ({ t, prolongBeforeDate, router }) => {
                   passHref
                 >
                   <Editorial.A {...styleTextColor}>
-                    {t(`${baseKey}/linkText`)}
+                    {t.first(prefixTranslationKeys.map(k => `${k}/linkText`))}
                   </Editorial.A>
                 </TokenPackageLink>
               )

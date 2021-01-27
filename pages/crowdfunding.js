@@ -23,11 +23,11 @@ import {
   Label,
   Button,
   Lead,
-  colors,
   P,
   A,
   Interaction,
-  VideoPlayer
+  VideoPlayer,
+  useColorContext
 } from '@project-r/styleguide'
 
 const styles = {
@@ -35,7 +35,9 @@ const styles = {
     margin: '20px 0',
     '& img': {
       width: 'calc(50% - 10px)',
-      border: `1px solid ${colors.divider}`,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: 'inherit',
       margin: 5
     }
   }),
@@ -68,6 +70,7 @@ export const VIDEOS = {
 }
 
 export const Page = ({ router, t, inNativeIOSApp }) => {
+  const [colorScheme] = useColorContext()
   const pledgeLink = inNativeIOSApp ? null : (
     <Link route='pledge'>
       <A>Jetzt mitmachen!</A>
@@ -272,7 +275,10 @@ Doch das ist Geschichte. Denn die Inserate sind ins Netz verschwunden. Und die g
 Bis es so weit ist, wird die sterbende Cashcow noch so lange wie möglich gemolken. Investitionen fliessen kaum mehr in den Journalismus; bei eigenen Medien wird nur noch gespart. Dazu wird fusioniert, was geht. Kleinere Zeitungen werden zwecks Reichweite eingekauft. Und verdaut. Bereits heute beherrschen Tamedia, NZZ und Ringier zusammen 80 Prozent der veröffentlichten Meinung.
 `}
 
-        <div {...styles.mediaDiversity}>
+        <div
+          {...styles.mediaDiversity}
+          {...colorScheme.set('borderColor', 'divider')}
+        >
           <img
             alt='«Amokfahrer rast in Menschen in London» bazonline.ch am 22. März 2017 um 16 Uhr'
             src={`${CDN_FRONTEND_BASE_URL}/static/crowdfunding1/baz.png`}

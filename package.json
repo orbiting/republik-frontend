@@ -19,7 +19,7 @@
     "translations": "npm run translations-raw && git add -p lib/translations.json && git checkout -- lib/translations.json",
     "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "analyze": "ANALYZE=true next build",
-    "sg:link": "./scripts/sg_link.sh" , "preinstall": "npm run sg:unlink",
+    "sg:link": "./scripts/sg_link.sh",
     "sg:unlink": "./scripts/sg_unlink.sh"
   },
   "cacheDirectories": [
@@ -102,7 +102,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^9.5.1",
-    "@project-r/styleguide": "^10.11.2",
+    "@project-r/styleguide": "https://s3.eu-central-1.amazonaws.com/republik-assets-dev/npm/project-r-styleguide-dm-1.2-8b67776.tgz",
     "@use-it/event-listener": "^0.1.5",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",

@@ -14,14 +14,11 @@ import {
   Logo,
   BrandMark as R,
   fontFamilies,
-  mediaQueries
+  mediaQueries,
+  useColorContext
 } from '@project-r/styleguide'
 
-import {
-  PUBLIC_BASE_URL,
-  CDN_FRONTEND_BASE_URL,
-  useColorContext
-} from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import { Link } from '../lib/routes'
 
 const pRule = css({

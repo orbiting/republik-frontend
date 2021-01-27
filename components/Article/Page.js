@@ -73,6 +73,10 @@ const Manifest = dynamic(() => import('../About/Manifest'), {
   ssr: true
 })
 const TeamTeaser = dynamic(() => import('../About/TeamTeaser'), dynamicOptions)
+const TestimonialList = dynamic(
+  () => import('../Testimonial/List'),
+  dynamicOptions
+)
 const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {
   ssr: true
 })
@@ -213,7 +217,8 @@ const ArticlePage = ({
           REASONS_VIDEO: ReasonsVideo,
           VOTEBOX: Votebox,
           VOTE_COUNTER: VoteCounter,
-          VOTE_RESULT: VoteResult
+          VOTE_RESULT: VoteResult,
+          TESTIMONIAL_LIST: TestimonialList
         },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),

@@ -8,10 +8,12 @@ import {
   Meta,
   useColorContext,
   Loader,
-  mediaQueries
+  mediaQueries,
+  A
 } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
+import { Link } from '../../lib/routes'
 
 const Sections = ({
   t,
@@ -30,6 +32,32 @@ const Sections = ({
         style={{ minHeight: 400 }}
         render={() => (
           <>
+            {/* Covid */}
+            <div
+              {...styles.section}
+              {...colorScheme.set('borderColor', 'divider')}
+            >
+              <img
+                {...styles.picture}
+                src='https://cdn.repub.ch/s3/republik-assets/github/republik/format-covid-19-uhr-newsletter/images/b4bb1e7f6d43aa4e35bae58a5497d5ec7bf33a48.png?size=2000x2000'
+                alt='Covid-19-Uhr-Newsletter'
+              />
+              <div {...styles.description}>
+                <Meta.Subhead
+                  style={{ marginTop: 0 }}
+                  {...colorScheme.set('color', 'text')}
+                >
+                  Covid-19-Uhr-Newsletter
+                </Meta.Subhead>
+                <Meta.P>
+                  Brauchbares zur Pandemie – immer wenn es dunkel wird.
+                  Informationen für alle. Auch ohne Mitgliedschaft oder Abo.{' '}
+                  <Link route='/format/covid-19-uhr-newsletter' passHref>
+                    <A>Hier gratis abonnieren.</A>
+                  </Link>
+                </Meta.P>
+              </div>
+            </div>
             {sections.filter(Boolean).map(section => (
               <div
                 key={section.meta.title}

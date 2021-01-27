@@ -6,9 +6,9 @@ import {
   TeaserFrontTile,
   fontStyles,
   Editorial,
-  Breakout,
   Center,
-  Button
+  Button,
+  mediaQueries
 } from '@project-r/styleguide'
 
 const Reasons = ({ t }) => {
@@ -28,16 +28,19 @@ const Reasons = ({ t }) => {
           <Editorial.P>{t('marketing/page/reasons/3/text')}</Editorial.P>
         </TeaserFrontTile>
       </TeaserFrontTileRow>
-      <Center style={{ display: 'flex', justifyContent: 'center' }}>
+      <Center {...styles.buttons}>
         <Button
-          style={{
-            padding: '10px 80px',
-            whiteSpace: 'nowrap'
-          }}
-          href='/pledge'
+          style={{ marginBottom: 20 }}
+          href='/angebote?package=ABO'
           primary
         >
-          {t('marketing/page/carpet/button')}
+          {t('marketing/join/ABO/button/label')}
+        </Button>
+        <Button
+          style={{ marginBottom: 20 }}
+          href='/angebote?package=MONTHLY_ABO'
+        >
+          {t('marketing/join/MONTHLY_ABO/button/label')}
         </Button>
       </Center>
     </div>
@@ -47,6 +50,15 @@ const Reasons = ({ t }) => {
 const styles = {
   title: css({
     ...fontStyles.sansSerifMedium24
+  }),
+  buttons: css({
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    [mediaQueries.mUp]: {
+      flexDirection: 'row'
+    }
   })
 }
 

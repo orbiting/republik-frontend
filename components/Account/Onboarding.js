@@ -13,7 +13,7 @@ export default withT(({ t }) => (
     <P>
       {t.elements('Account/Onboarding/text', {
         link: (
-          <Link key='link' route='onboarding'>
+          <Link key='link' route='onboarding' passHref>
             <A>{t('Account/Onboarding/link')}</A>
           </Link>
         )

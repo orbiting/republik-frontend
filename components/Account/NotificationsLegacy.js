@@ -15,7 +15,7 @@ export default withT(({ t }) => (
     <P>
       {t.elements('Account/Notifications/Legacy/text', {
         link: (
-          <Link key='link' route='subscriptionsSettings'>
+          <Link key='link' route='subscriptionsSettings' passHref>
             <A>{t('Account/Notifications/Legacy/link')}</A>
           </Link>
         )

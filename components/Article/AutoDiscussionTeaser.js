@@ -16,6 +16,7 @@ const AutoDiscussionTeaser = ({ t, discussionId }) => (
             key='feedback'
             route='discussion'
             params={{ t: 'article', id: discussionId }}
+            passHref
           >
             <A>{t('article/autodiscussionteaser/linktext')}</A>
           </Link>

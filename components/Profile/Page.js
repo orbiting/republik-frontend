@@ -662,6 +662,7 @@ const Profile = props => {
                         <Link
                           route='profile'
                           params={{ slug: me.username || me.id }}
+                          passHref
                         >
                           <A>{t('pages/profile/empty/content/linktext')}</A>
                         </Link>

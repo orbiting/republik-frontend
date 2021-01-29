@@ -243,10 +243,10 @@ const Update = props => {
       </P>
 
       <P {...formStyles.paragraph}>
-        <Link route='index'>
+        <Link route='index' passHref>
           <Button primary>{t('components/Card/Update/read')}</Button>
         </Link>{' '}
-        <Link route='onboarding' params={{ context: 'card' }}>
+        <Link route='onboarding' params={{ context: 'card' }} passHref>
           <Button>{t('components/Card/Update/onboarding')}</Button>
         </Link>
       </P>
@@ -428,9 +428,4 @@ const withUpdateCard = graphql(UPDATE_CARD, {
   })
 })
 
-export default compose(
-  withRouter,
-  withT,
-  withMeCard,
-  withUpdateCard
-)(Update)
+export default compose(withRouter, withT, withMeCard, withUpdateCard)(Update)

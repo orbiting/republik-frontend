@@ -147,6 +147,7 @@ class Merci extends Component {
                 <Link
                   route='account'
                   params={{ claim: query.id, package: query.package }}
+                  passHref
                 >
                   <A>
                     <br />
@@ -226,7 +227,7 @@ class Merci extends Component {
                 </Button>
               )}
             </div>
-            <Link route='account' params={{ claim: query.id }}>
+            <Link route='account' params={{ claim: query.id }} passHref>
               <A>
                 <br />
                 <br />

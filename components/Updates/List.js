@@ -77,7 +77,7 @@ const Overview = compose(
                 }}
               />
               <Update data={update} />
-              <Link route='updates'>
+              <Link route='updates' passHref>
                 <A>{t('updates/all')}</A>
               </Link>
             </Content>

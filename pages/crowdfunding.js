@@ -72,7 +72,7 @@ export const VIDEOS = {
 export const Page = ({ router, t, inNativeIOSApp }) => {
   const [colorScheme] = useColorContext()
   const pledgeLink = inNativeIOSApp ? null : (
-    <Link route='pledge'>
+    <Link route='pledge' passHref>
       <A>Jetzt mitmachen!</A>
     </Link>
   )
@@ -251,7 +251,7 @@ Ihre Partnerin bei diesem Projekt ist die Aufbaucrew der Republik und von Projec
 
         <P>
           Die Kurzporträts der Crew finden Sie{' '}
-          <Link route='legal/imprint'>
+          <Link route='legal/imprint' passHref>
             <A>hier</A>
           </Link>
           . Und dazu im Video die Lesung unseres{' '}
@@ -398,7 +398,7 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
           />
         </div>
 
-        <Link route='community'>
+        <Link route='community' passHref>
           <A>Alle ansehen</A>
         </Link>
 

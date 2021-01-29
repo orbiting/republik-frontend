@@ -172,7 +172,7 @@ class PledgeList extends Component {
           )
         })}
         <div style={{ marginTop: 30 }}>
-          <Link route='pledge' params={{ group: 'GIVE' }}>
+          <Link route='pledge' params={{ group: 'GIVE' }} passHref>
             <A>{t('account/pledges/promo')}</A>
           </Link>
         </div>

@@ -91,7 +91,7 @@ const Actions = ({
             <P>
               {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
                 buyLink: (
-                  <Link route='pledge' params={{ package: 'ABO' }}>
+                  <Link route='pledge' params={{ package: 'ABO' }} passHref>
                     <A>
                       {t('memberships/MONTHLY_ABO/manage/upgrade/link/buyText')}
                     </A>

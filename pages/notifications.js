@@ -223,7 +223,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
         ) : (
           ((!hasCurtain && !isUnkownType) || inNativeApp) && (
             <div {...styles.button}>
-              <Link route='index'>
+              <Link route='index' passHref>
                 <Button block primary>
                   {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
                 </Button>
@@ -284,7 +284,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
           {logo}
         </div>
         {inNativeApp && (
-          <Link route='index'>
+          <Link route='index' passHref>
             <a {...styles.close}>
               <MdClose size={32} />
             </a>
@@ -313,7 +313,12 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
             <P {...styles.link}>
               {intersperse(
                 links.map((link, i) => (
-                  <Link key={i} route={link.route} params={link.params}>
+                  <Link
+                    key={i}
+                    route={link.route}
+                    params={link.params}
+                    passHref
+                  >
                     <A>{link.label}</A>
                   </Link>
                 )),

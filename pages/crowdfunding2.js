@@ -187,7 +187,7 @@ const Page = ({
     ? { package: 'ABO_GIVE', filter: 'pot' }
     : { package: 'ABO' }
   const pledgeLink = inNativeIOSApp ? null : (
-    <Link route='pledge' params={primaryParams}>
+    <Link route='pledge' params={primaryParams} passHref>
       <A>
         {activeMembership && !shouldBuyProlong
           ? 'Wachstum schenken'

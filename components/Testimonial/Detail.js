@@ -79,7 +79,7 @@ const Detail = ({
       >
         <H3 {...styles.detailTitle} {...colorScheme.set('color', 'text')}>
           {slug ? (
-            <Link route='profile' params={{ slug }}>
+            <Link route='profile' params={{ slug }} passHref>
               <A style={{ color: 'inherit' }}>{name}</A>
             </Link>
           ) : (

@@ -82,12 +82,12 @@ export const UnauthorizedMessage = compose(
           <Interaction.P>
             {t.elements('withMembership/unauthorized', {
               buyLink: (
-                <Link key='pledge' route='pledge'>
+                <Link key='pledge' route='pledge' passHref>
                   <A>{t('withMembership/unauthorized/buyText')}</A>
                 </Link>
               ),
               accountLink: (
-                <Link key='account' route='account'>
+                <Link key='account' route='account' passHref>
                   <A>{t('withMembership/unauthorized/accountText')}</A>
                 </Link>
               )
@@ -109,12 +109,12 @@ export const UnauthorizedMessage = compose(
               {description ||
                 t.elements('withMembership/signIn/note', {
                   buyLink: (
-                    <Link key='pledge' route='pledge'>
+                    <Link key='pledge' route='pledge' passHref>
                       <A>{t('withMembership/signIn/note/buyText')}</A>
                     </Link>
                   ),
                   moreLink: (
-                    <Link key='index' route='index'>
+                    <Link key='index' route='index' passHref>
                       <A>{t('withMembership/signIn/note/moreText')}</A>
                     </Link>
                   )

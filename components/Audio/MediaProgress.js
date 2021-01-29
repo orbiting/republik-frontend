@@ -89,7 +89,9 @@ const MediaProgressProvider = ({
           variables: { mediaId },
           fetchPolicy: 'network-only'
         })
-        .then(({ data: { mediaProgress: { secs } } = {} }) => {
+        .then(({ data: { mediaProgress } }) => {
+          // mediaProgress can be null
+          const { secs } = mediaProgress || {}
           if (secs) {
             if (
               durationMs &&

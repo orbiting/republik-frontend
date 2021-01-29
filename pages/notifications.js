@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import Head from 'next/head'
-import isEmail from 'validator/lib/isEmail'
 
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
@@ -11,17 +10,10 @@ import withT from '../lib/withT'
 import withInNativeApp from '../lib/withInNativeApp'
 import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
-import * as base64u from '../lib/utils/base64u'
-
-import RawHtmlTranslation from '../components/RawHtmlTranslation'
-import Me from '../components/Auth/Me'
-import TokenAuthorization from '../components/Auth/TokenAuthorization'
-import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscription'
 
 import { MdClose } from 'react-icons/md'
 
 import {
-  DEFAULT_TOKEN_TYPE,
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
   LOGO_WIDTH,
@@ -29,6 +21,8 @@ import {
   LOGO_WIDTH_MOBILE,
   LOGO_PADDING_MOBILE
 } from '../components/constants'
+
+import AuthNotification from '../components/Auth/Notification'
 
 import { CURTAIN_MESSAGE, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -38,8 +32,7 @@ import {
   Logo,
   linkRule,
   mediaQueries,
-  colors,
-  Button
+  colors
 } from '@project-r/styleguide'
 
 const styles = {
@@ -99,19 +92,12 @@ const styles = {
   }),
   link: css({
     marginTop: 20
-  }),
-  button: css({
-    marginTop: 20
-  }),
-  me: css({
-    marginTop: 80,
-    marginBottom: 80
   })
 }
 
 const hasCurtain = !!CURTAIN_MESSAGE
 
-const { H1, P } = Interaction
+const { P } = Interaction
 
 const fixAmpsInQuery = rawQuery => {
   let query = {}
@@ -123,118 +109,10 @@ const fixAmpsInQuery = rawQuery => {
   return query
 }
 
-const knownTypes = [
-  'email-confirmed',
-  'invalid-email',
-  'invalid-token',
-  // Deprecated (superseeded by "newsletter")
-  'newsletter-subscription',
-  // Deprecated (superseeded by "newsletter")
-  // Workaround to handle "script" replacements in email clients
-  'newsletter-subscript-disabledion',
-  'newsletter',
-  'session-denied',
-  'token-authorization',
-  'unavailable'
-]
-
 const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
   const query = fixAmpsInQuery(rawQuery)
-  const { context, token, tokenType, noAutoAuthorize } = query
-  let { type, email } = query
-  if (email !== undefined) {
-    try {
-      if (base64u.match(email)) {
-        email = base64u.decode(email)
-      }
-    } catch (e) {}
+  const { context, type } = query
 
-    if (!isEmail(email)) {
-      type = 'invalid-email'
-      email = ''
-    }
-  }
-
-  let isUnkownType = false
-  let title = t.first(
-    [`notifications/${type}/${context}/title`, `notifications/${type}/title`],
-    undefined,
-    ''
-  )
-  if (!title && !knownTypes.includes(type)) {
-    title = t('notifications/unkown/title')
-    isUnkownType = true
-  }
-  let logoTarget
-  let content
-  if (type === 'token-authorization') {
-    logoTarget = '_blank'
-    content = (
-      <TokenAuthorization
-        email={email}
-        token={token}
-        tokenType={tokenType || DEFAULT_TOKEN_TYPE}
-        noAutoAuthorize={noAutoAuthorize}
-        context={context}
-      />
-    )
-  } else if (
-    [
-      // Deprecated (superseeded by "newsletter")
-      'newsletter-subscription',
-      // Deprecated (superseeded by "newsletter")
-      // Workaround to handle "script" replacements in email clients
-      'newsletter-subscript-disabledion',
-      'newsletter'
-    ].includes(type)
-  ) {
-    logoTarget = '_blank'
-    content = (
-      <MacNewsletterSubscription
-        name={query.name}
-        subscribed={!!query.subscribed}
-        mac={query.mac}
-        email={email}
-        context={context}
-      />
-    )
-  } else {
-    const afterTokenAuth =
-      type === 'email-confirmed' || type === 'session-denied'
-
-    const displayCloseNote =
-      !me || ['claim', 'preview', 'access'].includes(context)
-
-    content = (
-      <Fragment>
-        <P>
-          <RawHtmlTranslation
-            first={[
-              `notifications/${type}/${context}/text`,
-              `notifications/${type}/text`
-            ]}
-            replacements={query}
-            missingValue={isUnkownType ? t('notifications/unkown/text') : ''}
-          />
-        </P>
-        {afterTokenAuth && displayCloseNote ? (
-          <P>{t('notifications/closeNote')}</P>
-        ) : (
-          ((!hasCurtain && !isUnkownType) || inNativeApp) && (
-            <div {...styles.button}>
-              <Link route='index'>
-                <Button block primary>
-                  {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
-                </Button>
-              </Link>
-            </div>
-          )
-        )}
-      </Fragment>
-    )
-  }
-  const displayMe =
-    type === 'invalid-email' && ['signIn', 'pledge'].indexOf(context) !== -1
   const links = [
     me &&
       context === 'pledge' &&
@@ -245,6 +123,18 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
   ].filter(Boolean)
 
   const isProjectR = context === 'projectr'
+  const logoTarget = [
+    'token-authorization',
+    // Deprecated (superseeded by "newsletter")
+    'newsletter-subscription',
+    // Deprecated (superseeded by "newsletter")
+    // Workaround to handle "script" replacements in email clients
+    'newsletter-subscript-disabledion',
+    'newsletter'
+  ].includes(type)
+    ? '_blank'
+    : undefined
+
   const logo = isProjectR ? (
     <a
       href='https://project-r.construction/'
@@ -291,18 +181,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
             marginTop: inNativeApp ? 15 : undefined
           }}
         >
-          {title && (
-            <Fragment>
-              <H1>{title}</H1>
-              <br />
-            </Fragment>
-          )}
-          {content}
-          {displayMe && (
-            <div {...styles.me}>
-              <Me email={email} />
-            </div>
-          )}
+          <AuthNotification query={query} />
           {!hasCurtain && links.length > 0 && (
             <P {...styles.link}>
               {intersperse(

@@ -1,13 +1,12 @@
-import React, { useEffect, useRef } from 'react'
-import { colors } from '@project-r/styleguide'
+import React, { useEffect } from 'react'
 import { COLOR_SCHEME_KEY, useColorSchemeKey } from './lib'
 import NextHead from 'next/head'
 
-const ColorSchemeSync = () => {
-  const [colorSchemeKey] = useColorSchemeKey()
+const ColorSchemeSync = props => {
+  const [colorSchemeKey, _, defaultKey] = useColorSchemeKey()
 
   const setColorSchemeKey = key => {
-    if (key) {
+    if (key && key !== 'auto') {
       document.documentElement.setAttribute('data-user-color-scheme', key)
     } else {
       document.documentElement.removeAttribute('data-user-color-scheme')
@@ -28,13 +27,11 @@ const ColorSchemeSync = () => {
       <script
         dangerouslySetInnerHTML={{
           __html: [
-            'var key;try {',
+            'var key;try{',
             `key = JSON.parse(localStorage.getItem('${COLOR_SCHEME_KEY}'))`,
-            '} catch (e) {}',
-            // ToDo activating auto
-            // - rm || 'light'
-            // - wrap in if(key){}
-            `document.documentElement.setAttribute('data-user-color-scheme', key || 'light')`
+            '}catch(e){}',
+            `key=key||'${defaultKey}';`,
+            `if(key!=='auto'){document.documentElement.setAttribute('data-user-color-scheme', key)}`
           ].join('')
         }}
       />

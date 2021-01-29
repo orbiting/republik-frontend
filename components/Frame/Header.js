@@ -287,7 +287,7 @@ const Header = ({
         <Pullable
           onRefresh={() => {
             if (inNativeIOSApp) {
-              postMessage({ type: 'haptic', payload: { type: 'impact' } })
+              postMessage({ type: 'haptic', payload: { type: 'impactLight' } })
             }
             // give the browser 3 frames (1000/30fps) to start animating the spinner
             setTimeout(() => {

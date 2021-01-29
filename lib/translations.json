@@ -1,5 +1,5 @@
 {
-  "updated": "2021-01-22T15:33:23.034Z",
+  "updated": "2021-01-29T11:05:56.118Z",
   "title": "live",
   "data": [
     {
@@ -2820,11 +2820,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/ios/before",
-      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",

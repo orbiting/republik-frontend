@@ -98,10 +98,7 @@ const Event = withT(
 
     return (
       <div {...styles.container}>
-        <div
-          {...styles.block}
-          {...colorScheme.set('borderTopColor', 'divider')}
-        >
+        <div {...styles.block} {...borderRule}>
           <Label>{t('events/labels/description')}</Label>
           <H1 {...styles.title}>{title}</H1>
           <RawHtml

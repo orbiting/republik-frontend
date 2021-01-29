@@ -90,8 +90,7 @@ const styles = {
     marginBottom: 20,
     marginTop: 10,
     '& svg': {
-      marginRight: 5,
-      marginBottom: -2
+      marginRight: 5
     }
   }),
   paymentMethod: css({

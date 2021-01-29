@@ -98,7 +98,8 @@ const styles = {
     fontFamily: fontFamilies.sansSerifMedium,
     fontSize: 14,
     display: 'inline-block',
-    backgroundColor: '#fff',
+    backgroundColor: colors.light.default,
+    color: colors.light.text,
     borderWidth: 1,
     borderStyle: 'solid',
     height: PAYMENT_METHOD_HEIGHT - 2, // 2px borders
@@ -114,8 +115,7 @@ const styles = {
   }),
   paymentMethodText: css({
     lineHeight: '40px',
-    verticalAlign: 'middle',
-    color: colors.light.text
+    verticalAlign: 'middle'
   }),
   paymentMethodSourceText: css({
     display: 'inline-block',

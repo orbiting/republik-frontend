@@ -55,8 +55,7 @@ const styles = {
     fontFamiliy: fontFamilies.sansSerifMedium,
     fontSize: 14,
     lineHeight: '19px',
-    padding: '12px 17px',
-    color: '#fff'
+    padding: '12px 17px'
   }),
   arrow: css({
     position: 'absolute',

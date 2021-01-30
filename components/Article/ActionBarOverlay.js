@@ -44,6 +44,7 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
     <div
       style={{
         opacity: overlayVisible ? 1 : 0,
+        pointerEvents: overlayVisible ? undefined : 'none',
         bottom: bottomPosition,
         zIndex: ZINDEX_HEADER
       }}

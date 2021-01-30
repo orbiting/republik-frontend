@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
 import withMe from '../../lib/apollo/withMe'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { Router } from '../../lib/routes'
 
 import AppSignInOverlay from './AppSignInOverlay'
 import { useMediaProgress } from '../Audio/MediaProgress'
@@ -103,6 +105,8 @@ const MessageSync = ({ upsertDevice, me, client }) => {
         }
       } else if (content.type === 'authorization') {
         checkPendingAppSignIn()
+      } else if (content.type === 'push-route') {
+        Router.pushRoute(content.url.replace(PUBLIC_BASE_URL, ''))
       }
       postMessage({
         type: 'ackMessage',

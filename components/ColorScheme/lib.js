@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
 
@@ -9,16 +10,17 @@ export const useColorSchemeKey = () => {
   const inNewApp = inNativeApp && !inNativeAppLegacy
   const defaultKey = inNewApp ? 'auto' : 'light'
   const [key, set] = usePersistedColorSchemeKey()
+  const currentKey = key || defaultKey
 
-  const setWithNative = inNewApp
-    ? key => {
-        set(key)
-        postMessage({
-          type: 'setColorScheme',
-          colorSchemeKey: key
-        })
-      }
-    : set
+  useEffect(() => {
+    if (!inNewApp) {
+      return
+    }
+    postMessage({
+      type: 'setColorScheme',
+      colorSchemeKey: currentKey
+    })
+  }, [inNewApp, currentKey])
 
-  return [key || defaultKey, setWithNative, defaultKey]
+  return [currentKey, set, defaultKey]
 }

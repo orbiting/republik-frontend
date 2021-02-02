@@ -115,13 +115,6 @@ const styles = {
 
 const query = gql`
   query sections {
-    covid19: document(path: "/format/covid-19-uhr-newsletter") {
-      meta {
-        title
-        description
-        image
-      }
-    }
     briefings: document(path: "/briefings") {
       meta {
         title

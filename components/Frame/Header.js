@@ -205,7 +205,6 @@ const Header = ({
               <User
                 me={me}
                 backButton={backButton}
-                isMobile={isMobile}
                 id='user'
                 title={t(
                   `header/nav/user/${

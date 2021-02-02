@@ -23,7 +23,7 @@ import PdfOverlay, { getPdfUrl } from '../Article/PdfOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import ShareOverlay from './ShareOverlay'
 import PodcastOverlay from './PodcastOverlay'
-import { AudioContext } from '../Audio'
+import { AudioContext } from '../Audio/AudioProvider'
 
 import FontSizeIcon from '../Icons/FontSize'
 import ShareIOSIcon from '../Icons/ShareIOS'

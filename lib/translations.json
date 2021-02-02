@@ -1,5 +1,5 @@
 {
-  "updated": "2021-01-29T16:17:51.477Z",
+  "updated": "2021-01-29T11:05:56.118Z",
   "title": "live",
   "data": [
     {
@@ -217,6 +217,14 @@
     {
       "key": "withMembership/ios/unauthorized/claimLink",
       "value": "Jetzt einlösen"
+    },
+    {
+      "key": "network-error/failed",
+      "value": "Die Verbindung zur Republik ist fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
+    },
+    {
+      "key": "network-error/misc",
+      "value": "Bei Ihrer Anfrage ist ein Fehler aufgetreten: «{error}». Erste-Hilfe-Team: kontakt@republik.ch."
     },
     {
       "key": "signIn/button",
@@ -2888,11 +2896,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/ios/before",
-      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -7193,6 +7201,10 @@
     {
       "key": "darkmode/switch/notAvailable",
       "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar."
+    },
+    {
+      "key": "AppSignInOverlay/title",
+      "value": "Zugriff bestätigen"
     }
   ]
 }

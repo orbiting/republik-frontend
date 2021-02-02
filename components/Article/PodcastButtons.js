@@ -68,11 +68,14 @@ const PodcastButtons = ({
 
   const isIOS = matchIOSUserAgent(headers.userAgent)
   const isAndroid = headers.userAgent && headers.userAgent.match(/android/i)
+  const macOS =
+    headers.userAgent && headers.userAgent.match(/Mac OS X ([0-9_]+)/)
+  const macOSVersion = macOS && parseFloat(macOS[1].replace(/_/g, '.'))
 
   const plattformWithApp = isIOS
     ? 'ios'
-    : headers.userAgent && headers.userAgent.match(/Mac OS X 10_15/)
-    ? 'catalina'
+    : macOSVersion > 10.15
+    ? 'mac'
     : isAndroid
     ? 'android'
     : null

@@ -39,9 +39,6 @@ const styles = {
 
 const { P } = Interaction
 
-const goTo = (type, email, context) =>
-  Router.replaceRoute('notifications', { type, email, context })
-
 const shouldAutoAuthorize = ({ error, target, noAutoAuthorize }) => {
   return (
     !error &&
@@ -63,6 +60,15 @@ class TokenAuthorization extends Component {
       dirty: {}
     }
   }
+
+  goTo = (type, email, context) => {
+    if (this.props.goTo) {
+      this.props.goTo(type, email, context)
+      return
+    }
+    Router.replaceRoute('notifications', { type, email, context })
+  }
+
   authorize() {
     if (this.state.authorizing) {
       return
@@ -84,7 +90,7 @@ class TokenAuthorization extends Component {
               ? this.state.values
               : undefined
         })
-          .then(() => goTo('email-confirmed', email, context))
+          .then(() => this.goTo('email-confirmed', email, context))
           .catch(error => {
             this.setState({
               authorizing: false,
@@ -107,7 +113,7 @@ class TokenAuthorization extends Component {
       },
       () => {
         deny()
-          .then(() => goTo('session-denied', email, context))
+          .then(() => this.goTo('session-denied', email, context))
           .catch(error => {
             this.setState({
               authorizing: false,

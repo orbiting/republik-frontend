@@ -28,7 +28,7 @@ const Reasons = ({ t }) => {
           <Editorial.P>{t('marketing/page/reasons/3/text')}</Editorial.P>
         </TeaserFrontTile>
       </TeaserFrontTileRow>
-      <Center {...styles.buttons}>
+      <div {...styles.buttons}>
         <Button
           style={{ marginBottom: 20 }}
           href='/angebote?package=ABO'
@@ -42,7 +42,7 @@ const Reasons = ({ t }) => {
         >
           {t('marketing/join/MONTHLY_ABO/button/label')}
         </Button>
-      </Center>
+      </div>
     </div>
   )
 }
@@ -53,11 +53,14 @@ const styles = {
   }),
   buttons: css({
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     flexWrap: 'wrap',
     flexDirection: 'column',
     [mediaQueries.mUp]: {
-      flexDirection: 'row'
+      flexDirection: 'row',
+      '>:first-child': {
+        marginRight: 24
+      }
     }
   })
 }

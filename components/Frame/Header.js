@@ -361,10 +361,6 @@ export default compose(
 
 const styles = {
   navBar: css({
-    height: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
-    },
     zIndex: ZINDEX_POPOVER + 1,
     position: 'fixed',
     top: 0,

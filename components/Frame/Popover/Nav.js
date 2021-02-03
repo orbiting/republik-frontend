@@ -96,24 +96,36 @@ const Nav = ({
                 </NavLink>
               </div>
             </div>
-            <hr
-              {...styles.hr}
-              {...colorScheme.set('color', 'divider')}
-              {...colorScheme.set('backgroundColor', 'divider')}
-            />
-            <div {...styles.navSection}>
-              <Sections active={active} vertical closeHandler={closeHandler} />
-              <NavLink
-                route='sections'
-                title={t('navbar/sections')}
-                active={active}
-                closeHandler={closeHandler}
-                formatColor={colors.primary}
-              >
-                {t('navbar/sections')}
-              </NavLink>
-            </div>
-            <hr {...styles.hr} />
+            {(me || !inNativeApp) && (
+              <>
+                <hr
+                  {...styles.hr}
+                  {...colorScheme.set('color', 'divider')}
+                  {...colorScheme.set('backgroundColor', 'divider')}
+                />
+                <div {...styles.navSection}>
+                  <Sections
+                    active={active}
+                    vertical
+                    closeHandler={closeHandler}
+                  />
+                  <NavLink
+                    route='sections'
+                    title={t('navbar/sections')}
+                    active={active}
+                    closeHandler={closeHandler}
+                    formatColor={colors.primary}
+                  >
+                    {t('navbar/sections')}
+                  </NavLink>
+                </div>
+                <hr
+                  {...styles.hr}
+                  {...colorScheme.set('color', 'divider')}
+                  {...colorScheme.set('backgroundColor', 'divider')}
+                />
+              </>
+            )}
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
                 <NavLink
@@ -154,7 +166,7 @@ const Nav = ({
                 <NavLink
                   large
                   route='votePage'
-                  params={{slug: 'nov20'}}
+                  params={{ slug: 'nov20' }}
                   active={active}
                   closeHandler={closeHandler}
                 >

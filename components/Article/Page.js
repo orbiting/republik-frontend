@@ -335,7 +335,7 @@ const ArticlePage = ({
       { MissingNode }
     )
 
-  const hasOverviewNav = meta && meta.template === 'section'
+  const hasOverviewNav = meta ? meta.template === 'section' : true // show/keep around while loading meta
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
   return (

@@ -34,8 +34,8 @@ const User = ({
   title,
   backButton,
   onClick,
-  isMobile,
-  isOnMarketingPage
+  isOnMarketingPage,
+  isMobile
 }) => {
   const [colorScheme] = useColorContext()
   return (
@@ -62,10 +62,7 @@ const User = ({
         {!me && (
           <Fragment>
             <span {...styles.anonymous}>
-              <MdAccountBox
-                size={isMobile ? BUTTON_SIZE_MOBILE : BUTTON_SIZE}
-                {...colorScheme.set('fill', 'text')}
-              />
+              <MdAccountBox {...colorScheme.set('fill', 'text')} />
             </span>
             {isOnMarketingPage || !isMobile ? (
               <span {...styles.label}>{t('header/signin')}</span>
@@ -116,7 +113,15 @@ const styles = {
     }
   }),
   anonymous: css({
-    display: 'inline-block'
+    display: 'inline-block',
+    '& svg': {
+      width: BUTTON_SIZE_MOBILE,
+      height: BUTTON_SIZE_MOBILE,
+      [mediaQueries.mUp]: {
+        width: BUTTON_SIZE,
+        height: BUTTON_SIZE
+      }
+    }
   }),
   label: css({
     display: 'inline-block',

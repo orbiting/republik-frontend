@@ -40,6 +40,8 @@ import {
   TRANSITION_MS
 } from '../constants'
 
+const BACK_BUTTON_SIZE = 24
+
 let routeChangeStarted
 
 const Header = ({
@@ -201,13 +203,15 @@ const Header = ({
                     }
                   }}
                 >
-                  <BackIcon size={24} {...colorScheme.set('fill', 'text')} />
+                  <BackIcon
+                    size={BACK_BUTTON_SIZE}
+                    {...colorScheme.set('fill', 'text')}
+                  />
                 </a>
               )}
               <User
                 me={me}
                 backButton={backButton}
-                isMobile={isMobile}
                 id='user'
                 title={t(
                   `header/nav/user/${
@@ -383,10 +387,6 @@ export default compose(
 
 const styles = {
   navBar: css({
-    height: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
-    },
     zIndex: ZINDEX_POPOVER + 1,
     position: 'fixed',
     top: 0,
@@ -422,9 +422,11 @@ const styles = {
   }),
   back: css({
     display: 'block',
-    padding: '12px 0px 12px 12px',
+    padding: Math.floor((HEADER_HEIGHT_MOBILE - BACK_BUTTON_SIZE) / 2),
+    paddingRight: 0,
     [mediaQueries.mUp]: {
-      top: -1 + 8
+      padding: Math.floor((HEADER_HEIGHT - BACK_BUTTON_SIZE) / 2),
+      paddingRight: 0
     }
   }),
   logo: css({

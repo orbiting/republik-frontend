@@ -124,6 +124,10 @@ const Accordion = withInNativeApp(
     }) => {
       const [hover, setHover] = useState()
 
+      if (inNativeIOSApp) {
+        return null
+      }
+
       return (
         <div style={{ marginTop: 10, marginBottom: 30 }}>
           <Interaction.P style={{ marginBottom: 10 }}>
@@ -294,6 +298,11 @@ const Accordion = withInNativeApp(
                 </Interaction.P>
               )}
             </>
+          )}
+          {inNativeIOSApp && (
+            <Interaction.P style={{ color: '#ef4533', marginTop: 30 }}>
+              {t('cockpit/ios')}
+            </Interaction.P>
           )}
         </div>
       )
@@ -681,12 +690,6 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
                 defaultBenefactor={defaultBenefactor}
                 questionnaire={questionnaire}
               />
-
-              {inNativeIOSApp && (
-                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
-                  {t('cockpit/ios')}
-                </Interaction.P>
-              )}
 
               {md(mdComponents)`
 

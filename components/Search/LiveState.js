@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
-import { Interaction, linkRule, useColorContext } from '@project-r/styleguide'
+import { Interaction, A, useColorContext } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
 
@@ -29,8 +29,7 @@ const ResultCount = compose(withT)(
               params={getSearchParams({ q: searchQuery })}
               passHref
             >
-              <a
-                {...linkRule}
+              <A
                 onClick={() => {
                   if (onClickSearchResults) {
                     onClickSearchResults()
@@ -38,7 +37,7 @@ const ResultCount = compose(withT)(
                 }}
               >
                 {results}
-              </a>
+              </A>
             </Link>
           ) : (
             <span {...colorScheme.set('color', 'textSoft')}>{results}</span>

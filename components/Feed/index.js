@@ -104,13 +104,7 @@ const Feed = ({
   }, [subscribeToMore])
 
   return (
-    <Frame
-      hasOverviewNav
-      stickySecondaryNav
-      raw
-      meta={meta}
-      colorSchemeKey='auto'
-    >
+    <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
       <Center {...styles.container}>
         <Loader
           error={error}

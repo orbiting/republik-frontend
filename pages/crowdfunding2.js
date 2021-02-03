@@ -46,7 +46,6 @@ import {
   Lead,
   A,
   colors,
-  linkRule,
   Interaction,
   mediaQueries,
   LazyLoad
@@ -120,14 +119,6 @@ const styles = {
       display: 'none'
     }
   }),
-  mediaDiversity: css({
-    margin: '20px 0',
-    '& img': {
-      width: 'calc(50% - 10px)',
-      border: `1px solid ${colors.divider}`,
-      margin: 5
-    }
-  }),
   stretchLead: css({
     margin: '20px 0 0'
   }),
@@ -138,7 +129,7 @@ const styles = {
   cards: css({
     position: 'relative',
     zIndex: 1,
-    background: colors.negative.primaryBg,
+    background: colors.light.defaultInverted,
     margin: '30px 0',
     [mediaQueries.mUp]: {
       margin: '50px 0'
@@ -196,12 +187,12 @@ const Page = ({
     ? { package: 'ABO_GIVE', filter: 'pot' }
     : { package: 'ABO' }
   const pledgeLink = inNativeIOSApp ? null : (
-    <Link route='pledge' params={primaryParams}>
-      <a {...linkRule}>
+    <Link route='pledge' params={primaryParams} passHref>
+      <A>
         {activeMembership && !shouldBuyProlong
           ? 'Wachstum schenken'
           : 'Jetzt mitmachen!'}
-      </a>
+      </A>
     </Link>
   )
 
@@ -295,6 +286,7 @@ const Page = ({
   return (
     <Frame
       raw
+      pageColorSchemeKey='dark'
       meta={{
         url: `${PUBLIC_BASE_URL}/maerzkampagne`,
         pageTitle: 'Republik – das digitale Magazin von Project R',
@@ -674,7 +666,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
           )}
 
           <Link route='community'>
-            <a {...linkRule}>Alle ansehen</a>
+            <A>Alle ansehen</A>
           </Link>
 
           <br />

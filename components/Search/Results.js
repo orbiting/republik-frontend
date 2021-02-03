@@ -8,8 +8,8 @@ import DocumentResult from './DocumentResult'
 import CommentResult from './CommentResult'
 import { withResults } from './enhancers'
 import {
+  A,
   fontStyles,
-  linkRule,
   mediaQueries,
   useColorContext
 } from '@project-r/styleguide'
@@ -41,14 +41,6 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular21
     }
-  }),
-  button: css({
-    outline: 'none',
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    padding: 0
   })
 }
 
@@ -84,13 +76,15 @@ const ResultsFooter = compose(withT)(
               total: countFormat(totalCount)
             })}
         {pageInfo.hasNextPage && (
-          <button
-            {...styles.button}
-            {...linkRule}
-            onClick={() => fetchMore({ after: pageInfo.endCursor })}
+          <A
+            href='#'
+            onClick={e => {
+              e.preventDefault()
+              fetchMore({ after: pageInfo.endCursor })
+            }}
           >
             {t('search/pageInfo/loadMore')}
-          </button>
+          </A>
         )}
       </div>
     )

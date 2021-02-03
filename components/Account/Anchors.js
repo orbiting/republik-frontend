@@ -2,7 +2,7 @@ import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 
-import { linkRule } from '@project-r/styleguide'
+import { A } from '@project-r/styleguide'
 
 import { APP_OPTIONS } from '../../lib/constants'
 import { focusSelector } from '../../lib/utils/scroll'
@@ -29,8 +29,7 @@ const styles = {
 }
 
 export const AnchorLink = ({ children, id }) => (
-  <a
-    {...linkRule}
+  <A
     href={'/konto#' + id}
     onClick={e => {
       if (shouldIgnoreClick(e)) {
@@ -45,7 +44,7 @@ export const AnchorLink = ({ children, id }) => (
     }}
   >
     {children}
-  </a>
+  </A>
 )
 
 const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
@@ -60,7 +59,7 @@ const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
     {me && me.accessCampaigns && me.accessCampaigns.length > 0 && (
       <li {...styles.anchorListItem}>
         <Link route='access' passHref>
-          <a {...linkRule}>{t('Account/Access/Campaigns/title')}</a>
+          <A>{t('Account/Access/Campaigns/title')}</A>
         </Link>
       </li>
     )}
@@ -82,7 +81,7 @@ const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
     </li>
     <li {...styles.anchorListItem}>
       <Link route='subscriptionsSettings' passHref>
-        <a {...linkRule}>{t('account/notificationOptions/title')}</a>
+        <A>{t('account/notificationOptions/title')}</A>
       </Link>
     </li>
     <li {...styles.anchorListItem}>

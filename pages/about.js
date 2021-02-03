@@ -15,7 +15,7 @@ const AboutPage = ({ t }) => {
     url: `${PUBLIC_BASE_URL}/about`
   }
   return (
-    <Frame raw meta={meta} colorSchemeKey='auto'>
+    <Frame raw meta={meta}>
       <Page />
     </Frame>
   )

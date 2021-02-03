@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useMemo } from 'react'
 import {
   A,
   Button,
@@ -8,7 +8,8 @@ import {
   Interaction,
   mediaQueries,
   InlineSpinner,
-  RawHtml
+  RawHtml,
+  useColorContext
 } from '@project-r/styleguide'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -42,7 +43,7 @@ const styles = {
   header: css({
     position: 'sticky',
     padding: '20px 0',
-    top: HEADER_HEIGHT - 1,
+    top: 0,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -50,7 +51,6 @@ const styles = {
     zIndex: 10,
     [mediaQueries.onlyS]: {
       flexDirection: 'column-reverse',
-      top: HEADER_HEIGHT_MOBILE - 1,
       textAlign: 'center',
       margin: '0 0px'
     }
@@ -85,7 +85,6 @@ const styles = {
     marginTop: 10
   }),
   thankyou: css({
-    background: colors.primaryBg,
     display: 'flex',
     width: '100%',
     height: '100%',
@@ -97,6 +96,25 @@ const styles = {
     padding: 30,
     textAlign: 'center'
   })
+}
+
+const ElectionWrapper = props => {
+  const [colorScheme] = useColorContext()
+  const colorRule = useMemo(
+    () => ({
+      header: css({
+        background: colorScheme.getCSSColor('default')
+      }),
+      actions: css({
+        backgroundColor: colorScheme.getCSSColor('alert')
+      }),
+      thankyou: css({
+        background: colorScheme.getCSSColor('alert')
+      })
+    }),
+    [colorScheme]
+  )
+  return <Election {...props} colorRule={colorRule} />
 }
 
 class Election extends Component {
@@ -299,7 +317,14 @@ class Election extends Component {
   }
 
   render() {
-    const { data, mandatoryCandidates, vt, showMeta, me } = this.props
+    const {
+      data,
+      mandatoryCandidates,
+      vt,
+      showMeta,
+      me,
+      colorRule
+    } = this.props
     const { election } = data
 
     return (
@@ -344,7 +369,7 @@ class Election extends Component {
           return (
             <div {...styles.wrapper}>
               {showHeader && (
-                <div {...styles.header}>
+                <div {...styles.header} {...colorRule.header}>
                   {election.numSeats > 1 && (
                     <div {...styles.info}>
                       {inProgress && (
@@ -385,7 +410,7 @@ class Election extends Component {
               )}
               {dangerousDisabledHTML && (
                 <div {...styles.wrapper} style={{ marginBottom: 30 }}>
-                  <div {...styles.thankyou}>
+                  <div {...styles.thankyou} {...colorRule.thankyou}>
                     <RawHtml
                       type={P}
                       dangerouslySetInnerHTML={{
@@ -405,7 +430,7 @@ class Election extends Component {
                   showMeta={showMeta}
                 />
                 {inProgress && (
-                  <div {...styles.actions}>
+                  <div {...styles.actions} {...colorRule.actions}>
                     {error && <ErrorMessage error={error} />}
                     {this.renderConfirmation()}
                     {this.renderActions()}
@@ -517,4 +542,4 @@ export default compose(
       }
     })
   })
-)(Election)
+)(ElectionWrapper)

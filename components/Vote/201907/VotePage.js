@@ -11,7 +11,7 @@ import Collapsible from '../Collapsible'
 import Voting from '../Voting'
 import {
   colors,
-  linkRule,
+  A,
   Interaction,
   mediaQueries,
   RawHtml,
@@ -261,9 +261,7 @@ class VotePage extends Component {
                 )}
                 {actionBar}
                 <P>
-                  <a href='/meta' {...linkRule}>
-                    {vt('vote/201907/back')}
-                  </a>
+                  <A href='/meta'>{vt('vote/201907/back')}</A>
                 </P>
               </Fragment>
             )

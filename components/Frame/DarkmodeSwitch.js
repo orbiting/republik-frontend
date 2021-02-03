@@ -11,18 +11,15 @@ import { useInNativeApp } from '../../lib/withInNativeApp'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 
-const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
+const DarkmodeSwitch = ({ t }) => {
   const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
   const [colorScheme] = useColorContext()
 
-  const colorSchemaKeyForLabel =
-    pageColorSchemeKey !== 'auto' ? pageColorSchemeKey : colorSchemeKey
-
   const iconLabel =
-    colorSchemaKeyForLabel === 'light'
+    colorSchemeKey === 'light'
       ? t('darkmode/switch/off')
-      : colorSchemaKeyForLabel === 'dark'
+      : colorSchemeKey === 'dark'
       ? t('darkmode/switch/on')
       : t('darkmode/switch/auto')
 
@@ -49,8 +46,6 @@ const DarkmodeSwitch = ({ colorSchemeKey: pageColorSchemeKey, t }) => {
       <div style={{ width: 180, lineHeight: '2.5rem' }}>
         {!colorScheme.CSSVarSupport ? (
           <Label>{t('darkmode/switch/notSupported')}</Label>
-        ) : pageColorSchemeKey !== 'auto' ? (
-          <Label>{t('darkmode/switch/notAvailable')}</Label>
         ) : (
           <>
             <Radio

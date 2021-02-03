@@ -8,7 +8,8 @@ import {
   Interaction,
   Center,
   mediaQueries,
-  fontStyles
+  fontStyles,
+  useColorContext
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { Link } from '../../lib/routes'
@@ -38,13 +39,9 @@ const styles = {
   tabBarWRapper: css({
     margin: '0 -10px',
     padding: '0 10px',
-    background: '#fff',
     position: 'sticky',
     zIndex: 10,
-    top: HEADER_HEIGHT - 1,
-    [mediaQueries.onlyS]: {
-      top: HEADER_HEIGHT_MOBILE - 1
-    }
+    top: 0
   }),
   tabBar: css({
     padding: '10px 0px 20px 0px',
@@ -62,6 +59,8 @@ const styles = {
 }
 
 const DiscussionPage = ({ router, data, vt }) => {
+  const [colorScheme] = useColorContext()
+
   const meta = {
     title: vt('info/title'),
     description: vt('info/description')
@@ -88,7 +87,10 @@ const DiscussionPage = ({ router, data, vt }) => {
                 <Body dangerousHTML={vt('vote/discussion/intro')} />
               </Section>
               <div>
-                <div {...styles.tabBarWRapper}>
+                <div
+                  {...styles.tabBarWRapper}
+                  {...colorScheme.set('background', 'default')}
+                >
                   <div {...styles.tabBar}>
                     {[
                       VOTING_COOP_BOARD_SLUG,
@@ -181,8 +183,4 @@ const query = gql`
   }
 `
 
-export default compose(
-  voteT,
-  withRouter,
-  graphql(query)
-)(DiscussionPage)
+export default compose(voteT, withRouter, graphql(query))(DiscussionPage)

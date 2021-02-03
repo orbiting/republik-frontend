@@ -12,7 +12,8 @@ import {
   Loader,
   useColorContext,
   Checkbox,
-  Radio
+  Radio,
+  colors
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
@@ -96,7 +97,8 @@ const styles = {
     fontFamily: fontFamilies.sansSerifMedium,
     fontSize: 14,
     display: 'inline-block',
-    backgroundColor: '#fff',
+    backgroundColor: colors.light.default,
+    color: colors.light.text,
     borderWidth: 1,
     borderStyle: 'solid',
     height: PAYMENT_METHOD_HEIGHT - 2, // 2px borders

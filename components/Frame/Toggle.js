@@ -2,7 +2,6 @@ import React from 'react'
 import { MdClose } from 'react-icons/md'
 import SearchMenuIcon from '../Icons/SearchMenu'
 import {
-  colors,
   mediaQueries,
   plainButtonRule,
   useColorContext
@@ -24,7 +23,7 @@ const Toggle = ({ expanded, onClick, ...props }) => {
     <button {...styles.menuToggle} onClick={onClick} {...props}>
       <SearchMenuIcon
         style={{
-          opacity: expanded ? 0 : 1,
+          opacity: expanded ? 0.000001 : 1, // hacky fix for browser rendering issue in FF
           transition: `opacity ${TRANSITION_MS}ms ease-out`
         }}
         {...colorScheme.set('fill', 'text')}

@@ -18,7 +18,8 @@ const SubscribeMenu = ({
   userHasNoDocuments,
   label,
   labelShort,
-  me
+  me,
+  padded
 }) => {
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
     //checks if any of the subscription nodes is set to active
@@ -82,21 +83,20 @@ const SubscribeMenu = ({
   ))
 
   return (
-    <>
-      <CalloutMenu
-        Element={Icon}
-        initiallyOpen={router.query && !!router.query.mute}
-      >
-        <SubscribeCallout
-          showAuthorFilter={showAuthorFilter}
-          userHasNoDocuments={userHasNoDocuments}
-          discussionId={discussionId}
-          formatSubscriptions={formatSubscriptions}
-          authorSubscriptions={authorSubscriptions}
-          setAnimate={setAnimate}
-        />
-      </CalloutMenu>
-    </>
+    <CalloutMenu
+      padded={padded}
+      Element={Icon}
+      initiallyOpen={router.query && !!router.query.mute}
+    >
+      <SubscribeCallout
+        showAuthorFilter={showAuthorFilter}
+        userHasNoDocuments={userHasNoDocuments}
+        discussionId={discussionId}
+        formatSubscriptions={formatSubscriptions}
+        authorSubscriptions={authorSubscriptions}
+        setAnimate={setAnimate}
+      />
+    </CalloutMenu>
   )
 }
 

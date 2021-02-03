@@ -4,7 +4,6 @@ import { compose } from 'react-apollo'
 import {
   Interaction,
   RawHtml,
-  linkRule,
   fontStyles,
   mediaQueries
 } from '@project-r/styleguide'
@@ -23,7 +22,6 @@ const styles = {
     ...fontStyles.sansSerifRegular14,
     lineHeight: 1.2,
     paddingBottom: 15,
-    '& a': linkRule,
     [mediaQueries.mUp]: {
       paddingBottom: 40
     }

@@ -40,7 +40,8 @@ import {
   Label,
   Checkbox,
   Loader,
-  Button
+  Button,
+  useColorContext
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { MdTrendingFlat } from 'react-icons/md'
@@ -196,6 +197,7 @@ const ThankYouItem = compose(withT)(({ t, tKey }) => {
 })
 
 const ThankYou = compose(withT)(({ t }) => {
+  const [colorScheme] = useColorContext()
   return (
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
@@ -210,10 +212,10 @@ const ThankYou = compose(withT)(({ t }) => {
 
       <div
         style={{
-          backgroundColor: colors.primaryBg,
           padding: '10px 15px',
           marginTop: 30
         }}
+        {...colorScheme.set('background', 'alert')}
       >
         <Interaction.H2>
           {t('questionnaire/crowd/submitted/newsletter')}

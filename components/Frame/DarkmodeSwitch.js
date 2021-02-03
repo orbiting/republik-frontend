@@ -11,17 +11,15 @@ import { useInNativeApp } from '../../lib/withInNativeApp'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
 
-const DarkmodeSwitch = ({ pageColorSchemeKey, t }) => {
+const DarkmodeSwitch = ({ t }) => {
   const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
   const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
   const [colorScheme] = useColorContext()
 
-  const colorSchemaKeyForLabel = pageColorSchemeKey || colorSchemeKey
-
   const iconLabel =
-    colorSchemaKeyForLabel === 'light'
+    colorSchemeKey === 'light'
       ? t('darkmode/switch/off')
-      : colorSchemaKeyForLabel === 'dark'
+      : colorSchemeKey === 'dark'
       ? t('darkmode/switch/on')
       : t('darkmode/switch/auto')
 
@@ -46,9 +44,7 @@ const DarkmodeSwitch = ({ pageColorSchemeKey, t }) => {
   return (
     <CalloutMenu contentPaddingMobile={calloutPaddingNativeApp} Element={Icon}>
       <div style={{ width: 180, lineHeight: '2.5rem' }}>
-        {pageColorSchemeKey ? (
-          <Label>{t('darkmode/switch/notAvailable')}</Label>
-        ) : !colorScheme.CSSVarSupport ? (
+        {!colorScheme.CSSVarSupport ? (
           <Label>{t('darkmode/switch/notSupported')}</Label>
         ) : (
           <>

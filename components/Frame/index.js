@@ -117,30 +117,28 @@ const Frame = ({
     })
   }, [hasSecondaryNav])
   return (
-    <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
-      {pageColorSchemeKey && (
-        <ColorHtmlBodyColors colorSchemeKey={pageColorSchemeKey} />
-      )}
+    <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
+      {/* body growing only needed when rendering a footer */}
       <div
-        {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
+        {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
+        {...padHeaderRule}
       >
-        {/* body growing only needed when rendering a footer */}
-        <div
-          {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-          {...padHeaderRule}
+        {!!meta && <Meta data={meta} />}
+        <Header
+          me={me}
+          cover={cover}
+          onNavExpanded={onNavExpanded}
+          secondaryNav={secondaryNav}
+          formatColor={formatColor}
+          pullable={pullable}
+          hasOverviewNav={hasOverviewNav}
+          stickySecondaryNav={stickySecondaryNav}
+          pageColorSchemeKey={pageColorSchemeKey}
         >
-          {!!meta && <Meta data={meta} />}
-          <Header
-            me={me}
-            cover={cover}
-            onNavExpanded={onNavExpanded}
-            secondaryNav={secondaryNav}
-            formatColor={formatColor}
-            pullable={pullable}
-            hasOverviewNav={hasOverviewNav}
-            stickySecondaryNav={stickySecondaryNav}
-            pageColorSchemeKey={pageColorSchemeKey}
-          >
+          <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
+            {pageColorSchemeKey && (
+              <ColorHtmlBodyColors colorSchemeKey={pageColorSchemeKey} />
+            )}
             <noscript>
               <Box style={{ padding: 30 }}>
                 <RawHtml
@@ -165,11 +163,11 @@ const Frame = ({
                 <Content>{children}</Content>
               </MainContainer>
             )}
-          </Header>
-        </div>
-        {!inNativeApp && footer && <Footer />}
+          </ColorContextProvider>
+        </Header>
       </div>
-    </ColorContextProvider>
+      {!inNativeApp && footer && <Footer />}
+    </div>
   )
 }
 

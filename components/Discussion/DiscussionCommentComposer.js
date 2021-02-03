@@ -81,7 +81,7 @@ const DiscussionCommentComposer = props => {
         const { discussion } = discussionPreferences
 
         const disableTopLevelComments =
-          !!discussion.rules.disableTopLevelComments && parentId === null
+          !!discussion?.rules.disableTopLevelComments && parentId === null
         if (disableTopLevelComments) {
           return null
         } else if (discussionClosed) {

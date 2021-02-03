@@ -4,7 +4,8 @@ import {
   Overlay,
   OverlayBody,
   OverlayToolbar,
-  OverlayToolbarConfirm
+  OverlayToolbarConfirm,
+  useColorContext
 } from '@project-r/styleguide'
 import { MdClose } from 'react-icons/md'
 import Discussion from './Discussion'
@@ -17,6 +18,7 @@ export const RootCommentOverlay = compose(
   withRouter,
   withT
 )(({ t, router, discussionId, parent, onClose }) => {
+  const [colorScheme] = useColorContext()
   return (
     <Overlay onClose={onClose}>
       <OverlayToolbar>
@@ -25,7 +27,7 @@ export const RootCommentOverlay = compose(
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} fill='#000' />}
+          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody style={{ paddingTop: 58 }}>

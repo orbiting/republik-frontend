@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { compose } from 'react-apollo'
 
 import createPersistedState from '../../lib/hooks/use-persisted-state'
-import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
+import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
+
+import { useMediaProgress } from './MediaProgress'
 
 export const AudioContext = React.createContext({
   audioSource: {},
@@ -15,13 +16,16 @@ export const AudioContext = React.createContext({
 
 const useAudioState = createPersistedState('republik-audioplayer-audiostate')
 
-export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
+const AudioProvider = ({ children }) => {
+  const { inNativeApp, inNativeIOSApp } = useInNativeApp()
   const [audioState, setAudioState] = useAudioState(undefined)
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false)
   const [autoPlayActive, setAutoPlayActive] = useState(false)
   const clearTimeoutId = useRef()
 
-  const toggleAudioPlayer = ({ audioSource, title, path }) => {
+  const { getMediaProgress } = useMediaProgress()
+
+  const toggleAudioPlayer = async ({ audioSource, title, path }) => {
     const url = (
       (inNativeIOSApp && audioSource.aac) ||
       audioSource.mp3 ||
@@ -30,17 +34,25 @@ export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
     if (!url) {
       return
     }
+    const mediaId = audioSource.mediaId
     const payload = {
       audioSource,
       url,
       title,
       sourcePath: path,
-      mediaId: audioSource.mediaId
+      mediaId
     }
     if (inNativeApp) {
+      let currentTime
+      if (mediaId) {
+        currentTime = await getMediaProgress({ mediaId })
+      }
       postMessage({
         type: 'play-audio',
-        payload
+        payload: {
+          ...payload,
+          currentTime
+        }
       })
       return
     }
@@ -80,6 +92,4 @@ export const AudioProvider = ({ children, inNativeApp, inNativeIOSApp }) => {
   )
 }
 
-const ComposedAudioProvider = compose(withInNativeApp)(AudioProvider)
-
-export default ComposedAudioProvider
+export default AudioProvider

@@ -53,14 +53,6 @@ const removeDocumentProgress = gql`
   ${userProgressFragment}
 `
 
-export const progressConsentQuery = gql`
-  query progressConset {
-    me {
-      hasConsentedTo(name: "PROGRESS")
-    }
-  }
-`
-
 export const submitConsentMutation = gql`
   mutation submitConsent {
     submitConsent(name: "PROGRESS") {
@@ -79,26 +71,6 @@ export const revokeConsentMutation = gql`
     }
   }
   ${userProgressConsentFragment}
-`
-
-const upsertMediaProgressMutation = gql`
-  mutation upsertMediaProgress($mediaId: ID!, $secs: Float!) {
-    upsertMediaProgress(mediaId: $mediaId, secs: $secs) {
-      id
-      mediaId
-      secs
-    }
-  }
-`
-
-export const mediaProgressQuery = gql`
-  query mediaProgress($mediaId: ID!) {
-    mediaProgress(mediaId: $mediaId) {
-      id
-      mediaId
-      secs
-    }
-  }
 `
 
 export const withProgressApi = compose(
@@ -130,17 +102,6 @@ export const withProgressApi = compose(
         mutate({
           variables: {
             documentId
-          }
-        })
-    })
-  }),
-  graphql(upsertMediaProgressMutation, {
-    props: ({ mutate }) => ({
-      upsertMediaProgress: (mediaId, secs) =>
-        mutate({
-          variables: {
-            mediaId,
-            secs
           }
         })
     })

@@ -38,3 +38,5 @@ export const DEFAULT_TOKEN_TYPE = 'EMAIL_TOKEN'
 export const SUPPORTED_TOKEN_TYPES = [DEFAULT_TOKEN_TYPE, 'APP']
 
 export const TRANSITION_MS = 200
+
+export const AUDIO_PLAYER_HEIGHT = 68

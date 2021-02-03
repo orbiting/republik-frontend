@@ -28,7 +28,7 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, title, backButton, onClick, isMobile }) => {
+const User = ({ t, me, title, backButton, onClick }) => {
   const [colorScheme] = useColorContext()
   return (
     <button {...styles.user} onClick={onClick} title={title}>
@@ -54,10 +54,7 @@ const User = ({ t, me, title, backButton, onClick, isMobile }) => {
         {!me && (
           <Fragment>
             <span {...styles.anonymous}>
-              <MdAccountBox
-                size={isMobile ? BUTTON_SIZE_MOBILE : BUTTON_SIZE}
-                {...colorScheme.set('fill', 'text')}
-              />
+              <MdAccountBox {...colorScheme.set('fill', 'text')} />
             </span>
             <span {...styles.label}>{t('header/signin')}</span>
           </Fragment>
@@ -106,7 +103,15 @@ const styles = {
     }
   }),
   anonymous: css({
-    display: 'inline-block'
+    display: 'inline-block',
+    '& svg': {
+      width: BUTTON_SIZE_MOBILE,
+      height: BUTTON_SIZE_MOBILE,
+      [mediaQueries.mUp]: {
+        width: BUTTON_SIZE,
+        height: BUTTON_SIZE
+      }
+    }
   }),
   label: css({
     display: 'none',

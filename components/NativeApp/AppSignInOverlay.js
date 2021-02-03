@@ -1,27 +1,24 @@
 import React from 'react'
-
 import {
   Overlay,
-  OverlayBody,
   OverlayToolbar,
   OverlayToolbarConfirm,
   Interaction,
+  OverlayBody,
   useColorContext
 } from '@project-r/styleguide'
-
 import { MdClose } from 'react-icons/md'
-
 import withT from '../../lib/withT'
+import AuthNotification from '../Auth/Notification'
 
-import PodcastButtons from '../Article/PodcastButtons'
-
-const PodcastOverlay = ({ t, title, podcast, onClose }) => {
+const AppSignInOverlay = ({ onClose, query, setQuery, t }) => {
   const [colorScheme] = useColorContext()
+
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+    <Overlay onClose={onClose}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {title}
+          {t('AppSignInOverlay/title')}
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
@@ -29,12 +26,20 @@ const PodcastOverlay = ({ t, title, podcast, onClose }) => {
         />
       </OverlayToolbar>
       <OverlayBody>
-        <div style={{ textAlign: 'center' }}>
-          <PodcastButtons {...podcast} />
-        </div>
+        <AuthNotification
+          query={query}
+          onClose={onClose}
+          goTo={(type, email, context) => {
+            if (type === 'email-confirmed') {
+              onClose()
+              return
+            }
+            setQuery({ type, email, context })
+          }}
+        />
       </OverlayBody>
     </Overlay>
   )
 }
 
-export default withT(PodcastOverlay)
+export default withT(AppSignInOverlay)

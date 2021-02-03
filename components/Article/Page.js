@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useEffect, useMemo, useContext } from 'react'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
@@ -48,7 +48,7 @@ import FontSizeSync from '../FontSize/Sync'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import ActionBar from '../ActionBar'
-import { AudioContext } from '../Audio'
+import { AudioContext } from '../Audio/AudioProvider'
 import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
@@ -126,8 +126,6 @@ const runMetaFromQuery = (code, query) => {
 const EmptyComponent = ({ children }) => children
 
 const ArticlePage = ({
-  toggleAudioPlayer,
-  audioPlayerVisible,
   router,
   t,
   me,
@@ -151,6 +149,8 @@ const ArticlePage = ({
   const articleContent = article?.content
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
+
+  const { toggleAudioPlayer, audioPlayerVisible } = useContext(AudioContext)
 
   const markNotificationsAsRead = () => {
     const unreadNotifications = articleUnreadNotifications?.nodes?.filter(
@@ -320,7 +320,7 @@ const ArticlePage = ({
       { MissingNode }
     )
 
-  const hasOverviewNav = meta && meta.template === 'section'
+  const hasOverviewNav = meta ? meta.template === 'section' : true // show/keep around while loading meta
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
   return (
@@ -617,23 +617,11 @@ const ComposedPage = compose(
   })
 )(ArticlePage)
 
-const ComposedPageWithAudio = props => (
-  <AudioContext.Consumer>
-    {({ toggleAudioPlayer, audioPlayerVisible }) => (
-      <ComposedPage
-        {...props}
-        audioPlayerVisible={audioPlayerVisible}
-        toggleAudioPlayer={toggleAudioPlayer}
-      />
-    )}
-  </AudioContext.Consumer>
-)
-
-ComposedPageWithAudio.getInitialProps = () => {
+ComposedPage.getInitialProps = () => {
   return {
     payNoteTryOrBuy: Math.random(),
     payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
   }
 }
 
-export default ComposedPageWithAudio
+export default ComposedPage

@@ -1,5 +1,5 @@
 {
-  "updated": "2020-12-21T07:38:55.752Z",
+  "updated": "2021-01-29T11:05:56.118Z",
   "title": "live",
   "data": [
     {
@@ -217,6 +217,14 @@
     {
       "key": "withMembership/ios/unauthorized/claimLink",
       "value": "Jetzt einlösen"
+    },
+    {
+      "key": "network-error/failed",
+      "value": "Die Verbindung zur Republik ist fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
+    },
+    {
+      "key": "network-error/misc",
+      "value": "Bei Ihrer Anfrage ist ein Fehler aufgetreten: «{error}». Erste-Hilfe-Team: kontakt@republik.ch."
     },
     {
       "key": "signIn/button",
@@ -2812,11 +2820,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/ios/before",
-      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -4295,12 +4303,24 @@
       "value": "Erläuterungen"
     },
     {
+      "key": "memberships/cancel/description/empty",
+      "value": "Erläuterungen fehlt"
+    },
+    {
       "key": "memberships/cancel/accountLink",
       "value": "Zum Konto"
     },
     {
       "key": "memberships/cancel/button",
       "value": "Kündigung abschicken"
+    },
+    {
+      "key": "memberships/cancel/userPrice",
+      "value": "Sie können sich den Betrag nicht leisten? Journalismus kostet. Aber wir wollen niemanden ausschliessen."
+    },
+    {
+      "key": "memberships/cancel/userPriceLink",
+      "value": "Wie viel können Sie bezahlen?"
     },
     {
       "key": "account/app/prolong/link",
@@ -6283,6 +6303,14 @@
       "value": "Republik-Maske"
     },
     {
+      "key": "package/customize/price/payMore/DONATE_POT",
+      "value": "Vorschläge"
+    },
+    {
+      "key": "package/customize/price/payMore/ABO_GIVE_MONTHS",
+      "value": "Möchten Sie Ihr Investment erhöhen?"
+    },
+    {
       "key": "package/customize/price/payMore",
       "value": "Möchten Sie vergünstigte Mitgliedschaften ermöglichen?"
     },
@@ -6661,10 +6689,6 @@
     {
       "key": "crowdfunding2/beforeNote/link",
       "value": "Zum aktuellen Stand unseres Unternehmens."
-    },
-    {
-      "key": "package/customize/price/payMore/DONATE_POT",
-      "value": "Vorschläge"
     },
     {
       "key": "package/customize/changePackage",
@@ -7101,6 +7125,10 @@
     {
       "key": "darkmode/switch/notAvailable",
       "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar."
+    },
+    {
+      "key": "AppSignInOverlay/title",
+      "value": "Zugriff bestätigen"
     }
   ]
 }

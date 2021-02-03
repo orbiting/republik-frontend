@@ -125,6 +125,10 @@ const Accordion = withInNativeApp(
     }) => {
       const [hover, setHover] = useState()
 
+      if (inNativeIOSApp) {
+        return null
+      }
+
       return (
         <div style={{ marginTop: 10, marginBottom: 30 }}>
           <Interaction.P style={{ marginBottom: 10 }}>
@@ -286,6 +290,11 @@ const Accordion = withInNativeApp(
                 </Interaction.P>
               )}
             </>
+          )}
+          {inNativeIOSApp && (
+            <Interaction.P style={{ color: '#ef4533', marginTop: 30 }}>
+              {t('cockpit/ios')}
+            </Interaction.P>
           )}
         </div>
       )
@@ -564,7 +573,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                   {countFormat(
                     lastBucket.pending - lastBucket.pendingSubscriptionsOnly
                   )}{' '}
-                  anstehende Verläng&shy;erungen in den nächsten 3&nbsp;Monaten
+                  anstehende Verläng&shy;erungen in den nächsten&nbsp;Monaten
                 </ChartTitle>
                 <ChartLead>
                   Anzahl Mitgliedschaften und Abos per Monatsende.
@@ -690,12 +699,6 @@ Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in
                 defaultBenefactor={defaultBenefactor}
                 questionnaire={questionnaire}
               />
-
-              {inNativeIOSApp && (
-                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
-                  {t('cockpit/ios')}
-                </Interaction.P>
-              )}
 
               {md(mdComponents)`
 

@@ -332,6 +332,7 @@ const ArticlePage = ({
       formatColor={formatColor}
       hasOverviewNav={hasOverviewNav}
       stickySecondaryNav={hasOverviewNav}
+      pageColorSchemeKey={colorSchemeKey}
     >
       <Loader
         loading={data.loading}

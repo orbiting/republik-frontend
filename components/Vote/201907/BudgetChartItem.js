@@ -122,9 +122,9 @@ const BudgetChartItem = ({
       >
         <div
           {...styles.toggle}
+          {...colorScheme.set('color', highlight ? 'text' : color)}
           onClick={hasMore ? toggleCollapsed : undefined}
           style={{
-            color: highlight ? colorScheme.getCSSColor('text') : color,
             height: Math.max(height || 0, minHeight),
             cursor: hasMore ? 'pointer' : undefined,
             fontFamily: highlight ? fontFamilies.sansSerifMedium : undefined

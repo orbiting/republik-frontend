@@ -72,11 +72,10 @@ export const Hint = ({ t, tKey }) => {
       style={{
         marginTop: -10,
         marginBottom: 10,
-        display: 'block',
-        color: colorScheme.getCSSColor('disabled')
+        display: 'block'
       }}
     >
-      {t(tKey)}
+      <span {...colorScheme.set('color', 'disabled')}>{t(tKey)}</span>
     </Label>
   )
 }

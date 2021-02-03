@@ -14,7 +14,8 @@ import {
   A,
   Lead,
   Label,
-  LazyLoad
+  LazyLoad,
+  useColorContext
 } from '@project-r/styleguide'
 import Router, { withRouter } from 'next/router'
 import md from 'markdown-in-js'
@@ -151,6 +152,7 @@ const styles = {
 }
 
 const MarketingPage = props => {
+  const [colorScheme] = useColorContext()
   useEffect(() => {
     if (query.token) {
       Router.replace(`/?token=${encodeURIComponent(query.token)}`, '/', {
@@ -326,8 +328,8 @@ Wir bedanken uns an dieser Stelle auch bei unseren ${
         `}
 
         <div
+          {...colorScheme.set('background', 'alert')}
           style={{
-            backgroundColor: colors.primaryBg,
             padding: '10px 15px',
             marginTop: 30
           }}
@@ -337,7 +339,7 @@ Wir bedanken uns an dieser Stelle auch bei unseren ${
             Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen
             für alle. Auch ohne Mitgliedschaft oder Abo.
           </Interaction.P>
-          <NewsletterSignUp black skipBox free name='COVID19' />
+          <NewsletterSignUp skipBox free name='COVID19' />
         </div>
 
         {md(mdComponents)`

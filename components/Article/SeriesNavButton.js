@@ -90,12 +90,20 @@ const SeriesNavButton = ({ t, series, router }) => {
       >
         <span {...styles.title}>
           {series.logo && (
-            <FigureImage
-              {...styles.logo}
-              aboveTheFold={true}
-              {...FigureImage.utils.getResizedSrcs(series.logo, 24)}
-              dark={FigureImage.utils.getResizedSrcs(series.logoDark, 24)}
-            />
+            <>
+              <img
+                {...styles.logo}
+                src={series.logo}
+                {...colorScheme.set('display', 'displayLight')}
+              />
+              {series.logoDark && (
+                <img
+                  {...styles.logo}
+                  src={series.logoDark}
+                  {...colorScheme.set('display', 'displayDark')}
+                />
+              )}
+            </>
           )}
           {series.title}
           {currentEpisode &&

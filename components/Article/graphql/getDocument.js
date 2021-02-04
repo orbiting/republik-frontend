@@ -111,6 +111,8 @@ export const getDocument = gql`
             label
             image
             document {
+              id
+              repoId
               meta {
                 title
                 publishDate

@@ -94,7 +94,10 @@ const SeriesNavButton = ({ t, series, router }) => {
               <img
                 {...styles.logo}
                 src={series.logo}
-                {...colorScheme.set('display', 'displayLight')}
+                {...colorScheme.set(
+                  'display',
+                  series.logoDark ? 'displayLight' : 'block'
+                )}
               />
               {series.logoDark && (
                 <img

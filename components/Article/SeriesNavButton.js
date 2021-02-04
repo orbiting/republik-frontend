@@ -13,7 +13,8 @@ import {
   colors,
   useBodyScrollLock,
   useHeaderHeight,
-  plainButtonRule
+  plainButtonRule,
+  FigureImage
 } from '@project-r/styleguide'
 
 const styles = {
@@ -49,7 +50,9 @@ const styles = {
   }),
   title: css({
     fontSize: 15,
-    verticalAlign: 'middle',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     maxWidth: '100%',
     overflow: 'hidden',
     paddingRight: '30px',
@@ -59,13 +62,9 @@ const styles = {
       fontSize: 18
     }
   }),
-  arrow: css({
-    position: 'absolute',
-    right: 0,
-    height: '28px',
-    top: '50%',
-    lineHeight: '28px',
-    marginTop: '-15px'
+  logo: css({
+    height: 24,
+    marginRight: 6
   })
 }
 
@@ -90,6 +89,14 @@ const SeriesNavButton = ({ t, series, router }) => {
         }}
       >
         <span {...styles.title}>
+          {series.logo && (
+            <FigureImage
+              {...styles.logo}
+              aboveTheFold={true}
+              {...FigureImage.utils.getResizedSrcs(series.logo, 24)}
+              dark={FigureImage.utils.getResizedSrcs(series.logoDark, 24)}
+            />
+          )}
           {series.title}
           {currentEpisode &&
             (series.title.match(/\?$/)

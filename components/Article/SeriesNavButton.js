@@ -3,6 +3,7 @@ import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import SeriesNavPanel from './SeriesNavPanel'
 import { cleanAsPath } from '../../lib/routes'
+import { imageResizeUrl } from 'mdast-react-render/lib/utils'
 
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 
@@ -13,8 +14,7 @@ import {
   colors,
   useBodyScrollLock,
   useHeaderHeight,
-  plainButtonRule,
-  FigureImage
+  plainButtonRule
 } from '@project-r/styleguide'
 
 const styles = {
@@ -93,7 +93,7 @@ const SeriesNavButton = ({ t, series, router }) => {
             <>
               <img
                 {...styles.logo}
-                src={series.logo}
+                src={imageResizeUrl(series.logo, 'x48')}
                 {...colorScheme.set(
                   'display',
                   series.logoDark ? 'displayLight' : 'block'
@@ -102,7 +102,7 @@ const SeriesNavButton = ({ t, series, router }) => {
               {series.logoDark && (
                 <img
                   {...styles.logo}
-                  src={series.logoDark}
+                  src={imageResizeUrl(series.logoDark, 'x48')}
                   {...colorScheme.set('display', 'displayDark')}
                 />
               )}

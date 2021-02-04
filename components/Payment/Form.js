@@ -8,12 +8,11 @@ import {
   Interaction,
   Label,
   A,
-  fontFamilies,
+  fontStyles,
   Loader,
   useColorContext,
   Checkbox,
-  Radio,
-  colors
+  Radio
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
@@ -85,7 +84,7 @@ const PAYMENT_METHOD_HEIGHT = 64
 
 const styles = {
   secure: css({
-    fontFamily: fontFamilies.sansSerifMedium,
+    ...fontStyles.sansSerifMedium,
     fontSize: 14,
     marginBottom: 20,
     marginTop: 10,
@@ -94,11 +93,9 @@ const styles = {
     }
   }),
   paymentMethod: css({
-    fontFamily: fontFamilies.sansSerifMedium,
+    ...fontStyles.sansSerifMedium,
     fontSize: 14,
     display: 'inline-block',
-    backgroundColor: colors.light.default,
-    color: colors.light.text,
     borderWidth: 1,
     borderStyle: 'solid',
     height: PAYMENT_METHOD_HEIGHT - 2, // 2px borders
@@ -130,13 +127,21 @@ const styles = {
   })
 }
 
-const PaymentMethodLabel = ({ backgroundColor, active, error, children }) => {
+const PaymentMethodLabel = ({
+  backgroundColor = '#fff',
+  active,
+  error,
+  children
+}) => {
   const [colorScheme] = useColorContext()
   return (
     <label
       {...styles.paymentMethod}
       {...colorScheme.set('borderColor', error ? 'error' : 'text')}
-      {...colorScheme.set('color', error ? 'error' : 'text')}
+      {...colorScheme.set(
+        'color',
+        error ? 'error' : '#000' // because backgroundColor is #fff even in dark mode
+      )}
       style={{
         backgroundColor,
         opacity: active ? 1 : 0.4

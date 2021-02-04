@@ -103,6 +103,8 @@ export const getDocument = gql`
         }
         series {
           title
+          logo
+          logoDark
           episodes {
             title
             publishDate

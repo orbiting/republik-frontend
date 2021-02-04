@@ -156,10 +156,9 @@ const styles = {
     height: SUBHEADER_HEIGHT,
     display: 'flex',
     justifyContent: 'flex-start',
-    padding: `0px ${Math.floor((HEADER_HEIGHT_MOBILE - 26) / 2)}px`,
+    padding: `0px 15px`,
     [mediaQueries.mUp]: {
-      justifyContent: 'center',
-      padding: `0px ${Math.floor((HEADER_HEIGHT - 26) / 2)}px`
+      justifyContent: 'center'
     }
   }),
   miniNav: css({
@@ -183,7 +182,7 @@ const styles = {
       display: 'inline-block',
       whiteSpace: 'nowrap',
       fontSize: 14,
-      margin: '12px 16px 0px 16px',
+      margin: '12px 15px 0px 15px',
       '::after': {
         ...fontStyles.sansSerifMedium,
         display: 'block',

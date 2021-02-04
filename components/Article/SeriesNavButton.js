@@ -102,7 +102,7 @@ const SeriesNavButton = ({ t, series, router }) => {
             (series.title.match(/\?$/)
               ? ` ${currentEpisode.label}`
               : ` – ${currentEpisode.label}`)}
-          <span {...styles.arrow}>
+          <span>
             {expanded && (
               <MdKeyboardArrowUp
                 size='28'

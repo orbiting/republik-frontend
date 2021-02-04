@@ -136,9 +136,9 @@ const Frame = ({
           pageColorSchemeKey={pageColorSchemeKey}
         >
           <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
-            {pageColorSchemeKey && (
-              <ColorHtmlBodyColors colorSchemeKey={pageColorSchemeKey} />
-            )}
+            <ColorHtmlBodyColors
+              colorSchemeKey={pageColorSchemeKey || 'auto'}
+            />
             <noscript>
               <Box style={{ padding: 30 }}>
                 <RawHtml

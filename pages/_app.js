@@ -13,13 +13,8 @@ import AudioProvider from '../components/Audio/AudioProvider'
 import AudioPlayer from '../components/Audio/AudioPlayer'
 import MediaProgressContext from '../components/Audio/MediaProgress'
 import AppVariableContext from '../components/Article/AppVariableContext'
-import {
-  ColorContextProvider,
-  ColorHtmlBodyColors
-} from '@project-r/styleguide'
+import { ColorContextProvider } from '@project-r/styleguide'
 import ColorSchemeSync from '../components/ColorScheme/Sync'
-
-const DEFAULT_COLOR_SCHEME = 'auto'
 
 if (typeof window !== 'undefined') {
   const prevErrorHandler = window.onerror
@@ -66,13 +61,7 @@ class WebApp extends App {
             >
               <AudioProvider>
                 <AppVariableContext>
-                  <ColorContextProvider
-                    root
-                    colorSchemeKey={DEFAULT_COLOR_SCHEME}
-                  >
-                    <ColorHtmlBodyColors
-                      colorSchemeKey={DEFAULT_COLOR_SCHEME}
-                    />
+                  <ColorContextProvider root colorSchemeKey='auto'>
                     <ColorSchemeSync />
                     <Head>
                       <meta

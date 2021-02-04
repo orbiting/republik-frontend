@@ -21,7 +21,8 @@ import {
   Label,
   Interaction,
   VideoPlayer,
-  useColorContext
+  useColorContext,
+  ColorHtmlBodyColors
 } from '@project-r/styleguide'
 
 import {
@@ -136,6 +137,7 @@ const EnPage = ({
 
   return (
     <NarrowContainer>
+      <ColorHtmlBodyColors colorSchemeKey='auto' />
       <Head>
         <title>Manifesto — Republik</title>
         <meta name='description' content={meta.description} />

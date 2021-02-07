@@ -3,8 +3,15 @@ import createPersistedState from '../../lib/hooks/use-persisted-state'
 import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
 
 export const COLOR_SCHEME_KEY = 'republik-color-scheme'
+const usePersistedColorSchemeKey = createPersistedState(COLOR_SCHEME_KEY)
 
-export const usePersistedColorSchemeKey = createPersistedState(COLOR_SCHEME_KEY)
+// used to persist os color scheme when running in our Android app
+// - our web view on Android currently does not support media query dark mode detection
+export const OS_COLOR_SCHEME_KEY = 'republik-os-color-scheme'
+export const usePersistedOSColorSchemeKey = createPersistedState(
+  OS_COLOR_SCHEME_KEY
+)
+
 export const useColorSchemeKey = () => {
   const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
   const inNewApp = inNativeApp && !inNativeAppLegacy

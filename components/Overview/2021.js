@@ -13,7 +13,7 @@ export default {
         gescheiterter Putschversuch
       </Highlight>
       ,{' '}
-      <Highlight {...p} series='republik/article-auftakt-frauenstimmrecht'>
+      <Highlight {...p} series='republik/article-eyes-wide-shut-intro'>
         Verschwörungstheorien
       </Highlight>
       , das{' '}

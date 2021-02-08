@@ -5,6 +5,7 @@ import { withRouter } from 'next/router'
 import { max, ascending } from 'd3-array'
 import {
   Button,
+  ColorContextProvider,
   Interaction,
   Loader,
   useColorContext
@@ -202,7 +203,7 @@ const FrontOverview = ({
   }
 
   return (
-    <Frame meta={meta} colorSchemeKey='dark'>
+    <Frame meta={meta} pageColorSchemeKey='dark'>
       <Interaction.H1
         {...colorScheme.set('color', 'text')}
         style={{ marginBottom: 5 }}

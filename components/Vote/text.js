@@ -60,7 +60,6 @@ export const Strong = ({ children }) => (
 const PMedium = props => (
   <div
     {...css({
-      color: colors.text,
       ...fontStyles.sansSerifRegular16,
       marginBottom: 15,
       [mediaQueries.mUp]: {

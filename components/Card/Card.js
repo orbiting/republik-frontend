@@ -217,6 +217,7 @@ const Card = ({
       style={{
         height: '100%',
         backgroundColor: '#f3f3f3',
+        color: colors.text,
         borderBottom: hasVotes ? undefined : `10px solid ${partyColor}`,
         position: 'relative',
         overflow: 'hidden'

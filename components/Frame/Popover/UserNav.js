@@ -38,7 +38,7 @@ const UserNav = ({
   t,
   inNativeApp,
   inNativeIOSApp,
-  colorSchemeKey
+  pageColorSchemeKey
 }) => {
   const [containerPadding, setContainerPadding] = useState()
   const containerRef = useRef(null)
@@ -90,9 +90,9 @@ const UserNav = ({
             <>
               <div style={{ marginBottom: 20 }}>
                 <DarkmodeSwitch
-                  colorSchemeKey={colorSchemeKey}
                   t={t}
                   inNativeApp={inNativeApp}
+                  pageColorSchemeKey={pageColorSchemeKey}
                 />
               </div>
               {!me && (

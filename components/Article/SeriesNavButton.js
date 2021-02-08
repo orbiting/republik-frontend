@@ -3,6 +3,7 @@ import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import SeriesNavPanel from './SeriesNavPanel'
 import { cleanAsPath } from '../../lib/routes'
+import { imageResizeUrl } from 'mdast-react-render/lib/utils'
 
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 
@@ -49,7 +50,9 @@ const styles = {
   }),
   title: css({
     fontSize: 15,
-    verticalAlign: 'middle',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     maxWidth: '100%',
     overflow: 'hidden',
     paddingRight: '30px',
@@ -59,13 +62,9 @@ const styles = {
       fontSize: 18
     }
   }),
-  arrow: css({
-    position: 'absolute',
-    right: 0,
-    height: '28px',
-    top: '50%',
-    lineHeight: '28px',
-    marginTop: '-15px'
+  logo: css({
+    height: 24,
+    marginRight: 6
   })
 }
 
@@ -90,12 +89,31 @@ const SeriesNavButton = ({ t, series, router }) => {
         }}
       >
         <span {...styles.title}>
+          {series.logo && (
+            <>
+              <img
+                {...styles.logo}
+                src={imageResizeUrl(series.logo, 'x48')}
+                {...colorScheme.set(
+                  'display',
+                  series.logoDark ? 'displayLight' : 'block'
+                )}
+              />
+              {series.logoDark && (
+                <img
+                  {...styles.logo}
+                  src={imageResizeUrl(series.logoDark, 'x48')}
+                  {...colorScheme.set('display', 'displayDark')}
+                />
+              )}
+            </>
+          )}
           {series.title}
           {currentEpisode &&
             (series.title.match(/\?$/)
               ? ` ${currentEpisode.label}`
               : ` – ${currentEpisode.label}`)}
-          <span {...styles.arrow}>
+          <span>
             {expanded && (
               <MdKeyboardArrowUp
                 size='28'

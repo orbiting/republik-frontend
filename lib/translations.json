@@ -6304,7 +6304,7 @@
     },
     {
       "key": "package/ABO/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten hundert, die zu ihrer Jahresmitgliedschaft kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die zu ihrer Jahresmitgliedschaft kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
     },
     {
       "key": "package/BENEFACTOR/description",
@@ -6328,7 +6328,7 @@
     },
     {
       "key": "package/PROLONG/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
@@ -6340,7 +6340,7 @@
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können. "
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können. "
     },
     {
       "key": "package/TABLEBOOK/description",
@@ -6364,7 +6364,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery/MASK",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Masken liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "option/TABLEBOOK/label/other",

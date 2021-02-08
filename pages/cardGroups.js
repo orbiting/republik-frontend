@@ -124,6 +124,7 @@ const mdCheckProps = {
 const Page = ({ data, data: { cardGroups }, router, t }) => (
   <Frame
     raw
+    pageColorSchemeKey='light'
     meta={{
       pageTitle: t('pages/cardGroups/pageTitle'),
       title: t('pages/cardGroups/pageTitle'),

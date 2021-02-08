@@ -10,7 +10,7 @@ import Frame from '../Frame'
 import SignIn from './SignIn'
 import Me from './Me'
 
-import { Interaction, Editorial, linkRule } from '@project-r/styleguide'
+import { Interaction, Editorial, A } from '@project-r/styleguide'
 
 import withAuthorization, { PageCenter } from './withAuthorization'
 import { withMembership } from './checkRoles'
@@ -82,17 +82,13 @@ export const UnauthorizedMessage = compose(
           <Interaction.P>
             {t.elements('withMembership/unauthorized', {
               buyLink: (
-                <Link key='pledge' route='pledge'>
-                  <a {...linkRule}>
-                    {t('withMembership/unauthorized/buyText')}
-                  </a>
+                <Link key='pledge' route='pledge' passHref>
+                  <A>{t('withMembership/unauthorized/buyText')}</A>
                 </Link>
               ),
               accountLink: (
-                <Link key='account' route='account'>
-                  <a {...linkRule}>
-                    {t('withMembership/unauthorized/accountText')}
-                  </a>
+                <Link key='account' route='account' passHref>
+                  <A>{t('withMembership/unauthorized/accountText')}</A>
                 </Link>
               )
             })}
@@ -113,17 +109,13 @@ export const UnauthorizedMessage = compose(
               {description ||
                 t.elements('withMembership/signIn/note', {
                   buyLink: (
-                    <Link key='pledge' route='pledge'>
-                      <a {...linkRule}>
-                        {t('withMembership/signIn/note/buyText')}
-                      </a>
+                    <Link key='pledge' route='pledge' passHref>
+                      <A>{t('withMembership/signIn/note/buyText')}</A>
                     </Link>
                   ),
                   moreLink: (
-                    <Link key='index' route='index'>
-                      <a {...linkRule}>
-                        {t('withMembership/signIn/note/moreText')}
-                      </a>
+                    <Link key='index' route='index' passHref>
+                      <A>{t('withMembership/signIn/note/moreText')}</A>
                     </Link>
                   )
                 })}

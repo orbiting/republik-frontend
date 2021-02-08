@@ -4,7 +4,7 @@ import { compose } from 'react-apollo'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 
-import { InfoBoxTitle, InfoBoxText, linkRule } from '@project-r/styleguide'
+import { InfoBoxTitle, InfoBoxText, A } from '@project-r/styleguide'
 
 const AutoDiscussionTeaser = ({ t, discussionId }) => (
   <div>
@@ -16,8 +16,9 @@ const AutoDiscussionTeaser = ({ t, discussionId }) => (
             key='feedback'
             route='discussion'
             params={{ t: 'article', id: discussionId }}
+            passHref
           >
-            <a {...linkRule}>{t('article/autodiscussionteaser/linktext')}</a>
+            <A>{t('article/autodiscussionteaser/linktext')}</A>
           </Link>
         )
       })}

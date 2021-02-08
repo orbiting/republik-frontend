@@ -9,7 +9,7 @@ import {
   fontStyles,
   Center,
   Interaction,
-  linkRule,
+  A,
   Button,
   Loader
 } from '@project-r/styleguide'
@@ -311,12 +311,12 @@ class Page extends Component {
                     {
                       link: (
                         <Link key='account' route='account' passHref>
-                          <a {...linkRule}>
+                          <A>
                             {t.first([
                               `Onboarding/Page/${context}/more/account/link`,
                               'Onboarding/Page/more/account/link'
                             ])}
-                          </a>
+                          </A>
                         </Link>
                       )
                     }
@@ -332,22 +332,22 @@ class Page extends Component {
                     {
                       linkManual: (
                         <PathLink key='anleitung' path='/anleitung' passHref>
-                          <a {...linkRule}>
+                          <A>
                             {t.first([
                               `Onboarding/Page/${context}/more/questions/linkManual`,
                               'Onboarding/Page/more/questions/linkManual'
                             ])}
-                          </a>
+                          </A>
                         </PathLink>
                       ),
                       linkFaq: (
                         <Link key='route' route='faq' passHref>
-                          <a {...linkRule}>
+                          <A>
                             {t.first([
                               `Onboarding/Page/${context}/more/questions/linkFaq`,
                               'Onboarding/Page/more/questions/linkFaq'
                             ])}
-                          </a>
+                          </A>
                         </Link>
                       )
                     }
@@ -361,15 +361,14 @@ class Page extends Component {
                     ],
                     {
                       email: (
-                        <a
+                        <A
                           key='email'
                           href={`mailto:${t(
                             'Onboarding/Page/more/help/email'
                           )}`}
-                          {...linkRule}
                         >
                           {t('Onboarding/Page/more/help/email')}
-                        </a>
+                        </A>
                       )
                     }
                   )}

@@ -66,7 +66,7 @@ const UserProgress = (
       return <ReadIcon />
     } else {
       return (
-        <CalloutMenu Element={ReadIcon}>
+        <CalloutMenu Element={ReadIcon} padded>
           <IconButton
             Icon={MdHighlightOff}
             title={t('article/actionbar/progress/unread')}
@@ -107,7 +107,7 @@ const UserProgress = (
       {noCallout ? (
         <MarkAsReadIcon />
       ) : (
-        <CalloutMenu Element={MarkAsReadIcon}>
+        <CalloutMenu Element={MarkAsReadIcon} padded>
           <IconButton
             Icon={MdCheckCircleOutlined}
             title={t('article/actionbar/progress/markasread')}

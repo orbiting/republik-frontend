@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 
-import { Interaction, linkRule } from '@project-r/styleguide'
+import { Interaction, A } from '@project-r/styleguide'
 
 import Section from '../Section'
 import {
@@ -73,40 +73,33 @@ const AppLogin = props => {
       <P {...styles.p}>
         {t('Onboarding/Sections/AppLogin/ios')}
         <br />
-        <a
-          href='https://itunes.apple.com/ch/app/republik/id1392772910'
-          {...linkRule}
-        >
+        <A href='https://itunes.apple.com/ch/app/republik/id1392772910'>
           <img
             src={`${CDN_FRONTEND_BASE_URL}/static/apple-store-badge.png`}
             height='54'
             alt={t('Onboarding/Sections/AppLogin/ios/alt')}
           />
-        </a>
+        </A>
       </P>
       <P {...styles.p}>
         {t('Onboarding/Sections/AppLogin/android')}
         <br />
-        <a
-          href='https://play.google.com/store/apps/details?id=app.republik'
-          {...linkRule}
-        >
+        <A href='https://play.google.com/store/apps/details?id=app.republik'>
           <img
             src={`${CDN_FRONTEND_BASE_URL}/static/google-play-badge.png`}
             height='54'
             alt={t('Onboarding/Sections/AppLogin/android/alt')}
           />
-        </a>
+        </A>
       </P>
       <P {...styles.p}>
         {t('Onboarding/Sections/AppLogin/apk')}
         <br />
-        <a
+        <A
           href={`${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/app/republik-1.0.3.apk`}
-          {...linkRule}
         >
           {t('Onboarding/Sections/AppLogin/apk/link')}
-        </a>
+        </A>
       </P>
     </Section>
   )

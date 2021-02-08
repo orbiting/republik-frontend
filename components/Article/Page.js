@@ -340,7 +340,6 @@ const ArticlePage = ({
 
   return (
     <Frame
-      colorSchemeKey={colorSchemeKey}
       raw
       // Meta tags for a focus comment are rendered in Discussion/Commments.js
       meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
@@ -348,6 +347,7 @@ const ArticlePage = ({
       formatColor={formatColor}
       hasOverviewNav={hasOverviewNav}
       stickySecondaryNav={hasOverviewNav}
+      pageColorSchemeKey={colorSchemeKey}
     >
       <Loader
         loading={data.loading}

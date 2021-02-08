@@ -11,7 +11,7 @@ import Collapsible from '../Collapsible'
 import Voting from '../Voting'
 import {
   colors,
-  linkRule,
+  A,
   Interaction,
   mediaQueries,
   RawHtml,
@@ -62,7 +62,6 @@ const styles = {
     margin: '25px auto',
     maxWidth: 550,
     padding: 25,
-    background: colors.primaryBg,
     textAlign: 'center'
   }),
   chart: css({
@@ -364,9 +363,7 @@ Sie haben die Revisionsstelle im Sommer 2019 bestätigt, und damit konnte diese 
                 )}
                 {actionBar}
                 <P>
-                  <a href='/meta' {...linkRule}>
-                    {vt('vote/201912/back')}
-                  </a>
+                  <A href='/meta'>{vt('vote/201912/back')}</A>
                 </P>
               </Fragment>
             )

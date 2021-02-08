@@ -77,6 +77,7 @@ const ActionBar = ({
           <SubscribeMenu
             discussionId={discussion}
             label={t('SubscribeMenu/title')}
+            padded
           />
         )}
         {share && (
@@ -259,6 +260,7 @@ const ActionBar = ({
           }
           subscriptions={document.subscribedBy && document.subscribedBy.nodes}
           label={t('SubscribeMenu/title')}
+          padded
         />
       ),
       modes: ['article-top', 'article-bottom'],

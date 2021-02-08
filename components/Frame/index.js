@@ -8,21 +8,19 @@ import {
   fontFamilies,
   mediaQueries,
   ColorHtmlBodyColors,
-  ColorContextProvider,
-  useColorContext
+  ColorContextProvider
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
 import ProlongBox from './ProlongBox'
-import ColorSchemeSync from '../ColorScheme/Sync'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
   SUBHEADER_HEIGHT
 } from '../constants'
-import { withMembership, withTester } from '../Auth/checkRoles'
+import { withMembership } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -102,9 +100,9 @@ const Frame = ({
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
-  isTester,
   isOnMarketingPage,
-  colorSchemeKey = 'light'
+  colorSchemeKey = 'light',
+  pageColorSchemeKey
 }) => {
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
@@ -126,58 +124,55 @@ const Frame = ({
       colorSchemeKey={isOnMarketingPage ? colorSchemeKey : 'auto'}
     >
       <ColorHtmlBodyColors colorSchemeKey={colorSchemeKey} />
-      <ColorSchemeSync />
       <div
-        {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}
+        {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
+        {...padHeaderRule}
       >
-        {/* body growing only needed when rendering a footer */}
-        <div
-          {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-          {...padHeaderRule}
+        {!!meta && <Meta data={meta} />}
+        <Header
+          me={me}
+          cover={cover}
+          onNavExpanded={onNavExpanded}
+          secondaryNav={secondaryNav}
+          formatColor={formatColor}
+          pullable={pullable}
+          hasOverviewNav={hasOverviewNav}
+          stickySecondaryNav={stickySecondaryNav}
+          isOnMarketingPage={isOnMarketingPage}
+          pageColorSchemeKey={pageColorSchemeKey}
         >
-          {!!meta && <Meta data={meta} />}
-          <Header
-            colorSchemeKey='auto'
-            me={me}
-            cover={cover}
-            onNavExpanded={onNavExpanded}
-            secondaryNav={secondaryNav}
-            formatColor={formatColor}
-            pullable={pullable}
-            hasOverviewNav={hasOverviewNav}
-            stickySecondaryNav={stickySecondaryNav}
-            isOnMarketingPage={isOnMarketingPage}
-          >
-            <ColorContextProvider colorSchemeKey={colorSchemeKey}>
-              <noscript>
-                <Box style={{ padding: 30 }}>
-                  <RawHtml
-                    dangerouslySetInnerHTML={{
-                      __html: t('noscript')
-                    }}
-                  />
-                </Box>
-              </noscript>
-              {me && me.prolongBeforeDate !== null && (
-                <ProlongBox
-                  t={t}
-                  prolongBeforeDate={me.prolongBeforeDate}
-                  membership={me.activeMembership}
-                  dark={dark}
+          <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
+            <ColorHtmlBodyColors
+              colorSchemeKey={pageColorSchemeKey || 'auto'}
+            />
+            <noscript>
+              <Box style={{ padding: 30 }}>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('noscript')
+                  }}
                 />
-              )}
-              {raw ? (
-                children
-              ) : (
-                <MainContainer>
-                  <Content>{children}</Content>
-                </MainContainer>
-              )}
-            </ColorContextProvider>
-          </Header>
-        </div>
-        {!inNativeApp && footer && <Footer />}
+              </Box>
+            </noscript>
+            {me && me.prolongBeforeDate !== null && (
+              <ProlongBox
+                t={t}
+                prolongBeforeDate={me.prolongBeforeDate}
+                membership={me.activeMembership}
+                dark={dark}
+              />
+            )}
+            {raw ? (
+              children
+            ) : (
+              <MainContainer>
+                <Content>{children}</Content>
+              </MainContainer>
+            )}
+          </ColorContextProvider>
+        </Header>
       </div>
+      {!inNativeApp && footer && <Footer />}
     </ColorContextProvider>
   )
 }

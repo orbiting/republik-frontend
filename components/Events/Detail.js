@@ -9,9 +9,9 @@ import {
   Interaction,
   A,
   RawHtml,
-  colors,
   fontFamilies,
-  mediaQueries
+  mediaQueries,
+  useColorContext
 } from '@project-r/styleguide'
 
 import { CONTENT_PADDING } from '../constants'
@@ -28,7 +28,8 @@ const styles = {
   }),
   block: css({
     padding: `${BLOCK_PADDING_TOP}px 0`,
-    borderTop: `1px solid ${colors.divider}`,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
     position: 'relative',
     [mediaQueries.mUp]: {
       paddingLeft: CONTENT_PADDING
@@ -37,7 +38,8 @@ const styles = {
   hr: css({
     height: 0,
     border: 0,
-    borderTop: `1px solid ${colors.divider}`
+    borderTopWidth: 1,
+    borderTopStyle: 'solid'
   }),
   title: css({
     marginBottom: 15
@@ -74,6 +76,7 @@ const Event = withT(
       slug
     }
   }) => {
+    const [colorScheme] = useColorContext()
     const date = parseDate(rawDate)
     let location =
       !!where && intersperse(where.split('\n'), (d, i) => <br key={i} />)
@@ -91,10 +94,11 @@ const Event = withT(
       tweet: title,
       shareOverlayTitle: t('events/share/title')
     }
+    const borderRule = colorScheme.set('borderTopColor', 'divider')
 
     return (
       <div {...styles.container}>
-        <div {...styles.block}>
+        <div {...styles.block} {...borderRule}>
           <Label>{t('events/labels/description')}</Label>
           <H1 {...styles.title}>{title}</H1>
           <RawHtml
@@ -113,15 +117,15 @@ const Event = withT(
           )}
         </div>
 
-        <div {...styles.block}>
+        <div {...styles.block} {...borderRule}>
           <Label>{t('events/labels/date')}</Label>
           <P>{[weekday(date), rawDate, time].join(', ')}</P>
         </div>
 
-        <div {...styles.block}>
+        <div {...styles.block} {...borderRule}>
           {!!where && <Label>{t('events/labels/location')}</Label>}
           {!!where && <P>{location}</P>}
-          {!!where && <hr {...styles.hr} />}
+          {!!where && <hr {...styles.hr} {...borderRule} />}
           <P>
             <ActionBar share={shareObject} />
           </P>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { myUserSubscriptions } from './enhancers'
 import {
@@ -6,8 +6,7 @@ import {
   A,
   Interaction,
   mediaQueries,
-  linkRule,
-  colors
+  useColorContext
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { descending } from 'd3-array'
@@ -30,10 +29,7 @@ const styles = {
     paddingBottom: 5,
     [mediaQueries.mUp]: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
-      '&:nth-child(even)': {
-        backgroundColor: colors.secondaryBg
-      }
+      justifyContent: 'space-between'
     }
   }),
   author: css({
@@ -45,10 +41,10 @@ const styles = {
     }
   }),
   userLink: css({
-    color: colors.text,
+    color: 'inherit',
     textDecoration: 'underline',
     '&:visited': {
-      color: colors.text
+      color: 'inherit'
     }
   }),
   checkbox: css({
@@ -64,11 +60,24 @@ const SubscribedAuthors = ({
   t,
   data: { authors, myUserSubscriptions, loading, error }
 }) => {
+  const [colorScheme] = useColorContext()
   const [showAll, setShowAll] = useState(false)
   const [
     initiallySubscribedAuthorIds,
     setInitiallySubscribedAuthorIds
   ] = useState([])
+
+  const authorContainerRule = useMemo(
+    () =>
+      css({
+        [mediaQueries.mUp]: {
+          '&:nth-child(even)': {
+            backgroundColor: colorScheme.getCSSColor('hover')
+          }
+        }
+      }),
+    [colorScheme]
+  )
 
   const initializeSubscribedAuthorIds = (
     authors,
@@ -132,15 +141,17 @@ const SubscribedAuthors = ({
             </Interaction.P>
             <div style={{ margin: '20px 0' }}>
               {(showAll ? filteredAuthors : visibleAuthors).map(author => (
-                <div {...styles.authorContainer} key={author.object.id}>
+                <div
+                  {...styles.authorContainer}
+                  {...authorContainerRule}
+                  key={author.object.id}
+                >
                   <div {...styles.author}>
                     <Link
                       route='profile'
                       params={{ slug: author.userDetails.slug }}
                     >
-                      <a {...linkRule} {...styles.userLink}>
-                        {author.object.name}
-                      </a>
+                      <A {...styles.userLink}>{author.object.name}</A>
                     </Link>
                   </div>
                   <div {...styles.checkbox}>

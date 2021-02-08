@@ -5,7 +5,6 @@ import { ZINDEX_FEED_STICKY_SECTION_LABEL } from '../constants'
 import { css } from 'glamor'
 import {
   mediaQueries,
-  colors,
   useHeaderHeight,
   useColorContext
 } from '@project-r/styleguide'
@@ -71,7 +70,7 @@ const StickySection = ({ children, label, hasSpaceAfter }) => {
       <div {...style.header} {...colorScheme.set('backgroundColor', 'default')}>
         <div
           {...style.label}
-          {...colorScheme.set('borderColor', 'text')}
+          {...colorScheme.set('borderBottomColor', sticky ? 'divider' : 'text')}
           {...colorScheme.set('backgroundColor', 'default')}
           {...(sticky ? style.sticky : undefined)}
           style={{
@@ -110,7 +109,8 @@ const style = {
     zIndex: ZINDEX_FEED_STICKY_SECTION_LABEL
   }),
   sticky: css({
-    borderBottom: `0.5px solid ${colors.divider}`,
+    borderBottomWidth: '0.5px',
+    borderBottomStyle: 'solid',
     [mediaQueries.lUp]: {
       borderBottom: 'none'
     }

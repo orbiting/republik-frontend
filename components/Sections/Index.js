@@ -2,7 +2,6 @@ import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import { ascending } from 'd3-array'
 import { css } from 'glamor'
-import { nest } from 'd3-collection'
 import gql from 'graphql-tag'
 import Link from '../Link/Href'
 import withT from '../../lib/withT'
@@ -10,10 +9,10 @@ import withT from '../../lib/withT'
 import {
   Loader,
   FormatTag,
-  colors,
-  fontStyles,
   mediaQueries,
-  TeaserSectionTitle
+  TeaserSectionTitle,
+  useColorContext,
+  colors
 } from '@project-r/styleguide'
 
 const SPACE = 15
@@ -30,7 +29,8 @@ const styles = {
     paddingTop: SPACE,
     marginBottom: SPACE,
     '& + &': {
-      borderTop: `1px solid ${colors.divider}`
+      borderTopWidth: 1,
+      borderTopStyle: 'solid'
     },
     [mediaQueries.mUp]: {
       paddingTop: SPACE_BIG,
@@ -74,6 +74,7 @@ const getSections = gql`
 `
 
 const SectionIndex = ({ data: { loading, error, sections }, t }) => {
+  const [colorScheme] = useColorContext()
   return (
     <Loader
       loading={loading}
@@ -87,6 +88,7 @@ const SectionIndex = ({ data: { loading, error, sections }, t }) => {
               return (
                 <section
                   {...styles.section}
+                  {...colorScheme.set('borderColor', 'divider')}
                   style={{
                     paddingBottom: hasFormats ? 5 : 0
                   }}

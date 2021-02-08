@@ -21,7 +21,8 @@ const num = merge(td, {
 
 const groupTd = css({
   paddingTop: 5,
-  borderTop: '1px solid #000',
+  borderTopWidth: 1,
+  borderTopStyle: 'solid',
   verticalAlign: 'bottom',
   'tr:first-child > &': {
     paddingTop: 50

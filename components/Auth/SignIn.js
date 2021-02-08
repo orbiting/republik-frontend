@@ -11,12 +11,9 @@ import { meQuery } from '../../lib/apollo/withMe'
 import ErrorMessage from '../ErrorMessage'
 
 import {
-  Button,
   InlineSpinner,
   Interaction,
-  Field,
   RawHtml,
-  colors,
   Editorial
 } from '@project-r/styleguide'
 

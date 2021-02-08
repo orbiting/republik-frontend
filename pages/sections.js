@@ -15,13 +15,7 @@ const FormatsPage = ({ t }) => {
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
   return (
-    <Frame
-      hasOverviewNav
-      stickySecondaryNav
-      raw
-      meta={meta}
-      colorSchemeKey='auto'
-    >
+    <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
       <Center style={{ marginTop: 20, marginBottom: 60 }}>
         <Index />
       </Center>

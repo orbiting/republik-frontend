@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { colors, mediaQueries } from '@project-r/styleguide'
+import { mediaQueries } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { Tiny, Small } from '../text'
@@ -67,7 +67,6 @@ class BudgetChart extends Component {
     return (
       <div {...styles.wrapper}>
         <BudgetChartItem
-          color={colors.text}
           category={vt('vote/201907/budget/total')}
           total={displayAmount(total)}
           highlight

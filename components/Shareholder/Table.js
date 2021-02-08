@@ -4,7 +4,7 @@ import { formatLocale } from 'd3-format'
 
 import { groupped, total, totalChf, colors } from './data'
 
-import { fontFamilies } from '@project-r/styleguide'
+import { fontFamilies, useColorContext } from '@project-r/styleguide'
 
 const nbspNumbers = formatLocale({
   decimal: ',',
@@ -31,7 +31,8 @@ const num = merge(td, {
 
 const groupTd = css({
   paddingTop: 10,
-  borderBottom: '1px solid #000',
+  borderBottomWidth: 1,
+  borderBottomStyle: 'solid',
   verticalAlign: 'bottom',
   'tr:first-child > &': {
     paddingTop: 3
@@ -66,18 +67,26 @@ const styles = {
   })
 }
 
-const Table = ({ children }) => (
-  <div
-    style={{
-      overflowX: 'auto',
-      overflowY: 'hidden',
-      marginLeft: -PADDING,
-      marginRight: -PADDING
-    }}
-  >
-    <table {...styles.table}>{children}</table>
-  </div>
-)
+const Table = ({ children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div
+      style={{
+        overflowX: 'auto',
+        overflowY: 'hidden',
+        marginLeft: -PADDING,
+        marginRight: -PADDING
+      }}
+    >
+      <table
+        {...styles.table}
+        {...colorScheme.set('borderBottomColor', 'text')}
+      >
+        {children}
+      </table>
+    </div>
+  )
+}
 
 export default () => (
   <Table>

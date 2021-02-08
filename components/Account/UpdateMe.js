@@ -23,6 +23,7 @@ import {
 
 import FieldSet from '../FieldSet'
 import { withMyDetails, withMyDetailsMutation } from './enhancers'
+import { Hint } from './Elements'
 
 const { H2, P } = Interaction
 
@@ -235,16 +236,7 @@ class UpdateMe extends Component {
                     }}
                     fields={meFields}
                   />
-                  <Label
-                    style={{
-                      marginTop: -10,
-                      marginBottom: 10,
-                      display: 'block',
-                      color: colors.disabled
-                    }}
-                  >
-                    {t('Account/Update/birthday/hint/plain')}
-                  </Label>
+                  <Hint t={t} tKey={'Account/Update/birthday/hint/plain'} />
                   <br />
                   <br />
                   <br />

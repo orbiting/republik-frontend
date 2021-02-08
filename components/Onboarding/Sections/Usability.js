@@ -3,12 +3,7 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 
-import {
-  Interaction,
-  mediaQueries,
-  Button,
-  linkRule
-} from '@project-r/styleguide'
+import { Interaction, mediaQueries, Button, A } from '@project-r/styleguide'
 
 import Section from '../Section'
 import PathLink from '../../Link/Path'
@@ -89,9 +84,7 @@ const Usability = props => {
                     path={PROGRESS_EXPLAINER_PATH}
                     passHref
                   >
-                    <a {...linkRule}>
-                      {t('Onboarding/Sections/Usability/linkMore')}
-                    </a>
+                    <A>{t('Onboarding/Sections/Usability/linkMore')}</A>
                   </PathLink>
                 )
               },

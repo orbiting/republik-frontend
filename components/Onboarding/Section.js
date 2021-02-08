@@ -3,7 +3,12 @@ import { css } from 'glamor'
 
 import { MdDone } from 'react-icons/md'
 
-import { Button, Loader, mediaQueries, colors } from '@project-r/styleguide'
+import {
+  Button,
+  Loader,
+  mediaQueries,
+  useColorContext
+} from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 
@@ -19,7 +24,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'baseline',
-    borderTop: `1px solid ${colors.divider}`,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
     paddingTop: SECTION_SPACE_MOBILE * 0.6,
     paddingBottom: SECTION_SPACE_MOBILE * 0.6,
     [mediaQueries.mUp]: {
@@ -27,7 +33,8 @@ const styles = {
       paddingBottom: SECTION_SPACE * 0.6
     },
     '&:last-child': css({
-      borderBottom: `1px solid ${colors.divider}`
+      borderBottomWidth: 1,
+      borderBottomStyle: 'solid'
     })
   }),
   heading: css({
@@ -38,16 +45,13 @@ const styles = {
   }),
   content: css({
     marginBottom: 20,
-    /* paddingLeft: 0,
-    [mediaQueries.mUp]: {
-      paddingLeft: 55
-    } */
     '&:last-child': css({
       paddingBottom: SECTION_SPACE_MOBILE * 0.6,
       [mediaQueries.mUp]: {
         paddingBottom: SECTION_SPACE * 0.6
       },
-      borderBottom: `1px solid ${colors.divider}`
+      borderBottomWidth: 1,
+      borderBottomStyle: 'solid'
     })
   }),
   contentFooter: css({
@@ -57,7 +61,6 @@ const styles = {
     height: SECTION_SPACE_MOBILE * 1.1,
     width: SECTION_SPACE_MOBILE * 1.1,
     alignSelf: 'flex-end',
-    color: colors.primary,
     [mediaQueries.mUp]: {
       height: SECTION_SPACE * 1.1,
       width: SECTION_SPACE * 1.1
@@ -66,6 +69,7 @@ const styles = {
 }
 
 const Section = props => {
+  const [colorScheme] = useColorContext()
   const onExpand = e => {
     e.preventDefault()
     props.onExpand(props)
@@ -91,9 +95,19 @@ const Section = props => {
 
   return (
     <Fragment>
-      <div ref={forwardedRef} {...styles.section} onClick={onExpand}>
+      <div
+        ref={forwardedRef}
+        {...styles.section}
+        {...colorScheme.set('borderColor', 'divider')}
+        onClick={onExpand}
+      >
         <div {...styles.heading}>{heading}</div>
-        {(isTicked || isVisited) && <MdDone {...styles.doneIcon} />}
+        {(isTicked || isVisited) && (
+          <MdDone
+            {...styles.doneIcon}
+            {...colorScheme.set('color', 'primary')}
+          />
+        )}
       </div>
       {isExpanded && (
         <div {...styles.content}>

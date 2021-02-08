@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Interaction, linkRule } from '@project-r/styleguide'
+import { Interaction, A } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -15,8 +15,8 @@ export default withT(({ t }) => (
     <P>
       {t.elements('Account/Notifications/Legacy/text', {
         link: (
-          <Link key='link' route='subscriptionsSettings'>
-            <a {...linkRule}>{t('Account/Notifications/Legacy/link')}</a>
+          <Link key='link' route='subscriptionsSettings' passHref>
+            <A>{t('Account/Notifications/Legacy/link')}</A>
           </Link>
         )
       })}

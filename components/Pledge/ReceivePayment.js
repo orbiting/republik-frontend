@@ -16,7 +16,7 @@ import { EMAIL_PAYMENT } from '../../lib/constants'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
 
-import { linkRule } from '@project-r/styleguide'
+import { A } from '@project-r/styleguide'
 
 // ToDo: query autoPay
 const pledgeQuery = gql`
@@ -75,9 +75,8 @@ class PledgeReceivePayment extends Component {
 
         const errorVariables = {
           mailto: (
-            <a
+            <A
               key='mailto'
-              {...linkRule}
               href={`mailto:${EMAIL_PAYMENT}?subject=${encodeURIComponent(
                 t('pledge/recievePayment/pf/mailto/subject', {
                   status: query.STATUS || ''
@@ -90,7 +89,7 @@ class PledgeReceivePayment extends Component {
               )}`}
             >
               {EMAIL_PAYMENT}
-            </a>
+            </A>
           )
         }
 
@@ -160,9 +159,8 @@ class PledgeReceivePayment extends Component {
         // - payment_status
         const errorVariables = {
           mailto: (
-            <a
+            <A
               key='mailto'
-              {...linkRule}
               href={`mailto:${EMAIL_PAYMENT}?subject=${encodeURIComponent(
                 t('pledge/recievePayment/paypal/mailto/subject', {
                   status: query.st || ''
@@ -175,7 +173,7 @@ class PledgeReceivePayment extends Component {
               )}`}
             >
               {EMAIL_PAYMENT}
-            </a>
+            </A>
           )
         }
         switch (query.st) {

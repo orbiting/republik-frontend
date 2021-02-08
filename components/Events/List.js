@@ -10,7 +10,7 @@ import { withRouter } from 'next/router'
 import {
   NarrowContainer,
   Interaction,
-  linkRule,
+  A,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -107,8 +107,8 @@ const Overview = compose(
                 }}
               />
               <Event data={event} />
-              <Link route='events'>
-                <a {...linkRule}>{t('events/all')}</a>
+              <Link route='events' passHref>
+                <A>{t('events/all')}</A>
               </Link>
             </Content>
           </NarrowContainer>

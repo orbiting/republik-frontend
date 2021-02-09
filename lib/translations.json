@@ -1,5 +1,5 @@
 {
-  "updated": "2021-01-29T11:05:56.118Z",
+  "updated": "2021-02-09T13:30:27.968Z",
   "title": "live",
   "data": [
     {
@@ -448,7 +448,7 @@
     },
     {
       "key": "marketing/page/team/title",
-      "value": "Wir sind ein Team"
+      "value": "Wir sind Ihr Team"
     },
     {
       "key": "marketing/page/team/lead",
@@ -468,7 +468,7 @@
     },
     {
       "key": "marketing/page/sections/lead",
-      "value": "Die Republik ist eine Dienstleistung für interessierte Menschen in einer komplexen Welt. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen. Auch in regelmässigen Briefings, Kolumnen und Audioformaten."
+      "value": "Die Republik ist eine Dienstleistung für interessierte Menschen in einer komplexen Welt. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen."
     },
     {
       "key": "marketing/page/vision/title",
@@ -1789,10 +1789,6 @@
     {
       "key": "discussion/focus/missing",
       "value": "Dieser spezifische Beitrag ging verloren. Versuchen Sie die Seite neu zu laden."
-    },
-    {
-      "key": "discussion/share/title",
-      "value": "Beitrag teilen"
     },
     {
       "key": "discussion/share/emailSubject",

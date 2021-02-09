@@ -299,7 +299,9 @@ const ArticlePage = ({
               mdast={{
                 ...article.content,
                 format: meta.format,
-                section: meta.section
+                section: meta.section,
+                series: meta.series,
+                repoId: article.repoId
               }}
             />
           )
@@ -329,7 +331,9 @@ const ArticlePage = ({
       {
         ...content,
         format: meta.format,
-        section: meta.section
+        section: meta.section,
+        series: meta.series,
+        repoId: article.repoId
       },
       schema,
       { MissingNode }

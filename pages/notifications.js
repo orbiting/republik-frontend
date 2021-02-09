@@ -32,7 +32,8 @@ import {
   Logo,
   A,
   mediaQueries,
-  useColorContext
+  useColorContext,
+  ColorHtmlBodyColors
 } from '@project-r/styleguide'
 
 const styles = {
@@ -162,6 +163,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
 
   return (
     <div>
+      <ColorHtmlBodyColors colorSchemeKey='auto' />
       <Head>
         <title>{t('notifications/pageTitle')}</title>
         <meta name='robots' content='noindex' />

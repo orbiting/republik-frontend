@@ -6,7 +6,7 @@ The front-end of [republik.ch](https://www.republik.ch/en).
 
 ### Quick start
 
-You need to have node 10.13+ installed.
+You need to have node 14+ installed.
 
 Bootstrap your .env file:
 

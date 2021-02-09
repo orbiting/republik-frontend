@@ -11,6 +11,7 @@ import { Router } from '../../lib/routes'
 
 import AppSignInOverlay from './AppSignInOverlay'
 import { useMediaProgress } from '../Audio/MediaProgress'
+import { usePersistedOSColorSchemeKey } from '../ColorScheme/lib'
 
 const upsertDeviceQuery = gql`
   mutation UpsertDevice($token: ID!, $information: DeviceInformationInput!) {
@@ -34,6 +35,7 @@ const pendingAppSignInQuery = gql`
 const MessageSync = ({ upsertDevice, me, client }) => {
   const [signInQuery, setSignInQuery] = useState()
   const router = useRouter()
+  const [_, setOSColorScheme] = usePersistedOSColorSchemeKey()
 
   useEffect(() => {
     const handleRouteChange = url => {
@@ -107,6 +109,10 @@ const MessageSync = ({ upsertDevice, me, client }) => {
         checkPendingAppSignIn()
       } else if (content.type === 'push-route') {
         Router.pushRoute(content.url.replace(PUBLIC_BASE_URL, ''))
+      } else if (content.type === 'osColorScheme') {
+        if (content.value) {
+          setOSColorScheme(content.value)
+        }
       }
       postMessage({
         type: 'ackMessage',

@@ -31,7 +31,7 @@ const Team = ({ t, data: { loading, employees } }) => {
           <TeaserFrontTileRow autoColumns>
             {employees.map(employee => {
               return (
-                <TeaserFrontTile key={employee.name} padding={'0 5%'}>
+                <TeaserFrontTile key={employee.name}>
                   <h3 {...styles.pitch}>{`«${employee.pitch}»`}</h3>
                   <div {...styles.employee}>
                     <Link href={`~${employee.user.slug}`} passHref>

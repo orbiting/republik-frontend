@@ -14,15 +14,15 @@ const Reasons = ({ t }) => {
   return (
     <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 15px' }}>
       <TeaserFrontTileRow columns={3}>
-        <TeaserFrontTile align='top' padding={'0 5%'}>
+        <TeaserFrontTile align='top'>
           <h2 {...styles.title}>{t('marketing/page/reasons/1/title')}</h2>
           <Editorial.P>{t('marketing/page/reasons/1/text')}</Editorial.P>
         </TeaserFrontTile>
-        <TeaserFrontTile align='top' padding={'0 5%'}>
+        <TeaserFrontTile align='top'>
           <h2 {...styles.title}>{t('marketing/page/reasons/2/title')}</h2>
           <Editorial.P>{t('marketing/page/reasons/2/text')}</Editorial.P>
         </TeaserFrontTile>
-        <TeaserFrontTile align='top' padding={'0 5%'}>
+        <TeaserFrontTile align='top'>
           <h2 {...styles.title}>{t('marketing/page/reasons/3/title')}</h2>
           <Editorial.P>{t('marketing/page/reasons/3/text')}</Editorial.P>
         </TeaserFrontTile>

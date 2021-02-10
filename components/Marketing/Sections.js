@@ -49,8 +49,9 @@ const sectionContent = [
     Description: () => (
       <>
         Die Köpfe der Republik: Immer wieder dienstags eine Kolumne von Mely
-        Kiyak, Daniel Strassberg oder Sibylle Berg, jeden Samstag von Daniel
-        Binswanger.
+        Kiyak oder Daniel Strassberg, jeden Samstag von Daniel Binswanger. Und
+        immer dann, wenn sie da ist, von Constantin Seibt. Ausserdem jeden
+        Samstag: die Fotokolumne «Blickwechsel».
       </>
     )
   },
@@ -125,10 +126,10 @@ const styles = {
   picture: css({
     width: 80,
     height: 80,
-    marginRight: 24,
+    marginRight: 16,
     objectFit: 'cover',
     [mediaQueries.mUp]: {
-      marginRight: 48
+      marginRight: 36
     }
   }),
   title: css({

@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { compose } from 'react-apollo'
+import React from 'react'
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
+
 import withT from '../../lib/withT'
-import { mediaQueries } from '@project-r/styleguide'
+import withInNativeApp from '../../lib/withInNativeApp'
+import UserGuidance from '../Account/UserGuidance'
+import ErrorMessage from '../ErrorMessage'
 
 import Lead from './Lead'
 import Carpet from './Carpet'
@@ -14,34 +18,46 @@ import MiniFront from './MiniFront'
 import Community from './Community'
 import Pledge from './Pledge'
 
-const Marketing = ({ t }) => {
-  const [isMobile, setIsMobile] = useState()
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < mediaQueries.mBreakPoint)
-    }
-    window.addEventListener('resize', handleResize)
-    handleResize()
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+const Marketing = ({
+  t,
+  data: { loading, error, meGuidance },
+  inNativeApp,
+  inNativeIOSApp
+}) => {
+  const hasActiveMembership = meGuidance && !!meGuidance.activeMembership
 
   return (
     <>
-      <Lead isMobile={isMobile} t={t} />
+      {!loading && meGuidance && !hasActiveMembership && !inNativeIOSApp && (
+        <UserGuidance />
+      )}
+      {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
+      <Lead t={t} />
       <MiniFront t={t} />
-      <Carpet isMobile={isMobile} t={t} />
+      <Carpet t={t} />
       <Reasons t={t} />
       <Sections t={t} />
       <Team t={t} />
       <Community t={t} />
       <Vision t={t} />
       <Pledge />
-      <Logo isMobile={isMobile} />
+      <Logo />
     </>
   )
 }
 
-export default compose(withT)(Marketing)
+const query = gql`
+  query MarketingPage {
+    meGuidance: me {
+      id
+      activeMembership {
+        id
+      }
+      accessGrants {
+        id
+      }
+    }
+  }
+`
+
+export default compose(withT, withInNativeApp, graphql(query))(Marketing)

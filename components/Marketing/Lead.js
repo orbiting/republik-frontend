@@ -7,10 +7,12 @@ import {
   fontStyles
 } from '@project-r/styleguide'
 
-export default function LeadSection({ t, isMobile }) {
+export default function LeadSection({ t }) {
   return (
     <Container {...styles.container}>
-      <Logo height={isMobile ? 30 : 60} />
+      <div {...styles.logo}>
+        <Logo />
+      </div>
       <h2 {...styles.lead}>{t('marketing/page/lead/subtitle')}</h2>
     </Container>
   )
@@ -41,6 +43,12 @@ const styles = {
     [mediaQueries.mUp]: {
       fontSize: 36,
       lineHeight: '48px'
+    }
+  }),
+  logo: css({
+    width: 200,
+    [mediaQueries.mUp]: {
+      width: 400
     }
   })
 }

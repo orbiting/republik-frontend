@@ -101,7 +101,6 @@ const Frame = ({
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
   isOnMarketingPage,
-  colorSchemeKey = 'light',
   pageColorSchemeKey
 }) => {
   const hasOverviewNav = isMember && wantOverviewNav
@@ -119,11 +118,8 @@ const Frame = ({
     })
   }, [hasSecondaryNav])
   return (
-    <ColorContextProvider
-      root
-      colorSchemeKey={isOnMarketingPage ? colorSchemeKey : 'auto'}
-    >
-      <ColorHtmlBodyColors colorSchemeKey={colorSchemeKey} />
+    <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
+      {/* body growing only needed when rendering a footer */}
       <div
         {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
         {...padHeaderRule}
@@ -173,7 +169,7 @@ const Frame = ({
         </Header>
       </div>
       {!inNativeApp && footer && <Footer />}
-    </ColorContextProvider>
+    </div>
   )
 }
 

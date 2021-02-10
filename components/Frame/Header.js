@@ -219,6 +219,7 @@ const Header = ({
                   }/aria`
                 )}
                 isOnMarketingPage={isOnMarketingPage}
+                inNativeIOSApp={inNativeIOSApp}
                 onClick={() =>
                   !isAnyNavExpanded
                     ? toggleExpanded('user')
@@ -230,7 +231,7 @@ const Header = ({
               {me && <NotificationIcon />}
             </div>
           </div>
-          {!isOnMarketingPage ? (
+          {!isOnMarketingPage || (!isOnMarketingPage && inNativeIOSApp) ? (
             <div {...styles.navBarItem}>
               <a
                 {...styles.logo}
@@ -257,7 +258,7 @@ const Header = ({
                     isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
                   }
                 />
-              ) : (
+              ) : !inNativeIOSApp ? (
                 <Button
                   primary
                   href='/pledge'
@@ -271,10 +272,10 @@ const Header = ({
                   }}
                 >
                   {isMobile && !isOnMarketingPage
-                    ? 'Abo'
+                    ? t('marketing/page/carpet/buttonsmall')
                     : t('marketing/page/carpet/button')}
                 </Button>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ const Vision = ({ t }) => {
       <Editorial.P>{t('marketing/page/vision/paragraph2')}</Editorial.P>
       <Editorial.P>
         <Link route='about' passHref>
-          <Editorial.A>Mehr erfahren</Editorial.A>
+          <Editorial.A>{t('marketing/page/vision/more')}</Editorial.A>
         </Link>
       </Editorial.P>
     </SectionContainer>

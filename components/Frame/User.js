@@ -35,7 +35,7 @@ const User = ({
   backButton,
   onClick,
   isOnMarketingPage,
-  isMobile
+  inNativeIOSApp
 }) => {
   const [colorScheme] = useColorContext()
   return (
@@ -64,8 +64,14 @@ const User = ({
             <span {...styles.anonymous}>
               <MdAccountBox {...colorScheme.set('fill', 'text')} />
             </span>
-            {isOnMarketingPage || !isMobile ? (
-              <span {...styles.label}>{t('header/signin')}</span>
+            {isOnMarketingPage ? (
+              <span
+                {...styles.label}
+                // Always show Label in Naive IOS app
+                style={{ display: inNativeIOSApp && 'inline-block' }}
+              >
+                {t('header/signin')}
+              </span>
             ) : null}
           </Fragment>
         )}
@@ -124,9 +130,12 @@ const styles = {
     }
   }),
   label: css({
-    display: 'inline-block',
+    display: 'none',
     verticalAlign: 'middle',
-    marginLeft: 5
+    marginLeft: 5,
+    [mediaQueries.mUp]: {
+      display: 'inline-block'
+    }
   })
 }
 

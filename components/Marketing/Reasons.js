@@ -6,7 +6,6 @@ import {
   TeaserFrontTile,
   fontStyles,
   Editorial,
-  Center,
   Button,
   mediaQueries
 } from '@project-r/styleguide'

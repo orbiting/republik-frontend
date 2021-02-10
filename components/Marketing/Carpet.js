@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
@@ -24,8 +24,20 @@ const query = gql`
   }
 `
 
-const Carpet = ({ isMobile, t, data: { loading, front } }) => {
+const Carpet = ({ t, data: { loading, front } }) => {
   const [highlight, setHighlight] = useState()
+  const [isMobile, setIsMobile] = useState()
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < mediaQueries.mBreakPoint)
+    }
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   // ensure the highlighFunction is not dedected as an state update function
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)

@@ -1,5 +1,5 @@
 {
-  "updated": "2021-02-09T13:30:27.968Z",
+  "updated": "2021-02-10T09:01:37.937Z",
   "title": "live",
   "data": [
     {
@@ -447,6 +447,10 @@
       "value": "Jetzt abonnieren"
     },
     {
+      "key": "marketing/page/carpet/buttonsmall",
+      "value": "Abo"
+    },
+    {
       "key": "marketing/page/team/title",
       "value": "Wir sind Ihr Team"
     },
@@ -473,6 +477,10 @@
     {
       "key": "marketing/page/vision/title",
       "value": "Wir haben eine Vision"
+    },
+    {
+      "key": "marketing/page/vision/more",
+      "value": "Mehr erfahren"
     },
     {
       "key": "marketing/offers/students",

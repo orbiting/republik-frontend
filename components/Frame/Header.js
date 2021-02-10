@@ -6,11 +6,10 @@ import {
   Logo,
   mediaQueries,
   HeaderHeightProvider,
-  useColorContext,
-  Button
+  useColorContext
 } from '@project-r/styleguide'
 
-import { Router } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -169,6 +168,17 @@ const Header = ({
     )
   }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
 
+  const buttonStyleRules = useMemo(() =>
+    css({
+      backgroundColor: colorScheme.getCSSColor('primary'),
+      color: '#FFF',
+      '@media (hover)': {
+        ':hover': {
+          backgroundColor: colorScheme.getCSSColor('primaryHover')
+        }
+      }
+    })
+  )
   return (
     <>
       <div
@@ -259,22 +269,32 @@ const Header = ({
                   }
                 />
               ) : !inNativeIOSApp ? (
-                <Button
-                  primary
-                  href='/pledge'
-                  style={{
-                    height: scrollableHeaderHeight - 1,
-                    padding: isOnMarketingPage && !isMobile && '10px 80px',
-                    minHeight: isMobile && 'auto',
-                    minWidth: isMobile && 'auto',
-                    whiteSpace: 'nowrap',
-                    fontSize: isMobile ? 16 : 22
-                  }}
-                >
-                  {isMobile && !isOnMarketingPage
-                    ? t('marketing/page/carpet/buttonsmall')
-                    : t('marketing/page/carpet/button')}
-                </Button>
+                <Link route='plegde' passHref>
+                  <a
+                    primary
+                    href='/pledge'
+                    {...styles.button}
+                    {...buttonStyleRules}
+                    {...(isOnMarketingPage && styles.buttonMarketing)}
+                    style={{
+                      height: scrollableHeaderHeight - 1,
+                      color: '#FFF'
+                    }}
+                  >
+                    {isOnMarketingPage ? (
+                      <span>{t('marketing/page/carpet/button')}</span>
+                    ) : (
+                      <>
+                        <span {...styles.buttonTextMobile}>
+                          {t('marketing/page/carpet/buttonsmall')}
+                        </span>
+                        <span {...styles.buttonText}>
+                          {t('marketing/page/carpet/button')}
+                        </span>
+                      </>
+                    )}
+                  </a>
+                </Link>
               ) : null}
             </div>
           </div>
@@ -335,13 +355,7 @@ const HeaderWithContext = props => {
   const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
   const [headerOffset, setHeaderOffset] = useState(0)
 
-  const {
-    cover,
-    children,
-    hasOverviewNav,
-    secondaryNav,
-    inNativeIOSApp
-  } = props
+  const { cover, children, hasOverviewNav, secondaryNav } = props
 
   const hasSecondaryNav = hasOverviewNav || secondaryNav
   const headerConfig = useMemo(() => {
@@ -438,6 +452,36 @@ const styles = {
     [mediaQueries.mUp]: {
       padding: LOGO_PADDING,
       width: LOGO_WIDTH + LOGO_PADDING * 2
+    }
+  }),
+  button: css({
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+    fontSize: 16,
+    padding: '10px 20px 10px 20px',
+    verticalAlign: 'middle',
+    textAlign: 'center',
+    textDecoration: 'none',
+    lineHeight: 1.75,
+    [mediaQueries.mUp]: {
+      fontSize: 22
+    }
+  }),
+  buttonMarketing: css({
+    [mediaQueries.mUp]: {
+      padding: '10px 80px'
+    }
+  }),
+  buttonText: css({
+    display: 'none',
+    [mediaQueries.mUp]: {
+      display: 'inline'
+    }
+  }),
+  buttonTextMobile: css({
+    display: 'inline',
+    [mediaQueries.mUp]: {
+      display: 'none'
     }
   })
 }

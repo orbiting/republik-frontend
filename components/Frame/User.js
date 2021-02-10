@@ -28,15 +28,7 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({
-  t,
-  me,
-  title,
-  backButton,
-  onClick,
-  isOnMarketingPage,
-  inNativeIOSApp
-}) => {
+const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
   const [colorScheme] = useColorContext()
   return (
     <button {...styles.user} onClick={onClick} title={title}>
@@ -64,15 +56,13 @@ const User = ({
             <span {...styles.anonymous}>
               <MdAccountBox {...colorScheme.set('fill', 'text')} />
             </span>
-            {isOnMarketingPage ? (
-              <span
-                {...styles.label}
-                // Always show Label in Naive IOS app
-                style={{ display: inNativeIOSApp && 'inline-block' }}
-              >
-                {t('header/signin')}
-              </span>
-            ) : null}
+            <span
+              {...(isOnMarketingPage
+                ? styles.labelMarketing
+                : styles.labelDefault)}
+            >
+              {t('header/signin')}
+            </span>
           </Fragment>
         )}
       </span>
@@ -129,7 +119,12 @@ const styles = {
       }
     }
   }),
-  label: css({
+  labelMarketing: css({
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    marginLeft: 5
+  }),
+  labelDefault: css({
     display: 'none',
     verticalAlign: 'middle',
     marginLeft: 5,

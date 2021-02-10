@@ -25,12 +25,14 @@ import { P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
 import text19 from '../components/Overview/2019'
 import text20 from '../components/Overview/2020'
+import text21 from '../components/Overview/2021'
 import { getTeasersFromDocument } from '../components/Overview/utils'
 
 const texts = {
   2018: text18,
   2019: text19,
-  2020: text20
+  2020: text20,
+  2021: text21
 }
 
 const knownYears = {

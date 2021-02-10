@@ -22,7 +22,7 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: '8em'
+    margin: '8em 0'
   }),
   logo: css({
     width: 290,

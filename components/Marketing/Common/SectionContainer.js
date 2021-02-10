@@ -12,7 +12,7 @@ export default function SectionContainer({ children, maxWidth, marginTop }) {
 
 export const sectionContainerStyle = css({
   margin: '0 auto',
-  marginTop: '4em',
+  marginTop: '5em',
   padding: '0px 15px',
   [mediaQueries.mUp]: {
     marginTop: '8em'

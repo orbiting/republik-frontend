@@ -25,7 +25,7 @@ const Community = ({ t, data: { loading, error, featured } }) => {
         error={error}
         style={{ minHeight: 400 }}
         render={() => (
-          <TeaserFrontTileRow columns={2}>
+          <TeaserFrontTileRow columns={2} noPadding>
             {featured.nodes.map(comment => {
               return (
                 <TeaserFrontTile key={comment.id} align='top' aboveTheFold>
@@ -34,7 +34,7 @@ const Community = ({ t, data: { loading, error, featured } }) => {
                       ...comment,
                       discussion: {
                         ...comment.discussion,
-                        image: comment.discussion?.document?.meta?.twitterImage
+                        image: comment.discussion?.document?.meta?.image
                       }
                     }}
                     Link={CommentLink}
@@ -84,7 +84,7 @@ const query = gql`
           document {
             id
             meta {
-              twitterImage
+              image
             }
           }
         }

@@ -271,7 +271,6 @@ const Header = ({
               ) : !inNativeIOSApp ? (
                 <Link route='plegde' passHref>
                   <a
-                    primary
                     href='/pledge'
                     {...styles.button}
                     {...buttonStyleRules}

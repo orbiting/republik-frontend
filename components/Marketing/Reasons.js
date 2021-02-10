@@ -12,7 +12,7 @@ import {
 
 const Reasons = ({ t }) => {
   return (
-    <div style={{ maxWidth: 1280, margin: '0 auto', padding: 15 }}>
+    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 15px' }}>
       <TeaserFrontTileRow columns={3}>
         <TeaserFrontTile align='top' padding={'0 5%'}>
           <h2 {...styles.title}>{t('marketing/page/reasons/1/title')}</h2>
@@ -28,17 +28,10 @@ const Reasons = ({ t }) => {
         </TeaserFrontTile>
       </TeaserFrontTileRow>
       <div {...styles.buttons}>
-        <Button
-          style={{ marginBottom: 20 }}
-          href='/angebote?package=ABO'
-          primary
-        >
+        <Button href='/angebote?package=ABO' primary>
           {t('marketing/join/ABO/button/label')}
         </Button>
-        <Button
-          style={{ marginBottom: 20 }}
-          href='/angebote?package=MONTHLY_ABO'
-        >
+        <Button href='/angebote?package=MONTHLY_ABO'>
           {t('marketing/join/MONTHLY_ABO/button/label')}
         </Button>
       </div>
@@ -55,10 +48,14 @@ const styles = {
     justifyContent: 'center',
     flexWrap: 'wrap',
     flexDirection: 'column',
+    '>:first-child': {
+      marginBottom: 20
+    },
     [mediaQueries.mUp]: {
       flexDirection: 'row',
       '>:first-child': {
-        marginRight: 24
+        marginRight: 24,
+        marginBottom: 0
       }
     }
   })

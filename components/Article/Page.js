@@ -453,9 +453,7 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        {(actionBar ||
-                          isSection ||
-                          showNewsletterSignupTop) && (
+                        {actionBar || isSection || showNewsletterSignupTop ? (
                           <Center>
                             {actionBar && (
                               <div
@@ -485,6 +483,10 @@ const ArticlePage = ({
                               </div>
                             )}
                           </Center>
+                        ) : (
+                          <div {...styles.actionBarContainer}>
+                            {/* space before paynote */}
+                          </div>
                         )}
                         {!suppressFirstPayNote && payNote}
                       </div>

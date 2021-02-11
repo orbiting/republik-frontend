@@ -303,7 +303,9 @@ export class List extends Component {
     window.removeEventListener('resize', this.measure)
   }
   getMaxColumns() {
-    return this.props.singleRow ? this.props.first : 5
+    return (
+      this.props.maxColumns || (this.props.singleRow ? this.props.first : 5)
+    )
   }
   render() {
     const {

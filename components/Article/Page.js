@@ -74,7 +74,7 @@ const Manifest = dynamic(() => import('../About/Manifest'), {
 })
 const TeamTeaser = dynamic(() => import('../About/TeamTeaser'), dynamicOptions)
 const TestimonialList = dynamic(
-  () => import('../Testimonial/List'),
+  () => import('../Testimonial/List').then(m => m.ListWithQuery),
   dynamicOptions
 )
 const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {

@@ -106,7 +106,7 @@ const Employees = compose(
         )
         if (filter) {
           return (
-            <div {...(!singleRow && styles.container)}>
+            <div>
               <div {...tilesStyle}>
                 {employees
                   .filter(filter)

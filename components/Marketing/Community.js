@@ -1,13 +1,8 @@
 import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import {
-  Loader,
-  TeaserFrontTileRow,
-  TeaserFrontTile,
-  CommentTeaser,
-  Breakout
-} from '@project-r/styleguide'
+import { Loader, CommentTeaser, mediaQueries } from '@project-r/styleguide'
+import { css } from 'glamor'
 
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
@@ -25,10 +20,15 @@ const Community = ({ t, data: { loading, error, featured } }) => {
         error={error}
         style={{ minHeight: 400 }}
         render={() => (
-          <TeaserFrontTileRow columns={2} noPadding>
+          <div {...styles.row}>
             {featured.nodes.map(comment => {
               return (
-                <TeaserFrontTile key={comment.id} align='top' aboveTheFold>
+                <div
+                  {...styles.comment}
+                  key={comment.id}
+                  align='top'
+                  aboveTheFold
+                >
                   <CommentTeaser
                     {...{
                       ...comment,
@@ -40,14 +40,36 @@ const Community = ({ t, data: { loading, error, featured } }) => {
                     Link={CommentLink}
                     t={t}
                   />
-                </TeaserFrontTile>
+                </div>
               )
             })}
-          </TeaserFrontTileRow>
+          </div>
         )}
       />
     </SectionContainer>
   )
+}
+
+const styles = {
+  row: css({
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: 1280,
+    [mediaQueries.mUp]: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    }
+  }),
+  comment: css({
+    margin: '0 auto',
+    width: '100%',
+    maxWidth: 500,
+    padding: 0,
+    [mediaQueries.mUp]: {
+      width: '50%',
+      padding: '0 15px'
+    }
+  })
 }
 
 const query = gql`

@@ -1,8 +1,8 @@
 import React from 'react'
 import { css } from 'glamor'
-import { mediaQueries, Center } from '@project-r/styleguide'
+import { mediaQueries } from '@project-r/styleguide'
 
-export default function SectionContainer({ children, maxWidth, marginTop }) {
+export default function SectionContainer({ children, maxWidth }) {
   return (
     <div {...sectionContainerStyle} style={{ maxWidth: maxWidth || 1280 }}>
       {children}

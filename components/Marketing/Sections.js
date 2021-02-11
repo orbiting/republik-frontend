@@ -19,7 +19,7 @@ const sectionContent = [
     title: 'Covid-19-Uhr-Newsletter',
     image: '/static/marketing/covid.png?size=80x80',
     color: '#000000',
-    Description: () => (
+    description: (
       <>
         Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen für
         alle. Auch ohne Mitgliedschaft oder Abo.{' '}
@@ -33,7 +33,7 @@ const sectionContent = [
     title: 'Briefing',
     image: '/static/marketing/briefings.png?size=80x80',
     color: '#0A99B8',
-    Description: () => (
+    description: (
       <>
         Durch die Woche mit der Republik: Das Datenbriefing «Auf lange Sicht» am
         Montag, das Justiz-Briefing «Am Gericht» am Mittwoch, das «Briefing aus
@@ -46,7 +46,7 @@ const sectionContent = [
     image: '/static/marketing/kolumnen.png?size=80x80',
     imageDark: '/static/marketing/kolumnen-dark.png?size=80x80',
     color: '#D2933C',
-    Description: () => (
+    description: (
       <>
         Die Köpfe der Republik: Immer wieder dienstags eine Kolumne von Mely
         Kiyak oder Daniel Strassberg, jeden Samstag von Daniel Binswanger. Und
@@ -59,7 +59,7 @@ const sectionContent = [
     title: 'Audio',
     image: '/static/marketing/audio.png?size=80x80',
     color: '#000000',
-    Description: () => (
+    description: (
       <>
         Wenn Sie gerade keine Hand frei haben – hier finden Sie Journalismus
         fürs Ohr: Diskussionen, Podcasts, Audio-Serien. Und vorgelesene
@@ -105,9 +105,7 @@ const Sections = ({ t }) => {
             >
               {section.title}
             </Meta.Subhead>
-            <Meta.P>
-              <section.Description />
-            </Meta.P>
+            <Meta.P>{section.description}</Meta.P>
           </div>
         </div>
       ))}

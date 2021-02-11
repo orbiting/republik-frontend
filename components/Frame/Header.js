@@ -169,16 +169,32 @@ const Header = ({
   }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
 
   const buttonColorRule = useMemo(() => {
+    if (!isOnMarketingPage) {
+      return css({
+        color: colorScheme.getCSSColor('default'),
+        backgroundColor: colorScheme.getCSSColor('text'),
+        '@media (hover)': {
+          ':hover': {
+            color: colorScheme.getCSSColor('#FFF'),
+            backgroundColor: colorScheme.getCSSColor(
+              formatColor || 'primary',
+              'format'
+            )
+          }
+        }
+      })
+    }
     return css({
       color: colorScheme.getCSSColor('#FFF'),
       backgroundColor: colorScheme.getCSSColor('primary'),
       '@media (hover)': {
         ':hover': {
+          color: colorScheme.getCSSColor('#FFF'),
           backgroundColor: colorScheme.getCSSColor('primaryHover')
         }
       }
     })
-  }, [colorScheme])
+  }, [isOnMarketingPage, colorScheme, formatColor])
   return (
     <>
       <div
@@ -273,8 +289,12 @@ const Header = ({
                   <a
                     href='/pledge'
                     {...styles.button}
+                    {...(isOnMarketingPage
+                      ? styles.buttonMarketing
+                      : formatColor
+                      ? styles.buttonFormatColor
+                      : styles.buttonGeneric)}
                     {...buttonColorRule}
-                    {...(isOnMarketingPage && styles.buttonMarketing)}
                   >
                     {isOnMarketingPage ? (
                       <span>{t('marketing/page/carpet/button')}</span>
@@ -453,19 +473,34 @@ const styles = {
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     fontSize: 16,
-    padding: '10px 20px 10px 20px',
     verticalAlign: 'middle',
     textAlign: 'center',
     textDecoration: 'none',
     lineHeight: 1.75,
-    height: HEADER_HEIGHT_MOBILE,
+    padding: '10px 20px',
     [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT,
       fontSize: 22
     }
   }),
-  buttonMarketing: css({
+  buttonFormatColor: css({
+    height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
+      padding: '10px 30px',
+      height: HEADER_HEIGHT
+    }
+  }),
+  buttonGeneric: css({
+    height: HEADER_HEIGHT_MOBILE + 1,
+    marginBottom: -1, // overlap HR line below button
+    [mediaQueries.mUp]: {
+      padding: '10px 30px',
+      height: HEADER_HEIGHT + 1
+    }
+  }),
+  buttonMarketing: css({
+    height: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT,
       padding: '10px 80px'
     }
   }),

@@ -148,14 +148,16 @@ const Frame = ({
                 />
               </Box>
             </noscript>
-            {me && me.prolongBeforeDate !== null && (
-              <ProlongBox
-                t={t}
-                prolongBeforeDate={me.prolongBeforeDate}
-                membership={me.activeMembership}
-                dark={dark}
-              />
-            )}
+            {me &&
+              me.prolongBeforeDate !== null &&
+              me.activeMembership !== null && (
+                <ProlongBox
+                  t={t}
+                  prolongBeforeDate={me.prolongBeforeDate}
+                  membership={me.activeMembership}
+                  dark={dark}
+                />
+              )}
             {raw ? (
               children
             ) : (

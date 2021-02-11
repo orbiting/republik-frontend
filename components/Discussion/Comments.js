@@ -340,7 +340,9 @@ const Comments = props => {
                   payload: {
                     title: discussion.title,
                     url: getFocusUrl(discussion, comment),
-                    subject: discussion.title || '',
+                    subject: t('discussion/share/emailSubject', {
+                      title: discussion.title
+                    }),
                     dialogTitle: t('article/share/title')
                   }
                 })

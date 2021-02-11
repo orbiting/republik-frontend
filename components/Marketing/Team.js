@@ -60,7 +60,7 @@ const Team = ({ t, data: { loading, employees } }) => {
                         </Link>
                       </p>
                       <Label {...colorScheme.set('color', 'disabled')}>
-                        {employee.title}
+                        {employee.title || employee.group}
                       </Label>
                     </div>
                   </div>

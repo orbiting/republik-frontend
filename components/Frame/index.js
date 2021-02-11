@@ -168,7 +168,9 @@ const Frame = ({
           </ColorContextProvider>
         </Header>
       </div>
-      {!inNativeApp && footer && <Footer />}
+      {!inNativeApp && footer && (
+        <Footer isOnMarketingPage={isOnMarketingPage} />
+      )}
     </div>
   )
 }

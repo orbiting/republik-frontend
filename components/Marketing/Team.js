@@ -72,9 +72,7 @@ const Team = ({ t, data: { loading, employees } }) => {
       />
       <Editorial.P style={{ textAlign: 'center' }}>
         <Link route='legal/imprint' passHref>
-          <Editorial.A style={{ ...fontStyles.sansSerifRegular18 }}>
-            Alle Teammitglieder
-          </Editorial.A>
+          <Editorial.A>Alle Teammitglieder</Editorial.A>
         </Link>
       </Editorial.P>
     </SectionContainer>

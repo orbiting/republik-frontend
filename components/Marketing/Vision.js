@@ -1,16 +1,29 @@
 import React from 'react'
 
-import { Editorial } from '@project-r/styleguide'
-import SectionTitle from './Common/SectionTitle'
+import { Editorial, mediaQueries } from '@project-r/styleguide'
 import SectionContainer from './Common/SectionContainer'
 import HrefLink from '../Link/Href'
+import { css } from 'glamor'
+
+const styles = {
+  title: css({
+    display: 'block',
+    fontSize: 26,
+    lineHeight: '32px',
+    marginBottom: 22,
+    [mediaQueries.mUp]: {
+      fontSize: 39,
+      lineHeight: '52px',
+      marginBottom: 30
+    }
+  })
+}
 
 const Vision = ({ t }) => {
   return (
     <SectionContainer maxWidth={720}>
-      <SectionTitle title={t('marketing/page/vision/title')} />
       <Editorial.Subhead>
-        {t('marketing/page/vision/headline')}
+        <span {...styles.title}>{t('marketing/page/vision/headline')}</span>
       </Editorial.Subhead>
       <Editorial.P>{t('marketing/page/vision/paragraph1')}</Editorial.P>
       <Editorial.P>{t('marketing/page/vision/paragraph2')}</Editorial.P>

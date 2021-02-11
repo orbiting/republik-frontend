@@ -1,5 +1,5 @@
 {
-  "updated": "2021-02-10T09:01:37.937Z",
+  "updated": "2021-02-11T12:53:25.788Z",
   "title": "live",
   "data": [
     {
@@ -428,7 +428,7 @@
     },
     {
       "key": "marketing/page/vision/headline",
-      "value": "Ohne Journalismus keine Demokratie. Und ohne Demokratie keine Freiheit."
+      "value": "Ohne Journalismus keine Demokratie. Und ohne Demokratie keine Freiheit."
     },
     {
       "key": "marketing/page/vision/paragraph1",
@@ -475,12 +475,8 @@
       "value": "Die Republik ist eine Dienstleistung für interessierte Menschen in einer komplexen Welt. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen."
     },
     {
-      "key": "marketing/page/vision/title",
-      "value": "Wir haben eine Vision"
-    },
-    {
       "key": "marketing/page/vision/more",
-      "value": "Mehr erfahren"
+      "value": "Unsere Vision"
     },
     {
       "key": "marketing/offers/students",
@@ -1797,6 +1793,10 @@
     {
       "key": "discussion/focus/missing",
       "value": "Dieser spezifische Beitrag ging verloren. Versuchen Sie die Seite neu zu laden."
+    },
+    {
+      "key": "discussion/share/title",
+      "value": "Beitrag teilen"
     },
     {
       "key": "discussion/share/emailSubject",

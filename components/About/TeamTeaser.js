@@ -1,8 +1,8 @@
 import React from 'react'
 import Employees from '../Imprint/Employees'
 import { A, Interaction, mediaQueries } from '@project-r/styleguide'
-import { Link } from '../../lib/routes'
 import { css } from 'glamor'
+import HrefLink from '../Link/Href'
 
 const styles = {
   h3: css({
@@ -31,9 +31,9 @@ const TeamTeaser = ({ title, link }) => (
     <EmployeesRow />
     {link && (
       <div style={{ marginTop: 10 }}>
-        <Link href={link.path} passHref>
+        <HrefLink href={link.path} passHref>
           <A>{link.label}</A>
-        </Link>
+        </HrefLink>
       </div>
     )}
   </div>

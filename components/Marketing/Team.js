@@ -34,8 +34,12 @@ const Team = ({ t, data: { loading, employees } }) => {
                 <TeaserFrontTile key={employee.name}>
                   <h3 {...styles.pitch}>{`«${employee.pitch}»`}</h3>
                   <div {...styles.employee}>
-                    <Link href={`~${employee.user.slug}`} passHref>
-                      <a>
+                    <Link
+                      route='profile'
+                      params={{ slug: employee.user.slug || employee.user.id }}
+                      passHref
+                    >
+                      <a {...styles.link}>
                         <img
                           {...styles.profilePicture}
                           src={employee.user.portrait}
@@ -44,7 +48,17 @@ const Team = ({ t, data: { loading, employees } }) => {
                       </a>
                     </Link>
                     <div {...styles.employeeText}>
-                      <p {...styles.employeeName}>{employee.name}</p>
+                      <p {...styles.employeeName}>
+                        <Link
+                          route='profile'
+                          params={{
+                            slug: employee.user.slug || employee.user.id
+                          }}
+                          passHref
+                        >
+                          <a {...styles.link}>{employee.name}</a>
+                        </Link>
+                      </p>
                       <Label {...colorScheme.set('color', 'disabled')}>
                         {employee.title}
                       </Label>
@@ -57,7 +71,7 @@ const Team = ({ t, data: { loading, employees } }) => {
         )}
       />
       <Editorial.P style={{ textAlign: 'center' }}>
-        <Link route='team' passHref>
+        <Link route='legal/imprint' passHref>
           <Editorial.A style={{ ...fontStyles.sansSerifRegular18 }}>
             Alle Teammitglieder
           </Editorial.A>
@@ -68,6 +82,10 @@ const Team = ({ t, data: { loading, employees } }) => {
 }
 
 const styles = {
+  link: css({
+    color: 'inherit',
+    textDecoration: 'none'
+  }),
   profilePicture: css({
     display: 'block',
     width: 46,

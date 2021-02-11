@@ -6,7 +6,7 @@ import {
   Meta,
   useColorContext,
   mediaQueries,
-  A,
+  Editorial,
   FigureImage
 } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
@@ -24,7 +24,7 @@ const sectionContent = [
         Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen für
         alle. Auch ohne Mitgliedschaft oder Abo.{' '}
         <Link route='/format/covid-19-uhr-newsletter' passHref>
-          <A>Hier gratis abonnieren.</A>
+          <Editorial.A>Jetzt gratis abonnieren.</Editorial.A>
         </Link>
       </>
     )

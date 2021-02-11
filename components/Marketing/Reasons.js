@@ -10,6 +10,8 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
+import { Link } from '../../lib/routes'
+
 const Reasons = ({ t }) => {
   return (
     <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 15px' }}>
@@ -28,12 +30,12 @@ const Reasons = ({ t }) => {
         </TeaserFrontTile>
       </TeaserFrontTileRow>
       <div {...styles.buttons}>
-        <Button href='/angebote?package=ABO' primary>
-          {t('marketing/join/ABO/button/label')}
-        </Button>
-        <Button href='/angebote?package=MONTHLY_ABO'>
-          {t('marketing/join/MONTHLY_ABO/button/label')}
-        </Button>
+        <Link route='pledge' params={{ package: 'ABO' }} passHref>
+          <Button primary>{t('marketing/join/ABO/button/label')}</Button>
+        </Link>
+        <Link route='pledge' params={{ package: 'MONTHLY_ABO' }} passHref>
+          <Button>{t('marketing/join/MONTHLY_ABO/button/label')}</Button>
+        </Link>
       </div>
     </div>
   )

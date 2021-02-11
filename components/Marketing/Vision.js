@@ -3,7 +3,8 @@ import React from 'react'
 import { Editorial } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
-import { Link } from '../../lib/routes'
+import HrefLink from '../Link/Href'
+
 const Vision = ({ t }) => {
   return (
     <SectionContainer maxWidth={720}>
@@ -14,9 +15,9 @@ const Vision = ({ t }) => {
       <Editorial.P>{t('marketing/page/vision/paragraph1')}</Editorial.P>
       <Editorial.P>{t('marketing/page/vision/paragraph2')}</Editorial.P>
       <Editorial.P>
-        <Link route='about' passHref>
+        <HrefLink href='/about' passHref>
           <Editorial.A>{t('marketing/page/vision/more')}</Editorial.A>
-        </Link>
+        </HrefLink>
       </Editorial.P>
     </SectionContainer>
   )

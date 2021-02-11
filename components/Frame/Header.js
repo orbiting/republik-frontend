@@ -168,17 +168,17 @@ const Header = ({
     )
   }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
 
-  const buttonStyleRules = useMemo(() =>
-    css({
+  const buttonColorRule = useMemo(() => {
+    return css({
+      color: colorScheme.getCSSColor('#FFF'),
       backgroundColor: colorScheme.getCSSColor('primary'),
-      color: '#FFF',
       '@media (hover)': {
         ':hover': {
           backgroundColor: colorScheme.getCSSColor('primaryHover')
         }
       }
     })
-  )
+  }, [colorScheme])
   return (
     <>
       <div
@@ -255,7 +255,7 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              {me ? (
+              {me || inNativeApp ? (
                 <Toggle
                   expanded={isAnyNavExpanded}
                   title={t(
@@ -268,17 +268,13 @@ const Header = ({
                     isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
                   }
                 />
-              ) : !inNativeIOSApp ? (
+              ) : (
                 <Link route='plegde' passHref>
                   <a
                     href='/pledge'
                     {...styles.button}
-                    {...buttonStyleRules}
+                    {...buttonColorRule}
                     {...(isOnMarketingPage && styles.buttonMarketing)}
-                    style={{
-                      height: scrollableHeaderHeight - 1,
-                      color: '#FFF'
-                    }}
                   >
                     {isOnMarketingPage ? (
                       <span>{t('marketing/page/carpet/button')}</span>
@@ -294,7 +290,7 @@ const Header = ({
                     )}
                   </a>
                 </Link>
-              ) : null}
+              )}
             </div>
           </div>
         </div>
@@ -462,7 +458,9 @@ const styles = {
     textAlign: 'center',
     textDecoration: 'none',
     lineHeight: 1.75,
+    height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT,
       fontSize: 22
     }
   }),

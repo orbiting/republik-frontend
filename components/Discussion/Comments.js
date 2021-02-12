@@ -4,6 +4,7 @@ import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import { Router } from '../../lib/routes'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 import { isAdmin } from './graphql/enhancers/isAdmin'
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
@@ -85,7 +86,8 @@ const Comments = props => {
     includeParent,
     discussionId,
     rootCommentOverlay,
-    markAsReadMutation
+    markAsReadMutation,
+    inNativeApp
   } = props
 
   /*
@@ -332,7 +334,21 @@ const Comments = props => {
               })
             },
             shareComment: comment => {
-              setShareUrl(getFocusUrl(discussion, comment))
+              if (inNativeApp) {
+                postMessage({
+                  type: 'share',
+                  payload: {
+                    title: discussion.title,
+                    url: getFocusUrl(discussion, comment),
+                    subject: t('discussion/share/emailSubject', {
+                      title: discussion.title
+                    }),
+                    dialogTitle: t('article/share/title')
+                  }
+                })
+              } else {
+                setShareUrl(getFocusUrl(discussion, comment))
+              }
               return Promise.resolve({ ok: true })
             },
             openDiscussionPreferences: () => {
@@ -490,7 +506,8 @@ export default compose(
   withEditor,
   withSubmitComment,
   withDiscussionComments,
-  withMarkAsReadMutation
+  withMarkAsReadMutation,
+  withInNativeApp
 )(Comments)
 
 const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {

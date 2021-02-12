@@ -11,27 +11,29 @@ import {
 } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
-import { Link } from '../../lib/routes'
+import HrefLink from '../Link/Href'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 const sectionContent = [
   {
     title: 'Covid-19-Uhr-Newsletter',
-    image: '/static/marketing/covid.png?size=80x80',
-    color: '#000000',
+    href: '/format/covid-19-uhr-newsletter',
+    image: '/static/marketing/covid.png?size=2000x2000',
+    color: '#d44438',
     description: (
       <>
         Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen für
         alle. Auch ohne Mitgliedschaft oder Abo.{' '}
-        <Link route='/format/covid-19-uhr-newsletter' passHref>
+        <HrefLink href='/format/covid-19-uhr-newsletter' passHref>
           <Editorial.A>Jetzt gratis abonnieren.</Editorial.A>
-        </Link>
+        </HrefLink>
       </>
     )
   },
   {
     title: 'Briefing',
-    image: '/static/marketing/briefings.png?size=80x80',
+    href: '/briefings',
+    image: '/static/marketing/briefings.png?size=2000x2000',
     color: '#0A99B8',
     description: (
       <>
@@ -43,8 +45,9 @@ const sectionContent = [
   },
   {
     title: 'Kolumnen',
-    image: '/static/marketing/kolumnen.png?size=80x80',
-    imageDark: '/static/marketing/kolumnen-dark.png?size=80x80',
+    href: '/kolumnen',
+    image: '/static/marketing/kolumnen.png?size=2000x2000',
+    imageDark: '/static/marketing/kolumnen-dark.png?size=2000x2000',
     color: '#D2933C',
     description: (
       <>
@@ -57,7 +60,8 @@ const sectionContent = [
   },
   {
     title: 'Audio',
-    image: '/static/marketing/audio.png?size=80x80',
+    href: '/audio',
+    image: '/static/marketing/audio.png?size=2000x2000',
     color: '#000000',
     description: (
       <>
@@ -84,26 +88,32 @@ const Sections = ({ t }) => {
           {...colorScheme.set('borderColor', 'divider')}
         >
           <div {...styles.picture}>
-            <FigureImage
-              {...FigureImage.utils.getResizedSrcs(
-                `${CDN_FRONTEND_BASE_URL}${section.image}`,
-                80
-              )}
-              dark={
-                section.imageDark &&
-                FigureImage.utils.getResizedSrcs(
-                  `${CDN_FRONTEND_BASE_URL}${section.imageDark}`,
-                  80
-                )
-              }
-            />
+            <HrefLink href={section.href} passHref>
+              <a {...styles.link}>
+                <FigureImage
+                  {...FigureImage.utils.getResizedSrcs(
+                    `${CDN_FRONTEND_BASE_URL}${section.image}`,
+                    80
+                  )}
+                  dark={
+                    section.imageDark &&
+                    FigureImage.utils.getResizedSrcs(
+                      `${CDN_FRONTEND_BASE_URL}${section.imageDark}`,
+                      80
+                    )
+                  }
+                />
+              </a>
+            </HrefLink>
           </div>
           <div {...styles.description}>
             <Meta.Subhead
               style={{ marginTop: 0 }}
               {...colorScheme.set('color', section.color, 'format')}
             >
-              {section.title}
+              <HrefLink href={section.href} passHref>
+                <a {...styles.link}>{section.title}</a>
+              </HrefLink>
             </Meta.Subhead>
             <Meta.P>{section.description}</Meta.P>
           </div>
@@ -137,6 +147,10 @@ const styles = {
   }),
   title: css({
     ...fontStyles.sansSerifRegular22
+  }),
+  link: css({
+    color: 'inherit',
+    textDecoration: 'none'
   }),
   descriptionText: {
     ...fontStyles.sansSerifRegular18

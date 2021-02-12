@@ -1,5 +1,5 @@
 {
-  "updated": "2021-01-29T11:05:56.118Z",
+  "updated": "2021-02-12T01:26:53.645Z",
   "title": "live",
   "data": [
     {
@@ -367,10 +367,6 @@
       "value": "Sie haben einen Gutschein? {claimLink}"
     },
     {
-      "key": "marketing/overview/title",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
-    },
-    {
       "key": "marketing/community/title/plain",
       "value": "Unsere Verlegerinnen und Verleger"
     },
@@ -395,8 +391,92 @@
       "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
     },
     {
+      "key": "marketing/page/new",
+      "value": "Täglich ein bis drei neue Beiträge. Im Web, in der App oder als Newsletter."
+    },
+    {
       "key": "marketing/signup/button/label",
       "value": "Anmelden"
+    },
+    {
+      "key": "marketing/page/lead/subtitle",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
+    },
+    {
+      "key": "marketing/page/reasons/1/title",
+      "value": "Transparent"
+    },
+    {
+      "key": "marketing/page/reasons/1/text",
+      "value": "Wir legen alles offen: unsere Finanzen, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass Transparenz wichtig ist."
+    },
+    {
+      "key": "marketing/page/reasons/2/title",
+      "value": "Werbefrei"
+    },
+    {
+      "key": "marketing/page/reasons/2/text",
+      "value": "Die Republik ist komplett werbefrei. So können wir uns auf unseren einzigen Kunden konzentrieren: Sie."
+    },
+    {
+      "key": "marketing/page/reasons/3/title",
+      "value": "Leserinnen­finanziert"
+    },
+    {
+      "key": "marketing/page/reasons/3/text",
+      "value": "Die Republik wird finanziert durch ihre 27’089 Abonnentinnen. Wir gehören niemandem – aber jedem unserer Mitglieder ein bisschen."
+    },
+    {
+      "key": "marketing/page/vision/headline",
+      "value": "Ohne Journalismus keine Demokratie. Und ohne Demokratie keine Freiheit."
+    },
+    {
+      "key": "marketing/page/vision/paragraph1",
+      "value": "Bei der Republik und beim Journalismus überhaupt geht es nicht nur um den individuellen Nutzen. Es geht auch darum, eine wichtige Funktion in einer Demokratie auszuüben: den Mächtigen auf die Finger zu schauen, unabhängig zu recherchieren und Missstände aufzudecken. "
+    },
+    {
+      "key": "marketing/page/vision/paragraph2",
+      "value": "Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie."
+    },
+    {
+      "key": "marketing/page/carpet/text",
+      "value": "Täglich ein bis drei neue Beiträge. Im Web, in der App oder als Newsletter. "
+    },
+    {
+      "key": "marketing/page/carpet/button",
+      "value": "Jetzt abonnieren"
+    },
+    {
+      "key": "marketing/page/carpet/buttonsmall",
+      "value": "Abo"
+    },
+    {
+      "key": "marketing/page/team/title",
+      "value": "Wir sind Ihr Team"
+    },
+    {
+      "key": "marketing/page/team/lead",
+      "value": "Unsere Crew besteht aus kompetenten Profis. Den besten, die wir finden konnten. Uns eint die Leidenschaft für guten Journalismus."
+    },
+    {
+      "key": "marketing/page/community/title",
+      "value": "Wir stehen mit Ihnen im Dialog"
+    },
+    {
+      "key": "marketing/page/community/lead",
+      "value": "Und wir lieben es! Die Republik wird mit Ihrer Stimme vielfältiger, interessanter und reflektierter."
+    },
+    {
+      "key": "marketing/page/sections/title",
+      "value": "Wir sind nützlich"
+    },
+    {
+      "key": "marketing/page/sections/lead",
+      "value": "Die Republik ist eine Dienstleistung für interessierte Menschen in einer komplexen Welt. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen."
+    },
+    {
+      "key": "marketing/page/vision/more",
+      "value": "Unsere Vision"
     },
     {
       "key": "marketing/offers/students",

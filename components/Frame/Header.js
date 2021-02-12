@@ -9,7 +9,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import { Router } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -59,6 +59,7 @@ const Header = ({
   pullable = true,
   hasOverviewNav,
   stickySecondaryNav,
+  isOnMarketingPage,
   pageColorSchemeKey
 }) => {
   const [colorScheme] = useColorContext()
@@ -131,7 +132,7 @@ const Header = ({
         )
       }
 
-      if (diff.current !== lastDiff.current) {
+      if (!isOnMarketingPage && diff.current !== lastDiff.current) {
         fixedRef.current.style.top = `${diff.current}px`
         setHeaderOffset(diff.current)
       }
@@ -167,6 +168,33 @@ const Header = ({
     )
   }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
 
+  const buttonColorRule = useMemo(() => {
+    if (!isOnMarketingPage) {
+      return css({
+        color: colorScheme.getCSSColor('default'),
+        backgroundColor: colorScheme.getCSSColor('text'),
+        '@media (hover)': {
+          ':hover': {
+            color: colorScheme.getCSSColor('#FFF'),
+            backgroundColor: colorScheme.getCSSColor(
+              formatColor || 'primary',
+              'format'
+            )
+          }
+        }
+      })
+    }
+    return css({
+      color: colorScheme.getCSSColor('#FFF'),
+      backgroundColor: colorScheme.getCSSColor('primary'),
+      '@media (hover)': {
+        ':hover': {
+          color: colorScheme.getCSSColor('#FFF'),
+          backgroundColor: colorScheme.getCSSColor('primaryHover')
+        }
+      }
+    })
+  }, [isOnMarketingPage, colorScheme, formatColor])
   return (
     <>
       <div
@@ -216,6 +244,8 @@ const Header = ({
                     expandedNav === 'user' ? 'close' : 'open'
                   }/aria`
                 )}
+                isOnMarketingPage={isOnMarketingPage}
+                inNativeIOSApp={inNativeIOSApp}
                 onClick={() =>
                   !isAnyNavExpanded
                     ? toggleExpanded('user')
@@ -227,28 +257,60 @@ const Header = ({
               {me && <NotificationIcon />}
             </div>
           </div>
-          <div {...styles.navBarItem}>
-            <a
-              {...styles.logo}
-              aria-label={t('header/logo/magazine/aria')}
-              href={'/'}
-              onClick={goTo('/', 'index')}
-            >
-              <Logo />
-            </a>
-          </div>
+          {!isOnMarketingPage || (!isOnMarketingPage && inNativeIOSApp) ? (
+            <div {...styles.navBarItem}>
+              <a
+                {...styles.logo}
+                aria-label={t('header/logo/magazine/aria')}
+                href={'/'}
+                onClick={goTo('/', 'index')}
+              >
+                <Logo />
+              </a>
+            </div>
+          ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              <Toggle
-                expanded={isAnyNavExpanded}
-                title={t(
-                  `header/nav/${expandedNav === 'main' ? 'close' : 'open'}/aria`
-                )}
-                id='main'
-                onClick={() =>
-                  isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
-                }
-              />
+              {me || inNativeApp ? (
+                <Toggle
+                  expanded={isAnyNavExpanded}
+                  title={t(
+                    `header/nav/${
+                      expandedNav === 'main' ? 'close' : 'open'
+                    }/aria`
+                  )}
+                  id='main'
+                  onClick={() =>
+                    isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
+                  }
+                />
+              ) : (
+                <Link route='plegde' passHref>
+                  <a
+                    href='/pledge'
+                    {...styles.button}
+                    {...(isOnMarketingPage
+                      ? styles.buttonMarketing
+                      : formatColor
+                      ? styles.buttonFormatColor
+                      : styles.buttonGeneric)}
+                    {...buttonColorRule}
+                  >
+                    {isOnMarketingPage ? (
+                      <span>{t('marketing/page/carpet/button')}</span>
+                    ) : (
+                      <>
+                        <span {...styles.buttonTextMobile}>
+                          {t('marketing/page/carpet/buttonsmall')}
+                        </span>
+                        <span {...styles.buttonText}>
+                          {t('marketing/page/carpet/button')}
+                        </span>
+                      </>
+                    )}
+                  </a>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -259,7 +321,7 @@ const Header = ({
           hasOverviewNav={hasOverviewNav}
           isSecondarySticky={headerOffset === -scrollableHeaderHeight}
         />
-        <HLine formatColor={formatColor} />
+        {!isOnMarketingPage ? <HLine formatColor={formatColor} /> : null}
       </div>
       <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
         <NavPopover
@@ -308,13 +370,7 @@ const HeaderWithContext = props => {
   const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
   const [headerOffset, setHeaderOffset] = useState(0)
 
-  const {
-    cover,
-    children,
-    hasOverviewNav,
-    secondaryNav,
-    inNativeIOSApp
-  } = props
+  const { cover, children, hasOverviewNav, secondaryNav } = props
 
   const hasSecondaryNav = hasOverviewNav || secondaryNav
   const headerConfig = useMemo(() => {
@@ -411,6 +467,53 @@ const styles = {
     [mediaQueries.mUp]: {
       padding: LOGO_PADDING,
       width: LOGO_WIDTH + LOGO_PADDING * 2
+    }
+  }),
+  button: css({
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+    fontSize: 16,
+    verticalAlign: 'middle',
+    textAlign: 'center',
+    textDecoration: 'none',
+    lineHeight: 1.75,
+    padding: '10px 20px',
+    [mediaQueries.mUp]: {
+      fontSize: 22
+    }
+  }),
+  buttonFormatColor: css({
+    height: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      padding: '10px 30px',
+      height: HEADER_HEIGHT
+    }
+  }),
+  buttonGeneric: css({
+    height: HEADER_HEIGHT_MOBILE + 1,
+    marginBottom: -1, // overlap HR line below button
+    [mediaQueries.mUp]: {
+      padding: '10px 30px',
+      height: HEADER_HEIGHT + 1
+    }
+  }),
+  buttonMarketing: css({
+    height: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT,
+      padding: '10px 80px'
+    }
+  }),
+  buttonText: css({
+    display: 'none',
+    [mediaQueries.mUp]: {
+      display: 'inline'
+    }
+  }),
+  buttonTextMobile: css({
+    display: 'inline',
+    [mediaQueries.mUp]: {
+      display: 'none'
     }
   })
 }

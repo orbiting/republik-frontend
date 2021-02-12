@@ -100,6 +100,7 @@ const Frame = ({
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
+  isOnMarketingPage,
   pageColorSchemeKey
 }) => {
   const hasOverviewNav = isMember && wantOverviewNav
@@ -133,6 +134,7 @@ const Frame = ({
           pullable={pullable}
           hasOverviewNav={hasOverviewNav}
           stickySecondaryNav={stickySecondaryNav}
+          isOnMarketingPage={isOnMarketingPage}
           pageColorSchemeKey={pageColorSchemeKey}
         >
           <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
@@ -148,14 +150,16 @@ const Frame = ({
                 />
               </Box>
             </noscript>
-            {me && me.prolongBeforeDate !== null && (
-              <ProlongBox
-                t={t}
-                prolongBeforeDate={me.prolongBeforeDate}
-                membership={me.activeMembership}
-                dark={dark}
-              />
-            )}
+            {me &&
+              me.prolongBeforeDate !== null &&
+              me.activeMembership !== null && (
+                <ProlongBox
+                  t={t}
+                  prolongBeforeDate={me.prolongBeforeDate}
+                  membership={me.activeMembership}
+                  dark={dark}
+                />
+              )}
             {raw ? (
               children
             ) : (
@@ -166,7 +170,9 @@ const Frame = ({
           </ColorContextProvider>
         </Header>
       </div>
-      {!inNativeApp && footer && <Footer />}
+      {!inNativeApp && footer && (
+        <Footer isOnMarketingPage={isOnMarketingPage} />
+      )}
     </div>
   )
 }

@@ -153,64 +153,70 @@ const styles = {
   })
 }
 
-export const Item = ({
-  previewImage,
-  image,
-  name,
-  isActive,
-  href,
-  onClick,
-  singleRow,
-  minColumns,
-  maxColumns,
-  style
-}) => {
-  const [colorScheme] = useColorContext()
+export const Item = React.forwardRef(
+  (
+    {
+      previewImage,
+      image,
+      name,
+      isActive,
+      href,
+      onClick,
+      singleRow,
+      minColumns,
+      maxColumns,
+      style
+    },
+    ref
+  ) => {
+    const [colorScheme] = useColorContext()
 
-  const itemStyles = minColumns
-    ? getItemStyles(singleRow, minColumns, maxColumns)
-    : singleRow
-    ? styles.singleRowItem
-    : styles.item
-  const Element = href ? 'a' : 'span'
+    const itemStyles = minColumns
+      ? getItemStyles(singleRow, minColumns, maxColumns)
+      : singleRow
+      ? styles.singleRowItem
+      : styles.item
+    const Element = href ? 'a' : 'span'
 
-  return (
-    <Element
-      href={href}
-      {...itemStyles}
-      style={{
-        ...style,
-        cursor: href ? 'pointer' : undefined
-      }}
-      onClick={href && onClick}
-    >
-      <span {...styles.aspect}>
-        {previewImage ? (
+    return (
+      <Element
+        ref={ref}
+        href={href}
+        {...itemStyles}
+        style={{
+          ...style,
+          cursor: href ? 'pointer' : undefined
+        }}
+        onClick={href && onClick}
+      >
+        <span {...styles.aspect}>
+          {previewImage ? (
+            <span
+              {...styles.previewImage}
+              style={{
+                backgroundImage: `url(${previewImage})`
+              }}
+            />
+          ) : (
+            <img src={image} {...styles.aspectImg} />
+          )}
+          <span {...styles.aspectFade} style={{ opacity: isActive ? 0 : 1 }} />
+        </span>
+        {!isActive && <span {...styles.name}>{name}</span>}
+        {isActive && (
           <span
-            {...styles.previewImage}
-            style={{
-              backgroundImage: `url(${previewImage})`
-            }}
+            {...styles.itemArrow}
+            {...css({
+              borderColor: []
+                .concat(colorScheme.getCSSColor('default'))
+                .map(color => `transparent transparent ${color} transparent`)
+            })}
           />
-        ) : (
-          <img src={image} {...styles.aspectImg} />
         )}
-        <span {...styles.aspectFade} style={{ opacity: isActive ? 0 : 1 }} />
-      </span>
-      {!isActive && <span {...styles.name}>{name}</span>}
-      {isActive && (
-        <span
-          {...styles.itemArrow}
-          {...css({
-            borderColor: []
-              .concat(colorScheme.getCSSColor('default'))
-              .map(color => `transparent transparent ${color} transparent`)
-          })}
-        />
-      )}
-    </Element>
-  )
-}
+      </Element>
+    )
+  }
+)
 
 const AUTO_INFINITE = 300
 
@@ -303,7 +309,9 @@ export class List extends Component {
     window.removeEventListener('resize', this.measure)
   }
   getMaxColumns() {
-    return this.props.singleRow ? this.props.first : 5
+    return (
+      this.props.maxColumns || (this.props.singleRow ? this.props.first : 5)
+    )
   }
   render() {
     const {

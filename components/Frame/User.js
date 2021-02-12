@@ -28,7 +28,7 @@ const getInitials = me =>
     .map(s => s[0])
     .join('')
 
-const User = ({ t, me, title, backButton, onClick }) => {
+const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
   const [colorScheme] = useColorContext()
   return (
     <button {...styles.user} onClick={onClick} title={title}>
@@ -56,7 +56,13 @@ const User = ({ t, me, title, backButton, onClick }) => {
             <span {...styles.anonymous}>
               <MdAccountBox {...colorScheme.set('fill', 'text')} />
             </span>
-            <span {...styles.label}>{t('header/signin')}</span>
+            <span
+              {...(isOnMarketingPage
+                ? styles.labelMarketing
+                : styles.labelDefault)}
+            >
+              {t('header/signin')}
+            </span>
           </Fragment>
         )}
       </span>
@@ -113,12 +119,17 @@ const styles = {
       }
     }
   }),
-  label: css({
+  labelMarketing: css({
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    marginLeft: 5
+  }),
+  labelDefault: css({
     display: 'none',
+    verticalAlign: 'middle',
+    marginLeft: 5,
     [mediaQueries.mUp]: {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      marginLeft: 5
+      display: 'inline-block'
     }
   })
 }

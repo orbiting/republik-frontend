@@ -9,13 +9,13 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
-import TeaserBlock from '../Overview/TeaserBlock'
+import TeaserBlock, { GAP } from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
 const query = gql`
   query MarketingPage {
     front: document(path: "/") {
       id
-      children(first: 60) {
+      children(first: 40) {
         nodes {
           body
         }
@@ -50,20 +50,27 @@ const Carpet = ({ t, data: { loading, front } }) => {
             top: 50,
             zIndex: 2,
             width: '100%',
-            height: 100,
-            backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0))'
+            height: 150,
+            backgroundImage: 'linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0))'
           }}
         />
         <Loader
           loading={loading}
           render={() => (
-            <div style={{ opacity: 0.6 }}>
+            <div
+              style={{
+                opacity: 0.6,
+                maxWidth: 1600,
+                margin: '0 auto',
+                padding: `0 ${GAP}px`
+              }}
+            >
               <TeaserBlock
                 teasers={getTeasersFromDocument(front)}
                 highlight={highlight}
                 onHighlight={onHighlight}
                 maxHeight={isMobile ? 300 : 450}
-                maxColumns={6}
+                maxColumns={8}
                 noHover
                 style={{ marginTop: 0, marginBottom: 0 }}
               />

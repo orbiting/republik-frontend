@@ -55,7 +55,7 @@ import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
 import withMembership from '../Auth/withMembership'
-import { withEditor, withTester } from '../Auth/checkRoles'
+import { withEditor } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
@@ -69,6 +69,17 @@ const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
 }
+const Manifest = dynamic(() => import('../About/Manifest'), {
+  ssr: true
+})
+const TeamTeaser = dynamic(() => import('../About/TeamTeaser'), dynamicOptions)
+const TestimonialList = dynamic(
+  () => import('../Testimonial/List').then(m => m.ListWithQuery),
+  dynamicOptions
+)
+const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {
+  ssr: true
+})
 const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
 const VoteCounter = dynamic(() => import('../Vote/VoteCounter'), dynamicOptions)
 const VoteResult = dynamic(
@@ -201,9 +212,13 @@ const ArticlePage = ({
           : undefined,
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
+          MANIFEST: Manifest,
+          TEAM_TEASER: TeamTeaser,
+          REASONS_VIDEO: ReasonsVideo,
           VOTEBOX: Votebox,
           VOTE_COUNTER: VoteCounter,
-          VOTE_RESULT: VoteResult
+          VOTE_RESULT: VoteResult,
+          TESTIMONIAL_LIST: TestimonialList
         },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),
@@ -438,9 +453,7 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        {(actionBar ||
-                          isSection ||
-                          showNewsletterSignupTop) && (
+                        {actionBar || isSection || showNewsletterSignupTop ? (
                           <Center>
                             {actionBar && (
                               <div
@@ -470,6 +483,10 @@ const ArticlePage = ({
                               </div>
                             )}
                           </Center>
+                        ) : (
+                          <div {...styles.actionBarContainer}>
+                            {/* space before paynote */}
+                          </div>
                         )}
                         {!suppressFirstPayNote && payNote}
                       </div>

@@ -100,6 +100,7 @@ const Frame = ({
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
+  isOnMarketingPage,
   pageColorSchemeKey
 }) => {
   const hasOverviewNav = isMember && wantOverviewNav
@@ -133,6 +134,7 @@ const Frame = ({
           pullable={pullable}
           hasOverviewNav={hasOverviewNav}
           stickySecondaryNav={stickySecondaryNav}
+          isOnMarketingPage={isOnMarketingPage}
           pageColorSchemeKey={pageColorSchemeKey}
         >
           <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
@@ -168,7 +170,9 @@ const Frame = ({
           </ColorContextProvider>
         </Header>
       </div>
-      {!inNativeApp && footer && <Footer />}
+      {!inNativeApp && footer && (
+        <Footer isOnMarketingPage={isOnMarketingPage} />
+      )}
     </div>
   )
 }

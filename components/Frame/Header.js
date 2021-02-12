@@ -285,9 +285,8 @@ const Header = ({
                   }
                 />
               ) : (
-                <Link route='plegde' passHref>
+                <Link route='pledge' passHref>
                   <a
-                    href='/pledge'
                     {...styles.button}
                     {...(isOnMarketingPage
                       ? styles.buttonMarketing

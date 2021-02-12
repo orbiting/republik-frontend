@@ -147,6 +147,17 @@ Additionally you can configure a backdoor URL. Opening that URL sets a cookie wh
 CURTAIN_BACKDOOR_URL=/iftah-ya-simsim
 ```
 
+### Testing App Views
+
+You can test how this front end looks in the app by adding following custom device to your browsers device emulator:
+
+```
+Width: 375
+Height: 667
+Type: Mobile
+User Agent: iPhone RepublikApp/2.0.0
+```
+
 ## License
 
 The source code is «BSD 3-clause» licensed.

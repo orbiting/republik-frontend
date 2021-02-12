@@ -23,12 +23,7 @@ const Community = ({ t, data: { loading, error, featured } }) => {
           <div {...styles.row}>
             {featured.nodes.map(comment => {
               return (
-                <div
-                  {...styles.comment}
-                  key={comment.id}
-                  align='top'
-                  aboveTheFold
-                >
+                <div {...styles.comment} key={comment.id}>
                   <CommentTeaser
                     {...{
                       ...comment,

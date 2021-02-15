@@ -96,7 +96,7 @@ const Nav = ({
                 </NavLink>
               </div>
             </div>
-            {(me || !inNativeApp) && (
+            {me && (
               <>
                 <hr
                   {...styles.hr}

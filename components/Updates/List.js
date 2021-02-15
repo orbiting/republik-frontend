@@ -18,7 +18,7 @@ import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import Update from './Detail'
 
 const query = gql`
-  query {
+  query UpdatesList {
     updates {
       slug
       title

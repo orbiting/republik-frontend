@@ -38,7 +38,7 @@ const styles = {
 }
 
 const query = gql`
-  query {
+  query EventsList {
     events {
       slug
       title

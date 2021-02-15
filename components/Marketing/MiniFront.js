@@ -22,7 +22,7 @@ const MiniFront = ({ data: { loading, error, front }, t }) => {
 }
 
 const query = gql`
-  query MarketingFront {
+  query MarketingMiniFront {
     front: document(path: "/marketing") {
       id
       children {

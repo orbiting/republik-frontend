@@ -148,7 +148,7 @@ export class RawList extends Component {
 }
 
 const publishedFaqs = gql`
-  query {
+  query FaqList {
     faqs {
       category
       question

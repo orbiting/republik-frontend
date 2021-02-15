@@ -574,7 +574,7 @@ const publishCredential = gql`
 `
 
 const query = gql`
-  query {
+  query VoteElectionCandidacy {
     election(slug: "${ELECTION_COOP_MEMBERS_SLUG}") {
       id
       candidacyEndDate

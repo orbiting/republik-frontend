@@ -149,7 +149,7 @@ const DiscussionPage = ({ router, data, vt }) => {
 }
 
 const query = gql`
-  query {
+  query VoteElectionDiscussionPage {
   ${ELECTION_COOP_PRESIDENT_SLUG}: election(slug: "${ELECTION_COOP_PRESIDENT_SLUG}") {
     id
     discussion {

@@ -47,7 +47,7 @@ const Marketing = ({
 }
 
 const query = gql`
-  query MarketingPage {
+  query Marketing {
     meGuidance: me {
       id
       activeMembership {

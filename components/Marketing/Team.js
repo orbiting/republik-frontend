@@ -112,7 +112,7 @@ const styles = {
 }
 
 const query = gql`
-  query MarketingPage {
+  query MarketingTeam {
     employees(withBoosted: true, shuffle: 3, withPitch: true) {
       title
       name

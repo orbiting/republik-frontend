@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import { IconButton } from '@project-r/styleguide'
 import { IoLogoFacebook, IoLogoTwitter, IoLogoWhatsapp } from 'react-icons/io'
+import ThreemaLogo from '../Icons/Threema'
+import TelegramLogo from '../Icons/Telegram'
 import { MdMail, MdLink } from 'react-icons/md'
 import withT from '../../lib/withT'
 import { trackEvent } from '../../lib/piwik'
+import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 
 import copyToClipboard from 'clipboard-copy'
 
@@ -18,7 +21,8 @@ const ShareButtons = ({
   eventCategory = 'ShareButtons',
   fill,
   onClose,
-  grid
+  grid,
+  headers
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
   useEffect(() => {
@@ -86,28 +90,53 @@ const ShareButtons = ({
       icon: IoLogoWhatsapp,
       title: t('article/actionbar/whatsapp/title'),
       label: t('article/actionbar/whatsapp/label')
+    },
+    {
+      name: 'threema',
+      target: '_blank',
+      href: `https://threema.id/compose?text=${encodeURIComponent(url)}`,
+      icon: ThreemaLogo,
+      title: t('article/actionbar/threema/title'),
+      label: t('article/actionbar/threema/label')
+    },
+    {
+      name: 'telegram',
+      target: '_blank',
+      href: `https://t.me/share/url?url=${encodeURIComponent(url)}`,
+      icon: TelegramLogo,
+      title: t('article/actionbar/telegram/title'),
+      label: t('article/actionbar/telegram/label')
     }
   ].filter(Boolean)
 
+  const isIOS = matchIOSUserAgent(headers.userAgent)
+  const isAndroid = headers.userAgent && headers.userAgent.match(/android/i)
+
   return (
     <div {...styles.buttonGroup} {...(grid && styles.grid)}>
-      {shareOptions.map(props => (
-        <IconButton
-          {...props}
-          key={props.title}
-          Icon={props.icon}
-          label={props.label}
-          labelShort={props.label}
-          fill={fill}
-          onClick={e => {
-            trackEvent([eventCategory, props.name, url])
-            if (props.onClick) {
-              return props.onClick(e)
-            }
-            onClose && onClose()
-          }}
-        />
-      ))}
+      {shareOptions.map(props => {
+        if (props.name === 'threema' && (!isIOS || !isAndroid)) {
+          // only show threema on mobile devices
+          return
+        }
+        return (
+          <IconButton
+            {...props}
+            key={props.title}
+            Icon={props.icon}
+            label={props.label}
+            labelShort={props.label}
+            fill={fill}
+            onClick={e => {
+              trackEvent([eventCategory, props.name, url])
+              if (props.onClick) {
+                return props.onClick(e)
+              }
+              onClose && onClose()
+            }}
+          />
+        )
+      })}
     </div>
   )
 }
@@ -133,4 +162,4 @@ const styles = {
   })
 }
 
-export default withT(ShareButtons)
+export default withT(withHeaders(ShareButtons))

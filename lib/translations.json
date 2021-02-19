@@ -1,5 +1,5 @@
 {
-  "updated": "2021-02-12T12:37:04.086Z",
+  "updated": "2021-02-19T09:59:14.205Z",
   "title": "live",
   "data": [
     {
@@ -2985,6 +2985,22 @@
     {
       "key": "article/actionbar/whatsapp/label",
       "value": "WhatsApp"
+    },
+    {
+      "key": "article/actionbar/threema/title",
+      "value": "Auf Threema teilen"
+    },
+    {
+      "key": "article/actionbar/threema/label",
+      "value": "Threema"
+    },
+    {
+      "key": "article/actionbar/telegram/title",
+      "value": "Auf Telegram teilen"
+    },
+    {
+      "key": "article/actionbar/telegram/label",
+      "value": "Telegram"
     },
     {
       "key": "article/actionbar/email/title",

@@ -111,11 +111,10 @@ const ShareButtons = ({
 
   const isIOS = matchIOSUserAgent(headers.userAgent)
   const isAndroid = headers.userAgent && headers.userAgent.match(/android/i)
-
   return (
     <div {...styles.buttonGroup} {...(grid && styles.grid)}>
       {shareOptions.map(props => {
-        if (props.name === 'threema' && (!isIOS || !isAndroid)) {
+        if (props.name === 'threema' && !isIOS && !isAndroid) {
           // only show threema on mobile devices
           return
         }

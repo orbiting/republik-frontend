@@ -12,7 +12,7 @@ import {
 import TeaserBlock, { GAP } from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
 const query = gql`
-  query MarketingPage {
+  query MarketingCarpet {
     front: document(path: "/") {
       id
       children(first: 40) {

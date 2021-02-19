@@ -68,7 +68,7 @@ const styles = {
 }
 
 const query = gql`
-  query FeaturedCommunityComments {
+  query MarketingCommunity {
     featured: comments(
       orderBy: FEATURED_AT
       orderDirection: DESC

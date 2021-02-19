@@ -28,7 +28,7 @@ import {
 import DiscussionIcon from '../components/Icons/Discussion'
 
 const query = gql`
-  query {
+  query getCardGroups {
     nElected: cards(filters: { elects: ["nationalCouncil"] }) {
       totalCount
     }

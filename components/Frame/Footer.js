@@ -185,9 +185,9 @@ class Footer extends Component {
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/about/title')}</div>
-              <LazyLink route='about'>
+              <HrefLink href='/about' passHref>
                 <a>{t('footer/about')}</a>
-              </LazyLink>
+              </HrefLink>
               <br />
               <HrefLink href='/jobs' passHref>
                 <a href='/jobs'>{t('footer/jobs')}</a>

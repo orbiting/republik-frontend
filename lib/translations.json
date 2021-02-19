@@ -4432,19 +4432,19 @@
     },
     {
       "key": "pledge/form/instruction/TABLEBOOK/notAvailable",
-      "value": "Das Buch «Republik bei Stromausfall» kann nur in Verbindung mit einer Jahresmitgliedschaft oder einer Verlängerung bestellt werden."
+      "value": "Dieses Produkt steht im Moment nicht zur Verfügung."
     },
     {
       "key": "pledge/form/instruction/TABLEBOOK/signIn",
-      "value": "Die «Republik bei Stromausfall» ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
+      "value": "Dieses Produkt steht im Moment nicht zur Verfügung."
     },
     {
       "key": "pledge/form/instruction/MASK/notAvailable",
-      "value": "Die Republik-Maske kann nur in Verbindung mit einer Jahresmitgliedschaft oder einer Verlängerung bestellt werden."
+      "value": "Dieses Produkt steht im Moment nicht zur Verfügung."
     },
     {
       "key": "pledge/form/instruction/MASK/signIn",
-      "value": "Die Republik-Maske ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
+      "value": "Dieses Produkt steht im Moment nicht zur Verfügung."
     },
     {
       "key": "pledge/meta/title",
@@ -4456,7 +4456,7 @@
     },
     {
       "key": "pledge/meta/group/GIVE/title",
-      "value": "Die Republik zum verschenken"
+      "value": "Die Republik zum Verschenken"
     },
     {
       "key": "pledge/meta/group/GIVE/description",

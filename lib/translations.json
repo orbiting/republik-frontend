@@ -2987,6 +2987,22 @@
       "value": "WhatsApp"
     },
     {
+      "key": "article/actionbar/threema/title",
+      "value": "Auf Threema teilen"
+    },
+    {
+      "key": "article/actionbar/threema/label",
+      "value": "Threema"
+    },
+    {
+      "key": "article/actionbar/telegram/title",
+      "value": "Auf Telegram teilen"
+    },
+    {
+      "key": "article/actionbar/telegram/label",
+      "value": "Telegram"
+    },
+    {
       "key": "article/actionbar/email/title",
       "value": "Per E-Mail verschicken"
     },

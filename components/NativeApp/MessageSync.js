@@ -108,7 +108,12 @@ const MessageSync = ({ upsertDevice, me, client }) => {
       } else if (content.type === 'authorization') {
         checkPendingAppSignIn()
       } else if (content.type === 'push-route') {
-        Router.pushRoute(content.url.replace(PUBLIC_BASE_URL, ''))
+        const targetUrl = content.url.replace(PUBLIC_BASE_URL, '')
+        Router.pushRoute(targetUrl).then(() => {
+          if (targetUrl.indexOf('#') === -1) {
+            window.scrollTo(0, 0)
+          }
+        })
       } else if (content.type === 'osColorScheme') {
         if (content.value) {
           setOSColorScheme(content.value)

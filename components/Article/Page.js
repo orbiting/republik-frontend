@@ -428,7 +428,7 @@ const ArticlePage = ({
                 <ProgressComponent article={article}>
                   <article style={{ display: 'block' }}>
                     {splitContent.title && (
-                      <div {...styles.titleBlock}>
+                      <div {...styles.titleBlock} className='title-block'>
                         {renderSchema(splitContent.title)}
                         {isEditorialNewsletter && (
                           <TitleBlock margin={false}>

@@ -38,7 +38,7 @@ const texts = {
 const knownYears = {
   2018: { path: '/2018' },
   2019: { path: '/2019' },
-  2020: { after: 'dwjY_vk9K' }
+  2020: { path: '/2020' }
 }
 
 const getAll = gql`

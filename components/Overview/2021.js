@@ -54,5 +54,49 @@ export default {
       </Highlight>
       .
     </>
+  ),
+  Februar: p => (
+    <>
+      <Highlight {...p} series='republik/article-auftakt-frauenstimmrecht'>
+        Frauenstimmen: der Kampf dagegen, der Kampf dafür und warum sie nicht
+        gehört werden.
+      </Highlight>{' '}
+      <Highlight {...p} ids={['3QwcZDhDW']}>
+        Arbeitslos in der Pandemie
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['68IUUsTGP']}>
+        furchtlos in der Politik
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['gsMQNOwUx']}>
+        hoffentlich unter Strom
+      </Highlight>
+      . Zur Abstimmung: ein{' '}
+      <Highlight {...p} ids={['2Njt5Llek', '52Xb5n9C8']}>
+        vielschichtiges Stück Stoff
+      </Highlight>
+      , die{' '}
+      <Highlight {...p} ids={['2xGVZrZot']}>
+        Lobby hinter der E-ID
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['4Y4K0Iz6EQ']}>
+        Palmöl
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['u2TcbcK28']}>
+        schon wieder so einer
+      </Highlight>
+      !{' '}
+      <Highlight {...p} ids={['AHBexXLDa']}>
+        Warum Leistung keine Gerechtigkeit bringt
+      </Highlight>{' '}
+      und die{' '}
+      <Highlight {...p} ids={['9h5K_1QxP']}>
+        Messenger-Welt umgekrempelt gehört
+      </Highlight>
+      .
+    </>
   )
 }

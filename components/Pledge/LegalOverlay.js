@@ -45,7 +45,7 @@ const LegalOverlay = ({ onClose, href, title }) => {
   const page = pages.find(p => p.href === href)
 
   return (
-    <Overlay mUpStyle={{ maxWidth: 720, minHeight: 'none' }} onClose={onClose}>
+    <Overlay mUpStyle={{ maxWidth: 720, minHeight: 0 }} onClose={onClose}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {title}

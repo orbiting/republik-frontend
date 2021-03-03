@@ -18,7 +18,7 @@ import PodcastButtons from '../Article/PodcastButtons'
 const PodcastOverlay = ({ t, title, podcast, onClose }) => {
   const [colorScheme] = useColorContext()
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 0 }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {title}

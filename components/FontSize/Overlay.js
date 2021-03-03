@@ -58,7 +58,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
     [fontSize, colorScheme]
   )
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 375, minHeight: 'none' }}>
+    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 375, minHeight: 0 }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/actionbar/fontSize/title')}

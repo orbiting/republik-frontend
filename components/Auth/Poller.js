@@ -12,7 +12,7 @@ import { SUPPORTED_TOKEN_TYPES } from '../constants'
 
 import { MdMailOutline, MdPhonelink } from 'react-icons/md'
 
-import { Interaction, Label, linkRule, RawHtml } from '@project-r/styleguide'
+import { Interaction, Label, A, RawHtml } from '@project-r/styleguide'
 
 const { H3, P } = Interaction
 
@@ -137,8 +137,7 @@ class Poller extends Component {
           alternativeFirstFactors.map(altTokenType => (
             <P key={altTokenType} {...styles.group}>
               <Label>
-                <a
-                  {...linkRule}
+                <A
                   href='#'
                   onClick={e => {
                     e.preventDefault()
@@ -146,7 +145,7 @@ class Poller extends Component {
                   }}
                 >
                   {t(`signIn/polling/switch/${altTokenType}`)}
-                </a>
+                </A>
               </Label>
             </P>
           ))}
@@ -157,8 +156,7 @@ class Poller extends Component {
           <br />
           {!!onCancel && (
             <Label>
-              <a
-                {...linkRule}
+              <A
                 href='#'
                 onClick={e => {
                   e.preventDefault()
@@ -166,7 +164,7 @@ class Poller extends Component {
                 }}
               >
                 {t('signIn/polling/cancel')}
-              </a>
+              </A>
             </Label>
           )}
         </P>
@@ -178,8 +176,7 @@ class Poller extends Component {
         <P {...styles.hint}>
           {!showPhraseHint && (
             <Label>
-              <a
-                {...linkRule}
+              <A
                 href='#'
                 onClick={e => {
                   e.preventDefault()
@@ -187,7 +184,7 @@ class Poller extends Component {
                 }}
               >
                 {t('signIn/polling/phrase/hint/show')}
-              </a>
+              </A>
             </Label>
           )}
           {showPhraseHint && (

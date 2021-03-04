@@ -20,7 +20,9 @@
     "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "analyze": "ANALYZE=true next build",
     "sg:link": "./scripts/sg_link.sh",
-    "sg:unlink": "./scripts/sg_unlink.sh"
+    "sg:unlink": "./scripts/sg_unlink.sh",
+    "yaproxy": "CORS_ORIGIN=http://localhost:3010,http://localhost:3005 PORT=5000 TARGET=https://api.republik.ch yaproxy",
+    "yaproxy-android": "COOKIE_DOMAIN_REWRITE=*:10.0.2.2 CORS_ORIGIN=http://10.0.2.2:3010 PORT=5000 TARGET=https://api.republik.ch yaproxy"
   },
   "cacheDirectories": [
     "node_modules",
@@ -38,8 +40,7 @@
   "homepage": "https://github.com/orbiting/republik-frontend#readme",
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
   },
   "husky": {
@@ -98,11 +99,12 @@
     "prettier": "^1.19.1",
     "react-test-renderer": "^16.13.0",
     "tap-summary": "^4.0.0",
-    "tape": "^4.13.3"
+    "tape": "^4.13.3",
+    "yaproxy": "^1.0.1"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^9.5.1",
-    "@project-r/styleguide": "^10.11.2",
+    "@project-r/styleguide": "^10.16.1",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.9.0",
     "@use-it/event-listener": "^0.1.5",

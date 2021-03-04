@@ -16,10 +16,11 @@ const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 
 class Feed extends Component {
-  renderFeedItem = doc =>
-    doc ? (
+  renderFeedItem = doc => {
+    return doc ? (
       <TeaserFeed
         {...doc.meta}
+        repoId={doc.repoId}
         title={doc.meta.shortTitle || doc.meta.title}
         description={!doc.meta.shortTitle && doc.meta.description}
         t={this.props.t}
@@ -37,6 +38,7 @@ class Feed extends Component {
         bar={<ActionBar mode='feed' document={doc} />}
       />
     ) : null
+  }
 
   render() {
     const { documents, showHeader } = this.props

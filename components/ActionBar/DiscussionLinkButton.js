@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IconButton, colors } from '@project-r/styleguide'
+import { IconButton } from '@project-r/styleguide'
 import DiscussionIcon from '../Icons/Discussion'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'

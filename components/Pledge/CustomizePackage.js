@@ -222,8 +222,11 @@ class CustomizePackage extends Component {
     })(nextFields)
   }
   componentDidMount() {
-    if (this.focusRef && this.focusRef.input) {
-      this.focusRef.input.focus()
+    if (this.focusRef && this.focusRef.focus) {
+      this.focusRef.focus()
+      if (this.focusRef.value) {
+        this.focusRef.selectionStart = this.focusRef.selectionEnd = this.focusRef.value.length
+      }
     }
 
     const { onChange, pkg, values, userPrice, t } = this.props
@@ -1391,7 +1394,7 @@ class CustomizePackage extends Component {
                         { shallow: true }
                       ).then(() => {
                         if (this.focusRef && this.focusRef.input) {
-                          this.focusRef.input.focus()
+                          this.focusRef.focus()
                         }
                       })
                     }}
@@ -1445,7 +1448,7 @@ class CustomizePackage extends Component {
                       ).then(() => {
                         this.resetPrice()
                         if (this.focusRef && this.focusRef.input) {
-                          this.focusRef.input.focus()
+                          this.focusRef.focus()
                         }
                       })
                     }}

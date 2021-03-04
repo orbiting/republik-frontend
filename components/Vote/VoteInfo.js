@@ -14,7 +14,7 @@ import voteT from './voteT'
 
 const voteNow = (
   <P>
-    <Link route='voteSubmit'>
+    <Link route='voteSubmit' passHref>
       <Button block big primary>
         Kandidieren Sie jetzt!
       </Button>

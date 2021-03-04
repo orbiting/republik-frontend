@@ -5,6 +5,7 @@ import { withRouter } from 'next/router'
 import { max, ascending } from 'd3-array'
 import {
   Button,
+  ColorContextProvider,
   Interaction,
   Loader,
   useColorContext
@@ -24,18 +25,20 @@ import { P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
 import text19 from '../components/Overview/2019'
 import text20 from '../components/Overview/2020'
+import text21 from '../components/Overview/2021'
 import { getTeasersFromDocument } from '../components/Overview/utils'
 
 const texts = {
   2018: text18,
   2019: text19,
-  2020: text20
+  2020: text20,
+  2021: text21
 }
 
 const knownYears = {
   2018: { path: '/2018' },
   2019: { path: '/2019' },
-  2020: { after: 'dwjY_vk9K' }
+  2020: { path: '/2020' }
 }
 
 const getAll = gql`
@@ -202,7 +205,7 @@ const FrontOverview = ({
   }
 
   return (
-    <Frame meta={meta} colorSchemeKey='dark'>
+    <Frame meta={meta} pageColorSchemeKey='dark'>
       <Interaction.H1
         {...colorScheme.set('color', 'text')}
         style={{ marginBottom: 5 }}

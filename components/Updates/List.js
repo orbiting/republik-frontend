@@ -11,14 +11,14 @@ import { Content } from '../Frame'
 import withT from '../../lib/withT'
 import StatusError from '../StatusError'
 
-import { NarrowContainer, linkRule } from '@project-r/styleguide'
+import { NarrowContainer, A } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import Update from './Detail'
 
 const query = gql`
-  query {
+  query UpdatesList {
     updates {
       slug
       title
@@ -77,8 +77,8 @@ const Overview = compose(
                 }}
               />
               <Update data={update} />
-              <Link route='updates'>
-                <a {...linkRule}>{t('updates/all')}</a>
+              <Link route='updates' passHref>
+                <A>{t('updates/all')}</A>
               </Link>
             </Content>
           </NarrowContainer>

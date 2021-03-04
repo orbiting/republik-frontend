@@ -1,10 +1,15 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { css } from 'glamor'
-import { Interaction, mediaQueries, usePrevious } from '@project-r/styleguide'
-import { t } from '../../lib/withT'
-import { useWindowSize } from '../../lib/hooks/useWindowSize'
+import { t } from '../../../lib/withT'
+import { useWindowSize } from '../../../lib/hooks/useWindowSize'
+import {
+  Interaction,
+  mediaQueries,
+  usePrevious,
+  ColorContextProvider
+} from '@project-r/styleguide'
 import { shuffle } from 'd3-array'
 
 const MAX_WIDTH = 800
@@ -200,48 +205,50 @@ const Cards = ({ employees, filter, slice }) => {
   )
 
   return (
-    <div {...styles.root} ref={rootRef}>
-      {!!width &&
-        cards.length &&
-        props.map(({ x, y, rot, scale }, i) => (
-          <animated.div
-            key={i}
-            style={{
-              transform: interpolate(
-                [x, y],
-                (x, y) => `translate3d(${x}px,${y}px,0)`
-              ),
-              zIndex: zIndexes.indexOf(i) + 1,
-              width: isDesktop ? cardWidth - PADDING * 4 : '100%'
-            }}
-          >
+    <ColorContextProvider colorSchemeKey='light'>
+      <div {...styles.root} ref={rootRef}>
+        {!!width &&
+          cards.length &&
+          props.map(({ x, y, rot, scale }, i) => (
             <animated.div
-              {...bind(i)}
+              key={i}
               style={{
-                transform: interpolate([rot, scale], trans),
-                maxWidth: isDesktop ? undefined : 350
-              }}
-              onDoubleClick={() => {
-                gone.add(i)
-                animateCard(i, { dir: i % 2 ? 1 : -1 })
-                maybeRestoreCards()
+                transform: interpolate(
+                  [x, y],
+                  (x, y) => `translate3d(${x}px,${y}px,0)`
+                ),
+                zIndex: zIndexes.indexOf(i) + 1,
+                width: isDesktop ? cardWidth - PADDING * 4 : '100%'
               }}
             >
-              <Interaction.H3 style={{ marginTop: 5, marginBottom: 0 }}>
-                {cards[i].name}
-              </Interaction.H3>
-              <Interaction.P style={{ marginBottom: 20 }}>
-                {cards[i].title || cards[i].group}
-              </Interaction.P>
-              <img
-                alt={cards[i].name}
-                width='100%'
-                src={cards[i].user.portrait}
-              />
+              <animated.div
+                {...bind(i)}
+                style={{
+                  transform: interpolate([rot, scale], trans),
+                  maxWidth: isDesktop ? undefined : 350
+                }}
+                onDoubleClick={() => {
+                  gone.add(i)
+                  animateCard(i, { dir: i % 2 ? 1 : -1 })
+                  maybeRestoreCards()
+                }}
+              >
+                <Interaction.H3 style={{ marginTop: 5, marginBottom: 0 }}>
+                  {cards[i].name}
+                </Interaction.H3>
+                <Interaction.P style={{ marginBottom: 20 }}>
+                  {cards[i].title || cards[i].group}
+                </Interaction.P>
+                <img
+                  alt={cards[i].name}
+                  width='100%'
+                  src={cards[i].user.portrait}
+                />
+              </animated.div>
             </animated.div>
-          </animated.div>
-        ))}
-    </div>
+          ))}
+      </div>
+    </ColorContextProvider>
   )
 }
 

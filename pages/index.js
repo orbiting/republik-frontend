@@ -9,14 +9,22 @@ import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import { useInNativeApp } from '../lib/withInNativeApp'
+
+import SignInPage from './signin'
 
 const IndexPage = ({ t, isMember, router }) => {
+  const { inNativeApp } = useInNativeApp()
   if (
     router.query.stale !== 'marketing' &&
     (isMember || router.query.extractId)
   ) {
-    // does it's own meta
+    // does its own meta
     return <Front hasOverviewNav extractId={router.query.extractId} finite />
+  }
+
+  if (inNativeApp) {
+    return <SignInPage />
   }
 
   const meta = {
@@ -27,7 +35,7 @@ const IndexPage = ({ t, isMember, router }) => {
     url: `${PUBLIC_BASE_URL}/`
   }
   return (
-    <Frame raw meta={meta}>
+    <Frame raw meta={meta} isOnMarketingPage={true}>
       <Marketing />
     </Frame>
   )

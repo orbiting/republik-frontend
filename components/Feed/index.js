@@ -9,7 +9,8 @@ import Loader from '../Loader'
 
 import { mediaQueries, Center, Interaction } from '@project-r/styleguide'
 import DocumentList from './DocumentList'
-import { makeLoadMore, documentFragment } from './DocumentListContainer'
+import { makeLoadMore } from './DocumentListContainer'
+import { documentFragment } from './fragments'
 
 const styles = {
   container: css({
@@ -45,7 +46,7 @@ const query = gql`
       }
       nodes {
         entity {
-          ...DocumentListDocument
+          ...FeedDocument
         }
       }
     }
@@ -104,13 +105,7 @@ const Feed = ({
   }, [subscribeToMore])
 
   return (
-    <Frame
-      hasOverviewNav
-      stickySecondaryNav
-      raw
-      meta={meta}
-      colorSchemeKey='auto'
-    >
+    <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
       <Center {...styles.container}>
         <Loader
           error={error}

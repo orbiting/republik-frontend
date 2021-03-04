@@ -19,7 +19,7 @@ const CardOverlay = ({
   maxWidth = 720
 }) => {
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth, minHeight: 'none' }}>
+    <Overlay onClose={onClose} mUpStyle={{ maxWidth, minHeight: 0 }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {title}

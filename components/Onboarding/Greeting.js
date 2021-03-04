@@ -21,20 +21,6 @@ const styles = {
         width: 200
       }
     }
-  }),
-  aspect: css({
-    display: 'block',
-    width: '100%',
-    paddingBottom: '100%',
-    overflow: 'hidden',
-    position: 'relative',
-    backgroundColor: '#ccc'
-  }),
-  aspectImg: css({
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%'
   })
 }
 

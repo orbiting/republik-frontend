@@ -84,6 +84,7 @@ class TeaserBlock extends Component {
       lazy,
       maxHeight,
       maxColumns = 6,
+      noHover,
       backgroundColor,
       teasers
     } = this.props
@@ -116,7 +117,9 @@ class TeaserBlock extends Component {
               ...SIZES.filter(s => s.columns <= maxColumns).reduce(
                 (styles, size) => {
                   // SSR approximation
-                  const minHeight = (teasers.length / size.columns) * 50
+                  const minHeight = maxHeight
+                    ? 300
+                    : (teasers.length / size.columns) * 50
                   if (size.minWidth) {
                     styles[
                       `@media only screen and (min-width: ${size.minWidth}px)`
@@ -202,9 +205,9 @@ class TeaserBlock extends Component {
                 onTouchStart={() => {
                   touch = true
                 }}
-                onMouseEnter={focus}
-                onMouseMove={focus}
-                onMouseLeave={hoverOff}
+                onMouseEnter={!noHover ? focus : () => {}}
+                onMouseMove={!noHover ? focus : () => {}}
+                onMouseLeave={!noHover ? hoverOff : () => {}}
                 onClick={() => {
                   touch = undefined
                 }}

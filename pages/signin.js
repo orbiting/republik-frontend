@@ -1,29 +1,25 @@
-import React, { Component, Fragment } from 'react'
+import React, { useEffect } from 'react'
 import { withRouter } from 'next/router'
 import { compose } from 'react-apollo'
+
 import SignIn from '../components/Auth/SignIn'
 import Frame from '../components/Frame'
 import Loader from '../components/Loader'
 import { PageCenter } from '../components/Auth/withAuthorization'
+import withMembership, {
+  UnauthorizedMessage
+} from '../components/Auth/withMembership'
+
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
-import withMembership from '../components/Auth/withMembership'
-import withInNativeApp from '../lib/withInNativeApp'
-import { Link } from '../lib/routes'
-import { Interaction, Editorial } from '@project-r/styleguide'
-import Marketing from '../components/Marketing'
+import { useInNativeApp } from '../lib/withInNativeApp'
 
-class SigninPage extends Component {
-  componentDidMount() {
-    this.redirectUser()
-  }
-
-  componentDidUpdate() {
-    this.redirectUser()
-  }
-
-  redirectUser() {
-    const { isMember, me } = this.props
+const SigninPage = ({ me, isMember, t, router }) => {
+  const { inNativeApp } = useInNativeApp()
+  useEffect(() => {
+    if (inNativeApp) {
+      return
+    }
     if (isMember) {
       window.location = '/'
       return
@@ -31,36 +27,25 @@ class SigninPage extends Component {
     if (me) {
       window.location = '/konto'
     }
+  }, [inNativeApp, me, isMember])
+
+  const meta = {
+    title: t('pages/signin/title')
   }
 
-  render() {
-    const { t, me, inNativeApp, router } = this.props
-    const meta = {
-      title: t('pages/signin/title')
-    }
-
-    return (
-      <Frame raw={inNativeApp} meta={meta}>
-        {!me && inNativeApp ? (
-          <Marketing />
+  return (
+    <Frame meta={meta}>
+      <PageCenter>
+        {inNativeApp ? (
+          <UnauthorizedMessage />
+        ) : me ? (
+          <Loader loading />
         ) : (
-          <PageCenter>
-            {me ? (
-              <Loader loading />
-            ) : (
-              <SignIn email={router.query.email} noReload />
-            )}
-          </PageCenter>
+          <SignIn email={router.query.email} noReload />
         )}
-      </Frame>
-    )
-  }
+      </PageCenter>
+    </Frame>
+  )
 }
 
-export default compose(
-  withMe,
-  withMembership,
-  withInNativeApp,
-  withT,
-  withRouter
-)(SigninPage)
+export default compose(withMe, withMembership, withT, withRouter)(SigninPage)

@@ -5,74 +5,7 @@ import Loader from '../Loader'
 import DocumentList from './DocumentList'
 import noop from 'lodash/noop'
 
-import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/fragments'
-
-import { userProgressFragment } from '../Article/Progress/api'
-
-// we do not query / use shortTitle here
-// - initially we only use it on the front
-// - once we have a lot of content we can start
-//   to experiment with switching feeds to short titles
-// tpr, 05.09.2019
-export const documentFragment = `
-  fragment DocumentListDocument on Document {
-    id
-    ...BookmarkOnDocument
-    ...UserProgressOnDocument
-    meta {
-      credits
-      title
-      description
-      publishDate
-      prepublication
-      path
-      kind
-      template
-      color
-      estimatedReadingMinutes
-      estimatedConsumptionMinutes
-      indicateChart
-      indicateGallery
-      indicateVideo
-      audioSource {
-        mp3
-        aac
-        ogg
-        mediaId
-        durationMs
-      }
-      dossier {
-        id
-      }
-      format {
-        id
-        meta {
-          path
-          title
-          color
-          kind
-        }
-      }
-      ownDiscussion {
-        id
-        closed
-        comments {
-          totalCount
-        }
-      }
-      linkedDiscussion {
-        id
-        path
-        closed
-        comments {
-          totalCount
-        }
-      }
-    }
-  }
-  ${bookmarkOnDocumentFragment}
-  ${userProgressFragment}
-`
+import { documentFragment } from './fragments'
 
 export const documentListQueryFragment = `
   fragment DocumentListConnection on DocumentConnection {
@@ -82,7 +15,7 @@ export const documentListQueryFragment = `
       hasNextPage
     }
     nodes {
-      ...DocumentListDocument
+      ...FeedDocument
     }
   }
   ${documentFragment}

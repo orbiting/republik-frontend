@@ -74,8 +74,4 @@ class FrontPage extends Component {
   }
 }
 
-export default compose(
-  withMembership,
-  withInNativeApp,
-  withRouter
-)(FrontPage)
+export default compose(withMembership, withInNativeApp, withRouter)(FrontPage)

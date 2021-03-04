@@ -41,7 +41,7 @@ class CommunityPage extends Component {
     }
 
     return (
-      <Frame colorSchemeKey='auto'>
+      <Frame>
         <List seed={seed} id={query.id} isPage />
       </Frame>
     )

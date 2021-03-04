@@ -23,12 +23,11 @@ import {
   Label,
   Button,
   Lead,
-  colors,
   P,
   A,
-  linkRule,
   Interaction,
-  VideoPlayer
+  VideoPlayer,
+  useColorContext
 } from '@project-r/styleguide'
 
 const styles = {
@@ -36,7 +35,9 @@ const styles = {
     margin: '20px 0',
     '& img': {
       width: 'calc(50% - 10px)',
-      border: `1px solid ${colors.divider}`,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: 'inherit',
       margin: 5
     }
   }),
@@ -69,9 +70,10 @@ export const VIDEOS = {
 }
 
 export const Page = ({ router, t, inNativeIOSApp }) => {
+  const [colorScheme] = useColorContext()
   const pledgeLink = inNativeIOSApp ? null : (
-    <Link route='pledge'>
-      <a {...linkRule}>Jetzt mitmachen!</a>
+    <Link route='pledge' passHref>
+      <A>Jetzt mitmachen!</A>
     </Link>
   )
 
@@ -214,12 +216,9 @@ ${pledgeLink}
               Mittwoch, 31. Mai um 20 Uhr. Das Ziel bei Erreichung von 14
               {thousandSeparator}000 Abonnentinnen haben unsere Verlegerinnen
               und Verleger in einer{' '}
-              <a
-                {...linkRule}
-                href='https://web.archive.org/web/20170708151956/https://www.republik.ch/vote'
-              >
+              <A href='https://web.archive.org/web/20170708151956/https://www.republik.ch/vote'>
                 Abstimmung
-              </a>{' '}
+              </A>{' '}
               bestimmt: den Ausbau des Datenjournalismus-Teams. Gemeinsam
               schaffen wir das! Danke fürs Mitmachen und Weitersagen!
             </List.Item>
@@ -252,8 +251,8 @@ Ihre Partnerin bei diesem Projekt ist die Aufbaucrew der Republik und von Projec
 
         <P>
           Die Kurzporträts der Crew finden Sie{' '}
-          <Link route='legal/imprint'>
-            <a {...linkRule}>hier</a>
+          <Link route='legal/imprint' passHref>
+            <A>hier</A>
           </Link>
           . Und dazu im Video die Lesung unseres{' '}
           <A href='/manifest' target='_blank'>
@@ -276,7 +275,10 @@ Doch das ist Geschichte. Denn die Inserate sind ins Netz verschwunden. Und die g
 Bis es so weit ist, wird die sterbende Cashcow noch so lange wie möglich gemolken. Investitionen fliessen kaum mehr in den Journalismus; bei eigenen Medien wird nur noch gespart. Dazu wird fusioniert, was geht. Kleinere Zeitungen werden zwecks Reichweite eingekauft. Und verdaut. Bereits heute beherrschen Tamedia, NZZ und Ringier zusammen 80 Prozent der veröffentlichten Meinung.
 `}
 
-        <div {...styles.mediaDiversity}>
+        <div
+          {...styles.mediaDiversity}
+          {...colorScheme.set('borderColor', 'divider')}
+        >
           <img
             alt='«Amokfahrer rast in Menschen in London» bazonline.ch am 22. März 2017 um 16 Uhr'
             src={`${CDN_FRONTEND_BASE_URL}/static/crowdfunding1/baz.png`}
@@ -396,8 +398,8 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
           />
         </div>
 
-        <Link route='community'>
-          <a {...linkRule}>Alle ansehen</a>
+        <Link route='community' passHref>
+          <A>Alle ansehen</A>
         </Link>
 
         <br />

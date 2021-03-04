@@ -1,6 +1,6 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { documentFragment } from '../Feed/DocumentListContainer'
+import { documentFragment } from '../Feed/fragments'
 import { DEFAULT_FILTERS, DEFAULT_AGGREGATION_KEYS } from './constants'
 
 const getSearchAggregations = gql`
@@ -60,7 +60,7 @@ const getSearchResults = gql`
         entity {
           __typename
           ... on Document {
-            ...DocumentListDocument
+            ...FeedDocument
           }
           ... on Comment {
             id

@@ -6,7 +6,7 @@ import Section from '../Section'
 import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 
-import { Interaction, linkRule } from '@project-r/styleguide'
+import { Interaction, A } from '@project-r/styleguide'
 import { subInfo } from '../../Notifications/enhancers'
 import SubscribeCheckbox from '../../Notifications/SubscribeCheckbox'
 
@@ -60,9 +60,7 @@ const Subscriptions = props => {
         {t.elements('Onboarding/Sections/Subscriptions/hint', {
           link: (
             <Link key='link' route='subscriptions' passHref>
-              <a {...linkRule}>
-                {t('Onboarding/Sections/Subscriptions/hint/link')}
-              </a>
+              <A>{t('Onboarding/Sections/Subscriptions/hint/link')}</A>
             </Link>
           )
         })}

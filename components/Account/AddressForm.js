@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import {
-  FieldSet,
-  Label,
-  colors,
-  Interaction,
-  A,
-  usePrevious
-} from '@project-r/styleguide'
+import { FieldSet, Interaction, A, usePrevious } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { intersperse } from '../../lib/utils/helpers'
+import { Hint } from './Elements'
 
 export const COUNTRIES = ['Schweiz', 'Deutschland', 'Österreich']
 
@@ -21,18 +15,7 @@ export const fields = t => [
     name: 'name',
     autoComplete: 'name',
     validator: value => !value && t('Account/AddressForm/name/error/empty'),
-    explanation: (
-      <Label
-        style={{
-          marginTop: -10,
-          marginBottom: 10,
-          display: 'block',
-          color: colors.disabled
-        }}
-      >
-        {t('Account/AddressForm/name/explanation')}
-      </Label>
-    )
+    explanation: <Hint t={t} tKey={'Account/AddressForm/name/explanation'} />
   },
   {
     label: t('Account/AddressForm/line1/label'),

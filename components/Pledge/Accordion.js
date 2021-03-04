@@ -15,7 +15,8 @@ import {
   fontStyles,
   Loader,
   mediaQueries,
-  Editorial
+  Editorial,
+  useColorContext
 } from '@project-r/styleguide'
 
 const styles = {
@@ -26,7 +27,6 @@ const styles = {
   package: css({
     display: 'block',
     textDecoration: 'none',
-    color: '#000',
     marginTop: -1,
     ...fontStyles.sansSerifRegular,
     paddingTop: 7,
@@ -35,11 +35,10 @@ const styles = {
       paddingTop: 10,
       paddingBottom: 16
     },
-    borderBottom: `1px solid ${colors.divider}`,
-    borderTop: `1px solid ${colors.divider}`
-  }),
-  packageDark: css({
-    color: '#fff'
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderTopWidth: 1,
+    borderTopStyle: 'solid'
   }),
   packageHighlighted: css({
     position: 'relative',
@@ -57,13 +56,8 @@ const styles = {
       paddingBottom: 17
     },
     width: 'calc(100% + 20px)',
-    backgroundColor: colors.primaryBg,
     borderBottom: 'none',
     borderTop: 'none'
-  }),
-  packageHighlightedDark: css({
-    backgroundColor: '#fff',
-    color: '#000'
   }),
   groupTitle: css({
     marginTop: 40,
@@ -151,54 +145,45 @@ const query = gql`
 
 export const PackageItem = React.forwardRef(
   (
-    {
-      t,
-      hover,
-      setHover,
-      crowdfundingName,
-      name,
-      title,
-      price,
-      onClick,
-      href,
-      dark
-    },
+    { t, hover, setHover, crowdfundingName, name, title, price, onClick, href },
     ref
-  ) => (
-    <a
-      {...merge(
-        styles.package,
-        dark && styles.packageDark,
-        hover === name && styles.packageHighlighted,
-        hover === name && dark && styles.packageHighlightedDark
-      )}
-      onMouseOver={() => setHover(name)}
-      onMouseOut={() => setHover(undefined)}
-      onClick={onClick}
-      href={href}
-      ref={ref}
-    >
-      <div {...styles.packageHeader}>
-        <div {...styles.packageTitle}>
-          {title ||
-            t.first([
-              `package/${crowdfundingName}/${name}/title`,
-              `package/${name}/title`
-            ])}
-        </div>
-        {!!price && (
-          <div {...styles.packagePrice}>
-            {t.first([`package/${name}/price`, 'package/price'], {
-              formattedCHF: `CHF ${price / 100}`
-            })}
+  ) => {
+    const [colorScheme] = useColorContext()
+    return (
+      <a
+        {...merge(styles.package, hover === name && styles.packageHighlighted)}
+        {...colorScheme.set('color', 'logo')}
+        {...colorScheme.set('borderTopColor', 'divider')}
+        {...colorScheme.set('borderBottomColor', 'divider')}
+        {...(hover === name && colorScheme.set('background', 'alert'))}
+        onMouseOver={() => setHover(name)}
+        onMouseOut={() => setHover(undefined)}
+        onClick={onClick}
+        href={href}
+        ref={ref}
+      >
+        <div {...styles.packageHeader}>
+          <div {...styles.packageTitle}>
+            {title ||
+              t.first([
+                `package/${crowdfundingName}/${name}/title`,
+                `package/${name}/title`
+              ])}
           </div>
-        )}
-        <span {...styles.packageIcon}>
-          <MdChevronRight size={24} />
-        </span>
-      </div>
-    </a>
-  )
+          {!!price && (
+            <div {...styles.packagePrice}>
+              {t.first([`package/${name}/price`, 'package/price'], {
+                formattedCHF: `CHF ${price / 100}`
+              })}
+            </div>
+          )}
+          <span {...styles.packageIcon}>
+            <MdChevronRight size={24} />
+          </span>
+        </div>
+      </a>
+    )
+  }
 )
 
 export const PackageBuffer = () => <div {...styles.buffer} />

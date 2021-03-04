@@ -12,7 +12,8 @@ import {
   Interaction,
   Loader,
   colors,
-  LazyLoad
+  LazyLoad,
+  ColorContextProvider
 } from '@project-r/styleguide'
 import {
   ChartTitle,
@@ -124,6 +125,10 @@ const Accordion = withInNativeApp(
     }) => {
       const [hover, setHover] = useState()
 
+      if (inNativeIOSApp) {
+        return null
+      }
+
       return (
         <div style={{ marginTop: 10, marginBottom: 30 }}>
           <Interaction.P style={{ marginBottom: 10 }}>
@@ -134,7 +139,6 @@ const Accordion = withInNativeApp(
               <HrefLink href='/komplizin' passHref>
                 <PackageItem
                   t={t}
-                  dark
                   crowdfundingName={CROWDFUNDING}
                   name='PROMOTE'
                   title={'Republik bekannter machen'}
@@ -155,7 +159,6 @@ const Accordion = withInNativeApp(
                   >
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='PROLONG'
                       title={isReactivating ? 'Zurückkehren' : undefined}
@@ -175,7 +178,6 @@ const Accordion = withInNativeApp(
                   >
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='PROLONG-BIG'
                       hover={hover}
@@ -199,7 +201,6 @@ const Accordion = withInNativeApp(
                   >
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='PROLONG-BEN'
                       hover={hover}
@@ -221,7 +222,6 @@ const Accordion = withInNativeApp(
                     >
                       <PackageItem
                         t={t}
-                        dark
                         crowdfundingName={CROWDFUNDING}
                         name='ABO_GIVE'
                         hover={hover}
@@ -238,7 +238,6 @@ const Accordion = withInNativeApp(
                       >
                         <PackageItem
                           t={t}
-                          dark
                           crowdfundingName={CROWDFUNDING}
                           name='MONTHLY_ABO'
                           hover={hover}
@@ -249,7 +248,6 @@ const Accordion = withInNativeApp(
                       <Link route='pledge' params={{ package: 'ABO' }} passHref>
                         <PackageItem
                           t={t}
-                          dark
                           crowdfundingName={CROWDFUNDING}
                           name='ABO'
                           hover={hover}
@@ -264,7 +262,6 @@ const Accordion = withInNativeApp(
                       >
                         <PackageItem
                           t={t}
-                          dark
                           crowdfundingName={CROWDFUNDING}
                           name='BENEFACTOR'
                           hover={hover}
@@ -279,7 +276,6 @@ const Accordion = withInNativeApp(
               <Link route='pledge' params={{ package: 'DONATE' }} passHref>
                 <PackageItem
                   t={t}
-                  dark
                   crowdfundingName={CROWDFUNDING}
                   name='DONATE'
                   hover={hover}
@@ -294,6 +290,11 @@ const Accordion = withInNativeApp(
                 </Interaction.P>
               )}
             </>
+          )}
+          {inNativeIOSApp && (
+            <Interaction.P style={{ color: '#ef4533', marginTop: 30 }}>
+              {t('cockpit/ios')}
+            </Interaction.P>
           )}
         </div>
       )
@@ -344,7 +345,7 @@ const Page = ({
   }, [query.token])
 
   return (
-    <Frame meta={meta} colorSchemeKey='dark'>
+    <Frame meta={meta} pageColorSchemeKey='dark'>
       <Loader
         loading={data.loading || actionsLoading}
         error={data.error}
@@ -672,23 +673,6 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
                 </ChartLegend>
               </div>
 
-              {md(mdComponents)`
-
-## Was bisher geschah
-
-*   April 2017: [Initiales Crowdfunding](/crowdfunding) 
-*   Januar 2018: [Launch Magazin](https://project-r.construction/newsletter/2018-01-14-gestartet)
-*   Oktober 2018: [1. Geschäftsbericht](https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2017-2018.pdf)
-*   Januar 2019: [Liquiditätsplanung für 2019](/2019/01/07/unser-plan-ihr-plan)
-*   November 2019: [2. Geschäftsbericht](https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2018-2019.pdf) 
-*   Dezember 2019: [das alte Cockpit](/cockpit19)
-*   März 2020: [Märzkampagne](/maerzkampagne)
-*   Juni 2020: [25’000 Mitglieder](https://project-r.construction/newsletter/2020-06-19-wir-sind-stolz-auf-sie)
-*   November 2020: [3. Geschäftsbericht](https://cdn.repub.ch/s3/republik-assets/assets/geschaeftsbericht/2019-2020.pdf)
-
-Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in unserem Unternehmen. Sie können alles nachlesen, im [Archiv der Project-R-Newsletter](https://project-r.construction/news) und in der [Rubrik «An die Verlagsetage](/format/an-die-verlagsetage "An die Verlagsetage")».
-
-`}
               <br />
               <Accordion
                 me={me}
@@ -698,12 +682,6 @@ Seit dem Start schreiben wir regelmässig über die wichtigsten Entwicklungen in
                 defaultBenefactor={defaultBenefactor}
                 questionnaire={questionnaire}
               />
-
-              {inNativeIOSApp && (
-                <Interaction.P style={{ color: '#ef4533', marginBottom: 10 }}>
-                  {t('cockpit/ios')}
-                </Interaction.P>
-              )}
 
               {md(mdComponents)`
 

@@ -15,7 +15,7 @@ import GiveMemberships from './Memberships/Give'
 
 import query from './belongingsQuery'
 
-import { A, linkRule } from '@project-r/styleguide'
+import { A } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -172,8 +172,8 @@ class PledgeList extends Component {
           )
         })}
         <div style={{ marginTop: 30 }}>
-          <Link route='pledge' params={{ group: 'GIVE' }}>
-            <a {...linkRule}>{t('account/pledges/promo')}</a>
+          <Link route='pledge' params={{ group: 'GIVE' }} passHref>
+            <A>{t('account/pledges/promo')}</A>
           </Link>
         </div>
       </Fragment>

@@ -96,26 +96,44 @@ const Nav = ({
                 </NavLink>
               </div>
             </div>
-            <hr
-              {...styles.hr}
-              {...colorScheme.set('color', 'divider')}
-              {...colorScheme.set('backgroundColor', 'divider')}
-            />
+            {me && (
+              <>
+                <hr
+                  {...styles.hr}
+                  {...colorScheme.set('color', 'divider')}
+                  {...colorScheme.set('backgroundColor', 'divider')}
+                />
+                <div {...styles.navSection}>
+                  <Sections
+                    active={active}
+                    vertical
+                    closeHandler={closeHandler}
+                  />
+                  <NavLink
+                    route='sections'
+                    title={t('navbar/sections')}
+                    active={active}
+                    closeHandler={closeHandler}
+                    formatColor={colors.primary}
+                  >
+                    {t('navbar/sections')}
+                  </NavLink>
+                </div>
+                <hr
+                  {...styles.hr}
+                  {...colorScheme.set('color', 'divider')}
+                  {...colorScheme.set('backgroundColor', 'divider')}
+                />
+              </>
+            )}
             <div {...styles.navSection}>
-              <Sections active={active} vertical closeHandler={closeHandler} />
-              <NavLink
-                route='sections'
-                title={t('navbar/sections')}
-                active={active}
-                closeHandler={closeHandler}
-                formatColor={colors.primary}
+              <div
+                {...styles.navLinks}
+                style={{
+                  // ensures last item is visible in iOS safari
+                  marginBottom: inIOS && !inNativeApp ? 64 : 24
+                }}
               >
-                {t('navbar/sections')}
-              </NavLink>
-            </div>
-            <hr {...styles.hr} />
-            <div {...styles.navSection}>
-              <div {...styles.navLinks}>
                 <NavLink
                   inline
                   large
@@ -140,25 +158,6 @@ const Nav = ({
                   closeHandler={closeHandler}
                 >
                   {t('nav/team')}
-                </NavLink>
-              </div>
-            </div>
-            <div {...styles.navSection}>
-              <div
-                {...styles.navLinks}
-                style={{
-                  // ensures last item is visible in iOS safari
-                  marginBottom: inIOS && !inNativeApp ? 64 : 24
-                }}
-              >
-                <NavLink
-                  large
-                  route='votePage'
-                  params={{slug: 'nov20'}}
-                  active={active}
-                  closeHandler={closeHandler}
-                >
-                  Urabstimmung
                 </NavLink>
               </div>
             </div>

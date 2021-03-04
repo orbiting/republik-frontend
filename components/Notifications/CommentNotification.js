@@ -1,18 +1,14 @@
 import React from 'react'
-import { CommentTeaser, colors } from '@project-r/styleguide'
+import { CommentTeaser, useColorContext } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import CommentLink from '../Discussion/CommentLink'
-import { css } from 'glamor'
 import SubscribeCallout from './SubscribeCallout'
 
-const isNewRule = css({
-  backgroundColor: colors.primaryBg
-})
-
 export default compose(withT)(({ t, node, isNew }) => {
+  const [colorScheme] = useColorContext()
   return (
-    <div {...(isNew ? isNewRule : {})}>
+    <div {...(isNew ? colorScheme.set('backgroundColor', 'alert') : null)}>
       <CommentTeaser
         {...node.object}
         context={{

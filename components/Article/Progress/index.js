@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { compose, withApollo } from 'react-apollo'
 import debounce from 'lodash/debounce'
-import throttle from 'lodash/throttle'
 import { withRouter } from 'next/router'
 
 import ProgressPrompt from './ProgressPrompt'
@@ -12,18 +11,11 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import { scrollIt } from '../../../lib/utils/scroll'
 import withMe from '../../../lib/apollo/withMe'
 import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
-import createPersistedState from '../../../lib/hooks/use-persisted-state'
 
-import { withProgressApi, mediaProgressQuery } from './api'
+import { withProgressApi } from './api'
+import { useMediaProgress } from '../../Audio/MediaProgress'
 
 const MIN_INDEX = 2
-const RESTORE_AREA = 0
-const RESTORE_FADE_AREA = 200
-const RESTORE_MIN = 0.4
-
-const useLocalMediaProgressState = createPersistedState(
-  'republik-progress-media'
-)
 
 class ProgressContextProvider extends React.Component {
   getChildContext() {
@@ -52,23 +44,18 @@ const Progress = ({
   article,
   isArticle,
   router,
-  upsertDocumentProgress,
-  upsertMediaProgress,
-  client
+  upsertDocumentProgress
 }) => {
   const refContainer = useRef()
   const lastClosestIndex = useRef()
   const refSaveProgress = useRef()
   const lastY = useRef()
 
+  const { getMediaProgress, saveMediaProgress } = useMediaProgress()
+
   const isTrackingAllowed = me && me.progressConsent === true
   const mobile = () => window.innerWidth < mediaQueries.mBreakPoint
   const headerHeight = () => (mobile() ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
-
-  const [
-    localMediaProgress,
-    setLocalMediaProgress
-  ] = useLocalMediaProgressState()
 
   const getProgressElements = () => {
     const progressElements = refContainer.current
@@ -203,64 +190,6 @@ const Progress = ({
       const offset = percentage * height - headerHeight()
       scrollIt(offset, 400)
     }
-  }
-
-  const saveMediaProgressNotPlaying = debounce((mediaId, currentTime) => {
-    // Fires on pause, on scrub, on end of video.
-    if (isTrackingAllowed) {
-      upsertMediaProgress(mediaId, currentTime)
-    } else {
-      setLocalMediaProgress({ mediaId, currentTime })
-    }
-  }, 300)
-
-  const saveMediaProgressWhilePlaying = throttle(
-    (mediaId, currentTime) => {
-      // Fires every 5 seconds while playing.
-      if (isTrackingAllowed) {
-        upsertMediaProgress(mediaId, currentTime)
-      } else {
-        setLocalMediaProgress({ mediaId, currentTime })
-      }
-    },
-    5000,
-    { trailing: true }
-  )
-
-  const saveMediaProgress = ({ mediaId }, mediaElement) => {
-    if (!mediaId) {
-      return
-    }
-    saveMediaProgressNotPlaying(mediaId, mediaElement.currentTime)
-    saveMediaProgressWhilePlaying(mediaId, mediaElement.currentTime)
-  }
-
-  const getMediaProgress = ({ mediaId, durationMs } = {}) => {
-    if (!mediaId) {
-      return Promise.resolve()
-    }
-    if (isTrackingAllowed) {
-      return client
-        .query({
-          query: mediaProgressQuery,
-          variables: { mediaId },
-          fetchPolicy: 'network-only'
-        })
-        .then(({ data: { mediaProgress: { secs } } = {} }) => {
-          if (secs) {
-            if (
-              durationMs &&
-              Math.round(secs) === Math.round(durationMs / 1000)
-            ) {
-              return
-            }
-            return secs - 2
-          }
-        })
-    } else if (localMediaProgress && localMediaProgress.mediaId === mediaId) {
-      return Promise.resolve(localMediaProgress.currentTime - 2)
-    }
-    return Promise.resolve()
   }
 
   useEffect(() => {

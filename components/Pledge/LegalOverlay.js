@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
 
-import fetch from 'isomorphic-unfetch'
-
 import {
   Overlay,
   OverlayBody,
@@ -10,7 +8,7 @@ import {
   OverlayToolbarConfirm,
   Interaction,
   A,
-  ColorContextProvider
+  useColorContext
 } from '@project-r/styleguide'
 
 import { MdClose } from 'react-icons/md'
@@ -43,36 +41,32 @@ const pages = [
 export const SUPPORTED_HREFS = pages.map(p => p.href)
 
 const LegalOverlay = ({ onClose, href, title }) => {
+  const [colorScheme] = useColorContext()
   const page = pages.find(p => p.href === href)
 
   return (
-    <ColorContextProvider colorSchemeKey='light'>
-      <Overlay
-        mUpStyle={{ maxWidth: 720, minHeight: 'none' }}
-        onClose={onClose}
-      >
-        <OverlayToolbar>
-          <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-            {title}
-          </Interaction.Emphasis>
-          <OverlayToolbarConfirm
-            onClick={onClose}
-            label={<MdClose size={24} fill='#000' />}
-          />
-        </OverlayToolbar>
-        <OverlayBody>
-          {page ? (
-            <page.content />
-          ) : (
-            <Interaction.P>
-              <A href={href} target='_blank'>
-                Jetzt anzeigen
-              </A>
-            </Interaction.P>
-          )}
-        </OverlayBody>
-      </Overlay>
-    </ColorContextProvider>
+    <Overlay mUpStyle={{ maxWidth: 720, minHeight: 0 }} onClose={onClose}>
+      <OverlayToolbar>
+        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
+          {title}
+        </Interaction.Emphasis>
+        <OverlayToolbarConfirm
+          onClick={onClose}
+          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
+        />
+      </OverlayToolbar>
+      <OverlayBody>
+        {page ? (
+          <page.content />
+        ) : (
+          <Interaction.P>
+            <A href={href} target='_blank'>
+              Jetzt anzeigen
+            </A>
+          </Interaction.P>
+        )}
+      </OverlayBody>
+    </Overlay>
   )
 }
 

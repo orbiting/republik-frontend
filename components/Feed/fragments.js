@@ -4,6 +4,7 @@ import { userProgressFragment } from '../Article/Progress/api'
 export const documentFragment = `
   fragment FeedDocument on Document {
     id
+    repoId
     ...BookmarkOnDocument
     ...UserProgressOnDocument
     meta {
@@ -11,6 +12,7 @@ export const documentFragment = `
       title
       description
       publishDate
+      prepublication
       path
       kind
       template
@@ -37,6 +39,34 @@ export const documentFragment = `
           title
           color
           kind
+        }
+      }
+      ownDiscussion {
+        id
+        closed
+        comments {
+          totalCount
+        }
+      }
+      linkedDiscussion {
+        id
+        path
+        closed
+        comments {
+          totalCount
+        }
+      }
+      series {
+        title
+        episodes {
+          label
+          document {
+            id
+            repoId
+            meta {
+              path
+            }
+          }
         }
       }
     }

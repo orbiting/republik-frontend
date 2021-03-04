@@ -13,7 +13,8 @@ import {
   VideoPlayer,
   FigureImage,
   FigureCaption,
-  fontStyles
+  fontStyles,
+  ColorContextProvider
 } from '@project-r/styleguide'
 import {
   ChartTitle,
@@ -126,7 +127,6 @@ const Accordion = withInNativeApp(
               >
                 <PackageItem
                   t={t}
-                  dark
                   crowdfundingName={CROWDFUNDING}
                   name='PROLONG'
                   title={isReactivating ? 'Zurückkehren' : undefined}
@@ -146,7 +146,6 @@ const Accordion = withInNativeApp(
               >
                 <PackageItem
                   t={t}
-                  dark
                   crowdfundingName={CROWDFUNDING}
                   name='PROLONG-BIG'
                   hover={hover}
@@ -170,7 +169,6 @@ const Accordion = withInNativeApp(
               >
                 <PackageItem
                   t={t}
-                  dark
                   crowdfundingName={CROWDFUNDING}
                   name='PROLONG-BEN'
                   hover={hover}
@@ -186,7 +184,6 @@ const Accordion = withInNativeApp(
                 <Link route='pledge' params={{ package: 'ABO_GIVE' }} passHref>
                   <PackageItem
                     t={t}
-                    dark
                     crowdfundingName={CROWDFUNDING}
                     name='ABO_GIVE'
                     hover={hover}
@@ -203,7 +200,6 @@ const Accordion = withInNativeApp(
                   >
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='MONTHLY_ABO'
                       hover={hover}
@@ -214,7 +210,6 @@ const Accordion = withInNativeApp(
                   <Link route='pledge' params={{ package: 'ABO' }} passHref>
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='ABO'
                       hover={hover}
@@ -229,7 +224,6 @@ const Accordion = withInNativeApp(
                   >
                     <PackageItem
                       t={t}
-                      dark
                       crowdfundingName={CROWDFUNDING}
                       name='BENEFACTOR'
                       hover={hover}
@@ -244,7 +238,6 @@ const Accordion = withInNativeApp(
           <Link route='pledge' params={{ package: 'DONATE' }} passHref>
             <PackageItem
               t={t}
-              dark
               crowdfundingName={CROWDFUNDING}
               name='DONATE'
               hover={hover}
@@ -356,7 +349,7 @@ const Page = ({
   const [autoPlay, setAutoPlay] = useState(false)
 
   return (
-    <Frame meta={meta} colorSchemeKey='dark'>
+    <Frame meta={meta} pageColorSchemeKey='dark'>
       <Loader
         loading={surviveData.loading || actionsLoading}
         error={surviveData.error}
@@ -453,7 +446,11 @@ Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb
 
               {inNativeIOSApp && (
                 <Interaction.P
-                  style={{ color: '#ef4533', marginBottom: 15, marginTop: 15 }}
+                  style={{
+                    color: '#ef4533',
+                    marginBottom: 15,
+                    marginTop: 15
+                  }}
                 >
                   {t('cockpit/ios')}
                 </Interaction.P>

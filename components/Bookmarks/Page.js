@@ -66,7 +66,6 @@ const Page = ({ t, me }) => {
         title: t('nav/bookmarks')
       }}
       raw
-      colorSchemeKey='auto'
     >
       <Center style={{ marginBottom: 56 }}>
         <div {...styles.title}>{t('pages/bookmarks/title')}</div>

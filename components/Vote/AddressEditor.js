@@ -133,7 +133,7 @@ const updateAddressMutation = gql`
 `
 
 const query = gql`
-  query {
+  query VoteAddressEditor {
     voteMe: me {
       id
       name

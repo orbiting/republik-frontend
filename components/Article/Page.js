@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useEffect, useMemo, useContext } from 'react'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
@@ -48,14 +48,14 @@ import FontSizeSync from '../FontSize/Sync'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import ActionBar from '../ActionBar'
-import { AudioContext } from '../Audio'
+import { AudioContext } from '../Audio/AudioProvider'
 import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
 import withMembership from '../Auth/withMembership'
-import { withEditor, withTester } from '../Auth/checkRoles'
+import { withEditor } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
@@ -69,6 +69,17 @@ const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
 }
+const Manifest = dynamic(() => import('../About/Manifest'), {
+  ssr: true
+})
+const TeamTeaser = dynamic(() => import('../About/TeamTeaser'), dynamicOptions)
+const TestimonialList = dynamic(
+  () => import('../Testimonial/List').then(m => m.ListWithQuery),
+  dynamicOptions
+)
+const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {
+  ssr: true
+})
 const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
 const VoteCounter = dynamic(() => import('../Vote/VoteCounter'), dynamicOptions)
 const VoteResult = dynamic(
@@ -126,8 +137,6 @@ const runMetaFromQuery = (code, query) => {
 const EmptyComponent = ({ children }) => children
 
 const ArticlePage = ({
-  toggleAudioPlayer,
-  audioPlayerVisible,
   router,
   t,
   me,
@@ -151,6 +160,8 @@ const ArticlePage = ({
   const articleContent = article?.content
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
+
+  const { toggleAudioPlayer, audioPlayerVisible } = useContext(AudioContext)
 
   const markNotificationsAsRead = () => {
     const unreadNotifications = articleUnreadNotifications?.nodes?.filter(
@@ -201,9 +212,13 @@ const ArticlePage = ({
           : undefined,
         dynamicComponentRequire,
         dynamicComponentIdentifiers: {
+          MANIFEST: Manifest,
+          TEAM_TEASER: TeamTeaser,
+          REASONS_VIDEO: ReasonsVideo,
           VOTEBOX: Votebox,
           VOTE_COUNTER: VoteCounter,
-          VOTE_RESULT: VoteResult
+          VOTE_RESULT: VoteResult,
+          TESTIMONIAL_LIST: TestimonialList
         },
         titleMargin: false,
         onAudioCoverClick: () => toggleAudioPlayer(meta),
@@ -284,7 +299,9 @@ const ArticlePage = ({
               mdast={{
                 ...article.content,
                 format: meta.format,
-                section: meta.section
+                section: meta.section,
+                series: meta.series,
+                repoId: article.repoId
               }}
             />
           )
@@ -314,18 +331,19 @@ const ArticlePage = ({
       {
         ...content,
         format: meta.format,
-        section: meta.section
+        section: meta.section,
+        series: meta.series,
+        repoId: article.repoId
       },
       schema,
       { MissingNode }
     )
 
-  const hasOverviewNav = meta && meta.template === 'section'
+  const hasOverviewNav = meta ? meta.template === 'section' : true // show/keep around while loading meta
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
   return (
     <Frame
-      colorSchemeKey={colorSchemeKey}
       raw
       // Meta tags for a focus comment are rendered in Discussion/Commments.js
       meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
@@ -333,6 +351,7 @@ const ArticlePage = ({
       formatColor={formatColor}
       hasOverviewNav={hasOverviewNav}
       stickySecondaryNav={hasOverviewNav}
+      pageColorSchemeKey={colorSchemeKey}
     >
       <Loader
         loading={data.loading}
@@ -434,9 +453,7 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        {(actionBar ||
-                          isSection ||
-                          showNewsletterSignupTop) && (
+                        {actionBar || isSection || showNewsletterSignupTop ? (
                           <Center>
                             {actionBar && (
                               <div
@@ -466,6 +483,10 @@ const ArticlePage = ({
                               </div>
                             )}
                           </Center>
+                        ) : (
+                          <div {...styles.actionBarContainer}>
+                            {/* space before paynote */}
+                          </div>
                         )}
                         {!suppressFirstPayNote && payNote}
                       </div>
@@ -618,23 +639,11 @@ const ComposedPage = compose(
   })
 )(ArticlePage)
 
-const ComposedPageWithAudio = props => (
-  <AudioContext.Consumer>
-    {({ toggleAudioPlayer, audioPlayerVisible }) => (
-      <ComposedPage
-        {...props}
-        audioPlayerVisible={audioPlayerVisible}
-        toggleAudioPlayer={toggleAudioPlayer}
-      />
-    )}
-  </AudioContext.Consumer>
-)
-
-ComposedPageWithAudio.getInitialProps = () => {
+ComposedPage.getInitialProps = () => {
   return {
     payNoteTryOrBuy: Math.random(),
     payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
   }
 }
 
-export default ComposedPageWithAudio
+export default ComposedPage

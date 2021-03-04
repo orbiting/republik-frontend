@@ -28,7 +28,7 @@ import {
 import DiscussionIcon from '../components/Icons/Discussion'
 
 const query = gql`
-  query {
+  query getCardGroups {
     nElected: cards(filters: { elects: ["nationalCouncil"] }) {
       totalCount
     }
@@ -124,6 +124,7 @@ const mdCheckProps = {
 const Page = ({ data, data: { cardGroups }, router, t }) => (
   <Frame
     raw
+    pageColorSchemeKey='light'
     meta={{
       pageTitle: t('pages/cardGroups/pageTitle'),
       title: t('pages/cardGroups/pageTitle'),

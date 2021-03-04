@@ -91,6 +91,35 @@ const styles = {
   })
 }
 
+export const RenderFront = ({ t, isEditor, front, nodes }) => {
+  const schema = useMemo(
+    () =>
+      createFrontSchema({
+        Link: HrefLink,
+        CommentLink,
+        DiscussionLink,
+        ...withData,
+        ActionBar,
+        t
+      }),
+    []
+  )
+  const MissingNode = isEditor ? undefined : ({ children }) => children
+  return (
+    <>
+      {renderMdast(
+        {
+          type: 'root',
+          children: nodes.map(v => v.body),
+          lastPublishedAt: front.meta.lastPublishedAt
+        },
+        schema,
+        { MissingNode }
+      )}
+    </>
+  )
+}
+
 const Front = ({
   data,
   fetchMore,
@@ -120,21 +149,6 @@ const Front = ({
     loadMore: fetchMore
   })
 
-  const schema = useMemo(
-    () =>
-      createFrontSchema({
-        Link: HrefLink,
-        CommentLink,
-        DiscussionLink,
-        ...withData,
-        ActionBar,
-        t
-      }),
-    []
-  )
-
-  const MissingNode = isEditor ? undefined : ({ children }) => children
-
   if (extractId) {
     return (
       <Loader
@@ -151,15 +165,12 @@ const Front = ({
               <Head>
                 <meta name='robots' content='noindex' />
               </Head>
-              {renderMdast(
-                {
-                  type: 'root',
-                  children: front.children.nodes.map(v => v.body),
-                  lastPublishedAt: front.meta.lastPublishedAt
-                },
-                schema,
-                { MissingNode }
-              )}
+              <RenderFront
+                t={t}
+                isEditor={isEditor}
+                front={front}
+                nodes={front.children.nodes}
+              />
             </Fragment>
           )
         }}
@@ -257,27 +268,21 @@ const Front = ({
                   </Interaction.P>
                 </div>
               )}
-              {renderMdast(
-                {
-                  type: 'root',
-                  children: nodes.slice(0, sliceIndex).map(v => v.body),
-                  lastPublishedAt: front.meta.lastPublishedAt
-                },
-                schema,
-                { MissingNode }
-              )}
+              <RenderFront
+                t={t}
+                isEditor={isEditor}
+                front={front}
+                nodes={nodes.slice(0, sliceIndex)}
+              />
               {end}
               {sliceIndex && (
                 <>
-                  {renderMdast(
-                    {
-                      type: 'root',
-                      children: nodes.slice(endIndex + 1).map(v => v.body),
-                      lastPublishedAt: front.meta.lastPublishedAt
-                    },
-                    schema,
-                    { MissingNode }
-                  )}
+                  <RenderFront
+                    t={t}
+                    isEditor={isEditor}
+                    front={front}
+                    nodes={nodes.slice(endIndex + 1)}
+                  />
                 </>
               )}
             </div>

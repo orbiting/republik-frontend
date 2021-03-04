@@ -122,25 +122,35 @@ const styles = {
     bottom: 0,
     left: 0
   }),
-  logo: css({
+  sOnly: css({
+    display: 'block',
+    [mediaQueries.mUp]: {
+      display: 'none'
+    }
+  }),
+  mUpOnly: css({
     display: 'none',
     [mediaQueries.mUp]: {
       display: 'block'
     }
   }),
   brandmark: css({
-    display: 'block',
     marginTop: '1px',
-    width: '20px',
-    [mediaQueries.mUp]: {
-      display: 'none'
-    }
+    width: '20px'
   })
 }
 
 class Footer extends Component {
   render() {
-    const { t, me, signOut, inNativeApp, inNativeIOSApp, black } = this.props
+    const {
+      t,
+      me,
+      signOut,
+      inNativeApp,
+      inNativeIOSApp,
+      black,
+      isOnMarketingPage
+    } = this.props
     return (
       <div {...merge(styles.bg, black && styles.bgBlack)}>
         <Container style={{ overflow: 'hidden' }}>
@@ -175,9 +185,9 @@ class Footer extends Component {
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/about/title')}</div>
-              <LazyLink route='about'>
+              <HrefLink href='/about' passHref>
                 <a>{t('footer/about')}</a>
-              </LazyLink>
+              </HrefLink>
               <br />
               <HrefLink href='/jobs' passHref>
                 <a href='/jobs'>{t('footer/jobs')}</a>
@@ -311,13 +321,19 @@ class Footer extends Component {
           </div>
           <hr {...styles.hr} />
           <div {...styles.lastLine}>
+            {!isOnMarketingPage && (
+              <LazyLink route='index'>
+                <a {...styles.mUpOnly} {...styles.left}>
+                  <Logo fill={colors.negative.text} height={20} />
+                </a>
+              </LazyLink>
+            )}
             <LazyLink route='index'>
-              <a {...styles.logo} {...styles.left}>
-                <Logo fill={colors.negative.text} height={20} />
-              </a>
-            </LazyLink>
-            <LazyLink route='index'>
-              <a {...styles.brandmark} {...styles.left}>
+              <a
+                {...(!isOnMarketingPage && styles.sOnly)}
+                {...styles.brandmark}
+                {...styles.left}
+              >
                 <BrandMark fill={colors.negative.text} />
               </a>
             </LazyLink>

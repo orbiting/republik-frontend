@@ -1,5 +1,5 @@
 {
-  "updated": "2021-01-13T13:33:57.080Z",
+  "updated": "2021-02-19T15:31:52.689Z",
   "title": "live",
   "data": [
     {
@@ -219,6 +219,14 @@
       "value": "Jetzt einlösen"
     },
     {
+      "key": "network-error/failed",
+      "value": "Die Verbindung zur Republik ist fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
+    },
+    {
+      "key": "network-error/misc",
+      "value": "Bei Ihrer Anfrage ist ein Fehler aufgetreten: «{error}». Erste-Hilfe-Team: kontakt@republik.ch."
+    },
+    {
       "key": "signIn/button",
       "value": "Anmelden"
     },
@@ -359,10 +367,6 @@
       "value": "Sie haben einen Gutschein? {claimLink}"
     },
     {
-      "key": "marketing/overview/title",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
-    },
-    {
       "key": "marketing/community/title/plain",
       "value": "Unsere Verlegerinnen und Verleger"
     },
@@ -387,8 +391,92 @@
       "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
     },
     {
+      "key": "marketing/page/new",
+      "value": "Täglich ein bis drei neue Beiträge. Im Web, in der App oder als Newsletter."
+    },
+    {
       "key": "marketing/signup/button/label",
       "value": "Anmelden"
+    },
+    {
+      "key": "marketing/page/lead/subtitle",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
+    },
+    {
+      "key": "marketing/page/reasons/1/title",
+      "value": "Transparent"
+    },
+    {
+      "key": "marketing/page/reasons/1/text",
+      "value": "Wir legen alles offen: unsere Finanzen, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass Transparenz wichtig ist."
+    },
+    {
+      "key": "marketing/page/reasons/2/title",
+      "value": "Werbefrei"
+    },
+    {
+      "key": "marketing/page/reasons/2/text",
+      "value": "Die Republik ist komplett werbefrei. So können wir uns auf unseren einzigen Kunden konzentrieren: Sie."
+    },
+    {
+      "key": "marketing/page/reasons/3/title",
+      "value": "Leserinnen­finanziert"
+    },
+    {
+      "key": "marketing/page/reasons/3/text",
+      "value": "Die Republik wird finanziert durch ihre über 28'000 Abonnentinnen. Wir gehören niemandem – aber jedem unserer Mitglieder ein bisschen."
+    },
+    {
+      "key": "marketing/page/vision/headline",
+      "value": "Ohne Journalismus keine Demokratie. Und ohne Demokratie keine Freiheit."
+    },
+    {
+      "key": "marketing/page/vision/paragraph1",
+      "value": "Bei der Republik und beim Journalismus überhaupt geht es nicht nur um den individuellen Nutzen. Es geht auch darum, eine wichtige Funktion in einer Demokratie auszuüben: den Mächtigen auf die Finger zu schauen, unabhängig zu recherchieren und Missstände aufzudecken. "
+    },
+    {
+      "key": "marketing/page/vision/paragraph2",
+      "value": "Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie."
+    },
+    {
+      "key": "marketing/page/carpet/text",
+      "value": "Täglich ein bis drei neue Beiträge. Im Web, in der App oder als Newsletter. "
+    },
+    {
+      "key": "marketing/page/carpet/button",
+      "value": "Jetzt abonnieren"
+    },
+    {
+      "key": "marketing/page/carpet/buttonsmall",
+      "value": "Abo"
+    },
+    {
+      "key": "marketing/page/team/title",
+      "value": "Wir sind Ihr Team"
+    },
+    {
+      "key": "marketing/page/team/lead",
+      "value": "Unsere Crew besteht aus kompetenten Profis. Den besten, die wir finden konnten. Uns eint die Leidenschaft für guten Journalismus."
+    },
+    {
+      "key": "marketing/page/community/title",
+      "value": "Wir stehen mit Ihnen im Dialog"
+    },
+    {
+      "key": "marketing/page/community/lead",
+      "value": "Die Republik wird mit Ihrer Stimme vielfältiger, interessanter und reflektierter."
+    },
+    {
+      "key": "marketing/page/sections/title",
+      "value": "Wir sind nützlich"
+    },
+    {
+      "key": "marketing/page/sections/lead",
+      "value": "Die Republik ist eine Dienstleistung für interessierte Menschen in einer komplexen Welt. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen."
+    },
+    {
+      "key": "marketing/page/vision/more",
+      "value": "Unsere Vision"
     },
     {
       "key": "marketing/offers/students",
@@ -2812,11 +2900,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/ios/before",
-      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 20’000 Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2897,6 +2985,22 @@
     {
       "key": "article/actionbar/whatsapp/label",
       "value": "WhatsApp"
+    },
+    {
+      "key": "article/actionbar/threema/title",
+      "value": "Auf Threema teilen"
+    },
+    {
+      "key": "article/actionbar/threema/label",
+      "value": "Threema"
+    },
+    {
+      "key": "article/actionbar/telegram/title",
+      "value": "Auf Telegram teilen"
+    },
+    {
+      "key": "article/actionbar/telegram/label",
+      "value": "Telegram"
     },
     {
       "key": "article/actionbar/email/title",
@@ -4295,12 +4399,24 @@
       "value": "Erläuterungen"
     },
     {
+      "key": "memberships/cancel/description/empty",
+      "value": "Erläuterungen fehlt"
+    },
+    {
       "key": "memberships/cancel/accountLink",
       "value": "Zum Konto"
     },
     {
       "key": "memberships/cancel/button",
       "value": "Kündigung abschicken"
+    },
+    {
+      "key": "memberships/cancel/userPrice",
+      "value": "Sie können sich den Betrag nicht leisten? Journalismus kostet. Aber wir wollen niemanden ausschliessen."
+    },
+    {
+      "key": "memberships/cancel/userPriceLink",
+      "value": "Wie viel können Sie bezahlen?"
     },
     {
       "key": "account/app/prolong/link",
@@ -4332,19 +4448,19 @@
     },
     {
       "key": "pledge/form/instruction/TABLEBOOK/notAvailable",
-      "value": "Das Buch «Republik bei Stromausfall» kann nur in Verbindung mit einer Jahresmitgliedschaft oder einer Verlängerung bestellt werden."
+      "value": "Dieses Produkt steht im Moment nicht zur Verfügung."
     },
     {
       "key": "pledge/form/instruction/TABLEBOOK/signIn",
-      "value": "Die «Republik bei Stromausfall» ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
+      "value": "Dieses Produkt steht im Moment nicht zur Verfügung."
     },
     {
       "key": "pledge/form/instruction/MASK/notAvailable",
-      "value": "Die Republik-Maske kann nur in Verbindung mit einer Jahresmitgliedschaft oder einer Verlängerung bestellt werden."
+      "value": "Dieses Produkt steht im Moment nicht zur Verfügung."
     },
     {
       "key": "pledge/form/instruction/MASK/signIn",
-      "value": "Die Republik-Maske ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
+      "value": "Dieses Produkt steht im Moment nicht zur Verfügung."
     },
     {
       "key": "pledge/meta/title",
@@ -4356,7 +4472,7 @@
     },
     {
       "key": "pledge/meta/group/GIVE/title",
-      "value": "Die Republik zum verschenken"
+      "value": "Die Republik zum Verschenken"
     },
     {
       "key": "pledge/meta/group/GIVE/description",
@@ -6208,7 +6324,7 @@
     },
     {
       "key": "package/ABO/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten hundert, die zu ihrer Jahresmitgliedschaft kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die zu ihrer Jahresmitgliedschaft kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
     },
     {
       "key": "package/BENEFACTOR/description",
@@ -6232,7 +6348,7 @@
     },
     {
       "key": "package/PROLONG/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
@@ -6244,7 +6360,7 @@
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu den ersten tausend, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können. "
+      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können. "
     },
     {
       "key": "package/TABLEBOOK/description",
@@ -6268,7 +6384,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery/MASK",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Masken liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "option/TABLEBOOK/label/other",
@@ -7105,6 +7221,10 @@
     {
       "key": "darkmode/switch/notAvailable",
       "value": "Der Nachtmodus ist auf dieser Seite nicht verfügbar."
+    },
+    {
+      "key": "AppSignInOverlay/title",
+      "value": "Zugriff bestätigen"
     }
   ]
 }

@@ -1,0 +1,102 @@
+import React from 'react'
+
+import { A, Highlight } from './Elements'
+
+export default {
+  Januar: p => (
+    <>
+      <Highlight {...p} ids={['dwjY_vk9K']}>
+        Gute Nachrichten
+      </Highlight>{' '}
+      zum Jahresanfang! Dann: ein{' '}
+      <Highlight {...p} ids={['nCfVF9P0t']}>
+        gescheiterter Putschversuch
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} series='republik/article-eyes-wide-shut-intro'>
+        Verschwörungstheorien
+      </Highlight>
+      , das{' '}
+      <Highlight {...p} ids={['XQeArbOGm']}>
+        grosse Versagen
+      </Highlight>{' '}
+      in der Pandemie,
+      <Highlight {...p} ids={['F3pnRHA_H']}>
+        Einsamkeit
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['UbyFeLqGO']}>
+        Wie unterstützt man einen Menschen
+      </Highlight>
+      , den die Winterdepression gepackt hat? Zum Ausgleich:{' '}
+      <Highlight {...p} ids={['pFsl1XooQ']}>
+        Kuchen backen
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['omk8rl1QW']}>
+        über Sex sprechen
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['RXZ5fxuNq']}>
+        mit Ibsen flirten
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['4hfBG9VNc']}>
+        Klaviere stimmen
+      </Highlight>
+      . Dazu ein{' '}
+      <Highlight {...p} ids={['bm4Bg1Jq6']}>
+        ausführliches Impf-Erklärstück
+      </Highlight>{' '}
+      und der{' '}
+      <Highlight {...p} ids={['P2zDx-RED', 'cBTN_20eg', 'TC9OwaLdb']}>
+        Rückblick auf ein Jahr Corona in der Republik
+      </Highlight>
+      .
+    </>
+  ),
+  Februar: p => (
+    <>
+      <Highlight {...p} series='republik/article-auftakt-frauenstimmrecht'>
+        Frauenstimmen: der Kampf dagegen, der Kampf dafür und warum sie nicht
+        gehört werden.
+      </Highlight>{' '}
+      <Highlight {...p} ids={['3QwcZDhDW']}>
+        Arbeitslos in der Pandemie
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['68IUUsTGP']}>
+        furchtlos in der Politik
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['gsMQNOwUx']}>
+        hoffentlich unter Strom
+      </Highlight>
+      . Zur Abstimmung: ein{' '}
+      <Highlight {...p} ids={['2Njt5Llek', '52Xb5n9C8']}>
+        vielschichtiges Stück Stoff
+      </Highlight>
+      , die{' '}
+      <Highlight {...p} ids={['2xGVZrZot']}>
+        Lobby hinter der E-ID
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['4Y4K0Iz6EQ']}>
+        Palmöl
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['u2TcbcK28']}>
+        schon wieder so einer
+      </Highlight>
+      !{' '}
+      <Highlight {...p} ids={['AHBexXLDa']}>
+        Warum Leistung keine Gerechtigkeit bringt
+      </Highlight>{' '}
+      und die{' '}
+      <Highlight {...p} ids={['9h5K_1QxP']}>
+        Messenger-Welt umgekrempelt gehört
+      </Highlight>
+      .
+    </>
+  )
+}

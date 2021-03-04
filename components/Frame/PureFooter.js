@@ -60,7 +60,7 @@ const styles = {
   })
 }
 
-const Footer = ({ inverted, en }) => (
+const Footer = ({ en }) => (
   <div {...styles.container}>
     <div {...styles.nav}>
       {!!en && <Label>Read more in German</Label>}
@@ -95,13 +95,11 @@ const Footer = ({ inverted, en }) => (
 
     <div {...styles.icons}>
       <IconButton
-        fill={inverted ? '#fff' : '#000'}
         Icon={IoLogoFacebook}
         href='https://www.facebook.com/RepublikMagazin'
         target='_blank'
       />
       <IconButton
-        fill={inverted ? '#fff' : '#000'}
         Icon={IoLogoTwitter}
         href='https://twitter.com/RepublikMagazin'
         target='_blank'

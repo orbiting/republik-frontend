@@ -15,9 +15,8 @@ import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 
 import Box from '../components/Frame/Box'
-import Employees from '../components/Marketing/Employees'
+import Employees from '../components/Marketing/legacy/Employees'
 import Frame from '../components/Frame'
-import VideoCover from '../components/VideoCover'
 import ShareButtons from '../components/ActionBar/ShareButtons'
 import List, { Highlight } from '../components/List'
 import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
@@ -28,8 +27,6 @@ import withSurviveStatus, {
   userSurviveActionsFragment,
   mapActionData
 } from '../components/Crowdfunding/withSurviveStatus'
-import ReasonsCover from '../components/Crowdfunding/ReasonsCover'
-import { getRandomReason } from '../components/Crowdfunding/reasonData'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -46,11 +43,11 @@ import {
   Lead,
   A,
   colors,
-  linkRule,
   Interaction,
   mediaQueries,
   LazyLoad
 } from '@project-r/styleguide'
+import ReasonsVideo from '../components/About/ReasonsVideo'
 
 const query = gql`
   query cf2($accessToken: ID) {
@@ -120,14 +117,6 @@ const styles = {
       display: 'none'
     }
   }),
-  mediaDiversity: css({
-    margin: '20px 0',
-    '& img': {
-      width: 'calc(50% - 10px)',
-      border: `1px solid ${colors.divider}`,
-      margin: 5
-    }
-  }),
   stretchLead: css({
     margin: '20px 0 0'
   }),
@@ -138,7 +127,7 @@ const styles = {
   cards: css({
     position: 'relative',
     zIndex: 1,
-    background: colors.negative.primaryBg,
+    background: colors.light.defaultInverted,
     margin: '30px 0',
     [mediaQueries.mUp]: {
       margin: '50px 0'
@@ -147,17 +136,6 @@ const styles = {
   tnum: css({
     fontFeatureSettings: '"tnum" 1, "kern" 1'
   })
-}
-
-const VIDEOS = {
-  main: {
-    hls:
-      'https://player.vimeo.com/external/394299161.m3u8?s=04b073df4a9a2e46dbf3bb030a81d7b233b70e10',
-    mp4:
-      'https://player.vimeo.com/external/394299161.hd.mp4?s=52bbb16e068387bd4e44683de01cbfebdcbc95e1&profile_id=175',
-    subtitles: '/static/subtitles/cf2.vtt',
-    thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/manifest.png`
-  }
 }
 
 const Page = ({
@@ -170,7 +148,6 @@ const Page = ({
   defaultBenefactor,
   activeMembership,
   actionsLoading,
-  reason,
   t
 }) => {
   useEffect(() => {
@@ -196,12 +173,12 @@ const Page = ({
     ? { package: 'ABO_GIVE', filter: 'pot' }
     : { package: 'ABO' }
   const pledgeLink = inNativeIOSApp ? null : (
-    <Link route='pledge' params={primaryParams}>
-      <a {...linkRule}>
+    <Link route='pledge' params={primaryParams} passHref>
+      <A>
         {activeMembership && !shouldBuyProlong
           ? 'Wachstum schenken'
           : 'Jetzt mitmachen!'}
-      </a>
+      </A>
     </Link>
   )
 
@@ -295,6 +272,7 @@ const Page = ({
   return (
     <Frame
       raw
+      pageColorSchemeKey='dark'
       meta={{
         url: `${PUBLIC_BASE_URL}/maerzkampagne`,
         pageTitle: 'Republik – das digitale Magazin von Project R',
@@ -303,19 +281,7 @@ const Page = ({
           'Unabhängiger Journalismus ohne Bullshit. Transparent. Werbefrei. Finanziert von den Leserinnen und Lesern.',
         image: `${CDN_FRONTEND_BASE_URL}/static/social-media/march20.jpg`
       }}
-      cover={
-        <>
-          {/*data.reasons && data.reasons.nodes.slice(1).map(r =>
-            <ReasonsCover reason={r} />
-          )*/}
-          <VideoCover
-            src={VIDEOS.main}
-            customCover={<ReasonsCover reason={reason} />}
-            playTop='65%'
-            endScroll={0.97}
-          />
-        </>
-      }
+      cover={<ReasonsVideo />}
     >
       <ContainerWithSidebar
         sidebarProps={{
@@ -674,7 +640,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
           )}
 
           <Link route='community'>
-            <a {...linkRule}>Alle ansehen</a>
+            <A>Alle ansehen</A>
           </Link>
 
           <br />
@@ -706,11 +672,5 @@ const EnhancedPage = compose(
   withInNativeApp,
   withT
 )(Page)
-
-EnhancedPage.getInitialProps = () => {
-  return {
-    reason: getRandomReason()
-  }
-}
 
 export default EnhancedPage

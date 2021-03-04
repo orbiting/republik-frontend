@@ -382,7 +382,7 @@ const Page = ({
     party && medianSmartspiders.find(m => m.value === party)
 
   return (
-    <Frame footer={false} pullable={false} raw>
+    <Frame footer={false} pullable={false} raw pageColorSchemeKey='light'>
       <Query
         me={meRef.current}
         serverContext={serverContext}
@@ -410,7 +410,4 @@ const Page = ({
   )
 }
 
-export default compose(
-  withMe,
-  withRouter
-)(Page)
+export default compose(withMe, withRouter)(Page)

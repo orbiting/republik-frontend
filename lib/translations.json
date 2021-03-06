@@ -1,5 +1,5 @@
 {
-  "updated": "2021-02-19T15:31:52.689Z",
+  "updated": "2021-03-06T12:56:28.013Z",
   "title": "live",
   "data": [
     {
@@ -564,7 +564,11 @@
     },
     {
       "key": "Account/title",
-      "value": "Willkommen, {nameOrEmail}"
+      "value": "Willkommen"
+    },
+    {
+      "key": "Account/title/name",
+      "value": "Willkommen, {name}"
     },
     {
       "key": "Account/Update/address/label",

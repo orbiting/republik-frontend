@@ -114,9 +114,15 @@ class Account extends Component {
                 <Content>
                   {!merci && (
                     <H1>
-                      {t('Account/title', {
-                        nameOrEmail: me.name || me.email
-                      })}
+                      {t.first(
+                        [
+                          me.name && 'Account/title/name',
+                          'Account/title'
+                        ].filter(Boolean),
+                        {
+                          name: me.name
+                        }
+                      )}
                     </H1>
                   )}
 
@@ -141,9 +147,11 @@ class Account extends Component {
                     </AccountAnchor>
                   )}
 
-                  <AccountAnchor id='teilen'>
-                    <Access />
-                  </AccountAnchor>
+                  {hasActiveMemberships && (
+                    <AccountAnchor id='teilen'>
+                      <Access />
+                    </AccountAnchor>
+                  )}
 
                   <AccountAnchor id='email'>
                     <UpdateEmail />

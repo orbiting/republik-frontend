@@ -104,8 +104,7 @@ export const AutoForm = withT(
     existingAddress,
     name,
     t,
-    afterEdit,
-    onReset
+    afterEdit
   }) => {
     const [mode, setMode] = useState(existingAddress ? 'view' : 'edit')
 

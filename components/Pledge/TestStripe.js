@@ -593,13 +593,23 @@ const CheckoutForm = ({ currentOffer, submitAndPay, syncPaymentIntent }) => {
           label: currentOffer.label,
           amount: currentOffer.submitPledgeProps.total
         },
-        requestPayerName: false,
-        requestPayerEmail: false,
-        requestShipping: false
+        requestPayerName: true,
+        requestPayerEmail: true,
+        requestShipping: false || true,
+        // displayItems: [],
+        shippingOptions: [
+          {
+            id: 'basic',
+            label: 'Zustellung per Post',
+            detail: 'Wir liefern innerhalb von 7 Werktagen in der Schweiz.',
+            amount: 0
+          }
+        ]
       })
 
       // Check the availability of the Payment Request API.
       pr.canMakePayment().then(result => {
+        console.log('canMakePayment', result)
         if (result) {
           setPaymentRequest(pr)
         }

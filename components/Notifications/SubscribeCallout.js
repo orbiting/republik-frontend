@@ -36,9 +36,11 @@ const SubscribeCallout = ({
   setAnimate,
   me
 }) => {
-  const authorSubscriptionsWithoutMe = authorSubscriptions?.filter(
-    subscription => subscription.object.id !== me?.id
-  )
+  const authorSubscriptionsWithoutMe =
+    authorSubscriptions &&
+    authorSubscriptions.filter(
+      subscription => subscription.object.id !== me?.id
+    )
   return (
     <div {...styles.container}>
       {formatSubscriptions && formatSubscriptions.length !== 0 && (

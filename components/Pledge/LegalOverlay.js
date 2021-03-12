@@ -18,6 +18,7 @@ import { getDocument } from '../Article/graphql/getDocument'
 import { splitByTitle } from '../../lib/utils/mdast'
 import { renderMdast } from 'mdast-react-render'
 import createPageSchema from '@project-r/styleguide/lib/templates/Page'
+import Campaign from '../Access/Campaigns/Campaign'
 
 const pages = [
   {
@@ -42,23 +43,37 @@ const pages = [
 
 export const SUPPORTED_HREFS = pages.map(p => p.href)
 
-const RenderArticle = ({ article }) => {
-  const splitContent = article && splitByTitle(article.content)
-  const renderSchema = content =>
-    renderMdast(
-      {
-        ...content,
-        format: undefined,
-        section: undefined,
-        series: undefined,
-        repoId: article.repoId
-      },
-      createPageSchema(article.meta.template),
-      { MissingNode: ({ children }) => children }
-    )
+const RenderArticle = ({ data }) => (
+  <Loader
+    loading={data.loading}
+    error={data.error}
+    render={() => {
+      const { article } = data
+      if (!article) {
+        return null
+      }
+      const splitContent = article && splitByTitle(article.content)
+      const schema = createPageSchema({
+        skipContainer: true,
+        skipCenter: true
+      })
+      const renderSchema = content =>
+        renderMdast(
+          {
+            ...content,
+            format: undefined,
+            section: undefined,
+            series: undefined,
+            repoId: article.repoId
+          },
+          schema,
+          { MissingNode: ({ children }) => children }
+        )
 
-  return renderSchema(splitContent.main)
-}
+      return renderSchema(splitContent.main)
+    }}
+  />
+)
 
 const LegalOverlay = ({ onClose, href, title, data }) => {
   const [colorScheme] = useColorContext()
@@ -78,8 +93,8 @@ const LegalOverlay = ({ onClose, href, title, data }) => {
       <OverlayBody>
         {page && page.content ? (
           <page.content />
-        ) : data && data.article ? (
-          <RenderArticle article={data.article} />
+        ) : data ? (
+          <RenderArticle data={data} />
         ) : (
           <Interaction.P>
             <A href={href} target='_blank'>

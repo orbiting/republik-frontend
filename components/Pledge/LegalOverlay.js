@@ -19,7 +19,7 @@ import { splitByTitle } from '../../lib/utils/mdast'
 import { renderMdast } from 'mdast-react-render'
 import createPageSchema from '@project-r/styleguide/lib/templates/Page'
 
-const localPages = [
+const pages = [
   {
     href: '/agb',
     content: dynamic(
@@ -40,7 +40,7 @@ const localPages = [
   }
 ]
 
-export const SUPPORTED_HREFS = localPages.map(p => p.href)
+export const SUPPORTED_HREFS = pages.map(p => p.href)
 
 const RenderArticle = ({ article }) => {
   const splitContent = article && splitByTitle(article.content)
@@ -62,7 +62,7 @@ const RenderArticle = ({ article }) => {
 
 const LegalOverlay = ({ onClose, href, title, data }) => {
   const [colorScheme] = useColorContext()
-  const page = localPages.find(p => p.href === href)
+  const page = pages.find(p => p.href === href)
 
   return (
     <Overlay mUpStyle={{ maxWidth: 720, minHeight: 0 }} onClose={onClose}>
@@ -94,7 +94,7 @@ const LegalOverlay = ({ onClose, href, title, data }) => {
 
 export default compose(
   graphql(getDocument, {
-    skip: props => localPages.find(p => p.href === props.href && p.content),
+    skip: props => pages.find(p => p.href === props.href && p.content),
     options: props => ({
       variables: {
         path: props.href

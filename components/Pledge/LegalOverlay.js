@@ -18,7 +18,6 @@ import { getDocument } from '../Article/graphql/getDocument'
 import { splitByTitle } from '../../lib/utils/mdast'
 import { renderMdast } from 'mdast-react-render'
 import createPageSchema from '@project-r/styleguide/lib/templates/Page'
-import Campaign from '../Access/Campaigns/Campaign'
 
 const pages = [
   {

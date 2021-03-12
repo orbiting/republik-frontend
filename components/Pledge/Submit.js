@@ -1,4 +1,4 @@
-import React, { Fragment, Component, useMemo, useState } from 'react'
+import React, { Fragment, Component, useMemo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -31,7 +31,8 @@ import {
   colors,
   InlineSpinner,
   Label,
-  A
+  A,
+  Loader
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
@@ -128,17 +129,94 @@ const SubmitWithHooks = props => {
   )
 
   const [syncAddresses, setSyncAddresses] = useState(true)
+
+  const [express, setExpress] = useState({
+    skip: !!basePledge
+  })
+  useEffect(() => {
+    if (window.ApplePaySession && window.ApplePaySession.canMakePayments()) {
+      setExpress(state => ({
+        ...state,
+        available: true
+      }))
+    }
+    if (window.PaymentRequest) {
+      const checkPaymentRequest = async () => {
+        let canMakePayment = false
+        try {
+          canMakePayment = await new PaymentRequest(
+            [
+              {
+                supportedMethods: 'basic-card',
+                data: {
+                  supportedNetworks: [
+                    'visa',
+                    'mastercard',
+                    'amex',
+                    'cartebancaire'
+                  ],
+                  supportedTypes: ['debit', 'credit']
+                }
+              }
+            ],
+            {
+              total: {
+                label: 'Test',
+                amount: { currency: 'CHF', value: props.total || 1 }
+              }
+            }
+          ).canMakePayment()
+        } catch (e) {}
+        setExpress(state => ({
+          ...state,
+          available: canMakePayment
+        }))
+      }
+      checkPaymentRequest()
+      return
+    }
+    setExpress(state => ({
+      ...state,
+      available: false
+    }))
+  }, [])
+
+  if (express.available === undefined && !express.skip) {
+    return <Loader />
+  }
+
   return (
-    <Submit
-      {...props}
-      userName={userName}
-      userAddress={userAddress}
-      addressState={addressState}
-      contactState={contactState}
-      shippingAddressState={shippingAddressState}
-      syncAddresses={props.requireShippingAddress && syncAddresses}
-      setSyncAddresses={setSyncAddresses}
-    />
+    <>
+      {express.available && (
+        <div style={{ marginBottom: 30 }}>
+          <Button primary>Express</Button> &nbsp;{' '}
+          {!express.skip && (
+            <Button
+              onClick={() => {
+                setExpress(state => ({
+                  ...state,
+                  skip: true
+                }))
+              }}
+            >
+              Skip
+            </Button>
+          )}
+        </div>
+      )}
+      {(express.skip || !express.available) && (
+        <Submit
+          {...props}
+          userName={userName}
+          userAddress={userAddress}
+          addressState={addressState}
+          contactState={contactState}
+          shippingAddressState={shippingAddressState}
+          syncAddresses={props.requireShippingAddress && syncAddresses}
+          setSyncAddresses={setSyncAddresses}
+        />
+      )}
+    </>
   )
 }
 

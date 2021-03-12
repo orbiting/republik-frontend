@@ -235,9 +235,9 @@ class Footer extends Component {
                 <a>{t('footer/legal/privacy')}</a>
               </LazyLink>
               <br />
-              <LazyLink route='legal/statute'>
+              <HrefLink href='/statuten' passHref>
                 <a>{t('footer/legal/statute')}</a>
-              </LazyLink>
+              </HrefLink>
               <br />
               <LazyLink route='shareholder'>
                 <a>{t('footer/shareholder')}</a>

@@ -256,8 +256,8 @@ const getPayNote = (
   subject,
   seed,
   tryOrBuy,
-  customPayNotes = [],
-  customOnly
+  customOnly,
+  customPayNotes = []
 ) => {
   const targetedCustomPaynotes = customPayNotes
     .map(generateKey)
@@ -489,8 +489,8 @@ export const PayNote = compose(
       subject,
       seed,
       tryOrBuy,
-      customPayNotes,
-      customOnly
+      customOnly,
+      customPayNotes
     )
 
     if (!payNote) return null

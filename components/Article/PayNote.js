@@ -252,14 +252,20 @@ const hasTryAndBuyCtas = notes =>
   notes.some(hasCta('trialForm')) &&
   notes.every(n => n.before.cta === 'trialForm' || n.before.cta === 'button')
 
-const getPayNote = (subject, seed, tryOrBuy, customPayNotes = []) => {
+const getPayNote = (
+  subject,
+  seed,
+  tryOrBuy,
+  customPayNotes = [],
+  customOnly
+) => {
   const targetedCustomPaynotes = customPayNotes
     .map(generateKey)
     .map(disableForIOS)
     .map(enableForTrialSignup)
     .filter(meetTarget(subject))
 
-  if (targetedCustomPaynotes.length)
+  if (customOnly || targetedCustomPaynotes.length)
     return getElementFromSeed(targetedCustomPaynotes, seed, MAX_PAYNOTE_SEED)
 
   const targetedPredefinedNotes = predefinedNotes.filter(
@@ -469,7 +475,8 @@ export const PayNote = compose(
     documentId,
     repoId,
     position,
-    customPayNotes
+    customPayNotes,
+    customOnly
   }) => {
     const [colorScheme] = useColorContext()
     const subject = {
@@ -478,7 +485,13 @@ export const PayNote = compose(
       hasActiveMembership,
       trialSignup: query.trialSignup
     }
-    const payNote = getPayNote(subject, seed, tryOrBuy, customPayNotes)
+    const payNote = getPayNote(
+      subject,
+      seed,
+      tryOrBuy,
+      customPayNotes,
+      customOnly
+    )
 
     if (!payNote) return null
 

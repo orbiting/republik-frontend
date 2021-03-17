@@ -309,21 +309,6 @@ const ArticlePage = ({
       />
     )
   }
-  const customPayNotes = article?.content?.meta?.paynotes
-
-  const payNote = (
-    <PayNote
-      seed={payNoteSeed}
-      tryOrBuy={payNoteTryOrBuy}
-      documentId={documentId}
-      repoId={repoId}
-      customPayNotes={customPayNotes}
-      position='before'
-    />
-  )
-
-  const payNoteAfter =
-    payNote && React.cloneElement(payNote, { position: 'after' })
 
   const splitContent = article && splitByTitle(article.content)
   const renderSchema = content =>
@@ -370,7 +355,7 @@ const ArticlePage = ({
           const hasNewsletterUtms =
             router.query.utm_source && router.query.utm_source === 'newsletter'
 
-          const suppressPayNotes = isSection || isFormat
+          const suppressPayNotes = isSection
           const suppressFirstPayNote =
             suppressPayNotes ||
             podcast ||
@@ -378,6 +363,21 @@ const ArticlePage = ({
             meta.path === '/top-storys' ||
             hasNewsletterUtms ||
             (router.query.utm_source && router.query.utm_source === 'flyer-v1')
+
+          const payNote = (
+            <PayNote
+              seed={payNoteSeed}
+              tryOrBuy={payNoteTryOrBuy}
+              documentId={documentId}
+              repoId={repoId}
+              customPayNotes={article?.content?.meta?.paynotes}
+              customOnly={isPage || isFormat}
+              position='before'
+            />
+          )
+          const payNoteAfter =
+            payNote && React.cloneElement(payNote, { position: 'after' })
+
           const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion =
             meta.linkedDiscussion && !meta.linkedDiscussion.closed

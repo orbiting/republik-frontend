@@ -16,21 +16,6 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 const sectionContent = [
   {
-    title: 'Covid-19-Uhr-Newsletter',
-    href: '/format/covid-19-uhr-newsletter',
-    image: '/static/marketing/covid.png?size=2000x2000',
-    color: '#d44438',
-    description: (
-      <>
-        Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen für
-        alle. Auch ohne Mitgliedschaft oder Abo.{' '}
-        <HrefLink href='/format/covid-19-uhr-newsletter' passHref>
-          <Editorial.A>Jetzt gratis abonnieren.</Editorial.A>
-        </HrefLink>
-      </>
-    )
-  },
-  {
     title: 'Briefing',
     href: '/briefings',
     image: '/static/marketing/briefings.png?size=2000x2000',
@@ -55,6 +40,18 @@ const sectionContent = [
         Kiyak oder Daniel Strassberg, jeden Samstag von Daniel Binswanger. Und
         immer dann, wenn sie da ist, von Constantin Seibt. Ausserdem jeden
         Samstag: die Fotokolumne «Blickwechsel».
+      </>
+    )
+  },
+  {
+    title: 'Covid-19-Uhr-Newsletter',
+    href: '/format/covid-19-uhr-newsletter',
+    image: '/static/marketing/covid.png?size=2000x2000',
+    color: '#d44438',
+    description: (
+      <>
+        Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen für
+        alle. 180 Ausgaben lang.
       </>
     )
   },

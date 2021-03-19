@@ -1,5 +1,5 @@
 {
-  "updated": "2021-03-10T14:05:57.793Z",
+  "updated": "2021-03-19T09:06:31.216Z",
   "title": "live",
   "data": [
     {
@@ -3788,7 +3788,7 @@
     },
     {
       "key": "feedback/unauthorized",
-      "value": "Die Republik ist nur so stark wie Ihre Community. Werden Sie ein Teil davon und lassen Sie uns miteinander reden. {buyLink}"
+      "value": "Die Republik ist nur so stark wie ihre Community. Werden Sie ein Teil davon und lassen Sie uns miteinander reden. {buyLink}"
     },
     {
       "key": "feedback/unauthorized/buyText",
@@ -3796,7 +3796,7 @@
     },
     {
       "key": "feedback/lead",
-      "value": "Die Republik ist nur so stark wie Ihre Community. Teilen Sie Ihr Wissen und Ihre Perspektive."
+      "value": "Die Republik ist nur so stark wie ihre Community. Teilen Sie Ihr Wissen und Ihre Perspektive."
     },
     {
       "key": "feedback/general/title",

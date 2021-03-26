@@ -43,7 +43,7 @@ import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
-
+import ShareImage from './ShareImage'
 import FontSizeSync from '../FontSize/Sync'
 import Loader from '../Loader'
 import Frame from '../Frame'
@@ -291,10 +291,14 @@ const ArticlePage = ({
             )
           }
 
-          return (
+          const extract = router.query.extract
+          return extract === 'facebook' || extract === 'twitter' ? (
+            <ShareImage meta={meta} socialKey={extract} />
+          ) : (
             <Extract
               ranges={router.query.extract}
               schema={schema}
+              meta={meta}
               unpack={router.query.unpack}
               mdast={{
                 ...article.content,

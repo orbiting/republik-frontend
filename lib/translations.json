@@ -1,5 +1,5 @@
 {
-  "updated": "2021-03-19T09:06:31.216Z",
+  "updated": "2021-03-26T08:59:40.685Z",
   "title": "live",
   "data": [
     {
@@ -404,19 +404,19 @@
     },
     {
       "key": "marketing/page/reasons/1/title",
-      "value": "Transparent"
-    },
-    {
-      "key": "marketing/page/reasons/1/text",
-      "value": "Wir legen alles offen: unsere Finanzen, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass Transparenz wichtig ist."
-    },
-    {
-      "key": "marketing/page/reasons/2/title",
       "value": "Werbefrei"
     },
     {
-      "key": "marketing/page/reasons/2/text",
+      "key": "marketing/page/reasons/1/text",
       "value": "Die Republik ist komplett werbefrei. So können wir uns auf unseren einzigen Kunden konzentrieren: Sie."
+    },
+    {
+      "key": "marketing/page/reasons/2/title",
+      "value": "Transparent"
+    },
+    {
+      "key": "marketing/page/reasons/2/text",
+      "value": "Wir legen alles offen: unsere Finanzen, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass Transparenz wichtig ist."
     },
     {
       "key": "marketing/page/reasons/3/title",

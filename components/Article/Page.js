@@ -332,7 +332,7 @@ const ArticlePage = ({
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
   const getSocialImageUrl = socialKey =>
-    `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
+    `${ASSETS_SERVER_BASE_URL}/render?width=600&height=314&updatedAt=${encodeURIComponent(
       article.id
     )}&url=${encodeURIComponent(
       `${PUBLIC_BASE_URL}${articleMeta.path}?extract=${socialKey}`

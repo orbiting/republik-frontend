@@ -42,7 +42,7 @@ import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 import ShareImage from './ShareImage'
 import FontSizeSync from '../FontSize/Sync'
 import Loader from '../Loader'
@@ -331,11 +331,31 @@ const ArticlePage = ({
   const hasOverviewNav = meta ? meta.template === 'section' : true // show/keep around while loading meta
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
+  const getSocialImageUrl = socialKey =>
+    `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
+      article.id
+    )}&url=${encodeURIComponent(
+      `${PUBLIC_BASE_URL}${articleMeta.path}?extract=${socialKey}`
+    )}`
+
+  const metaWithSocialImages =
+    meta && meta.discussionId && router.query.focus
+      ? undefined
+      : {
+          ...meta,
+          facebookImage: meta?.facebookGenerated
+            ? getSocialImageUrl('facebook')
+            : meta?.facebookImage,
+          twitterImage: meta?.twitterGenerated
+            ? getSocialImageUrl('twitter')
+            : meta?.twitterImage
+        }
+
   return (
     <Frame
       raw
       // Meta tags for a focus comment are rendered in Discussion/Commments.js
-      meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
+      meta={metaWithSocialImages}
       secondaryNav={seriesNavButton}
       formatColor={formatColor}
       hasOverviewNav={hasOverviewNav}

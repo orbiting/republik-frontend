@@ -13,7 +13,9 @@ import {
   mediaQueries,
   TitleBlock,
   Editorial,
-  ColorContextProvider
+  ColorContextProvider,
+  SHARE_IMAGE_HEIGHT,
+  SHARE_IMAGE_WIDTH
 } from '@project-r/styleguide'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
@@ -332,7 +334,7 @@ const ArticlePage = ({
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
   const getSocialImageUrl = socialKey =>
-    `${ASSETS_SERVER_BASE_URL}/render?width=600&height=314&updatedAt=${encodeURIComponent(
+    `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
       article.id
     )}&url=${encodeURIComponent(
       `${PUBLIC_BASE_URL}${articleMeta.path}?extract=${socialKey}`

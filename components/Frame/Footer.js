@@ -162,18 +162,12 @@ class Footer extends Component {
                 <br key={i} />
               ))}
               <br />
-              <a
-                href='https://www.google.ch/maps/place/Sihlhallenstrasse+1,+8004+Zürich'
-                target='_blank'
-                rel='noopener'
-              >
-                {intersperse(
-                  t('footer/contact/address').split('\n'),
-                  (item, i) => (
-                    <br key={i} />
-                  )
-                )}
-              </a>
+              {intersperse(
+                t('footer/contact/address').split('\n'),
+                (item, i) => (
+                  <br key={i} />
+                )
+              )}
               <br />
               <a href={`mailto:${t('footer/contact/mail')}`}>
                 {t('footer/contact/mail')}

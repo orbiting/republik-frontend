@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
-import { IoLogoFacebook, IoLogoTwitter } from 'react-icons/io'
+import { IoLogoFacebook, IoLogoTwitter, IoLogoInstagram } from 'react-icons/io'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
@@ -107,7 +107,7 @@ const styles = {
   }),
   since: css({
     color: colors.negative.lightText,
-    [mediaQueries.mUp]: {
+    ['@media (min-width: 500px)']: {
       display: 'inline-block'
     }
   }),
@@ -120,7 +120,11 @@ const styles = {
   left: css({
     position: 'absolute',
     bottom: 0,
-    left: 0
+    left: 0,
+    lineHeight: '18px'
+  }),
+  brandmark: css({
+    width: 23
   }),
   sOnly: css({
     display: 'block',
@@ -133,10 +137,6 @@ const styles = {
     [mediaQueries.mUp]: {
       display: 'block'
     }
-  }),
-  brandmark: css({
-    marginTop: '1px',
-    width: '20px'
   })
 }
 
@@ -315,24 +315,25 @@ class Footer extends Component {
           </div>
           <hr {...styles.hr} />
           <div {...styles.lastLine}>
-            {!isOnMarketingPage && (
-              <LazyLink route='index'>
-                <a {...styles.mUpOnly} {...styles.left}>
-                  <Logo fill={colors.negative.text} height={20} />
-                </a>
-              </LazyLink>
-            )}
             <LazyLink route='index'>
-              <a
-                {...(!isOnMarketingPage && styles.sOnly)}
-                {...styles.brandmark}
-                {...styles.left}
-              >
-                <BrandMark fill={colors.negative.text} />
+              <a {...(isOnMarketingPage && styles.brandmark)} {...styles.left}>
+                {isOnMarketingPage ? (
+                  <BrandMark fill={colors.negative.text} />
+                ) : (
+                  <Logo fill={colors.negative.text} height={20} />
+                )}
               </a>
             </LazyLink>
-            <span {...styles.since}>{t('footer/since')}</span>
+            <span {...styles.since} {...styles.mUpOnly}>
+              {t('footer/since')}
+            </span>
             <div {...styles.icons}>
+              <IconButton
+                Icon={IoLogoInstagram}
+                href='https://www.instagram.com/republikmagazin/'
+                target='_blank'
+                fill={colors.negative.text}
+              />
               <IconButton
                 Icon={IoLogoFacebook}
                 href='https://www.facebook.com/RepublikMagazin'

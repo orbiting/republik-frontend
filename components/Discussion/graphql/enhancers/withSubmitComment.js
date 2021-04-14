@@ -105,6 +105,7 @@ export const withSubmitComment = compose(
               userReportedAt: null,
               numReports: 0,
               unreadNotifications: null,
+              featuredTargets: null,
               discussion: {
                 __typename: 'Discussion',
                 id: discussionId,

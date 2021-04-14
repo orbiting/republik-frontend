@@ -54,7 +54,7 @@ export const withCommentActions = compose(
           variables: { commentId: comment.id, content, tags },
           optimisticResponse: {
             __typename: 'Mutation',
-            submitComment: {
+            editComment: {
               ...comment,
               ...optimisticContent(content)
             }

@@ -28,7 +28,7 @@ const SubscribeMenu = ({
         subscription =>
           subscription.active &&
           (showAuthorFilter ||
-            subscription.object.__typename !== 'User' ||
+            subscription.object?.__typename !== 'User' ||
             subscription.filters.includes('Document'))
       )) ||
     // or if a discussion is being followed
@@ -54,11 +54,12 @@ const SubscribeMenu = ({
       isSubscribedToAny: checkIfSubscribedToAny({ data, subscriptions }),
       formatSubscriptions:
         subscriptions &&
-        subscriptions.filter(node => node.object.__typename === 'Document'),
+        subscriptions.filter(node => node.object?.__typename === 'Document'),
       authorSubscriptions:
         subscriptions &&
         subscriptions.filter(
-          node => node.object.__typename === 'User' && node.object.id !== me?.id
+          node =>
+            node.object?.__typename === 'User' && node.object?.id !== me?.id
         )
     }),
     [data, subscriptions]

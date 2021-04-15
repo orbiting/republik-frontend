@@ -72,7 +72,6 @@ const styles = {
 const Comments = props => {
   const {
     t,
-    now,
     isAdmin,
     isEditor,
     focusId,
@@ -364,7 +363,6 @@ const Comments = props => {
           },
 
           clock: {
-            now,
             isDesktop,
             t
           },

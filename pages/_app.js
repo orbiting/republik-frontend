@@ -1,3 +1,5 @@
+import '../lib/polyfill'
+
 import App from 'next/app'
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'

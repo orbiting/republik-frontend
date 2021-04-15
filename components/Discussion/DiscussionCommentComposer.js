@@ -4,7 +4,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
-import produce from 'immer'
+import produce from '../../lib/immer'
 
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
@@ -22,7 +22,8 @@ import {
   CommentComposerPlaceholder,
   Interaction,
   Editorial,
-  timeahead
+  timeahead,
+  useCurrentMinute
 } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
@@ -36,7 +37,6 @@ const DiscussionCommentComposer = props => {
     discussionClosed,
     discussionUserCanComment,
     discussionPreferences,
-    now,
     parentId,
     inNativeIOSApp,
     showPayNotes
@@ -48,6 +48,7 @@ const DiscussionCommentComposer = props => {
    */
   const [isActive, setActive] = React.useState(false)
   const [showPreferences, setShowPreferences] = React.useState(false)
+  const now = useCurrentMinute()
 
   React.useEffect(() => {
     /*

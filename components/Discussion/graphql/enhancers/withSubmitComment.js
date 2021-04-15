@@ -1,7 +1,7 @@
 import { graphql, compose, withApollo } from 'react-apollo'
 import uuid from 'uuid/v4'
-import produce from 'immer'
 
+import produce from '../../../../lib/immer'
 import withT from '../../../../lib/withT'
 
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'

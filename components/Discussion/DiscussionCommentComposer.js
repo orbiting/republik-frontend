@@ -4,7 +4,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
-import produce from 'immer'
+import produce from '../../lib/immer'
 
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'

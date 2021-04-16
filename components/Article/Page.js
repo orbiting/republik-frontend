@@ -333,7 +333,7 @@ const ArticlePage = ({
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
   const shareImage = `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
-    article.id
+    `${article.id}${meta?.format ? `-${meta.format.id}` : ''}`
   )}&url=${encodeURIComponent(
     `${PUBLIC_BASE_URL}${articleMeta.path}?extract=share`
   )}`

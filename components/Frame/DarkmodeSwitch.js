@@ -6,7 +6,7 @@ import {
   Label,
   useColorContext
 } from '@project-r/styleguide'
-import { MdBrightness2 } from 'react-icons/md'
+import { DarkmodeIcon } from '@project-r/styleguide/icons'
 import { useInNativeApp } from '../../lib/withInNativeApp'
 
 import { useColorSchemeKey } from '../ColorScheme/lib'
@@ -25,7 +25,7 @@ const DarkmodeSwitch = ({ t }) => {
 
   const Icon = React.forwardRef((props, ref) => (
     <IconButton
-      Icon={MdBrightness2}
+      Icon={DarkmodeIcon}
       label={t('darkmode/switch/label', {
         iconLabel
       })}

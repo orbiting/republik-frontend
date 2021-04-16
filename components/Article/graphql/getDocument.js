@@ -46,23 +46,13 @@ export const getDocument = gql`
         facebookTitle
         facebookImage
         facebookDescription
-        facebookGenerated
-        facebookText
-        facebookFontSize
-        facebookFontStyle
-        facebookColoredBackground
-        facebookIlluBackground
-        facebookTextPosition
         twitterTitle
         twitterImage
         twitterDescription
-        twitterGenerated
-        twitterText
-        twitterFontSize
-        twitterFontStyle
-        twitterColoredBackground
-        twitterIlluBackground
-        twitterTextPosition
+        shareText
+        shareFontSize
+        shareInverted
+        shareTextPosition
         ownDiscussion {
           id
           closed
@@ -87,8 +77,8 @@ export const getDocument = gql`
             title
             color
             kind
-            shareImage
-            shareImageColor
+            shareBackgroundImage
+            shareBackgroundImageInverted
             section {
               id
               meta {

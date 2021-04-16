@@ -281,7 +281,8 @@ const ArticlePage = ({
   const sectionColor = meta && meta.template === 'section' && meta.color
   const MissingNode = isEditor ? undefined : ({ children }) => children
 
-  if (router.query.extract) {
+  const extract = router.query.extract
+  if (extract) {
     return (
       <Loader
         loading={data.loading}
@@ -292,13 +293,11 @@ const ArticlePage = ({
               <StatusError statusCode={404} serverContext={serverContext} />
             )
           }
-
-          const extract = router.query.extract
-          return extract === 'facebook' || extract === 'twitter' ? (
-            <ShareImage meta={meta} socialKey={extract} />
+          return extract === 'share' ? (
+            <ShareImage meta={meta} />
           ) : (
             <Extract
-              ranges={router.query.extract}
+              ranges={extract}
               schema={schema}
               meta={meta}
               unpack={router.query.unpack}
@@ -333,24 +332,19 @@ const ArticlePage = ({
   const hasOverviewNav = meta ? meta.template === 'section' : true // show/keep around while loading meta
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
-  const getSocialImageUrl = socialKey =>
-    `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
-      article.id
-    )}&url=${encodeURIComponent(
-      `${PUBLIC_BASE_URL}${articleMeta.path}?extract=${socialKey}`
-    )}`
+  const shareImage = `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
+    article.id
+  )}&url=${encodeURIComponent(
+    `${PUBLIC_BASE_URL}${articleMeta.path}?extract=share`
+  )}`
 
   const metaWithSocialImages =
     meta && meta.discussionId && router.query.focus
       ? undefined
       : {
           ...meta,
-          facebookImage: meta?.facebookGenerated
-            ? getSocialImageUrl('facebook')
-            : meta?.facebookImage,
-          twitterImage: meta?.twitterGenerated
-            ? getSocialImageUrl('twitter')
-            : meta?.twitterImage
+          facebookImage: meta?.shareText ? shareImage : meta?.facebookImage,
+          twitterImage: meta?.shareText ? shareImage : meta?.twitterImage
         }
 
   return (

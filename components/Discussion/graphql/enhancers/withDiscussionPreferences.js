@@ -1,5 +1,7 @@
 import { graphql, compose } from 'react-apollo'
-import produce from 'immer'
+
+import produce from '../../../../lib/immer'
+
 import {
   discussionPreferencesQuery,
   setDiscussionPreferencesMutation

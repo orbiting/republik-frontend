@@ -11,7 +11,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 import Loader from '../Loader'
 import { compose, graphql } from 'react-apollo'
 import { getDocument } from '../Article/graphql/getDocument'
@@ -86,7 +86,7 @@ const LegalOverlay = ({ onClose, href, title, data }) => {
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
+          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody>

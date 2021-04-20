@@ -2,8 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { CalloutMenu, IconButton } from '@project-r/styleguide'
-import { MdNotifications, MdNotificationsNone } from 'react-icons/md'
-
+import {
+  NotificationIcon,
+  NotificationsNoneIcon
+} from '@project-r/styleguide/icons'
 import { discussionPreferencesQuery } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
@@ -75,7 +77,7 @@ const SubscribeMenu = ({
 
   const Icon = React.forwardRef((props, ref) => (
     <IconButton
-      Icon={isSubscribedToAny ? MdNotifications : MdNotificationsNone}
+      Icon={isSubscribedToAny ? NotificationIcon : NotificationsNoneIcon}
       label={label}
       labelShort={labelShort}
       ref={ref}

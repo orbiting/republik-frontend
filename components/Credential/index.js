@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { MdCheck } from 'react-icons/md'
+import { CheckIcon } from '@project-r/styleguide/icons'
 import { useColorContext } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
@@ -27,7 +27,7 @@ const Credential = ({ description, verified, t, textColor }) => {
     >
       {description}
       {verified && (
-        <MdCheck
+        <CheckIcon
           {...styles.check}
           {...(textColor && colorScheme.set('fill', 'primary'))}
         />

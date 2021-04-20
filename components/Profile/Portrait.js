@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 
 import withT from '../../lib/withT'
 
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 
 const styles = {
   img: css({
@@ -175,7 +175,7 @@ export default withT(
               })
             }}
           >
-            <MdClose size={16} style={{ display: 'block' }} />
+            <CloseIcon size={16} style={{ display: 'block' }} />
           </div>
         )}
         {img}

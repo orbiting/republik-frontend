@@ -13,10 +13,8 @@ import {
 import { withRouter } from 'next/router'
 import StatusError from '../StatusError'
 import Head from 'next/head'
-
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
-
-import { MdCheckCircle } from 'react-icons/md'
+import { CheckCircleIcon } from '@project-r/styleguide/icons'
 
 import { withEditor, withTester } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
@@ -196,7 +194,7 @@ const Front = ({
             <div {...styles.more}>
               {finite && (
                 <div style={{ marginBottom: 10 }}>
-                  <MdCheckCircle size={32} style={{ marginBottom: 10 }} />
+                  <CheckCircleIcon size={32} style={{ marginBottom: 10 }} />
                   <br />
                   {t('front/finite')}
                   <br />

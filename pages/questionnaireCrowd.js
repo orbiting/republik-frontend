@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { compose, graphql, Mutation, Query } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 
-import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../lib/constants'
+import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import withT, { t } from '../lib/withT'
 
 import withAuthorization from '../components/Auth/withAuthorization'
@@ -36,24 +36,15 @@ import {
   colors,
   Figure,
   FigureImage,
-  InlineSpinner,
-  Label,
-  Checkbox,
-  Loader,
   Button,
   useColorContext
 } from '@project-r/styleguide'
 import { css } from 'glamor'
-import { MdTrendingFlat } from 'react-icons/md'
-import {
-  NEWSLETTER_SETTINGS,
-  UPDATE_NEWSLETTER_SUBSCRIPTION
-} from '../components/Account/NewsletterSubscriptions'
-import ErrorMessage from '../components/ErrorMessage'
+import { TrendingFlatIcon } from '@project-r/styleguide/icons'
 import { Link } from '../lib/routes'
 import NewsletterSignUp from '../components/Auth/NewsletterSignUp'
 
-const { Headline, H3, P } = Interaction
+const { Headline, P } = Interaction
 
 const mutation = gql`
   mutation submitQuestionnaireAndUpdateMe(
@@ -185,7 +176,7 @@ const adaptedQuestionnaire = (data, notConvinced) => {
 const ThankYouItem = compose(withT)(({ t, tKey }) => {
   return (
     <div {...styles.thankYouItem}>
-      <MdTrendingFlat {...styles.arrow} />
+      <TrendingFlatIcon {...styles.arrow} />
       <RawHtml
         type={P}
         dangerouslySetInnerHTML={{

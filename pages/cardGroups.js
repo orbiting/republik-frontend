@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import { descending } from 'd3-array'
 import { css } from 'glamor'
 
-import { MdCheck } from 'react-icons/md'
+import { CheckIcon } from '@project-r/styleguide/icons'
 
 import withT from '../lib/withT'
 import { Link, routes } from '../lib/routes'
@@ -25,7 +25,7 @@ import {
   colors,
   IconButton
 } from '@project-r/styleguide'
-import DiscussionIcon from '../components/Icons/Discussion'
+import { DiscussionIcon } from '@project-r/styleguide/icons'
 
 const query = gql`
   query getCardGroups {
@@ -220,11 +220,11 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                       <br />
                       {t('pages/cardGroups/elected/nationalCouncil')}{' '}
                       <strong>{data.nElected.totalCount}</strong>{' '}
-                      <MdCheck {...mdCheckProps} />
+                      <CheckIcon {...mdCheckProps} />
                       <br />
                       {t('pages/cardGroups/elected/councilOfStates')}{' '}
                       <strong>{data.sElected.totalCount}</strong>{' '}
-                      <MdCheck {...mdCheckProps} />
+                      <CheckIcon {...mdCheckProps} />
                     </a>
                   </Link>
                 </div>
@@ -294,7 +294,7 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                                 <strong>
                                   {cardGroup.sElected.totalCount}
                                 </strong>{' '}
-                                <MdCheck {...mdCheckProps} />
+                                <CheckIcon {...mdCheckProps} />
                               </>
                             )}
                             {!!openSeats && (

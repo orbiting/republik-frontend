@@ -7,7 +7,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
-import { MdAccountBox } from 'react-icons/md'
+import { AccountBoxIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 
 const BUTTON_SIZE = 32
@@ -54,7 +54,7 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
         {!me && (
           <Fragment>
             <span {...styles.anonymous}>
-              <MdAccountBox {...colorScheme.set('fill', 'text')} />
+              <AccountBoxIcon {...colorScheme.set('fill', 'text')} />
             </span>
             <span
               {...(isOnMarketingPage

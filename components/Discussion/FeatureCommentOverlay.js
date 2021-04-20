@@ -13,7 +13,7 @@ import {
   CommentTeaser,
   Checkbox
 } from '@project-r/styleguide'
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 import { compose, graphql } from 'react-apollo'
 import AutosizeInput from 'react-textarea-autosize'
 
@@ -59,7 +59,7 @@ export const FeatureCommentOverlay = compose(
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
+          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody>

@@ -14,11 +14,11 @@ import {
 } from '@project-r/styleguide'
 import { Strong } from './text'
 import {
-  MdFavorite,
-  MdStars,
-  MdChevronRight,
-  MdExpandMore
-} from 'react-icons/md'
+  FavoriteIcon,
+  StarsIcon,
+  ChevronRightIcon,
+  ExpandMoreIcon
+} from '@project-r/styleguide/icons'
 import { Link } from '../../lib/routes'
 import voteT from './voteT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -211,11 +211,11 @@ const ElectionBallotRow = props => {
       >
         {expanded ? (
           <div {...styles.icon}>
-            <MdExpandMore />
+            <ExpandMoreIcon />
           </div>
         ) : (
           <div {...styles.icon}>
-            <MdChevronRight />
+            <ChevronRightIcon />
           </div>
         )}
       </div>
@@ -245,8 +245,8 @@ const ElectionBallotRow = props => {
           {showMeta && (
             <div>
               <div style={{ width: 36, height: 18 }}>
-                {candidate.recommendation && <MdStars size={18} />}
-                {mandatory && <MdFavorite size={18} />}
+                {candidate.recommendation && <StarsIcon size={18} />}
+                {mandatory && <FavoriteIcon size={18} />}
               </div>
             </div>
           )}

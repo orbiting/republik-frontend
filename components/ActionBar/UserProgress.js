@@ -4,9 +4,12 @@ import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import datetime from '../Article/Progress/datetime'
-import MdCheckCircleOutlined from '../Icons/MdCheckCircleOutlined'
-import MdCheckSmall from '../Icons/MdCheckSmall'
-import { MdHighlightOff } from 'react-icons/md'
+
+import {
+  HighlightOffIcon,
+  CheckSmallIcon,
+  ReadIcon as OutlinedReadIcon
+} from '@project-r/styleguide/icons'
 import { withProgressApi } from '../Article/Progress/api'
 import { ProgressCircle, IconButton, CalloutMenu } from '@project-r/styleguide'
 
@@ -28,7 +31,7 @@ const UserProgress = (
 
   const ReadIcon = React.forwardRef((props, ref) => (
     <IconButton
-      Icon={MdCheckCircleOutlined}
+      Icon={OutlinedReadIcon}
       label={!forceShortLabel && t('article/actionbar/progress/read')}
       title={t('article/actionbar/progress/read')}
       onClick={() => {
@@ -41,7 +44,7 @@ const UserProgress = (
 
   const MarkAsReadIcon = React.forwardRef((props, ref) => (
     <IconButton
-      Icon={MdCheckSmall}
+      Icon={CheckSmallIcon}
       title={t('article/actionbar/progress/markasread')}
       onClick={() => {
         upsertDocumentProgress(documentId, 1, '')
@@ -68,7 +71,7 @@ const UserProgress = (
       return (
         <CalloutMenu Element={ReadIcon} padded>
           <IconButton
-            Icon={MdHighlightOff}
+            Icon={HighlightOffIcon}
             title={t('article/actionbar/progress/unread')}
             label={t('article/actionbar/progress/unread')}
             labelShort={t('article/actionbar/progress/unread')}
@@ -109,7 +112,7 @@ const UserProgress = (
       ) : (
         <CalloutMenu Element={MarkAsReadIcon} padded>
           <IconButton
-            Icon={MdCheckCircleOutlined}
+            Icon={OutlinedReadIcon}
             title={t('article/actionbar/progress/markasread')}
             label={t('article/actionbar/progress/markasread')}
             labelShort={t('article/actionbar/progress/markasread')}

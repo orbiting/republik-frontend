@@ -8,14 +8,13 @@ import {
   HeaderHeightProvider,
   useColorContext
 } from '@project-r/styleguide'
-
+import { BackIcon } from '@project-r/styleguide/icons'
 import { Router, Link } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import NotificationIcon from '../Notifications/NotificationIcon'
-import BackIcon from '../Icons/Back'
 import HLine from '../Frame/HLine'
 
 import User from './User'

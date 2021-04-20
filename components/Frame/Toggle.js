@@ -1,6 +1,5 @@
 import React from 'react'
-import { MdClose } from 'react-icons/md'
-import SearchMenuIcon from '../Icons/SearchMenu'
+import { CloseIcon, SearchMenuIcon } from '@project-r/styleguide/icons'
 import {
   mediaQueries,
   plainButtonRule,
@@ -29,7 +28,7 @@ const Toggle = ({ expanded, onClick, ...props }) => {
         {...colorScheme.set('fill', 'text')}
         size={SIZE}
       />
-      <MdClose
+      <CloseIcon
         style={{ opacity: expanded ? 1 : 0 }}
         {...styles.closeButton}
         {...colorScheme.set('fill', 'text')}

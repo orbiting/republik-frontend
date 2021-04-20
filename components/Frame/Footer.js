@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
-import { IoLogoFacebook, IoLogoTwitter, IoLogoInstagram } from 'react-icons/io'
+import {
+  FacebookIcon,
+  TwitterIcon,
+  InstagramIcon
+} from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
@@ -329,19 +333,19 @@ class Footer extends Component {
             </span>
             <div {...styles.icons}>
               <IconButton
-                Icon={IoLogoInstagram}
+                Icon={InstagramIcon}
                 href='https://www.instagram.com/republikmagazin/'
                 target='_blank'
                 fill={colors.negative.text}
               />
               <IconButton
-                Icon={IoLogoFacebook}
+                Icon={FacebookIcon}
                 href='https://www.facebook.com/RepublikMagazin'
                 target='_blank'
                 fill={colors.negative.text}
               />
               <IconButton
-                Icon={IoLogoTwitter}
+                Icon={TwitterIcon}
                 href='https://twitter.com/RepublikMagazin'
                 target='_blank'
                 fill={colors.negative.text}

@@ -11,7 +11,7 @@ import withInNativeApp from '../lib/withInNativeApp'
 import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
 
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 
 import {
   HEADER_HEIGHT,
@@ -178,7 +178,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
         {inNativeApp && (
           <Link route='index' passHref>
             <a {...styles.close}>
-              <MdClose size={32} />
+              <CloseIcon size={32} />
             </a>
           </Link>
         )}

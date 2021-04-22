@@ -7,14 +7,16 @@ import withT from '../../lib/withT'
 import { trackEvent } from '../../lib/piwik'
 import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 import { shouldIgnoreClick } from '../../lib/utils/link'
+
 import {
-  MdPlayCircleOutline,
-  MdLink,
-  MdLaunch,
-  MdRssFeed
-} from 'react-icons/md'
-import { IoLogoGoogle, IoLogoApple } from 'react-icons/io'
-import Spotify from '../Icons/Spotify'
+  SpotifyIcon,
+  PlayCircleIcon,
+  LinkIcon,
+  LaunchIcon,
+  RssFeedIcon,
+  AppleIcon,
+  GoogleIcon
+} from '@project-r/styleguide/icons'
 
 const styles = {
   buttonGroup: css({
@@ -87,7 +89,7 @@ const PodcastButtons = ({
     canPlay && {
       animate: true,
       href: audioSource.mp3,
-      icon: MdPlayCircleOutline,
+      icon: PlayCircleIcon,
       title: t('PodcastButtons/play'),
       label: t('PodcastButtons/play'),
       onClick: e => {
@@ -103,38 +105,38 @@ const PodcastButtons = ({
         plattformWithApp === 'android' || plattformWithApp === 'chrome'
           ? `pcast:${podigeeSlug}.podigee.io/feed/mp3`
           : `podcast://${podigeeSlug}.podigee.io/feed/aac`,
-      icon: MdLaunch,
+      icon: LaunchIcon,
       label: t('PodcastButtons/app')
     },
     spotifyUrl && {
       href: spotifyUrl,
       target: '_blank',
-      icon: Spotify,
+      icon: SpotifyIcon,
       label: t('PodcastButtons/spotify')
     },
     appleUrl &&
       !isAndroid && {
         href: appleUrl,
         target: '_blank',
-        icon: IoLogoApple,
+        icon: AppleIcon,
         label: t('PodcastButtons/apple')
       },
     googleUrl &&
       !isIOS && {
         href: googleUrl,
         target: '_blank',
-        icon: IoLogoGoogle,
+        icon: GoogleIcon,
         label: t('PodcastButtons/google')
       },
     {
       href: `https://${podigeeSlug}.podigee.io/feed/mp3`,
       target: '_blank',
-      icon: MdRssFeed,
+      icon: RssFeedIcon,
       label: t('PodcastButtons/rss')
     },
     {
       href: mainFeed,
-      icon: MdLink,
+      icon: LinkIcon,
       title: t('PodcastButtons/copy'),
       label: t(
         `PodcastButtons/copy${copyLinkSuffix ? `/${copyLinkSuffix}` : ''}`

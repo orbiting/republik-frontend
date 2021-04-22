@@ -7,7 +7,7 @@ import {
   OverlayToolbarConfirm,
   useColorContext
 } from '@project-r/styleguide'
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 import Discussion from './Discussion'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
@@ -27,7 +27,7 @@ export const RootCommentOverlay = compose(
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
+          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody style={{ paddingTop: 58 }}>

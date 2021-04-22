@@ -8,7 +8,7 @@ import {
   Interaction
 } from '@project-r/styleguide'
 
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 import Beta from './Beta'
 
 const CardOverlay = ({
@@ -35,7 +35,7 @@ const CardOverlay = ({
         )}
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} fill='#000' />}
+          label={<CloseIcon size={24} fill='#000' />}
         />
       </OverlayToolbar>
       <OverlayBody style={{ textAlign: 'left' }}>{children}</OverlayBody>

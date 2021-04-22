@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { ascending } from 'd3-array'
 import { css } from 'glamor'
-import { MdChevronRight } from 'react-icons/md'
+import { ChevronRightIcon } from '@project-r/styleguide/icons'
 
 import {
   Loader,
@@ -193,7 +193,7 @@ const SectionNav = ({
                         >
                           {meta.title}
                         </NavLink>
-                        <MdChevronRight
+                        <ChevronRightIcon
                           size={22}
                           style={{
                             transition: 'transform 0.3s ease-out',

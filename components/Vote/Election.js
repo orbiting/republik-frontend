@@ -15,8 +15,7 @@ import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import { MdFavorite, MdStars } from 'react-icons/md'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import { FavoriteIcon, StarsIcon } from '@project-r/styleguide/icons'
 import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
 import withMe from '../../lib/apollo/withMe'
@@ -384,13 +383,14 @@ class Election extends Component {
                       )}
                       {recommended.length > 0 && (
                         <span>
-                          <MdStars size={18} /> {vt('vote/election/legendStar')}
+                          <StarsIcon size={18} />
+                          {vt('vote/election/legendStar')}
                           <br />
                         </span>
                       )}
                       {mandatoryCandidates.length > 0 && (
                         <span>
-                          <MdFavorite /> {vt('vote/election/legendHeart')}
+                          <FavoriteIcon /> {vt('vote/election/legendHeart')}
                         </span>
                       )}
                     </div>

@@ -19,16 +19,13 @@ import {
 } from '@project-r/styleguide'
 
 import IgnoreIcon from './IgnoreIcon'
+
 import {
-  MdNotificationsActive,
-  MdRotateLeft,
-  MdList,
-  MdFilterList
-} from 'react-icons/md'
-const FollowIcon = MdNotificationsActive
-const RevertIcon = MdRotateLeft
-const ListIcon = MdList
-const PreferencesIcon = MdFilterList
+  FollowIcon,
+  RevertIcon,
+  ListIcon,
+  FilterListIcon
+} from '@project-r/styleguide/icons'
 
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
@@ -903,7 +900,7 @@ const Group = ({
                   windowHeight < 500 ? 'rgba(222,239,245,0.5)' : 'none'
               }}
             >
-              <PreferencesIcon
+              <FilterListIcon
                 style={{
                   verticalAlign: 'top',
                   marginRight: 5

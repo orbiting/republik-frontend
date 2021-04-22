@@ -13,7 +13,7 @@ import {
   plainButtonRule,
   useColorContext
 } from '@project-r/styleguide'
-import { MdClose, MdAdd, MdRemove } from 'react-icons/md'
+import { CloseIcon, AddIcon, RemoveIcon } from '@project-r/styleguide/icons'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
@@ -65,7 +65,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
+          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody>
@@ -75,7 +75,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
             title={t('article/actionbar/fontSize/decrease')}
             onClick={decreaseFontSize}
           >
-            <MdRemove />
+            <RemoveIcon />
           </button>
           <label {...styles.label} {...colorScheme.set('color', 'text')}>
             {fontPercentage.current}
@@ -85,7 +85,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
             title={t('article/actionbar/fontSize/increase')}
             onClick={increaseFontSize}
           >
-            <MdAdd />
+            <AddIcon />
           </button>
           <div {...styles.container}>
             <button

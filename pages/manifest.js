@@ -7,7 +7,6 @@ import withInNativeApp from '../lib/withInNativeApp'
 
 import ActionBar from '../components/ActionBar'
 import PureFooter, { SPACE, A } from '../components/Frame/PureFooter'
-import BackIcon from '../components/Icons/Back'
 
 import {
   NarrowContainer,
@@ -18,6 +17,7 @@ import {
   useColorContext,
   ColorHtmlBodyColors
 } from '@project-r/styleguide'
+import { BackIcon } from '@project-r/styleguide/icons'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import { Link } from '../lib/routes'

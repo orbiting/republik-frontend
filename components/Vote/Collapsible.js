@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { MdChevronRight, MdExpandMore } from 'react-icons/md'
-
+import { ChevronRightIcon, ExpandMoreIcon } from '@project-r/styleguide/icons'
 import {
   fontFamilies,
   fontStyles,
@@ -75,11 +74,11 @@ class Collapsible extends React.Component {
         <div {...styles.toggle} onClick={this.toggleCollapsed}>
           {collapsed ? (
             <div {...styles.toggleIcon}>
-              <MdChevronRight />
+              <ChevronRightIcon />
             </div>
           ) : (
             <div {...styles.toggleIcon}>
-              <MdExpandMore />
+              <ExpandMoreIcon />
             </div>
           )}
           {label || vt('common/moreInfo')}

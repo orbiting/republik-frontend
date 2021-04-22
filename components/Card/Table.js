@@ -4,11 +4,7 @@ import { nest } from 'd3-collection'
 import { ascending, descending } from 'd3-array'
 
 import IgnoreIcon from './IgnoreIcon'
-import { MdNotificationsActive, MdRotateLeft } from 'react-icons/md'
-const FollowIcon = MdNotificationsActive
-const RevertIcon = MdRotateLeft
-
-import { MdCheck } from 'react-icons/md'
+import { FollowIcon, RevertIcon, CheckIcon } from '@project-r/styleguide/icons'
 
 import {
   fontStyles,
@@ -186,7 +182,7 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
                       <>
                         {'SR: '}
                         {card.payload.councilOfStates.elected && (
-                          <MdCheck {...mdCheckProps} />
+                          <CheckIcon {...mdCheckProps} />
                         )}
                         {!!card.payload.councilOfStates.votes &&
                           countFormat(card.payload.councilOfStates.votes)}
@@ -205,7 +201,7 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
                       <>
                         {dualCandidacy ? 'NR: ' : ''}
                         {card.payload.nationalCouncil.elected && (
-                          <MdCheck {...mdCheckProps} />
+                          <CheckIcon {...mdCheckProps} />
                         )}
                         {!!card.payload.nationalCouncil.votes &&
                           countFormat(card.payload.nationalCouncil.votes)}

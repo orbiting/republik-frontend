@@ -5,8 +5,7 @@ import SeriesNavPanel from './SeriesNavPanel'
 import { cleanAsPath } from '../../lib/routes'
 import { imageResizeUrl } from 'mdast-react-render/lib/utils'
 
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
-
+import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
 import {
   mediaQueries,
   fontFamilies,
@@ -115,16 +114,10 @@ const SeriesNavButton = ({ t, series, router }) => {
               : ` – ${currentEpisode.label}`)}
           <span>
             {expanded && (
-              <MdKeyboardArrowUp
-                size='28'
-                {...colorScheme.set('fill', 'text')}
-              />
+              <ArrowUpIcon size='28' {...colorScheme.set('fill', 'text')} />
             )}
             {!expanded && (
-              <MdKeyboardArrowDown
-                size='28'
-                {...colorScheme.set('fill', 'text')}
-              />
+              <ArrowDownIcon size='28' {...colorScheme.set('fill', 'text')} />
             )}
           </span>
         </span>

@@ -10,8 +10,7 @@ import {
   isBodyScrollLocked,
   useColorContext
 } from '@project-r/styleguide'
-
-import { MdArrowDownward } from 'react-icons/md'
+import { ArrowDownwardIcon } from '@project-r/styleguide/icons'
 
 const styles = {
   container: css({
@@ -168,7 +167,7 @@ class Pullable extends React.Component {
           {shouldSpin ? (
             <InlineSpinner size={32} />
           ) : (
-            <MdArrowDownward size={32} />
+            <ArrowDownwardIcon size={32} />
           )}
         </Container>
         {this.props.children}

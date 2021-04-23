@@ -77,6 +77,7 @@ export const getDocument = gql`
             title
             color
             kind
+            image
             shareBackgroundImage
             shareBackgroundImageInverted
             section {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import dynamic from 'next/dynamic'
 
 import {
@@ -11,8 +11,13 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 import Loader from '../Loader'
+import { compose, graphql } from 'react-apollo'
+import { getDocument } from '../Article/graphql/getDocument'
+import { splitByTitle } from '../../lib/utils/mdast'
+import { renderMdast } from 'mdast-react-render'
+import createPageSchema from '@project-r/styleguide/lib/templates/Page'
 
 const pages = [
   {
@@ -31,16 +36,45 @@ const pages = [
   },
   {
     href: '/statuten',
-    content: dynamic(
-      () => import('../../pages/legal/statute.js').then(mod => mod.Content),
-      { loading: () => <Loader /> }
-    )
+    content: false // loads from Publikator
   }
 ]
 
 export const SUPPORTED_HREFS = pages.map(p => p.href)
 
-const LegalOverlay = ({ onClose, href, title }) => {
+const RenderArticle = ({ data }) => (
+  <Loader
+    loading={data.loading}
+    error={data.error}
+    render={() => {
+      const { article } = data
+      if (!article) {
+        return null
+      }
+      const splitContent = article && splitByTitle(article.content)
+      const schema = createPageSchema({
+        skipContainer: true,
+        skipCenter: true
+      })
+      const renderSchema = content =>
+        renderMdast(
+          {
+            ...content,
+            format: undefined,
+            section: undefined,
+            series: undefined,
+            repoId: article.repoId
+          },
+          schema,
+          { MissingNode: ({ children }) => children }
+        )
+
+      return renderSchema(splitContent.main)
+    }}
+  />
+)
+
+const LegalOverlay = ({ onClose, href, title, data }) => {
   const [colorScheme] = useColorContext()
   const page = pages.find(p => p.href === href)
 
@@ -52,12 +86,14 @@ const LegalOverlay = ({ onClose, href, title }) => {
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
+          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody>
-        {page ? (
+        {page && page.content ? (
           <page.content />
+        ) : data ? (
+          <RenderArticle data={data} />
         ) : (
           <Interaction.P>
             <A href={href} target='_blank'>
@@ -70,4 +106,13 @@ const LegalOverlay = ({ onClose, href, title }) => {
   )
 }
 
-export default LegalOverlay
+export default compose(
+  graphql(getDocument, {
+    skip: props => pages.find(p => p.href === props.href && p.content),
+    options: props => ({
+      variables: {
+        path: props.href
+      }
+    })
+  })
+)(LegalOverlay)

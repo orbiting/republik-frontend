@@ -22,7 +22,6 @@ import ActiveDiscussions from './ActiveDiscussions'
 import DiscussionTitle from './DiscussionTitle'
 import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
-import DiscussionIcon from '../Icons/Discussion'
 import ActionBar from '../ActionBar'
 import FontSizeSync from '../FontSize/Sync'
 
@@ -34,6 +33,7 @@ import {
   mediaQueries,
   colors
 } from '@project-r/styleguide'
+import { DiscussionIcon } from '@project-r/styleguide/icons'
 
 import { ListWithQuery as TestimonialList } from '../Testimonial/List'
 

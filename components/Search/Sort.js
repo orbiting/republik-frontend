@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
 
-import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
-
+import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
 import {
   fontStyles,
   mediaQueries,
@@ -36,8 +35,8 @@ const styles = {
 }
 
 const SORT_DIRECTION_ICONS = {
-  ASC: MdArrowUpward,
-  DESC: MdArrowDownward
+  ASC: ArrowDownIcon,
+  DESC: ArrowUpIcon
 }
 
 const getDefaultDirection = sort => sort.directions && sort.directions[0]

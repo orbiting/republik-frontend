@@ -5,9 +5,7 @@ import withT from '../../lib/withT'
 import { romanize } from '../../lib/utils/romanize'
 import { timeFormat } from '../../lib/utils/format'
 import HrefLink from '../Link/Href'
-
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-
+import { ArrowLeftIcon, ArrowRightIcon } from '@project-r/styleguide/icons'
 import {
   Breakout,
   Center,
@@ -60,10 +58,10 @@ const Tile = ({ t, episode, index, prev, next }) => {
       <TeaserFrontTile image={image} align={image ? 'top' : undefined}>
         <Editorial.Format>
           <span {...colorScheme.set('color', path ? 'text' : 'disabled')}>
-            {prev && <MdKeyboardArrowLeft {...styles.prev} />}
+            {prev && <ArrowLeftIcon {...styles.prev} />}
             {label ||
               t('article/series/episode', { count: romanize(index + 1) })}
-            {next && <MdKeyboardArrowRight {...styles.next} />}
+            {next && <ArrowRightIcon {...styles.next} />}
           </span>
         </Editorial.Format>
         <TeaserFrontTileHeadline.Editorial>

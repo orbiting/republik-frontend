@@ -13,7 +13,9 @@ import {
   mediaQueries,
   TitleBlock,
   Editorial,
-  ColorContextProvider
+  ColorContextProvider,
+  SHARE_IMAGE_HEIGHT,
+  SHARE_IMAGE_WIDTH
 } from '@project-r/styleguide'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
@@ -42,8 +44,8 @@ import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
-import { PUBLIC_BASE_URL } from '../../lib/constants'
-
+import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
+import ShareImage from './ShareImage'
 import FontSizeSync from '../FontSize/Sync'
 import Loader from '../Loader'
 import Frame from '../Frame'
@@ -279,7 +281,8 @@ const ArticlePage = ({
   const sectionColor = meta && meta.template === 'section' && meta.color
   const MissingNode = isEditor ? undefined : ({ children }) => children
 
-  if (router.query.extract) {
+  const extract = router.query.extract
+  if (extract) {
     return (
       <Loader
         loading={data.loading}
@@ -290,11 +293,13 @@ const ArticlePage = ({
               <StatusError statusCode={404} serverContext={serverContext} />
             )
           }
-
-          return (
+          return extract === 'share' ? (
+            <ShareImage meta={meta} />
+          ) : (
             <Extract
-              ranges={router.query.extract}
+              ranges={extract}
               schema={schema}
+              meta={meta}
               unpack={router.query.unpack}
               mdast={{
                 ...article.content,
@@ -309,21 +314,6 @@ const ArticlePage = ({
       />
     )
   }
-  const customPayNotes = article?.content?.meta?.paynotes
-
-  const payNote = (
-    <PayNote
-      seed={payNoteSeed}
-      tryOrBuy={payNoteTryOrBuy}
-      documentId={documentId}
-      repoId={repoId}
-      customPayNotes={customPayNotes}
-      position='before'
-    />
-  )
-
-  const payNoteAfter =
-    payNote && React.cloneElement(payNote, { position: 'after' })
 
   const splitContent = article && splitByTitle(article.content)
   const renderSchema = content =>
@@ -342,11 +332,28 @@ const ArticlePage = ({
   const hasOverviewNav = meta ? meta.template === 'section' : true // show/keep around while loading meta
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
+  const shareImage =
+    article &&
+    `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
+      `${article.id}${meta?.format ? `-${meta.format.id}` : ''}`
+    )}&url=${encodeURIComponent(
+      `${PUBLIC_BASE_URL}${articleMeta.path}?extract=share`
+    )}`
+
+  const metaWithSocialImages =
+    meta && meta.discussionId && router.query.focus
+      ? undefined
+      : {
+          ...meta,
+          facebookImage: meta?.shareText ? shareImage : meta?.facebookImage,
+          twitterImage: meta?.shareText ? shareImage : meta?.twitterImage
+        }
+
   return (
     <Frame
       raw
       // Meta tags for a focus comment are rendered in Discussion/Commments.js
-      meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
+      meta={metaWithSocialImages}
       secondaryNav={seriesNavButton}
       formatColor={formatColor}
       hasOverviewNav={hasOverviewNav}
@@ -370,7 +377,7 @@ const ArticlePage = ({
           const hasNewsletterUtms =
             router.query.utm_source && router.query.utm_source === 'newsletter'
 
-          const suppressPayNotes = isSection || isFormat
+          const suppressPayNotes = isSection
           const suppressFirstPayNote =
             suppressPayNotes ||
             podcast ||
@@ -378,6 +385,21 @@ const ArticlePage = ({
             meta.path === '/top-storys' ||
             hasNewsletterUtms ||
             (router.query.utm_source && router.query.utm_source === 'flyer-v1')
+
+          const payNote = (
+            <PayNote
+              seed={payNoteSeed}
+              tryOrBuy={payNoteTryOrBuy}
+              documentId={documentId}
+              repoId={repoId}
+              customPayNotes={article?.content?.meta?.paynotes}
+              customOnly={isPage || isFormat}
+              position='before'
+            />
+          )
+          const payNoteAfter =
+            payNote && React.cloneElement(payNote, { position: 'after' })
+
           const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion =
             meta.linkedDiscussion && !meta.linkedDiscussion.closed

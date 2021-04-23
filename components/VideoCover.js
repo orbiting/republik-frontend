@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
 import { VideoPlayer, mediaQueries } from '@project-r/styleguide'
-import { MdPlayArrow } from 'react-icons/md'
+import { PlayIcon } from '@project-r/styleguide/icons'
 
 import { scrollIt } from '../lib/utils/scroll'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_HEADER } from './constants'
@@ -166,7 +166,7 @@ class VideoCover extends Component {
             {!!cursor && <div {...styles.cursor} />}
             {!customCover && (
               <div {...styles.play} style={{ top: playTop }}>
-                <MdPlayArrow />
+                <PlayIcon />
               </div>
             )}
           </div>

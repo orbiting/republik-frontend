@@ -5,8 +5,7 @@ import {
   CommentComposerSecondaryAction,
   IconButton
 } from '@project-r/styleguide'
-import MarkdownIcon from '../Icons/Markdown'
-import EtiquetteIcon from '../Icons/Etiquette'
+import { EtiquetteIcon, MarkdownIcon } from '@project-r/styleguide/icons'
 
 const styles = {
   action: css({

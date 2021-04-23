@@ -43,12 +43,16 @@ export const getDocument = gql`
         kind
         description
         image
-        facebookDescription
-        facebookImage
         facebookTitle
-        twitterDescription
-        twitterImage
+        facebookImage
+        facebookDescription
         twitterTitle
+        twitterImage
+        twitterDescription
+        shareText
+        shareFontSize
+        shareInverted
+        shareTextPosition
         ownDiscussion {
           id
           closed
@@ -73,6 +77,15 @@ export const getDocument = gql`
             title
             color
             kind
+            image
+            shareBackgroundImage
+            shareBackgroundImageInverted
+            section {
+              id
+              meta {
+                title
+              }
+            }
             podcast {
               podigeeSlug
               spotifyUrl

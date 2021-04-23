@@ -2,8 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { CalloutMenu, IconButton } from '@project-r/styleguide'
-import { MdNotifications, MdNotificationsNone } from 'react-icons/md'
-
+import {
+  NotificationIcon,
+  NotificationsNoneIcon
+} from '@project-r/styleguide/icons'
 import { discussionPreferencesQuery } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
@@ -28,7 +30,7 @@ const SubscribeMenu = ({
         subscription =>
           subscription.active &&
           (showAuthorFilter ||
-            subscription.object.__typename !== 'User' ||
+            subscription.object?.__typename !== 'User' ||
             subscription.filters.includes('Document'))
       )) ||
     // or if a discussion is being followed
@@ -54,11 +56,12 @@ const SubscribeMenu = ({
       isSubscribedToAny: checkIfSubscribedToAny({ data, subscriptions }),
       formatSubscriptions:
         subscriptions &&
-        subscriptions.filter(node => node.object.__typename === 'Document'),
+        subscriptions.filter(node => node.object?.__typename === 'Document'),
       authorSubscriptions:
         subscriptions &&
         subscriptions.filter(
-          node => node.object.__typename === 'User' && node.object.id !== me?.id
+          node =>
+            node.object?.__typename === 'User' && node.object?.id !== me?.id
         )
     }),
     [data, subscriptions]
@@ -74,7 +77,7 @@ const SubscribeMenu = ({
 
   const Icon = React.forwardRef((props, ref) => (
     <IconButton
-      Icon={isSubscribedToAny ? MdNotifications : MdNotificationsNone}
+      Icon={isSubscribedToAny ? NotificationIcon : NotificationsNoneIcon}
       label={label}
       labelShort={labelShort}
       ref={ref}

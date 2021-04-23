@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
-import { MdCheck } from 'react-icons/md'
+import { CheckIcon } from '@project-r/styleguide/icons'
 import { Link } from '../../lib/routes'
 
 import {
@@ -139,7 +139,7 @@ export const UserResult = ({ node }) => {
                 {credential.description}
               </div>
               {credential.verified && (
-                <MdCheck
+                <CheckIcon
                   {...styles.verifiedCheck}
                   {...colorScheme.set('fill', 'primary')}
                 />

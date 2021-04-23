@@ -16,7 +16,7 @@ import { Router } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import { MdArrowForward } from 'react-icons/md'
+import { ArrowForwardIcon } from '@project-r/styleguide/icons'
 import {
   Button,
   Field,
@@ -210,7 +210,7 @@ const Form = props => {
                   (loading ? (
                     <InlineSpinner size='30px' />
                   ) : (
-                    <MdArrowForward
+                    <ArrowForwardIcon
                       style={{ cursor: 'pointer' }}
                       size={30}
                       onClick={requestAccess}

@@ -14,6 +14,7 @@ import {
   Checkbox,
   Radio
 } from '@project-r/styleguide'
+import { LockIcon } from '@project-r/styleguide/icons'
 
 import FieldSet from '../FieldSet'
 
@@ -27,8 +28,7 @@ import * as postfinance from './postfinance'
 import * as paypal from './paypal'
 import loadStripe from './stripe'
 
-import LockIcon from './Icons/Lock'
-import * as PSPIcons from './Icons/PSP'
+import * as PSPIcons from './PSPIcons'
 
 import { format } from 'd3-format'
 
@@ -83,14 +83,15 @@ const PAYMENT_METHODS = [
 const PAYMENT_METHOD_HEIGHT = 64
 
 const styles = {
-  secure: css({
+  secureContainer: css({
+    display: 'flex',
+    alignItems: 'center',
+    margin: '10px 0px 20px 0px'
+  }),
+  secureText: css({
     ...fontStyles.sansSerifMedium,
     fontSize: 14,
-    marginBottom: 20,
-    marginTop: 10,
-    '& svg': {
-      marginRight: 5
-    }
+    marginLeft: 5
   }),
   paymentMethod: css({
     ...fontStyles.sansSerifMedium,
@@ -373,8 +374,9 @@ class PaymentForm extends Component {
             ].filter(Boolean)
           )}
         </H2>
-        <div {...styles.secure}>
-          <LockIcon /> {t('payment/secure')}
+        <div {...styles.secureContainer}>
+          <LockIcon size={16} />
+          <span {...styles.secureText}>{t('payment/secure')}</span>
         </div>
         <Loader
           style={{ minHeight: PAYMENT_METHOD_HEIGHT * 2 }}

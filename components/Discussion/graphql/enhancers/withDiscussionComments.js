@@ -1,6 +1,6 @@
 import { graphql } from 'react-apollo'
-import produce from 'immer'
 
+import produce from '../../../../lib/immer'
 import { debug } from '../../debug'
 import { bumpCounts, mergeComments, mergeComment } from '../store'
 import { discussionQuery, commentsSubscription } from '../documents'

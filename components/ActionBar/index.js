@@ -2,13 +2,16 @@ import React, { useState, Fragment, useContext } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import {
-  MdPictureAsPdf,
-  MdQueryBuilder,
-  MdPlayCircleOutline,
-  MdFileDownload,
-  MdMic,
-  MdModeEdit
-} from 'react-icons/md'
+  PdfIcon,
+  ReadingTimeIcon,
+  PlayCircleIcon,
+  DownloadIcon,
+  PodcastIcon,
+  EditIcon,
+  FontSizeIcon,
+  ShareIcon,
+  ChartIcon
+} from '@project-r/styleguide/icons'
 import { IconButton, colors, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -25,9 +28,6 @@ import ShareOverlay from './ShareOverlay'
 import PodcastOverlay from './PodcastOverlay'
 import { AudioContext } from '../Audio/AudioProvider'
 
-import FontSizeIcon from '../Icons/FontSize'
-import ShareIOSIcon from '../Icons/ShareIOS'
-import MdInsertChartOutlined from '../Icons/MdInsertChartOutlined'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
 import BookmarkButton from './BookmarkButton'
 import DiscussionLinkButton from './DiscussionLinkButton'
@@ -59,7 +59,7 @@ const ActionBar = ({
         {download && (
           <IconButton
             href={download}
-            Icon={MdFileDownload}
+            Icon={DownloadIcon}
             label={share.label || ''}
             target='_blank'
           />
@@ -83,7 +83,7 @@ const ActionBar = ({
         {share && (
           <IconButton
             label={share.label || ''}
-            Icon={ShareIOSIcon}
+            Icon={ShareIcon}
             href={share.url}
             onClick={e => {
               e.preventDefault()
@@ -197,7 +197,7 @@ const ActionBar = ({
   const ActionItems = [
     {
       title: readingTimeTitle,
-      Icon: MdQueryBuilder,
+      Icon: ReadingTimeIcon,
       label: readingTimeLabel,
       labelShort: readingTimeLabelShort,
       modes: ['feed'],
@@ -222,13 +222,13 @@ const ActionBar = ({
     },
     {
       title: t('feed/actionbar/chart'),
-      Icon: MdInsertChartOutlined,
+      Icon: ChartIcon,
       modes: ['feed'],
       show: meta && meta.indicateChart
     },
     {
       title: t('article/actionbar/pdf/options'),
-      Icon: MdPictureAsPdf,
+      Icon: PdfIcon,
       href: hasPdf ? getPdfUrl(meta) : undefined,
       onClick: e => {
         if (shouldIgnoreClick(e)) {
@@ -286,7 +286,7 @@ const ActionBar = ({
     },
     {
       title: t('PodcastButtons/play'),
-      Icon: MdPlayCircleOutline,
+      Icon: PodcastIcon,
       onClick: e => {
         e.preventDefault()
         trackEvent(['ActionBar', 'audio', meta.url])
@@ -302,7 +302,7 @@ const ActionBar = ({
     },
     {
       title: t('article/actionbar/share'),
-      Icon: ShareIOSIcon,
+      Icon: ShareIcon,
       href: meta.url,
       onClick: e => {
         e.preventDefault()
@@ -344,7 +344,7 @@ const ActionBar = ({
       show: !!discussionId
     },
     {
-      Icon: MdModeEdit,
+      Icon: EditIcon,
       href: `${PUBLIKATOR_BASE_URL}/repo/${document.repoId}/tree`,
       title: t('feed/actionbar/edit'),
       target: '_blank',
@@ -357,7 +357,7 @@ const ActionBar = ({
   const ActionItemsSecondary = [
     {
       title: readingTimeTitle,
-      Icon: MdQueryBuilder,
+      Icon: ReadingTimeIcon,
       label: readingTimeLabel,
       labelShort: readingTimeLabelShort,
       no: true,
@@ -378,7 +378,7 @@ const ActionBar = ({
     },
     {
       title: t('PodcastButtons/play'),
-      Icon: MdPlayCircleOutline,
+      Icon: PlayCircleIcon,
       onClick: e => {
         e.preventDefault()
         trackEvent(['ActionBar', 'audio', meta.url])
@@ -393,7 +393,7 @@ const ActionBar = ({
     },
     {
       title: t('PodcastButtons/title'),
-      Icon: MdMic,
+      Icon: PodcastIcon,
       onClick: e => {
         e.preventDefault()
         trackEvent(['ActionBar', 'podcasts', meta.url])

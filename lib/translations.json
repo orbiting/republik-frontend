@@ -1,5 +1,5 @@
 {
-  "updated": "2021-03-06T12:56:28.013Z",
+  "updated": "2021-03-26T08:59:40.685Z",
   "title": "live",
   "data": [
     {
@@ -404,19 +404,19 @@
     },
     {
       "key": "marketing/page/reasons/1/title",
-      "value": "Transparent"
-    },
-    {
-      "key": "marketing/page/reasons/1/text",
-      "value": "Wir legen alles offen: unsere Finanzen, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass Transparenz wichtig ist."
-    },
-    {
-      "key": "marketing/page/reasons/2/title",
       "value": "Werbefrei"
     },
     {
-      "key": "marketing/page/reasons/2/text",
+      "key": "marketing/page/reasons/1/text",
       "value": "Die Republik ist komplett werbefrei. So können wir uns auf unseren einzigen Kunden konzentrieren: Sie."
+    },
+    {
+      "key": "marketing/page/reasons/2/title",
+      "value": "Transparent"
+    },
+    {
+      "key": "marketing/page/reasons/2/text",
+      "value": "Wir legen alles offen: unsere Finanzen, Arbeitsweisen, Fehler, Löhne – weil wir überzeugt sind, dass Transparenz wichtig ist."
     },
     {
       "key": "marketing/page/reasons/3/title",
@@ -3792,7 +3792,7 @@
     },
     {
       "key": "feedback/unauthorized",
-      "value": "Die Republik ist nur so stark wie Ihre Community. Werden Sie ein Teil davon und lassen Sie uns miteinander reden. {buyLink}"
+      "value": "Die Republik ist nur so stark wie ihre Community. Werden Sie ein Teil davon und lassen Sie uns miteinander reden. {buyLink}"
     },
     {
       "key": "feedback/unauthorized/buyText",
@@ -3800,7 +3800,7 @@
     },
     {
       "key": "feedback/lead",
-      "value": "Die Republik ist nur so stark wie Ihre Community. Teilen Sie Ihr Wissen und Ihre Perspektive."
+      "value": "Die Republik ist nur so stark wie ihre Community. Teilen Sie Ihr Wissen und Ihre Perspektive."
     },
     {
       "key": "feedback/general/title",
@@ -6332,7 +6332,7 @@
     },
     {
       "key": "package/BENEFACTOR/description",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold sowie ein signiertes «Handbuch für Journalismus im 21. Jahrhundert»."
+      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu. Darin finden Sie unser Manifest und ein signiertes «Handbuch für Journalismus im 21. Jahrhundert»."
     },
     {
       "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",

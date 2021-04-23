@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import { IconButton } from '@project-r/styleguide'
-import { IoLogoFacebook, IoLogoTwitter, IoLogoWhatsapp } from 'react-icons/io'
-import ThreemaLogo from '../Icons/Threema'
-import TelegramLogo from '../Icons/Telegram'
-import { MdMail, MdLink } from 'react-icons/md'
+import {
+  TwitterIcon,
+  FacebookIcon,
+  WhatsappIcon,
+  MailIcon,
+  LinkIcon,
+  TelegramIcon,
+  ThreemaIcon
+} from '@project-r/styleguide/icons'
+
 import withT from '../../lib/withT'
 import { trackEvent } from '../../lib/piwik'
 import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
@@ -42,14 +48,14 @@ const ShareButtons = ({
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
       )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
-      icon: MdMail,
+      icon: MailIcon,
       title: t('article/actionbar/email/title'),
       label: t('article/actionbar/email/label')
     },
     {
       name: 'copyLink',
       href: url,
-      icon: MdLink,
+      icon: LinkIcon,
       title: t('article/actionbar/link/title'),
       label: t(
         `article/actionbar/link/label${
@@ -69,7 +75,7 @@ const ShareButtons = ({
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         url
       )}`,
-      icon: IoLogoFacebook,
+      icon: FacebookIcon,
       title: t('article/actionbar/facebook/title'),
       label: t('article/actionbar/facebook/label')
     },
@@ -79,7 +85,7 @@ const ShareButtons = ({
       href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         tweet
       )}&url=${encodeURIComponent(url)}`,
-      icon: IoLogoTwitter,
+      icon: TwitterIcon,
       title: t('article/actionbar/twitter/title'),
       label: t('article/actionbar/twitter/label')
     },
@@ -87,7 +93,7 @@ const ShareButtons = ({
       name: 'whatsapp',
       target: '_blank',
       href: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`,
-      icon: IoLogoWhatsapp,
+      icon: WhatsappIcon,
       title: t('article/actionbar/whatsapp/title'),
       label: t('article/actionbar/whatsapp/label')
     },
@@ -95,7 +101,7 @@ const ShareButtons = ({
       name: 'threema',
       target: '_blank',
       href: `https://threema.id/compose?text=${encodeURIComponent(url)}`,
-      icon: ThreemaLogo,
+      icon: ThreemaIcon,
       title: t('article/actionbar/threema/title'),
       label: t('article/actionbar/threema/label')
     },
@@ -103,7 +109,7 @@ const ShareButtons = ({
       name: 'telegram',
       target: '_blank',
       href: `https://t.me/share/url?url=${encodeURIComponent(url)}`,
-      icon: TelegramLogo,
+      icon: TelegramIcon,
       title: t('article/actionbar/telegram/title'),
       label: t('article/actionbar/telegram/label')
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import { compose, withApollo } from 'react-apollo'
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 import { css } from 'glamor'
 import debounce from 'lodash/debounce'
 import uuid from 'uuid/v4'
@@ -107,7 +107,7 @@ class ArticleQuestion extends Component {
           })}
           onClick={() => this.handleChange(null)}
         >
-          <MdClose size={24} />
+          <CloseIcon size={24} />
         </div>
       </div>
     )

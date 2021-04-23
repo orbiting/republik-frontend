@@ -3,8 +3,14 @@ import { isWebUri } from 'valid-url'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { Dropdown, Label, Interaction, IconButton } from '@project-r/styleguide'
-import { IoLogoFacebook, IoLogoTwitter } from 'react-icons/io'
-import { MdLanguage, MdMailOutline, MdNoteAdd, MdVpnKey } from 'react-icons/md'
+import {
+  FacebookIcon,
+  TwitterIcon,
+  LanguageIcon,
+  MailOutlineIcon,
+  NoteAddIcon,
+  VpnKeyIcon
+} from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { withSupporter } from '../Auth/checkRoles'
@@ -148,25 +154,25 @@ const Contact = ({
       <div {...styles.icons} {...styles.contactRow}>
         {user.facebookId && (
           <IconButton
-            Icon={IoLogoFacebook}
+            Icon={FacebookIcon}
             href={`https://www.facebook.com/${user.facebookId}`}
           />
         )}
         {user.twitterHandle && (
           <IconButton
-            Icon={IoLogoTwitter}
+            Icon={TwitterIcon}
             href={`https://twitter.com/${user.twitterHandle}`}
           />
         )}
         {user.email && (
-          <IconButton Icon={MdMailOutline} href={`mailto:${user.email}`} />
+          <IconButton Icon={MailOutlineIcon} href={`mailto:${user.email}`} />
         )}
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
-          <IconButton Icon={MdLanguage} href={user.publicUrl} />
+          <IconButton Icon={LanguageIcon} href={user.publicUrl} />
         )}
         {isSupporter && (
           <IconButton
-            Icon={MdNoteAdd}
+            Icon={NoteAddIcon}
             fill='#FF10D9'
             size={22}
             href={`${ADMIN_BASE_URL}/users/${user.id}`}
@@ -178,7 +184,7 @@ const Contact = ({
         <div {...styles.contactRow}>
           <IconButton
             href={`/pgp/${user.username || user.id}.asc`}
-            Icon={MdVpnKey}
+            Icon={VpnKeyIcon}
             label={user.pgpPublicKeyId.toUpperCase()}
             labelShort={user.pgpPublicKeyId.toUpperCase()}
           />

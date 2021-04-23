@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
-import { IoLogoFacebook, IoLogoTwitter } from 'react-icons/io'
+import { FacebookIcon, TwitterIcon } from '@project-r/styleguide/icons'
 import {
   mediaQueries,
   fontFamilies,
@@ -95,12 +95,12 @@ const Footer = ({ en }) => (
 
     <div {...styles.icons}>
       <IconButton
-        Icon={IoLogoFacebook}
+        Icon={FacebookIcon}
         href='https://www.facebook.com/RepublikMagazin'
         target='_blank'
       />
       <IconButton
-        Icon={IoLogoTwitter}
+        Icon={TwitterIcon}
         href='https://twitter.com/RepublikMagazin'
         target='_blank'
       />

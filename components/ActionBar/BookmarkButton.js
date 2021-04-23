@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
-import { MdBookmark, MdBookmarkBorder } from 'react-icons/md'
+import { BookmarkIcon, BookmarkBorderIcon } from '@project-r/styleguide/icons'
 import { useColorContext, IconButton } from '@project-r/styleguide'
 
 import { withMembership } from '../Auth/checkRoles'
@@ -27,7 +27,7 @@ const Bookmark = ({
   const [mutating, setMutating] = useState(false)
   const [error, setError] = useState(undefined)
   const [colorScheme] = useColorContext()
-  const Icon = bookmarked ? MdBookmark : MdBookmarkBorder
+  const Icon = bookmarked ? BookmarkIcon : BookmarkBorderIcon
 
   const toggle = () => {
     if (mutating) {

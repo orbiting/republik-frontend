@@ -7,15 +7,14 @@ import {
   colors,
   Interaction,
   Center,
-  mediaQueries,
   fontStyles,
   useColorContext
 } from '@project-r/styleguide'
+import { DiscussionIcon } from '@project-r/styleguide/icons'
 import { css } from 'glamor'
 import { Link } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import {
   ELECTION_COOP_MEMBERS_SLUG,
@@ -25,7 +24,6 @@ import {
 import voteT from './voteT'
 import { Body, Section, Strong, Title } from './text'
 import Loader from '../Loader'
-import Icon from '../Icons/Discussion'
 
 const { P } = Interaction
 
@@ -112,7 +110,10 @@ const DiscussionPage = ({ router, data, vt }) => {
                               <Strong>
                                 {vt(`${DISCUSSION_TITLES[id]}Title`)}
                                 <span {...styles.count}>
-                                  <Icon size={17} fill={colors.primary} />{' '}
+                                  <DiscussionIcon
+                                    size={17}
+                                    fill={colors.primary}
+                                  />{' '}
                                   {data[id] &&
                                     data[id].discussion.comments.totalCount}
                                 </span>
@@ -121,7 +122,10 @@ const DiscussionPage = ({ router, data, vt }) => {
                               <A>
                                 {vt(`${DISCUSSION_TITLES[id]}Title`)}
                                 <span {...styles.count}>
-                                  <Icon size={17} fill={colors.primary} />{' '}
+                                  <DiscussionIcon
+                                    size={17}
+                                    fill={colors.primary}
+                                  />{' '}
                                   {data[id] &&
                                     data[id].discussion.comments.totalCount}
                                 </span>

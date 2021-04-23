@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { MdClose } from 'react-icons/md'
+import { CloseIcon } from '@project-r/styleguide/icons'
 import {
   Field,
   mediaQueries,
@@ -91,7 +91,7 @@ const Form = compose(
             onChange={update}
             icon={
               !startState && (
-                <MdClose
+                <CloseIcon
                   style={{ cursor: 'pointer' }}
                   size={30}
                   onClick={reset}

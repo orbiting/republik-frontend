@@ -11,7 +11,7 @@ import {
   Checkbox,
   useColorContext
 } from '@project-r/styleguide'
-import { MdFileDownload, MdClose } from 'react-icons/md'
+import { CloseIcon, DownloadIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
@@ -53,7 +53,7 @@ const PdfOverlay = ({ onClose, article, t }) => {
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
-          label={<MdClose size={24} {...colorScheme.set('fill', 'text')} />}
+          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
         />
       </OverlayToolbar>
       <OverlayBody>
@@ -91,7 +91,7 @@ const PdfOverlay = ({ onClose, article, t }) => {
             })}
             download
           >
-            <MdFileDownload /> {t('article/pdf/download')}
+            <DownloadIcon /> {t('article/pdf/download')}
           </A>
         </div>
       </OverlayBody>

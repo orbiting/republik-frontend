@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { IconButton } from '@project-r/styleguide'
-import DiscussionIcon from '../Icons/Discussion'
+import { DiscussionIcon } from '@project-r/styleguide/icons'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
 import { getDiscussionLinkProps } from './utils'

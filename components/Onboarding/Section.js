@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 
-import { MdDone } from 'react-icons/md'
-
+import { DoneIcon } from '@project-r/styleguide/icons'
 import {
   Button,
   Loader,
@@ -103,7 +102,7 @@ const Section = props => {
       >
         <div {...styles.heading}>{heading}</div>
         {(isTicked || isVisited) && (
-          <MdDone
+          <DoneIcon
             {...styles.doneIcon}
             {...colorScheme.set('color', 'primary')}
           />

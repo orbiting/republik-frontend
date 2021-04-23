@@ -17,8 +17,7 @@ import {
   plainButtonRule
 } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
-import { MdBookmarkBorder } from 'react-icons/md'
-
+import { BookmarkBorderIcon } from '@project-r/styleguide/icons'
 import { getCollectionItems, registerQueryVariables } from './queries'
 
 const getConnection = data => data.me.collectionItems
@@ -33,7 +32,7 @@ const mergeConnection = (data, connection) => {
   }
 }
 
-const bookmarkIcon = <MdBookmarkBorder size={22} key='icon' />
+const bookmarkIcon = <BookmarkBorderIcon size={22} key='icon' />
 
 const Page = ({ t, me }) => {
   const showProgressTabs = !!me?.progressConsent

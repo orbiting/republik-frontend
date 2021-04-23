@@ -14,7 +14,7 @@ import {
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { scrollIt } from '../../lib/utils/scroll'
-import { MdDone } from 'react-icons/md'
+import { DoneIcon } from '@project-r/styleguide/icons'
 
 import withAuthorizeSession from './withAuthorizeSession'
 
@@ -160,7 +160,7 @@ const CodeAuthorization = ({
           (mutating ? (
             <InlineSpinner size='30px' />
           ) : (
-            <MdDone
+            <DoneIcon
               style={{ cursor: 'pointer' }}
               size={30}
               onClick={onSubmit}

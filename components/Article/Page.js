@@ -14,6 +14,7 @@ import {
   TitleBlock,
   Editorial,
   ColorContextProvider,
+  TeaserEmbedComment,
   SHARE_IMAGE_HEIGHT,
   SHARE_IMAGE_WIDTH
 } from '@project-r/styleguide'
@@ -67,6 +68,7 @@ import { withMarkAsReadMutation } from '../Notifications/enhancers'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
+import gql from 'graphql-tag'
 const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
@@ -100,6 +102,13 @@ const schemaCreators = {
   section: createSectionSchema,
   page: createPageSchema
 }
+
+export const withCommentData = graphql(
+  gql`
+    ${TeaserEmbedComment.data.query}
+  `,
+  TeaserEmbedComment.data.config
+)
 
 const dynamicComponentRequire = createRequire().alias({
   'react-apollo': reactApollo,
@@ -235,7 +244,8 @@ const ArticlePage = ({
                   })
                 }
               })
-            : undefined
+            : undefined,
+        withCommentData: process.browser && window ? withCommentData : undefined
       }),
     [meta, inNativeIOSApp, inNativeApp]
   )
@@ -332,11 +342,13 @@ const ArticlePage = ({
   const hasOverviewNav = meta ? meta.template === 'section' : true // show/keep around while loading meta
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
-  const shareImage = article && `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
-    `${article.id}${meta?.format ? `-${meta.format.id}` : ''}`
-  )}&url=${encodeURIComponent(
-    `${PUBLIC_BASE_URL}${articleMeta.path}?extract=share`
-  )}`
+  const shareImage =
+    article &&
+    `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
+      `${article.id}${meta?.format ? `-${meta.format.id}` : ''}`
+    )}&url=${encodeURIComponent(
+      `${PUBLIC_BASE_URL}${articleMeta.path}?extract=share`
+    )}`
 
   const metaWithSocialImages =
     meta && meta.discussionId && router.query.focus

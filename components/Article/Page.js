@@ -69,6 +69,7 @@ import { withMarkAsReadMutation } from '../Notifications/enhancers'
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
 import gql from 'graphql-tag'
+import CommentLink from '../Discussion/CommentLink'
 const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
@@ -245,7 +246,9 @@ const ArticlePage = ({
                 }
               })
             : undefined,
-        withCommentData: process.browser && window ? withCommentData : undefined
+        withCommentData:
+          process.browser && window ? withCommentData : undefined,
+        CommentLink: CommentLink
       }),
     [meta, inNativeIOSApp, inNativeApp]
   )

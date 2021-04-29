@@ -1,5 +1,5 @@
 {
-  "updated": "2021-03-26T08:59:40.685Z",
+  "updated": "2021-04-29T15:20:26.610Z",
   "title": "live",
   "data": [
     {
@@ -1827,12 +1827,16 @@
       "value": "Herunterladen"
     },
     {
-      "key": "styleguide/AudioPlayer/rewind",
-      "value": "Von Anfang an"
+      "key": "styleguide/AudioPlayer/partialrewind",
+      "value": "10 Sekunden zurück"
     },
     {
       "key": "styleguide/AudioPlayer/close",
       "value": "Audioplayer schliessen"
+    },
+    {
+      "key": "styleguide/AudioPlayer/partialfastforward",
+      "value": "30 Sekunden vorwärts"
     },
     {
       "key": "styleguide/AudioPlayer/loading",
@@ -5179,14 +5183,6 @@
       "value": "Später"
     },
     {
-      "key": "Trial/Page/withAccess/heading",
-      "value": "Sie haben bereits Zugriff"
-    },
-    {
-      "key": "Trial/Page/withAccess/intro",
-      "value": "Ihr Konto unter {email} hat bereits bis zum {until} Zugriff auf alle unsere Inhalte."
-    },
-    {
       "key": "Trial/Form/withAccess/button/label",
       "value": "Magazin lesen"
     },
@@ -5209,74 +5205,6 @@
     {
       "key": "Trial/Form/error/title",
       "value": "Fehler"
-    },
-    {
-      "key": "trial/meta/pageTitle",
-      "value": "Die Republik probelesen"
-    },
-    {
-      "key": "trial/meta/title",
-      "value": "Die Republik probelesen"
-    },
-    {
-      "key": "trial/meta/description",
-      "value": "Melden Sie sich für einen kostenlosen Streifzug durch die Republik an."
-    },
-    {
-      "key": "Trial/Page/unauthorized/perlentaucher/heading",
-      "value": "Spezialangebot für Perlentaucher"
-    },
-    {
-      "key": "Trial/Page/unauthorized/perlentaucher/intro",
-      "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 30.09.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
-    },
-    {
-      "key": "Trial/Page/unauthorized/papier/heading",
-      "value": "Neugier wird belohnt. Unser Angebot für Papierleserinnen"
-    },
-    {
-      "key": "Trial/Page/unauthorized/papier/intro",
-      "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 30.09.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
-    },
-    {
-      "key": "Trial/Page/unauthorized/buchbasel/heading",
-      "value": "Unser Spezialangebot zur BuchBasel"
-    },
-    {
-      "key": "Trial/Page/unauthorized/buchbasel/intro",
-      "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 14.11.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
-    },
-    {
-      "key": "Trial/Page/unauthorized/bern/heading",
-      "value": "Unser Spezialangebot"
-    },
-    {
-      "key": "Trial/Page/unauthorized/bern/intro",
-      "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 14.11.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
-    },
-    {
-      "key": "Trial/Page/unauthorized/science-et-cite/heading",
-      "value": "Spezialangebot für «Science et Cité»"
-    },
-    {
-      "key": "Trial/Page/unauthorized/science-et-cite/intro",
-      "value": "Lesen Sie 4 Wochen kostenlos die «Republik». Einlösbar bis 31.10.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
-    },
-    {
-      "key": "Trial/Page/unauthorized/ehemalig/heading",
-      "value": "Schön, sind Sie wieder hier!"
-    },
-    {
-      "key": "Trial/Page/unauthorized/ehemalig/intro",
-      "value": "Lesen Sie zwei Wochen kostenlos die «Republik». Einlösbar bis 30.11.2019."
-    },
-    {
-      "key": "Trial/Page/unauthorized/21/heading",
-      "value": "Sie wollen es wirklich wissen?"
-    },
-    {
-      "key": "Trial/Page/unauthorized/21/intro",
-      "value": "Unser Januar-Angebot: Lesen Sie 21 Tage kostenlos die «Republik». Einlösbar bis 31.01.2020."
     },
     {
       "key": "pages/cardGroups/description",
@@ -6376,7 +6304,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Bücher liefern wir bis Ende Mai."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
@@ -6545,18 +6473,6 @@
     {
       "key": "PodcastButtons/google",
       "value": "Google"
-    },
-    {
-      "key": "Trial/Page/disabled/title",
-      "value": "Danke für Ihre Neugier!"
-    },
-    {
-      "key": "Trial/Page/disabled/body",
-      "value": "Momentan überarbeiten wir das Probelesen. Probelesen ist daher zur Zeit nur möglich via Gutscheincode oder wenn jemand sein Abo mit Ihnen teilt. Haben Sie Fragen oder hätten gerne einen Gutscheincode? Melden Sie sich bei kontakt@republik.ch. Und: Mit einem Monatsabonnement oder einer Jahresmitgliedschaft können Sie uns helfen, auch zukünftig werbefreien, unabhängigen und transparenten Journalismus zu machen! "
-    },
-    {
-      "key": "Trial/Page/disabled/button",
-      "value": "Mitglied werden"
     },
     {
       "key": "article/payNote/200225-v1/before",
@@ -7099,108 +7015,12 @@
       "value": "Mitgliedschaften und Abos. Selbsttragend ab: {count}."
     },
     {
-      "key": "Trial/Page/heading",
-      "value": "Danke für Ihre Neugier!"
-    },
-    {
-      "key": "Trial/Page/intro",
-      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
-    },
-    {
       "key": "Trial/Form/button",
       "value": "Anmelden"
     },
     {
-      "key": "Trial/Page/intro/signedIn",
-      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
-    },
-    {
       "key": "Trial/Form/button/signedIn",
       "value": "Aktivieren"
-    },
-    {
-      "key": "Trial/Page/wseww/heading",
-      "value": "Sie wissen noch nicht, ob Sie es wirklich wissen wollen? Dann testen Sie uns!"
-    },
-    {
-      "key": "Trial/Page/wseww/intro",
-      "value": "14 Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. 14 Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
-    },
-    {
-      "key": "Trial/Page/am-gericht/heading",
-      "value": "Danke für Ihre Neugier!"
-    },
-    {
-      "key": "Trial/Page/am-gericht/intro",
-      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Beiträge, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen.\n\n<b>Lesen Sie jeden Mittwoch, was sich in den Gerichtssälen dieses Landes abspielt.</b> Die Reporterinnen und Reporter der Republik berichten über die kleinen Dramen und die grossen Fragen der Schweizer Justiz."
-    },
-    {
-      "key": "Trial/Page/am-gericht/image",
-      "value": "https://cdn.repub.ch/s3/republik-assets/assets/probelesen/am-gericht.png"
-    },
-    {
-      "key": "Trial/Form/am-gericht/button",
-      "value": "Jetzt ausprobieren"
-    },
-    {
-      "key": "Trial/Page/sommer/heading",
-      "value": "Willkommen bei der Republik"
-    },
-    {
-      "key": "Trial/Page/sommer/intro",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen.\n\nDie Republik ist komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.\n\n<b>Erhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
-    },
-    {
-      "key": "Trial/Form/sommer/button",
-      "value": "Jetzt Probe lesen"
-    },
-    {
-      "key": "Trial/Page/podcast/heading",
-      "value": "Willkommen bei der Republik"
-    },
-    {
-      "key": "Trial/Page/podcast/intro",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen.\n\nDie Republik ist komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.\n\n<b>Erhalten Sie für 14 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
-    },
-    {
-      "key": "Trial/Form/podcast/button",
-      "value": "Jetzt Probe lesen"
-    },
-    {
-      "key": "Trial/Page/fmw/heading",
-      "value": "Willkommen bei der Republik"
-    },
-    {
-      "key": "Trial/Page/fmw/intro",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen.\n\nDie Republik ist komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.\n\n<b>Erhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
-    },
-    {
-      "key": "Trial/Form/fmw/button",
-      "value": "Jetzt Probe lesen"
-    },
-    {
-      "key": "Trial/Page/buchbasel/heading",
-      "value": "Willkommen bei der Republik"
-    },
-    {
-      "key": "Trial/Page/buchbasel/intro",
-      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen. Die Republik ist komplett werbefrei. Und kompromisslos in der Qualität. Unser Ziel: Journalismus, der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.\n\nAusserdem möchten wir Sie auf unseren «Salon der Republik» hinweisen – ein Forum für Literatur und Debatte. Über aktuelle Bücher und relevante Themen diskutieren die Feuilleton-Crew der Republik, ausgewählte Gäste – und Sie, falls Sie möchten. Regelmässig im Cabaret Voltaire und als Audioversion im Podcast.\n\n<b>Erhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
-    },
-    {
-      "key": "Trial/Form/buchbasel/button",
-      "value": "Jetzt Probe lesen"
-    },
-    {
-      "key": "Trial/Page/bern/heading",
-      "value": "Willkommen bei der Republik"
-    },
-    {
-      "key": "Trial/Page/bern/intro",
-      "value": "<b>Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und komplett werbefrei. Warum?</b>\n\nZeitungen fusionieren, Redaktionen werden zusammengelegt, es gibt immer weniger Vielfalt im Schweizer Medienmarkt. In der Deutschschweiz verfügen Tamedia, Ringier und die NZZ mit ihren Zeitungen bereits über einen Marktanteil von rund 80&nbsp;Prozent. Und seit 2011 sind in der Schweiz unter dem Strich mehr als 3000 Stellen im Journalismus verschwunden.\n\nKurz: Es steht nicht unbedingt gut um die Medienbranche und die Zukunft des Journalismus. Doch ohne Journalismus keine Demokratie. Als Antwort auf diese Entwicklungen – und aus Leidenschaft für guten Journalismus – bauen wir die Republik auf. Als konkreten Beitrag zur Vielfalt. \n\n<b>Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen? Lernen Sie uns kennen.\nErhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik – im Web, in der Republik-App oder als Newsletter:</b>"
-    },
-    {
-      "key": "Trial/Form/bern/button",
-      "value": "Jetzt Probe lesen"
     },
     {
       "key": "darkmode/switch/label",

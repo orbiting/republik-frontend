@@ -286,7 +286,7 @@ const ActionBar = ({
     },
     {
       title: t('PodcastButtons/play'),
-      Icon: PodcastIcon,
+      Icon: PlayCircleIcon,
       onClick: e => {
         e.preventDefault()
         trackEvent(['ActionBar', 'audio', meta.url])

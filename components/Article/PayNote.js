@@ -235,12 +235,24 @@ const generateKey = (note, index) => {
   return { ...note, key: `custom-${index}` }
 }
 
+const isPermissibleIOSCta = cta => !cta || cta === 'trialForm'
+
 const disableForIOS = note => {
-  return { ...note, target: { ...note.target, inNativeIOSApp: false } }
+  return {
+    ...note,
+    target: {
+      ...note.target,
+      inNativeIOSApp:
+        isPermissibleIOSCta(note.before.cta) &&
+        isPermissibleIOSCta(note.after.cta)
+          ? 'any'
+          : false
+    }
+  }
 }
 
 const enableForTrialSignup = note => {
-  return note.before.cta === 'trialForm'
+  return note.before.cta === 'trialForm' || note.after.cta === 'trialForm'
     ? { ...note, target: { ...note.target, trialSignup: 'any' } }
     : note
 }

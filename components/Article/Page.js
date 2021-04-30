@@ -332,11 +332,13 @@ const ArticlePage = ({
   const hasOverviewNav = meta ? meta.template === 'section' : true // show/keep around while loading meta
   const colorSchemeKey = darkMode ? 'dark' : 'auto'
 
-  const shareImage = article && `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
-    `${article.id}${meta?.format ? `-${meta.format.id}` : ''}`
-  )}&url=${encodeURIComponent(
-    `${PUBLIC_BASE_URL}${articleMeta.path}?extract=share`
-  )}`
+  const shareImage =
+    article &&
+    `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
+      `${article.id}${meta?.format ? `-${meta.format.id}` : ''}`
+    )}&url=${encodeURIComponent(
+      `${PUBLIC_BASE_URL}${articleMeta.path}?extract=share`
+    )}`
 
   const metaWithSocialImages =
     meta && meta.discussionId && router.query.focus
@@ -604,7 +606,7 @@ const ArticlePage = ({
                 />
               )}
               {isFormat && <FormatFeed formatId={article.repoId} />}
-              {(hasActiveMembership || isFormat || isPage) && (
+              {(hasActiveMembership || isFormat) && (
                 <>
                   <br />
                   <br />

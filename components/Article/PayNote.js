@@ -245,6 +245,8 @@ const disableForIOS = note => {
       inNativeIOSApp:
         isPermissibleIOSCta(note.before.cta) &&
         isPermissibleIOSCta(note.after.cta)
+          ? 'any'
+          : false
     }
   }
 }

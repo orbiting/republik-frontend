@@ -606,7 +606,7 @@ const ArticlePage = ({
                 />
               )}
               {isFormat && <FormatFeed formatId={article.repoId} />}
-              {(hasActiveMembership || isFormat || isPage) && (
+              {(hasActiveMembership || isFormat) && (
                 <>
                   <br />
                   <br />

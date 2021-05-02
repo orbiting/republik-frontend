@@ -174,30 +174,25 @@ class PaymentForm extends Component {
   }
   autoSelect() {
     const {
-      paymentSources,
-      loadingPaymentSources,
+      paymentSource,
+      loadingPaymentSource,
       allowedMethods,
       values,
       onChange
     } = this.props
     if (
-      !loadingPaymentSources &&
+      !loadingPaymentSource &&
       (!values.paymentMethod ||
         (allowedMethods && allowedMethods.indexOf(values.paymentMethod) === -1))
     ) {
-      const chargablePaymentSource =
-        paymentSources &&
-        paymentSources.find(
-          ps => ps.status === 'CHARGEABLE' && ps.isDefault && !ps.isExpired
-        )
       const stripeAllowed = allowedMethods
         ? allowedMethods.indexOf('STRIPE') !== -1
         : true
-      if (chargablePaymentSource && stripeAllowed) {
+      if (paymentSource && stripeAllowed) {
         onChange({
           values: {
             paymentMethod: 'STRIPE',
-            paymentSource: chargablePaymentSource.id
+            paymentSource: paymentSource.id
           }
         })
       } else {
@@ -300,9 +295,8 @@ class PaymentForm extends Component {
       errors,
       dirty,
       onChange,
-      paymentSources,
-      loadingPaymentSources,
-      onlyChargable,
+      paymentSource,
+      loadingPaymentSource,
       addressState,
       shippingAddressState,
       context,
@@ -380,83 +374,68 @@ class PaymentForm extends Component {
         </div>
         <Loader
           style={{ minHeight: PAYMENT_METHOD_HEIGHT * 2 }}
-          loading={loadingPaymentSources}
+          loading={loadingPaymentSource}
           render={() => {
-            const visiblePaymentSources = paymentSources
-              ? paymentSources.filter(
-                  ps =>
-                    (!onlyChargable ||
-                      (ps.status === 'CHARGEABLE' && !ps.isExpired)) &&
-                    ps.isDefault
-                )
-              : []
-            const hasVisiblePaymentSources = !!visiblePaymentSources.length
+            const hasPaymentSource = !!paymentSource
+            const PaymentSourceIcon =
+              (hasPaymentSource && paymentSource.brand === 'Visa' && (
+                <PSPIcons.Visa />
+              )) ||
+              (paymentSource.brand === 'MasterCard' && <PSPIcons.Mastercard />)
+            const paymentSourceDisabled =
+              paymentSource && paymentSource.status !== 'CHARGEABLE'
 
-            const showMethods = !hasVisiblePaymentSources || values.newSource
+            const showMethods = !hasPaymentSource || values.newSource
 
             return (
               <P>
-                {hasVisiblePaymentSources && (
+                {hasPaymentSource && (
                   <Fragment>
                     <Label>{t('payment/method/existing')}</Label>
                     <br />
-                    {visiblePaymentSources.map((paymentSource, i) => {
-                      const Icon =
-                        (paymentSource.brand === 'Visa' && <PSPIcons.Visa />) ||
-                        (paymentSource.brand === 'MasterCard' && (
-                          <PSPIcons.Mastercard />
-                        ))
-
-                      const disabled = paymentSource.status !== 'CHARGEABLE'
-
-                      return (
-                        <PaymentMethodLabel
-                          key={i}
-                          active={values.paymentSource === paymentSource.id}
-                          error={disabled}
-                        >
-                          <input
-                            type='radio'
-                            name='paymentMethod'
-                            disabled={disabled}
-                            onChange={event => {
-                              event.preventDefault()
-                              const value = event.target.value
-                              onChange({
-                                values: {
-                                  newSource: false,
-                                  paymentMethod: 'STRIPE',
-                                  paymentSource: value
-                                }
-                              })
-                            }}
-                            value={paymentSource.id}
-                            checked={values.paymentSource === paymentSource.id}
-                          />
-                          {Icon && Icon}
-                          {Icon && (
-                            <span {...styles.paymentMethodHiddenText}>
-                              {paymentSource.brand}
-                            </span>
-                          )}
-                          <span {...styles.paymentMethodSourceText}>
-                            {!Icon && paymentSource.brand}
-                            {'**** '}
-                            {paymentSource.last4}
-                            <br />
-                            {pad2(paymentSource.expMonth)}/
-                            {paymentSource.expYear}
-                          </span>
-                        </PaymentMethodLabel>
-                      )
-                    })}
+                    <PaymentMethodLabel
+                      active={values.paymentSource === paymentSource.id}
+                      error={paymentSourceDisabled}
+                    >
+                      <input
+                        type='radio'
+                        name='paymentMethod'
+                        disabled={paymentSourceDisabled}
+                        onChange={event => {
+                          event.preventDefault()
+                          const value = event.target.value
+                          onChange({
+                            values: {
+                              newSource: false,
+                              paymentMethod: 'STRIPE',
+                              paymentSource: value
+                            }
+                          })
+                        }}
+                        value={paymentSource.id}
+                        checked={values.paymentSource === paymentSource.id}
+                      />
+                      {PaymentSourceIcon}
+                      {PaymentSourceIcon && (
+                        <span {...styles.paymentMethodHiddenText}>
+                          {paymentSource.brand}
+                        </span>
+                      )}
+                      <span {...styles.paymentMethodSourceText}>
+                        {!PaymentSourceIcon && paymentSource.brand}
+                        {'**** '}
+                        {paymentSource.last4}
+                        <br />
+                        {pad2(paymentSource.expMonth)}/{paymentSource.expYear}
+                      </span>
+                    </PaymentMethodLabel>
                     <br />
                   </Fragment>
                 )}
-                {!hasVisiblePaymentSources && hasChoice && (
+                {!hasPaymentSource && hasChoice && (
                   <Label>{t('payment/method/choose')}</Label>
                 )}
-                {hasVisiblePaymentSources && !showMethods && (
+                {hasPaymentSource && !showMethods && (
                   <Label>
                     <A
                       href='#show'
@@ -474,12 +453,12 @@ class PaymentForm extends Component {
                     </A>
                   </Label>
                 )}
-                {hasVisiblePaymentSources && showMethods && (
+                {hasPaymentSource && showMethods && (
                   <Label>
                     {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
                   </Label>
                 )}
-                {(hasChoice || hasVisiblePaymentSources) && <br />}
+                {(hasChoice || hasPaymentSource) && <br />}
                 {showMethods &&
                   PAYMENT_METHODS.filter(
                     pm => !pm.disabled && visibleMethods.indexOf(pm.key) !== -1
@@ -802,10 +781,10 @@ PaymentForm.propTypes = {
 // - context
 
 export const query = gql`
-  query myPaymentSources($accessToken: ID) {
+  query myPaymentSource($accessToken: ID) {
     me(accessToken: $accessToken) {
       id
-      paymentSources {
+      defaultPaymentSource {
         id
         status
         brand
@@ -830,8 +809,8 @@ export default compose(
       variables: { accessToken }
     }),
     props: ({ data }) => ({
-      paymentSources: data.me && data.me.paymentSources,
-      loadingPaymentSources: data.loading
+      paymentSource: data.me?.defaultPaymentSource,
+      loadingPaymentSource: data.loading
     })
   })
 )(PaymentForm)

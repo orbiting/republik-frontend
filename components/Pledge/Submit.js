@@ -809,7 +809,6 @@ class Submit extends Component {
           t={t}
           loadSources={!!me || !!query.token}
           accessToken={query.token}
-          onlyChargable
           requireShippingAddress={requireShippingAddress}
           payload={{
             id: this.state.pledgeId,

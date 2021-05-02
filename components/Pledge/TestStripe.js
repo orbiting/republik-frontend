@@ -35,7 +35,7 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 
 // from components/Payment/Form.js
-import * as PSPIcons from '../Payment/Icons/PSP'
+import * as PSPIcons from '../Payment/PSPIcons'
 import { format } from 'd3-format'
 const pad2 = format('02')
 const PAYMENT_METHOD_HEIGHT = 64

@@ -59,6 +59,14 @@ const PAYMENT_METHODS = [
           >
             <PSPIcons.Mastercard />
           </span>
+          <span style={{ display: 'inline-block', width: 10 }} />
+          <span
+            style={{
+              opacity: !cardType || cardType === 'American Express' ? 1 : 0.4
+            }}
+          >
+            <PSPIcons.Amex />
+          </span>
         </span>
       )
     }
@@ -381,7 +389,10 @@ class PaymentForm extends Component {
               (hasPaymentSource && paymentSource.brand === 'Visa' && (
                 <PSPIcons.Visa />
               )) ||
-              (paymentSource.brand === 'MasterCard' && <PSPIcons.Mastercard />)
+              (paymentSource.brand === 'MasterCard' && (
+                <PSPIcons.Mastercard />
+              )) ||
+              (paymentSource.brand === 'American Express' && <PSPIcons.Amex />)
             const paymentSourceDisabled =
               paymentSource && paymentSource.status !== 'CHARGEABLE'
 

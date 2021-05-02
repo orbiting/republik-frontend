@@ -1,5 +1,5 @@
 {
-  "updated": "2021-04-29T15:20:26.610Z",
+  "updated": "2021-05-02T21:04:29.784Z",
   "title": "live",
   "data": [
     {
@@ -2396,7 +2396,7 @@
     },
     {
       "key": "payment/method/STRIPE",
-      "value": "Visa/Mastercard"
+      "value": "Visa/Mastercard/Amex"
     },
     {
       "key": "payment/method/PAYMENTSLIP",
@@ -2428,11 +2428,11 @@
     },
     {
       "key": "payment/stripe/prefered",
-      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte (Visa, Mastercard) ist für uns das bevorzugte Zahlungsmittel."
+      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte (Visa, Mastercard, Amex) ist für uns das bevorzugte Zahlungsmittel."
     },
     {
       "key": "payment/stripe/only/MONTHLY_ABO",
-      "value": "Das Monatsabo ist nur mit Kreditkarte (Visa, Mastercard) verfügbar."
+      "value": "Das Monatsabo ist nur mit Kreditkarte (Visa, Mastercard, Amex) verfügbar."
     },
     {
       "key": "payment/stripe/js/loading",

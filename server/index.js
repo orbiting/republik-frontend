@@ -167,7 +167,9 @@ app.prepare().then(() => {
   })
 
   server.use(express.static('public'))
-  server.use(handler)
+  server.all('*', (req, res) => {
+    return handler(req, res)
+  })
 
   server.listen(PORT, err => {
     if (err) throw err

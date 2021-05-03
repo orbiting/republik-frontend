@@ -57,12 +57,7 @@ const ActionBar = ({
     return (
       <div {...styles.topRow} {...(isCentered && { ...styles.centered })}>
         {download && (
-          <IconButton
-            href={download}
-            Icon={DownloadIcon}
-            label={share.label || ''}
-            target='_blank'
-          />
+          <IconButton href={download} Icon={DownloadIcon} target='_blank' />
         )}
         {fontSize && (
           <IconButton

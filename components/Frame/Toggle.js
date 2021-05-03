@@ -15,6 +15,8 @@ import {
 } from '../constants'
 
 const SIZE = 28
+const PADDING_MOBILE = Math.floor((HEADER_HEIGHT_MOBILE - SIZE) / 2)
+const PADDING_DESKTOP = Math.floor((HEADER_HEIGHT - SIZE) / 2)
 
 const Toggle = ({ expanded, onClick, ...props }) => {
   const [colorScheme] = useColorContext()
@@ -46,21 +48,21 @@ const styles = {
     border: 'none',
     boxShadow: 'none',
     outline: 'none',
-    padding: `${Math.floor((HEADER_HEIGHT_MOBILE - SIZE) / 2)}px`,
+    padding: PADDING_MOBILE,
     paddingRight: 16,
     lineHeight: 0,
     [mediaQueries.mUp]: {
-      padding: `${Math.floor((HEADER_HEIGHT - SIZE) / 2)}px`
+      padding: PADDING_DESKTOP
     }
   }),
   closeButton: css({
     position: 'absolute',
-    right: `${Math.floor((HEADER_HEIGHT_MOBILE - SIZE) / 2)}px`,
-    top: `${Math.floor((HEADER_HEIGHT_MOBILE - SIZE) / 2)}px`,
+    right: PADDING_MOBILE,
+    top: PADDING_MOBILE,
     transition: `opacity ${TRANSITION_MS}ms ease-out`,
     [mediaQueries.mUp]: {
-      right: `${Math.floor((HEADER_HEIGHT - SIZE) / 2)}px`,
-      top: `${Math.floor((HEADER_HEIGHT - SIZE) / 2)}px`
+      right: PADDING_DESKTOP,
+      top: PADDING_DESKTOP
     }
   })
 }

@@ -32,6 +32,12 @@ import * as PSPIcons from './PSPIcons'
 
 import { format } from 'd3-format'
 
+// import { loadStripe } from '@stripe/stripe-js/pure'
+// since there is no unloading after checkout we disable advancedFraudSignals
+// - https://mtlynch.io/stripe-update/#support-library-unloading
+// loadStripe.setLoadParameters({ advancedFraudSignals: false })
+// const stripe = await loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx')
+
 const pad2 = format('02')
 
 const PAYMENT_METHODS = [

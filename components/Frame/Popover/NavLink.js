@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
 
-import { Link } from '../../../lib/routes'
-
 import {
   fontStyles,
   mediaQueries,
   useColorContext
 } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const styles = {
   link: css({
@@ -99,9 +98,8 @@ export const NavA = React.forwardRef(
 )
 
 const NavLink = ({
-  route,
+  href,
   children,
-  params = {},
   active,
   closeHandler,
   inline,
@@ -111,18 +109,10 @@ const NavLink = ({
   title,
   large
 }) => {
-  const isActive =
-    active &&
-    active.route === route &&
-    Object.keys(params).every(key => params[key] === active.params[key])
+  const isActive = href === active
 
   return (
-    <Link
-      route={route}
-      params={params}
-      prefetch={prefetch ? undefined : prefetch}
-      passHref
-    >
+    <Link href={href} prefetch={prefetch ? undefined : prefetch} passHref>
       <NavA
         title={title}
         inline={inline}

@@ -5,7 +5,6 @@ import { withRouter } from 'next/router'
 import { max, ascending } from 'd3-array'
 import {
   Button,
-  ColorContextProvider,
   Interaction,
   Loader,
   useColorContext

@@ -55,11 +55,12 @@ const styles = {
   }),
   closeButton: css({
     position: 'absolute',
-    marginTop: -2,
-    right: 10,
+    right: `${Math.floor((HEADER_HEIGHT_MOBILE - SIZE) / 2)}px`,
+    top: `${Math.floor((HEADER_HEIGHT_MOBILE - SIZE) / 2)}px`,
     transition: `opacity ${TRANSITION_MS}ms ease-out`,
     [mediaQueries.mUp]: {
-      right: 16
+      right: `${Math.floor((HEADER_HEIGHT - SIZE) / 2)}px`,
+      top: `${Math.floor((HEADER_HEIGHT - SIZE) / 2)}px`
     }
   })
 }

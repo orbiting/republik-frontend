@@ -14,7 +14,7 @@ import {
 } from '@project-r/styleguide/icons'
 
 import withT from '../../lib/withT'
-import withInNativeApp from '../../lib/withInNativeApp'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { trackEvent } from '../../lib/piwik'
 import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 

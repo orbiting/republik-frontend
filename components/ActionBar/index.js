@@ -413,11 +413,14 @@ const ActionBar = ({
       )}
       {mode === 'article-bottom' && (
         <>
-          <Interaction.P style={{ marginTop: 24 }}>
-            <strong>{t('article/actionbar/share')}</strong>
-          </Interaction.P>
+          {!inNativeApp ? (
+            <Interaction.P style={{ marginTop: 24 }}>
+              <strong>{t('article/actionbar/share')}</strong>
+            </Interaction.P>
+          ) : null}
           <ShareButtons
             url={meta.url}
+            title={document.title}
             tweet=''
             emailSubject={emailSubject}
             emailBody=''

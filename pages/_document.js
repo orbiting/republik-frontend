@@ -101,6 +101,11 @@ export default class MyDocument extends Document {
           />
           <link
             rel='icon'
+            type='image/svg+xml'
+            href={`${PUBLIC_BASE_URL}/static/favicon.svg`}
+          />
+          <link
+            rel='icon'
             type='image/png'
             href={`${PUBLIC_BASE_URL}/static/favicon-32x32.png`}
             sizes='32x32'
@@ -121,9 +126,11 @@ export default class MyDocument extends Document {
             color='#000000'
           />
           <link
-            rel='shortcut icon'
+            rel='alternate icon'
+            sizes='16x16'
             href={`${PUBLIC_BASE_URL}/static/favicon.ico`}
           />
+
           {/* browserconfig.xml can contain other static references, we skip cdnifing it */}
           <meta
             name='msapplication-config'

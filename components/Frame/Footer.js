@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 import {
@@ -10,9 +10,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
-import { Link, Router } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
-import HrefLink from '../Link/Href'
 
 import {
   BrandMark,
@@ -27,6 +25,8 @@ import {
 import { ZINDEX_FOOTER } from '../constants'
 
 import { shouldIgnoreClick } from '../../lib/utils/link'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const LazyLink = props => <Link {...props} prefetch={false} />
 
@@ -144,218 +144,207 @@ const styles = {
   })
 }
 
-class Footer extends Component {
-  render() {
-    const {
-      t,
-      me,
-      signOut,
-      inNativeApp,
-      inNativeIOSApp,
-      black,
-      isOnMarketingPage
-    } = this.props
-    return (
-      <div {...merge(styles.bg, black && styles.bgBlack)}>
-        <Container style={{ overflow: 'hidden' }}>
-          {black && <hr {...styles.hr} />}
-          <div {...styles.grid}>
-            <div {...styles.column}>
-              <div {...styles.title}>{t('footer/contact/title')}</div>
-              {intersperse(t('footer/contact/name').split('\n'), (item, i) => (
-                <br key={i} />
-              ))}
-              <br />
-              {intersperse(
-                t('footer/contact/address').split('\n'),
-                (item, i) => (
-                  <br key={i} />
-                )
-              )}
-              <br />
-              <a href={`mailto:${t('footer/contact/mail')}`}>
-                {t('footer/contact/mail')}
-              </a>
-              <br />
-              <LazyLink route='media'>
-                <a>{t('footer/media')}</a>
-              </LazyLink>
-            </div>
-            <div {...styles.column}>
-              <div {...styles.title}>{t('footer/about/title')}</div>
-              <HrefLink href='/about' passHref>
-                <a>{t('footer/about')}</a>
-              </HrefLink>
-              <br />
-              <HrefLink href='/jobs' passHref>
-                <a href='/jobs'>{t('footer/jobs')}</a>
-              </HrefLink>
-              <br />
-              <LazyLink route='community'>
-                <a>{t('nav/community')}</a>
-              </LazyLink>
-              <br />
-              <LazyLink route='events'>
-                <a>{t('footer/events')}</a>
-              </LazyLink>
-              <br />
-              <LazyLink route='cockpit'>
-                <a>{t('nav/cockpit')}</a>
-              </LazyLink>
-              <br />
-              <LazyLink route='section' params={{ slug: 'komplizin' }}>
-                <a>Komplizen</a>
-              </LazyLink>
-              <br />
-              <a href='/manifest' target={!inNativeApp ? '_blank' : undefined}>
-                {t('footer/about/manifest')}
-              </a>
-              <br />
-              <a
-                href='https://project-r.construction/'
-                rel='noopener'
-                target='_blank'
-              >
-                {t('footer/about/projecR')}
-              </a>
-              {/*
-                <br />
-                <a href='/etat'>{t('footer/researchBudget')}</a>
-              */}
-            </div>
-            <div {...styles.column}>
-              <div {...styles.title}>{t('footer/legal/title')}</div>
-              <LazyLink route='legal/tos'>
-                <a>{t('footer/legal/tos')}</a>
-              </LazyLink>
-              <br />
-              <LazyLink route='legal/privacy'>
-                <a>{t('footer/legal/privacy')}</a>
-              </LazyLink>
-              <br />
-              <HrefLink href='/statuten' passHref>
-                <a>{t('footer/legal/statute')}</a>
-              </HrefLink>
-              <br />
-              <LazyLink route='shareholder'>
-                <a>{t('footer/shareholder')}</a>
-              </LazyLink>
-              <br />
-              <LazyLink route='legal/imprint'>
-                <a>{t('footer/legal/imprint')}</a>
-              </LazyLink>
-            </div>
-            <div {...styles.column}>
-              <div {...styles.title}>{t('footer/me/title')}</div>
-              <LazyLink route='account'>
-                <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
-              </LazyLink>
-              <br />
-              {me && me.accessCampaigns.length > 0 && (
-                <Fragment>
-                  <a
-                    href='/teilen'
-                    onClick={e => {
-                      if (shouldIgnoreClick(e)) {
-                        return
-                      }
-
-                      Router.pushRoute('/teilen')
-                    }}
-                  >
-                    {t('footer/me/share')}
-                  </a>
-                  <br />
-                </Fragment>
-              )}
-              {!!me && (
-                <Fragment>
-                  <LazyLink
-                    route='profile'
-                    params={{ slug: me.username || me.id }}
-                  >
-                    <a>{t('footer/me/profile')}</a>
-                  </LazyLink>
-                  <br />
-                </Fragment>
-              )}
-              {!inNativeIOSApp && (
-                <Fragment>
-                  <LazyLink
-                    route='pledge'
-                    params={me ? { group: 'GIVE' } : undefined}
-                  >
-                    <a>{t(me ? 'footer/me/give' : 'footer/offers')}</a>
-                  </LazyLink>
-                  <br />
-                </Fragment>
-              )}
-              <Fragment>
-                <LazyLink route='claim'>
-                  <a>{t('footer/me/claim')}</a>
-                </LazyLink>
-                <br />
-              </Fragment>
-              <LazyLink route='faq'>
-                <a>{t('footer/me/faq')}</a>
-              </LazyLink>
-              <br />
-              <LazyLink route='section' params={{ slug: 'etikette' }}>
-                <a>{t('footer/me/etiquette')}</a>
-              </LazyLink>
-              <br />
-              {!!me && (
+const Footer = ({
+  t,
+  me,
+  signOut,
+  inNativeApp,
+  inNativeIOSApp,
+  black,
+  isOnMarketingPage
+}) => {
+  const router = useRouter()
+  return (
+    <div {...merge(styles.bg, black && styles.bgBlack)}>
+      <Container style={{ overflow: 'hidden' }}>
+        {black && <hr {...styles.hr} />}
+        <div {...styles.grid}>
+          <div {...styles.column}>
+            <div {...styles.title}>{t('footer/contact/title')}</div>
+            {intersperse(t('footer/contact/name').split('\n'), (item, i) => (
+              <br key={i} />
+            ))}
+            <br />
+            {intersperse(t('footer/contact/address').split('\n'), (item, i) => (
+              <br key={i} />
+            ))}
+            <br />
+            <a href={`mailto:${t('footer/contact/mail')}`}>
+              {t('footer/contact/mail')}
+            </a>
+            <br />
+            <LazyLink href='/medien'>
+              <a>{t('footer/media')}</a>
+            </LazyLink>
+          </div>
+          <div {...styles.column}>
+            <div {...styles.title}>{t('footer/about/title')}</div>
+            <LazyLink href='/about'>
+              <a>{t('footer/about')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/jobs'>
+              <a>{t('footer/jobs')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/community'>
+              <a>{t('nav/community')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/veranstaltungen'>
+              <a>{t('footer/events')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/cockpit'>
+              <a>{t('nav/cockpit')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/komplizin'>
+              <a>Komplizen</a>
+            </LazyLink>
+            <br />
+            <LazyLink
+              href='/manifest'
+              target={!inNativeApp ? '_blank' : undefined}
+            >
+              {t('footer/about/manifest')}
+            </LazyLink>
+            <br />
+            <a
+              href='https://project-r.construction/'
+              rel='noopener'
+              target='_blank'
+            >
+              {t('footer/about/projecR')}
+            </a>
+          </div>
+          <div {...styles.column}>
+            <div {...styles.title}>{t('footer/legal/title')}</div>
+            <LazyLink href='/agb'>
+              <a>{t('footer/legal/tos')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/datenschutz'>
+              <a>{t('footer/legal/privacy')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/statuten'>
+              <a>{t('footer/legal/statute')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/aktionariat'>
+              <a>{t('footer/shareholder')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/impressum'>
+              <a>{t('footer/legal/imprint')}</a>
+            </LazyLink>
+          </div>
+          <div {...styles.column}>
+            <div {...styles.title}>{t('footer/me/title')}</div>
+            <LazyLink href='/konto'>
+              <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
+            </LazyLink>
+            <br />
+            {me && me.accessCampaigns.length > 0 && (
+              <>
                 <a
-                  href='#'
+                  href='/teilen'
                   onClick={e => {
-                    e.preventDefault()
-                    signOut()
+                    if (shouldIgnoreClick(e)) {
+                      return
+                    }
+
+                    router.push('/teilen')
                   }}
                 >
-                  {t('footer/me/signOut')}
+                  {t('footer/me/share')}
                 </a>
-              )}
-            </div>
-          </div>
-          <hr {...styles.hr} />
-          <div {...styles.lastLine}>
-            <LazyLink route='index'>
-              <a {...(isOnMarketingPage && styles.brandmark)} {...styles.left}>
-                {isOnMarketingPage ? (
-                  <BrandMark fill={colors.negative.text} />
-                ) : (
-                  <Logo fill={colors.negative.text} height={20} />
-                )}
-              </a>
+                <br />
+              </>
+            )}
+            {!!me && (
+              <>
+                <LazyLink href={`/~${me.username || me.id}`}>
+                  <a>{t('footer/me/profile')}</a>
+                </LazyLink>
+                <br />
+              </>
+            )}
+            {!inNativeIOSApp && (
+              <>
+                <LazyLink
+                  href='/angebote'
+                  params={{ group: me ? 'GIVE' : undefined }}
+                >
+                  <a>{t(me ? 'footer/me/give' : 'footer/offers')}</a>
+                </LazyLink>
+                <br />
+              </>
+            )}
+            <LazyLink href='/abholen'>
+              <a>{t('footer/me/claim')}</a>
             </LazyLink>
-            <span {...styles.since} {...styles.mUpOnly}>
-              {t('footer/since')}
-            </span>
-            <div {...styles.icons}>
-              <IconButton
-                Icon={InstagramIcon}
-                href='https://www.instagram.com/republikmagazin/'
-                target='_blank'
-                fill={colors.negative.text}
-              />
-              <IconButton
-                Icon={FacebookIcon}
-                href='https://www.facebook.com/RepublikMagazin'
-                target='_blank'
-                fill={colors.negative.text}
-              />
-              <IconButton
-                Icon={TwitterIcon}
-                href='https://twitter.com/RepublikMagazin'
-                target='_blank'
-                fill={colors.negative.text}
-              />
-            </div>
+            <br />
+            <LazyLink href='/faq'>
+              <a>{t('footer/me/faq')}</a>
+            </LazyLink>
+            <br />
+            <LazyLink href='/etikette'>
+              <a>{t('footer/me/etiquette')}</a>
+            </LazyLink>
+            <br />
+            {!!me && (
+              <a
+                href='#'
+                onClick={e => {
+                  e.preventDefault()
+                  signOut()
+                }}
+              >
+                {t('footer/me/signOut')}
+              </a>
+            )}
           </div>
-        </Container>
-      </div>
-    )
-  }
+        </div>
+        <hr {...styles.hr} />
+        <div {...styles.lastLine}>
+          <LazyLink href='/'>
+            <a {...(isOnMarketingPage && styles.brandmark)} {...styles.left}>
+              {isOnMarketingPage ? (
+                <BrandMark fill={colors.negative.text} />
+              ) : (
+                <Logo fill={colors.negative.text} height={20} />
+              )}
+            </a>
+          </LazyLink>
+          <span {...styles.since} {...styles.mUpOnly}>
+            {t('footer/since')}
+          </span>
+          <div {...styles.icons}>
+            <IconButton
+              Icon={InstagramIcon}
+              href='https://www.instagram.com/republikmagazin/'
+              target='_blank'
+              fill={colors.negative.text}
+            />
+            <IconButton
+              Icon={FacebookIcon}
+              href='https://www.facebook.com/RepublikMagazin'
+              target='_blank'
+              fill={colors.negative.text}
+            />
+            <IconButton
+              Icon={TwitterIcon}
+              href='https://twitter.com/RepublikMagazin'
+              target='_blank'
+              fill={colors.negative.text}
+            />
+          </div>
+        </div>
+      </Container>
+    </div>
+  )
 }
 
 export default compose(withT, withMe, withSignOut, withInNativeApp)(Footer)

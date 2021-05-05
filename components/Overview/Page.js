@@ -20,19 +20,8 @@ import withMembership from '../../components/Auth/withMembership'
 import Frame from '../../components/Frame'
 import Front from '../../components/Front'
 import TeaserBlock from '../../components/Overview/TeaserBlock'
-import { P } from '../../components/Overview/Elements'
-import text18 from '../2018/2018'
-import text19 from '../2019/2019'
-import text20 from '../2020/2020'
-import text21 from '../2021/2021'
-import { getTeasersFromDocument } from '../../components/Overview/utils'
-
-const texts = {
-  2018: text18,
-  2019: text19,
-  2020: text20,
-  2021: text21
-}
+import { P } from './Elements'
+import { getTeasersFromDocument } from './utils'
 
 const knownYears = {
   2018: { path: '/2018' },
@@ -73,6 +62,8 @@ const FrontOverview = ({
   data,
   isMember,
   me,
+  year,
+  text,
   router: { query },
   t,
   serverContext,
@@ -85,15 +76,9 @@ const FrontOverview = ({
 
   if (query.extractId) {
     return (
-      <Front
-        extractId={query.extractId}
-        {...knownYears[+query.year]}
-        {...props}
-      />
+      <Front extractId={query.extractId} {...knownYears[year]} {...props} />
     )
   }
-
-  const year = +query.year
   const startDate = new Date(`${year - 1}-12-31T23:00:00.000Z`)
   const endDate = new Date(`${year}-12-31T23:00:00.000Z`)
   const interval = query.interval || 'monate'
@@ -237,7 +222,7 @@ const FrontOverview = ({
         style={{ minHeight: `calc(90vh)` }}
         render={() => {
           return groupedTeasers.map(({ key, values }, i) => {
-            const Text = texts[year] && texts[year][key]
+            const Text = text[key]
             return (
               <div
                 style={{ marginTop: 50 }}
@@ -262,7 +247,7 @@ const FrontOverview = ({
                   )}
                 </P>
                 <TeaserBlock
-                  {...knownYears[+query.year]}
+                  {...knownYears[year]}
                   teasers={values}
                   highlight={highlight}
                   onHighlight={onHighlight}
@@ -289,22 +274,22 @@ export default compose(
   withRouter,
   graphql(getAll, {
     skip: props => {
-      const knownYear = knownYears[+props.router.query.year]
+      const knownYear = knownYears[props.year]
       return knownYear && !knownYear.path && !props.router.query.extractId
     },
     options: props => ({
-      variables: knownYears[+props.router.query.year] || {
+      variables: knownYears[props.year] || {
         path: '/'
       }
     })
   }),
   graphql(getKnownYear, {
     skip: props => {
-      const knownYear = knownYears[+props.router.query.year]
+      const knownYear = knownYears[props.year]
       return (!knownYear || knownYear.path) && !props.router.query.extractId
     },
     options: props => ({
-      variables: knownYears[+props.router.query.year]
+      variables: knownYears[props.year]
     })
   }),
   withMembership,

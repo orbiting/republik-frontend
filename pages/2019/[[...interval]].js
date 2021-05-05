@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
 
-import { A, Highlight } from './Elements'
+import { A, Highlight } from '../../components/Overview/Elements'
+import Page from '../../components/Overview/Page'
 
-export default {
+const text = {
   Januar: p => (
     <Fragment>
       Die Republik startet mit einer grossen{' '}
@@ -367,3 +368,7 @@ export default {
     </Fragment>
   )
 }
+
+const Overview2019 = props => <Page {...props} year={2019} text={text} />
+
+export default Overview2019

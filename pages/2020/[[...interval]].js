@@ -1,8 +1,9 @@
 import React from 'react'
 
-import { A, Highlight } from './Elements'
+import { A, Highlight } from '../../components/Overview/Elements'
+import Page from '../../components/Overview/Page'
 
-export default {
+const text = {
   Januar: p => (
     <>
       Das Jahr beginnt mit einer{' '}
@@ -471,3 +472,7 @@ export default {
     </>
   )
 }
+
+const Overview2020 = props => <Page {...props} year={2020} text={text} />
+
+export default Overview2020

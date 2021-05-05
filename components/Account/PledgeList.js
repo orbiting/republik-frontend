@@ -15,9 +15,22 @@ import GiveMemberships from './Memberships/Give'
 
 import query from './belongingsQuery'
 
-import { A } from '@project-r/styleguide'
+import { A, useColorContext } from '@project-r/styleguide'
+import { AnchorLink } from './Anchors'
+import Payment from './Payment'
+import { css, nthChild } from 'glamor'
 
 const dayFormat = timeFormat('%d. %B %Y')
+
+const styles = {
+  list: css({
+    textAlign: 'left',
+    width: '100%',
+    '& tr:nth-child(even)': {
+      backgroundColor: '#F6F8F7' // TODO dark mode, color context
+    }
+  })
+}
 
 class PledgeList extends Component {
   componentDidMount() {
@@ -48,135 +61,32 @@ class PledgeList extends Component {
   render() {
     const { pledges, t, highlightId, me } = this.props
 
+    // const colorContext = this.context
+
     return (
-      <Fragment>
-        {pledges.map(pledge => {
-          const options = pledge.options.filter(
-            option => option.amount && option.minAmount !== option.maxAmount
-          )
-          const createdAt = new Date(pledge.createdAt)
+      <table {...styles.list}>
+        <tr>
+          <th>Datum</th>
+          <th>Produkt</th>
+          <th>Preis</th>
+        </tr>
+        {pledges.map(p => {
+          const flattenedPayments = p.payments.map(payment => {
+            return {
+              name: p.package.name,
+              ...payment
+            }
+          })
 
-          return (
-            <AccountItem
-              key={pledge.id}
-              highlighted={highlightId === pledge.id}
-              title={t(`package/${pledge.package.name}/title`)}
-              createdAt={createdAt}
-            >
-              <List>
-                {!!options.length &&
-                  options.map((option, i) => {
-                    const { membership, additionalPeriods } = option
-                    const isAboGive = membership && membership.user.id !== me.id
-                    const endDate =
-                      additionalPeriods &&
-                      additionalPeriods.length &&
-                      additionalPeriods[additionalPeriods.length - 1].endDate
-
-                    return (
-                      <Item key={`option-${i}`}>
-                        {option.maxAmount > 1 ? `${option.amount} ` : ''}
-                        {t.first(
-                          [
-                            isAboGive &&
-                              `pledge/option/${pledge.package.name}/${option.reward.name}/label/give`,
-                            isAboGive &&
-                              `option/${option.reward.name}/label/give`,
-                            `pledge/option/${pledge.package.name}/${option.reward.name}/label/${option.amount}`,
-                            `pledge/option/${pledge.package.name}/${option.reward.name}/label/other`,
-                            `pledge/option/${pledge.package.name}/${option.reward.name}/label`,
-                            option.accessGranted &&
-                              `option/${pledge.package.name}/${option.reward.name}/accessGranted/label/${option.amount}`,
-                            option.accessGranted &&
-                              `option/${pledge.package.name}/${option.reward.name}/accessGranted/label/other`,
-                            option.accessGranted &&
-                              `option/${pledge.package.name}/${option.reward.name}/accessGranted/label`,
-                            option.accessGranted &&
-                              `option/${option.reward.name}/accessGranted/label/${option.amount}`,
-                            option.accessGranted &&
-                              `option/${option.reward.name}/accessGranted/label/other`,
-                            option.accessGranted &&
-                              `option/${option.reward.name}/accessGranted/label`,
-                            `option/${option.reward.name}/label/${option.amount}`,
-                            `option/${option.reward.name}/label/other`,
-                            `option/${option.reward.name}/label`
-                          ].filter(Boolean),
-                          {
-                            count: option.amount,
-                            name:
-                              option.membership && option.membership.user.name,
-                            sequenceNumber:
-                              option.membership &&
-                              option.membership.sequenceNumber,
-                            endDateSuffix: endDate
-                              ? t('option/suffix/endDate', {
-                                  formattedEndDate: dayFormat(new Date(endDate))
-                                })
-                              : '',
-                            periods:
-                              option.reward &&
-                              option.reward.interval &&
-                              t.pluralize(
-                                `option/${option.reward.name}/interval/${option.reward.interval}/periods`,
-                                { count: option.periods }
-                              )
-                          }
-                        )}
-                      </Item>
-                    )
-                  })}
-                {pledge.payments.map((payment, i) => (
-                  <Fragment key={`payment-${i}`}>
-                    <Item>
-                      {t(
-                        `account/pledges/payment/status/generic/${payment.status}`,
-                        {
-                          formattedTotal: chfFormat(payment.total / 100),
-                          dateSuffix:
-                            pledge.payments.length === 1
-                              ? ''
-                              : t(
-                                  'account/pledges/payment/status/generic/PAID/dateSuffix',
-                                  {
-                                    createdAt: dayFormat(
-                                      new Date(payment.createdAt)
-                                    )
-                                  }
-                                ),
-                          method: t(
-                            `account/pledges/payment/method/${payment.method}`
-                          )
-                        }
-                      )}
-                    </Item>
-                    {payment.paymentslipUrl && (
-                      <>
-                        <Item>
-                          <A href={payment.paymentslipUrl} target='_blank'>
-                            {t('account/pledges/payment/paymentslipLink')}
-                          </A>
-                        </Item>
-                        <Item>
-                          {t('account/pledges/payment/paymentslipHint')}
-                        </Item>
-                      </>
-                    )}
-                  </Fragment>
-                ))}
-              </List>
-              <GiveMemberships
-                memberships={pledge.memberships}
-                pkg={pledge.package}
-              />
-            </AccountItem>
-          )
+          return flattenedPayments.map((payment, index) => {
+            return (
+              <Fragment key={index}>
+                <Payment payment={payment} />
+              </Fragment>
+            )
+          })
         })}
-        <div style={{ marginTop: 30 }}>
-          <Link route='pledge' params={{ group: 'GIVE' }} passHref>
-            <A>{t('account/pledges/promo')}</A>
-          </Link>
-        </div>
-      </Fragment>
+      </table>
     )
   }
 }

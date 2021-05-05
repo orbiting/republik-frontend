@@ -4,30 +4,22 @@ import { compose, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
-import { timeFormat, chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
-import { Link } from '../../lib/routes'
-
-import List, { Item } from '../List'
-import { Item as AccountItem } from './Elements'
-
-import GiveMemberships from './Memberships/Give'
-
 import query from './belongingsQuery'
 
-import { A, useColorContext } from '@project-r/styleguide'
-import { AnchorLink } from './Anchors'
 import Payment from './Payment'
-import { css, nthChild } from 'glamor'
-
-const dayFormat = timeFormat('%d. %B %Y')
+import { css } from 'glamor'
 
 const styles = {
   list: css({
     textAlign: 'left',
     width: '100%',
+    borderSpacing: 0,
     '& tr:nth-child(even)': {
-      backgroundColor: '#F6F8F7' // TODO dark mode, color context
+      backgroundColor: '#F6F8F7' // TODO support dark mode -> useColorContext hook (rewrite class comp)
+    },
+    '& th': {
+      padding: '10px 10px 10px 0'
     }
   })
 }
@@ -59,9 +51,7 @@ class PledgeList extends Component {
     })
   }
   render() {
-    const { pledges, t, highlightId, me } = this.props
-
-    // const colorContext = this.context
+    const { pledges } = this.props
 
     return (
       <table {...styles.list}>
@@ -70,10 +60,10 @@ class PledgeList extends Component {
           <th>Produkt</th>
           <th>Preis</th>
         </tr>
-        {pledges.map(p => {
-          const flattenedPayments = p.payments.map(payment => {
+        {pledges.map(pledge => {
+          const flattenedPayments = pledge.payments.map(payment => {
             return {
-              name: p.package.name,
+              name: pledge.package.name,
               ...payment
             }
           })

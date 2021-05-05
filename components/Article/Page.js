@@ -481,7 +481,16 @@ const ArticlePage = ({
                           </TitleBlock>
                         )}
                         {isEditor && repoId ? (
-                          <Center style={{ padding: '30px 15px 0 15px' }}>
+                          <Center
+                            style={{
+                              padding: '30px 15px 0 15px',
+                              display: 'flex',
+                              justifyContent:
+                                titleAlign === 'center'
+                                  ? 'center'
+                                  : 'flex-start'
+                            }}
+                          >
                             <IconButton
                               Icon={EditIcon}
                               href={`${PUBLIKATOR_BASE_URL}/repo/${repoId}/tree`}

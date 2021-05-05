@@ -4,7 +4,7 @@ import Router from 'next/router'
 import { parse, format } from 'url'
 
 import withMe from '../lib/apollo/withMe'
-import track from '../lib/piwik'
+import track from '../lib/matomo'
 import { payload, getUtmParams } from '../lib/utils/track'
 
 import { PUBLIC_BASE_URL } from '../lib/constants'

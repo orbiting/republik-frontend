@@ -18,6 +18,7 @@ import Consents, { getConsentsError } from '../Pledge/Consents'
 
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
+import { Router } from '../../lib/routes'
 import { reportError } from '../../lib/errors'
 
 import ErrorMessage from '../ErrorMessage'
@@ -62,18 +63,14 @@ class TokenAuthorization extends Component {
   }
 
   goTo = (type, email, context) => {
-    const { goTo, router } = this.props
-    if (goTo) {
-      goTo(type, email, context)
+    const { router } = this.props
+    if (this.props.goTo) {
+      this.props.goTo(type, email, context)
       return
     }
     router.replace({
-      pathname: '/mitteilung',
-      query: {
-        type,
-        email,
-        context
-      }
+      pathName: '/benachrichtigung',
+      query: { type, email, context }
     })
   }
 

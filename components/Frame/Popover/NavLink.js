@@ -112,7 +112,7 @@ const NavLink = ({
   const isActive = href === active
 
   return (
-    <Link href={href} prefetch={prefetch ? undefined : prefetch}>
+    <Link href={href} prefetch={prefetch ? undefined : prefetch} passHref>
       <NavA
         title={title}
         inline={inline}

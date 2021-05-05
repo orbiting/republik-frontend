@@ -27,7 +27,12 @@ const DiscussionLinkButton = ({
   )
 
   return (
-    <Link path={discussionPath} query={discussionQuery} passHref>
+    <Link
+      href={{
+        pathname: discussionPath,
+        query: discussionQuery
+      }}
+    >
       <IconButton
         Icon={DiscussionIcon}
         label={

@@ -91,7 +91,7 @@ export const SecondaryNav = ({
             {t('navbar/feed')}
           </NavLink>
           <NavLink
-            href='/diskussion'
+            href='/dialog'
             active={active}
             formatColor={colors.primary}
             minifeed

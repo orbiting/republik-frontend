@@ -1,5 +1,3 @@
-import { routes } from '../../lib/routes'
-
 export const getDiscussionLinkProps = (
   linkedDiscussion,
   ownDiscussion,
@@ -33,8 +31,7 @@ export const getDiscussionLinkProps = (
     undefined
   const discussionPath =
     (isLinkedDiscussion && linkedDiscussion.path) ||
-    (isArticleAutoDiscussion &&
-      routes.find(r => r.name === 'discussion').toPath()) ||
+    (isArticleAutoDiscussion && '/dialog') ||
     (isDiscussionPage && path) ||
     undefined
   const discussionQuery = isArticleAutoDiscussion

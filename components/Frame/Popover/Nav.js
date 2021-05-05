@@ -86,7 +86,7 @@ const Nav = ({
                 )}
                 <NavLink
                   large
-                  href='/diskussion'
+                  href='/dialog'
                   title={t('navbar/discussion')}
                   active={active}
                   closeHandler={closeHandler}

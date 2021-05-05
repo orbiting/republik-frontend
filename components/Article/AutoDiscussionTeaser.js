@@ -14,7 +14,7 @@ const AutoDiscussionTeaser = ({ t, discussionId }) => (
           <Link
             key='feedback'
             href={{
-              pathname: '/diskussion',
+              pathname: '/dialog',
               query: { t: 'article', id: discussionId }
             }}
           >

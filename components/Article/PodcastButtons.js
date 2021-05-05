@@ -4,7 +4,7 @@ import { css } from 'glamor'
 import { fontStyles, IconButton } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import { trackEvent } from '../../lib/piwik'
+import { trackEvent } from '../../lib/matomo'
 import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 

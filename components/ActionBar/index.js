@@ -18,7 +18,7 @@ import { withEditor } from '../Auth/checkRoles'
 
 import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
-import { trackEvent } from '../../lib/piwik'
+import { trackEvent } from '../../lib/matomo'
 import { getDiscussionLinkProps } from './utils'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 import PdfOverlay, { getPdfUrl } from '../Article/PdfOverlay'

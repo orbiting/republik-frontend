@@ -10,7 +10,7 @@ import Consents, { getConsentsError } from '../../Pledge/Consents'
 import withT from '../../../lib/withT'
 import withMe, { meQuery } from '../../../lib/apollo/withMe'
 import isEmail from 'validator/lib/isEmail'
-import { trackEvent } from '../../../lib/piwik'
+import { trackEvent } from '../../../lib/matomo'
 
 import SwitchBoard from '../../Auth/SwitchBoard'
 import FieldSet from '../../FieldSet'

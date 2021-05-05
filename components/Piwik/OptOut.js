@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState, useRef } from 'react'
 import { Label, A } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import track from '../../lib/piwik'
+import track from '../../lib/matomo'
 
 import Anchor from '../Anchor'
 
@@ -36,9 +36,9 @@ const OptOut = ({ t }) => {
   return (
     <span>
       <Anchor id='tracking' />
-      <Label>{t('piwik/optOut/label')}</Label>
+      <Label>{t('matomo/optOut/label')}</Label>
       <br />
-      {!!status && t(`piwik/optOut/status/${status}`)}
+      {!!status && t(`matomo/optOut/status/${status}`)}
       {(status === 'off' || status === 'on') && (
         <A
           href='#tracking'
@@ -56,10 +56,10 @@ const OptOut = ({ t }) => {
           }}
         >
           {' '}
-          {t(`piwik/optOut/turn/${status === 'off' ? 'on' : 'off'}`)}
+          {t(`matomo/optOut/turn/${status === 'off' ? 'on' : 'off'}`)}
         </A>
       )}
-      <noscript>{t('piwik/optOut/noscript')}</noscript>
+      <noscript>{t('matomo/optOut/noscript')}</noscript>
     </span>
   )
 }

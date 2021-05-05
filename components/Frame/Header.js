@@ -12,7 +12,7 @@ import { BackIcon } from '@project-r/styleguide/icons'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { shouldIgnoreClick } from '../../lib/utils/link'
+import { shouldIgnoreClick, cleanAsPath } from '../../lib/utils/link'
 import NotificationIcon from '../Notifications/NotificationIcon'
 import HLine from '../Frame/HLine'
 
@@ -37,7 +37,6 @@ import {
   TRANSITION_MS
 } from '../constants'
 import Link from 'next/link'
-import { cleanAsPath } from '../../lib/utils/helpers'
 
 const BACK_BUTTON_SIZE = 24
 

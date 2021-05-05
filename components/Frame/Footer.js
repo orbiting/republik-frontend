@@ -274,8 +274,10 @@ const Footer = ({
             {!inNativeIOSApp && (
               <>
                 <LazyLink
-                  href='/angebote'
-                  params={{ group: me ? 'GIVE' : undefined }}
+                  href={{
+                    pathname: '/angebote',
+                    query: { group: me ? 'GIVE' : undefined }
+                  }}
                 >
                   <a>{t(me ? 'footer/me/give' : 'footer/offers')}</a>
                 </LazyLink>

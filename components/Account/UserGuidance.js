@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
-import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 
@@ -12,6 +11,7 @@ import { MainContainer } from '../Frame'
 import { P } from './Elements'
 
 import { Interaction, Editorial } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const styles = {
   list: css({
@@ -68,14 +68,14 @@ const UserGuidance = ({ t, inNativeIOSApp, signOut }) => (
                     </Editorial.A>
                   ),
                   pledgeLink: (
-                    <Link route='pledge' key='pledge' passHref>
+                    <Link href='/angebote' key='pledge'>
                       <Editorial.A>
                         {t('Account/noActiveMembership/pledgeLink')}
                       </Editorial.A>
                     </Link>
                   ),
                   claimLink: (
-                    <Link route='claim' key='claim' passHref>
+                    <Link href='/abholen' key='claim'>
                       <Editorial.A>
                         {t('Account/noActiveMembership/claimLink')}
                       </Editorial.A>

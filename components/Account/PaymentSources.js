@@ -5,8 +5,6 @@ import gql from 'graphql-tag'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
-import { Router } from '../../lib/routes'
-
 import { errorToString } from '../../lib/utils/errors'
 
 import FieldSet from '../FieldSet'
@@ -17,6 +15,7 @@ import { P } from './Elements'
 import { Button, InlineSpinner, colors } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { withRouter } from 'next/router'
 
 const objectValues = object => Object.keys(object).map(key => object[key])
 
@@ -112,10 +111,10 @@ class PaymentSources extends Component {
       })
   }
   componentDidMount() {
-    const { query } = this.props
+    const { query, router } = this.props
     if (query.stripe) {
       this.checkStripeSource({ query })
-      Router.replaceRoute('account', {}, { shallow: true })
+      router.replace('/konto', {}, { shallow: true })
     }
   }
   render() {
@@ -224,6 +223,7 @@ const addSource = gql`
 export default compose(
   withT,
   withMe,
+  withRouter,
   graphql(addSource, {
     props: ({ mutate }) => ({
       addSource: source => {

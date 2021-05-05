@@ -3,7 +3,6 @@ import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Link } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
 
 import Frame from '../Frame'
@@ -14,6 +13,7 @@ import { Interaction, Editorial, A } from '@project-r/styleguide'
 
 import withAuthorization, { PageCenter } from './withAuthorization'
 import { withMembership } from './checkRoles'
+import Link from 'next/link'
 
 export const UnauthorizedMessage = compose(
   withT,
@@ -43,7 +43,7 @@ export const UnauthorizedMessage = compose(
                 <Interaction.P style={{ marginBottom: 20 }}>
                   {t.elements('withMembership/ios/unauthorized/claimText', {
                     claimLink: (
-                      <Link route='claim' key='claim' passHref>
+                      <Link href='/abholen' key='claim'>
                         <Editorial.A>
                           {t('withMembership/ios/unauthorized/claimLink')}
                         </Editorial.A>
@@ -61,7 +61,7 @@ export const UnauthorizedMessage = compose(
                 <Interaction.P>
                   {t.elements('withMembership/ios/unauthorized/claimText', {
                     claimLink: (
-                      <Link route='claim' key='claim' passHref>
+                      <Link href='/abholen' key='claim'>
                         <Editorial.A>
                           {t('withMembership/ios/unauthorized/claimLink')}
                         </Editorial.A>
@@ -82,12 +82,12 @@ export const UnauthorizedMessage = compose(
           <Interaction.P>
             {t.elements('withMembership/unauthorized', {
               buyLink: (
-                <Link key='pledge' route='pledge' passHref>
+                <Link key='pledge' href='/angebote'>
                   <A>{t('withMembership/unauthorized/buyText')}</A>
                 </Link>
               ),
               accountLink: (
-                <Link key='account' route='account' passHref>
+                <Link key='account' href='/konto'>
                   <A>{t('withMembership/unauthorized/accountText')}</A>
                 </Link>
               )
@@ -109,12 +109,12 @@ export const UnauthorizedMessage = compose(
               {description ||
                 t.elements('withMembership/signIn/note', {
                   buyLink: (
-                    <Link key='pledge' route='pledge' passHref>
+                    <Link key='pledge' href='/angebote'>
                       <A>{t('withMembership/signIn/note/buyText')}</A>
                     </Link>
                   ),
                   moreLink: (
-                    <Link key='index' route='index' passHref>
+                    <Link key='index' href='/'>
                       <A>{t('withMembership/signIn/note/moreText')}</A>
                     </Link>
                   )

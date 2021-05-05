@@ -18,7 +18,6 @@ import Consents, { getConsentsError } from '../Pledge/Consents'
 
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
-import { Router } from '../../lib/routes'
 import { reportError } from '../../lib/errors'
 
 import ErrorMessage from '../ErrorMessage'
@@ -26,6 +25,7 @@ import ErrorMessage from '../ErrorMessage'
 import Me from './Me'
 
 import withAuthorizeSession from './withAuthorizeSession'
+import { withRouter } from 'next/router'
 
 const styles = {
   actions: css({
@@ -62,11 +62,19 @@ class TokenAuthorization extends Component {
   }
 
   goTo = (type, email, context) => {
-    if (this.props.goTo) {
-      this.props.goTo(type, email, context)
+    const { goTo, router } = this.props
+    if (goTo) {
+      goTo(type, email, context)
       return
     }
-    Router.replaceRoute('notifications', { type, email, context })
+    router.replace({
+      pathname: '/mitteilung',
+      query: {
+        type,
+        email,
+        context
+      }
+    })
   }
 
   authorize() {
@@ -416,6 +424,7 @@ const unauthorizedSessionQuery = gql`
 export default compose(
   withT,
   withAuthorizeSession,
+  withRouter,
   graphql(denySession, {
     props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
       deny: () =>

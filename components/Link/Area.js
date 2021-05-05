@@ -1,6 +1,7 @@
 import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import { Router } from '../../lib/routes'
+import { scrollTop } from '../../lib/utils/link'
 
 const hasAncestor = (node, predicate) => {
   if (predicate(node)) {
@@ -31,7 +32,7 @@ class AreaLink extends Component {
       .then(success => {
         if (!success) return
         if (scroll) {
-          window.scrollTo(0, 0)
+          scrollTop()
           document.body.focus()
         }
       })

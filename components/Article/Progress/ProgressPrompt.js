@@ -5,7 +5,6 @@ import { css } from 'glamor'
 import { WithMembership } from '../../Auth/withMembership'
 import withT from '../../../lib/withT'
 import { AnchorLink } from '../../Account/Anchors'
-import PathLink from '../../Link/Path'
 import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
 
 import {
@@ -16,6 +15,7 @@ import {
   mediaQueries,
   useColorContext
 } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const styles = {
   box: css({
@@ -55,9 +55,9 @@ const { H2, P, Emphasis } = Interaction
 export const getFeatureDescription = t =>
   t.elements('article/progressprompt/description/feature', {
     link: PROGRESS_EXPLAINER_PATH ? (
-      <PathLink path={PROGRESS_EXPLAINER_PATH} passHref key='link'>
+      <Link href={PROGRESS_EXPLAINER_PATH} key='link'>
         <A>{t('article/progressprompt/description/feature/link')}</A>
-      </PathLink>
+      </Link>
     ) : null
   })
 

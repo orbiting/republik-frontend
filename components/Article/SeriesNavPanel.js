@@ -6,7 +6,6 @@ import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
 import PathLink from '../Link/Path'
-import { cleanAsPath } from '../../lib/routes'
 
 import {
   Editorial,
@@ -15,6 +14,7 @@ import {
   mediaQueries,
   TeaserFrontCredit
 } from '@project-r/styleguide'
+import { cleanAsPath } from '../../lib/utils/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
 

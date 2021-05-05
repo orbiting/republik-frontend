@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 import { Interaction, A } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 
 const { H2, P } = Interaction
 
@@ -15,7 +15,7 @@ export default withT(({ t }) => (
     <P>
       {t.elements('Account/Notifications/Legacy/text', {
         link: (
-          <Link key='link' route='subscriptionsSettings' passHref>
+          <Link key='link' href='/benachrichtigungen/einstellungen'>
             <A>{t('Account/Notifications/Legacy/link')}</A>
           </Link>
         )

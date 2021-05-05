@@ -6,7 +6,6 @@ import withMe from '../../lib/apollo/withMe'
 
 import { timeFormat, chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
-import { Link } from '../../lib/routes'
 
 import List, { Item } from '../List'
 import { Item as AccountItem } from './Elements'
@@ -16,6 +15,7 @@ import GiveMemberships from './Memberships/Give'
 import query from './belongingsQuery'
 
 import { A } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -172,7 +172,12 @@ class PledgeList extends Component {
           )
         })}
         <div style={{ marginTop: 30 }}>
-          <Link route='pledge' params={{ group: 'GIVE' }} passHref>
+          <Link
+            href={{
+              pathname: '/angebote',
+              query: { group: 'GIVE' }
+            }}
+          >
             <A>{t('account/pledges/promo')}</A>
           </Link>
         </div>

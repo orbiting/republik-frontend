@@ -3,13 +3,13 @@ import { compose, graphql } from 'react-apollo'
 
 import { Interaction, Editorial } from '@project-r/styleguide'
 
-import { Link } from '../../lib/routes'
 import { MainContainer } from '../Frame'
 import { timeFormat } from '../../lib/utils/format'
 import Box from '../Frame/Box'
 import query from '../Account/belongingsQuery'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
+import Link from 'next/link'
 
 const { P } = Interaction
 
@@ -35,7 +35,7 @@ const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
           </P>
           {!inNativeIOSApp && (
             <P>
-              <Link route='pledge' key='pledge' passHref>
+              <Link href='/angebote' key='pledge'>
                 <Editorial.A>
                   {t('Account/Access/Grants/link/pledges')}
                 </Editorial.A>

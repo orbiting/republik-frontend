@@ -12,7 +12,7 @@ import { BackIcon } from '@project-r/styleguide/icons'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { shouldIgnoreClick, cleanAsPath } from '../../lib/utils/link'
+import { shouldIgnoreClick, cleanAsPath, scrollTop } from '../../lib/utils/link'
 import NotificationIcon from '../Notifications/NotificationIcon'
 import HLine from '../Frame/HLine'
 
@@ -109,10 +109,10 @@ const Header = ({
     }
     e.preventDefault()
     if (cleanAsPath(router.asPath) === href) {
-      window.scrollTo(0, 0)
+      scrollTop()
       closeHandler()
     } else {
-      router.push(href).then(() => window.scrollTo(0, 0))
+      router.push(href)
     }
   }
 
@@ -220,7 +220,7 @@ const Header = ({
                       window.history.back()
                       setTimeout(() => {
                         if (!routeChangeStarted) {
-                          router.replace('/').then(() => window.scrollTo(0, 0))
+                          router.replace('/')
                         }
                       }, 200)
                     }

@@ -10,8 +10,6 @@ import { errorToString } from '../../../lib/utils/errors'
 import ErrorMessage from '../../ErrorMessage'
 import { Item, P } from '../Elements'
 
-import { Router, Link } from '../../../lib/routes'
-
 import {
   Loader,
   A,
@@ -23,6 +21,8 @@ import {
 } from '@project-r/styleguide'
 
 import myBelongings from '../belongingsQuery'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -63,6 +63,7 @@ const CancelMembership = ({
   cancellationCategories,
   t
 }) => {
+  const router = useRouter()
   const [cancellationType, setCancellationType] = useState('')
 
   const needsReason = ['OTHER', 'EDITORIAL'].includes(cancellationType)
@@ -86,9 +87,9 @@ const CancelMembership = ({
   useEffect(() => {
     if (redirectMemberships && redirectMemberships.length) {
       if (redirectMemberships.length > 1) {
-        Router.pushRoute('account')
+        router.push('/konto')
       } else {
-        Router.replaceRoute('cancel', {
+        router.replace('/abgang', {
           membershipId: redirectMemberships[0].id
         })
       }
@@ -122,11 +123,11 @@ const CancelMembership = ({
                 {t('memberships/cancel/confirmation')}
               </Interaction.P>
               <Interaction.P style={{ margin: '20px 0' }}>
-                <Link route='cockpit' passHref>
+                <Link href='/cockpit'>
                   <A>{t('memberships/cancel/confirmation/cockpit')}</A>
                 </Link>
                 <br />
-                <Link route='account' passHref>
+                <Link href='/konto'>
                   <A>{t('memberships/cancel/accountLink')}</A>
                 </Link>
               </Interaction.P>

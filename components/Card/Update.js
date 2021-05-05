@@ -24,6 +24,7 @@ import CampaignBudget from './Form/CampaignBudget'
 import VestedInterests from './Form/VestedInterests'
 import Financing from './Form/Financing'
 import { styles as formStyles } from './Form/styles'
+import { scrollTop } from '../../lib/utils/link'
 
 const { H1, H2, P } = Interaction
 
@@ -107,7 +108,7 @@ const Update = props => {
             setIsDirty(false)
             setLoading(false)
             setFinancingExpanded(false)
-            window.scrollTo(0, 0)
+            scrollTop()
           })
           .catch(catchError)
       }

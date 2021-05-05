@@ -36,6 +36,7 @@ import CustomizePackage, {
   getOptionFieldKey,
   getOptionPeriodsFieldKey
 } from './CustomizePackage'
+import { scrollTop } from '../../lib/utils/link'
 
 const { H1, H2, P } = Interaction
 
@@ -304,7 +305,7 @@ class Pledge extends Component {
     const prevPkg = this.getPkg()
     this.props.refetchPackages().then(() => {
       if (this.getPkg() !== prevPkg) {
-        window.scrollTo(0, 0)
+        scrollTop()
       }
     })
   }

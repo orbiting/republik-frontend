@@ -15,7 +15,7 @@ import {
 
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { trackEvent } from '../../lib/piwik'
+import { trackEvent } from '../../lib/matomo'
 import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 
 import copyToClipboard from 'clipboard-copy'

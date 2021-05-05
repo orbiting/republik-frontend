@@ -19,7 +19,7 @@ import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 import { useFontSize } from '../../lib/fontSize'
-import { trackEvent } from '../../lib/piwik'
+import { trackEvent } from '../../lib/matomo'
 
 const FONT_SIZE_STEP = 3.2
 const MIN_FONT_SIZE = 8

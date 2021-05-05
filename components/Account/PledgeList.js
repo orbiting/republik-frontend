@@ -5,7 +5,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
 import { timeFormat, chfFormat } from '../../lib/utils/format'
-import track from '../../lib/piwik'
+import track from '../../lib/matomo'
 import { Link } from '../../lib/routes'
 
 import List, { Item } from '../List'

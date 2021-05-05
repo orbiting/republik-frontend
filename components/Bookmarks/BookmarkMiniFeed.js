@@ -10,9 +10,9 @@ import {
 
 import BookmarkButton from '../ActionBar/BookmarkButton'
 import UserProgress from '../ActionBar/UserProgress'
-import Link from '../Link/Path'
 
 import { getCollectionItems } from './queries'
+import Link from 'next/link'
 
 const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
   const [colorScheme] = useColorContext()
@@ -51,7 +51,7 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                     key={node.id}
                   >
                     <div {...styles.tileHeadlineContainer}>
-                      <Link path={path} passHref>
+                      <Link href={path}>
                         <a
                           onClick={() => closeHandler()}
                           {...styles.tileHeadline}

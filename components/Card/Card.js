@@ -4,7 +4,6 @@ import { css } from 'glamor'
 import { Interaction, colors, IconButton } from '@project-r/styleguide'
 import { CheckIcon, DiscussionIcon } from '@project-r/styleguide/icons'
 
-import { Link } from '../../lib/routes'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { countFormat } from '../../lib/utils/format'
 
@@ -18,6 +17,7 @@ import sharedStyles from '../sharedStyles'
 import { SmallParagraph, Finance } from './Shared'
 
 import { rgb } from 'd3-color'
+import Link from 'next/link'
 
 export const MEDIUM_MIN_WIDTH = 360
 
@@ -251,17 +251,18 @@ const Card = ({
           {!!statement && (
             <>
               <Link
-                route='cardGroup'
-                params={{
-                  group: differentContext ? contextGroup.slug : group.slug,
-                  suffix: 'diskussion',
-                  focus: statement.id,
-                  ...medianSmartspiderQuery,
-                  ...(differentContext && {
-                    discussion: group.discussion.id
-                  })
+                href={{
+                  pathname: '/wahltindaer/[group]/[...suffix]',
+                  query: {
+                    group: differentContext ? contextGroup.slug : group.slug,
+                    suffix: 'diskussion',
+                    focus: statement.id,
+                    ...medianSmartspiderQuery,
+                    ...(differentContext && {
+                      discussion: group.discussion.id
+                    })
+                  }
                 }}
-                passHref
               >
                 <IconButton
                   Icon={DiscussionIcon}

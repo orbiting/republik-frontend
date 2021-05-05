@@ -153,7 +153,7 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   large
-                  route='/impressum'
+                  href='/impressum'
                   active={active}
                   closeHandler={closeHandler}
                 >

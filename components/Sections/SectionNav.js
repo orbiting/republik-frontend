@@ -2,7 +2,7 @@ import React from 'react'
 import { mediaQueries, fontStyles, FormatTag } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { ascending } from 'd3-array'
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 
 const styles = {
   container: css({
@@ -42,7 +42,7 @@ const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => {
         .map(d => {
           return (
             <div key={d.id} {...styles.item}>
-              <Link route={d.meta.path} passHref key={d.meta.path}>
+              <Link href={d.meta.path} key={d.meta.path}>
                 <a {...styles.link} href={d.meta.path}>
                   <FormatTag
                     color={d.meta.color || color}

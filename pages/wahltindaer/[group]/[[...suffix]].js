@@ -5,7 +5,6 @@ import gql from 'graphql-tag'
 
 import withT from '../../../lib/withT'
 import withMe from '../../../lib/apollo/withMe'
-import { routes } from '../../../lib/routes'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../../lib/constants'
 
 import { useDebounce } from '@project-r/styleguide'
@@ -211,11 +210,7 @@ const Inner = ({
                     count: data.cardGroup.cards.totalCount
                   }
                 ),
-                url: `${PUBLIC_BASE_URL}${routes
-                  .find(r => r.name === 'cardGroup')
-                  .toPath({
-                    group: data.cardGroup.slug
-                  })}`,
+                url: `${PUBLIC_BASE_URL}/wahltindaer/${data.cardGroup.slug}`,
                 image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
               }}
             />

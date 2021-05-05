@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect, useState, useRef } from 'react'
+import React, { Fragment, useEffect, useState, useRef } from 'react'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -6,7 +6,6 @@ import AutosizeInput from 'react-textarea-autosize'
 
 import { timeFormat } from '../../../lib/utils/format'
 import withT from '../../../lib/withT'
-import { errorToString } from '../../../lib/utils/errors'
 import ErrorMessage from '../../ErrorMessage'
 import { Item, P } from '../Elements'
 
@@ -201,12 +200,13 @@ const CancelMembership = ({
               <Interaction.P style={{ marginTop: 20 }}>
                 {t('memberships/cancel/userPrice')}{' '}
                 <Link
-                  route='pledge'
-                  params={{
-                    package: membership.canProlong ? 'PROLONG' : 'ABO',
-                    userPrice: 1
+                  href={{
+                    pathName: '/angebote',
+                    query: {
+                      package: membership.canProlong ? 'PROLONG' : 'ABO',
+                      userPrice: 1
+                    }
                   }}
-                  passHref
                 >
                   <A>{t('memberships/cancel/userPriceLink')}</A>
                 </Link>
@@ -252,7 +252,7 @@ const CancelMembership = ({
             </Button>
             <br />
             <br />
-            <Link route='account' passHref>
+            <Link href='/konto'>
               <A>{t('memberships/cancel/accountLink')}</A>
             </Link>
           </Fragment>

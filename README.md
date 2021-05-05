@@ -91,7 +91,7 @@ EMAIL_IR=ir@example.com
 EMAIL_PAYMENT=payment@example.com
 ```
 
-### Piwik
+### Matomo
 
 You can enable tracking by setting a base url and site id:
 

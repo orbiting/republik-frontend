@@ -26,9 +26,9 @@ import {
   Interaction,
   Button,
   Checkbox,
-  colors,
   InlineSpinner,
-  Label
+  Label,
+  useColorContext
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
@@ -55,6 +55,8 @@ const getRequiredConsents = ({ requiresStatutes }) =>
   ['PRIVACY', 'TOS', requiresStatutes && 'STATUTE'].filter(Boolean)
 
 const SubmitWithHooks = props => {
+  const [colorScheme] = useColorContext()
+
   const { t } = props
   const addressFields = useMemo(() => getAddressFields(t), [t])
 
@@ -91,6 +93,7 @@ const SubmitWithHooks = props => {
   return (
     <Submit
       {...props}
+      colorScheme={colorScheme}
       userName={userName}
       userAddress={userAddress}
       addressState={addressState}
@@ -551,7 +554,8 @@ class Submit extends Component {
       shippingAddressState,
       syncAddresses,
       setSyncAddresses,
-      packageGroup
+      packageGroup,
+      colorScheme
     } = this.props
 
     const errorMessages = this.getErrorMessages()
@@ -617,15 +621,28 @@ class Submit extends Component {
           </div>
         )}
         {!!submitError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>{submitError}</P>
+          <P
+            {...colorScheme.set('color', 'error')}
+            style={{ marginBottom: 40 }}
+          >
+            {submitError}
+          </P>
         )}
         {!!paymentError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>
+          <P
+            {...colorScheme.set('color', 'error')}
+            style={{ marginBottom: 40 }}
+          >
             {paymentError}
           </P>
         )}
         {!!signInError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>{signInError}</P>
+          <P
+            {...colorScheme.set('color', 'error')}
+            style={{ marginBottom: 40 }}
+          >
+            {signInError}
+          </P>
         )}
         {loading ? (
           <div style={{ textAlign: 'center' }}>
@@ -636,7 +653,10 @@ class Submit extends Component {
         ) : (
           <div>
             {!!this.state.showErrors && errorMessages.length > 0 && (
-              <div style={{ color: colors.error, marginBottom: 40 }}>
+              <div
+                {...colorScheme.set('color', 'error')}
+                style={{ marginBottom: 40 }}
+              >
                 {errorMessages.map(({ category, messages }, i) => (
                   <Fragment key={i}>
                     {category}

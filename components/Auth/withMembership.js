@@ -43,7 +43,7 @@ export const UnauthorizedMessage = compose(
                 <Interaction.P style={{ marginBottom: 20 }}>
                   {t.elements('withMembership/ios/unauthorized/claimText', {
                     claimLink: (
-                      <Link href='/abholen' key='claim'>
+                      <Link href='/abholen' key='claim' passHref>
                         <Editorial.A>
                           {t('withMembership/ios/unauthorized/claimLink')}
                         </Editorial.A>
@@ -61,7 +61,7 @@ export const UnauthorizedMessage = compose(
                 <Interaction.P>
                   {t.elements('withMembership/ios/unauthorized/claimText', {
                     claimLink: (
-                      <Link href='/abholen' key='claim'>
+                      <Link href='/abholen' key='claim' passHref>
                         <Editorial.A>
                           {t('withMembership/ios/unauthorized/claimLink')}
                         </Editorial.A>
@@ -82,12 +82,12 @@ export const UnauthorizedMessage = compose(
           <Interaction.P>
             {t.elements('withMembership/unauthorized', {
               buyLink: (
-                <Link key='pledge' href='/angebote'>
+                <Link key='pledge' href='/angebote' passHref>
                   <A>{t('withMembership/unauthorized/buyText')}</A>
                 </Link>
               ),
               accountLink: (
-                <Link key='account' href='/konto'>
+                <Link key='account' href='/konto' passHref>
                   <A>{t('withMembership/unauthorized/accountText')}</A>
                 </Link>
               )
@@ -109,12 +109,12 @@ export const UnauthorizedMessage = compose(
               {description ||
                 t.elements('withMembership/signIn/note', {
                   buyLink: (
-                    <Link key='pledge' href='/angebote'>
+                    <Link key='pledge' href='/angebote' passHref>
                       <A>{t('withMembership/signIn/note/buyText')}</A>
                     </Link>
                   ),
                   moreLink: (
-                    <Link key='index' href='/'>
+                    <Link key='index' href='/' passHref>
                       <A>{t('withMembership/signIn/note/moreText')}</A>
                     </Link>
                   )

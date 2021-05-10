@@ -35,7 +35,7 @@ const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
           </P>
           {!inNativeIOSApp && (
             <P>
-              <Link href='/angebote' key='pledge'>
+              <Link href='/angebote' key='pledge' passHref>
                 <Editorial.A>
                   {t('Account/Access/Grants/link/pledges')}
                 </Editorial.A>

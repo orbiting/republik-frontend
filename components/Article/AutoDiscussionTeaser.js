@@ -17,6 +17,7 @@ const AutoDiscussionTeaser = ({ t, discussionId }) => (
               pathname: '/dialog',
               query: { t: 'article', id: discussionId }
             }}
+            passHref
           >
             <A>{t('article/autodiscussionteaser/linktext')}</A>
           </Link>

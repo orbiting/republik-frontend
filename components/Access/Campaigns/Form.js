@@ -161,6 +161,7 @@ class Form extends Component {
                       pathname: '/abholen',
                       query: { context: 'access' }
                     }}
+                    passHref
                   >
                     <A>
                       {t('Account/Access/Campaigns/Form/explanation/linkClaim')}

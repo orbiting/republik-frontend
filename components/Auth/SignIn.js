@@ -172,11 +172,11 @@ class SignIn extends Component {
         serverError={serverError}
         hints={
           <>
-            <Link href='/datenschutz'>
+            <Link href='/datenschutz' passHref>
               <Editorial.A>{t('signIn/privacy')}</Editorial.A>
             </Link>
             {' – '}
-            <Link href='/faq'>
+            <Link href='/faq' passHref>
               <Editorial.A>{t('signIn/faq')}</Editorial.A>
             </Link>
             {' – '}

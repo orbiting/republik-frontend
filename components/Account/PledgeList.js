@@ -177,6 +177,7 @@ class PledgeList extends Component {
               pathname: '/angebote',
               query: { group: 'GIVE' }
             }}
+            passHref
           >
             <A>{t('account/pledges/promo')}</A>
           </Link>

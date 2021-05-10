@@ -51,7 +51,7 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
                     key={node.id}
                   >
                     <div {...styles.tileHeadlineContainer}>
-                      <Link href={path}>
+                      <Link href={path} passHref>
                         <a
                           onClick={() => closeHandler()}
                           {...styles.tileHeadline}

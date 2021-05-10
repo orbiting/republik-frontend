@@ -11,7 +11,7 @@ import ProgressComponent from '../../components/Article/Progress'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import { AUDIO_PLAYER_HEIGHT } from '../constants'
-import Link from 'next/link'
+import Link from '../Link/Href'
 
 const AudioPlayerFrontend = ({ t }) => {
   const [colorScheme] = useColorContext()

@@ -62,7 +62,7 @@ const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
     )}
     {me && me.accessCampaigns && me.accessCampaigns.length > 0 && (
       <li {...styles.anchorListItem}>
-        <Link href='/teilen'>
+        <Link href='/teilen' passHref>
           <A>{t('Account/Access/Campaigns/title')}</A>
         </Link>
       </li>

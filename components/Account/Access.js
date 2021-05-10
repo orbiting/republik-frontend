@@ -13,7 +13,7 @@ export default withT(({ t }) => (
     <P>
       {t.elements('Account/Access/Legacy/text', {
         link: (
-          <Link key='link' href='/teilen'>
+          <Link key='link' href='/teilen' passHref>
             <A>{t('Account/Access/Legacy/link')}</A>
           </Link>
         )

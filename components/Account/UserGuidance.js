@@ -68,14 +68,14 @@ const UserGuidance = ({ t, inNativeIOSApp, signOut }) => (
                     </Editorial.A>
                   ),
                   pledgeLink: (
-                    <Link href='/angebote' key='pledge'>
+                    <Link href='/angebote' key='pledge' passHref>
                       <Editorial.A>
                         {t('Account/noActiveMembership/pledgeLink')}
                       </Editorial.A>
                     </Link>
                   ),
                   claimLink: (
-                    <Link href='/abholen' key='claim'>
+                    <Link href='/abholen' key='claim' passHref>
                       <Editorial.A>
                         {t('Account/noActiveMembership/claimLink')}
                       </Editorial.A>

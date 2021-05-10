@@ -55,7 +55,7 @@ const { H2, P, Emphasis } = Interaction
 export const getFeatureDescription = t =>
   t.elements('article/progressprompt/description/feature', {
     link: PROGRESS_EXPLAINER_PATH ? (
-      <Link href={PROGRESS_EXPLAINER_PATH} key='link'>
+      <Link href={PROGRESS_EXPLAINER_PATH} key='link' passHref>
         <A>{t('article/progressprompt/description/feature/link')}</A>
       </Link>
     ) : null

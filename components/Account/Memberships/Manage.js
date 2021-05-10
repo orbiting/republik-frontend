@@ -96,6 +96,7 @@ const Actions = ({
                       pathname: '/angebote',
                       query: { group: 'ABO' }
                     }}
+                    passHref
                   >
                     <A>
                       {t('memberships/MONTHLY_ABO/manage/upgrade/link/buyText')}

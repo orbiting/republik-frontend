@@ -32,6 +32,7 @@ const DiscussionLinkButton = ({
         pathname: discussionPath,
         query: discussionQuery
       }}
+      passHref
     >
       <IconButton
         Icon={DiscussionIcon}

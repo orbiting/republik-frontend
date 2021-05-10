@@ -122,11 +122,11 @@ const CancelMembership = ({
                 {t('memberships/cancel/confirmation')}
               </Interaction.P>
               <Interaction.P style={{ margin: '20px 0' }}>
-                <Link href='/cockpit'>
+                <Link href='/cockpit' passHref>
                   <A>{t('memberships/cancel/confirmation/cockpit')}</A>
                 </Link>
                 <br />
-                <Link href='/konto'>
+                <Link href='/konto' passHref>
                   <A>{t('memberships/cancel/accountLink')}</A>
                 </Link>
               </Interaction.P>
@@ -252,7 +252,7 @@ const CancelMembership = ({
             </Button>
             <br />
             <br />
-            <Link href='/konto'>
+            <Link href='/konto' passHref>
               <A>{t('memberships/cancel/accountLink')}</A>
             </Link>
           </Fragment>

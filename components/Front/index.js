@@ -6,9 +6,7 @@ import {
   colors,
   Editorial,
   InlineSpinner,
-  Interaction,
-  Center,
-  mediaQueries
+  Interaction
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import StatusError from '../StatusError'
@@ -29,11 +27,12 @@ import ActionBar from '../ActionBar'
 import { renderMdast } from 'mdast-react-render'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
-import { Link, cleanAsPath } from '../../lib/routes'
 
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 import { intersperse } from '../../lib/utils/helpers'
 import * as withData from './withData'
+import { cleanAsPath } from '../../lib/utils/link'
+import Link from 'next/link'
 
 const getDocument = gql`
   query getFront(
@@ -93,6 +92,7 @@ export const RenderFront = ({ t, isEditor, front, nodes }) => {
   const schema = useMemo(
     () =>
       createFrontSchema({
+        // TODO: fix this link
         Link: HrefLink,
         CommentLink,
         DiscussionLink,
@@ -202,7 +202,7 @@ const Front = ({
               )}
               {finite && (
                 <div style={{ marginBottom: 10 }}>
-                  <Link route='feed' passHref>
+                  <Link href='/feed'>
                     <Editorial.A style={{ color: colors.negative.text }}>
                       {t('front/finite/feed')}
                     </Editorial.A>
@@ -234,12 +234,7 @@ const Front = ({
                   {t.elements('front/chronology', {
                     years: intersperse(
                       [2020, 2019, 2018].map(year => (
-                        <Link
-                          key={year}
-                          route='overview'
-                          params={{ year }}
-                          passHref
-                        >
+                        <Link key={year} href={`${year}`}>
                           <Editorial.A style={{ color: colors.negative.text }}>
                             {year}
                           </Editorial.A>

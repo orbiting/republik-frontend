@@ -1,7 +1,6 @@
 import React from 'react'
-import { Link } from '../../lib/routes'
-import PathLink from '../Link/Path'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
+import Link from 'next/link'
 
 const DiscussionLink = ({ children, discussion }) => {
   let tab
@@ -19,9 +18,10 @@ const DiscussionLink = ({ children, discussion }) => {
   if (tab) {
     return (
       <Link
-        route='discussion'
-        params={{ t: tab, id: tab === 'general' ? undefined : discussion.id }}
-        passHref
+        href={{
+          pathname: '/dialog',
+          query: { t: tab, id: tab === 'general' ? undefined : discussion.id }
+        }}
       >
         {children}
       </Link>
@@ -35,11 +35,7 @@ const DiscussionLink = ({ children, discussion }) => {
         ? discussion.document.meta.path
         : discussion.path
     if (path) {
-      return (
-        <PathLink path={path} passHref>
-          {children}
-        </PathLink>
-      )
+      return <Link href={path}>{children}</Link>
     }
   }
   return children

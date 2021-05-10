@@ -3,7 +3,6 @@ import { compose, graphql } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { timeDay } from 'd3-time'
 
-import { questionnaireCrowdSlug } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import withInNativeApp from '../../lib/withInNativeApp'
 
@@ -85,7 +84,7 @@ const actionsQuery = gql`
       id
       ...SurviveActionsOnUser
     }
-    questionnaire(slug: "${questionnaireCrowdSlug}") {
+    questionnaire(slug: "1-minute") {
       id
       turnout {
         submitted

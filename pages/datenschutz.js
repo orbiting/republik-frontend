@@ -1,7 +1,7 @@
 import React from 'react'
 import Frame from '../components/Frame'
 
-import MatomoOptOut from '../../components/Matomo/OptOut'
+import MatomoOptOut from '../components/Matomo/OptOut'
 
 import md from 'markdown-in-js'
 import mdComponents from '../lib/utils/mdComponents'

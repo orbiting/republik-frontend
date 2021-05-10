@@ -1,9 +1,9 @@
 import React from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
+import { useRouter } from 'next/router'
 
 import withT from '../../lib/withT'
-import { Router } from '../../lib/routes'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 import { isAdmin } from './graphql/enhancers/isAdmin'
@@ -15,7 +15,7 @@ import { withDiscussionComments } from './graphql/enhancers/withDiscussionCommen
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
-import CommentLink, { getFocusUrl, getFocusRoute } from './CommentLink'
+import CommentLink, { getFocusHref, getFocusUrl } from './CommentLink'
 
 import {
   Loader,
@@ -88,6 +88,8 @@ const Comments = props => {
     markAsReadMutation,
     inNativeApp
   } = props
+
+  const router = useRouter()
 
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
@@ -261,9 +263,9 @@ const Comments = props => {
 
         const onReload = e => {
           e.preventDefault()
-          const result = getFocusRoute(discussion)
-          if (result) {
-            Router.replaceRoute(result.route, result.params).then(() => {
+          const href = getFocusHref(discussion)
+          if (href) {
+            router.replace(href).then(() => {
               props.discussionComments.refetch({
                 focusId: undefined
               })
@@ -320,10 +322,10 @@ const Comments = props => {
             },
             fetchMoreComments: ({ parentId, after, appendAfter }) => {
               if (board && parentId) {
-                const result = getFocusRoute(discussion)
-                if (result) {
-                  result.params.parent = parentId
-                  return Router.pushRoute(result.route, result.params)
+                const href = getFocusHref(discussion)
+                if (href) {
+                  href.query.parent = parentId
+                  return router.push(href)
                 }
               }
               return fetchMore({
@@ -470,10 +472,8 @@ const Comments = props => {
                   discussionId={discussion.id}
                   parent={parent}
                   onClose={() => {
-                    const result = getFocusRoute(discussion)
-                    return (
-                      result && Router.pushRoute(result.route, result.params)
-                    )
+                    const href = getFocusHref(discussion)
+                    return href && router.push(href)
                   }}
                 />
               )}

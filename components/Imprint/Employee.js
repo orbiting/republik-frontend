@@ -1,11 +1,10 @@
 import React from 'react'
-import { Link } from '../../lib/routes'
-
 import { Item } from '../Testimonial/List'
+import Link from 'next/link'
 
 const ProfileLink = ({ children, slug }) => {
   return (
-    <Link route='profile' params={{ slug }} passHref>
+    <Link href={`/~${slug}`} passHref>
       {children}
     </Link>
   )

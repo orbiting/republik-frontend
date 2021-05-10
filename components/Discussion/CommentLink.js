@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { routes, Link, matchPath } from '../../lib/routes'
-
 import {
   GENERAL_FEEDBACK_DISCUSSION_ID,
   PUBLIC_BASE_URL
 } from '../../lib/constants'
+import Link from 'next/link'
 
-export const getFocusRoute = (discussion, comment) => {
+export const getFocusHref = (discussion, comment) => {
   const focusParams = comment
     ? discussion.isBoard
       ? comment.parentIds && comment.parentIds.length
@@ -17,8 +16,8 @@ export const getFocusRoute = (discussion, comment) => {
     : {}
   if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
     return {
-      route: 'discussion',
-      params: { t: 'general', ...focusParams }
+      pathname: '/dialog',
+      query: { t: 'general', ...focusParams }
     }
   } else if (
     discussion.document &&
@@ -28,27 +27,28 @@ export const getFocusRoute = (discussion, comment) => {
     discussion.document.meta.ownDiscussion.id === discussion.id
   ) {
     return {
-      route: 'discussion',
-      params: { t: 'article', id: discussion.id, ...focusParams }
+      pathname: '/dialog',
+      query: { t: 'article', id: discussion.id, ...focusParams }
     }
   } else if (discussion.path) {
-    const result = matchPath(discussion.path)
-    if (result) {
-      return {
-        route: result.route,
-        params: { ...result.params, ...focusParams }
-      }
+    return {
+      pathname: discussion.path,
+      query: focusParams
     }
   }
 }
 
 export const getFocusUrl = (discussion, comment) => {
-  const focusRoute = getFocusRoute(discussion, comment)
-  if (focusRoute) {
-    return `${PUBLIC_BASE_URL}${routes
-      .find(r => r.name === focusRoute.route)
-      .getAs(focusRoute.params)}`
-  }
+  const focusHref = getFocusHref(discussion, comment)
+  // TODO
+  // pathname: discussion.path,
+  // query: focusParams
+  //if (focusHref) {
+  //  return `${PUBLIC_BASE_URL}${routes
+  //    .find(r => r.name === focusRoute.route)
+  //    .getAs(focusRoute.params)}`
+  //}
+  return 'test'
 }
 
 const CommentLink = ({ displayAuthor, comment, discussion, ...props }) => {
@@ -57,20 +57,12 @@ const CommentLink = ({ displayAuthor, comment, discussion, ...props }) => {
      * If the slug is not available, it means the profile is not accessible.
      */
     if (displayAuthor.slug) {
-      return (
-        <Link
-          {...props}
-          route='profile'
-          params={{ slug: displayAuthor.slug }}
-        />
-      )
+      return <Link {...props} href={`/~${displayAuthor.slug}`} />
     }
   } else if (discussion) {
-    const focusRoute = getFocusRoute(discussion, comment)
+    const focusRoute = getFocusHref(discussion, comment)
     if (focusRoute) {
-      return (
-        <Link {...props} route={focusRoute.route} params={focusRoute.params} />
-      )
+      return <Link {...props} href={getFocusHref(discussion, comment)} />
     }
   }
 

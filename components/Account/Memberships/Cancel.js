@@ -201,7 +201,7 @@ const CancelMembership = ({
                 {t('memberships/cancel/userPrice')}{' '}
                 <Link
                   href={{
-                    pathName: '/angebote',
+                    pathname: '/angebote',
                     query: {
                       package: membership.canProlong ? 'PROLONG' : 'ABO',
                       userPrice: 1

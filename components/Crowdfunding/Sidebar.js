@@ -2,7 +2,6 @@ import React, { Component, useState } from 'react'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { Link } from '../../lib/routes'
 
 import { PackageItem, PackageBuffer } from '../Pledge/Accordion'
 
@@ -14,6 +13,7 @@ import { HEADER_HEIGHT } from '../constants'
 import { SIDEBAR_WIDTH } from './constants'
 
 import { Button, A, mediaQueries } from '@project-r/styleguide'
+import Link from 'next/link'
 
 export const minWindowHeight = 400
 
@@ -72,9 +72,10 @@ const SidebarInner = props => {
         return (
           <Link
             key={pack.name}
-            route='pledge'
-            params={{ package: pack.name, ...pack.params }}
-            passHref
+            href={{
+              pathname: '/angebote',
+              query: { ...pack.params, package: pack.name }
+            }}
           >
             <PackageItem
               t={t}
@@ -89,7 +90,12 @@ const SidebarInner = props => {
       <PackageBuffer />
       <div style={{ margin: '20px 0' }}>
         <div {...styles.button}>
-          <Link route='pledge' params={primaryParams} passHref>
+          <Link
+            href={{
+              pathname: '/angebote',
+              query: primaryParams
+            }}
+          >
             <Button block primary>
               Mitmachen
             </Button>
@@ -97,21 +103,12 @@ const SidebarInner = props => {
         </div>
       </div>
       <div {...styles.links}>
-        {links.map((link, i) =>
-          link.route ? (
-            <Link key={i} route={link.route} params={link.params} passHref>
-              <A>
-                {link.text}
-                <br />
-              </A>
-            </Link>
-          ) : (
-            <A key={i} href={link.href}>
-              {link.text}
-              <br />
-            </A>
-          )
-        )}
+        {links.map((link, i) => (
+          <Link key={i} href={link.href}>
+            <A>{link.text}</A>
+            <br />
+          </Link>
+        ))}
       </div>
     </div>
   )

@@ -1,7 +1,6 @@
 import React from 'react'
-import Frame from '../components/Frame'
-
-import List from '../components/Events/List'
+import Frame from '../Frame'
+import List from './List'
 
 const Page = ({ serverContext }) => (
   <Frame raw>

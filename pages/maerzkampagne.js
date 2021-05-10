@@ -184,8 +184,10 @@ const Page = ({
 
   const links = [
     !activeMembership && {
-      route: 'pledge',
-      params: { package: 'ABO', userPrice: 1 },
+      href: {
+        pathname: '/angebote',
+        query: { package: 'ABO', userPrice: 1 }
+      },
       text: 'Sie können sich den Betrag nicht leisten?'
     },
     {

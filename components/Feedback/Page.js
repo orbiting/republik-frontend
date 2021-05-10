@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 import {
   UnauthorizedMessage,
   WithMembership,
@@ -106,9 +106,7 @@ const FeedbackPage = props => {
                     <Interaction.P>{t('feedback/lead')}</Interaction.P>
                     <Interaction.P style={{ marginTop: 10 }}>
                       <Link
-                        route='discussion'
-                        params={{ t: 'general' }}
-                        passHref
+                        href={{ pathname: '/dialog', query: { t: 'general' } }}
                       >
                         <A>{t('feedback/link/general')}</A>
                       </Link>
@@ -121,7 +119,7 @@ const FeedbackPage = props => {
           {!!tab && (
             <div style={{ marginBottom: 30 }}>
               <Editorial.Format color={colors.primary}>
-                <Link route='discussion' passHref>
+                <Link href='/dialog'>
                   <a style={{ color: 'inherit', textDecoration: 'none' }}>
                     {t('feedback/title')}
                   </a>
@@ -152,7 +150,7 @@ const FeedbackPage = props => {
                       title: ' ',
                       description: t.elements('feedback/unauthorized', {
                         buyLink: (
-                          <Link key='pledge' route='pledge' passHref>
+                          <Link href='/angebote'>
                             <A>{t('feedback/unauthorized/buyText')}</A>
                           </Link>
                         )
@@ -176,7 +174,7 @@ const FeedbackPage = props => {
                 share={false}
               />
               <div style={{ marginTop: 10 }}>
-                <Link route='community' passHref>
+                <Link href='/community'>
                   <A>{t('marketing/community/link')}</A>
                 </Link>
               </div>

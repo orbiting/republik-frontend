@@ -79,8 +79,10 @@ export const Page = ({ router, t, inNativeIOSApp }) => {
 
   const links = [
     {
-      route: 'pledge',
-      params: { package: 'ABO', userPrice: 1 },
+      href: {
+        pathname: '/angebote',
+        query: { package: 'ABO', userPrice: 1 }
+      },
       text: 'Sie können sich den Betrag nicht leisten?'
     },
     {

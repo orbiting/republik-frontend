@@ -26,7 +26,7 @@ class AreaLink extends Component {
     }
 
     const { route, params, replace, scroll } = this.props
-    const changeMethod = replace ? 'replaceRoute' : 'pushRoute'
+    const changeMethod = replace ? 'replace' : 'push'
 
     Router[changeMethod](route, params)
       .then(success => {

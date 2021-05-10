@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
 import { extent } from 'd3-array'
@@ -7,13 +6,11 @@ import gql from 'graphql-tag'
 import { timeMonth } from 'd3-time'
 
 import {
-  Button,
   Editorial,
   Interaction,
   Loader,
   colors,
-  LazyLoad,
-  ColorContextProvider
+  LazyLoad
 } from '@project-r/styleguide'
 import {
   ChartTitle,
@@ -27,7 +24,6 @@ import md from 'markdown-in-js'
 import Frame from '../components/Frame'
 import { light as mdComponents } from '../lib/utils/mdComponents'
 import { countFormat } from '../lib/utils/format'
-import HrefLink from '../components/Link/Href'
 
 import { PackageItem, PackageBuffer } from '../components/Pledge/Accordion'
 
@@ -42,9 +38,9 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 
 import { CROWDFUNDING, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
-import { Link } from '../lib/routes'
 import { swissTime } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
+import Link from 'next/link'
 
 const statusQuery = gql`
   query CockpitStatus(
@@ -108,9 +104,6 @@ const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 
 const YEAR_MONTH_FORMAT = '%Y-%m'
 const formatYearMonthKey = swissTime.format(YEAR_MONTH_FORMAT)
-const parseYearMonthKey = swissTime.parse(YEAR_MONTH_FORMAT)
-
-const formatYearMonth = swissTime.format('%B %Y')
 
 const Accordion = withInNativeApp(
   withT(
@@ -136,7 +129,7 @@ const Accordion = withInNativeApp(
           </Interaction.P>
           {me && me.activeMembership && (
             <>
-              <HrefLink href='/komplizin' passHref>
+              <Link href='/komplizin' passHref>
                 <PackageItem
                   t={t}
                   crowdfundingName={CROWDFUNDING}
@@ -145,7 +138,7 @@ const Accordion = withInNativeApp(
                   hover={hover}
                   setHover={setHover}
                 />
-              </HrefLink>
+              </Link>
             </>
           )}
           {!inNativeIOSApp && (
@@ -153,8 +146,10 @@ const Accordion = withInNativeApp(
               {shouldBuyProlong ? (
                 <>
                   <Link
-                    route='pledge'
-                    params={{ package: 'PROLONG', token: query.token }}
+                    href={{
+                      pathname: '/angebote',
+                      query: { package: 'PROLONG', token: query.token }
+                    }}
                     passHref
                   >
                     <PackageItem
@@ -168,11 +163,13 @@ const Accordion = withInNativeApp(
                     />
                   </Link>
                   <Link
-                    route='pledge'
-                    params={{
-                      package: 'PROLONG',
-                      price: 48000,
-                      token: query.token
+                    href={{
+                      pathname: '/angebote',
+                      query: {
+                        package: 'PROLONG',
+                        token: query.token,
+                        price: 48000
+                      }
                     }}
                     passHref
                   >
@@ -191,11 +188,13 @@ const Accordion = withInNativeApp(
                     />
                   </Link>
                   <Link
-                    route='pledge'
-                    params={{
-                      package: 'PROLONG',
-                      membershipType: 'BENEFACTOR_ABO',
-                      token: query.token
+                    href={{
+                      pathname: '/angebote',
+                      query: {
+                        package: 'PROLONG',
+                        membershipType: 'BENEFACTOR_ABO',
+                        token: query.token
+                      }
                     }}
                     passHref
                   >
@@ -216,8 +215,10 @@ const Accordion = withInNativeApp(
                 <>
                   {me && me.activeMembership ? (
                     <Link
-                      route='pledge'
-                      params={{ package: 'ABO_GIVE' }}
+                      href={{
+                        pathname: '/angebote',
+                        query: { package: 'ABO_GIVE' }
+                      }}
                       passHref
                     >
                       <PackageItem
@@ -232,8 +233,10 @@ const Accordion = withInNativeApp(
                   ) : (
                     <>
                       <Link
-                        route='pledge'
-                        params={{ package: 'MONTHLY_ABO' }}
+                        href={{
+                          pathname: '/angebote',
+                          query: { package: 'MONTHLY_ABO' }
+                        }}
                         passHref
                       >
                         <PackageItem
@@ -245,7 +248,13 @@ const Accordion = withInNativeApp(
                           price={2200}
                         />
                       </Link>
-                      <Link route='pledge' params={{ package: 'ABO' }} passHref>
+                      <Link
+                        href={{
+                          pathname: '/angebote',
+                          query: { package: 'ABO' }
+                        }}
+                        passHref
+                      >
                         <PackageItem
                           t={t}
                           crowdfundingName={CROWDFUNDING}
@@ -256,8 +265,10 @@ const Accordion = withInNativeApp(
                         />
                       </Link>
                       <Link
-                        route='pledge'
-                        params={{ package: 'BENEFACTOR' }}
+                        href={{
+                          pathname: '/angebote',
+                          query: { package: 'BENEFACTOR' }
+                        }}
                         passHref
                       >
                         <PackageItem
@@ -273,7 +284,13 @@ const Accordion = withInNativeApp(
                   )}
                 </>
               )}
-              <Link route='pledge' params={{ package: 'DONATE' }} passHref>
+              <Link
+                href={{
+                  pathname: '/angebote',
+                  query: { package: 'DONATE' }
+                }}
+                passHref
+              >
                 <PackageItem
                   t={t}
                   crowdfundingName={CROWDFUNDING}
@@ -316,7 +333,6 @@ const Page = ({
   data,
   t,
   me,
-  inNativeIOSApp,
   actionsLoading,
   questionnaire,
   shouldBuyProlong,
@@ -388,35 +404,22 @@ const Page = ({
             .concat(
               buckets
                 .slice(0, -3)
-                .reduce(
-                  (
-                    acc,
-                    {
-                      key,
-                      active,
-                      overdue,
-                      ended,
-                      pending,
-                      pendingSubscriptionsOnly
-                    }
-                  ) => {
-                    minMaxValues.push(active + overdue)
-                    minMaxValues.push(-ended)
+                .reduce((acc, { key, active, overdue, ended }) => {
+                  minMaxValues.push(active + overdue)
+                  minMaxValues.push(-ended)
 
-                    acc.push({
-                      month: key,
-                      label: labelMap.active,
-                      value: active + overdue
-                    })
-                    acc.push({
-                      month: key,
-                      label: labelMap.loss,
-                      value: -ended
-                    })
-                    return acc
-                  },
-                  []
-                )
+                  acc.push({
+                    month: key,
+                    label: labelMap.active,
+                    value: active + overdue
+                  })
+                  acc.push({
+                    month: key,
+                    label: labelMap.loss,
+                    value: -ended
+                  })
+                  return acc
+                }, [])
             )
 
           const pendingBuckets = buckets.slice(-7)

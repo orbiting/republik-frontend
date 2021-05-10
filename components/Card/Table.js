@@ -14,10 +14,10 @@ import {
   colors
 } from '@project-r/styleguide'
 
-import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
 
 import { cardColors } from './constants'
+import Link from 'next/link'
 
 const PADDING = 10
 
@@ -90,7 +90,7 @@ export const Table = ({ children }) => (
   </div>
 )
 
-export const TitleRow = ({ children, first }) => (
+export const TitleRow = ({ children }) => (
   <tr>
     <th colSpan='3' {...styles.titleTd}>
       {children}
@@ -130,7 +130,7 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
           )
       )
       .entries(nodes)
-      .map(({ key, values: cards }, listI) => (
+      .map(({ key, values: cards }) => (
         <Fragment key={key}>
           <tr>
             <th
@@ -153,7 +153,7 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
             </th>
             <th />
           </tr>
-          {cards.map(({ card, sub, pending }, i) => {
+          {cards.map(({ card, pending }, i) => {
             const dualCandidacy =
               !!card.payload.councilOfStates.candidacy &&
               !!card.payload.nationalCouncil.candidacy
@@ -165,11 +165,7 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
                 }}
               >
                 <td {...styles.td}>
-                  <Link
-                    route='profile'
-                    params={{ slug: card.user.slug }}
-                    passHref
-                  >
+                  <Link href={`/~${card.user.slug}`} passHref>
                     <Editorial.A>
                       {card.user.name}
                       {card.payload.party && `, ${card.payload.party}`}

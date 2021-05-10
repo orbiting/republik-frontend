@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
 import { max } from 'd3-array'
@@ -13,8 +12,7 @@ import {
   VideoPlayer,
   FigureImage,
   FigureCaption,
-  fontStyles,
-  ColorContextProvider
+  fontStyles
 } from '@project-r/styleguide'
 import {
   ChartTitle,
@@ -44,16 +42,15 @@ import {
 
 import { CROWDFUNDING, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
-import { Link, questionnaireCrowdSlug } from '../lib/routes'
 import { swissTime } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
+import Link from 'next/link'
 
 const END_DATE = '2020-03-31T10:00:00.000Z'
 
 const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 
 const YEAR_MONTH_FORMAT = '%Y-%m'
-const formatYearMonth = swissTime.format(YEAR_MONTH_FORMAT)
 
 const videos = [
   {
@@ -121,8 +118,10 @@ const Accordion = withInNativeApp(
           {shouldBuyProlong ? (
             <>
               <Link
-                route='pledge'
-                params={{ package: 'PROLONG', token: query.token }}
+                href={{
+                  pathname: '/angebote',
+                  query: { package: 'PROLONG', token: query.token }
+                }}
                 passHref
               >
                 <PackageItem
@@ -136,11 +135,13 @@ const Accordion = withInNativeApp(
                 />
               </Link>
               <Link
-                route='pledge'
-                params={{
-                  package: 'PROLONG',
-                  price: 48000,
-                  token: query.token
+                href={{
+                  pathname: '/angebote',
+                  query: {
+                    package: 'PROLONG',
+                    token: query.token,
+                    price: 48000
+                  }
                 }}
                 passHref
               >
@@ -159,11 +160,13 @@ const Accordion = withInNativeApp(
                 />
               </Link>
               <Link
-                route='pledge'
-                params={{
-                  package: 'PROLONG',
-                  membershipType: 'BENEFACTOR_ABO',
-                  token: query.token
+                href={{
+                  pathname: '/angebote',
+                  query: {
+                    package: 'PROLONG',
+                    membershipType: 'BENEFACTOR_ABO',
+                    token: query.token
+                  }
                 }}
                 passHref
               >
@@ -181,7 +184,13 @@ const Accordion = withInNativeApp(
           ) : (
             <>
               {me && me.activeMembership ? (
-                <Link route='pledge' params={{ package: 'ABO_GIVE' }} passHref>
+                <Link
+                  href={{
+                    pathname: '/angebote',
+                    query: { package: 'ABO_GIVE' }
+                  }}
+                  passHref
+                >
                   <PackageItem
                     t={t}
                     crowdfundingName={CROWDFUNDING}
@@ -194,8 +203,10 @@ const Accordion = withInNativeApp(
               ) : (
                 <>
                   <Link
-                    route='pledge'
-                    params={{ package: 'MONTHLY_ABO' }}
+                    href={{
+                      pathname: '/angebote',
+                      query: { package: 'MONTHLY_ABO' }
+                    }}
                     passHref
                   >
                     <PackageItem
@@ -207,7 +218,13 @@ const Accordion = withInNativeApp(
                       price={2200}
                     />
                   </Link>
-                  <Link route='pledge' params={{ package: 'ABO' }} passHref>
+                  <Link
+                    href={{
+                      pathname: '/angebote',
+                      query: { package: 'ABO' }
+                    }}
+                    passHref
+                  >
                     <PackageItem
                       t={t}
                       crowdfundingName={CROWDFUNDING}
@@ -218,8 +235,10 @@ const Accordion = withInNativeApp(
                     />
                   </Link>
                   <Link
-                    route='pledge'
-                    params={{ package: 'BENEFACTOR' }}
+                    href={{
+                      pathname: '/angebote',
+                      query: { package: 'BENEFACTOR' }
+                    }}
                     passHref
                   >
                     <PackageItem
@@ -235,7 +254,13 @@ const Accordion = withInNativeApp(
               )}
             </>
           )}
-          <Link route='pledge' params={{ package: 'DONATE' }} passHref>
+          <Link
+            href={{
+              pathname: '/angebote',
+              query: { package: 'DONATE' }
+            }}
+            passHref
+          >
             <PackageItem
               t={t}
               crowdfundingName={CROWDFUNDING}
@@ -272,24 +297,24 @@ const PrimaryCTA = withInNativeApp(
       return null
     }
 
-    let target
+    let href
     let text
     if (shouldBuyProlong) {
-      target = {
-        route: 'pledge',
-        params: { package: 'PROLONG', token: query.token }
+      href = {
+        pathname: '/angebote',
+        query: { package: 'PROLONG', token: query.token }
       }
       text = isReactivating ? 'Zurückkehren' : 'Treu bleiben'
     } else if (!(me && me.activeMembership)) {
-      target = {
-        route: 'pledge',
-        params: { package: 'ABO' }
+      href = {
+        pathname: '/angebote',
+        query: { package: 'ABO' }
       }
       text = 'Mitglied werden'
     } else if (questionnaire && questionnaire.shouldAnswer) {
-      target = {
-        route: 'questionnaireCrowd',
-        params: { slug: questionnaireCrowdSlug }
+      href = {
+        pathname: 'umfrage/1-minute',
+        query: { slug: '1-minute' }
       }
       text = 'Ich möchte der Republik helfen.'
     } else {
@@ -297,13 +322,13 @@ const PrimaryCTA = withInNativeApp(
     }
     if (children) {
       return (
-        <Link {...target} passHref>
+        <Link href={href} passHref>
           {children}
         </Link>
       )
     }
     return (
-      <Link {...target} passHref>
+      <Link href={href} passHref>
         <Button primary block={block}>
           {text}
         </Button>
@@ -361,15 +386,13 @@ const Page = ({
             lastMonth.activeEndOfMonth + lastMonth.pendingSubscriptionsOnly >
             19000
 
-          const currentYearMonth = formatYearMonth(new Date())
-
           return (
             <>
               <div style={{ marginBottom: 60 }}>
                 {md(mdComponents)`
 
 ${t('cockpit19/beforeNote')} ${(
-                  <Link route='cockpit' passHref>
+                  <Link href='/cockpit' passHref>
                     <Editorial.A>{t('cockpit19/beforeNote/link')}</Editorial.A>
                   </Link>
                 )}
@@ -587,11 +610,7 @@ ${
   ) : questionnaire && questionnaire.hasEnded ? (
     'Nicht mehr verfügbar.'
   ) : (
-    <Link
-      route='questionnaireCrowd'
-      params={{ slug: questionnaireCrowdSlug }}
-      passHref
-    >
+    <Link href='/umfrage/1-minute' passHref>
       <Editorial.A>Komplizin werden</Editorial.A>
     </Link>
   )
@@ -828,11 +847,7 @@ Wir freuen uns, wenn Sie Seite an Seite mit uns für die Zukunft der Republik k�
               <br />
 
               {questionnaire && questionnaire.shouldAnswer && (
-                <Link
-                  route='questionnaireCrowd'
-                  params={{ slug: questionnaireCrowdSlug }}
-                  passHref
-                >
+                <Link href='umfrage/1-minute' passHref>
                   <Button white block>
                     Komplizin werden
                   </Button>

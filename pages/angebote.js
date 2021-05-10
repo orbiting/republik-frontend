@@ -4,7 +4,6 @@ import { withRouter } from 'next/router'
 import { NarrowContainer } from '@project-r/styleguide'
 
 import { CROWDFUNDING_PLEDGE } from '../lib/constants'
-import { Router } from '../lib/routes'
 
 import Frame from '../components/Frame'
 import PledgeForm from '../components/Pledge/Form'
@@ -14,11 +13,9 @@ import { PSP_PLEDGE_ID_QUERY_KEYS } from '../components/Payment/constants'
 
 class PledgePage extends Component {
   render() {
-    const {
-      router: { query },
-      serverContext
-    } = this.props
+    const { router, serverContext } = this.props
 
+    const { query } = router
     const queryKey = PSP_PLEDGE_ID_QUERY_KEYS.find(key => query[key])
     const pledgeId = queryKey && query[queryKey].split('_')[0]
 
@@ -33,7 +30,7 @@ class PledgePage extends Component {
         serverContext.res.end()
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
-        Router.replaceRoute('cockpit', { token: query.token })
+        router.replace({ pathname: '/cockpit', query: { token: query.token } })
       }
     }
     if (query.goto === 'crowdfunding2') {
@@ -47,7 +44,10 @@ class PledgePage extends Component {
         serverContext.res.end()
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
-        Router.replaceRoute('crowdfunding2', { token: query.token })
+        router.replace({
+          pathname: '/maerzkampagne',
+          query: { token: query.token }
+        })
       }
     }
     if (query.goto === 'account') {
@@ -61,7 +61,7 @@ class PledgePage extends Component {
         serverContext.res.end()
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
-        Router.replaceRoute('account', { token: query.token })
+        router.replace({ pathname: '/konto', query: { token: query.token } })
       }
     }
 

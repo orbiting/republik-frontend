@@ -6,7 +6,6 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Link, Router } from '../../lib/routes'
 
 import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
@@ -43,6 +42,7 @@ import {
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
+import Link from 'next/link'
 
 const SIDEBAR_TOP = 20
 const PORTRAIT_SIZE_M = TESTIMONIAL_IMAGE_SIZE
@@ -588,7 +588,13 @@ const LoadedProfile = props => {
                   c.election &&
                   new Date() < new Date(c.election.candidacyEndDate) && (
                     <div style={{ marginTop: 10 }}>
-                      <Link route='voteSubmit' params={{ edit: true }} passHref>
+                      <Link
+                        href={{
+                          pathname: '/vote/genossenschaft/kandidieren',
+                          query: { edit: true }
+                        }}
+                        passHref
+                      >
                         <A>Kandidatur bearbeiten</A>
                       </Link>
                     </div>
@@ -660,11 +666,7 @@ const Profile = props => {
                   <p>
                     {t.elements('pages/profile/empty/content', {
                       link: (
-                        <Link
-                          route='profile'
-                          params={{ slug: me.username || me.id }}
-                          passHref
-                        >
+                        <Link href={`/~${me.username || me.id}`} passHref>
                           <A>{t('pages/profile/empty/content/linktext')}</A>
                         </Link>
                       )
@@ -713,7 +715,7 @@ export default compose(
           serverContext.res.end()
         } else if (process.browser) {
           // SSR does two two-passes: data (with serverContext) & render (without)
-          Router.replaceRoute('profile', { slug: targetSlug })
+          router.replace(`/~${targetSlug}`)
         }
       }
 

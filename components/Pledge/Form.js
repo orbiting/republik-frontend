@@ -5,7 +5,6 @@ import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
 import { withRouter } from 'next/router'
 
-import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import {
@@ -36,6 +35,7 @@ import CustomizePackage, {
   getOptionFieldKey,
   getOptionPeriodsFieldKey
 } from './CustomizePackage'
+import Link from 'next/link'
 
 const { H1, H2, P } = Interaction
 
@@ -375,7 +375,7 @@ class Pledge extends Component {
       }`,
       {
         accountLink: (
-          <Link key='account' route='account' passHref>
+          <Link key='account' href='/konto' passHref>
             <A>{t(`pledge/form/instruction/${queryPackage}/accountText`)}</A>
           </Link>
         )
@@ -634,13 +634,19 @@ class Pledge extends Component {
                                   e.preventDefault()
 
                                   const { router } = this.props
-                                  const params = { ...router.query }
-                                  delete params.token
-                                  Router.replaceRoute('pledge', params, {
-                                    shallow: true
-                                  }).then(() => {
-                                    this.refetchPackages()
-                                  })
+                                  const query = { ...router.query }
+                                  delete query.token
+                                  router
+                                    .replace(
+                                      { pathname: '/angebote', query },
+                                      undefined,
+                                      {
+                                        shallow: true
+                                      }
+                                    )
+                                    .then(() => {
+                                      this.refetchPackages()
+                                    })
                                 }}
                               >
                                 {t('pledge/contact/signIn/wrongToken')}

@@ -3,10 +3,10 @@ import SubscribeDebate from './SubscribeDebate'
 import SubscribeDocument from './SubscribeDocument'
 import SubscribeAuthors from './SubscribeAuthors'
 import { css } from 'glamor'
-import { A, fontFamilies } from '@project-r/styleguide'
-import { Link } from '../../lib/routes'
+import { A } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
+import Link from 'next/link'
 
 const styles = {
   container: css({
@@ -20,7 +20,7 @@ const styles = {
 const SettingsLink = withT(({ t }) => (
   <p {...styles.settings}>
     <small>
-      <Link key='link' route='subscriptionsSettings' passHref>
+      <Link key='link' href='/benachrichtigungen/einstellungen' passHref>
         <A>{t('SubscribeCallout/settingsLink')}</A>
       </Link>
     </small>

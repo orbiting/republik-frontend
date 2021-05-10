@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -10,7 +10,7 @@ import { Item as AccountItem, P } from '../Elements'
 
 import TokenPackageLink from '../../Link/TokenPackage'
 
-import { InlineSpinner, colors, Interaction, A } from '@project-r/styleguide'
+import { InlineSpinner, colors, A } from '@project-r/styleguide'
 import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -150,8 +150,10 @@ const Actions = ({
                   )}
                   <P>
                     <Link
-                      route='cancel'
-                      params={{ membershipId: membership.id }}
+                      href={{
+                        pathname: '/abgang',
+                        query: { membershipId: membership.id }
+                      }}
                       passHref
                     >
                       <A>

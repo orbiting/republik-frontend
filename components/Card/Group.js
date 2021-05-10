@@ -672,6 +672,7 @@ const Group = ({
           ...medianSmartspiderQuery
         }
       },
+      undefined,
       { shallow: true }
     )
     setOverlay(false)
@@ -982,6 +983,7 @@ const Group = ({
                       ...(party && { party })
                     }
                   },
+                  undefined,
                   { shallow: true }
                 )
               }}

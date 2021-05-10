@@ -11,7 +11,6 @@ import {
 } from '@project-r/styleguide'
 
 import { swissTime } from '../../lib/utils/format'
-import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
@@ -22,6 +21,7 @@ import Front from '../../components/Front'
 import TeaserBlock from '../../components/Overview/TeaserBlock'
 import { P } from './Elements'
 import { getTeasersFromDocument } from './utils'
+import Link from 'next/link'
 
 const knownYears = {
   2018: { path: '/2018' },
@@ -211,7 +211,7 @@ const FrontOverview = ({
           : t.elements(`overview/lead/${me ? 'pledge' : 'signIn'}`)}
       </P>
       {!isMember && (
-        <Link key='pledgeBefore' route='pledge' passHref>
+        <Link key='pledgeBefore' href='/angebote' passHref>
           <Button white>{t('overview/lead/pledgeButton')}</Button>
         </Link>
       )}
@@ -260,7 +260,7 @@ const FrontOverview = ({
       />
 
       {!isMember && (
-        <Link key='pledgeAfter' route='pledge' passHref>
+        <Link key='pledgeAfter' href='/angebote' passHref>
           <Button white style={{ marginTop: 100 }}>
             {t('overview/after/pledgeButton')}
           </Button>

@@ -114,7 +114,7 @@ class PaymentSources extends Component {
     const { query, router } = this.props
     if (query.stripe) {
       this.checkStripeSource({ query })
-      router.replace('/konto', {}, { shallow: true })
+      router.replace('/konto', undefined, { shallow: true })
     }
   }
   render() {

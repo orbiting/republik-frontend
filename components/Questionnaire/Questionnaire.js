@@ -18,7 +18,6 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import withT from '../../lib/withT'
 import withAuthorization from '../Auth/withAuthorization'
 import { errorToString } from '../../lib/utils/errors'
-import { Router } from '../../lib/routes'
 import StatusError from '../StatusError'
 import { withQuestionnaireMutation, withQuestionnaireReset } from './enhancers'
 import Questions from './Questions'
@@ -106,10 +105,11 @@ class Questionnaire extends Component {
       submitQuestionnaire,
       questionnaireData: {
         questionnaire: { id }
-      }
+      },
+      router
     } = this.props
     this.processSubmit(submitQuestionnaire, id).then(() =>
-      Router.pushRoute('/meta').then(() => window.scrollTo(0, 0))
+      router.push('/meta').then(() => window.scrollTo(0, 0))
     )
   }
 

@@ -3,7 +3,6 @@ import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
-import { Router } from '../../lib/routes'
 
 import { STATUS_POLL_INTERVAL_MS } from '../../lib/constants'
 
@@ -23,6 +22,7 @@ import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 
 import Results from './Results'
+import { useRouter } from 'next/router'
 
 const styles = {
   number: css({
@@ -61,24 +61,27 @@ const ThankYouTile = ({ t }) => (
   </TeaserFrontTile>
 )
 
-const SignupTile = ({ t }) => (
-  <TeaserFrontTile color={colors.primary} bgColor='#fff'>
-    <Editorial.Format>{t('questionnaire/title')}</Editorial.Format>
-    <TeaserFrontTileHeadline.Interaction>
-      <div {...styles.big}>{t('pages/meta/questionnaire/actionTitle')}</div>
-    </TeaserFrontTileHeadline.Interaction>
-    <TeaserFrontLead>
-      <Button
-        primary
-        onClick={() =>
-          Router.pushRoute('/umfrage/2018').then(() => window.scrollTo(0, 0))
-        }
-      >
-        {t('pages/meta/questionnaire/actionLabel')}
-      </Button>
-    </TeaserFrontLead>
-  </TeaserFrontTile>
-)
+const SignupTile = ({ t }) => {
+  const router = useRouter()
+  return (
+    <TeaserFrontTile color={colors.primary} bgColor='#fff'>
+      <Editorial.Format>{t('questionnaire/title')}</Editorial.Format>
+      <TeaserFrontTileHeadline.Interaction>
+        <div {...styles.big}>{t('pages/meta/questionnaire/actionTitle')}</div>
+      </TeaserFrontTileHeadline.Interaction>
+      <TeaserFrontLead>
+        <Button
+          primary
+          onClick={() =>
+            router.push('/umfrage/2018').then(() => window.scrollTo(0, 0))
+          }
+        >
+          {t('pages/meta/questionnaire/actionLabel')}
+        </Button>
+      </TeaserFrontLead>
+    </TeaserFrontTile>
+  )
+}
 
 const ResultWrapper = ({ children }) => (
   <TeaserFrontTile align='top' color={colors.text} bgColor='#fff'>

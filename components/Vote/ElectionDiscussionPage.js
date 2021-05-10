@@ -12,7 +12,6 @@ import {
 } from '@project-r/styleguide'
 import { DiscussionIcon } from '@project-r/styleguide/icons'
 import { css } from 'glamor'
-import { Link } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -24,6 +23,7 @@ import {
 import voteT from './voteT'
 import { Body, Section, Strong, Title } from './text'
 import Loader from '../Loader'
+import Link from 'next/link'
 
 const { P } = Interaction
 
@@ -98,10 +98,12 @@ const DiscussionPage = ({ router, data, vt }) => {
                       <div key={id} {...styles.tab}>
                         <P>
                           <Link
-                            route='voteDiscuss'
-                            params={{
-                              discussion:
-                                (data[id] && data[id].discussion.slug) || id
+                            href={{
+                              pathname: '/vote/genossenschaft/diskutieren',
+                              query: {
+                                discussion:
+                                  (data[id] && data[id].discussion.slug) || id
+                              }
                             }}
                             passHref
                             scroll={false}

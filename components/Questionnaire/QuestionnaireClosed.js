@@ -7,7 +7,6 @@ import { compose } from 'react-apollo'
 import { colors, Interaction, A } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
 import Results from './Results'
 
 const { Headline, P } = Interaction

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { A, Highlight } from '../../components/Overview/Elements'
+import { Highlight } from '../../components/Overview/Elements'
 import Page from '../../components/Overview/Page'
 
 const text = {

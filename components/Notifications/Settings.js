@@ -7,8 +7,8 @@ import NotificationOptions from './NotificationOptions'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import { withMembership } from '../Auth/checkRoles'
-import { Link } from '../../lib/routes'
 import Box from '../Frame/Box'
+import Link from 'next/link'
 
 const { H1, H2 } = Interaction
 
@@ -35,7 +35,7 @@ export default compose(
         <H1 style={{ marginBottom: 20 }}>
           {t('Notifications/settings/title')}
         </H1>
-        <Link route='subscriptions' passHref>
+        <Link href='/benachrichtigungen' passHref>
           <A>{t('Notifications/settings/back')}</A>
         </Link>
         {!isMember && (

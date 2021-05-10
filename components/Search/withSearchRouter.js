@@ -3,7 +3,6 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
 import { DEFAULT_FILTER, DEFAULT_SORT, isSameFilter } from './constants'
-import { Router } from '../../lib/routes'
 
 const isDefaultFilter = filter => isSameFilter(filter, DEFAULT_FILTER)
 
@@ -14,7 +13,8 @@ const SORT_KEY_PARAM = 'skey'
 const SORT_DIRECTION_PARAM = 'sdir'
 
 const WrapperRouter = WrappedComponent =>
-  compose(withRouter)(({ router: { query }, ...props }) => {
+  compose(withRouter)(({ router, ...props }) => {
+    const { query } = router
     const urlQuery = query[QUERY_PARAM]
     const urlFilter = {
       key: query[FILTER_KEY_PARAM] || DEFAULT_FILTER.key,
@@ -26,7 +26,7 @@ const WrapperRouter = WrappedComponent =>
     }
 
     const pushRoute = newParams => {
-      return Router.pushRoute('search', newParams, {
+      return router.push({ pathname: '/suche', query: newParams }, undefined, {
         shallow: true
       })
     }
@@ -97,7 +97,11 @@ const WrapperRouter = WrappedComponent =>
     }
 
     const cleanupUrl = () => {
-      Router.replaceRoute('search', getCleanQuery(), { shallow: true })
+      router.replace(
+        { pathname: '/suche', query: getCleanQuery() },
+        undefined,
+        { shallow: true }
+      )
     }
 
     return (

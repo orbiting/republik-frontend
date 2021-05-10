@@ -8,7 +8,6 @@ import { nest } from 'd3-collection'
 import { min, ascending } from 'd3-array'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
 
 import {
   colors,
@@ -18,6 +17,7 @@ import {
   Editorial,
   useColorContext
 } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const styles = {
   packageHeader: css({
@@ -236,8 +236,8 @@ class Accordion extends Component {
           {groups.map(({ key: group, values: pkgs }) => {
             const links = [
               group === 'ME' && {
-                route: 'pledge',
-                params: { package: 'ABO', userPrice: 1 },
+                pathname: '/angebote',
+                query: { package: 'ABO', userPrice: 1 },
                 text: t('package/ABO/userPrice/teaser')
               }
             ].filter(Boolean)
@@ -267,8 +267,8 @@ class Accordion extends Component {
                   ) || 0
               }
               return {
-                route: 'pledge',
-                params: { package: pkg.name },
+                pathname: '/angebote',
+                query: { package: pkg.name },
                 name: pkg.name,
                 price
               }
@@ -326,8 +326,8 @@ class Accordion extends Component {
                     {t(`package/group/${group}`)}
                   </div>
                 )}
-                {pkgItems.map(({ name, title, price, route, params }) => (
-                  <Link key={name} route={route} params={params} passHref>
+                {pkgItems.map(({ name, title, price, pathname, query }) => (
+                  <Link key={name} href={{ pathname, query }} passHref>
                     <PackageItem
                       t={t}
                       hover={hover}
@@ -342,15 +342,10 @@ class Accordion extends Component {
                 <PackageBuffer />
                 {!!links.length && (
                   <div {...styles.links}>
-                    {links.map((link, i) => (
-                      <Link
-                        key={i}
-                        route={link.route}
-                        params={link.params}
-                        passHref
-                      >
+                    {links.map(({ pathname, query, text }, i) => (
+                      <Link key={i} href={{ pathname, query }} passHref>
                         <Editorial.A>
-                          {link.text}
+                          {text}
                           <br />
                         </Editorial.A>
                       </Link>

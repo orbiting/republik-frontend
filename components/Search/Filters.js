@@ -10,8 +10,8 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
+import Link from 'next/link'
 
 const styles = {
   list: css({
@@ -76,8 +76,10 @@ const Filters = compose(
           <li key={key} {...styles.listItem}>
             {agg.count ? (
               <Link
-                route='search'
-                params={getSearchParams({ filter, sort })}
+                href={{
+                  pathname: '/suche',
+                  query: getSearchParams({ filter, sort })
+                }}
                 passHref
               >
                 <a

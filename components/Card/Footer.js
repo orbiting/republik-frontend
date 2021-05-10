@@ -47,7 +47,7 @@ const Footer = ({ t, zIndex, imprint = true }) => {
     <div {...styles.container}>
       {imprint && (
         <div {...styles.left}>
-          <Link href='/impressum'>
+          <Link href='/impressum' passHref>
             <Editorial.A>{t('footer/legal/imprint')}</Editorial.A>
           </Link>
         </div>

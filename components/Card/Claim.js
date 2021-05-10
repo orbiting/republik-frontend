@@ -281,6 +281,7 @@ const Page = props => {
                   focus: statementId
                 }
               }}
+              passHref
             >
               <A>Ihr Statement im «Wahltindär: {group.name}».</A>
             </Link>

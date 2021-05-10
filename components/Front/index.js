@@ -202,7 +202,7 @@ const Front = ({
               )}
               {finite && (
                 <div style={{ marginBottom: 10 }}>
-                  <Link href='/feed'>
+                  <Link href='/feed' passHref>
                     <Editorial.A style={{ color: colors.negative.text }}>
                       {t('front/finite/feed')}
                     </Editorial.A>
@@ -234,7 +234,7 @@ const Front = ({
                   {t.elements('front/chronology', {
                     years: intersperse(
                       [2020, 2019, 2018].map(year => (
-                        <Link key={year} href={`${year}`}>
+                        <Link key={year} href={`${year}`} passHref>
                           <Editorial.A style={{ color: colors.negative.text }}>
                             {year}
                           </Editorial.A>

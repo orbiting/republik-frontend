@@ -107,7 +107,7 @@ const Overview = compose(
                 }}
               />
               <Event data={event} />
-              <Link href='/veranstaltungen'>
+              <Link href='/veranstaltungen' passHref>
                 <A>{t('events/all')}</A>
               </Link>
             </Content>

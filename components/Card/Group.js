@@ -708,6 +708,7 @@ const Group = ({
             pathname: '/wahltindaer',
             query: medianSmartspiderQuery
           }}
+          passHref
         >
           <Editorial.A>
             {t(
@@ -760,6 +761,7 @@ const Group = ({
                       suffix: 'liste'
                     }
                   }}
+                  passHref
                 >
                   <Editorial.A>
                     {t('components/Card/Group/end/showList')}
@@ -798,6 +800,7 @@ const Group = ({
                         suffix: 'liste'
                       }
                     }}
+                    passHref
                   >
                     <Editorial.A>
                       {t('components/Card/Group/end/showList')}

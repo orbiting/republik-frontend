@@ -103,7 +103,7 @@ const UserNav = ({
                 </>
               )}
               {!me?.activeMembership && !inNativeIOSApp && (
-                <Link href='/angebote'>
+                <Link href='/angebote' passHref>
                   <Button style={{ marginTop: 24, marginBottom: 24 }} block>
                     {t('nav/becomemember')}
                   </Button>

@@ -28,7 +28,7 @@ import { shouldIgnoreClick } from '../../lib/utils/link'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const LazyLink = props => <Link {...props} prefetch={false} />
+const LazyLink = props => <Link {...props} prefetch={false} passHref />
 
 const COL_PADDING_S = 15
 const COL_PADDING_M = 70

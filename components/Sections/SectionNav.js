@@ -42,7 +42,7 @@ const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => {
         .map(d => {
           return (
             <div key={d.id} {...styles.item}>
-              <Link href={d.meta.path} key={d.meta.path}>
+              <Link href={d.meta.path} key={d.meta.path} passHref>
                 <a {...styles.link} href={d.meta.path}>
                   <FormatTag
                     color={d.meta.color || color}

@@ -75,7 +75,7 @@ const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
       prefixTranslationKeys.map(k => `${k}/explanation`),
       {
         cancelLink: (
-          <Link key='cancelLink' href='/abgang'>
+          <Link key='cancelLink' href='/abgang' passHref>
             <Editorial.A {...styleTextColor}>
               {t.first(
                 prefixTranslationKeys.map(k => `${k}/explanation/cancelText`),

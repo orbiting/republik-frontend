@@ -99,7 +99,7 @@ const DiscussionCommentComposer = props => {
                 <Interaction.P>
                   {t.elements('submitComment/notEligible', {
                     pledgeLink: (
-                      <Link href='/angebote' key='pledge'>
+                      <Link href='/angebote' key='pledge' passHref>
                         <Editorial.A>
                           {t('submitComment/notEligible/pledgeText')}
                         </Editorial.A>

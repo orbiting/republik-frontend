@@ -107,6 +107,7 @@ const FeedbackPage = props => {
                     <Interaction.P style={{ marginTop: 10 }}>
                       <Link
                         href={{ pathname: '/dialog', query: { t: 'general' } }}
+                        passHref
                       >
                         <A>{t('feedback/link/general')}</A>
                       </Link>
@@ -119,7 +120,7 @@ const FeedbackPage = props => {
           {!!tab && (
             <div style={{ marginBottom: 30 }}>
               <Editorial.Format color={colors.primary}>
-                <Link href='/dialog'>
+                <Link href='/dialog' passHref>
                   <a style={{ color: 'inherit', textDecoration: 'none' }}>
                     {t('feedback/title')}
                   </a>
@@ -150,7 +151,7 @@ const FeedbackPage = props => {
                       title: ' ',
                       description: t.elements('feedback/unauthorized', {
                         buyLink: (
-                          <Link href='/angebote'>
+                          <Link href='/angebote' passHref>
                             <A>{t('feedback/unauthorized/buyText')}</A>
                           </Link>
                         )
@@ -174,7 +175,7 @@ const FeedbackPage = props => {
                 share={false}
               />
               <div style={{ marginTop: 10 }}>
-                <Link href='/community'>
+                <Link href='/community' passHref>
                   <A>{t('marketing/community/link')}</A>
                 </Link>
               </div>

@@ -76,6 +76,7 @@ const SidebarInner = props => {
               pathname: '/angebote',
               query: { ...pack.params, package: pack.name }
             }}
+            passHref
           >
             <PackageItem
               t={t}
@@ -95,6 +96,7 @@ const SidebarInner = props => {
               pathname: '/angebote',
               query: primaryParams
             }}
+            passHref
           >
             <Button block primary>
               Mitmachen
@@ -104,7 +106,7 @@ const SidebarInner = props => {
       </div>
       <div {...styles.links}>
         {links.map((link, i) => (
-          <Link key={i} href={link.href}>
+          <Link key={i} href={link.href} passHref>
             <A>{link.text}</A>
             <br />
           </Link>

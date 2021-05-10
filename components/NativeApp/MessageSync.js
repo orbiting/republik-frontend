@@ -12,7 +12,6 @@ import { Router } from '../../lib/routes'
 import AppSignInOverlay from './AppSignInOverlay'
 import { useMediaProgress } from '../Audio/MediaProgress'
 import { usePersistedOSColorSchemeKey } from '../ColorScheme/lib'
-import { scrollTop } from '../../lib/utils/link'
 
 const upsertDeviceQuery = gql`
   mutation UpsertDevice($token: ID!, $information: DeviceInformationInput!) {
@@ -112,7 +111,7 @@ const MessageSync = ({ upsertDevice, me, client }) => {
         const targetUrl = content.url.replace(PUBLIC_BASE_URL, '')
         Router.pushRoute(targetUrl).then(() => {
           if (targetUrl.indexOf('#') === -1) {
-            scrollTop()
+            window.scrollTo(0, 0)
           }
         })
       } else if (content.type === 'osColorScheme') {

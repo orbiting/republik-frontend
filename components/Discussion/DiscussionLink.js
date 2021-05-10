@@ -22,6 +22,7 @@ const DiscussionLink = ({ children, discussion }) => {
           pathname: '/dialog',
           query: { t: tab, id: tab === 'general' ? undefined : discussion.id }
         }}
+        passHref
       >
         {children}
       </Link>
@@ -35,7 +36,11 @@ const DiscussionLink = ({ children, discussion }) => {
         ? discussion.document.meta.path
         : discussion.path
     if (path) {
-      return <Link href={path}>{children}</Link>
+      return (
+        <Link href={path} passHref>
+          {children}
+        </Link>
+      )
     }
   }
   return children

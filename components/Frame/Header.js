@@ -282,7 +282,7 @@ const Header = ({
                   }
                 />
               ) : (
-                <Link href='/angebote'>
+                <Link href='/angebote' passHref>
                   <a
                     {...styles.button}
                     {...(isOnMarketingPage

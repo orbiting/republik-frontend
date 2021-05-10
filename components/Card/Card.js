@@ -263,6 +263,7 @@ const Card = ({
                     })
                   }
                 }}
+                passHref
               >
                 <IconButton
                   Icon={DiscussionIcon}

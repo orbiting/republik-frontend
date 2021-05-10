@@ -1,7 +1,7 @@
 import React from 'react'
 import Frame from '../components/Frame'
 
-import PiwikOptOut from '../components/Piwik/OptOut'
+import MatomoOptOut from '../../components/Matomo/OptOut'
 
 import md from 'markdown-in-js'
 import mdComponents from '../lib/utils/mdComponents'
@@ -89,7 +89,7 @@ Diese anonym erhobenen Daten und Informationen werden durch die Verantwortlichen
 
 Wenn Besucher/-innen «do not track» eingeschaltet haben, werden nur Daten in der Session getrackt, wenn Besucher/-innen sich einloggen. 
 
-${(<PiwikOptOut />)}
+${(<MatomoOptOut />)}
 
 ## 5. Registrierung auf den Websites www.republik.ch und www.project-r.construction
 

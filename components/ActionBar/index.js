@@ -7,21 +7,20 @@ import {
   PlayCircleIcon,
   DownloadIcon,
   PodcastIcon,
-  EditIcon,
   FontSizeIcon,
   ShareIcon,
   ChartIcon
 } from '@project-r/styleguide/icons'
-import { IconButton, colors, Interaction } from '@project-r/styleguide'
+import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { withEditor } from '../Auth/checkRoles'
 
 import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
-import { trackEvent } from '../../lib/piwik'
+import { trackEvent } from '../../lib/matomo'
 import { getDiscussionLinkProps } from './utils'
-import { PUBLIC_BASE_URL, PUBLIKATOR_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 import PdfOverlay, { getPdfUrl } from '../Article/PdfOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import ShareOverlay from './ShareOverlay'
@@ -38,7 +37,6 @@ const ActionBar = ({
   mode,
   document,
   t,
-  isEditor,
   inNativeApp,
   share,
   download,
@@ -57,12 +55,7 @@ const ActionBar = ({
     return (
       <div {...styles.topRow} {...(isCentered && { ...styles.centered })}>
         {download && (
-          <IconButton
-            href={download}
-            Icon={DownloadIcon}
-            label={share.label || ''}
-            target='_blank'
-          />
+          <IconButton href={download} Icon={DownloadIcon} target='_blank' />
         )}
         {fontSize && (
           <IconButton
@@ -342,15 +335,6 @@ const ActionBar = ({
       ),
       modes: ['article-top', 'article-bottom', 'article-overlay', 'feed'],
       show: !!discussionId
-    },
-    {
-      Icon: EditIcon,
-      href: `${PUBLIKATOR_BASE_URL}/repo/${document.repoId}/tree`,
-      title: t('feed/actionbar/edit'),
-      target: '_blank',
-      fill: colors.social,
-      modes: ['article-top'],
-      show: isEditor && document.repoId && PUBLIKATOR_BASE_URL
     }
   ]
 
@@ -429,11 +413,14 @@ const ActionBar = ({
       )}
       {mode === 'article-bottom' && (
         <>
-          <Interaction.P style={{ marginTop: 24 }}>
-            <strong>{t('article/actionbar/share')}</strong>
-          </Interaction.P>
+          {!inNativeApp ? (
+            <Interaction.P style={{ marginTop: 24 }}>
+              <strong>{t('article/actionbar/share')}</strong>
+            </Interaction.P>
+          ) : null}
           <ShareButtons
             url={meta.url}
+            title={document.title}
             tweet=''
             emailSubject={emailSubject}
             emailBody=''

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { IconButton } from '@project-r/styleguide'
 import {
@@ -8,11 +9,13 @@ import {
   MailIcon,
   LinkIcon,
   TelegramIcon,
-  ThreemaIcon
+  ThreemaIcon,
+  ShareIcon
 } from '@project-r/styleguide/icons'
 
 import withT from '../../lib/withT'
-import { trackEvent } from '../../lib/piwik'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
+import { trackEvent } from '../../lib/matomo'
 import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 
 import copyToClipboard from 'clipboard-copy'
@@ -21,6 +24,7 @@ const ShareButtons = ({
   t,
   url,
   tweet,
+  title,
   emailSubject,
   emailBody,
   emailAttachUrl,
@@ -28,7 +32,8 @@ const ShareButtons = ({
   fill,
   onClose,
   grid,
-  headers
+  headers,
+  inNativeApp
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
   useEffect(() => {
@@ -39,6 +44,33 @@ const ShareButtons = ({
       return () => clearTimeout(timeout)
     }
   }, [copyLinkSuffix])
+
+  if (inNativeApp) {
+    return (
+      <IconButton
+        style={{ marginTop: 24 }}
+        title={t('article/actionbar/share')}
+        Icon={ShareIcon}
+        href={url}
+        onClick={e => {
+          e.preventDefault()
+          trackEvent(['ActionBar', 'share', url])
+          postMessage({
+            type: 'share',
+            payload: {
+              title: title,
+              url: url,
+              subject: emailSubject,
+              dialogTitle: t('article/share/title')
+            }
+          })
+          e.target.blur()
+        }}
+        label={t('article/actionbar/share')}
+        labelShort={t('article/actionbar/share')}
+      />
+    )
+  }
 
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
 
@@ -167,4 +199,4 @@ const styles = {
   })
 }
 
-export default withT(withHeaders(ShareButtons))
+export default compose(withInNativeApp, withT, withHeaders)(ShareButtons)

@@ -47,12 +47,14 @@ const styles = {
     borderBottomStyle: 'solid',
     marginBottom: 36
   }),
-  row: css({
+  topRow: css({
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: 36
   }),
   middleRow: css({
+    display: 'flex',
+    justifyContent: 'space-between',
     flexDirection: 'column',
     [mediaQueries.mUp]: {
       flexDirection: 'row-reverse'
@@ -86,7 +88,10 @@ const styles = {
     '& li': {
       ...fontStyles.sansSerifRegular16,
       marginTop: 8,
-      marginRight: 22
+      marginRight: 22,
+      [mediaQueries.mUp]: {
+        marginRight: 0
+      }
     },
     '& li:first-child': {
       ...fontStyles.sansSerifRegular12,
@@ -99,15 +104,7 @@ const styles = {
   })
 }
 
-const Footer = ({
-  t,
-  me,
-  signOut,
-  inNativeApp,
-  inNativeIOSApp,
-  black,
-  isOnMarketingPage
-}) => {
+const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
   const [colorScheme] = useColorContext()
   const navLinkStyle = useMemo(
     () =>
@@ -131,7 +128,7 @@ const Footer = ({
   return (
     <div {...styles.bg}>
       <div {...styles.content}>
-        <div {...styles.row}>
+        <div {...styles.topRow}>
           <FooterNavLink href='/'>
             <a>
               {isOnMarketingPage ? (
@@ -146,7 +143,7 @@ const Footer = ({
           <SocialLinks />
         </div>
         <hr {...styles.hr} {...colorScheme.set('borderColor', 'divider')} />
-        <div {...styles.row} {...styles.middleRow}>
+        <div {...styles.middleRow}>
           <div {...styles.nav}>
             <ul {...styles.navList}>
               <li {...colorScheme.set('color', 'disabled')}>
@@ -301,7 +298,7 @@ const Footer = ({
             <Address t={t} />
           </div>
         </div>
-        <div {...styles.row}>
+        <div>
           <span
             style={{ ...fontStyles.sansSerifRegular14 }}
             {...colorScheme.set('color', 'text')}

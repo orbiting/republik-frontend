@@ -251,9 +251,8 @@ const ArticlePage = ({
                 }
               })
             : undefined,
-        withCommentData:
-          process.browser && window ? withCommentData : undefined,
-        CommentLink: CommentLink
+        withCommentData,
+        CommentLink
       }),
     [meta, inNativeIOSApp, inNativeApp]
   )

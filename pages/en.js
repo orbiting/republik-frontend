@@ -6,7 +6,7 @@ import Router, { withRouter } from 'next/router'
 import ActionBar from '../components/ActionBar'
 import PureFooter, { SPACE } from '../components/Frame/PureFooter'
 
-import track from '../lib/piwik'
+import track from '../lib/matomo'
 
 import { Back, Strong, Highlight, styles as manifest } from './manifest'
 

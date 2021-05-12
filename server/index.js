@@ -42,6 +42,10 @@ app.prepare().then(() => {
       }
     })
   )
+  server.use((req, res, next) => {
+    res.setHeader('Permissions-Policy', 'interest-cohort=()')
+    next()
+  })
   server.use(compression())
 
   if (!DEV) {

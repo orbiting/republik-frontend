@@ -150,5 +150,60 @@ export default {
       </Highlight>
       ?
     </>
+  ),
+  April: p => (
+    <>
+      <Highlight {...p} ids={['oqEWDT746']}>
+        Eine Luzerner Hackerin gerät ins Visier des FBI
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['G3Aioj3BU']}>
+        In Davos regiert einer
+      </Highlight>
+      , der früher gegen das WEF demonstrierte, und{' '}
+      <Highlight {...p} ids={['J2VlyN_mR']}>
+        in Deutschland vielleicht bald die Grünen
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['tLQUsCyzC']}>
+        Flugzeuge statt Rettungsschiffe
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['k3LgPCmEw']}>
+        Wahlkampf in Schottland
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['DXm7gzvOQ']}>
+        der Ruf nach Unabhängigkeit in Nordengland
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['k48MpiSKp']}>
+        Warum immer mehr Journalistinnen aus ihrem Job aussteigen
+      </Highlight>{' '}
+      oder{' '}
+      <Highlight {...p} ids={['o7ESrPUKD']}>
+        gar nicht erst einsteigen
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['h_E9g-_Op']}>
+        Halt, stopp, Long Covid!
+      </Highlight>{' '}
+      –{' '}
+      <Highlight {...p} ids={['fLtbUshC8']}>
+        Pandemie? Welche Pandemie?
+      </Highlight>{' '}
+      <Highlight {...p} ids={['UEDdVHhjc']}>
+        Die «Heiratsstrafe»
+      </Highlight>
+      , erklärt am Leben der Familie Muster,{' '}
+      <Highlight {...p} ids={['zleoZGGAL']}>
+        eine neue Bildkolumne
+      </Highlight>{' '}
+      und die Einsicht, dass{' '}
+      <Highlight {...p} ids={['ZpBrQqDse']}>
+        Maschinen auch bloss Menschen sind
+      </Highlight>
+      .
+    </>
   )
 }

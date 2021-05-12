@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { isWebUri } from 'valid-url'
+import { isURL } from 'validator'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { Dropdown, Label, Interaction, IconButton } from '@project-r/styleguide'
@@ -33,7 +33,7 @@ const fields = t => [
     name: 'publicUrl',
     validator: value =>
       !!value &&
-      !isWebUri(value) &&
+      !isURL(value, { require_protocol: true, protocols: ['http', 'https'] }) &&
       value !== DEFAULT_VALUES.publicUrl &&
       t('profile/contact/publicUrl/error')
   }

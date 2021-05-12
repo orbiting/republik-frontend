@@ -165,7 +165,12 @@ const Form = props => {
     isMember
   ) {
     return (
-      <div style={{ marginTop: narrow ? 20 : 40 }}>
+      <div
+        style={{
+          marginTop: narrow || minimal ? 20 : 40,
+          marginBottom: minimal ? 10 : undefined
+        }}
+      >
         <Button
           primary
           onClick={() => Router.pushRoute('index')}
@@ -250,8 +255,8 @@ const Form = props => {
             </div>
           )}
 
-          {!signingIn && !minimal && (
-            <div style={{ marginTop: narrow ? 20 : 30 }}>
+          {!signingIn && (!minimal || me) && (
+            <div style={{ marginTop: narrow || minimal ? 20 : 30 }}>
               {loading ? (
                 <InlineSpinner />
               ) : (

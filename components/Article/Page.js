@@ -16,8 +16,10 @@ import {
   ColorContextProvider,
   TeaserEmbedComment,
   SHARE_IMAGE_HEIGHT,
-  SHARE_IMAGE_WIDTH
+  SHARE_IMAGE_WIDTH,
+  IconButton
 } from '@project-r/styleguide'
+import { EditIcon } from '@project-r/styleguide/icons'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
 import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
@@ -36,7 +38,6 @@ import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
 import Progress from './Progress'
 import PodcastButtons from './PodcastButtons'
 import { getDocument } from './graphql/getDocument'
-
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -45,7 +46,11 @@ import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
-import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
+import {
+  ASSETS_SERVER_BASE_URL,
+  PUBLIC_BASE_URL,
+  PUBLIKATOR_BASE_URL
+} from '../../lib/constants'
 import ShareImage from './ShareImage'
 import FontSizeSync from '../FontSize/Sync'
 import Loader from '../Loader'
@@ -488,6 +493,28 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
+                        {isEditor && repoId ? (
+                          <Center
+                            style={{
+                              padding: '30px 15px 0 15px',
+                              display: 'flex',
+                              justifyContent:
+                                titleAlign === 'center'
+                                  ? 'center'
+                                  : 'flex-start'
+                            }}
+                          >
+                            <IconButton
+                              Icon={EditIcon}
+                              href={`${PUBLIKATOR_BASE_URL}/repo/${repoId}/tree`}
+                              target='_blank'
+                              title={t('feed/actionbar/edit')}
+                              label={t('feed/actionbar/edit')}
+                              labelShort={t('feed/actionbar/edit')}
+                              fill={'#E9A733'}
+                            />
+                          </Center>
+                        ) : null}
                         {actionBar || isSection || showNewsletterSignupTop ? (
                           <Center>
                             {actionBar && (
@@ -523,6 +550,7 @@ const ArticlePage = ({
                             {/* space before paynote */}
                           </div>
                         )}
+
                         {!suppressFirstPayNote && payNote}
                       </div>
                     )}
@@ -619,7 +647,7 @@ const ArticlePage = ({
                 />
               )}
               {isFormat && <FormatFeed formatId={article.repoId} />}
-              {(hasActiveMembership || isFormat || isPage) && (
+              {(hasActiveMembership || isFormat) && (
                 <>
                   <br />
                   <br />

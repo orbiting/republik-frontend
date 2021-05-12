@@ -14,7 +14,7 @@ import withSearchRouter from './withSearchRouter'
 import { withResults, withAggregations } from './enhancers'
 import ZeroResults from './ZeroResults'
 
-import track from '../../lib/piwik'
+import track from '../../lib/matomo'
 
 import {
   DEFAULT_FILTER,

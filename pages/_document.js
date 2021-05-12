@@ -75,10 +75,10 @@ export default class MyDocument extends Document {
   render() {
     const {
       css,
-      env: { PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL },
+      env: { MATOMO_URL_BASE, MATOMO_SITE_ID, PUBLIC_BASE_URL },
       nojs
     } = this.props
-    const piwik = !!PIWIK_URL_BASE && !!PIWIK_SITE_ID
+    const matomo = !!MATOMO_URL_BASE && !!MATOMO_SITE_ID
     const Head = nojs ? NoJsHead : DefaultHead
     return (
       <Html lang='de'>
@@ -98,6 +98,11 @@ export default class MyDocument extends Document {
             rel='apple-touch-icon'
             sizes='180x180'
             href={`${PUBLIC_BASE_URL}/static/apple-touch-icon.png`}
+          />
+          <link
+            rel='icon'
+            type='image/svg+xml'
+            href={`${PUBLIC_BASE_URL}/static/favicon.svg`}
           />
           <link
             rel='icon'
@@ -121,9 +126,11 @@ export default class MyDocument extends Document {
             color='#000000'
           />
           <link
-            rel='shortcut icon'
+            rel='alternate icon'
+            sizes='16x16'
             href={`${PUBLIC_BASE_URL}/static/favicon.ico`}
           />
+
           {/* browserconfig.xml can contain other static references, we skip cdnifing it */}
           <meta
             name='msapplication-config'
@@ -139,7 +146,7 @@ export default class MyDocument extends Document {
           )}
           <Main />
           {!nojs && <NextScript />}
-          {!nojs && piwik && (
+          {!nojs && matomo && (
             <script
               dangerouslySetInnerHTML={{
                 __html: `
@@ -150,18 +157,18 @@ export default class MyDocument extends Document {
                 : ''
             }
             (function() {
-              _paq.push(['setTrackerUrl', '${PIWIK_URL_BASE}/piwik.php']);
-              _paq.push(['setSiteId', '${PIWIK_SITE_ID}']);
+              _paq.push(['setTrackerUrl', '${MATOMO_URL_BASE}/matomo.php']);
+              _paq.push(['setSiteId', '${MATOMO_SITE_ID}']);
               var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-              g.type='text/javascript'; g.async=true; g.defer=true; g.src='${PIWIK_URL_BASE}/piwik.js'; s.parentNode.insertBefore(g,s);
+              g.type='text/javascript'; g.async=true; g.defer=true; g.src='${MATOMO_URL_BASE}/matomo.js'; s.parentNode.insertBefore(g,s);
             })();`
               }}
             />
           )}
-          {!nojs && piwik && (
+          {!nojs && matomo && (
             <noscript>
               <img
-                src={`${PIWIK_URL_BASE}/piwik.php?idsite=${PIWIK_SITE_ID}&rec=1`}
+                src={`${MATOMO_URL_BASE}/matomo.php?idsite=${MATOMO_SITE_ID}&rec=1`}
                 style={{ border: 0, position: 'fixed', left: -1 }}
                 alt=''
               />

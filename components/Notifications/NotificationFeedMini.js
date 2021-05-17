@@ -65,7 +65,7 @@ const NotificationFeedMini = ({
                             />
                           )}
 
-                          <Link path={path} passHref>
+                          <Link href={path} passHref>
                             <a
                               {...styles.cleanLink}
                               onClick={() => closeHandler()}

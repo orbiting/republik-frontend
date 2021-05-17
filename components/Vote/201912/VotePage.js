@@ -136,7 +136,7 @@ class VotePage extends Component {
               <div {...styles.actions}>
                 <ActionBar share={shareObject} />
                 {discussion && (
-                  <Link path={discussion.path} passHref>
+                  <Link href={discussion.path} passHref>
                     <IconButton
                       Icon={DiscussionIcon}
                       label={

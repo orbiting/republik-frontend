@@ -103,7 +103,7 @@ const EpisodeLink = withRouter(({ episode, router, index, t, onClick }) => {
     )
   }
   return (
-    <Link path={path} passHref>
+    <Link href={path} passHref>
       <a {...styles.base} {...styles.link} onClick={onClick}>
         <LinkContent episode={episode} index={index} t={t} />
       </a>

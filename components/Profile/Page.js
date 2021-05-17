@@ -689,13 +689,13 @@ export default compose(
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {
-        slug: router.query.slug,
+        slug: router.query.slug.replace('~', ''),
         firstDocuments: 10,
         firstComments: 10
       }
     }),
     props: ({ data, ownProps: { serverContext, router, me } }) => {
-      const slug = router.query.slug
+      const slug = router.query.slug.replace('~', '')
       let redirect
       if (slug === 'me') {
         redirect = me

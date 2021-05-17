@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react'
-
-import { A, Highlight } from '../../components/Overview/Elements'
-import Page from '../../components/Overview/Page'
+import React from 'react'
+import { Highlight, A } from '../Elements'
+import Page from '../Page'
 
 const text = {
   Januar: p => (
-    <Fragment>
+    <>
       Die Republik geht mit{' '}
       <Highlight {...p} ids={['ByKAxDA8c0Zm', 'Bkm0xwA89AbX']}>
         irrational langen Beiträgen
@@ -39,10 +38,10 @@ const text = {
         Doping-Recherchen
       </Highlight>{' '}
       sorgen international für Aufsehen.
-    </Fragment>
+    </>
   ),
   Februar: () => (
-    <Fragment>
+    <>
       Beppe Grillos Fünf-Sterne-Bewegung in Italien, Politwerbung auf Facebook:
       Digitale Themen werden zu einem Markenzeichen der Republik. Das Elend der
       SDA und die Zukunft der AHV beschäftigen Debatten wie Autorinnen. Die
@@ -51,10 +50,10 @@ const text = {
         wir haben Ihnen zugehört
       </A>
       .
-    </Fragment>
+    </>
   ),
   März: () => (
-    <Fragment>
+    <>
       Raiffeisen im Elend, «UBS im Dschungel» – und die Frage: Sind deutsche
       Whistleblower in der Schweiz tatsächlich Spione? Gespräche mit Politologin
       Silja Häusermann und Feministin Mona Eltahawy. Auftakt zur
@@ -63,18 +62,18 @@ const text = {
         lesen Autoren ihre Beiträge auch vor
       </A>{' '}
       – zum Anhören als Podcast.
-    </Fragment>
+    </>
   ),
   April: () => (
-    <Fragment>
+    <>
       Der «Mord auf Malta» und das Baukartell in Graubünden. Porträt über die
       Schweizer Chefdiplomatin Pascale Baeriswyl. Vorwürfe gegen den Zürcher
       Regierungsrat Mario Fehr. Gespräche mit Top-Ökonomen über die Zukunft
       Europas. Und: «Die zehn Gebote der Medienförderung».
-    </Fragment>
+    </>
   ),
   Mai: () => (
-    <Fragment>
+    <>
       Vollgeld für Dummies, Vollgeld für Nerds und der Libanon in der
       Panorama-Ansicht. Premiere des Videoformats «An der Bar» mit Carla Del
       Ponte. Debatte zum neuen EU-Datenschutzgesetz. Wir erklären, wie die
@@ -83,10 +82,10 @@ const text = {
         Daten ihrer Nutzerinnen schützt
       </A>
       . Die PDF-Funktion startet: Ab sofort gibts die Republik auch auf Papier.
-    </Fragment>
+    </>
   ),
   Juni: () => (
-    <Fragment>
+    <>
       Die Türkei vor den Wahlen als Mini-Soap, Mexiko vor den Wahlen als
       Zweiteiler. Erste interaktive Serie zum Siegeszug des Computers. Die
       illustrierte Recherche zum «FC Kreml»: Wer profitiert von der Fussball-WM
@@ -95,18 +94,18 @@ const text = {
         Klarstellung zu den Baukartell-Recherchen
       </A>
       . Und: Die Republik hat jetzt eine Suchfunktion.
-    </Fragment>
+    </>
   ),
   Juli: () => (
-    <Fragment>
+    <>
       Das Leben der Eritreer in der Schweiz, das Gesicht als Passwort und das
       Milliardengeschäft mit Baby-Aalen. Das Plädoyer für ein souveränes Europa
       und das Migrantinnen-Manifest. Wir fragen: Soll man Sex kaufen dürfen? Und
       auch in Deutschland wird «Merkel. Machos. Und die Macht» ein Hit.
-    </Fragment>
+    </>
   ),
   August: () => (
-    <Fragment>
+    <>
       Liebe, Sex und LSD, dazu – endlich! – der Start der «
       <A href='https://www.republik.ch/2018/08/21/ameisen-bevoelkern-die-republik'>
         Ameisen
@@ -118,10 +117,10 @@ const text = {
         Die Schweiz spricht
       </A>
       » wird lanciert. Und: Bildergalerien werden eingeführt.
-    </Fragment>
+    </>
   ),
   September: () => (
-    <Fragment>
+    <>
       Brasilien vor dem Faschismus, die «vorletzten Tage der Menschheit»,
       Chemnitz und Start der Drogen-Serie. Feministin Rebecca Solnit über die
       Unterdrückung der Frauen und Politologin Chantal Mouffe über
@@ -132,10 +131,10 @@ const text = {
       </A>{' '}
       und <A href='https://www.republik.ch/2018/09/01/app/diskussion'>App</A> –
       beides ist da!
-    </Fragment>
+    </>
   ),
   Oktober: () => (
-    <Fragment>
+    <>
       Unser Recherche-Netzwerk deckt die Dimension des Cum-Ex-Skandals auf. Der
       Zuger CVP-Justizdirektor Beat Villiger sorgt für den ersten Rechtsstreit,
       «Die Macht der Lüge in der Politik» für Reflexion. Google als Medienmäzen.
@@ -144,10 +143,10 @@ const text = {
         Republik wird demokratisch
       </A>
       .
-    </Fragment>
+    </>
   ),
   November: () => (
-    <Fragment>
+    <>
       «Verrat in der Moschee». Das Ende der Sozialdemokratie. Zwei ehemalige
       Kindersoldaten, die das Schicksal an den Internationalen Strafgerichtshof
       spült. Wie die Politik beim Klimawandel versagt. Soros in der Schweiz. Der
@@ -156,10 +155,10 @@ const text = {
         erste Leserinnen-Umfrage
       </A>
       .
-    </Fragment>
+    </>
   ),
   Dezember: () => (
-    <Fragment>
+    <>
       Nicht der erste, sondern der definitive Artikel: «Aufstand der Peripherie»
       – die Analyse zu den Gelbwesten in Frankreich. Die Serie zum Klimawandel.
       Vom Leben mit non-binärer Geschlechtsidentität. Betablocker. Die
@@ -169,7 +168,7 @@ const text = {
         Dialog-Plattform neu
       </A>
       .
-    </Fragment>
+    </>
   )
 }
 

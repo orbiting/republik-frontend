@@ -1,7 +1,6 @@
 import React from 'react'
-
-import { Highlight } from '../../components/Overview/Elements'
-import Page from '../../components/Overview/Page'
+import { Highlight } from '../Elements'
+import Page from '../Page'
 
 const text = {
   Januar: p => (

@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react'
-
-import { A, Highlight } from '../../components/Overview/Elements'
-import Page from '../../components/Overview/Page'
+import React from 'react'
+import { Highlight, A } from '../Elements'
+import Page from '../Page'
 
 const text = {
   Januar: p => (
-    <Fragment>
+    <>
       Die Republik startet mit einer grossen{' '}
       <Highlight
         {...p}
@@ -27,10 +26,10 @@ const text = {
         E-Voting-Projekt der Post
       </Highlight>{' '}
       sorgt für Wirbel.
-    </Fragment>
+    </>
   ),
   Februar: p => (
-    <Fragment>
+    <>
       Das Thema Zersiedelung beschäftigt die Redaktion. In einem{' '}
       <Highlight {...p} ids={['8_3Zpsz5U']}>
         interaktiven Beitrag
@@ -45,10 +44,10 @@ const text = {
         Essay zu Identitätspolitik
       </Highlight>{' '}
       und die Frage: Brauchen wir wirklich noch mehr Autobahnen?
-    </Fragment>
+    </>
   ),
   März: p => (
-    <Fragment>
+    <>
       Auf{' '}
       <Highlight {...p} ids={['ohlgcekzS']}>
         Beizentour mit SVP-Nationalrat Fredi Heer
@@ -68,10 +67,10 @@ const text = {
         Missständen bei der ETH
       </Highlight>
       .
-    </Fragment>
+    </>
   ),
   April: p => (
-    <Fragment>
+    <>
       Sie fragen ja nur – unser Schwerpunkt zu Verschwörungstheorien. Eine{' '}
       <Highlight {...p} series='republik/article-auftakt-brexit-serie'>
         Tour durch Brexit-Britannien
@@ -90,10 +89,10 @@ const text = {
         Neues von der ETH
       </Highlight>
       .
-    </Fragment>
+    </>
   ),
   Mai: p => (
-    <Fragment>
+    <>
       Neue Erzählformen bei der Republik!{' '}
       <Highlight {...p} ids={['Qh8NGgtsL']}>
         Leben von der Sozialhilfe – das interaktive Spiel
@@ -131,10 +130,10 @@ const text = {
         organisierten Kriminalität
       </Highlight>
       .
-    </Fragment>
+    </>
   ),
   Juni: p => (
-    <Fragment>
+    <>
       Wir starten unsere{' '}
       <Highlight {...p} series='republik/article-wahnsinn-wahlkampf'>
         Wahlkampf-Serie
@@ -158,10 +157,10 @@ const text = {
         Geschlechterbalance in der Republik
       </Highlight>{' '}
       steht.
-    </Fragment>
+    </>
   ),
   Juli: p => (
-    <Fragment>
+    <>
       Recherchen zur{' '}
       <Highlight {...p} ids={['v5m1zIJ1a']}>
         Wahlkampffinanzierung der SVP
@@ -196,10 +195,10 @@ const text = {
         Medienforscher Jay Rosen
       </Highlight>
       .
-    </Fragment>
+    </>
   ),
   August: p => (
-    <Fragment>
+    <>
       Schwerpunkt Klimawandel. Wie könnte die{' '}
       <Highlight {...p} ids={['5TNAznvgI']}>
         UBS klimaneutral
@@ -233,10 +232,10 @@ const text = {
         Justizinitiative
       </Highlight>
       .
-    </Fragment>
+    </>
   ),
   September: p => (
-    <Fragment>
+    <>
       Wie ein{' '}
       <Highlight {...p} ids={['uU2bQvKK5']}>
         exotisches Feld der Physik
@@ -274,10 +273,10 @@ const text = {
         künstlerische Athen
       </Highlight>
       .
-    </Fragment>
+    </>
   ),
   Oktober: p => (
-    <Fragment>
+    <>
       Die Schweiz hat ein neues Parlament gewählt: die{' '}
       <Highlight {...p} ids={['8et6Ay9-G']}>
         Wahltagsreportage «Grünsonntag»
@@ -303,10 +302,10 @@ const text = {
         Schmerzmittel in der Schweiz auf dem Vormarsch
       </Highlight>{' '}
       ist. Sowie Hintergründiges zu arabischer Küche, Überwachung und Freerun.
-    </Fragment>
+    </>
   ),
   November: p => (
-    <Fragment>
+    <>
       Hat die Atomenergie einen Platz im{' '}
       <Highlight {...p} series='republik/article-edz-intro-global'>
         Kampf gegen den Klimawandel?
@@ -328,10 +327,10 @@ const text = {
         Fichenskandal die Schweizer Kunstszene
       </Highlight>{' '}
       getroffen hat.
-    </Fragment>
+    </>
   ),
   Dezember: p => (
-    <Fragment>
+    <>
       Die{' '}
       <Highlight {...p} ids={['v0AUVa73z']}>
         Schadensbilanz von Aussenminister Ignazio Cassis
@@ -365,7 +364,7 @@ const text = {
         Gespräch mit Schriftsteller Lukas Bärfuss
       </Highlight>
       .
-    </Fragment>
+    </>
   )
 }
 

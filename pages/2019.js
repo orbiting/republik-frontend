@@ -1,3 +1,3 @@
-import Page from '../../components/Overview/pages/2019'
+import Page from '../components/Overview/pages/2019'
 
 export default Page

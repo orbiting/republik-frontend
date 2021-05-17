@@ -78,7 +78,7 @@ const Form = compose(
     }
 
     const reset = () => {
-      setFormValue(undefined)
+      setFormValue('')
       router.push('/suche')
     }
 

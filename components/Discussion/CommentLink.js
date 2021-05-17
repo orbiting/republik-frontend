@@ -1,4 +1,5 @@
 import React from 'react'
+import { format } from 'url'
 
 import {
   GENERAL_FEEDBACK_DISCUSSION_ID,
@@ -40,15 +41,11 @@ export const getFocusHref = (discussion, comment) => {
 
 export const getFocusUrl = (discussion, comment) => {
   const focusHref = getFocusHref(discussion, comment)
-  // TODO
-  // pathname: discussion.path,
-  // query: focusParams
-  //if (focusHref) {
-  //  return `${PUBLIC_BASE_URL}${routes
-  //    .find(r => r.name === focusRoute.route)
-  //    .getAs(focusRoute.params)}`
-  //}
-  return 'test'
+  if (focusHref) {
+    const [protocol, hostname] = PUBLIC_BASE_URL.split('://')
+    const { pathname, query } = focusHref
+    return format({ protocol, hostname, pathname, query })
+  }
 }
 
 const CommentLink = ({ displayAuthor, comment, discussion, ...props }) => {

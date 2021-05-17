@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useMemo, useContext } from 'react'
 import { css } from 'glamor'
+import Link from 'next/link'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
 import { graphql, compose } from 'react-apollo'
@@ -72,6 +73,7 @@ import { cleanAsPath } from '../../lib/utils/link'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
+
 const dynamicOptions = {
   loading: () => <Loader />,
   ssr: false
@@ -465,11 +467,11 @@ const ArticlePage = ({
                                   format.meta.color || colors[format.meta.kind]
                                 }
                               >
-                                <HrefLink href={format.meta.path} passHref>
+                                <Link href={format.meta.path} passHref>
                                   <a {...styles.link} href={format.meta.path}>
                                     {format.meta.title}
                                   </a>
-                                </HrefLink>
+                                </Link>
                               </Editorial.Format>
                             )}
                             <Interaction.Headline>

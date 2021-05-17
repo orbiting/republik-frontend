@@ -13,8 +13,6 @@ if (DEV || process.env.DOTENV) {
   dotenv.config()
 }
 
-const routes = require('../lib/routes')
-
 const pgp = require('./pgp')
 const useragent = require('./useragent')
 
@@ -25,7 +23,7 @@ const { CURTAIN_MESSAGE } = process.env
 const app = next({
   dev: DEV
 })
-const handler = routes.getRequestHandler(app)
+const handler = app.getRequestHandler()
 
 app.prepare().then(() => {
   const server = express()

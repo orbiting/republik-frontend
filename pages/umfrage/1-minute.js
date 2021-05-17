@@ -11,7 +11,6 @@ import {
   withQuestionnaireMutation,
   withQuestionnaireReset
 } from '../../components/Questionnaire/enhancers'
-import { description } from './questionnaire'
 import { withRouter } from 'next/router'
 import QuestionnaireActions from '../../components/Questionnaire/QuestionnaireActions'
 import Frame from '../../components/Frame'
@@ -43,6 +42,7 @@ import { css } from 'glamor'
 import { TrendingFlatIcon } from '@project-r/styleguide/icons'
 import NewsletterSignUp from '../../components/Auth/NewsletterSignUp'
 import Link from 'next/link'
+import { description } from './[slug]'
 
 const { Headline, P } = Interaction
 

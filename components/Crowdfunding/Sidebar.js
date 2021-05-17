@@ -60,7 +60,7 @@ const SidebarInner = props => {
     title,
     links,
     packages,
-    primaryParams
+    primaryQuery
   } = props
 
   const [hover, setHover] = useState()
@@ -94,7 +94,7 @@ const SidebarInner = props => {
           <Link
             href={{
               pathname: '/angebote',
-              query: primaryParams
+              query: primaryQuery
             }}
             passHref
           >
@@ -190,7 +190,7 @@ class Sidebar extends Component {
       sticky,
       t,
       crowdfunding,
-      primaryParams,
+      primaryQuery,
       title,
       links,
       packages,
@@ -227,7 +227,7 @@ class Sidebar extends Component {
                 title={title}
                 links={links}
                 packages={packages}
-                primaryParams={primaryParams}
+                primaryQuery={primaryQuery}
                 t={t}
                 crowdfunding={crowdfunding}
                 onChange={onChange}
@@ -241,7 +241,7 @@ class Sidebar extends Component {
                   title={title}
                   links={links}
                   packages={packages}
-                  primaryParams={primaryParams}
+                  primaryQuery={primaryQuery}
                   t={t}
                   crowdfunding={crowdfunding}
                   onChange={onChange}

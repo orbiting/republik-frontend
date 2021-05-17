@@ -41,8 +41,8 @@ import {
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { TrendingFlatIcon } from '@project-r/styleguide/icons'
-import { Link } from '../../lib/routes'
 import NewsletterSignUp from '../../components/Auth/NewsletterSignUp'
+import Link from 'next/link'
 
 const { Headline, P } = Interaction
 
@@ -231,7 +231,7 @@ const NoThanks = compose(withT)(({ t }) => {
             __html: t('questionnaire/crowd/submitted/declined/intro')
           }}
         />
-        <Link route='index'>
+        <Link href='/' passHref>
           <Button primary style={{ marginTop: 20 }}>
             {t('merci/action/read')}
           </Button>

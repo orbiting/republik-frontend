@@ -9,7 +9,6 @@ import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withInNativeApp from '../lib/withInNativeApp'
 import { intersperse } from '../lib/utils/helpers'
-import { Link } from '../lib/routes'
 
 import { CloseIcon } from '@project-r/styleguide/icons'
 
@@ -35,6 +34,7 @@ import {
   useColorContext,
   ColorHtmlBodyColors
 } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const styles = {
   bar: css({
@@ -119,7 +119,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
     me &&
       context === 'pledge' &&
       type !== 'token-authorization' && {
-        route: 'account',
+        pathname: '/konto',
         label: t('notifications/links/merci')
       }
   ].filter(Boolean)
@@ -176,7 +176,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
           {logo}
         </div>
         {inNativeApp && (
-          <Link route='index' passHref>
+          <Link href='/' passHref>
             <a {...styles.close}>
               <CloseIcon size={32} />
             </a>
@@ -196,7 +196,10 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
                 links.map((link, i) => (
                   <Link
                     key={i}
-                    route={link.route}
+                    href={{
+                      pathname: link.pathname,
+                      query: link.query
+                    }}
                     params={link.params}
                     passHref
                   >

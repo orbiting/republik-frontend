@@ -3,13 +3,13 @@ import { compose } from 'react-apollo'
 import { enforceMembership } from '../../components/Auth/withMembership'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { t } from '../../lib/withT'
-import { Link } from '../../lib/routes'
 
 import { A } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import { withQuestionnaire } from '../../components/Questionnaire/enhancers'
 import Questionnaire from '../../components/Questionnaire/Questionnaire'
 import Frame from '../../components/Frame'
+import Link from 'next/link'
 
 const meta = {
   title: t('questionnaire/title'),
@@ -24,7 +24,7 @@ const meta = {
 
 export const description = t.elements('pages/meta/questionnaire/unauthorized', {
   buyLink: (
-    <Link key='pledge' route='pledge' passHref>
+    <Link href='/angebote' key='pledge' passHref>
       <A>{t('pages/meta/questionnaire/unauthorized/buyText')}</A>
     </Link>
   )

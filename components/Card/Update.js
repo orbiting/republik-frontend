@@ -13,7 +13,6 @@ import {
 } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -25,6 +24,7 @@ import VestedInterests from './Form/VestedInterests'
 import Financing from './Form/Financing'
 import { styles as formStyles } from './Form/styles'
 import { scrollTop } from '../../lib/utils/link'
+import Link from 'next/link'
 
 const { H1, H2, P } = Interaction
 
@@ -244,10 +244,13 @@ const Update = props => {
       </P>
 
       <P {...formStyles.paragraph}>
-        <Link route='index' passHref>
+        <Link href='/' passHref>
           <Button primary>{t('components/Card/Update/read')}</Button>
         </Link>{' '}
-        <Link route='onboarding' params={{ context: 'card' }} passHref>
+        <Link
+          href={{ pathname: `/einrichten`, query: { context: 'card' } }}
+          passHref
+        >
           <Button>{t('components/Card/Update/onboarding')}</Button>
         </Link>
       </P>
@@ -270,11 +273,13 @@ const Update = props => {
         {statementId && group ? (
           <P>
             <Link
-              route='cardGroup'
-              params={{
-                group: group.slug,
-                suffix: 'diskussion',
-                focus: statementId
+              href={{
+                pathname: '/wahltindaer/[group]/[...suffix]',
+                query: {
+                  group: group.slug,
+                  suffix: 'diskussion',
+                  focus: statementId
+                }
               }}
               passHref
             >

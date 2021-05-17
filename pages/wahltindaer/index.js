@@ -8,7 +8,6 @@ import { css } from 'glamor'
 import { CheckIcon } from '@project-r/styleguide/icons'
 
 import withT from '../../lib/withT'
-import { Link, routes } from '../../lib/routes'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import Frame from '../../components/Frame'
@@ -26,6 +25,7 @@ import {
   IconButton
 } from '@project-r/styleguide'
 import { DiscussionIcon } from '@project-r/styleguide/icons'
+import Link from 'next/link'
 
 const query = gql`
   query getCardGroups {
@@ -129,9 +129,7 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
       pageTitle: t('pages/cardGroups/pageTitle'),
       title: t('pages/cardGroups/pageTitle'),
       description: t('pages/cardGroups/description'),
-      url: `${PUBLIC_BASE_URL}${routes
-        .find(r => r.name === 'cardGroups')
-        .toPath()}`,
+      url: `${PUBLIC_BASE_URL}/wahltindaer`,
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
     }}
   >
@@ -206,8 +204,10 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                   }}
                 >
                   <Link
-                    route='cardGroup'
-                    params={{ group: 'bundesversammlung', ...partyQuery }}
+                    href={{
+                      pathname: '/wahltindaer/[group]/[...suffix]',
+                      query: { group: 'bundesversammlung', ...partyQuery }
+                    }}
                     passHref
                   >
                     <a {...styles.cardsLink}>
@@ -275,8 +275,10 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                   return (
                     <div {...styles.canton} key={cardGroup.slug}>
                       <Link
-                        route='cardGroup'
-                        params={{ group: cardGroup.slug, ...partyQuery }}
+                        href={{
+                          pathname: '/wahltindaer/[group]/[...suffix]',
+                          query: { group: cardGroup.slug, ...partyQuery }
+                        }}
                         passHref
                       >
                         <a {...styles.cardsLink}>
@@ -318,11 +320,13 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                       {!!commentCount && (
                         <span {...styles.discussionLink}>
                           <Link
-                            route='cardGroup'
-                            params={{
-                              group: cardGroup.slug,
-                              suffix: 'diskussion',
-                              ...partyQuery
+                            href={{
+                              pathname: '/wahltindaer/[group]/[...suffix]',
+                              query: {
+                                group: cardGroup.slug,
+                                suffix: 'diskussion',
+                                ...partyQuery
+                              }
                             }}
                             passHref
                           >

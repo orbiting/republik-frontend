@@ -2,7 +2,6 @@ import React from 'react'
 import md from 'markdown-in-js'
 import Router, { withRouter } from 'next/router'
 import { css } from 'glamor'
-import { Link } from '../lib/routes'
 
 import mdComponents from '../lib/utils/mdComponents'
 import { thousandSeparator } from '../lib/utils/format'
@@ -29,6 +28,7 @@ import {
   VideoPlayer,
   useColorContext
 } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const styles = {
   mediaDiversity: css({
@@ -72,7 +72,7 @@ export const VIDEOS = {
 export const Page = ({ router, t, inNativeIOSApp }) => {
   const [colorScheme] = useColorContext()
   const pledgeLink = inNativeIOSApp ? null : (
-    <Link route='pledge' passHref>
+    <Link href='/angebote' passHref>
       <A>Jetzt mitmachen!</A>
     </Link>
   )
@@ -142,7 +142,7 @@ export const Page = ({ router, t, inNativeIOSApp }) => {
         <Box style={{ padding: 14, marginBottom: 20 }}>
           <Interaction.P>
             {t('crowdfunding/beforeNote')}{' '}
-            <Link route='cockpit' passHref>
+            <Link href='/cockpit' passHref>
               <A>{t('crowdfunding/beforeNote/link')}</A>
             </Link>
           </Interaction.P>
@@ -253,7 +253,7 @@ Ihre Partnerin bei diesem Projekt ist die Aufbaucrew der Republik und von Projec
 
         <P>
           Die Kurzporträts der Crew finden Sie{' '}
-          <Link route='legal/imprint' passHref>
+          <Link href='/impressum' passHref>
             <A>hier</A>
           </Link>
           . Und dazu im Video die Lesung unseres{' '}
@@ -370,7 +370,7 @@ Willkommen an Bord!
   `}
         <br />
         {!inNativeIOSApp && (
-          <Link route='pledge' passHref>
+          <Link href='/angebote' key='pledge' passHref>
             <Button primary style={{ minWidth: 300 }}>
               Jetzt mitmachen!
             </Button>
@@ -400,7 +400,7 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
           />
         </div>
 
-        <Link route='community' passHref>
+        <Link href='/community' passHref>
           <A>Alle ansehen</A>
         </Link>
 

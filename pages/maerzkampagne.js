@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import md from 'markdown-in-js'
-import Router, { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { css } from 'glamor'
 
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Link } from '../lib/routes'
 import { countFormat } from '../lib/utils/format'
 
 import mdComponents from '../lib/utils/mdComponents'
@@ -48,6 +47,7 @@ import {
   LazyLoad
 } from '@project-r/styleguide'
 import ReasonsVideo from '../components/About/ReasonsVideo'
+import Link from 'next/link'
 
 const query = gql`
   query cf2($accessToken: ID) {
@@ -139,7 +139,6 @@ const styles = {
 }
 
 const Page = ({
-  router: { query },
   crowdfunding,
   data,
   shouldBuyProlong,
@@ -150,9 +149,11 @@ const Page = ({
   actionsLoading,
   t
 }) => {
+  const router = useRouter()
+  const { query } = router
   useEffect(() => {
     if (query.token) {
-      Router.replace(
+      router.replace(
         `/crowdfunding2?token=${encodeURIComponent(query.token)}`,
         '/maerzkampagne',
         {
@@ -167,13 +168,13 @@ const Page = ({
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
 
   const tokenParams = query.token ? { token: query.token } : {}
-  const primaryParams = shouldBuyProlong
+  const primaryQuery = shouldBuyProlong
     ? { package: 'PROLONG', ...tokenParams }
     : activeMembership
     ? { package: 'ABO_GIVE', filter: 'pot' }
     : { package: 'ABO' }
   const pledgeLink = inNativeIOSApp ? null : (
-    <Link route='pledge' params={primaryParams} passHref>
+    <Link href={{ pathname: '/angebote', query: primaryQuery }} passHref>
       <A>
         {activeMembership && !shouldBuyProlong
           ? 'Wachstum schenken'
@@ -299,7 +300,7 @@ const Page = ({
             },
           links,
           packages,
-          primaryParams,
+          primaryQuery,
           statusProps: {
             memberships: true
           }
@@ -309,7 +310,7 @@ const Page = ({
         <Box style={{ padding: 14, marginBottom: 20 }}>
           <Interaction.P>
             {t('crowdfunding2/beforeNote')}{' '}
-            <Link route='cockpit' passHref>
+            <Link href='/cockpit' passHref>
               <A>{t('crowdfunding2/beforeNote/link')}</A>
             </Link>
           </Interaction.P>
@@ -605,7 +606,10 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
               {t('cockpit/ios')}
             </Interaction.P>
           ) : (
-            <Link route='pledge' params={primaryParams} passHref>
+            <Link
+              href={{ pathname: '/angebote', query: primaryQuery }}
+              passHref
+            >
               <Button primary style={{ minWidth: 300 }}>
                 {activeMembership && !shouldBuyProlong
                   ? 'Wachstum schenken'
@@ -641,7 +645,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
             </div>
           )}
 
-          <Link route='community'>
+          <Link href='/community' passHref>
             <A>Alle ansehen</A>
           </Link>
 
@@ -655,7 +659,6 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
 }
 
 const EnhancedPage = compose(
-  withRouter,
   withSurviveStatus,
   withMe,
   graphql(query, {

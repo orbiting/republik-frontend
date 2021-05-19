@@ -15,6 +15,7 @@ import {
   TitleBlock,
   Editorial,
   ColorContextProvider,
+  TeaserEmbedComment,
   SHARE_IMAGE_HEIGHT,
   SHARE_IMAGE_WIDTH,
   IconButton
@@ -73,6 +74,8 @@ import { cleanAsPath } from '../../lib/utils/link'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
+import gql from 'graphql-tag'
+import CommentLink from '../Discussion/CommentLink'
 
 const dynamicOptions = {
   loading: () => <Loader loading />,
@@ -107,6 +110,13 @@ const schemaCreators = {
   section: createSectionSchema,
   page: createPageSchema
 }
+
+export const withCommentData = graphql(
+  gql`
+    ${TeaserEmbedComment.data.query}
+  `,
+  TeaserEmbedComment.data.config
+)
 
 const dynamicComponentRequire = createRequire().alias({
   'react-apollo': reactApollo,
@@ -242,7 +252,9 @@ const ArticlePage = ({
                   })
                 }
               })
-            : undefined
+            : undefined,
+        withCommentData,
+        CommentLink
       }),
     [meta, inNativeIOSApp, inNativeApp]
   )

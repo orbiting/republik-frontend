@@ -5,6 +5,13 @@ import get from 'lodash/get'
 import { imageSizeInfo } from 'mdast-react-render/lib/utils'
 import { postMessage } from '../../lib/withInNativeApp'
 
+export const mdastToString = node =>
+  node
+    ? node.value ||
+      (node.children && node.children.map(mdastToString).join('')) ||
+      ''
+    : ''
+
 const shouldInclude = el =>
   el &&
   el.identifier === 'FIGURE' &&
@@ -24,19 +31,25 @@ const findFigures = (node, acc = []) => {
 }
 
 const getImageProps = node => {
-  const src = get(node, 'children[0].children[0].url', '')
-  let title = get(node, 'children[1].children[0].value', '')
-  const author =
-    title.length > 0
-      ? get(node, 'children[1].children[1].children[0].value', '')
-      : get(node, 'children[1].children[0].children[0].value', '')
-  if (author && !title.length) {
-    title = ' ' //otherwise PhotoSwipe doesn't call addCaptionHTMLFn
-  }
+  const url = get(node, 'children[0].children[0].url', '')
+  const captionMdast = get(node, 'children[1].children', [])
+
+  // Children of type "emphasis" ought to be caption byline
+  // @see https://github.com/orbiting/styleguide/blob/198f43845d282b498baafbc1e5684b90857bbb4f/src/templates/Article/base.js#L222
+
+  const caption = mdastToString({
+    children: captionMdast.filter(n => n.type !== 'emphasis')
+  })
+
+  const byLine = mdastToString({
+    children: captionMdast.filter(n => n.type === 'emphasis')
+  })
+
   return {
-    src,
-    title,
-    author
+    src: url,
+    title: true, // otherwise PhotoSwipe won't call addCaptionHTMLFn
+    caption,
+    byLine
   }
 }
 

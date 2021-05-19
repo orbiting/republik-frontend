@@ -415,6 +415,7 @@ const LoadedProfile = props => {
 
   const shareObject = {
     title: t('profile/share/title', { name: user.name }),
+    label: t('profile/share/overlayTitle'),
     url: `${PUBLIC_BASE_URL}/~${user.slug}`,
     emailSubject: t('profile/share/emailSubject', { name: user.name }),
     emailAttachUrl: false,

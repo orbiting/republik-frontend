@@ -11,7 +11,7 @@ import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { chfFormat } from '../../lib/utils/format'
-import track from '../../lib/piwik'
+import track from '../../lib/matomo'
 import { getConversionPayload } from '../../lib/utils/track'
 import { Router } from '../../lib/routes'
 
@@ -1041,7 +1041,7 @@ export const withPay = Component => {
                   undefined, // (optional) Shipping amount
                   !!pendingOrder.reason // (optional) Discount offered (set to false for unspecified parameter)
                 ])
-                // give piwik a second to track
+                // give matomo a second to track
                 setTimeout(() => {
                   resolve(response)
                 }, 1000)

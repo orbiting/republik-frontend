@@ -92,7 +92,8 @@ const Event = withT(
       url: `${PUBLIC_BASE_URL}/veranstaltung/${slug}`,
       emailSubject: title,
       tweet: title,
-      shareOverlayTitle: t('events/share/title')
+      shareOverlayTitle: t('events/share/title'),
+      label: t('events/share/title')
     }
     const borderRule = colorScheme.set('borderTopColor', 'divider')
 

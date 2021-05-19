@@ -13,7 +13,7 @@ import {
 import TrialForm from '../Trial/Form'
 import { css, merge } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
-import { trackEvent, trackEventOnClick } from '../../lib/piwik'
+import { trackEvent, trackEventOnClick } from '../../lib/matomo'
 import { Router } from '../../lib/routes'
 import NativeRouter, { withRouter } from 'next/router'
 import { compose } from 'react-apollo'

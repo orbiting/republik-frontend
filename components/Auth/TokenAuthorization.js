@@ -68,7 +68,7 @@ class TokenAuthorization extends Component {
       return
     }
     router.replace({
-      pathname: '/benachrichtigung',
+      pathname: '/mitteilung',
       query: { type, email, context }
     })
   }

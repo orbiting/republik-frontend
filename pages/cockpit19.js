@@ -847,7 +847,7 @@ Wir freuen uns, wenn Sie Seite an Seite mit uns fÃ¼r die Zukunft der Republik kÃ
               <br />
 
               {questionnaire && questionnaire.shouldAnswer && (
-                <Link href='umfrage/1-minute' passHref>
+                <Link href='/umfrage/1-minute' passHref>
                   <Button white block>
                     Komplizin werden
                   </Button>

@@ -200,7 +200,7 @@ const UserNav = ({
                         {...fontStyles.sansSerifLight16}
                         href={{
                           pathname: '/angebote',
-                          query: { group: 'DONATE' }
+                          query: { package: 'DONATE' }
                         }}
                         active={active}
                         closeHandler={closeHandler}

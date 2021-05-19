@@ -75,7 +75,7 @@ import { cleanAsPath } from '../../lib/utils/link'
 import dynamic from 'next/dynamic'
 
 const dynamicOptions = {
-  loading: () => <Loader />,
+  loading: () => <Loader loading />,
   ssr: false
 }
 const Manifest = dynamic(() => import('../About/Manifest'), {

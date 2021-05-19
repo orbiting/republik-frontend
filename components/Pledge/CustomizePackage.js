@@ -1457,7 +1457,7 @@ class CustomizePackage extends Component {
                       }
 
                       router
-                        .replaceRoute(
+                        .replace(
                           {
                             pathname: '/angebote',
                             query: { ...query, price: undefined, userPrice: 1 }

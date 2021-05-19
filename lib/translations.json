@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-05T11:24:57.913Z",
+  "updated": "2021-05-19T13:01:24.443Z",
   "title": "live",
   "data": [
     {
@@ -1997,6 +1997,10 @@
     {
       "key": "styleguide/comment/header/unpublishedByAdmin",
       "value": "(von der Redaktion verborgen)"
+    },
+    {
+      "key": "styleguide/comment/header/unavailable",
+      "value": "(Autorenschaft nicht verfügbar)"
     },
     {
       "key": "styleguide/comment/edit/submit",

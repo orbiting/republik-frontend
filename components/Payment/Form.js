@@ -392,13 +392,14 @@ class PaymentForm extends Component {
           render={() => {
             const hasPaymentSource = !!paymentSource
             const PaymentSourceIcon =
-              (hasPaymentSource && paymentSource.brand === 'Visa' && (
-                <PSPIcons.Visa />
-              )) ||
-              (paymentSource.brand === 'MasterCard' && (
-                <PSPIcons.Mastercard />
-              )) ||
-              (paymentSource.brand === 'American Express' && <PSPIcons.Amex />)
+              hasPaymentSource &&
+              ((paymentSource.brand === 'Visa' && <PSPIcons.Visa />) ||
+                (paymentSource.brand === 'MasterCard' && (
+                  <PSPIcons.Mastercard />
+                )) ||
+                (paymentSource.brand === 'American Express' && (
+                  <PSPIcons.Amex />
+                )))
             const paymentSourceDisabled =
               paymentSource && paymentSource.status !== 'CHARGEABLE'
 

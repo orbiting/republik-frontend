@@ -131,7 +131,7 @@ const SubmitWithHooks = props => {
   const [syncAddresses, setSyncAddresses] = useState(true)
 
   const [express, setExpress] = useState({
-    skip: !!basePledge
+    skip: true // !!basePledge
   })
   useEffect(() => {
     if (window.ApplePaySession && window.ApplePaySession.canMakePayments()) {

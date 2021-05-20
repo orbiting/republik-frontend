@@ -195,9 +195,10 @@ class PaymentForm extends Component {
       onChange
     } = this.props
     if (
-      !loadingPaymentSource &&
-      (!values.paymentMethod ||
-        (allowedMethods && allowedMethods.indexOf(values.paymentMethod) === -1))
+      (!loadingPaymentSource && values.paymentSource === undefined) ||
+      (values.paymentMethod &&
+        allowedMethods &&
+        allowedMethods.indexOf(values.paymentMethod) === -1)
     ) {
       const stripeAllowed = allowedMethods
         ? allowedMethods.indexOf('STRIPE') !== -1
@@ -212,8 +213,9 @@ class PaymentForm extends Component {
       } else {
         onChange({
           values: {
-            paymentMethod: stripeAllowed ? 'STRIPE' : allowedMethods[0],
-            paymentSource: undefined,
+            paymentMethod:
+              allowedMethods.length === 1 ? allowedMethods[0] : undefined,
+            paymentSource: null,
             newSource: true
           }
         })
@@ -462,7 +464,7 @@ class PaymentForm extends Component {
                         onChange({
                           values: {
                             newSource: true,
-                            paymentSource: undefined
+                            paymentSource: null
                           }
                         })
                       }}
@@ -484,7 +486,10 @@ class PaymentForm extends Component {
                     <PaymentMethodLabel
                       key={pm.key}
                       backgroundColor={pm.bgColor}
-                      active={paymentMethod === pm.key && !values.paymentSource}
+                      active={
+                        (paymentMethod === pm.key && !values.paymentSource) ||
+                        !values.paymentMethod
+                      }
                     >
                       <input
                         type='radio'
@@ -492,12 +497,11 @@ class PaymentForm extends Component {
                         disabled={pm.disabled}
                         onChange={event => {
                           event.preventDefault()
-                          const value = event.target.value
 
                           onChange({
                             values: {
-                              paymentMethod: value,
-                              paymentSource: undefined
+                              paymentMethod: pm.key,
+                              paymentSource: null
                             }
                           })
                         }}

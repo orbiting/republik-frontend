@@ -177,6 +177,14 @@ const Inner = ({
     : Fragment
   const error = data.error || (subscribedByMeData && subscribedByMeData.error)
 
+  if (
+    query.suffix &&
+    (query.suffix.length > 1 ||
+      !['diskussion', 'liste'].includes(query.suffix[0]))
+  ) {
+    return <StatusError statusCode={404} serverContext={serverContext} />
+  }
+
   return (
     <Wrapper>
       <Loader
@@ -188,7 +196,7 @@ const Inner = ({
               <StatusError statusCode={404} serverContext={serverContext} />
             )
           }
-          const meta = !(query.suffix === 'diskussion' && query.focus) && (
+          const meta = !(query.suffix?.[0] === 'diskussion' && query.focus) && (
             <Meta
               data={{
                 title: t.first(

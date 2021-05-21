@@ -205,7 +205,7 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                 >
                   <Link
                     href={{
-                      pathname: '/wahltindaer/[group]/[...suffix]',
+                      pathname: '/wahltindaer/[group]',
                       query: { group: 'bundesversammlung', ...partyQuery }
                     }}
                     passHref
@@ -276,7 +276,7 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                     <div {...styles.canton} key={cardGroup.slug}>
                       <Link
                         href={{
-                          pathname: '/wahltindaer/[group]/[...suffix]',
+                          pathname: '/wahltindaer/[group]',
                           query: { group: cardGroup.slug, ...partyQuery }
                         }}
                         passHref
@@ -321,7 +321,7 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                         <span {...styles.discussionLink}>
                           <Link
                             href={{
-                              pathname: '/wahltindaer/[group]/[...suffix]',
+                              pathname: '/wahltindaer/[group]/[suffix]',
                               query: {
                                 group: cardGroup.slug,
                                 suffix: 'diskussion',

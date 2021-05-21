@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import NativeRouter, { withRouter } from 'next/router'
+import { withRouter } from 'next/router'
 
 import TrialForm from '../Trial/Form'
 import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
@@ -16,10 +16,9 @@ const trialAccessCampaignId =
 const Form = ({ router, redirect }) => (
   <TrialForm
     beforeSignIn={() => {
-      // use native router for shadow routing
-      NativeRouter.push(
+      router.push(
         {
-          pathname: '/cardGroup',
+          pathname: '/wahltindaer/[group]/[suffix]',
           query: {
             group: router.query.group,
             suffix: router.query.suffix,
@@ -34,7 +33,7 @@ const Form = ({ router, redirect }) => (
       if (!redirect) {
         router.replace(
           {
-            pathname: '/wahltindaer/[group]/[...suffix]',
+            pathname: '/wahltindaer/[group]/[suffix]',
             query: { group: router.query.group, suffix: router.query.suffix }
           },
           undefined,

@@ -252,7 +252,7 @@ const Card = ({
             <>
               <Link
                 href={{
-                  pathname: '/wahltindaer/[group]/[...suffix]',
+                  pathname: '/wahltindaer/[group]/[suffix]',
                   query: {
                     group: differentContext ? contextGroup.slug : group.slug,
                     suffix: 'diskussion',

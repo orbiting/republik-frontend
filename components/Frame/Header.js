@@ -268,7 +268,7 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              {me || inNativeApp || router.pathname === '/pledge' ? (
+              {me || inNativeApp || router.pathname === '/angebote' ? (
                 <Toggle
                   expanded={isAnyNavExpanded}
                   title={t(

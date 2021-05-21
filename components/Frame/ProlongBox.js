@@ -42,13 +42,14 @@ const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
   const [colorScheme] = useColorContext()
 
   if (
-    router.pathname === '/pledge' ||
-    router.pathname === '/cancel' ||
-    router.pathname === '/meta' ||
+    router.pathname === '/angebote' ||
+    router.pathname === '/abgang' ||
+    router.asPath === '/meta' ||
     router.pathname === '/cockpit'
   ) {
     return null
   }
+
   const date = new Date(prolongBeforeDate)
   const numberOfDays = timeDay.count(new Date(), date)
 

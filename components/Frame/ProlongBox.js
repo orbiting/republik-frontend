@@ -44,7 +44,6 @@ const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
   if (
     router.pathname === '/angebote' ||
     router.pathname === '/abgang' ||
-    router.asPath === '/meta' ||
     router.pathname === '/cockpit'
   ) {
     return null

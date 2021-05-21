@@ -41,6 +41,7 @@ const styles = {
   }),
   container: css({
     borderBottom: `1px solid ${colors.divider}`,
+    paddingBottom: 10,
     marginBottom: 60
   }),
   block: css({
@@ -73,7 +74,7 @@ const Content = ({ children, ...props }) => (
 const publishedDateTimeFormat = swissTime.format('%e. %B %Y %H Uhr')
 
 const Update = withT(
-  ({ t, data: { slug, title, text, children, publishedDateTime } }) => {
+  ({ data: { slug, title, text, children, publishedDateTime } }) => {
     const date = new Date(publishedDateTime)
     const shareObject = {
       title: title,

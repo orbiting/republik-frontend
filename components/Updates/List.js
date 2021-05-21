@@ -39,14 +39,14 @@ const Overview = compose(
       ownProps: {
         router: {
           query: { slug }
-        },
-        t
+        }
       }
     }) => {
       const error = data.error
       let update
       if (slug && data.updates && !error) {
-        update = data.updates.find(update => update.slug === slug) || 404
+        update =
+          data.updates.find(update => update.slug === slug.join('/')) || 404
       }
       return {
         loading: data.loading,

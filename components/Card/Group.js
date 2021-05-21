@@ -4,7 +4,7 @@ import { ascending } from 'd3-array'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose, graphql } from 'react-apollo'
-import NativeRouter, { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import gql from 'graphql-tag'
 
 import {
@@ -342,7 +342,6 @@ const Group = ({
   t,
   group,
   fetchMore,
-  router,
   me,
   subToUser,
   unsubFromUser,
@@ -351,6 +350,7 @@ const Group = ({
   medianSmartspider,
   subscribedByMeCards
 }) => {
+  const router = useRouter()
   const { query } = router
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
@@ -638,24 +638,16 @@ const Group = ({
   const onShowMyList = event => {
     event.preventDefault()
     router.replace({
-      pathname: '/wahltindaer/[group]/[...suffix]',
+      pathname: '/wahltindaer/[group]/[suffix]',
       query: {
         group: group.slug,
+        suffix: 'liste',
         ...medianSmartspiderQuery
       }
     })
   }
   const onDetail = card => {
     setDetailCard(card)
-    // use native router for shadow routing
-    NativeRouter.push(
-      {
-        pathname: '/wahltindaer/[group]/[...suffix]',
-        query
-      },
-      `/~${card.user.slug}`,
-      { shallow: true }
-    )
   }
   const closeOverlay = event => {
     if (event) {
@@ -666,7 +658,7 @@ const Group = ({
     }
     router.replace(
       {
-        pathname: '/wahltindaer/[group]/[...suffix]',
+        pathname: '/wahltindaer/[group]',
         query: {
           group: group.slug,
           ...medianSmartspiderQuery
@@ -683,8 +675,8 @@ const Group = ({
     setOverlay('preferences')
   }
 
-  const showMyList = query.suffix === 'liste'
-  const showDiscussion = query.suffix === 'diskussion'
+  const showMyList = query.suffix?.[0] === 'liste'
+  const showDiscussion = query.suffix?.[0] === 'diskussion'
   const showDetail = !!detailCard
 
   return (
@@ -756,7 +748,7 @@ const Group = ({
                 <br />
                 <Link
                   href={{
-                    pathname: '/wahltindaer/[group]/[...suffix]',
+                    pathname: '/wahltindaer/[group]/[suffix]',
                     query: {
                       group: group.slug,
                       suffix: 'liste'
@@ -795,7 +787,7 @@ const Group = ({
                   <br />
                   <Link
                     href={{
-                      pathname: '/wahltindaer/[group]/[...suffix]',
+                      pathname: '/wahltindaer/[group]/[suffix]',
                       query: {
                         group: group.slug,
                         suffix: 'liste'
@@ -977,7 +969,7 @@ const Group = ({
               onParty={party => {
                 router.replace(
                   {
-                    pathname: '/wahltindaer/[group]/[...suffix]',
+                    pathname: '/wahltindaer/[group]',
                     query: {
                       group: group.slug,
                       ...(party && { party })
@@ -1071,7 +1063,6 @@ const unsubeMutation = gql`
 
 export default compose(
   withT,
-  withRouter,
   withMe,
   graphql(subscribeMutation, {
     props: ({ mutate }) => ({

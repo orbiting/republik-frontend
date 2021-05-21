@@ -274,7 +274,7 @@ const Page = props => {
           <P>
             <Link
               href={{
-                pathname: '/wahltindaer/[group]/[...suffix]',
+                pathname: '/wahltindaer/[group]/[suffix]',
                 query: {
                   group: group.slug,
                   suffix: 'diskussion',

@@ -224,6 +224,7 @@ const Form = props => {
                       style={{ cursor: 'pointer' }}
                       size={30}
                       onClick={requestAccess}
+                      {...colorScheme.set('fill', 'text')}
                     />
                   ))
                 }

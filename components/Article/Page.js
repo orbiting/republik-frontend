@@ -35,14 +35,13 @@ import ActionBarOverlay from './ActionBarOverlay'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import Extract from './Extract'
-import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
+import { PayNote } from './PayNote'
 import Progress from './Progress'
 import PodcastButtons from './PodcastButtons'
 import { getDocument } from './graphql/getDocument'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
@@ -362,7 +361,7 @@ const ArticlePage = ({
   const metaWithSocialImages =
     meta && meta.discussionId && router.query.focus
       ? undefined
-      : {
+      : meta && {
           ...meta,
           facebookImage: meta?.shareText ? shareImage : meta?.facebookImage,
           twitterImage: meta?.shareText ? shareImage : meta?.twitterImage
@@ -702,12 +701,5 @@ const ComposedPage = compose(
     })
   })
 )(ArticlePage)
-
-ComposedPage.getInitialProps = () => {
-  return {
-    payNoteTryOrBuy: Math.random(),
-    payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
-  }
-}
 
 export default ComposedPage

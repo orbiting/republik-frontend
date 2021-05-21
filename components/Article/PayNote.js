@@ -14,7 +14,7 @@ import TrialForm from '../Trial/Form'
 import { css } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEvent, trackEventOnClick } from '../../lib/matomo'
-import NativeRouter, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { compose } from 'react-apollo'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -381,9 +381,9 @@ const TryNoteCta = ({ payload }) => {
     <TrialForm
       beforeSignIn={() => {
         // use native router for shadow routing
-        NativeRouter.push(
+        router.push(
           {
-            pathname: '/article',
+            pathname: router.pathname,
             query: { ...router.query, trialSignup: 1 }
           },
           router.asPath,

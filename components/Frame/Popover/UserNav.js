@@ -13,7 +13,6 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
-import { Link, matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { withMembership, withTester } from '../../Auth/checkRoles'
@@ -23,6 +22,7 @@ import NotificationFeedMini from '../../Notifications/NotificationFeedMini'
 import BookmarkMiniFeed from '../../Bookmarks/BookmarkMiniFeed'
 import { registerQueryVariables } from '../../Bookmarks/queries'
 import DarkmodeSwitch from '../DarkmodeSwitch'
+import Link from 'next/link'
 
 const SignoutLink = ({ children, ...props }) => (
   <div {...styles.signout}>
@@ -58,7 +58,7 @@ const UserNav = ({
   }, [])
 
   const [colorScheme] = useColorContext()
-  const active = matchPath(router.asPath)
+  const active = router.asPath
   const hasExpandedRef = useRef(expanded)
   const hasProgress = !!me?.progressConsent
   const variables = useMemo(() => {
@@ -103,7 +103,7 @@ const UserNav = ({
                 </>
               )}
               {!me?.activeMembership && !inNativeIOSApp && (
-                <Link route='pledge' passHref>
+                <Link href='/angebote' passHref>
                   <Button style={{ marginTop: 24, marginBottom: 24 }} block>
                     {t('nav/becomemember')}
                   </Button>
@@ -112,8 +112,7 @@ const UserNav = ({
               {me && (
                 <>
                   <NavLink
-                    route='subscriptions'
-                    passHref
+                    href='/benachrichtigungen'
                     closeHandler={closeHandler}
                     large
                   >
@@ -126,8 +125,7 @@ const UserNav = ({
                   )}
                   <div style={{ marginTop: 24 }}>
                     <NavLink
-                      route='bookmarks'
-                      passHref
+                      href='/lesezeichen'
                       closeHandler={closeHandler}
                       large
                     >
@@ -151,7 +149,7 @@ const UserNav = ({
                   <div {...styles.navSection}>
                     <div {...styles.navLinks}>
                       <NavLink
-                        route='account'
+                        href='/konto'
                         active={active}
                         large
                         closeHandler={closeHandler}
@@ -159,8 +157,7 @@ const UserNav = ({
                         {t('Frame/Popover/myaccount')}
                       </NavLink>
                       <NavLink
-                        route='profile'
-                        params={{ slug: me.username || me.id }}
+                        href={`/~${me.username || me.id}`}
                         active={active}
                         large
                         closeHandler={closeHandler}
@@ -178,7 +175,7 @@ const UserNav = ({
                     <div {...styles.navLinks}>
                       {me.accessCampaigns.length > 0 && (
                         <NavLink
-                          route='access'
+                          href='/teilen'
                           active={active}
                           closeHandler={closeHandler}
                           large
@@ -188,8 +185,10 @@ const UserNav = ({
                       )}
                       {!inNativeIOSApp && (
                         <NavLink
-                          route='pledge'
-                          params={{ group: 'GIVE' }}
+                          href={{
+                            pathname: '/angebote',
+                            query: { group: 'GIVE' }
+                          }}
                           active={active}
                           closeHandler={closeHandler}
                           large
@@ -199,8 +198,10 @@ const UserNav = ({
                       )}
                       <NavLink
                         {...fontStyles.sansSerifLight16}
-                        route='pledge'
-                        params={{ package: 'DONATE' }}
+                        href={{
+                          pathname: '/angebote',
+                          query: { package: 'DONATE' }
+                        }}
                         active={active}
                         closeHandler={closeHandler}
                         large

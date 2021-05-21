@@ -6,13 +6,12 @@ import {
   Meta,
   useColorContext,
   mediaQueries,
-  Editorial,
   FigureImage
 } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
-import HrefLink from '../Link/Href'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import Link from 'next/link'
 
 const sectionContent = [
   {
@@ -85,7 +84,7 @@ const Sections = ({ t }) => {
           {...colorScheme.set('borderColor', 'divider')}
         >
           <div {...styles.picture}>
-            <HrefLink href={section.href} passHref>
+            <Link href={section.href} passHref>
               <a {...styles.link}>
                 <FigureImage
                   {...FigureImage.utils.getResizedSrcs(
@@ -101,16 +100,16 @@ const Sections = ({ t }) => {
                   }
                 />
               </a>
-            </HrefLink>
+            </Link>
           </div>
           <div {...styles.description}>
             <Meta.Subhead
               style={{ marginTop: 0 }}
               {...colorScheme.set('color', section.color, 'format')}
             >
-              <HrefLink href={section.href} passHref>
+              <Link href={section.href} passHref>
                 <a {...styles.link}>{section.title}</a>
-              </HrefLink>
+              </Link>
             </Meta.Subhead>
             <Meta.P>{section.description}</Meta.P>
           </div>

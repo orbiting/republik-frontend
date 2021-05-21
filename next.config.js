@@ -36,7 +36,7 @@ module.exports = withBundleAnalyzer({
     NODE_ENV === 'production' && CDN_FRONTEND_BASE_URL
       ? CDN_FRONTEND_BASE_URL
       : '',
-  useFileSystemPublicRoutes: false
+  useFileSystemPublicRoutes: true
   // , onDemandEntries: {
   //   // wait 5 minutes before disposing entries
   //   maxInactiveAge: 1000 * 60 * 5

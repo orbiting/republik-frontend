@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { css } from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 
@@ -10,10 +9,8 @@ import ErrorMessage from '../ErrorMessage'
 import {
   Button,
   InlineSpinner,
-  Interaction,
   Field,
-  useColorContext,
-  Editorial
+  useColorContext
 } from '@project-r/styleguide'
 
 const styles = {

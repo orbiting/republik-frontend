@@ -14,7 +14,7 @@ import {
 import ErrorMessage from '../../ErrorMessage'
 import FieldSet from '../../FieldSet'
 import withT from '../../../lib/withT'
-import { Link } from '../../../lib/routes'
+import Link from 'next/link'
 
 const { H3, P } = Interaction
 
@@ -157,8 +157,10 @@ class Form extends Component {
                 linkClaim: (
                   <Link
                     key={`campaign-form-explanation-${campaign.id}`}
-                    route='claim'
-                    params={{ context: 'access' }}
+                    href={{
+                      pathname: '/abholen',
+                      query: { context: 'access' }
+                    }}
                     passHref
                   >
                     <A>

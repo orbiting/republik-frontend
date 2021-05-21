@@ -3,7 +3,6 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
 
 import {
   colors,
@@ -11,6 +10,7 @@ import {
   Editorial,
   mediaQueries
 } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const styles = {
   container: css({
@@ -47,7 +47,7 @@ const Footer = ({ t, zIndex, imprint = true }) => {
     <div {...styles.container}>
       {imprint && (
         <div {...styles.left}>
-          <Link route='legal/imprint' passHref>
+          <Link href='/impressum' passHref>
             <Editorial.A>{t('footer/legal/imprint')}</Editorial.A>
           </Link>
         </div>

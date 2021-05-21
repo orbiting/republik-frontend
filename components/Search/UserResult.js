@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import { CheckIcon } from '@project-r/styleguide/icons'
-import { Link } from '../../lib/routes'
 
 import {
   Editorial,
@@ -11,6 +10,7 @@ import {
 } from '@project-r/styleguide'
 import { findHighlight } from '../../lib/utils/mdast'
 import { formatExcerpt } from '../../lib/utils/format'
+import Link from 'next/link'
 
 export const profilePictureSize = 70
 export const profilePictureMargin = 10
@@ -101,7 +101,7 @@ export const UserResult = ({ node }) => {
     <div>
       <div {...styles.root} {...colorScheme.set('borderColor', 'text')}>
         {portrait && (
-          <Link route='profile' params={{ slug: slug || id }}>
+          <Link href={`/~${slug || id}`} passHref>
             <a {...styles.link}>
               <img
                 {...styles.profilePicture}
@@ -113,7 +113,7 @@ export const UserResult = ({ node }) => {
         )}
         <div {...styles.meta}>
           <div {...styles.name} {...colorScheme.set('color', 'text')}>
-            <Link route='profile' params={{ slug: slug || id }}>
+            <Link href={`/~${slug || id}`} passHref>
               <a {...styles.link}>
                 <span
                   {...styles.highlight}

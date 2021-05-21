@@ -2,7 +2,6 @@ import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
-import { Link } from '../../lib/routes'
 
 import Loader from '../Loader'
 import Meta from '../Frame/Meta'
@@ -16,6 +15,7 @@ import { NarrowContainer, A } from '@project-r/styleguide'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import Update from './Detail'
+import Link from 'next/link'
 
 const query = gql`
   query UpdatesList {
@@ -77,7 +77,7 @@ const Overview = compose(
                 }}
               />
               <Update data={update} />
-              <Link route='updates' passHref>
+              <Link href='/updates' passHref>
                 <A>{t('updates/all')}</A>
               </Link>
             </Content>

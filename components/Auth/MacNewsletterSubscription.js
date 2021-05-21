@@ -5,13 +5,10 @@ import gql from 'graphql-tag'
 import { Button, InlineSpinner } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import { Router } from '../../lib/routes'
 
 import Consents, { getConsentsError } from '../Pledge/Consents'
 import ErrorMessage from '../ErrorMessage'
-
-const goTo = (type, email, context) =>
-  Router.replaceRoute('notifications', { type, email, context })
+import { withRouter } from 'next/router'
 
 class NewsletterSubscription extends Component {
   constructor(props) {
@@ -19,7 +16,7 @@ class NewsletterSubscription extends Component {
     this.state = {}
   }
   render() {
-    const { t, updateNewsletterSubscription, email } = this.props
+    const { t, updateNewsletterSubscription, email, router } = this.props
     const { consents } = this.state
 
     const requiredConsents = ['PRIVACY']
@@ -60,7 +57,14 @@ class NewsletterSubscription extends Component {
                     consents
                   })
                     .then(() =>
-                      goTo('email-confirmed', email, this.props.context)
+                      router.replace({
+                        pathname: '/mitteilung',
+                        query: {
+                          type: 'email-confirmed',
+                          email,
+                          context: this.props.context
+                        }
+                      })
                     )
                     .catch(error => {
                       this.setState({
@@ -118,5 +122,6 @@ export default compose(
         })
     })
   }),
-  withT
+  withT,
+  withRouter
 )(NewsletterSubscription)

@@ -3,12 +3,12 @@ import gql from 'graphql-tag'
 import { css } from 'glamor'
 
 import Section from '../Section'
-import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 
 import { Interaction, A } from '@project-r/styleguide'
 import { subInfo } from '../../Notifications/enhancers'
 import SubscribeCheckbox from '../../Notifications/SubscribeCheckbox'
+import Link from 'next/link'
 
 const { P } = Interaction
 
@@ -59,7 +59,7 @@ const Subscriptions = props => {
       <P {...styles.p}>
         {t.elements('Onboarding/Sections/Subscriptions/hint', {
           link: (
-            <Link key='link' route='subscriptions' passHref>
+            <Link key='link' href='/benachrichtigungen' passHref>
               <A>{t('Onboarding/Sections/Subscriptions/hint/link')}</A>
             </Link>
           )

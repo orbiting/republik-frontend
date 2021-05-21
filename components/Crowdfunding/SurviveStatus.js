@@ -3,12 +3,12 @@ import { compose, graphql } from 'react-apollo'
 
 import withSurviveStatus from './withSurviveStatus'
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
 import withMemberStatus from '../../lib/withMemberStatus'
 
 import { RawStatus } from './Status'
 
 import { Interaction, A } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const SurviveStatus = ({ t, crowdfunding, hasActiveMembership }) => {
   return (
@@ -32,7 +32,7 @@ const SurviveStatus = ({ t, crowdfunding, hasActiveMembership }) => {
       />
       {hasActiveMembership && (
         <div>
-          <Link route='crowdfunding2' passHref>
+          <Link href='/crowdfunding' passHref>
             <A>{t('crowdfunding/SurviveStatus/link/crowdfunding2')}</A>
           </Link>
           {' – '}

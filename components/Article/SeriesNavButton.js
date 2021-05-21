@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import SeriesNavPanel from './SeriesNavPanel'
-import { cleanAsPath } from '../../lib/routes'
 import { imageResizeUrl } from 'mdast-react-render/lib/utils'
 
 import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
@@ -15,6 +14,7 @@ import {
   useHeaderHeight,
   plainButtonRule
 } from '@project-r/styleguide'
+import { cleanAsPath } from '../../lib/utils/link'
 
 const styles = {
   button: css(plainButtonRule, {

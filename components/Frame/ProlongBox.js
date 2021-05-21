@@ -16,8 +16,8 @@ import { css } from 'glamor'
 
 import TokenPackageLink from '../Link/TokenPackage'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { Link } from '../../lib/routes'
 import { timeFormat } from '../../lib/utils/format'
+import Link from 'next/link'
 
 const styles = {
   box: css({
@@ -42,13 +42,13 @@ const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
   const [colorScheme] = useColorContext()
 
   if (
-    router.pathname === '/pledge' ||
-    router.pathname === '/cancel' ||
-    router.pathname === '/meta' ||
+    router.pathname === '/angebote' ||
+    router.pathname === '/abgang' ||
     router.pathname === '/cockpit'
   ) {
     return null
   }
+
   const date = new Date(prolongBeforeDate)
   const numberOfDays = timeDay.count(new Date(), date)
 
@@ -75,7 +75,7 @@ const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
       prefixTranslationKeys.map(k => `${k}/explanation`),
       {
         cancelLink: (
-          <Link key='cancelLink' route='cancel' passHref>
+          <Link key='cancelLink' href='/abgang' passHref>
             <Editorial.A {...styleTextColor}>
               {t.first(
                 prefixTranslationKeys.map(k => `${k}/explanation/cancelText`),
@@ -114,11 +114,7 @@ const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
           <Title>
             {t.first.elements(prefixTranslationKeys, {
               link: (
-                <TokenPackageLink
-                  key='link'
-                  params={{ package: 'PROLONG' }}
-                  passHref
-                >
+                <TokenPackageLink key='link' params={{ package: 'PROLONG' }}>
                   <Editorial.A {...styleTextColor}>
                     {t.first(prefixTranslationKeys.map(k => `${k}/linkText`))}
                   </Editorial.A>

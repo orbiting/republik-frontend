@@ -5,8 +5,6 @@ import { css } from 'glamor'
 import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
-import PathLink from '../Link/Path'
-import { cleanAsPath } from '../../lib/routes'
 
 import {
   Editorial,
@@ -15,6 +13,8 @@ import {
   mediaQueries,
   TeaserFrontCredit
 } from '@project-r/styleguide'
+import { cleanAsPath } from '../../lib/utils/link'
+import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -85,35 +85,33 @@ const LinkContent = ({ episode, index, t }) => {
   )
 }
 
-const EpisodeLink = withRouter(
-  ({ episode, translation, params = {}, router, index, t, onClick }) => {
-    const path =
-      episode.document && episode.document.meta && episode.document.meta.path
-    if (!path) {
-      return (
-        <div {...styles.base} {...styles.unpublished}>
-          <LinkContent episode={episode} index={index} t={t} />
-        </div>
-      )
-    }
-    if (cleanAsPath(router.asPath) === path) {
-      return (
-        <div {...styles.base} {...styles.current}>
-          <LinkContent episode={episode} index={index} t={t} />
-        </div>
-      )
-    }
+const EpisodeLink = withRouter(({ episode, router, index, t, onClick }) => {
+  const path =
+    episode.document && episode.document.meta && episode.document.meta.path
+  if (!path) {
     return (
-      <PathLink path={path} passHref>
-        <a {...styles.base} {...styles.link} onClick={onClick}>
-          <LinkContent episode={episode} index={index} t={t} />
-        </a>
-      </PathLink>
+      <div {...styles.base} {...styles.unpublished}>
+        <LinkContent episode={episode} index={index} t={t} />
+      </div>
     )
   }
-)
+  if (cleanAsPath(router.asPath) === path) {
+    return (
+      <div {...styles.base} {...styles.current}>
+        <LinkContent episode={episode} index={index} t={t} />
+      </div>
+    )
+  }
+  return (
+    <Link href={path} passHref>
+      <a {...styles.base} {...styles.link} onClick={onClick}>
+        <LinkContent episode={episode} index={index} t={t} />
+      </a>
+    </Link>
+  )
+})
 
-const Nav = ({ children, t, series, onClick }) => {
+const Nav = ({ t, series, onClick }) => {
   return (
     <div {...styles.container}>
       {series.episodes &&

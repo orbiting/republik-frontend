@@ -12,7 +12,7 @@ import withSearchRouter from './withSearchRouter'
 import { SUPPORTED_SORT } from './constants'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 
 const styles = {
   container: css({
@@ -64,16 +64,18 @@ const SortToggle = compose(withT)(({ t, sort, urlSort, getSearchParams }) => {
   )
   return (
     <Link
-      route='search'
-      params={getSearchParams({
-        sort: {
-          key: sort.key,
-          direction:
-            selected && direction
-              ? getNextDirection(urlSort, sort.directions)
-              : direction
-        }
-      })}
+      href={{
+        pathname: '/suche',
+        query: getSearchParams({
+          sort: {
+            key: sort.key,
+            direction:
+              selected && direction
+                ? getNextDirection(urlSort, sort.directions)
+                : direction
+          }
+        })
+      }}
       passHref
     >
       <a

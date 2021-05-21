@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useMemo, useContext } from 'react'
 import { css } from 'glamor'
+import Link from 'next/link'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
 import { graphql, compose } from 'react-apollo'
@@ -41,7 +42,6 @@ import { getDocument } from './graphql/getDocument'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { cleanAsPath } from '../../lib/routes'
 import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
@@ -70,13 +70,15 @@ import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
+import { cleanAsPath } from '../../lib/utils/link'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
 import gql from 'graphql-tag'
 import CommentLink from '../Discussion/CommentLink'
+
 const dynamicOptions = {
-  loading: () => <Loader />,
+  loading: () => <Loader loading />,
   ssr: false
 }
 const Manifest = dynamic(() => import('../About/Manifest'), {
@@ -477,11 +479,11 @@ const ArticlePage = ({
                                   format.meta.color || colors[format.meta.kind]
                                 }
                               >
-                                <HrefLink href={format.meta.path} passHref>
+                                <Link href={format.meta.path} passHref>
                                   <a {...styles.link} href={format.meta.path}>
                                     {format.meta.title}
                                   </a>
-                                </HrefLink>
+                                </Link>
                               </Editorial.Format>
                             )}
                             <Interaction.Headline>

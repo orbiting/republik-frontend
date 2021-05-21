@@ -4,7 +4,6 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
-import { matchPath, Router } from '../../lib/routes'
 import { focusSelector } from '../../lib/utils/scroll'
 import withT from '../../lib/withT'
 import {
@@ -172,17 +171,16 @@ class NotificationOptions extends PureComponent {
     const { userPreference } = discussion
 
     const clearUrl = () => {
-      const {
-        router: { asPath, query }
-      } = this.props
-      const result = matchPath(asPath)
-      const params = {
-        ...query,
-        ...result.params
-      }
-      // using delete instead of undefined to avoid an empty query
-      delete params.mute
-      Router.replaceRoute(result.route, params, { shallow: true })
+      const { router } = this.props
+      const { pathname, query } = router
+      router.replace(
+        {
+          pathname,
+          query
+        },
+        undefined,
+        { shallow: true }
+      )
     }
 
     // Mute notifications for this discussion if not already done
@@ -211,7 +209,8 @@ class NotificationOptions extends PureComponent {
     const {
       t,
       discussionPreferences: { loading, error, me, discussion },
-      setDiscussionPreferences
+      setDiscussionPreferences,
+      router
     } = this.props
 
     if (!me) {
@@ -293,7 +292,7 @@ class NotificationOptions extends PureComponent {
                     }
 
                     e.preventDefault()
-                    Router.pushRoute('/konto#benachrichtigungen').then(() => {
+                    router.push('/konto#benachrichtigungen').then(() => {
                       focusSelector('#benachrichtigungen')
                     })
                   }}
@@ -360,11 +359,11 @@ class NotificationOptions extends PureComponent {
                             }
 
                             e.preventDefault()
-                            Router.pushRoute('/konto#benachrichtigungen').then(
-                              () => {
+                            router
+                              .push('/konto#benachrichtigungen')
+                              .then(() => {
                                 focusSelector('#benachrichtigungen')
-                              }
-                            )
+                              })
                           }}
                         >
                           {t('components/Discussion/Notification/settings')}

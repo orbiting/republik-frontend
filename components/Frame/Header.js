@@ -9,11 +9,10 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 import { BackIcon } from '@project-r/styleguide/icons'
-import { Router, Link } from '../../lib/routes'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { shouldIgnoreClick } from '../../lib/utils/link'
+import { shouldIgnoreClick, cleanAsPath, scrollTop } from '../../lib/utils/link'
 import NotificationIcon from '../Notifications/NotificationIcon'
 import HLine from '../Frame/HLine'
 
@@ -37,6 +36,7 @@ import {
   LOGO_PADDING_MOBILE,
   TRANSITION_MS
 } from '../constants'
+import Link from 'next/link'
 
 const BACK_BUTTON_SIZE = 24
 
@@ -103,16 +103,16 @@ const Header = ({
     }
   }
 
-  const goTo = (pathName, route) => e => {
+  const goTo = href => e => {
     if (shouldIgnoreClick(e)) {
       return
     }
     e.preventDefault()
-    if (router.pathname === pathName) {
-      window.scrollTo(0, 0)
+    if (cleanAsPath(router.asPath) === href) {
+      scrollTop()
       closeHandler()
     } else {
-      Router.pushRoute(route).then(() => window.scrollTo(0, 0))
+      router.push(href)
     }
   }
 
@@ -220,9 +220,7 @@ const Header = ({
                       window.history.back()
                       setTimeout(() => {
                         if (!routeChangeStarted) {
-                          Router.replaceRoute('index').then(() =>
-                            window.scrollTo(0, 0)
-                          )
+                          router.replace('/')
                         }
                       }, 200)
                     }
@@ -270,7 +268,7 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              {me || inNativeApp || router.pathname === '/pledge' ? (
+              {me || inNativeApp || router.pathname === '/angebote' ? (
                 <Toggle
                   expanded={isAnyNavExpanded}
                   title={t(
@@ -284,7 +282,7 @@ const Header = ({
                   }
                 />
               ) : (
-                <Link route='pledge' passHref>
+                <Link href='/angebote' passHref>
                   <a
                     {...styles.button}
                     {...(isOnMarketingPage

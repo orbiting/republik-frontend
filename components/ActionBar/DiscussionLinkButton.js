@@ -3,8 +3,8 @@ import React from 'react'
 import { IconButton } from '@project-r/styleguide'
 import { DiscussionIcon } from '@project-r/styleguide/icons'
 import { focusSelector } from '../../lib/utils/scroll'
-import PathLink from '../Link/Path'
 import { getDiscussionLinkProps } from './utils'
+import Link from 'next/link'
 
 const DiscussionLinkButton = ({
   t,
@@ -27,7 +27,13 @@ const DiscussionLinkButton = ({
   )
 
   return (
-    <PathLink path={discussionPath} query={discussionQuery} passHref>
+    <Link
+      href={{
+        pathname: discussionPath,
+        query: discussionQuery
+      }}
+      passHref
+    >
       <IconButton
         Icon={DiscussionIcon}
         label={
@@ -48,7 +54,7 @@ const DiscussionLinkButton = ({
             : undefined
         }
       />
-    </PathLink>
+    </Link>
   )
 }
 

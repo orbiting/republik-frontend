@@ -9,8 +9,7 @@ import {
   Button,
   mediaQueries
 } from '@project-r/styleguide'
-
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 
 const Reasons = ({ t }) => {
   return (
@@ -30,10 +29,16 @@ const Reasons = ({ t }) => {
         </TeaserFrontTile>
       </TeaserFrontTileRow>
       <div {...styles.buttons}>
-        <Link route='pledge' params={{ package: 'ABO' }} passHref>
+        <Link
+          href={{ pathname: '/angebote', query: { package: 'ABO' } }}
+          passHref
+        >
           <Button primary>{t('marketing/join/ABO/button/label')}</Button>
         </Link>
-        <Link route='pledge' params={{ package: 'MONTHLY_ABO' }} passHref>
+        <Link
+          href={{ pathname: '/angebote', query: { package: 'MONTHLY_ABO' } }}
+          passHref
+        >
           <Button>{t('marketing/join/MONTHLY_ABO/button/label')}</Button>
         </Link>
       </div>

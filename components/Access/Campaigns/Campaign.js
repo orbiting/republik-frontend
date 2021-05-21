@@ -1,9 +1,8 @@
 import React from 'react'
-import { A, Interaction } from '@project-r/styleguide'
+import { Interaction } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 
 import withT from '../../../lib/withT'
-import { Link } from '../../../lib/routes'
 
 import Form from './Form'
 import Grants from './Grants'

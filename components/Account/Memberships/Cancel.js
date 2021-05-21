@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect, useState, useRef } from 'react'
+import React, { Fragment, useEffect, useState, useRef } from 'react'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -6,11 +6,8 @@ import AutosizeInput from 'react-textarea-autosize'
 
 import { timeFormat } from '../../../lib/utils/format'
 import withT from '../../../lib/withT'
-import { errorToString } from '../../../lib/utils/errors'
 import ErrorMessage from '../../ErrorMessage'
 import { Item, P } from '../Elements'
-
-import { Router, Link } from '../../../lib/routes'
 
 import {
   Loader,
@@ -23,6 +20,8 @@ import {
 } from '@project-r/styleguide'
 
 import myBelongings from '../belongingsQuery'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -63,6 +62,7 @@ const CancelMembership = ({
   cancellationCategories,
   t
 }) => {
+  const router = useRouter()
   const [cancellationType, setCancellationType] = useState('')
 
   const needsReason = ['OTHER', 'EDITORIAL'].includes(cancellationType)
@@ -86,9 +86,9 @@ const CancelMembership = ({
   useEffect(() => {
     if (redirectMemberships && redirectMemberships.length) {
       if (redirectMemberships.length > 1) {
-        Router.pushRoute('account')
+        router.push('/konto')
       } else {
-        Router.replaceRoute('cancel', {
+        router.replace('/abgang', {
           membershipId: redirectMemberships[0].id
         })
       }
@@ -122,11 +122,11 @@ const CancelMembership = ({
                 {t('memberships/cancel/confirmation')}
               </Interaction.P>
               <Interaction.P style={{ margin: '20px 0' }}>
-                <Link route='cockpit' passHref>
+                <Link href='/cockpit' passHref>
                   <A>{t('memberships/cancel/confirmation/cockpit')}</A>
                 </Link>
                 <br />
-                <Link route='account' passHref>
+                <Link href='/konto' passHref>
                   <A>{t('memberships/cancel/accountLink')}</A>
                 </Link>
               </Interaction.P>
@@ -200,12 +200,13 @@ const CancelMembership = ({
               <Interaction.P style={{ marginTop: 20 }}>
                 {t('memberships/cancel/userPrice')}{' '}
                 <Link
-                  route='pledge'
-                  params={{
-                    package: membership.canProlong ? 'PROLONG' : 'ABO',
-                    userPrice: 1
+                  href={{
+                    pathname: '/angebote',
+                    query: {
+                      package: membership.canProlong ? 'PROLONG' : 'ABO',
+                      userPrice: 1
+                    }
                   }}
-                  passHref
                 >
                   <A>{t('memberships/cancel/userPriceLink')}</A>
                 </Link>
@@ -251,7 +252,7 @@ const CancelMembership = ({
             </Button>
             <br />
             <br />
-            <Link route='account' passHref>
+            <Link href='/konto' passHref>
               <A>{t('memberships/cancel/accountLink')}</A>
             </Link>
           </Fragment>

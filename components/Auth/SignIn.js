@@ -4,7 +4,6 @@ import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
 
-import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
 
@@ -19,6 +18,7 @@ import {
 
 import Poller from './Poller'
 import EmailForm, { checkEmail } from './EmailForm'
+import Link from 'next/link'
 
 class SignIn extends Component {
   constructor(props) {
@@ -172,11 +172,11 @@ class SignIn extends Component {
         serverError={serverError}
         hints={
           <>
-            <Link route='legal/privacy' passHref>
+            <Link href='/datenschutz' passHref>
               <Editorial.A>{t('signIn/privacy')}</Editorial.A>
             </Link>
             {' – '}
-            <Link route='faq' passHref>
+            <Link href='/faq' passHref>
               <Editorial.A>{t('signIn/faq')}</Editorial.A>
             </Link>
             {' – '}

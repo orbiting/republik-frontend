@@ -10,10 +10,10 @@ import {
   Loader
 } from '@project-r/styleguide'
 
-import { notificationsMiniQuery } from '../Notifications/enhancers'
+import { notificationsMiniQuery } from './enhancers'
 import { timeFormat } from '../../lib/utils/format'
-import PathLink from '../Link/Path'
 import withT from '../../lib/withT'
+import Link from 'next/link'
 
 const dateFormat = timeFormat('%d.%m')
 
@@ -42,7 +42,7 @@ const NotificationFeedMini = ({
         return (
           <>
             {newNodes &&
-              groupByDate.entries(newNodes).map(({ key, values }, i, all) => {
+              groupByDate.entries(newNodes).map(({ key, values }) => {
                 return (
                   <React.Fragment key={key}>
                     {values.map((node, j) => {
@@ -65,7 +65,7 @@ const NotificationFeedMini = ({
                             />
                           )}
 
-                          <PathLink path={path} passHref>
+                          <Link href={path} passHref>
                             <a
                               {...styles.cleanLink}
                               onClick={() => closeHandler()}
@@ -73,7 +73,7 @@ const NotificationFeedMini = ({
                               {dateFormat(new Date(node.createdAt))}{' '}
                               {node.content.title}
                             </a>
-                          </PathLink>
+                          </Link>
                         </div>
                       )
                     })}

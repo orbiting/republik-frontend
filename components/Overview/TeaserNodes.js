@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import { useColorContext } from '@project-r/styleguide'
-
-import HrefLink from '../Link/Href'
+import Link from 'next/link'
 
 const styles = {
   area: css({
@@ -37,9 +36,9 @@ const TeaserNodes = ({ nodes, highlight, noClick, backgroundColor }) => {
         )
         if (node.data.url && !noClick) {
           return (
-            <HrefLink key={node.data.id} href={node.data.url} passHref>
+            <Link key={node.data.id} href={node.data.url} passHref>
               {area}
-            </HrefLink>
+            </Link>
           )
         }
         return area

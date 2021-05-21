@@ -361,7 +361,7 @@ const ArticlePage = ({
   const metaWithSocialImages =
     meta && meta.discussionId && router.query.focus
       ? undefined
-      : {
+      : meta && {
           ...meta,
           facebookImage: meta?.shareText ? shareImage : meta?.facebookImage,
           twitterImage: meta?.shareText ? shareImage : meta?.twitterImage

@@ -13,7 +13,6 @@ import withMe from '../../lib/apollo/withMe'
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/matomo'
 import { getConversionPayload } from '../../lib/utils/track'
-import { Router } from '../../lib/routes'
 
 import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 
@@ -785,13 +784,15 @@ class Submit extends Component {
                       e.preventDefault()
 
                       const { router } = this.props
-                      const params = { ...router.query }
-                      delete params.token
-                      Router.replaceRoute('pledge', params, {
-                        shallow: true
-                      }).then(() => {
-                        this.refetchPackages()
-                      })
+                      const query = { ...router.query }
+                      delete query.token
+                      router
+                        .replace({ pathname: '/angebote', query }, undefined, {
+                          shallow: true
+                        })
+                        .then(() => {
+                          this.refetchPackages()
+                        })
                     }}
                   >
                     {t('pledge/contact/signIn/wrongToken')}

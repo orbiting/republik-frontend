@@ -6,12 +6,13 @@ import { A } from '@project-r/styleguide'
 
 import { APP_OPTIONS } from '../../lib/constants'
 import { focusSelector } from '../../lib/utils/scroll'
-import { Router, Link } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import query from './belongingsQuery'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
 import { shouldIgnoreClick } from '../../lib/utils/link'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const styles = {
   anchorList: css({
@@ -28,24 +29,27 @@ const styles = {
   })
 }
 
-export const AnchorLink = ({ children, id }) => (
-  <A
-    href={'/konto#' + id}
-    onClick={e => {
-      if (shouldIgnoreClick(e)) {
-        return
-      }
+export const AnchorLink = ({ children, id }) => {
+  const router = useRouter()
+  return (
+    <A
+      href={'/konto#' + id}
+      onClick={e => {
+        if (shouldIgnoreClick(e)) {
+          return
+        }
 
-      e.preventDefault()
-      const fragment = '#' + id
-      Router.pushRoute('/konto' + fragment).then(() => {
-        focusSelector(fragment, 'beginning')
-      })
-    }}
-  >
-    {children}
-  </A>
-)
+        e.preventDefault()
+        const fragment = '#' + id
+        router.push('/konto' + fragment).then(() => {
+          focusSelector(fragment, 'beginning')
+        })
+      }}
+    >
+      {children}
+    </A>
+  )
+}
 
 const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
   <ul {...styles.anchorList}>
@@ -58,7 +62,7 @@ const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
     )}
     {me && me.accessCampaigns && me.accessCampaigns.length > 0 && (
       <li {...styles.anchorListItem}>
-        <Link route='access' passHref>
+        <Link href='/teilen' passHref>
           <A>{t('Account/Access/Campaigns/title')}</A>
         </Link>
       </li>
@@ -80,7 +84,7 @@ const Anchors = ({ memberships, me, t, inNativeIOSApp }) => (
       </AnchorLink>
     </li>
     <li {...styles.anchorListItem}>
-      <Link route='subscriptionsSettings' passHref>
+      <Link href='/benachrichtigungen/einstellungen' passHref>
         <A>{t('account/notificationOptions/title')}</A>
       </Link>
     </li>

@@ -2,8 +2,8 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import { Interaction, A, useColorContext } from '@project-r/styleguide'
-import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
+import Link from 'next/link'
 
 const ResultCount = compose(withT)(
   ({
@@ -25,8 +25,10 @@ const ResultCount = compose(withT)(
         {formValue === searchQuery && !dataAggregations.loading ? (
           totalCount ? (
             <Link
-              route='search'
-              params={getSearchParams({ q: searchQuery })}
+              href={{
+                pathname: '/suche',
+                query: getSearchParams({ q: searchQuery })
+              }}
               passHref
             >
               <A

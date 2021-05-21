@@ -16,9 +16,9 @@ import {
   A,
   plainButtonRule
 } from '@project-r/styleguide'
-import { Link } from '../../lib/routes'
 import { BookmarkBorderIcon } from '@project-r/styleguide/icons'
 import { getCollectionItems, registerQueryVariables } from './queries'
+import Link from 'next/link'
 
 const getConnection = data => data.me.collectionItems
 
@@ -105,7 +105,7 @@ const Page = ({ t, me }) => {
                 ].filter(Boolean),
                 {
                   feedLink: (
-                    <Link route='feed' key='link' passHref>
+                    <Link href='/feed' key='link' passHref>
                       <A>{t('pages/bookmarks/placeholder/feedText')}</A>
                     </Link>
                   ),

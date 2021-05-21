@@ -11,11 +11,10 @@ import {
   RawHtml
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
-import { css, merge } from 'glamor'
+import { css } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEvent, trackEventOnClick } from '../../lib/matomo'
-import { Router } from '../../lib/routes'
-import NativeRouter, { withRouter } from 'next/router'
+import NativeRouter, { useRouter } from 'next/router'
 import { compose } from 'react-apollo'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -229,8 +228,6 @@ const meetTarget = target => payNote => {
   )
 }
 
-const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
-
 const generateKey = (note, index) => {
   return { ...note, key: `custom-${index}` }
 }
@@ -312,21 +309,25 @@ const withCounts = (text, replacements) => {
   return message
 }
 
-const BuyButton = ({ payNote, payload }) => (
-  <Button
-    primary
-    href={payNote.button.link}
-    onClick={trackEventOnClick(
-      ['PayNote', `pledge ${payload.position}`, payload.variation],
-      () => goTo(payNote.button.link)
-    )}
-  >
-    {payNote.button.label}
-  </Button>
-)
+const BuyButton = ({ payNote, payload }) => {
+  const router = useRouter()
+  return (
+    <Button
+      primary
+      href={payNote.button.link}
+      onClick={trackEventOnClick(
+        ['PayNote', `pledge ${payload.position}`, payload.variation],
+        () => router.push(payNote.button.link)
+      )}
+    >
+      {payNote.button.label}
+    </Button>
+  )
+}
 
 const SecondaryCta = ({ payNote, payload }) => {
   const [colorScheme] = useColorContext()
+  const router = useRouter()
   const linkRule = useMemo(
     () =>
       css({
@@ -356,7 +357,7 @@ const SecondaryCta = ({ payNote, payload }) => {
             href={payNote.secondary.link}
             onClick={trackEventOnClick(
               ['PayNote', `secondary ${payload.position}`, payload.variation],
-              () => goTo(payNote.secondary.link)
+              () => router.push(payNote.secondary.link)
             )}
           >
             {payNote.secondary.label}
@@ -374,7 +375,8 @@ const BuyNoteCta = ({ payNote, payload }) => (
   </div>
 )
 
-const TryNoteCta = compose(withRouter)(({ router, payload }) => {
+const TryNoteCta = ({ payload }) => {
+  const router = useRouter()
   return (
     <TrialForm
       beforeSignIn={() => {
@@ -396,9 +398,10 @@ const TryNoteCta = compose(withRouter)(({ router, payload }) => {
       minimal
     />
   )
-})
+}
 
 const PayNoteCta = ({ payNote, payload }) => {
+  const router = useRouter()
   return (
     <>
       {payNote.cta ? (
@@ -422,7 +425,7 @@ const PayNoteCta = ({ payNote, payload }) => {
                     e.target.getAttribute && e.target.getAttribute('href')
                   if (!shouldIgnoreClick(e) && href && href.startsWith('/')) {
                     e.preventDefault()
-                    goTo(href)
+                    router.push(href)
                   }
                 }
               }}
@@ -471,13 +474,11 @@ const withDarkContextWhenBefore = WrappedComponent => props => {
 }
 
 export const PayNote = compose(
-  withRouter,
   withInNativeApp,
   withMemberStatus,
   withDarkContextWhenBefore
 )(
   ({
-    router: { query },
     inNativeIOSApp,
     isEligibleForTrial,
     hasActiveMembership,
@@ -491,6 +492,7 @@ export const PayNote = compose(
     customOnly
   }) => {
     const [colorScheme] = useColorContext()
+    const { query } = useRouter()
     const subject = {
       inNativeIOSApp,
       isEligibleForTrial,

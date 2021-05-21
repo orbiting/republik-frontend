@@ -3,7 +3,7 @@ import { Label, Checkbox, A } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import UsernameField from './UsernameField'
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 
 const Settings = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
   if (!isEditing) {
@@ -68,7 +68,7 @@ export const ListedCheckbox = withT(({ user, values, onChange, t }) => (
     <Label>
       {t.elements(`profile/settings/isListed/${!!values.isListed}/note`, {
         communityLink: (
-          <Link key='communityLink' route='community' passHref>
+          <Link key='communityLink' href='/community' passHref>
             <A target='_blank'>{t('profile/settings/privacy/communityLink')}</A>
           </Link>
         )

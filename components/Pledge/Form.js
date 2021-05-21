@@ -4,7 +4,6 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
 
-import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import {
@@ -27,6 +26,7 @@ import CustomizePackage, {
   getOptionFieldKey,
   getOptionPeriodsFieldKey
 } from './CustomizePackage'
+import Link from 'next/link'
 
 const { H1, P } = Interaction
 
@@ -315,7 +315,7 @@ class Pledge extends Component {
       }`,
       {
         accountLink: (
-          <Link key='account' route='account' passHref>
+          <Link key='account' href='/konto' passHref>
             <A>{t(`pledge/form/instruction/${queryPackage}/accountText`)}</A>
           </Link>
         )

@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
 import withMe from '../../lib/apollo/withMe'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
-import { Router } from '../../lib/routes'
 
 import AppSignInOverlay from './AppSignInOverlay'
 import { useMediaProgress } from '../Audio/MediaProgress'
@@ -35,7 +34,7 @@ const pendingAppSignInQuery = gql`
 const MessageSync = ({ upsertDevice, me, client }) => {
   const [signInQuery, setSignInQuery] = useState()
   const router = useRouter()
-  const [_, setOSColorScheme] = usePersistedOSColorSchemeKey()
+  const setOSColorScheme = usePersistedOSColorSchemeKey()[1]
 
   useEffect(() => {
     const handleRouteChange = url => {
@@ -109,7 +108,7 @@ const MessageSync = ({ upsertDevice, me, client }) => {
         checkPendingAppSignIn()
       } else if (content.type === 'push-route') {
         const targetUrl = content.url.replace(PUBLIC_BASE_URL, '')
-        Router.pushRoute(targetUrl).then(() => {
+        router.push(targetUrl).then(() => {
           if (targetUrl.indexOf('#') === -1) {
             window.scrollTo(0, 0)
           }

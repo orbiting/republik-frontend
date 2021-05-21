@@ -13,7 +13,7 @@ import { descending } from 'd3-array'
 import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 
 const styles = {
   checkboxes: css({
@@ -147,10 +147,7 @@ const SubscribedAuthors = ({
                   key={author.object.id}
                 >
                   <div {...styles.author}>
-                    <Link
-                      route='profile'
-                      params={{ slug: author.userDetails.slug }}
-                    >
+                    <Link href={`/~${author.userDetails.slug}`}>
                       <A {...styles.userLink}>{author.object.name}</A>
                     </Link>
                   </div>

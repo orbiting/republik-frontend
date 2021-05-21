@@ -6,20 +6,17 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Link, Router } from '../../lib/routes'
 
 import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 import StatusError from '../StatusError'
 import { cardFragment } from '../Card/fragments'
-import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
 import SubscribeMenu from '../Notifications/SubscribeMenu'
 import ActionBar from '../ActionBar'
 import { TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
-import ShadowQueryLink from '../Link/ShadowQuery'
 import Badge from './Badge'
 import Comments from './Comments'
 import Documents from './Documents'
@@ -43,6 +40,7 @@ import {
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
+import Link from 'next/link'
 
 const SIDEBAR_TOP = 20
 const PORTRAIT_SIZE_M = TESTIMONIAL_IMAGE_SIZE
@@ -588,7 +586,13 @@ const LoadedProfile = props => {
                   c.election &&
                   new Date() < new Date(c.election.candidacyEndDate) && (
                     <div style={{ marginTop: 10 }}>
-                      <Link route='voteSubmit' params={{ edit: true }} passHref>
+                      <Link
+                        href={{
+                          pathname: '/vote/genossenschaft/kandidieren',
+                          query: { edit: true }
+                        }}
+                        passHref
+                      >
                         <A>Kandidatur bearbeiten</A>
                       </Link>
                     </div>
@@ -660,11 +664,7 @@ const Profile = props => {
                   <p>
                     {t.elements('pages/profile/empty/content', {
                       link: (
-                        <Link
-                          route='profile'
-                          params={{ slug: me.username || me.id }}
-                          passHref
-                        >
+                        <Link href={`/~${me.username || me.id}`} passHref>
                           <A>{t('pages/profile/empty/content/linktext')}</A>
                         </Link>
                       )
@@ -689,13 +689,13 @@ export default compose(
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {
-        slug: router.query.slug,
+        slug: router.query.path[0].replace('~', ''),
         firstDocuments: 10,
         firstComments: 10
       }
     }),
     props: ({ data, ownProps: { serverContext, router, me } }) => {
-      const slug = router.query.slug
+      const slug = router.query.path[0].replace('~', '')
       let redirect
       if (slug === 'me') {
         redirect = me
@@ -713,7 +713,7 @@ export default compose(
           serverContext.res.end()
         } else if (process.browser) {
           // SSR does two two-passes: data (with serverContext) & render (without)
-          Router.replaceRoute('profile', { slug: targetSlug })
+          router.replace(`/~${targetSlug}`)
         }
       }
 

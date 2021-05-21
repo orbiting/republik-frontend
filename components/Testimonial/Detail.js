@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import { Link } from '../../lib/routes'
 import ActionBar from '../ActionBar'
 
 import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
@@ -16,6 +15,7 @@ import {
   inQuotes,
   useColorContext
 } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const { H3, P } = Interaction
 
@@ -79,7 +79,7 @@ const Detail = ({
       >
         <H3 {...styles.detailTitle} {...colorScheme.set('color', 'text')}>
           {slug ? (
-            <Link route='profile' params={{ slug }} passHref>
+            <Link href={`/~${slug}`} passHref>
               <A style={{ color: 'inherit' }}>{name}</A>
             </Link>
           ) : (

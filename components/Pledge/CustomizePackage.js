@@ -11,7 +11,6 @@ import { format } from 'url'
 
 import withT from '../../lib/withT'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
-import { Router } from '../../lib/routes'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
@@ -32,6 +31,7 @@ import {
 } from '@project-r/styleguide'
 
 import ManageMembership from '../Account/Memberships/Manage'
+import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -272,9 +272,9 @@ class CustomizePackage extends Component {
   }
   resetUserPrice() {
     const { router } = this.props
-    const params = { ...router.query }
-    delete params.userPrice
-    Router.replaceRoute('pledge', params, { shallow: true })
+    const query = { ...router.query }
+    delete query.userPrice
+    router.replace({ pathname: 'pledge', query }, undefined, { shallow: true })
   }
   componentWillUnmount() {
     this.resetPrice()
@@ -286,13 +286,15 @@ class CustomizePackage extends Component {
       userPrice,
       customMe,
       ownMembership,
-      router: { query },
+      router,
       crowdfundingName,
       values,
       errors,
       dirty,
       onChange
     } = this.props
+
+    const { query } = router
 
     const accessGrantedOnly = query.filter === 'pot'
 
@@ -583,21 +585,19 @@ class CustomizePackage extends Component {
               ].filter(Boolean)
             )}
           </Interaction.H2>
-          <A
-            href='/angebote'
-            onClick={event => {
-              event.preventDefault()
-              Router.replaceRoute(
-                'pledge',
+          <Link
+            href={{
+              pathname: '/angebote',
+              query:
                 pkg.group && pkg.group !== 'ME'
                   ? { group: pkg.group }
-                  : undefined,
-                { shallow: true }
-              )
+                  : undefined
             }}
+            shallow
+            passHref
           >
-            {t('package/customize/changePackage')}
-          </A>
+            <A>{t('package/customize/changePackage')}</A>
+          </Link>
         </div>
         {description.split('\n\n').map((text, i) => (
           <P style={{ marginBottom: 10 }} key={i}>
@@ -655,17 +655,22 @@ class CustomizePackage extends Component {
                   })
                 }
 
-                Router.pushRoute(
-                  'pledge',
-                  accessGrantedOnly
-                    ? queryWithoutFilter
-                    : { ...query, filter: 'pot' },
-                  {
-                    shallow: true
-                  }
-                ).then(() => {
-                  this.resetPrice()
-                })
+                router
+                  .push(
+                    {
+                      pathname: '/angebote',
+                      query: accessGrantedOnly
+                        ? queryWithoutFilter
+                        : { ...query, filter: 'pot' }
+                    },
+                    undefined,
+                    {
+                      shallow: true
+                    }
+                  )
+                  .then(() => {
+                    this.resetPrice()
+                  })
               }}
             >
               {t(
@@ -685,9 +690,9 @@ class CustomizePackage extends Component {
                     return
                   }
                   e.preventDefault()
-                  Router.pushRoute(
-                    'pledge',
-                    { package: 'DONATE_POT' },
+                  router.push(
+                    { pathname: '/angebote', query: { package: 'DONATE_POT' } },
+                    undefined,
                     {
                       shallow: true
                     }
@@ -1347,13 +1352,18 @@ class CustomizePackage extends Component {
                               })
                           }
 
-                          Router.pushRoute(
-                            'pledge',
-                            { package: 'ABO_GIVE' },
-                            { shallow: true }
-                          ).then(() => {
-                            this.resetPrice()
-                          })
+                          router
+                            .push(
+                              {
+                                pathname: '/angebote',
+                                query: { package: 'ABO_GIVE' }
+                              },
+                              undefined,
+                              { shallow: true }
+                            )
+                            .then(() => {
+                              this.resetPrice()
+                            })
                         }}
                       >
                         {t.pluralize(
@@ -1388,15 +1398,20 @@ class CustomizePackage extends Component {
                       e.preventDefault()
                       onPriceChange(undefined, minPrice / 100, true)
 
-                      Router.replaceRoute(
-                        'pledge',
-                        { ...query, price: undefined },
-                        { shallow: true }
-                      ).then(() => {
-                        if (this.focusRef && this.focusRef.input) {
-                          this.focusRef.focus()
-                        }
-                      })
+                      router
+                        .replace(
+                          {
+                            pathname: '/angebote',
+                            query: { ...query, price: undefined }
+                          },
+                          undefined,
+                          { shallow: true }
+                        )
+                        .then(() => {
+                          if (this.focusRef && this.focusRef.input) {
+                            this.focusRef.focus()
+                          }
+                        })
                     }}
                   >
                     {t.first([
@@ -1441,16 +1456,21 @@ class CustomizePackage extends Component {
                         )
                       }
 
-                      Router.replaceRoute(
-                        'pledge',
-                        { ...query, price: undefined, userPrice: 1 },
-                        { shallow: true }
-                      ).then(() => {
-                        this.resetPrice()
-                        if (this.focusRef && this.focusRef.input) {
-                          this.focusRef.focus()
-                        }
-                      })
+                      router
+                        .replace(
+                          {
+                            pathname: '/angebote',
+                            query: { ...query, price: undefined, userPrice: 1 }
+                          },
+                          undefined,
+                          { shallow: true }
+                        )
+                        .then(() => {
+                          this.resetPrice()
+                          if (this.focusRef && this.focusRef.input) {
+                            this.focusRef.focus()
+                          }
+                        })
                     }}
                   >
                     {t('package/customize/price/payLess')}

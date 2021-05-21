@@ -19,10 +19,10 @@ import {
   ChevronRightIcon,
   ExpandMoreIcon
 } from '@project-r/styleguide/icons'
-import { Link } from '../../lib/routes'
 import voteT from './voteT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
+import Link from 'next/link'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -278,10 +278,12 @@ const ElectionBallotRow = props => {
                     {candidate.comment && candidate.comment.id && (
                       <div>
                         <Link
-                          route='voteDiscuss'
-                          params={{
-                            discussion: candidate.election.slug,
-                            focus: candidate.comment.id
+                          href={{
+                            pathname: '/vote/genossenschaft/diskutieren',
+                            query: {
+                              discussion: candidate.election.slug,
+                              focus: candidate.comment.id
+                            }
                           }}
                           passHref
                         >

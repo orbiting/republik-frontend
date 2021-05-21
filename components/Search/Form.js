@@ -15,7 +15,7 @@ import LiveState from './LiveState'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'
-import { Router } from '../../lib/routes'
+import { useRouter } from 'next/router'
 
 const styles = css({
   paddingTop: 15,
@@ -41,6 +41,7 @@ const Form = compose(
     onSearchSubmit,
     noInitialFocus
   }) => {
+    const router = useRouter()
     const [focusRef, setFocusRef] = useState(null)
     const [formValue, setFormValue] = useState(urlQuery)
     const [slowFormValue] = useDebounce(formValue, 200)
@@ -77,8 +78,8 @@ const Form = compose(
     }
 
     const reset = () => {
-      setFormValue(undefined)
-      Router.pushRoute('search')
+      setFormValue('')
+      router.push('/suche')
     }
 
     return (

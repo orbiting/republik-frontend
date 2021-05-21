@@ -18,7 +18,6 @@ import {
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
 
 import Loader from '../Loader'
 import StatusError from '../StatusError'
@@ -34,6 +33,7 @@ import { withSignIn } from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
 import SwitchBoard from '../Auth/SwitchBoard'
 import Consents, { getConsentsError } from '../Pledge/Consents'
+import Link from 'next/link'
 
 const { H1, H2, P } = Interaction
 
@@ -273,11 +273,13 @@ const Page = props => {
         {statementId && group ? (
           <P>
             <Link
-              route='cardGroup'
-              params={{
-                group: group.slug,
-                suffix: 'diskussion',
-                focus: statementId
+              href={{
+                pathname: '/wahltindaer/[group]/[...suffix]',
+                query: {
+                  group: group.slug,
+                  suffix: 'diskussion',
+                  focus: statementId
+                }
               }}
               passHref
             >

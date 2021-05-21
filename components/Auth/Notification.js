@@ -9,13 +9,13 @@ import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import * as base64u from '../../lib/utils/base64u'
 import { useInNativeApp } from '../../lib/withInNativeApp'
-import { Link } from '../../lib/routes'
 import { DEFAULT_TOKEN_TYPE } from '../constants'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
 import Me from './Me'
 import TokenAuthorization from './TokenAuthorization'
 import MacNewsletterSubscription from './MacNewsletterSubscription'
+import Link from 'next/link'
 
 const hasCurtain = !!CURTAIN_MESSAGE
 
@@ -113,7 +113,7 @@ const AuthNotification = ({ query, goTo, onClose, t, me }) => {
     ) : (
       ((!hasCurtain && !isUnkownType) || inNativeApp) && (
         <div style={{ marginTop: 20 }}>
-          <Link route='index'>
+          <Link href='/' passHref>
             <Button block primary>
               {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
             </Button>

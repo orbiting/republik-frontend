@@ -13,13 +13,13 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
-import { Link, matchPath } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import { withMembership } from '../../Auth/checkRoles'
 import Footer from '../Footer'
 import SearchForm from '../../Search/Form'
 import NavLink from './NavLink'
 import Sections from './Sections'
+import Link from 'next/link'
 
 const Nav = ({
   me,
@@ -34,7 +34,7 @@ const Nav = ({
   onSearchSubmit
 }) => {
   const [colorScheme] = useColorContext()
-  const active = matchPath(router.asPath)
+  const active = router.asPath
   const hasExpandedRef = useRef(expanded)
   if (expanded) {
     hasExpandedRef.current = true
@@ -52,7 +52,7 @@ const Nav = ({
               </>
             )}
             {!me?.activeMembership && !inNativeIOSApp && (
-              <Link route='pledge' passHref>
+              <Link href='/angebote' passHref>
                 <Button style={{ marginTop: 24 }} block>
                   {t('nav/becomemember')}
                 </Button>
@@ -67,7 +67,7 @@ const Nav = ({
                   <>
                     <NavLink
                       large
-                      route='index'
+                      href='/'
                       active={active}
                       closeHandler={closeHandler}
                     >
@@ -76,7 +76,7 @@ const Nav = ({
                     <NavLink
                       prefetch
                       large
-                      route='feed'
+                      href='/feed'
                       active={active}
                       closeHandler={closeHandler}
                     >
@@ -86,7 +86,7 @@ const Nav = ({
                 )}
                 <NavLink
                   large
-                  route='discussion'
+                  href='/dialog'
                   title={t('navbar/discussion')}
                   active={active}
                   closeHandler={closeHandler}
@@ -110,7 +110,7 @@ const Nav = ({
                     closeHandler={closeHandler}
                   />
                   <NavLink
-                    route='sections'
+                    href='/rubriken'
                     title={t('navbar/sections')}
                     active={active}
                     closeHandler={closeHandler}
@@ -137,7 +137,7 @@ const Nav = ({
                 <NavLink
                   inline
                   large
-                  route='cockpit'
+                  href='/cockpit'
                   active={active}
                   closeHandler={closeHandler}
                 >
@@ -145,7 +145,7 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   large
-                  route='events'
+                  href='/veranstaltungen'
                   active={active}
                   closeHandler={closeHandler}
                 >
@@ -153,7 +153,7 @@ const Nav = ({
                 </NavLink>
                 <NavLink
                   large
-                  route='legal/imprint'
+                  href='/impressum'
                   active={active}
                   closeHandler={closeHandler}
                 >

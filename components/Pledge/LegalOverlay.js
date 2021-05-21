@@ -23,14 +23,14 @@ const pages = [
   {
     href: '/agb',
     content: dynamic(
-      () => import('../../pages/legal/tos.js').then(mod => mod.Content),
+      () => import('../../pages/agb.js').then(mod => mod.Content),
       { loading: () => <Loader /> }
     )
   },
   {
     href: '/datenschutz',
     content: dynamic(
-      () => import('../../pages/legal/privacy.js').then(mod => mod.Content),
+      () => import('../../pages/datenschutz.js').then(mod => mod.Content),
       { loading: () => <Loader /> }
     )
   },

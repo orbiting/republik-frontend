@@ -1,6 +1,7 @@
 import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
-import { Router } from '../../lib/routes'
+import { scrollTop } from '../../lib/utils/link'
+import { withRouter } from 'next/router'
 
 const hasAncestor = (node, predicate) => {
   if (predicate(node)) {
@@ -24,16 +25,13 @@ class AreaLink extends Component {
       return
     }
 
-    const { route, params, replace, scroll } = this.props
-    const changeMethod = replace ? 'replaceRoute' : 'pushRoute'
-
-    Router[changeMethod](route, params)
+    const { router, href } = this.props
+    router
+      .push(href)
       .then(success => {
         if (!success) return
-        if (scroll) {
-          window.scrollTo(0, 0)
-          document.body.focus()
-        }
+        scrollTop()
+        document.body.focus()
       })
       .catch(err => {
         if (this.props.onError) this.props.onError(err)
@@ -56,15 +54,7 @@ class AreaLink extends Component {
 
 AreaLink.propTypes = {
   children: PropTypes.element.isRequired,
-  route: PropTypes.string.isRequired,
-  params: PropTypes.object.isRequired,
-  scroll: PropTypes.bool.isRequired,
-  replace: PropTypes.bool.isRequired
+  href: PropTypes.string.isRequired
 }
 
-AreaLink.defaultProps = {
-  scroll: true,
-  replace: false
-}
-
-export default AreaLink
+export default withRouter(AreaLink)

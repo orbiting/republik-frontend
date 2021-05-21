@@ -5,7 +5,6 @@ import NativeRouter, { withRouter } from 'next/router'
 import TrialForm from '../Trial/Form'
 import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
 import { parseJSONObject } from '../../lib/safeJSON'
-import { Router } from '../../lib/routes'
 
 const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
 
@@ -33,9 +32,12 @@ const Form = ({ router, redirect }) => (
     }}
     onSuccess={() => {
       if (!redirect) {
-        Router.replaceRoute(
-          'cardGroup',
-          { group: router.query.group, suffix: router.query.suffix },
+        router.replace(
+          {
+            pathname: '/wahltindaer/[group]/[...suffix]',
+            query: { group: router.query.group, suffix: router.query.suffix }
+          },
+          undefined,
           { shallow: true }
         )
         return false

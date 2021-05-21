@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { graphql, compose } from 'react-apollo'
+import { graphql } from 'react-apollo'
 
 import { meQuery } from '../../lib/apollo/withMe'
 

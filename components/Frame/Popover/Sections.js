@@ -12,11 +12,8 @@ import {
   fontStyles,
   mediaQueries
 } from '@project-r/styleguide'
-
-import { matchPath } from '../../../lib/routes'
-import Link from '../../Link/Href'
-
 import NavLink from './NavLink'
+import Link from 'next/link'
 
 const getSectionNav = gql`
   query getSectionNav {
@@ -51,7 +48,7 @@ const getSectionNav = gql`
 const Panel = ({
   isMobile,
   isActivePanel,
-  match,
+  href,
   dark,
   active,
   closeHandler,
@@ -88,8 +85,7 @@ const Panel = ({
         <div {...styles.sectionLink}>
           <NavLink
             dark={dark}
-            route={match.route}
-            params={match.params}
+            href={href}
             active={active}
             closeHandler={closeHandler}
             formatColor={color}
@@ -103,7 +99,7 @@ const Panel = ({
         .concat(formats.nodes)
         .sort((a, b) => ascending(a.meta.title, b.meta.title))
         .map(({ id, meta: formatMeta, linkedDocuments }) => (
-          <Link href={formatMeta.path} passHref key={id}>
+          <Link href={formatMeta.path} key={id} passHref>
             <a {...styles.formatLink} onClick={() => closeHandler()}>
               <FormatTag
                 color={formatMeta.color || colors[formatMeta.kind]}
@@ -148,8 +144,8 @@ const SectionNav = ({
           <>
             {sections &&
               sections.nodes.map(({ id, meta, formats }, i) => {
-                const match = matchPath(meta.path)
-                if (!match) {
+                const { path } = meta
+                if (!path) {
                   return null
                 }
                 const color = meta.color || colors[meta.kind]
@@ -161,8 +157,7 @@ const SectionNav = ({
                       <div {...styles.sectionLink}>
                         <NavLink
                           dark={dark}
-                          route={match.route}
-                          params={match.params}
+                          href={path}
                           active={active}
                           closeHandler={closeHandler}
                           formatColor={color}
@@ -184,8 +179,7 @@ const SectionNav = ({
                       >
                         <NavLink
                           dark={dark}
-                          route={match.route}
-                          params={match.params}
+                          href={path}
                           active={active}
                           closeHandler={closeHandler}
                           formatColor={color}
@@ -207,7 +201,7 @@ const SectionNav = ({
                     <Panel
                       isMobile={isMobile}
                       isActivePanel={isActivePanel}
-                      match={match}
+                      href={path}
                       dark={dark}
                       active={active}
                       closeHandler={closeHandler}

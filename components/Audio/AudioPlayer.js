@@ -1,7 +1,5 @@
 import React from 'react'
 import { css } from 'glamor'
-
-import Link from '../Link/Href'
 import { AudioContext } from './AudioProvider'
 import {
   mediaQueries,
@@ -13,6 +11,7 @@ import ProgressComponent from '../../components/Article/Progress'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 import { AUDIO_PLAYER_HEIGHT } from '../constants'
+import Link from '../Link/Href'
 
 const AudioPlayerFrontend = ({ t }) => {
   const [colorScheme] = useColorContext()

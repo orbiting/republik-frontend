@@ -1,9 +1,8 @@
 import React from 'react'
-
 import { Editorial, mediaQueries } from '@project-r/styleguide'
 import SectionContainer from './Common/SectionContainer'
-import HrefLink from '../Link/Href'
 import { css } from 'glamor'
+import Link from 'next/link'
 
 const styles = {
   title: css({
@@ -28,9 +27,9 @@ const Vision = ({ t }) => {
       <Editorial.P>{t('marketing/page/vision/paragraph1')}</Editorial.P>
       <Editorial.P>{t('marketing/page/vision/paragraph2')}</Editorial.P>
       <Editorial.P>
-        <HrefLink href='/about' passHref>
+        <Link href='/about' passHref>
           <Editorial.A>{t('marketing/page/vision/more')}</Editorial.A>
-        </HrefLink>
+        </Link>
       </Editorial.P>
     </SectionContainer>
   )

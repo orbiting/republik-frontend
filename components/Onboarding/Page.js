@@ -13,8 +13,6 @@ import {
   Button,
   Loader
 } from '@project-r/styleguide'
-
-import PathLink from '../Link/Path'
 import Greeting, { fragments as fragmentsGreeting } from './Greeting'
 import Newsletter, {
   fragments as fragmentsNewsletter
@@ -27,13 +25,13 @@ import Profile, { fragments as fragmentsProfile } from './Sections/Profile'
 import Frame from '../Frame'
 import { scrollIt } from '../../lib/utils/scroll'
 import { HEADER_HEIGHT } from '../constants'
-import { Link } from '../../lib/routes'
 import { SECTION_SPACE } from './Section'
 import withT from '../../lib/withT'
 import Subscriptions, {
   fragments as fragmentsSubscriptions
 } from './Sections/Subscriptions'
 import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
+import Link from 'next/link'
 
 const { P } = Interaction
 
@@ -290,7 +288,7 @@ class Page extends Component {
                       </div>
                     ) */}
                     <div {...styles.buttonContainer}>
-                      <Link route='index' passHref>
+                      <Link href='/' passHref>
                         <Button primary={this.state.hasOnceVisitedAll}>
                           {t.first([
                             `Onboarding/Page/${context}/button`,
@@ -310,7 +308,7 @@ class Page extends Component {
                     ],
                     {
                       link: (
-                        <Link key='account' route='account' passHref>
+                        <Link key='account' href='/konto' passHref>
                           <A>
                             {t.first([
                               `Onboarding/Page/${context}/more/account/link`,
@@ -331,17 +329,17 @@ class Page extends Component {
                     ],
                     {
                       linkManual: (
-                        <PathLink key='anleitung' path='/anleitung' passHref>
+                        <Link key='anleitung' href='/anleitung' passHref>
                           <A>
                             {t.first([
                               `Onboarding/Page/${context}/more/questions/linkManual`,
                               'Onboarding/Page/more/questions/linkManual'
                             ])}
                           </A>
-                        </PathLink>
+                        </Link>
                       ),
                       linkFaq: (
-                        <Link key='route' route='faq' passHref>
+                        <Link key='route' href='/faq' passHref>
                           <A>
                             {t.first([
                               `Onboarding/Page/${context}/more/questions/linkFaq`,

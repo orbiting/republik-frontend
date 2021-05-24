@@ -7,13 +7,11 @@ import {
   fontStyles,
   fontFamilies,
   Editorial,
-  A,
   Label,
   mediaQueries
 } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import isEmail from 'validator/lib/isEmail'
-import Consents, { getConsentsError } from './Consents'
 import {
   Elements,
   CardElement,
@@ -21,14 +19,9 @@ import {
   useStripe,
   PaymentRequestButtonElement
 } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
-import {
-  STRIPE_PUBLISHABLE_KEY,
-  STRIPE_PUBLISHABLE_KEY_CONNECTED
-} from '../../lib/constants'
 import { css } from 'glamor'
 
-import SignIn, { withSignIn } from '../Auth/SignIn'
+import { withSignIn } from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
 import withMe from '../../lib/apollo/withMe'
 import gql from 'graphql-tag'
@@ -37,9 +30,11 @@ import { graphql, compose } from 'react-apollo'
 // from components/Payment/Form.js
 import * as PSPIcons from '../Payment/PSPIcons'
 import { format } from 'd3-format'
+
+import { loadStripeForCompany } from '../Payment/stripe'
+
 const pad2 = format('02')
 const PAYMENT_METHOD_HEIGHT = 64
-//
 
 const OFFERS = [
   {
@@ -60,7 +55,7 @@ const OFFERS = [
         }
       ]
     },
-    companyId: '240ef27d-cf26-48c1-81df-54b2a10732f4'
+    companyName: 'PROJECT_R'
   },
   {
     package: 'MONTHLY_ABO',
@@ -80,7 +75,7 @@ const OFFERS = [
         }
       ]
     },
-    companyId: '7f6fb263-1d36-4550-91c6-4562b94141e3'
+    companyName: 'REPUBLIK'
   },
   // test data to check if buying !subscription on COMPANY_TWO works
   {
@@ -101,7 +96,7 @@ const OFFERS = [
         }
       ]
     },
-    companyId: '240ef27d-cf26-48c1-81df-54b2a10732f4'
+    companyName: 'PROJECT_R'
   }
 ]
 
@@ -156,31 +151,6 @@ const styles = {
   //
 }
 
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY, {
-  apiVersion: '2020-08-27'
-})
-
-const stripeClients = [
-  {
-    companyId: '240ef27d-cf26-48c1-81df-54b2a10732f4',
-    client: stripePromise
-  },
-  {
-    companyId: '7f6fb263-1d36-4550-91c6-4562b94141e3',
-    client: loadStripe(STRIPE_PUBLISHABLE_KEY_CONNECTED, {
-      apiVersion: '2020-08-27'
-    })
-  }
-]
-
-const getLoadedStripeClientForCompany = async ({ companyId }) => {
-  // get stripe client belonging to company of package
-  const stripeClient = stripeClients.find(c => c.companyId === companyId).client
-
-  const loadedStripeClient = await stripeClient
-  return loadedStripeClient
-}
-
 const Join = ({
   t,
   black,
@@ -197,7 +167,7 @@ const Join = ({
 
   return (
     <Elements
-      stripe={stripePromise}
+      stripe={loadStripeForCompany('PROJECT_R')}
       fonts={[
         {
           family: fontStyles.sansSerifRegular.fontFamily,
@@ -479,9 +449,9 @@ const Form = ({
 
             if (stripeClientSecret) {
               // get stripe client belonging to company of package
-              const stripeClient = await getLoadedStripeClientForCompany({
-                companyId: currentOffer.companyId
-              })
+              const stripeClient = await loadStripeForCompany(
+                currentOffer.companyName
+              )
 
               console.log('confirmCardSetup...')
               const confirmResult = await stripeClient.confirmCardSetup(
@@ -534,9 +504,9 @@ const Form = ({
 
           if (stripeClientSecret) {
             // get stripe client belonging to company of package
-            const stripeClient = await getLoadedStripeClientForCompany({
-              companyId: currentOffer.companyId
-            })
+            const stripeClient = await loadStripeForCompany(
+              currentOffer.companyName
+            )
 
             console.log('confirmCardPayment...')
             const confirmResult = await stripeClient.confirmCardPayment(
@@ -626,9 +596,9 @@ const CheckoutForm = ({ currentOffer, submitAndPay, syncPaymentIntent }) => {
 
         if (stripeClientSecret) {
           // get stripe client belonging to company of package
-          const stripeClient = await getLoadedStripeClientForCompany({
-            companyId: currentOffer.companyId
-          })
+          const stripeClient = await loadStripeForCompany(
+            currentOffer.companyName
+          )
 
           // Confirm the PaymentIntent without handling potential next actions (yet).
           const {

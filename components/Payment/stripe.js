@@ -1,20 +1,20 @@
-import loadScript from 'load-script'
-import { STRIPE_PUBLISHABLE_KEY } from '../../lib/constants'
+import { loadStripe } from '@stripe/stripe-js/pure'
+import memoize from 'lodash/memoize'
 
-let promise
-export default () => {
-  if (!promise) {
-    promise = new Promise((resolve, reject) => {
-      loadScript('https://js.stripe.com/v2/', error => {
-        if (error) {
-          reject(error)
-          promise = undefined
-          return
-        }
-        window.Stripe.setPublishableKey(STRIPE_PUBLISHABLE_KEY)
-        resolve(window.Stripe)
-      })
-    })
-  }
-  return promise
+import { STRIPE_PUBLISHABLE_KEYS } from '../../lib/constants'
+import { parseJSONObject } from '../../lib/safeJSON'
+
+const publishableKeys = parseJSONObject(STRIPE_PUBLISHABLE_KEYS)
+
+if (process.browser && !window.Stripe) {
+  // since there is no unloading after checkout we disable advancedFraudSignals
+  // - https://mtlynch.io/stripe-update/#support-library-unloading
+  loadStripe.setLoadParameters({ advancedFraudSignals: false })
 }
+
+export const loadStripeForCompany = memoize(companyName => {
+  return loadStripe(publishableKeys[companyName], {
+    apiVersion: '2020-08-27',
+    locale: 'de'
+  })
+})

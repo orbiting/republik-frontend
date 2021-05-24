@@ -680,6 +680,7 @@ class Submit extends Component {
       syncAddresses,
       setSyncAddresses,
       packageGroup,
+      companyName,
       customMe,
       contactState
     } = this.props
@@ -826,6 +827,7 @@ class Submit extends Component {
           shippingAddressState={shippingAddressState}
           syncAddresses={syncAddresses}
           packageGroup={packageGroup}
+          companyName={companyName}
           setSyncAddresses={setSyncAddresses}
           onChange={fields => {
             this.setState(state => {

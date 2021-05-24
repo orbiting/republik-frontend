@@ -26,17 +26,20 @@ import { inNativeAppBrowser } from '../../lib/withInNativeApp'
 
 import * as postfinance from './postfinance'
 import * as paypal from './paypal'
-import loadStripe from './stripe'
 
 import * as PSPIcons from './PSPIcons'
 
 import { format } from 'd3-format'
 
-// import { loadStripe } from '@stripe/stripe-js/pure'
-// since there is no unloading after checkout we disable advancedFraudSignals
-// - https://mtlynch.io/stripe-update/#support-library-unloading
-// loadStripe.setLoadParameters({ advancedFraudSignals: false })
-// const stripe = await loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx')
+import {
+  Elements,
+  CardElement
+  // useElements,
+  // useStripe,
+  // PaymentRequestButtonElement
+} from '@stripe/react-stripe-js'
+
+import { loadStripeForCompany } from './stripe'
 
 const pad2 = format('02')
 
@@ -223,8 +226,8 @@ class PaymentForm extends Component {
     }
   }
   createStripeSource({ total, metadata, on3DSecure, returnUrl }) {
-    const { values, t } = this.props
-    return loadStripe().then(stripe => {
+    const { values, t, companyName } = this.props
+    return loadStripeForCompany(companyName).then(stripe => {
       return new Promise((resolve, reject) => {
         stripe.source.create(
           {
@@ -320,6 +323,7 @@ class PaymentForm extends Component {
       userName,
       userAddress,
       packageGroup,
+      companyName,
       syncAddresses,
       setSyncAddresses
     } = this.props
@@ -607,6 +611,41 @@ class PaymentForm extends Component {
             }}
           >
             {stripeNote && <Label>{stripeNote}</Label>}
+            <Elements
+              stripe={loadStripeForCompany(companyName)}
+              fonts={[
+                {
+                  family: fontStyles.sansSerifRegular.fontFamily,
+                  weight: fontStyles.sansSerifRegular.fontWeight,
+                  src:
+                    'https://cdn.repub.ch/s3/republik-assets/fonts/gt-america-standard-regular.woff)'
+                }
+              ]}
+            >
+              <CardElement
+                options={{
+                  hidePostalCode: true,
+                  // iconStyle: 'solid',
+                  style: {
+                    base: {
+                      fontSize: '22px',
+                      ...fontStyles.sansSerifRegular,
+                      // color: colors.text,
+                      // borderBottom: '1px solid black',
+                      '::placeholder': {
+                        // color: colors.disabled
+                      },
+                      ':disabled': {
+                        // color: colors.disabled
+                      }
+                    },
+                    invalid: {
+                      // color: colors.error
+                    }
+                  }
+                }}
+              />
+            </Elements>
             <FieldSet
               values={values}
               errors={errors}
@@ -657,7 +696,7 @@ class PaymentForm extends Component {
                   this.setState(() => ({
                     loadingStripe: true
                   }))
-                  loadStripe()
+                  loadStripeForCompany(companyName)
                     .then(stripe => {
                       this.setState(() => ({
                         loadingStripe: false,
@@ -766,6 +805,7 @@ class PaymentForm extends Component {
 
 PaymentForm.propTypes = {
   t: PropTypes.func.isRequired,
+  companyName: PropTypes.string.isRequired,
   loadSources: PropTypes.bool.isRequired,
   accessToken: PropTypes.string,
   allowedMethods: PropTypes.arrayOf(

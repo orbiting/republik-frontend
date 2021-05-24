@@ -118,7 +118,7 @@ class PaymentSources extends Component {
     }
   }
   render() {
-    const { t, me } = this.props
+    const { t, me, companyName } = this.props
     const { values, errors, dirty, loading, remoteError } = this.state
 
     const errorMessages = objectValues(errors).filter(Boolean)
@@ -134,6 +134,7 @@ class PaymentSources extends Component {
           }}
           context='DEFAULT_SOURCE'
           allowedMethods={['STRIPE']}
+          companyName={companyName}
           onChange={fields => {
             this.setState(state => {
               const nextState = FieldSet.utils.mergeFields(fields)(state)

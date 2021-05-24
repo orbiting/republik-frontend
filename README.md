@@ -71,7 +71,7 @@ Payment provider configuration can be passed in via the environment. `PUBLIC_BAS
 ```
 PUBLIC_BASE_URL=https://example.com
 
-STRIPE_PUBLISHABLE_KEYS={"COMPANY_ONE":"pk_x"}
+STRIPE_PUBLISHABLE_KEY=pk_x
 
 PF_PSPID=
 PF_FORM_ACTION=https://e-payment.postfinance.ch/ncol/test/orderstandard.asp

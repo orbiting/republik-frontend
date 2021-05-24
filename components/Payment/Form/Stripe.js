@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { fontStyles } from '@project-r/styleguide'
+import { fontStyles, Label, colors } from '@project-r/styleguide'
 
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 
@@ -36,29 +36,34 @@ const StripeForm = React.forwardRef(({ onChange, t }, ref) => {
   })
 
   return (
-    <CardElement
-      options={{
-        hidePostalCode: true,
-        // iconStyle: 'solid',
-        style: {
-          base: {
-            fontSize: '22px',
-            ...fontStyles.sansSerifRegular,
-            // color: colors.text,
-            // borderBottom: '1px solid black',
-            '::placeholder': {
-              // color: colors.disabled
+    <div style={{ margin: '10px 0' }}>
+      <Label style={{ display: 'block', marginBottom: 8 }}>
+        {t('payment/title/single/DEFAULT_SOURCE')}
+      </Label>
+      <CardElement
+        options={{
+          hidePostalCode: true,
+          // iconStyle: 'solid',
+          style: {
+            base: {
+              fontSize: '22px',
+              ...fontStyles.sansSerifRegular,
+              color: colors.light.text,
+              borderBottom: `1px solid ${colors.light.divider}`,
+              '::placeholder': {
+                color: colors.light.disabled
+              },
+              ':disabled': {
+                color: colors.light.disabled
+              }
             },
-            ':disabled': {
-              // color: colors.disabled
+            invalid: {
+              color: colors.light.error
             }
-          },
-          invalid: {
-            // color: colors.error
           }
-        }
-      }}
-    />
+        }}
+      />
+    </div>
   )
 })
 

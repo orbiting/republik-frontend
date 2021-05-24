@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-20T13:14:54.804Z",
+  "updated": "2021-05-24T22:31:49.035Z",
   "title": "live",
   "data": [
     {
@@ -797,14 +797,6 @@
     {
       "key": "Account/AddressForm/reset",
       "value": "zurücksetzen"
-    },
-    {
-      "key": "account/paymentSource/3dsecure",
-      "value": "3-D Secure"
-    },
-    {
-      "key": "account/paymentSource/3dsecure/failed",
-      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals."
     },
     {
       "key": "account/paymentSource/saving",
@@ -2451,70 +2443,6 @@
       "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Die Verbindung zu stripe.com, unserem Dienstleister für Kreditkartenzahlungen, ist fehlgeschlagen. Mögliche Ursachen: ein temporärer Ausfall oder Ihre Browsererweiterungen. Wählen Sie bitte eine andere Zahlungsart."
     },
     {
-      "key": "payment/stripe/card/label",
-      "value": "Kreditkarten-Nummer"
-    },
-    {
-      "key": "payment/stripe/card/error/empty",
-      "value": "Kreditkarten-Nummer fehlt"
-    },
-    {
-      "key": "payment/stripe/card/error/invalid",
-      "value": "Kreditkarten-Nummer ungültig"
-    },
-    {
-      "key": "payment/stripe/month/label",
-      "value": "Ablauf Monat"
-    },
-    {
-      "key": "payment/stripe/month/error/empty",
-      "value": "Ablauf Monat fehlt"
-    },
-    {
-      "key": "payment/stripe/month/error/invalid",
-      "value": "Ablauf Monat ungültig"
-    },
-    {
-      "key": "payment/stripe/year/label",
-      "value": "Ablauf Jahr"
-    },
-    {
-      "key": "payment/stripe/year/error/empty",
-      "value": "Ablauf Jahr fehlt"
-    },
-    {
-      "key": "payment/stripe/year/error/invalid",
-      "value": "Ablauf Jahr ungültig"
-    },
-    {
-      "key": "payment/stripe/cvc/label",
-      "value": "Prüfnummer (CVC)"
-    },
-    {
-      "key": "payment/stripe/cvc/error/empty",
-      "value": "Prüfnummer (CVC) fehlt"
-    },
-    {
-      "key": "payment/stripe/cvc/error/invalid",
-      "value": "Prüfnummer (CVC) ungültig"
-    },
-    {
-      "key": "payment/stripe/3dsecure/payment_method_not_available",
-      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es bitte mit einem anderen Zahlungsmittel."
-    },
-    {
-      "key": "payment/stripe/3dsecure/processing_error",
-      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es bitte erneut."
-    },
-    {
-      "key": "payment/stripe/3dsecure/unkown",
-      "value": "Unbekannter Fehler beim Bezahlen."
-    },
-    {
-      "key": "payment/stripe/3dsecure/redirect/failed",
-      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
-    },
-    {
       "key": "payment/paymentslip/explanation",
       "value": "Nach der Bestellung senden wir Ihnen per E-Mail eine QR-Rechnung."
     },
@@ -2701,10 +2629,6 @@
     {
       "key": "pledge/submit/loading/stripe",
       "value": "bezahlen"
-    },
-    {
-      "key": "pledge/submit/loading/stripe/3dsecure",
-      "value": "3-D Secure"
     },
     {
       "key": "pledge/submit/loading/postfinance",

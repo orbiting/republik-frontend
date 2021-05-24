@@ -471,8 +471,6 @@ class Submit extends Component {
             payPledge.stripeClientSecret
           )
           if (confirmResult.error) {
-            // TK: rm
-            console.error(confirmResult)
             this.setState(() => ({
               loading: false,
               paymentError: confirmResult.error.message
@@ -529,7 +527,7 @@ class Submit extends Component {
       })
   }
   payWithStripe(pledgeId) {
-    const { t, total } = this.props
+    const { t } = this.props
     const { values } = this.state
 
     this.setState(() => ({
@@ -546,13 +544,8 @@ class Submit extends Component {
     }
 
     this.payment.stripe
-      .createPaymentMethod({
-        total,
-        metadata: {
-          pledgeId
-        }
-      })
-      .then(source => {
+      .createPaymentMethod()
+      .then(paymentMethod => {
         this.setState({
           loading: false,
           paymentError: undefined
@@ -560,8 +553,8 @@ class Submit extends Component {
         this.pay({
           pledgeId,
           method: 'STRIPE',
-          sourceId: source.id,
-          pspPayload: source
+          sourceId: paymentMethod.id,
+          pspPayload: paymentMethod
         })
       })
       .catch(error => {

@@ -145,7 +145,7 @@ class Account extends Component {
                       <MembershipList highlightId={query.id} />
                       {paymentMethodCompany && (
                         <PaymentSources
-                          companyName={paymentMethodCompany}
+                          company={paymentMethodCompany}
                           query={query}
                         />
                       )}
@@ -238,7 +238,7 @@ export default compose(
         (!hasActiveMemberships && monthlyMembership)
 
       const paymentMethodCompany =
-        autoPayMembership && autoPayMembership.pledge.package.company.name
+        autoPayMembership && autoPayMembership.pledge.package.company
 
       return {
         loading: data.loading,

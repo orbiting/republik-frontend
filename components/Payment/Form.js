@@ -514,7 +514,7 @@ class PaymentForm extends Component {
                   family: fontStyles.sansSerifRegular.fontFamily,
                   weight: fontStyles.sansSerifRegular.fontWeight,
                   src:
-                    'https://cdn.repub.ch/s3/republik-assets/fonts/gt-america-standard-regular.woff)'
+                    'https://cdn.repub.ch/s3/republik-assets/fonts/gt-america-standard-regular.woff'
                 }
               ]}
             >

@@ -9,13 +9,13 @@ import { errorToString } from '../../lib/utils/errors'
 
 import FieldSet from '../FieldSet'
 import PaymentForm, { query } from '../Payment/Form'
-import loadStripe from '../Payment/stripe'
 import { P } from './Elements'
 
 import { Button, InlineSpinner, colors } from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { withRouter } from 'next/router'
+
+import { loadStripeForCompany } from '../Payment/stripe'
 
 const objectValues = object => Object.keys(object).map(key => object[key])
 
@@ -32,15 +32,45 @@ class PaymentSources extends Component {
         ref && ref.getWrappedInstance ? ref.getWrappedInstance() : ref
     }
   }
-  addSource(source) {
-    this.props
-      .addSource(source)
-      .then(() => {
+  addPaymentMethod() {
+    const { t, company } = this.props
+    this.setState({
+      loading: t('account/paymentSource/saving'),
+      remoteError: undefined
+    })
+    this.payment.stripe
+      .createPaymentMethod()
+      .then(async paymentMethod => {
+        const {
+          data: {
+            addPaymentMethod: { stripeClientSecret }
+          }
+        } = await this.props.addPaymentMethod({
+          stripePlatformPaymentMethodId: paymentMethod.id,
+          companyId: company.id
+        })
+
+        if (stripeClientSecret) {
+          const stripeClient = await loadStripeForCompany(company.name)
+          const confirmResult = await stripeClient.confirmCardSetup(
+            stripeClientSecret
+          )
+          if (confirmResult.error) {
+            this.setState(() => ({
+              loading: false,
+              remoteError: confirmResult.error.message
+            }))
+            return
+          }
+        }
+        await this.props.setDefaultPaymentMethod({
+          stripePlatformPaymentMethodId: paymentMethod.id
+        })
         this.setState({
           loading: false,
           remoteError: undefined,
           values: {
-            paymentSource: source.id,
+            paymentSource: paymentMethod.id,
             paymentMethod: 'STRIPE'
           },
           errors: {},
@@ -54,71 +84,8 @@ class PaymentSources extends Component {
         })
       })
   }
-  createStripeSource() {
-    const { me, t, total } = this.props
-    this.setState({
-      loading: t('account/paymentSource/saving'),
-      remoteError: undefined
-    })
-    this.payment
-      .createStripeSource({
-        total,
-        metadata: {
-          userId: me.id
-        },
-        on3DSecure: () => {
-          this.setState({
-            loading: t('account/paymentSource/3dsecure')
-          })
-        },
-        returnUrl: `${PUBLIC_BASE_URL}/konto?stripe=1`
-      })
-      .then(source => {
-        this.addSource(source)
-      })
-      .catch(error => {
-        this.setState({
-          loading: false,
-          remoteError: error
-        })
-      })
-  }
-  checkStripeSource({ query }) {
-    const { t } = this.props
-
-    loadStripe()
-      .then(stripe => {
-        stripe.source.get(
-          query.source,
-          query.client_secret,
-          (status, source) => {
-            if (source.status === 'chargeable') {
-              this.addSource(source)
-            } else {
-              this.setState(() => ({
-                loading: false,
-                remoteError: t('account/paymentSource/3dsecure/failed')
-              }))
-            }
-          }
-        )
-      })
-      .catch(() => {
-        this.setState(() => ({
-          loading: false,
-          remoteError: t('payment/stripe/js/failed')
-        }))
-      })
-  }
-  componentDidMount() {
-    const { query, router } = this.props
-    if (query.stripe) {
-      this.checkStripeSource({ query })
-      router.replace('/konto', undefined, { shallow: true })
-    }
-  }
   render() {
-    const { t, me, companyName } = this.props
+    const { t, me, company } = this.props
     const { values, errors, dirty, loading, remoteError } = this.state
 
     const errorMessages = objectValues(errors).filter(Boolean)
@@ -134,7 +101,7 @@ class PaymentSources extends Component {
           }}
           context='DEFAULT_SOURCE'
           allowedMethods={['STRIPE']}
-          companyName={companyName}
+          companyName={company.name}
           onChange={fields => {
             this.setState(state => {
               const nextState = FieldSet.utils.mergeFields(fields)(state)
@@ -195,7 +162,7 @@ class PaymentSources extends Component {
                   })
                   return
                 }
-                this.createStripeSource()
+                this.addPaymentMethod()
               }}
             >
               {t('account/paymentSource/save')}
@@ -207,16 +174,32 @@ class PaymentSources extends Component {
   }
 }
 
-const addSource = gql`
-  mutation addPaymentSource($sourceId: String!, $pspPayload: JSON!) {
-    addPaymentSource(sourceId: $sourceId, pspPayload: $pspPayload) {
+const addPaymentMethodMutation = gql`
+  mutation addPaymentMethod(
+    $stripePlatformPaymentMethodId: ID!
+    $companyId: ID!
+  ) {
+    addPaymentMethod(
+      stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
+      companyId: $companyId
+    ) {
+      stripeClientSecret
+    }
+  }
+`
+
+const setDefaultPaymentMethodMutation = gql`
+  mutation setDefaultPaymentMethod($stripePlatformPaymentMethodId: ID!) {
+    setDefaultPaymentMethod(
+      stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
+    ) {
       id
-      last4
-      brand
       isDefault
-      status
+      brand
+      last4
       expMonth
       expYear
+      isExpired
     }
   }
 `
@@ -225,14 +208,20 @@ export default compose(
   withT,
   withMe,
   withRouter,
-  graphql(addSource, {
+  graphql(addPaymentMethodMutation, {
     props: ({ mutate }) => ({
-      addSource: source => {
+      addPaymentMethod: variables => {
         return mutate({
-          variables: {
-            sourceId: source.id,
-            pspPayload: source
-          },
+          variables
+        })
+      }
+    })
+  }),
+  graphql(setDefaultPaymentMethodMutation, {
+    props: ({ mutate }) => ({
+      setDefaultPaymentMethod: variables => {
+        return mutate({
+          variables,
           refetchQueries: [
             {
               query

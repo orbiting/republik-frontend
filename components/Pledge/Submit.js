@@ -21,8 +21,6 @@ import { query as addressQuery } from '../Account/enhancers'
 
 import FieldSet from '../FieldSet'
 
-import { PUBLIC_BASE_URL } from '../../lib/constants'
-
 import {
   Interaction,
   Button,
@@ -35,8 +33,9 @@ import {
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
-import { STRIPE_PLEDGE_ID_QUERY_KEY } from '../Payment/constants'
 import Consents, { getConsentsError } from './Consents'
+
+import { loadStripeForCompany } from '../Payment/stripe'
 
 import { useFieldSetState } from './utils'
 
@@ -447,7 +446,14 @@ class Submit extends Component {
     })
   }
   pay(data) {
-    const { t, me, customMe, packageName, contactState } = this.props
+    const {
+      t,
+      me,
+      customMe,
+      packageName,
+      contactState,
+      companyName
+    } = this.props
 
     const email = customMe ? customMe.email : contactState.values.email
     this.setState(() => ({
@@ -458,7 +464,28 @@ class Submit extends Component {
         ...data,
         makeDefault: this.getAutoPayValue()
       })
-      .then(({ data: { payPledge } }) => {
+      .then(async ({ data: { payPledge } }) => {
+        if (payPledge.stripeClientSecret) {
+          const stripeClient = await loadStripeForCompany(companyName)
+          const confirmResult = await stripeClient.confirmCardPayment(
+            payPledge.stripeClientSecret
+          )
+          if (confirmResult.error) {
+            // TK: rm
+            console.error(confirmResult)
+            this.setState(() => ({
+              loading: false,
+              paymentError: confirmResult.error.message
+            }))
+            return
+          }
+        }
+        if (payPledge.stripePaymentIntentId) {
+          const syncData = await this.props.syncPaymentIntent(payPledge)
+          if (syncData.pledgeStatus !== 'SUCCESSFUL') {
+            // TK: Do something?
+          }
+        }
         const baseQuery = {
           package: packageName,
           id: payPledge.pledgeId
@@ -518,18 +545,12 @@ class Submit extends Component {
       return
     }
 
-    this.payment
-      .createStripeSource({
+    this.payment.stripe
+      .createPaymentMethod({
         total,
         metadata: {
           pledgeId
-        },
-        on3DSecure: () => {
-          this.setState({
-            loading: t('pledge/submit/loading/stripe/3dsecure')
-          })
-        },
-        returnUrl: `${PUBLIC_BASE_URL}/angebote?${STRIPE_PLEDGE_ID_QUERY_KEY}=${pledgeId}&stripe=1`
+        }
       })
       .then(source => {
         this.setState({
@@ -1003,6 +1024,21 @@ const payPledge = gql`
       pledgeId
       userId
       emailVerify
+      stripeClientSecret
+      stripePaymentIntentId
+      companyId
+    }
+  }
+`
+
+const syncPaymentIntentMutation = gql`
+  mutation syncPaymentIntent($stripePaymentIntentId: ID!, $companyId: ID!) {
+    syncPaymentIntent(
+      stripePaymentIntentId: $stripePaymentIntentId
+      companyId: $companyId
+    ) {
+      pledgeStatus
+      updatedPledge
     }
   }
 `
@@ -1064,6 +1100,15 @@ const SubmitWithMutations = compose(
       submit: variables => {
         setPendingOrder(variables)
 
+        return mutate({
+          variables
+        })
+      }
+    })
+  }),
+  graphql(syncPaymentIntentMutation, {
+    props: ({ mutate }) => ({
+      syncPaymentIntent: variables => {
         return mutate({
           variables
         })

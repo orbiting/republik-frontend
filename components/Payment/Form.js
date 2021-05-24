@@ -16,8 +16,6 @@ import {
 } from '@project-r/styleguide'
 import { LockIcon } from '@project-r/styleguide/icons'
 
-import FieldSet from '../FieldSet'
-
 import { AutoForm as AddressForm, AddressView } from '../Account/AddressForm'
 
 import { PF_FORM_ACTION, PAYPAL_FORM_ACTION } from '../../lib/constants'
@@ -31,15 +29,11 @@ import * as PSPIcons from './PSPIcons'
 
 import { format } from 'd3-format'
 
-import {
-  Elements,
-  CardElement
-  // useElements,
-  // useStripe,
-  // PaymentRequestButtonElement
-} from '@stripe/react-stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 
 import { loadStripeForCompany } from './stripe'
+
+import StripeForm from './Form/Stripe'
 
 const pad2 = format('02')
 
@@ -47,35 +41,14 @@ const PAYMENT_METHODS = [
   {
     disabled: false,
     key: 'STRIPE',
-    Icon: ({ state: { stripe }, values }) => {
-      let cardType = null
-      if (stripe && values && values.cardNumber) {
-        cardType = stripe.card.cardType(values.cardNumber)
-        if (cardType === 'Unknown') {
-          cardType = null
-        }
-      }
+    Icon: () => {
       return (
         <span>
-          <span style={{ opacity: !cardType || cardType === 'Visa' ? 1 : 0.4 }}>
-            <PSPIcons.Visa />
-          </span>
+          <PSPIcons.Visa />
           <span style={{ display: 'inline-block', width: 10 }} />
-          <span
-            style={{
-              opacity: !cardType || cardType === 'MasterCard' ? 1 : 0.4
-            }}
-          >
-            <PSPIcons.Mastercard />
-          </span>
+          <PSPIcons.Mastercard />
           <span style={{ display: 'inline-block', width: 10 }} />
-          <span
-            style={{
-              opacity: !cardType || cardType === 'American Express' ? 1 : 0.4
-            }}
-          >
-            <PSPIcons.Amex />
-          </span>
+          <PSPIcons.Amex />
         </span>
       )
     }
@@ -176,6 +149,9 @@ class PaymentForm extends Component {
   constructor(...args) {
     super(...args)
     this.state = {}
+    this.stripeRef = ref => {
+      this.stripe = ref
+    }
     this.postFinanceFormRef = ref => {
       this.postFinanceForm = ref
     }
@@ -225,94 +201,12 @@ class PaymentForm extends Component {
       }
     }
   }
-  createStripeSource({ total, metadata, on3DSecure, returnUrl }) {
-    const { values, t, companyName } = this.props
-    return loadStripeForCompany(companyName).then(stripe => {
-      return new Promise((resolve, reject) => {
-        stripe.source.create(
-          {
-            type: 'card',
-            currency: 'CHF',
-            amount: total,
-            usage: 'reusable',
-            card: {
-              number: values.cardNumber && values.cardNumber.trim(),
-              cvc: values.cardCVC && values.cardCVC.trim(),
-              exp_month: +values.cardMonth,
-              exp_year: +values.cardYear
-            },
-            metadata
-          },
-          (status, source) => {
-            if (status !== 200) {
-              // source.error.type
-              // source.error.param
-              // source.error.message
-              // see https://stripe.com/docs/api#errors
-              // - never happens because we use client validation
-              // - only when charging some additional errors can happen
-              //   those are handled server side in the pay mutation
-              // - if it happens, we simply display the English message
-              // test cards https://stripe.com/docs/testing#cards
-              reject(source.error.message)
-              return
-            }
-
-            if (source.card.three_d_secure !== 'required') {
-              resolve(source)
-              return
-            }
-
-            if (on3DSecure) {
-              on3DSecure()
-            }
-            stripe.source.create(
-              {
-                type: 'three_d_secure',
-                currency: 'CHF',
-                amount: total || 24000,
-                three_d_secure: {
-                  card: source.id
-                },
-                redirect: {
-                  return_url: returnUrl
-                },
-                metadata
-              },
-              (status, source3d) => {
-                if (status !== 200) {
-                  reject(
-                    t.first([
-                      `payment/stripe/${source3d.error.code}`,
-                      'payment/stripe/unkown'
-                    ])
-                  )
-                  return
-                }
-                if (source3d.redirect.status === 'succeeded') {
-                  // can charge immediately
-                  resolve(source3d)
-                } else if (source3d.redirect.status === 'failed') {
-                  // no support or bank 3D Secure down
-                  reject(t('payment/stripe/redirect/failed'))
-                } else {
-                  window.location = source3d.redirect.url
-                }
-              }
-            )
-          }
-        )
-      })
-    })
-  }
   render() {
     const {
       t,
       allowedMethods,
       payload,
       values,
-      errors,
-      dirty,
       onChange,
       paymentSource,
       loadingPaymentSource,
@@ -399,11 +293,13 @@ class PaymentForm extends Component {
             const hasPaymentSource = !!paymentSource
             const PaymentSourceIcon =
               hasPaymentSource &&
-              ((paymentSource.brand === 'Visa' && <PSPIcons.Visa />) ||
-                (paymentSource.brand === 'MasterCard' && (
+              ((paymentSource.brand.toLowerCase() === 'visa' && (
+                <PSPIcons.Visa />
+              )) ||
+                (paymentSource.brand.toLowerCase() === 'mastercard' && (
                   <PSPIcons.Mastercard />
                 )) ||
-                (paymentSource.brand === 'American Express' && (
+                (paymentSource.brand.toLowerCase() === 'american express' && (
                   <PSPIcons.Amex />
                 )))
             const paymentSourceDisabled =
@@ -514,9 +410,7 @@ class PaymentForm extends Component {
                           paymentMethod === pm.key && !values.paymentSource
                         }
                       />
-                      {pm.Icon ? (
-                        <pm.Icon state={this.state} values={values} />
-                      ) : null}
+                      {pm.Icon ? <pm.Icon /> : null}
                       <span
                         {...(pm.Icon
                           ? styles.paymentMethodHiddenText
@@ -604,15 +498,17 @@ class PaymentForm extends Component {
           </div>
         )}
         {paymentMethodForm === 'STRIPE' && (
-          <form
-            method='post'
-            onSubmit={e => {
-              e.preventDefault()
-            }}
-          >
+          <>
             {stripeNote && <Label>{stripeNote}</Label>}
             <Elements
-              stripe={loadStripeForCompany(companyName)}
+              key={companyName}
+              stripe={loadStripeForCompany(companyName).catch(() => {
+                onChange({
+                  errors: {
+                    stripe: t('payment/stripe/js/failed')
+                  }
+                })
+              })}
               fonts={[
                 {
                   family: fontStyles.sansSerifRegular.fontFamily,
@@ -622,136 +518,9 @@ class PaymentForm extends Component {
                 }
               ]}
             >
-              <CardElement
-                options={{
-                  hidePostalCode: true,
-                  // iconStyle: 'solid',
-                  style: {
-                    base: {
-                      fontSize: '22px',
-                      ...fontStyles.sansSerifRegular,
-                      // color: colors.text,
-                      // borderBottom: '1px solid black',
-                      '::placeholder': {
-                        // color: colors.disabled
-                      },
-                      ':disabled': {
-                        // color: colors.disabled
-                      }
-                    },
-                    invalid: {
-                      // color: colors.error
-                    }
-                  }
-                }}
-              />
+              <StripeForm t={t} onChange={onChange} ref={this.stripeRef} />
             </Elements>
-            <FieldSet
-              values={values}
-              errors={errors}
-              dirty={dirty}
-              fields={[
-                {
-                  label: t('payment/stripe/card/label'),
-                  name: 'cardNumber',
-                  autoComplete: 'cc-number',
-                  mask: '1111 1111 1111 1111',
-                  validator: value =>
-                    (!value && t('payment/stripe/card/error/empty')) ||
-                    (!!this.state.stripe &&
-                      !this.state.stripe.card.validateCardNumber(value) &&
-                      t('payment/stripe/card/error/invalid'))
-                },
-                {
-                  label: t('payment/stripe/month/label'),
-                  name: 'cardMonth',
-                  autoComplete: 'cc-exp-month'
-                },
-                {
-                  label: t('payment/stripe/year/label'),
-                  name: 'cardYear',
-                  autoComplete: 'cc-exp-year'
-                },
-                {
-                  label: t('payment/stripe/cvc/label'),
-                  name: 'cardCVC',
-                  autoComplete: 'cc-csc',
-                  validator: value =>
-                    (!value && t('payment/stripe/cvc/error/empty')) ||
-                    (!!this.state.stripe &&
-                      !this.state.stripe.card.validateCVC(value) &&
-                      t('payment/stripe/cvc/error/invalid'))
-                }
-              ]}
-              onChange={(fields, mounting) => {
-                if ((!mounting || values.cardNumber) && !this.state.stripe) {
-                  onChange({
-                    errors: {
-                      stripe: t('payment/stripe/js/loading')
-                    }
-                  })
-                  if (this.state.loadingStripe) {
-                    return
-                  }
-                  this.setState(() => ({
-                    loadingStripe: true
-                  }))
-                  loadStripeForCompany(companyName)
-                    .then(stripe => {
-                      this.setState(() => ({
-                        loadingStripe: false,
-                        stripe
-                      }))
-                      onChange({
-                        errors: {
-                          stripe: undefined
-                        }
-                      })
-                    })
-                    .catch(() => {
-                      this.setState(() => ({
-                        loadingStripe: false
-                      }))
-                      onChange({
-                        errors: {
-                          stripe: t('payment/stripe/js/failed')
-                        }
-                      })
-                    })
-                }
-
-                const nextState = FieldSet.utils.mergeFields(fields)({
-                  values,
-                  errors,
-                  dirty
-                })
-                const month = nextState.values.cardMonth
-                const year = nextState.values.cardYear
-
-                if (
-                  year &&
-                  month &&
-                  nextState.dirty.cardMonth &&
-                  nextState.dirty.cardYear &&
-                  !!this.state.stripe &&
-                  !this.state.stripe.card.validateExpiry(month, year)
-                ) {
-                  nextState.errors.cardMonth = t(
-                    'payment/stripe/month/error/invalid'
-                  )
-                  nextState.errors.cardYear = t(
-                    'payment/stripe/year/error/invalid'
-                  )
-                } else {
-                  nextState.errors.cardMonth =
-                    !month && t('payment/stripe/month/error/empty')
-                  nextState.errors.cardYear =
-                    !year && t('payment/stripe/year/error/empty')
-                }
-                onChange(nextState)
-              }}
-            />
-          </form>
+          </>
         )}
         {paymentMethodForm === 'POSTFINANCECARD' && (
           <form

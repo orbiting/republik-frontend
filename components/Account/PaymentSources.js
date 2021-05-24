@@ -15,7 +15,7 @@ import { Button, InlineSpinner, colors } from '@project-r/styleguide'
 
 import { withRouter } from 'next/router'
 
-import { loadStripeForCompany } from '../Payment/stripe'
+import { loadStripe } from '../Payment/stripe'
 
 const objectValues = object => Object.keys(object).map(key => object[key])
 
@@ -43,7 +43,7 @@ class PaymentSources extends Component {
       .then(async paymentMethod => {
         const {
           data: {
-            addPaymentMethod: { stripeClientSecret }
+            addPaymentMethod: { stripeClientSecret, stripePublishableKey }
           }
         } = await this.props.addPaymentMethod({
           stripePlatformPaymentMethodId: paymentMethod.id,
@@ -51,7 +51,7 @@ class PaymentSources extends Component {
         })
 
         if (stripeClientSecret) {
-          const stripeClient = await loadStripeForCompany(company.name)
+          const stripeClient = await loadStripe(stripePublishableKey)
           const confirmResult = await stripeClient.confirmCardSetup(
             stripeClientSecret
           )
@@ -85,7 +85,7 @@ class PaymentSources extends Component {
       })
   }
   render() {
-    const { t, me, company } = this.props
+    const { t, me } = this.props
     const { values, errors, dirty, loading, remoteError } = this.state
 
     const errorMessages = objectValues(errors).filter(Boolean)
@@ -101,7 +101,6 @@ class PaymentSources extends Component {
           }}
           context='DEFAULT_SOURCE'
           allowedMethods={['STRIPE']}
-          companyName={company.name}
           onChange={fields => {
             this.setState(state => {
               const nextState = FieldSet.utils.mergeFields(fields)(state)
@@ -183,6 +182,7 @@ const addPaymentMethodMutation = gql`
       stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
       companyId: $companyId
     ) {
+      stripePublishableKey
       stripeClientSecret
     }
   }

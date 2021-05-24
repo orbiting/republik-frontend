@@ -31,7 +31,7 @@ import { graphql, compose } from 'react-apollo'
 import * as PSPIcons from '../Payment/PSPIcons'
 import { format } from 'd3-format'
 
-import { loadStripeForCompany } from '../Payment/stripe'
+import { loadStripe } from '../Payment/stripe'
 
 const pad2 = format('02')
 const PAYMENT_METHOD_HEIGHT = 64
@@ -167,7 +167,7 @@ const Join = ({
 
   return (
     <Elements
-      stripe={loadStripeForCompany('PROJECT_R')}
+      stripe={loadStripe()}
       fonts={[
         {
           family: fontStyles.sansSerifRegular.fontFamily,
@@ -445,13 +445,14 @@ const Form = ({
           }).then(async result => {
             console.log('addPaymentMethod success!', result)
 
-            const { stripeClientSecret } = result.data.addPaymentMethod
+            const {
+              stripeClientSecret,
+              stripePublishableKey
+            } = result.data.addPaymentMethod
 
             if (stripeClientSecret) {
               // get stripe client belonging to company of package
-              const stripeClient = await loadStripeForCompany(
-                currentOffer.companyName
-              )
+              const stripeClient = await loadStripe(stripePublishableKey)
 
               console.log('confirmCardSetup...')
               const confirmResult = await stripeClient.confirmCardSetup(
@@ -497,16 +498,19 @@ const Form = ({
           }
 
           const {
-            payPledge: { stripeClientSecret, stripePaymentIntentId, companyId }
+            payPledge: {
+              stripeClientSecret,
+              stripePublishableKey,
+              stripePaymentIntentId,
+              companyId
+            }
           } = await submitAndPay({
             paymentMethodId
           })
 
           if (stripeClientSecret) {
             // get stripe client belonging to company of package
-            const stripeClient = await loadStripeForCompany(
-              currentOffer.companyName
-            )
+            const stripeClient = await loadStripe(stripePublishableKey)
 
             console.log('confirmCardPayment...')
             const confirmResult = await stripeClient.confirmCardPayment(
@@ -589,16 +593,19 @@ const CheckoutForm = ({ currentOffer, submitAndPay, syncPaymentIntent }) => {
         const paymentMethodId = ev.paymentMethod.id
 
         const {
-          payPledge: { stripeClientSecret, stripePaymentIntentId, companyId }
+          payPledge: {
+            stripeClientSecret,
+            stripePublishableKey,
+            stripePaymentIntentId,
+            companyId
+          }
         } = await submitAndPay({
           paymentMethodId
         })
 
         if (stripeClientSecret) {
           // get stripe client belonging to company of package
-          const stripeClient = await loadStripeForCompany(
-            currentOffer.companyName
-          )
+          const stripeClient = await loadStripe(stripePublishableKey)
 
           // Confirm the PaymentIntent without handling potential next actions (yet).
           const {
@@ -737,6 +744,7 @@ const payPledge = gql`
       pledgeId
       userId
       emailVerify
+      stripePublishableKey
       stripeClientSecret
       stripePaymentIntentId
       companyId
@@ -753,6 +761,7 @@ const addPaymentMethodQuery = gql`
       stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
       companyId: $companyId
     ) {
+      stripePublishableKey
       stripeClientSecret
     }
   }

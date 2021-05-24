@@ -226,7 +226,6 @@ class Pledge extends Component {
     return {
       accessToken: query.token,
       packageGroup: pkg ? pkg.group : undefined,
-      companyName: pkg ? pkg.company.name : undefined,
       packageName: pkg ? pkg.name : undefined,
       forceAutoPay: pkg ? pkg.name === 'MONTHLY_ABO' : undefined,
       requiresStatutes: pkg
@@ -505,10 +504,6 @@ const query = gql`
       name
       hasEnded
       packages {
-        company {
-          id
-          name
-        }
         id
         name
         group
@@ -556,10 +551,6 @@ const query = gql`
         country
       }
       customPackages {
-        company {
-          id
-          name
-        }
         id
         name
         group

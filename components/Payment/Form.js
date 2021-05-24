@@ -31,7 +31,7 @@ import { format } from 'd3-format'
 
 import { Elements } from '@stripe/react-stripe-js'
 
-import { loadStripeForCompany } from './stripe'
+import { loadStripe } from './stripe'
 
 import StripeForm from './Form/Stripe'
 
@@ -217,7 +217,6 @@ class PaymentForm extends Component {
       userName,
       userAddress,
       packageGroup,
-      companyName,
       syncAddresses,
       setSyncAddresses
     } = this.props
@@ -501,8 +500,7 @@ class PaymentForm extends Component {
           <>
             {stripeNote && <Label>{stripeNote}</Label>}
             <Elements
-              key={companyName}
-              stripe={loadStripeForCompany(companyName).catch(() => {
+              stripe={loadStripe().catch(() => {
                 onChange({
                   errors: {
                     stripe: t('payment/stripe/js/failed')
@@ -574,7 +572,6 @@ class PaymentForm extends Component {
 
 PaymentForm.propTypes = {
   t: PropTypes.func.isRequired,
-  companyName: PropTypes.string.isRequired,
   loadSources: PropTypes.bool.isRequired,
   accessToken: PropTypes.string,
   allowedMethods: PropTypes.arrayOf(
@@ -590,12 +587,6 @@ PaymentForm.propTypes = {
   values: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   dirty: PropTypes.object.isRequired
-  // return: PropTypes.shape({
-  //   route: PropTypes.string.isRequired,
-  //   params: PropTypes.object
-  // }).isRequired,
-  // onPay: PropTypes.func.isRequired
-  // get: method, sourceId, pspPayload
 }
 
 // look into PARAMPLUS for PF

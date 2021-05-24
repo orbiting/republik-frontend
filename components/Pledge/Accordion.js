@@ -116,10 +116,6 @@ const query = gql`
       id
       name
       packages {
-        company {
-          id
-          name
-        }
         id
         name
         group

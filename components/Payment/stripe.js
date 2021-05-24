@@ -1,20 +1,16 @@
-import { loadStripe } from '@stripe/stripe-js/pure'
-import memoize from 'lodash/memoize'
+import { loadStripe as pureLoadStripe } from '@stripe/stripe-js/pure'
 
-import { STRIPE_PUBLISHABLE_KEYS } from '../../lib/constants'
-import { parseJSONObject } from '../../lib/safeJSON'
-
-const publishableKeys = parseJSONObject(STRIPE_PUBLISHABLE_KEYS)
+import { STRIPE_PUBLISHABLE_KEY } from '../../lib/constants'
 
 if (process.browser && !window.Stripe) {
   // since there is no unloading after checkout we disable advancedFraudSignals
   // - https://mtlynch.io/stripe-update/#support-library-unloading
-  loadStripe.setLoadParameters({ advancedFraudSignals: false })
+  pureLoadStripe.setLoadParameters({ advancedFraudSignals: false })
 }
 
-export const loadStripeForCompany = memoize(companyName => {
-  return loadStripe(publishableKeys[companyName], {
+export const loadStripe = stripePublishableKey => {
+  return pureLoadStripe(stripePublishableKey || STRIPE_PUBLISHABLE_KEY, {
     apiVersion: '2020-08-27',
     locale: 'de'
   })
-})
+}

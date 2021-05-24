@@ -35,7 +35,7 @@ import {
 import PaymentForm from '../Payment/Form'
 import Consents, { getConsentsError } from './Consents'
 
-import { loadStripeForCompany } from '../Payment/stripe'
+import { loadStripe } from '../Payment/stripe'
 
 import { useFieldSetState } from './utils'
 
@@ -446,14 +446,7 @@ class Submit extends Component {
     })
   }
   pay(data) {
-    const {
-      t,
-      me,
-      customMe,
-      packageName,
-      contactState,
-      companyName
-    } = this.props
+    const { t, me, customMe, packageName, contactState } = this.props
 
     const email = customMe ? customMe.email : contactState.values.email
     this.setState(() => ({
@@ -466,7 +459,7 @@ class Submit extends Component {
       })
       .then(async ({ data: { payPledge } }) => {
         if (payPledge.stripeClientSecret) {
-          const stripeClient = await loadStripeForCompany(companyName)
+          const stripeClient = await loadStripe(payPledge.stripePublishableKey)
           const confirmResult = await stripeClient.confirmCardPayment(
             payPledge.stripeClientSecret
           )
@@ -694,7 +687,6 @@ class Submit extends Component {
       syncAddresses,
       setSyncAddresses,
       packageGroup,
-      companyName,
       customMe,
       contactState
     } = this.props
@@ -841,7 +833,6 @@ class Submit extends Component {
           shippingAddressState={shippingAddressState}
           syncAddresses={syncAddresses}
           packageGroup={packageGroup}
-          companyName={companyName}
           setSyncAddresses={setSyncAddresses}
           onChange={fields => {
             this.setState(state => {
@@ -1017,6 +1008,7 @@ const payPledge = gql`
       pledgeId
       userId
       emailVerify
+      stripePublishableKey
       stripeClientSecret
       stripePaymentIntentId
       companyId

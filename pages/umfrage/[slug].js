@@ -40,6 +40,9 @@ const QuestionnairePage = props => {
 
 export default compose(
   withRouter,
+  WrappedComponent => props => (
+    <WrappedComponent {...props} slug={props.router.query.slug} />
+  ),
   withQuestionnaire,
   enforceMembership(meta, { title: t('questionnaire/title'), description })
 )(QuestionnairePage)

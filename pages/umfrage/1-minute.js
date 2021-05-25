@@ -11,7 +11,6 @@ import {
   withQuestionnaireMutation,
   withQuestionnaireReset
 } from '../../components/Questionnaire/enhancers'
-import { withRouter } from 'next/router'
 import QuestionnaireActions from '../../components/Questionnaire/QuestionnaireActions'
 import Frame from '../../components/Frame'
 import Results from '../../components/Questionnaire/Results'
@@ -43,6 +42,8 @@ import { TrendingFlatIcon } from '@project-r/styleguide/icons'
 import NewsletterSignUp from '../../components/Auth/NewsletterSignUp'
 import Link from 'next/link'
 import { description } from './[slug]'
+
+const SLUG = '1-minute'
 
 const { Headline, P } = Interaction
 
@@ -384,7 +385,7 @@ class QuestionnaireCrowdPage extends Component {
   }
 
   render() {
-    const { detailsData, questionnaireData, router, showResults } = this.props
+    const { detailsData, questionnaireData, showResults } = this.props
     const {
       serverError,
       updating,
@@ -429,6 +430,7 @@ class QuestionnaireCrowdPage extends Component {
           sliceAt={1}
           showSlice2={willingToHelp}
           onQuestionnaireChange={() => this.onQuestionnaireChange()}
+          slug={SLUG}
         />
         {!submitted && willingnessStatus && (
           <>
@@ -471,7 +473,7 @@ class QuestionnaireCrowdPage extends Component {
               Diese Resultate werden{' '}
               <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
             </P>
-            <Results canDownload slug='1-minute' />
+            <Results canDownload slug={SLUG} />
           </>
         )}
       </Frame>
@@ -480,7 +482,7 @@ class QuestionnaireCrowdPage extends Component {
 }
 
 export default compose(
-  withRouter,
+  WrappedComponent => props => <WrappedComponent {...props} slug={SLUG} />,
   withQuestionnaire,
   withMyDetails,
   withMutation,

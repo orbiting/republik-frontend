@@ -81,9 +81,9 @@ const getQuestionnaire = gql`
 
 export const withQuestionnaire = graphql(getQuestionnaire, {
   name: 'questionnaireData',
-  options: ({ router }) => ({
+  options: ({ slug }) => ({
     variables: {
-      slug: router && router.query.slug
+      slug
     }
   })
 })
@@ -101,7 +101,7 @@ export const withQuestionnaireMutation = graphql(submitQuestionnaireMutation, {
 })
 
 export const withQuestionnaireReset = graphql(resetQuestionnaireMutation, {
-  props: ({ mutate, ownProps: { router } }) => ({
+  props: ({ mutate, ownProps: { slug } }) => ({
     resetQuestionnaire: id => {
       return mutate({
         variables: {
@@ -110,7 +110,7 @@ export const withQuestionnaireReset = graphql(resetQuestionnaireMutation, {
         refetchQueries: [
           {
             query: getQuestionnaire,
-            variables: { slug: router && router.query.slug }
+            variables: { slug }
           }
         ]
       })
@@ -119,7 +119,7 @@ export const withQuestionnaireReset = graphql(resetQuestionnaireMutation, {
 })
 
 export const withAnswerMutation = graphql(submitAnswerMutation, {
-  props: ({ mutate, ownProps: { router } }) => ({
+  props: ({ mutate, ownProps: { slug } }) => ({
     submitAnswer: (questionId, payload, answerId) => {
       return mutate({
         variables: {
@@ -142,7 +142,7 @@ export const withAnswerMutation = graphql(submitAnswerMutation, {
         update: (proxy, { data: { submitAnswer } }) => {
           const queryObj = {
             query: getQuestionnaire,
-            variables: { slug: router.query.slug }
+            variables: { slug }
           }
           const data = proxy.readQuery(queryObj)
           const questionIx = data.questionnaire.questions.findIndex(

@@ -94,7 +94,7 @@ const Actions = ({
                   <Link
                     href={{
                       pathname: '/angebote',
-                      query: { group: 'ABO' }
+                      query: { package: 'ABO' }
                     }}
                     passHref
                   >

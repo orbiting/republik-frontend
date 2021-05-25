@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'next/router'
 
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
@@ -24,10 +23,7 @@ const styles = {
   })
 }
 
-export default compose(
-  withT,
-  withRouter
-)(({ t, router, submitted, showResults }) => {
+export default compose(withT)(({ t, slug, submitted, showResults }) => {
   return (
     <>
       <Headline>{t('questionnaire/title')}</Headline>
@@ -48,7 +44,7 @@ export default compose(
             Diese Resultate werden{' '}
             <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
           </P>
-          <Results canDownload slug={router.query.slug} />
+          <Results canDownload slug={slug} />
         </>
       )}
     </>

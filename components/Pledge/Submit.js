@@ -452,11 +452,9 @@ class Submit extends Component {
     this.setState(() => ({
       loading: t('pledge/submit/loading/pay')
     }))
+    const makeDefault = this.getAutoPayValue()
     this.props
-      .pay({
-        ...data,
-        makeDefault: this.getAutoPayValue()
-      })
+      .pay(data)
       .then(async ({ data: { payPledge } }) => {
         if (payPledge.stripeClientSecret) {
           const stripeClient = await loadStripe(payPledge.stripePublishableKey)
@@ -475,6 +473,12 @@ class Submit extends Component {
           const syncData = await this.props.syncPaymentIntent(payPledge)
           if (syncData.pledgeStatus !== 'SUCCESSFUL') {
             // TK: Do something?
+          }
+          // safe new payment method as default after payment success
+          if (makeDefault && data.pspPayload) {
+            await this.props.setDefaultPaymentMethod({
+              stripePlatformPaymentMethodId: data.pspPayload.id
+            })
           }
         }
         const baseQuery = {
@@ -1016,6 +1020,16 @@ const payPledge = gql`
   }
 `
 
+const setDefaultPaymentMethodMutation = gql`
+  mutation setDefaultPaymentMethod($stripePlatformPaymentMethodId: ID!) {
+    setDefaultPaymentMethod(
+      stripePlatformPaymentMethodId: $stripePlatformPaymentMethodId
+    ) {
+      id
+    }
+  }
+`
+
 const syncPaymentIntentMutation = gql`
   mutation syncPaymentIntent($stripePaymentIntentId: ID!, $companyId: ID!) {
     syncPaymentIntent(
@@ -1094,6 +1108,15 @@ const SubmitWithMutations = compose(
   graphql(syncPaymentIntentMutation, {
     props: ({ mutate }) => ({
       syncPaymentIntent: variables => {
+        return mutate({
+          variables
+        })
+      }
+    })
+  }),
+  graphql(setDefaultPaymentMethodMutation, {
+    props: ({ mutate }) => ({
+      setDefaultPaymentMethod: variables => {
         return mutate({
           variables
         })

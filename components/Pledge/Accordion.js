@@ -281,8 +281,8 @@ class Accordion extends Component {
               // TMP Marketing Trial for Students
               if (benefactorIndex !== -1) {
                 pkgItems.splice(benefactorIndex + 1, 0, {
-                  route: 'pledge',
-                  params: {
+                  pathname: '/angebote',
+                  query: {
                     package: 'ABO',
                     userPrice: 1,
                     price: 14000,
@@ -294,7 +294,7 @@ class Accordion extends Component {
                 })
               }
               pkgItems.push({
-                route: 'claim',
+                pathname: '/abholen',
                 name: 'claim',
                 title: t('marketing/offers/claim')
               })
@@ -305,11 +305,8 @@ class Accordion extends Component {
               )
               if (donatePotIndex !== -1) {
                 pkgItems.splice(donatePotIndex, 0, {
-                  route: 'pledge',
-                  params: {
-                    package: 'ABO_GIVE',
-                    filter: 'pot'
-                  },
+                  pathname: '/angebote',
+                  query: { package: 'ABO_GIVE', filter: 'pot' },
                   name: 'ABO_GIVE_POT',
                   title: t('package/ABO_GIVE/accessGrantedOnly/title'),
                   price: 24000

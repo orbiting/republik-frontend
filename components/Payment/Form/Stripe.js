@@ -1,10 +1,29 @@
 import React from 'react'
 
-import { fontStyles, Label, colors } from '@project-r/styleguide'
+import {
+  fontStyles,
+  Label,
+  colors,
+  useColorContext
+} from '@project-r/styleguide'
 
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { css } from 'glamor'
+
+import { useResolvedColorSchemeKey } from '../../ColorScheme/lib'
+
+const styles = {
+  fieldContainer: css({
+    margin: '10px 0',
+    paddingBottom: 4,
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid'
+  })
+}
 
 const StripeForm = React.forwardRef(({ onChange, t }, ref) => {
+  const [colorScheme] = useColorContext()
+  const colorSchemeKey = useResolvedColorSchemeKey()
   const stripe = useStripe()
   const elements = useElements()
 
@@ -36,29 +55,31 @@ const StripeForm = React.forwardRef(({ onChange, t }, ref) => {
   })
 
   return (
-    <div style={{ margin: '10px 0' }}>
+    <div
+      {...styles.fieldContainer}
+      {...colorScheme.set('borderColor', 'divider')}
+    >
       <Label style={{ display: 'block', marginBottom: 8 }}>
         {t('payment/title/single/DEFAULT_SOURCE')}
       </Label>
       <CardElement
         options={{
           hidePostalCode: true,
-          // iconStyle: 'solid',
+          iconStyle: colorSchemeKey === 'dark' ? 'solid' : 'default',
           style: {
             base: {
               fontSize: '22px',
               ...fontStyles.sansSerifRegular,
-              color: colors.light.text,
-              borderBottom: `1px solid ${colors.light.divider}`,
+              color: colors[colorSchemeKey].text,
               '::placeholder': {
-                color: colors.light.disabled
+                color: colors[colorSchemeKey].disabled
               },
               ':disabled': {
-                color: colors.light.disabled
+                color: colors[colorSchemeKey].disabled
               }
             },
             invalid: {
-              color: colors.light.error
+              color: colors[colorSchemeKey].error
             }
           }
         }}

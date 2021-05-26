@@ -1,15 +1,9 @@
 import React, { useEffect } from 'react'
-import {
-  COLOR_SCHEME_KEY,
-  OS_COLOR_SCHEME_KEY,
-  useColorSchemeKey,
-  usePersistedOSColorSchemeKey
-} from './lib'
+import { COLOR_SCHEME_KEY, OS_COLOR_SCHEME_KEY, useColorSchemeKey } from './lib'
 import NextHead from 'next/head'
 
-const ColorSchemeSync = props => {
-  const [colorSchemeKey, _, defaultKey] = useColorSchemeKey()
-  const [osColorSchemeKey] = usePersistedOSColorSchemeKey()
+const ColorSchemeSync = () => {
+  const { key: colorSchemeKey, defaultKey } = useColorSchemeKey()
 
   const setColorSchemeKey = key => {
     if (key && key !== 'auto') {
@@ -20,13 +14,8 @@ const ColorSchemeSync = props => {
   }
 
   useEffect(() => {
-    // used for our Android app, see usePersistedOSColorSchemeKey
-    setColorSchemeKey(
-      colorSchemeKey === 'auto' && osColorSchemeKey
-        ? osColorSchemeKey
-        : colorSchemeKey
-    )
-  }, [colorSchemeKey, osColorSchemeKey])
+    setColorSchemeKey(colorSchemeKey)
+  }, [colorSchemeKey])
   useEffect(() => {
     return () => {
       // removeAttribute when unmounted

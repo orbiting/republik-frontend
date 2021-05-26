@@ -1,11 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import { css } from 'glamor'
+
+import {
+  Elements,
+  CardElement,
+  useElements,
+  useStripe
+} from '@stripe/react-stripe-js'
 
 import { fontStyles, colors, Field } from '@project-r/styleguide'
 
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { css } from 'glamor'
-
+import { loadStripe } from '../stripe'
 import { useResolvedColorSchemeKey } from '../../ColorScheme/lib'
+import { SG_FONT_FACES } from '../../../lib/constants'
 
 const styles = {
   container: css({
@@ -123,4 +130,44 @@ const StripeForm = React.forwardRef(({ onChange, errors, dirty, t }, ref) => {
   )
 })
 
-export default StripeForm
+const ContextWrapper = React.forwardRef((props, ref) => {
+  const { onChange, t } = props
+  const stripe = useMemo(() => {
+    return loadStripe().catch(() => {
+      onChange({
+        errors: {
+          stripe: t('payment/stripe/js/failed')
+        }
+      })
+    })
+  }, [])
+  const options = useMemo(() => {
+    const fontFamily = fontStyles.sansSerifRegular.fontFamily.split(',')[0]
+    const def = SG_FONT_FACES?.split('@font-face').find(d =>
+      d.includes(fontFamily)
+    )
+    return {
+      fonts: def
+        ? [
+            {
+              family: fontFamily,
+              weight: fontStyles.sansSerifRegular.fontWeight,
+              src: def
+                .split('src:')
+                .slice(-1)[0] // get last src which wins in css
+                .split(';')[0] // stop at ;
+                .split('}')[0] // or }
+            }
+          ]
+        : []
+    }
+  })
+
+  return (
+    <Elements stripe={stripe} options={options}>
+      <StripeForm {...props} ref={ref} />
+    </Elements>
+  )
+})
+
+export default ContextWrapper

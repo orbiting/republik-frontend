@@ -29,10 +29,6 @@ import * as PSPIcons from './PSPIcons'
 
 import { format } from 'd3-format'
 
-import { Elements } from '@stripe/react-stripe-js'
-
-import { loadStripe } from './stripe'
-
 import StripeForm from './Form/Stripe'
 
 const pad2 = format('02')
@@ -501,32 +497,14 @@ class PaymentForm extends Component {
         {paymentMethodForm === 'STRIPE' && (
           <>
             {stripeNote && <Label>{stripeNote}</Label>}
-            <Elements
-              stripe={loadStripe().catch(() => {
-                onChange({
-                  errors: {
-                    stripe: t('payment/stripe/js/failed')
-                  }
-                })
-              })}
-              fonts={[
-                {
-                  family: fontStyles.sansSerifRegular.fontFamily,
-                  weight: fontStyles.sansSerifRegular.fontWeight,
-                  src:
-                    'https://cdn.repub.ch/s3/republik-assets/fonts/gt-america-standard-regular.woff'
-                }
-              ]}
-            >
-              <StripeForm
-                t={t}
-                onChange={onChange}
-                values={values}
-                errors={errors}
-                dirty={dirty}
-                ref={this.stripeRef}
-              />
-            </Elements>
+            <StripeForm
+              t={t}
+              onChange={onChange}
+              values={values}
+              errors={errors}
+              dirty={dirty}
+              ref={this.stripeRef}
+            />
           </>
         )}
         {paymentMethodForm === 'POSTFINANCECARD' && (

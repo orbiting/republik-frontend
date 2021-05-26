@@ -1,11 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import {
-  fontStyles,
-  Label,
-  colors,
-  useColorContext
-} from '@project-r/styleguide'
+import { fontStyles, colors, Field } from '@project-r/styleguide'
 
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { css } from 'glamor'
@@ -13,19 +8,40 @@ import { css } from 'glamor'
 import { useResolvedColorSchemeKey } from '../../ColorScheme/lib'
 
 const styles = {
-  fieldContainer: css({
-    margin: '10px 0',
-    paddingBottom: 4,
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid'
+  container: css({
+    margin: '10px 0'
   })
 }
 
-const StripeForm = React.forwardRef(({ onChange, t }, ref) => {
-  const [colorScheme] = useColorContext()
+const StripeForm = React.forwardRef(({ onChange, errors, dirty, t }, ref) => {
   const colorSchemeKey = useResolvedColorSchemeKey()
   const stripe = useStripe()
   const elements = useElements()
+
+  useEffect(() => {
+    if (stripe && elements && errors.stripe) {
+      onChange({
+        errors: {
+          stripe: undefined
+        }
+      })
+    }
+  }, [stripe, elements, errors])
+  useEffect(() => {
+    onChange({
+      errors: {
+        card: t('payment/stripe/card/missing')
+      }
+    })
+    return () => {
+      onChange({
+        errors: {
+          card: undefined,
+          stripe: undefined
+        }
+      })
+    }
+  }, [])
 
   ref({
     createPaymentMethod: () => {
@@ -55,34 +71,53 @@ const StripeForm = React.forwardRef(({ onChange, t }, ref) => {
   })
 
   return (
-    <div
-      {...styles.fieldContainer}
-      {...colorScheme.set('borderColor', 'divider')}
-    >
-      <Label style={{ display: 'block', marginBottom: 8 }}>
-        {t('payment/title/single/DEFAULT_SOURCE')}
-      </Label>
-      <CardElement
-        options={{
-          hidePostalCode: true,
-          iconStyle: colorSchemeKey === 'dark' ? 'solid' : 'default',
-          style: {
-            base: {
-              fontSize: '22px',
-              ...fontStyles.sansSerifRegular,
-              color: colors[colorSchemeKey].text,
-              '::placeholder': {
-                color: colors[colorSchemeKey].disabled
-              },
-              ':disabled': {
-                color: colors[colorSchemeKey].disabled
-              }
-            },
-            invalid: {
-              color: colors[colorSchemeKey].error
-            }
-          }
-        }}
+    <div {...styles.container}>
+      <Field
+        label={t('payment/stripe/card/label')}
+        value=' '
+        error={dirty.card && errors.card && t('payment/stripe/card/label')}
+        renderInput={({ onFocus, onBlur, className }) => (
+          <div className={className} style={{ paddingTop: 8 }}>
+            <CardElement
+              onFocus={onFocus}
+              onBlur={() => {
+                onBlur({
+                  target: { value: ' ' }
+                })
+              }}
+              onChange={event => {
+                onChange({
+                  errors: {
+                    card: event.error?.message
+                  },
+                  dirty: {
+                    card: true
+                  }
+                })
+              }}
+              options={{
+                hidePostalCode: true,
+                iconStyle: colorSchemeKey === 'dark' ? 'solid' : 'default',
+                style: {
+                  base: {
+                    fontSize: '22px',
+                    ...fontStyles.sansSerifRegular,
+                    color: colors[colorSchemeKey].text,
+                    '::placeholder': {
+                      color: colors[colorSchemeKey].disabled
+                    },
+                    ':disabled': {
+                      color: colors[colorSchemeKey].disabled
+                    }
+                  },
+                  invalid: {
+                    color: colors[colorSchemeKey].error
+                  }
+                }
+              }}
+            />
+          </div>
+        )}
       />
     </div>
   )

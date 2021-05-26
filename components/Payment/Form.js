@@ -207,6 +207,8 @@ class PaymentForm extends Component {
       allowedMethods,
       payload,
       values,
+      errors,
+      dirty,
       onChange,
       paymentSource,
       loadingPaymentSource,
@@ -516,7 +518,14 @@ class PaymentForm extends Component {
                 }
               ]}
             >
-              <StripeForm t={t} onChange={onChange} ref={this.stripeRef} />
+              <StripeForm
+                t={t}
+                onChange={onChange}
+                values={values}
+                errors={errors}
+                dirty={dirty}
+                ref={this.stripeRef}
+              />
             </Elements>
           </>
         )}

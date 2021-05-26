@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-24T22:31:49.035Z",
+  "updated": "2021-05-26T10:50:41.472Z",
   "title": "live",
   "data": [
     {
@@ -2441,6 +2441,14 @@
     {
       "key": "payment/stripe/js/failed",
       "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Die Verbindung zu stripe.com, unserem Dienstleister für Kreditkartenzahlungen, ist fehlgeschlagen. Mögliche Ursachen: ein temporärer Ausfall oder Ihre Browsererweiterungen. Wählen Sie bitte eine andere Zahlungsart."
+    },
+    {
+      "key": "payment/stripe/card/label",
+      "value": "Ihre Kreditkarte"
+    },
+    {
+      "key": "payment/stripe/card/missing",
+      "value": "Ihre Kreditkarte fehlt"
     },
     {
       "key": "payment/paymentslip/explanation",

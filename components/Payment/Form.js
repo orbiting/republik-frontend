@@ -41,10 +41,8 @@ const PAYMENT_METHODS = [
       return (
         <span>
           <PSPIcons.Visa />
-          <span style={{ display: 'inline-block', width: 10 }} />
           <PSPIcons.Mastercard />
-          <span style={{ display: 'inline-block', width: 10 }} />
-          <PSPIcons.Amex />
+          {/* <PSPIcons.Amex /> */}
         </span>
       )
     }
@@ -296,7 +294,8 @@ class PaymentForm extends Component {
                 (paymentSource.brand.toLowerCase() === 'mastercard' && (
                   <PSPIcons.Mastercard />
                 )) ||
-                (paymentSource.brand.toLowerCase() === 'american express' && (
+                ((paymentSource.brand.toLowerCase() === 'american express' ||
+                  paymentSource.brand.toLowerCase() === 'amex') && (
                   <PSPIcons.Amex />
                 )))
             const paymentSourceDisabled =

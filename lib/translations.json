@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-27T00:21:01.568Z",
+  "updated": "2021-05-27T21:26:19.511Z",
   "title": "live",
   "data": [
     {
@@ -2443,16 +2443,28 @@
       "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Die Verbindung zu stripe.com, unserem Dienstleister für Kreditkartenzahlungen, ist fehlgeschlagen. Mögliche Ursachen: ein temporärer Ausfall oder Ihre Browsererweiterungen. Wählen Sie bitte eine andere Zahlungsart."
     },
     {
-      "key": "payment/stripe/card/label",
-      "value": "Ihre Kreditkarte"
+      "key": "payment/stripe/cardNumber/label",
+      "value": "Kreditkarten-Nummer"
     },
     {
-      "key": "payment/stripe/card/missing",
-      "value": "Ihre Kreditkarte fehlt"
+      "key": "payment/stripe/cardNumber/error/empty",
+      "value": "Kreditkarten-Nummer fehlt"
     },
     {
-      "key": "payment/stripe/card/placeholder",
-      "value": "Ihre Kreditkarten-Nummer"
+      "key": "payment/stripe/expiry/label",
+      "value": "Ablaufdatum Ihrer Karte"
+    },
+    {
+      "key": "payment/stripe/expiry/error/empty",
+      "value": "Ablaufdatum Ihrer Karte fehlt"
+    },
+    {
+      "key": "payment/stripe/cvc/label",
+      "value": "CVC"
+    },
+    {
+      "key": "payment/stripe/cvc/error/empty",
+      "value": "CVC fehlt"
     },
     {
       "key": "payment/paymentslip/explanation",

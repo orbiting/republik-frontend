@@ -3,16 +3,20 @@ import { css } from 'glamor'
 
 import {
   Elements,
-  CardElement,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
   useElements,
   useStripe
 } from '@stripe/react-stripe-js'
 
-import { fontStyles, colors, Field } from '@project-r/styleguide'
+import { fontStyles, colors } from '@project-r/styleguide'
 
-import { loadStripe } from '../stripe'
 import { useResolvedColorSchemeKey } from '../../ColorScheme/lib'
 import { SG_FONT_FACES } from '../../../lib/constants'
+
+import { loadStripe } from '../stripe'
+import StripeField from './StripeField'
 
 const styles = {
   container: css({
@@ -21,146 +25,115 @@ const styles = {
   })
 }
 
-const LiveForm = React.forwardRef(({ onChange, errors, dirty, t }, ref) => {
-  const colorSchemeKey = useResolvedColorSchemeKey()
-  const stripe = useStripe()
-  const elements = useElements()
+const fieldElements = [
+  { key: 'cardNumber', Element: CardNumberElement },
+  { key: 'expiry', Element: CardExpiryElement },
+  { key: 'cvc', Element: CardCvcElement }
+]
 
-  useEffect(() => {
-    if (stripe && elements && errors.stripe) {
-      onChange({
-        errors: {
-          stripe: undefined
-        }
-      })
-    }
-  }, [stripe, elements, errors])
+const Form = React.forwardRef(
+  ({ onChange, errors, dirty, t, unlockFieldKey, setUnlockFieldKey }, ref) => {
+    const colorSchemeKey = useResolvedColorSchemeKey()
+    const stripe = useStripe()
+    const elements = useElements()
 
-  ref({
-    createPaymentMethod: () => {
-      if (!stripe || !elements) {
+    useEffect(() => {
+      if (stripe && elements && errors.stripe) {
         onChange({
           errors: {
-            stripe: t('payment/stripe/js/loading')
+            stripe: undefined
           }
         })
-        return
       }
-      return new Promise((resolve, reject) => {
-        stripe
-          .createPaymentMethod({
-            type: 'card',
-            card: elements.getElement(CardElement)
-          })
-          .then(result => {
-            if (result.error) {
-              reject(result.error.message)
-            } else {
-              resolve(result.paymentMethod)
-            }
-          })
-      })
+    }, [stripe, elements, errors])
+
+    const style = {
+      base: {
+        ...fontStyles.sansSerifRegular,
+        fontSize: '22px',
+        color: colors[colorSchemeKey].text,
+        '::placeholder': {
+          color: colors[colorSchemeKey].disabled
+        },
+        ':disabled': {
+          color: colors[colorSchemeKey].disabled
+        }
+      },
+      invalid: {
+        color: colors[colorSchemeKey].error
+      }
     }
-  })
 
-  return (
-    <div {...styles.container}>
-      <Field
-        label={t('payment/stripe/card/label')}
-        value=' '
-        error={dirty.card && errors.card && t('payment/stripe/card/label')}
-        renderInput={({ onFocus, onBlur, className }) => (
-          <div className={className} style={{ paddingTop: 8 }}>
-            <CardElement
-              onFocus={onFocus}
-              onBlur={() => {
-                onBlur({
-                  target: { value: ' ' }
-                })
-              }}
-              onChange={event => {
-                onChange({
-                  errors: {
-                    card: event.error?.message
-                  },
-                  dirty: {
-                    card: true
-                  }
-                })
-              }}
-              onReady={element => {
-                element.focus()
-              }}
-              options={{
-                hidePostalCode: true,
-                iconStyle: colorSchemeKey === 'dark' ? 'solid' : 'default',
-                style: {
-                  base: {
-                    fontSize: '22px',
-                    ...fontStyles.sansSerifRegular,
-                    color: colors[colorSchemeKey].text,
-                    '::placeholder': {
-                      color: colors[colorSchemeKey].disabled
-                    },
-                    ':disabled': {
-                      color: colors[colorSchemeKey].disabled
-                    }
-                  },
-                  invalid: {
-                    color: colors[colorSchemeKey].error
-                  }
-                }
-              }}
-            />
-          </div>
-        )}
-      />
-    </div>
-  )
-})
-
-const PlaceholderForm = React.forwardRef(
-  ({ onChange, t, setPrivacyShield }, ref) => {
     ref({
       createPaymentMethod: () => {
-        onChange({
-          errors: {
-            card: t('payment/stripe/card/missing')
-          }
+        if (!stripe || !elements) {
+          onChange({
+            errors: {
+              stripe: t('payment/stripe/js/loading')
+            }
+          })
+          return
+        }
+        return new Promise((resolve, reject) => {
+          stripe
+            .createPaymentMethod({
+              type: 'card',
+              card: elements.getElement(CardNumberElement)
+            })
+            .then(result => {
+              if (result.error) {
+                reject(result.error.message)
+              } else {
+                resolve(result.paymentMethod)
+              }
+            })
         })
       }
     })
 
     return (
       <div {...styles.container}>
-        <Field
-          label={t('payment/stripe/card/placeholder')}
-          value={''}
-          renderInput={props => (
-            <input
-              {...props}
-              onFocus={() => {
-                setPrivacyShield(false)
-              }}
-            />
-          )}
-        />
+        {fieldElements.map(({ key, Element }) => (
+          <StripeField
+            key={key}
+            Element={Element}
+            fieldKey={key}
+            unlockFieldKey={unlockFieldKey}
+            setUnlockFieldKey={setUnlockFieldKey}
+            style={style}
+            t={t}
+            dirty={dirty}
+            errors={errors}
+            onChange={onChange}
+          />
+        ))}
       </div>
     )
   }
 )
 
-const ContextWrapper = React.forwardRef((props, ref) => {
+let stripeLoaded
+let loadStripeNow
+const stripePromise = new Promise(resolve => {
+  loadStripeNow = () => {
+    resolve()
+    stripeLoaded = true
+  }
+}).then(() => {
+  return loadStripe()
+})
+
+const PrivacyWrapper = React.forwardRef((props, ref) => {
   const { onChange, t } = props
-  const stripe = useMemo(() => {
-    return loadStripe().catch(() => {
-      onChange({
-        errors: {
-          stripe: t('payment/stripe/js/failed')
-        }
-      })
-    })
-  }, [])
+  const [unlockFieldKey, setUnlockFieldKey] = useState(
+    stripeLoaded ? fieldElements[0].key : undefined
+  )
+
+  useEffect(() => {
+    if (unlockFieldKey && !stripeLoaded) {
+      loadStripeNow()
+    }
+  }, [unlockFieldKey])
   const options = useMemo(() => {
     const fontFamily = fontStyles.sansSerifRegular.fontFamily.split(',')[0]
     const def = SG_FONT_FACES?.split('@font-face').find(d =>
@@ -182,41 +155,40 @@ const ContextWrapper = React.forwardRef((props, ref) => {
         : []
     }
   })
-
-  return (
-    <Elements stripe={stripe} options={options}>
-      <LiveForm {...props} ref={ref} />
-    </Elements>
-  )
-})
-
-const PrivacyWrapper = React.forwardRef((props, ref) => {
-  const { onChange, t } = props
-  const [privacyShield, setPrivacyShield] = useState(true)
-
   useEffect(() => {
     onChange({
       errors: {
-        card: t('payment/stripe/card/missing')
+        cardNumber: t('payment/stripe/cardNumber/error/empty'),
+        expiry: t('payment/stripe/expiry/error/empty'),
+        cvc: t('payment/stripe/cvc/error/empty')
       }
     })
     return () => {
       onChange({
         errors: {
-          card: undefined,
+          cardNumber: undefined,
+          expiry: undefined,
+          cvc: undefined,
           stripe: undefined
         },
         dirty: {
-          card: undefined
+          cardNumber: undefined,
+          expiry: undefined,
+          cvc: undefined
         }
       })
     }
   }, [])
 
-  return privacyShield ? (
-    <PlaceholderForm {...props} setPrivacyShield={setPrivacyShield} ref={ref} />
-  ) : (
-    <ContextWrapper {...props} ref={ref} />
+  return (
+    <Elements stripe={stripePromise} options={options}>
+      <Form
+        {...props}
+        ref={ref}
+        unlockFieldKey={unlockFieldKey}
+        setUnlockFieldKey={setUnlockFieldKey}
+      />
+    </Elements>
   )
 })
 

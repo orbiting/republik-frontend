@@ -25,7 +25,6 @@ import {
   Interaction,
   Button,
   Checkbox,
-  colors,
   InlineSpinner,
   Label,
   A
@@ -37,6 +36,8 @@ import Consents, { getConsentsError } from './Consents'
 import { loadStripe } from '../Payment/stripe'
 
 import { useFieldSetState } from './utils'
+
+import ErrorMessage, { ErrorContainer } from '../ErrorMessage'
 
 const { H2, P } = Interaction
 
@@ -792,15 +793,13 @@ class Submit extends Component {
           </div>
         )}
         {!!submitError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>{submitError}</P>
+          <ErrorMessage style={{ margin: '0 0 40px' }} error={submitError} />
         )}
         {!!paymentError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>
-            {paymentError}
-          </P>
+          <ErrorMessage style={{ margin: '0 0 40px' }} error={paymentError} />
         )}
         {!!signInError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>{signInError}</P>
+          <ErrorMessage style={{ margin: '0 0 40px' }} error={signInError} />
         )}
         {loading ? (
           <div style={{ textAlign: 'center' }}>
@@ -811,7 +810,7 @@ class Submit extends Component {
         ) : (
           <div>
             {!!this.state.showErrors && errorMessages.length > 0 && (
-              <div style={{ color: colors.error, marginBottom: 40 }}>
+              <ErrorContainer style={{ marginBottom: 40 }}>
                 {errorMessages.map(({ category, messages }, i) => (
                   <Fragment key={i}>
                     {category}
@@ -823,7 +822,7 @@ class Submit extends Component {
                     </ul>
                   </Fragment>
                 ))}
-              </div>
+              </ErrorContainer>
             )}
             <Consents
               required={getRequiredConsents(this.props)}

@@ -81,7 +81,6 @@ const styles = {
   }),
   packagePrice: css({
     marginTop: 0,
-    color: colors.primary,
     fontSize: 16,
     lineHeight: '24px',
     [mediaQueries.mUp]: {
@@ -171,7 +170,10 @@ export const PackageItem = React.forwardRef(
               ])}
           </div>
           {!!price && (
-            <div {...styles.packagePrice}>
+            <div
+              {...styles.packagePrice}
+              {...colorScheme.set('color', 'primary')}
+            >
               {t.first([`package/${name}/price`, 'package/price'], {
                 formattedCHF: `CHF ${price / 100}`
               })}

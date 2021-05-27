@@ -28,6 +28,8 @@ import CustomizePackage, {
 } from './CustomizePackage'
 import Link from 'next/link'
 
+import ErrorMessage from '../ErrorMessage'
+
 const { H1, P } = Interaction
 
 class Pledge extends Component {
@@ -425,9 +427,10 @@ class Pledge extends Component {
                 <H1>{title}</H1>
 
                 {!!receiveError && (
-                  <P style={{ color: colors.error, marginBottom: 40 }}>
-                    {receiveError}
-                  </P>
+                  <ErrorMessage
+                    style={{ margin: '0 0 40px' }}
+                    error={receiveError}
+                  />
                 )}
 
                 <div style={{ marginBottom: 40 }}>

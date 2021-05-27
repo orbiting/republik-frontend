@@ -119,7 +119,7 @@ const Footer = ({
   signOut,
   inNativeIOSApp,
   isOnMarketingPage,
-  hasActiveMembership
+  hasActiveMemberships
 }) => {
   const [colorScheme] = useColorContext()
   const navLinkStyle = useMemo(
@@ -188,12 +188,16 @@ const Footer = ({
                   <FooterNavLink
                     href={{
                       pathname: '/angebote',
-                      query: { group: hasActiveMembership ? 'GIVE' : undefined }
+                      query: {
+                        group: hasActiveMemberships ? 'GIVE' : undefined
+                      }
                     }}
                   >
                     <a {...navLinkStyle}>
                       {t(
-                        hasActiveMembership ? 'footer/me/give' : 'footer/offers'
+                        hasActiveMemberships
+                          ? 'footer/me/give'
+                          : 'footer/offers'
                       )}
                     </a>
                   </FooterNavLink>
@@ -204,7 +208,7 @@ const Footer = ({
                   <a {...navLinkStyle}>{t('footer/me/claim')}</a>
                 </FooterNavLink>
               </li>
-              {me && me.accessCampaigns.length > 0 && hasActiveMembership && (
+              {me && me.accessCampaigns.length > 0 && hasActiveMemberships && (
                 <li>
                   <FooterNavLink
                     href='/teilen'

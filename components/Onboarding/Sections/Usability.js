@@ -6,7 +6,6 @@ import { css } from 'glamor'
 import { Interaction, mediaQueries, Button, A } from '@project-r/styleguide'
 
 import Section from '../Section'
-import PathLink from '../../Link/Path'
 import ProgressSettings from '../../Account/ProgressSettings'
 import {
   submitConsentMutation,
@@ -14,6 +13,7 @@ import {
 } from '../../Article/Progress/api'
 import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
 import withT from '../../../lib/withT'
+import Link from 'next/link'
 
 const { P } = Interaction
 
@@ -79,13 +79,9 @@ const Usability = props => {
               'Onboarding/Sections/Usability/paragraph3',
               {
                 linkMore: (
-                  <PathLink
-                    key='linkMore'
-                    path={PROGRESS_EXPLAINER_PATH}
-                    passHref
-                  >
+                  <Link key='linkMore' href={PROGRESS_EXPLAINER_PATH} passHref>
                     <A>{t('Onboarding/Sections/Usability/linkMore')}</A>
-                  </PathLink>
+                  </Link>
                 )
               },
               ''

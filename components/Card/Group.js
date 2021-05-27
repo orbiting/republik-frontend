@@ -4,7 +4,7 @@ import { ascending } from 'd3-array'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose, graphql } from 'react-apollo'
-import NativeRouter, { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import gql from 'graphql-tag'
 
 import {
@@ -28,7 +28,6 @@ import {
 } from '@project-r/styleguide/icons'
 
 import withT from '../../lib/withT'
-import { Router, Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withMe from '../../lib/apollo/withMe'
@@ -47,6 +46,7 @@ import { useQueue } from './useQueue'
 import TrialForm from './TrialForm'
 
 import { cardColors } from './constants'
+import Link from 'next/link'
 
 const styles = {
   swipeIndicator: css({
@@ -342,7 +342,6 @@ const Group = ({
   t,
   group,
   fetchMore,
-  router: { query },
   me,
   subToUser,
   unsubFromUser,
@@ -351,6 +350,8 @@ const Group = ({
   medianSmartspider,
   subscribedByMeCards
 }) => {
+  const router = useRouter()
+  const { query } = router
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
   const storageKey = `republik-card-group-${group.slug}`
@@ -636,23 +637,17 @@ const Group = ({
 
   const onShowMyList = event => {
     event.preventDefault()
-    Router.replaceRoute('cardGroup', {
-      group: group.slug,
-      suffix: 'liste',
-      ...medianSmartspiderQuery
+    router.replace({
+      pathname: '/wahltindaer/[group]/[suffix]',
+      query: {
+        group: group.slug,
+        suffix: 'liste',
+        ...medianSmartspiderQuery
+      }
     })
   }
   const onDetail = card => {
     setDetailCard(card)
-    // use native router for shadow routing
-    NativeRouter.push(
-      {
-        pathname: '/cardGroup',
-        query
-      },
-      `/~${card.user.slug}`,
-      { shallow: true }
-    )
   }
   const closeOverlay = event => {
     if (event) {
@@ -661,12 +656,15 @@ const Group = ({
     if (detailCard) {
       setDetailCard()
     }
-    Router.replaceRoute(
-      'cardGroup',
+    router.replace(
       {
-        group: group.slug,
-        ...medianSmartspiderQuery
+        pathname: '/wahltindaer/[group]',
+        query: {
+          group: group.slug,
+          ...medianSmartspiderQuery
+        }
       },
+      undefined,
       { shallow: true }
     )
     setOverlay(false)
@@ -677,8 +675,8 @@ const Group = ({
     setOverlay('preferences')
   }
 
-  const showMyList = query.suffix === 'liste'
-  const showDiscussion = query.suffix === 'diskussion'
+  const showMyList = query.suffix?.[0] === 'liste'
+  const showDiscussion = query.suffix?.[0] === 'diskussion'
   const showDetail = !!detailCard
 
   return (
@@ -698,7 +696,13 @@ const Group = ({
           zIndex: ZINDEX_HEADER + allCards.length + 1
         }}
       >
-        <Link route='cardGroups' params={medianSmartspiderQuery} passHref>
+        <Link
+          href={{
+            pathname: '/wahltindaer',
+            query: medianSmartspiderQuery
+          }}
+          passHref
+        >
           <Editorial.A>
             {t(
               `components/Card/Group/switch${group.special ? '/special' : ''}`
@@ -743,11 +747,14 @@ const Group = ({
                 <br />
                 <br />
                 <Link
-                  route='cardGroup'
-                  params={{
-                    group: group.slug,
-                    suffix: 'liste'
+                  href={{
+                    pathname: '/wahltindaer/[group]/[suffix]',
+                    query: {
+                      group: group.slug,
+                      suffix: 'liste'
+                    }
                   }}
+                  passHref
                 >
                   <Editorial.A>
                     {t('components/Card/Group/end/showList')}
@@ -779,11 +786,14 @@ const Group = ({
                   <br />
                   <br />
                   <Link
-                    route='cardGroup'
-                    params={{
-                      group: group.slug,
-                      suffix: 'liste'
+                    href={{
+                      pathname: '/wahltindaer/[group]/[suffix]',
+                      query: {
+                        group: group.slug,
+                        suffix: 'liste'
+                      }
                     }}
+                    passHref
                   >
                     <Editorial.A>
                       {t('components/Card/Group/end/showList')}
@@ -957,12 +967,15 @@ const Group = ({
               forcedVariables={group.forcedVariables}
               party={medianSmartspiderQuery && medianSmartspiderQuery.party}
               onParty={party => {
-                Router.replaceRoute(
-                  'cardGroup',
+                router.replace(
                   {
-                    group: group.slug,
-                    ...(party && { party })
+                    pathname: '/wahltindaer/[group]',
+                    query: {
+                      group: group.slug,
+                      ...(party && { party })
+                    }
                   },
+                  undefined,
                   { shallow: true }
                 )
               }}
@@ -1050,7 +1063,6 @@ const unsubeMutation = gql`
 
 export default compose(
   withT,
-  withRouter,
   withMe,
   graphql(subscribeMutation, {
     props: ({ mutate }) => ({

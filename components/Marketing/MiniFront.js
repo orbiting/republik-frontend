@@ -9,14 +9,16 @@ const MiniFront = ({ data: { loading, error, front }, t }) => {
     <Loader
       loading={loading}
       error={error}
-      render={() => (
-        <RenderFront
-          t={t}
-          isEditor={false}
-          front={front}
-          nodes={front.children.nodes}
-        />
-      )}
+      render={() =>
+        front ? (
+          <RenderFront
+            t={t}
+            isEditor={false}
+            front={front}
+            nodes={front.children.nodes}
+          />
+        ) : null
+      }
     />
   )
 }

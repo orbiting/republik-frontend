@@ -3,7 +3,7 @@ import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import withInNativeApp from '../../lib/withInNativeApp'
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 
 const tokenQuery = gql`
   query accessTokenCustomPledge {
@@ -37,12 +37,18 @@ const TokenPackageLink = compose(
     if (loading) {
       return '...'
     }
-    const p = { ...params }
+    const query = { ...params }
     if (accessToken) {
-      p.token = accessToken
+      query.token = accessToken
     }
     return (
-      <Link route='pledge' {...props} params={p}>
+      <Link
+        href={{
+          pathname: '/angebote',
+          query
+        }}
+        {...props}
+      >
         {children}
       </Link>
     )

@@ -4,7 +4,6 @@ import { Body, Title } from '../text'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import Frame from '../../Frame'
-import Link from '../../Link/Path'
 import SignIn from '../../Auth/SignIn'
 import Collapsible from '../Collapsible'
 import Voting from '../Voting'
@@ -34,6 +33,7 @@ import {
   VOTINGS_COOP_201912 as VOTINGS,
   VOTING_COOP_201912_REPORT_SLUG
 } from '../constants'
+import Link from 'next/link'
 
 const { P, H2 } = Interaction
 
@@ -100,13 +100,8 @@ class VotePage extends Component {
           loading={data.loading}
           error={data.error}
           render={() => {
-            const {
-              beginDate,
-              endDate,
-              userIsEligible,
-              discussion,
-              groupTurnout
-            } = this.props.data[VOTING_COOP_201912_REPORT_SLUG] || {}
+            const { beginDate, endDate, discussion, groupTurnout } =
+              this.props.data[VOTING_COOP_201912_REPORT_SLUG] || {}
 
             const votingStage = getVotingStage(beginDate, endDate)
             if (votingStage === VOTING_STAGES.INFO) {
@@ -141,7 +136,7 @@ class VotePage extends Component {
               <div {...styles.actions}>
                 <ActionBar share={shareObject} />
                 {discussion && (
-                  <Link path={discussion.path} passHref>
+                  <Link href={discussion.path} passHref>
                     <IconButton
                       Icon={DiscussionIcon}
                       label={

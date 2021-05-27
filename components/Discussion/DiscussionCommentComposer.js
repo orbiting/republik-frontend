@@ -1,8 +1,8 @@
 import React from 'react'
 import { compose } from 'react-apollo'
+import Link from 'next/link'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Link } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
 import produce from '../../lib/immer'
 
@@ -99,7 +99,7 @@ const DiscussionCommentComposer = props => {
                 <Interaction.P>
                   {t.elements('submitComment/notEligible', {
                     pledgeLink: (
-                      <Link route='pledge' key='pledge' passHref>
+                      <Link href='/angebote' key='pledge' passHref>
                         <Editorial.A>
                           {t('submitComment/notEligible/pledgeText')}
                         </Editorial.A>

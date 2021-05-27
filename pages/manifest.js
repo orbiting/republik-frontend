@@ -20,7 +20,7 @@ import {
 import { BackIcon } from '@project-r/styleguide/icons'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
-import { Link } from '../lib/routes'
+import Link from 'next/link'
 
 const pRule = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -97,7 +97,7 @@ export const Back = withInNativeApp(({ inNativeApp, label }) => {
   const [colorScheme] = useColorContext()
   if (!inNativeApp) return null
   return (
-    <Link route='index' passHref>
+    <Link href='/' passHref>
       <a {...styles.back} {...colorScheme.set('color', 'logo')}>
         <BackIcon size={25} style={{ marginTop: -3 }} />
         {label}

@@ -6,7 +6,6 @@ import { max } from 'd3-array'
 
 import Meta from '../Frame/Meta'
 
-import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 
@@ -28,6 +27,7 @@ import {
   A,
   useColorContext
 } from '@project-r/styleguide'
+import { withRouter } from 'next/router'
 
 const { P } = Interaction
 
@@ -585,7 +585,7 @@ class Container extends Component {
     this.state = {}
   }
   render() {
-    const { t, id, isPage } = this.props
+    const { t, id, isPage, router } = this.props
     const { query } = this.state
 
     const seed = this.state.seed || this.props.seed
@@ -629,7 +629,7 @@ class Container extends Component {
                 clearedFocus: id
               }),
               () => {
-                Router.pushRoute('community', {}, { shallow: true })
+                router.push('/community', undefined, { shallow: true })
               }
             )
           }}
@@ -641,4 +641,4 @@ class Container extends Component {
   }
 }
 
-export default compose(withT)(Container)
+export default compose(withT, withRouter)(Container)

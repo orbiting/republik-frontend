@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -6,12 +6,12 @@ import gql from 'graphql-tag'
 import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
 import { timeFormat } from '../../../lib/utils/format'
-import { Link } from '../../../lib/routes'
 import { Item as AccountItem, P } from '../Elements'
 
 import TokenPackageLink from '../../Link/TokenPackage'
 
-import { InlineSpinner, colors, Interaction, A } from '@project-r/styleguide'
+import { InlineSpinner, colors, A } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -91,7 +91,13 @@ const Actions = ({
             <P>
               {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
                 buyLink: (
-                  <Link route='pledge' params={{ package: 'ABO' }} passHref>
+                  <Link
+                    href={{
+                      pathname: '/angebote',
+                      query: { package: 'ABO' }
+                    }}
+                    passHref
+                  >
                     <A>
                       {t('memberships/MONTHLY_ABO/manage/upgrade/link/buyText')}
                     </A>
@@ -144,8 +150,10 @@ const Actions = ({
                   )}
                   <P>
                     <Link
-                      route='cancel'
-                      params={{ membershipId: membership.id }}
+                      href={{
+                        pathname: '/abgang',
+                        query: { membershipId: membership.id }
+                      }}
                       passHref
                     >
                       <A>

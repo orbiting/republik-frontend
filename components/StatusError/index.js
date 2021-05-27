@@ -5,7 +5,6 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { Router } from '../../lib/routes'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import Loader from '../Loader'
@@ -96,9 +95,9 @@ export default compose(
             }
           }
           if (status === 301) {
-            Router.replaceRoute(clientTarget).then(afterRouting)
+            router.replace(clientTarget).then(afterRouting)
           } else {
-            Router.pushRoute(clientTarget).then(afterRouting)
+            router.push(clientTarget).then(afterRouting)
           }
         }
       } else {

@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { compose, withApollo } from 'react-apollo'
 import debounce from 'lodash/debounce'
-import { withRouter } from 'next/router'
 
 import ProgressPrompt from './ProgressPrompt'
 import { mediaQueries } from '@project-r/styleguide'
@@ -14,6 +13,7 @@ import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
 
 import { withProgressApi } from './api'
 import { useMediaProgress } from '../../Audio/MediaProgress'
+import { withRouter } from 'next/router'
 
 const MIN_INDEX = 2
 

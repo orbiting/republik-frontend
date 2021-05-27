@@ -12,9 +12,15 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import { Link } from '../../lib/routes'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
+import Link from 'next/link'
+
+const EmployeeLink = ({ employee, children }) => (
+  <Link href={`/~${employee.user.slug || employee.user.id}`} passHref>
+    <a {...styles.link}>{children}</a>
+  </Link>
+)
 
 const Team = ({ t, data: { loading, employees } }) => {
   const [colorScheme] = useColorContext()
@@ -34,30 +40,18 @@ const Team = ({ t, data: { loading, employees } }) => {
                 <TeaserFrontTile key={employee.name}>
                   <h3 {...styles.pitch}>{`«${employee.pitch}»`}</h3>
                   <div {...styles.employee}>
-                    <Link
-                      route='profile'
-                      params={{ slug: employee.user.slug || employee.user.id }}
-                      passHref
-                    >
-                      <a {...styles.link}>
-                        <img
-                          {...styles.profilePicture}
-                          src={employee.user.portrait}
-                          alt=''
-                        />
-                      </a>
-                    </Link>
+                    <EmployeeLink employee={employee}>
+                      <img
+                        {...styles.profilePicture}
+                        src={employee.user.portrait}
+                        alt=''
+                      />
+                    </EmployeeLink>
                     <div {...styles.employeeText}>
                       <p {...styles.employeeName}>
-                        <Link
-                          route='profile'
-                          params={{
-                            slug: employee.user.slug || employee.user.id
-                          }}
-                          passHref
-                        >
-                          <a {...styles.link}>{employee.name}</a>
-                        </Link>
+                        <EmployeeLink employee={employee}>
+                          {employee.name}
+                        </EmployeeLink>
                       </p>
                       <Label {...colorScheme.set('color', 'disabled')}>
                         {employee.title || employee.group}
@@ -71,7 +65,7 @@ const Team = ({ t, data: { loading, employees } }) => {
         )}
       />
       <Editorial.P style={{ textAlign: 'center' }}>
-        <Link route='legal/imprint' passHref>
+        <Link href='/impressum' passHref>
           <Editorial.A>Alle Teammitglieder</Editorial.A>
         </Link>
       </Editorial.P>

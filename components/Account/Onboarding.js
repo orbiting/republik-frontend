@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 import { Interaction, A } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
+import Link from 'next/link'
 
 const { H2, P } = Interaction
 
@@ -13,7 +13,7 @@ export default withT(({ t }) => (
     <P>
       {t.elements('Account/Onboarding/text', {
         link: (
-          <Link key='link' route='onboarding' passHref>
+          <Link key='link' href='/einrichten' passHref>
             <A>{t('Account/Onboarding/link')}</A>
           </Link>
         )

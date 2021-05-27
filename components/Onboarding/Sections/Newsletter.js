@@ -4,10 +4,10 @@ import { css } from 'glamor'
 
 import Section from '../Section'
 import NewsletterSubscriptions from '../../Account/NewsletterSubscriptions'
-import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 
 import { Interaction, A } from '@project-r/styleguide'
+import Link from 'next/link'
 
 const { P } = Interaction
 
@@ -51,7 +51,7 @@ const Newsletter = props => {
       <P {...styles.p}>
         {t.elements('Onboarding/Sections/Newsletter/hint', {
           link: (
-            <Link key='account' route='account' passHref>
+            <Link key='account' href='/konto' passHref>
               <A>{t('Onboarding/Sections/Newsletter/hint/link')}</A>
             </Link>
           )

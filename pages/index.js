@@ -11,7 +11,7 @@ import withMembership from '../components/Auth/withMembership'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import { useInNativeApp } from '../lib/withInNativeApp'
 
-import SignInPage from './signin'
+import SignInPage from './anmelden'
 
 const IndexPage = ({ t, isMember, router }) => {
   const { inNativeApp } = useInNativeApp()

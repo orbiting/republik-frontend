@@ -15,7 +15,6 @@ import {
 } from '@project-r/styleguide'
 
 import { Content } from '../Frame'
-import { Link } from '../../lib/routes'
 import { parseDate } from '../../lib/utils/format'
 import Event from './Detail'
 import Loader from '../Loader'
@@ -25,6 +24,7 @@ import withT from '../../lib/withT'
 
 import { CONTENT_PADDING } from '../constants'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import Link from 'next/link'
 
 const { H3 } = Interaction
 
@@ -107,7 +107,7 @@ const Overview = compose(
                 }}
               />
               <Event data={event} />
-              <Link route='events' passHref>
+              <Link href='/veranstaltungen' passHref>
                 <A>{t('events/all')}</A>
               </Link>
             </Content>

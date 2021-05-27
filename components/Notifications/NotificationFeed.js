@@ -16,8 +16,8 @@ import { timeFormat } from '../../lib/utils/format'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
 import DocumentNotification from './DocumentNotification'
-import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import Link from 'next/link'
 
 const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 
@@ -147,7 +147,7 @@ export default withT(
                   })}
             </Interaction.H1>
 
-            <Link route='subscriptionsSettings' passHref>
+            <Link href='/benachrichtigungen/einstellungen' passHref>
               <A>{t('Notifications/settings')}</A>
             </Link>
 

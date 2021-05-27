@@ -4,7 +4,6 @@ import { format } from 'url'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Router, Link } from '../../lib/routes'
 
 import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
@@ -30,6 +29,8 @@ import {
 } from '@project-r/styleguide'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
+import { withRouter } from 'next/router'
+import Link from 'next/link'
 
 const { H1, P } = Interaction
 
@@ -96,12 +97,15 @@ class Merci extends Component {
   }
 
   maybeRelocateToOnboarding() {
-    const { me, query } = this.props
+    const { me, query, router } = this.props
 
     if (me && ONBOARDING_PACKAGES.includes(query.package) && !query.claim) {
-      Router.replaceRoute(
-        'onboarding',
-        { context: 'pledge', package: query.package },
+      router.replace(
+        {
+          pathname: '/einrichten',
+          query: { context: 'pledge', package: query.package }
+        },
+        undefined,
         { shallow: true }
       )
     }
@@ -145,8 +149,10 @@ class Merci extends Component {
             <P>
               {!!query.id && (
                 <Link
-                  route='account'
-                  params={{ claim: query.id, package: query.package }}
+                  href={{
+                    pathname: '/konto',
+                    query: { claim: query.id, package: query.package }
+                  }}
                   passHref
                 >
                   <A>
@@ -227,7 +233,13 @@ class Merci extends Component {
                 </Button>
               )}
             </div>
-            <Link route='account' params={{ claim: query.id }} passHref>
+            <Link
+              href={{
+                pathname: '/konto',
+                query: { claim: query.id }
+              }}
+              passHref
+            >
               <A>
                 <br />
                 <br />
@@ -280,16 +292,13 @@ class Merci extends Component {
             <WithMembership
               render={() => (
                 <>
-                  <Link route='index'>
+                  <Link href='/' passHref>
                     <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
                       {t('merci/action/read')}
                     </Button>
                   </Link>
                   {me && !me.hasPublicProfile && (
-                    <Link
-                      route='profile'
-                      params={{ slug: me.username || me.id }}
-                    >
+                    <Link href={`/~${me.username || me.id}`} passHref>
                       <Button style={buttonStyle}>
                         {t('merci/action/profile')}
                       </Button>
@@ -306,4 +315,4 @@ class Merci extends Component {
   }
 }
 
-export default compose(withMe, withT, withSignIn)(Merci)
+export default compose(withMe, withT, withSignIn, withRouter)(Merci)

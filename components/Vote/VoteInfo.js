@@ -1,6 +1,5 @@
 import React from 'react'
 import { Body, Heading, Section, Small, Title } from './text'
-import { Link } from '../../lib/routes'
 import Collapsible from './Collapsible'
 import {
   Button,
@@ -11,10 +10,11 @@ import {
 } from '@project-r/styleguide'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import voteT from './voteT'
+import Link from 'next/link'
 
 const voteNow = (
   <P>
-    <Link route='voteSubmit' passHref>
+    <Link href='/vote/genossenschaft/kandidieren' passHref>
       <Button block big primary>
         Kandidieren Sie jetzt!
       </Button>

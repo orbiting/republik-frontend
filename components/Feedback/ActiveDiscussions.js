@@ -49,7 +49,7 @@ const styles = {
   )
 }
 
-const ActiveDiscussionItem = ({ discussion, label, selected, count }) => {
+const ActiveDiscussionItem = ({ discussion, label, count }) => {
   const [colorScheme] = useColorContext()
   const itemRule = useMemo(
     () =>
@@ -93,19 +93,13 @@ class ActiveDiscussions extends Component {
           return (
             <div>
               {activeDiscussions &&
-                activeDiscussions.map((activeDiscussion, i) => {
+                activeDiscussions.map(activeDiscussion => {
                   const discussion = activeDiscussion.discussion
-                  const meta = discussion.document
-                    ? discussion.document.meta
-                    : {}
-                  const path =
-                    meta && meta.template === 'discussion' && discussion.path
                   return (
                     <ActiveDiscussionItem
                       key={discussion.id}
                       label={discussion.title}
                       discussion={discussion}
-                      path={path}
                       count={discussion.comments.totalCount}
                     />
                   )

@@ -4,7 +4,6 @@ import { withRouter } from 'next/router'
 
 import { Loader } from '@project-r/styleguide'
 
-import { Router, routes, cleanAsPath } from '../lib/routes'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
 import StatusError from '../components/StatusError'
@@ -13,6 +12,7 @@ import withMembership, {
   UnauthorizedPage
 } from '../components/Auth/withMembership'
 import withInNativeApp from '../lib/withInNativeApp'
+import { cleanAsPath } from '../lib/utils/link'
 
 const KNOWN_PATHS = []
 
@@ -34,12 +34,10 @@ class FrontPage extends Component {
 
     if (isPathKnown(router) && !isMember && !inNativeIOSApp) {
       if (serverContext) {
-        const indexPath = routes.find(r => r.name === 'index').toPath()
-
-        serverContext.res.redirect(302, indexPath)
+        serverContext.res.redirect(302, '/')
         serverContext.res.end()
       } else {
-        Router.pushRoute('index')
+        router.push('/')
       }
     }
   }

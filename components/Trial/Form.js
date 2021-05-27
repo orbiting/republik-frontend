@@ -12,7 +12,6 @@ import { withSignIn } from '../Auth/SignIn'
 import withMembership from '../Auth/withMembership'
 import SwitchBoard from '../Auth/SwitchBoard'
 import Consents, { getConsentsError } from '../Pledge/Consents'
-import { Router } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
@@ -43,7 +42,7 @@ const REQUIRED_CONSENTS = ['PRIVACY']
 const Form = props => {
   const {
     payload,
-    router: { query },
+    router,
     beforeSignIn,
     onSuccess,
     narrow,
@@ -56,6 +55,7 @@ const Form = props => {
     initialEmail,
     campaign
   } = props
+  const { query } = router
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
   const [consents, setConsents] = useState(query.token ? REQUIRED_CONSENTS : [])
@@ -173,13 +173,18 @@ const Form = props => {
       >
         <Button
           primary
-          onClick={() => Router.pushRoute('index')}
+          onClick={() => router.push('/')}
           style={{ marginRight: 10 }}
         >
           {t('Trial/Form/withAccess/button/label')}
         </Button>
         <Button
-          onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}
+          onClick={() =>
+            router.push({
+              pathname: '/einrichten',
+              query: { context: 'trial' }
+            })
+          }
         >
           {t('Trial/Form/withAccess/setup/label')}
         </Button>
@@ -219,6 +224,7 @@ const Form = props => {
                       style={{ cursor: 'pointer' }}
                       size={30}
                       onClick={requestAccess}
+                      {...colorScheme.set('fill', 'text')}
                     />
                   ))
                 }

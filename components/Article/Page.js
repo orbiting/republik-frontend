@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useMemo, useContext } from 'react'
 import { css } from 'glamor'
+import Link from 'next/link'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
 import { graphql, compose } from 'react-apollo'
@@ -14,6 +15,7 @@ import {
   TitleBlock,
   Editorial,
   ColorContextProvider,
+  TeaserEmbedComment,
   SHARE_IMAGE_HEIGHT,
   SHARE_IMAGE_WIDTH,
   IconButton
@@ -33,15 +35,13 @@ import ActionBarOverlay from './ActionBarOverlay'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import Extract from './Extract'
-import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
+import { PayNote } from './PayNote'
 import Progress from './Progress'
 import PodcastButtons from './PodcastButtons'
 import { getDocument } from './graphql/getDocument'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { cleanAsPath } from '../../lib/routes'
-import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
@@ -69,11 +69,15 @@ import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
+import { cleanAsPath } from '../../lib/utils/link'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
+import gql from 'graphql-tag'
+import CommentLink from '../Discussion/CommentLink'
+
 const dynamicOptions = {
-  loading: () => <Loader />,
+  loading: () => <Loader loading />,
   ssr: false
 }
 const Manifest = dynamic(() => import('../About/Manifest'), {
@@ -105,6 +109,13 @@ const schemaCreators = {
   section: createSectionSchema,
   page: createPageSchema
 }
+
+export const withCommentData = graphql(
+  gql`
+    ${TeaserEmbedComment.data.query}
+  `,
+  TeaserEmbedComment.data.config
+)
 
 const dynamicComponentRequire = createRequire().alias({
   'react-apollo': reactApollo,
@@ -240,7 +251,9 @@ const ArticlePage = ({
                   })
                 }
               })
-            : undefined
+            : undefined,
+        withCommentData,
+        CommentLink
       }),
     [meta, inNativeIOSApp, inNativeApp]
   )
@@ -348,7 +361,7 @@ const ArticlePage = ({
   const metaWithSocialImages =
     meta && meta.discussionId && router.query.focus
       ? undefined
-      : {
+      : meta && {
           ...meta,
           facebookImage: meta?.shareText ? shareImage : meta?.facebookImage,
           twitterImage: meta?.shareText ? shareImage : meta?.twitterImage
@@ -465,11 +478,11 @@ const ArticlePage = ({
                                   format.meta.color || colors[format.meta.kind]
                                 }
                               >
-                                <HrefLink href={format.meta.path} passHref>
+                                <Link href={format.meta.path} passHref>
                                   <a {...styles.link} href={format.meta.path}>
                                     {format.meta.title}
                                   </a>
-                                </HrefLink>
+                                </Link>
                               </Editorial.Format>
                             )}
                             <Interaction.Headline>
@@ -688,12 +701,5 @@ const ComposedPage = compose(
     })
   })
 )(ArticlePage)
-
-ComposedPage.getInitialProps = () => {
-  return {
-    payNoteTryOrBuy: Math.random(),
-    payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
-  }
-}
 
 export default ComposedPage

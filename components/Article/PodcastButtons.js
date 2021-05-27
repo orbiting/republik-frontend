@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import copyToClipboard from 'clipboard-copy'
 import { css } from 'glamor'
-import { fontStyles, IconButton } from '@project-r/styleguide'
+import { IconButton } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { trackEvent } from '../../lib/matomo'

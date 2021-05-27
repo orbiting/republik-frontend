@@ -37,7 +37,7 @@ const Bookmark = ({
     const mutate = bookmarked
       ? removeDocumentFromCollection
       : addDocumentToCollection
-    mutate(documentId, !skipRefetch && router.route !== '/bookmarks')
+    mutate(documentId, !skipRefetch && router.pathname !== '/lesezeichen')
       .then(() => {
         setMutating(false)
         setError(undefined)

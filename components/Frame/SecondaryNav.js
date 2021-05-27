@@ -8,51 +8,46 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import { matchPath } from '../../lib/routes'
 import withT from '../../lib/withT'
 import NavLink from './Popover/NavLink'
 
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  SUBHEADER_HEIGHT,
-  ZINDEX_HEADER
-} from '../constants'
+import { SUBHEADER_HEIGHT, ZINDEX_HEADER } from '../constants'
+import { useRouter } from 'next/router'
 
 const sections = [
   {
     title: 'Meta',
-    path: '/meta',
+    href: '/meta',
     color: '#000',
     kind: null
   },
   {
     title: 'Briefings',
-    path: '/briefings',
+    href: '/briefings',
     color: '#07809a',
     kind: 'editorial'
   },
   {
     title: 'Kolumnen',
-    path: '/kolumnen',
+    href: '/kolumnen',
     color: '#D2933C',
     kind: null
   },
   {
     title: 'Formate',
-    path: '/formate',
+    href: '/formate',
     color: '#d44438',
     kind: 'scribble'
   },
   {
     title: 'Audio',
-    path: '/audio',
+    href: '/audio',
     color: null,
     kind: null
   },
   {
     title: 'Serien',
-    path: '/serien',
+    href: '/serien',
     color: null,
     kind: null
   }
@@ -60,13 +55,13 @@ const sections = [
 
 export const SecondaryNav = ({
   secondaryNav,
-  router,
   hasOverviewNav,
   isSecondarySticky,
   t
 }) => {
   const [colorScheme] = useColorContext()
-  const active = matchPath(router.asPath)
+  const router = useRouter()
+  const active = router.asPath
   return (
     <>
       {hasOverviewNav ? (
@@ -83,17 +78,12 @@ export const SecondaryNav = ({
             borderTopStyle: 'solid'
           }}
         >
-          <NavLink
-            route='index'
-            active={active}
-            minifeed
-            title={t('navbar/front')}
-          >
+          <NavLink href='/' active={active} minifeed title={t('navbar/front')}>
             {t('navbar/front')}
           </NavLink>
           <NavLink
             prefetch
-            route='feed'
+            href='/feed'
             active={active}
             minifeed
             title={t('navbar/feed')}
@@ -101,7 +91,7 @@ export const SecondaryNav = ({
             {t('navbar/feed')}
           </NavLink>
           <NavLink
-            route='discussion'
+            href='/dialog'
             active={active}
             formatColor={colors.primary}
             minifeed
@@ -110,13 +100,11 @@ export const SecondaryNav = ({
             {t('navbar/discussion')}
           </NavLink>
           {sections.map(section => {
-            const match = matchPath(section.path)
             const color = section.color || colors[section.kind]
             return (
               <NavLink
                 key={section.title}
-                route={match.route}
-                params={match.params}
+                href={section.href}
                 active={active}
                 formatColor={color}
                 minifeed

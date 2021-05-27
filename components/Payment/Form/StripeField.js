@@ -15,11 +15,12 @@ const StripeField = ({
   const [isEmpty, setEmpty] = useState(true)
   const [isFocussed, setFocus] = useState()
   const label = t(`payment/stripe/${fieldKey}/label`)
+  const error = dirty[fieldKey] && errors[fieldKey] && label
   return (
     <Field
       label={label}
       value={isEmpty ? '' : ' '}
-      error={dirty[fieldKey] && errors[fieldKey] && label}
+      error={error}
       renderInput={
         !unlockFieldKey
           ? props => (
@@ -37,7 +38,9 @@ const StripeField = ({
                   paddingTop: 8
                 }}
               >
-                <div style={{ opacity: isFocussed || !isEmpty ? 1 : 0 }}>
+                <div
+                  style={{ opacity: isFocussed || !isEmpty || error ? 1 : 0 }}
+                >
                   <Element
                     onFocus={() => {
                       setFocus(true)

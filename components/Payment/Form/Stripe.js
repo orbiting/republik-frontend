@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { css } from 'glamor'
 
 import {
@@ -16,11 +16,12 @@ import { SG_FONT_FACES } from '../../../lib/constants'
 
 const styles = {
   container: css({
-    margin: '10px 0'
+    margin: '10px 0',
+    lineHeight: 0
   })
 }
 
-const StripeForm = React.forwardRef(({ onChange, errors, dirty, t }, ref) => {
+const LiveForm = React.forwardRef(({ onChange, errors, dirty, t }, ref) => {
   const colorSchemeKey = useResolvedColorSchemeKey()
   const stripe = useStripe()
   const elements = useElements()
@@ -34,21 +35,6 @@ const StripeForm = React.forwardRef(({ onChange, errors, dirty, t }, ref) => {
       })
     }
   }, [stripe, elements, errors])
-  useEffect(() => {
-    onChange({
-      errors: {
-        card: t('payment/stripe/card/missing')
-      }
-    })
-    return () => {
-      onChange({
-        errors: {
-          card: undefined,
-          stripe: undefined
-        }
-      })
-    }
-  }, [])
 
   ref({
     createPaymentMethod: () => {
@@ -102,6 +88,9 @@ const StripeForm = React.forwardRef(({ onChange, errors, dirty, t }, ref) => {
                   }
                 })
               }}
+              onReady={element => {
+                element.focus()
+              }}
               options={{
                 hidePostalCode: true,
                 iconStyle: colorSchemeKey === 'dark' ? 'solid' : 'default',
@@ -129,6 +118,37 @@ const StripeForm = React.forwardRef(({ onChange, errors, dirty, t }, ref) => {
     </div>
   )
 })
+
+const PlaceholderForm = React.forwardRef(
+  ({ onChange, t, setPrivacyShield }, ref) => {
+    ref({
+      createPaymentMethod: () => {
+        onChange({
+          errors: {
+            card: t('payment/stripe/card/missing')
+          }
+        })
+      }
+    })
+
+    return (
+      <div {...styles.container}>
+        <Field
+          label={t('payment/stripe/card/placeholder')}
+          value={''}
+          renderInput={props => (
+            <input
+              {...props}
+              onFocus={() => {
+                setPrivacyShield(false)
+              }}
+            />
+          )}
+        />
+      </div>
+    )
+  }
+)
 
 const ContextWrapper = React.forwardRef((props, ref) => {
   const { onChange, t } = props
@@ -165,9 +185,39 @@ const ContextWrapper = React.forwardRef((props, ref) => {
 
   return (
     <Elements stripe={stripe} options={options}>
-      <StripeForm {...props} ref={ref} />
+      <LiveForm {...props} ref={ref} />
     </Elements>
   )
 })
 
-export default ContextWrapper
+const PrivacyWrapper = React.forwardRef((props, ref) => {
+  const { onChange, t } = props
+  const [privacyShield, setPrivacyShield] = useState(true)
+
+  useEffect(() => {
+    onChange({
+      errors: {
+        card: t('payment/stripe/card/missing')
+      }
+    })
+    return () => {
+      onChange({
+        errors: {
+          card: undefined,
+          stripe: undefined
+        },
+        dirty: {
+          card: undefined
+        }
+      })
+    }
+  }, [])
+
+  return privacyShield ? (
+    <PlaceholderForm {...props} setPrivacyShield={setPrivacyShield} ref={ref} />
+  ) : (
+    <ContextWrapper {...props} ref={ref} />
+  )
+})
+
+export default PrivacyWrapper

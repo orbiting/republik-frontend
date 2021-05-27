@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-26T10:50:41.472Z",
+  "updated": "2021-05-27T00:21:01.568Z",
   "title": "live",
   "data": [
     {
@@ -2449,6 +2449,10 @@
     {
       "key": "payment/stripe/card/missing",
       "value": "Ihre Kreditkarte fehlt"
+    },
+    {
+      "key": "payment/stripe/card/placeholder",
+      "value": "Ihre Kreditkarten-Nummer"
     },
     {
       "key": "payment/paymentslip/explanation",

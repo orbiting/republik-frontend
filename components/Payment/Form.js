@@ -186,8 +186,7 @@ class PaymentForm extends Component {
       } else {
         onChange({
           values: {
-            paymentMethod:
-              allowedMethods.length === 1 ? allowedMethods[0] : undefined,
+            paymentMethod: allowedMethods[0],
             paymentSource: null,
             newSource: true
           }

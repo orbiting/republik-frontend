@@ -54,9 +54,6 @@ const Form = React.forwardRef(
         color: colors[colorSchemeKey].text,
         '::placeholder': {
           color: colors[colorSchemeKey].disabled
-        },
-        ':disabled': {
-          color: colors[colorSchemeKey].disabled
         }
       },
       invalid: {
@@ -126,7 +123,7 @@ const stripePromise = new Promise(resolve => {
 const PrivacyWrapper = React.forwardRef((props, ref) => {
   const { onChange, t } = props
   const [unlockFieldKey, setUnlockFieldKey] = useState(
-    stripeLoaded ? fieldElements[0].key : undefined
+    stripeLoaded ? 'auto' : undefined
   )
 
   useEffect(() => {

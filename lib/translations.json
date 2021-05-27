@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-27T21:26:19.511Z",
+  "updated": "2021-05-27T22:20:47.254Z",
   "title": "live",
   "data": [
     {
@@ -2460,11 +2460,11 @@
     },
     {
       "key": "payment/stripe/cvc/label",
-      "value": "CVC"
+      "value": "Prüfziffer (CVC)"
     },
     {
       "key": "payment/stripe/cvc/error/empty",
-      "value": "CVC fehlt"
+      "value": "Prüfziffer (CVC) fehlt"
     },
     {
       "key": "payment/paymentslip/explanation",

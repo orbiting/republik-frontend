@@ -325,7 +325,6 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
               size={20}
               {...colorScheme.set('fill', 'text')}
             />
-            Die Republik ist{' '}
             <a
               {...navLinkStyle}
               style={{ ...fontStyles.sansSerifRegular14 }}
@@ -333,7 +332,7 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
               rel='noopener'
               target='_blank'
             >
-              Open Source
+              {t('footer/opensource')}
             </a>
           </span>
         </div>

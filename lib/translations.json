@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-20T13:14:54.804Z",
+  "updated": "2021-05-27T09:37:11.530Z",
   "title": "live",
   "data": [
     {
@@ -1645,6 +1645,10 @@
     {
       "key": "footer/whistleblower",
       "value": "Whistleblower"
+    },
+    {
+      "key": "footer/opensource",
+      "value": "Die Republik ist Open Source (BSD 3)"
     },
     {
       "key": "components/Discussion/OrderBy/DATE",

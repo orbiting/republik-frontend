@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-27T09:37:11.530Z",
+  "updated": "2021-05-27T14:58:03.125Z",
   "title": "live",
   "data": [
     {
@@ -1649,6 +1649,14 @@
     {
       "key": "footer/opensource",
       "value": "Die Republik ist Open Source (BSD 3)"
+    },
+    {
+      "key": "footer/becomemember",
+      "value": "Mitglied werden"
+    },
+    {
+      "key": "footer/signIn/alt",
+      "value": "Anmelden"
     },
     {
       "key": "components/Discussion/OrderBy/DATE",

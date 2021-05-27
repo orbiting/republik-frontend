@@ -15,6 +15,7 @@ import { OpenSourceIcon } from '@project-r/styleguide/icons'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
+import withMemberStatus from '../../lib/withMemberStatus'
 import { withSignOut } from '../Auth/SignOut'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { shouldIgnoreClick } from '../../lib/utils/link'
@@ -112,7 +113,14 @@ const styles = {
   })
 }
 
-const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
+const Footer = ({
+  t,
+  me,
+  signOut,
+  inNativeIOSApp,
+  isOnMarketingPage,
+  hasActiveMembership
+}) => {
   const [colorScheme] = useColorContext()
   const navLinkStyle = useMemo(
     () =>
@@ -159,15 +167,13 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
           <div {...styles.nav}>
             <ul {...styles.navList}>
               <li {...colorScheme.set('color', 'disabled')}>
-                {me ? 'Meine Republik' : 'Mitglied werden'}
+                {me ? `${t('footer/me/title')}` : `${t('footer/becomemember')}`}
               </li>
               {!!me && (
                 <>
                   <li>
                     <FooterNavLink href='/konto'>
-                      <a {...navLinkStyle}>
-                        {t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}
-                      </a>
+                      <a {...navLinkStyle}>{t('footer/me/signedIn')}</a>
                     </FooterNavLink>
                   </li>
                   <li>
@@ -182,11 +188,13 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
                   <FooterNavLink
                     href={{
                       pathname: '/angebote',
-                      query: { group: me ? 'GIVE' : undefined }
+                      query: { group: hasActiveMembership ? 'GIVE' : undefined }
                     }}
                   >
                     <a {...navLinkStyle}>
-                      {t(me ? 'footer/me/give' : 'footer/offers')}
+                      {t(
+                        hasActiveMembership ? 'footer/me/give' : 'footer/offers'
+                      )}
                     </a>
                   </FooterNavLink>
                 </li>
@@ -196,7 +204,7 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
                   <a {...navLinkStyle}>{t('footer/me/claim')}</a>
                 </FooterNavLink>
               </li>
-              {me && me.accessCampaigns.length > 0 && (
+              {me && me.accessCampaigns.length > 0 && hasActiveMembership && (
                 <li>
                   <FooterNavLink
                     href='/teilen'
@@ -211,7 +219,7 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
                   </FooterNavLink>
                 </li>
               )}
-              {!!me && (
+              {me ? (
                 <li>
                   <a
                     {...navLinkStyle}
@@ -223,6 +231,12 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
                   >
                     {t('footer/me/signOut')}
                   </a>
+                </li>
+              ) : (
+                <li>
+                  <FooterNavLink href='/anmelden'>
+                    <a {...navLinkStyle}>{t('footer/signIn/alt')}</a>
+                  </FooterNavLink>
                 </li>
               )}
             </ul>
@@ -353,5 +367,6 @@ export default compose(
   withT,
   withMe,
   withSignOut,
-  withInNativeApp
+  withInNativeApp,
+  withMemberStatus
 )(FooterWithStaticColorContext)

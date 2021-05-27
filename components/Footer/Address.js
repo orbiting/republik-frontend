@@ -1,9 +1,9 @@
 import React from 'react'
 import { css } from 'glamor'
-import { Link } from '../../lib/routes'
-import { intersperse } from '../../lib/utils/helpers'
-
+import Link from 'next/link'
 import { fontStyles, P, useColorContext } from '@project-r/styleguide'
+
+import { intersperse } from '../../lib/utils/helpers'
 
 const styles = {
   address: css({
@@ -39,7 +39,7 @@ const Address = ({ t }) => {
           {t('footer/contact/mail')}
         </a>
         <br />
-        <Link prefetch={false} route='media'>
+        <Link prefetch={false} href='/medien'>
           <a {...colorScheme.set('color', 'text')}>{t('footer/media')}</a>
         </Link>
       </P>

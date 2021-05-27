@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
-
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import {
   BrandMark,
   Logo,
@@ -15,8 +16,6 @@ import { OpenSourceIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import { ZINDEX_FOOTER } from '../constants'
@@ -56,6 +55,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column',
+    marginBottom: 36,
     [mediaQueries.mUp]: {
       flexDirection: 'row-reverse'
     }
@@ -72,6 +72,14 @@ const styles = {
   }),
   addressColumn: css({
     marginRight: 100
+  }),
+  since: css({
+    ...fontStyles.sansSerifRegular12,
+    display: 'none',
+    marginLeft: 8,
+    [mediaQueries.mUp]: {
+      display: 'inline-block'
+    }
   }),
   navList: css({
     display: 'flex',
@@ -132,14 +140,18 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
           <FooterNavLink href='/'>
             <a>
               {isOnMarketingPage ? (
-                <div style={{ width: 23 }}>
+                <div style={{ width: 23, display: 'inline-block' }}>
                   <BrandMark {...colorScheme.set('fill', 'text')} />
                 </div>
               ) : (
                 <Logo {...colorScheme.set('fill', 'text')} height={20} />
               )}
+              <span {...colorScheme.set('color', 'textSoft')} {...styles.since}>
+                {t('footer/since')}
+              </span>
             </a>
           </FooterNavLink>
+
           <SocialLinks />
         </div>
         <hr {...styles.hr} {...colorScheme.set('borderColor', 'divider')} />
@@ -179,6 +191,11 @@ const Footer = ({ t, me, signOut, inNativeIOSApp, isOnMarketingPage }) => {
                   </FooterNavLink>
                 </li>
               )}
+              <li>
+                <FooterNavLink href='/abholen'>
+                  <a {...navLinkStyle}>{t('footer/me/claim')}</a>
+                </FooterNavLink>
+              </li>
               {me && me.accessCampaigns.length > 0 && (
                 <li>
                   <FooterNavLink

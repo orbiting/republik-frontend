@@ -19,7 +19,7 @@
     "translations": "npm run translations-raw && git add -p lib/translations.json && git checkout -- lib/translations.json",
     "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "analyze": "ANALYZE=true next build",
-    "sg:link": "./scripts/sg_link.sh","preinstall": "npm run sg:unlink",
+    "sg:link": "./scripts/sg_link.sh",
     "sg:unlink": "./scripts/sg_unlink.sh",
     "yaproxy": "CORS_ORIGIN=http://localhost:3010,http://localhost:3005 PORT=5000 TARGET=https://api.republik.ch yaproxy",
     "yaproxy-android": "COOKIE_DOMAIN_REWRITE=*:10.0.2.2 CORS_ORIGIN=http://10.0.2.2:3010 PORT=5000 TARGET=https://api.republik.ch yaproxy"
@@ -104,7 +104,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^10.1.3",
-    "@project-r/styleguide": "11.5.2",
+    "@project-r/styleguide": "https://s3.eu-central-1.amazonaws.com/republik-assets-dev/npm/project-r-styleguide-ob-403af7c.tgz",
     "@use-it/event-listener": "^0.1.6",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",

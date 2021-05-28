@@ -15,7 +15,7 @@ const StripeField = ({
   const [isEmpty, setEmpty] = useState(true)
   const [isFocussed, setFocus] = useState()
   const label = t(`payment/stripe/${fieldKey}/label`)
-  const error = dirty[fieldKey] && errors[fieldKey] && label
+  const error = dirty[fieldKey] && errors[fieldKey]
   return (
     <Field
       label={label}
@@ -55,8 +55,24 @@ const StripeField = ({
                     onChange={event => {
                       setEmpty(event.empty)
                       onChange({
+                        values:
+                          fieldKey === 'cardNumber'
+                            ? {
+                                cardType:
+                                  event.brand === 'unknown'
+                                    ? undefined
+                                    : event.brand
+                              }
+                            : undefined,
                         errors: {
-                          [fieldKey]: event.error?.message
+                          [fieldKey]: event.empty
+                            ? t(`payment/stripe/${fieldKey}/error/empty`)
+                            : event.error
+                            ? t.first([
+                                `payment/stripe/${fieldKey}/error/${event.error.code}`,
+                                `payment/stripe/${fieldKey}/error/generic`
+                              ])
+                            : undefined
                         },
                         dirty: {
                           [fieldKey]: true
@@ -70,6 +86,7 @@ const StripeField = ({
                     }}
                     options={{
                       style:
+                        // CVC has a placeholder which says the samething as the label -> hide
                         fieldKey === 'cvc'
                           ? {
                               ...style,

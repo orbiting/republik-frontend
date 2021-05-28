@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-27T22:20:47.254Z",
+  "updated": "2021-05-27T23:10:06.335Z",
   "title": "live",
   "data": [
     {
@@ -2444,11 +2444,19 @@
     },
     {
       "key": "payment/stripe/cardNumber/label",
-      "value": "Kreditkarten-Nummer"
+      "value": "Kreditkartennummer"
     },
     {
       "key": "payment/stripe/cardNumber/error/empty",
-      "value": "Kreditkarten-Nummer fehlt"
+      "value": "Kreditkartennummer fehlt"
+    },
+    {
+      "key": "payment/stripe/cardNumber/error/incomplete_number",
+      "value": "Kreditkartennummer unvollständig"
+    },
+    {
+      "key": "payment/stripe/cardNumber/error/generic",
+      "value": "Kreditkartennummer ungültig"
     },
     {
       "key": "payment/stripe/expiry/label",
@@ -2459,12 +2467,28 @@
       "value": "Ablaufdatum Ihrer Karte fehlt"
     },
     {
+      "key": "payment/stripe/expiry/error/incomplete_expiry",
+      "value": "Ablaufdatum Ihrer Karte unvollständig"
+    },
+    {
+      "key": "payment/stripe/expiry/error/generic",
+      "value": "Ablaufdatum Ihrer Karte ungültig"
+    },
+    {
       "key": "payment/stripe/cvc/label",
       "value": "Prüfziffer (CVC)"
     },
     {
       "key": "payment/stripe/cvc/error/empty",
       "value": "Prüfziffer (CVC) fehlt"
+    },
+    {
+      "key": "payment/stripe/cvc/error/incomplete_cvc",
+      "value": "Prüfziffer (CVC) unvollständig"
+    },
+    {
+      "key": "payment/stripe/cvc/error/generic",
+      "value": "Prüfziffer (CVC) ungültig"
     },
     {
       "key": "payment/paymentslip/explanation",

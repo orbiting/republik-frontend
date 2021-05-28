@@ -46,7 +46,7 @@ export const Mastercard = () => (
 
 export const Amex = () => (
   <svg
-    style={{ verticalAlign: 'middle', padding: '0px 0' }}
+    style={{ verticalAlign: 'middle', padding: '6px 9px' }}
     height='40'
     viewBox='0 0 24 16'
   >

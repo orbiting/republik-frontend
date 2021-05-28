@@ -37,12 +37,33 @@ const PAYMENT_METHODS = [
   {
     disabled: false,
     key: 'STRIPE',
-    Icon: () => {
+    Icon: ({ values }) => {
       return (
         <span>
-          <PSPIcons.Visa />
-          <PSPIcons.Mastercard />
-          {/* <PSPIcons.Amex /> */}
+          <span
+            style={{
+              opacity: !values.cardType || values.cardType === 'visa' ? 1 : 0.4
+            }}
+          >
+            <PSPIcons.Visa />
+          </span>
+          <span
+            style={{
+              display: values.cardType === 'amex' ? 'none' : 'inline',
+              opacity:
+                !values.cardType || values.cardType === 'mastercard' ? 1 : 0.4
+            }}
+          >
+            <PSPIcons.Mastercard />
+          </span>
+          <span
+            style={{
+              display: values.cardType === 'amex' ? 'inline' : 'none',
+              opacity: !values.cardType || values.cardType === 'amex' ? 1 : 0.4
+            }}
+          >
+            <PSPIcons.Amex />
+          </span>
         </span>
       )
     }
@@ -405,7 +426,7 @@ class PaymentForm extends Component {
                           paymentMethod === pm.key && !values.paymentSource
                         }
                       />
-                      {pm.Icon ? <pm.Icon /> : null}
+                      {pm.Icon ? <pm.Icon values={values} /> : null}
                       <span
                         {...(pm.Icon
                           ? styles.paymentMethodHiddenText

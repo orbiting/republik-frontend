@@ -119,7 +119,7 @@ const Footer = ({
   signOut,
   inNativeIOSApp,
   isOnMarketingPage,
-  hasActiveMemberships
+  hasActiveMembership
 }) => {
   const [colorScheme] = useColorContext()
   const navLinkStyle = useMemo(
@@ -189,15 +189,13 @@ const Footer = ({
                     href={{
                       pathname: '/angebote',
                       query: {
-                        group: hasActiveMemberships ? 'GIVE' : undefined
+                        group: hasActiveMembership ? 'GIVE' : undefined
                       }
                     }}
                   >
                     <a {...navLinkStyle}>
                       {t(
-                        hasActiveMemberships
-                          ? 'footer/me/give'
-                          : 'footer/offers'
+                        hasActiveMembership ? 'footer/me/give' : 'footer/offers'
                       )}
                     </a>
                   </FooterNavLink>
@@ -208,7 +206,7 @@ const Footer = ({
                   <a {...navLinkStyle}>{t('footer/me/claim')}</a>
                 </FooterNavLink>
               </li>
-              {me && me.accessCampaigns.length > 0 && hasActiveMemberships && (
+              {me && me.accessCampaigns.length > 0 && hasActiveMembership && (
                 <li>
                   <FooterNavLink
                     href='/teilen'
@@ -333,7 +331,7 @@ const Footer = ({
             <Address t={t} />
           </div>
         </div>
-        <div>
+        <div style={{ textAlign: 'right' }}>
           <span
             style={{ ...fontStyles.sansSerifRegular14 }}
             {...colorScheme.set('color', 'text')}
@@ -359,7 +357,7 @@ const Footer = ({
   )
 }
 
-const FooterWithStaticColorContext = ({ ...props }) => {
+const FooterWithStaticColorContext = props => {
   return (
     <ColorContextProvider colorSchemeKey='dark'>
       <Footer {...props} />
@@ -369,8 +367,8 @@ const FooterWithStaticColorContext = ({ ...props }) => {
 
 export default compose(
   withT,
+  withMemberStatus,
   withMe,
   withSignOut,
-  withInNativeApp,
-  withMemberStatus
+  withInNativeApp
 )(FooterWithStaticColorContext)

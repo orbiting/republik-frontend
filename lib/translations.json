@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-27T14:58:03.125Z",
+  "updated": "2021-05-28T09:00:11.445Z",
   "title": "live",
   "data": [
     {
@@ -1648,7 +1648,7 @@
     },
     {
       "key": "footer/opensource",
-      "value": "Die Republik ist Open Source (BSD 3)"
+      "value": "Der Republik Code ist Open Source"
     },
     {
       "key": "footer/becomemember",

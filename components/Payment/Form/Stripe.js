@@ -52,6 +52,7 @@ const Form = React.forwardRef(
         ...fontStyles.sansSerifRegular,
         fontSize: '22px',
         color: colors[colorSchemeKey].text,
+        lineHeight: '40px',
         '::placeholder': {
           color: colors[colorSchemeKey].disabled
         }

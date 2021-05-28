@@ -32,12 +32,7 @@ const StripeField = ({
               />
             )
           : ({ onFocus, onBlur, className }) => (
-              <div
-                className={className}
-                style={{
-                  paddingTop: 8
-                }}
-              >
+              <div className={className}>
                 <div
                   style={{ opacity: isFocussed || !isEmpty || error ? 1 : 0 }}
                 >

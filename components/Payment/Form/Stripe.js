@@ -10,7 +10,13 @@ import {
   useStripe
 } from '@stripe/react-stripe-js'
 
-import { fontStyles, colors } from '@project-r/styleguide'
+import {
+  fontStyles,
+  colors,
+  useColorContext,
+  Interaction,
+  Editorial
+} from '@project-r/styleguide'
 
 import { useResolvedColorSchemeKey } from '../../ColorScheme/lib'
 import { SG_FONT_FACES } from '../../../lib/constants'
@@ -32,20 +38,22 @@ const fieldElements = [
 ]
 
 const Form = React.forwardRef(
-  ({ onChange, errors, dirty, t, unlockFieldKey, setUnlockFieldKey }, ref) => {
+  (
+    {
+      onChange,
+      errors,
+      dirty,
+      t,
+      unlockFieldKey,
+      setUnlockFieldKey,
+      stripeLoadState,
+      retryLoadStripe
+    },
+    ref
+  ) => {
     const colorSchemeKey = useResolvedColorSchemeKey()
     const stripe = useStripe()
     const elements = useElements()
-
-    useEffect(() => {
-      if (stripe && elements && errors.stripe) {
-        onChange({
-          errors: {
-            stripe: undefined
-          }
-        })
-      }
-    }, [stripe, elements, errors])
 
     const style = {
       base: {
@@ -65,11 +73,6 @@ const Form = React.forwardRef(
     ref({
       createPaymentMethod: () => {
         if (!stripe || !elements) {
-          onChange({
-            errors: {
-              stripe: t('payment/stripe/js/loading')
-            }
-          })
           return
         }
         return new Promise((resolve, reject) => {
@@ -90,7 +93,14 @@ const Form = React.forwardRef(
     })
 
     return (
-      <div {...styles.container}>
+      <div
+        {...styles.container}
+        onClick={() => {
+          if (stripeLoadState === 'failed') {
+            retryLoadStripe()
+          }
+        }}
+      >
         {fieldElements.map(({ key, Element }) => (
           <StripeField
             key={key}
@@ -103,6 +113,7 @@ const Form = React.forwardRef(
             dirty={dirty}
             errors={errors}
             onChange={onChange}
+            stripeLoadState={stripeLoadState}
           />
         ))}
       </div>
@@ -110,26 +121,55 @@ const Form = React.forwardRef(
   }
 )
 
-let stripeLoaded
-let loadStripeNow
-const stripePromise = new Promise(resolve => {
-  loadStripeNow = () => {
-    resolve()
-    stripeLoaded = true
+let globalStripeState
+const setupStripe = () => {
+  const newState = {
+    attempt: (globalStripeState?.attempt || 0) + 1,
+    started: false
   }
-}).then(() => {
-  return loadStripe()
-})
+  newState.stripePromise = new Promise(resolve => {
+    newState.loadNow = ({ setStripeLoadState }) => {
+      resolve({ setStripeLoadState })
+      newState.started = true
+    }
+  }).then(({ setStripeLoadState }) => {
+    setStripeLoadState('loading')
+    return loadStripe()
+      .then(stripe => {
+        setStripeLoadState('ready')
+        return stripe
+      })
+      .catch(error => {
+        setStripeLoadState('failed')
+        return error
+      })
+  })
+  return newState
+}
+// setup initially
+globalStripeState = setupStripe()
 
 const PrivacyWrapper = React.forwardRef((props, ref) => {
+  const [colorScheme] = useColorContext()
   const { onChange, t } = props
   const [unlockFieldKey, setUnlockFieldKey] = useState(
-    stripeLoaded ? 'auto' : undefined
+    globalStripeState.started ? 'auto' : undefined
   )
+  const [stripeLoadState, setStripeLoadState] = useState()
+
+  const retryLoadStripe = e => {
+    if (e) {
+      e.preventDefault()
+    }
+    globalStripeState = setupStripe()
+    globalStripeState.loadNow({ setStripeLoadState })
+  }
 
   useEffect(() => {
-    if (unlockFieldKey && !stripeLoaded) {
-      loadStripeNow()
+    if (unlockFieldKey && !globalStripeState.started) {
+      globalStripeState.loadNow({
+        setStripeLoadState
+      })
     }
   }, [unlockFieldKey])
   const options = useMemo(() => {
@@ -153,39 +193,28 @@ const PrivacyWrapper = React.forwardRef((props, ref) => {
         : []
     }
   })
-  useEffect(() => {
-    onChange({
-      errors: {
-        cardNumber: t('payment/stripe/cardNumber/error/empty'),
-        expiry: t('payment/stripe/expiry/error/empty'),
-        cvc: t('payment/stripe/cvc/error/empty')
-      }
-    })
-    return () => {
-      onChange({
-        errors: {
-          cardNumber: undefined,
-          expiry: undefined,
-          cvc: undefined,
-          stripe: undefined
-        },
-        dirty: {
-          cardNumber: undefined,
-          expiry: undefined,
-          cvc: undefined
-        }
-      })
-    }
-  }, [])
 
   return (
-    <Elements stripe={stripePromise} options={options}>
+    <Elements
+      key={`attempt${globalStripeState.attempt}`}
+      stripe={globalStripeState.stripePromise}
+      options={options}
+    >
       <Form
         {...props}
         ref={ref}
         unlockFieldKey={unlockFieldKey}
         setUnlockFieldKey={setUnlockFieldKey}
+        stripeLoadState={stripeLoadState}
+        retryLoadStripe={retryLoadStripe}
       />
+      {stripeLoadState === 'failed' && (
+        <Interaction.P>
+          <span {...colorScheme.set('color', 'error')}>
+            {t('payment/stripe/js/failed')}
+          </span>
+        </Interaction.P>
+      )}
     </Elements>
   )
 })

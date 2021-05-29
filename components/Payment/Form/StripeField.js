@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Field } from '@project-r/styleguide'
+import React, { useEffect, useState } from 'react'
+import { Field, Spinner } from '@project-r/styleguide'
 
 const StripeField = ({
   Element,
@@ -10,23 +10,54 @@ const StripeField = ({
   errors,
   onChange,
   unlockFieldKey,
-  setUnlockFieldKey
+  setUnlockFieldKey,
+  stripeLoadState
 }) => {
   const [isEmpty, setEmpty] = useState(true)
   const [isFocussed, setFocus] = useState()
+
+  useEffect(() => {
+    onChange({
+      errors: {
+        [fieldKey]: t(`payment/stripe/${fieldKey}/error/empty`)
+      }
+    })
+    return () => {
+      onChange({
+        errors: {
+          [fieldKey]: undefined
+        },
+        dirty: {
+          [fieldKey]: undefined
+        }
+      })
+    }
+  }, [])
+
   const label = t(`payment/stripe/${fieldKey}/label`)
   const error = dirty[fieldKey] && errors[fieldKey]
+
   return (
     <Field
       label={label}
       value={isEmpty ? '' : ' '}
       error={error}
+      icon={
+        stripeLoadState === 'loading' && unlockFieldKey === fieldKey ? (
+          <span style={{ display: 'inline-block', height: 30, width: 30 }}>
+            <Spinner size={30} />
+          </span>
+        ) : (
+          undefined
+        )
+      }
       renderInput={
         !unlockFieldKey
           ? props => (
               <input
                 {...props}
-                onFocus={() => {
+                onFocus={e => {
+                  e.preventDefault()
                   setUnlockFieldKey(fieldKey)
                 }}
               />

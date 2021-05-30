@@ -1,6 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { Field, Spinner } from '@project-r/styleguide'
 
+const LoadingIcon = () => {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 250)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (!visible) {
+    return null
+  }
+  return (
+    <span style={{ display: 'inline-block', height: 30, width: 30 }}>
+      <Spinner size={30} />
+    </span>
+  )
+}
+
 const StripeField = ({
   Element,
   fieldKey,
@@ -11,7 +29,8 @@ const StripeField = ({
   onChange,
   unlockFieldKey,
   setUnlockFieldKey,
-  stripeLoadState
+  stripeLoadState,
+  setStripeLoadState
 }) => {
   const [isEmpty, setEmpty] = useState(true)
   const [isFocussed, setFocus] = useState()
@@ -44,9 +63,7 @@ const StripeField = ({
       error={error}
       icon={
         stripeLoadState === 'loading' && unlockFieldKey === fieldKey ? (
-          <span style={{ display: 'inline-block', height: 30, width: 30 }}>
-            <Spinner size={30} />
-          </span>
+          <LoadingIcon />
         ) : (
           undefined
         )
@@ -64,69 +81,71 @@ const StripeField = ({
             )
           : ({ onFocus, onBlur, className }) => (
               <div className={className}>
-                <div
-                  style={{ opacity: isFocussed || !isEmpty || error ? 1 : 0 }}
-                >
-                  <Element
-                    onFocus={() => {
-                      setFocus(true)
-                      onFocus()
-                    }}
-                    onBlur={() => {
-                      setFocus(false)
-                      onBlur({
-                        target: { value: isEmpty ? '' : ' ' }
-                      })
-                    }}
-                    onChange={event => {
-                      setEmpty(event.empty)
-                      onChange({
-                        values:
-                          fieldKey === 'cardNumber'
-                            ? {
-                                cardType:
-                                  event.brand === 'unknown'
-                                    ? undefined
-                                    : event.brand
-                              }
-                            : undefined,
-                        errors: {
-                          [fieldKey]: event.empty
-                            ? t(`payment/stripe/${fieldKey}/error/empty`)
-                            : event.error
-                            ? t.first([
-                                `payment/stripe/${fieldKey}/error/${event.error.code}`,
-                                `payment/stripe/${fieldKey}/error/generic`
-                              ])
-                            : undefined
-                        },
-                        dirty: {
-                          [fieldKey]: true
-                        }
-                      })
-                    }}
-                    onReady={element => {
-                      if (unlockFieldKey === fieldKey) {
-                        element.focus()
-                      }
-                    }}
-                    options={{
-                      style:
-                        // CVC has a placeholder which says the samething as the label -> hide
-                        fieldKey === 'cvc'
+                <Element
+                  onFocus={() => {
+                    setFocus(true)
+                    onFocus()
+                  }}
+                  onBlur={() => {
+                    setFocus(false)
+                    onBlur({
+                      target: { value: isEmpty ? '' : ' ' }
+                    })
+                  }}
+                  onChange={event => {
+                    setEmpty(event.empty)
+                    onChange({
+                      values:
+                        fieldKey === 'cardNumber'
                           ? {
-                              ...style,
-                              base: {
-                                ...style.base,
-                                '::placeholder': {
-                                  color: 'transparent'
-                                }
+                              cardType:
+                                event.brand === 'unknown'
+                                  ? undefined
+                                  : event.brand
+                            }
+                          : undefined,
+                      errors: {
+                        [fieldKey]: event.empty
+                          ? t(`payment/stripe/${fieldKey}/error/empty`)
+                          : event.error
+                          ? t.first([
+                              `payment/stripe/${fieldKey}/error/${event.error.code}`,
+                              `payment/stripe/${fieldKey}/error/generic`
+                            ])
+                          : undefined
+                      },
+                      dirty: {
+                        [fieldKey]: true
+                      }
+                    })
+                  }}
+                  onReady={element => {
+                    if (unlockFieldKey === fieldKey) {
+                      element.focus()
+                    }
+                    if (stripeLoadState === 'loading') {
+                      setStripeLoadState('ready')
+                    }
+                  }}
+                  options={{
+                    classes: {
+                      base: className
+                    },
+                    style:
+                      // CVC has a placeholder which says the samething as the label -> hide
+                      fieldKey === 'cvc' || !(isFocussed || !isEmpty || error)
+                        ? {
+                            ...style,
+                            base: {
+                              ...style.base,
+                              '::placeholder': {
+                                color: 'transparent'
                               }
                             }
-                          : style
-                    }}
-                  />
-                </div>
+                          }
+                        : style
+                  }}
+                />
               </div>
             )
       }

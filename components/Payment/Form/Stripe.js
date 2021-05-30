@@ -46,6 +46,7 @@ const Form = React.forwardRef(
       unlockFieldKey,
       setUnlockFieldKey,
       stripeLoadState,
+      setStripeLoadState,
       retryLoadStripe
     },
     ref
@@ -62,6 +63,11 @@ const Form = React.forwardRef(
         lineHeight: '40px',
         '::placeholder': {
           color: colors[colorSchemeKey].disabled
+        },
+        // match Chrome 90
+        ':-webkit-autofill': {
+          color: '#000',
+          backgroundColor: 'rgb(232, 240, 254)' // Safari: rgb(250, 255, 189)
         }
       },
       invalid: {
@@ -113,6 +119,7 @@ const Form = React.forwardRef(
             errors={errors}
             onChange={onChange}
             stripeLoadState={stripeLoadState}
+            setStripeLoadState={setStripeLoadState}
           />
         ))}
       </div>
@@ -133,15 +140,10 @@ const setupStripe = () => {
     }
   }).then(({ setStripeLoadState }) => {
     setStripeLoadState('loading')
-    return loadStripe()
-      .then(stripe => {
-        setStripeLoadState('ready')
-        return stripe
-      })
-      .catch(error => {
-        setStripeLoadState('failed')
-        return error
-      })
+    return loadStripe().catch(error => {
+      setStripeLoadState('failed')
+      return error
+    })
   })
   return newState
 }
@@ -205,6 +207,7 @@ const PrivacyWrapper = React.forwardRef((props, ref) => {
         unlockFieldKey={unlockFieldKey}
         setUnlockFieldKey={setUnlockFieldKey}
         stripeLoadState={stripeLoadState}
+        setStripeLoadState={setStripeLoadState}
         retryLoadStripe={retryLoadStripe}
       />
       {stripeLoadState === 'failed' && (

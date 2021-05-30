@@ -274,7 +274,10 @@ class Pledge extends Component {
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.me !== this.props.me) {
+    if (
+      nextProps.me !== this.props.me ||
+      nextProps.query.token !== this.props.query.token
+    ) {
       this.refetchPackages()
     }
     if (nextProps.query !== this.props.query) {

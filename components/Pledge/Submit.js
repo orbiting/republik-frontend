@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
+import Link from 'next/link'
 
 import SignIn, { withSignIn } from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
@@ -709,25 +710,18 @@ class Submit extends Component {
                     {customMe.email}
                   </Interaction.P>
                   <br />
-                  <A
-                    href='#'
-                    onClick={e => {
-                      e.preventDefault()
-
-                      const { router } = this.props
-                      const query = { ...router.query }
-                      delete query.token
-                      router
-                        .replace({ pathname: '/angebote', query }, undefined, {
-                          shallow: true
-                        })
-                        .then(() => {
-                          this.refetchPackages()
-                        })
+                  <Link
+                    href={{
+                      pathname: '/angebote',
+                      query: {
+                        package: packageName
+                      }
                     }}
+                    replace
+                    passHref
                   >
-                    {t('pledge/contact/signIn/wrongToken')}
-                  </A>
+                    <A>{t('pledge/contact/signIn/wrongToken')}</A>
+                  </Link>
                 </>
               ) : (
                 <FieldSet {...contactState} />

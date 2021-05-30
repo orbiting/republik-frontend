@@ -3,6 +3,7 @@ import React from 'react'
 export const Visa = () => (
   <svg
     style={{ verticalAlign: 'middle', padding: '0px 0' }}
+    width='60'
     height='40'
     viewBox='0 0 24 16'
   >
@@ -29,6 +30,7 @@ export const Visa = () => (
 export const Mastercard = () => (
   <svg
     style={{ verticalAlign: 'middle', padding: '0px 0' }}
+    width='60'
     height='40'
     viewBox='0 0 24 16'
   >
@@ -47,6 +49,7 @@ export const Mastercard = () => (
 export const Amex = () => (
   <svg
     style={{ verticalAlign: 'middle', padding: '6px 9px' }}
+    width='60'
     height='40'
     viewBox='0 0 24 16'
   >

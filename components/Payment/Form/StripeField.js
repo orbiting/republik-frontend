@@ -129,7 +129,7 @@ const StripeField = ({
                   }}
                   options={{
                     classes: {
-                      base: className
+                      base: `StripeElement StripeElement-${fieldKey} ${className}`
                     },
                     style:
                       // CVC has a placeholder which says the samething as the label -> hide

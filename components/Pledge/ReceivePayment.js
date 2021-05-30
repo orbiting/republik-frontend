@@ -96,6 +96,7 @@ class PledgeReceivePayment extends Component {
           case '92':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/92'
                 replacements={errorVariables}
               />
@@ -104,6 +105,7 @@ class PledgeReceivePayment extends Component {
           case '93':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/retry'
                 replacements={errorVariables}
               />
@@ -112,6 +114,7 @@ class PledgeReceivePayment extends Component {
           case '0':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/invalid'
                 replacements={errorVariables}
               />
@@ -120,6 +123,7 @@ class PledgeReceivePayment extends Component {
           case '1':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/canceled'
                 replacements={errorVariables}
               />
@@ -128,6 +132,7 @@ class PledgeReceivePayment extends Component {
           case '2':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/denied'
                 replacements={errorVariables}
               />
@@ -136,6 +141,7 @@ class PledgeReceivePayment extends Component {
           default:
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/error'
                 replacements={errorVariables}
               />
@@ -179,7 +185,10 @@ class PledgeReceivePayment extends Component {
           case 'Cancel':
             // see cancel_return in ./paypal.js
             state.receiveError = (
-              <RawHtmlTranslation translationKey='pledge/recievePayment/paypal/cancel' />
+              <RawHtmlTranslation
+                error
+                translationKey='pledge/recievePayment/paypal/cancel'
+              />
             )
             break
           case 'Denied':
@@ -187,7 +196,10 @@ class PledgeReceivePayment extends Component {
           case 'Failed':
           case 'Voided':
             state.receiveError = (
-              <RawHtmlTranslation translationKey='pledge/recievePayment/paypal/deny' />
+              <RawHtmlTranslation
+                error
+                translationKey='pledge/recievePayment/paypal/deny'
+              />
             )
             break
           case 'Canceled_Reversal':
@@ -197,6 +209,7 @@ class PledgeReceivePayment extends Component {
           case 'Pending':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/paypal/contactUs'
                 replacements={errorVariables}
               />
@@ -205,6 +218,7 @@ class PledgeReceivePayment extends Component {
           default:
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/error'
                 replacements={errorVariables}
               />

@@ -14,11 +14,14 @@ export const ErrorContainer = ({ children, style }) => {
   )
 }
 
-const ErrorMessage = ({ error, style }) => {
+const ErrorMessage = ({ error, style, children }) => {
   const [colorScheme] = useColorContext()
   return (
     <P style={{ margin: '20px 0', ...style }}>
-      <span {...colorScheme.set('color', 'error')}>{errorToString(error)}</span>
+      <span {...colorScheme.set('color', 'error')}>
+        {error && errorToString(error)}
+        {children}
+      </span>
     </P>
   )
 }

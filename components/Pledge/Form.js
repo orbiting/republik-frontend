@@ -430,10 +430,9 @@ class Pledge extends Component {
                 <H1>{title}</H1>
 
                 {!!receiveError && (
-                  <ErrorMessage
-                    style={{ margin: '0 0 40px' }}
-                    error={receiveError}
-                  />
+                  <ErrorMessage style={{ margin: '0 0 40px' }}>
+                    {receiveError}
+                  </ErrorMessage>
                 )}
 
                 <div style={{ marginBottom: 40 }}>

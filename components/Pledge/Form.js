@@ -18,7 +18,7 @@ import FieldSet from '../FieldSet'
 import SignIn from '../Auth/SignIn'
 import withMembership from '../Auth/withMembership'
 
-import { Interaction, A, colors, RawHtml } from '@project-r/styleguide'
+import { Interaction, A, RawHtml } from '@project-r/styleguide'
 
 import Accordion from './Accordion'
 import Submit from './Submit'

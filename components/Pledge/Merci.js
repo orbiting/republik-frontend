@@ -112,7 +112,7 @@ class Merci extends Component {
   }
 
   render() {
-    const { me, t, query, data } = this.props
+    const { me, t, query } = this.props
     const {
       polling,
       email,

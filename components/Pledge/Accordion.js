@@ -10,7 +10,6 @@ import { min, ascending } from 'd3-array'
 import withT from '../../lib/withT'
 
 import {
-  colors,
   fontStyles,
   Loader,
   mediaQueries,

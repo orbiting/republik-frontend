@@ -14,8 +14,7 @@ import {
   fontStyles,
   colors,
   useColorContext,
-  Interaction,
-  Editorial
+  Interaction
 } from '@project-r/styleguide'
 
 import { useResolvedColorSchemeKey } from '../../ColorScheme/lib'
@@ -151,7 +150,7 @@ globalStripeState = setupStripe()
 
 const PrivacyWrapper = React.forwardRef((props, ref) => {
   const [colorScheme] = useColorContext()
-  const { onChange, t } = props
+  const { t } = props
   const [unlockFieldKey, setUnlockFieldKey] = useState(
     globalStripeState.started ? 'auto' : undefined
   )

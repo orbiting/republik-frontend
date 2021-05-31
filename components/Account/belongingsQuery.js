@@ -25,6 +25,10 @@ export default gql`
           package {
             name
             group
+            company {
+              id
+              name
+            }
           }
           options {
             price

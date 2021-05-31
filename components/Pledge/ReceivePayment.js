@@ -10,7 +10,6 @@ import { errorToString } from '../../lib/utils/errors'
 import { withPay } from './Submit'
 import PledgeForm from './Form'
 import { gotoMerci, encodeSignInResponseQuery } from './Merci'
-import loadStripe from '../Payment/stripe'
 
 import { EMAIL_PAYMENT } from '../../lib/constants'
 
@@ -97,6 +96,7 @@ class PledgeReceivePayment extends Component {
           case '92':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/92'
                 replacements={errorVariables}
               />
@@ -105,6 +105,7 @@ class PledgeReceivePayment extends Component {
           case '93':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/retry'
                 replacements={errorVariables}
               />
@@ -113,6 +114,7 @@ class PledgeReceivePayment extends Component {
           case '0':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/invalid'
                 replacements={errorVariables}
               />
@@ -121,6 +123,7 @@ class PledgeReceivePayment extends Component {
           case '1':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/canceled'
                 replacements={errorVariables}
               />
@@ -129,6 +132,7 @@ class PledgeReceivePayment extends Component {
           case '2':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/pf/denied'
                 replacements={errorVariables}
               />
@@ -137,6 +141,7 @@ class PledgeReceivePayment extends Component {
           default:
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/error'
                 replacements={errorVariables}
               />
@@ -180,7 +185,10 @@ class PledgeReceivePayment extends Component {
           case 'Cancel':
             // see cancel_return in ./paypal.js
             state.receiveError = (
-              <RawHtmlTranslation translationKey='pledge/recievePayment/paypal/cancel' />
+              <RawHtmlTranslation
+                error
+                translationKey='pledge/recievePayment/paypal/cancel'
+              />
             )
             break
           case 'Denied':
@@ -188,7 +196,10 @@ class PledgeReceivePayment extends Component {
           case 'Failed':
           case 'Voided':
             state.receiveError = (
-              <RawHtmlTranslation translationKey='pledge/recievePayment/paypal/deny' />
+              <RawHtmlTranslation
+                error
+                translationKey='pledge/recievePayment/paypal/deny'
+              />
             )
             break
           case 'Canceled_Reversal':
@@ -198,6 +209,7 @@ class PledgeReceivePayment extends Component {
           case 'Pending':
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/paypal/contactUs'
                 replacements={errorVariables}
               />
@@ -206,21 +218,11 @@ class PledgeReceivePayment extends Component {
           default:
             state.receiveError = (
               <RawHtmlTranslation
+                error
                 translationKey='pledge/recievePayment/error'
                 replacements={errorVariables}
               />
             )
-        }
-      }
-    }
-    if (query.pledgeId && query.stripe) {
-      state.processing = true
-      state.action = {
-        method: 'checkStripeSource',
-        argument: {
-          query: {
-            ...query
-          }
         }
       }
     }
@@ -237,48 +239,16 @@ class PledgeReceivePayment extends Component {
       return query
     }
   }
-  checkStripeSource({ query }) {
-    const { t } = this.props
-
-    loadStripe()
-      .then(stripe => {
-        stripe.source.get(
-          query.source,
-          query.client_secret,
-          (status, source) => {
-            if (source.status === 'chargeable') {
-              this.pay({
-                method: 'STRIPE',
-                pspPayload: source,
-                sourceId: source.id
-              })
-            } else {
-              this.setState(() => ({
-                processing: false,
-                receiveError: t('pledge/recievePayment/3dsecure/failed')
-              }))
-            }
-          }
-        )
-      })
-      .catch(() => {
-        this.setState(() => ({
-          processing: false,
-          receiveError: t('payment/stripe/js/failed')
-        }))
-      })
-  }
-  pay({ method, pspPayload, sourceId }) {
+  pay({ method, pspPayload }) {
     const { me, pledge, pledgeId } = this.props
 
     this.props
       .pay({
         pledgeId,
         method,
-        pspPayload,
-        sourceId
+        pspPayload
       })
-      .then(({ data: { payPledge } }) => {
+      .then(() => {
         if (!pledge || (!pledge.user && !me)) {
           gotoMerci({
             id: pledgeId

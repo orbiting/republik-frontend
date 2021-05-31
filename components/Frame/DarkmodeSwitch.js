@@ -9,11 +9,11 @@ import {
 import { DarkmodeIcon } from '@project-r/styleguide/icons'
 import { useInNativeApp } from '../../lib/withInNativeApp'
 
-import { useColorSchemeKey } from '../ColorScheme/lib'
+import { useColorSchemeKeyPreference } from '../ColorScheme/lib'
 
 const DarkmodeSwitch = ({ t }) => {
   const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
-  const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKey()
+  const [colorSchemeKey, setColorSchemeKey] = useColorSchemeKeyPreference()
   const [colorScheme] = useColorContext()
 
   const iconLabel =

@@ -3,25 +3,27 @@ import PropTypes from 'prop-types'
 import { RawHtml } from '@project-r/styleguide'
 import withT from '../lib/withT'
 
-const mapElement = (element, i) =>
-  typeof element === 'string' ? (
-    <RawHtml
-      key={`html${i}`}
-      dangerouslySetInnerHTML={{
-        __html: element
-      }}
-    />
-  ) : (
-    element
-  )
-
 const RawHtmlTranslation = ({
   t,
   first,
   translationKey,
   replacements = {},
-  missingValue
+  missingValue,
+  error
 }) => {
+  const mapElement = (element, i) =>
+    typeof element === 'string' ? (
+      <RawHtml
+        key={`html${i}`}
+        error={error}
+        dangerouslySetInnerHTML={{
+          __html: element
+        }}
+      />
+    ) : (
+      element
+    )
+
   const safeReplacements = Object.keys(replacements).reduce((safe, key) => {
     const value = replacements[key]
     if (typeof value === 'string') {

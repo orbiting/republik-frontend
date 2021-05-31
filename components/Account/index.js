@@ -82,7 +82,7 @@ class Account extends Component {
       hasActiveMemberships,
       hasAccessGrants,
       acceptedStatue,
-      showPaymentSources,
+      paymentMethodCompany,
       hasPledges,
       merci,
       inNativeIOSApp,
@@ -114,9 +114,15 @@ class Account extends Component {
                 <Content>
                   {!merci && (
                     <H1>
-                      {t('Account/title', {
-                        nameOrEmail: me.name || me.email
-                      })}
+                      {t.first(
+                        [
+                          me.name && 'Account/title/name',
+                          'Account/title'
+                        ].filter(Boolean),
+                        {
+                          name: me.name
+                        }
+                      )}
                     </H1>
                   )}
 
@@ -137,13 +143,20 @@ class Account extends Component {
                   {!inNativeIOSApp && (
                     <AccountAnchor id='abos'>
                       <MembershipList highlightId={query.id} />
-                      {showPaymentSources && <PaymentSources query={query} />}
+                      {paymentMethodCompany && (
+                        <PaymentSources
+                          company={paymentMethodCompany}
+                          query={query}
+                        />
+                      )}
                     </AccountAnchor>
                   )}
 
-                  <AccountAnchor id='teilen'>
-                    <Access />
-                  </AccountAnchor>
+                  {hasActiveMemberships && (
+                    <AccountAnchor id='teilen'>
+                      <Access />
+                    </AccountAnchor>
+                  )}
 
                   <AccountAnchor id='email'>
                     <UpdateEmail />
@@ -206,22 +219,26 @@ export default compose(
         isReady && data.me.memberships && !!data.me.memberships.length
       const hasActiveMemberships =
         isReady && hasMemberships && data.me.memberships.some(m => m.active)
-      const hasMonthlyMembership =
+      const monthlyMembership =
         isReady &&
         hasMemberships &&
-        data.me.memberships.some(m => m.type.name === 'MONTHLY_ABO')
+        data.me.memberships.find(m => m.type.name === 'MONTHLY_ABO')
       const hasPledges = isReady && data.me.pledges && !!data.me.pledges.length
       const hasAccessGrants =
         isReady && data.me.accessGrants && !!data.me.accessGrants.length
 
-      const isAutoPaying =
-        hasMemberships &&
-        data.me.memberships.some(
-          m =>
-            m.active && m.renew && (m.type.name === 'MONTHLY_ABO' || m.autoPay)
-        )
-      const showPaymentSources =
-        isAutoPaying || (!hasActiveMemberships && hasMonthlyMembership)
+      const autoPayMembership =
+        (hasMemberships &&
+          data.me.memberships.find(
+            m =>
+              m.active &&
+              m.renew &&
+              (m.type.name === 'MONTHLY_ABO' || m.autoPay)
+          )) ||
+        (!hasActiveMemberships && monthlyMembership)
+
+      const paymentMethodCompany =
+        autoPayMembership && autoPayMembership.pledge.package.company
 
       return {
         loading: data.loading,
@@ -238,7 +255,7 @@ export default compose(
         hasActiveMemberships,
         memberships: hasMemberships && data.me.memberships,
         hasAccessGrants,
-        showPaymentSources
+        paymentMethodCompany
       }
     }
   })

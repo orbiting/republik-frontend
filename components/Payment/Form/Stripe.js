@@ -63,11 +63,6 @@ const Form = React.forwardRef(
         lineHeight: '40px',
         '::placeholder': {
           color: colors[colorSchemeKey].disabled
-        },
-        // match Chrome 90
-        ':-webkit-autofill': {
-          color: '#000',
-          backgroundColor: 'rgb(232, 240, 254)' // Safari: rgb(250, 255, 189)
         }
       },
       invalid: {

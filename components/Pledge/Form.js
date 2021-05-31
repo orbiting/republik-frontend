@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import isEmail from 'validator/lib/isEmail'
 import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
@@ -17,17 +16,9 @@ import Meta from '../Frame/Meta'
 import Loader from '../Loader'
 import FieldSet from '../FieldSet'
 import SignIn from '../Auth/SignIn'
-import { withSignOut } from '../Auth/SignOut'
 import withMembership from '../Auth/withMembership'
 
-import {
-  Interaction,
-  Field,
-  A,
-  colors,
-  RawHtml,
-  Label
-} from '@project-r/styleguide'
+import { Interaction, A, RawHtml } from '@project-r/styleguide'
 
 import Accordion from './Accordion'
 import Submit from './Submit'
@@ -37,7 +28,9 @@ import CustomizePackage, {
 } from './CustomizePackage'
 import Link from 'next/link'
 
-const { H1, H2, P } = Interaction
+import ErrorMessage from '../ErrorMessage'
+
+const { H1, P } = Interaction
 
 class Pledge extends Component {
   constructor(props) {
@@ -114,9 +107,6 @@ class Pledge extends Component {
     }
 
     if (pledge) {
-      values.email = pledge.user.email
-      values.firstName = pledge.user.firstName
-      values.lastName = pledge.user.lastName
       values.reason = pledge.reason
       values.messageToClaimers = pledge.messageToClaimers
       values.price = pledge.total
@@ -245,11 +235,6 @@ class Pledge extends Component {
         : undefined,
       paymentMethods: pkg ? pkg.paymentMethods : undefined,
       total: values.price || undefined,
-      user: {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email
-      },
       options,
       reason: userPrice ? values.reason : undefined,
       messageToClaimers: hasAccessGranted
@@ -257,48 +242,9 @@ class Pledge extends Component {
         : undefined,
       id: pledge ? pledge.id : undefined,
       pledgeShippingAddress: pledge ? pledge.shippingAddress : undefined,
+      pledgeUser: pledge ? pledge.user : undefined,
       requireShippingAddress
     }
-  }
-  handleFirstName(value, shouldValidate, t) {
-    this.setState(
-      FieldSet.utils.mergeField({
-        field: 'firstName',
-        value,
-        error:
-          value.trim().length <= 0 && t('pledge/contact/firstName/error/empty'),
-        dirty: shouldValidate
-      })
-    )
-  }
-  handleLastName(value, shouldValidate, t) {
-    this.setState(
-      FieldSet.utils.mergeField({
-        field: 'lastName',
-        value,
-        error:
-          value.trim().length <= 0 && t('pledge/contact/lastName/error/empty'),
-        dirty: shouldValidate
-      })
-    )
-  }
-  handleEmail(value, shouldValidate, t) {
-    this.setState(
-      FieldSet.utils.mergeField({
-        field: 'email',
-        value,
-        error:
-          (value.trim().length <= 0 && t('pledge/contact/email/error/empty')) ||
-          (!isEmail(value) && t('pledge/contact/email/error/invalid')),
-        dirty: shouldValidate
-      })
-    )
-  }
-  checkUserFields(props) {
-    const values = props.customMe ? props.customMe : this.state.values
-    this.handleFirstName(values.firstName || '', false, props.t)
-    this.handleLastName(values.lastName || '', false, props.t)
-    this.handleEmail(values.email || '', false, props.t)
   }
   refetchPackages() {
     const prevPkg = this.getPkg()
@@ -328,10 +274,10 @@ class Pledge extends Component {
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.customMe !== this.props.customMe) {
-      this.checkUserFields(nextProps)
-    }
-    if (nextProps.me !== this.props.me) {
+    if (
+      nextProps.me !== this.props.me ||
+      nextProps.query.token !== this.props.query.token
+    ) {
       this.refetchPackages()
     }
     if (nextProps.query !== this.props.query) {
@@ -339,7 +285,6 @@ class Pledge extends Component {
     }
   }
   componentDidMount() {
-    this.checkUserFields(this.props)
     this.prefillValues(this.props)
   }
   render() {
@@ -414,7 +359,7 @@ class Pledge extends Component {
           loading={loading}
           error={error}
           render={() => {
-            const { receiveError, crowdfundingName, hasEnded, me } = this.props
+            const { receiveError, crowdfundingName, hasEnded } = this.props
 
             if (hasEnded && !this.props.pledge) {
               return (
@@ -430,7 +375,6 @@ class Pledge extends Component {
               )
             }
 
-            const showSignIn = this.state.showSignIn && !me
             const userPrice = !!query.userPrice
 
             const ownMembershipOption =
@@ -460,17 +404,6 @@ class Pledge extends Component {
               ''
             )
 
-            const contactPreface =
-              pkg &&
-              t.first(
-                [
-                  `pledge/contact/preface/${pkg.name}`,
-                  'pledge/contact/preface'
-                ],
-                undefined,
-                ''
-              )
-
             return (
               <div>
                 {(statementTitle ||
@@ -497,9 +430,9 @@ class Pledge extends Component {
                 <H1>{title}</H1>
 
                 {!!receiveError && (
-                  <P style={{ color: colors.error, marginBottom: 40 }}>
+                  <ErrorMessage style={{ margin: '0 0 40px' }}>
                     {receiveError}
-                  </P>
+                  </ErrorMessage>
                 )}
 
                 <div style={{ marginBottom: 40 }}>
@@ -529,174 +462,32 @@ class Pledge extends Component {
                   )}
                 </div>
                 {pkg && (
-                  <Fragment>
-                    {contactPreface && (
-                      <div style={{ marginBottom: 40 }}>
-                        <P>{contactPreface}</P>
-                      </div>
-                    )}
-                    <H2>
-                      {t.first([
-                        `pledge/contact/title/${pkg.name}`,
-                        'pledge/contact/title'
-                      ])}
-                    </H2>
-                    <div style={{ marginTop: 10, marginBottom: 40 }}>
-                      {me ? (
-                        <Fragment>
-                          {t('pledge/contact/signedinAs', {
-                            nameOrEmail: me.name
-                              ? `${me.name.trim()} (${me.email})`
-                              : me.email
-                          })}{' '}
-                          <A
-                            href='#'
-                            onClick={e => {
-                              e.preventDefault()
-                              this.props.signOut().then(() => {
-                                this.handleFirstName('', false, t)
-                                this.handleLastName('', false, t)
-                                this.handleEmail('', false, t)
-                                this.setState(() => ({ showSignIn: false }))
-                              })
-                            }}
-                          >
-                            {t('pledge/contact/signOut')}
-                          </A>
-                          <br />
-                          <br />
-                          {/* TODO: add active membership info */}
-                          <br />
-                          <br />
-                        </Fragment>
-                      ) : (
-                        !customMe && (
-                          <Fragment>
-                            <A
-                              href='#'
-                              onClick={e => {
-                                e.preventDefault()
-                                this.setState(() => ({
-                                  showSignIn: !showSignIn
-                                }))
-                              }}
-                            >
-                              {t(
-                                `pledge/contact/signIn/${
-                                  showSignIn ? 'hide' : 'show'
-                                }`
-                              )}
-                            </A>
-                            {!!showSignIn && (
-                              <Fragment>
-                                <br />
-                                <br />
-                                <SignIn context='pledge' />
-                              </Fragment>
-                            )}
-                            <br />
-                          </Fragment>
-                        )
-                      )}
-                      {!showSignIn && (
-                        <Fragment>
-                          <Field
-                            label={t('pledge/contact/firstName/label')}
-                            name='firstName'
-                            error={dirty.firstName && errors.firstName}
-                            value={values.firstName}
-                            onChange={(_, value, shouldValidate) => {
-                              this.handleFirstName(value, shouldValidate, t)
-                            }}
-                          />
-                          <br />
-                          <Field
-                            label={t('pledge/contact/lastName/label')}
-                            name='lastName'
-                            error={dirty.lastName && errors.lastName}
-                            value={values.lastName}
-                            onChange={(_, value, shouldValidate) => {
-                              this.handleLastName(value, shouldValidate, t)
-                            }}
-                          />
-                          <br />
-                          {customMe && !customMe.isUserOfCurrentSession ? (
-                            <Fragment>
-                              <Interaction.P>
-                                <Label>{t('pledge/contact/email/label')}</Label>
-                                <br />
-                                {values.email}
-                              </Interaction.P>
-                              <br />
-                              <A
-                                href='#'
-                                onClick={e => {
-                                  e.preventDefault()
-
-                                  const { router } = this.props
-                                  const query = { ...router.query }
-                                  delete query.token
-                                  router
-                                    .replace(
-                                      { pathname: '/angebote', query },
-                                      undefined,
-                                      {
-                                        shallow: true
-                                      }
-                                    )
-                                    .then(() => {
-                                      this.refetchPackages()
-                                    })
-                                }}
-                              >
-                                {t('pledge/contact/signIn/wrongToken')}
-                              </A>
-                            </Fragment>
-                          ) : (
-                            <Field
-                              label={t('pledge/contact/email/label')}
-                              name='email'
-                              type='email'
-                              error={dirty.email && errors.email}
-                              value={values.email}
-                              onChange={(_, value, shouldValidate) => {
-                                this.handleEmail(value, shouldValidate, t)
-                              }}
-                            />
-                          )}
-                          <br />
-                          <br />
-                        </Fragment>
-                      )}
-                    </div>
-
-                    <Submit
-                      query={query}
-                      customMe={customMe}
-                      {...this.submitPledgeProps({ values, query })}
-                      basePledge={
-                        basePledge
-                          ? this.submitPledgeProps(basePledge)
-                          : undefined
-                      }
-                      errors={errors}
-                      onError={() => {
-                        this.setState(state => {
-                          const dirty = {
-                            ...state.dirty
-                          }
-                          Object.keys(state.errors).forEach(field => {
-                            if (state.errors[field]) {
-                              dirty[field] = true
-                            }
-                          })
-                          return {
-                            dirty
+                  <Submit
+                    query={query}
+                    customMe={customMe}
+                    {...this.submitPledgeProps({ values, query })}
+                    basePledge={
+                      basePledge
+                        ? this.submitPledgeProps(basePledge)
+                        : undefined
+                    }
+                    errors={errors}
+                    onError={() => {
+                      this.setState(state => {
+                        const dirty = {
+                          ...state.dirty
+                        }
+                        Object.keys(state.errors).forEach(field => {
+                          if (state.errors[field]) {
+                            dirty[field] = true
                           }
                         })
-                      }}
-                    />
-                  </Fragment>
+                        return {
+                          dirty
+                        }
+                      })
+                    }}
+                  />
                 )}
               </div>
             )
@@ -877,7 +668,6 @@ const PledgeWithQueries = compose(
     }
   }),
   withMembership, // provides isMember
-  withSignOut,
   withT,
   withMe,
   withRouter

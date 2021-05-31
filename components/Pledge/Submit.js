@@ -382,7 +382,7 @@ class Submit extends Component {
         ...data,
         makeDefault: this.getAutoPayValue()
       })
-      .then(async ({ data: { payPledge } }) => {
+      .then(async ({ data: { payPledge }, trackEcommerceOrder }) => {
         if (payPledge.stripeClientSecret) {
           const stripeClient = await loadStripe(payPledge.stripePublishableKey)
           const confirmResult = await stripeClient.confirmCardPayment(
@@ -396,12 +396,14 @@ class Submit extends Component {
             return
           }
         }
-        if (payPledge.stripePaymentIntentId) {
-          const syncData = await this.props.syncPaymentIntent(payPledge)
-          if (syncData.pledgeStatus !== 'SUCCESSFUL') {
-            // TK: Do something?
-          }
-        }
+        await Promise.all(
+          [
+            trackEcommerceOrder(),
+            payPledge.stripePaymentIntentId &&
+              this.props.syncPaymentIntent(payPledge)
+          ].filter(Boolean)
+        )
+
         const baseQuery = {
           package: packageName,
           id: payPledge.pledgeId
@@ -961,35 +963,39 @@ export const withPay = Component => {
             variables,
             refetchQueries: [{ query: addressQuery }]
           }).then(response => {
-            return new Promise(resolve => {
-              if (!pendingOrder) {
-                resolve(response)
-              } else {
-                pendingOrder.options.forEach(option => {
-                  track([
-                    'addEcommerceItem',
-                    option.templateId, // (required) SKU: Product unique identifier
-                    undefined, // (optional) Product name
-                    undefined, // (optional) Product category
-                    option.price / 100, // (recommended) Product price
-                    option.amount // (optional, default to 1) Product quantity
-                  ])
+            return {
+              ...response,
+              trackEcommerceOrder: () =>
+                new Promise(resolve => {
+                  if (!pendingOrder) {
+                    resolve()
+                  } else {
+                    pendingOrder.options.forEach(option => {
+                      track([
+                        'addEcommerceItem',
+                        option.templateId, // (required) SKU: Product unique identifier
+                        undefined, // (optional) Product name
+                        undefined, // (optional) Product category
+                        option.price / 100, // (recommended) Product price
+                        option.amount // (optional, default to 1) Product quantity
+                      ])
+                    })
+                    track([
+                      'trackEcommerceOrder',
+                      response.data.payPledge.pledgeId, // (required) Unique Order ID
+                      pendingOrder.total / 100, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
+                      undefined, // (optional) Order sub total (excludes shipping)
+                      undefined, // (optional) Tax amount
+                      undefined, // (optional) Shipping amount
+                      !!pendingOrder.reason // (optional) Discount offered (set to false for unspecified parameter)
+                    ])
+                    // give matomo half a second to track
+                    setTimeout(() => {
+                      resolve()
+                    }, 500)
+                  }
                 })
-                track([
-                  'trackEcommerceOrder',
-                  response.data.payPledge.pledgeId, // (required) Unique Order ID
-                  pendingOrder.total / 100, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
-                  undefined, // (optional) Order sub total (excludes shipping)
-                  undefined, // (optional) Tax amount
-                  undefined, // (optional) Shipping amount
-                  !!pendingOrder.reason // (optional) Discount offered (set to false for unspecified parameter)
-                ])
-                // give matomo a second to track
-                setTimeout(() => {
-                  resolve(response)
-                }, 1000)
-              }
-            })
+            }
           })
       })
     }),

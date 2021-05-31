@@ -541,7 +541,10 @@ class Submit extends Component {
       return true
     }
     if (autoPay === undefined) {
-      return options.every(option => option.autoPay !== false)
+      return (
+        options.every(option => option.autoPay !== false) &&
+        options.some(option => option.autoPay)
+      )
     }
     return autoPay
   }

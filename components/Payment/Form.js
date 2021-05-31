@@ -106,7 +106,6 @@ const styles = {
     borderStyle: 'solid',
     height: PAYMENT_METHOD_HEIGHT - 2, // 2px borders
     padding: 10,
-    cursor: 'pointer',
     marginRight: 10,
     marginBottom: 10,
     lineHeight: 0,
@@ -150,7 +149,8 @@ const PaymentMethodLabel = ({
       )}
       style={{
         backgroundColor,
-        opacity: active ? 1 : 0.4
+        opacity: active ? 1 : 0.4,
+        cursor: active ? 'default' : 'pointer'
       }}
     >
       {children}

@@ -382,28 +382,7 @@ class Submit extends Component {
         ...data,
         makeDefault: this.getAutoPayValue()
       })
-      .then(async ({ data: { payPledge }, trackEcommerceOrder }) => {
-        if (payPledge.stripeClientSecret) {
-          const stripeClient = await loadStripe(payPledge.stripePublishableKey)
-          const confirmResult = await stripeClient.confirmCardPayment(
-            payPledge.stripeClientSecret
-          )
-          if (confirmResult.error) {
-            this.setState(() => ({
-              loading: false,
-              paymentError: confirmResult.error.message
-            }))
-            return
-          }
-        }
-        await Promise.all(
-          [
-            trackEcommerceOrder(),
-            payPledge.stripePaymentIntentId &&
-              this.props.syncPaymentIntent(payPledge)
-          ].filter(Boolean)
-        )
-
+      .then(({ data: { payPledge } }) => {
         const baseQuery = {
           package: packageName,
           id: payPledge.pledgeId
@@ -956,20 +935,40 @@ const setPendingOrder = order => {
 
 export const withPay = Component => {
   const EnhancedComponent = compose(
-    graphql(payPledge, {
+    graphql(syncPaymentIntentMutation, {
       props: ({ mutate }) => ({
+        syncPaymentIntent: variables => {
+          return mutate({
+            variables
+          })
+        }
+      })
+    }),
+    graphql(payPledge, {
+      props: ({ mutate, ownProps: { syncPaymentIntent } }) => ({
         pay: variables =>
           mutate({
             variables,
             refetchQueries: [{ query: addressQuery }]
-          }).then(response => {
-            return {
-              ...response,
-              trackEcommerceOrder: () =>
-                new Promise(resolve => {
-                  if (!pendingOrder) {
-                    resolve()
-                  } else {
+          }).then(async response => {
+            const {
+              data: { payPledge }
+            } = response
+            if (payPledge.stripeClientSecret) {
+              const stripeClient = await loadStripe(
+                payPledge.stripePublishableKey
+              )
+              const confirmResult = await stripeClient.confirmCardPayment(
+                payPledge.stripeClientSecret
+              )
+              if (confirmResult.error) {
+                throw confirmResult.error.message
+              }
+            }
+            await Promise.all(
+              [
+                pendingOrder &&
+                  new Promise(resolve => {
                     pendingOrder.options.forEach(option => {
                       track([
                         'addEcommerceItem',
@@ -982,7 +981,7 @@ export const withPay = Component => {
                     })
                     track([
                       'trackEcommerceOrder',
-                      response.data.payPledge.pledgeId, // (required) Unique Order ID
+                      payPledge.pledgeId, // (required) Unique Order ID
                       pendingOrder.total / 100, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
                       undefined, // (optional) Order sub total (excludes shipping)
                       undefined, // (optional) Tax amount
@@ -993,9 +992,12 @@ export const withPay = Component => {
                     setTimeout(() => {
                       resolve()
                     }, 500)
-                  }
-                })
-            }
+                  }),
+                payPledge.stripePaymentIntentId && syncPaymentIntent(payPledge)
+              ].filter(Boolean)
+            )
+
+            return response
           })
       })
     }),
@@ -1010,15 +1012,6 @@ const SubmitWithMutations = compose(
       submit: variables => {
         setPendingOrder(variables)
 
-        return mutate({
-          variables
-        })
-      }
-    })
-  }),
-  graphql(syncPaymentIntentMutation, {
-    props: ({ mutate }) => ({
-      syncPaymentIntent: variables => {
         return mutate({
           variables
         })

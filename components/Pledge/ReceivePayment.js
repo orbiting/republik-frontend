@@ -248,8 +248,7 @@ class PledgeReceivePayment extends Component {
         method,
         pspPayload
       })
-      .then(async ({ trackEcommerceOrder }) => {
-        await trackEcommerceOrder()
+      .then(() => {
         if (!pledge || (!pledge.user && !me)) {
           gotoMerci({
             id: pledgeId

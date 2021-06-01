@@ -106,12 +106,12 @@ const SidebarInner = props => {
       </div>
       <div {...styles.links}>
         {links.map((link, i) => (
-          <>
-            <Link key={i} href={link.href} passHref>
-              <A>{link.text}</A>
-            </Link>
-            <br />
-          </>
+          <Link key={i} href={link.href} passHref>
+            <A>
+              {link.text}
+              <br />
+            </A>
+          </Link>
         ))}
       </div>
     </div>

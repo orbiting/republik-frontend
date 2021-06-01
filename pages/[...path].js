@@ -5,6 +5,7 @@ import Loader from '../components/Loader'
 import Frame from '../components/Frame'
 import { getRandomInt } from '../lib/utils/helpers'
 import { MAX_PAYNOTE_SEED } from '../components/Article/PayNote'
+import Article from '../components/Article/Page'
 
 const dynamicOptions = {
   loading: () => (
@@ -15,10 +16,10 @@ const dynamicOptions = {
   ssr: true
 }
 
-const Article = dynamic(
-  () => import('../components/Article/Page'),
-  dynamicOptions
-)
+// const Article = dynamic(
+//   () => import('../components/Article/Page'),
+//   dynamicOptions
+// )
 const Profile = dynamic(
   () => import('../components/Profile/Page'),
   dynamicOptions

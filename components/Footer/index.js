@@ -38,7 +38,7 @@ const styles = {
     }
   }),
   content: css({
-    maxWidth: 1000,
+    maxWidth: 1230,
     margin: '0 auto'
   }),
   hr: css({
@@ -50,6 +50,7 @@ const styles = {
   topRow: css({
     display: 'flex',
     justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
     marginBottom: 36
   }),
   middleRow: css({
@@ -65,17 +66,17 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    maxWidth: 650,
+    maxWidth: 780,
     flex: 1,
     [mediaQueries.mUp]: {
       flexDirection: 'row'
     }
   }),
   addressColumn: css({
-    marginRight: 100
+    marginRight: 70
   }),
   since: css({
-    ...fontStyles.sansSerifRegular12,
+    ...fontStyles.sansSerifRegular14,
     display: 'none',
     marginLeft: 8,
     [mediaQueries.mUp]: {
@@ -92,7 +93,8 @@ const styles = {
     marginBottom: 32,
     [mediaQueries.mUp]: {
       flexDirection: 'column',
-      marginBottom: 0
+      marginBottom: 0,
+      marginLeft: 8
     },
     '& li': {
       ...fontStyles.sansSerifRegular16,
@@ -103,7 +105,7 @@ const styles = {
       }
     },
     '& li:first-child': {
-      ...fontStyles.sansSerifRegular12,
+      ...fontStyles.sansSerifRegular14,
       marginTop: 0,
       width: '100%',
       [mediaQueries.mUp]: {
@@ -145,22 +147,20 @@ const Footer = ({
     <div {...styles.bg}>
       <div {...styles.content}>
         <div {...styles.topRow}>
-          <FooterNavLink href='/'>
-            <a>
-              {isOnMarketingPage ? (
-                <div style={{ width: 23, display: 'inline-block' }}>
-                  <BrandMark {...colorScheme.set('fill', 'text')} />
-                </div>
-              ) : (
-                <Logo {...colorScheme.set('fill', 'text')} height={20} />
-              )}
-              <span {...colorScheme.set('color', 'textSoft')} {...styles.since}>
-                {t('footer/since')}
-              </span>
-            </a>
-          </FooterNavLink>
-
           <SocialLinks />
+          {!isOnMarketingPage ? (
+            <FooterNavLink href='/'>
+              <a>
+                <Logo {...colorScheme.set('fill', 'text')} height={20} />
+                <span
+                  {...colorScheme.set('color', 'textSoft')}
+                  {...styles.since}
+                >
+                  {t('footer/since')}
+                </span>
+              </a>
+            </FooterNavLink>
+          ) : null}
         </div>
         <hr {...styles.hr} {...colorScheme.set('borderColor', 'divider')} />
         <div {...styles.middleRow}>

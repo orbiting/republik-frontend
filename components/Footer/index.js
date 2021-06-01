@@ -344,7 +344,7 @@ const Footer = ({
             <a
               {...navLinkStyle}
               style={{ ...fontStyles.sansSerifRegular14 }}
-              href='github.com/orbiting'
+              href='https://github.com/orbiting'
               rel='noopener'
               target='_blank'
             >

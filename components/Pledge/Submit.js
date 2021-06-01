@@ -382,26 +382,7 @@ class Submit extends Component {
         ...data,
         makeDefault: this.getAutoPayValue()
       })
-      .then(async ({ data: { payPledge } }) => {
-        if (payPledge.stripeClientSecret) {
-          const stripeClient = await loadStripe(payPledge.stripePublishableKey)
-          const confirmResult = await stripeClient.confirmCardPayment(
-            payPledge.stripeClientSecret
-          )
-          if (confirmResult.error) {
-            this.setState(() => ({
-              loading: false,
-              paymentError: confirmResult.error.message
-            }))
-            return
-          }
-        }
-        if (payPledge.stripePaymentIntentId) {
-          const syncData = await this.props.syncPaymentIntent(payPledge)
-          if (syncData.pledgeStatus !== 'SUCCESSFUL') {
-            // TK: Do something?
-          }
-        }
+      .then(({ data: { payPledge } }) => {
         const baseQuery = {
           package: packageName,
           id: payPledge.pledgeId
@@ -541,7 +522,10 @@ class Submit extends Component {
       return true
     }
     if (autoPay === undefined) {
-      return options.every(option => option.autoPay !== false)
+      return (
+        options.every(option => option.autoPay !== false) &&
+        options.some(option => option.autoPay)
+      )
     }
     return autoPay
   }
@@ -951,42 +935,69 @@ const setPendingOrder = order => {
 
 export const withPay = Component => {
   const EnhancedComponent = compose(
-    graphql(payPledge, {
+    graphql(syncPaymentIntentMutation, {
       props: ({ mutate }) => ({
+        syncPaymentIntent: variables => {
+          return mutate({
+            variables
+          })
+        }
+      })
+    }),
+    graphql(payPledge, {
+      props: ({ mutate, ownProps: { syncPaymentIntent } }) => ({
         pay: variables =>
           mutate({
             variables,
             refetchQueries: [{ query: addressQuery }]
-          }).then(response => {
-            return new Promise(resolve => {
-              if (!pendingOrder) {
-                resolve(response)
-              } else {
-                pendingOrder.options.forEach(option => {
-                  track([
-                    'addEcommerceItem',
-                    option.templateId, // (required) SKU: Product unique identifier
-                    undefined, // (optional) Product name
-                    undefined, // (optional) Product category
-                    option.price / 100, // (recommended) Product price
-                    option.amount // (optional, default to 1) Product quantity
-                  ])
-                })
-                track([
-                  'trackEcommerceOrder',
-                  response.data.payPledge.pledgeId, // (required) Unique Order ID
-                  pendingOrder.total / 100, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
-                  undefined, // (optional) Order sub total (excludes shipping)
-                  undefined, // (optional) Tax amount
-                  undefined, // (optional) Shipping amount
-                  !!pendingOrder.reason // (optional) Discount offered (set to false for unspecified parameter)
-                ])
-                // give matomo a second to track
-                setTimeout(() => {
-                  resolve(response)
-                }, 1000)
+          }).then(async response => {
+            const {
+              data: { payPledge }
+            } = response
+            if (payPledge.stripeClientSecret) {
+              const stripeClient = await loadStripe(
+                payPledge.stripePublishableKey
+              )
+              const confirmResult = await stripeClient.confirmCardPayment(
+                payPledge.stripeClientSecret
+              )
+              if (confirmResult.error) {
+                throw confirmResult.error.message
               }
-            })
+            }
+            await Promise.all(
+              [
+                pendingOrder &&
+                  new Promise(resolve => {
+                    pendingOrder.options.forEach(option => {
+                      track([
+                        'addEcommerceItem',
+                        option.templateId, // (required) SKU: Product unique identifier
+                        undefined, // (optional) Product name
+                        undefined, // (optional) Product category
+                        option.price / 100, // (recommended) Product price
+                        option.amount // (optional, default to 1) Product quantity
+                      ])
+                    })
+                    track([
+                      'trackEcommerceOrder',
+                      payPledge.pledgeId, // (required) Unique Order ID
+                      pendingOrder.total / 100, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
+                      undefined, // (optional) Order sub total (excludes shipping)
+                      undefined, // (optional) Tax amount
+                      undefined, // (optional) Shipping amount
+                      !!pendingOrder.reason // (optional) Discount offered (set to false for unspecified parameter)
+                    ])
+                    // give matomo half a second to track
+                    setTimeout(() => {
+                      resolve()
+                    }, 500)
+                  }),
+                payPledge.stripePaymentIntentId && syncPaymentIntent(payPledge)
+              ].filter(Boolean)
+            )
+
+            return response
           })
       })
     }),
@@ -1001,15 +1012,6 @@ const SubmitWithMutations = compose(
       submit: variables => {
         setPendingOrder(variables)
 
-        return mutate({
-          variables
-        })
-      }
-    })
-  }),
-  graphql(syncPaymentIntentMutation, {
-    props: ({ mutate }) => ({
-      syncPaymentIntent: variables => {
         return mutate({
           variables
         })

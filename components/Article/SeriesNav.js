@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
-import SeriesNavPanel from './SeriesNavPanel'
+import ActionBar from '../ActionBar'
 import { imageResizeUrl } from 'mdast-react-render/lib/utils'
 
 import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
@@ -9,12 +9,13 @@ import {
   mediaQueries,
   fontFamilies,
   useColorContext,
-  colors,
   useBodyScrollLock,
   useHeaderHeight,
-  plainButtonRule
+  plainButtonRule,
+  SeriesNav
 } from '@project-r/styleguide'
 import { cleanAsPath } from '../../lib/utils/link'
+import Link from 'next/link'
 
 const styles = {
   button: css(plainButtonRule, {
@@ -25,8 +26,6 @@ const styles = {
     whiteSpace: 'nowrap'
   }),
   menu: css({
-    backgroundColor: colors.negative.primaryBg,
-    color: colors.negative.text,
     fontFamily: fontFamilies.sansSerifRegular,
     position: 'fixed',
     visibility: 'hidden',
@@ -67,7 +66,7 @@ const styles = {
   })
 }
 
-const SeriesNavButton = ({ t, series, router }) => {
+const SeriesNavigation = ({ me, series, router, documentId }) => {
   const [colorScheme] = useColorContext()
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
@@ -127,20 +126,23 @@ const SeriesNavButton = ({ t, series, router }) => {
           top: headerHeight,
           height: `calc(100vh - ${headerHeight}px)`
         }}
+        {...colorScheme.set('backgroundColor', 'default')}
+        {...colorScheme.set('color', 'text')}
         {...styles.menu}
         aria-expanded={expanded}
         ref={ref}
       >
-        <SeriesNavPanel
-          t={t}
+        <SeriesNav
+          documentId={documentId}
           series={series}
-          onClick={() => {
-            setExpanded(false)
-          }}
+          PayNote={me ? undefined : null}
+          ActionBar={ActionBar}
+          Link={Link}
+          onEpisodeClick={() => setExpanded(false)}
         />
       </div>
     </Fragment>
   )
 }
 
-export default withRouter(SeriesNavButton)
+export default withRouter(SeriesNavigation)

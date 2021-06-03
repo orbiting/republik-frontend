@@ -33,7 +33,7 @@ import { Breakout } from '@project-r/styleguide/lib/components/Center'
 
 import ActionBarOverlay from './ActionBarOverlay'
 import RelatedEpisodes from './RelatedEpisodes'
-import SeriesNavButton from './SeriesNavButton'
+import SeriesNav from './SeriesNav'
 import Extract from './Extract'
 import { PayNote } from './PayNote'
 import Progress from './Progress'
@@ -287,7 +287,7 @@ const ArticlePage = ({
   const darkMode = article?.content?.meta?.darkMode
 
   const seriesNavButton = showSeriesNav && (
-    <SeriesNavButton t={t} series={series} />
+    <SeriesNav me={me} series={series} documentId={documentId} />
   )
 
   const colorMeta =

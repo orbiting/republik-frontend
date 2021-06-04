@@ -18,7 +18,8 @@ import {
   TeaserEmbedComment,
   SHARE_IMAGE_HEIGHT,
   SHARE_IMAGE_WIDTH,
-  IconButton
+  IconButton,
+  SeriesNav
 } from '@project-r/styleguide'
 import { EditIcon } from '@project-r/styleguide/icons'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
@@ -32,8 +33,8 @@ import createPageSchema from '@project-r/styleguide/lib/templates/Page'
 import { Breakout } from '@project-r/styleguide/lib/components/Center'
 
 import ActionBarOverlay from './ActionBarOverlay'
-import RelatedEpisodes from './RelatedEpisodes'
-import SeriesNav from './SeriesNav'
+import SeriesNavButton from './SeriesNav'
+import SeriesPayNote from './SeriesPayNote'
 import Extract from './Extract'
 import { PayNote } from './PayNote'
 import Progress from './Progress'
@@ -284,7 +285,7 @@ const ArticlePage = ({
   const darkMode = article?.content?.meta?.darkMode
 
   const seriesNavButton = showSeriesNav && (
-    <SeriesNav me={me} series={series} documentId={documentId} />
+    <SeriesNavButton me={me} series={series} documentId={documentId} />
   )
 
   const colorMeta =
@@ -392,7 +393,7 @@ const ArticlePage = ({
           const hasNewsletterUtms =
             router.query.utm_source && router.query.utm_source === 'newsletter'
 
-          const suppressPayNotes = isSection
+          const suppressPayNotes = isSection || episodes
           const suppressFirstPayNote =
             suppressPayNotes ||
             podcast ||
@@ -630,11 +631,14 @@ const ArticlePage = ({
                   </>
                 </Center>
               )}
-              {isMember && episodes && (
-                <RelatedEpisodes
-                  title={series.title}
-                  episodes={episodes}
-                  path={meta.path}
+              {episodes && (
+                <SeriesNav
+                  inline
+                  documentId={documentId}
+                  series={series}
+                  PayNote={!me && SeriesPayNote}
+                  ActionBar={me && ActionBar}
+                  Link={Link}
                 />
               )}
               {isSection && (

@@ -50,7 +50,6 @@ const ActionBar = ({
   const [podcastOverlayVisible, setPodcastOverlayVisible] = useState(false)
 
   const { toggleAudioPlayer } = useContext(AudioContext)
-  console.log(document)
   if (!document) {
     return (
       <div {...styles.topRow} {...(isCentered && { ...styles.centered })}>

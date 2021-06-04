@@ -193,7 +193,9 @@ const CodeAuthorization = ({
             {t('Auth/CodeAuthorization/help/cancelLink')}
           </A>
         </li>
-        <li>{t('Auth/CodeAuthorization/help/lastResort')}</li>
+        <li {...colorScheme.set('color', 'textSoft')}>
+          {t('Auth/CodeAuthorization/help/lastResort')}
+        </li>
       </ul>
     </form>
   )

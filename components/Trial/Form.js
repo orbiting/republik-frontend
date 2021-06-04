@@ -45,6 +45,7 @@ const Form = props => {
     router,
     beforeSignIn,
     onSuccess,
+    onReset,
     narrow,
     trialEligibility,
     isMember,
@@ -152,6 +153,7 @@ const Form = props => {
 
     setLoading(false)
     setSigningIn(false)
+    onReset()
   }
 
   const onSuccessSwitchBoard = () => {

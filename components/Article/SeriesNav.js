@@ -3,7 +3,7 @@ import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import ActionBar from '../ActionBar'
 import { imageResizeUrl } from 'mdast-react-render/lib/utils'
-import TrialForm from '../Trial/Form'
+import Link from 'next/link'
 
 import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
 import {
@@ -16,7 +16,7 @@ import {
   SeriesNav
 } from '@project-r/styleguide'
 import { cleanAsPath } from '../../lib/utils/link'
-import Link from 'next/link'
+import SeriesPayNote from './SeriesPayNote'
 
 const styles = {
   button: css(plainButtonRule, {
@@ -136,8 +136,8 @@ const SeriesNavigation = ({ me, series, router, documentId }) => {
         <SeriesNav
           documentId={documentId}
           series={series}
-          PayNote={me ? undefined : TrialForm}
-          ActionBar={ActionBar}
+          PayNote={!me && SeriesPayNote}
+          ActionBar={me && ActionBar}
           Link={Link}
           onEpisodeClick={() => setExpanded(false)}
         />

@@ -4,12 +4,7 @@ import { css } from 'glamor'
 import TrialForm from '../Trial/Form'
 import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
 import { parseJSONObject } from '../../lib/safeJSON'
-import {
-  fontStyles,
-  useColorContext,
-  Center,
-  Breakout
-} from '@project-r/styleguide'
+import { fontStyles, useColorContext, Center } from '@project-r/styleguide'
 
 const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
 const trialAccessCampaignId =
@@ -32,11 +27,7 @@ const styles = {
 
 const InlineWrapper = ({ inline, children }) => {
   if (inline) {
-    return (
-      <Center>
-        <Breakout size='breakout'>{children}</Breakout>
-      </Center>
-    )
+    return <Center>{children}</Center>
   } else {
     return children
   }

@@ -126,11 +126,32 @@ export const getDocument = gql`
             document {
               id
               repoId
+              ...BookmarkOnDocument
+              ...UserProgressOnDocument
               meta {
                 title
                 publishDate
                 path
                 image
+                template
+                estimatedReadingMinutes
+                estimatedConsumptionMinutes
+                ownDiscussion {
+                  id
+                  closed
+                  isBoard
+                  comments {
+                    totalCount
+                  }
+                }
+                linkedDiscussion {
+                  id
+                  path
+                  closed
+                  comments {
+                    totalCount
+                  }
+                }
               }
             }
           }

@@ -50,7 +50,7 @@ const ActionBar = ({
   const [podcastOverlayVisible, setPodcastOverlayVisible] = useState(false)
 
   const { toggleAudioPlayer } = useContext(AudioContext)
-
+  console.log(document)
   if (!document) {
     return (
       <div {...styles.topRow} {...(isCentered && { ...styles.centered })}>
@@ -144,7 +144,10 @@ const ActionBar = ({
   const displayMinutes = readingMinutes % 60
   const displayHours = Math.floor(readingMinutes / 60)
   const forceShortLabel =
-    mode === 'article-overlay' || mode === 'feed' || mode === 'bookmark'
+    mode === 'article-overlay' ||
+    mode === 'feed' ||
+    mode === 'bookmark' ||
+    mode === 'seriesEpisode'
 
   // centering
   const splitContent = document.content && splitByTitle(document.content)
@@ -193,7 +196,7 @@ const ActionBar = ({
       Icon: ReadingTimeIcon,
       label: readingTimeLabel,
       labelShort: readingTimeLabelShort,
-      modes: ['feed'],
+      modes: ['feed', 'seriesEpisode'],
       show: showReadingTime
     },
     {
@@ -204,13 +207,17 @@ const ActionBar = ({
             documentId={document.id}
             forceShortLabel={forceShortLabel}
             userProgress={document.userProgress}
-            noCallout={mode === 'article-overlay' || mode === 'bookmark'}
+            noCallout={
+              mode === 'article-overlay' ||
+              mode === 'bookmark' ||
+              mode === 'seriesEpisode'
+            }
             noScroll={mode === 'feed'}
           />
         ) : (
           <></>
         ),
-      modes: ['article-overlay', 'feed', 'bookmark'],
+      modes: ['article-overlay', 'feed', 'bookmark', 'seriesEpisode'],
       show: true
     },
     {
@@ -273,7 +280,8 @@ const ActionBar = ({
         'article-bottom',
         'article-overlay',
         'feed',
-        'bookmark'
+        'bookmark',
+        'seriesEpisode'
       ],
       show: !notBookmarkable
     },
@@ -333,7 +341,13 @@ const ActionBar = ({
           forceShortLabel={forceShortLabel}
         />
       ),
-      modes: ['article-top', 'article-bottom', 'article-overlay', 'feed'],
+      modes: [
+        'article-top',
+        'article-bottom',
+        'article-overlay',
+        'feed',
+        'seriesEpisode'
+      ],
       show: !!discussionId
     }
   ]

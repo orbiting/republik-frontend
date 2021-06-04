@@ -3,6 +3,7 @@ import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import ActionBar from '../ActionBar'
 import { imageResizeUrl } from 'mdast-react-render/lib/utils'
+import TrialForm from '../Trial/Form'
 
 import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
 import {
@@ -135,7 +136,7 @@ const SeriesNavigation = ({ me, series, router, documentId }) => {
         <SeriesNav
           documentId={documentId}
           series={series}
-          PayNote={me ? undefined : null}
+          PayNote={me ? undefined : TrialForm}
           ActionBar={ActionBar}
           Link={Link}
           onEpisodeClick={() => setExpanded(false)}

@@ -205,6 +205,50 @@ const text = {
       </Highlight>
       .
     </>
+  ),
+  Mai: p => (
+    <>
+      <Highlight {...p} ids={['1h5tCFWZw']}>
+        Mit einer Bäuerin im Giftschrank
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['CQmAdFQM2']}>
+        mit Edi Rama auf Wahlkampftour
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['vOJ4qiJmG0']}>
+        mit der eigenen Mutter am Küchentisch
+      </Highlight>
+      . Was bedeutet{' '}
+      <Highlight {...p} series='republik/article-auftakt-schwarz-weiss'>
+        schwarz sein in der Schweiz
+      </Highlight>
+      ? (Un)begründete{' '}
+      <Highlight {...p} ids={['23CphQYhW']}>
+        Inflationsängste
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['dey8V3UUa']}>
+        ein besoffenes Küchlein
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['tW6h4hV3j']}>
+        119 Fragen zu Sophie Scholl
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['p56vM_2jk']}>
+        Was mit uns geschieht, wenn wir sterben
+      </Highlight>
+      , und{' '}
+      <Highlight {...p} ids={['a2oqj7Ekc']}>
+        warum in der Schweizer Klimapolitik so wenig geschehen ist
+      </Highlight>
+      . Dazu:{' '}
+      <Highlight {...p} ids={['8XIJNkfTG']}>
+        der Anfang vom Ende der Menschheit
+      </Highlight>{' '}
+      (vielleicht).
+    </>
   )
 }
 

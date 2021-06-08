@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-29T12:39:26.027Z",
+  "updated": "2021-06-08T09:42:27.519Z",
   "title": "live",
   "data": [
     {
@@ -2644,15 +2644,15 @@
     },
     {
       "key": "pledge/consents/label/PRIVACY_STATUTE_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten</a> der Project R Genossenschaft einverstanden."
+      "value": "Ich bin mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutz&shy;bestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten</a> der Project R Genossenschaft einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a> und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
+      "value": "Ich bin mit den <a href=\"/agb\" target=\"_blank\">AGB</a> und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutz&shy;bestimmungen</a> einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY",
-      "value": "Ich erkläre mich mit den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
+      "value": "Ich bin mit den <a href=\"/datenschutz\" target=\"_blank\">Datenschutz&shy;bestimmungen</a> einverstanden."
     },
     {
       "key": "pledge/consents/error/PRIVACY_STATUTE_TOS",

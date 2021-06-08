@@ -116,12 +116,14 @@ export const getDocument = gql`
         }
         series {
           title
+          description
           logo
           logoDark
           episodes {
             title
             publishDate
             label
+            lead
             image
             document {
               id

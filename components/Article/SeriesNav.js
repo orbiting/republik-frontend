@@ -45,7 +45,8 @@ const styles = {
     left: 0,
     width: '100vw',
     flexDirection: 'column',
-    padding: 0
+    padding: 0,
+    paddingTop: 20
   }),
   title: css({
     fontSize: 15,

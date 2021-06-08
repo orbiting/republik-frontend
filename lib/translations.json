@@ -1,5 +1,5 @@
 {
-  "updated": "2021-06-08T09:42:27.519Z",
+  "updated": "2021-06-08T15:26:35.764Z",
   "title": "live",
   "data": [
     {
@@ -5181,6 +5181,22 @@
     {
       "key": "Trial/Form/error/title",
       "value": "Fehler"
+    },
+    {
+      "key": "Trial/Form/started/title",
+      "value": "Sie haben Post!"
+    },
+    {
+      "key": "Trial/Form/completed/title",
+      "value": "Herzlich Willkommen!"
+    },
+    {
+      "key": "Trial/Form/initial/title",
+      "value": "Kostenlos Probe&shy;lesen für 21 Tage."
+    },
+    {
+      "key": "Trial/Form/initial/lead",
+      "value": "Melden Sie sich an und lesen Sie die ganze Serie. "
     },
     {
       "key": "pages/cardGroups/description",

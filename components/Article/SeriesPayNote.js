@@ -3,8 +3,15 @@ import { css } from 'glamor'
 
 import TrialForm from '../Trial/Form'
 import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
+import withT from '../../lib/withT'
 import { parseJSONObject } from '../../lib/safeJSON'
-import { fontStyles, useColorContext, Center } from '@project-r/styleguide'
+import {
+  fontStyles,
+  useColorContext,
+  Center,
+  mediaQueries,
+  RawHtml
+} from '@project-r/styleguide'
 
 const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
 const trialAccessCampaignId =
@@ -18,10 +25,14 @@ const styles = {
   }),
   title: css({
     margin: 0,
-    ...fontStyles.serifTitle38
+    ...fontStyles.serifTitle32
   }),
   lead: css({
-    ...fontStyles.serifRegular16
+    marginBottom: 0,
+    ...fontStyles.serifRegular18,
+    [mediaQueries.mUp]: {
+      ...fontStyles.serifRegular21
+    }
   })
 }
 
@@ -33,20 +44,20 @@ const InlineWrapper = ({ inline, children }) => {
   }
 }
 
-const SeriesPayNote = ({ inline }) => {
+const SeriesPayNote = ({ inline, t }) => {
   const [colorScheme] = useColorContext()
   const [signInStarted, setSignInStarted] = useState(false)
   const [signInCompleted, setSignInCompleted] = useState(false)
   const title = signInCompleted
-    ? 'Completed'
+    ? t('Trial/Form/completed/title')
     : signInStarted
-    ? 'Started'
-    : 'Anmelden und weiterlesen'
-  const lead = signInCompleted
-    ? 'Completed Lead'
-    : signInStarted
-    ? 'Started'
-    : 'Anmelden und weiterlesen'
+    ? t('Trial/Form/started/title')
+    : t('Trial/Form/initial/title')
+  const lead =
+    !signInCompleted && !signInStarted
+      ? t('Trial/Form/initial/lead')
+      : undefined
+
   return (
     <div
       {...colorScheme.set('backgroundColor', 'default')}
@@ -54,11 +65,17 @@ const SeriesPayNote = ({ inline }) => {
     >
       <InlineWrapper inline={inline}>
         <h3 {...styles.title} {...colorScheme.set('color', 'text')}>
-          {title}
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: title
+            }}
+          />
         </h3>
-        <p {...styles.lead} {...colorScheme.set('color', 'text')}>
-          {lead}
-        </p>
+        {lead && (
+          <p {...styles.lead} {...colorScheme.set('color', 'text')}>
+            {lead}
+          </p>
+        )}
         <TrialForm
           minimal
           accessCampaignId={trialAccessCampaignId}
@@ -71,4 +88,4 @@ const SeriesPayNote = ({ inline }) => {
   )
 }
 
-export default SeriesPayNote
+export default withT(SeriesPayNote)

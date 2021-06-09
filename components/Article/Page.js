@@ -255,8 +255,8 @@ const ArticlePage = ({
             : undefined,
         withCommentData,
         CommentLink,
-        ActionBar: ActionBar,
-        PayNote: SeriesPayNote
+        ActionBar: me && ActionBar,
+        PayNote: !me && SeriesPayNote
       }),
     [meta, inNativeIOSApp, inNativeApp]
   )

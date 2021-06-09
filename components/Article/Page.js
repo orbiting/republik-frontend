@@ -261,7 +261,11 @@ const ArticlePage = ({
     [meta, inNativeIOSApp, inNativeApp]
   )
 
-  const showSeriesNav = useMemo(() => meta && !!meta.series, [meta])
+  const isSeriesOverview = meta.series?.overview?.id === article?.id
+  const showSeriesNav = useMemo(
+    () => meta && !!meta.series && !isSeriesOverview,
+    [meta]
+  )
 
   const documentId = useMemo(() => article && article?.id, [article])
   const repoId = useMemo(() => article && article.repoId, [article])

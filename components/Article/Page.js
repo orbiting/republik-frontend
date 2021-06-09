@@ -261,7 +261,7 @@ const ArticlePage = ({
     [meta, inNativeIOSApp, inNativeApp]
   )
 
-  const isSeriesOverview = meta.series?.overview?.id === article?.id
+  const isSeriesOverview = meta && meta.series?.overview?.id === article?.id
   const showSeriesNav = useMemo(
     () => meta && !!meta.series && !isSeriesOverview,
     [meta]

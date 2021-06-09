@@ -254,7 +254,9 @@ const ArticlePage = ({
               })
             : undefined,
         withCommentData,
-        CommentLink
+        CommentLink,
+        ActionBar: ActionBar,
+        PayNote: SeriesPayNote
       }),
     [meta, inNativeIOSApp, inNativeApp]
   )

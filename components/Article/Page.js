@@ -55,7 +55,7 @@ import ShareImage from './ShareImage'
 import FontSizeSync from '../FontSize/Sync'
 import Loader from '../Loader'
 import Frame from '../Frame'
-import ActionBar from '../ActionBar'
+import ActionBar, { BrowserOnlyActionBar } from '../ActionBar'
 import { AudioContext } from '../Audio/AudioProvider'
 import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
@@ -255,10 +255,10 @@ const ArticlePage = ({
             : undefined,
         withCommentData,
         CommentLink,
-        ActionBar: me && ActionBar,
+        ActionBar: me && BrowserOnlyActionBar,
         PayNote: !me && SeriesPayNote
       }),
-    [meta, inNativeIOSApp, inNativeApp]
+    [meta, inNativeIOSApp, inNativeApp, me]
   )
 
   const isSeriesOverview = meta && meta.series?.overview?.id === article?.id
@@ -562,6 +562,7 @@ const ArticlePage = ({
                       cacheKey={[
                         article.id,
                         isMember && 'isMember',
+                        me && 'isSignedIn',
                         colorSchemeKey
                       ]
                         .filter(Boolean)

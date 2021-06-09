@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useContext } from 'react'
+import React, { useState, Fragment, useContext, useEffect } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import {
@@ -497,4 +497,22 @@ const styles = {
   })
 }
 
-export default compose(withT, withInNativeApp, withEditor)(ActionBar)
+const ActionBarWithData = compose(withT, withInNativeApp, withEditor)(ActionBar)
+
+export default ActionBarWithData
+
+let defaultIstMounted = undefined
+export const BrowserOnlyActionBar = props => {
+  const [isMounted, setIsMounted] = useState(defaultIstMounted)
+  useEffect(() => {
+    if (!isMounted) {
+      defaultIstMounted = true
+      setIsMounted(true)
+    }
+  }, [isMounted])
+
+  if (!isMounted) {
+    return <div style={{ height: 24 }} />
+  }
+  return <ActionBarWithData {...props} />
+}

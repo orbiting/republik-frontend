@@ -5,11 +5,10 @@ import TrialForm from '../Trial/Form'
 import { TRIAL_CAMPAIGN } from '../../lib/constants'
 import withT from '../../lib/withT'
 import {
-  fontStyles,
   useColorContext,
   Center,
-  mediaQueries,
-  RawHtml
+  RawHtml,
+  Interaction
 } from '@project-r/styleguide'
 
 import BrowserOnly from './BrowserOnly'
@@ -19,17 +18,6 @@ const accessCampaignId = TRIAL_CAMPAIGN
 const styles = {
   container: css({
     padding: 12
-  }),
-  title: css({
-    margin: 0,
-    ...fontStyles.serifTitle32
-  }),
-  lead: css({
-    marginBottom: 0,
-    ...fontStyles.serifRegular18,
-    [mediaQueries.mUp]: {
-      ...fontStyles.serifRegular21
-    }
   })
 }
 
@@ -61,18 +49,14 @@ const TrialPayNoteMini = ({ inline, t }) => {
       {...styles.container}
     >
       <InlineWrapper inline={inline}>
-        <h3 {...styles.title} {...colorScheme.set('color', 'text')}>
+        <Interaction.H2 style={{ marginBottom: 10 }}>
           <RawHtml
             dangerouslySetInnerHTML={{
               __html: title
             }}
           />
-        </h3>
-        {lead && (
-          <p {...styles.lead} {...colorScheme.set('color', 'text')}>
-            {lead}
-          </p>
-        )}
+        </Interaction.H2>
+        {lead && <Interaction.P>{lead}</Interaction.P>}
         <BrowserOnly
           Component={TrialForm}
           componentProps={{

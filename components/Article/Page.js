@@ -270,8 +270,9 @@ const ArticlePage = ({
     [meta]
   )
 
-  const documentId = useMemo(() => article && article?.id, [article])
-  const repoId = useMemo(() => article && article.repoId, [article])
+  const documentId = article?.id
+  const repoId = article?.repoId
+
   const isEditorialNewsletter = meta && meta.template === 'editorialNewsletter'
   const disableActionBar = meta && meta.disableActionBar
   const actionBar = article && !disableActionBar && (
@@ -331,7 +332,8 @@ const ArticlePage = ({
                 format: meta.format,
                 section: meta.section,
                 series: meta.series,
-                repoId: article.repoId
+                repoId: article.repoId,
+                documentId: article.id
               }}
             />
           )
@@ -348,7 +350,8 @@ const ArticlePage = ({
         format: meta.format,
         section: meta.section,
         series: meta.series,
-        repoId: article.repoId
+        repoId: article.repoId,
+        documentId: article.id
       },
       schema,
       { MissingNode }

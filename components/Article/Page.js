@@ -34,7 +34,7 @@ import { Breakout } from '@project-r/styleguide/lib/components/Center'
 
 import ActionBarOverlay from './ActionBarOverlay'
 import SeriesNavButton from './SeriesNav'
-import SeriesPayNote from './SeriesPayNote'
+import TrialPayNoteMini from './TrialPayNoteMini'
 import Extract from './Extract'
 import { PayNote } from './PayNote'
 import Progress from './Progress'
@@ -55,7 +55,8 @@ import ShareImage from './ShareImage'
 import FontSizeSync from '../FontSize/Sync'
 import Loader from '../Loader'
 import Frame from '../Frame'
-import ActionBar, { BrowserOnlyActionBar } from '../ActionBar'
+import ActionBar from '../ActionBar'
+import { BrowserOnlyActionBar } from './BrowserOnly'
 import { AudioContext } from '../Audio/AudioProvider'
 import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
@@ -256,7 +257,7 @@ const ArticlePage = ({
         withCommentData,
         CommentLink,
         ActionBar: me && BrowserOnlyActionBar,
-        PayNote: !me && SeriesPayNote
+        PayNote: !me && TrialPayNoteMini
       }),
     [meta, inNativeIOSApp, inNativeApp, me]
   )
@@ -643,7 +644,7 @@ const ArticlePage = ({
                   inline
                   documentId={documentId}
                   series={series}
-                  PayNote={!me && SeriesPayNote}
+                  PayNote={!me && TrialPayNoteMini}
                   ActionBar={me && ActionBar}
                   Link={Link}
                 />

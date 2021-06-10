@@ -16,7 +16,7 @@ import {
   SeriesNav
 } from '@project-r/styleguide'
 import { cleanAsPath } from '../../lib/utils/link'
-import SeriesPayNote from './SeriesPayNote'
+import TrialPayNoteMini from './TrialPayNoteMini'
 
 const styles = {
   button: css(plainButtonRule, {
@@ -137,7 +137,7 @@ const SeriesNavigation = ({ me, series, router, documentId }) => {
         <SeriesNav
           documentId={documentId}
           series={series}
-          PayNote={!me && SeriesPayNote}
+          PayNote={!me && TrialPayNoteMini}
           ActionBar={me && ActionBar}
           Link={Link}
           onEpisodeClick={() => setExpanded(false)}

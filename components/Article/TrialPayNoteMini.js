@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { css } from 'glamor'
 
 import TrialForm from '../Trial/Form'
-import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
+import { TRIAL_CAMPAIGN } from '../../lib/constants'
 import withT from '../../lib/withT'
-import { parseJSONObject } from '../../lib/safeJSON'
 import {
   fontStyles,
   useColorContext,
@@ -13,11 +12,9 @@ import {
   RawHtml
 } from '@project-r/styleguide'
 
-const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
-const trialAccessCampaignId =
-  (trailCampaignes.wahltindaer &&
-    trailCampaignes.wahltindaer.accessCampaignId) ||
-  TRIAL_CAMPAIGN
+import BrowserOnly from './BrowserOnly'
+
+const accessCampaignId = TRIAL_CAMPAIGN
 
 const styles = {
   container: css({
@@ -44,7 +41,7 @@ const InlineWrapper = ({ inline, children }) => {
   }
 }
 
-const SeriesPayNote = ({ inline, t }) => {
+const TrialPayNoteMini = ({ inline, t }) => {
   const [colorScheme] = useColorContext()
   const [signInStarted, setSignInStarted] = useState(false)
   const [signInCompleted, setSignInCompleted] = useState(false)
@@ -76,16 +73,20 @@ const SeriesPayNote = ({ inline, t }) => {
             {lead}
           </p>
         )}
-        <TrialForm
-          minimal
-          accessCampaignId={trialAccessCampaignId}
-          onSuccess={() => setSignInCompleted(true)}
-          beforeSignIn={() => setSignInStarted(true)}
-          onReset={() => setSignInStarted(false)}
+        <BrowserOnly
+          Component={TrialForm}
+          componentProps={{
+            minimal: true,
+            accessCampaignId,
+            onSuccess: () => setSignInCompleted(true),
+            beforeSignIn: () => setSignInStarted(true),
+            onReset: () => setSignInStarted(false)
+          }}
+          height={115}
         />
       </InlineWrapper>
     </div>
   )
 }
 
-export default withT(SeriesPayNote)
+export default withT(TrialPayNoteMini)

@@ -119,6 +119,13 @@ export const getDocument = gql`
           description
           logo
           logoDark
+          overview {
+            id
+            repoId
+            meta {
+              path
+            }
+          }
           episodes {
             title
             publishDate

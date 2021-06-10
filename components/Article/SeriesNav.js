@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react'
+import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import ActionBar from '../ActionBar'
 import { imageResizeUrl } from 'mdast-react-render/lib/utils'
 import Link from 'next/link'
-
 import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
 import {
   mediaQueries,
@@ -17,6 +17,7 @@ import {
 } from '@project-r/styleguide'
 import { cleanAsPath } from '../../lib/utils/link'
 import TrialPayNoteMini from './TrialPayNoteMini'
+import withTrialEligibility from '../Trial/withTrialEligibility'
 
 const styles = {
   button: css(plainButtonRule, {
@@ -68,7 +69,13 @@ const styles = {
   })
 }
 
-const SeriesNavigation = ({ me, series, router, documentId }) => {
+const SeriesNavigation = ({
+  me,
+  isTrialEligible,
+  series,
+  router,
+  documentId
+}) => {
   const [colorScheme] = useColorContext()
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
@@ -137,7 +144,7 @@ const SeriesNavigation = ({ me, series, router, documentId }) => {
         <SeriesNav
           documentId={documentId}
           series={series}
-          PayNote={!me && TrialPayNoteMini}
+          PayNote={isTrialEligible && TrialPayNoteMini}
           ActionBar={me && ActionBar}
           Link={Link}
           onEpisodeClick={() => setExpanded(false)}
@@ -147,4 +154,4 @@ const SeriesNavigation = ({ me, series, router, documentId }) => {
   )
 }
 
-export default withRouter(SeriesNavigation)
+export default compose(withTrialEligibility, withRouter)(SeriesNavigation)

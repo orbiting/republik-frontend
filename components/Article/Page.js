@@ -283,7 +283,7 @@ const ArticlePage = ({
 
   const actionBarOverlay = actionBar
     ? React.cloneElement(actionBar, {
-        mode: 'article-overlay'
+        mode: 'articleOverlay'
       })
     : undefined
 

@@ -143,7 +143,7 @@ const ActionBar = ({
   const displayMinutes = readingMinutes % 60
   const displayHours = Math.floor(readingMinutes / 60)
   const forceShortLabel =
-    mode === 'article-overlay' ||
+    mode === 'articleOverlay' ||
     mode === 'feed' ||
     mode === 'bookmark' ||
     mode === 'seriesEpisode'
@@ -207,7 +207,7 @@ const ActionBar = ({
             forceShortLabel={forceShortLabel}
             userProgress={document.userProgress}
             noCallout={
-              mode === 'article-overlay' ||
+              mode === 'articleOverlay' ||
               mode === 'bookmark' ||
               mode === 'seriesEpisode'
             }
@@ -216,7 +216,7 @@ const ActionBar = ({
         ) : (
           <></>
         ),
-      modes: ['article-overlay', 'feed', 'bookmark', 'seriesEpisode'],
+      modes: ['articleOverlay', 'feed', 'bookmark', 'seriesEpisode'],
       show: true
     },
     {
@@ -277,7 +277,7 @@ const ActionBar = ({
       modes: [
         'article-top',
         'article-bottom',
-        'article-overlay',
+        'articleOverlay',
         'feed',
         'bookmark',
         'seriesEpisode'
@@ -323,7 +323,7 @@ const ActionBar = ({
         }
       },
       label: !forceShortLabel ? t('article/actionbar/share') : '',
-      modes: ['article-top', 'article-overlay'],
+      modes: ['article-top', 'articleOverlay'],
       show: true
     },
     {
@@ -335,7 +335,7 @@ const ActionBar = ({
           isOnArticlePage={[
             'article-top',
             'article-bottom',
-            'article-overlay'
+            'articleOverlay'
           ].includes(mode)}
           forceShortLabel={forceShortLabel}
         />
@@ -343,7 +343,7 @@ const ActionBar = ({
       modes: [
         'article-top',
         'article-bottom',
-        'article-overlay',
+        'articleOverlay',
         'feed',
         'seriesEpisode'
       ],
@@ -404,7 +404,7 @@ const ActionBar = ({
     <>
       <div
         {...styles.topRow}
-        {...(mode === 'article-overlay' && { ...styles.overlay })}
+        {...(mode === 'articleOverlay' && { ...styles.overlay })}
         {...(!!centered && { ...styles.centered })}
       >
         {ActionItems.filter(item => item.show && item.modes.includes(mode)).map(

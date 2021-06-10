@@ -63,8 +63,7 @@ const RenderArticle = ({ data }) => (
             format: undefined,
             section: undefined,
             series: undefined,
-            repoId: article.repoId,
-            documentId: article.id
+            repoId: article.repoId
           },
           schema,
           { MissingNode: ({ children }) => children }

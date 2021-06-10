@@ -295,7 +295,7 @@ const ArticlePage = ({
   const darkMode = article?.content?.meta?.darkMode
 
   const seriesNavButton = showSeriesNav && (
-    <SeriesNavButton me={me} series={series} documentId={documentId} />
+    <SeriesNavButton me={me} series={series} repoId={repoId} />
   )
 
   const colorMeta =
@@ -332,8 +332,7 @@ const ArticlePage = ({
                 format: meta.format,
                 section: meta.section,
                 series: meta.series,
-                repoId: article.repoId,
-                documentId: article.id
+                repoId: article.repoId
               }}
             />
           )
@@ -350,8 +349,7 @@ const ArticlePage = ({
         format: meta.format,
         section: meta.section,
         series: meta.series,
-        repoId: article.repoId,
-        documentId: article.id
+        repoId: article.repoId
       },
       schema,
       { MissingNode }
@@ -647,7 +645,7 @@ const ArticlePage = ({
               {episodes && (
                 <SeriesNav
                   inline
-                  documentId={documentId}
+                  repoId={repoId}
                   series={series}
                   PayNote={isTrialEligible && TrialPayNoteMini}
                   ActionBar={me && ActionBar}

@@ -69,13 +69,7 @@ const styles = {
   })
 }
 
-const SeriesNavigation = ({
-  me,
-  isTrialEligible,
-  series,
-  router,
-  documentId
-}) => {
+const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
   const [colorScheme] = useColorContext()
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
@@ -142,7 +136,7 @@ const SeriesNavigation = ({
         ref={ref}
       >
         <SeriesNav
-          documentId={documentId}
+          repoId={repoId}
           series={series}
           PayNote={isTrialEligible && TrialPayNoteMini}
           ActionBar={me && ActionBar}

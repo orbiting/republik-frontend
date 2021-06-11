@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
 import {
   mediaQueries,
-  fontFamilies,
+  fontStyles,
   useColorContext,
   useBodyScrollLock,
   useHeaderHeight,
@@ -20,8 +20,8 @@ import withTrialEligibility from '../Trial/withTrialEligibility'
 
 const styles = {
   button: css({
-    fontFamily: fontFamilies.sansSerifRegular,
-    padding: 0,
+    ...fontStyles.sansSerifRegular,
+    padding: '5px 0',
     textAlign: 'left',
     top: 0,
     whiteSpace: 'nowrap',
@@ -31,7 +31,7 @@ const styles = {
     cursor: 'pointer'
   }),
   menu: css({
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     position: 'fixed',
     visibility: 'hidden',
     whiteSpace: 'normal',
@@ -156,7 +156,7 @@ const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
       </a>
       <div
         style={{
-          top: headerHeight,
+          top: headerHeight + 1, // 1px for border bottom
           height: `calc(100vh - ${headerHeight}px)`
         }}
         {...colorScheme.set('backgroundColor', 'default')}

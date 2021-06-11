@@ -1,12 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { css } from 'glamor'
-import { mediaQueries, useColorContext } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  useColorContext,
+  useMediaQuery
+} from '@project-r/styleguide'
 import { ZINDEX_HEADER, AUDIO_PLAYER_HEIGHT } from '../constants'
 const ACTIONBAR_FADE_AREA = 400
+const FOOTER_FADE_AREA = 800
+const FOOTER_FADE_AREA_MOBILE = 1200
 
 const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
   const [colorScheme] = useColorContext()
   const [overlayVisible, setOverlayVisible] = useState(false)
+  const isDesktop = useMediaQuery(mediaQueries.mUp)
+
   const lastY = useRef()
   const diff = useRef(0)
 
@@ -16,8 +24,14 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
 
   useEffect(() => {
     const onScroll = () => {
+      const scrollHeight = document.body.scrollHeight
+      const windowHeight = window.innerHeight
+      const footerFadeArea = isDesktop
+        ? FOOTER_FADE_AREA
+        : FOOTER_FADE_AREA_MOBILE
       const y = Math.max(window.pageYOffset)
       const articleActionBarVisible = ACTIONBAR_FADE_AREA - y >= 0
+      const footerOverlap = scrollHeight - windowHeight - y <= footerFadeArea
       const newDiff = lastY.current ? lastY.current - y : 0
 
       diff.current += newDiff
@@ -28,7 +42,9 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
       } else {
         // upscroll
         setOverlayVisible(
-          articleActionBarVisible || diff.current < 30 ? false : true
+          articleActionBarVisible || footerOverlap || diff.current < 30
+            ? false
+            : true
         )
       }
       lastY.current = y
@@ -39,7 +55,7 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
     return () => {
       window.removeEventListener('scroll', onScroll)
     }
-  }, [])
+  }, [isDesktop])
   return (
     <div
       style={{

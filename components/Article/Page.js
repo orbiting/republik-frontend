@@ -642,7 +642,7 @@ const ArticlePage = ({
                   </>
                 </Center>
               )}
-              {episodes && (
+              {episodes && !isSeriesOverview && (
                 <SeriesNav
                   inline
                   repoId={repoId}

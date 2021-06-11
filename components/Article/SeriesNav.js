@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
@@ -12,20 +12,24 @@ import {
   useColorContext,
   useBodyScrollLock,
   useHeaderHeight,
-  plainButtonRule,
   SeriesNav
 } from '@project-r/styleguide'
-import { cleanAsPath } from '../../lib/utils/link'
+import { cleanAsPath, shouldIgnoreClick } from '../../lib/utils/link'
+import { scrollIt } from '../../lib/utils/scroll'
 import TrialPayNoteMini from './TrialPayNoteMini'
 import withTrialEligibility from '../Trial/withTrialEligibility'
 
 const styles = {
-  button: css(plainButtonRule, {
+  button: css({
     fontFamily: fontFamilies.sansSerifRegular,
     padding: 0,
     textAlign: 'left',
     top: 0,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    textDecoration: 'none',
+    color: 'inherit',
+    display: 'inline-block',
+    cursor: 'pointer'
   }),
   menu: css({
     fontFamily: fontFamilies.sansSerifRegular,
@@ -74,18 +78,45 @@ const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
   const [headerHeight] = useHeaderHeight()
-
   const episodes = series && series.episodes
   const currentPath = cleanAsPath(router.asPath)
   const currentEpisode = episodes.find(
     episode => episode.document && episode.document.meta.path === currentPath
   )
 
+  const titlePath =
+    series.overview?.meta?.path || series.episodes[0]?.documen?.meta?.path
+
+  useEffect(() => {
+    if (!expanded) {
+      return
+    }
+    const currentEpisodeElement = window.document.querySelector(
+      `[data-repo-id='${repoId}']`
+    )
+    if (!currentEpisodeElement) {
+      return
+    }
+    const { top, height } = currentEpisodeElement.getBoundingClientRect()
+    const { pageYOffset, innerHeight } = window
+    const target = pageYOffset + top - innerHeight + height + 20
+    const inViewport = top + height < innerHeight
+
+    if (!inViewport) {
+      // scrollIt(target, 0)
+    }
+  }, [expanded])
+
   return (
-    <Fragment>
-      <button
+    <>
+      <a
         {...styles.button}
-        onClick={() => {
+        href={titlePath}
+        onClick={e => {
+          if (shouldIgnoreClick(e)) {
+            return
+          }
+          e.preventDefault()
           setExpanded(!expanded)
         }}
       >
@@ -109,7 +140,9 @@ const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
               )}
             </>
           )}
+
           {series.title}
+
           {currentEpisode &&
             (series.title.match(/\?$/)
               ? ` ${currentEpisode.label}`
@@ -123,7 +156,7 @@ const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
             )}
           </span>
         </span>
-      </button>
+      </a>
       <div
         style={{
           top: headerHeight,
@@ -144,7 +177,7 @@ const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
           onEpisodeClick={() => setExpanded(false)}
         />
       </div>
-    </Fragment>
+    </>
   )
 }
 

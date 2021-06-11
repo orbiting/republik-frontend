@@ -268,11 +268,11 @@ const ArticlePage = ({
   const isEditorialNewsletter = meta && meta.template === 'editorialNewsletter'
   const disableActionBar = meta && meta.disableActionBar
   const actionBar = article && !disableActionBar && (
-    <ActionBar mode='article-top' document={article} />
+    <ActionBar mode='articleTop' document={article} />
   )
   const actionBarEnd = actionBar
     ? React.cloneElement(actionBar, {
-        mode: 'article-bottom'
+        mode: isSeriesOverview ? 'seriesOverviewBottom' : 'articleBottom'
       })
     : undefined
 

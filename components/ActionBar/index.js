@@ -122,7 +122,9 @@ const ActionBar = ({
   const podcast =
     (meta && meta.podcast) ||
     (meta && meta.audioSource && meta.format && meta.format.meta.podcast)
-  const hasPdf = meta && meta.template === 'article'
+
+  const isSeriesOverview = meta && meta.series?.overview?.id === document?.id
+  const hasPdf = meta && meta.template === 'article' && !isSeriesOverview
   const notBookmarkable = meta && meta.template === 'page'
   const isDiscussion = meta && meta.template === 'discussion'
   const emailSubject = t('article/share/emailSubject', {
@@ -155,7 +157,7 @@ const ActionBar = ({
     splitContent.title &&
     splitContent.title.children[splitContent.title.children.length - 1]
   const centered =
-    (mode !== 'feed' && titleNode?.data?.center && mode !== 'article-bottom') ||
+    (mode !== 'feed' && titleNode?.data?.center && mode !== 'articleBottom') ||
     (mode !== 'feed' && meta.template === 'format') ||
     (mode !== 'feed' && meta.template === 'section')
 
@@ -236,7 +238,7 @@ const ActionBar = ({
         e.preventDefault()
         setPdfOverlayVisible(!pdfOverlayVisible)
       },
-      modes: ['article-top', 'article-bottom'],
+      modes: ['articleTop', 'articleBottom'],
       show: hasPdf
     },
     {
@@ -247,7 +249,7 @@ const ActionBar = ({
         e.preventDefault()
         setFontSizeOverlayVisible(!fontSizeOverlayVisible)
       },
-      modes: ['article-top'],
+      modes: ['articleTop'],
       show: true
     },
     {
@@ -262,7 +264,7 @@ const ActionBar = ({
           padded
         />
       ),
-      modes: ['article-top', 'article-bottom'],
+      modes: ['articleTop', 'articleBottom'],
       show: true
     },
     {
@@ -275,8 +277,8 @@ const ActionBar = ({
         />
       ),
       modes: [
-        'article-top',
-        'article-bottom',
+        'articleTop',
+        'articleBottom',
         'articleOverlay',
         'feed',
         'bookmark',
@@ -323,7 +325,7 @@ const ActionBar = ({
         }
       },
       label: !forceShortLabel ? t('article/actionbar/share') : '',
-      modes: ['article-top', 'articleOverlay'],
+      modes: ['articleTop', 'articleOverlay'],
       show: true
     },
     {
@@ -333,16 +335,16 @@ const ActionBar = ({
           t={t}
           document={document}
           isOnArticlePage={[
-            'article-top',
-            'article-bottom',
+            'articleTop',
+            'articleBottom',
             'articleOverlay'
           ].includes(mode)}
           forceShortLabel={forceShortLabel}
         />
       ),
       modes: [
-        'article-top',
-        'article-bottom',
+        'articleTop',
+        'articleBottom',
         'articleOverlay',
         'feed',
         'seriesEpisode'
@@ -415,7 +417,7 @@ const ActionBar = ({
           )
         )}
       </div>
-      {mode === 'article-top' && (
+      {mode === 'articleTop' && (
         <div {...styles.bottomRow} {...(!!centered && { ...styles.centered })}>
           {ActionItemsSecondary.filter(item => item.show).map(props => (
             <Fragment key={props.title}>
@@ -424,7 +426,7 @@ const ActionBar = ({
           ))}
         </div>
       )}
-      {mode === 'article-bottom' && (
+      {(mode === 'articleBottom' || mode === 'seriesOverviewBottom') && (
         <>
           {!inNativeApp ? (
             <Interaction.P style={{ marginTop: 24 }}>

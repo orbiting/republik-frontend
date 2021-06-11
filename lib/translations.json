@@ -1,5 +1,5 @@
 {
-  "updated": "2021-06-08T15:26:35.764Z",
+  "updated": "2021-06-11T22:44:29.409Z",
   "title": "live",
   "data": [
     {
@@ -5195,7 +5195,7 @@
       "value": "Kostenlos Probe&shy;lesen für 21 Tage."
     },
     {
-      "key": "Trial/Form/initial/lead",
+      "key": "Trial/Form/initial/beforeSignIn",
       "value": "Melden Sie sich an und lesen Sie die ganze Serie. "
     },
     {

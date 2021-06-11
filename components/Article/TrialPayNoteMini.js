@@ -38,10 +38,6 @@ const TrialPayNoteMini = ({ inline, t }) => {
     : signInStarted
     ? t('Trial/Form/started/title')
     : t('Trial/Form/initial/title')
-  const lead =
-    !signInCompleted && !signInStarted
-      ? t('Trial/Form/initial/lead')
-      : undefined
 
   return (
     <div
@@ -56,14 +52,18 @@ const TrialPayNoteMini = ({ inline, t }) => {
             }}
           />
         </Interaction.H2>
-        {lead && <Interaction.P>{lead}</Interaction.P>}
         <BrowserOnly
           Component={TrialForm}
           componentProps={{
             minimal: true,
             accessCampaignId,
+            beforeSignInForm: (
+              <Interaction.P>
+                {t('Trial/Form/initial/beforeSignIn')}
+              </Interaction.P>
+            ),
             onSuccess: () => setSignInCompleted(true),
-            beforeSignIn: () => setSignInStarted(true),
+            onBeforeSignIn: () => setSignInStarted(true),
             onReset: () => setSignInStarted(false)
           }}
           height={115}

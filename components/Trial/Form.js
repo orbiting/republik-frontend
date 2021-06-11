@@ -43,7 +43,8 @@ const Form = props => {
   const {
     payload,
     router,
-    beforeSignIn,
+    beforeSignInForm,
+    onBeforeSignIn,
     onSuccess,
     onReset,
     narrow,
@@ -103,7 +104,7 @@ const Form = props => {
         return setShowErrors(true)
       }
 
-      beforeSignIn && beforeSignIn()
+      onBeforeSignIn && onBeforeSignIn()
 
       return props
         .signIn(email.value, 'trial', consents, 'EMAIL_CODE', query.token)
@@ -209,6 +210,7 @@ const Form = props => {
                 marginTop: narrow || minimal ? 0 : 20
               }}
             >
+              {beforeSignInForm}
               <Field
                 name='email'
                 type='email'
@@ -315,7 +317,7 @@ const Form = props => {
 Form.propTypes = {
   campaign: PropTypes.string,
   accessCampaignId: PropTypes.string.isRequired,
-  beforeSignIn: PropTypes.func,
+  onBeforeSignIn: PropTypes.func,
   narrow: PropTypes.bool
 }
 

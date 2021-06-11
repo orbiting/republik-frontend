@@ -46,7 +46,6 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
-import withTrialEligibility from '../Trial/withTrialEligibility'
 import {
   ASSETS_SERVER_BASE_URL,
   PUBLIC_BASE_URL,
@@ -165,7 +164,6 @@ const ArticlePage = ({
   data: { article },
   isMember,
   isEditor,
-  isTrialEligible,
   inNativeApp,
   inNativeIOSApp,
   payNoteSeed,
@@ -257,9 +255,9 @@ const ArticlePage = ({
         withCommentData,
         CommentLink,
         ActionBar: me && BrowserOnlyActionBar,
-        PayNote: isTrialEligible && TrialPayNoteMini
+        PayNote: !isMember && TrialPayNoteMini
       }),
-    [meta, inNativeIOSApp, inNativeApp, me, isTrialEligible, titleBreakout]
+    [meta, inNativeIOSApp, inNativeApp, me, isMember, titleBreakout]
   )
 
   const documentId = article?.id
@@ -640,7 +638,7 @@ const ArticlePage = ({
                   inline
                   repoId={repoId}
                   series={series}
-                  PayNote={isTrialEligible && TrialPayNoteMini}
+                  PayNote={!isMember && TrialPayNoteMini}
                   ActionBar={me && ActionBar}
                   Link={Link}
                 />
@@ -698,7 +696,6 @@ const ComposedPage = compose(
   withMe,
   withMembership,
   withMemberStatus,
-  withTrialEligibility,
   withEditor,
   withInNativeApp,
   withRouter,

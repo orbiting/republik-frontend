@@ -379,7 +379,7 @@ const TryNoteCta = ({ payload }) => {
   const router = useRouter()
   return (
     <TrialForm
-      beforeSignIn={() => {
+      onBeforeSignIn={() => {
         // use native router for shadow routing
         router.push(
           {

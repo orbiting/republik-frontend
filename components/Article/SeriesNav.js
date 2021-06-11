@@ -15,7 +15,6 @@ import {
   SeriesNav
 } from '@project-r/styleguide'
 import { cleanAsPath, shouldIgnoreClick } from '../../lib/utils/link'
-import { scrollIt } from '../../lib/utils/scroll'
 import TrialPayNoteMini from './TrialPayNoteMini'
 import withTrialEligibility from '../Trial/withTrialEligibility'
 
@@ -97,13 +96,11 @@ const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
     if (!currentEpisodeElement) {
       return
     }
-    const { top, height } = currentEpisodeElement.getBoundingClientRect()
-    const { pageYOffset, innerHeight } = window
-    const target = pageYOffset + top - innerHeight + height + 20
-    const inViewport = top + height < innerHeight
+    const { bottom } = currentEpisodeElement.getBoundingClientRect()
+    const { innerHeight } = window
 
-    if (!inViewport) {
-      // scrollIt(target, 0)
+    if (bottom > innerHeight) {
+      ref.current.scroll(0, bottom - innerHeight + 10)
     }
   }, [expanded])
 

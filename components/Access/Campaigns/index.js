@@ -47,6 +47,9 @@ const Campaigns = ({ t, data, grantAccess, revokeAccess }) => {
         loading={data.loading}
         error={data.error}
         render={() => {
+          if (!data.me) {
+            return null
+          }
           return (
             <>
               {data.me.accessCampaigns.map((campaign, key) => (

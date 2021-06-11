@@ -12,7 +12,7 @@ import {
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
-import Footer from './Footer'
+import Footer from '../Footer'
 import Box from './Box'
 import ProlongBox from './ProlongBox'
 import {

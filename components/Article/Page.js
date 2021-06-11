@@ -9,6 +9,7 @@ import * as graphqlTag from 'graphql-tag'
 
 import {
   Center,
+  Breakout,
   colors,
   Interaction,
   mediaQueries,
@@ -30,7 +31,6 @@ import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussi
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 import createSectionSchema from '@project-r/styleguide/lib/templates/Section'
 import createPageSchema from '@project-r/styleguide/lib/templates/Page'
-import { Breakout } from '@project-r/styleguide/lib/components/Center'
 
 import ActionBarOverlay from './ActionBarOverlay'
 import SeriesNavButton from './SeriesNav'
@@ -209,19 +209,16 @@ const ArticlePage = ({
     [articleMeta, articleContent, routerQuery]
   )
 
-  const podcast = useMemo(
-    () =>
-      meta &&
-      (meta.podcast ||
-        (meta.audioSource && meta.format && meta.format.meta.podcast)),
-    [meta]
-  )
+  const hasMeta = !!meta
+  const podcast =
+    hasMeta &&
+    (meta.podcast || (meta.audioSource && meta.format?.meta?.podcast))
+  const newsletterMeta =
+    hasMeta && (meta.newsletter || meta.format?.meta?.newsletter)
 
-  const newsletterMeta = useMemo(
-    () =>
-      meta && (meta.newsletter || (meta.format && meta.format.meta.newsletter)),
-    [meta]
-  )
+  const isSeriesOverview = hasMeta && meta.series?.overview?.id === article?.id
+  const showSeriesNav = hasMeta && !!meta.series && !isSeriesOverview
+  const titleBreakout = isSeriesOverview
 
   const schema = useMemo(
     () =>
@@ -243,6 +240,7 @@ const ArticlePage = ({
           TESTIMONIAL_LIST: TestimonialList
         },
         titleMargin: false,
+        titleBreakout,
         onAudioCoverClick: () => toggleAudioPlayer(meta),
         getVideoPlayerProps:
           inNativeApp && !inNativeIOSApp
@@ -261,13 +259,7 @@ const ArticlePage = ({
         ActionBar: me && BrowserOnlyActionBar,
         PayNote: isTrialEligible && TrialPayNoteMini
       }),
-    [meta, inNativeIOSApp, inNativeApp, me, isTrialEligible]
-  )
-
-  const isSeriesOverview = meta && meta.series?.overview?.id === article?.id
-  const showSeriesNav = useMemo(
-    () => meta && !!meta.series && !isSeriesOverview,
-    [meta]
+    [meta, inNativeIOSApp, inNativeApp, me, isTrialEligible, titleBreakout]
   )
 
   const documentId = article?.id
@@ -443,11 +435,11 @@ const ArticlePage = ({
             splitContent.title &&
             splitContent.title.children[splitContent.title.children.length - 1]
           const titleAlign =
-            (titleNode && titleNode.data && titleNode.data.center) ||
-            isFormat ||
-            isSection
+            titleNode?.data?.center || isFormat || isSection
               ? 'center'
               : undefined
+
+          const breakout = titleNode?.data?.breakout || titleBreakout
 
           const format = meta.format
 
@@ -461,7 +453,7 @@ const ArticlePage = ({
               <FontSizeSync />
               {meta.prepublication && (
                 <div {...styles.prepublicationNotice}>
-                  <Center>
+                  <Center breakout={breakout}>
                     <Interaction.P>
                       {t('article/prepublication/notice')}
                     </Interaction.P>
@@ -503,28 +495,28 @@ const ArticlePage = ({
                         )}
                         {isEditor && repoId ? (
                           <Center
-                            style={{
-                              padding: '30px 15px 0 15px',
-                              display: 'flex',
-                              justifyContent:
-                                titleAlign === 'center'
-                                  ? 'center'
-                                  : 'flex-start'
-                            }}
+                            breakout={breakout}
+                            style={{ paddingBottom: 0, paddingTop: 30 }}
                           >
-                            <IconButton
-                              Icon={EditIcon}
-                              href={`${PUBLIKATOR_BASE_URL}/repo/${repoId}/tree`}
-                              target='_blank'
-                              title={t('feed/actionbar/edit')}
-                              label={t('feed/actionbar/edit')}
-                              labelShort={t('feed/actionbar/edit')}
-                              fill={'#E9A733'}
-                            />
+                            <div
+                              {...(titleAlign === 'center'
+                                ? styles.flexCenter
+                                : {})}
+                            >
+                              <IconButton
+                                Icon={EditIcon}
+                                href={`${PUBLIKATOR_BASE_URL}/repo/${repoId}/tree`}
+                                target='_blank'
+                                title={t('feed/actionbar/edit')}
+                                label={t('feed/actionbar/edit')}
+                                labelShort={t('feed/actionbar/edit')}
+                                fill={'#E9A733'}
+                              />
+                            </div>
                           </Center>
                         ) : null}
                         {actionBar || isSection || showNewsletterSignupTop ? (
-                          <Center>
+                          <Center breakout={breakout}>
                             {actionBar && (
                               <div
                                 ref={actionBarRef}
@@ -591,13 +583,14 @@ const ArticlePage = ({
                 ownDiscussion &&
                 !ownDiscussion.closed &&
                 !linkedDiscussion &&
+                !isSeriesOverview &&
                 isMember && (
-                  <Center>
+                  <Center breakout={breakout}>
                     <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
                   </Center>
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
-                <Center>
+                <Center breakout={breakout}>
                   <Discussion
                     discussionId={ownDiscussion.id}
                     focusId={router.query.focus}
@@ -609,7 +602,7 @@ const ArticlePage = ({
                 </Center>
               )}
               {showNewsletterSignupBottom && (
-                <Center>
+                <Center breakout={breakout}>
                   {format && !me && (
                     <Interaction.P>
                       <strong>{format.meta.title}</strong>
@@ -622,7 +615,7 @@ const ArticlePage = ({
                 (isEditorialNewsletter &&
                   newsletterMeta &&
                   newsletterMeta.free)) && (
-                <Center>
+                <Center breakout={breakout}>
                   <div ref={bottomActionBarRef}>{actionBarEnd}</div>
                   {!!podcast && meta.template === 'article' && (
                     <>
@@ -635,7 +628,7 @@ const ArticlePage = ({
                 </Center>
               )}
               {!!podcast && meta.template !== 'article' && (
-                <Center>
+                <Center breakout={breakout}>
                   <>
                     <Interaction.H3>{t(`PodcastButtons/title`)}</Interaction.H3>
                     <PodcastButtons {...podcast} />
@@ -693,6 +686,10 @@ const styles = {
     [mediaQueries.mUp]: {
       marginBottom: 36
     }
+  }),
+  flexCenter: css({
+    display: 'flex',
+    justifyContent: 'center'
   })
 }
 

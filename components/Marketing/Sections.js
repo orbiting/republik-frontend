@@ -35,10 +35,9 @@ const sectionContent = [
     color: '#D2933C',
     description: (
       <>
-        Die Köpfe der Republik: Immer wieder dienstags eine Kolumne von Mely
-        Kiyak oder Daniel Strassberg, jeden Samstag von Daniel Binswanger. Und
-        immer dann, wenn sie da ist, von Constantin Seibt. Ausserdem jeden
-        Samstag: die Fotokolumne «Blickwechsel».
+        Die Köpfe der Republik: Am Dienstag regelmässig eine Kolumne von Daniel
+        Strassberg und Mely Kiyak, jeden Samstag von Daniel Binswanger und
+        ebenfalls Samstags die Kunstkolumne «Milkyways».
       </>
     )
   },

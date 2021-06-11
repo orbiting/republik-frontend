@@ -233,8 +233,8 @@ const Front = ({
                 <div style={{ marginBottom: 10 }}>
                   {t.elements('front/chronology', {
                     years: intersperse(
-                      [2020, 2019, 2018].map(year => (
-                        <Link key={year} href={`${year}`} passHref>
+                      [2021, 2020, 2019, 2018].map(year => (
+                        <Link key={year} href={`/${year}`} passHref>
                           <Editorial.A style={{ color: colors.negative.text }}>
                             {year}
                           </Editorial.A>

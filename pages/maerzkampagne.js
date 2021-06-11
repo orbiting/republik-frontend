@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import md from 'markdown-in-js'
-import { useRouter } from 'next/router'
+import { withRouter } from 'next/router'
 import { css } from 'glamor'
 
 import { graphql, compose } from 'react-apollo'
@@ -147,14 +147,14 @@ const Page = ({
   defaultBenefactor,
   activeMembership,
   actionsLoading,
-  t
+  t,
+  router
 }) => {
-  const router = useRouter()
   const { query } = router
   useEffect(() => {
     if (query.token) {
       router.replace(
-        `/crowdfunding2?token=${encodeURIComponent(query.token)}`,
+        `/maerzkampagne?token=${encodeURIComponent(query.token)}`,
         '/maerzkampagne',
         {
           shallow: true
@@ -661,6 +661,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
 const EnhancedPage = compose(
   withSurviveStatus,
   withMe,
+  withRouter,
   graphql(query, {
     props: args => {
       return {

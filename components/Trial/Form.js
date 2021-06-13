@@ -139,6 +139,14 @@ const Form = props => {
           payload: { ...getConversionPayload(query), ...payload }
         })
         .then(() => {
+          router.replace(
+            {
+              pathname: router.pathname,
+              query: { ...router.query, trialSignup: 'success' }
+            },
+            router.asPath,
+            { shallow: true }
+          )
           const shouldRedirect = onSuccess ? onSuccess() : true
           if (shouldRedirect) {
             window.location = format({
@@ -146,14 +154,6 @@ const Form = props => {
               query: { context: 'trial' }
             })
           } else {
-            router.replace(
-              {
-                pathname: router.pathname,
-                query: { ...router.query, trialSignup: 'success' }
-              },
-              router.asPath,
-              { shallow: true }
-            )
             minimal && setShowButtons(true)
             meRefetch()
           }

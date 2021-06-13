@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useContext, useEffect } from 'react'
+import React, { useState, Fragment, useContext } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import {
@@ -14,7 +14,6 @@ import {
 import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { withEditor } from '../Auth/checkRoles'
 
 import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
@@ -499,6 +498,4 @@ const styles = {
   })
 }
 
-const ActionBarWithData = compose(withT, withInNativeApp, withEditor)(ActionBar)
-
-export default ActionBarWithData
+export default compose(withT, withInNativeApp)(ActionBar)

@@ -2,13 +2,10 @@ import React from 'react'
 import { css } from 'glamor'
 
 import TrialForm from '../Trial/Form'
-import { TRIAL_CAMPAIGN } from '../../lib/constants'
 import withT from '../../lib/withT'
 import { useColorContext, Center } from '@project-r/styleguide'
 
 import BrowserOnly from './BrowserOnly'
-
-const accessCampaignId = TRIAL_CAMPAIGN
 
 const styles = {
   container: css({
@@ -37,7 +34,6 @@ const TrialPayNoteMini = ({ inline, t }) => {
           Component={TrialForm}
           componentProps={{
             minimal: true,
-            accessCampaignId,
             showTitleBlock: true,
             onSuccess: () => {
               return false

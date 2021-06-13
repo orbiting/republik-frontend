@@ -26,6 +26,7 @@ import {
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import { getConversionPayload } from '../../lib/utils/track'
+import { TRIAL_CAMPAIGN } from '../../lib/constants'
 
 const styles = {
   errorMessages: css({
@@ -355,7 +356,7 @@ const Form = props => {
 
 Form.propTypes = {
   campaign: PropTypes.string,
-  accessCampaignId: PropTypes.string.isRequired,
+  accessCampaignId: PropTypes.string,
   onBeforeSignIn: PropTypes.func,
   narrow: PropTypes.bool
 }
@@ -373,7 +374,10 @@ const withRequestAccess = graphql(REQUEST_ACCESS, {
   props: ({ mutate, ownProps: { accessCampaignId } }) => ({
     requestAccess: ({ payload }) =>
       mutate({
-        variables: { campaignId: accessCampaignId, payload }
+        variables: {
+          campaignId: accessCampaignId || TRIAL_CAMPAIGN,
+          payload
+        }
       })
   })
 })

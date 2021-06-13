@@ -20,14 +20,7 @@ import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
 import withMemberStatus from '../../lib/withMemberStatus'
-import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
-import { parseJSONObject } from '../../lib/safeJSON'
 import { shouldIgnoreClick } from '../../lib/utils/link'
-
-const trialCampaigns = parseJSONObject(TRIAL_CAMPAIGNS)
-const trialAccessCampaignId =
-  (trialCampaigns.paynote && trialCampaigns.paynote.accessCampaignId) ||
-  TRIAL_CAMPAIGN
 
 const styles = {
   banner: css({
@@ -382,7 +375,6 @@ const TryNoteCta = ({ payload }) => {
       onSuccess={() => {
         return false
       }}
-      accessCampaignId={trialAccessCampaignId}
       payload={payload}
       minimal
     />

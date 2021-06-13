@@ -164,6 +164,7 @@ const CodeAuthorization = ({
               style={{ cursor: 'pointer' }}
               size={30}
               onClick={onSubmit}
+              {...colorScheme.set('fill', 'text')}
             />
           ))
         }

@@ -213,7 +213,7 @@ const Form = props => {
           <Button
             primary
             onClick={() => router.push('/')}
-            style={{ marginRight: 10 }}
+            style={{ marginRight: 10, marginBottom: 10 }}
           >
             {t('Trial/Form/withAccess/button/label')}
           </Button>

@@ -273,7 +273,7 @@ const ArticlePage = ({
         withCommentData,
         CommentLink,
         ActionBar: BrowserOnlyActionBar,
-        PayNote: showInlinePaynote && TrialPayNoteMini
+        PayNote: showInlinePaynote ? TrialPayNoteMini : undefined
       }),
     [meta, inNativeIOSApp, inNativeApp, showInlinePaynote, titleBreakout]
   )

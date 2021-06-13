@@ -173,7 +173,7 @@ const SeriesNavigation = ({
         <SeriesNav
           repoId={repoId}
           series={series}
-          PayNote={showInlinePaynote && TrialPayNoteMini}
+          PayNote={showInlinePaynote ? TrialPayNoteMini : undefined}
           ActionBar={me && ActionBar}
           Link={Link}
           onEpisodeClick={() => setExpanded(false)}

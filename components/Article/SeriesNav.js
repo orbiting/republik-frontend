@@ -178,6 +178,8 @@ const SeriesNavigation = ({
           ActionBar={me && ActionBar}
           Link={Link}
           onEpisodeClick={() => setExpanded(false)}
+          // lazy load does not work properly in scroll component
+          aboveTheFold
         />
       </div>
     </>

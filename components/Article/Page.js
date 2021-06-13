@@ -579,7 +579,6 @@ const ArticlePage = ({
                       cacheKey={[
                         article.id,
                         isMember && 'isMember',
-                        me && 'isSignedIn',
                         colorSchemeKey
                       ]
                         .filter(Boolean)

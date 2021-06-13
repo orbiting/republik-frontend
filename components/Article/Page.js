@@ -161,7 +161,7 @@ const ArticlePage = ({
   t,
   me,
   data,
-  data: { article },
+  data: { article, refetch },
   isMember,
   isEditor,
   inNativeApp,
@@ -196,15 +196,25 @@ const ArticlePage = ({
     markNotificationsAsRead()
   }, [articleUnreadNotifications])
 
+  const metaJSONStringFromQuery = useMemo(() => {
+    return (
+      articleContent &&
+      JSON.stringify(
+        runMetaFromQuery(articleContent.meta.fromQuery, routerQuery)
+      )
+    )
+  }, [routerQuery, articleContent])
   const meta = useMemo(
     () =>
       articleMeta &&
       articleContent && {
         ...articleMeta,
         url: `${PUBLIC_BASE_URL}${articleMeta.path}`,
-        ...runMetaFromQuery(articleContent.meta.fromQuery, routerQuery)
+        ...(metaJSONStringFromQuery
+          ? JSON.parse(metaJSONStringFromQuery)
+          : undefined)
       },
-    [articleMeta, articleContent, routerQuery]
+    [articleMeta, articleContent, metaJSONStringFromQuery]
   )
 
   const hasMeta = !!meta
@@ -217,6 +227,14 @@ const ArticlePage = ({
   const isSeriesOverview = hasMeta && meta.series?.overview?.id === article?.id
   const showSeriesNav = hasMeta && !!meta.series && !isSeriesOverview
   const titleBreakout = isSeriesOverview
+
+  const { trialSignup } = routerQuery
+  const showInlinePaynote = !isMember || !!trialSignup
+  useEffect(() => {
+    if (trialSignup === 'success') {
+      refetch()
+    }
+  }, [trialSignup])
 
   const schema = useMemo(
     () =>
@@ -254,10 +272,10 @@ const ArticlePage = ({
             : undefined,
         withCommentData,
         CommentLink,
-        ActionBar: me && BrowserOnlyActionBar,
-        PayNote: !isMember && TrialPayNoteMini
+        ActionBar: BrowserOnlyActionBar,
+        PayNote: showInlinePaynote && TrialPayNoteMini
       }),
-    [meta, inNativeIOSApp, inNativeApp, me, isMember, titleBreakout]
+    [meta, inNativeIOSApp, inNativeApp, showInlinePaynote, titleBreakout]
   )
 
   const documentId = article?.id
@@ -285,7 +303,12 @@ const ArticlePage = ({
   const darkMode = article?.content?.meta?.darkMode
 
   const seriesNavButton = showSeriesNav && (
-    <SeriesNavButton me={me} series={series} repoId={repoId} />
+    <SeriesNavButton
+      showInlinePaynote={showInlinePaynote}
+      me={me}
+      series={series}
+      repoId={repoId}
+    />
   )
 
   const colorMeta =
@@ -638,7 +661,7 @@ const ArticlePage = ({
                   inline
                   repoId={repoId}
                   series={series}
-                  PayNote={!isMember && TrialPayNoteMini}
+                  PayNote={showInlinePaynote && TrialPayNoteMini}
                   ActionBar={me && ActionBar}
                   Link={Link}
                 />

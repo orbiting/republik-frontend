@@ -379,17 +379,6 @@ const TryNoteCta = ({ payload }) => {
   const router = useRouter()
   return (
     <TrialForm
-      onBeforeSignIn={() => {
-        // use native router for shadow routing
-        router.push(
-          {
-            pathname: router.pathname,
-            query: { ...router.query, trialSignup: 1 }
-          },
-          router.asPath,
-          { shallow: true }
-        )
-      }}
       onSuccess={() => {
         return false
       }}

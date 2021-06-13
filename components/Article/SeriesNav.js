@@ -16,7 +16,6 @@ import {
 } from '@project-r/styleguide'
 import { cleanAsPath, shouldIgnoreClick } from '../../lib/utils/link'
 import TrialPayNoteMini from './TrialPayNoteMini'
-import withTrialEligibility from '../Trial/withTrialEligibility'
 
 const styles = {
   button: css({
@@ -72,7 +71,13 @@ const styles = {
   })
 }
 
-const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
+const SeriesNavigation = ({
+  me,
+  showInlinePaynote,
+  series,
+  router,
+  repoId
+}) => {
   const [colorScheme] = useColorContext()
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
@@ -168,7 +173,7 @@ const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
         <SeriesNav
           repoId={repoId}
           series={series}
-          PayNote={isTrialEligible && TrialPayNoteMini}
+          PayNote={showInlinePaynote && TrialPayNoteMini}
           ActionBar={me && ActionBar}
           Link={Link}
           onEpisodeClick={() => setExpanded(false)}
@@ -178,4 +183,4 @@ const SeriesNavigation = ({ me, isTrialEligible, series, router, repoId }) => {
   )
 }
 
-export default compose(withTrialEligibility, withRouter)(SeriesNavigation)
+export default compose(withRouter)(SeriesNavigation)

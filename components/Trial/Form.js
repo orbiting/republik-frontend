@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -20,7 +20,9 @@ import {
   Button,
   Field,
   InlineSpinner,
-  useColorContext
+  useColorContext,
+  Interaction,
+  RawHtml
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import { getConversionPayload } from '../../lib/utils/track'
@@ -43,7 +45,7 @@ const Form = props => {
   const {
     payload,
     router,
-    beforeSignInForm,
+    showTitleBlock,
     onBeforeSignIn,
     onSuccess,
     onReset,
@@ -63,7 +65,7 @@ const Form = props => {
   const [consents, setConsents] = useState(query.token ? REQUIRED_CONSENTS : [])
   const [email, setEmail] = useState({ value: initialEmail || '' })
   const [serverError, setServerError] = useState('')
-  const [signingIn, setSigningIn] = useState(false)
+  const [isSigningIn, setIsSigningIn] = useState(false)
   const [showButtons, setShowButtons] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -74,8 +76,8 @@ const Form = props => {
   const [colorScheme] = useColorContext()
 
   useEffect(() => {
-    autoRequestAccess && !signingIn && me && requestAccess()
-  }, [autoRequestAccess, signingIn])
+    autoRequestAccess && !isSigningIn && me && requestAccess()
+  }, [autoRequestAccess, isSigningIn])
 
   const handleEmail = (value, shouldValidate) => {
     setEmail({
@@ -104,7 +106,17 @@ const Form = props => {
         return setShowErrors(true)
       }
 
-      onBeforeSignIn && onBeforeSignIn()
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, trialSignup: 'pending' }
+        },
+        router.asPath,
+        { shallow: true }
+      )
+      if (onBeforeSignIn) {
+        onBeforeSignIn()
+      }
 
       return props
         .signIn(email.value, 'trial', consents, 'EMAIL_CODE', query.token)
@@ -115,13 +127,13 @@ const Form = props => {
           })
 
           setLoading(false)
-          setSigningIn(true)
+          setIsSigningIn(true)
           setAutoRequestAccess(true)
         })
         .catch(catchError)
     }
 
-    setSigningIn(false)
+    setIsSigningIn(false)
 
     if (!isMember) {
       props
@@ -136,6 +148,14 @@ const Form = props => {
               query: { context: 'trial' }
             })
           } else {
+            router.replace(
+              {
+                pathname: router.pathname,
+                query: { ...router.query, trialSignup: 'success' }
+              },
+              router.asPath,
+              { shallow: true }
+            )
             minimal && setShowButtons(true)
             meRefetch()
           }
@@ -153,64 +173,83 @@ const Form = props => {
     e && e.preventDefault && e.preventDefault()
 
     setLoading(false)
-    setSigningIn(false)
+    setIsSigningIn(false)
     onReset()
   }
 
   const onSuccessSwitchBoard = () => {
-    setSigningIn(false)
+    setIsSigningIn(false)
   }
 
-  if (
-    showButtons ||
-    viaActiveMembership.until ||
-    viaAccessGrant.until ||
-    isMember
-  ) {
+  const isComplete =
+    showButtons || viaActiveMembership.until || viaAccessGrant.until || isMember
+
+  const titleBlock = showTitleBlock && (
+    <>
+      <Interaction.H2 style={{ marginBottom: 10 }}>
+        <RawHtml
+          dangerouslySetInnerHTML={{
+            __html: t(
+              `Trial/Form/${
+                isComplete ? 'completed' : isSigningIn ? 'waiting' : 'initial'
+              }/title`
+            )
+          }}
+        />
+      </Interaction.H2>
+      {!isComplete && !isSigningIn && (
+        <Interaction.P>{t('Trial/Form/initial/beforeSignIn')}</Interaction.P>
+      )}
+    </>
+  )
+
+  if (isComplete) {
     return (
-      <div
-        style={{
-          marginTop: narrow || minimal ? 20 : 40,
-          marginBottom: minimal ? 10 : undefined
-        }}
-      >
-        <Button
-          primary
-          onClick={() => router.push('/')}
-          style={{ marginRight: 10 }}
+      <>
+        {titleBlock}
+        <div
+          style={{
+            marginTop: narrow || minimal ? 20 : 40,
+            marginBottom: minimal ? 10 : undefined
+          }}
         >
-          {t('Trial/Form/withAccess/button/label')}
-        </Button>
-        <Button
-          onClick={() =>
-            router.push({
-              pathname: '/einrichten',
-              query: { context: 'trial' }
-            })
-          }
-        >
-          {t('Trial/Form/withAccess/setup/label')}
-        </Button>
-      </div>
+          <Button
+            primary
+            onClick={() => router.push('/')}
+            style={{ marginRight: 10 }}
+          >
+            {t('Trial/Form/withAccess/button/label')}
+          </Button>
+          <Button
+            onClick={() =>
+              router.push({
+                pathname: '/einrichten',
+                query: { context: 'trial' }
+              })
+            }
+          >
+            {t('Trial/Form/withAccess/setup/label')}
+          </Button>
+        </div>
+      </>
     )
   }
 
   const consentErrors = getConsentsError(t, REQUIRED_CONSENTS, consents)
-
   const errorMessages = [email.error].concat(consentErrors).filter(Boolean)
 
   return (
-    <Fragment>
-      {!(signingIn && minimal) && (
+    <>
+      {titleBlock}
+      {!(isSigningIn && minimal) && (
         <form onSubmit={requestAccess}>
           {!me && (
             <div
               style={{
-                opacity: signingIn ? 0.6 : 1,
+                opacity: isSigningIn ? 0.6 : 1,
                 marginTop: narrow || minimal ? 0 : 20
               }}
             >
-              {beforeSignInForm}
               <Field
                 name='email'
                 type='email'
@@ -218,7 +257,7 @@ const Form = props => {
                 value={email.value}
                 error={email.dirty && email.error}
                 dirty={email.dirty}
-                disabled={signingIn}
+                disabled={isSigningIn}
                 icon={
                   minimal &&
                   (loading ? (
@@ -243,7 +282,7 @@ const Form = props => {
                   error={showErrors && consentErrors}
                   required={REQUIRED_CONSENTS}
                   accepted={consents}
-                  disabled={signingIn}
+                  disabled={isSigningIn}
                   onChange={setConsents}
                 />
               </div>
@@ -265,7 +304,7 @@ const Form = props => {
             </div>
           )}
 
-          {!signingIn && (!minimal || me) && (
+          {!isSigningIn && (!minimal || me) && (
             <div style={{ marginTop: narrow || minimal ? 20 : 30 }}>
               {loading ? (
                 <InlineSpinner />
@@ -293,7 +332,7 @@ const Form = props => {
         </form>
       )}
 
-      {signingIn && (
+      {isSigningIn && (
         <div
           {...merge(styles.switchBoard, minimal && styles.switchBoardMinimal)}
         >
@@ -310,7 +349,7 @@ const Form = props => {
       )}
 
       {serverError && <ErrorMessage error={serverError} />}
-    </Fragment>
+    </>
   )
 }
 

@@ -1,5 +1,5 @@
 {
-  "updated": "2021-06-11T22:44:29.409Z",
+  "updated": "2021-06-13T16:04:07.526Z",
   "title": "live",
   "data": [
     {
@@ -5183,16 +5183,16 @@
       "value": "Fehler"
     },
     {
-      "key": "Trial/Form/started/title",
+      "key": "Trial/Form/waiting/title",
       "value": "Sie haben Post!"
     },
     {
       "key": "Trial/Form/completed/title",
-      "value": "Herzlich Willkommen!"
+      "value": "Herzlich willkommen!"
     },
     {
       "key": "Trial/Form/initial/title",
-      "value": "Kostenlos Probe&shy;lesen für 21 Tage."
+      "value": "Kostenlos Probe&shy;lesen für 21&nbsp;Tage."
     },
     {
       "key": "Trial/Form/initial/beforeSignIn",

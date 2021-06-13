@@ -1,33 +1,36 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
-import SeriesNavPanel from './SeriesNavPanel'
+import ActionBar from '../ActionBar'
 import { imageResizeUrl } from 'mdast-react-render/lib/utils'
-
+import Link from 'next/link'
 import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
 import {
   mediaQueries,
-  fontFamilies,
+  fontStyles,
   useColorContext,
-  colors,
   useBodyScrollLock,
   useHeaderHeight,
-  plainButtonRule
+  SeriesNav
 } from '@project-r/styleguide'
-import { cleanAsPath } from '../../lib/utils/link'
+import { cleanAsPath, shouldIgnoreClick } from '../../lib/utils/link'
+import TrialPayNoteMini from './TrialPayNoteMini'
 
 const styles = {
-  button: css(plainButtonRule, {
-    fontFamily: fontFamilies.sansSerifRegular,
-    padding: 0,
+  button: css({
+    ...fontStyles.sansSerifRegular,
+    padding: '5px 0',
     textAlign: 'left',
     top: 0,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    textDecoration: 'none',
+    color: 'inherit',
+    display: 'inline-block',
+    cursor: 'pointer'
   }),
   menu: css({
-    backgroundColor: colors.negative.primaryBg,
-    color: colors.negative.text,
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     position: 'fixed',
     visibility: 'hidden',
     whiteSpace: 'normal',
@@ -45,7 +48,8 @@ const styles = {
     left: 0,
     width: '100vw',
     flexDirection: 'column',
-    padding: 0
+    padding: 0,
+    paddingTop: 20
   }),
   title: css({
     fontSize: 15,
@@ -67,23 +71,54 @@ const styles = {
   })
 }
 
-const SeriesNavButton = ({ t, series, router }) => {
+const SeriesNavigation = ({
+  me,
+  showInlinePaynote,
+  series,
+  router,
+  repoId
+}) => {
   const [colorScheme] = useColorContext()
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
   const [headerHeight] = useHeaderHeight()
-
   const episodes = series && series.episodes
   const currentPath = cleanAsPath(router.asPath)
   const currentEpisode = episodes.find(
     episode => episode.document && episode.document.meta.path === currentPath
   )
 
+  const titlePath =
+    series.overview?.meta?.path || series.episodes[0]?.documen?.meta?.path
+
+  useEffect(() => {
+    if (!expanded) {
+      return
+    }
+    const currentEpisodeElement = window.document.querySelector(
+      `[data-repo-id='${repoId}']`
+    )
+    if (!currentEpisodeElement) {
+      return
+    }
+    const { bottom } = currentEpisodeElement.getBoundingClientRect()
+    const { innerHeight } = window
+
+    if (bottom > innerHeight) {
+      ref.current.scroll(0, bottom - innerHeight + 10)
+    }
+  }, [expanded])
+
   return (
-    <Fragment>
-      <button
+    <>
+      <a
         {...styles.button}
-        onClick={() => {
+        href={titlePath}
+        onClick={e => {
+          if (shouldIgnoreClick(e)) {
+            return
+          }
+          e.preventDefault()
           setExpanded(!expanded)
         }}
       >
@@ -107,7 +142,9 @@ const SeriesNavButton = ({ t, series, router }) => {
               )}
             </>
           )}
+
           {series.title}
+
           {currentEpisode &&
             (series.title.match(/\?$/)
               ? ` ${currentEpisode.label}`
@@ -121,26 +158,32 @@ const SeriesNavButton = ({ t, series, router }) => {
             )}
           </span>
         </span>
-      </button>
+      </a>
       <div
         style={{
-          top: headerHeight,
+          top: headerHeight + 1, // 1px for border bottom
           height: `calc(100vh - ${headerHeight}px)`
         }}
+        {...colorScheme.set('backgroundColor', 'default')}
+        {...colorScheme.set('color', 'text')}
         {...styles.menu}
         aria-expanded={expanded}
         ref={ref}
       >
-        <SeriesNavPanel
-          t={t}
+        <SeriesNav
+          repoId={repoId}
           series={series}
-          onClick={() => {
-            setExpanded(false)
-          }}
+          context='navigation'
+          PayNote={showInlinePaynote ? TrialPayNoteMini : undefined}
+          ActionBar={me && ActionBar}
+          Link={Link}
+          onEpisodeClick={() => setExpanded(false)}
+          // lazy load does not work properly in scroll component
+          aboveTheFold
         />
       </div>
-    </Fragment>
+    </>
   )
 }
 
-export default withRouter(SeriesNavButton)
+export default compose(withRouter)(SeriesNavigation)

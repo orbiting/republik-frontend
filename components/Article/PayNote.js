@@ -20,14 +20,7 @@ import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
 import withMemberStatus from '../../lib/withMemberStatus'
-import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
-import { parseJSONObject } from '../../lib/safeJSON'
 import { shouldIgnoreClick } from '../../lib/utils/link'
-
-const trialCampaigns = parseJSONObject(TRIAL_CAMPAIGNS)
-const trialAccessCampaignId =
-  (trialCampaigns.paynote && trialCampaigns.paynote.accessCampaignId) ||
-  TRIAL_CAMPAIGN
 
 const styles = {
   banner: css({
@@ -379,21 +372,9 @@ const TryNoteCta = ({ payload }) => {
   const router = useRouter()
   return (
     <TrialForm
-      beforeSignIn={() => {
-        // use native router for shadow routing
-        router.push(
-          {
-            pathname: router.pathname,
-            query: { ...router.query, trialSignup: 1 }
-          },
-          router.asPath,
-          { shallow: true }
-        )
-      }}
       onSuccess={() => {
         return false
       }}
-      accessCampaignId={trialAccessCampaignId}
       payload={payload}
       minimal
     />

@@ -116,21 +116,51 @@ export const getDocument = gql`
         }
         series {
           title
+          description
           logo
           logoDark
+          overview {
+            id
+            repoId
+            meta {
+              path
+            }
+          }
           episodes {
             title
             publishDate
             label
+            lead
             image
             document {
               id
               repoId
+              ...BookmarkOnDocument
+              ...UserProgressOnDocument
               meta {
                 title
                 publishDate
                 path
                 image
+                template
+                estimatedReadingMinutes
+                estimatedConsumptionMinutes
+                ownDiscussion {
+                  id
+                  closed
+                  isBoard
+                  comments {
+                    totalCount
+                  }
+                }
+                linkedDiscussion {
+                  id
+                  path
+                  closed
+                  comments {
+                    totalCount
+                  }
+                }
               }
             }
           }

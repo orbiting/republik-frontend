@@ -15,7 +15,7 @@ const trialAccessCampaignId =
 
 const Form = ({ router, redirect }) => (
   <TrialForm
-    beforeSignIn={() => {
+    onBeforeSignIn={() => {
       router.push(
         {
           pathname: '/wahltindaer/[group]/[suffix]',

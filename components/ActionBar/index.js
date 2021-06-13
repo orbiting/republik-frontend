@@ -14,7 +14,6 @@ import {
 import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { withEditor } from '../Auth/checkRoles'
 
 import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
@@ -50,7 +49,6 @@ const ActionBar = ({
   const [podcastOverlayVisible, setPodcastOverlayVisible] = useState(false)
 
   const { toggleAudioPlayer } = useContext(AudioContext)
-
   if (!document) {
     return (
       <div {...styles.topRow} {...(isCentered && { ...styles.centered })}>
@@ -123,7 +121,9 @@ const ActionBar = ({
   const podcast =
     (meta && meta.podcast) ||
     (meta && meta.audioSource && meta.format && meta.format.meta.podcast)
-  const hasPdf = meta && meta.template === 'article'
+
+  const isSeriesOverview = meta && meta.series?.overview?.id === document?.id
+  const hasPdf = meta && meta.template === 'article' && !isSeriesOverview
   const notBookmarkable = meta && meta.template === 'page'
   const isDiscussion = meta && meta.template === 'discussion'
   const emailSubject = t('article/share/emailSubject', {
@@ -144,7 +144,10 @@ const ActionBar = ({
   const displayMinutes = readingMinutes % 60
   const displayHours = Math.floor(readingMinutes / 60)
   const forceShortLabel =
-    mode === 'article-overlay' || mode === 'feed' || mode === 'bookmark'
+    mode === 'articleOverlay' ||
+    mode === 'feed' ||
+    mode === 'bookmark' ||
+    mode === 'seriesEpisode'
 
   // centering
   const splitContent = document.content && splitByTitle(document.content)
@@ -153,7 +156,7 @@ const ActionBar = ({
     splitContent.title &&
     splitContent.title.children[splitContent.title.children.length - 1]
   const centered =
-    (mode !== 'feed' && titleNode?.data?.center && mode !== 'article-bottom') ||
+    (mode !== 'feed' && titleNode?.data?.center && mode !== 'articleBottom') ||
     (mode !== 'feed' && meta.template === 'format') ||
     (mode !== 'feed' && meta.template === 'section')
 
@@ -193,7 +196,7 @@ const ActionBar = ({
       Icon: ReadingTimeIcon,
       label: readingTimeLabel,
       labelShort: readingTimeLabelShort,
-      modes: ['feed'],
+      modes: ['feed', 'seriesEpisode'],
       show: showReadingTime
     },
     {
@@ -204,13 +207,17 @@ const ActionBar = ({
             documentId={document.id}
             forceShortLabel={forceShortLabel}
             userProgress={document.userProgress}
-            noCallout={mode === 'article-overlay' || mode === 'bookmark'}
+            noCallout={
+              mode === 'articleOverlay' ||
+              mode === 'bookmark' ||
+              mode === 'seriesEpisode'
+            }
             noScroll={mode === 'feed'}
           />
         ) : (
           <></>
         ),
-      modes: ['article-overlay', 'feed', 'bookmark'],
+      modes: ['articleOverlay', 'feed', 'bookmark', 'seriesEpisode'],
       show: true
     },
     {
@@ -230,7 +237,7 @@ const ActionBar = ({
         e.preventDefault()
         setPdfOverlayVisible(!pdfOverlayVisible)
       },
-      modes: ['article-top', 'article-bottom'],
+      modes: ['articleTop', 'articleBottom'],
       show: hasPdf
     },
     {
@@ -241,7 +248,7 @@ const ActionBar = ({
         e.preventDefault()
         setFontSizeOverlayVisible(!fontSizeOverlayVisible)
       },
-      modes: ['article-top'],
+      modes: ['articleTop'],
       show: true
     },
     {
@@ -256,7 +263,7 @@ const ActionBar = ({
           padded
         />
       ),
-      modes: ['article-top', 'article-bottom'],
+      modes: ['articleTop', 'articleBottom'],
       show: true
     },
     {
@@ -269,11 +276,12 @@ const ActionBar = ({
         />
       ),
       modes: [
-        'article-top',
-        'article-bottom',
-        'article-overlay',
+        'articleTop',
+        'articleBottom',
+        'articleOverlay',
         'feed',
-        'bookmark'
+        'bookmark',
+        'seriesEpisode'
       ],
       show: !notBookmarkable
     },
@@ -316,7 +324,7 @@ const ActionBar = ({
         }
       },
       label: !forceShortLabel ? t('article/actionbar/share') : '',
-      modes: ['article-top', 'article-overlay'],
+      modes: ['articleTop', 'articleOverlay'],
       show: true
     },
     {
@@ -326,14 +334,20 @@ const ActionBar = ({
           t={t}
           document={document}
           isOnArticlePage={[
-            'article-top',
-            'article-bottom',
-            'article-overlay'
+            'articleTop',
+            'articleBottom',
+            'articleOverlay'
           ].includes(mode)}
           forceShortLabel={forceShortLabel}
         />
       ),
-      modes: ['article-top', 'article-bottom', 'article-overlay', 'feed'],
+      modes: [
+        'articleTop',
+        'articleBottom',
+        'articleOverlay',
+        'feed',
+        'seriesEpisode'
+      ],
       show: !!discussionId
     }
   ]
@@ -391,7 +405,7 @@ const ActionBar = ({
     <>
       <div
         {...styles.topRow}
-        {...(mode === 'article-overlay' && { ...styles.overlay })}
+        {...(mode === 'articleOverlay' && { ...styles.overlay })}
         {...(!!centered && { ...styles.centered })}
       >
         {ActionItems.filter(item => item.show && item.modes.includes(mode)).map(
@@ -402,7 +416,7 @@ const ActionBar = ({
           )
         )}
       </div>
-      {mode === 'article-top' && (
+      {mode === 'articleTop' && (
         <div {...styles.bottomRow} {...(!!centered && { ...styles.centered })}>
           {ActionItemsSecondary.filter(item => item.show).map(props => (
             <Fragment key={props.title}>
@@ -411,7 +425,7 @@ const ActionBar = ({
           ))}
         </div>
       )}
-      {mode === 'article-bottom' && (
+      {(mode === 'articleBottom' || mode === 'seriesOverviewBottom') && (
         <>
           {!inNativeApp ? (
             <Interaction.P style={{ marginTop: 24 }}>
@@ -484,4 +498,4 @@ const styles = {
   })
 }
 
-export default compose(withT, withInNativeApp, withEditor)(ActionBar)
+export default compose(withT, withInNativeApp)(ActionBar)

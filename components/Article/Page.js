@@ -662,7 +662,7 @@ const ArticlePage = ({
                   repoId={repoId}
                   series={series}
                   context='after'
-                  PayNote={showInlinePaynote && TrialPayNoteMini}
+                  PayNote={showInlinePaynote ? TrialPayNoteMini : undefined}
                   ActionBar={me && ActionBar}
                   Link={Link}
                 />

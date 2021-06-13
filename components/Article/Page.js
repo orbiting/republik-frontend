@@ -661,6 +661,7 @@ const ArticlePage = ({
                   inline
                   repoId={repoId}
                   series={series}
+                  context='after'
                   PayNote={showInlinePaynote && TrialPayNoteMini}
                   ActionBar={me && ActionBar}
                   Link={Link}

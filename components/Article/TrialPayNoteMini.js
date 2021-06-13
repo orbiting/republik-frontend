@@ -2,7 +2,6 @@ import React from 'react'
 import { css } from 'glamor'
 
 import TrialForm from '../Trial/Form'
-import withT from '../../lib/withT'
 import { useColorContext, Center } from '@project-r/styleguide'
 
 import BrowserOnly from './BrowserOnly'
@@ -21,7 +20,7 @@ const InlineWrapper = ({ inline, children }) => {
   }
 }
 
-const TrialPayNoteMini = ({ inline, t }) => {
+const TrialPayNoteMini = ({ repoId, inline, context, index }) => {
   const [colorScheme] = useColorContext()
 
   return (
@@ -35,6 +34,13 @@ const TrialPayNoteMini = ({ inline, t }) => {
           componentProps={{
             minimal: true,
             showTitleBlock: true,
+            payload: {
+              repoId,
+              variation: 'tryNoteMini/210613',
+              position: [context, inline ? 'inline' : 'grid', index]
+                .filter(Boolean)
+                .join('-')
+            },
             onSuccess: () => {
               return false
             }
@@ -46,4 +52,4 @@ const TrialPayNoteMini = ({ inline, t }) => {
   )
 }
 
-export default withT(TrialPayNoteMini)
+export default TrialPayNoteMini

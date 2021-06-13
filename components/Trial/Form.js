@@ -6,7 +6,6 @@ import { css, merge } from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 import { format } from 'url'
 
-import withTrialEligibility from './withTrialEligibility'
 import ErrorMessage from '../ErrorMessage'
 import { withSignIn } from '../Auth/SignIn'
 import withMembership from '../Auth/withMembership'
@@ -51,7 +50,6 @@ const Form = props => {
     onSuccess,
     onReset,
     narrow,
-    trialEligibility,
     isMember,
     me,
     meRefetch,
@@ -61,7 +59,6 @@ const Form = props => {
     campaign
   } = props
   const { query } = router
-  const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
   const [consents, setConsents] = useState(query.token ? REQUIRED_CONSENTS : [])
   const [email, setEmail] = useState({ value: initialEmail || '' })
@@ -182,8 +179,7 @@ const Form = props => {
     setIsSigningIn(false)
   }
 
-  const isComplete =
-    showButtons || viaActiveMembership.until || viaAccessGrant.until || isMember
+  const isComplete = showButtons || isMember
 
   const titleBlock = showTitleBlock && (
     <>
@@ -383,7 +379,6 @@ const withRequestAccess = graphql(REQUEST_ACCESS, {
 })
 
 export default compose(
-  withTrialEligibility,
   withMembership,
   withRequestAccess,
   withSignIn,

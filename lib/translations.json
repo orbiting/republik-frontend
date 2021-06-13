@@ -1643,6 +1643,18 @@
       "value": "Whistleblower"
     },
     {
+      "key": "footer/opensource",
+      "value": "Der Republik Code ist Open Source"
+    },
+    {
+      "key": "footer/becomemember",
+      "value": "Mitglied werden"
+    },
+    {
+      "key": "footer/signIn/alt",
+      "value": "Anmelden"
+    },
+    {
       "key": "components/Discussion/OrderBy/DATE",
       "value": "Neueste"
     },

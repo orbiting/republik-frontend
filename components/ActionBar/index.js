@@ -358,7 +358,6 @@ const ActionBar = ({
       Icon: ReadingTimeIcon,
       label: readingTimeLabel,
       labelShort: readingTimeLabelShort,
-      no: true,
       show: showReadingTime
     },
     {
@@ -372,7 +371,7 @@ const ActionBar = ({
         ) : (
           <></>
         ),
-      show: (document.userProgress && displayMinutes > 1) || !podcast
+      show: document.userProgress && displayMinutes > 1 && !podcast
     },
     {
       title: t('PodcastButtons/play'),
@@ -401,6 +400,9 @@ const ActionBar = ({
       show: !!podcast && meta.template !== 'format'
     }
   ]
+  const hasSecondaryActionItems = !!ActionItemsSecondary.filter(
+    item => item.show
+  ).length
   return (
     <>
       <div
@@ -416,7 +418,7 @@ const ActionBar = ({
           )
         )}
       </div>
-      {mode === 'articleTop' && (
+      {mode === 'articleTop' && hasSecondaryActionItems && (
         <div {...styles.bottomRow} {...(!!centered && { ...styles.centered })}>
           {ActionItemsSecondary.filter(item => item.show).map(props => (
             <Fragment key={props.title}>

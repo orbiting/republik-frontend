@@ -279,6 +279,7 @@ export const notificationSubscription = gql`
 `
 
 export const withNotificationCount = graphql(notificationCountQuery, {
+  skip: props => !props.me,
   name: 'countData'
 })
 

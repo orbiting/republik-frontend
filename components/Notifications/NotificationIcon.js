@@ -7,6 +7,7 @@ import withT from '../../lib/withT'
 
 import { notificationSubscription, withNotificationCount } from './enhancers'
 import { containsUnread } from './index'
+import withMe from '../../lib/apollo/withMe'
 
 const styles = {
   unreadNotifications: css({
@@ -29,46 +30,50 @@ const styles = {
 
 export default compose(
   withT,
+  withMe,
   withNotificationCount
-)(({ countData: { notifications, subscribeToMore, refetch } }) => {
-  const [hasUnread, setUnread] = useState(containsUnread(notifications))
-  const subscribe = () =>
-    subscribeToMore({
-      document: notificationSubscription,
-      updateQuery: (prev = {}, { subscriptionData }) => {
-        if (!subscriptionData.data || !subscriptionData.data.notification) {
-          return prev
-        }
-        return {
-          ...prev,
-          notifications: {
-            ...prev.notifications,
-            nodes: [subscriptionData.data.notification].concat(
-              prev.notifications.nodes
-            )
-          }
-        }
-      }
-    })
+)(({ me, countData }) => {
+  const [colorScheme] = useColorContext()
+  const [hasUnread, setUnread] = useState(false)
 
   useEffect(() => {
+    const { notifications, subscribeToMore, refetch } = countData
+    if (!me || !subscribeToMore || !refetch) {
+      setUnread(false)
+      return
+    }
     setUnread(containsUnread(notifications))
-    const unsubscribe = subscribe()
-    return () => unsubscribe()
-  }, [notifications])
-
-  useEffect(() => {
     const onVisibilityChange = () => {
       if (!document.hidden) {
         refetch()
       }
     }
+    const unsubscribe = subscribeToMore({
+      document: notificationSubscription,
+      updateQuery: (prev = {}, { subscriptionData }) => {
+        if (!subscriptionData.data || !subscriptionData.data.notification) {
+          return prev
+        }
+        const updatedNotifications = {
+          ...prev.notifications,
+          nodes: [subscriptionData.data.notification].concat(
+            prev.notifications.nodes
+          )
+        }
+        const updatedData = {
+          ...prev,
+          notifications: updatedNotifications
+        }
+        setUnread(containsUnread(updatedNotifications))
+        return updatedData
+      }
+    })
     window.addEventListener('visibilitychange', onVisibilityChange)
     return () => {
+      unsubscribe()
       window.removeEventListener('visibilitychange', onVisibilityChange)
     }
-  }, [refetch])
-  const [colorScheme] = useColorContext()
+  }, [countData, me])
 
   return (
     <span

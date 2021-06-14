@@ -6,8 +6,8 @@ import {
   withMarkAllAsReadMutation,
   withNotificationCount
 } from './enhancers'
-import { css } from 'glamor'
 import NotificationFeed from './NotificationFeed'
+import withMe from '../../lib/apollo/withMe'
 
 export const containsUnread = (notifications, after) =>
   notifications &&
@@ -17,7 +17,8 @@ export const containsUnread = (notifications, after) =>
     .filter(n => !n.readAt).length
 
 const Notifications = compose(
-  graphql(notificationsQuery),
+  withMe,
+  graphql(notificationsQuery, { skip: props => !props.me }),
   withMarkAllAsReadMutation,
   withNotificationCount
 )(

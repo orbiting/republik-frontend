@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import withHeaders from '../../lib/withHeaders'
 
+import { IconContextProvider } from '@project-r/styleguide/icons'
+
 let getHtml
 if (!process.browser) {
   const ReactDOMServer = require('react-dom/server')
@@ -14,7 +16,11 @@ if (!process.browser) {
     if (cache.has(key) && enabled) {
       return cache.get(key)
     }
-    const html = ReactDOMServer.renderToStaticMarkup(children())
+    const html = ReactDOMServer.renderToStaticMarkup(
+      <IconContextProvider value={{ style: { verticalAlign: 'middle' } }}>
+        {children()}
+      </IconContextProvider>
+    )
     if (enabled) {
       cache.set(key, html)
     }

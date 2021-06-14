@@ -1,5 +1,5 @@
 {
-  "updated": "2021-05-29T12:39:26.027Z",
+  "updated": "2021-06-13T16:04:07.526Z",
   "title": "live",
   "data": [
     {
@@ -2656,15 +2656,15 @@
     },
     {
       "key": "pledge/consents/label/PRIVACY_STATUTE_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten</a> der Project R Genossenschaft einverstanden."
+      "value": "Ich bin mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutz&shy;bestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten</a> der Project R Genossenschaft einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a> und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
+      "value": "Ich bin mit den <a href=\"/agb\" target=\"_blank\">AGB</a> und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutz&shy;bestimmungen</a> einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY",
-      "value": "Ich erkläre mich mit den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
+      "value": "Ich bin mit den <a href=\"/datenschutz\" target=\"_blank\">Datenschutz&shy;bestimmungen</a> einverstanden."
     },
     {
       "key": "pledge/consents/error/PRIVACY_STATUTE_TOS",
@@ -5193,6 +5193,22 @@
     {
       "key": "Trial/Form/error/title",
       "value": "Fehler"
+    },
+    {
+      "key": "Trial/Form/waiting/title",
+      "value": "Sie haben Post!"
+    },
+    {
+      "key": "Trial/Form/completed/title",
+      "value": "Herzlich willkommen!"
+    },
+    {
+      "key": "Trial/Form/initial/title",
+      "value": "Kostenlos Probe&shy;lesen für 21&nbsp;Tage."
+    },
+    {
+      "key": "Trial/Form/initial/beforeSignIn",
+      "value": "Melden Sie sich an und lesen Sie die ganze Serie. "
     },
     {
       "key": "pages/cardGroups/description",

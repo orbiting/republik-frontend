@@ -103,7 +103,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^10.1.3",
-    "@project-r/styleguide": "11.6.0",
+    "@project-r/styleguide": "11.11.1",
     "@stripe/react-stripe-js": "^1.4.0",
     "@use-it/event-listener": "^0.1.6",
     "apollo-cache-inmemory": "^1.6.6",

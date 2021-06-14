@@ -236,10 +236,11 @@ const ArticlePage = ({
     }
   }, [trialSignup])
 
+  const template = meta?.template
   const schema = useMemo(
     () =>
-      meta &&
-      getSchemaCreator(meta.template)({
+      template &&
+      getSchemaCreator(template)({
         t,
         Link: HrefLink,
         plattformUnauthorizedZoneText: inNativeIOSApp
@@ -257,7 +258,7 @@ const ArticlePage = ({
         },
         titleMargin: false,
         titleBreakout,
-        onAudioCoverClick: () => toggleAudioPlayer(meta),
+        onAudioCoverClick: toggleAudioPlayer,
         getVideoPlayerProps:
           inNativeApp && !inNativeIOSApp
             ? props => ({
@@ -275,14 +276,14 @@ const ArticlePage = ({
         ActionBar: BrowserOnlyActionBar,
         PayNote: showInlinePaynote ? TrialPayNoteMini : undefined
       }),
-    [meta, inNativeIOSApp, inNativeApp, showInlinePaynote, titleBreakout]
+    [template, inNativeIOSApp, inNativeApp, showInlinePaynote, titleBreakout]
   )
 
   const documentId = article?.id
   const repoId = article?.repoId
 
-  const isEditorialNewsletter = meta && meta.template === 'editorialNewsletter'
-  const disableActionBar = meta && meta.disableActionBar
+  const isEditorialNewsletter = template === 'editorialNewsletter'
+  const disableActionBar = meta?.disableActionBar
   const actionBar = article && !disableActionBar && (
     <ActionBar mode='articleTop' document={article} />
   )
@@ -298,8 +299,8 @@ const ArticlePage = ({
       })
     : undefined
 
-  const series = meta && meta.series
-  const episodes = series && series.episodes
+  const series = meta?.series
+  const episodes = series?.episodes
   const darkMode = article?.content?.meta?.darkMode
 
   const seriesNavButton = showSeriesNav && (

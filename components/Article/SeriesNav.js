@@ -16,7 +16,7 @@ import {
 } from '@project-r/styleguide'
 import { cleanAsPath, shouldIgnoreClick } from '../../lib/utils/link'
 import TrialPayNoteMini from './TrialPayNoteMini'
-
+import withT from '../../lib/withT'
 const styles = {
   button: css({
     ...fontStyles.sansSerifRegular,
@@ -72,6 +72,7 @@ const styles = {
 }
 
 const SeriesNavigation = ({
+  t,
   me,
   showInlinePaynote,
   series,
@@ -180,10 +181,11 @@ const SeriesNavigation = ({
           onEpisodeClick={() => setExpanded(false)}
           // lazy load does not work properly in scroll component
           aboveTheFold
+          t={t}
         />
       </div>
     </>
   )
 }
 
-export default compose(withRouter)(SeriesNavigation)
+export default compose(withT, withRouter)(SeriesNavigation)

@@ -665,6 +665,7 @@ const ArticlePage = ({
                   PayNote={showInlinePaynote ? TrialPayNoteMini : undefined}
                   ActionBar={me && ActionBar}
                   Link={Link}
+                  t={t}
                 />
               )}
               {isSection && (

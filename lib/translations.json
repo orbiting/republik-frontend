@@ -1,5 +1,5 @@
 {
-  "updated": "2021-06-13T16:04:07.526Z",
+  "updated": "2021-06-15T14:05:51.352Z",
   "title": "live",
   "data": [
     {
@@ -2029,6 +2029,14 @@
     {
       "key": "styleguide/comment/adminUnpublished",
       "value": "Leider mussten wir Ihren Beitrag verbergen. Wenden Sie sich bitte an kontakt@republik.ch."
+    },
+    {
+      "key": "styleguide/SeriesNav/seriesoverview",
+      "value": "Zur Serienübersicht"
+    },
+    {
+      "key": "styleguide/SeriesNav/current",
+      "value": "Sie lesen:"
     },
     {
       "key": "timeago/justNow/other",

@@ -43,7 +43,8 @@ const TrialPayNoteMini = ({ repoId, inline, context, index }) => {
             },
             onSuccess: () => {
               return false
-            }
+            },
+            isInSeriesNav: true
           }}
           height={115}
         />

@@ -58,7 +58,8 @@ const Form = props => {
     t,
     minimal,
     initialEmail,
-    campaign
+    campaign,
+    isInSeriesNav
   } = props
   const { query } = router
 
@@ -230,15 +231,39 @@ const Form = props => {
             marginBottom: minimal ? 10 : undefined
           }}
         >
-          <Interaction.P style={{ marginBottom: 16 }}>
-            <Link href='/einrichten' passHref>
-              <A>{t('Trial/Form/withAccess/setup/label')}</A>
-            </Link>
-          </Interaction.P>
+          {isInSeriesNav ? (
+            <>
+              <Interaction.P style={{ marginBottom: 16 }}>
+                <Link href='/einrichten' passHref>
+                  <A>{t('Trial/Form/withAccess/setup/label')}</A>
+                </Link>
+              </Interaction.P>
 
-          <Button primary block onClick={close}>
-            {t('Trial/Form/withAccess/close/label')}
-          </Button>
+              <Button primary block onClick={close}>
+                {t('Trial/Form/withAccess/close/label')}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                primary
+                onClick={() => router.push('/')}
+                style={{ marginRight: 10, marginBottom: 10 }}
+              >
+                {t('Trial/Form/withAccess/button/label')}
+              </Button>
+              <Button
+                onClick={() =>
+                  router.push({
+                    pathname: '/einrichten',
+                    query: { context: 'trial' }
+                  })
+                }
+              >
+                {t('Trial/Form/withAccess/setup/label')}
+              </Button>
+            </>
+          )}
         </div>
       </>
     )

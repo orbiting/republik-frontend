@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -21,7 +22,8 @@ import {
   InlineSpinner,
   useColorContext,
   Interaction,
-  RawHtml
+  RawHtml,
+  A
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import { getConversionPayload } from '../../lib/utils/track'
@@ -175,6 +177,20 @@ const Form = props => {
     onReset()
   }
 
+  const close = e => {
+    e && e.preventDefault && e.preventDefault()
+    // remove trialSignup from router query
+    const { trialSignup: _, ...newQuery } = router.query
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: newQuery
+      },
+      router.asPath,
+      { shallow: true }
+    )
+  }
+
   const onSuccessSwitchBoard = () => {
     setIsSigningIn(false)
   }
@@ -194,8 +210,12 @@ const Form = props => {
           }}
         />
       </Interaction.H2>
-      {!isComplete && !isSigningIn && (
-        <Interaction.P>{t('Trial/Form/initial/beforeSignIn')}</Interaction.P>
+      {!isSigningIn && (
+        <Interaction.P>
+          {t(
+            `Trial/Form/initial/${isComplete ? 'afterSignIn' : 'beforeSignIn'}`
+          )}
+        </Interaction.P>
       )}
     </>
   )
@@ -210,22 +230,14 @@ const Form = props => {
             marginBottom: minimal ? 10 : undefined
           }}
         >
-          <Button
-            primary
-            onClick={() => router.push('/')}
-            style={{ marginRight: 10, marginBottom: 10 }}
-          >
-            {t('Trial/Form/withAccess/button/label')}
-          </Button>
-          <Button
-            onClick={() =>
-              router.push({
-                pathname: '/einrichten',
-                query: { context: 'trial' }
-              })
-            }
-          >
-            {t('Trial/Form/withAccess/setup/label')}
+          <Interaction.P style={{ marginBottom: 16 }}>
+            <Link href='/einrichten' passHref>
+              <A>{t('Trial/Form/withAccess/setup/label')}</A>
+            </Link>
+          </Interaction.P>
+
+          <Button primary block onClick={close}>
+            {t('Trial/Form/withAccess/close/label')}
           </Button>
         </div>
       </>

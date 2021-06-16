@@ -118,23 +118,17 @@ const CodeAuthorization = ({
   return (
     <form onSubmit={onSubmit} ref={formRef}>
       {minimal ? (
-        <ul
-          {...listStyle}
-          {...colorScheme.set('color', 'text')}
-          style={{ marginTop: 20 }}
-        >
-          <li>
-            {t.elements('Auth/CodeAuthorization/description', {
-              emphasis: (
-                <Emphasis key='emphasis'>
-                  {t('Auth/CodeAuthorization/description/emphasis/email', {
-                    email: email
-                  })}
-                </Emphasis>
-              )
-            })}
-          </li>
-        </ul>
+        <P>
+          {t.elements('Auth/CodeAuthorization/description', {
+            emphasis: (
+              <Emphasis key='emphasis'>
+                {t('Auth/CodeAuthorization/description/emphasis/email', {
+                  email: email
+                })}
+              </Emphasis>
+            )
+          })}
+        </P>
       ) : (
         <>
           <H3>{t('Auth/CodeAuthorization/title')}</H3>

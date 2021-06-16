@@ -1,5 +1,5 @@
 {
-  "updated": "2021-06-16T14:46:32.793Z",
+  "updated": "2021-06-16T15:23:04.943Z",
   "title": "live",
   "data": [
     {
@@ -5188,7 +5188,7 @@
     },
     {
       "key": "Trial/Form/withAccess/close/label",
-      "value": "Weiterlesen"
+      "value": "Schliessen"
     },
     {
       "key": "Trial/Form/email/error/empty",

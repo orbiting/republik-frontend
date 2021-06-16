@@ -174,7 +174,7 @@ const Form = props => {
 
     setLoading(false)
     setIsSigningIn(false)
-    onReset()
+    onReset && onReset()
   }
 
   const close = e => {

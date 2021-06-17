@@ -23,8 +23,7 @@ import {
   useColorContext,
   Interaction,
   RawHtml,
-  A,
-  mediaQueries
+  A
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import { getConversionPayload } from '../../lib/utils/track'

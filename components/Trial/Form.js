@@ -23,7 +23,8 @@ import {
   useColorContext,
   Interaction,
   RawHtml,
-  A
+  A,
+  mediaQueries
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import { getConversionPayload } from '../../lib/utils/track'
@@ -38,6 +39,16 @@ const styles = {
   }),
   switchBoardMinimal: css({
     marginTop: 0
+  }),
+  completeContainer: css({
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    justifyContent: 'flex-end',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    '> *': {
+      marginBottom: 16
+    }
   })
 }
 
@@ -228,30 +239,24 @@ const Form = props => {
         <div
           style={{
             marginTop: narrow || minimal ? 20 : 40,
-            marginBottom: minimal ? 10 : undefined
+            marginBottom: !isInSeriesNav && minimal ? 10 : undefined
           }}
+          {...styles.completeContainer}
         >
           {isInSeriesNav ? (
             <>
-              <Interaction.P style={{ marginBottom: 16 }}>
+              <Interaction.P>
                 <Link href='/einrichten' passHref>
                   <A>{t('Trial/Form/withAccess/setup/label')}</A>
                 </Link>
               </Interaction.P>
 
-              <Button primary block onClick={close}>
+              <Button primary onClick={close} style={{ marginRight: 20 }}>
                 {t('Trial/Form/withAccess/close/label')}
               </Button>
             </>
           ) : (
             <>
-              <Button
-                primary
-                onClick={() => router.push('/')}
-                style={{ marginRight: 10, marginBottom: 10 }}
-              >
-                {t('Trial/Form/withAccess/button/label')}
-              </Button>
               <Button
                 onClick={() =>
                   router.push({
@@ -261,6 +266,13 @@ const Form = props => {
                 }
               >
                 {t('Trial/Form/withAccess/setup/label')}
+              </Button>
+              <Button
+                primary
+                style={{ marginRight: 20 }}
+                onClick={() => router.push('/')}
+              >
+                {t('Trial/Form/withAccess/button/label')}
               </Button>
             </>
           )}

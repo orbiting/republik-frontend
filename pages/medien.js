@@ -14,7 +14,7 @@ const MediaPage = () => {
     <Frame meta={meta}>
       <H1>{meta.title}</H1>
       <br />
-      <P>Für Auskünfte kontaktieren Sie die Erste-Hilfe-Abteilung:</P>
+      <P>Für Auskünfte kontaktieren Sie uns:</P>
       <P>
         <A href='tel:+41797874765'>+41 79 787 47 65</A>,{' '}
         <A href='mailto:kontakt@republik.ch'>kontakt@republik.ch</A>

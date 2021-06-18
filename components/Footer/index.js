@@ -267,7 +267,7 @@ const Footer = ({
               <li>
                 <a
                   {...navLinkStyle}
-                  href='https:project-r.construction/'
+                  href='https://project-r.construction/'
                   rel='noopener'
                   target='_blank'
                 >

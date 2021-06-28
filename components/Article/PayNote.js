@@ -19,7 +19,7 @@ import { compose } from 'react-apollo'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
-import withMemberStatus from '../../lib/withMemberStatus'
+import withMe from '../../lib/apollo/withMe'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 
 const styles = {
@@ -381,7 +381,7 @@ const TryNoteCta = ({ payload }) => {
   )
 }
 
-const PayNoteCta = ({ payNote, payload }) => {
+const PayNoteCta = ({ payNote, payload, hasAccess }) => {
   const router = useRouter()
   return (
     <>
@@ -414,7 +414,10 @@ const PayNoteCta = ({ payNote, payload }) => {
               <RawHtml
                 type={Label}
                 dangerouslySetInnerHTML={{
-                  __html: payNote.note
+                  __html: hasAccess
+                    ? // use about for more info instead of index which is magazin front with access
+                      payNote.note.replace('href="/"', 'href="/about"')
+                    : payNote.note
                 }}
               />
             </div>
@@ -456,12 +459,13 @@ const withDarkContextWhenBefore = WrappedComponent => props => {
 
 export const PayNote = compose(
   withInNativeApp,
-  withMemberStatus,
+  withMe,
   withDarkContextWhenBefore
 )(
   ({
     inNativeIOSApp,
-    isEligibleForTrial,
+    me,
+    hasAccess,
     hasActiveMembership,
     statReplacements = {},
     seed,
@@ -476,7 +480,7 @@ export const PayNote = compose(
     const { query } = useRouter()
     const subject = {
       inNativeIOSApp,
-      isEligibleForTrial,
+      isEligibleForTrial: !me,
       hasActiveMembership,
       trialSignup: query.trialSignup
     }
@@ -515,7 +519,11 @@ export const PayNote = compose(
               statReplacements
             )}
           />
-          <PayNoteCta payNote={positionedNote} payload={payload} />
+          <PayNoteCta
+            payNote={positionedNote}
+            payload={payload}
+            hasAccess={hasAccess}
+          />
         </Center>
       </div>
     )

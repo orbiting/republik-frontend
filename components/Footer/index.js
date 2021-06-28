@@ -15,7 +15,6 @@ import { OpenSourceIcon } from '@project-r/styleguide/icons'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import withMemberStatus from '../../lib/withMemberStatus'
 import { withSignOut } from '../Auth/SignOut'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { shouldIgnoreClick } from '../../lib/utils/link'
@@ -367,7 +366,6 @@ const FooterWithStaticColorContext = props => {
 
 export default compose(
   withT,
-  withMemberStatus,
   withMe,
   withSignOut,
   withInNativeApp

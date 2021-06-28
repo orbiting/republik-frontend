@@ -417,7 +417,8 @@ const ArticlePage = ({
           const hasNewsletterUtms =
             router.query.utm_source && router.query.utm_source === 'newsletter'
 
-          const suppressPayNotes = isSection || episodes
+          const suppressPayNotes =
+            isSection || (!!episodes && showInlinePaynote)
           const suppressFirstPayNote =
             suppressPayNotes ||
             podcast ||

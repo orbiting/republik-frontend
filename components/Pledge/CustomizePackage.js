@@ -9,6 +9,8 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { format } from 'url'
 
+import { useColorContext } from '@project-r/styleguide'
+
 import withT from '../../lib/withT'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
@@ -184,6 +186,31 @@ const SmallP = ({ children, ...props }) => (
     {children}
   </p>
 )
+
+const PackageImage = ({ style, name, dark }) => {
+  const [colorScheme] = useColorContext()
+
+  return (
+    <>
+      <img
+        {...styles.packageImage}
+        {...colorScheme.set('display', dark ? 'displayLight' : 'block')}
+        style={style}
+        src={`${CDN_FRONTEND_BASE_URL}/static/packages/${name}.png`}
+        alt=''
+      />
+      {dark && (
+        <img
+          {...styles.packageImage}
+          {...colorScheme.set('display', 'displayDark')}
+          style={style}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/${name}_dark.png`}
+          alt=''
+        />
+      )}
+    </>
+  )
+}
 
 class CustomizePackage extends Component {
   constructor(props) {
@@ -540,10 +567,7 @@ class CustomizePackage extends Component {
         />
       )) ||
       (hasNotebook && hasTotebag && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_totebag.jpg`}
-        />
+        <PackageImage style={{ maxWidth: 115 }} name='moleskine_totebag' dark />
       )) ||
       (hasNotebook && !hasTotebag && (
         <img

@@ -44,7 +44,6 @@ import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { splitByTitle } from '../../lib/utils/mdast'
-import withMemberStatus from '../../lib/withMemberStatus'
 import withMe from '../../lib/apollo/withMe'
 import {
   ASSETS_SERVER_BASE_URL,
@@ -417,7 +416,8 @@ const ArticlePage = ({
           const hasNewsletterUtms =
             router.query.utm_source && router.query.utm_source === 'newsletter'
 
-          const suppressPayNotes = isSection || episodes
+          const suppressPayNotes =
+            isSection || (!!episodes && showInlinePaynote)
           const suppressFirstPayNote =
             suppressPayNotes ||
             podcast ||
@@ -720,7 +720,6 @@ const ComposedPage = compose(
   withT,
   withMe,
   withMembership,
-  withMemberStatus,
   withEditor,
   withInNativeApp,
   withRouter,

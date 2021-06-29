@@ -1,5 +1,5 @@
 {
-  "updated": "2021-06-16T13:33:10.238Z",
+  "updated": "2021-06-16T15:23:04.943Z",
   "title": "live",
   "data": [
     {
@@ -5187,6 +5187,10 @@
       "value": "Konto einrichten"
     },
     {
+      "key": "Trial/Form/withAccess/close/label",
+      "value": "Schliessen"
+    },
+    {
       "key": "Trial/Form/email/error/empty",
       "value": "E-Mail-Adresse fehlt"
     },
@@ -5217,6 +5221,10 @@
     {
       "key": "Trial/Form/initial/beforeSignIn",
       "value": "Melden Sie sich an und lesen Sie die ganze Serie. "
+    },
+    {
+      "key": "Trial/Form/initial/afterSignIn",
+      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen."
     },
     {
       "key": "pages/cardGroups/description",

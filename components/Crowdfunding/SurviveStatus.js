@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import React from 'react'
+import { compose } from 'react-apollo'
 
 import withSurviveStatus from './withSurviveStatus'
 import withT from '../../lib/withT'
-import withMemberStatus from '../../lib/withMemberStatus'
+import withMe from '../../lib/apollo/withMe'
 
 import { RawStatus } from './Status'
 
@@ -45,8 +45,4 @@ const SurviveStatus = ({ t, crowdfunding, hasActiveMembership }) => {
   )
 }
 
-export default compose(
-  withT,
-  withMemberStatus,
-  withSurviveStatus
-)(SurviveStatus)
+export default compose(withT, withMe, withSurviveStatus)(SurviveStatus)

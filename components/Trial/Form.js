@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -21,7 +22,8 @@ import {
   InlineSpinner,
   useColorContext,
   Interaction,
-  RawHtml
+  RawHtml,
+  A
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import { getConversionPayload } from '../../lib/utils/track'
@@ -36,6 +38,16 @@ const styles = {
   }),
   switchBoardMinimal: css({
     marginTop: 0
+  }),
+  completeContainer: css({
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    justifyContent: 'flex-end',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    '> *': {
+      marginBottom: 16
+    }
   })
 }
 
@@ -56,7 +68,8 @@ const Form = props => {
     t,
     minimal,
     initialEmail,
-    campaign
+    campaign,
+    isInSeriesNav
   } = props
   const { query } = router
 
@@ -172,7 +185,21 @@ const Form = props => {
 
     setLoading(false)
     setIsSigningIn(false)
-    onReset()
+    onReset && onReset()
+  }
+
+  const close = e => {
+    e && e.preventDefault && e.preventDefault()
+    // remove trialSignup from router query
+    const { trialSignup: _, ...newQuery } = router.query
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: newQuery
+      },
+      router.asPath,
+      { shallow: true }
+    )
   }
 
   const onSuccessSwitchBoard = () => {
@@ -194,8 +221,12 @@ const Form = props => {
           }}
         />
       </Interaction.H2>
-      {!isComplete && !isSigningIn && (
-        <Interaction.P>{t('Trial/Form/initial/beforeSignIn')}</Interaction.P>
+      {!isSigningIn && (
+        <Interaction.P>
+          {t(
+            `Trial/Form/initial/${isComplete ? 'afterSignIn' : 'beforeSignIn'}`
+          )}
+        </Interaction.P>
       )}
     </>
   )
@@ -207,26 +238,43 @@ const Form = props => {
         <div
           style={{
             marginTop: narrow || minimal ? 20 : 40,
-            marginBottom: minimal ? 10 : undefined
+            marginBottom: !isInSeriesNav && minimal ? 10 : undefined
           }}
+          {...styles.completeContainer}
         >
-          <Button
-            primary
-            onClick={() => router.push('/')}
-            style={{ marginRight: 10, marginBottom: 10 }}
-          >
-            {t('Trial/Form/withAccess/button/label')}
-          </Button>
-          <Button
-            onClick={() =>
-              router.push({
-                pathname: '/einrichten',
-                query: { context: 'trial' }
-              })
-            }
-          >
-            {t('Trial/Form/withAccess/setup/label')}
-          </Button>
+          {isInSeriesNav ? (
+            <>
+              <Interaction.P>
+                <Link href='/einrichten' passHref>
+                  <A>{t('Trial/Form/withAccess/setup/label')}</A>
+                </Link>
+              </Interaction.P>
+
+              <Button primary onClick={close} style={{ marginRight: 20 }}>
+                {t('Trial/Form/withAccess/close/label')}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                onClick={() =>
+                  router.push({
+                    pathname: '/einrichten',
+                    query: { context: 'trial' }
+                  })
+                }
+              >
+                {t('Trial/Form/withAccess/setup/label')}
+              </Button>
+              <Button
+                primary
+                style={{ marginRight: 20 }}
+                onClick={() => router.push('/')}
+              >
+                {t('Trial/Form/withAccess/button/label')}
+              </Button>
+            </>
+          )}
         </div>
       </>
     )

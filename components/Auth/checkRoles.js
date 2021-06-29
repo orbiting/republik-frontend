@@ -1,12 +1,5 @@
 import React from 'react'
-import withMe from '../../lib/apollo/withMe'
-
-const checkRoles = (me, roles) => {
-  return !!(
-    me &&
-    (!roles || (me.roles && me.roles.some(role => roles.indexOf(role) !== -1)))
-  )
-}
+import withMe, { checkRoles } from '../../lib/apollo/withMe'
 
 export const withAuthorization = (
   roles,

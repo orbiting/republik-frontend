@@ -61,6 +61,6 @@ const styles = {
   }),
   description: css({
     textAlign: 'center',
-    margin: '16px 0'
+    margin: '16px auto'
   })
 }

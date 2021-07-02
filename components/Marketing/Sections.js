@@ -15,56 +15,30 @@ import Link from 'next/link'
 
 const sectionContent = [
   {
-    title: 'Briefing',
+    name: 'briefings',
     href: '/briefings',
     image: '/static/marketing/briefings.png?size=2000x2000',
-    color: '#0A99B8',
-    description: (
-      <>
-        Durch die Woche mit der Republik: Das Datenbriefing «Auf lange Sicht» am
-        Montag, das Justiz-Briefing «Am Gericht» am Mittwoch, das «Briefing aus
-        Bern» am Donnerstag und «Was diese Woche wichtig war» am Freitag.
-      </>
-    )
+    color: '#0A99B8'
   },
   {
-    title: 'Kolumnen',
+    name: 'kolumnen',
     href: '/kolumnen',
     image: '/static/marketing/kolumnen.png?size=2000x2000',
     imageDark: '/static/marketing/kolumnen-dark.png?size=2000x2000',
-    color: '#D2933C',
-    description: (
-      <>
-        Die Köpfe der Republik: Am Dienstag regelmässig eine Kolumne von Daniel
-        Strassberg und Mely Kiyak, jeden Samstag von Daniel Binswanger und
-        ebenfalls Samstags die Kunstkolumne «Milkyways».
-      </>
-    )
+    color: '#D2933C'
   },
   {
-    title: 'Covid-19-Uhr-Newsletter',
-    href: '/format/covid-19-uhr-newsletter',
-    image: '/static/marketing/covid.png?size=2000x2000',
-    color: '#d44438',
-    description: (
-      <>
-        Brauchbares zur Pandemie – immer wenn es dunkel wird. Informationen für
-        alle. 180 Ausgaben lang.
-      </>
-    )
+    name: 'serien',
+    href: '/serien',
+    image: '/static/marketing/serien.png?size=2000x2000',
+    imageDark: '/static/marketing/serien-dark.png?size=2000x2000',
+    color: '#000000'
   },
   {
-    title: 'Audio',
+    name: 'audio',
     href: '/audio',
     image: '/static/marketing/audio.png?size=2000x2000',
-    color: '#000000',
-    description: (
-      <>
-        Wenn Sie gerade keine Hand frei haben – hier finden Sie Journalismus
-        fürs Ohr: Diskussionen, Podcasts, Audio-Serien. Und vorgelesene
-        Geschichten.
-      </>
-    )
+    color: '#000000'
   }
 ]
 
@@ -78,7 +52,7 @@ const Sections = ({ t }) => {
       />
       {sectionContent.map(section => (
         <div
-          key={section.title}
+          key={section.name}
           {...styles.section}
           {...colorScheme.set('borderColor', 'divider')}
         >
@@ -107,10 +81,14 @@ const Sections = ({ t }) => {
               {...colorScheme.set('color', section.color, 'format')}
             >
               <Link href={section.href} passHref>
-                <a {...styles.link}>{section.title}</a>
+                <a {...styles.link}>
+                  {t(`marketing/page/sections/title/${section.name}`)}
+                </a>
               </Link>
             </Meta.Subhead>
-            <Meta.P>{section.description}</Meta.P>
+            <Meta.P>
+              {t(`marketing/page/sections/description/${section.name}`)}
+            </Meta.P>
           </div>
         </div>
       ))}

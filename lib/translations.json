@@ -1,5 +1,5 @@
 {
-  "updated": "2021-06-16T15:23:04.943Z",
+  "updated": "2021-07-02T09:43:36.704Z",
   "title": "live",
   "data": [
     {
@@ -403,6 +403,10 @@
       "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
     },
     {
+      "key": "marketing/page/minifront/description",
+      "value": "Lesen Sie kostenlos zwei ausgewählte Beiträge der letzten Wochen:"
+    },
+    {
       "key": "marketing/page/reasons/1/title",
       "value": "Werbefrei"
     },
@@ -473,6 +477,38 @@
     {
       "key": "marketing/page/sections/lead",
       "value": "Die Republik ist eine Dienstleistung für interessierte Menschen in einer komplexen Welt. Wir recherchieren, fragen nach, ordnen ein und decken auf. Und liefern Ihnen Fakten und Zusammenhänge als Grundlage für Ihre eigenen Überlegungen und Entscheidungen."
+    },
+    {
+      "key": "marketing/page/sections/description/briefings",
+      "value": "Durch die Woche mit der Republik: Das Datenbriefing «Auf lange Sicht» am Montag, das Justiz-Briefing «Am Gericht» am Mittwoch, das «Briefing aus Bern» am Donnerstag und «Was diese Woche wichtig war» am Freitag."
+    },
+    {
+      "key": "marketing/page/sections/title/briefings",
+      "value": "Briefings"
+    },
+    {
+      "key": "marketing/page/sections/description/serien",
+      "value": "Die ganz grossen Geschichten der Republik lassen sich nicht in einem Stück erzählen. Dazu brauchts Platz – und mehrere Folgen."
+    },
+    {
+      "key": "marketing/page/sections/title/serien",
+      "value": "Serien"
+    },
+    {
+      "key": "marketing/page/sections/description/kolumnen",
+      "value": "Die Köpfe der Republik: Am Dienstag regelmässig eine Kolumne von Daniel Strassberg und Mely Kiyak, jeden Samstag von Daniel Binswanger und ebenfalls samstags die Kunstkolumne «Milkyways»."
+    },
+    {
+      "key": "marketing/page/sections/title/kolumnen",
+      "value": "Kolumnen"
+    },
+    {
+      "key": "marketing/page/sections/description/audio",
+      "value": "Wenn Sie gerade keine Hand frei haben – hier finden Sie Journalismus fürs Ohr: Diskussionen, Podcasts, Audio-Serien. Und vorgelesene Geschichten."
+    },
+    {
+      "key": "marketing/page/sections/title/audio",
+      "value": "Audio"
     },
     {
       "key": "marketing/page/vision/more",

@@ -4,7 +4,7 @@ import {
   Overlay,
   OverlayBody,
   OverlayToolbar,
-  OverlayToolbarConfirm,
+  OverlayToolbarClose,
   Interaction,
   mediaQueries,
   fontStyles,
@@ -13,7 +13,7 @@ import {
   plainButtonRule,
   useColorContext
 } from '@project-r/styleguide'
-import { CloseIcon, AddIcon, RemoveIcon } from '@project-r/styleguide/icons'
+import { AddIcon, RemoveIcon } from '@project-r/styleguide/icons'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
@@ -63,10 +63,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/actionbar/fontSize/title')}
         </Interaction.Emphasis>
-        <OverlayToolbarConfirm
-          onClick={onClose}
-          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
-        />
+        <OverlayToolbarClose onClick={onClose} />
       </OverlayToolbar>
       <OverlayBody>
         <div {...styles.container}>

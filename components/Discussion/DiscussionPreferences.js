@@ -141,11 +141,11 @@ class DiscussionPreferencesEditor extends PureComponent {
     return (
       <div>
         <OverlayToolbar>
-          <OverlayToolbarClose onClick={onClose} />
           <OverlayToolbarConfirm
             label={t('components/DiscussionPreferences/save')}
             onClick={this.onSave}
           />
+          <OverlayToolbarClose onClick={onClose} />
         </OverlayToolbar>
 
         <OverlayBody>

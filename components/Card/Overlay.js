@@ -4,7 +4,7 @@ import {
   Overlay,
   OverlayBody,
   OverlayToolbar,
-  OverlayToolbarConfirm,
+  OverlayToolbarClose,
   Interaction
 } from '@project-r/styleguide'
 
@@ -33,10 +33,7 @@ const CardOverlay = ({
             }}
           />
         )}
-        <OverlayToolbarConfirm
-          onClick={onClose}
-          label={<CloseIcon size={24} fill='#000' />}
-        />
+        <OverlayToolbarClose onClick={onClose} />
       </OverlayToolbar>
       <OverlayBody style={{ textAlign: 'left' }}>{children}</OverlayBody>
     </Overlay>

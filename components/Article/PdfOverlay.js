@@ -4,14 +4,13 @@ import {
   Overlay,
   OverlayBody,
   OverlayToolbar,
-  OverlayToolbarConfirm,
+  OverlayToolbarClose,
   Interaction,
   A,
   Button,
-  Checkbox,
-  useColorContext
+  Checkbox
 } from '@project-r/styleguide'
-import { CloseIcon, DownloadIcon } from '@project-r/styleguide/icons'
+import { DownloadIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
@@ -42,7 +41,6 @@ export const countImages = element => {
 
 const PdfOverlay = ({ onClose, article, t }) => {
   const [images, setImages] = useState(true)
-  const [colorScheme] = useColorContext()
   const imageCount = countImages(article.content)
 
   return (
@@ -51,10 +49,7 @@ const PdfOverlay = ({ onClose, article, t }) => {
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/pdf/title')}
         </Interaction.Emphasis>
-        <OverlayToolbarConfirm
-          onClick={onClose}
-          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
-        />
+        <OverlayToolbarClose onClick={onClose} />
       </OverlayToolbar>
       <OverlayBody>
         {!!imageCount && (

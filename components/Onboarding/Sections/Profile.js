@@ -108,6 +108,8 @@ class Profile extends Component {
     const { user, onContinue, t } = this.props
     const { values, errors, dirty } = this.state
 
+    const hasErrors = !!Object.keys(errors).filter(key => !!errors[key]).length
+
     const mergedValues = Object.assign(
       {},
       user,
@@ -195,7 +197,12 @@ class Profile extends Component {
                   {loading ? (
                     <InlineSpinner />
                   ) : (
-                    <Button primary block disabled={loading} onClick={mutate}>
+                    <Button
+                      primary
+                      block
+                      disabled={hasErrors || loading}
+                      onClick={mutate}
+                    >
                       {t('Onboarding/Sections/Profile/button/save', null, '')}
                     </Button>
                   )}

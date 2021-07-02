@@ -4,17 +4,25 @@ import {
   Container,
   Logo,
   mediaQueries,
+  Editorial,
   fontStyles
 } from '@project-r/styleguide'
 
 export default function LeadSection({ t }) {
   return (
-    <Container {...styles.container}>
-      <div {...styles.logo}>
-        <Logo />
-      </div>
-      <h2 {...styles.lead}>{t('marketing/page/lead/subtitle')}</h2>
-    </Container>
+    <>
+      <Container {...styles.container}>
+        <div {...styles.logo}>
+          <Logo />
+        </div>
+        <h2 {...styles.lead}>{t('marketing/page/lead/subtitle')}</h2>
+      </Container>
+      <Container {...styles.description}>
+        <Editorial.Lead>
+          {t('marketing/page/minifront/description')}
+        </Editorial.Lead>
+      </Container>
+    </>
   )
 }
 
@@ -50,5 +58,9 @@ const styles = {
     [mediaQueries.mUp]: {
       width: 400
     }
+  }),
+  description: css({
+    textAlign: 'center',
+    margin: '16px 0'
   })
 }

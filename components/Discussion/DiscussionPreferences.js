@@ -8,12 +8,11 @@ import {
   Checkbox,
   Overlay,
   OverlayToolbar,
-  OverlayToolbarClose,
-  OverlayToolbarConfirm,
   OverlayBody,
   Interaction,
   Label,
-  A
+  A,
+  Button
 } from '@project-r/styleguide'
 
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
@@ -26,7 +25,7 @@ export const DiscussionPreferences = ({
   setDiscussionPreferences,
   autoCredential
 }) => (
-  <Overlay onClose={onClose}>
+  <Overlay onClose={onClose} mUpStyle={{ minHeight: 240 }}>
     <Loader
       loading={loading}
       error={error}
@@ -140,14 +139,7 @@ class DiscussionPreferencesEditor extends PureComponent {
 
     return (
       <div>
-        <OverlayToolbar>
-          <OverlayToolbarConfirm
-            label={t('components/DiscussionPreferences/save')}
-            onClick={this.onSave}
-          />
-          <OverlayToolbarClose onClick={onClose} />
-        </OverlayToolbar>
-
+        <OverlayToolbar onClose={onClose} />
         <OverlayBody>
           <Interaction.P>
             {t('components/DiscussionPreferences/explain')}
@@ -208,6 +200,9 @@ class DiscussionPreferencesEditor extends PureComponent {
               </A>
             ))}
           </Interaction.P>
+          <Button onClick={this.onSave}>
+            {t('components/DiscussionPreferences/save')}
+          </Button>
         </OverlayBody>
       </div>
     )

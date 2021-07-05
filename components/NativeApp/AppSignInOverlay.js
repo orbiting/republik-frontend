@@ -11,12 +11,7 @@ import AuthNotification from '../Auth/Notification'
 
 const AppSignInOverlay = ({ onClose, query, setQuery, t }) => (
   <Overlay onClose={onClose}>
-    <OverlayToolbar>
-      <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-        {t('AppSignInOverlay/title')}
-      </Interaction.Emphasis>
-      <OverlayToolbarClose onClick={onClose} />
-    </OverlayToolbar>
+    <OverlayToolbar title={t('AppSignInOverlay/title')} onClose={onClose} />
     <OverlayBody>
       <AuthNotification
         query={query}

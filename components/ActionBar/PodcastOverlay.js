@@ -15,12 +15,7 @@ import PodcastButtons from '../Article/PodcastButtons'
 const PodcastOverlay = ({ t, title, podcast, onClose }) => {
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 0 }}>
-      <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {title}
-        </Interaction.Emphasis>
-        <OverlayToolbarClose onClick={onClose} />
-      </OverlayToolbar>
+      <OverlayToolbar title={title} onClose={onClose} />
       <OverlayBody>
         <div style={{ textAlign: 'center' }}>
           <PodcastButtons {...podcast} />

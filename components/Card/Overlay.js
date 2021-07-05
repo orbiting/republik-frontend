@@ -1,14 +1,7 @@
 import React from 'react'
 
-import {
-  Overlay,
-  OverlayBody,
-  OverlayToolbar,
-  OverlayToolbarClose,
-  Interaction
-} from '@project-r/styleguide'
+import { Overlay, OverlayBody, OverlayToolbar } from '@project-r/styleguide'
 
-import { CloseIcon } from '@project-r/styleguide/icons'
 import Beta from './Beta'
 
 const CardOverlay = ({
@@ -20,10 +13,7 @@ const CardOverlay = ({
 }) => {
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth, minHeight: 0 }}>
-      <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {title}
-        </Interaction.Emphasis>
+      <OverlayToolbar title={title} onClose={onClose}>
         {beta && (
           <Beta
             style={{
@@ -33,7 +23,6 @@ const CardOverlay = ({
             }}
           />
         )}
-        <OverlayToolbarClose onClick={onClose} />
       </OverlayToolbar>
       <OverlayBody style={{ textAlign: 'left' }}>{children}</OverlayBody>
     </Overlay>

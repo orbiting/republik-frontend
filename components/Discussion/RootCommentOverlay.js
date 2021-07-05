@@ -17,12 +17,7 @@ export const RootCommentOverlay = compose(
   withT
 )(({ t, router, discussionId, parent, onClose }) => (
   <Overlay onClose={onClose}>
-    <OverlayToolbar>
-      <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-        {t('RootCommentOverlay/title')}
-      </Interaction.Emphasis>
-      <OverlayToolbarClose onClick={onClose} />
-    </OverlayToolbar>
+    <OverlayToolbar title={t('RootCommentOverlay/title')} onClose={onClose} />
     <OverlayBody style={{ paddingTop: 58 }}>
       <Discussion
         discussionId={discussionId}

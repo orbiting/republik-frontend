@@ -77,12 +77,7 @@ const LegalOverlay = ({ onClose, href, title, data }) => {
 
   return (
     <Overlay mUpStyle={{ maxWidth: 720, minHeight: 0 }} onClose={onClose}>
-      <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {title}
-        </Interaction.Emphasis>
-        <OverlayToolbarClose onClick={onClose} />
-      </OverlayToolbar>
+      <OverlayToolbar title={title} onClose={onClose} />
       <OverlayBody>
         {page && page.content ? (
           <page.content />

@@ -52,12 +52,10 @@ export const FeatureCommentOverlay = compose(
   const [colorScheme] = useColorContext()
   return (
     <Overlay onClose={onClose} mUpStyle={{ minHeight: 0 }}>
-      <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {t('FeatureCommentOverlay/title')}
-        </Interaction.Emphasis>
-        <OverlayToolbarClose onClick={onClose} />
-      </OverlayToolbar>
+      <OverlayToolbar
+        title={t('FeatureCommentOverlay/title')}
+        onClose={onClose}
+      />
       <OverlayBody>
         <div>
           {TARGETS.map(target => (

@@ -45,12 +45,7 @@ const PdfOverlay = ({ onClose, article, t }) => {
 
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 300, minHeight: 0 }}>
-      <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {t('article/pdf/title')}
-        </Interaction.Emphasis>
-        <OverlayToolbarClose onClick={onClose} />
-      </OverlayToolbar>
+      <OverlayToolbar title={t('article/pdf/title')} onClose={onClose} />
       <OverlayBody>
         {!!imageCount && (
           <>

@@ -179,10 +179,12 @@ class DiscussionPreferencesEditor extends PureComponent {
               </Label>
             </div>
           )}
-
+          <Button onClick={this.onSave}>
+            {t('components/DiscussionPreferences/save')}
+          </Button>
           <Interaction.P>
             {!!credentialSuggestions.length && (
-              <Label style={{ display: 'block', marginBottom: 5 }}>
+              <Label style={{ display: 'block', margin: '20px 0 5px 0' }}>
                 {t('components/DiscussionPreferences/existingCredentialLabel')}
               </Label>
             )}
@@ -200,9 +202,6 @@ class DiscussionPreferencesEditor extends PureComponent {
               </A>
             ))}
           </Interaction.P>
-          <Button onClick={this.onSave}>
-            {t('components/DiscussionPreferences/save')}
-          </Button>
         </OverlayBody>
       </div>
     )

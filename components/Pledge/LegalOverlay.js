@@ -5,13 +5,11 @@ import {
   Overlay,
   OverlayBody,
   OverlayToolbar,
-  OverlayToolbarConfirm,
+  OverlayToolbarClose,
   Interaction,
-  A,
-  useColorContext
+  A
 } from '@project-r/styleguide'
 
-import { CloseIcon } from '@project-r/styleguide/icons'
 import Loader from '../Loader'
 import { compose, graphql } from 'react-apollo'
 import { getDocument } from '../Article/graphql/getDocument'
@@ -75,20 +73,11 @@ const RenderArticle = ({ data }) => (
 )
 
 const LegalOverlay = ({ onClose, href, title, data }) => {
-  const [colorScheme] = useColorContext()
   const page = pages.find(p => p.href === href)
 
   return (
     <Overlay mUpStyle={{ maxWidth: 720, minHeight: 0 }} onClose={onClose}>
-      <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {title}
-        </Interaction.Emphasis>
-        <OverlayToolbarConfirm
-          onClick={onClose}
-          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
-        />
-      </OverlayToolbar>
+      <OverlayToolbar title={title} onClose={onClose} />
       <OverlayBody>
         {page && page.content ? (
           <page.content />

@@ -8,12 +8,11 @@ import {
   Checkbox,
   Overlay,
   OverlayToolbar,
-  OverlayToolbarClose,
-  OverlayToolbarConfirm,
   OverlayBody,
   Interaction,
   Label,
-  A
+  A,
+  Button
 } from '@project-r/styleguide'
 
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
@@ -26,7 +25,7 @@ export const DiscussionPreferences = ({
   setDiscussionPreferences,
   autoCredential
 }) => (
-  <Overlay onClose={onClose}>
+  <Overlay onClose={onClose} mUpStyle={{ minHeight: 240 }}>
     <Loader
       loading={loading}
       error={error}
@@ -140,14 +139,7 @@ class DiscussionPreferencesEditor extends PureComponent {
 
     return (
       <div>
-        <OverlayToolbar>
-          <OverlayToolbarClose onClick={onClose} />
-          <OverlayToolbarConfirm
-            label={t('components/DiscussionPreferences/save')}
-            onClick={this.onSave}
-          />
-        </OverlayToolbar>
-
+        <OverlayToolbar onClose={onClose} />
         <OverlayBody>
           <Interaction.P>
             {t('components/DiscussionPreferences/explain')}
@@ -187,10 +179,12 @@ class DiscussionPreferencesEditor extends PureComponent {
               </Label>
             </div>
           )}
-
+          <Button onClick={this.onSave}>
+            {t('components/DiscussionPreferences/save')}
+          </Button>
           <Interaction.P>
             {!!credentialSuggestions.length && (
-              <Label style={{ display: 'block', marginBottom: 5 }}>
+              <Label style={{ display: 'block', margin: '20px 0 5px 0' }}>
                 {t('components/DiscussionPreferences/existingCredentialLabel')}
               </Label>
             )}

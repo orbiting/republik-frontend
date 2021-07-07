@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import {
   Interaction,
   Overlay,
   OverlayBody,
   OverlayToolbar,
-  OverlayToolbarConfirm,
+  OverlayToolbarClose,
   ActiveDebateTeaser,
   Field,
   Button,
@@ -13,7 +13,6 @@ import {
   CommentTeaser,
   Checkbox
 } from '@project-r/styleguide'
-import { CloseIcon } from '@project-r/styleguide/icons'
 import { compose, graphql } from 'react-apollo'
 import AutosizeInput from 'react-textarea-autosize'
 
@@ -53,15 +52,10 @@ export const FeatureCommentOverlay = compose(
   const [colorScheme] = useColorContext()
   return (
     <Overlay onClose={onClose} mUpStyle={{ minHeight: 0 }}>
-      <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          {t('FeatureCommentOverlay/title')}
-        </Interaction.Emphasis>
-        <OverlayToolbarConfirm
-          onClick={onClose}
-          label={<CloseIcon size={24} {...colorScheme.set('fill', 'text')} />}
-        />
-      </OverlayToolbar>
+      <OverlayToolbar
+        title={t('FeatureCommentOverlay/title')}
+        onClose={onClose}
+      />
       <OverlayBody>
         <div>
           {TARGETS.map(target => (

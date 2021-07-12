@@ -3,11 +3,11 @@ import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
 import {
-  colors,
   mediaQueries,
   Center,
   Button,
-  useColorContext
+  useColorContext,
+  Label
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -58,7 +58,23 @@ const Nav = ({
                 </Button>
               </Link>
             )}
-            {me && <SearchForm onSearchSubmit={onSearchSubmit} />}
+            {me && (
+              <SearchForm
+                emptyState={
+                  <Label>
+                    <NavLink
+                      href='/suche'
+                      active={active}
+                      color='disabled'
+                      closeHandler={closeHandler}
+                    >
+                      {t('nav/searchLink')}
+                    </NavLink>
+                  </Label>
+                }
+                onSearchSubmit={onSearchSubmit}
+              />
+            )}
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
                 {isMember && (
@@ -85,10 +101,8 @@ const Nav = ({
                 <NavLink
                   large
                   href='/dialog'
-                  title={t('navbar/discussion')}
                   active={active}
                   closeHandler={closeHandler}
-                  formatColor={colors.primary}
                 >
                   {t('navbar/discussion')}
                 </NavLink>
@@ -109,10 +123,8 @@ const Nav = ({
                   />
                   <NavLink
                     href='/rubriken'
-                    title={t('navbar/sections')}
                     active={active}
                     closeHandler={closeHandler}
-                    formatColor={colors.primary}
                   >
                     {t('navbar/sections')}
                   </NavLink>

@@ -46,6 +46,7 @@ export const NavA = React.forwardRef(
   (
     {
       inline,
+      color = 'text',
       formatColor,
       activeFormatColor,
       children,
@@ -76,7 +77,7 @@ export const NavA = React.forwardRef(
     const colorRule =
       isActive && activeFormatColor && formatColor
         ? colorScheme.set('color', formatColor, 'format')
-        : colorScheme.set('color', 'text')
+        : colorScheme.set('color', color)
 
     return (
       <a
@@ -103,6 +104,7 @@ const NavLink = ({
   active,
   closeHandler,
   inline,
+  color,
   formatColor,
   prefetch = false,
   minifeed,
@@ -124,6 +126,7 @@ const NavLink = ({
               }
             : undefined
         }
+        color={color}
         formatColor={formatColor}
         activeFormatColor={minifeed}
         large={large}

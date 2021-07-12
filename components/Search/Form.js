@@ -38,7 +38,8 @@ const Form = compose(
     t,
     searchQuery,
     setSearchQuery,
-    onSearchSubmit
+    onSearchSubmit,
+    emptyState
   }) => {
     const router = useRouter()
     const [formValue, setFormValue] = useState(urlQuery)
@@ -96,7 +97,7 @@ const Form = compose(
             }
           />
         </form>
-        {formValue && urlQuery !== formValue && (
+        {formValue && urlQuery !== formValue ? (
           <LiveState
             formValue={formValue}
             searchQuery={searchQuery}
@@ -104,13 +105,15 @@ const Form = compose(
             getSearchParams={getSearchParams}
             onClickSearchResults={onSearchSubmit}
           />
+        ) : (
+          emptyState
         )}
       </div>
     )
   }
 )
 
-const FormWrapper = ({ onSearchSubmit }) => {
+const FormWrapper = ({ onSearchSubmit, emptyState }) => {
   const [searchQuery, setSearchQuery] = useState()
 
   return (
@@ -118,6 +121,7 @@ const FormWrapper = ({ onSearchSubmit }) => {
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}
       onSearchSubmit={onSearchSubmit}
+      emptyState={emptyState}
     />
   )
 }

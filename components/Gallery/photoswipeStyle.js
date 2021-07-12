@@ -421,6 +421,7 @@ ${mediaQueries.mUp} {
   transition: opacity 0.25s ease-out;
   will-change: opacity;
   direction: ltr;
+  pointer-events: none;
 }
 
 .pswp__preloader--active {

@@ -14,6 +14,7 @@ import { notificationsMiniQuery } from './enhancers'
 import { timeFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import Link from 'next/link'
+import withMe from '../../lib/apollo/withMe'
 
 const dateFormat = timeFormat('%d.%m')
 
@@ -116,8 +117,10 @@ const styles = {
 
 export default compose(
   withT,
+  withMe,
   graphql(notificationsMiniQuery, {
     options: {
+      skip: props => !props.me,
       fetchPolicy: 'cache-and-network'
     }
   })

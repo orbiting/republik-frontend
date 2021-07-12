@@ -249,6 +249,53 @@ const text = {
       </Highlight>{' '}
       (vielleicht).
     </>
+  ),
+  Juni: p => (
+    <>
+      <Highlight {...p} ids={['X4TEugfAw']}>
+        Herr Drosten, woher kam dieses Virus
+      </Highlight>
+      ?{' '}
+      <Highlight {...p} ids={['jhE2LM2yr']}>
+        Neues zum Bündner Baukartell
+      </Highlight>
+      , eine{' '}
+      <Highlight {...p} ids={['MysaIorR1']}>
+        wiederentdeckte Basler Autorin
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['b55VsmTZN']}>
+        welcher Kampfjet solls denn sein
+      </Highlight>
+      ?{' '}
+      <Highlight
+        {...p}
+        series='republik/article-im-digitalen-rausch-serien-uebersicht'
+      >
+        Ich, mein Smartphone
+      </Highlight>
+      :{' '}
+      <Highlight {...p} ids={['dNruNPSTv']}>
+        Was die Always-on-Kultur mit uns macht
+      </Highlight>{' '}
+      – und{' '}
+      <Highlight {...p} ids={['JKqGGnIId']}>
+        was klickt Ihr Kind gerade an
+      </Highlight>
+      ?{' '}
+      <Highlight {...p} ids={['0i7xlS1fF']}>
+        Janet Yellen
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['agPBM7KR_']}>
+        Emmanuel Macron
+      </Highlight>{' '}
+      im Porträt. Und:{' '}
+      <Highlight {...p} ids={['RGr7o9Jzm']}>
+        Muss die Schweiz die Nachfahren von Sklaven entschädigen
+      </Highlight>
+      ?
+    </>
   )
 }
 

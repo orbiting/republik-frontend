@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { useRouter } from 'next/router'
@@ -55,8 +55,12 @@ const styles = {
       marginRight: '40px'
     }
   }),
-  selectedOrderBy: css({
-    textDecoration: 'underline'
+  regular: css({
+    textDecoration: 'none'
+  }),
+  selected: css({
+    textDecoration: 'underline',
+    textDecorationSkip: 'ink'
   }),
   emptyDiscussion: css({
     margin: '20px 0'
@@ -536,11 +540,24 @@ const EmptyDiscussion = ({ t }) => (
 
 const OrderBy = ({ t, orderBy, setOrderBy, value }) => {
   const [colorScheme] = useColorContext()
+  const hoverRule = useMemo(() => {
+    return css({
+      '@media (hover)': {
+        ':hover': {
+          color: colorScheme.getCSSColor('textSoft')
+        }
+      }
+    })
+  }, [colorScheme])
+
+  const isSelected = orderBy === value
+
   return (
     <button
       {...styles.orderBy}
       {...colorScheme.set('color', 'text')}
-      {...(orderBy === value ? styles.selectedOrderBy : {})}
+      {...styles[isSelected ? 'selected' : 'regular']}
+      {...(!isSelected && hoverRule)}
       onClick={() => {
         setOrderBy(value)
       }}

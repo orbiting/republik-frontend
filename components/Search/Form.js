@@ -38,17 +38,12 @@ const Form = compose(
     t,
     searchQuery,
     setSearchQuery,
-    onSearchSubmit,
-    noInitialFocus
+    onSearchSubmit
   }) => {
     const router = useRouter()
-    const [focusRef, setFocusRef] = useState(null)
     const [formValue, setFormValue] = useState(urlQuery)
     const [slowFormValue] = useDebounce(formValue, 200)
     const [colorScheme] = useColorContext()
-    useEffect(() => {
-      startState && !noInitialFocus && focusRef && focusRef.focus()
-    }, [startState, focusRef, noInitialFocus])
 
     useEffect(() => {
       setSearchQuery(slowFormValue)
@@ -86,7 +81,6 @@ const Form = compose(
       <div {...styles}>
         <form onSubmit={submit}>
           <Field
-            ref={setFocusRef}
             label={t('search/input/label')}
             value={formValue}
             onChange={update}
@@ -116,7 +110,7 @@ const Form = compose(
   }
 )
 
-const FormWrapper = ({ onSearchSubmit, noInitialFocus }) => {
+const FormWrapper = ({ onSearchSubmit }) => {
   const [searchQuery, setSearchQuery] = useState()
 
   return (
@@ -124,7 +118,6 @@ const FormWrapper = ({ onSearchSubmit, noInitialFocus }) => {
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}
       onSearchSubmit={onSearchSubmit}
-      noInitialFocus={noInitialFocus}
     />
   )
 }

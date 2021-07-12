@@ -58,9 +58,7 @@ const Nav = ({
                 </Button>
               </Link>
             )}
-            {me && (
-              <SearchForm noInitialFocus onSearchSubmit={onSearchSubmit} />
-            )}
+            {me && <SearchForm onSearchSubmit={onSearchSubmit} />}
             <div {...styles.navSection}>
               <div {...styles.navLinks}>
                 {isMember && (

@@ -2,8 +2,13 @@ import React, { useMemo } from 'react'
 import { withAggregations } from './enhancers'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
-import { SUPPORTED_FILTERS, isSameFilter, findAggregation } from './constants'
-import { css, merge } from 'glamor'
+import {
+  LATEST_SORT,
+  SUPPORTED_FILTERS,
+  isSameFilter,
+  findAggregation
+} from './constants'
+import { css } from 'glamor'
 import {
   fontStyles,
   mediaQueries,
@@ -28,7 +33,7 @@ const styles = {
       marginRight: 40
     }
   }),
-  link: css({
+  linkRegular: css({
     textDecoration: 'none'
   }),
   linkSelected: css({
@@ -40,24 +45,24 @@ const styles = {
 const Filters = compose(
   withSearchRouter,
   withAggregations
-)(({ dataAggregations, urlFilter, getSearchParams, sort }) => {
+)(({ dataAggregations, urlFilter, getSearchParams, startState }) => {
   const { search, loading, error } = dataAggregations
   const [colorScheme] = useColorContext()
+  const hoverRule = useMemo(() => {
+    return css({
+      '@media (hover)': {
+        ':hover': {
+          color: colorScheme.getCSSColor('textSoft')
+        }
+      }
+    })
+  }, [colorScheme])
+
   if (loading || error) return null
 
   const { aggregations } = search
   if (!aggregations) return null
-  const styleRules = useMemo(() => {
-    return {
-      link: css({
-        '@media (hover)': {
-          ':hover': {
-            color: colorScheme.getCSSColor('textSoft')
-          }
-        }
-      })
-    }
-  }, [colorScheme])
+
   return (
     <ul {...styles.list}>
       {SUPPORTED_FILTERS.map((filter, key) => {
@@ -72,22 +77,26 @@ const Filters = compose(
           </>
         )
 
+        const isSame = isSameFilter(filter, urlFilter)
+        const isActive = !startState && isSame
+
         return (
           <li key={key} {...styles.listItem}>
             {agg.count ? (
               <Link
                 href={{
                   pathname: '/suche',
-                  query: getSearchParams({ filter, sort })
+                  query: getSearchParams({
+                    filter,
+                    sort: startState ? LATEST_SORT : undefined
+                  })
                 }}
                 passHref
               >
                 <a
-                  {...styles.link}
                   {...colorScheme.set('color', 'text')}
-                  {...(sort &&
-                    !isSameFilter(filter, urlFilter) &&
-                    styleRules.link)}
+                  {...styles[isActive ? 'linkSelected' : 'linkRegular']}
+                  {...(!isActive && hoverRule)}
                 >
                   {text}
                 </a>

@@ -19,7 +19,6 @@ import track from '../../lib/matomo'
 import {
   DEFAULT_FILTER,
   SUPPORTED_FILTERS,
-  LATEST_SORT,
   isSameFilter,
   findAggregation
 } from './constants'
@@ -96,7 +95,7 @@ export default compose(
         <Form />
         {startState ? (
           <>
-            <Filters sort={LATEST_SORT} />
+            <Filters startState />
             <CheatSheet />
           </>
         ) : (

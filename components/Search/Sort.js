@@ -24,8 +24,14 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular16,
       marginRight: '30px'
-    },
+    }
+  }),
+  linkRegular: css({
     textDecoration: 'none'
+  }),
+  linkSelected: css({
+    textDecoration: 'underline',
+    textDecorationSkip: 'ink'
   }),
   icon: css({
     display: 'inline-block',
@@ -80,8 +86,9 @@ const SortToggle = compose(withT)(({ t, sort, urlSort, getSearchParams }) => {
     >
       <a
         {...styles.link}
-        {...linkHover}
-        {...colorScheme.set('color', selected ? 'primary' : 'text')}
+        {...styles[selected ? 'linkSelected' : 'linkRegular']}
+        {...(!selected && linkHover)}
+        {...colorScheme.set('color', 'text')}
       >
         {label}
         {direction && (

@@ -486,7 +486,7 @@ const styles = {
   overlay: css({
     marginTop: 0,
     width: '100%',
-    padding: '0 16px',
+    padding: '12px 16px',
     display: 'flex',
     justifyContent: 'space-between'
   }),

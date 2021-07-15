@@ -1,17 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { css } from 'glamor'
-import {
-  mediaQueries,
-  useColorContext,
-  useMediaQuery
-} from '@project-r/styleguide'
-import { ZINDEX_HEADER, AUDIO_PLAYER_HEIGHT } from '../constants'
+import { mediaQueries, useMediaQuery } from '@project-r/styleguide'
+import { AUDIO_PLAYER_HEIGHT } from '../constants'
+
+import BottomPanel from '../Frame/BottomPanel'
+
 const ACTIONBAR_FADE_AREA = 400
 const FOOTER_FADE_AREA = 800
 const FOOTER_FADE_AREA_MOBILE = 1200
 
-const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
-  const [colorScheme] = useColorContext()
+const ActionBarOverlay = ({ children, audioPlayerVisible }) => {
   const [overlayVisible, setOverlayVisible] = useState(false)
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 
@@ -19,8 +16,6 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
   const diff = useRef(0)
 
   const audioPlayerOffset = audioPlayerVisible ? AUDIO_PLAYER_HEIGHT + 20 : 0
-  const bottomOffset = inNativeApp ? 20 : 44
-  const bottomPosition = audioPlayerOffset + bottomOffset
 
   useEffect(() => {
     const onScroll = () => {
@@ -57,34 +52,10 @@ const ActionBarOverlay = ({ children, audioPlayerVisible, inNativeApp }) => {
     }
   }, [isDesktop])
   return (
-    <div
-      style={{
-        opacity: overlayVisible ? 1 : 0,
-        pointerEvents: overlayVisible ? undefined : 'none',
-        bottom: bottomPosition,
-        zIndex: ZINDEX_HEADER
-      }}
-      {...colorScheme.set('backgroundColor', 'overlay')}
-      {...colorScheme.set('boxShadow', 'overlayShadow')}
-      {...styles.container}
-    >
+    <BottomPanel offset={audioPlayerOffset} visible={overlayVisible}>
       {children}
-    </div>
+    </BottomPanel>
   )
-}
-
-const styles = {
-  container: css({
-    position: 'fixed',
-    right: 0,
-    padding: '12px 0',
-    margin: '0 16px',
-    transition: 'opacity ease-out 0.3s, bottom ease-out 0.3s',
-    [mediaQueries.mUp]: {
-      right: 16,
-      left: 'auto'
-    }
-  })
 }
 
 export default ActionBarOverlay

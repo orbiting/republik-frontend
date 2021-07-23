@@ -178,7 +178,7 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
         {inNativeApp && (
           <Link href='/' passHref>
             <a {...styles.close}>
-              <CloseIcon size={32} />
+              <CloseIcon {...colorScheme.set('fill', 'text')} size={32} />
             </a>
           </Link>
         )}

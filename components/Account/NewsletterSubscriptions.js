@@ -38,7 +38,7 @@ const styles = {
 }
 
 export const RESUBSCRIBE_EMAIL = gql`
-  mutation resubscribeEmail($userId: ID) {
+  mutation resubscribeEmail($userId: ID!) {
     resubscribeEmail(userId: $userId)
   }
 `
@@ -93,38 +93,44 @@ const NewsletterSubscriptions = props => (
           {status !== 'subscribed' && (
             <Box style={{ margin: '10px 0', padding: 15 }}>
               <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
-              <Mutation mutation={RESUBSCRIBE_EMAIL}>
-                {(mutate, { loading, error }) => {
-                  if (error) {
-                    return <p>Error message</p>
-                  }
-
-                  return (
-                    <div
-                      style={{
-                        marginTop: 10,
-                        display: 'flex',
-                        alignItems: 'center'
-                      }}
-                    >
-                      {loading && <InlineSpinner size={24} />}
-                      <Button
-                        primary
-                        disabled={loading}
-                        onClick={() =>
-                          mutate({
-                            variables: {
-                              userId: data.me.userId
-                            }
-                          })
-                        }
-                      >
-                        {t('account/newsletterSubscriptions/resubscribe')}
-                      </Button>
-                    </div>
-                  )
+              <div
+                style={{
+                  marginTop: 10
                 }}
-              </Mutation>
+              >
+                <Mutation mutation={RESUBSCRIBE_EMAIL}>
+                  {(mutate, { loading, error, data: mutationData }) => {
+                    if (loading) return <InlineSpinner size={40} />
+                    if (!error && mutationData?.resubscribeEmail) {
+                      return (
+                        <P>
+                          {t(
+                            'account/newsletterSubscriptions/resubscribe/success'
+                          )}
+                        </P>
+                      )
+                    }
+                    return (
+                      <>
+                        {error && <ErrorMessage error={error} />}
+                        <Button
+                          primary
+                          disabled={loading}
+                          onClick={() =>
+                            mutate({
+                              variables: {
+                                userId: data.me.id
+                              }
+                            })
+                          }
+                        >
+                          {t('account/newsletterSubscriptions/resubscribe')}
+                        </Button>
+                      </>
+                    )
+                  }}
+                </Mutation>
+              </div>
             </Box>
           )}
           {!isMember && (

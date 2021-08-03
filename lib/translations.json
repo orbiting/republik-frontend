@@ -1,5 +1,5 @@
 {
-  "updated": "2021-08-03T09:21:10.857Z",
+  "updated": "2021-08-03T13:24:59.528Z",
   "title": "live",
   "data": [
     {
@@ -847,7 +847,7 @@
       "value": "Wieder anmelden"
     },
     {
-      "key": "account/newsletterSubscriptions/resubscribe/note",
+      "key": "account/newsletterSubscriptions/resubscribe/success",
       "value": "Sie erhalten eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können."
     },
     {

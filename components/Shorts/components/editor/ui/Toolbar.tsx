@@ -1,4 +1,11 @@
-import React, { MouseEvent, ReactElement, Ref, useEffect, useRef } from 'react'
+import React, {
+  MouseEvent,
+  ReactElement,
+  Ref,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 // @ts-ignore
 import ReactDOM from 'react-dom'
 import { css } from 'glamor'
@@ -33,7 +40,8 @@ const styles = {
     width: '100%',
     borderTopWidth: 1,
     borderTopStyle: 'solid',
-    paddingTop: 10
+    paddingTop: 10,
+    marginTop: 10
   }),
   hoveringToolbar: css({
     padding: '8px 7px 6px',
@@ -57,11 +65,11 @@ const styles = {
 export const ToolbarButton: React.FC<{
   button: ButtonI
   onClick: () => void
-  fill: string
-}> = ({ button, onClick, fill }) => (
+  disabled?: boolean
+}> = ({ button, onClick, disabled }) => (
   <IconButton
     // @ts-ignore
-    fillColorName={fill}
+    fillColorName={disabled ? 'textSoft' : 'text'}
     onMouseDown={(event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()
       onClick()
@@ -72,15 +80,21 @@ export const ToolbarButton: React.FC<{
 )
 
 export const FixedToolbar = () => {
+  const editor = useSlate()
   const [colorScheme] = useColorContext()
+  const [hasSelection, setSelection] = useState<boolean>(false)
+  useEffect(() => {
+    const { selection } = editor
+    setSelection(!!selection)
+  })
   return (
     <div
       {...styles.fixedToolbar}
-      {...colorScheme.set('borderColor', 'divider')}
+      {...colorScheme.set('borderTopColor', 'divider')}
     >
       <div {...styles.buttonGroup} style={{ marginLeft: 'auto' }}>
         {['break' as CustomElementsType].map(elKey => (
-          <ElementButton key={elKey} elKey={elKey} />
+          <ElementButton key={elKey} elKey={elKey} disabled={!hasSelection} />
         ))}
       </div>
     </div>

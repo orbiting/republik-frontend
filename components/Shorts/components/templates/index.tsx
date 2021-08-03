@@ -15,12 +15,12 @@ import { chart } from './chart'
 
 const styles = {
   container: css({
-    textAlign: 'center'
+    textAlign: 'center',
   }),
   title: css({
-    marginBottom: 20,
+    marginBottom: 40,
     [mediaQueries.mUp]: {
-      marginBottom: 40
+      marginBottom: 80
     }
   }),
   chartWrapper: css({
@@ -30,7 +30,6 @@ const styles = {
     marginTop: 20,
     [mediaQueries.mUp]: {
       gridTemplateColumns: 'repeat(4, 1fr)',
-      gridRowGap: 40,
       marginTop: 40
     }
   }),
@@ -43,7 +42,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    margin: '0 auto',
+    margin: '20px auto',
     ':hover': {
       textDecoration: 'underline'
     }
@@ -68,8 +67,8 @@ export const TemplatePicker: React.FC<{
   setTemplate: (t: CustomElement[]) => void
 }> = ({ setTemplate }) => (
   <div {...styles.container}>
-    <Interaction.H1 {...styles.title}>Welcome to the lab</Interaction.H1>
-    <Interaction.P>Pick your poison ⚗️</Interaction.P>
+    <Interaction.H1 {...styles.title}>⚗️ Kurzformate</Interaction.H1>
+    <Interaction.P>Pick your poison:</Interaction.P>
     <div {...styles.chartWrapper}>
       {templates.map(template => {
         return (

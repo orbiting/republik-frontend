@@ -9,7 +9,7 @@ const meta = {
 }
 
 const Page = () => (
-  <Frame meta={meta}>
+  <Frame raw meta={meta}>
     <Editor />
   </Frame>
 )

@@ -1,9 +1,8 @@
-import React, { Attributes, ElementType, ReactElement } from 'react'
+import React, { Attributes, ReactElement } from 'react'
 import { Editor } from 'slate'
 import { useSlate } from 'slate-react'
 
 import { config, configKeys } from '../marks'
-import { config as elementsConfig } from '../elements'
 import { ToolbarButton } from './ui/Toolbar'
 import { Placeholder } from './ui/Placeholder'
 import { CustomEditor, CustomMarksType, CustomText } from '../custom-types'
@@ -31,7 +30,7 @@ export const MarkButton: React.FC<{ mKey: CustomMarksType }> = ({ mKey }) => {
   return (
     <ToolbarButton
       button={mark.button}
-      fill={isMarkActive(editor, mKey) ? 'text' : 'textSoft'}
+      disabled={!isMarkActive(editor, mKey)}
       onClick={() => toggleMark(editor, mKey)}
     />
   )

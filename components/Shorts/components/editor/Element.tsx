@@ -20,9 +20,10 @@ export const ContainerComponent: React.FC<{
   return <div {...attributes}>{children}</div>
 }
 
-export const ElementButton: React.FC<{ elKey: CustomElementsType }> = ({
-  elKey
-}) => {
+export const ElementButton: React.FC<{
+  elKey: CustomElementsType
+  disabled?: boolean
+}> = ({ elKey, disabled }) => {
   const editor = useSlate()
   const element = config[elKey]
   if (!element?.button) {
@@ -31,7 +32,7 @@ export const ElementButton: React.FC<{ elKey: CustomElementsType }> = ({
   return (
     <ToolbarButton
       button={element.button}
-      fill='text'
+      disabled={disabled}
       onClick={() =>
         element.insert
           ? element.insert(editor)

@@ -9,6 +9,7 @@ import { EditableElement } from './ui/Edit'
 import { LeafComponent } from './Mark'
 import { withElementsAttrs, withNormalizations, withTemplate } from './Element'
 import { CustomElement, CustomElementsType } from '../custom-types'
+import Actions from './ui/Actions'
 
 const EditorApp: React.FC<{ template: CustomElement[] }> = ({ template }) => {
   const editor = useMemo(
@@ -35,15 +36,18 @@ const EditorApp: React.FC<{ template: CustomElement[] }> = ({ template }) => {
   const renderLeaf = useCallback(props => <LeafComponent {...props} />, [])
 
   return (
-    <Slate
-      editor={editor}
-      value={value}
-      onChange={newValue => setValue(newValue)}
-    >
-      <HoveringToolbar />
-      <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
-      <FixedToolbar />
-    </Slate>
+    <>
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={newValue => setValue(newValue)}
+      >
+        <HoveringToolbar />
+        <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+        <FixedToolbar />
+      </Slate>
+      <Actions />
+    </>
   )
 }
 

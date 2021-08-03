@@ -92,45 +92,41 @@ const NewsletterSubscriptions = props => (
         <Fragment>
           {status !== 'subscribed' && (
             <Box style={{ margin: '10px 0', padding: 15 }}>
-              <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
-              <div
-                style={{
-                  marginTop: 10
-                }}
-              >
-                <Mutation mutation={RESUBSCRIBE_EMAIL}>
-                  {(mutate, { loading, error, data: mutationData }) => {
-                    if (loading) return <InlineSpinner size={40} />
-                    if (!error && mutationData?.resubscribeEmail) {
-                      return (
-                        <P>
-                          {t(
-                            'account/newsletterSubscriptions/resubscribe/success'
-                          )}
-                        </P>
-                      )
-                    }
-                    return (
-                      <>
-                        {error && <ErrorMessage error={error} />}
-                        <Button
-                          primary
-                          disabled={loading}
-                          onClick={() =>
-                            mutate({
-                              variables: {
-                                userId: data.me.id
+              <Mutation mutation={RESUBSCRIBE_EMAIL}>
+                {(mutate, { loading, error, data: mutationData }) => (
+                  <>
+                    {!mutationData && (
+                      <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
+                    )}
+                    {!error && mutationData?.resubscribeEmail && (
+                      <P>{t('account/newsletterSubscriptions/resubscribed')}</P>
+                    )}
+                    <div style={{ marginTop: 10 }}>
+                      {!mutationData && (
+                        <>
+                          {error && <ErrorMessage error={error} />}
+                          {loading && <InlineSpinner size={40} />}
+                          {!loading && (
+                            <Button
+                              primary
+                              disabled={loading}
+                              onClick={() =>
+                                mutate({
+                                  variables: {
+                                    userId: data.me.id
+                                  }
+                                })
                               }
-                            })
-                          }
-                        >
-                          {t('account/newsletterSubscriptions/resubscribe')}
-                        </Button>
-                      </>
-                    )
-                  }}
-                </Mutation>
-              </div>
+                            >
+                              {t('account/newsletterSubscriptions/resubscribe')}
+                            </Button>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+              </Mutation>
             </Box>
           )}
           {!isMember && (

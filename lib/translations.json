@@ -1,5 +1,5 @@
 {
-  "updated": "2021-08-03T13:24:59.528Z",
+  "updated": "2021-08-03T14:04:01.867Z",
   "title": "live",
   "data": [
     {
@@ -840,15 +840,15 @@
     },
     {
       "key": "account/newsletterSubscriptions/unsubscribed",
-      "value": "Sie haben sich von unseren Newslettern abgemeldet."
+      "value": "Sie haben alle Newsletter pausiert. Möchten Sie die Newsletter wieder erhalten?"
     },
     {
       "key": "account/newsletterSubscriptions/resubscribe",
-      "value": "Wieder anmelden"
+      "value": "Newsletter reaktivieren"
     },
     {
-      "key": "account/newsletterSubscriptions/resubscribe/success",
-      "value": "Sie erhalten eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können."
+      "key": "account/newsletterSubscriptions/resubscribed",
+      "value": "Die Newsletter wurden reaktiviert. Vielen Dank."
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",

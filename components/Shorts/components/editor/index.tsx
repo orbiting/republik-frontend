@@ -40,9 +40,9 @@ const EditorApp: React.FC<{ template: CustomElement[] }> = ({ template }) => {
       value={value}
       onChange={newValue => setValue(newValue)}
     >
-      <FixedToolbar />
       <HoveringToolbar />
       <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+      <FixedToolbar />
     </Slate>
   )
 }

@@ -31,17 +31,19 @@ const styles = {
   fixedToolbar: css({
     display: 'flex',
     width: '100%',
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
-    paddingBottom: 10,
-    marginBottom: 10
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    paddingTop: 10
   }),
   hoveringToolbar: css({
     padding: '8px 7px 6px',
     position: 'absolute',
     zIndex: 1,
-    top: 10000,
-    left: -10000,
+    top: 0,
+    left: 0,
+    height: 0,
+    width: 0,
+    overflow: 'hidden',
     marginTop: -6,
     opacity: 0,
     display: 'flex',
@@ -74,7 +76,7 @@ export const FixedToolbar = () => {
   return (
     <div
       {...styles.fixedToolbar}
-      {...colorScheme.set('borderBottomColor', 'divider')}
+      {...colorScheme.set('borderColor', 'divider')}
     >
       <div {...styles.buttonGroup} style={{ marginLeft: 'auto' }}>
         {['break' as CustomElementsType].map(elKey => (
@@ -169,6 +171,8 @@ export const HoveringToolbar: React.FC = () => {
       ?.getBoundingClientRect()
     if (!rect) return
     el.style.opacity = '1'
+    el.style.width = 'auto'
+    el.style.height = 'auto'
     el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
     el.style.left = `${rect.left +
       window.pageXOffset -

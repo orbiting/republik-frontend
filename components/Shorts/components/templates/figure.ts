@@ -15,7 +15,9 @@ export const caption: FigureCaptionElement = {
   children: [{ text: 'Legende ' }, byline]
 }
 
-export const figure = (src = '/static/placeholder.png'): FigureElement => ({
+export const figure = (
+  src = '/static/editor/placeholder.png'
+): FigureElement => ({
   type: 'figure',
   children: [{ type: 'figureImage', src, children: [emptyText] }, caption]
 })

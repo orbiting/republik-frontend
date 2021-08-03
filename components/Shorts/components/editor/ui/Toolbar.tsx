@@ -90,7 +90,7 @@ export const FixedToolbar = () => {
   return (
     <div
       {...styles.fixedToolbar}
-      {...colorScheme.set('borderTopColor', 'divider')}
+      {...colorScheme.set('borderTopColor', hasSelection ? 'text' : 'divider')}
     >
       <div {...styles.buttonGroup} style={{ marginLeft: 'auto' }}>
         {['break' as CustomElementsType].map(elKey => (

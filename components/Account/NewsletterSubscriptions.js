@@ -167,7 +167,11 @@ const NewsletterSubscriptions = props => (
                         {!props.label && (
                           <>
                             <br />
-                            <Label></Label>
+                            <Label>
+                              {t(
+                                `account/newsletterSubscriptions/${name}/frequency`
+                              )}
+                            </Label>
                           </>
                         )}
                         {error && <ErrorMessage error={error} />}

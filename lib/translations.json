@@ -1,5 +1,5 @@
 {
-  "updated": "2021-07-12T17:11:01.314Z",
+  "updated": "2021-08-03T09:21:10.857Z",
   "title": "live",
   "data": [
     {
@@ -840,7 +840,15 @@
     },
     {
       "key": "account/newsletterSubscriptions/unsubscribed",
-      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter abonnieren, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können."
+      "value": "Sie haben sich von unseren Newslettern abgemeldet."
+    },
+    {
+      "key": "account/newsletterSubscriptions/resubscribe",
+      "value": "Wieder anmelden"
+    },
+    {
+      "key": "account/newsletterSubscriptions/resubscribe/note",
+      "value": "Sie erhalten eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können."
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",

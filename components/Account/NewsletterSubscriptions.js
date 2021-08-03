@@ -7,7 +7,13 @@ import ErrorMessage from '../ErrorMessage'
 
 import FrameBox from '../Frame/Box'
 import { P } from './Elements'
-import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
+import {
+  Loader,
+  InlineSpinner,
+  Checkbox,
+  Label,
+  Button
+} from '@project-r/styleguide'
 import { withMembership } from '../Auth/checkRoles'
 import { newsletterFragment, userNewslettersFragment } from './enhancers'
 
@@ -30,6 +36,12 @@ const styles = {
     paddingLeft: '28px'
   })
 }
+
+export const RESUBSCRIBE_EMAIL = gql`
+  mutation resubscribeEmail($userId: ID) {
+    resubscribeEmail(userId: $userId)
+  }
+`
 
 export const UPDATE_NEWSLETTER_SUBSCRIPTION = gql`
   mutation updateNewsletterSubscription(
@@ -81,6 +93,38 @@ const NewsletterSubscriptions = props => (
           {status !== 'subscribed' && (
             <Box style={{ margin: '10px 0', padding: 15 }}>
               <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
+              <Mutation mutation={RESUBSCRIBE_EMAIL}>
+                {(mutate, { loading, error }) => {
+                  if (error) {
+                    return <p>Error message</p>
+                  }
+
+                  return (
+                    <div
+                      style={{
+                        marginTop: 10,
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      {loading && <InlineSpinner size={24} />}
+                      <Button
+                        primary
+                        disabled={loading}
+                        onClick={() =>
+                          mutate({
+                            variables: {
+                              userId: data.me.userId
+                            }
+                          })
+                        }
+                      >
+                        {t('account/newsletterSubscriptions/resubscribe')}
+                      </Button>
+                    </div>
+                  )
+                }}
+              </Mutation>
             </Box>
           )}
           {!isMember && (
@@ -117,11 +161,7 @@ const NewsletterSubscriptions = props => (
                         {!props.label && (
                           <>
                             <br />
-                            <Label>
-                              {t(
-                                `account/newsletterSubscriptions/${name}/frequency`
-                              )}
-                            </Label>
+                            <Label></Label>
                           </>
                         )}
                         {error && <ErrorMessage error={error} />}

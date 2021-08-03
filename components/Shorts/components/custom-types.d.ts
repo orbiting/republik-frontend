@@ -111,7 +111,7 @@ export type ChartElement = SharedElement & {
 
 export type ChartLegendElement = SharedElement & {
   type: 'chartLegend'
-  children: CustomText[]
+  children: (CustomText | LinkElement)[]
 }
 
 export type CustomElement =

@@ -15,7 +15,7 @@ import {
   Button
 } from '@project-r/styleguide'
 import { withMembership } from '../Auth/checkRoles'
-import { newsletterFragment, userNewslettersFragment } from './enhancers'
+import { newsletterFragment, newsletterSettingsFragment } from './enhancers'
 
 const NoBox = ({ children, style: { margin } = {} }) => (
   <div style={{ margin }}>{children}</div>
@@ -40,10 +40,10 @@ const styles = {
 export const RESUBSCRIBE_EMAIL = gql`
   mutation resubscribeEmail($userId: ID!) {
     resubscribeEmail(userId: $userId) {
-      id
-      status
+      ...NewsletterSettings
     }
   }
+  ${newsletterSettingsFragment}
 `
 
 export const UPDATE_NEWSLETTER_SUBSCRIPTION = gql`
@@ -61,10 +61,13 @@ export const UPDATE_NEWSLETTER_SUBSCRIPTION = gql`
 export const NEWSLETTER_SETTINGS = gql`
   query myNewsletterSettings {
     me {
-      ...UserNewsletters
+      id
+      newsletterSettings {
+        ...NewsletterSettings
+      }
     }
   }
-  ${userNewslettersFragment}
+  ${newsletterSettingsFragment}
 `
 
 const NewsletterSubscriptions = props => (
@@ -98,13 +101,9 @@ const NewsletterSubscriptions = props => (
               <Mutation mutation={RESUBSCRIBE_EMAIL}>
                 {(mutate, { loading, error, data: mutationData }) => (
                   <>
-                    {/* Show the unsubscribed only if sta */}
-                    {status !== 'pending' &&
-                      !mutationData?.resubscribeEmail?.status && (
-                        <P>
-                          {t('account/newsletterSubscriptions/unsubscribed')}
-                        </P>
-                      )}
+                    {status === 'unsubscribed' && (
+                      <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
+                    )}
                     {/* Show if the status has been set to pending */}
                     {!error &&
                       mutationData?.resubscribeEmail?.status === 'pending' && (

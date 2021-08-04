@@ -39,7 +39,9 @@ const styles = {
 
 export const RESUBSCRIBE_EMAIL = gql`
   mutation resubscribeEmail($userId: ID!) {
-    resubscribeEmail(userId: $userId)
+    resubscribeEmail(userId: $userId) {
+      status
+    }
   }
 `
 
@@ -95,11 +97,18 @@ const NewsletterSubscriptions = props => (
               <Mutation mutation={RESUBSCRIBE_EMAIL}>
                 {(mutate, { loading, error, data: mutationData }) => (
                   <>
-                    {!mutationData && (
+                    {!mutationData && status !== 'pending' && (
                       <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
                     )}
                     {!error && mutationData?.resubscribeEmail && (
                       <P>{t('account/newsletterSubscriptions/resubscribed')}</P>
+                    )}
+                    {status === 'pending' && (
+                      <P>
+                        {t(
+                          'account/newsletterSubscriptions/resubscribeEmailPending'
+                        )}
+                      </P>
                     )}
                     <div style={{ marginTop: 10 }}>
                       {!mutationData && (
@@ -118,7 +127,13 @@ const NewsletterSubscriptions = props => (
                                 })
                               }
                             >
-                              {t('account/newsletterSubscriptions/resubscribe')}
+                              {status !== 'pending'
+                                ? t(
+                                    'account/newsletterSubscriptions/resubscribe'
+                                  )
+                                : t(
+                                    'account/newsletterSubscriptions/resendResubscribeEmail'
+                                  )}
                             </Button>
                           )}
                         </>

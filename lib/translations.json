@@ -1,5 +1,5 @@
 {
-  "updated": "2021-08-03T14:04:01.867Z",
+  "updated": "2021-08-04T12:25:59.822Z",
   "title": "live",
   "data": [
     {
@@ -847,8 +847,16 @@
       "value": "Newsletter reaktivieren"
     },
     {
+      "key": "account/newsletterSubscriptions/resendResubscribeEmail",
+      "value": "E-Mail erneut sendern"
+    },
+    {
       "key": "account/newsletterSubscriptions/resubscribed",
-      "value": "Die Newsletter wurden reaktiviert. Vielen Dank."
+      "value": "Sie haben alle Newsletter pausiert. Wir haben Ihnen eine E-Mail geschickt um die Reaktivierung zu bestätigen. Vielen Dank."
+    },
+    {
+      "key": "account/newsletterSubscriptions/resubscribeEmailPending",
+      "value": "Wir haben Ihnen bereits eine E-Mail geschickt um die Reaktivierung zu bestätigen."
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",

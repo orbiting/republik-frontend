@@ -105,12 +105,9 @@ const NewsletterSubscriptions = props => (
                       <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
                     )}
                     {/* Show if the status has been set to pending */}
-                    {!error &&
-                      mutationData?.resubscribeEmail?.status === 'pending' && (
-                        <P>
-                          {t('account/newsletterSubscriptions/resubscribed')}
-                        </P>
-                      )}
+                    {mutationData?.resubscribeEmail?.status === 'pending' && (
+                      <P>{t('account/newsletterSubscriptions/resubscribed')}</P>
+                    )}
                     {/* Show if the status is pending an no new email has been requested */}
                     {status === 'pending' && !mutationData && (
                       <P>
@@ -119,35 +116,31 @@ const NewsletterSubscriptions = props => (
                         )}
                       </P>
                     )}
-                    <div style={{ marginTop: 10 }}>
-                      {!mutationData && (
-                        <>
-                          {error && <ErrorMessage error={error} />}
-                          {loading && <InlineSpinner size={40} />}
-                          {!loading && (
-                            <Button
-                              primary
-                              disabled={loading}
-                              onClick={() =>
-                                mutate({
-                                  variables: {
-                                    userId: data.me.id
-                                  }
-                                })
-                              }
-                            >
-                              {status !== 'pending'
-                                ? t(
-                                    'account/newsletterSubscriptions/resubscribe'
-                                  )
-                                : t(
-                                    'account/newsletterSubscriptions/resendResubscribeEmail'
-                                  )}
-                            </Button>
-                          )}
-                        </>
-                      )}
-                    </div>
+                    {!mutationData && (
+                      <div style={{ marginTop: 10 }}>
+                        {error && <ErrorMessage error={error} />}
+                        {loading && <InlineSpinner size={40} />}
+                        {!loading && (
+                          <Button
+                            primary
+                            disabled={loading}
+                            onClick={() =>
+                              mutate({
+                                variables: {
+                                  userId: data.me.id
+                                }
+                              })
+                            }
+                          >
+                            {status !== 'pending'
+                              ? t('account/newsletterSubscriptions/resubscribe')
+                              : t(
+                                  'account/newsletterSubscriptions/resendResubscribeEmail'
+                                )}
+                          </Button>
+                        )}
+                      </div>
+                    )}
                   </>
                 )}
               </Mutation>

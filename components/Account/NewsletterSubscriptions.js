@@ -123,7 +123,6 @@ const NewsletterSubscriptions = props => (
                         {!loading && (
                           <Button
                             primary
-                            disabled={loading}
                             onClick={() =>
                               mutate({
                                 variables: {

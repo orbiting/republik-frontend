@@ -11,14 +11,25 @@ import { withElementsAttrs, withNormalizations, withTemplate } from './Element'
 import { CustomElement, CustomElementsType } from '../custom-types'
 import Actions from './ui/Actions'
 // @ts-ignore
-import { Label, plainButtonRule } from '@project-r/styleguide'
+import { Label, plainButtonRule, mediaQueries } from '@project-r/styleguide'
 import { MdChevronLeft } from '@react-icons/all-files/md/MdChevronLeft'
 import { css } from 'glamor'
 
 const styles = {
+  container: css({
+    paddingTop: 10,
+    paddingBottom: 60,
+    [mediaQueries.mUp]: {
+      paddingTop: 20,
+      paddingBottom: 120
+    }
+  }),
   discreteButton: css({
     display: 'block',
-    marginBottom: 30
+    marginBottom: 20,
+    [mediaQueries.mUp]: {
+      marginBottom: 40
+    }
   })
 }
 
@@ -50,10 +61,10 @@ const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
   const renderLeaf = useCallback(props => <LeafComponent {...props} />, [])
 
   return (
-    <>
+    <div {...styles.container}>
       <Label>
         <button {...plainButtonRule} {...styles.discreteButton} onClick={reset}>
-          <MdChevronLeft size={16} /> Züruck
+          <MdChevronLeft size={16} /> Zurück
         </button>
       </Label>
       <Slate
@@ -66,7 +77,7 @@ const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
         <FixedToolbar />
       </Slate>
       <Actions value={value} reset={reset} />
-    </>
+    </div>
   )
 }
 

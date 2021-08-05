@@ -14,35 +14,30 @@ import { quote } from './quote'
 import { chart } from './chart'
 
 const styles = {
-  container: css({
-    textAlign: 'center'
-  }),
   title: css({
-    marginBottom: 40,
+    marginBottom: 20,
     [mediaQueries.mUp]: {
-      marginBottom: 80
+      marginBottom: 40
     }
   }),
   chartWrapper: css({
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gridRowGap: 20,
-    marginTop: 20,
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gridRowGap: 10,
     [mediaQueries.mUp]: {
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      marginTop: 40
+      gridRowGap: 20
     }
   }),
   chartButton: css({
     height: 60,
-    width: 120,
+    width: 60,
     whiteSpace: 'nowrap',
     ...fontStyles.sansSerifRegular14,
     cursor: 'pointer',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    margin: '20px auto',
+    margin: '20px 0',
     ':hover': {
       textDecoration: 'underline'
     }
@@ -66,7 +61,7 @@ const templates: TemplateButtonI[] = [
 export const TemplatePicker: React.FC<{
   setTemplate: (t: CustomElement[]) => void
 }> = ({ setTemplate }) => (
-  <div {...styles.container}>
+  <>
     <Interaction.H1 {...styles.title}>⚗️ Kurzformate</Interaction.H1>
     <div {...styles.chartWrapper}>
       {templates.map(template => {
@@ -82,5 +77,5 @@ export const TemplatePicker: React.FC<{
         )
       })}
     </div>
-  </div>
+  </>
 )

@@ -9,7 +9,7 @@ const meta = {
 }
 
 const Page = () => (
-  <Frame raw meta={meta}>
+  <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
     <Editor />
   </Frame>
 )

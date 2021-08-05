@@ -12,17 +12,23 @@ import { swissTime } from '../../lib/utils/format'
 
 const styles = {
   container: css({
-    paddingTop: 40,
+    paddingTop: 20,
     paddingBottom: 60,
     [mediaQueries.mUp]: {
-      paddingTop: 80,
+      paddingTop: 40,
       paddingBottom: 120
     }
   }),
   drafts: css({
-    paddingTop: 80,
+    paddingTop: 40,
     [mediaQueries.mUp]: {
-      paddingTop: 120
+      paddingTop: 80
+    }
+  }),
+  draftsTitle: css({
+    marginBottom: 20,
+    [mediaQueries.mUp]: {
+      marginBottom: 40
     }
   })
 }
@@ -36,10 +42,13 @@ const Drafts: React.FC<{ setTemplate: (t: CustomElement[]) => void }> = ({
   if (!drafts.length) return null
   return (
     <div {...styles.drafts}>
-      <Interaction.H2 style={{ textAlign: 'center' }}>Drafts</Interaction.H2>
+      <Interaction.H2 {...styles.draftsTitle}>Drafts</Interaction.H2>
       <div>
         {(drafts as DraftI[])
-          .sort((d1, d2) => new Date(d2.date) - new Date(d1.date))
+          .sort(
+            (d1, d2) =>
+              new Date(d2.date).getDate() - new Date(d1.date).getDate()
+          )
           .map(draft => (
             <div key={draft.key} style={{ margin: '10px 0' }}>
               <A
@@ -63,14 +72,14 @@ const Editor: React.FC = () => {
   const [template, setTemplate] = useState<CustomElement[]>()
 
   return (
-    <Center {...styles.container}>
+    <Center>
       {template ? (
         <EditorApp template={template} reset={() => setTemplate(undefined)} />
       ) : (
-        <>
+        <div {...styles.container}>
           <TemplatePicker setTemplate={setTemplate} />
           <Drafts setTemplate={setTemplate} />
-        </>
+        </div>
       )}
     </Center>
   )

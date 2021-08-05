@@ -7,10 +7,18 @@ import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import Loader from '../Loader'
 
-import { mediaQueries, Center, Interaction } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  Center,
+  Interaction,
+  IconButton,
+  A
+} from '@project-r/styleguide'
 import DocumentList from './DocumentList'
 import { makeLoadMore } from './DocumentListContainer'
 import { documentFragment } from './fragments'
+import { CheckSmallIcon } from '@project-r/styleguide/icons'
+import Link from 'next/link'
 
 const styles = {
   container: css({
@@ -106,6 +114,13 @@ const Feed = ({
 
   return (
     <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
+      <IconButton
+        style={{ position: 'fixed', bottom: 0, right: 0 }}
+        Icon={CheckSmallIcon}
+      />
+      <Link href='/editor' passHref>
+        <A>Editor</A>
+      </Link>
       <Center {...styles.container}>
         <Loader
           error={error}

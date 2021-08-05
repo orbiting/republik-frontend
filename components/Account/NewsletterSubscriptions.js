@@ -180,7 +180,7 @@ const NewsletterSubscriptions = props => (
                         {!props.label && (
                           <>
                             <br />
-                            <Label>
+                            <Label style={{ color: 'inherit' }}>
                               {t(
                                 `account/newsletterSubscriptions/${name}/frequency`
                               )}

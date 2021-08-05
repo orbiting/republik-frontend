@@ -159,7 +159,7 @@ const NewsletterSubscriptions = props => (
                     <Checkbox
                       black={props.black}
                       checked={subscribed}
-                      disabled={mutating}
+                      disabled={mutating || status === 'unsubscribed'}
                       onChange={(_, checked) => {
                         mutate({
                           variables: {

@@ -11,11 +11,11 @@ import ReactDOM from 'react-dom'
 import { css } from 'glamor'
 
 // @ts-ignore
-import { useColorContext } from '@project-r/styleguide'
+import { useColorContext, Label } from '@project-r/styleguide'
 import IconButton from '../../Styleguide/IconButton'
 
 import { MarkButton } from '../Mark'
-import { ElementButton } from '../Element'
+import { CharCount, ElementButton } from '../Element'
 import {
   ButtonI,
   CustomEditor,
@@ -92,6 +92,9 @@ export const FixedToolbar = () => {
       {...styles.fixedToolbar}
       {...colorScheme.set('borderTopColor', hasSelection ? 'text' : 'divider')}
     >
+      <Label {...colorScheme.set('color', 'textSoft')}>
+        <CharCount />
+      </Label>
       <div {...styles.buttonGroup} style={{ marginLeft: 'auto' }}>
         {['break' as CustomElementsType].map(elKey => (
           <ElementButton key={elKey} elKey={elKey} disabled={!hasSelection} />

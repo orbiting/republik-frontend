@@ -1,5 +1,11 @@
 import React, { Attributes, ReactElement } from 'react'
-import { Editor, Element as SlateElement, Transforms, Node } from 'slate'
+import {
+  Editor,
+  Element as SlateElement,
+  Transforms,
+  Node,
+  Descendant
+} from 'slate'
 import { useSlate } from 'slate-react'
 
 import { editorAttrsKey, config, configKeys } from '../elements'
@@ -42,6 +48,43 @@ export const ElementButton: React.FC<{
       }
     />
   )
+}
+
+export const MAX_SIGNS = 3000
+
+export const getCharCount = (nodes: (Descendant | Node)[]): number =>
+  nodes.map(node => Node.string(node).length).reduce((a, b) => a + b, 0)
+
+export const CharCount: React.FC = () => {
+  const editor = useSlate()
+  return <span>✂️ {MAX_SIGNS - getCharCount(editor.children)} Zeichen</span>
+}
+
+export const withCharCount = (editor: CustomEditor): CustomEditor => {
+  const { insertText, insertFragment, insertNode } = editor
+
+  editor.insertText = text => {
+    if (getCharCount(editor.children) >= MAX_SIGNS) {
+      return
+    }
+    insertText(text)
+  }
+
+  editor.insertFragment = nodes => {
+    if (getCharCount(editor.children) + getCharCount(nodes) >= MAX_SIGNS) {
+      return
+    }
+    insertFragment(nodes)
+  }
+
+  editor.insertNode = node => {
+    if (getCharCount(editor.children) + getCharCount([node]) >= MAX_SIGNS) {
+      return
+    }
+    insertNode(node)
+  }
+
+  return editor
 }
 
 export const withTemplate = (template: CustomElement[]) => (

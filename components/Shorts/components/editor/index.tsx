@@ -7,7 +7,12 @@ import { config as elementsConfig } from '../elements'
 import { FixedToolbar, HoveringToolbar } from './ui/Toolbar'
 import { EditableElement } from './ui/Edit'
 import { LeafComponent } from './Mark'
-import { withElementsAttrs, withNormalizations, withTemplate } from './Element'
+import {
+  withCharCount,
+  withElementsAttrs,
+  withNormalizations,
+  withTemplate
+} from './Element'
 import { CustomElement, CustomElementsType } from '../custom-types'
 import Actions from './ui/Actions'
 // @ts-ignore
@@ -40,8 +45,10 @@ const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
   const editor = useMemo(
     () =>
       withTemplate(template)(
-        withNormalizations(
-          withElementsAttrs(withReact(withHistory(createEditor())))
+        withCharCount(
+          withNormalizations(
+            withElementsAttrs(withReact(withHistory(createEditor())))
+          )
         )
       ),
     []

@@ -1,13 +1,13 @@
 import React from 'react'
-import { getRandomInt } from '../../../../../lib/utils/helpers'
-// @ts-ignore
-import { Button, A, Interaction, mediaQueries } from '@project-r/styleguide'
 import { css } from 'glamor'
-import { Descendant, Node } from 'slate'
-import { useShortDrafts } from '../../../../../lib/shortDrafts'
-import { CustomElement, DraftI } from '../../custom-types'
+import { Node } from 'slate'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+// @ts-ignore
+import { Button, A, Interaction, mediaQueries } from '@project-r/styleguide'
+import { CustomElement, DraftI } from '../../custom-types'
+import { useShortDrafts } from '../../../../../lib/shortDrafts'
+import { getRandomInt } from '../../../../../lib/utils/helpers'
 
 const commitMutation = gql`
   mutation commit(

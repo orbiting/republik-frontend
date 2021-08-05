@@ -10,8 +10,22 @@ import { LeafComponent } from './Mark'
 import { withElementsAttrs, withNormalizations, withTemplate } from './Element'
 import { CustomElement, CustomElementsType } from '../custom-types'
 import Actions from './ui/Actions'
+// @ts-ignore
+import { Label, plainButtonRule } from '@project-r/styleguide'
+import { MdChevronLeft } from '@react-icons/all-files/md/MdChevronLeft'
+import { css } from 'glamor'
 
-const EditorApp: React.FC<{ template: CustomElement[] }> = ({ template }) => {
+const styles = {
+  discreteButton: css({
+    display: 'block',
+    marginBottom: 30
+  })
+}
+
+const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
+  template,
+  reset
+}) => {
   const editor = useMemo(
     () =>
       withTemplate(template)(
@@ -37,6 +51,11 @@ const EditorApp: React.FC<{ template: CustomElement[] }> = ({ template }) => {
 
   return (
     <>
+      <Label>
+        <button {...plainButtonRule} {...styles.discreteButton} onClick={reset}>
+          <MdChevronLeft size={16} /> Züruck
+        </button>
+      </Label>
       <Slate
         editor={editor}
         value={value}
@@ -46,7 +65,7 @@ const EditorApp: React.FC<{ template: CustomElement[] }> = ({ template }) => {
         <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
         <FixedToolbar />
       </Slate>
-      <Actions />
+      <Actions value={value} reset={reset} />
     </>
   )
 }

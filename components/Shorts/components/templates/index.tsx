@@ -15,7 +15,7 @@ import { chart } from './chart'
 
 const styles = {
   container: css({
-    textAlign: 'center',
+    textAlign: 'center'
   }),
   title: css({
     marginBottom: 40,
@@ -68,7 +68,6 @@ export const TemplatePicker: React.FC<{
 }> = ({ setTemplate }) => (
   <div {...styles.container}>
     <Interaction.H1 {...styles.title}>⚗️ Kurzformate</Interaction.H1>
-    <Interaction.P>Pick your poison:</Interaction.P>
     <div {...styles.chartWrapper}>
       {templates.map(template => {
         return (

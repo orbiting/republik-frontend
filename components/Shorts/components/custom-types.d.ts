@@ -197,6 +197,12 @@ export interface TemplateButtonI {
   tree: CustomElement[]
 }
 
+export interface DraftI {
+  key: string
+  date: string
+  value: CustomElement[]
+}
+
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor
 
 declare module 'slate' {

@@ -44,7 +44,7 @@ const styles = {
   })
 }
 
-const diacritics = [
+const diacritics: { base: string; letters: string[] }[] = [
   { base: 'a', letters: ['â', 'à'] },
   { base: 'c', letters: ['ç'] },
   { base: 'e', letters: ['é', 'ê', 'è', 'ë'] },
@@ -67,6 +67,7 @@ const diacriticsMap = diacritics.reduce((map, diacritic) => {
 const slug = (string: string): string =>
   string
     .toLowerCase()
+    // eslint-disable-next-line no-control-regex
     .replace(/[^\u0000-\u007E]/g, a => diacriticsMap[a] || a)
     .replace(/[^0-9a-z]+/g, ' ')
     .trim()
@@ -98,7 +99,9 @@ const getPublikatorDocument = (value: CustomElement[]): object => {
       {
         type: 'zone',
         identifier: 'TITLE',
-        data: {},
+        data: {
+          value: JSON.stringify(value)
+        },
         children: [
           {
             type: 'heading',
@@ -143,10 +146,7 @@ const getPublikatorDocument = (value: CustomElement[]): object => {
       {
         type: 'zone',
         identifier: 'CENTER',
-        data: {
-          value
-        },
-        children: (value.slice(1)).map(node => ({
+        children: value.slice(1).map(node => ({
           type: 'paragraph',
           children: [
             {

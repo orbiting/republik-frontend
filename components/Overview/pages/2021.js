@@ -296,6 +296,58 @@ const text = {
       </Highlight>
       ?
     </>
+  ),
+  Juli: p => (
+    <>
+      Der{' '}
+      <Highlight {...p} ids={['LBztxSBiY']}>
+        zweite Corona-Sommer
+      </Highlight>{' '}
+      die{' '}
+      <Highlight {...p} ids={['fQDdbcNjL']}>
+        beste Rapperin
+      </Highlight>{' '}
+      hören, ein{' '}
+      <Highlight {...p} ids={['E8CEH1wht']}>
+        globalisierungskritisches Museum
+      </Highlight>{' '}
+      entdecken, bei{' '}
+      <Highlight {...p} ids={['qiPG7era6']}>
+        Urschweizer Impfskeptikern
+      </Highlight>{' '}
+      nachfragen und{' '}
+      <Highlight {...p} ids={['N4bC28t-1']}>
+        veganes Poulet-Curry
+      </Highlight>{' '}
+      zaubern.{' '}
+      <Highlight {...p} ids={['yvUySP6sX']}>
+        Wer mit Pflegeheimen Geld verdient
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['OQmh9zplK']}>
+        wie Amazon die Angestellten überwacht
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['4ZmEsYZ_H']}>
+        warum sich Whistleblowerinnen vor Druckern hüten sollten
+      </Highlight>
+      . Ausserdem: der{' '}
+      <Highlight {...p} ids={['UmznvWSRq']}>
+        Irak
+      </Highlight>
+      , der{' '}
+      <Highlight {...p} ids={['bvmckqJ9B']}>
+        Iran
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['OC8pznZIR']}>
+        zweimal
+      </Highlight>{' '}
+      <Highlight {...p} ids={['tHjGEbc9Z']}>
+        Afghanistan
+      </Highlight>
+      .
+    </>
   )
 }
 

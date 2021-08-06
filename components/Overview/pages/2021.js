@@ -302,8 +302,8 @@ const text = {
       Der{' '}
       <Highlight {...p} ids={['LBztxSBiY']}>
         zweite Corona-Sommer
-      </Highlight>{' '}
-      die{' '}
+      </Highlight>
+      : die{' '}
       <Highlight {...p} ids={['fQDdbcNjL']}>
         beste Rapperin
       </Highlight>{' '}

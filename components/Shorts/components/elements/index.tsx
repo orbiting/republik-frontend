@@ -16,6 +16,7 @@ import { config as chartLegend } from './chart/legend'
 import { config as questionnaire } from './questionnaire'
 import { config as questionnaireParagraph } from './questionnaireParagraph'
 import { config as questionnaireChoice } from './questionnaireChoice'
+import { config as linkPreview } from './linkPreview'
 
 export const config: ElementsConfig = {
   paragraph,
@@ -34,6 +35,7 @@ export const config: ElementsConfig = {
   questionnaire,
   questionnaireParagraph,
   questionnaireChoice,
+  linkPreview,
   break: breakConfig
 }
 

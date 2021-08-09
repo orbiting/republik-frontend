@@ -101,7 +101,7 @@ const AnswersChart: React.FC<{ answer: string }> = ({ answer }) => {
   const falsePercent = 41
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%' }} contentEditable={false}>
       <div {...styles.labels} style={{ justifyContent: 'space-around' }}>
         <label>2161 Stimmen</label>
       </div>

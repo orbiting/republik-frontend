@@ -124,6 +124,12 @@ export type QuestionnaireChoiceElement = SharedElement & {
   children: PlainText[]
 }
 
+export type LinkPreviewElement = SharedElement & {
+  type: 'linkPreview'
+  src: string
+  children: PlainText[]
+}
+
 export type CustomElement =
   | HeadlineElement
   | ParagraphElement
@@ -142,6 +148,7 @@ export type CustomElement =
   | QuestionnaireElement
   | QuestionnaireParagraphElement
   | QuestionnaireChoiceElement
+  | LinkPreviewElement
 
 // TODO: infer this from CustomElement (see above)
 export type CustomElementsType =
@@ -162,6 +169,7 @@ export type CustomElementsType =
   | 'questionnaire'
   | 'questionnaireParagraph'
   | 'questionnaireChoice'
+  | 'linkPreview'
 
 interface ButtonI {
   icon: IconType

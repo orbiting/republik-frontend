@@ -5,6 +5,7 @@ import { MdWallpaper } from '@react-icons/all-files/md/MdWallpaper'
 import { MdShowChart } from '@react-icons/all-files/md/MdShowChart'
 import { MdFormatQuote } from '@react-icons/all-files/md/MdFormatQuote'
 import { MdPlaylistAddCheck } from '@react-icons/all-files/md/MdPlaylistAddCheck'
+import { MdLink } from '@react-icons/all-files/md/MdLink'
 // @ts-ignore
 import { mediaQueries, fontStyles, Interaction } from '@project-r/styleguide'
 import { textTree } from './text'
@@ -13,6 +14,7 @@ import { figure } from './figure'
 import { quote } from './quote'
 import { chart } from './chart'
 import { questionnaire } from './questionnaire'
+import { link } from './link'
 
 const styles = {
   title: css({
@@ -61,7 +63,12 @@ const templates: TemplateButtonI[] = [
     label: 'Umfrage',
     icon: MdPlaylistAddCheck
   },
-  { tree: textTree('Zitat').concat(quote), label: 'Zitat', icon: MdFormatQuote }
+  {
+    tree: textTree('Zitat').concat(quote),
+    label: 'Zitat',
+    icon: MdFormatQuote
+  },
+  { tree: textTree('Link').concat(link), label: 'Link', icon: MdLink }
 ]
 
 export const TemplatePicker: React.FC<{

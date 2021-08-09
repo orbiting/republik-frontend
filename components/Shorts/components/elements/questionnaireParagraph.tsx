@@ -21,5 +21,8 @@ const Component: React.FC<{
 )
 
 export const config: ElementConfigI = {
-  Component
+  Component,
+  attrs: {
+    formatText: true
+  }
 }

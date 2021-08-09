@@ -30,7 +30,7 @@ const styles = {
   }),
   editorLink: css({
     position: 'fixed',
-    bottom: 30,
+    bottom: 20,
     right: 30,
     borderRadius: 50,
     height: 50,

@@ -15,6 +15,8 @@ import {
   CustomElement,
   CustomElementsType
 } from '../custom-types'
+// @ts-ignore
+import { useColorContext } from '@project-r/styleguide'
 
 export const matchElement = (elKey: CustomElementsType) => (n: any): boolean =>
   !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === elKey
@@ -57,7 +59,13 @@ export const getCharCount = (nodes: (Descendant | Node)[]): number =>
 
 export const CharCount: React.FC = () => {
   const editor = useSlate()
-  return <span>✂️ {MAX_SIGNS - getCharCount(editor.children)} Zeichen</span>
+  const [colorScheme] = useColorContext()
+  const countdown = MAX_SIGNS - getCharCount(editor.children)
+  return (
+    <span {...colorScheme.set('color', countdown < 100 ? 'error' : 'textSoft')}>
+      ✂️ {countdown} Zeichen
+    </span>
+  )
 }
 
 export const withCharCount = (editor: CustomEditor): CustomEditor => {

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Descendant } from 'slate'
 import { css } from 'glamor'
 import { MdSort } from '@react-icons/all-files/md/MdSort'
 import { MdWallpaper } from '@react-icons/all-files/md/MdWallpaper'
 import { MdShowChart } from '@react-icons/all-files/md/MdShowChart'
 import { MdFormatQuote } from '@react-icons/all-files/md/MdFormatQuote'
+import { MdPlaylistAddCheck } from '@react-icons/all-files/md/MdPlaylistAddCheck'
 // @ts-ignore
 import { mediaQueries, fontStyles, Interaction } from '@project-r/styleguide'
 import { textTree } from './text'
@@ -12,6 +12,7 @@ import { CustomElement, TemplateButtonI } from '../custom-types'
 import { figure } from './figure'
 import { quote } from './quote'
 import { chart } from './chart'
+import { questionnaire } from './questionnaire'
 
 const styles = {
   title: css({
@@ -52,10 +53,15 @@ const styles = {
 }
 
 const templates: TemplateButtonI[] = [
-  { tree: textTree.concat(figure()), label: 'Bild', icon: MdWallpaper },
-  { tree: textTree.concat(chart), label: 'Chart', icon: MdShowChart },
-  { tree: textTree.concat(quote), label: 'Zitat', icon: MdFormatQuote },
-  { tree: textTree, label: 'nur Text', icon: MdSort }
+  { tree: textTree(), label: 'nur Text', icon: MdSort },
+  { tree: textTree('Bild').concat(figure()), label: 'Bild', icon: MdWallpaper },
+  { tree: textTree('Chart').concat(chart), label: 'Chart', icon: MdShowChart },
+  {
+    tree: textTree('Umfrage').concat(questionnaire),
+    label: 'Umfrage',
+    icon: MdPlaylistAddCheck
+  },
+  { tree: textTree('Zitat').concat(quote), label: 'Zitat', icon: MdFormatQuote }
 ]
 
 export const TemplatePicker: React.FC<{

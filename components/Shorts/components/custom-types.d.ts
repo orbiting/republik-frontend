@@ -64,11 +64,6 @@ export type FigureImageElement = SharedElement & {
 
 export type FigureCaptionElement = SharedElement & {
   type: 'figureCaption'
-  children: (FigureBylineElement | LinkElement | CustomText)[]
-}
-
-export type FigureBylineElement = SharedElement & {
-  type: 'figureByline'
   children: (LinkElement | CustomText)[]
 }
 
@@ -114,6 +109,21 @@ export type ChartLegendElement = SharedElement & {
   children: (CustomText | LinkElement)[]
 }
 
+export type QuestionnaireElement = SharedElement & {
+  type: 'questionnaire'
+  children: (QuestionnaireParagraphElement | QuestionnaireChoiceElement)[]
+}
+
+export type QuestionnaireParagraphElement = SharedElement & {
+  type: 'questionnaireParagraph'
+  children: (CustomText | LinkElement)[]
+}
+
+export type QuestionnaireChoiceElement = SharedElement & {
+  type: 'questionnaireChoice'
+  children: PlainText[]
+}
+
 export type CustomElement =
   | HeadlineElement
   | ParagraphElement
@@ -122,7 +132,6 @@ export type CustomElement =
   | FigureElement
   | FigureImageElement
   | FigureCaptionElement
-  | FigureBylineElement
   | QuoteElement
   | QuoteParagraphElement
   | ChartBlockElement
@@ -130,6 +139,9 @@ export type CustomElement =
   | ChartTitleElement
   | ChartLeadElement
   | ChartLegendElement
+  | QuestionnaireElement
+  | QuestionnaireParagraphElement
+  | QuestionnaireChoiceElement
 
 // TODO: infer this from CustomElement (see above)
 export type CustomElementsType =
@@ -140,7 +152,6 @@ export type CustomElementsType =
   | 'figure'
   | 'figureImage'
   | 'figureCaption'
-  | 'figureByline'
   | 'quote'
   | 'quoteParagraph'
   | 'chartBlock'
@@ -148,6 +159,9 @@ export type CustomElementsType =
   | 'chartTitle'
   | 'chartLead'
   | 'chartLegend'
+  | 'questionnaire'
+  | 'questionnaireParagraph'
+  | 'questionnaireChoice'
 
 interface ButtonI {
   icon: IconType

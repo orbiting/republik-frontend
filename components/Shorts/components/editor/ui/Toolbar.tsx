@@ -41,7 +41,7 @@ const styles = {
     borderTopWidth: 1,
     borderTopStyle: 'solid',
     paddingTop: 10,
-    marginTop: 10
+    marginTop: 20
   }),
   hoveringToolbar: css({
     padding: '8px 7px 6px',
@@ -92,7 +92,7 @@ export const FixedToolbar = () => {
       {...styles.fixedToolbar}
       {...colorScheme.set('borderTopColor', hasSelection ? 'text' : 'divider')}
     >
-      <Label {...colorScheme.set('color', 'textSoft')}>
+      <Label>
         <CharCount />
       </Label>
       <div {...styles.buttonGroup} style={{ marginLeft: 'auto' }}>

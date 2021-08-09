@@ -10,7 +10,8 @@ const HrefLink = ({ href, passHref, children, query }) => {
 
   const urlObject = parse(href, true)
   const hrefWithQuery = format({
-    pathname: urlObject.pathname,
+    ...urlObject,
+    search: undefined, // remove search to allow query overwrite
     query: { ...urlObject.query, ...query }
   })
   const Component = passHref ? Link : AreaLink

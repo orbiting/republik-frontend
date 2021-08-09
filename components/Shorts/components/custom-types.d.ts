@@ -126,7 +126,7 @@ export type QuestionnaireChoiceElement = SharedElement & {
 
 export type LinkPreviewElement = SharedElement & {
   type: 'linkPreview'
-  src: string
+  path: string
   children: PlainText[]
 }
 

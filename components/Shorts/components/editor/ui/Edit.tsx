@@ -75,7 +75,8 @@ export const EditableElement: React.FC<{
     <ElementWrapper
       contentEditable={!isEdit}
       isInline={elementConfig.attrs?.isInline}
-      onClick={() => {
+      onClick={(event: MouseEvent) => {
+        event.preventDefault()
         edit(true)
       }}
       ref={editRef}

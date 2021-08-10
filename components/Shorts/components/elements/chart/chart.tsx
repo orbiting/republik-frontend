@@ -9,8 +9,10 @@ const Component: React.FC<{
   element: ChartElement
 }> = ({ attributes, children, element }) => {
   return (
-    <div {...attributes} contentEditable={false}>
-      <Chart {...element} />
+    <div {...attributes}>
+      <div contentEditable={false}>
+        <Chart {...element} />
+      </div>
       {children}
     </div>
   )

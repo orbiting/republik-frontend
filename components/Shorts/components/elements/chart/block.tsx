@@ -5,13 +5,9 @@ import {
   singleCaptionNode
 } from '../helpers/normalization'
 import { chart } from '../../templates/chart'
-
-const Component: React.FC<{
-  attributes: Attributes
-  children: ReactElement
-}> = ({ attributes, children }) => <div {...attributes}>{children}</div>
+import { ContainerComponent } from '../../editor/Element'
 
 export const config: ElementConfigI = {
-  Component,
+  Component: ContainerComponent,
   normalizations: [matchTemplateElement(chart), singleCaptionNode]
 }

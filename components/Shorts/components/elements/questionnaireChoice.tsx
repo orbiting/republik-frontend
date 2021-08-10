@@ -16,6 +16,7 @@ const CIRCLE_SIZE = 22
 
 const styles = {
   content: css({
+    marginTop: 10,
     height: 80,
     display: 'flex',
     flexDirection: 'column',
@@ -168,22 +169,24 @@ const Component: React.FC<{
 }> = ({ attributes, children }) => {
   const [answer, setAnswer] = useState<string>('')
   return (
-    <div {...attributes} {...styles.content}>
-      {answer ? (
-        <div {...styles.mobileBorder}>
-          <AnswersChart answer={answer} />
-        </div>
-      ) : (
-        <div {...styles.buttons}>
-          {OPTIONS.map(option => (
-            <div key={option.value}>
-              <Button onClick={() => setAnswer(option.value)}>
-                {option.label}
-              </Button>
-            </div>
-          ))}
-        </div>
-      )}
+    <div {...attributes}>
+      <div contentEditable={false} {...styles.content}>
+        {answer ? (
+          <div {...styles.mobileBorder}>
+            <AnswersChart answer={answer} />
+          </div>
+        ) : (
+          <div {...styles.buttons}>
+            {OPTIONS.map(option => (
+              <div key={option.value}>
+                <Button onClick={() => setAnswer(option.value)}>
+                  {option.label}
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
       {children}
     </div>
   )

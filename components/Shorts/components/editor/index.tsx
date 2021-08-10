@@ -8,6 +8,7 @@ import { FixedToolbar, HoveringToolbar } from './ui/Toolbar'
 import { EditableElement } from './ui/Edit'
 import { LeafComponent } from './Mark'
 import {
+  withBreaksDisabled,
   withCharCount,
   withElementsAttrs,
   withNormalizations,
@@ -47,7 +48,9 @@ const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
       withTemplate(template)(
         withCharCount(
           withNormalizations(
-            withElementsAttrs(withReact(withHistory(createEditor())))
+            withBreaksDisabled(
+              withElementsAttrs(withReact(withHistory(createEditor())))
+            )
           )
         )
       ),

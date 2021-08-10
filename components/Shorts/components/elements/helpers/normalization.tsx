@@ -27,20 +27,3 @@ export const matchTemplateElement: (
     }
   })
 }
-
-// replace with insertBreak decorator
-export const singleCaptionNode: NormalizeFn<
-  FigureElement | QuoteElement | ChartBlockElement
-> = ([node, path], editor) => {
-  if (
-    node.children.length > 2 &&
-    (node.children[node.children.length - 1].type === 'figureCaption' ||
-      node.children[node.children.length - 1].type === 'chartLegend') &&
-    node.children[node.children.length - 2].type ===
-      node.children[node.children.length - 1].type
-  ) {
-    Transforms.mergeNodes(editor, {
-      at: path.concat(node.children.length - 1)
-    })
-  }
-}

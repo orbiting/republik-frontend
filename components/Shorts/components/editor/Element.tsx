@@ -4,7 +4,8 @@ import {
   Element as SlateElement,
   Transforms,
   Node,
-  Descendant
+  Descendant,
+  BasePoint
 } from 'slate'
 import { useSlate } from 'slate-react'
 
@@ -125,6 +126,46 @@ export const withTemplate = (template: CustomElement[]) => (
     }
 
     return normalizeNode([node, path])
+  }
+
+  return editor
+}
+
+const hasNoBreakAncestor = (
+  editor: CustomEditor,
+  path?: BasePoint
+): boolean => {
+  if (!path) return false
+  for (const [node] of Node.ancestors(editor, Editor.path(editor, path))) {
+    const currentType = SlateElement.isElement(node) && node.type
+    console.log(
+      currentType && config[currentType as CustomElementsType],
+      currentType &&
+        config[currentType as CustomElementsType]?.attrs?.disableBreaks
+    )
+    if (
+      currentType &&
+      config[currentType as CustomElementsType]?.attrs?.disableBreaks
+    ) {
+      return true
+    }
+  }
+  return false
+}
+
+export const withBreaksDisabled = (editor: CustomEditor): CustomEditor => {
+  const { insertBreak } = editor
+
+  editor.insertBreak = () => {
+    const { selection } = editor
+
+    if (
+      hasNoBreakAncestor(editor, selection?.anchor) ||
+      hasNoBreakAncestor(editor, selection?.focus)
+    ) {
+      return
+    }
+    return insertBreak()
   }
 
   return editor

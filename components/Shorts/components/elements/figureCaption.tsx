@@ -5,6 +5,7 @@ import { ElementConfigI } from '../custom-types'
 export const config: ElementConfigI = {
   Component: FigureCaption,
   attrs: {
-    formatText: true
+    formatText: true,
+    disableBreaks: true
   }
 }

@@ -1,7 +1,6 @@
 // @ts-ignore
 import { BlockQuote } from '@project-r/styleguide'
 import { ElementConfigI, NormalizeFn, QuoteElement } from '../custom-types'
-import { singleCaptionNode } from './helpers/normalization'
 import { quote } from '../templates/quote'
 import { Transforms } from 'slate'
 
@@ -27,5 +26,5 @@ export const quoteStructure: NormalizeFn<QuoteElement> = (
 
 export const config: ElementConfigI = {
   Component: BlockQuote,
-  normalizations: [quoteStructure, singleCaptionNode]
+  normalizations: [quoteStructure]
 }

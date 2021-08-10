@@ -178,6 +178,7 @@ interface EditorAttrsI {
 interface ElementAttrsI extends EditorAttrsI {
   editUi?: boolean | React.FC
   formatText?: boolean
+  disableBreaks?: boolean
 }
 
 export type EditorAttr = keyof EditorAttrsI

@@ -126,6 +126,7 @@ export const withTemplate = (template: CustomElement[]) => (
 
     return normalizeNode([node, path])
   }
+
   return editor
 }
 

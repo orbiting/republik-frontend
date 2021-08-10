@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
-import { Slate, Editable, withReact } from 'slate-react'
+import { Slate, Editable, withReact, useSlate } from 'slate-react'
 
 import { config as elementsConfig } from '../elements'
 import { FixedToolbar, HoveringToolbar } from './ui/Toolbar'

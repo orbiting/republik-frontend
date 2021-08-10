@@ -11,7 +11,7 @@ const Component: React.FC<{
   return (
     <div {...attributes}>
       <div contentEditable={false}>
-        <Chart {...element} />
+        <Chart {...JSON.parse(JSON.stringify(element))} />
       </div>
       {children}
     </div>

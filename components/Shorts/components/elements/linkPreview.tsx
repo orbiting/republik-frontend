@@ -1,4 +1,4 @@
-import { ElementConfigI, FigureImageElement, LinkPreviewElement } from "../custom-types";
+import { ElementConfigI, LinkPreviewElement } from '../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 // @ts-ignore
 import { Embed } from '@project-r/styleguide/lib/components/Discussion/Internal/Comment/Embed'
@@ -6,6 +6,7 @@ import { Embed } from '@project-r/styleguide/lib/components/Discussion/Internal/
 import { Loader } from '@project-r/styleguide'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+import { PUBLIC_BASE_URL } from '../../../../lib/constants'
 
 export const getPreview = gql`
   query getDocument($path: String!) {
@@ -75,7 +76,7 @@ const Component: React.FC<{
   element: LinkPreviewElement
 }> = ({ attributes, children, element }) => (
   <div {...attributes} contentEditable={false}>
-    <LinkPreview {...element} />
+    <LinkPreview path={element.src.replace(PUBLIC_BASE_URL, '')} />
     {children}
   </div>
 )

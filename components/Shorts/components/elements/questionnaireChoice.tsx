@@ -85,11 +85,11 @@ const styles = {
 
 const OPTIONS = [
   {
-    value: 'ja',
+    value: 'true',
     label: 'Ja'
   },
   {
-    value: 'nein',
+    value: 'false',
     label: 'Nein'
   }
 ]
@@ -97,6 +97,7 @@ const OPTIONS = [
 const AnswersChart: React.FC<{ answer: string }> = ({ answer }) => {
   const userTrue = answer === 'true'
   const userFalse = answer === 'false'
+
   const truePercent = 59
   const falsePercent = 41
 
@@ -167,7 +168,7 @@ const Component: React.FC<{
 }> = ({ attributes, children }) => {
   const [answer, setAnswer] = useState<string>('')
   return (
-    <div {...attributes} {...styles.content} contentEditable={false}>
+    <div {...attributes} {...styles.content}>
       {answer ? (
         <div {...styles.mobileBorder}>
           <AnswersChart answer={answer} />

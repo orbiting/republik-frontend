@@ -9,10 +9,10 @@ export const emptyElement = {
 export const textTree = (title?: string): CustomElement[] => [
   {
     type: 'headline',
-    children: [{ text: title || 'Untitled' }]
+    children: [{ text: title || 'Titel' }]
   },
   {
     type: 'paragraph',
-    children: [{ text: 'In the beginning there was nothing, which exploded.' }]
+    children: [{ text: 'Text' }]
   }
 ]

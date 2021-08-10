@@ -1,6 +1,8 @@
 import { ElementConfigI } from '../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 import { css } from 'glamor'
+import { matchTemplateElement } from './helpers/normalization'
+import { questionnaire } from '../templates/questionnaire'
 
 const styles = {
   container: css({
@@ -18,5 +20,6 @@ const Component: React.FC<{
 )
 
 export const config: ElementConfigI = {
-  Component
+  Component,
+  normalizations: [matchTemplateElement(questionnaire)]
 }

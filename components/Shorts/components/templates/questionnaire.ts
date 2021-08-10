@@ -6,7 +6,7 @@ export const questionnaire: QuestionnaireElement = {
   children: [
     {
       type: 'questionnaireParagraph',
-      children: [{ text: 'Frage hier fragen' }]
+      children: [{ text: 'Frage' }]
     },
     {
       type: 'questionnaireChoice',

@@ -6,11 +6,7 @@ export const quote: QuoteElement = {
   children: [
     {
       type: 'quoteParagraph',
-      children: [{ text: "Quoting someone doesn't make them right." }]
-    },
-    {
-      type: 'quoteParagraph',
-      children: [{ text: 'Or does it?' }]
+      children: [{ text: 'Zitat' }]
     },
     captionTemplate
   ]

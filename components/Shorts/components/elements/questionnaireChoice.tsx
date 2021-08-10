@@ -96,7 +96,7 @@ const OPTIONS = [
 
 const AnswersChart: React.FC<{ answer: string }> = ({ answer }) => {
   const userTrue = answer === 'true'
-  const userFalse = answer === 'true'
+  const userFalse = answer === 'false'
   const truePercent = 59
   const falsePercent = 41
 

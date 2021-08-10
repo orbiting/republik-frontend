@@ -29,6 +29,10 @@ type EmbedType = {
   path: string
 }
 
+type InputType = {
+  path: string
+}
+
 type ResponseType = {
   document: {
     id: string
@@ -37,7 +41,7 @@ type ResponseType = {
   }
 }
 
-const withPreview = graphql<{}, ResponseType>(getPreview)
+const withPreview = graphql<InputType, ResponseType, InputType>(getPreview)
 
 const LinkPreview = withPreview(({ data }) => (
   <Loader

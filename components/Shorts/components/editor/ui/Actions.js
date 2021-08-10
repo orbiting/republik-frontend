@@ -3,9 +3,7 @@ import { css } from 'glamor'
 import { Node } from 'slate'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-// @ts-ignore
 import { Button, A, Interaction, mediaQueries } from '@project-r/styleguide'
-import { CustomElement, DraftI } from '../../custom-types'
 import { useShortDrafts } from '../../../../../lib/shortDrafts'
 import { getRandomInt } from '../../../../../lib/utils/helpers'
 
@@ -44,7 +42,7 @@ const styles = {
   })
 }
 
-const diacritics: { base: string; letters: string[] }[] = [
+const diacritics = [
   { base: 'a', letters: ['â', 'à'] },
   { base: 'c', letters: ['ç'] },
   { base: 'e', letters: ['é', 'ê', 'è', 'ë'] },
@@ -64,7 +62,7 @@ const diacriticsMap = diacritics.reduce((map, diacritic) => {
   return map
 }, {})
 
-const slug = (string: string): string =>
+const slug = string =>
   string
     .toLowerCase()
     // eslint-disable-next-line no-control-regex
@@ -73,16 +71,15 @@ const slug = (string: string): string =>
     .trim()
     .replace(/\s+/g, '-')
 
-const getTitle = (value: CustomElement[]): string =>
-  (value.length && Node.string(value[0])) || 'Undefined'
+const getTitle = value => (value.length && Node.string(value[0])) || 'Undefined'
 
-const getKey = (value: CustomElement[], drafts: DraftI[]): string => {
+const getKey = (value, drafts) => {
   const title = getTitle(value)
   const duplicates = drafts.filter(d => d.key.split('-')[0] === title).length
   return `${title}${duplicates ? '-' + duplicates : ''}`
 }
 
-const getPublikatorDocument = (value: CustomElement[]): object => {
+const getPublikatorDocument = value => {
   const title = getTitle(value)
   return {
     type: 'root',
@@ -160,11 +157,11 @@ const getPublikatorDocument = (value: CustomElement[]): object => {
   }
 }
 
-const Actions: React.FC<{
-  value: CustomElement[]
-  reset: () => void
-  commit: (variables: any) => Promise<any>
-}> = ({ value, reset, commit }) => {
+const Actions = graphql(commitMutation, {
+  props: ({ mutate }) => ({
+    commit: variables => mutate({ variables })
+  })
+})(({ value, reset, commit }) => {
   const [drafts, setDrafts] = useShortDrafts([])
 
   const onCommit = () => {
@@ -201,12 +198,6 @@ const Actions: React.FC<{
       </Interaction.P>
     </div>
   )
-}
+})
 
-export default graphql(commitMutation, {
-  props: ({ mutate }) => ({
-    // @ts-ignore
-    commit: (variables: any): Promise<any> => mutate({ variables })
-  })
-  // @ts-ignore
-})(Actions)
+export default Actions

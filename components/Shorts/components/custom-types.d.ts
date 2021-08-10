@@ -9,15 +9,9 @@ type CustomMarks = {
   bold?: boolean
   sub?: boolean
   sup?: boolean
-  empty?: boolean
 }
 
 export type CustomMarksType = keyof CustomMarks
-
-export type EmptyText = {
-  text: string
-  empty: true
-}
 
 type PlainText = {
   text: string

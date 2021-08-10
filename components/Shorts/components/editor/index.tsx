@@ -67,6 +67,12 @@ const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
 
   const renderLeaf = useCallback(props => <LeafComponent {...props} />, [])
 
+  // @ts-ignore
+  const ActionsT = Actions as React.FC<{
+    value: Descendant[]
+    reset: () => void
+  }>
+
   return (
     <div {...styles.container}>
       <Label>
@@ -83,7 +89,7 @@ const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
         <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
         <FixedToolbar />
       </Slate>
-      <Actions value={value} reset={reset} />
+      <ActionsT value={value} reset={reset} />
     </div>
   )
 }

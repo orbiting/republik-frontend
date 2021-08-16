@@ -134,7 +134,6 @@ const Front = ({
   finite,
   hasOverviewNav
 }) => {
-  const [isRefetching, setIsRefetching] = useState(false)
   const now = new Date()
   const dailyUpdateTime = new Date(
     now.getFullYear(),
@@ -145,10 +144,10 @@ const Front = ({
   const shouldRefetch =
     front.meta.path === '/' &&
     lastFetchAttemptAtbyPath[front.meta.path] < dailyUpdateTime
+  const [isRefetching, setIsRefetching] = useState(shouldRefetch)
 
   useEffect(() => {
     if (shouldRefetch) {
-      setIsRefetching(true)
       refetch().then(() => {
         setIsRefetching(false)
       })

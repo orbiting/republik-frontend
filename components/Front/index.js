@@ -143,9 +143,8 @@ const Front = ({
       now.getDate(),
       5
     )
-    // if the last fetch happened before 05:00am of the current day
+    // refetch if the last fetch happened before 05:00am of the current day
     if (lastFetchedAtbyPath[front.meta.path] < dailyUpdateTime) {
-      // refetches the front and set the new fetch time
       refetch()
     }
     lastFetchedAtbyPath[front.meta.path] = new Date()

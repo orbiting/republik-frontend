@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, useEffect } from 'react'
+import React, { Fragment, useMemo, useEffect, useState } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
@@ -134,18 +134,24 @@ const Front = ({
   finite,
   hasOverviewNav
 }) => {
-  // check if front needs to be refetched on mount
+  const now = new Date()
+  const dailyUpdateTime = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    5
+  )
+
+  const shouldRefetch =
+    front.meta.path === '/' &&
+    lastFetchedAtbyPath[front.meta.path] < dailyUpdateTime
+  const [isRefetching, setIsRefetching] = useState(shouldRefetch)
+
   useEffect(() => {
-    const now = new Date()
-    const dailyUpdateTime = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      5
-    )
-    // refetch if the last fetch happened before 05:00am of the current day
-    if (lastFetchedAtbyPath[front.meta.path] < dailyUpdateTime) {
-      refetch()
+    if (shouldRefetch) {
+      refetch().then(() => {
+        setIsRefetching(false)
+      })
     }
     lastFetchedAtbyPath[front.meta.path] = new Date()
   }, [])
@@ -168,7 +174,7 @@ const Front = ({
   if (extractId) {
     return (
       <Loader
-        loading={data.loading}
+        loading={data.loading || isRefetching}
         error={data.error}
         render={() => {
           if (!front) {
@@ -198,7 +204,7 @@ const Front = ({
     <Frame hasOverviewNav={hasOverviewNav} raw meta={meta}>
       {renderBefore && renderBefore(meta)}
       <Loader
-        loading={data.loading}
+        loading={data.loading || isRefetching}
         error={data.error}
         message={t('pages/magazine/title')}
         render={() => {

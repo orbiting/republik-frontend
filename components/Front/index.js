@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react'
+import React, { Fragment, useMemo, useEffect } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
@@ -118,10 +118,12 @@ export const RenderFront = ({ t, isEditor, front, nodes }) => {
   )
 }
 
+const lastFetchedAtbyPath = {}
+
 const Front = ({
   data,
   fetchMore,
-  data: { front },
+  data: { front, refetch },
   t,
   renderBefore,
   renderAfter,
@@ -132,6 +134,24 @@ const Front = ({
   finite,
   hasOverviewNav
 }) => {
+  // check if front needs to be refetched on mount
+  useEffect(() => {
+    const now = new Date()
+    const dailyUpdateTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      5
+    )
+    // if the last fetch happened before 05:00am of the current day
+    if (lastFetchedAtbyPath[front.meta.path] < dailyUpdateTime) {
+      // refetches the front and set the new fetch time
+      refetch().then(() => {
+        lastFetchedAtbyPath[front.meta.path] = new Date()
+      })
+    }
+  }, [])
+
   const meta = front && {
     ...front.meta,
     title: front.meta.title || t('pages/magazine/title'),

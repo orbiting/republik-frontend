@@ -15,6 +15,7 @@ const getActiveDiscussions = gql`
             title
             path
             template
+            publishDate
             ownDiscussion {
               id
               closed

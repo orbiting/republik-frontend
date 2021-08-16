@@ -82,7 +82,6 @@ const Comments = props => {
     orderBy,
     discussionComments: { loading, error, discussion, fetchMore },
     meta,
-    setOrderBy,
     board,
     parent,
     parentId: initialParentId,
@@ -94,6 +93,26 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
+
+  const setOrderBy = order => {
+    const href = getFocusHref(discussion)
+    href.query = { ...href.query, order }
+    if (href) {
+      router.replace(href)
+    }
+  }
+  /*
+   * Set order to ('DATE') in the first 24h of dialog
+   */
+  // React.useEffect(() => {
+  //   const publishedAt = new Date(discussion?.document?.meta?.publishDate)
+  //   const twentyFourHoursAgo = new Date(
+  //     new Date().getTime() - 24 * 60 * 60 * 1000
+  //   )
+  //   if (publishedAt > twentyFourHoursAgo) {
+  //     setOrderBy('DATE')
+  //   }
+  // }, [])
 
   /*
    * Subscribe to GraphQL updates of the dicsussion query.

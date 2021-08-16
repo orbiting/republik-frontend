@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import Comments from './Comments'
@@ -17,10 +18,12 @@ const Discussion = ({
   rootCommentOverlay,
   showPayNotes
 }) => {
+  const router = useRouter()
+  const { query } = router
   /*
    * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
    */
-  const [orderBy, setOrderBy] = React.useState(board ? 'HOT' : 'DATE')
+  const orderBy = query.order || 'VOTES'
 
   const depth = board ? 1 : DEFAULT_DEPTH
 
@@ -48,7 +51,6 @@ const Discussion = ({
           parentId={parentId}
           orderBy={orderBy}
           meta={meta}
-          setOrderBy={setOrderBy}
           board={board}
           parent={board ? parent || focusId : undefined}
           includeParent={includeParent}

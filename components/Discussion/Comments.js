@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { useRouter } from 'next/router'
@@ -96,23 +96,11 @@ const Comments = props => {
 
   const setOrderBy = order => {
     const href = getFocusHref(discussion)
-    href.query = { ...href.query, order }
     if (href) {
-      router.replace(href)
+      href.query = { ...href.query, order }
+      router.push(href, undefined, { scroll: false })
     }
   }
-  /*
-   * Set order to ('DATE') in the first 24h of dialog
-   */
-  // React.useEffect(() => {
-  //   const publishedAt = new Date(discussion?.document?.meta?.publishDate)
-  //   const twentyFourHoursAgo = new Date(
-  //     new Date().getTime() - 24 * 60 * 60 * 1000
-  //   )
-  //   if (publishedAt > twentyFourHoursAgo) {
-  //     setOrderBy('DATE')
-  //   }
-  // }, [])
 
   /*
    * Subscribe to GraphQL updates of the dicsussion query.

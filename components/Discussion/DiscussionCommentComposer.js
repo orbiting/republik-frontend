@@ -192,13 +192,40 @@ const DiscussionCommentComposer = props => {
                   if (snippets.some(hasUnescapedAsterisks)) {
                     return (
                       <Label>
-                        {t(
-                          'styleguide/CommentComposer/hints/formattingAsteriks'
-                        )}
+                        Die Eingabe **fett** wird <strong>fett</strong>,
+                        *kursiv* wird <i>kursiv</i> und aus Leser\*in wird
+                        Leser*in.
                       </Label>
                     )
                   }
 
+                  return false
+                },
+                function strikethorugh(text) {
+                  const hasSwungDash = text.indexOf('~') > -1
+                  if (hasSwungDash) {
+                    return (
+                      <Label>
+                        Die Eingabe ~~durchgestrichen~~ wird{' '}
+                        <span style={{ textDecoration: 'line-through' }}>
+                          durchgestrichen
+                        </span>{' '}
+                        .
+                      </Label>
+                    )
+                  }
+                  return false
+                },
+                function formattingLinks(text) {
+                  const hasSwungDash = text.indexOf('http') > -1
+                  if (hasSwungDash) {
+                    return (
+                      <Label>
+                        Ein [Link](https://republik.ch) wird Ein{' '}
+                        <a href='https://www.republik.ch'>Link</a>.
+                      </Label>
+                    )
+                  }
                   return false
                 }
               ],

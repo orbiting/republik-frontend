@@ -118,7 +118,7 @@ export const RenderFront = ({ t, isEditor, front, nodes }) => {
   )
 }
 
-const lastFetchAttemptAtbyPath = {}
+let lastMountAt = undefined
 
 const Front = ({
   data,
@@ -132,7 +132,8 @@ const Front = ({
   serverContext,
   isEditor,
   finite,
-  hasOverviewNav
+  hasOverviewNav,
+  shouldAutoRefetch
 }) => {
   const now = new Date()
   const dailyUpdateTime = new Date(
@@ -141,9 +142,7 @@ const Front = ({
     now.getDate(),
     5
   )
-  const shouldRefetch =
-    front.meta.path === '/' &&
-    lastFetchAttemptAtbyPath[front.meta.path] < dailyUpdateTime
+  const shouldRefetch = shouldAutoRefetch && lastMountAt < dailyUpdateTime
   const [isRefetching, setIsRefetching] = useState(shouldRefetch)
 
   useEffect(() => {
@@ -152,7 +151,7 @@ const Front = ({
         setIsRefetching(false)
       })
     }
-    lastFetchAttemptAtbyPath[front.meta.path] = new Date()
+    lastMountAt = new Date()
   }, [])
 
   const meta = front && {

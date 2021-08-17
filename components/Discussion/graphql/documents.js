@@ -35,8 +35,8 @@ export const discussionDisplayAuthorQuery = gql`
   ${fragments.discussion}
 `
 
-export const discussionPublishedAtQuery = gql`
-  query discussionDisplayAuthor($discussionId: ID!) {
+export const discussionFragmentQuery = gql`
+  query discussionFragment($discussionId: ID!) {
     discussion(id: $discussionId) {
       ...Discussion
     }

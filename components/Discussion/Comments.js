@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { useRouter } from 'next/router'
@@ -94,8 +94,6 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
-
-  console.log(orderBy)
 
   /*
    * Subscribe to GraphQL updates of the dicsussion query.

@@ -5,7 +5,7 @@ import { compose, graphql } from 'react-apollo'
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import Comments from './Comments'
 
-import { discussionPublishedAtQuery } from './graphql/documents'
+import { discussionFragmentQuery } from './graphql/documents'
 import { getDiscussionHref } from './DiscussionLink'
 
 const DEFAULT_DEPTH = 3
@@ -85,7 +85,7 @@ const Discussion = ({
 }
 
 export default compose(
-  graphql(discussionPublishedAtQuery, {
+  graphql(discussionFragmentQuery, {
     options: ({ discussionId }) => ({
       variables: {
         discussionId: discussionId

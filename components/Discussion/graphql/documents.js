@@ -38,15 +38,10 @@ export const discussionDisplayAuthorQuery = gql`
 export const discussionPublishedAtQuery = gql`
   query discussionDisplayAuthor($discussionId: ID!) {
     discussion(id: $discussionId) {
-      id
-      document {
-        id
-        meta {
-          publishDate
-        }
-      }
+      ...Discussion
     }
   }
+  ${fragments.discussion}
 `
 
 export const discussionPreferencesQuery = gql`

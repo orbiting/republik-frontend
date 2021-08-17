@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 
@@ -6,6 +6,7 @@ import DiscussionCommentComposer from './DiscussionCommentComposer'
 import Comments from './Comments'
 
 import { discussionPublishedAtQuery } from './graphql/documents'
+import { getDiscussionHref } from './DiscussionLink'
 
 const DEFAULT_DEPTH = 3
 
@@ -32,14 +33,19 @@ const Discussion = ({
   const twentyFourHoursAgo = new Date(
     new Date().getTime() - 24 * 60 * 60 * 1000
   )
-  const [orderBy, setOrderBy] = useState(
+  const [order, setOrder] = useState(
     query.order || publishedAt > twentyFourHoursAgo ? 'DATE' : 'VOTES'
   )
-  useEffect(() => {
-    if (query.order) {
-      setOrderBy(query.order)
+
+  const setOrderBy = order => {
+    const href = getDiscussionHref(discussion)
+    if (href) {
+      href.query = { ...href.query, order }
+      router
+        .push(href, undefined, { scroll: false })
+        .then(() => setOrder(order))
     }
-  }, [query.order])
+  }
 
   const depth = board ? 1 : DEFAULT_DEPTH
 
@@ -49,7 +55,7 @@ const Discussion = ({
         <>
           <DiscussionCommentComposer
             discussionId={discussionId}
-            orderBy={orderBy}
+            orderBy={order}
             focusId={focusId}
             depth={depth}
             parentId={parentId}
@@ -60,12 +66,13 @@ const Discussion = ({
 
       <div style={{ margin: rootCommentOverlay ? 0 : '20px 0' }}>
         <Comments
-          key={orderBy /* To remount of the whole component on change */}
+          key={order /* To remount of the whole component on change */}
           discussionId={discussionId}
           focusId={board ? undefined : focusId}
           depth={depth}
           parentId={parentId}
-          orderBy={orderBy}
+          setOrderBy={setOrderBy}
+          orderBy={order}
           meta={meta}
           board={board}
           parent={board ? parent || focusId : undefined}

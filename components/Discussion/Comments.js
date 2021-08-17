@@ -80,6 +80,7 @@ const Comments = props => {
     isEditor,
     focusId,
     orderBy,
+    setOrderBy,
     discussionComments: { loading, error, discussion, fetchMore },
     meta,
     board,
@@ -94,13 +95,7 @@ const Comments = props => {
 
   const router = useRouter()
 
-  const setOrderBy = order => {
-    const href = getFocusHref(discussion)
-    if (href) {
-      href.query = { ...href.query, order }
-      router.push(href, undefined, { scroll: false })
-    }
-  }
+  console.log(orderBy)
 
   /*
    * Subscribe to GraphQL updates of the dicsussion query.

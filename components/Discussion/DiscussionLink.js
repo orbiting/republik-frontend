@@ -31,7 +31,7 @@ export const getDiscussionPath = discussion => {
     : discussion.path
 }
 
-const DiscussionLink = ({ children, discussion }) => {
+const DiscussionLink = ({ children, discussion, orderBy }) => {
   const href = getDiscussionHref(discussion)
   if (href) {
     return (

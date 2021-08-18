@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react'
+import React, { Fragment, useMemo, useEffect, useState } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
@@ -118,10 +118,12 @@ export const RenderFront = ({ t, isEditor, front, nodes }) => {
   )
 }
 
+let lastMountAt = undefined
+
 const Front = ({
   data,
   fetchMore,
-  data: { front },
+  data: { front, refetch },
   t,
   renderBefore,
   renderAfter,
@@ -130,8 +132,28 @@ const Front = ({
   serverContext,
   isEditor,
   finite,
-  hasOverviewNav
+  hasOverviewNav,
+  shouldAutoRefetch
 }) => {
+  const now = new Date()
+  const dailyUpdateTime = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    5
+  )
+  const shouldRefetch = shouldAutoRefetch && lastMountAt < dailyUpdateTime
+  const [isRefetching, setIsRefetching] = useState(shouldRefetch)
+
+  useEffect(() => {
+    if (shouldRefetch) {
+      refetch().then(() => {
+        setIsRefetching(false)
+      })
+    }
+    lastMountAt = new Date()
+  }, [])
+
   const meta = front && {
     ...front.meta,
     title: front.meta.title || t('pages/magazine/title'),
@@ -150,7 +172,7 @@ const Front = ({
   if (extractId) {
     return (
       <Loader
-        loading={data.loading}
+        loading={data.loading || isRefetching}
         error={data.error}
         render={() => {
           if (!front) {
@@ -180,7 +202,7 @@ const Front = ({
     <Frame hasOverviewNav={hasOverviewNav} raw meta={meta}>
       {renderBefore && renderBefore(meta)}
       <Loader
-        loading={data.loading}
+        loading={data.loading || isRefetching}
         error={data.error}
         message={t('pages/magazine/title')}
         render={() => {

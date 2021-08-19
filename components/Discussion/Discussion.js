@@ -34,7 +34,7 @@ const Discussion = ({
   )
 
   const orderBy =
-    query.order || publishedAt > twentyFourHoursAgo ? 'DATE' : 'VOTES'
+    query.order || (publishedAt > twentyFourHoursAgo ? 'DATE' : 'VOTES')
 
   const depth = board ? 1 : DEFAULT_DEPTH
 

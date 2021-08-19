@@ -93,7 +93,6 @@ const Comments = props => {
     inNativeApp
   } = props
 
-  console.log(orderBy)
   const router = useRouter()
   const discussionHref = getDiscussionHref(discussion)
 

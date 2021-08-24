@@ -2063,6 +2063,10 @@
       "value": "Leider mussten wir Ihren Beitrag verbergen. Wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
+      "key": "styleguide/SeriesNav/seriesoverview/link",
+      "value": " {link}."
+    },
+    {
       "key": "styleguide/SeriesNav/seriesoverview",
       "value": "Zur Übersicht"
     },

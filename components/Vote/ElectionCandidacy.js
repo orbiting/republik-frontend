@@ -25,10 +25,10 @@ import ElectionBallotRow from './ElectionBallotRow'
 import { Body, Section, Small, Title } from './text'
 import Portrait from '../Profile/Portrait'
 import { COUNTRIES } from '../Account/AddressForm'
-import { ELECTION_COOP_MEMBERS_SLUG } from '../../lib/constants'
 import UsernameField from '../Profile/UsernameField'
 import withMe from '../../lib/apollo/withMe'
 import Loader from '../Loader'
+import StatusError from '../StatusError'
 
 const { H2, P } = Interaction
 
@@ -146,13 +146,17 @@ class ElectionCandidacy extends React.Component {
     }
 
     this.save = () => {
-      const { updateCandidacy, me } = this.props
+      const {
+        updateCandidacy,
+        me,
+        router: { query }
+      } = this.props
       const { values } = this.state
 
       this.setState({ updating: true })
 
       return updateCandidacy({
-        slug: ELECTION_COOP_MEMBERS_SLUG,
+        slug: query.slug,
         username: values.username,
         statement: values.statement,
         credential: values.credential,
@@ -191,8 +195,11 @@ class ElectionCandidacy extends React.Component {
     }
 
     this.cancel = async () => {
-      const { cancelCandidacy } = this.props
-      cancelCandidacy(ELECTION_COOP_MEMBERS_SLUG)
+      const {
+        cancelCandidacy,
+        router: { query }
+      } = this.props
+      cancelCandidacy(query.slug)
         .then(() => {
           this.setState(() => ({
             isEditing: false,
@@ -242,8 +249,13 @@ class ElectionCandidacy extends React.Component {
   }
 
   render() {
-    const { t, vt } = this.props
-    const { data } = this.props
+    const {
+      t,
+      vt,
+      data,
+      router: { query },
+      serverContext
+    } = this.props
 
     const meta = {
       title: `${vt('info/title')}: ${vt('info/candidacy/title')}`,
@@ -258,7 +270,9 @@ class ElectionCandidacy extends React.Component {
           render={() => {
             const { me, election } = data
             if (!election) {
-              return null
+              return (
+                <StatusError statusCode={404} serverContext={serverContext} />
+              )
             }
             const {
               values,
@@ -272,9 +286,7 @@ class ElectionCandidacy extends React.Component {
             const candidate =
               !updating &&
               me.candidacies &&
-              me.candidacies.find(
-                c => c.election.slug === ELECTION_COOP_MEMBERS_SLUG
-              )
+              me.candidacies.find(c => c.election.slug === query.slug)
 
             const combinedErrors = {
               username:
@@ -574,8 +586,8 @@ const publishCredential = gql`
 `
 
 const query = gql`
-  query VoteElectionCandidacy {
-    election(slug: "${ELECTION_COOP_MEMBERS_SLUG}") {
+  query VoteElectionCandidacy($slug: String!) {
+    election(slug: $slug) {
       id
       candidacyEndDate
     }
@@ -621,7 +633,13 @@ export default compose(
   voteT,
   withRouter,
   withMe,
-  graphql(query),
+  graphql(query, {
+    options: ({ router: { query } }) => ({
+      variables: {
+        slug: query.slug
+      }
+    })
+  }),
   graphql(publishCredential, {
     props: ({ mutate }) => ({
       publishCredential: description => {

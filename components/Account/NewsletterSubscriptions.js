@@ -7,9 +7,15 @@ import ErrorMessage from '../ErrorMessage'
 
 import FrameBox from '../Frame/Box'
 import { P } from './Elements'
-import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
+import {
+  Loader,
+  InlineSpinner,
+  Checkbox,
+  Label,
+  Button
+} from '@project-r/styleguide'
 import { withMembership } from '../Auth/checkRoles'
-import { newsletterFragment, userNewslettersFragment } from './enhancers'
+import { newsletterFragment, newsletterSettingsFragment } from './enhancers'
 
 const NoBox = ({ children, style: { margin } = {} }) => (
   <div style={{ margin }}>{children}</div>
@@ -31,6 +37,15 @@ const styles = {
   })
 }
 
+export const RESUBSCRIBE_EMAIL = gql`
+  mutation resubscribeEmail($userId: ID!) {
+    resubscribeEmail(userId: $userId) {
+      ...NewsletterSettings
+    }
+  }
+  ${newsletterSettingsFragment}
+`
+
 export const UPDATE_NEWSLETTER_SUBSCRIPTION = gql`
   mutation updateNewsletterSubscription(
     $name: NewsletterName!
@@ -46,10 +61,13 @@ export const UPDATE_NEWSLETTER_SUBSCRIPTION = gql`
 export const NEWSLETTER_SETTINGS = gql`
   query myNewsletterSettings {
     me {
-      ...UserNewsletters
+      id
+      newsletterSettings {
+        ...NewsletterSettings
+      }
     }
   }
-  ${userNewslettersFragment}
+  ${newsletterSettingsFragment}
 `
 
 const NewsletterSubscriptions = props => (
@@ -80,7 +98,51 @@ const NewsletterSubscriptions = props => (
         <Fragment>
           {status !== 'subscribed' && (
             <Box style={{ margin: '10px 0', padding: 15 }}>
-              <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
+              <Mutation mutation={RESUBSCRIBE_EMAIL}>
+                {(mutate, { loading, error, data: mutationData }) => (
+                  <>
+                    {status === 'unsubscribed' && (
+                      <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
+                    )}
+                    {/* Show if the status has been set to pending */}
+                    {mutationData?.resubscribeEmail?.status === 'pending' && (
+                      <P>{t('account/newsletterSubscriptions/resubscribed')}</P>
+                    )}
+                    {/* Show if the status is pending an no new email has been requested */}
+                    {status === 'pending' && !mutationData && (
+                      <P>
+                        {t(
+                          'account/newsletterSubscriptions/resubscribeEmailPending'
+                        )}
+                      </P>
+                    )}
+                    {!mutationData && (
+                      <div style={{ marginTop: 10 }}>
+                        {error && <ErrorMessage error={error} />}
+                        {loading && <InlineSpinner size={40} />}
+                        {!loading && (
+                          <Button
+                            primary
+                            onClick={() =>
+                              mutate({
+                                variables: {
+                                  userId: data.me.id
+                                }
+                              })
+                            }
+                          >
+                            {status !== 'pending'
+                              ? t('account/newsletterSubscriptions/resubscribe')
+                              : t(
+                                  'account/newsletterSubscriptions/resendResubscribeEmail'
+                                )}
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
+              </Mutation>
             </Box>
           )}
           {!isMember && (
@@ -96,7 +158,7 @@ const NewsletterSubscriptions = props => (
                     <Checkbox
                       black={props.black}
                       checked={subscribed}
-                      disabled={mutating}
+                      disabled={mutating || status === 'unsubscribed'}
                       onChange={(_, checked) => {
                         mutate({
                           variables: {
@@ -117,7 +179,7 @@ const NewsletterSubscriptions = props => (
                         {!props.label && (
                           <>
                             <br />
-                            <Label>
+                            <Label style={{ color: 'inherit' }}>
                               {t(
                                 `account/newsletterSubscriptions/${name}/frequency`
                               )}

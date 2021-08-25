@@ -88,8 +88,11 @@ const CancelMembership = ({
       if (redirectMemberships.length > 1) {
         router.push('/konto')
       } else {
-        router.replace('/abgang', {
-          membershipId: redirectMemberships[0].id
+        router.replace({
+          pathname: '/abgang',
+          query: {
+            membershipId: redirectMemberships[0].id
+          }
         })
       }
     }

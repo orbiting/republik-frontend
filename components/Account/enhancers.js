@@ -9,14 +9,12 @@ export const newsletterFragment = `
   }
 `
 
-export const userNewslettersFragment = `
-  fragment UserNewsletters on User {
+export const newsletterSettingsFragment = `
+  fragment NewsletterSettings on NewsletterSettings {
     id
-    newsletterSettings {
-      status
-      subscriptions {
-        ...NewsletterInfo
-      }
+    status
+    subscriptions {
+      ...NewsletterInfo
     }
   }
   ${newsletterFragment}
@@ -65,11 +63,14 @@ const mutation = gql`
 const addMeToRole = gql`
   mutation addUserToRole($role: String!) {
     addUserToRole(role: $role) {
-      ...UserNewsletters
+      id
       roles
+      newsletterSettings {
+        ...NewsletterSettings
+      }
     }
   }
-  ${userNewslettersFragment}
+  ${newsletterSettingsFragment}
 `
 
 export const query = gql`

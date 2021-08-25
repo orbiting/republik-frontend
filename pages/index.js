@@ -20,7 +20,14 @@ const IndexPage = ({ t, isMember, router }) => {
     (isMember || router.query.extractId)
   ) {
     // does its own meta
-    return <Front hasOverviewNav extractId={router.query.extractId} finite />
+    return (
+      <Front
+        shouldAutoRefetch
+        hasOverviewNav
+        extractId={router.query.extractId}
+        finite
+      />
+    )
   }
 
   if (inNativeApp) {

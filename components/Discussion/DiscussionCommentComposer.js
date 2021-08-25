@@ -170,10 +170,13 @@ const DiscussionCommentComposer = props => {
                 }
               },
               composerHints: [
-                function formattingAsteriks(text) {
-                  // Math where asterix is within a word (not next to whitespace) "n*n" for example
-                  const hasSingleAsterix = !!text.match(/[^\s:]\*[^\s:]/)
-                  if (hasSingleAsterix) {
+                function formattingAsterisk(text) {
+                  // Match where asterisk is within a word (not next to whitespace)
+                  // "n*n" is a match, " *n" and "n** " are not
+                  const hasUnescapedAsterisk = !!text.match(
+                    /[^\\*\s:]\*[^*\s:]/
+                  )
+                  if (hasUnescapedAsterisk) {
                     return (
                       <Label>
                         {t('styleguide/CommentComposer/formatting/asterisk')}

@@ -1363,6 +1363,10 @@
       "value": "Steckbrief"
     },
     {
+      "key": "profile/biography/label/tooLong",
+      "value": "Steckbrief, maximal 500 Zeichen"
+    },
+    {
       "key": "profile/disclosures/label",
       "value": "Interessenbindungen"
     },

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { withRouter } from 'next/router'
 import ErrorMessage from '../ErrorMessage'
 import voteT from './voteT'
+import { isURL } from 'validator'
 
 import {
   A,
@@ -36,6 +37,7 @@ const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
 
 const DEFAULT_COUNTRY = COUNTRIES[0]
+const PUBLIC_URL_PREFIX = 'https://'
 
 const addressFields = t => [
   {
@@ -67,6 +69,14 @@ const addressFields = t => [
 
 const fields = (t, vt) => [
   {
+    label: vt('info/candidacy/biography'),
+    name: 'biography',
+    autoSize: true,
+    validator: value =>
+      (!value && vt('info/candidacy/biographyMissing')) ||
+      (value.trim().length >= 500 && t('profile/biography/label/tooLong'))
+  },
+  {
     label: vt('info/candidacy/statement'),
     name: 'statement',
     autoSize: true,
@@ -90,6 +100,11 @@ const fields = (t, vt) => [
     }
   },
   {
+    label: vt('info/candidacy/gender'),
+    name: 'gender',
+    validator: value => !value?.trim() && vt('info/candidacy/genderMissing')
+  },
+  {
     label: vt('info/candidacy/credential'),
     name: 'credential',
     validator: value => {
@@ -104,6 +119,23 @@ const fields = (t, vt) => [
     explanation: <Label>{t('profile/disclosures/explanation')}</Label>,
     name: 'disclosures',
     autoSize: true
+  },
+  {
+    label: t('profile/contact/facebook/label'),
+    name: 'facebookId'
+  },
+  {
+    label: t('profile/contact/twitter/label'),
+    name: 'twitterHandle'
+  },
+  {
+    label: t('profile/contact/publicUrl/label'),
+    name: 'publicUrl',
+    validator: value =>
+      !!value &&
+      !isURL(value, { require_protocol: true, protocols: ['http', 'https'] }) &&
+      value !== PUBLIC_URL_PREFIX &&
+      t('profile/contact/publicUrl/error')
   }
 ]
 
@@ -165,6 +197,8 @@ class ElectionCandidacy extends React.Component {
           values.birthday && values.birthday.length
             ? values.birthday.trim()
             : null,
+        gender: values.gender,
+        biography: values.biography,
         portrait: values.portraitPreview ? values.portrait : undefined,
         address: {
           name: (me && me.address && me.address.name) || me.name,
@@ -173,7 +207,11 @@ class ElectionCandidacy extends React.Component {
           postalCode: values.postalCode,
           city: values.city,
           country: values.country
-        }
+        },
+        publicUrl:
+          values.publicUrl === PUBLIC_URL_PREFIX ? '' : values.publicUrl,
+        twitterHandle: values.twitterHandle,
+        facebookId: values.facebookId
       })
         .then(() => {
           return new Promise(resolve => setTimeout(resolve, 200)) // insert delay to slow down UI
@@ -220,18 +258,40 @@ class ElectionCandidacy extends React.Component {
     }
   }
 
-  deriveStateFromProps({ data }) {
-    const { statement, birthday, disclosures, credentials, address, portrait } =
-      data.me || {}
+  deriveStateFromProps({ data, router: { query } }) {
+    const {
+      statement,
+      birthday,
+      disclosures,
+      credentials,
+      address,
+      portrait,
+      gender,
+      biography,
+      publicUrl,
+      twitterHandle,
+      facebookId
+    } = data.me || {}
     const { line1, line2, city, postalCode, country = DEFAULT_COUNTRY } =
       address || {}
-    const credential = credentials ? credentials.find(c => c.isListed) : {}
+
+    const candidacy = data.me?.candidacies?.find(
+      c => c.election.slug === query.slug
+    )
+    const credential =
+      candidacy?.credential || credentials?.find(c => c.isListed)
+
     return {
       values: {
         portrait,
+        gender,
+        biography,
         statement,
         birthday,
         disclosures,
+        publicUrl: publicUrl || PUBLIC_URL_PREFIX,
+        twitterHandle,
+        facebookId,
         line1,
         line2,
         city,
@@ -527,6 +587,12 @@ const updateCandidacy = gql`
     $address: AddressInput
     $portrait: String
     $username: String
+    $credential: String
+    $gender: String
+    $biography: String
+    $publicUrl: String
+    $twitterHandle: String
+    $facebookId: String
   ) {
     updateMe(
       birthday: $birthday
@@ -535,6 +601,11 @@ const updateCandidacy = gql`
       address: $address
       portrait: $portrait
       username: $username
+      gender: $gender
+      biography: $biography
+      publicUrl: $publicUrl
+      twitterHandle: $twitterHandle
+      facebookId: $facebookId
       hasPublicProfile: true
     ) {
       id
@@ -556,9 +627,14 @@ const updateCandidacy = gql`
         isListed
         description
       }
+      gender
+      biography
+      biographyContent
       publicUrl
+      twitterHandle
+      facebookId
     }
-    submitCandidacy(slug: $slug) {
+    submitCandidacy(slug: $slug, credential: $credential) {
       id
       yearOfBirth
       city
@@ -567,20 +643,14 @@ const updateCandidacy = gql`
         id
         candidacies {
           id
+          credential {
+            description
+          }
           election {
             slug
           }
         }
       }
-    }
-  }
-`
-
-const publishCredential = gql`
-  mutation publishCredential($description: String) {
-    publishCredential(description: $description) {
-      isListed
-      description
     }
   }
 `
@@ -602,6 +672,9 @@ const query = gql`
       disclosures
       birthday
       username
+      gender
+      biography
+      biographyContent
       candidacies {
         election {
           slug
@@ -610,6 +683,9 @@ const query = gql`
         yearOfBirth
         city
         recommendation
+        credential {
+          description
+        }
       }
       address {
         name
@@ -624,6 +700,8 @@ const query = gql`
         description
       }
       publicUrl
+      twitterHandle
+      facebookId
     }
   }
 `
@@ -640,30 +718,9 @@ export default compose(
       }
     })
   }),
-  graphql(publishCredential, {
-    props: ({ mutate }) => ({
-      publishCredential: description => {
-        return mutate({
-          variables: {
-            description
-          }
-        })
-      }
-    })
-  }),
   graphql(updateCandidacy, {
-    props: ({
-      mutate,
-      ownProps: {
-        publishCredential,
-        data: { me }
-      }
-    }) => ({
-      updateCandidacy: async variables => {
-        const credential = (me.credentials || []).find(c => c.isListed) || {}
-        if (variables.credential !== credential.description) {
-          await publishCredential(variables.credential || null)
-        }
+    props: ({ mutate }) => ({
+      updateCandidacy: variables => {
         return mutate({
           variables
         })

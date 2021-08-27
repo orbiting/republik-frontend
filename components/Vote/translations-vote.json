@@ -1,6 +1,4 @@
 {
-  "updated": "2020-11-09T16:11:19.280Z",
-  "title": "live",
   "data": [
     {
       "key": "vote/201907/result/title",
@@ -372,7 +370,7 @@
     },
     {
       "key": "info/candidacy/finePrint",
-      "value": "Die Mitglieder von Project R sehen ab dem 17. Oktober auf der Wahlplattform nur, was in der Vorschau angezeigt wird.\nIn Ihrem Profil sehen die Mitglieder dann zusätzlich: Steckbrief, Interessenbindungen, Debattenbeiträge.\nDas Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt und ist dort für alle Mitglieder sichtbar.\nGeburtsdatum, Strasse und Hausnummer ist nur für die Administration von Project R und der «Republik»\neinsehbar."
+      "value": "Die Mitglieder von Project R sehen später auf der Wahlplattform, was in der Vorschau angezeigt wird.\nIn Ihrem Profil sehen die Mitglieder dann zusätzlich: Interessenbindungen und Debattenbeiträge.\nDas Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt und ist dort für alle Mitglieder sichtbar.\nGeburtsdatum, Strasse und Hausnummer ist nur für die Administration von Project R und der «Republik»\neinsehbar."
     },
     {
       "key": "info/candidacy/missingFields",
@@ -401,6 +399,22 @@
     {
       "key": "info/candidacy/delete",
       "value": "Kandidatur löschen"
+    },
+    {
+      "key": "info/candidacy/biography",
+      "value": "Steckbrief"
+    },
+    {
+      "key": "info/candidacy/biographyMissing",
+      "value": "Steckbrie fehlt"
+    },
+    {
+      "key": "info/candidacy/gender",
+      "value": "Geschlecht"
+    },
+    {
+      "key": "info/candidacy/genderMissing",
+      "value": "Geschlech fehlt"
     },
     {
       "key": "info/candidacy/statement",

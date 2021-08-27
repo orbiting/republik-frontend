@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
-import { withRouter } from 'next/router'
-import { compose } from 'react-apollo'
+import { useRouter } from 'next/router'
 import { timeDay } from 'd3-time'
 
 import {
@@ -15,7 +14,7 @@ import {
 import { css } from 'glamor'
 
 import TokenPackageLink from '../Link/TokenPackage'
-import withInNativeApp from '../../lib/withInNativeApp'
+import { useInNativeApp } from '../../lib/withInNativeApp'
 import { timeFormat } from '../../lib/utils/format'
 import Link from 'next/link'
 
@@ -38,10 +37,13 @@ const SingleLine = ({ children }) => (
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
+const ProlongBox = ({ t, prolongBeforeDate, membership }) => {
   const [colorScheme] = useColorContext()
+  const router = useRouter()
+  const { inNativeIOSApp } = useInNativeApp()
 
   if (
+    inNativeIOSApp ||
     router.pathname === '/angebote' ||
     router.pathname === '/abgang' ||
     router.pathname === '/cockpit'
@@ -141,4 +143,4 @@ const ProlongBox = ({ t, prolongBeforeDate, membership, router }) => {
   return null
 }
 
-export default compose(withRouter, withInNativeApp)(ProlongBox)
+export default ProlongBox

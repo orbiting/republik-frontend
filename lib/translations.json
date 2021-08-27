@@ -1364,7 +1364,7 @@
     },
     {
       "key": "profile/biography/label/tooLong",
-      "value": "Steckbrief, maximal 500 Zeichen"
+      "value": "Steckbrief, maximal 1500 Zeichen"
     },
     {
       "key": "profile/disclosures/label",

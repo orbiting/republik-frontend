@@ -74,7 +74,7 @@ const fields = (t, vt) => [
     autoSize: true,
     validator: value =>
       (!value && vt('info/candidacy/biographyMissing')) ||
-      (value.trim().length >= 500 && t('profile/biography/label/tooLong'))
+      (value.trim().length >= 1500 && t('profile/biography/label/tooLong'))
   },
   {
     label: vt('info/candidacy/statement'),

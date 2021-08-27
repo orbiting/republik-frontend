@@ -96,7 +96,7 @@ const AppLogin = props => {
         {t('Onboarding/Sections/AppLogin/apk')}
         <br />
         <A
-          href={`${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/app/republik-1.0.3.apk`}
+          href={`${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/app/republik-2.0.1.apk`}
         >
           {t('Onboarding/Sections/AppLogin/apk/link')}
         </A>

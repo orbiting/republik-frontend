@@ -69,14 +69,6 @@ const addressFields = t => [
 
 const fields = (t, vt) => [
   {
-    label: vt('info/candidacy/biography'),
-    name: 'biography',
-    autoSize: true,
-    validator: value =>
-      (!value && vt('info/candidacy/biographyMissing')) ||
-      (value.trim().length >= 1500 && t('profile/biography/label/tooLong'))
-  },
-  {
     label: vt('info/candidacy/statement'),
     name: 'statement',
     autoSize: true,
@@ -113,6 +105,14 @@ const fields = (t, vt) => [
         (value.trim().length >= 40 && t('profile/credentials/errors/tooLong'))
       )
     }
+  },
+  {
+    label: vt('info/candidacy/biography'),
+    name: 'biography',
+    autoSize: true,
+    validator: value =>
+      (!value && vt('info/candidacy/biographyMissing')) ||
+      (value.trim().length >= 1500 && t('profile/biography/label/tooLong'))
   },
   {
     label: t('profile/disclosures/label'),
@@ -376,6 +376,8 @@ class ElectionCandidacy extends React.Component {
 
             const candidacyPreview = me && {
               user: {
+                id: me.id,
+                username: me.username,
                 name,
                 statement,
                 disclosures,
@@ -383,17 +385,17 @@ class ElectionCandidacy extends React.Component {
                   portraitPreview ||
                   (portrait !== null ? me.portrait : undefined),
                 biography,
-                gender
+                gender,
+                publicUrl,
+                twitterHandle,
+                facebookId
               },
               city,
               yearOfBirth: parsedBirthday
                 ? parsedBirthday.getFullYear()
                 : undefined,
               credential,
-              recommendation: candidate ? candidate.recommendation : undefined,
-              publicUrl,
-              twitterHandle,
-              facebookId
+              recommendation: candidate ? candidate.recommendation : undefined
             }
 
             if (new Date() >= new Date(election.candidacyEndDate)) {

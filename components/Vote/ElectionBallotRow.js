@@ -2,10 +2,11 @@ import React, { useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
+import Link from 'next/link'
+
 import {
   A,
   Checkbox,
-  colors,
   DEFAULT_PROFILE_PICTURE,
   fontStyles,
   mediaQueries,
@@ -22,7 +23,7 @@ import {
 import voteT from './voteT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
-import Link from 'next/link'
+import Contact from '../Profile/Contact'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -271,11 +272,13 @@ const ElectionBallotRow = props => {
                     {...styles.portrait}
                   />
                   <div>
-                    {!profile && (
+                    {!profile && d.username && (
                       <div {...styles.profileFooter}>
-                        <A href={`/~${d.username || d.id}`} target={target}>
-                          Profil
-                        </A>
+                        <Link href={`/~${d.username}`} passHref>
+                          <A target={target}>Profil</A>
+                        </Link>
+                        <br />
+                        <Contact user={d} />
                       </div>
                     )}
                     {candidate.comment && candidate.comment.id && (

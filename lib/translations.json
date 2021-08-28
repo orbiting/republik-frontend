@@ -1439,6 +1439,18 @@
       "value": "Sie müssen ein Porträtbild hochladen"
     },
     {
+      "key": "profile/gender",
+      "value": "Geschlecht"
+    },
+    {
+      "key": "profile/gender/empty",
+      "value": "Geschlech fehlt"
+    },
+    {
+      "key": "profile/gender/custom",
+      "value": "Ihre Bezeichnung (optional)"
+    },
+    {
       "key": "testimonial/meta/pageTitle",
       "value": "Community – Republik"
     },

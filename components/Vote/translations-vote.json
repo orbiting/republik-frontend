@@ -409,14 +409,6 @@
       "value": "Steckbrie fehlt"
     },
     {
-      "key": "info/candidacy/gender",
-      "value": "Geschlecht"
-    },
-    {
-      "key": "info/candidacy/genderMissing",
-      "value": "Geschlech fehlt"
-    },
-    {
       "key": "info/candidacy/statement",
       "value": "Statement (Ihre Motivation)"
     },

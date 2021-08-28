@@ -27,6 +27,7 @@ import { Body, Section, Small, Title } from './text'
 import Portrait from '../Profile/Portrait'
 import { COUNTRIES } from '../Account/AddressForm'
 import UsernameField from '../Profile/UsernameField'
+import GenderField from '../Profile/GenderField'
 import withMe from '../../lib/apollo/withMe'
 import Loader from '../Loader'
 import StatusError from '../StatusError'
@@ -90,11 +91,6 @@ const fields = (t, vt) => [
         t('Account/Update/birthday/error/invalid')
       )
     }
-  },
-  {
-    label: vt('info/candidacy/gender'),
-    name: 'gender',
-    validator: value => !value?.trim() && vt('info/candidacy/genderMissing')
   },
   {
     label: vt('info/candidacy/credential'),
@@ -197,7 +193,7 @@ class ElectionCandidacy extends React.Component {
           values.birthday && values.birthday.length
             ? values.birthday.trim()
             : null,
-        gender: values.gender,
+        gender: values.genderCustom || values.gender,
         biography: values.biography,
         portrait: values.portraitPreview ? values.portrait : undefined,
         address: {
@@ -470,6 +466,11 @@ class ElectionCandidacy extends React.Component {
                               onChange={this.onChange}
                             />
                           )}
+                          <GenderField
+                            isMandadory
+                            values={values}
+                            onChange={this.onChange}
+                          />
                           <FieldSet
                             values={values}
                             isEditing={isEditing}
@@ -594,7 +595,7 @@ const updateCandidacy = gql`
     $address: AddressInput
     $portrait: String
     $username: String
-    $credential: String
+    $credential: String!
     $gender: String
     $biography: String
     $publicUrl: String

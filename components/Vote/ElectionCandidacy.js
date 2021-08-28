@@ -28,6 +28,7 @@ import UsernameField from '../Profile/UsernameField'
 import GenderField from '../Profile/GenderField'
 import withMe from '../../lib/apollo/withMe'
 import Loader from '../Loader'
+import SignIn from '../Auth/SignIn'
 
 const { H2, P } = Interaction
 
@@ -300,7 +301,22 @@ class ElectionCandidacy extends React.Component {
         render={() => {
           const { me, election } = data
           if (!election) {
-            return <P>404</P>
+            return null
+          }
+          if (!election.userIsEligible) {
+            return (
+              <>
+                <H2>{t('withMembership/title')}</H2>
+                {!me && (
+                  <div style={{ margin: '20px 0' }}>
+                    <SignIn />
+                  </div>
+                )}
+                <P style={{ marginTop: 20 }}>
+                  {vt('info/candidacy/notEligable')}
+                </P>
+              </>
+            )
           }
           const {
             values,
@@ -635,6 +651,7 @@ const query = gql`
     election(slug: $slug) {
       id
       candidacyEndDate
+      userIsEligible
     }
     me {
       id

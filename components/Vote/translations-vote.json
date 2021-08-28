@@ -417,6 +417,10 @@
       "value": "Funktion fehlt"
     },
     {
+      "key": "info/candidacy/notEligable",
+      "value": "Nur Mitglieder der Project R Genossenschaft können für die Wahl kandidieren. Die Mitglieder? Alle, die ein Jahresabo der «Republik» haben."
+    },
+    {
       "key": "vote/candidacy/tooLate",
       "value": "Die Anmeldefrist für diese Wahl ist leider abgelaufen."
     },

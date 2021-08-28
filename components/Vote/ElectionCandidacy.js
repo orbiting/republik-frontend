@@ -70,14 +70,6 @@ const addressFields = t => [
 
 const fields = (t, vt) => [
   {
-    label: vt('info/candidacy/statement'),
-    name: 'statement',
-    autoSize: true,
-    validator: value =>
-      (!value && vt('info/candidacy/statementMissing')) ||
-      (value.trim().length >= 140 && t('profile/statement/tooLong'))
-  },
-  {
     label: t('Account/Update/birthday/label'),
     name: 'birthday',
     mask: '11.11.1111',
@@ -101,6 +93,14 @@ const fields = (t, vt) => [
         (value.trim().length >= 40 && t('profile/credentials/errors/tooLong'))
       )
     }
+  },
+  {
+    label: vt('info/candidacy/statement'),
+    name: 'statement',
+    autoSize: true,
+    validator: value =>
+      (!value && vt('info/candidacy/statementMissing')) ||
+      (value.trim().length >= 140 && t('profile/statement/tooLong'))
   },
   {
     label: vt('info/candidacy/biography'),
@@ -742,7 +742,14 @@ export default compose(
           variables: {
             slug
           },
-          refetchQueries: [{ query }]
+          refetchQueries: [
+            {
+              query,
+              variables: {
+                slug
+              }
+            }
+          ]
         })
       }
     })

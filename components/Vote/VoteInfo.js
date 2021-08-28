@@ -49,9 +49,6 @@ const VoteInfo = ({ vt }) => (
       </Collapsible>
     </Section>
     {voteNow}
-    <P>
-      <Body dangerousHTML={vt('info/footer')} />
-    </P>
   </NarrowContainer>
 )
 

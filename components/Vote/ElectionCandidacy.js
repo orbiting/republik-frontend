@@ -11,26 +11,23 @@ import {
   Interaction,
   Button,
   Label,
-  mediaQueries,
-  NarrowContainer
+  mediaQueries
 } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import FieldSet from '../FieldSet'
-import Frame from '../../components/Frame'
 
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
-import { swissTime } from '../../lib/utils/format'
+import { formatDate, swissTime } from '../../lib/utils/format'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
-import { Body, Section, Small, Title } from './text'
+import { Body, Section, Small } from './text'
 import Portrait from '../Profile/Portrait'
 import { COUNTRIES } from '../Account/AddressForm'
 import UsernameField from '../Profile/UsernameField'
 import GenderField from '../Profile/GenderField'
 import withMe from '../../lib/apollo/withMe'
 import Loader from '../Loader'
-import StatusError from '../StatusError'
 
 const { H2, P } = Interaction
 
@@ -174,17 +171,13 @@ class ElectionCandidacy extends React.Component {
     }
 
     this.save = () => {
-      const {
-        updateCandidacy,
-        me,
-        router: { query }
-      } = this.props
+      const { updateCandidacy, me, slug } = this.props
       const { values } = this.state
 
       this.setState({ updating: true })
 
       return updateCandidacy({
-        slug: query.slug,
+        slug: slug,
         username: values.username,
         statement: values.statement,
         credential: values.credential,
@@ -229,11 +222,8 @@ class ElectionCandidacy extends React.Component {
     }
 
     this.cancel = async () => {
-      const {
-        cancelCandidacy,
-        router: { query }
-      } = this.props
-      cancelCandidacy(query.slug)
+      const { cancelCandidacy, slug } = this.props
+      cancelCandidacy(slug)
         .then(() => {
           this.setState(() => ({
             isEditing: false,
@@ -254,7 +244,7 @@ class ElectionCandidacy extends React.Component {
     }
   }
 
-  deriveStateFromProps({ data, router: { query } }) {
+  deriveStateFromProps({ data, slug }) {
     const {
       statement,
       birthday,
@@ -270,9 +260,7 @@ class ElectionCandidacy extends React.Component {
     const { line1, line2, city, postalCode, country = DEFAULT_COUNTRY } =
       address || {}
 
-    const candidacy = data.me?.candidacies?.find(
-      c => c.election.slug === query.slug
-    )
+    const candidacy = data.me?.candidacies?.find(c => c.election.slug === slug)
     const credential =
       candidacy?.credential || credentials?.find(c => c.isListed)
 
@@ -303,275 +291,254 @@ class ElectionCandidacy extends React.Component {
   }
 
   render() {
-    const {
-      t,
-      vt,
-      data,
-      router: { query },
-      serverContext
-    } = this.props
-
-    const meta = {
-      title: `${vt('info/title')}: ${vt('info/candidacy/title')}`,
-      description: vt('info/description')
-    }
+    const { t, vt, data, slug } = this.props
 
     return (
-      <Frame meta={meta}>
-        <Loader
-          loading={data.loading}
-          error={data.error}
-          render={() => {
-            const { me, election } = data
-            if (!election) {
-              return (
-                <StatusError statusCode={404} serverContext={serverContext} />
-              )
-            }
-            const {
-              values,
-              errors,
-              error,
-              dirty,
-              isEditing,
-              updating
-            } = this.state
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          const { me, election } = data
+          if (!election) {
+            return <P>404</P>
+          }
+          const {
+            values,
+            errors,
+            error,
+            dirty,
+            isEditing,
+            updating
+          } = this.state
 
-            const candidate =
-              !updating &&
-              me.candidacies &&
-              me.candidacies.find(c => c.election.slug === query.slug)
-            const combinedErrors = {
-              username:
-                values.username || me.username
-                  ? undefined
-                  : vt('common/missingUsername'),
-              ...errors
-            }
+          const candidate =
+            !updating &&
+            me.candidacies &&
+            me.candidacies.find(c => c.election.slug === slug)
+          const combinedErrors = {
+            username:
+              values.username || me.username
+                ? undefined
+                : vt('common/missingUsername'),
+            ...errors
+          }
 
-            const isValid = !Object.keys(combinedErrors).some(k =>
-              Boolean(combinedErrors[k])
-            )
+          const isValid = !Object.keys(combinedErrors).some(k =>
+            Boolean(combinedErrors[k])
+          )
 
-            const { name } = me
-            const {
+          const { name } = me
+          const {
+            statement,
+            birthday,
+            disclosures,
+            credential,
+            city,
+            portrait,
+            portraitPreview,
+            biography,
+            gender,
+            publicUrl,
+            twitterHandle,
+            facebookId
+          } = values
+          const parsedBirthday = birthdayParse(birthday)
+
+          const candidacyPreview = me && {
+            user: {
+              id: me.id,
+              username: me.username,
+              name,
               statement,
-              birthday,
               disclosures,
-              credential,
-              city,
-              portrait,
-              portraitPreview,
+              portrait:
+                portraitPreview ||
+                (portrait !== null ? me.portrait : undefined),
               biography,
               gender,
               publicUrl,
               twitterHandle,
               facebookId
-            } = values
-            const parsedBirthday = birthdayParse(birthday)
+            },
+            city,
+            yearOfBirth: parsedBirthday
+              ? parsedBirthday.getFullYear()
+              : undefined,
+            credential,
+            recommendation: candidate ? candidate.recommendation : undefined
+          }
 
-            const candidacyPreview = me && {
-              user: {
-                id: me.id,
-                username: me.username,
-                name,
-                statement,
-                disclosures,
-                portrait:
-                  portraitPreview ||
-                  (portrait !== null ? me.portrait : undefined),
-                biography,
-                gender,
-                publicUrl,
-                twitterHandle,
-                facebookId
-              },
-              city,
-              yearOfBirth: parsedBirthday
-                ? parsedBirthday.getFullYear()
-                : undefined,
-              credential,
-              recommendation: candidate ? candidate.recommendation : undefined
-            }
+          const endDate = new Date(election.candidacyEndDate)
+          if (new Date() >= endDate) {
+            return <P>{vt('vote/candidacy/tooLate')}</P>
+          }
 
-            if (new Date() >= new Date(election.candidacyEndDate)) {
-              return (
-                <NarrowContainer>
-                  <P>{vt('vote/candidacy/tooLate')}</P>
-                </NarrowContainer>
-              )
-            }
-
-            return (
-              <NarrowContainer>
-                <Title>
-                  {candidate
-                    ? vt('info/candidacy/title2')
-                    : vt('info/candidacy/title')}
-                </Title>
-                <div {...styles.previewWrapper}>
-                  <H2>{vt('info/candidacy/previewTitle')}</H2>
-                  <div style={{ margin: `15px 0` }}>
-                    <P>{vt('info/candidacy/previewLabel')}</P>
-                  </div>
-                  <ElectionBallotRow
-                    maxVotes={0}
-                    expanded
-                    candidate={candidacyPreview}
-                  />
+          return (
+            <>
+              <div {...styles.previewWrapper}>
+                <H2>{vt('info/candidacy/previewTitle')}</H2>
+                <div style={{ margin: `15px 0` }}>
+                  <P>{vt('info/candidacy/previewLabel')}</P>
                 </div>
-                <div>
-                  {isEditing || !candidate ? (
-                    <Fragment>
-                      <Section>
-                        <H2>{t('Account/Update/address/label')}</H2>
-                        <div {...styles.vSpace}>
-                          <FieldSet
-                            values={values}
-                            errors={errors}
-                            dirty={dirty}
-                            fields={addressFields(t)}
-                            onChange={this.onChange}
-                            isEditing
-                          />
-                        </div>
-                      </Section>
-                      <Section>
-                        <H2>{vt('info/candidacy/candidacyTitle')}</H2>
-                        <div
-                          {...styles.vSpace}
-                          style={{
-                            width: 200,
-                            height: 200,
-                            background: 'black'
-                          }}
-                        >
-                          <Portrait
-                            user={me}
-                            isEditing
-                            isMe
-                            isMandadory
-                            onChange={this.onChange}
-                            values={values}
-                            errors={errors}
-                            dirty={dirty}
-                          />
-                        </div>
-                        <div {...styles.vSpace}>
-                          {!me.username && (
-                            <UsernameField
-                              user={me}
-                              values={values}
-                              errors={errors}
-                              onChange={this.onChange}
-                            />
-                          )}
-                          <GenderField
-                            isMandadory
-                            values={values}
-                            onChange={this.onChange}
-                          />
-                          <FieldSet
-                            values={values}
-                            isEditing={isEditing}
-                            errors={errors}
-                            dirty={dirty}
-                            fields={fields(t, vt)}
-                            onChange={this.onChange}
-                          />
-                        </div>
-                      </Section>
-                      {error && (
-                        <div {...styles.vSpace}>
-                          <ErrorMessage error={error} />
-                        </div>
-                      )}
-                      <div {...styles.section}>
-                        <Small
-                          indent={false}
-                          dangerousHTML={vt('info/candidacy/finePrint')}
+                <ElectionBallotRow
+                  maxVotes={0}
+                  expanded
+                  candidate={candidacyPreview}
+                />
+              </div>
+              <div>
+                {isEditing || !candidate ? (
+                  <Fragment>
+                    <Section>
+                      <H2>{t('Account/Update/address/label')}</H2>
+                      <div {...styles.vSpace}>
+                        <FieldSet
+                          values={values}
+                          errors={errors}
+                          dirty={dirty}
+                          fields={addressFields(t)}
+                          onChange={this.onChange}
+                          isEditing
                         />
                       </div>
-                      {!isValid && (
-                        <div {...styles.vSpace}>
-                          <div {...styles.error}>
-                            {vt('info/candidacy/missingFields')}
-                            <ul>
-                              {Object.keys(combinedErrors).map(
-                                k =>
-                                  !!combinedErrors[k] && (
-                                    <li key={k}>{combinedErrors[k]}</li>
-                                  )
-                              )}
-                            </ul>
-                          </div>
-                        </div>
-                      )}
+                    </Section>
+                    <Section>
+                      <H2>{vt('info/candidacy/candidacyTitle')}</H2>
+                      <div
+                        {...styles.vSpace}
+                        style={{
+                          width: 200,
+                          height: 200,
+                          background: 'black'
+                        }}
+                      >
+                        <Portrait
+                          user={me}
+                          isEditing
+                          isMe
+                          isMandadory
+                          onChange={this.onChange}
+                          values={values}
+                          errors={errors}
+                          dirty={dirty}
+                        />
+                      </div>
                       <div {...styles.vSpace}>
-                        {(isEditing || !candidate) && (
-                          <div {...styles.saveButton}>
-                            {updating ? (
-                              <InlineSpinner />
-                            ) : (
-                              <Button
-                                type='submit'
-                                block
-                                primary
-                                onClick={this.save}
-                                disabled={updating || !isValid}
-                              >
-                                {candidate
-                                  ? vt('info/candidacy/saveChanges')
-                                  : vt('info/candidacy/sumbitCandidacy')}
-                              </Button>
-                            )}
-                          </div>
+                        {!me.username && (
+                          <UsernameField
+                            user={me}
+                            values={values}
+                            errors={errors}
+                            onChange={this.onChange}
+                          />
                         )}
-                        <div {...styles.vSpace}>
-                          <Body dangerousHTML={vt('info/footer')} />
+                        <GenderField
+                          isMandadory
+                          values={values}
+                          onChange={this.onChange}
+                        />
+                        <FieldSet
+                          values={values}
+                          isEditing={isEditing}
+                          errors={errors}
+                          dirty={dirty}
+                          fields={fields(t, vt)}
+                          onChange={this.onChange}
+                        />
+                      </div>
+                    </Section>
+                    {error && (
+                      <div {...styles.vSpace}>
+                        <ErrorMessage error={error} />
+                      </div>
+                    )}
+                    <div {...styles.section}>
+                      <Small
+                        indent={false}
+                        dangerousHTML={vt('info/candidacy/finePrint')}
+                      />
+                    </div>
+                    {!isValid && (
+                      <div {...styles.vSpace}>
+                        <div {...styles.error}>
+                          {vt('info/candidacy/missingFields')}
+                          <ul>
+                            {Object.keys(combinedErrors).map(
+                              k =>
+                                !!combinedErrors[k] && (
+                                  <li key={k}>{combinedErrors[k]}</li>
+                                )
+                            )}
+                          </ul>
                         </div>
                       </div>
-                    </Fragment>
-                  ) : (
-                    <Fragment>
+                    )}
+                    <div {...styles.vSpace}>
+                      {(isEditing || !candidate) && (
+                        <div {...styles.saveButton}>
+                          {updating ? (
+                            <InlineSpinner />
+                          ) : (
+                            <Button
+                              type='submit'
+                              block
+                              primary
+                              onClick={this.save}
+                              disabled={updating || !isValid}
+                            >
+                              {candidate
+                                ? vt('info/candidacy/saveChanges')
+                                : vt('info/candidacy/sumbitCandidacy')}
+                            </Button>
+                          )}
+                        </div>
+                      )}
                       <div {...styles.vSpace}>
                         <Body
-                          dangerousHTML={vt('info/candidacy/confirmation')}
+                          dangerousHTML={vt('info/footer', {
+                            endDate: formatDate(endDate)
+                          })}
                         />
                       </div>
+                    </div>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <div {...styles.vSpace}>
+                      <Body dangerousHTML={vt('info/candidacy/confirmation')} />
+                    </div>
+                    <div {...styles.vSpace}>
+                      <A
+                        href='#'
+                        onClick={e => {
+                          e.preventDefault()
+                          this.startEditing()
+                        }}
+                      >
+                        {vt('info/candidacy/edit')}
+                      </A>
+                    </div>
+                    {this.props.me.roles.some(r => r === 'admin') && (
                       <div {...styles.vSpace}>
+                        ADMIN TOOL:{' '}
                         <A
                           href='#'
                           onClick={e => {
                             e.preventDefault()
-                            this.startEditing()
+                            this.cancel()
                           }}
                         >
-                          {vt('info/candidacy/edit')}
+                          {vt('info/candidacy/delete')}
                         </A>
                       </div>
-                      {this.props.me.roles.some(r => r === 'admin') && (
-                        <div {...styles.vSpace}>
-                          ADMIN TOOL:{' '}
-                          <A
-                            href='#'
-                            onClick={e => {
-                              e.preventDefault()
-                              this.cancel()
-                            }}
-                          >
-                            {vt('info/candidacy/delete')}
-                          </A>
-                        </div>
-                      )}
-                    </Fragment>
-                  )}
-                </div>
-              </NarrowContainer>
-            )
-          }}
-        />
-      </Frame>
+                    )}
+                  </Fragment>
+                )}
+              </div>
+            </>
+          )
+        }}
+      />
     )
   }
 }
@@ -720,9 +687,9 @@ export default compose(
   withRouter,
   withMe,
   graphql(query, {
-    options: ({ router: { query } }) => ({
+    options: ({ slug }) => ({
       variables: {
-        slug: query.slug
+        slug
       }
     })
   }),

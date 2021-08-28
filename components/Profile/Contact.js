@@ -57,6 +57,7 @@ const Contact = ({
   errors,
   dirty,
   t,
+  showSupportLink,
   isSupporter,
   inNativeIOSApp
 }) => {
@@ -170,7 +171,7 @@ const Contact = ({
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
           <IconButton Icon={LanguageIcon} href={user.publicUrl} />
         )}
-        {isSupporter && (
+        {isSupporter && showSupportLink && ADMIN_BASE_URL && (
           <IconButton
             Icon={NoteAddIcon}
             fill='#FF10D9'

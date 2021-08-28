@@ -190,9 +190,12 @@ const ElectionBallotRow = props => {
 
   const summary = (
     <Fragment>
-      <div>{candidate.yearOfBirth}</div>
       <div>
-        {(d.credentials.find(c => c.isListed) || {}).description ||
+        {candidate.yearOfBirth} {d.gender?.slice(0, 1).toUpperCase()}
+      </div>
+      <div>
+        {candidate.credential ||
+          (d.credentials?.find(c => c.isListed) || {}).description ||
           MISSING_VALUE}
       </div>
       <div>{candidate.city}</div>

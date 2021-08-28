@@ -265,7 +265,6 @@ class ElectionCandidacy extends React.Component {
       disclosures,
       credentials,
       address,
-      portrait,
       gender,
       biography,
       publicUrl,
@@ -283,7 +282,6 @@ class ElectionCandidacy extends React.Component {
 
     return {
       values: {
-        portrait,
         gender,
         biography,
         statement,
@@ -347,7 +345,6 @@ class ElectionCandidacy extends React.Component {
               !updating &&
               me.candidacies &&
               me.candidacies.find(c => c.election.slug === query.slug)
-
             const combinedErrors = {
               username:
                 values.username || me.username
@@ -368,7 +365,12 @@ class ElectionCandidacy extends React.Component {
               credential,
               city,
               portrait,
-              portraitPreview
+              portraitPreview,
+              biography,
+              gender,
+              publicUrl,
+              twitterHandle,
+              facebookId
             } = values
             const parsedBirthday = birthdayParse(birthday)
 
@@ -377,19 +379,21 @@ class ElectionCandidacy extends React.Component {
                 name,
                 statement,
                 disclosures,
-                credentials: [
-                  {
-                    description: credential,
-                    isListed: true
-                  }
-                ],
-                portrait: portraitPreview || portrait
+                portrait:
+                  portraitPreview ||
+                  (portrait !== null ? me.portrait : undefined),
+                biography,
+                gender
               },
               city,
               yearOfBirth: parsedBirthday
                 ? parsedBirthday.getFullYear()
                 : undefined,
-              recommendation: candidate ? candidate.recommendation : undefined
+              credential,
+              recommendation: candidate ? candidate.recommendation : undefined,
+              publicUrl,
+              twitterHandle,
+              facebookId
             }
 
             if (new Date() >= new Date(election.candidacyEndDate)) {
@@ -439,8 +443,8 @@ class ElectionCandidacy extends React.Component {
                         <div
                           {...styles.vSpace}
                           style={{
-                            width: 104,
-                            height: 104,
+                            width: 200,
+                            height: 200,
                             background: 'black'
                           }}
                         >
@@ -448,6 +452,7 @@ class ElectionCandidacy extends React.Component {
                             user={me}
                             isEditing
                             isMe
+                            isMandadory
                             onChange={this.onChange}
                             values={values}
                             errors={errors}

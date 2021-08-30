@@ -1444,7 +1444,7 @@
     },
     {
       "key": "profile/gender/empty",
-      "value": "Geschlech fehlt"
+      "value": "Geschlecht fehlt"
     },
     {
       "key": "profile/gender/custom",

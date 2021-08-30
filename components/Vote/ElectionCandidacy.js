@@ -112,7 +112,9 @@ const fields = (t, vt) => [
     label: t('profile/disclosures/label'),
     explanation: <Label>{t('profile/disclosures/explanation')}</Label>,
     name: 'disclosures',
-    autoSize: true
+    autoSize: true,
+    validator: value =>
+      !!value && value.trim().length >= 140 && t('profile/statement/tooLong')
   },
   {
     label: t('profile/contact/facebook/label'),

@@ -394,7 +394,7 @@
     },
     {
       "key": "info/candidacy/biography",
-      "value": "Steckbrief"
+      "value": "Steckbrief (Vorstellung und Werdegang in Kürze)"
     },
     {
       "key": "info/candidacy/biographyMissing",
@@ -402,7 +402,7 @@
     },
     {
       "key": "info/candidacy/statement",
-      "value": "Statement (Ihre Motivation)"
+      "value": "Statement (Ihre Motivation für diese Kandidatur)"
     },
     {
       "key": "info/candidacy/statementMissing",

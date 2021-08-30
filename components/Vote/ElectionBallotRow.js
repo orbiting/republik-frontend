@@ -54,13 +54,13 @@ const styles = {
     lineHeight: 1.3,
     overflowWrap: 'break-word',
     '& div:nth-child(1)': {
-      width: '30%'
+      width: '25%'
     },
     '& div:nth-child(2)': {
-      width: '10%'
+      width: '20%'
     },
     '& div:nth-child(3)': {
-      width: '35%',
+      width: '30%',
       paddingRight: 10
     },
     '& div:nth-child(4)': {
@@ -74,7 +74,7 @@ const styles = {
       '& div:nth-child(1)': {
         width: '80%'
       },
-      '& div:nth-child(2), & div:nth-child(3), & div:nth-child(4)': {
+      '& div:nth-child(2), & div:nth-child(3), & div:nth-child(4),  & div:nth-child(5)': {
         display: 'none'
       },
       '& div:last-child': {
@@ -192,7 +192,7 @@ const ElectionBallotRow = props => {
   const summary = (
     <Fragment>
       <div>
-        {candidate.yearOfBirth} {d.gender?.slice(0, 1).toUpperCase()}
+        {candidate.yearOfBirth} {d.gender}
       </div>
       <div>
         {candidate.credential ||

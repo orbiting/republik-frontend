@@ -217,7 +217,7 @@ const ElectionBallotRow = props => {
 
               {!profile && d.username && (
                 <>
-                  <Contact user={d} />
+                  <Contact user={d} electionBallot />
                   <div style={{ marginTop: 8 }}>
                     <Link href={`/~${d.username}`} passHref>
                       <A target={target}>Profil</A>

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
@@ -11,155 +11,109 @@ import {
   fontStyles,
   mediaQueries,
   Radio,
-  useColorContext
+  useColorContext,
+  renderCommentMdast
 } from '@project-r/styleguide'
 import { Strong } from './text'
 import {
   FavoriteIcon,
   StarsIcon,
-  ChevronRightIcon,
-  ExpandMoreIcon
+  ChevronRightIcon
 } from '@project-r/styleguide/icons'
 import voteT from './voteT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
 import Contact from '../Profile/Contact'
 
-const MISSING_VALUE = <span>…</span>
-
 const styles = {
   row: css({
-    position: 'relative',
     width: '100%',
-    marginRight: 0
+    marginBottom: 15
   }),
   statement: css({
     [mediaQueries.onlyS]: {
-      marginBottom: 10,
       ...fontStyles.serifTitle22
     },
     ...fontStyles.serifTitle26
   }),
-  summaryWrapper: css({
-    padding: '13px 20px 15px 20px',
-    marginTop: 8,
-    marginBottom: 8,
-    // marginLeft: -26,
-    marginRight: 0
-  }),
   summary: css({
     width: '100%',
     display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     ...fontStyles.sansSerifRegular16,
     lineHeight: 1.3,
-    overflowWrap: 'break-word',
-    '& div:nth-child(1)': {
-      width: '25%'
-    },
-    '& div:nth-child(2)': {
-      width: '20%'
-    },
-    '& div:nth-child(3)': {
-      width: '30%',
-      paddingRight: 10
-    },
-    '& div:nth-child(4)': {
-      width: '15%',
-      paddingRight: 15
-    },
-    '& div:nth-child(5)': {
-      width: '10%'
-    },
+    overflowWrap: 'break-word'
+  }),
+  summaryInfo: css({
+    display: 'flex',
+    alignItems: 'center',
+    '& :not(:first-child)': {
+      marginLeft: 15
+    }
+  }),
+  summaryDesktop: css({
     [mediaQueries.onlyS]: {
-      '& div:nth-child(1)': {
-        width: '80%'
-      },
-      '& div:nth-child(2), & div:nth-child(3), & div:nth-child(4),  & div:nth-child(5)': {
-        display: 'none'
-      },
-      '& div:last-child': {
-        width: '20%'
-      }
+      display: 'none'
     }
   }),
   summaryMobile: css({
     display: 'none',
     [mediaQueries.onlyS]: {
-      marginBottom: 25,
-      width: '100%',
-      lineHeight: 1.4,
+      marginBottom: 15,
       display: 'block'
     }
   }),
-  summaryLinks: css({
-    width: '100%',
-    minHeight: 20,
+  detail: css({
     display: 'flex',
-    borderTop: '1px solid black',
-    '& :nth-child(1)': {
-      width: '60%'
+    padding: 15,
+    margin: '8px 0',
+    [mediaQueries.onlyS]: {
+      flexDirection: 'column'
     }
   }),
-  details: css({
-    width: '100%',
-    marginTop: 10,
-    marginBottom: 5,
-    [mediaQueries.lUp]: {
-      marginTop: 5
+  profile: css({
+    display: 'flex',
+    paddingRight: 15,
+    flexDirection: 'column',
+    alignItems: 'start',
+    '& img': {
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      filter: 'grayscale(1)'
+    },
+    [mediaQueries.onlyS]: {
+      flexDirection: 'row',
+      marginBottom: 15
     }
   }),
   portrait: css({
     display: 'block',
     backgroundColor: '#E2E8E6',
-    width: 104,
-    height: 104,
+    width: 100,
+    height: 100,
+    minWidth: 100,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    filter: 'grayscale(1)',
-    marginRight: 15
-  }),
-  profile: css({
-    marginTop: 5,
-    display: 'flex',
-    alignItems: 'start',
-    [mediaQueries.onlyS]: {
-      flexDirection: 'column-reverse'
-    },
-    '& img': {
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      filter: 'grayscale(1)'
-    }
-  }),
-  profileFooter: css({
-    marginTop: 8,
-    paddingBottom: 5
+    filter: 'grayscale(1)'
   }),
   moreInfo: css({
     marginTop: 15
   }),
-  wrapper: css({
-    [mediaQueries.mUp]: {
-      minHeight: 45
-    },
-    width: '100%',
-    display: 'flex',
-    padding: 0
-  }),
-  wrapperSelected: css({}),
   icon: css({
-    marginTop: 0,
-    width: 26,
-    marginLeft: -6,
-    padding: 0,
-    [mediaQueries.onlyS]: {
-      marginTop: 0
+    ...fontStyles.serifTitle22,
+    transition: 'transform 0.3s',
+    '& :not(:first-child)': {
+      marginLeft: 8
     }
   }),
-  selection: css({
-    width: 14,
-    paddingTop: 3,
-    marginRight: 5
+  externalLinks: css({
+    display: 'flex'
+  }),
+  shortInfo: css({
+    [mediaQueries.onlyS]: {
+      paddingLeft: 15
+    }
   })
 }
 
@@ -189,143 +143,128 @@ const ElectionBallotRow = props => {
 
   const { user: d } = candidate
 
-  const summary = (
-    <Fragment>
-      <div>
-        {candidate.yearOfBirth} {d.gender}
-      </div>
-      <div>
-        {candidate.credential ||
-          (d.credentials?.find(c => c.isListed) || {}).description ||
-          MISSING_VALUE}
-      </div>
-      <div>{candidate.city}</div>
-    </Fragment>
-  )
+  const summary = `${
+    candidate.yearOfBirth ? `${candidate.yearOfBirth},` : ''
+  } ${d.gender ? `${d.gender},` : ''} ${candidate.credential ||
+    (d.credentials?.find(c => c.isListed) || {}).description ||
+    ''} ${candidate.city ? `aus ${candidate.city}` : ''}`
 
   const target = inNativeApp || profile ? undefined : '_blank'
-
   return (
-    <div {...styles.wrapper} {...(expanded && styles.wrapperSelected)}>
+    <div {...styles.row}>
       <div
-        onClick={e => {
-          e.preventDefault()
-          interactive && toggleExpanded(d.id)
-        }}
+        {...styles.summary}
+        style={{ cursor: onChange ? 'pointer' : 'default' }}
+        onClick={onChange ? () => onChange(candidate) : undefined}
       >
-        {expanded ? (
-          <div {...styles.icon}>
-            <ExpandMoreIcon />
-          </div>
-        ) : (
-          <div {...styles.icon}>
+        <div {...styles.summaryInfo}>
+          <div
+            {...styles.icon}
+            style={{ transform: expanded && 'rotate(90deg)' }}
+            onClick={e => {
+              e.preventDefault()
+              interactive && toggleExpanded(d.id)
+            }}
+          >
             <ChevronRightIcon />
           </div>
+          {interactive ? (
+            <A
+              href='#'
+              onClick={e => {
+                e.preventDefault()
+                e.stopPropagation()
+                toggleExpanded(d.id)
+              }}
+            >
+              {d.name}
+            </A>
+          ) : (
+            d.name
+          )}
+          <div {...styles.summaryDesktop}>{summary}</div>
+        </div>
+        {showMeta && (
+          <div {...styles.icon}>
+            {!candidate.recommendation && <StarsIcon />}
+            {!mandatory && <FavoriteIcon />}
+          </div>
+        )}
+        {maxVotes > 0 && onChange && (
+          <>
+            <SelectionComponent
+              disabled={maxVotes > 1 && !selected && disabled}
+              checked={selected}
+              onChange={() => onChange(candidate)}
+            />
+          </>
         )}
       </div>
-      <div {...styles.row}>
+      {expanded && (
         <div
-          {...styles.summary}
-          style={{ cursor: onChange ? 'pointer' : 'default' }}
-          onClick={onChange ? () => onChange(candidate) : undefined}
+          {...styles.detail}
+          {...colorScheme.set('backgroundColor', 'alert')}
         >
+          <div {...styles.profile}>
+            <div
+              style={{
+                backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})`
+              }}
+              {...styles.portrait}
+            />
+            <div {...styles.shortInfo}>
+              <div {...styles.summaryMobile}>{summary}</div>
+
+              {!profile && d.username && (
+                <>
+                  <Contact user={d} />
+                  <div style={{ marginTop: 8 }}>
+                    <Link href={`/~${d.username}`} passHref>
+                      <A target={target}>Profil</A>
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
           <div>
-            {interactive ? (
-              <A
-                href='#'
-                onClick={e => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  toggleExpanded(d.id)
-                }}
-              >
-                {d.name}
-              </A>
-            ) : (
-              d.name
+            <div {...styles.statement}>{d.statement || 'Ihr Statement'}</div>
+            <div {...styles.biography}>
+              {d.biographyContent
+                ? renderCommentMdast(d.biographyContent)
+                : 'Ihr Steckbrief'}
+            </div>
+            <div>
+              {candidate.comment && candidate.comment.id && (
+                <div>
+                  <Link
+                    href={{
+                      pathname: '/vote/genossenschaft/diskutieren',
+                      query: {
+                        discussion: candidate.election.slug,
+                        focus: candidate.comment.id
+                      }
+                    }}
+                    passHref
+                  >
+                    <A target={target}>{vt('vote/election/discussion')}</A>
+                  </Link>
+                </div>
+              )}
+            </div>
+            {d.disclosures && (
+              <div {...styles.moreInfo}>
+                <Strong>{t('profile/disclosures/label')}:</Strong>{' '}
+                {d.disclosures}
+              </div>
+            )}
+            {candidate.recommendation && (
+              <div {...styles.moreInfo}>
+                <Strong>{vt('vote/election/recommendation')}</Strong>{' '}
+                {!candidate.recommendation}
+              </div>
             )}
           </div>
-          {summary}
-          {showMeta && (
-            <div>
-              <div style={{ width: 36, height: 18 }}>
-                {candidate.recommendation && <StarsIcon size={18} />}
-                {mandatory && <FavoriteIcon size={18} />}
-              </div>
-            </div>
-          )}
-        </div>
-        {expanded && (
-          <div
-            {...styles.summaryWrapper}
-            {...colorScheme.set('backgroundColor', 'alert')}
-          >
-            <div {...styles.summaryMobile}>{summary}</div>
-            <div {...styles.details}>
-              <div {...styles.profile}>
-                <div>
-                  <div
-                    style={{
-                      backgroundImage: `url(${d.portrait ||
-                        DEFAULT_PROFILE_PICTURE})`
-                    }}
-                    {...styles.portrait}
-                  />
-                  <div>
-                    {!profile && d.username && (
-                      <div {...styles.profileFooter}>
-                        <Link href={`/~${d.username}`} passHref>
-                          <A target={target}>Profil</A>
-                        </Link>
-                        <br />
-                        <Contact user={d} />
-                      </div>
-                    )}
-                    {candidate.comment && candidate.comment.id && (
-                      <div>
-                        <Link
-                          href={{
-                            pathname: '/vote/genossenschaft/diskutieren',
-                            query: {
-                              discussion: candidate.election.slug,
-                              focus: candidate.comment.id
-                            }
-                          }}
-                          passHref
-                        >
-                          <A target={target}>
-                            {vt('vote/election/discussion')}
-                          </A>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div {...styles.statement}>{d.statement || MISSING_VALUE}</div>
-              </div>
-              {d.disclosures && (
-                <div {...styles.moreInfo}>
-                  <Strong>{t('profile/disclosures/label')}:</Strong>{' '}
-                  {d.disclosures}
-                </div>
-              )}
-              {candidate.recommendation && (
-                <div {...styles.moreInfo}>
-                  <Strong>{vt('vote/election/recommendation')}</Strong>{' '}
-                  {candidate.recommendation}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-      {maxVotes > 0 && onChange && (
-        <div {...styles.selection}>
-          <SelectionComponent
-            disabled={maxVotes > 1 && !selected && disabled}
-            checked={selected}
-            onChange={() => onChange(candidate)}
-          />
         </div>
       )}
     </div>

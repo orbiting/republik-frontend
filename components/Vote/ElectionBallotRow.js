@@ -186,8 +186,8 @@ const ElectionBallotRow = props => {
         </div>
         {showMeta && (
           <div {...styles.icon}>
-            {!candidate.recommendation && <StarsIcon />}
-            {!mandatory && <FavoriteIcon />}
+            {candidate.recommendation && <StarsIcon />}
+            {mandatory && <FavoriteIcon />}
           </div>
         )}
         {maxVotes > 0 && onChange && (

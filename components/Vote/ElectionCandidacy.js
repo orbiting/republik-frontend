@@ -256,6 +256,7 @@ class ElectionCandidacy extends React.Component {
       address,
       gender,
       biography,
+      biographyContent,
       publicUrl,
       twitterHandle,
       facebookId
@@ -271,6 +272,7 @@ class ElectionCandidacy extends React.Component {
       values: {
         gender,
         biography,
+        biographyContent,
         statement,
         birthday,
         disclosures,
@@ -355,11 +357,13 @@ class ElectionCandidacy extends React.Component {
             portrait,
             portraitPreview,
             biography,
+            biographyContent,
             gender,
             publicUrl,
             twitterHandle,
             facebookId
           } = values
+          console.log(biographyContent)
           const parsedBirthday = birthdayParse(birthday)
 
           const candidacyPreview = me && {
@@ -373,6 +377,7 @@ class ElectionCandidacy extends React.Component {
                 portraitPreview ||
                 (portrait !== null ? me.portrait : undefined),
               biography,
+              biographyContent,
               gender,
               publicUrl,
               twitterHandle,

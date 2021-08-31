@@ -1,6 +1,4 @@
 {
-  "updated": "2020-11-09T16:11:19.280Z",
-  "title": "live",
   "data": [
     {
       "key": "vote/201907/result/title",
@@ -351,14 +349,6 @@
       "value": "<strong>Zur Kandidatur</strong>\n\nUm wählbar zu sein, müssen Sie zwei Bedingungen erfüllen. Erstens müssen Sie am 16. Oktober Mitglied der Project R Genossenschaft sein (also ein Jahresabonnement der «Republik» erworben haben). Zweitens müssen Sie bis dann Ihre Kandidatur auf dieser Wahlplattform online bestätigt haben. Auch Kandidatinnen und Kandidaten, die der Vorstand zur Wahl empfiehlt, müssen sich online registrieren.\n\n<strong>Was bisher geschah</strong>\n\nAm 23. Mai 2018 haben wir mit <a target=\"_blank\" href='https://project-r.construction/newsletter/genossenschafts-rat'>diesem Newsletter</A> zum ersten Mal über die Wahl informiert und zu den\nInformationsveranstaltungen eingeladen.\n\nZwischen dem 18. Juni und dem 12. September haben wir sechs Informationsveranstaltungen in sechs Städten durchgeführt, und es haben sich rund 150 Personen für eine Kandidatur interessiert.\n\nAm 27. September hat der Vorstand aus diesen Personen eine Wahlempfehlung von 30 Personen zusammengestellt und sie informiert. Auch die Interessenten, die nicht zur Wahl vorgeschlagen wurden, wurden informiert. Sie können natürlich trotzdem für den Rat kandidieren, wie überhaupt alle Mitglieder der Genossenschaft.\n\n<strong>Was als Nächstes geschieht</strong>\n\nBis zum 16. Oktober haben Sie Zeit zu kandidieren. Das heisst: Sie müssen sich hier registrieren, Ihr Profil ausfüllen und es bestätigen.\n\nZwischen dem 17. und dem 28. Oktober ist Wahlkampf. Sie können sich die Profile aller Kandidatinnen anschauen, und Sie sehen auch, wen der Vorstand warum zur Wahl empfiehlt. Wenn Sie Fragen an die Kandidatinnen haben, dann können Sie online mit ihnen debattieren. Sobald Sie überzeugt sind, können Sie Ihren Wunschrat wählen.\n\nAm 29. und 30. Oktober werden wir viel Kaffee trinken und in Ruhe die Wahl auswerten. Es gilt das relative Mehr. Das heisst: Die 30 Personen mit den meisten Stimmen bekommen einen Sitz.\n\nAm 31. Oktober hat die Genossenschaft zum ersten Mal in ihrer Geschichte einen Rat. Wir werden das Resultat hier auf der Plattform verkünden und einen angemessen staatstragenden Newsletter verschicken.\n\n<strong>Zum Wahlsystem</strong>\n\nFür das Wahlsystem haben wir Kritik einstecken müssen. Wenn der Vorstand seine Favoriten empfiehlt, ist dann das Ganze nicht ein reines Abnicken mit unumstösslichem Ausgang? Gelebte Alternativlosigkeit? Warum trauen wir den Mitgliedern nicht zu, selber die besten Kandidatinnen zu finden?\n\nDie Kritik hat etwas Wahres. Das ist uns bewusst. Darum haben wir auch lange und hart über Alternativen nachgedacht. Um Winston Churchill zu paraphrasieren: Dieses Wahlsystem ist für uns die beste aller schlechten Varianten. Aus drei Gründen bleiben wir trotz Kritik bei diesem System.\n\n1. Repräsentativität<br />\nIn den Statuten der Genossenschaft ist festgehalten, dass die Mitgliederstruktur angemessen vertreten sein soll: Im Rat sollen verschiedene Alter, Geschlechter, Regionen zusammenkommen. Wir haben bei der Wahlempfehlung darauf geachtet. Das erhöht die Wahrscheinlichkeit, dass die Anforderungen der Statuten erfüllt werden.\n\n2. Einfachheit<br />\nWäre das nicht auch anders möglich gewesen? Ja, aber alles, was uns dazu eingefallen ist, wäre wahnsinnig kompliziert. Nicht für uns, das wäre verkraftbar, sondern für die Wählerinnen und Wähler. Haben Sie eine elegantere Lösung? Bitte, her damit. Dann werden wir die nächsten Wahlen so durchführen.\n\n3. Legitimität<br />\nDie Wahl mit Empfehlung ist für manche weniger legitim als eine ganz freie Wahl. Wir verstehen den Einwand. Aber: Jedes Mitglied kann ohne weitere Hürden kandidieren – ob auf der Liste oder nicht. So ist es zumindest möglich, die Irrtümer des Vorstandes zu korrigieren.\n\nDie detaillierten Bestimmungen zu den Wahlen finden Sie in den <a target=\"_blank\" href='https://www.republik.ch/statuten'> Statuten der Project R Genossenschaft</A> (Artikel 9, 16, 17, 18, 20 und 21)."
     },
     {
-      "key": "info/candidacy/title",
-      "value": "Kandidieren Sie jetzt!"
-    },
-    {
-      "key": "info/candidacy/title2",
-      "value": "Ihre Kandidatur"
-    },
-    {
       "key": "info/candidacy/previewLabel",
       "value": "So erscheint Ihre Kandidatur auf der Wahlplattform:"
     },
@@ -372,7 +362,7 @@
     },
     {
       "key": "info/candidacy/finePrint",
-      "value": "Die Mitglieder von Project R sehen ab dem 17. Oktober auf der Wahlplattform nur, was in der Vorschau angezeigt wird.\nIn Ihrem Profil sehen die Mitglieder dann zusätzlich: Steckbrief, Interessenbindungen, Debattenbeiträge.\nDas Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt und ist dort für alle Mitglieder sichtbar.\nGeburtsdatum, Strasse und Hausnummer ist nur für die Administration von Project R und der «Republik»\neinsehbar."
+      "value": "Die Mitglieder von Project R sehen später auf der Wahlplattform, was in der Vorschau angezeigt wird.\nDas Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt und ist dort für alle Mitglieder sichtbar.\nGeburtsdatum, Strasse und Hausnummer sind nur für die Administration von Project R und der «Republik»\neinsehbar."
     },
     {
       "key": "info/candidacy/missingFields",
@@ -388,11 +378,11 @@
     },
     {
       "key": "info/footer",
-      "value": "Sie können Ihre Kandidatur bis zum 16. Oktober jederzeit bearbeiten. <br />\nHaben Sie Fragen? Schreiben Sie uns an <a href=\"mailto:office@project-r.construction\">office@project-r.construction</a>."
+      "value": "Sie können Ihre Kandidatur bis zum {endDate} jederzeit bearbeiten."
     },
     {
       "key": "info/candidacy/confirmation",
-      "value": "Ihre Kandidatur ist registriert. Vielen Dank für Ihr Engagement! <br />\nHaben Sie Fragen? Schreiben Sie uns an <a href=\"mailto:office@project-r.construction\">office@project-r.construction</a>."
+      "value": "Ihre Kandidatur ist registriert. Vielen Dank für Ihr Engagement!"
     },
     {
       "key": "info/candidacy/edit",
@@ -403,8 +393,16 @@
       "value": "Kandidatur löschen"
     },
     {
+      "key": "info/candidacy/biography",
+      "value": "Steckbrief (Stellen Sie sich in Kürze vor)"
+    },
+    {
+      "key": "info/candidacy/biographyMissing",
+      "value": "Steckbrief fehlt"
+    },
+    {
       "key": "info/candidacy/statement",
-      "value": "Statement (Ihre Motivation)"
+      "value": "Statement (Ihre Motivation für diese Kandidatur)"
     },
     {
       "key": "info/candidacy/statementMissing",
@@ -417,6 +415,10 @@
     {
       "key": "info/candidacy/credentialMissing",
       "value": "Funktion fehlt"
+    },
+    {
+      "key": "info/candidacy/notEligable",
+      "value": "Eine Mitgliedschaft in der Project R Genossenschaft ist Bedingung für eine Kandidatur. Wenn Sie ein Jahresabo der «Republik» haben, sind Sie automatisch Mitglied in der Genossenschaft."
     },
     {
       "key": "vote/candidacy/tooLate",

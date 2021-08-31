@@ -1363,6 +1363,10 @@
       "value": "Steckbrief"
     },
     {
+      "key": "profile/biography/label/tooLong",
+      "value": "Steckbrief, maximal 1500 Zeichen"
+    },
+    {
       "key": "profile/disclosures/label",
       "value": "Interessenbindungen"
     },
@@ -1433,6 +1437,18 @@
     {
       "key": "profile/portrait/empty",
       "value": "Sie müssen ein Porträtbild hochladen"
+    },
+    {
+      "key": "profile/gender",
+      "value": "Geschlecht"
+    },
+    {
+      "key": "profile/gender/empty",
+      "value": "Geschlecht fehlt"
+    },
+    {
+      "key": "profile/gender/custom",
+      "value": "Ihre Bezeichnung (optional)"
     },
     {
       "key": "testimonial/meta/pageTitle",

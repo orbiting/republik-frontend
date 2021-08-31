@@ -230,9 +230,7 @@ const ElectionBallotRow = props => {
           <div>
             <div {...styles.statement}>{d.statement || 'Ihr Statement'}</div>
             <div {...styles.biography}>
-              {d.biographyContent
-                ? renderCommentMdast(d.biographyContent)
-                : 'Ihr Steckbrief'}
+              {d.biographyContent && renderCommentMdast(d.biographyContent)}
             </div>
             <div>
               {candidate.comment && candidate.comment.id && (
@@ -261,7 +259,7 @@ const ElectionBallotRow = props => {
             {candidate.recommendation && (
               <div {...styles.moreInfo}>
                 <Strong>{vt('vote/election/recommendation')}</Strong>{' '}
-                {!candidate.recommendation}
+                {candidate.recommendation}
               </div>
             )}
           </div>

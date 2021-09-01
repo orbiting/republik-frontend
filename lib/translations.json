@@ -1,6 +1,4 @@
 {
-  "updated": "2021-08-05T15:42:00.616Z",
-  "title": "live",
   "data": [
     {
       "key": "nav/events",
@@ -1765,10 +1763,6 @@
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
       "value": "Via E-Mail, Browser und App"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/BASIC/label",
-      "value": null
     },
     {
       "key": "components/Discussion/info/MY_CHILDREN",
@@ -4335,10 +4329,6 @@
       "value": "Plus {days} zusätzliche Tage als Geschenk für Unterstützerinnen des ersten Tages."
     },
     {
-      "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
-      "value": null
-    },
-    {
       "key": "option/PROLONG/additionalPeriods/give",
       "value": "{name} wird per E-Mail über die geschenkte Verlängerung informiert."
     },
@@ -5031,10 +5021,6 @@
       "value": "Das Wichtigste zum Republik-Nutzen können Sie hier einstellen."
     },
     {
-      "key": "Onboarding/Page/introduction",
-      "value": null
-    },
-    {
       "key": "Onboarding/Page/pledge/title",
       "value": "Danke 🌟"
     },
@@ -5145,10 +5131,6 @@
     {
       "key": "Onboarding/Sections/AppLogin/hasDevice/true/paragraph2",
       "value": "Die App können Sie auf einer beliebigen Anzahl von Geräten installieren."
-    },
-    {
-      "key": "Onboarding/Sections/AppLogin/hasDevice/true/paragraph3",
-      "value": null
     },
     {
       "key": "Onboarding/Sections/AppLogin/ios",

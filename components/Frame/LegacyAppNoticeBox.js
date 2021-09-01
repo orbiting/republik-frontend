@@ -36,9 +36,6 @@ const styles = {
     [mediaQueries.mUp]: {
       width: 'auto'
     }
-  }),
-  secondaryAction: css({
-    color: colors.text
   })
 }
 

@@ -23,7 +23,10 @@ import {
 import { withMembership } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-import withInNativeApp from '../../lib/withInNativeApp'
+import withInNativeApp, {
+  inNativeAppBrowserLegacy
+} from '../../lib/withInNativeApp'
+import LegacyAppNoticeBox from './LegacyAppNoticeBox'
 
 css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })
@@ -149,6 +152,7 @@ const Frame = ({
                 />
               </Box>
             </noscript>
+            {inNativeAppBrowserLegacy && <LegacyAppNoticeBox t={t} />}
             {me &&
               me.prolongBeforeDate !== null &&
               me.activeMembership !== null && (

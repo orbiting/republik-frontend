@@ -7081,6 +7081,22 @@
       "value": "Aktivieren"
     },
     {
+      "key": "components/outdatedAppVersion/text",
+      "value": "Sie nutzen eine veraltete Version der App. Aktualisieren Sie Ihre App um von den neusten Funktionalitäten zu profitieren."
+    },
+    {
+      "key": "components/outdatedAppVersion/ios/primaryAction",
+      "value": "Zum App Store"
+    },
+    {
+      "key": "components/outdatedAppVersion/android/primaryAction",
+      "value": "Zum Google Play Store"
+    },
+    {
+      "key": "components/outdatedAppVersion/android/secondaryAction",
+      "value": "APK direkt herunterladen"
+    },
+    {
       "key": "darkmode/switch/label",
       "value": "Nachtmodus: {iconLabel}"
     },

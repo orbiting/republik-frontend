@@ -1,13 +1,11 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import {
   A,
   Button,
   Center,
-  colors,
   Interaction,
-  mediaQueries,
-  useMediaQuery
+  mediaQueries
 } from '@project-r/styleguide'
 import Box from './Box'
 import { useInNativeApp } from '../../lib/withInNativeApp'
@@ -40,46 +38,44 @@ const styles = {
 }
 
 const LegacyAppNoticeBox = ({ t }) => {
-  const { isNativeAppLegacy, inIOS } = useInNativeApp()
-
-  const actions = useMemo(() => {
-    if (inIOS) {
-      return (
-        <Button
-          href='https://apps.apple.com/ch/app/republik/id1392772910'
-          primary
-          target='_blank'
-          attributes={styles.primaryAction}
-        >
-          {t('components/outdatedAppVersion/ios/primaryAction')}
-        </Button>
-      )
-    }
-    return (
-      <>
-        <Button
-          href='https://play.google.com/store/apps/details?id=app.republik'
-          primary
-          target='_blank'
-          attributes={styles.primaryAction}
-        >
-          {t('components/outdatedAppVersion/android/primaryAction')}
-        </Button>
-        <A href='https://www.republik.ch/app/apk/latest' target='_blank'>
-          {t('components/outdatedAppVersion/android/secondaryAction')}
-        </A>
-      </>
-    )
-  }, [isNativeAppLegacy, inIOS])
+  const { inIOS } = useInNativeApp()
 
   return (
-    <Box style={{ padding: 30 }}>
+    <Box>
       <Center>
         <Breakout size='breakout'>
           <Interaction.P style={{ marginBottom: '1rem' }}>
             {t('components/outdatedAppVersion/text')}
           </Interaction.P>
-          <div {...styles.actions}>{actions}</div>
+          <div {...styles.actions}>
+            {inIOS ? (
+              <Button
+                href='https://apps.apple.com/ch/app/republik/id1392772910'
+                primary
+                target='_blank'
+                attributes={styles.primaryAction}
+              >
+                {t('components/outdatedAppVersion/ios/primaryAction')}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  href='https://play.google.com/store/apps/details?id=app.republik'
+                  primary
+                  target='_blank'
+                  attributes={styles.primaryAction}
+                >
+                  {t('components/outdatedAppVersion/android/primaryAction')}
+                </Button>
+                <A
+                  href='https://www.republik.ch/app/apk/latest'
+                  target='_blank'
+                >
+                  {t('components/outdatedAppVersion/android/secondaryAction')}
+                </A>
+              </>
+            )}
+          </div>
         </Breakout>
       </Center>
     </Box>

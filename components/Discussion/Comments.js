@@ -16,6 +16,7 @@ import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
 import CommentLink, { getFocusHref, getFocusUrl } from './CommentLink'
+import { composerHints } from './constants'
 
 import {
   Loader,
@@ -374,6 +375,7 @@ const Comments = props => {
           },
 
           Link: CommentLink,
+          composerHints: composerHints(t),
           composerSecondaryActions: <SecondaryActions />
         }
 

@@ -98,6 +98,10 @@ const VoteResult = dynamic(
   () => import('../Vote/VoteResultAuto'),
   dynamicOptions
 )
+const ElectionCandidacy = dynamic(
+  () => import('../Vote/ElectionCandidacy'),
+  dynamicOptions
+)
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -253,7 +257,8 @@ const ArticlePage = ({
           VOTEBOX: Votebox,
           VOTE_COUNTER: VoteCounter,
           VOTE_RESULT: VoteResult,
-          TESTIMONIAL_LIST: TestimonialList
+          TESTIMONIAL_LIST: TestimonialList,
+          ELECTION_CANDIDACY: ElectionCandidacy
         },
         titleMargin: false,
         titleBreakout,

@@ -1,41 +1,32 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import {
-  CommentComposerSecondaryAction,
-  IconButton
-} from '@project-r/styleguide'
+import { IconButton } from '@project-r/styleguide'
 import { EtiquetteIcon, MarkdownIcon } from '@project-r/styleguide/icons'
 
 const styles = {
-  action: css({
-    '& svg': {
-      display: 'block'
-    }
+  container: css({
+    display: 'flex'
   })
 }
 
 const SecondaryActions = ({ t }) => (
-  <Fragment>
-    <CommentComposerSecondaryAction as='span' {...styles.action}>
-      <IconButton
-        size={28}
-        Icon={EtiquetteIcon}
-        href='/etikette'
-        target='_blank'
-        title={t('components/Discussion/etiquette')}
-      />
-    </CommentComposerSecondaryAction>
-    <CommentComposerSecondaryAction as='span' {...styles.action}>
-      <IconButton
-        size={28}
-        Icon={MarkdownIcon}
-        href='/markdown'
-        target='_blank'
-        title={t('components/Discussion/markdown/title')}
-      />
-    </CommentComposerSecondaryAction>
-  </Fragment>
+  <div {...styles.container}>
+    <IconButton
+      size={28}
+      Icon={EtiquetteIcon}
+      href='/etikette'
+      target='_blank'
+      title={t('components/Discussion/etiquette')}
+    />
+    <IconButton
+      size={28}
+      Icon={MarkdownIcon}
+      href='/markdown'
+      target='_blank'
+      title={t('components/Discussion/markdown/title')}
+    />
+  </div>
 )
 
 export default withT(SecondaryActions)

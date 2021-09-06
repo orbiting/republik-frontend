@@ -57,8 +57,10 @@ const Contact = ({
   errors,
   dirty,
   t,
+  showSupportLink,
   isSupporter,
-  inNativeIOSApp
+  inNativeIOSApp,
+  electionBallot
 }) => {
   if (isEditing) {
     return (
@@ -155,12 +157,14 @@ const Contact = ({
         {user.facebookId && (
           <IconButton
             Icon={FacebookIcon}
+            style={{ marginRight: electionBallot && 16 }}
             href={`https://www.facebook.com/${user.facebookId}`}
           />
         )}
         {user.twitterHandle && (
           <IconButton
             Icon={TwitterIcon}
+            style={{ marginRight: electionBallot && 16 }}
             href={`https://twitter.com/${user.twitterHandle}`}
           />
         )}
@@ -168,9 +172,13 @@ const Contact = ({
           <IconButton Icon={MailOutlineIcon} href={`mailto:${user.email}`} />
         )}
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
-          <IconButton Icon={LanguageIcon} href={user.publicUrl} />
+          <IconButton
+            Icon={LanguageIcon}
+            style={{ marginRight: electionBallot && 0 }}
+            href={user.publicUrl}
+          />
         )}
-        {isSupporter && (
+        {isSupporter && showSupportLink && ADMIN_BASE_URL && (
           <IconButton
             Icon={NoteAddIcon}
             fill='#FF10D9'

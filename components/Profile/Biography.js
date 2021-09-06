@@ -20,7 +20,11 @@ const fields = t => [
   {
     label: t('profile/biography/label'),
     name: 'biography',
-    autoSize: true
+    autoSize: true,
+    validator: value =>
+      value &&
+      value.trim().length >= 1500 &&
+      t('profile/biography/label/tooLong')
   }
 ]
 

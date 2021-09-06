@@ -96,7 +96,6 @@ const Frame = ({
   formatColor,
   footer = true,
   pullable,
-  dark,
   isMember,
   hasOverviewNav: wantOverviewNav,
   stickySecondaryNav,
@@ -157,7 +156,6 @@ const Frame = ({
                   t={t}
                   prolongBeforeDate={me.prolongBeforeDate}
                   membership={me.activeMembership}
-                  dark={dark}
                 />
               )}
             {raw ? (

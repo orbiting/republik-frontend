@@ -13,6 +13,7 @@ import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
 
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
+import { composerHints } from './constants'
 
 import {
   Loader,
@@ -169,23 +170,7 @@ const DiscussionCommentComposer = props => {
                   setShowPreferences(true)
                 }
               },
-              composerHints: [
-                function formattingAsterisk(text) {
-                  // Match where asterisk is within a word (not next to whitespace)
-                  // "n*n" is a match, " *n" and "n** " are not
-                  const hasUnescapedAsterisk = !!text.match(
-                    /[^\\*\s:]\*[^*\s:]/
-                  )
-                  if (hasUnescapedAsterisk) {
-                    return (
-                      <Label>
-                        {t('styleguide/CommentComposer/formatting/asterisk')}
-                      </Label>
-                    )
-                  }
-                  return false
-                }
-              ],
+              composerHints: composerHints(t),
               composerSecondaryActions: <SecondaryActions />
             }
 

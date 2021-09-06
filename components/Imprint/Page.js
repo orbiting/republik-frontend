@@ -33,16 +33,19 @@ export default withInNativeApp(({ inNativeIOSApp }) => {
         8004 Zürich
         <br />
         Schweiz
-        <br />
-        <A href='mailto:kontakt@republik.ch'>kontakt@republik.ch</A>
       </P>
 
       <br />
       <P>
-        Erste-Hilfe-Abteilung und <A href='/medien'>Medienkontakt:</A>
-        <br />
-        <A href='tel:+41797874765'>+41 79 787 47 65</A>,{' '}
-        <A href='mailto:kontakt@republik.ch'>kontakt@republik.ch</A>
+        <A href='mailto:kontakt@republik.ch'>kontakt@republik.ch</A> <br />
+        <A href='tel:+41445056780'>+41 44 505 67 80</A>
+      </P>
+
+      <br />
+      <P>
+        <A href='https://drive.google.com/open?id=14YQ_IR6HRoXUwrfjc_KJQ_lGjMXjaFO1'>
+          Medienbilder und Logo herunterladen
+        </A>
       </P>
 
       <Employees />

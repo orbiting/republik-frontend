@@ -10,9 +10,11 @@ import {
   InlineSpinner,
   Interaction,
   Button,
+  IconButton,
   Label,
   mediaQueries
 } from '@project-r/styleguide'
+import { MarkdownIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 import FieldSet from '../FieldSet'
 
@@ -398,17 +400,6 @@ class ElectionCandidacy extends React.Component {
 
           return (
             <>
-              <div {...styles.previewWrapper}>
-                <H2>{vt('info/candidacy/previewTitle')}</H2>
-                <div style={{ margin: `15px 0` }}>
-                  <P>{vt('info/candidacy/previewLabel')}</P>
-                </div>
-                <ElectionBallotRow
-                  maxVotes={0}
-                  expanded
-                  candidate={candidacyPreview}
-                />
-              </div>
               <div>
                 {isEditing || !candidate ? (
                   <Fragment>
@@ -526,36 +517,47 @@ class ElectionCandidacy extends React.Component {
                     </div>
                   </Fragment>
                 ) : (
-                  <Fragment>
-                    <div {...styles.vSpace}>
-                      <Body dangerousHTML={vt('info/candidacy/confirmation')} />
-                    </div>
-                    <div {...styles.vSpace}>
-                      <A
-                        href='#'
-                        onClick={e => {
-                          e.preventDefault()
-                          this.startEditing()
-                        }}
-                      >
-                        {vt('info/candidacy/edit')}
-                      </A>
-                    </div>
-                    {this.props.me.roles.some(r => r === 'admin') && (
-                      <div {...styles.vSpace}>
-                        ADMIN TOOL:{' '}
-                        <A
-                          href='#'
-                          onClick={e => {
-                            e.preventDefault()
-                            this.cancel()
-                          }}
-                        >
-                          {vt('info/candidacy/delete')}
-                        </A>
+                  <>
+                    <div {...styles.previewWrapper}>
+                      <H2>{vt('info/candidacy/previewTitle')}</H2>
+                      <div style={{ margin: `15px 0` }}>
+                        <P>{vt('info/candidacy/previewLabel')}</P>
                       </div>
-                    )}
-                  </Fragment>
+                      <ElectionBallotRow
+                        maxVotes={0}
+                        expanded
+                        candidate={candidacyPreview}
+                      />
+                    </div>
+                    <Fragment>
+                      <div {...styles.vSpace}>
+                        <Body
+                          dangerousHTML={vt('info/candidacy/confirmation')}
+                        />
+                      </div>
+                      <div {...styles.vSpace}>
+                        <div {...styles.saveButton}>
+                          <Button block primary onClick={this.startEditing}>
+                            {vt('info/candidacy/edit')}
+                          </Button>
+                        </div>
+                      </div>
+                      {this.props.me.roles.some(r => r === 'admin') && (
+                        <div {...styles.vSpace}>
+                          ADMIN TOOL:{' '}
+                          <A
+                            href='#'
+                            onClick={e => {
+                              e.preventDefault()
+                              this.cancel()
+                            }}
+                          >
+                            {vt('info/candidacy/delete')}
+                          </A>
+                        </div>
+                      )}
+                    </Fragment>
+                  </>
                 )}
               </div>
             </>

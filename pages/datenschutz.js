@@ -33,7 +33,7 @@ Republik AG
 Sihlhallenstrasse 1  
 8004 Zürich  
 Schweiz  
-Tel.: +41 79 787 47 65  
+Tel.: +41 44 505 67 80
 E-Mail: kontakt@republik.ch  
 Website: www.republik.ch  
 
@@ -41,7 +41,7 @@ Project R Genossenschaft
 Sihlhallenstrasse 1  
 8004 Zürich  
 Schweiz  
-Tel.: +41 79 787 47 65  
+Tel.: +41 44 505 67 80
 E-Mail: office@project-r.construction  
 Website: www.project-r.construction  
 

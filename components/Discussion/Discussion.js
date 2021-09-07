@@ -23,7 +23,7 @@ const Discussion = ({
    */
   const router = useRouter()
   const { query } = router
-  const orderBy = query.order || 'AUTO'
+  const orderBy = query.order || (board ? 'HOT' : 'AUTO')
 
   const depth = board ? 1 : DEFAULT_DEPTH
 

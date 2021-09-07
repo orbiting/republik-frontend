@@ -10,11 +10,9 @@ import {
   InlineSpinner,
   Interaction,
   Button,
-  IconButton,
   Label,
   mediaQueries
 } from '@project-r/styleguide'
-import { MarkdownIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 import FieldSet from '../FieldSet'
 

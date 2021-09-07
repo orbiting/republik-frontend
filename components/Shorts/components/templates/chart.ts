@@ -21,9 +21,9 @@ export const chart: ChartBlockElement = {
       config: {
         type: 'TimeBar',
         color: 'type',
-        xTicks: ['2016', '2017', '2018', '2019', 'Mitte 20', 'Ende 20'],
+        xTicks: [],
         domain: [0, 0.3],
-        yTicks: [0, 0.1, 0.2, 0.3],
+        yTicks: [],
         colorRange: ['#02601e'],
         numberFormat: '%',
         x: 'jahr',

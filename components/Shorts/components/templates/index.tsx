@@ -17,23 +17,17 @@ import { questionnaire } from './questionnaire'
 import { link } from './link'
 
 const styles = {
-  title: css({
-    marginBottom: 20,
-    [mediaQueries.mUp]: {
-      marginBottom: 40
-    }
-  }),
   chartWrapper: css({
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gridRowGap: 10,
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gridRowGap: 20,
     [mediaQueries.mUp]: {
-      gridRowGap: 20
+      gridTemplateColumns: 'repeat(3, 1fr)'
     }
   }),
   chartButton: css({
     height: 60,
-    width: 60,
+    width: '100%',
     whiteSpace: 'nowrap',
     ...fontStyles.sansSerifRegular14,
     cursor: 'pointer',
@@ -74,21 +68,18 @@ const templates: TemplateButtonI[] = [
 export const TemplatePicker: React.FC<{
   setTemplate: (t: CustomElement[]) => void
 }> = ({ setTemplate }) => (
-  <>
-    <Interaction.H1 {...styles.title}>⚗️ Kurzformate</Interaction.H1>
-    <div {...styles.chartWrapper}>
-      {templates.map(template => {
-        return (
-          <div
-            key={template.label}
-            {...styles.chartButton}
-            onClick={() => setTemplate(template.tree)}
-          >
-            <template.icon size={24} />
-            <span {...styles.chartButtonText}>{template.label}</span>
-          </div>
-        )
-      })}
-    </div>
-  </>
+  <div {...styles.chartWrapper}>
+    {templates.map(template => {
+      return (
+        <div
+          key={template.label}
+          {...styles.chartButton}
+          onClick={() => setTemplate(template.tree)}
+        >
+          <template.icon size={24} />
+          <span {...styles.chartButtonText}>{template.label}</span>
+        </div>
+      )
+    })}
+  </div>
 )

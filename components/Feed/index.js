@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
@@ -19,6 +19,7 @@ import {
 import DocumentList from './DocumentList'
 import { makeLoadMore } from './DocumentListContainer'
 import { documentFragment } from './fragments'
+import EditorOverlay from '../Shorts/EditorOverlay'
 
 const styles = {
   container: css({
@@ -93,6 +94,7 @@ const Feed = ({
   }
 }) => {
   const [colorScheme] = useColorContext()
+  const [showEditor, setShowEditor] = useState(false)
   const mapNodes = node => node.entity
 
   useEffect(() => {
@@ -130,7 +132,12 @@ const Feed = ({
         {...colorScheme.set('backgroundColor', 'overlay')}
         {...colorScheme.set('boxShadow', 'overlayShadow')}
       >
-        <IconButton Icon={MdAdd} size={36} href='/editor' />
+        <IconButton
+          Icon={MdAdd}
+          size={36}
+          onClick={() => setShowEditor(true)}
+        />
+        {showEditor && <EditorOverlay onClose={() => setShowEditor(false)} />}
       </div>
       <Center {...styles.container}>
         <Loader

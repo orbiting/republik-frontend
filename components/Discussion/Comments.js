@@ -246,6 +246,7 @@ const Comments = props => {
   }, [discussion])
 
   const isDesktop = useMediaQuery(mediaQueries.mUp)
+  const resolvedOrderBy = discussion?.comments?.resolvedOrderBy || orderBy
 
   return (
     <Loader
@@ -389,26 +390,26 @@ const Comments = props => {
                   <OrderByLink
                     href={discussionHref}
                     t={t}
-                    orderBy={orderBy}
+                    orderBy={resolvedOrderBy}
                     value='HOT'
                   />
                 )}
                 <OrderByLink
                   href={discussionHref}
                   t={t}
-                  orderBy={orderBy}
+                  orderBy={resolvedOrderBy}
                   value='DATE'
                 />
                 <OrderByLink
                   href={discussionHref}
                   t={t}
-                  orderBy={orderBy}
+                  orderBy={resolvedOrderBy}
                   value='VOTES'
                 />
                 <OrderByLink
                   href={discussionHref}
                   t={t}
-                  orderBy={orderBy}
+                  orderBy={resolvedOrderBy}
                   value='REPLIES'
                 />
                 <A

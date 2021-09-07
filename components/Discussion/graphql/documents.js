@@ -90,6 +90,7 @@ export const discussionQuery = gql`
         includeParent: $includeParent
       ) {
         totalCount
+        resolvedOrderBy
         directTotalCount
         pageInfo {
           hasNextPage

@@ -1,11 +1,8 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { compose, graphql } from 'react-apollo'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import Comments from './Comments'
-
-import { discussionFragmentQuery } from './graphql/documents'
 
 const DEFAULT_DEPTH = 3
 
@@ -13,7 +10,6 @@ const Discussion = ({
   discussionId,
   focusId = null,
   meta,
-  data: { discussion },
   board,
   parent,
   parentId = null,
@@ -23,18 +19,11 @@ const Discussion = ({
 }) => {
   /*
    * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
-   * Set default order to ('DATE') in the first 24h of dialog
+   * If 'AUTO' DiscussionOrder is returned by backend via resolvedOrderBy
    */
   const router = useRouter()
   const { query } = router
-
-  const publishedAt = new Date(discussion?.document?.meta?.publishDate)
-  const twentyFourHoursAgo = new Date(
-    new Date().getTime() - 24 * 60 * 60 * 1000
-  )
-
-  const orderBy =
-    query.order || (publishedAt > twentyFourHoursAgo ? 'DATE' : 'VOTES')
+  const orderBy = query.order || 'AUTO'
 
   const depth = board ? 1 : DEFAULT_DEPTH
 
@@ -72,12 +61,4 @@ const Discussion = ({
   )
 }
 
-export default compose(
-  graphql(discussionFragmentQuery, {
-    options: ({ discussionId }) => ({
-      variables: {
-        discussionId: discussionId
-      }
-    })
-  })
-)(Discussion)
+export default Discussion

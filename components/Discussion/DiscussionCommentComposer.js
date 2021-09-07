@@ -13,6 +13,7 @@ import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
 
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
+import { composerHints } from './constants'
 
 import {
   Loader,
@@ -23,6 +24,7 @@ import {
   Interaction,
   Editorial,
   timeahead,
+  Label,
   useCurrentMinute
 } from '@project-r/styleguide'
 
@@ -168,7 +170,7 @@ const DiscussionCommentComposer = props => {
                   setShowPreferences(true)
                 }
               },
-
+              composerHints: composerHints(t),
               composerSecondaryActions: <SecondaryActions />
             }
 

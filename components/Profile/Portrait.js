@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { css, merge } from 'glamor'
 import Dropzone from 'react-dropzone'
 
@@ -67,17 +67,28 @@ const readFile = file => {
   })
 }
 
-export default withT(
+const PortraitSelector = withT(
   ({
     t,
     user,
     isEditing,
+    isMandadory,
     styles: propStyles = {},
     isMe,
     values,
     errors,
     onChange
   }) => {
+    useEffect(() => {
+      if (isMandadory && !values.portrait && !user.portrait) {
+        onChange({
+          errors: {
+            portrait: t('profile/portrait/empty')
+          }
+        })
+      }
+    }, [isMandadory])
+
     const preview = isEditing && values.portraitPreview
     const imgUrl =
       values.portrait !== undefined ? values.portraitPreview : user.portrait
@@ -96,7 +107,7 @@ export default withT(
       if (disabled) {
         return
       }
-      if (errors && errors.portrait) {
+      if (errors?.portrait && errors.portrait !== t('profile/portrait/empty')) {
         return errors.portrait
       }
       if (
@@ -170,7 +181,9 @@ export default withT(
                   portraitPreview: undefined
                 },
                 errors: {
-                  portrait: undefined
+                  portrait: isMandadory
+                    ? t('profile/portrait/empty')
+                    : undefined
                 }
               })
             }}
@@ -184,3 +197,5 @@ export default withT(
     )
   }
 )
+
+export default PortraitSelector

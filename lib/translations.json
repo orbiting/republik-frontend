@@ -1,6 +1,4 @@
 {
-  "updated": "2021-08-05T15:42:00.616Z",
-  "title": "live",
   "data": [
     {
       "key": "nav/events",
@@ -1363,6 +1361,10 @@
       "value": "Steckbrief"
     },
     {
+      "key": "profile/biography/label/tooLong",
+      "value": "Steckbrief, maximal 1500 Zeichen"
+    },
+    {
       "key": "profile/disclosures/label",
       "value": "Interessenbindungen"
     },
@@ -1433,6 +1435,18 @@
     {
       "key": "profile/portrait/empty",
       "value": "Sie müssen ein Porträtbild hochladen"
+    },
+    {
+      "key": "profile/gender",
+      "value": "Geschlecht"
+    },
+    {
+      "key": "profile/gender/empty",
+      "value": "Geschlecht fehlt"
+    },
+    {
+      "key": "profile/gender/custom",
+      "value": "Ihre Bezeichnung (optional)"
     },
     {
       "key": "testimonial/meta/pageTitle",
@@ -1751,10 +1765,6 @@
       "value": "Via E-Mail, Browser und App"
     },
     {
-      "key": "components/Discussion/NotificationChannel/BASIC/label",
-      "value": null
-    },
-    {
       "key": "components/Discussion/info/MY_CHILDREN",
       "value": "{types} für Antworten auf meine Beiträge und Beiträge von abonnierten Profilen"
     },
@@ -1901,6 +1911,10 @@
     {
       "key": "styleguide/CommentComposer/cancel",
       "value": "abbrechen"
+    },
+    {
+      "key": "styleguide/CommentComposer/formatting/asterisk",
+      "value": "Damit das Gendersternchen im Kommentar als solches dargestellt wird, muss ein Backslash vorangestellt werden: Leser\\*in"
     },
     {
       "key": "styleguide/CommentActions/answer",
@@ -2063,8 +2077,12 @@
       "value": "Leider mussten wir Ihren Beitrag verbergen. Wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
+      "key": "styleguide/SeriesNav/seriesoverview/link",
+      "value": " {link}."
+    },
+    {
       "key": "styleguide/SeriesNav/seriesoverview",
-      "value": "Zur Serienübersicht"
+      "value": "Zur Übersicht"
     },
     {
       "key": "styleguide/SeriesNav/current",
@@ -4311,10 +4329,6 @@
       "value": "Plus {days} zusätzliche Tage als Geschenk für Unterstützerinnen des ersten Tages."
     },
     {
-      "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
-      "value": null
-    },
-    {
       "key": "option/PROLONG/additionalPeriods/give",
       "value": "{name} wird per E-Mail über die geschenkte Verlängerung informiert."
     },
@@ -5007,10 +5021,6 @@
       "value": "Das Wichtigste zum Republik-Nutzen können Sie hier einstellen."
     },
     {
-      "key": "Onboarding/Page/introduction",
-      "value": null
-    },
-    {
       "key": "Onboarding/Page/pledge/title",
       "value": "Danke 🌟"
     },
@@ -5121,10 +5131,6 @@
     {
       "key": "Onboarding/Sections/AppLogin/hasDevice/true/paragraph2",
       "value": "Die App können Sie auf einer beliebigen Anzahl von Geräten installieren."
-    },
-    {
-      "key": "Onboarding/Sections/AppLogin/hasDevice/true/paragraph3",
-      "value": null
     },
     {
       "key": "Onboarding/Sections/AppLogin/ios",

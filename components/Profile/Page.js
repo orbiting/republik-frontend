@@ -525,6 +525,7 @@ const LoadedProfile = props => {
                   values={values}
                   errors={errors}
                   dirty={dirty}
+                  showSupportLink
                 />
                 {!!me && user.subscribedByMe && user.id !== me.id && (
                   <div style={{ marginTop: 16 }}>

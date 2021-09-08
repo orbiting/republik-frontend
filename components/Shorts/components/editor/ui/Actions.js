@@ -3,7 +3,7 @@ import { css } from 'glamor'
 import { Node } from 'slate'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { Button, A, Interaction, mediaQueries } from '@project-r/styleguide'
+import { Button, A, Interaction } from '@project-r/styleguide'
 import { useShortDrafts } from '../../../../../lib/shortDrafts'
 import { getRandomInt } from '../../../../../lib/utils/helpers'
 import uuid from 'uuid/v4'
@@ -35,11 +35,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 40,
-    [mediaQueries.mUp]: {
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      marginTop: 80
-    }
+    marginTop: 30
   })
 }
 

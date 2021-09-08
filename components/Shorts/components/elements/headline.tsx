@@ -1,9 +1,9 @@
 import { ElementConfigI } from '../custom-types'
 // @ts-ignore
-import { Editorial } from '@project-r/styleguide'
+import { Interaction } from '@project-r/styleguide'
 
 export const config: ElementConfigI = {
-  Component: Editorial.Subhead,
+  Component: Interaction.H2,
   attrs: {
     disableBreaks: true
   }

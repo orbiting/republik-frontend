@@ -22,20 +22,10 @@ import { MdChevronLeft } from '@react-icons/all-files/md/MdChevronLeft'
 import { css } from 'glamor'
 
 const styles = {
-  container: css({
-    paddingTop: 10,
-    paddingBottom: 60,
-    [mediaQueries.mUp]: {
-      paddingTop: 20,
-      paddingBottom: 120
-    }
-  }),
   discreteButton: css({
     display: 'flex',
     marginBottom: 20,
-    [mediaQueries.mUp]: {
-      marginBottom: 40
-    }
+    marginLeft: -5
   })
 }
 
@@ -79,7 +69,7 @@ const EditorApp: React.FC<{
   }>
 
   return (
-    <div {...styles.container}>
+    <>
       <Label>
         <button {...plainButtonRule} {...styles.discreteButton} onClick={reset}>
           <MdChevronLeft size={16} style={{ marginTop: 1 }} />{' '}
@@ -92,11 +82,15 @@ const EditorApp: React.FC<{
         onChange={newValue => setValue(newValue)}
       >
         <HoveringToolbar />
-        <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+        <Editable
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          style={{ minHeight: 300 }}
+        />
         <FixedToolbar />
       </Slate>
       <ActionsT value={value} reset={reset} localStorageId={localStorageId} />
-    </div>
+    </>
   )
 }
 

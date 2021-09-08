@@ -17,7 +17,7 @@ import {
 import { CustomElement, CustomElementsType } from '../custom-types'
 import Actions from './ui/Actions'
 // @ts-ignore
-import { Label, plainButtonRule, mediaQueries } from '@project-r/styleguide'
+import { Label, plainButtonRule } from '@project-r/styleguide'
 import { MdChevronLeft } from '@react-icons/all-files/md/MdChevronLeft'
 import { css } from 'glamor'
 
@@ -48,6 +48,7 @@ const EditorApp: React.FC<{
     []
   )
   const [value, setValue] = useState<Descendant[]>(template)
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
   const renderElement = useCallback(props => {
     const Component =
@@ -69,7 +70,7 @@ const EditorApp: React.FC<{
   }>
 
   return (
-    <>
+    <div ref={containerRef}>
       <Label>
         <button {...plainButtonRule} {...styles.discreteButton} onClick={reset}>
           <MdChevronLeft size={16} style={{ marginTop: 1 }} />{' '}
@@ -81,16 +82,12 @@ const EditorApp: React.FC<{
         value={value}
         onChange={newValue => setValue(newValue)}
       >
-        <HoveringToolbar />
-        <Editable
-          renderElement={renderElement}
-          renderLeaf={renderLeaf}
-          style={{ minHeight: 300 }}
-        />
+        <HoveringToolbar containerRef={containerRef} />
+        <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
         <FixedToolbar />
       </Slate>
       <ActionsT value={value} reset={reset} localStorageId={localStorageId} />
-    </>
+    </div>
   )
 }
 

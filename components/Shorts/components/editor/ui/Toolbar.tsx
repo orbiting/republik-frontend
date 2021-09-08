@@ -46,7 +46,7 @@ const styles = {
   hoveringToolbar: css({
     padding: '8px 7px 6px',
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 100,
     top: 0,
     left: 0,
     height: 0,
@@ -147,7 +147,9 @@ const getParentElement = (
   return parentElement
 }
 
-export const HoveringToolbar: React.FC = () => {
+export const HoveringToolbar: React.FC<{
+  containerRef: React.RefObject<HTMLDivElement>
+}> = ({ containerRef }) => {
   const ref = useRef<HTMLDivElement>(null)
   const editor = useSlate()
 
@@ -191,10 +193,19 @@ export const HoveringToolbar: React.FC = () => {
     el.style.width = 'auto'
     el.style.height = 'auto'
     el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
-    el.style.left = `${rect.left +
-      window.pageXOffset -
-      el.offsetWidth / 2 +
-      rect.width / 2}px`
+    // TODO: remove magic numbers (fallback BS)
+    el.style.left = `${Math.min(
+      containerRef?.current && ref?.current
+        ? containerRef.current.getBoundingClientRect().right -
+            ref?.current?.getBoundingClientRect().width
+        : 10000,
+      Math.max(
+        containerRef?.current
+          ? containerRef.current.getBoundingClientRect().left
+          : 0,
+        rect.left - el.offsetWidth / 2 + rect.width / 2
+      )
+    )}px`
   })
 
   return (

@@ -24,5 +24,6 @@ export const config: ElementConfigI = {
     isInline: true,
     isVoid: true
   },
+  // TODO: specify which toolbar it belongs to here
   button: { icon: MdKeyboardReturn }
 }

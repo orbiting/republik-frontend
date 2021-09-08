@@ -138,11 +138,6 @@ const hasNoBreakAncestor = (
   if (!path) return false
   for (const [node] of Node.ancestors(editor, Editor.path(editor, path))) {
     const currentType = SlateElement.isElement(node) && node.type
-    console.log(
-      currentType && config[currentType as CustomElementsType],
-      currentType &&
-        config[currentType as CustomElementsType]?.attrs?.disableBreaks
-    )
     if (
       currentType &&
       config[currentType as CustomElementsType]?.attrs?.disableBreaks

@@ -1,11 +1,5 @@
 import { Transforms } from 'slate'
-import {
-  ChartBlockElement,
-  CustomElement,
-  FigureElement,
-  NormalizeFn,
-  QuoteElement
-} from '../../custom-types'
+import { CustomElement, NormalizeFn } from '../../custom-types'
 import { Element as SlateElement } from 'slate'
 
 export const matchTemplateElement: (

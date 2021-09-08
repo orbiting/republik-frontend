@@ -4,7 +4,7 @@ import { ElementConfigI, NormalizeFn, QuoteElement } from '../custom-types'
 import { quote } from '../templates/quote'
 import { Transforms } from 'slate'
 
-// this behaviour at least one repeat (e.g. for quote paragraphs here
+// TODO: this behaviour at least one repeat (e.g. for quote paragraphs here
 // should be abstracted and merged to the generic matchTemplateElement
 // helper function
 // see prose mirror for a descriptive schema example

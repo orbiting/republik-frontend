@@ -23,9 +23,7 @@ import {
 import { withMembership } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-import withInNativeApp, {
-  inNativeAppBrowserLegacy
-} from '../../lib/withInNativeApp'
+import withInNativeApp, { useInNativeApp } from '../../lib/withInNativeApp'
 import LegacyAppNoticeBox from './LegacyAppNoticeBox'
 
 css.global('html', { boxSizing: 'border-box' })
@@ -105,6 +103,8 @@ const Frame = ({
   isOnMarketingPage,
   pageColorSchemeKey
 }) => {
+  const { inNativeAppLegacy } = useInNativeApp()
+
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
   const padHeaderRule = useMemo(() => {
@@ -152,7 +152,7 @@ const Frame = ({
                 />
               </Box>
             </noscript>
-            {inNativeAppBrowserLegacy && <LegacyAppNoticeBox t={t} />}
+            {inNativeAppLegacy && <LegacyAppNoticeBox t={t} />}
             {me &&
               me.prolongBeforeDate !== null &&
               me.activeMembership !== null && (

@@ -23,7 +23,7 @@ import {
 import { withMembership } from '../Auth/checkRoles'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-import withInNativeApp, { useInNativeApp } from '../../lib/withInNativeApp'
+import { useInNativeApp } from '../../lib/withInNativeApp'
 import LegacyAppNoticeBox from './LegacyAppNoticeBox'
 
 css.global('html', { boxSizing: 'border-box' })
@@ -91,7 +91,6 @@ const Frame = ({
   raw,
   meta,
   cover,
-  inNativeApp,
   onNavExpanded,
   secondaryNav,
   formatColor,
@@ -103,7 +102,7 @@ const Frame = ({
   isOnMarketingPage,
   pageColorSchemeKey
 }) => {
-  const { inNativeAppLegacy } = useInNativeApp()
+  const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
 
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
@@ -179,4 +178,4 @@ const Frame = ({
   )
 }
 
-export default compose(withMe, withMembership, withT, withInNativeApp)(Frame)
+export default compose(withMe, withMembership, withT)(Frame)

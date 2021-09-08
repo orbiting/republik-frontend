@@ -215,8 +215,8 @@ export interface TemplateButtonI {
 }
 
 export interface DraftI {
-  key: string
-  date: string
+  title: string
+  id: string
   value: CustomElement[]
 }
 

@@ -39,10 +39,11 @@ const styles = {
   })
 }
 
-const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
-  template,
-  reset
-}) => {
+const EditorApp: React.FC<{
+  template: CustomElement[]
+  reset: () => void
+  localStorageId?: string
+}> = ({ template, reset, localStorageId }) => {
   const editor = useMemo(
     () =>
       withTemplate(template)(
@@ -74,6 +75,7 @@ const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
   const ActionsT = Actions as React.FC<{
     value: Descendant[]
     reset: () => void
+    localStorageId?: string
   }>
 
   return (
@@ -93,7 +95,7 @@ const EditorApp: React.FC<{ template: CustomElement[]; reset: () => void }> = ({
         <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
         <FixedToolbar />
       </Slate>
-      <ActionsT value={value} reset={reset} />
+      <ActionsT value={value} reset={reset} localStorageId={localStorageId} />
     </div>
   )
 }

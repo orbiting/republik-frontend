@@ -7,7 +7,7 @@ import { MdFormatQuote } from '@react-icons/all-files/md/MdFormatQuote'
 import { MdPlaylistAddCheck } from '@react-icons/all-files/md/MdPlaylistAddCheck'
 import { MdLink } from '@react-icons/all-files/md/MdLink'
 // @ts-ignore
-import { mediaQueries, fontStyles, Interaction } from '@project-r/styleguide'
+import { mediaQueries, fontStyles } from '@project-r/styleguide'
 import { textTree } from './text'
 import { CustomElement, TemplateButtonI } from '../custom-types'
 import { figure } from './figure'

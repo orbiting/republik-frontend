@@ -6,6 +6,7 @@ import { graphql } from 'react-apollo'
 import { Button, A, Interaction, mediaQueries } from '@project-r/styleguide'
 import { useShortDrafts } from '../../../../../lib/shortDrafts'
 import { getRandomInt } from '../../../../../lib/utils/helpers'
+import uuid from 'uuid/v4'
 
 const commitMutation = gql`
   mutation commit(
@@ -72,12 +73,6 @@ const slug = string =>
     .replace(/\s+/g, '-')
 
 const getTitle = value => (value.length && Node.string(value[0])) || 'Undefined'
-
-const getKey = (value, drafts) => {
-  const title = getTitle(value)
-  const duplicates = drafts.filter(d => d.key.split('-')[0] === title).length
-  return `${title}${duplicates ? '-' + duplicates : ''}`
-}
 
 const getPublikatorDocument = value => {
   const title = getTitle(value)
@@ -161,7 +156,7 @@ const Actions = graphql(commitMutation, {
   props: ({ mutate }) => ({
     commit: variables => mutate({ variables })
   })
-})(({ value, reset, commit }) => {
+})(({ value, reset, localStorageId, commit }) => {
   const [drafts, setDrafts] = useShortDrafts([])
 
   const onCommit = () => {
@@ -176,6 +171,23 @@ const Actions = graphql(commitMutation, {
     }).then(reset)
   }
 
+  const getDraft = id => ({
+    title: getTitle(value),
+    id,
+    value
+  })
+
+  const createDraft = () => setDrafts(drafts.concat(getDraft(uuid())))
+
+  const replaceDraft = () =>
+    setDrafts(
+      drafts.map(draft =>
+        draft.id === localStorageId ? getDraft(localStorageId) : draft
+      )
+    )
+
+  const saveDraft = () => (localStorageId ? replaceDraft() : createDraft())
+
   return (
     <div {...styles.buttons}>
       <Button onClick={onCommit}>Submit</Button>
@@ -183,13 +195,7 @@ const Actions = graphql(commitMutation, {
         <A
           href='#copy-settings'
           onClick={() => {
-            setDrafts(
-              drafts.concat({
-                key: getKey(value, drafts),
-                date: new Date(),
-                value
-              })
-            )
+            saveDraft()
             setTimeout(reset)
           }}
         >

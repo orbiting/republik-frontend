@@ -49,6 +49,7 @@ class NoJsHead extends DefaultHead {
 }
 
 export default class MyDocument extends Document {
+  /*
   static async getInitialProps({ renderPage, pathname, query, req, res }) {
     const page = renderPage()
     const styles = renderStaticOptimized(() => page.html)
@@ -65,6 +66,8 @@ export default class MyDocument extends Document {
       nojs
     }
   }
+  */
+
   constructor(props) {
     super(props)
     const { __NEXT_DATA__, env } = props

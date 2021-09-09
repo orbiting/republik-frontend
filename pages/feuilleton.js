@@ -58,7 +58,7 @@ const FeuilletonPage = props => {
 }
 
 export default compose(
-  withMembership,
+  //withMembership,
   withInNativeApp,
   withRouter,
   withT

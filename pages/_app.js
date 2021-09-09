@@ -1,16 +1,14 @@
 import '../lib/polyfill'
 
-import App from 'next/app'
 import React from 'react'
-import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider } from '@apollo/client'
 import Head from 'next/head'
 
 import { ColorContextProvider } from '@project-r/styleguide'
 import { IconContextProvider } from '@project-r/styleguide/icons'
 
-import { reportError } from '../lib/errors'
+import { ErrorBoundary, reportError } from '../lib/errors'
 import { HeadersProvider } from '../lib/withHeaders'
-import withApolloClient from '../lib/apollo/withApolloClient'
 import Track from '../components/Track'
 import MessageSync from '../components/NativeApp/MessageSync'
 import AudioProvider from '../components/Audio/AudioProvider'
@@ -18,6 +16,7 @@ import AudioPlayer from '../components/Audio/AudioPlayer'
 import MediaProgressContext from '../components/Audio/MediaProgress'
 import AppVariableContext from '../components/Article/AppVariableContext'
 import ColorSchemeSync from '../components/ColorScheme/Sync'
+import { useApollo } from '../lib/apollo/apolloClient'
 
 if (typeof window !== 'undefined') {
   const prevErrorHandler = window.onerror
@@ -40,22 +39,11 @@ if (typeof window !== 'undefined') {
   }
 }
 
-class WebApp extends App {
-  componentDidCatch(error, info) {
-    reportError(
-      'componentDidCatch',
-      `${error}${info.componentStack}\n${error && error.stack}`
-    )
-  }
-  render() {
-    const {
-      Component,
-      pageProps,
-      apolloClient,
-      headers,
-      serverContext
-    } = this.props
-    return (
+const WebApp = ({ Component, pageProps, headers, serverContext }) => {
+  const apolloClient = useApollo()
+
+  return (
+    <ErrorBoundary>
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
           <MediaProgressContext>
@@ -81,8 +69,8 @@ class WebApp extends App {
           </MediaProgressContext>
         </HeadersProvider>
       </ApolloProvider>
-    )
-  }
+    </ErrorBoundary>
+  )
 }
 
-export default withApolloClient(WebApp)
+export default WebApp

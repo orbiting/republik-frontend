@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -16,6 +17,7 @@ import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
 import CommentLink, { getFocusHref, getFocusUrl } from './CommentLink'
+import { getDiscussionHref } from './DiscussionLink'
 import { composerHints } from './constants'
 
 import {
@@ -83,7 +85,6 @@ const Comments = props => {
     orderBy,
     discussionComments: { loading, error, discussion, fetchMore },
     meta,
-    setOrderBy,
     board,
     parent,
     parentId: initialParentId,
@@ -95,6 +96,7 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
+  const discussionHref = getDiscussionHref(discussion)
 
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
@@ -244,6 +246,7 @@ const Comments = props => {
   }, [discussion])
 
   const isDesktop = useMediaQuery(mediaQueries.mUp)
+  const resolvedOrderBy = discussion?.comments?.resolvedOrderBy || orderBy
 
   return (
     <Loader
@@ -384,29 +387,29 @@ const Comments = props => {
             {!rootCommentOverlay && (
               <div {...styles.orderByContainer}>
                 {board && (
-                  <OrderBy
+                  <OrderByLink
+                    href={discussionHref}
                     t={t}
-                    orderBy={orderBy}
-                    setOrderBy={setOrderBy}
+                    orderBy={resolvedOrderBy}
                     value='HOT'
                   />
                 )}
-                <OrderBy
+                <OrderByLink
+                  href={discussionHref}
                   t={t}
-                  orderBy={orderBy}
-                  setOrderBy={setOrderBy}
+                  orderBy={resolvedOrderBy}
                   value='DATE'
                 />
-                <OrderBy
+                <OrderByLink
+                  href={discussionHref}
                   t={t}
-                  orderBy={orderBy}
-                  setOrderBy={setOrderBy}
+                  orderBy={resolvedOrderBy}
                   value='VOTES'
                 />
-                <OrderBy
+                <OrderByLink
+                  href={discussionHref}
                   t={t}
-                  orderBy={orderBy}
-                  setOrderBy={setOrderBy}
+                  orderBy={resolvedOrderBy}
                   value='REPLIES'
                 />
                 <A
@@ -540,7 +543,7 @@ const EmptyDiscussion = ({ t }) => (
   <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
 )
 
-const OrderBy = ({ t, orderBy, setOrderBy, value }) => {
+const OrderByLink = ({ t, orderBy, value, href }) => {
   const [colorScheme] = useColorContext()
   const hoverRule = useMemo(() => {
     return css({
@@ -553,18 +556,17 @@ const OrderBy = ({ t, orderBy, setOrderBy, value }) => {
   }, [colorScheme])
 
   const isSelected = orderBy === value
-
+  href.query = { ...href.query, order: value }
   return (
-    <button
-      {...styles.orderBy}
-      {...colorScheme.set('color', 'text')}
-      {...styles[isSelected ? 'selected' : 'regular']}
-      {...(!isSelected && hoverRule)}
-      onClick={() => {
-        setOrderBy(value)
-      }}
-    >
-      {t(`components/Discussion/OrderBy/${value}`)}
-    </button>
+    <Link href={href} scroll={false} passHref>
+      <a
+        {...styles.orderBy}
+        {...colorScheme.set('color', 'text')}
+        {...styles[isSelected ? 'selected' : 'regular']}
+        {...(!isSelected && hoverRule)}
+      >
+        {t(`components/Discussion/OrderBy/${value}`)}
+      </a>
+    </Link>
   )
 }

@@ -17,7 +17,7 @@ import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
 import CommentLink, { getFocusHref, getFocusUrl } from './CommentLink'
-import { getDiscussionHref } from './DiscussionLink'
+import { getDiscussionUrlObject } from './DiscussionLink'
 import { composerHints } from './constants'
 
 import {
@@ -96,8 +96,7 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
-  const discussionHref = getDiscussionHref(discussion)
-
+  const discussionHref = getDiscussionUrlObject(discussion)
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
    */

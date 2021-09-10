@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 import withT from '../../lib/withT'
 import { errorToString } from '../../lib/utils/errors'
@@ -91,7 +92,4 @@ export const withSignOut = compose(
   })
 )
 
-export default compose(
-  withSignOut,
-  withT
-)(SignOut)
+export default compose(withSignOut, withT)(SignOut)

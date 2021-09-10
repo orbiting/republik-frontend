@@ -11,7 +11,8 @@ import {
 } from '@project-r/styleguide'
 
 import Loader from '../Loader'
-import { compose, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import { getDocument } from '../Article/graphql/getDocument'
 import { splitByTitle } from '../../lib/utils/mdast'
 import { renderMdast } from 'mdast-react-render'

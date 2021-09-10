@@ -1,6 +1,6 @@
 import React from 'react'
 import { Interaction, Center, A, mediaQueries } from '@project-r/styleguide'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import SubscribedDocuments from './SubscribedDocuments'
 import SubscribedAuthors from './SubscribedAuthors'
 import NotificationOptions from './NotificationOptions'

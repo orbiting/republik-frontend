@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 
-import { compose, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 import { ascending } from 'd3-array'
 import { csvFormat } from 'd3-dsv'
@@ -320,7 +321,4 @@ const Results = ({ data, t, canDownload, Wrapper = DefaultWrapper }) => {
   )
 }
 
-export default compose(
-  withT,
-  graphql(query)
-)(Results)
+export default compose(withT, graphql(query))(Results)

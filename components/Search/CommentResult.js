@@ -1,7 +1,7 @@
 import React from 'react'
 import CommentLink from '../Discussion/CommentLink'
 import { CommentTeaser } from '@project-r/styleguide'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import withT from '../../lib/withT'
 
 export default compose(withT)(({ t, node }) => {

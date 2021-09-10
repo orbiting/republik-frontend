@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { withRouter } from 'next/router'
 import isEmail from 'validator/lib/isEmail'
 

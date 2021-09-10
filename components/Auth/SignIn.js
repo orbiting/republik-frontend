@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, compose, withApollo } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql, withApollo } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
 

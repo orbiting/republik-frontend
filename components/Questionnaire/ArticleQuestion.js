@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
-import { compose, withApollo } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { withApollo } from '@apollo/client/react/hoc'
 import { CloseIcon } from '@project-r/styleguide/icons'
 import { css } from 'glamor'
 import debounce from 'lodash/debounce'

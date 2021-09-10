@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { withRouter } from 'next/router'
 
 import TrialForm from '../Trial/Form'

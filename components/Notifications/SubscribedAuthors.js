@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import { myUserSubscriptions } from './enhancers'
 import {
   plainButtonRule,

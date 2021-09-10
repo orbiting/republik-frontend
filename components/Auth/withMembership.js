@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'

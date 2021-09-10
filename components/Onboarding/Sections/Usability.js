@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Mutation } from 'react-apollo'
+import { Mutation } from '@apollo/client/react/components'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 

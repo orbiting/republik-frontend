@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { css } from 'glamor'
 import Link from 'next/link'
 

@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import Router, { withRouter } from 'next/router'
 import { extent } from 'd3-array'
 import gql from 'graphql-tag'

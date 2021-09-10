@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import {

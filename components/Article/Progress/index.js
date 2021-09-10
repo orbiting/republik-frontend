@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { compose, withApollo } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { withApollo } from '@apollo/client/react/hoc'
 import debounce from 'lodash/debounce'
 
 import ProgressPrompt from './ProgressPrompt'

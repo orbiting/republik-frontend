@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { isURL } from 'validator'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { css } from 'glamor'
 import { Dropdown, Label, Interaction, IconButton } from '@project-r/styleguide'
 import {

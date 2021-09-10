@@ -1,5 +1,6 @@
 import React from 'react'
-import { graphql, compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 import { Loader, CommentTeaser, mediaQueries } from '@project-r/styleguide'
 import { css } from 'glamor'

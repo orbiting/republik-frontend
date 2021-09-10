@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Checkbox, mediaQueries } from '@project-r/styleguide'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import {
   withSubToDoc,
   withUnsubFromDoc,

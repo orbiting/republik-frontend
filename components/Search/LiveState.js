@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import withT from '../../lib/withT'
 import { Interaction, A, useColorContext } from '@project-r/styleguide'
 import { countFormat } from '../../lib/utils/format'

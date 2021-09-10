@@ -7,7 +7,7 @@ import {
   mediaQueries,
   useColorContext
 } from '@project-r/styleguide'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import withSearchRouter from './withSearchRouter'
 import { SUPPORTED_SORT } from './constants'
 

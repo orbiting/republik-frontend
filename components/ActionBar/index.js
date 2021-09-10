@@ -1,6 +1,6 @@
 import React, { useState, Fragment, useContext } from 'react'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import {
   PdfIcon,
   ReadingTimeIcon,

@@ -1,4 +1,5 @@
-import { graphql, compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 
 import { toRejectedString } from '../utils'
 import { optimisticContent } from '../store'

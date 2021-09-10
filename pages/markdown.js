@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { withRouter } from 'next/router'
 import withT from '../lib/withT'
 

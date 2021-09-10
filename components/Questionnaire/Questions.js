@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 
 import TextQuestion from './TextQuestion'
 import ArticleQuestion from './ArticleQuestion'

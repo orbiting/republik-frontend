@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 
 import {

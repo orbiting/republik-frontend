@@ -1,6 +1,7 @@
 import React from 'react'
-import { compose, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import gql from 'graphql-tag'
+import { graphql } from '@apollo/client/react/hoc'
 
 import Campaign from './Campaign'
 import Loader from '../../Loader'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import Frame from '../../components/Frame'
 import NotificationsSettings from '../../components/Notifications/Settings'
 import SignIn from '../../components/Auth/SignIn'

@@ -5,7 +5,7 @@ import AutosizeInput from 'react-textarea-autosize'
 import { nest } from 'd3-collection'
 import { sum, min, ascending } from 'd3-array'
 import { timeDay } from 'd3-time'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { withRouter } from 'next/router'
 import { format } from 'url'
 

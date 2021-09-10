@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { css } from 'glamor'
 import { fontStyles, mediaQueries, RawHtml } from '@project-r/styleguide'
 import withT from '../../lib/withT'

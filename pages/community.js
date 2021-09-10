@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import List, { generateSeed } from '../components/Testimonial/List'

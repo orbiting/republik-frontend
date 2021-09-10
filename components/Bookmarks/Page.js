@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
 import { withTester } from '../Auth/checkRoles'

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 
 import { colors, Interaction, A } from '@project-r/styleguide'
 

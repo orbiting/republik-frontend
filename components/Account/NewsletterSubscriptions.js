@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
-import { Query, Mutation, compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { Query, Mutation } from '@apollo/client/react/components'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import withT from '../../lib/withT'

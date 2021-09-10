@@ -1,5 +1,6 @@
 import React from 'react'
-import { compose, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 
 import withInNativeApp from '../../lib/withInNativeApp'

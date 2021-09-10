@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { compose, withApollo } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { withApollo } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 import withT from '../../lib/withT'
 import { errorToString } from '../../lib/utils/errors'
@@ -120,7 +121,4 @@ class UsernameField extends Component {
 // - https://github.com/apollographql/apollo-client/issues/2703
 // - once ready: rm class and replace with graphql connected function
 
-export default compose(
-  withT,
-  withApollo
-)(UsernameField)
+export default compose(withT, withApollo)(UsernameField)

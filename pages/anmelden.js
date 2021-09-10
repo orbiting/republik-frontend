@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { withRouter } from 'next/router'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 
 import SignIn from '../components/Auth/SignIn'
 import Frame from '../components/Frame'

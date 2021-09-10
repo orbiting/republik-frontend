@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 
 import withT from '../../../lib/withT'
 import withMe from '../../../lib/apollo/withMe'

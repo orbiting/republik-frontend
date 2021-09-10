@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 
 import { ZINDEX_FEED_STICKY_SECTION_LABEL } from '../constants'
 import { css } from 'glamor'

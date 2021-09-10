@@ -3,7 +3,8 @@ import md from 'markdown-in-js'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
 
-import { graphql, compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 
 import { countFormat } from '../lib/utils/format'

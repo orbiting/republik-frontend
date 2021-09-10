@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { graphql, compose, withApollo } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql, withApollo } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 
 import debounce from 'lodash/debounce'

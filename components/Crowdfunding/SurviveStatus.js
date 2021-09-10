@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 
 import withSurviveStatus from './withSurviveStatus'
 import withT from '../../lib/withT'

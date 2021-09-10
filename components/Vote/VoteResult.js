@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { sum } from 'd3-array'
 
 import Chart, {

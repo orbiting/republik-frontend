@@ -3,8 +3,9 @@ import { css } from 'glamor'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
-import { graphql, compose } from 'react-apollo'
-import * as reactApollo from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
+import {} from '@apollo/client'
 import * as graphqlTag from 'graphql-tag'
 
 import {
@@ -123,7 +124,7 @@ export const withCommentData = graphql(
 )
 
 const dynamicComponentRequire = createRequire().alias({
-  'react-apollo': reactApollo,
+  'react-apollo': {}, // TODO: Fix React-Apollo export
   'graphql-tag': graphqlTag
 })
 

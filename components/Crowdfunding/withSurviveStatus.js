@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
+import { graphql } from '@apollo/client/react/hoc'
 import { withRouter } from 'next/router'
 import { timeDay } from 'd3-time'
 

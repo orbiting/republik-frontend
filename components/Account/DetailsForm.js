@@ -3,7 +3,7 @@ import { colors, Interaction, Loader } from '@project-r/styleguide'
 import AddressForm from './AddressForm'
 import FieldSet from '../FieldSet'
 import withT from '../../lib/withT'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 
 const { H2, P } = Interaction
 

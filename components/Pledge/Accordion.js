@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css, merge } from 'glamor'
-import { graphql } from 'react-apollo'
+import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 import { ChevronRightIcon } from '@project-r/styleguide/icons'
 import { nest } from 'd3-collection'

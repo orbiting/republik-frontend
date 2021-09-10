@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react'
 import AutosizeInput from 'react-textarea-autosize'
-import { compose } from 'react-apollo'
+import { flowRight as compose } from 'lodash'
 import { withRouter } from 'next/router'
 
 import { Field, Interaction, mediaQueries } from '@project-r/styleguide'
@@ -287,7 +287,4 @@ const Financing = props => {
   )
 }
 
-export default compose(
-  withRouter,
-  withT
-)(Financing)
+export default compose(withRouter, withT)(Financing)

@@ -4,8 +4,14 @@ import Link from 'next/link'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
 import { flowRight as compose } from 'lodash'
-import { graphql } from '@apollo/client/react/hoc'
-import {} from '@apollo/client'
+import {
+  graphql,
+  withApollo,
+  withMutation,
+  withQuery,
+  withSubscription
+} from '@apollo/client/react/hoc'
+import { ApolloConsumer, ApolloProvider } from '@apollo/client'
 import * as graphqlTag from 'graphql-tag'
 
 import {
@@ -77,6 +83,11 @@ import { cleanAsPath } from '../../lib/utils/link'
 import dynamic from 'next/dynamic'
 import gql from 'graphql-tag'
 import CommentLink from '../Discussion/CommentLink'
+import { Mutation, Query, Subscription } from '@apollo/client/react/components'
+import {
+  getDataFromTree,
+  renderToStringWithData
+} from '@apollo/client/react/ssr'
 
 const dynamicOptions = {
   loading: () => <Loader loading />,
@@ -124,7 +135,24 @@ export const withCommentData = graphql(
 )
 
 const dynamicComponentRequire = createRequire().alias({
-  'react-apollo': {}, // TODO: Fix React-Apollo export
+  'react-apollo': {
+    // TODO: ApolloContext is not exported from @apollo/client
+    // However it is used in react-apollo.
+    // ApolloContext
+    ApolloConsumer,
+    ApolloProvider,
+    Query,
+    Mutation,
+    Subscription,
+    graphql,
+    withQuery,
+    withMutation,
+    withSubscription,
+    withApollo,
+    getDataFromTree,
+    renderToStringWithData,
+    compose
+  }, // TODO: Fix React-Apollo export
   'graphql-tag': graphqlTag
 })
 

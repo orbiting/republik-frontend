@@ -49,13 +49,9 @@ const WebApp = ({
   pageProps,
   headers,
   serverContext,
-  // During SSR
+  // For when a Apollo Client is given during SSR / SSG
   apolloClient: providedApolloClient
 }) => {
-  console.log(
-    'apollo-state present in pageProps',
-    pageProps ? pageProps[APOLLO_STATE_PROP_NAME] !== {} : false
-  )
   const apolloClient = providedApolloClient ?? useApollo(pageProps)
 
   return (

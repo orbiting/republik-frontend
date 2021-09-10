@@ -17,7 +17,7 @@ import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
 import CommentLink, { getFocusHref, getFocusUrl } from './CommentLink'
-import { getDiscussionHref } from './DiscussionLink'
+import { getDiscussionUrlObject } from './DiscussionLink'
 import { composerHints } from './constants'
 
 import {
@@ -96,8 +96,7 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
-  const discussionHref = getDiscussionHref(discussion)
-
+  const discussionUrlObject = getDiscussionUrlObject(discussion)
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
    */
@@ -388,26 +387,26 @@ const Comments = props => {
               <div {...styles.orderByContainer}>
                 {board && (
                   <OrderByLink
-                    href={discussionHref}
+                    href={discussionUrlObject}
                     t={t}
                     orderBy={resolvedOrderBy}
                     value='HOT'
                   />
                 )}
                 <OrderByLink
-                  href={discussionHref}
+                  href={discussionUrlObject}
                   t={t}
                   orderBy={resolvedOrderBy}
                   value='DATE'
                 />
                 <OrderByLink
-                  href={discussionHref}
+                  href={discussionUrlObject}
                   t={t}
                   orderBy={resolvedOrderBy}
                   value='VOTES'
                 />
                 <OrderByLink
-                  href={discussionHref}
+                  href={discussionUrlObject}
                   t={t}
                   orderBy={resolvedOrderBy}
                   value='REPLIES'

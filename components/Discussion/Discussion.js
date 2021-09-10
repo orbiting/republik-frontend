@@ -2,6 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
+import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 import Comments from './Comments'
 
 const DEFAULT_DEPTH = 3
@@ -23,7 +24,13 @@ const Discussion = ({
    */
   const router = useRouter()
   const { query } = router
-  const orderBy = query.order || (board ? 'HOT' : 'AUTO')
+  const orderBy =
+    query.order ||
+    (board
+      ? 'HOT'
+      : discussionId === GENERAL_FEEDBACK_DISCUSSION_ID
+      ? 'DATE'
+      : 'AUTO')
 
   const depth = board ? 1 : DEFAULT_DEPTH
 

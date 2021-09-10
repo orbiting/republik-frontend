@@ -96,7 +96,7 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
-  const discussionHref = getDiscussionUrlObject(discussion)
+  const discussionUrlObject = getDiscussionUrlObject(discussion)
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
    */
@@ -387,26 +387,26 @@ const Comments = props => {
               <div {...styles.orderByContainer}>
                 {board && (
                   <OrderByLink
-                    href={discussionHref}
+                    href={discussionUrlObject}
                     t={t}
                     orderBy={resolvedOrderBy}
                     value='HOT'
                   />
                 )}
                 <OrderByLink
-                  href={discussionHref}
+                  href={discussionUrlObject}
                   t={t}
                   orderBy={resolvedOrderBy}
                   value='DATE'
                 />
                 <OrderByLink
-                  href={discussionHref}
+                  href={discussionUrlObject}
                   t={t}
                   orderBy={resolvedOrderBy}
                   value='VOTES'
                 />
                 <OrderByLink
-                  href={discussionHref}
+                  href={discussionUrlObject}
                   t={t}
                   orderBy={resolvedOrderBy}
                   value='REPLIES'

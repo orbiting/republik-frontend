@@ -1,6 +1,8 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
+import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 import Comments from './Comments'
 
 const DEFAULT_DEPTH = 3
@@ -9,7 +11,6 @@ const Discussion = ({
   discussionId,
   focusId = null,
   meta,
-  sharePath,
   board,
   parent,
   parentId = null,
@@ -19,8 +20,17 @@ const Discussion = ({
 }) => {
   /*
    * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
+   * If 'AUTO' DiscussionOrder is returned by backend via resolvedOrderBy
    */
-  const [orderBy, setOrderBy] = React.useState(board ? 'HOT' : 'DATE')
+  const router = useRouter()
+  const { query } = router
+  const orderBy =
+    query.order ||
+    (board
+      ? 'HOT'
+      : discussionId === GENERAL_FEEDBACK_DISCUSSION_ID
+      ? 'DATE'
+      : 'AUTO')
 
   const depth = board ? 1 : DEFAULT_DEPTH
 
@@ -48,7 +58,6 @@ const Discussion = ({
           parentId={parentId}
           orderBy={orderBy}
           meta={meta}
-          setOrderBy={setOrderBy}
           board={board}
           parent={board ? parent || focusId : undefined}
           includeParent={includeParent}

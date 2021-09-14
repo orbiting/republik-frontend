@@ -2834,7 +2834,7 @@
     },
     {
       "key": "shareholder/contact",
-      "value": "Für Auskünfte kontaktieren Sie das Erste-Hilfe-Team:"
+      "value": "Für weitere Auskünfte:"
     },
     {
       "key": "shareholder/contact/email",
@@ -2842,11 +2842,11 @@
     },
     {
       "key": "shareholder/contact/phone",
-      "value": "+41 79 787 47 65"
+      "value": "+41 44 505 67 80"
     },
     {
       "key": "shareholder/contact/phone/link",
-      "value": "+41797874765"
+      "value": "+41445056780"
     },
     {
       "key": "front/prepublication/notice",
@@ -7079,6 +7079,22 @@
     {
       "key": "Trial/Form/button/signedIn",
       "value": "Aktivieren"
+    },
+    {
+      "key": "components/outdatedAppVersion/text",
+      "value": "Sie nutzen eine veraltete Version der App. Aktualisieren Sie Ihre App, um von den neusten Funktionalitäten zu profitieren."
+    },
+    {
+      "key": "components/outdatedAppVersion/ios/primaryAction",
+      "value": "Zum App Store"
+    },
+    {
+      "key": "components/outdatedAppVersion/android/primaryAction",
+      "value": "Zum Google Play Store"
+    },
+    {
+      "key": "components/outdatedAppVersion/android/secondaryAction",
+      "value": "APK direkt herunterladen"
     },
     {
       "key": "darkmode/switch/label",

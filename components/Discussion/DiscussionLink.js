@@ -2,7 +2,7 @@ import React from 'react'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 import Link from 'next/link'
 
-const DiscussionLink = ({ children, discussion }) => {
+export const getDiscussionUrlObject = discussion => {
   let tab
   if (discussion && discussion.document) {
     const meta = discussion.document.meta || {}
@@ -16,32 +16,32 @@ const DiscussionLink = ({ children, discussion }) => {
       discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID &&
       'general')
   if (tab) {
+    return {
+      pathname: '/dialog',
+      query: { t: tab, id: tab === 'general' ? undefined : discussion.id }
+    }
+  }
+  if (discussion) {
+    return {
+      pathname:
+        discussion.document &&
+        discussion.document.meta &&
+        discussion.document.meta.path
+          ? discussion.document.meta.path
+          : discussion.path,
+      query: {}
+    }
+  }
+}
+
+const DiscussionLink = ({ children, discussion }) => {
+  const href = getDiscussionUrlObject(discussion)
+  if (href) {
     return (
-      <Link
-        href={{
-          pathname: '/dialog',
-          query: { t: tab, id: tab === 'general' ? undefined : discussion.id }
-        }}
-        passHref
-      >
+      <Link href={href} passHref>
         {children}
       </Link>
     )
-  }
-  if (discussion) {
-    const path =
-      discussion.document &&
-      discussion.document.meta &&
-      discussion.document.meta.path
-        ? discussion.document.meta.path
-        : discussion.path
-    if (path) {
-      return (
-        <Link href={path} passHref>
-          {children}
-        </Link>
-      )
-    }
   }
   return children
 }

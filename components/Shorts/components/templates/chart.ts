@@ -1,8 +1,8 @@
-import { ChartBlockElement } from '../custom-types'
+import { ChartContainerElement } from '../custom-types'
 import { emptyElement } from './text'
 
-export const chart: ChartBlockElement = {
-  type: 'chartBlock',
+export const chart: ChartContainerElement = {
+  type: 'chartContainer',
   children: [
     {
       type: 'chartTitle',

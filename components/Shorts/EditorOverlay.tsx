@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 // @ts-ignore
-import { Overlay, OverlayToolbar, OverlayBody } from '@project-r/styleguide'
+import { Overlay, OverlayToolbar, OverlayBody, Interaction } from '@project-r/styleguide'
 import EditorApp from './components/editor'
 import { TemplatePicker } from './components/templates'
 import { CustomElement } from './components/custom-types'
 import Drafts from './components/editor/ui/Drafts'
 import ImageInput from './components/Publikator/ImageInput'
-import { figure } from './components/templates/figure'
 
 const needsData = (template: CustomElement[]): boolean => {
   const lastEl = template[template.length - 1]
@@ -28,7 +27,6 @@ const EditorOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {template && needsData(template) ? (
           <div>
             <ImageInput
-              label='Bild'
               onChange={(_: any, src: string) => {
                 setTemplate(
                   template.map(el =>

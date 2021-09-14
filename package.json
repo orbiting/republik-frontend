@@ -19,7 +19,7 @@
     "translations": "npm run translations-raw && git add -p lib/translations.json && git checkout -- lib/translations.json",
     "translations-vote": "NODE_OPTIONS='-r dotenv/config' gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "analyze": "ANALYZE=true next build",
-    "sg:link": "./scripts/sg_link.sh",
+    "sg:link": "./scripts/sg_link.sh","preinstall": "npm run sg:unlink",
     "sg:unlink": "./scripts/sg_unlink.sh",
     "yaproxy": "CORS_ORIGIN=http://localhost:3010,http://localhost:3005 PORT=5000 TARGET=https://api.republik.ch yaproxy",
     "yaproxy-android": "COOKIE_DOMAIN_REWRITE=*:10.0.2.2 CORS_ORIGIN=http://10.0.2.2:3010 PORT=5000 TARGET=https://api.republik.ch yaproxy"

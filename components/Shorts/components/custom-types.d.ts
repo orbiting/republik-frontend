@@ -61,18 +61,23 @@ export type FigureCaptionElement = SharedElement & {
   children: (LinkElement | CustomText)[]
 }
 
-export type QuoteElement = SharedElement & {
-  type: 'quote'
-  children: (QuoteParagraphElement | FigureCaptionElement)[]
+export type PullQuoteElement = SharedElement & {
+  type: 'pullQuote'
+  children: (PullQuoteTextElement | PullQuoteSourceElement)[]
 }
 
-export type QuoteParagraphElement = SharedElement & {
-  type: 'quoteParagraph'
-  children: CustomText[]
+export type PullQuoteTextElement = SharedElement & {
+  type: 'pullQuoteText'
+  children: PlainText[]
 }
 
-export type ChartBlockElement = SharedElement & {
-  type: 'chartBlock'
+export type PullQuoteSourceElement = SharedElement & {
+  type: 'pullQuoteSource'
+  children: PlainText[]
+}
+
+export type ChartContainerElement = SharedElement & {
+  type: 'chartContainer'
   children: (
     | ChartTitleElement
     | ChartLeadElement
@@ -132,9 +137,10 @@ export type CustomElement =
   | FigureElement
   | FigureImageElement
   | FigureCaptionElement
-  | QuoteElement
-  | QuoteParagraphElement
-  | ChartBlockElement
+  | PullQuoteElement
+  | PullQuoteTextElement
+  | PullQuoteSourceElement
+  | ChartContainerElement
   | ChartElement
   | ChartTitleElement
   | ChartLeadElement
@@ -153,9 +159,10 @@ export type CustomElementsType =
   | 'figure'
   | 'figureImage'
   | 'figureCaption'
-  | 'quote'
-  | 'quoteParagraph'
-  | 'chartBlock'
+  | 'pullQuote'
+  | 'pullQuoteText'
+  | 'pullQuoteSource'
+  | 'chartContainer'
   | 'chart'
   | 'chartTitle'
   | 'chartLead'

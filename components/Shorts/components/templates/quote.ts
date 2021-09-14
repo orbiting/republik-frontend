@@ -1,13 +1,15 @@
-import { QuoteElement } from '../custom-types'
-import { caption as captionTemplate } from './figure'
+import { PullQuoteElement } from '../custom-types'
 
-export const quote: QuoteElement = {
-  type: 'quote',
+export const quote: PullQuoteElement = {
+  type: 'pullQuote',
   children: [
     {
-      type: 'quoteParagraph',
+      type: 'pullQuoteText',
       children: [{ text: 'Zitat' }]
     },
-    captionTemplate
+    {
+      type: 'pullQuoteSource',
+      children: [{ text: 'Quelle' }]
+    }
   ]
 }

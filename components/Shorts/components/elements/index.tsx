@@ -6,9 +6,10 @@ import { config as breakConfig } from './break'
 import { config as figure } from './figure'
 import { config as figureImage } from './figureImage'
 import { config as figureCaption } from './figureCaption'
-import { config as quote } from './quote'
-import { config as quoteParagraph } from './quoteParagraph'
-import { config as chartBlock } from './chart/block'
+import { config as pullQuote } from './pullQuote/container'
+import { config as pullQuoteText } from './pullQuote/text'
+import { config as pullQuoteSource } from './pullQuote/source'
+import { config as chartContainer } from './chart/container'
 import { config as chart } from './chart/chart'
 import { config as chartTitle } from './chart/title'
 import { config as chartLead } from './chart/lead'
@@ -25,9 +26,10 @@ export const config: ElementsConfig = {
   figure,
   figureImage,
   figureCaption,
-  quote,
-  quoteParagraph,
-  chartBlock,
+  pullQuote,
+  pullQuoteText,
+  pullQuoteSource,
+  chartContainer,
   chart,
   chartTitle,
   chartLead,

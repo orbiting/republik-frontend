@@ -3,7 +3,6 @@ import React from 'react'
 import Frame from '../components/Frame'
 
 import FaqList, { H2 } from '../components/Faq/List'
-import FaqForm from '../components/Faq/Form'
 
 import withT from '../lib/withT'
 
@@ -31,6 +30,5 @@ export default withT(({ t }) => (
     />
     <br />
     <FaqList />
-    <FaqForm />
   </Frame>
 ))

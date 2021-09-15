@@ -176,6 +176,9 @@ export const withElementsAttrs = (editor: CustomEditor): CustomEditor => {
   return editor
 }
 
+// TODO: this one is doing weird things...
+//  (Maybe instead of normalisation tweaking the insert/delete functions
+//  would do the trick?)
 const matchStructure: NormalizeFn<CustomElement> = ([node, path], editor) => {
   if (!SlateElement.isElement(node)) return
   const structure = config[node.type].structure

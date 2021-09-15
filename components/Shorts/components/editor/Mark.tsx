@@ -1,9 +1,9 @@
 import React, { Attributes, ReactElement } from 'react'
 import { Editor } from 'slate'
 import { useSlate } from 'slate-react'
-
 import { config, configKeys } from '../marks'
 import { ToolbarButton } from './ui/Toolbar'
+import { Placeholder } from './ui/Placeholder'
 import { CustomEditor, CustomMarksType, CustomText } from '../custom-types'
 
 const isMarkActive = (editor: CustomEditor, mKey: CustomMarksType): boolean => {
@@ -48,6 +48,9 @@ export const LeafComponent: React.FC<{
     })
   return (
     <span {...attributes} style={{ position: 'relative' }}>
+      {!leaf.text && (
+        <Placeholder leaf={leaf} element={children.props.parent} />
+      )}
       {children}
     </span>
   )

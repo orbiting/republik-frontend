@@ -14,9 +14,9 @@ import { ToolbarButton } from './ui/Toolbar'
 import {
   CustomEditor,
   CustomElement,
-  CustomElementsType, CustomText,
+  CustomElementsType,
   NormalizeFn
-} from "../custom-types";
+} from '../custom-types'
 // @ts-ignore
 import { useColorContext } from '@project-r/styleguide'
 
@@ -97,7 +97,7 @@ export const withCharLimit = (editor: CustomEditor): CustomEditor => {
   return editor
 }
 
-export const withTemplate = (template: (CustomElement)[]) => (
+export const withTemplate = (template: CustomElement[]) => (
   editor: CustomEditor
 ): CustomEditor => {
   const { normalizeNode } = editor
@@ -149,6 +149,7 @@ const hasNoBreakAncestor = (
   return false
 }
 
+// TODO: jump to next node instead of just disabling breaks
 export const withBreaksDisabled = (editor: CustomEditor): CustomEditor => {
   const { insertBreak } = editor
 

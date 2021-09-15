@@ -1,9 +1,9 @@
 import {
   ChartElement,
   DataFormType,
-  ElementConfigI,
-  LinkPreviewElement
-} from '../custom-types'
+  ElementConfigI, FigureImageElement,
+  LinkPreviewElement, needsDataFn
+} from "../custom-types";
 import React, { Attributes, ReactElement } from 'react'
 // @ts-ignore
 import { Embed } from '@project-r/styleguide/lib/components/Discussion/Internal/Comment/Embed'
@@ -88,13 +88,16 @@ const Component: React.FC<{
   </div>
 )
 
-const DataForm: DataFormType<ChartElement> = ({ element, setElement }) => (
+const DataForm: DataFormType<LinkPreviewElement> = ({ element, setElement }) => (
   <div>TODO</div>
 )
+
+const needsData: needsDataFn<LinkPreviewElement> = el => !el.src
 
 export const config: ElementConfigI = {
   Component,
   DataForm,
+  needsData,
   attrs: {
     editUi: true
   }

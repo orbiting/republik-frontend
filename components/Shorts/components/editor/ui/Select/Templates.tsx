@@ -52,18 +52,18 @@ export const BASE_TEMPLATE: CustomElementsType[] = ['headline', 'paragraph']
 const templates: TemplateButtonI[] = [
   { label: 'nur Text', icon: MdSort },
   { customElement: 'figure', label: 'Bild', icon: MdWallpaper },
-  { customElement: 'figure', label: 'Chart', icon: MdShowChart },
+  { customElement: 'chartContainer', label: 'Chart', icon: MdShowChart },
   {
-    customElement: 'figure',
+    customElement: 'questionnaire',
     label: 'Umfrage',
     icon: MdPlaylistAddCheck
   },
   {
-    customElement: 'figure',
+    customElement: 'pullQuote',
     label: 'Zitat',
     icon: MdFormatQuote
   },
-  { customElement: 'figure', label: 'Link', icon: MdLink }
+  { customElement: 'linkPreview', label: 'Link', icon: MdLink }
 ]
 
 const getElement = (elementType: CustomElementsType): CustomElement => ({

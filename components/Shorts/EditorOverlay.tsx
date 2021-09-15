@@ -1,68 +1,69 @@
 import React, { useState } from 'react'
 // @ts-ignore
-import { Overlay, OverlayToolbar, OverlayBody, Interaction } from '@project-r/styleguide'
-import EditorApp from './components/editor'
-import { TemplatePicker } from './components/templates'
-import { CustomElement } from './components/custom-types'
-import Drafts from './components/editor/ui/Drafts'
-import ImageInput from './components/Publikator/ImageInput'
+import { Overlay, OverlayToolbar, OverlayBody } from '@project-r/styleguide'
+import { CustomElement, CustomText } from './components/custom-types'
+import Select from './components/editor/ui/Select'
+import Populate from './components/editor/ui/Populate'
+import Editor from './components/editor'
+import { config as elConfig } from './components/elements'
+import { Element as SlateElement } from 'slate'
 
-const needsData = (template: CustomElement[]): boolean => {
-  const lastEl = template[template.length - 1]
-  return (
-    lastEl.type === 'figure' &&
-    lastEl.children[0].type === 'figureImage' &&
-    !lastEl.children[0].src
+const needsData = (value: (CustomElement | CustomText)[]): boolean =>
+  value.some(
+    node =>
+      SlateElement.isElement(node) &&
+      ((elConfig[node.type].needsData && elConfig[node.type].needsData(node)) ||
+        needsData(node.children))
   )
+
+enum Step {
+  Select,
+  Populate,
+  Edit
+}
+
+const getStep = (value: CustomElement[]): Step => {
+  if (!value.length) return 0
+  else if (needsData(value)) return 1
+  return 2
 }
 
 const EditorOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [template, setTemplate] = useState<CustomElement[]>()
+  const [initValue, setInitValue] = useState<CustomElement[]>([])
   const [localStorageId, setLocalStorageId] = useState<string>()
+  const step = getStep(initValue)
+  const reset = () => {
+    setInitValue([])
+    setLocalStorageId(undefined)
+  }
 
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 695, minHeight: 0 }}>
       <OverlayToolbar title='Streams' onClose={onClose} />
       <OverlayBody>
-        {template && needsData(template) ? (
-          <div>
-            <ImageInput
-              onChange={(_: any, src: string) => {
-                setTemplate(
-                  template.map(el =>
-                    el.type === 'figure'
-                      ? {
-                          ...el,
-                          children: el.children.map(child =>
-                            child.type === 'figureImage'
-                              ? { ...child, src }
-                              : child
-                          )
-                        }
-                      : el
-                  )
-                )
-              }}
-            />
-          </div>
-        ) : template ? (
-          <EditorApp
-            template={template}
-            reset={() => {
-              setTemplate(undefined)
-              setLocalStorageId(undefined)
-            }}
-            localStorageId={localStorageId}
-          />
-        ) : (
-          <>
-            <TemplatePicker setTemplate={setTemplate} />
-            <Drafts
-              setTemplate={setTemplate}
-              setLocalStorageId={setLocalStorageId}
-            />
-          </>
-        )}
+        {
+          {
+            [Step.Select]: (
+              <Select
+                setInitValue={setInitValue}
+                setLocalStorageId={setLocalStorageId}
+              />
+            ),
+            [Step.Populate]: (
+              <Populate
+                nodes={initValue}
+                setNodes={v => setInitValue(v as CustomElement[])}
+              />
+            ),
+            [Step.Edit]: (
+              <Editor
+                initValue={initValue}
+                reset={reset}
+                localStorageId={localStorageId}
+              />
+            )
+          }[step]
+        }
       </OverlayBody>
     </Overlay>
   )

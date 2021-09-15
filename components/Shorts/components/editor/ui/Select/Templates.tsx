@@ -8,13 +8,12 @@ import { MdPlaylistAddCheck } from '@react-icons/all-files/md/MdPlaylistAddCheck
 import { MdLink } from '@react-icons/all-files/md/MdLink'
 // @ts-ignore
 import { mediaQueries, fontStyles } from '@project-r/styleguide'
-import { textTree } from './text'
-import { CustomElement, TemplateButtonI } from '../custom-types'
-import { figure } from './figure'
-import { quote } from './quote'
-import { chart } from './chart'
-import { questionnaire } from './questionnaire'
-import { link } from './link'
+import {
+  CustomElement,
+  CustomElementsType,
+  TemplateButtonI
+} from '../../../custom-types'
+import { config as elConfig } from '../../../elements'
 
 const styles = {
   chartWrapper: css({
@@ -48,33 +47,45 @@ const styles = {
   })
 }
 
+export const BASE_TEMPLATE: CustomElementsType[] = ['headline', 'paragraph']
+
 const templates: TemplateButtonI[] = [
-  { tree: textTree(), label: 'nur Text', icon: MdSort },
-  { tree: textTree('Bild').concat(figure()), label: 'Bild', icon: MdWallpaper },
-  { tree: textTree('Chart').concat(chart), label: 'Chart', icon: MdShowChart },
+  { label: 'nur Text', icon: MdSort },
+  { customElement: 'figure', label: 'Bild', icon: MdWallpaper },
+  { customElement: 'figure', label: 'Chart', icon: MdShowChart },
   {
-    tree: textTree('Umfrage').concat(questionnaire),
+    customElement: 'figure',
     label: 'Umfrage',
     icon: MdPlaylistAddCheck
   },
   {
-    tree: textTree('Zitat').concat(quote),
+    customElement: 'figure',
     label: 'Zitat',
     icon: MdFormatQuote
   },
-  { tree: textTree('Link').concat(link), label: 'Link', icon: MdLink }
+  { customElement: 'figure', label: 'Link', icon: MdLink }
 ]
 
-export const TemplatePicker: React.FC<{
-  setTemplate: (t: CustomElement[]) => void
-}> = ({ setTemplate }) => (
+const getElement = (elementType: CustomElementsType): CustomElement => ({
+  type: elementType,
+  children: elConfig[elementType].structure?.map(getElement) || [{ text: '' }]
+})
+
+const getTree = (customElement?: CustomElementsType): CustomElement[] => {
+  const template = BASE_TEMPLATE.concat(customElement || [])
+  return template.map(getElement)
+}
+
+const TemplatePicker: React.FC<{
+  setInitValue: (t: CustomElement[]) => void
+}> = ({ setInitValue }) => (
   <div {...styles.chartWrapper}>
     {templates.map(template => {
       return (
         <div
           key={template.label}
           {...styles.chartButton}
-          onClick={() => setTemplate(template.tree)}
+          onClick={() => setInitValue(getTree(template.customElement))}
         >
           <template.icon size={24} />
           <span {...styles.chartButtonText}>{template.label}</span>
@@ -83,3 +94,5 @@ export const TemplatePicker: React.FC<{
     })}
   </div>
 )
+
+export default TemplatePicker

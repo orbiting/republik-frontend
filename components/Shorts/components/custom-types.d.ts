@@ -1,6 +1,6 @@
 import React from 'react'
 import { IconType } from '@react-icons/all-files/lib'
-import { BaseEditor, Path, Descendant } from 'slate'
+import { BaseEditor, Path } from 'slate'
 import { ReactEditor } from 'slate-react'
 import { HistoryEditor } from 'slate-history'
 
@@ -22,111 +22,88 @@ export type CustomText = CustomMarks & PlainText
 
 type SharedElement = {
   placeholder?: string
+  children: (CustomElement | CustomText)[]
 }
 
 export type ParagraphElement = SharedElement & {
   type: 'paragraph'
-  children: Descendant[]
 }
 
 export type HeadlineElement = SharedElement & {
   type: 'headline'
-  children: PlainText[]
 }
 
 export type BreakElement = SharedElement & {
   type: 'break'
-  children: PlainText[]
 }
 
 export type LinkElement = SharedElement & {
   type: 'link'
-  href: string
-  children: CustomText[]
+  href?: string
 }
 
 export type FigureElement = SharedElement & {
   type: 'figure'
-  children: (FigureImageElement | FigureCaptionElement)[]
 }
 
 export type FigureImageElement = SharedElement & {
   type: 'figureImage'
-  src: string
-  children: PlainText[]
+  src?: string
 }
 
 export type FigureCaptionElement = SharedElement & {
   type: 'figureCaption'
-  children: (LinkElement | CustomText)[]
 }
 
 export type PullQuoteElement = SharedElement & {
   type: 'pullQuote'
-  children: (PullQuoteTextElement | PullQuoteSourceElement)[]
 }
 
 export type PullQuoteTextElement = SharedElement & {
   type: 'pullQuoteText'
-  children: PlainText[]
 }
 
 export type PullQuoteSourceElement = SharedElement & {
   type: 'pullQuoteSource'
-  children: PlainText[]
 }
 
 export type ChartContainerElement = SharedElement & {
   type: 'chartContainer'
-  children: (
-    | ChartTitleElement
-    | ChartLeadElement
-    | ChartElement
-    | ChartLegendElement
-  )[]
 }
 
 export type ChartTitleElement = SharedElement & {
   type: 'chartTitle'
-  children: CustomText[]
 }
 
 export type ChartLeadElement = SharedElement & {
   type: 'chartLead'
-  children: CustomText[]
 }
 
 export type ChartElement = SharedElement & {
   type: 'chart'
-  values: object[]
-  config: object
-  children: PlainText[]
+  values?: object[]
+  config?: object
 }
 
 export type ChartLegendElement = SharedElement & {
   type: 'chartLegend'
-  children: (CustomText | LinkElement)[]
 }
 
 export type QuestionnaireElement = SharedElement & {
   type: 'questionnaire'
-  children: (QuestionnaireParagraphElement | QuestionnaireChoiceElement)[]
 }
 
 export type QuestionnaireParagraphElement = SharedElement & {
   type: 'questionnaireParagraph'
-  children: (CustomText | LinkElement)[]
 }
 
 export type QuestionnaireChoiceElement = SharedElement & {
   type: 'questionnaireChoice'
-  children: PlainText[]
 }
 
 export type LinkPreviewElement = SharedElement & {
   type: 'linkPreview'
-  src: string
-  children: PlainText[]
+  src?: string
 }
 
 export type CustomElement =
@@ -203,12 +180,22 @@ export type MarksConfig = {
   [K in CustomMarksType]: NodeConfigI
 }
 
+export type DataFormType<E> = React.FC<{
+  element: E
+  setElement: (el: E) => void
+}>
+
+export type needsDataFn<E> = (el: E) => boolean
+
 export interface ElementConfigI extends NodeConfigI {
   insert?: InsertFn
   attrs?: ElementAttrsI
   node?: CustomElement
+  DataForm?: DataFormType
+  needsData?: needsDataFn
   normalizations?: NormalizeFn[]
   placeholder?: string
+  structure?: CustomElementsType[]
 }
 
 export type ElementsConfig = {
@@ -218,7 +205,7 @@ export type ElementsConfig = {
 export interface TemplateButtonI {
   icon: IconType
   label: string
-  tree: CustomElement[]
+  customElement?: CustomElementsType
 }
 
 export interface DraftI {
@@ -236,3 +223,5 @@ declare module 'slate' {
     Text: CustomText
   }
 }
+
+declare module '@project-r/styleguide'

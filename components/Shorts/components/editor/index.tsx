@@ -9,7 +9,7 @@ import { EditableElement } from './ui/Edit'
 import { LeafComponent } from './Mark'
 import {
   withBreaksDisabled,
-  withCharCount,
+  withCharLimit,
   withElementsAttrs,
   withNormalizations,
   withTemplate
@@ -29,15 +29,15 @@ const styles = {
   })
 }
 
-const EditorApp: React.FC<{
-  template: CustomElement[]
+const Editor: React.FC<{
+  initValue: CustomElement[]
   reset: () => void
   localStorageId?: string
-}> = ({ template, reset, localStorageId }) => {
+}> = ({ initValue, reset, localStorageId }) => {
   const editor = useMemo(
     () =>
-      withTemplate(template)(
-        withCharCount(
+      withTemplate(initValue)(
+        withCharLimit(
           withNormalizations(
             withBreaksDisabled(
               withElementsAttrs(withReact(withHistory(createEditor())))
@@ -47,7 +47,7 @@ const EditorApp: React.FC<{
       ),
     []
   )
-  const [value, setValue] = useState<Descendant[]>(template)
+  const [value, setValue] = useState<Descendant[]>(initValue)
   const containerRef = React.useRef<HTMLDivElement>(null)
 
   const renderElement = useCallback(props => {
@@ -91,4 +91,4 @@ const EditorApp: React.FC<{
   )
 }
 
-export default EditorApp
+export default Editor

@@ -1,5 +1,4 @@
-import { QuestionnaireElement } from '../custom-types'
-import { emptyElement } from './text'
+import { QuestionnaireElement } from '../../custom-types'
 
 export const questionnaire: QuestionnaireElement = {
   type: 'questionnaire',
@@ -10,7 +9,7 @@ export const questionnaire: QuestionnaireElement = {
     },
     {
       type: 'questionnaireChoice',
-      ...emptyElement
+      children: [{ text: '' }]
     }
   ]
 }

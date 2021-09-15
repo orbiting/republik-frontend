@@ -14,8 +14,9 @@ import { ToolbarButton } from './ui/Toolbar'
 import {
   CustomEditor,
   CustomElement,
-  CustomElementsType
-} from '../custom-types'
+  CustomElementsType, CustomText,
+  NormalizeFn
+} from "../custom-types";
 // @ts-ignore
 import { useColorContext } from '@project-r/styleguide'
 
@@ -69,7 +70,7 @@ export const CharCount: React.FC = () => {
   )
 }
 
-export const withCharCount = (editor: CustomEditor): CustomEditor => {
+export const withCharLimit = (editor: CustomEditor): CustomEditor => {
   const { insertText, insertFragment, insertNode } = editor
 
   editor.insertText = text => {
@@ -96,7 +97,7 @@ export const withCharCount = (editor: CustomEditor): CustomEditor => {
   return editor
 }
 
-export const withTemplate = (template: CustomElement[]) => (
+export const withTemplate = (template: (CustomElement)[]) => (
   editor: CustomEditor
 ): CustomEditor => {
   const { normalizeNode } = editor
@@ -175,14 +176,44 @@ export const withElementsAttrs = (editor: CustomEditor): CustomEditor => {
   return editor
 }
 
+const matchStructure: NormalizeFn<CustomElement> = ([node, path], editor) => {
+  if (!SlateElement.isElement(node)) return
+  const structure = config[node.type].structure
+  if (!structure) return
+
+  structure.some((elementType, i) => {
+    if (
+      node.children.length <= i ||
+      (SlateElement.isElement(node.children[i]) &&
+        // @ts-ignore
+        node.children[i].type !== elementType)
+    ) {
+      Transforms.insertNodes(
+        editor,
+        { type: elementType, children: [] },
+        {
+          at: path.concat(i)
+        }
+      )
+      return true
+    }
+  })
+}
+
+const BASE_NORMALIZATIONS = [matchStructure]
+
 export const withNormalizations = (editor: CustomEditor): CustomEditor => {
   const { normalizeNode } = editor
   editor.normalizeNode = ([node, path]) => {
     configKeys.forEach(elKey => {
       if (matchElement(elKey)(node)) {
-        const normalizations = config[elKey].normalizations || []
         normalizeNode([node, path])
-        normalizations.forEach(normalizeFn => normalizeFn([node, path], editor))
+        const customNormalizations = BASE_NORMALIZATIONS.concat(
+          config[elKey].normalizations || []
+        )
+        customNormalizations.forEach(normalizeFn =>
+          normalizeFn([node as CustomElement, path], editor)
+        )
       }
     })
   }

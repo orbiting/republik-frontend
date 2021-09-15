@@ -8,8 +8,8 @@ import {
   plainButtonRule
   // @ts-ignore
 } from '@project-r/styleguide'
-import { CustomElement, DraftI } from '../../custom-types'
-import { useShortDrafts } from '../../../../../lib/shortDrafts'
+import { CustomElement, DraftI } from '../../../custom-types'
+import { useShortDrafts } from '../../../../../../lib/shortDrafts'
 import { MdClose } from '@react-icons/all-files/md/MdClose'
 
 const styles = {
@@ -36,9 +36,9 @@ const styles = {
 }
 
 const Drafts: React.FC<{
-  setTemplate: (t: CustomElement[]) => void
+  setInitValue: (t: CustomElement[]) => void
   setLocalStorageId: (id: string) => void
-}> = ({ setTemplate, setLocalStorageId }) => {
+}> = ({ setInitValue, setLocalStorageId }) => {
   const [drafts, setDrafts] = useShortDrafts([])
   const [colorScheme] = useColorContext()
 
@@ -64,7 +64,7 @@ const Drafts: React.FC<{
               href='#'
               key={draft.id}
               onClick={() => {
-                setTemplate(draft.value)
+                setInitValue(draft.value)
                 setLocalStorageId(draft.id)
               }}
               {...styles.link}

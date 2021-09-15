@@ -1,5 +1,4 @@
-import { ChartContainerElement } from '../custom-types'
-import { emptyElement } from './text'
+import { ChartContainerElement } from '../../custom-types'
 
 export const chart: ChartContainerElement = {
   type: 'chartContainer',
@@ -59,7 +58,7 @@ export const chart: ChartContainerElement = {
           value: '0.2'
         }
       ],
-      ...emptyElement
+      children: [{ text: '' }]
     },
     {
       type: 'chartLegend',

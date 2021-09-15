@@ -2,7 +2,7 @@ import { ElementConfigI } from '../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 import { css } from 'glamor'
 import { matchTemplateElement } from './helpers/normalization'
-import { questionnaire } from '../templates/questionnaire'
+import { questionnaire } from '../editor/templates/questionnaire'
 
 const styles = {
   container: css({

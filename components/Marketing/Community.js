@@ -1,12 +1,19 @@
 import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Loader, CommentTeaser, mediaQueries } from '@project-r/styleguide'
+import {
+  Loader,
+  CommentTeaser,
+  mediaQueries,
+  SHARE_IMAGE_WIDTH,
+  SHARE_IMAGE_HEIGHT
+} from '@project-r/styleguide'
 import { css } from 'glamor'
 
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
 import CommentLink from '../Discussion/CommentLink'
+import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 
 const Community = ({ t, data: { loading, error, featured } }) => {
   return (
@@ -22,6 +29,20 @@ const Community = ({ t, data: { loading, error, featured } }) => {
         render={() => (
           <div {...styles.row}>
             {featured.nodes.map(comment => {
+              const image =
+                comment.discussion?.document?.meta?.image ||
+                (comment.discussion?.document?.meta?.shareText
+                  ? `${ASSETS_SERVER_BASE_URL}/render?width=${SHARE_IMAGE_WIDTH}&height=${SHARE_IMAGE_HEIGHT}&updatedAt=${encodeURIComponent(
+                      `${comment.discussion.document.id}${
+                        comment.discussion.document.meta.format
+                          ? `-${comment.discussion.document.meta.format.id}`
+                          : ''
+                      }`
+                    )}&url=${encodeURIComponent(
+                      `${PUBLIC_BASE_URL}${comment.discussion.document.meta.path}?extract=share`
+                    )}`
+                  : undefined)
+
               return (
                 <div {...styles.comment} key={comment.id}>
                   <CommentTeaser
@@ -29,7 +50,7 @@ const Community = ({ t, data: { loading, error, featured } }) => {
                       ...comment,
                       discussion: {
                         ...comment.discussion,
-                        image: comment.discussion?.document?.meta?.image
+                        image
                       }
                     }}
                     Link={CommentLink}
@@ -101,7 +122,12 @@ const query = gql`
           document {
             id
             meta {
+              format {
+                id
+              }
+              path
               image
+              shareText
             }
           }
         }

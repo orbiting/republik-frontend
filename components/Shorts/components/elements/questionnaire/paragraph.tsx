@@ -1,4 +1,4 @@
-import { ElementConfigI } from '../custom-types'
+import { ElementConfigI } from '../../custom-types'
 // @ts-ignore
 import { Interaction } from '@project-r/styleguide'
 

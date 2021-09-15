@@ -1,4 +1,9 @@
-import { ElementConfigI, LinkPreviewElement } from '../custom-types'
+import {
+  ChartElement,
+  DataFormType,
+  ElementConfigI,
+  LinkPreviewElement
+} from '../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 // @ts-ignore
 import { Embed } from '@project-r/styleguide/lib/components/Discussion/Internal/Comment/Embed'
@@ -76,13 +81,20 @@ const Component: React.FC<{
   element: LinkPreviewElement
 }> = ({ attributes, children, element }) => (
   <div {...attributes} contentEditable={false}>
-    <LinkPreview path={element.src.replace(PUBLIC_BASE_URL, '')} />
+    {element.src && (
+      <LinkPreview path={element.src.replace(PUBLIC_BASE_URL, '')} />
+    )}
     {children}
   </div>
 )
 
+const DataForm: DataFormType<ChartElement> = ({ element, setElement }) => (
+  <div>TODO</div>
+)
+
 export const config: ElementConfigI = {
   Component,
+  DataForm,
   attrs: {
     editUi: true
   }

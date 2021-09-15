@@ -14,9 +14,9 @@ import { config as chart } from './chart/chart'
 import { config as chartTitle } from './chart/title'
 import { config as chartLead } from './chart/lead'
 import { config as chartLegend } from './chart/legend'
-import { config as questionnaire } from './questionnaire'
-import { config as questionnaireParagraph } from './questionnaireParagraph'
-import { config as questionnaireChoice } from './questionnaireChoice'
+import { config as questionnaire } from './questionnaire/container'
+import { config as questionnaireParagraph } from './questionnaire/paragraph'
+import { config as questionnaireChoice } from './questionnaire/choice'
 import { config as linkPreview } from './linkPreview'
 
 export const config: ElementsConfig = {

@@ -1,7 +1,13 @@
 // @ts-ignore
 import { Chart } from '@project-r/styleguide/lib/chart'
-import { ChartElement, ElementConfigI } from '../../custom-types'
+import {
+  ChartElement,
+  DataFormType,
+  ElementConfigI,
+  FigureImageElement
+} from '../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
+import ImageInput from '../../Publikator/ImageInput'
 
 const Component: React.FC<{
   attributes: Attributes
@@ -18,6 +24,11 @@ const Component: React.FC<{
   )
 }
 
+const DataForm: DataFormType<ChartElement> = ({ element, setElement }) => (
+  <div>TODO</div>
+)
+
 export const config: ElementConfigI = {
-  Component
+  Component,
+  DataForm
 }

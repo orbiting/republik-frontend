@@ -1,8 +1,6 @@
-import { ElementConfigI } from '../custom-types'
+import { ElementConfigI } from '../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 import { css } from 'glamor'
-import { matchTemplateElement } from './helpers/normalization'
-import { questionnaire } from '../editor/templates/questionnaire'
 
 const styles = {
   container: css({
@@ -21,7 +19,7 @@ const Component: React.FC<{
 
 export const config: ElementConfigI = {
   Component,
-  normalizations: [matchTemplateElement(questionnaire)],
+  structure: ['questionnaireParagraph', 'questionnaireChoice'],
   attrs: {
     disableBreaks: true
   }

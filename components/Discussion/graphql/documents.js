@@ -35,6 +35,15 @@ export const discussionDisplayAuthorQuery = gql`
   ${fragments.discussion}
 `
 
+export const discussionFragmentQuery = gql`
+  query discussionFragment($discussionId: ID!) {
+    discussion(id: $discussionId) {
+      ...Discussion
+    }
+  }
+  ${fragments.discussion}
+`
+
 export const discussionPreferencesQuery = gql`
   query discussionPreferences($discussionId: ID!) {
     me {
@@ -81,6 +90,7 @@ export const discussionQuery = gql`
         includeParent: $includeParent
       ) {
         totalCount
+        resolvedOrderBy
         directTotalCount
         pageInfo {
           hasNextPage

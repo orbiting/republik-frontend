@@ -31,6 +31,7 @@ const styles = {
     borderTopWidth: 1,
     borderTopStyle: 'solid',
     position: 'relative',
+    wordWrap: 'break-word',
     [mediaQueries.mUp]: {
       paddingLeft: CONTENT_PADDING
     }

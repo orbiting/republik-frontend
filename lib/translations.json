@@ -3797,30 +3797,6 @@
       "value": "Bei allen technischen Problemen helfen wir Ihnen gerne so schnell wie möglich per Mail: <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a>"
     },
     {
-      "key": "faq/form/title",
-      "value": "Haben Sie noch eine Frage?"
-    },
-    {
-      "key": "faq/form/question/label",
-      "value": "Ihre Frage"
-    },
-    {
-      "key": "faq/form/question/error",
-      "value": "Ihre Frage, mind. 5 Zeichen"
-    },
-    {
-      "key": "faq/form/question/submit",
-      "value": "Abschicken"
-    },
-    {
-      "key": "faq/form/merci/title",
-      "value": "Vielen Dank für Ihren Input."
-    },
-    {
-      "key": "faq/form/merci/text",
-      "value": "Sie lesen von uns."
-    },
-    {
       "key": "tokenAuthorization/title/existing",
       "value": "Zugriff geben?"
     },

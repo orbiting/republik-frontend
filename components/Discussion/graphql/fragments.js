@@ -40,6 +40,7 @@ export const discussion = gql`
         path
         twitterImage
         template
+        publishDate
         ownDiscussion {
           id
           closed

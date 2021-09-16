@@ -117,7 +117,7 @@ const Sections = ({ t }) => {
                 </a>
               </Link>
             </Meta.Subhead>
-            {section.Paragraph && <section.Paragraph {...section} t={t} />}
+            {section.Paragraph && <section.Paragraph t={t} />}
             {!section.Paragraph && (
               <Meta.P>
                 {t(`marketing/page/sections/description/${section.name}`)}

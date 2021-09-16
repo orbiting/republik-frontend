@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { myUserSubscriptions } from './enhancers'
 import {
+  Editorial,
   plainButtonRule,
   A,
   Interaction,
@@ -141,7 +142,7 @@ const SubscribedAuthors = ({
                 >
                   <div {...styles.author}>
                     <Link href={`/~${author.userDetails.slug}`} passHref>
-                      <A>{author.object.name}</A>
+                      <Editorial.A>{author.object.name}</Editorial.A>
                     </Link>
                   </div>
                   <div {...styles.checkbox}>

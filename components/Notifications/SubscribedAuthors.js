@@ -40,13 +40,6 @@ const styles = {
       marginBottom: 0
     }
   }),
-  userLink: css({
-    color: 'inherit',
-    textDecoration: 'underline',
-    '&:visited': {
-      color: 'inherit'
-    }
-  }),
   checkbox: css({
     display: 'flex',
     flexDirection: 'row',
@@ -148,7 +141,7 @@ const SubscribedAuthors = ({
                 >
                   <div {...styles.author}>
                     <Link href={`/~${author.userDetails.slug}`}>
-                      <A {...styles.userLink}>{author.object.name}</A>
+                      <A>{author.object.name}</A>
                     </Link>
                   </div>
                   <div {...styles.checkbox}>

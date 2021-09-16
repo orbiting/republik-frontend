@@ -40,9 +40,6 @@ const styles = {
       marginBottom: 0
     }
   }),
-  authorLink: css({
-    cursor: 'pointer'
-  }),
   checkbox: css({
     display: 'flex',
     flexDirection: 'row',
@@ -143,8 +140,8 @@ const SubscribedAuthors = ({
                   key={author.object.id}
                 >
                   <div {...styles.author}>
-                    <Link href={`/~${author.userDetails.slug}`}>
-                      <A {...styles.authorLink}>{author.object.name}</A>
+                    <Link href={`/~${author.userDetails.slug}`} passHref>
+                      <A>{author.object.name}</A>
                     </Link>
                   </div>
                   <div {...styles.checkbox}>

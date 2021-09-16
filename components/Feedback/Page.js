@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 import Link from 'next/link'
 import {

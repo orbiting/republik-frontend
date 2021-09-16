@@ -1,5 +1,5 @@
 import React from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { enforceMembership } from '../../components/Auth/withMembership'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { t } from '../../lib/withT'

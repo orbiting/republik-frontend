@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withApollo } from '@apollo/client/react/hoc'
 import debounce from 'lodash/debounce'
 

@@ -1,4 +1,4 @@
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 
 import produce from '../../../../lib/immer'

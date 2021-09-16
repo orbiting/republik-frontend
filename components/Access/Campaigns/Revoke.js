@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 
 import { A, InlineSpinner } from '@project-r/styleguide'
 

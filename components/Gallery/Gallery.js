@@ -1,5 +1,5 @@
 import React from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUIDefault from 'photoswipe/dist/photoswipe-ui-default'
 import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'

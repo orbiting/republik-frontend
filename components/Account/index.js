@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { max } from 'd3-array'
 import { css } from 'glamor'

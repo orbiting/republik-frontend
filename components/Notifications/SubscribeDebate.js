@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import { Radio, inQuotes } from '@project-r/styleguide'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
 

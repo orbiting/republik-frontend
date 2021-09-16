@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import {
   Container,
   RawHtml,

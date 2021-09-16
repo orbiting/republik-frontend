@@ -1,6 +1,6 @@
 import React, { Fragment, useRef } from 'react'
 import { withRouter } from 'next/router'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 

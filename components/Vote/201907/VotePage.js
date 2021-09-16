@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { Body, Heading, Section, Small, Title } from '../text'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 import Frame from '../../Frame'

@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react'
 import AutosizeInput from 'react-textarea-autosize'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import { Field, Interaction, mediaQueries } from '@project-r/styleguide'

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withApollo } from '@apollo/client/react/hoc'
 import { css, merge } from 'glamor'
 import debounce from 'lodash/debounce'

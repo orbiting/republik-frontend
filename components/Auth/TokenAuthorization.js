@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import { css } from 'glamor'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 

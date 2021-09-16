@@ -7,7 +7,7 @@ import {
   mediaQueries,
   useColorContext
 } from '@project-r/styleguide'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import withSearchRouter from './withSearchRouter'
 import { SUPPORTED_SORT } from './constants'
 

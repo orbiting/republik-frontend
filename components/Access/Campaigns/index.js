@@ -1,5 +1,5 @@
 import React from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import gql from 'graphql-tag'
 import { graphql } from '@apollo/client/react/hoc'
 

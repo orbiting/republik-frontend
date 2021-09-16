@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'

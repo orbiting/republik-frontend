@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { withRouter } from 'next/router'
 import { CalloutMenu, IconButton } from '@project-r/styleguide'

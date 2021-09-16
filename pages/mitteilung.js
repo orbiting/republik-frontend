@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 import Head from 'next/head'
 
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import withMe from '../lib/apollo/withMe'

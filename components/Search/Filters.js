@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { withAggregations } from './enhancers'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import withSearchRouter from './withSearchRouter'
 import {
   LATEST_SORT,

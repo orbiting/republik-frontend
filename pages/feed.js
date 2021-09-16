@@ -1,5 +1,5 @@
 import React from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import Feed from '../components/Feed'
 import { enforceMembership } from '../components/Auth/withMembership'
 import withMe from '../lib/apollo/withMe'

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { css } from 'glamor'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 
 import Form from './Form'
 import Filters from './Filters'

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import ActionBar from '../ActionBar'

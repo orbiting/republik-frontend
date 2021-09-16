@@ -3,7 +3,7 @@ import { css } from 'glamor'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import {
   graphql,
   withApollo,

@@ -7,7 +7,7 @@ import {
   OverlayToolbarClose
 } from '@project-r/styleguide'
 import Discussion from './Discussion'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'

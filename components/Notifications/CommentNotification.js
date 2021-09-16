@@ -1,6 +1,6 @@
 import React from 'react'
 import { CommentTeaser, useColorContext } from '@project-r/styleguide'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import withT from '../../lib/withT'
 import CommentLink from '../Discussion/CommentLink'
 import SubscribeCallout from './SubscribeCallout'

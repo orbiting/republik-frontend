@@ -14,7 +14,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 import { AddIcon, RemoveIcon } from '@project-r/styleguide/icons'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'

@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react'
 import withT from '../../lib/withT'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import withInNativeApp from '../../lib/withInNativeApp'
 
 import { PackageItem, PackageBuffer } from '../Pledge/Accordion'

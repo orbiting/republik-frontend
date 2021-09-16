@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Checkbox, mediaQueries } from '@project-r/styleguide'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import {
   withSubToDoc,
   withUnsubFromDoc,

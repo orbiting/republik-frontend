@@ -11,7 +11,7 @@ import {
   RawHtml,
   useColorContext
 } from '@project-r/styleguide'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'

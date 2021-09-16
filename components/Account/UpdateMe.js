@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { intersperse } from '../../lib/utils/helpers'
 import { errorToString } from '../../lib/utils/errors'
 import { swissTime } from '../../lib/utils/format'

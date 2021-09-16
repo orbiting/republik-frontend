@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import withT from '../../lib/withT'
 import {
   Loader,

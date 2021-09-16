@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import { format } from 'url'

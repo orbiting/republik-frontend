@@ -7,7 +7,7 @@ import {
   usePrevious,
   useColorContext
 } from '@project-r/styleguide'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
 import { DEFAULT_SORT } from './constants'

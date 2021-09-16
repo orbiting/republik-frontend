@@ -1,5 +1,5 @@
 import DiscussionPage from '../../../components/Vote/201907/DiscussionPage'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { enforceMembership } from '../../../components/Auth/withMembership'
 import withMe from '../../../lib/apollo/withMe'
 

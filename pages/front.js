@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import { Loader } from '@project-r/styleguide'

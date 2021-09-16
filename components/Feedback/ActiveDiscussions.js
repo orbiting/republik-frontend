@@ -1,6 +1,6 @@
 import React, { Component, useMemo } from 'react'
 import { css, merge } from 'glamor'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 
 import ArticleItem from './ArticleItem'
 import { withActiveDiscussions } from './enhancers'

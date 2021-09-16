@@ -1,6 +1,6 @@
 import { css } from 'glamor'
 import React, { useState, useEffect } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { useColorContext, mediaQueries } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'

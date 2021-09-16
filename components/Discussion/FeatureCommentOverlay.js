@@ -13,7 +13,7 @@ import {
   CommentTeaser,
   Checkbox
 } from '@project-r/styleguide'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import AutosizeInput from 'react-textarea-autosize'
 

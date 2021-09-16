@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import gql from 'graphql-tag'
 import { css, merge } from 'glamor'

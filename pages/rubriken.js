@@ -1,5 +1,5 @@
 import React from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import Frame from '../components/Frame'
 import Index from '../components/Sections/Index'
 import withT from '../lib/withT'

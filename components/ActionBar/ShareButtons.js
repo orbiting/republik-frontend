@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import { css } from 'glamor'
 import { IconButton } from '@project-r/styleguide'
 import {

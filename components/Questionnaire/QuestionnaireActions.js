@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { css, merge } from 'glamor'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 
 import { Button, A, InlineSpinner } from '@project-r/styleguide'
 

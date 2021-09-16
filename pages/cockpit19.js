@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { flowRight as compose } from 'lodash'
+import compose from 'lodash/flowRight'
 import Router, { withRouter } from 'next/router'
 import { max } from 'd3-array'
 

@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react'
 import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import {
   Button,

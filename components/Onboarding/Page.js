@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import compose from 'lodash/flowRight'
 import { Query } from '@apollo/client/react/components'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
 

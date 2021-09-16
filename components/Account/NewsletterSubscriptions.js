@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import compose from 'lodash/flowRight'
 import { Query, Mutation } from '@apollo/client/react/components'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import ErrorMessage from '../ErrorMessage'

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
 import compose from 'lodash/flowRight'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { css } from 'glamor'
 import { format } from 'url'
 

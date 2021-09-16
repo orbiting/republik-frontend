@@ -142,9 +142,9 @@ export const withCommentData = graphql(
 
 const dynamicComponentRequire = createRequire().alias({
   'react-apollo': {
-    // TODO: ApolloContext is not exported from @apollo/client
-    // However it is used in react-apollo.
-    // ApolloContext
+    // Reexport react-apollo
+    // (work around until all dynamic components are updated)
+    // ApolloContext is no longer available but is exported in old versions of react-apollo
     ApolloConsumer,
     ApolloProvider,
     Query,
@@ -158,7 +158,8 @@ const dynamicComponentRequire = createRequire().alias({
     getDataFromTree,
     renderToStringWithData,
     compose
-  }, // TODO: Fix React-Apollo export
+  },
+  // Reexport graphql-tag to be used by dynamic-components
   'graphql-tag': {
     gql,
     resetCaches,

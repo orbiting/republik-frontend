@@ -1,5 +1,5 @@
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 export const newsletterFragment = `
   fragment NewsletterInfo on NewsletterSubscription {

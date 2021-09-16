@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { graphql } from '@apollo/client/react/hoc'
 
 const submitAnswerMutation = gql`

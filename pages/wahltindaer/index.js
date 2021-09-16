@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'next/router'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { descending } from 'd3-array'
 import { css } from 'glamor'
 

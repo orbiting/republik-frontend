@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'

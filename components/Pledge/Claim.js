@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import SignIn from '../Auth/SignIn'
 import ErrorMessage from '../ErrorMessage'
 import { gotoMerci } from './Merci'

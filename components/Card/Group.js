@@ -6,7 +6,7 @@ import { useGesture } from 'react-use-gesture/dist/index.js'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { useRouter } from 'next/router'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import {
   Editorial,

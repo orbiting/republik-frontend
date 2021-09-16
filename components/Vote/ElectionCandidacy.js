@@ -16,7 +16,7 @@ import {
 import withT from '../../lib/withT'
 import FieldSet from '../FieldSet'
 
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { formatDate, swissTime } from '../../lib/utils/format'

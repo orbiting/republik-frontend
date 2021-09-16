@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'

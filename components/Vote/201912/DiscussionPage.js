@@ -6,7 +6,7 @@ import { mediaQueries, In } from '@project-r/styleguide'
 import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import { VOTING_COOP_201912_REPORT_SLUG } from '../constants'
 import voteT from '../voteT'

@@ -1,6 +1,6 @@
 import React from 'react'
 import compose from 'lodash/flowRight'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import { Center, Interaction } from '@project-r/styleguide'
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { withRouter } from 'next/router'
 import { BookmarkIcon, BookmarkBorderIcon } from '@project-r/styleguide/icons'
 import { useColorContext, IconButton } from '@project-r/styleguide'

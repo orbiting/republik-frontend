@@ -3,7 +3,7 @@ import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { ascending } from 'd3-array'
 import { css } from 'glamor'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import Link from '../Link/Href'
 import withT from '../../lib/withT'
 

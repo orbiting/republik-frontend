@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql, withApollo } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'

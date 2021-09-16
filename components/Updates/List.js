@@ -1,7 +1,7 @@
 import React from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { withRouter } from 'next/router'
 
 import Loader from '../Loader'

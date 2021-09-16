@@ -14,7 +14,7 @@ import {
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import PropTypes from 'prop-types'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { css } from 'glamor'
 import { FavoriteIcon, StarsIcon } from '@project-r/styleguide/icons'
 import ElectionBallot from './ElectionBallot'

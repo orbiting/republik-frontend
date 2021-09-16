@@ -14,7 +14,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { swissNumbers } from '../../lib/utils/format'
 import VoteCountdown from './VoteCountdown'
 

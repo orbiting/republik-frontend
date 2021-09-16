@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Mutation } from '@apollo/client/react/components'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { css, merge } from 'glamor'
 
 import { TESTIMONIAL_IMAGE_SIZE } from '../../constants'

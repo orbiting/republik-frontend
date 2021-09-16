@@ -27,7 +27,7 @@ import {
   isEmptyAddress
 } from '../../components/Account/AddressForm'
 import FieldSet from '../../components/FieldSet'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import DetailsForm from '../../components/Account/DetailsForm'
 import {
   Interaction,

@@ -16,7 +16,7 @@ import {
 import { timeFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
 import voteT from './voteT'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import ErrorMessage from '../ErrorMessage'

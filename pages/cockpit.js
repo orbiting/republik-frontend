@@ -3,7 +3,7 @@ import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import Router, { withRouter } from 'next/router'
 import { extent } from 'd3-array'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { timeMonth } from 'd3-time'
 
 import {

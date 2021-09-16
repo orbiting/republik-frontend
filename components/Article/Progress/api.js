@@ -1,6 +1,6 @@
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import { userProgressConsentFragment } from '../../../lib/apollo/withMe'
 

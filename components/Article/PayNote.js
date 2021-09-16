@@ -18,7 +18,7 @@ import { useRouter } from 'next/router'
 import compose from 'lodash/flowRight'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import withMe from '../../lib/apollo/withMe'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 

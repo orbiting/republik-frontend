@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import compose from 'lodash/flowRight'
 import { withApollo } from '@apollo/client/react/hoc'
 import { CloseIcon } from '@project-r/styleguide/icons'

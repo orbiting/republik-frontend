@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { css } from 'glamor'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import {
   Loader,
   LazyLoad,

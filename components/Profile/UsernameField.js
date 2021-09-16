@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import compose from 'lodash/flowRight'
 import { withApollo } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import withT from '../../lib/withT'
 import { errorToString } from '../../lib/utils/errors'
 

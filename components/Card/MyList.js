@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { csvFormat } from 'd3-dsv'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 

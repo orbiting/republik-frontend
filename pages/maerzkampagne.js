@@ -5,7 +5,7 @@ import { css } from 'glamor'
 
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import { countFormat } from '../lib/utils/format'
 

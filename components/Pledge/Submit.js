@@ -2,7 +2,7 @@ import React, { Fragment, Component, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import isEmail from 'validator/lib/isEmail'
 import Link from 'next/link'
 

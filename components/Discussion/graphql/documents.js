@@ -8,7 +8,7 @@
  * Fragments that are used by these documents are stored in a separate file.
  */
 
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import * as fragments from './fragments'
 
 /*

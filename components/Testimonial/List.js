@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { css, merge } from 'glamor'
 import { max } from 'd3-array'
 

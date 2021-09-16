@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import AddressForm, { COUNTRIES } from '../Account/AddressForm'
 import FieldSet from '../FieldSet'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { Button, InlineSpinner, Interaction } from '@project-r/styleguide'

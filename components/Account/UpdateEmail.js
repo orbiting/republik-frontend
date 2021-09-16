@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import isEmail from 'validator/lib/isEmail'
 
 import { errorToString } from '../../lib/utils/errors'

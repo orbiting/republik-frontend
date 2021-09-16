@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Mutation } from '@apollo/client/react/components'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { css } from 'glamor'
 
 import { Interaction, mediaQueries, Button, A } from '@project-r/styleguide'

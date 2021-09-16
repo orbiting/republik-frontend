@@ -136,7 +136,6 @@
     "express-basic-auth": "^1.2.0",
     "glamor": "^2.20.40",
     "graphql": "^14.7.0",
-    "graphql-tag": "^2.11.0",
     "helmet": "^3.23.3",
     "immer": "^9.0.1",
     "isomorphic-unfetch": "^3.1.0",

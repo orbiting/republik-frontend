@@ -11,8 +11,15 @@ import {
   withQuery,
   withSubscription
 } from '@apollo/client/react/hoc'
-import { ApolloConsumer, ApolloProvider } from '@apollo/client'
-import * as graphqlTag from 'graphql-tag'
+import {
+  ApolloConsumer,
+  ApolloProvider,
+  gql,
+  resetCaches,
+  disableFragmentWarnings,
+  enableExperimentalFragmentVariables,
+  disableExperimentalFragmentVariables
+} from '@apollo/client'
 
 import {
   Center,
@@ -81,7 +88,6 @@ import { cleanAsPath } from '../../lib/utils/link'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
-import gql from 'graphql-tag'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import {
@@ -153,7 +159,13 @@ const dynamicComponentRequire = createRequire().alias({
     renderToStringWithData,
     compose
   }, // TODO: Fix React-Apollo export
-  'graphql-tag': graphqlTag
+  'graphql-tag': {
+    gql,
+    resetCaches,
+    disableFragmentWarnings,
+    enableExperimentalFragmentVariables,
+    disableExperimentalFragmentVariables
+  }
 })
 
 const getSchemaCreator = template => {

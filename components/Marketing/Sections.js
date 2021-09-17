@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 
 import {
@@ -6,7 +6,8 @@ import {
   Meta,
   useColorContext,
   mediaQueries,
-  FigureImage
+  FigureImage,
+  Editorial
 } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
@@ -15,9 +16,23 @@ import Link from 'next/link'
 
 const sectionContent = [
   {
+    name: 'covid19',
+    Paragraph: ({ t }) => (
+      <Meta.P>
+        {t(`marketing/page/sections/description/covid19`)}{' '}
+        <Link href='/format/covid-19-uhr-newsletter' passHref>
+          <Editorial.A>{t(`marketing/page/sections/link/covid19`)}</Editorial.A>
+        </Link>
+      </Meta.P>
+    ),
+    href: '/format/covid-19-uhr-newsletter',
+    image: '/static/marketing/covid19.png?size=933x933',
+    color: '#D44438'
+  },
+  {
     name: 'briefings',
     href: '/briefings',
-    image: '/static/marketing/briefings.png?size=2000x2000',
+    image: '/static/marketing/briefings.png?size=933x933',
     color: '#0A99B8'
   },
   {
@@ -30,14 +45,14 @@ const sectionContent = [
   {
     name: 'serien',
     href: '/serien',
-    image: '/static/marketing/serien.png?size=2000x2000',
-    imageDark: '/static/marketing/serien-dark.png?size=2000x2000',
+    image: '/static/marketing/serien.png?size=500x500',
+    imageDark: '/static/marketing/serien-dark.png?size=500x500',
     color: '#000000'
   },
   {
     name: 'audio',
     href: '/audio',
-    image: '/static/marketing/audio.png?size=2000x2000',
+    image: '/static/marketing/audio.png?size=1426x1426',
     color: '#000000'
   }
 ]
@@ -86,9 +101,12 @@ const Sections = ({ t }) => {
                 </a>
               </Link>
             </Meta.Subhead>
-            <Meta.P>
-              {t(`marketing/page/sections/description/${section.name}`)}
-            </Meta.P>
+            {section.Paragraph && <section.Paragraph t={t} />}
+            {!section.Paragraph && (
+              <Meta.P>
+                {t(`marketing/page/sections/description/${section.name}`)}
+              </Meta.P>
+            )}
           </div>
         </div>
       ))}

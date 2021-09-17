@@ -5,9 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const { NODE_ENV, CDN_FRONTEND_BASE_URL } = process.env
 
 module.exports = withBundleAnalyzer({
-  future: {
-    webpack5: true
-  },
+  webpack5: true,
   webpack: config => {
     config.externals = config.externals || {}
     config.externals['lru-cache'] = 'lru-cache'

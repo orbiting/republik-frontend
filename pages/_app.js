@@ -129,10 +129,6 @@ WebApp.getInitialProps = async ({ ctx, AppTree }) => {
       console.error('Error while running `getDataFromTree`', error)
     }
 
-    // getDataFromTree does not call componentWillUnmount
-    // head side effect therefore need to be cleared manually
-    Head.rewind()
-
     // Extract query data from the Apollo store
     props[APOLLO_STATE_PROP_NAME] = apolloClient.cache.extract()
   }

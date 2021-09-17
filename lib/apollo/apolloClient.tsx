@@ -1,5 +1,9 @@
 import { useMemo } from 'react'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  InMemoryCache,
+  NormalizedCacheObject
+} from '@apollo/client'
 import { createLink, dataIdFromObject } from './initApollo'
 import deepMerge from '../deepMerge'
 import {
@@ -22,9 +26,16 @@ if (!process.browser) {
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
-let apolloClient
+let apolloClient: ApolloClient<NormalizedCacheObject> = null
 
-function createApolloClient(options = {}) {
+type Options = {
+  headers?: any
+  onResponse?: any
+}
+
+function createApolloClient(
+  options: Options = {}
+): ApolloClient<NormalizedCacheObject> {
   return new ApolloClient({
     connectToDevTools: process.browser && isDev,
     ssrMode: !process.browser,
@@ -76,7 +87,10 @@ function createApolloClient(options = {}) {
  * @param options
  * @returns {ApolloClient<unknown>|ApolloClient<any>}
  */
-export function initializeApollo(initialCache = null, options = {}) {
+export function initializeApollo(
+  initialCache: NormalizedCacheObject = null,
+  options: Options = {}
+): ApolloClient<NormalizedCacheObject> {
   const _apolloClient = apolloClient ?? createApolloClient(options)
 
   if (initialCache) {
@@ -114,18 +128,6 @@ export function initializeApollo(initialCache = null, options = {}) {
 }
 
 /**
- * Write the apollo-cache to the pageProps to allow the client
- * to use the apollo-cache from the SSG/SSR process
- * @param client Apollo Client that will pass it's cache to the client
- * @param pageProps
- */
-export function addApolloState(client, pageProps) {
-  if (pageProps?.props) {
-    pageProps[APOLLO_STATE_PROP_NAME] = client.cache.extract()
-  }
-}
-
-/**
  * Hook to retrieve an Apollo Client instance.
  * The pageProps may contain the Apollo Client, that was generated
  * during the rendering process on the server (SSG/SSR).
@@ -135,7 +137,12 @@ export function addApolloState(client, pageProps) {
  * @param pageProps
  * @returns {ApolloClient<unknown>|ApolloClient<any>}
  */
-export function useApollo(pageProps) {
-  const apolloCache = pageProps ? pageProps[APOLLO_STATE_PROP_NAME] : null
+export function useApollo<P extends unknown>(
+  pageProps: P
+): ApolloClient<NormalizedCacheObject> {
+  const apolloCache =
+    pageProps && pageProps[APOLLO_STATE_PROP_NAME]
+      ? pageProps[APOLLO_STATE_PROP_NAME]
+      : null
   return useMemo(() => initializeApollo(apolloCache), [apolloCache])
 }

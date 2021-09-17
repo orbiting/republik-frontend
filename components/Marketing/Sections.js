@@ -26,7 +26,7 @@ const sectionContent = [
       </Meta.P>
     ),
     href: '/format/covid-19-uhr-newsletter',
-    image: '/static/marketing/covid19.png?size=933x933',
+    image: '/static/marketing/covid19_wave3.png?size=807x807',
     color: '#D44438'
   },
   {

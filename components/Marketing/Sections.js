@@ -6,7 +6,8 @@ import {
   Meta,
   useColorContext,
   mediaQueries,
-  FigureImage
+  FigureImage,
+  Editorial
 } from '@project-r/styleguide'
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
@@ -16,31 +17,14 @@ import Link from 'next/link'
 const sectionContent = [
   {
     name: 'covid19',
-    Paragraph: ({ t }) => {
-      const [colorScheme] = useColorContext()
-
-      const linkRule = useMemo(
-        () =>
-          css({
-            color: colorScheme.getCSSColor('text'),
-            '@media (hover)': {
-              ':hover': {
-                color: colorScheme.getCSSColor('textSoft')
-              }
-            }
-          }),
-        [colorScheme]
-      )
-
-      return (
-        <Meta.P>
-          {t(`marketing/page/sections/description/covid19`)}{' '}
-          <Link href='/format/covid-19-uhr-newsletter' passHref>
-            <a {...linkRule}>{t(`marketing/page/sections/link/covid19`)}</a>
-          </Link>
-        </Meta.P>
-      )
-    },
+    Paragraph: ({ t }) => (
+      <Meta.P>
+        {t(`marketing/page/sections/description/covid19`)}{' '}
+        <Link href='/format/covid-19-uhr-newsletter' passHref>
+          <Editorial.A>{t(`marketing/page/sections/link/covid19`)}</Editorial.A>
+        </Link>
+      </Meta.P>
+    ),
     href: '/format/covid-19-uhr-newsletter',
     image: '/static/marketing/covid19.png?size=933x933',
     color: '#D44438'

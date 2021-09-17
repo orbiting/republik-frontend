@@ -20,6 +20,8 @@ import {
   enableExperimentalFragmentVariables,
   disableExperimentalFragmentVariables
 } from '@apollo/client'
+// Import @apollo/client to share with dynamic-components
+import * as apolloClient from '@apollo/client'
 
 import {
   Center,
@@ -141,6 +143,8 @@ export const withCommentData = graphql(
 )
 
 const dynamicComponentRequire = createRequire().alias({
+  // Export new apollo-client peer dependency
+  '@apollo/client': apolloClient,
   'react-apollo': {
     // Reexport react-apollo
     // (work around until all dynamic components are updated)

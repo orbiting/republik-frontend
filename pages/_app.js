@@ -87,9 +87,8 @@ const WebApp = ({
 
 export default WebApp
 
-WebApp.getInitialProps = async appCtx => {
-  const { ctx, AppTree } = appCtx
-  let props = {}
+WebApp.getInitialProps = async ({ ctx, AppTree }) => {
+  const props = {}
 
   // We forward the accept header for webp detection
   // - never forward cookie to client!
@@ -102,16 +101,7 @@ WebApp.getInitialProps = async appCtx => {
 
   // Run all GraphQL queries in the component tree
   // and extract the resulting data
-  let apolloCache
   if (!process.browser) {
-    /*const apollo = initApollo(undefined, ctx.req.headers, response => {
-      // headers.raw() is a node-fetch specific API and apparently the only way to get multiple cookies
-      // https://github.com/bitinn/node-fetch/issues/251
-      const cookies = response.headers.raw()['set-cookie']
-      if (cookies) {
-        ctx.res.set('Set-Cookie', cookies)
-      }
-    })*/
     const apolloClient = initializeApollo(null, {
       headers: ctx.req.headers,
       onResponse: response => {
@@ -144,9 +134,7 @@ WebApp.getInitialProps = async appCtx => {
     Head.rewind()
 
     // Extract query data from the Apollo store
-    apolloCache = apolloClient.cache.extract()
-    props[APOLLO_STATE_PROP_NAME] = apolloCache
-    //console.debug('getInitialProps cache state', apolloCache)
+    props[APOLLO_STATE_PROP_NAME] = apolloClient.cache.extract()
   }
 
   return {

@@ -7,6 +7,28 @@ import Document, {
 } from 'next/document'
 import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces, DEFAULT_FONT_SIZE } from '@project-r/styleguide'
+import { reportError } from '../lib/errors'
+
+if (typeof window !== 'undefined') {
+  const prevErrorHandler = window.onerror
+  window.onerror = (...args) => {
+    prevErrorHandler && prevErrorHandler(...args)
+    const [msg, url, lineNo, columnNo, error] = args
+    reportError(
+      'onerror',
+      (error && error.stack) || [msg, url, lineNo, columnNo].join('\n')
+    )
+  }
+  const prevRejectionHandler = window.onunhandledrejection
+  window.onunhandledrejection = (...args) => {
+    prevRejectionHandler && prevRejectionHandler(...args)
+    const [event] = args
+    reportError(
+      'onunhandledrejection',
+      (event.reason && event.reason.stack) || event.reason
+    )
+  }
+}
 
 // filter our preload links (js files)
 // see https://github.com/zeit/next.js/issues/5054

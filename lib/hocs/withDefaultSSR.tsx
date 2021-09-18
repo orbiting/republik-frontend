@@ -4,26 +4,59 @@ import {
   initializeApollo
 } from '../apollo/apolloClient'
 import { getDataFromTree } from '@apollo/client/react/ssr'
-import { NextPage } from 'next'
+import { NextPage, NextPageContext } from 'next'
+import { BasePageProps } from '../../pages/_app'
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 
-function withDefaultSSR(Page: NextPage): NextPage {
-  Page.getInitialProps = async ctx => {
-    console.debug('Running getInitialProps')
+/**
+ * Default Props used when rendering a page using SSR
+ */
+type DefaultSSRPageProps<P = unknown> = BasePageProps<P> & {
+  /**
+   * Provided ApolloClient used to populate the cache on when doing SSR
+   */
+  providedApolloClient?: ApolloClient<NormalizedCacheObject>
+  /**
+   * Request headers
+   */
+  headers?: {
+    accept: string
+    userAgent: string
+  }
+  /**
+   * NextPageContext available during SSR
+   */
+  ctx?: NextPageContext
+}
+
+/**
+ * HOC that adds a default getInitialProps method to the page-component.
+ * The getInitialProps method traverses the Document-Tree during SSR and
+ * runs all GraphQL queries (for the logged in user).
+ * @param Page
+ */
+function withDefaultSSR(
+  Page: NextPage<DefaultSSRPageProps>
+): NextPage<DefaultSSRPageProps> {
+  async function getInitialProps(
+    ctx: NextPageContext
+  ): Promise<DefaultSSRPageProps> {
     const { AppTree } = ctx
-    const props = {}
-
-    // We forward the accept header for webp detection
-    // - never forward cookie to client!
-    const headers = !process.browser
-      ? {
-          accept: ctx.req.headers.accept,
-          userAgent: ctx.req.headers['user-agent']
-        }
-      : undefined
+    const props: DefaultSSRPageProps = {}
 
     // Run all GraphQL queries in the component tree
     // and extract the resulting data
     if (!process.browser) {
+      // We forward the accept header for webp detection
+      // - never forward cookie to client!
+      const headers = !process.browser
+        ? {
+            accept: ctx.req.headers.accept,
+            userAgent: ctx.req.headers['user-agent']
+          }
+        : undefined
+      props['headers'] = headers
+
       const apolloClient = initializeApollo(null, {
         headers: ctx.req.headers,
         onResponse: response => {
@@ -35,8 +68,9 @@ function withDefaultSSR(Page: NextPage): NextPage {
           }
         }
       })
+
       try {
-        // Run all GraphQL queries
+        // Run all GraphQL queries with a provided apolloClient
         await getDataFromTree(
           <AppTree
             pageProps={{
@@ -54,20 +88,13 @@ function withDefaultSSR(Page: NextPage): NextPage {
       }
 
       // Extract query data from the Apollo store
-      console.debug(
-        'Finished Walking of tree',
-        JSON.stringify(apolloClient.cache.extract()).length
-      )
       props[APOLLO_STATE_PROP_NAME] = apolloClient.cache.extract()
     }
-    props['headers'] = headers
 
-    console.debug('keys in props', Object.keys(props))
-
-    return {
-      pageProps: props
-    }
+    return props
   }
+
+  Page.getInitialProps = getInitialProps
 
   return Page
 }

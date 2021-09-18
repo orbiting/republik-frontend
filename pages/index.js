@@ -12,6 +12,7 @@ import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import { useInNativeApp } from '../lib/withInNativeApp'
 
 import SignInPage from './anmelden'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const IndexPage = ({ t, isMember, router }) => {
   const { inNativeApp } = useInNativeApp()
@@ -50,4 +51,4 @@ const IndexPage = ({ t, isMember, router }) => {
 
 const EnhancedPage = compose(withMembership, withT, withRouter)(IndexPage)
 
-export default EnhancedPage
+export default withDefaultSSR(EnhancedPage)

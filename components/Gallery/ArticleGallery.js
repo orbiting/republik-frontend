@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import { imageSizeInfo } from 'mdast-react-render/lib/utils'
 import { postMessage } from '../../lib/withInNativeApp'
 import { removeQuery } from '../../lib/utils/link'
+import { MIN_GALLERY_IMG_WIDTH } from '@project-r/styleguide'
 
 export const mdastToString = node =>
   node
@@ -13,15 +14,23 @@ export const mdastToString = node =>
       ''
     : ''
 
-const shouldInclude = el =>
-  el &&
-  el.identifier === 'FIGURE' &&
-  get(el, 'data.excludeFromGallery', false) !== true
+const getGroupFigures = group => {
+  const nodes = group.children
+  if (!nodes || nodes.length < 2) return []
+  const captionMdast = nodes[nodes.length - 1]
+  const figures = nodes.slice(0, nodes.length - 1)
+  return figures.map(f => ({
+    ...f,
+    children: f.children.concat(captionMdast)
+  }))
+}
 
 const findFigures = (node, acc = []) => {
   if (node && node.children && node.children.length > 0) {
     node.children.forEach(c => {
-      if (shouldInclude(c)) {
+      if (c.identifier === 'FIGUREGROUP') {
+        acc.push(...getGroupFigures(c))
+      } else if (c.identifier === 'FIGURE') {
         acc.push(c)
       } else {
         findFigures(c, acc)
@@ -35,6 +44,10 @@ const getImageProps = node => {
   const url = get(node, 'children[0].children[0].url', '')
   const urlDark = get(node, 'children[0].children[2].url')
   const captionMdast = get(node, 'children[1].children', [])
+  const included =
+    !get(node, 'data.excludeFromGallery', false) &&
+    imageSizeInfo(url) &&
+    imageSizeInfo(url).width > MIN_GALLERY_IMG_WIDTH
 
   // Children of type "emphasis" ought to be caption byline
   // @see https://github.com/orbiting/styleguide/blob/198f43845d282b498baafbc1e5684b90857bbb4f/src/templates/Article/base.js#L222
@@ -52,14 +65,15 @@ const getImageProps = node => {
     srcDark: urlDark,
     title: true, // otherwise PhotoSwipe won't call addCaptionHTMLFn
     caption,
-    byLine
+    byLine,
+    included
   }
 }
 
 const getGalleryItems = ({ article }) => {
   return findFigures(article.content)
     .map(getImageProps)
-    .filter(i => imageSizeInfo(i.src) && imageSizeInfo(i.src).width > 600)
+    .filter(i => i.included)
 }
 
 class ArticleGallery extends Component {
@@ -108,6 +122,7 @@ class ArticleGallery extends Component {
   }
 
   static getDerivedStateFromProps(nextProps) {
+    console.log(getGalleryItems(nextProps))
     return {
       galleryItems: getGalleryItems(nextProps)
     }

@@ -4,6 +4,7 @@ import Gallery from './Gallery'
 import get from 'lodash/get'
 import { imageSizeInfo } from 'mdast-react-render/lib/utils'
 import { postMessage } from '../../lib/withInNativeApp'
+import { removeQuery } from '../../lib/utils/link'
 
 export const mdastToString = node =>
   node
@@ -32,6 +33,7 @@ const findFigures = (node, acc = []) => {
 
 const getImageProps = node => {
   const url = get(node, 'children[0].children[0].url', '')
+  const urlDark = get(node, 'children[0].children[2].url')
   const captionMdast = get(node, 'children[1].children', [])
 
   // Children of type "emphasis" ought to be caption byline
@@ -47,6 +49,7 @@ const getImageProps = node => {
 
   return {
     src: url,
+    srcDark: urlDark,
     title: true, // otherwise PhotoSwipe won't call addCaptionHTMLFn
     caption,
     byLine
@@ -58,8 +61,6 @@ const getGalleryItems = ({ article }) => {
     .map(getImageProps)
     .filter(i => imageSizeInfo(i.src) && imageSizeInfo(i.src).width > 600)
 }
-
-const removeQuery = (url = '') => url.split('?')[0]
 
 class ArticleGallery extends Component {
   constructor(props) {

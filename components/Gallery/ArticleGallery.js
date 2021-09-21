@@ -17,11 +17,11 @@ export const mdastToString = node =>
 const getGroupFigures = group => {
   const nodes = group.children
   if (!nodes || nodes.length < 2) return []
-  const captionMdast = nodes[nodes.length - 1]
-  const figures = nodes.slice(0, nodes.length - 1)
+  const groupCaptionMdast = nodes.find(n => n.type === 'paragraph')
+  const figures = nodes.slice(0, nodes.length - (groupCaptionMdast ? 1 : 0))
   return figures.map(f => ({
     ...f,
-    children: f.children.concat(captionMdast)
+    children: f.children.concat(groupCaptionMdast)
   }))
 }
 

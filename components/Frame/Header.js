@@ -1,13 +1,8 @@
-import React, { useMemo, useState, useRef, useEffect } from 'react'
+import React, { useMemo, useState, forwardRef } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
-import {
-  Logo,
-  mediaQueries,
-  HeaderHeightProvider,
-  useColorContext
-} from '@project-r/styleguide'
+import { Logo, mediaQueries, useColorContext } from '@project-r/styleguide'
 import { BackIcon } from '@project-r/styleguide/icons'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
@@ -28,7 +23,6 @@ import SecondaryNav from './SecondaryNav'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  SUBHEADER_HEIGHT,
   ZINDEX_POPOVER,
   LOGO_WIDTH,
   LOGO_PADDING,
@@ -42,374 +36,279 @@ const BACK_BUTTON_SIZE = 24
 
 let routeChangeStarted
 
-const Header = ({
-  isAnyNavExpanded,
-  setIsAnyNavExpanded,
-  headerOffset,
-  setHeaderOffset,
-  hasSecondaryNav,
-  inNativeApp,
-  inNativeIOSApp,
-  me,
-  t,
-  secondaryNav,
-  router,
-  formatColor,
-  pullable = true,
-  hasOverviewNav,
-  stickySecondaryNav,
-  isOnMarketingPage,
-  pageColorSchemeKey
-}) => {
-  const [colorScheme] = useColorContext()
-  const [isMobile, setIsMobile] = useState()
-  const [scrollableHeaderHeight, setScrollableHeaderHeight] = useState(
-    HEADER_HEIGHT_MOBILE
-  )
-  const [expandedNav, setExpandedNav] = useState(null)
-  const [userNavExpanded, setUserNavExpanded] = useState(false)
-
-  const fixedRef = useRef()
-  const diff = useRef(0)
-  const lastY = useRef()
-  const lastDiff = useRef()
-
-  const backButton = !hasOverviewNav && inNativeIOSApp && me
-
-  const toggleExpanded = target => {
-    if (target === expandedNav) {
-      setIsAnyNavExpanded(false)
-      setExpandedNav(null)
-    } else if (isAnyNavExpanded) {
-      setExpandedNav(target)
-    } else {
-      setIsAnyNavExpanded(!isAnyNavExpanded)
-      setExpandedNav(target)
-    }
-  }
-
-  const openUserNavOverMainNav = () => {
-    setUserNavExpanded(true)
-    setTimeout(() => {
-      setExpandedNav('user')
-    }, TRANSITION_MS)
-  }
-
-  const closeHandler = () => {
-    if (isAnyNavExpanded) {
-      setIsAnyNavExpanded(false)
-      setExpandedNav(null)
-      setUserNavExpanded(false)
-    }
-  }
-
-  const goTo = href => e => {
-    if (shouldIgnoreClick(e)) {
-      return
-    }
-    e.preventDefault()
-    if (cleanAsPath(router.asPath) === href) {
-      scrollTop()
-      closeHandler()
-    } else {
-      router.push(href)
-    }
-  }
-
-  useEffect(() => {
-    const onScroll = () => {
-      const y = Math.max(window.pageYOffset, 0)
-
-      if (isAnyNavExpanded) {
-        diff.current = 0
-      } else {
-        const newDiff = lastY.current ? lastY.current - y : 0
-        diff.current += newDiff
-        diff.current = Math.min(
-          Math.max(-scrollableHeaderHeight, diff.current),
-          0
-        )
-      }
-
-      if (!isOnMarketingPage && diff.current !== lastDiff.current) {
-        fixedRef.current.style.top = `${diff.current}px`
-        setHeaderOffset(diff.current)
-      }
-
-      lastY.current = y
-      lastDiff.current = diff.current
-    }
-
-    const measure = () => {
-      const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (mobile !== isMobile) {
-        setIsMobile(mobile)
-      }
-      onScroll()
-    }
-
-    window.addEventListener('scroll', onScroll)
-    window.addEventListener('resize', measure)
-    measure()
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', measure)
-    }
-  }, [isAnyNavExpanded, scrollableHeaderHeight, isMobile])
-
-  const hasStickySecondary = hasSecondaryNav && stickySecondaryNav
-  useEffect(() => {
-    setScrollableHeaderHeight(
-      (isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) +
-        (hasSecondaryNav && !hasStickySecondary ? SUBHEADER_HEIGHT : 0) +
-        // scroll away thin HLine
-        (formatColor || hasStickySecondary ? 0 : 1)
-    )
-  }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
-
-  const buttonColorRule = useMemo(() => {
-    if (!isOnMarketingPage) {
-      return css({
-        color: colorScheme.getCSSColor('default'),
-        backgroundColor: colorScheme.getCSSColor('text'),
-        '@media (hover)': {
-          ':hover': {
-            color: colorScheme.getCSSColor('#FFF'),
-            backgroundColor: colorScheme.getCSSColor(
-              formatColor || 'primary',
-              'format'
-            )
-          }
-        }
-      })
-    }
-    return css({
-      color: colorScheme.getCSSColor('#FFF'),
-      backgroundColor: colorScheme.getCSSColor('primary'),
-      '@media (hover)': {
-        ':hover': {
-          color: colorScheme.getCSSColor('#FFF'),
-          backgroundColor: colorScheme.getCSSColor('primaryHover')
-        }
-      }
-    })
-  }, [isOnMarketingPage, colorScheme, formatColor])
-  return (
-    <>
-      <div
-        {...styles.navBar}
-        {...colorScheme.set('backgroundColor', 'default')}
-        ref={fixedRef}
-      >
-        <div {...styles.primary}>
-          <div {...styles.navBarItem}>
-            <div {...styles.leftBarItem}>
-              {backButton && (
-                <a
-                  {...styles.back}
-                  style={{
-                    opacity: 1,
-                    pointerEvents: backButton ? undefined : 'none',
-                    href: '#back'
-                  }}
-                  title={t('header/back')}
-                  onClick={e => {
-                    e.preventDefault()
-                    if (backButton) {
-                      routeChangeStarted = false
-                      window.history.back()
-                      setTimeout(() => {
-                        if (!routeChangeStarted) {
-                          router.replace('/')
-                        }
-                      }, 200)
-                    }
-                  }}
-                >
-                  <BackIcon
-                    size={BACK_BUTTON_SIZE}
-                    {...colorScheme.set('fill', 'text')}
-                  />
-                </a>
-              )}
-              <User
-                me={me}
-                backButton={backButton}
-                id='user'
-                title={t(
-                  `header/nav/user/${
-                    expandedNav === 'user' ? 'close' : 'open'
-                  }/aria`
-                )}
-                isOnMarketingPage={isOnMarketingPage}
-                inNativeIOSApp={inNativeIOSApp}
-                onClick={() =>
-                  !isAnyNavExpanded
-                    ? toggleExpanded('user')
-                    : expandedNav !== 'user'
-                    ? openUserNavOverMainNav()
-                    : closeHandler()
-                }
-              />
-              {me && <NotificationIcon />}
-            </div>
-          </div>
-          {!isOnMarketingPage || (!isOnMarketingPage && inNativeIOSApp) ? (
-            <div {...styles.navBarItem}>
-              <a
-                {...styles.logo}
-                aria-label={t('header/logo/magazine/aria')}
-                href={'/'}
-                onClick={goTo('/', 'index')}
-              >
-                <Logo />
-              </a>
-            </div>
-          ) : null}
-          <div {...styles.navBarItem}>
-            <div {...styles.rightBarItem}>
-              {me || inNativeApp || router.pathname === '/angebote' ? (
-                <Toggle
-                  expanded={isAnyNavExpanded}
-                  title={t(
-                    `header/nav/${
-                      expandedNav === 'main' ? 'close' : 'open'
-                    }/aria`
-                  )}
-                  id='main'
-                  onClick={() =>
-                    isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
-                  }
-                />
-              ) : (
-                <Link href='/angebote' passHref>
-                  <a
-                    {...styles.button}
-                    {...(isOnMarketingPage
-                      ? styles.buttonMarketing
-                      : formatColor
-                      ? styles.buttonFormatColor
-                      : styles.buttonGeneric)}
-                    {...buttonColorRule}
-                  >
-                    {isOnMarketingPage ? (
-                      <span>{t('marketing/page/carpet/button')}</span>
-                    ) : (
-                      <>
-                        <span {...styles.buttonTextMobile}>
-                          {t('marketing/page/carpet/buttonsmall')}
-                        </span>
-                        <span {...styles.buttonText}>
-                          {t('marketing/page/carpet/button')}
-                        </span>
-                      </>
-                    )}
-                  </a>
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-        <SecondaryNav
-          secondaryNav={secondaryNav}
-          router={router}
-          formatColor={formatColor}
-          hasOverviewNav={hasOverviewNav}
-          isSecondarySticky={headerOffset === -scrollableHeaderHeight}
-        />
-        {!isOnMarketingPage ? <HLine formatColor={formatColor} /> : null}
-      </div>
-      <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
-        <NavPopover
-          me={me}
-          router={router}
-          expanded={expandedNav === 'main'}
-          closeHandler={closeHandler}
-          onSearchSubmit={closeHandler}
-        />
-      </Popover>
-      <Popover
-        formatColor={formatColor}
-        expanded={userNavExpanded || expandedNav === 'user'}
-      >
-        <UserNavPopover
-          me={me}
-          router={router}
-          expanded={userNavExpanded || expandedNav === 'user'}
-          closeHandler={closeHandler}
-          pageColorSchemeKey={pageColorSchemeKey}
-        />
-      </Popover>
-      <LoadingBar
-        onRouteChangeStart={() => {
-          routeChangeStarted = true
-        }}
-      />
-      {inNativeApp && pullable && (
-        <Pullable
-          onRefresh={() => {
-            if (inNativeIOSApp) {
-              postMessage({ type: 'haptic', payload: { type: 'impactLight' } })
-            }
-            // give the browser 3 frames (1000/30fps) to start animating the spinner
-            setTimeout(() => {
-              window.location.reload(true)
-            }, 33 * 3)
-          }}
-        />
-      )}
-    </>
-  )
-}
-
-const HeaderWithContext = props => {
-  const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
-  const [headerOffset, setHeaderOffset] = useState(0)
-
-  const { cover, children, hasOverviewNav, secondaryNav } = props
-
-  const hasSecondaryNav = hasOverviewNav || secondaryNav
-  const headerConfig = useMemo(() => {
-    return [
-      {
-        minWidth: 0,
-        headerHeight:
-          HEADER_HEIGHT_MOBILE +
-          (hasSecondaryNav ? SUBHEADER_HEIGHT : 0) +
-          headerOffset
-      },
-      {
-        minWidth: mediaQueries.mBreakPoint,
-        headerHeight:
-          HEADER_HEIGHT +
-          (hasSecondaryNav ? SUBHEADER_HEIGHT : 0) +
-          headerOffset
-      }
-    ]
-  }, [hasSecondaryNav, headerOffset])
-
-  return (
-    <HeaderHeightProvider config={headerConfig}>
-      <Header
-        {...props}
-        hasSecondaryNav={hasSecondaryNav}
-        isAnyNavExpanded={isAnyNavExpanded}
-        setIsAnyNavExpanded={setIsAnyNavExpanded}
-        headerOffset={headerOffset}
-        setHeaderOffset={setHeaderOffset}
-      />
-      {cover}
-      {children}
-    </HeaderHeightProvider>
-  )
-}
-
-export default compose(
+const Header = compose(
   withT,
   withMembership,
   withRouter,
   withInNativeApp
-)(HeaderWithContext)
+)(
+  ({
+    isAnyNavExpanded,
+    setIsAnyNavExpanded,
+    headerOffset,
+    inNativeApp,
+    inNativeIOSApp,
+    me,
+    t,
+    secondaryNav,
+    router,
+    formatColor,
+    pullable = true,
+    hasOverviewNav,
+    isOnMarketingPage,
+    pageColorSchemeKey,
+    scrollableHeaderHeight,
+    inputRef
+  }) => {
+    const [colorScheme] = useColorContext()
+
+    const [expandedNav, setExpandedNav] = useState(null)
+    const [userNavExpanded, setUserNavExpanded] = useState(false)
+
+    const backButton = !hasOverviewNav && inNativeIOSApp && me
+
+    const toggleExpanded = target => {
+      if (target === expandedNav) {
+        setIsAnyNavExpanded(false)
+        setExpandedNav(null)
+      } else if (isAnyNavExpanded) {
+        setExpandedNav(target)
+      } else {
+        setIsAnyNavExpanded(!isAnyNavExpanded)
+        setExpandedNav(target)
+      }
+    }
+
+    const openUserNavOverMainNav = () => {
+      setUserNavExpanded(true)
+      setTimeout(() => {
+        setExpandedNav('user')
+      }, TRANSITION_MS)
+    }
+
+    const closeHandler = () => {
+      if (isAnyNavExpanded) {
+        setIsAnyNavExpanded(false)
+        setExpandedNav(null)
+        setUserNavExpanded(false)
+      }
+    }
+
+    const goTo = href => e => {
+      if (shouldIgnoreClick(e)) {
+        return
+      }
+      e.preventDefault()
+      if (cleanAsPath(router.asPath) === href) {
+        scrollTop()
+        closeHandler()
+      } else {
+        router.push(href)
+      }
+    }
+
+    const buttonColorRule = useMemo(() => {
+      if (!isOnMarketingPage) {
+        return css({
+          color: colorScheme.getCSSColor('default'),
+          backgroundColor: colorScheme.getCSSColor('text'),
+          '@media (hover)': {
+            ':hover': {
+              color: colorScheme.getCSSColor('#FFF'),
+              backgroundColor: colorScheme.getCSSColor(
+                formatColor || 'primary',
+                'format'
+              )
+            }
+          }
+        })
+      }
+      return css({
+        color: colorScheme.getCSSColor('#FFF'),
+        backgroundColor: colorScheme.getCSSColor('primary'),
+        '@media (hover)': {
+          ':hover': {
+            color: colorScheme.getCSSColor('#FFF'),
+            backgroundColor: colorScheme.getCSSColor('primaryHover')
+          }
+        }
+      })
+    }, [isOnMarketingPage, colorScheme, formatColor])
+    return (
+      <>
+        <div
+          {...styles.navBar}
+          {...colorScheme.set('backgroundColor', 'default')}
+          ref={inputRef}
+        >
+          <div {...styles.primary}>
+            <div {...styles.navBarItem}>
+              <div {...styles.leftBarItem}>
+                {backButton && (
+                  <a
+                    {...styles.back}
+                    style={{
+                      opacity: 1,
+                      pointerEvents: backButton ? undefined : 'none',
+                      href: '#back'
+                    }}
+                    title={t('header/back')}
+                    onClick={e => {
+                      e.preventDefault()
+                      if (backButton) {
+                        routeChangeStarted = false
+                        window.history.back()
+                        setTimeout(() => {
+                          if (!routeChangeStarted) {
+                            router.replace('/')
+                          }
+                        }, 200)
+                      }
+                    }}
+                  >
+                    <BackIcon
+                      size={BACK_BUTTON_SIZE}
+                      {...colorScheme.set('fill', 'text')}
+                    />
+                  </a>
+                )}
+                <User
+                  me={me}
+                  backButton={backButton}
+                  id='user'
+                  title={t(
+                    `header/nav/user/${
+                      expandedNav === 'user' ? 'close' : 'open'
+                    }/aria`
+                  )}
+                  isOnMarketingPage={isOnMarketingPage}
+                  inNativeIOSApp={inNativeIOSApp}
+                  onClick={() =>
+                    !isAnyNavExpanded
+                      ? toggleExpanded('user')
+                      : expandedNav !== 'user'
+                      ? openUserNavOverMainNav()
+                      : closeHandler()
+                  }
+                />
+                {me && <NotificationIcon />}
+              </div>
+            </div>
+            {!isOnMarketingPage || (!isOnMarketingPage && inNativeIOSApp) ? (
+              <div {...styles.navBarItem}>
+                <a
+                  {...styles.logo}
+                  aria-label={t('header/logo/magazine/aria')}
+                  href={'/'}
+                  onClick={goTo('/', 'index')}
+                >
+                  <Logo />
+                </a>
+              </div>
+            ) : null}
+            <div {...styles.navBarItem}>
+              <div {...styles.rightBarItem}>
+                {me || inNativeApp || router.pathname === '/angebote' ? (
+                  <Toggle
+                    expanded={isAnyNavExpanded}
+                    title={t(
+                      `header/nav/${
+                        expandedNav === 'main' ? 'close' : 'open'
+                      }/aria`
+                    )}
+                    id='main'
+                    onClick={() =>
+                      isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
+                    }
+                  />
+                ) : (
+                  <Link href='/angebote' passHref>
+                    <a
+                      {...styles.button}
+                      {...(isOnMarketingPage
+                        ? styles.buttonMarketing
+                        : formatColor
+                        ? styles.buttonFormatColor
+                        : styles.buttonGeneric)}
+                      {...buttonColorRule}
+                    >
+                      {isOnMarketingPage ? (
+                        <span>{t('marketing/page/carpet/button')}</span>
+                      ) : (
+                        <>
+                          <span {...styles.buttonTextMobile}>
+                            {t('marketing/page/carpet/buttonsmall')}
+                          </span>
+                          <span {...styles.buttonText}>
+                            {t('marketing/page/carpet/button')}
+                          </span>
+                        </>
+                      )}
+                    </a>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+          <SecondaryNav
+            secondaryNav={secondaryNav}
+            router={router}
+            formatColor={formatColor}
+            hasOverviewNav={hasOverviewNav}
+            isSecondarySticky={headerOffset === -scrollableHeaderHeight}
+          />
+          {!isOnMarketingPage ? <HLine formatColor={formatColor} /> : null}
+        </div>
+        <Popover formatColor={formatColor} expanded={expandedNav === 'main'}>
+          <NavPopover
+            me={me}
+            router={router}
+            expanded={expandedNav === 'main'}
+            closeHandler={closeHandler}
+            onSearchSubmit={closeHandler}
+          />
+        </Popover>
+        <Popover
+          formatColor={formatColor}
+          expanded={userNavExpanded || expandedNav === 'user'}
+        >
+          <UserNavPopover
+            me={me}
+            router={router}
+            expanded={userNavExpanded || expandedNav === 'user'}
+            closeHandler={closeHandler}
+            pageColorSchemeKey={pageColorSchemeKey}
+          />
+        </Popover>
+        <LoadingBar
+          onRouteChangeStart={() => {
+            routeChangeStarted = true
+          }}
+        />
+        {inNativeApp && pullable && (
+          <Pullable
+            onRefresh={() => {
+              if (inNativeIOSApp) {
+                postMessage({
+                  type: 'haptic',
+                  payload: { type: 'impactLight' }
+                })
+              }
+              // give the browser 3 frames (1000/30fps) to start animating the spinner
+              setTimeout(() => {
+                window.location.reload(true)
+              }, 33 * 3)
+            }}
+          />
+        )}
+      </>
+    )
+  }
+)
+
+export default React.forwardRef((props, ref) => {
+  return <Header {...props} inputRef={ref} />
+})
 
 const styles = {
   navBar: css({

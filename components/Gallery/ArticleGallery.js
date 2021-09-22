@@ -122,7 +122,6 @@ class ArticleGallery extends Component {
   }
 
   static getDerivedStateFromProps(nextProps) {
-    console.log(getGalleryItems(nextProps))
     return {
       galleryItems: getGalleryItems(nextProps)
     }

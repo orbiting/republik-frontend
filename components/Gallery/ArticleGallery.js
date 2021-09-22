@@ -42,7 +42,7 @@ const findFigures = (node, acc = []) => {
 const getImageProps = node => {
   const url = node?.children[0]?.children[0]?.url || ''
   const urlDark = node?.children[0]?.children[2]?.url
-  const captionMdast = node?.children[1]?.children
+  const captionMdast = node?.children[1]?.children || []
   const included =
     !node?.data?.excludeFromGallery &&
     imageSizeInfo(url) &&

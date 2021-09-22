@@ -38,11 +38,17 @@ type DefaultSSRPageProps<P = unknown> = BasePageProps<P> & {
 function withDefaultSSR(
   Page: NextPage<DefaultSSRPageProps>
 ): NextPage<DefaultSSRPageProps> {
+  // If the page component already has a getInitialProps method make sure to run it.
+  const originalGetInitialProps = Page.getInitialProps ?? undefined
+
   async function getInitialProps(
     ctx: NextPageContext
   ): Promise<DefaultSSRPageProps> {
     const { AppTree } = ctx
-    const props: DefaultSSRPageProps = {}
+    let props: DefaultSSRPageProps<Record<string, unknown>> = {}
+    if (originalGetInitialProps) {
+      props = await originalGetInitialProps(ctx)
+    }
 
     // Run all GraphQL queries in the component tree
     // and extract the resulting data
@@ -55,7 +61,6 @@ function withDefaultSSR(
             userAgent: ctx.req.headers['user-agent']
           }
         : undefined
-      props['headers'] = headers
 
       const apolloClient = initializeApollo(null, {
         headers: ctx.req.headers,
@@ -76,7 +81,8 @@ function withDefaultSSR(
             pageProps={{
               providedApolloClient: apolloClient,
               headers: headers,
-              serverContext: ctx
+              serverContext: ctx,
+              ...props
             }}
           />
         )
@@ -100,3 +106,5 @@ function withDefaultSSR(
 }
 
 export default withDefaultSSR
+
+// TODO: Fix handling when

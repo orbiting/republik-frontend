@@ -11,7 +11,11 @@ import {
 import withT from '../../lib/withT'
 import NavLink from './Popover/NavLink'
 
-import { SUBHEADER_HEIGHT, ZINDEX_HEADER } from '../constants'
+import {
+  SUBHEADER_HEIGHT,
+  ZINDEX_HEADER,
+  HEADER_HORIZONTAL_PADDING
+} from '../constants'
 import { useRouter } from 'next/router'
 
 const sections = [
@@ -179,8 +183,11 @@ const styles = {
         overflow: 'hidden',
         visibility: 'hidden'
       },
+      ':first-child': {
+        marginLeft: HEADER_HORIZONTAL_PADDING
+      },
       ':last-child': {
-        paddingRight: 16,
+        marginRight: HEADER_HORIZONTAL_PADDING,
         [mediaQueries.mUp]: {
           paddingRight: 0
         }

@@ -4,6 +4,7 @@ export const HEADER_HEIGHT = 60
 export const HEADER_HEIGHT_MOBILE = 48
 export const HEADER_ICON_SIZE = 22
 export const SUBHEADER_HEIGHT = 40
+export const HEADER_HORIZONTAL_PADDING = 20
 
 export const HEADER_HEIGHT_CONFIG = [
   { minWidth: 0, headerHeight: HEADER_HEIGHT_MOBILE },

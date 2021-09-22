@@ -10,6 +10,7 @@ import { css } from 'glamor'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
+  HEADER_HORIZONTAL_PADDING,
   ZINDEX_FRAME_TOGGLE,
   TRANSITION_MS
 } from '../constants'
@@ -49,7 +50,7 @@ const styles = {
     boxShadow: 'none',
     outline: 'none',
     padding: PADDING_MOBILE,
-    paddingRight: 16,
+    paddingRight: HEADER_HORIZONTAL_PADDING,
     lineHeight: 0,
     [mediaQueries.mUp]: {
       padding: PADDING_DESKTOP
@@ -57,11 +58,10 @@ const styles = {
   }),
   closeButton: css({
     position: 'absolute',
-    right: PADDING_MOBILE,
+    right: HEADER_HORIZONTAL_PADDING,
     top: PADDING_MOBILE,
     transition: `opacity ${TRANSITION_MS}ms ease-out`,
     [mediaQueries.mUp]: {
-      right: PADDING_DESKTOP,
       top: PADDING_DESKTOP
     }
   })

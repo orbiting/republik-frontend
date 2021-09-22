@@ -49,6 +49,7 @@ import {
 } from '@project-r/styleguide'
 import ReasonsVideo from '../components/About/ReasonsVideo'
 import Link from 'next/link'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const query = gql`
   query cf2($accessToken: ID) {
@@ -680,4 +681,4 @@ const EnhancedPage = compose(
   withT
 )(Page)
 
-export default EnhancedPage
+export default withDefaultSSR(EnhancedPage)

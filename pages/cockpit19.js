@@ -45,6 +45,7 @@ import withMe from '../lib/apollo/withMe'
 import { swissTime } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
 import Link from 'next/link'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const END_DATE = '2020-03-31T10:00:00.000Z'
 
@@ -882,4 +883,4 @@ EnhancedPage.getInitialProps = () => {
   }
 }
 
-export default EnhancedPage
+export default withDefaultSSR(EnhancedPage)

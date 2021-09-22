@@ -11,12 +11,13 @@ import withMembership, {
   UnauthorizedPage
 } from '../components/Auth/withMembership'
 
-import { Interaction, A, Loader, RawHtml } from '@project-r/styleguide'
+import { Interaction, Loader, RawHtml } from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const FeuilletonPage = props => {
   const { t, me, router, isMember, inNativeIOSApp, serverContext } = props
+  console.debug(props)
 
   if (isMember) {
     // does it's own meta
@@ -57,9 +58,6 @@ const FeuilletonPage = props => {
   )
 }
 
-export default compose(
-  //withMembership,
-  withInNativeApp,
-  withRouter,
-  withT
-)(FeuilletonPage)
+export default withDefaultSSR(
+  compose(withMembership, withInNativeApp, withRouter, withT)(FeuilletonPage)
+)

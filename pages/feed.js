@@ -6,6 +6,7 @@ import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const FeedPage = ({ me, t }) => {
   const meta = {
@@ -16,4 +17,6 @@ const FeedPage = ({ me, t }) => {
   return <Feed meta={meta} />
 }
 
-export default compose(enforceMembership(), withMe, withT)(FeedPage)
+export default withDefaultSSR(
+  compose(enforceMembership(), withMe, withT)(FeedPage)
+)

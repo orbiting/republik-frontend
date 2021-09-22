@@ -13,6 +13,7 @@ import withMembership, {
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import { useInNativeApp } from '../lib/withInNativeApp'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const SigninPage = ({ me, isMember, t, router }) => {
   const { inNativeApp } = useInNativeApp()
@@ -48,4 +49,6 @@ const SigninPage = ({ me, isMember, t, router }) => {
   )
 }
 
-export default compose(withMe, withMembership, withT, withRouter)(SigninPage)
+export default withDefaultSSR(
+  compose(withMe, withMembership, withT, withRouter)(SigninPage)
+)

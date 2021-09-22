@@ -27,6 +27,7 @@ import {
 } from '@project-r/styleguide'
 import { DiscussionIcon } from '@project-r/styleguide/icons'
 import Link from 'next/link'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const query = gql`
   query getCardGroups {
@@ -353,4 +354,4 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
   </Frame>
 )
 
-export default compose(withRouter, withT, graphql(query))(Page)
+export default withDefaultSSR(compose(withRouter, withT, graphql(query))(Page))

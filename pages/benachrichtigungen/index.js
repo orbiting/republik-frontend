@@ -8,6 +8,7 @@ import SignIn from '../../components/Auth/SignIn'
 import { Interaction } from '@project-r/styleguide'
 
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const NotificationsPage = ({ t, me }) => {
   const meta = {
@@ -30,4 +31,4 @@ const NotificationsPage = ({ t, me }) => {
   )
 }
 
-export default compose(withMe, withT)(NotificationsPage)
+export default withDefaultSSR(compose(withMe, withT)(NotificationsPage))

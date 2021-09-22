@@ -21,6 +21,7 @@ import { BackIcon } from '@project-r/styleguide/icons'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import Link from 'next/link'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const pRule = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -215,4 +216,4 @@ ${PUBLIC_BASE_URL}
   )
 }
 
-export default withRouter(Page)
+export default withDefaultSSR(withRouter(Page))

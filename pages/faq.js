@@ -9,8 +9,9 @@ import withT from '../lib/withT'
 import { Interaction, RawHtml } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
-export default withT(({ t }) => (
+const Page = ({ t }) => (
   <Frame
     meta={{
       pageTitle: t('faq/pageTitle'),
@@ -31,4 +32,6 @@ export default withT(({ t }) => (
     <br />
     <FaqList />
   </Frame>
-))
+)
+
+export default withDefaultSSR(withT(Page))

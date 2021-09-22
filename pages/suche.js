@@ -7,6 +7,7 @@ import { enforceMembership } from '../components/Auth/withMembership'
 import withT from '../lib/withT'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const SearchPage = ({ router, t }) => {
   const meta = {
@@ -20,4 +21,6 @@ const SearchPage = ({ router, t }) => {
   )
 }
 
-export default compose(enforceMembership(), withT, withRouter)(SearchPage)
+export default withDefaultSSR(
+  compose(enforceMembership(), withT, withRouter)(SearchPage)
+)

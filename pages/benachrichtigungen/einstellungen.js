@@ -8,6 +8,7 @@ import withT from '../../lib/withT'
 import { Interaction } from '@project-r/styleguide'
 
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const NotificationsSettingsPage = ({ t, me }) => {
   const meta = {
@@ -30,4 +31,4 @@ const NotificationsSettingsPage = ({ t, me }) => {
   )
 }
 
-export default compose(withMe, withT)(NotificationsSettingsPage)
+export default withDefaultSSR(compose(withMe, withT)(NotificationsSettingsPage))

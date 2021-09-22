@@ -20,6 +20,7 @@ import {
   CURTAIN_META,
   CURTAIN_COLORS
 } from '../lib/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const colors = {
   color: '#fff',
@@ -62,7 +63,7 @@ const styles = {
   })
 }
 
-export default withRouter(({ router }) => {
+const Page = ({ router }) => {
   const meta = {
     title: 'Republik',
     description: CURTAIN_MESSAGE,
@@ -99,4 +100,6 @@ export default withRouter(({ router }) => {
       </NarrowContainer>
     </div>
   )
-})
+}
+
+export default withDefaultSSR(withRouter(Page))

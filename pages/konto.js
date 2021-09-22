@@ -5,6 +5,7 @@ import Frame from '../components/Frame'
 import Account from '../components/Account'
 import withT from '../lib/withT'
 import Merci from '../components/Pledge/Merci'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const AccountPage = ({ router, t }) => {
   const meta = {
@@ -22,4 +23,4 @@ const AccountPage = ({ router, t }) => {
   )
 }
 
-export default compose(withT, withRouter)(AccountPage)
+export default withDefaultSSR(compose(withT, withRouter)(AccountPage))

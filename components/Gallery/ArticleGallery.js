@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Gallery from './Gallery'
-import get from 'lodash/get'
 import { imageSizeInfo } from 'mdast-react-render/lib/utils'
 import { postMessage } from '../../lib/withInNativeApp'
 import { removeQuery } from '../../lib/utils/link'
@@ -41,11 +40,11 @@ const findFigures = (node, acc = []) => {
 }
 
 const getImageProps = node => {
-  const url = get(node, 'children[0].children[0].url', '')
-  const urlDark = get(node, 'children[0].children[2].url')
-  const captionMdast = get(node, 'children[1].children', [])
+  const url = node?.children[0]?.children[0]?.url || ''
+  const urlDark = node?.children[0]?.children[2]?.url
+  const captionMdast = node?.children[1]?.children
   const included =
-    !get(node, 'data.excludeFromGallery', false) &&
+    !node?.data?.excludeFromGallery &&
     imageSizeInfo(url) &&
     imageSizeInfo(url).width > MIN_GALLERY_IMG_WIDTH
 
@@ -137,7 +136,7 @@ class ArticleGallery extends Component {
     const { children } = this.props
     const { article } = this.props
     const { show, startItemSrc, galleryItems } = this.state
-    const enabled = get(article, 'content.meta.gallery', true)
+    const enabled = article?.content?.meta?.gallery !== false
     return (
       <Fragment>
         {article.content && enabled && show && (

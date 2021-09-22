@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
 import { compose } from 'react-apollo'
@@ -8,8 +8,7 @@ import {
   fontFamilies,
   mediaQueries,
   ColorHtmlBodyColors,
-  ColorContextProvider,
-  HeaderHeightProvider
+  ColorContextProvider
 } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
@@ -104,118 +103,32 @@ const Frame = ({
   pageColorSchemeKey
 }) => {
   const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
-  const [isMobile, setIsMobile] = useState()
-  const [scrollableHeaderHeight, setScrollableHeaderHeight] = useState(
-    HEADER_HEIGHT_MOBILE
-  )
-  const [isAnyNavExpanded, setIsAnyNavExpanded] = useState(false)
-  const [headerOffset, setHeaderOffset] = useState(0)
 
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
-
-  const scrollContainerRule = useMemo(() => {
+  const padHeaderRule = useMemo(() => {
     return css({
-      height: `calc(100vh - ${scrollableHeaderHeight}px)`,
-      overflowY: 'scroll',
-      position: 'relative',
-      top: scrollableHeaderHeight
+      paddingTop: hasSecondaryNav
+        ? HEADER_HEIGHT_MOBILE + SUBHEADER_HEIGHT
+        : HEADER_HEIGHT_MOBILE - 1,
+      [mediaQueries.mUp]: {
+        paddingTop: hasSecondaryNav
+          ? HEADER_HEIGHT + SUBHEADER_HEIGHT
+          : HEADER_HEIGHT - 1
+      }
     })
-  }, [hasSecondaryNav, scrollableHeaderHeight])
-
-  const headerConfig = useMemo(() => {
-    return [
-      {
-        minWidth: 0,
-        headerHeight:
-          HEADER_HEIGHT_MOBILE +
-          (hasSecondaryNav ? SUBHEADER_HEIGHT : 0) +
-          headerOffset
-      },
-      {
-        minWidth: mediaQueries.mBreakPoint,
-        headerHeight:
-          HEADER_HEIGHT +
-          (hasSecondaryNav ? SUBHEADER_HEIGHT : 0) +
-          headerOffset
-      }
-    ]
-  }, [hasSecondaryNav, headerOffset])
-
-  const diff = useRef(0)
-  const lastY = useRef()
-  const lastDiff = useRef()
-
-  const fixedRef = useRef()
-  const scrollRef = useRef()
-
-  useEffect(() => {
-    const onScroll = () => {
-      const y = Math.max(scrollRef.current.scrollTop, 0)
-
-      if (isAnyNavExpanded) {
-        diff.current = 0
-      } else {
-        const newDiff = lastY.current ? lastY.current - y : 0
-        diff.current += newDiff
-        diff.current = Math.min(
-          Math.max(-scrollableHeaderHeight, diff.current),
-          0
-        )
-      }
-
-      if (!isOnMarketingPage && diff.current !== lastDiff.current) {
-        fixedRef.current.style.top = `${diff.current}px`
-        scrollRef.current.style.top = `${diff.current +
-          scrollableHeaderHeight}px`
-        scrollRef.current.style.height = `calc(100vh + ${-diff.current -
-          scrollableHeaderHeight}px`
-        console.log(diff.current)
-
-        // scrollRef.current.style.marginTop =
-        setHeaderOffset(diff.current)
-      }
-
-      lastY.current = y
-      lastDiff.current = diff.current
-    }
-
-    const measure = () => {
-      const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (mobile !== isMobile) {
-        setIsMobile(mobile)
-      }
-      onScroll()
-    }
-
-    window.addEventListener('resize', measure)
-    measure()
-    if (scrollRef && scrollRef.current) {
-      scrollRef.current.addEventListener('scroll', onScroll)
-    }
-    return () => {
-      if (scrollRef && scrollRef.current) {
-        scrollRef.current.removeEventListener('scroll', onScroll)
-      }
-      window.removeEventListener('resize', measure)
-    }
-  }, [isAnyNavExpanded, scrollableHeaderHeight, isMobile])
-
-  const hasStickySecondary = hasSecondaryNav && stickySecondaryNav
-  useEffect(() => {
-    setScrollableHeaderHeight(
-      (isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) +
-        (hasSecondaryNav && !hasStickySecondary ? SUBHEADER_HEIGHT : 0) +
-        // scroll away thin HLine
-        (formatColor || hasStickySecondary ? 0 : 1)
-    )
-  }, [isMobile, hasSecondaryNav, hasStickySecondary, formatColor])
-
+  }, [hasSecondaryNav])
   return (
-    <HeaderHeightProvider config={headerConfig}>
-      <div style={{ overflow: 'hidden', height: '100vh' }}>
+    <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
+      {/* body growing only needed when rendering a footer */}
+      <div
+        {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
+        {...padHeaderRule}
+      >
         {!!meta && <Meta data={meta} />}
         <Header
+          me={me}
+          cover={cover}
           onNavExpanded={onNavExpanded}
           secondaryNav={secondaryNav}
           formatColor={formatColor}
@@ -224,27 +137,20 @@ const Frame = ({
           stickySecondaryNav={stickySecondaryNav}
           isOnMarketingPage={isOnMarketingPage}
           pageColorSchemeKey={pageColorSchemeKey}
-          hasSecondaryNav={hasSecondaryNav}
-          isAnyNavExpanded={isAnyNavExpanded}
-          setIsAnyNavExpanded={setIsAnyNavExpanded}
-          headerOffset={headerOffset}
-          setHeaderOffset={setHeaderOffset}
-          scrollableHeaderHeight={scrollableHeaderHeight}
-          ref={fixedRef}
-        />
-        {cover}
-        <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
-          <ColorHtmlBodyColors colorSchemeKey={pageColorSchemeKey || 'auto'} />
-          <noscript>
-            <Box style={{ padding: 30 }}>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('noscript')
-                }}
-              />
-            </Box>
-          </noscript>
-          <div ref={scrollRef} {...scrollContainerRule}>
+        >
+          <ColorContextProvider colorSchemeKey={pageColorSchemeKey}>
+            <ColorHtmlBodyColors
+              colorSchemeKey={pageColorSchemeKey || 'auto'}
+            />
+            <noscript>
+              <Box style={{ padding: 30 }}>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('noscript')
+                  }}
+                />
+              </Box>
+            </noscript>
             {inNativeAppLegacy && <LegacyAppNoticeBox t={t} />}
             {me &&
               me.prolongBeforeDate !== null &&
@@ -262,13 +168,13 @@ const Frame = ({
                 <Content>{children}</Content>
               </MainContainer>
             )}
-            {!inNativeApp && footer && (
-              <Footer isOnMarketingPage={isOnMarketingPage} />
-            )}
-          </div>
-        </ColorContextProvider>
+          </ColorContextProvider>
+        </Header>
       </div>
-    </HeaderHeightProvider>
+      {!inNativeApp && footer && (
+        <Footer isOnMarketingPage={isOnMarketingPage} />
+      )}
+    </div>
   )
 }
 

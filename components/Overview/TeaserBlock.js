@@ -222,7 +222,11 @@ class TeaserBlock extends Component {
                 )}
                 <div
                   style={{
-                    position: 'relative'
+                    position: 'relative',
+                    // unbreakable margin
+                    // GAP needs to be with an inline-block to prevent
+                    // the browser from breaking the margin between columns
+                    display: 'inline-block'
                   }}
                   data-teaser={teaser.id}
                 >
@@ -231,9 +235,6 @@ class TeaserBlock extends Component {
                     src={getImgSrc(teaser, path)}
                     style={{
                       display: 'block',
-                      // unbreakable margin
-                      // GAP needs to be with an inline-block to prevent
-                      // the browser from breaking the margin between columns
                       marginBottom: GAP,
                       width: '100%'
                     }}

@@ -175,6 +175,7 @@ const styles = {
       whiteSpace: 'nowrap',
       fontSize: 14,
       margin: '12px 15px 0px 15px',
+      scrollMargin: '12px 15px 0px 15px',
       '::after': {
         ...fontStyles.sansSerifMedium,
         display: 'block',
@@ -184,10 +185,12 @@ const styles = {
         visibility: 'hidden'
       },
       ':first-child': {
-        marginLeft: HEADER_HORIZONTAL_PADDING
+        marginLeft: HEADER_HORIZONTAL_PADDING,
+        scrollMarginLeft: HEADER_HORIZONTAL_PADDING
       },
       ':last-child': {
         marginRight: HEADER_HORIZONTAL_PADDING,
+        scrollMarginRight: HEADER_HORIZONTAL_PADDING,
         [mediaQueries.mUp]: {
           paddingRight: 0
         }

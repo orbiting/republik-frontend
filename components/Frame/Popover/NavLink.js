@@ -1,6 +1,5 @@
 import React, { useMemo, useEffect, useRef } from 'react'
 import { css } from 'glamor'
-import scrollIntoView from 'scroll-into-view'
 
 import {
   fontStyles,
@@ -116,7 +115,7 @@ const NavLink = ({
   const linkRef = useRef()
   useEffect(() => {
     if (linkRef && linkRef.current && isActive) {
-      scrollIntoView(linkRef.current)
+      linkRef.current.scrollIntoView()
     }
   }, [isActive])
 

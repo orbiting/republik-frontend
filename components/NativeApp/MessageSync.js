@@ -12,6 +12,8 @@ import AppSignInOverlay from './AppSignInOverlay'
 import { useMediaProgress } from '../Audio/MediaProgress'
 import { usePersistedOSColorSchemeKey } from '../ColorScheme/lib'
 
+let routeChangeStarted
+
 const upsertDeviceQuery = gql`
   mutation UpsertDevice($token: ID!, $information: DeviceInformationInput!) {
     upsertDevice(token: $token, information: $information) {
@@ -117,15 +119,30 @@ const MessageSync = ({ upsertDevice, me, client }) => {
         if (content.value) {
           setOSColorScheme(content.value)
         }
+      } else if (content.type === 'back') {
+        routeChangeStarted = false
+        window.history.back()
+        setTimeout(() => {
+          if (!routeChangeStarted) {
+            router.replace('/')
+          }
+        }, 200)
       }
       postMessage({
         type: 'ackMessage',
         id: id
       })
     }
+
+    const setRouteChangeStarted = () => {
+      routeChangeStarted = true
+    }
+
     document.addEventListener('message', onMessage)
+    router.events.on('routeChangeStart', setRouteChangeStarted)
     return () => {
       document.removeEventListener('message', onMessage)
+      router.events.off('routeChangeStart', setRouteChangeStarted)
     }
   }, [me])
 

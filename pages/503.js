@@ -13,6 +13,7 @@ import {
 import { SPACE } from '../components/Frame/PureFooter'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const styles = {
   container: css({
@@ -52,7 +53,7 @@ const styles = {
   })
 }
 
-export default withRouter(({ router }) => {
+const Page = ({ router }) => {
   const meta = {
     title: 'Republik',
     description: 'Bald wieder verfügbar.',
@@ -100,4 +101,6 @@ export default withRouter(({ router }) => {
       </NarrowContainer>
     </div>
   )
-})
+}
+
+export default withDefaultSSR(withRouter(Page))

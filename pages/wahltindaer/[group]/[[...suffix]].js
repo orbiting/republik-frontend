@@ -19,6 +19,7 @@ import StatusError from '../../../components/StatusError'
 import { cardFragment } from '../../../components/Card/fragments'
 import { useCardPreferences } from '../../../components/Card/Preferences'
 import medianSmartspiders from '../../../components/Card/medianSmartspiders'
+import withDefaultSSR from '../../../lib/hocs/withDefaultSSR'
 
 const query = gql`
   query getCardGroup(
@@ -414,4 +415,4 @@ const Page = ({
   )
 }
 
-export default compose(withMe, withRouter)(Page)
+export default withDefaultSSR(compose(withMe, withRouter)(Page))

@@ -106,5 +106,3 @@ function withDefaultSSR(
 }
 
 export default withDefaultSSR
-
-// TODO: Fix handling when

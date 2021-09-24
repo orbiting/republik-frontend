@@ -43,7 +43,6 @@ const ProlongBox = ({ t, prolongBeforeDate, membership }) => {
   const { inNativeIOSApp } = useInNativeApp()
 
   if (
-    inNativeIOSApp ||
     router.pathname === '/angebote' ||
     router.pathname === '/abgang' ||
     router.pathname === '/cockpit'

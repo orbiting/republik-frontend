@@ -11,15 +11,7 @@ import {
   withQuery,
   withSubscription
 } from '@apollo/client/react/hoc'
-import {
-  ApolloConsumer,
-  ApolloProvider,
-  gql,
-  resetCaches,
-  disableFragmentWarnings,
-  enableExperimentalFragmentVariables,
-  disableExperimentalFragmentVariables
-} from '@apollo/client'
+import { ApolloConsumer, ApolloProvider, gql } from '@apollo/client'
 
 import {
   Center,
@@ -90,10 +82,6 @@ import { cleanAsPath } from '../../lib/utils/link'
 import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
-import {
-  getDataFromTree,
-  renderToStringWithData
-} from '@apollo/client/react/ssr'
 
 const dynamicOptions = {
   loading: () => <Loader loading />,
@@ -155,8 +143,6 @@ const dynamicComponentRequire = createRequire().alias({
     withMutation,
     withSubscription,
     withApollo,
-    getDataFromTree,
-    renderToStringWithData,
     compose
   },
   // Reexport graphql-tag to be used by dynamic-components

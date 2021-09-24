@@ -40,6 +40,18 @@ function createApolloClient(
     connectToDevTools: process.browser && isDev,
     ssrMode: !process.browser,
     cache: new InMemoryCache({
+      typePolicies: {
+        Document: {
+          fields: {
+            // Since Meta doesn't have a key-field, update cached data
+            meta: {
+              merge(existing, incoming) {
+                return { ...existing, ...incoming }
+              }
+            }
+          }
+        }
+      },
       dataIdFromObject,
       // Generated with a script found in the apollo-client docs:
       // https://www.apollographql.com/docs/react/data/fragments/#generating-possibletypes-automatically

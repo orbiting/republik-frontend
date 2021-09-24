@@ -17,7 +17,6 @@ import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const FeuilletonPage = props => {
   const { t, me, router, isMember, inNativeIOSApp, serverContext } = props
-  console.debug(props)
 
   if (isMember) {
     // does it's own meta

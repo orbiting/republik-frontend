@@ -160,13 +160,7 @@ const dynamicComponentRequire = createRequire().alias({
     compose
   },
   // Reexport graphql-tag to be used by dynamic-components
-  'graphql-tag': {
-    gql,
-    resetCaches,
-    disableFragmentWarnings,
-    enableExperimentalFragmentVariables,
-    disableExperimentalFragmentVariables
-  }
+  'graphql-tag': gql
 })
 
 const getSchemaCreator = template => {

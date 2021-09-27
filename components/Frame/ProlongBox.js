@@ -40,13 +40,11 @@ const dayFormat = timeFormat('%d. %B %Y')
 const ProlongBox = ({ t, prolongBeforeDate, membership }) => {
   const [colorScheme] = useColorContext()
   const router = useRouter()
-  const {
-    inNativeAppWithStripeCompatibility,
-    inNativeIOSApp
-  } = useInNativeApp()
+  const { isMinimalNativeAppVersion, inNativeIOSApp } = useInNativeApp()
 
   if (
-    (inNativeIOSApp && !inNativeAppWithStripeCompatibility) ||
+    // on iOS iframe to stripe were not possible before app v2.0.2
+    (inNativeIOSApp && !isMinimalNativeAppVersion('2.0.2')) ||
     router.pathname === '/angebote' ||
     router.pathname === '/abgang' ||
     router.pathname === '/cockpit'

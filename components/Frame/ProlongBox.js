@@ -40,7 +40,10 @@ const dayFormat = timeFormat('%d. %B %Y')
 const ProlongBox = ({ t, prolongBeforeDate, membership }) => {
   const [colorScheme] = useColorContext()
   const router = useRouter()
-  const { inNativeAppWithStripeCompatibility } = useInNativeApp()
+  const {
+    inNativeAppWithStripeCompatibility,
+    inNativeIOSApp
+  } = useInNativeApp()
 
   if (
     (inNativeIOSApp && !inNativeAppWithStripeCompatibility) ||

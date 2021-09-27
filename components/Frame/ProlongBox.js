@@ -40,9 +40,10 @@ const dayFormat = timeFormat('%d. %B %Y')
 const ProlongBox = ({ t, prolongBeforeDate, membership }) => {
   const [colorScheme] = useColorContext()
   const router = useRouter()
-  const { inNativeIOSApp } = useInNativeApp()
+  const { inNativeAppWithStripeCompatibility } = useInNativeApp()
 
   if (
+    inNativeAppWithStripeCompatibility ||
     router.pathname === '/angebote' ||
     router.pathname === '/abgang' ||
     router.pathname === '/cockpit'

@@ -92,7 +92,7 @@ const AppLogin = props => {
       <P {...styles.p}>
         {t('Onboarding/Sections/AppLogin/apk')}
         <br />
-        <A href='https://www.republik.ch/app/apk/latest'>
+        <A href='https://www.republik.ch/app/apk/latest' target='_blank'>
           {t('Onboarding/Sections/AppLogin/apk/link')}
         </A>
       </P>

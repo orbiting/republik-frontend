@@ -33,6 +33,10 @@ type Options = {
   onResponse?: any
 }
 
+function mergeExistingData(existing, incoming) {
+  return { ...existing, ...incoming }
+}
+
 function createApolloClient(
   options: Options = {}
 ): ApolloClient<NormalizedCacheObject> {
@@ -46,9 +50,14 @@ function createApolloClient(
             // Since Meta doesn't have a key-field, update cached data
             // Source: https://www.apollographql.com/docs/react/caching/cache-field-behavior/#merging-non-normalized-objects
             meta: {
-              merge(existing, incoming) {
-                return { ...existing, ...incoming }
-              }
+              merge: mergeExistingData
+            }
+          }
+        },
+        Discussion: {
+          fields: {
+            userPreference: {
+              merge: mergeExistingData
             }
           }
         }

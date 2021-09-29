@@ -1,7 +1,11 @@
 import '../lib/polyfill'
 
 import React from 'react'
-import { ApolloProvider, NormalizedCacheObject } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloProvider,
+  NormalizedCacheObject
+} from '@apollo/client'
 import Head from 'next/head'
 
 import { ColorContextProvider } from '@project-r/styleguide'
@@ -51,16 +55,17 @@ export type BasePageProps<P = unknown> = {
 
 const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
   const {
-    providedApolloClient = null,
+    // SSR only props
+    providedApolloClient = undefined,
     headers = undefined,
     serverContext = undefined,
     ...otherPageProps
   } = pageProps
-  const apolloClient = useApollo(otherPageProps)
+  const apolloClient = useApollo(otherPageProps, providedApolloClient)
 
   return (
     <ErrorBoundary>
-      <ApolloProvider client={providedApolloClient ?? apolloClient}>
+      <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
           <MediaProgressContext>
             <IconContextProvider value={{ style: { verticalAlign: 'middle' } }}>

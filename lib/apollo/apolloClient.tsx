@@ -26,8 +26,6 @@ if (!process.browser) {
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
-let apolloClient: ApolloClient<NormalizedCacheObject> = null
-
 type Options = {
   headers?: any
   onResponse?: any
@@ -101,6 +99,9 @@ function createApolloClient(
   })
 }
 
+// Client only, initializeApollo only sets it when in browser
+let apolloClient: ApolloClient<NormalizedCacheObject> = null
+
 /**
  * Initialize an Apollo Client. On the client the Apollo Client is shared across
  * the whole application and on the server a new instance is generated with each execution.
@@ -160,11 +161,15 @@ export function initializeApollo(
  * @returns {ApolloClient<unknown>|ApolloClient<any>}
  */
 export function useApollo<P extends unknown>(
-  pageProps: P
+  pageProps: P,
+  providedApolloClient?: ApolloClient<NormalizedCacheObject>
 ): ApolloClient<NormalizedCacheObject> {
   const apolloCache =
     pageProps && pageProps[APOLLO_STATE_PROP_NAME]
       ? pageProps[APOLLO_STATE_PROP_NAME]
       : null
-  return useMemo(() => initializeApollo(apolloCache), [apolloCache])
+  return useMemo(() => providedApolloClient || initializeApollo(apolloCache), [
+    apolloCache,
+    providedApolloClient
+  ])
 }

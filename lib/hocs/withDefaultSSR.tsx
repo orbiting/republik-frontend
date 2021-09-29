@@ -7,6 +7,7 @@ import { getDataFromTree } from '@apollo/client/react/ssr'
 import { NextPage, NextPageContext } from 'next'
 import { BasePageProps } from '../../pages/_app'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import { meQuery } from '../apollo/withMe'
 
 /**
  * Default Props used when rendering a page using SSR
@@ -75,6 +76,10 @@ function withDefaultSSR(
       })
 
       try {
+        await apolloClient.query({
+          query: meQuery
+        })
+
         // Run all GraphQL queries with a provided apolloClient
         await getDataFromTree(
           <AppTree

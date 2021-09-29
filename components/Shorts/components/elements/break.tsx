@@ -14,6 +14,7 @@ const Component: React.FC<{
 
 const node: BreakElement = {
   type: 'break',
+  // this may not be needed
   children: [{ text: '' }]
 }
 

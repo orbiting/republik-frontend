@@ -187,6 +187,11 @@ export type DataFormType<E> = React.FC<{
 
 export type needsDataFn<E> = (el: E) => boolean
 
+export type ElementStructureT = {
+  type: CustomElementsType
+  repeat?: boolean
+}
+
 export interface ElementConfigI extends NodeConfigI {
   insert?: InsertFn
   attrs?: ElementAttrsI
@@ -195,7 +200,7 @@ export interface ElementConfigI extends NodeConfigI {
   needsData?: needsDataFn
   normalizations?: NormalizeFn[]
   placeholder?: string
-  structure?: CustomElementsType[]
+  structure?: ElementStructureT[]
 }
 
 export type ElementsConfig = {

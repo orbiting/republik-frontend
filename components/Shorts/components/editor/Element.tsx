@@ -150,6 +150,7 @@ const hasNoBreakAncestor = (
 }
 
 // TODO: jump to next node instead of just disabling breaks
+//  move this in the normalisation logic
 export const withBreaksDisabled = (editor: CustomEditor): CustomEditor => {
   const { insertBreak } = editor
 
@@ -182,24 +183,24 @@ export const withElementsAttrs = (editor: CustomEditor): CustomEditor => {
 //  would do the trick?)
 const matchStructure: NormalizeFn<CustomElement> = ([node, path], editor) => {
   if (!SlateElement.isElement(node)) return
-  const structure = config[node.type].structure
-  if (!structure) return
+  const template = config[node.type].structure
 
-  structure.some((elementType, i) => {
+  if (!template) return
+
+  template.some((templateEl, i) => {
     if (
       node.children.length <= i ||
       (SlateElement.isElement(node.children[i]) &&
         // @ts-ignore
-        node.children[i].type !== elementType)
+        node.children[i].type !== templateEl.type)
     ) {
       Transforms.insertNodes(
         editor,
-        { type: elementType, children: [] },
+        { type: templateEl.type, children: [] },
         {
           at: path.concat(i)
         }
       )
-      return true
     }
   })
 }

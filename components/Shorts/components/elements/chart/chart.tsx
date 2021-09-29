@@ -4,10 +4,9 @@ import {
   ChartElement,
   DataFormType,
   ElementConfigI,
-  FigureImageElement, needsDataFn
-} from "../../custom-types";
+  needsDataFn
+} from '../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
-import ImageInput from '../../Publikator/ImageInput'
 
 const Component: React.FC<{
   attributes: Attributes

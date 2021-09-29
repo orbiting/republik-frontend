@@ -3,7 +3,7 @@ import { ContainerComponent } from '../../editor/Element'
 
 export const config: ElementConfigI = {
   Component: ContainerComponent,
-  structure: ['figureImage', 'figureCaption'],
+  structure: [{ type: 'figureImage' }, { type: 'figureCaption' }],
   attrs: {
     disableBreaks: true
   }

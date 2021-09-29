@@ -4,5 +4,5 @@ import { ElementConfigI } from '../../custom-types'
 
 export const config: ElementConfigI = {
   Component: PullQuote,
-  structure: ['pullQuoteText', 'pullQuoteSource']
+  structure: [{ type: 'pullQuoteText' }, { type: 'pullQuoteSource' }]
 }

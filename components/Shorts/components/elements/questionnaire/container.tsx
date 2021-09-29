@@ -19,7 +19,10 @@ const Component: React.FC<{
 
 export const config: ElementConfigI = {
   Component,
-  structure: ['questionnaireParagraph', 'questionnaireChoice'],
+  structure: [
+    { type: 'questionnaireParagraph' },
+    { type: 'questionnaireChoice' }
+  ],
   attrs: {
     disableBreaks: true
   }

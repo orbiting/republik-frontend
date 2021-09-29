@@ -66,14 +66,16 @@ const templates: TemplateButtonI[] = [
   { customElement: 'linkPreview', label: 'Link', icon: MdLink }
 ]
 
-const getElement = (elementType: CustomElementsType): CustomElement => ({
-  type: elementType,
-  children: elConfig[elementType].structure?.map(getElement) || [{ text: '' }]
+const getChildren = (element: { type: CustomElementsType }): CustomElement => ({
+  ...element,
+  children: elConfig[element.type].structure?.map(getChildren) || [{ text: '' }]
 })
 
 const getTree = (customElement?: CustomElementsType): CustomElement[] => {
-  const template = BASE_TEMPLATE.concat(customElement || [])
-  return template.map(getElement)
+  const template = BASE_TEMPLATE.concat(customElement || []).map(e => ({
+    type: e
+  }))
+  return template.map(getChildren)
 }
 
 const TemplatePicker: React.FC<{

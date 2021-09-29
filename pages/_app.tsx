@@ -1,17 +1,13 @@
 import '../lib/polyfill'
 
 import React from 'react'
-import {
-  ApolloClient,
-  ApolloProvider,
-  NormalizedCacheObject
-} from '@apollo/client'
+import { ApolloProvider, NormalizedCacheObject } from '@apollo/client'
 import Head from 'next/head'
 
 import { ColorContextProvider } from '@project-r/styleguide'
 import { IconContextProvider } from '@project-r/styleguide/icons'
 
-import { ErrorBoundary } from '../lib/errors'
+import { ErrorBoundary, reportError } from '../lib/errors'
 import { HeadersProvider } from '../lib/withHeaders'
 import Track from '../components/Track'
 import MessageSync from '../components/NativeApp/MessageSync'
@@ -22,6 +18,26 @@ import AppVariableContext from '../components/Article/AppVariableContext'
 import ColorSchemeSync from '../components/ColorScheme/Sync'
 import { APOLLO_STATE_PROP_NAME, useApollo } from '../lib/apollo/apolloClient'
 import { AppProps } from 'next/app'
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('error', (event: ErrorEvent) => {
+    const { message, filename, lineno, colno, error } = event
+    reportError(
+      'onerror',
+      (error && error.stack) || [message, filename, lineno, colno].join('\n')
+    )
+  })
+
+  window.addEventListener(
+    'unhandledrejection',
+    (event: PromiseRejectionEvent) => {
+      reportError(
+        'onunhandledrejection',
+        (event.reason && event.reason.stack) || event.reason
+      )
+    }
+  )
+}
 
 /**
  * Base PageProps that contains the apollo-cache utilized in SSG & SSR.

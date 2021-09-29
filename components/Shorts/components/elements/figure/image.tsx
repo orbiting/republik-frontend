@@ -2,9 +2,9 @@
 import { FigureImage } from '@project-r/styleguide'
 import {
   DataFormType,
+  dataRequiredType,
   ElementConfigI,
-  FigureImageElement,
-  needsDataFn
+  FigureImageElement
 } from '../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 import ImageInput from '../../Publikator/ImageInput'
@@ -38,12 +38,12 @@ const DataForm: DataFormType<FigureImageElement> = ({
   />
 )
 
-const needsData: needsDataFn<FigureImageElement> = el => !el.src
+const dataRequired: dataRequiredType<FigureImageElement> = ['src']
 
 export const config: ElementConfigI = {
   Component,
   DataForm,
-  needsData,
+  dataRequired,
   attrs: {
     isVoid: true,
     editUi: true

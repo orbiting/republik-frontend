@@ -12,7 +12,10 @@ const needsData = (value: (CustomElement | CustomText)[]): boolean =>
   value.some(
     node =>
       SlateElement.isElement(node) &&
-      ((elConfig[node.type].needsData && elConfig[node.type].needsData(node)) ||
+      ((elConfig[node.type].dataRequired || []).some(
+        // @ts-ignore
+        requiredKey => !node[requiredKey]
+      ) ||
         needsData(node.children))
   )
 

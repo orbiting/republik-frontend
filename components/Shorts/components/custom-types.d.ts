@@ -185,7 +185,7 @@ export type DataFormType<E> = React.FC<{
   setElement: (el: E) => void
 }>
 
-export type needsDataFn<E> = (el: E) => boolean
+export type dataRequiredType<E> = (keyof E)[]
 
 export type ElementStructureT = {
   type: CustomElementsType
@@ -197,7 +197,7 @@ export interface ElementConfigI extends NodeConfigI {
   attrs?: ElementAttrsI
   node?: CustomElement
   DataForm?: DataFormType
-  needsData?: needsDataFn
+  dataRequired?: dataRequiredType
   normalizations?: NormalizeFn[]
   placeholder?: string
   structure?: ElementStructureT[]

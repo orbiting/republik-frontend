@@ -3,8 +3,8 @@ import { Chart } from '@project-r/styleguide/lib/chart'
 import {
   ChartElement,
   DataFormType,
-  ElementConfigI,
-  needsDataFn
+  dataRequiredType,
+  ElementConfigI
 } from '../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 
@@ -27,10 +27,10 @@ const DataForm: DataFormType<ChartElement> = ({ element, setElement }) => (
   <div>TODO</div>
 )
 
-const needsData: needsDataFn<ChartElement> = el => !el.values || !el.config
+const dataRequired: dataRequiredType<ChartElement> = ['values', 'config']
 
 export const config: ElementConfigI = {
   Component,
   DataForm,
-  needsData
+  dataRequired
 }

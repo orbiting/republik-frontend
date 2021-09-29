@@ -50,7 +50,8 @@ const styles = {
     boxShadow: 'none',
     outline: 'none',
     padding: PADDING_MOBILE,
-    paddingRight: HEADER_HORIZONTAL_PADDING,
+    // Additional 4 px to account for scrollbar
+    paddingRight: HEADER_HORIZONTAL_PADDING + 4,
     lineHeight: 0,
     [mediaQueries.mUp]: {
       padding: PADDING_DESKTOP
@@ -58,7 +59,8 @@ const styles = {
   }),
   closeButton: css({
     position: 'absolute',
-    right: HEADER_HORIZONTAL_PADDING,
+    // Additional 4 px to account for scrollbar
+    right: HEADER_HORIZONTAL_PADDING + 4,
     top: PADDING_MOBILE,
     transition: `opacity ${TRANSITION_MS}ms ease-out`,
     [mediaQueries.mUp]: {

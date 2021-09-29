@@ -1,5 +1,21 @@
 # Kurzformat Editor
 
+- [Introduction](#introduction)
+- [Guides](#guides)
+    - [Adding New Elements](#adding-new-elements)
+    - [Adding New Marks](#adding-new-marks)
+    - [Adding New Templates](#adding-new-templates)
+    - [Handle Custom Data](#handle-custom-data)
+- [Concepts](#concepts)
+    - [Insertion](#insertion)
+    - [Normalisation](#normalisation)
+    - [Nodes Data](#nodes-data)
+    - [Toolbars](#toolbars)
+    - [Placeholders](#placeholders)
+    - [Character Count](#character-count)
+- [Config Options](#config-options)
+
+
 ## Introduction
 
 This editor sits comfortably on top of [SlateJS](https://docs.slatejs.org/). It exists to provide the authorship of [Republik](https://www.republik.ch) with a tool that integrates into one's daily flow and allows to compose quick, of-the-moment, structured content.

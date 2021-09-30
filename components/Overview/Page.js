@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import { withRouter } from 'next/router'
 import { max, ascending } from 'd3-array'
 import {

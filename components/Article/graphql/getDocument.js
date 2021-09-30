@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { onDocumentFragment } from '../../Bookmarks/fragments'
 import { userProgressFragment } from '../Progress/api'
 import { notificationInfo, subInfo } from '../../Notifications/enhancers'

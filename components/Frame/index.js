@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import {
   Container,
   RawHtml,

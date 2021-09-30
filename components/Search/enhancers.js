@@ -1,5 +1,5 @@
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import { documentFragment } from '../Feed/fragments'
 import { DEFAULT_FILTERS, DEFAULT_AGGREGATION_KEYS } from './constants'
 

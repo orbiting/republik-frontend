@@ -5,9 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const { NODE_ENV, CDN_FRONTEND_BASE_URL } = process.env
 
 module.exports = withBundleAnalyzer({
-  future: {
-    webpack5: true
-  },
+  webpack5: true,
   webpack: config => {
     config.externals = config.externals || {}
     config.externals['lru-cache'] = 'lru-cache'
@@ -36,9 +34,12 @@ module.exports = withBundleAnalyzer({
     NODE_ENV === 'production' && CDN_FRONTEND_BASE_URL
       ? CDN_FRONTEND_BASE_URL
       : '',
-  useFileSystemPublicRoutes: true
+  useFileSystemPublicRoutes: true,
   // , onDemandEntries: {
   //   // wait 5 minutes before disposing entries
   //   maxInactiveAge: 1000 * 60 * 5
   // }
+  eslint: {
+    ignoreDuringBuilds: true
+  }
 })

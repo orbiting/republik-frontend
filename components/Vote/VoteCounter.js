@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { graphql, compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
 import { css, merge } from 'glamor'
 
 import {
@@ -13,7 +14,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { swissNumbers } from '../../lib/utils/format'
 import VoteCountdown from './VoteCountdown'
 

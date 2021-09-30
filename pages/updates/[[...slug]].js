@@ -2,6 +2,7 @@ import React from 'react'
 import Frame from '../../components/Frame'
 
 import List from '../../components/Updates/List'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const UpdatesPage = ({ serverContext }) => (
   <Frame raw>
@@ -9,4 +10,4 @@ const UpdatesPage = ({ serverContext }) => (
   </Frame>
 )
 
-export default UpdatesPage
+export default withDefaultSSR(UpdatesPage)

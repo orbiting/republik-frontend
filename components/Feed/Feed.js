@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { nest } from 'd3-collection'
 import { timeFormat } from '../../lib/utils/format'
 import Link from '../Link/Href'

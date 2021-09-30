@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { merge, css } from 'glamor'
 
 import {

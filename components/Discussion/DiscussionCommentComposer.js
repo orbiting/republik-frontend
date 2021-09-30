@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import Link from 'next/link'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'

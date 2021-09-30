@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import Loader from '../Loader'
 
 import { STATUS_POLL_INTERVAL_MS } from '../../lib/constants'

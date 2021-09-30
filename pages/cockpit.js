@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { compose, graphql } from 'react-apollo'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
 import Router, { withRouter } from 'next/router'
 import { extent } from 'd3-array'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { timeMonth } from 'd3-time'
 
 import {
@@ -41,6 +42,7 @@ import withMe from '../lib/apollo/withMe'
 import { swissTime } from '../lib/utils/format'
 import withInNativeApp from '../lib/withInNativeApp'
 import Link from 'next/link'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const statusQuery = gql`
   query CockpitStatus(
@@ -752,4 +754,4 @@ const EnhancedPage = compose(
   })
 )(Page)
 
-export default EnhancedPage
+export default withDefaultSSR(EnhancedPage)

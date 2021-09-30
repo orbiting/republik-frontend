@@ -1,16 +1,18 @@
 import '../lib/polyfill'
 
-import App from 'next/app'
 import React from 'react'
-import { ApolloProvider } from 'react-apollo'
+import {
+  ApolloClient,
+  ApolloProvider,
+  NormalizedCacheObject
+} from '@apollo/client'
 import Head from 'next/head'
 
 import { ColorContextProvider } from '@project-r/styleguide'
 import { IconContextProvider } from '@project-r/styleguide/icons'
 
-import { reportError } from '../lib/errors'
+import { ErrorBoundary, reportError } from '../lib/errors'
 import { HeadersProvider } from '../lib/withHeaders'
-import withApolloClient from '../lib/apollo/withApolloClient'
 import Track from '../components/Track'
 import MessageSync from '../components/NativeApp/MessageSync'
 import AudioProvider from '../components/Audio/AudioProvider'
@@ -18,44 +20,51 @@ import AudioPlayer from '../components/Audio/AudioPlayer'
 import MediaProgressContext from '../components/Audio/MediaProgress'
 import AppVariableContext from '../components/Article/AppVariableContext'
 import ColorSchemeSync from '../components/ColorScheme/Sync'
+import { APOLLO_STATE_PROP_NAME, useApollo } from '../lib/apollo/apolloClient'
+import { AppProps } from 'next/app'
 
 if (typeof window !== 'undefined') {
-  const prevErrorHandler = window.onerror
-  window.onerror = (...args) => {
-    prevErrorHandler && prevErrorHandler(...args)
-    const [msg, url, lineNo, columnNo, error] = args
+  window.addEventListener('error', (event: ErrorEvent) => {
+    const { message, filename, lineno, colno, error } = event
     reportError(
       'onerror',
-      (error && error.stack) || [msg, url, lineNo, columnNo].join('\n')
+      (error && error.stack) || [message, filename, lineno, colno].join('\n')
     )
-  }
-  const prevRejectionHandler = window.onunhandledrejection
-  window.onunhandledrejection = (...args) => {
-    prevRejectionHandler && prevRejectionHandler(...args)
-    const [event] = args
-    reportError(
-      'onunhandledrejection',
-      (event.reason && event.reason.stack) || event.reason
-    )
-  }
+  })
+
+  window.addEventListener(
+    'unhandledrejection',
+    (event: PromiseRejectionEvent) => {
+      reportError(
+        'onunhandledrejection',
+        (event.reason && event.reason.stack) || event.reason
+      )
+    }
+  )
 }
 
-class WebApp extends App {
-  componentDidCatch(error, info) {
-    reportError(
-      'componentDidCatch',
-      `${error}${info.componentStack}\n${error && error.stack}`
-    )
-  }
-  render() {
-    const {
-      Component,
-      pageProps,
-      apolloClient,
-      headers,
-      serverContext
-    } = this.props
-    return (
+/**
+ * Base PageProps that contains the apollo-cache utilized in SSG & SSR.
+ */
+export type BasePageProps<P = unknown> = {
+  /**
+   * Shared cache between the client and server
+   */
+  [APOLLO_STATE_PROP_NAME]?: NormalizedCacheObject
+} & P // All other props given in a page
+
+const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
+  const {
+    // SSR only props
+    providedApolloClient = undefined,
+    headers = undefined,
+    serverContext = undefined,
+    ...otherPageProps
+  } = pageProps
+  const apolloClient = useApollo(otherPageProps, providedApolloClient)
+
+  return (
+    <ErrorBoundary>
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
           <MediaProgressContext>
@@ -70,7 +79,10 @@ class WebApp extends App {
                         content='width=device-width, initial-scale=1'
                       />
                     </Head>
-                    <Component serverContext={serverContext} {...pageProps} />
+                    <Component
+                      serverContext={serverContext}
+                      {...otherPageProps}
+                    />
                     <Track />
                     <AudioPlayer />
                     <MessageSync />
@@ -81,8 +93,8 @@ class WebApp extends App {
           </MediaProgressContext>
         </HeadersProvider>
       </ApolloProvider>
-    )
-  }
+    </ErrorBoundary>
+  )
 }
 
-export default withApolloClient(WebApp)
+export default WebApp

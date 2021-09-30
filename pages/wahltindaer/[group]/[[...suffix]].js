@@ -1,7 +1,8 @@
 import React, { Fragment, useRef } from 'react'
 import { withRouter } from 'next/router'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 
 import withT from '../../../lib/withT'
 import withMe from '../../../lib/apollo/withMe'
@@ -18,6 +19,7 @@ import StatusError from '../../../components/StatusError'
 import { cardFragment } from '../../../components/Card/fragments'
 import { useCardPreferences } from '../../../components/Card/Preferences'
 import medianSmartspiders from '../../../components/Card/medianSmartspiders'
+import withDefaultSSR from '../../../lib/hocs/withDefaultSSR'
 
 const query = gql`
   query getCardGroup(
@@ -413,4 +415,4 @@ const Page = ({
   )
 }
 
-export default compose(withMe, withRouter)(Page)
+export default withDefaultSSR(compose(withMe, withRouter)(Page))

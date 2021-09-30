@@ -1,7 +1,8 @@
 import React from 'react'
 import { withRouter } from 'next/router'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import { descending } from 'd3-array'
 import { css } from 'glamor'
 
@@ -26,6 +27,7 @@ import {
 } from '@project-r/styleguide'
 import { DiscussionIcon } from '@project-r/styleguide/icons'
 import Link from 'next/link'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const query = gql`
   query getCardGroups {
@@ -352,4 +354,4 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
   </Frame>
 )
 
-export default compose(withRouter, withT, graphql(query))(Page)
+export default withDefaultSSR(compose(withRouter, withT, graphql(query))(Page))

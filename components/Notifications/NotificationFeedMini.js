@@ -1,5 +1,6 @@
 import React from 'react'
-import { compose, graphql } from 'react-apollo'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
 import { nest } from 'd3-collection'
 import { css } from 'glamor'
 import { parse } from 'url'

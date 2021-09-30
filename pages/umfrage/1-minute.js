@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { compose, graphql } from 'react-apollo'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
 
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import withT, { t } from '../../lib/withT'
@@ -26,7 +27,7 @@ import {
   isEmptyAddress
 } from '../../components/Account/AddressForm'
 import FieldSet from '../../components/FieldSet'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import DetailsForm from '../../components/Account/DetailsForm'
 import {
   Interaction,
@@ -42,6 +43,7 @@ import { TrendingFlatIcon } from '@project-r/styleguide/icons'
 import NewsletterSignUp from '../../components/Auth/NewsletterSignUp'
 import Link from 'next/link'
 import { description } from './[slug]'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const SLUG = '1-minute'
 
@@ -165,15 +167,6 @@ const getWillingnessToHelp = questions => {
   return answer1 && answer1.payload.value[0]
 }
 
-const adaptedQuestionnaire = (data, notConvinced) => {
-  if (data && data.questionnaire) {
-    data.questionnaire.questions[0].text = notConvinced
-      ? t('questionnaire/crowd/question1/alt')
-      : t('questionnaire/crowd/question1')
-  }
-  return data
-}
-
 const ThankYouItem = compose(withT)(({ t, tKey }) => {
   return (
     <div {...styles.thankYouItem}>
@@ -244,7 +237,6 @@ const NoThanks = compose(withT)(({ t }) => {
 
 const initState = {
   willingnessStatus: undefined,
-  notConvinced: false,
   showErrors: false,
   values: {},
   errors: {},
@@ -270,7 +262,6 @@ class QuestionnaireCrowdPage extends Component {
     const isWilling = willingness === 'true'
     this.setState({
       willingnessStatus: willingness,
-      notConvinced: !isWilling,
       showErrors: isWilling ? this.state.showErrors : false,
       errors: isWilling ? this.state.errors : {},
       dirty: isWilling ? this.state.dirty : {}
@@ -394,8 +385,7 @@ class QuestionnaireCrowdPage extends Component {
       dirty,
       errors,
       showErrors,
-      willingnessStatus,
-      notConvinced
+      willingnessStatus
     } = this.state
 
     const submitted =
@@ -416,10 +406,7 @@ class QuestionnaireCrowdPage extends Component {
     return (
       <Frame meta={meta}>
         <Questionnaire
-          questionnaireData={adaptedQuestionnaire(
-            questionnaireData,
-            notConvinced
-          )}
+          questionnaireData={questionnaireData}
           externalSubmit
           hideCount
           questionnaireName='crowd'
@@ -446,9 +433,14 @@ class QuestionnaireCrowdPage extends Component {
                 showErrors={!updating && !!showErrors}
               />
             ) : (
-              <Figure>
-                <FigureImage src={gifLink} maxWidth={500} alt='Schade' />
-              </Figure>
+              <>
+                <Interaction.P style={{ marginBottom: 5 }}>
+                  {t('questionnaire/crowd/question1/alt')}
+                </Interaction.P>
+                <Figure>
+                  <FigureImage src={gifLink} maxWidth={500} alt='Schade' />
+                </Figure>
+              </>
             )}
             <QuestionnaireActions
               onSubmit={() => {
@@ -481,14 +473,16 @@ class QuestionnaireCrowdPage extends Component {
   }
 }
 
-export default compose(
-  WrappedComponent => props => <WrappedComponent {...props} slug={SLUG} />,
-  withQuestionnaire,
-  withMyDetails,
-  withMutation,
-  withQuestionnaireMutation,
-  withQuestionnaireReset,
-  withAddMeToRole,
-  withAuthorization(['supporter', 'editor'], 'showResults'),
-  enforceMembership(meta, { title: t('questionnaire/title'), description })
-)(QuestionnaireCrowdPage)
+export default withDefaultSSR(
+  compose(
+    WrappedComponent => props => <WrappedComponent {...props} slug={SLUG} />,
+    withQuestionnaire,
+    withMyDetails,
+    withMutation,
+    withQuestionnaireMutation,
+    withQuestionnaireReset,
+    withAddMeToRole,
+    withAuthorization(['supporter', 'editor'], 'showResults'),
+    enforceMembership(meta, { title: t('questionnaire/title'), description })
+  )(QuestionnaireCrowdPage)
+)

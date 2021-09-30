@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 
 import { Interaction } from '@project-r/styleguide'
 

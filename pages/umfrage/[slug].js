@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { enforceMembership } from '../../components/Auth/withMembership'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { t } from '../../lib/withT'
@@ -10,6 +10,7 @@ import { withQuestionnaire } from '../../components/Questionnaire/enhancers'
 import Questionnaire from '../../components/Questionnaire/Questionnaire'
 import Frame from '../../components/Frame'
 import Link from 'next/link'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const meta = {
   title: t('questionnaire/title'),
@@ -38,11 +39,13 @@ const QuestionnairePage = props => {
   )
 }
 
-export default compose(
-  withRouter,
-  WrappedComponent => props => (
-    <WrappedComponent {...props} slug={props.router.query.slug} />
-  ),
-  withQuestionnaire,
-  enforceMembership(meta, { title: t('questionnaire/title'), description })
-)(QuestionnairePage)
+export default withDefaultSSR(
+  compose(
+    withRouter,
+    WrappedComponent => props => (
+      <WrappedComponent {...props} slug={props.router.query.slug} />
+    ),
+    withQuestionnaire,
+    enforceMembership(meta, { title: t('questionnaire/title'), description })
+  )(QuestionnairePage)
+)

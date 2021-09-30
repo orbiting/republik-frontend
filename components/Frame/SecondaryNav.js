@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import {
   colors,
   mediaQueries,

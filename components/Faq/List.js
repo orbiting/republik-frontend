@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import { css, merge } from 'glamor'
 
 import Loader from '../Loader'

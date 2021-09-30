@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import withT from '../lib/withT'
@@ -10,6 +10,7 @@ import Cancel from '../components/Account/Memberships/Cancel'
 import SignIn from '../components/Auth/SignIn'
 
 import { Interaction } from '@project-r/styleguide'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const CancelMembershipPage = ({ router, me, t }) => {
   const { membershipId } = router.query
@@ -41,4 +42,6 @@ const CancelMembershipPage = ({ router, me, t }) => {
   )
 }
 
-export default compose(withRouter, withT, withMe)(CancelMembershipPage)
+export default withDefaultSSR(
+  compose(withRouter, withT, withMe)(CancelMembershipPage)
+)

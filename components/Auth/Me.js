@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
@@ -24,7 +24,4 @@ const Me = ({ me, t, email, beforeSignInForm, beforeSignedInAs }) =>
     <SignIn email={email} beforeForm={beforeSignInForm} />
   )
 
-export default compose(
-  withMe,
-  withT
-)(Me)
+export default compose(withMe, withT)(Me)

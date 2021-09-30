@@ -6,6 +6,7 @@ import Frame from '../components/Frame'
 import { getRandomInt } from '../lib/utils/helpers'
 import { MAX_PAYNOTE_SEED } from '../components/Article/PayNote'
 import Article from '../components/Article/Page'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const dynamicOptions = {
   loading: () => (
@@ -42,4 +43,4 @@ Page.getInitialProps = () => {
   }
 }
 
-export default Page
+export default withDefaultSSR(Page)

@@ -7,6 +7,7 @@ import md from 'markdown-in-js'
 import mdComponents from '../lib/utils/mdComponents'
 
 import { H2 } from '@project-r/styleguide'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 export const Content = () => md(mdComponents)`
 Stand Mai 2018
@@ -272,4 +273,4 @@ const PrivacyPage = () => {
   )
 }
 
-export default PrivacyPage
+export default withDefaultSSR(PrivacyPage)

@@ -3,9 +3,15 @@ import { css } from 'glamor'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
-import { graphql, compose } from 'react-apollo'
-import * as reactApollo from 'react-apollo'
-import * as graphqlTag from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import {
+  graphql,
+  withApollo,
+  withMutation,
+  withQuery,
+  withSubscription
+} from '@apollo/client/react/hoc'
+import { ApolloConsumer, ApolloProvider, gql } from '@apollo/client'
 
 import {
   Center,
@@ -74,8 +80,8 @@ import { cleanAsPath } from '../../lib/utils/link'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
-import gql from 'graphql-tag'
 import CommentLink from '../Discussion/CommentLink'
+import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 
 const dynamicOptions = {
   loading: () => <Loader loading />,
@@ -123,8 +129,24 @@ export const withCommentData = graphql(
 )
 
 const dynamicComponentRequire = createRequire().alias({
-  'react-apollo': reactApollo,
-  'graphql-tag': graphqlTag
+  'react-apollo': {
+    // Reexport react-apollo
+    // (work around until all dynamic components are updated)
+    // ApolloContext is no longer available but is exported in old versions of react-apollo
+    ApolloConsumer,
+    ApolloProvider,
+    Query,
+    Mutation,
+    Subscription,
+    graphql,
+    withQuery,
+    withMutation,
+    withSubscription,
+    withApollo,
+    compose
+  },
+  // Reexport graphql-tag to be used by dynamic-components
+  'graphql-tag': gql
 })
 
 const getSchemaCreator = template => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Loader from '../Loader'
 
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { CheckCircleIcon } from '@project-r/styleguide/icons'
 
 import {

@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 import Head from 'next/head'
 
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import withMe from '../lib/apollo/withMe'
@@ -35,6 +35,7 @@ import {
   ColorHtmlBodyColors
 } from '@project-r/styleguide'
 import Link from 'next/link'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const styles = {
   bar: css({
@@ -216,4 +217,6 @@ const Page = ({ router: { query: rawQuery }, t, me, inNativeApp }) => {
   )
 }
 
-export default compose(withMe, withT, withRouter, withInNativeApp)(Page)
+export default withDefaultSSR(
+  compose(withMe, withT, withRouter, withInNativeApp)(Page)
+)

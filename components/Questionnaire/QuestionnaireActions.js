@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { css, merge } from 'glamor'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 
 import { Button, A, InlineSpinner } from '@project-r/styleguide'
 

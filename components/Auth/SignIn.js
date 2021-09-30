@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, compose, withApollo } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql, withApollo } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import isEmail from 'validator/lib/isEmail'
 
 import withT from '../../lib/withT'

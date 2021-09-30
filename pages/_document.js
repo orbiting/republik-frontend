@@ -65,6 +65,7 @@ export default class MyDocument extends Document {
       nojs
     }
   }
+
   constructor(props) {
     super(props)
     const { __NEXT_DATA__, env } = props

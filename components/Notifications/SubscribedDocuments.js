@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { compose, graphql } from 'react-apollo'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
 import { possibleSubscriptions } from './enhancers'
 import {
   TeaserSectionTitle,

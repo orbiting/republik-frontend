@@ -5,10 +5,7 @@ import { css } from 'glamor'
 import { Interaction, A } from '@project-r/styleguide'
 
 import Section from '../Section'
-import {
-  CDN_FRONTEND_BASE_URL,
-  ASSETS_SERVER_BASE_URL
-} from '../../../lib/constants'
+import { CDN_FRONTEND_BASE_URL } from '../../../lib/constants'
 import withT from '../../../lib/withT'
 
 const { P } = Interaction
@@ -95,9 +92,7 @@ const AppLogin = props => {
       <P {...styles.p}>
         {t('Onboarding/Sections/AppLogin/apk')}
         <br />
-        <A
-          href={`${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/app/republik-2.0.1.apk`}
-        >
+        <A href='https://www.republik.ch/app/apk/latest' target='_blank'>
           {t('Onboarding/Sections/AppLogin/apk/link')}
         </A>
       </P>

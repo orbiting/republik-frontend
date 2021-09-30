@@ -51,18 +51,19 @@ function withDefaultSSR(
       props = await originalGetInitialProps(ctx)
     }
 
+    // We forward the accept header for webp detection
+    // - never forward cookie to client!
+    const headers = !process.browser
+      ? {
+          accept: ctx.req.headers.accept,
+          userAgent: ctx.req.headers['user-agent']
+        }
+      : undefined
+    props.headers = headers
+
     // Run all GraphQL queries in the component tree
     // and extract the resulting data
     if (!process.browser) {
-      // We forward the accept header for webp detection
-      // - never forward cookie to client!
-      const headers = !process.browser
-        ? {
-            accept: ctx.req.headers.accept,
-            userAgent: ctx.req.headers['user-agent']
-          }
-        : undefined
-
       const apolloClient = initializeApollo(null, {
         headers: ctx.req.headers,
         onResponse: response => {
@@ -85,7 +86,7 @@ function withDefaultSSR(
           <AppTree
             pageProps={{
               providedApolloClient: apolloClient,
-              headers: headers,
+              headers,
               serverContext: ctx,
               ...props
             }}

@@ -4,7 +4,7 @@ import {
   InMemoryCache,
   NormalizedCacheObject
 } from '@apollo/client'
-import { createLink, dataIdFromObject } from './initApollo'
+import { createLink } from './apolloLink'
 import deepMerge from '../deepMerge'
 import {
   inNativeAppBrowser,
@@ -60,7 +60,6 @@ function createApolloClient(
           }
         }
       },
-      dataIdFromObject,
       // Generated with a script found in the apollo-client docs:
       // https://www.apollographql.com/docs/react/data/fragments/#generating-possibletypes-automatically
       possibleTypes: {

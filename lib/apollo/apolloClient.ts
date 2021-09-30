@@ -157,6 +157,7 @@ export function initializeApollo(
  * will reuse the existing cache.
  *
  * @param pageProps
+ * @param providedApolloClient
  * @returns {ApolloClient<unknown>|ApolloClient<any>}
  */
 export function useApollo<P extends unknown>(

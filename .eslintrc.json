@@ -26,5 +26,17 @@
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.js", "**/*.jsx"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:prettier/recommended",
+        "plugin:@next/next/recommended"
+      ],
+      "parser": "babel-eslint"
+    }
+  ]
 }

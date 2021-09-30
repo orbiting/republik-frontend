@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect, useRef } from 'react'
 import { css } from 'glamor'
 
 import {
@@ -112,10 +112,17 @@ const NavLink = ({
   large
 }) => {
   const isActive = href === active
+  const linkRef = useRef()
+  useEffect(() => {
+    if (linkRef && linkRef.current && isActive) {
+      linkRef.current.scrollIntoView()
+    }
+  }, [isActive])
 
   return (
     <Link href={href} prefetch={prefetch ? undefined : prefetch} passHref>
       <NavA
+        ref={linkRef}
         title={title}
         inline={inline}
         onClick={

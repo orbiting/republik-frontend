@@ -6,7 +6,11 @@ import {
   plainButtonRule,
   useColorContext
 } from '@project-r/styleguide'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
+  HEADER_HORIZONTAL_PADDING
+} from '../constants'
 import { AccountBoxIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
 
@@ -36,7 +40,9 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
         {...styles.button}
         {...colorScheme.set('color', 'text')}
         style={{
-          paddingLeft: backButton ? BUTTON_PADDING_MOBILE / 2 : 16
+          paddingLeft: backButton
+            ? BUTTON_PADDING_MOBILE / 2
+            : HEADER_HORIZONTAL_PADDING
         }}
       >
         {me &&

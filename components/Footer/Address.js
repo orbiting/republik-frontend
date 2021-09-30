@@ -39,7 +39,7 @@ const Address = ({ t }) => {
           {t('footer/contact/mail')}
         </a>
         <br />
-        <Link prefetch={false} href='/imprint'>
+        <Link prefetch={false} href='/impressum'>
           <a {...colorScheme.set('color', 'text')}>{t('footer/media')}</a>
         </Link>
       </P>

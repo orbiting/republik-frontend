@@ -41,5 +41,13 @@ module.exports = withBundleAnalyzer({
   // }
   eslint: {
     ignoreDuringBuilds: true
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/~:slug',
+        destination: '/~/:slug',
+      }
+    ]
   }
 })

@@ -36,7 +36,10 @@
         "plugin:prettier/recommended",
         "plugin:@next/next/recommended"
       ],
-      "parser": "babel-eslint"
+      "parser": "babel-eslint",
+      "rules": {
+        "react/prop-types": "off"
+      }
     }
   ]
 }

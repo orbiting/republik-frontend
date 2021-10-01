@@ -49,5 +49,14 @@ module.exports = withBundleAnalyzer({
         destination: '/~/:slug',
       }
     ]
-  }
+  },
+  async redirects() {
+    return [
+      {
+        source: '/~/:slug',
+        destination: '/~:slug',
+        permanent: true,
+      },
+    ]
+  },
 })

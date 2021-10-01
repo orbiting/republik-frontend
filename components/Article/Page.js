@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useMemo, useContext } from 'react'
 import { css } from 'glamor'
 import Link from 'next/link'
-import { withRouter } from 'next/router'
+import { useRouter, withRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
 import compose from 'lodash/flowRight'
 import {
@@ -11,7 +11,7 @@ import {
   withQuery,
   withSubscription
 } from '@apollo/client/react/hoc'
-import { ApolloConsumer, ApolloProvider, gql } from '@apollo/client'
+import { ApolloConsumer, ApolloProvider, gql, useQuery } from '@apollo/client'
 
 import {
   Center,
@@ -45,7 +45,7 @@ import Extract from './Extract'
 import { PayNote } from './PayNote'
 import Progress from './Progress'
 import PodcastButtons from './PodcastButtons'
-import { getDocument } from './graphql/getDocument'
+import { getPublicDocumentData } from './graphql/getDocument'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -156,8 +156,12 @@ const getSchemaCreator = template => {
   if (!schema) {
     try {
       console.error(`Unkown Schema ${key}`)
-    } catch (e) {}
-    return () => {}
+    } catch (e) {
+      console.error(e)
+    }
+    return () => {
+      return
+    }
   }
   return schema
 }
@@ -185,8 +189,6 @@ const ArticlePage = ({
   router,
   t,
   me,
-  data,
-  data: { article, refetch },
   isMember,
   isEditor,
   inNativeApp,
@@ -200,6 +202,21 @@ const ArticlePage = ({
   const actionBarRef = useRef()
   const bottomActionBarRef = useRef()
   const galleryRef = useRef()
+
+  const { asPath } = useRouter()
+
+  const {
+    data,
+    refetch,
+    loading: articleLoading,
+    error: articleError
+  } = useQuery(getPublicDocumentData, {
+    variables: {
+      path: cleanAsPath(asPath)
+    },
+    fetchPolicy: 'cache-only'
+  })
+  const { article } = data ?? {}
 
   const articleMeta = article?.meta
   const articleContent = article?.content
@@ -351,8 +368,8 @@ const ArticlePage = ({
   if (extract) {
     return (
       <Loader
-        loading={data.loading}
-        error={data.error}
+        loading={articleLoading}
+        error={articleError}
         render={() => {
           if (!article) {
             return (
@@ -427,8 +444,8 @@ const ArticlePage = ({
       pageColorSchemeKey={colorSchemeKey}
     >
       <Loader
-        loading={data.loading}
-        error={data.error}
+        loading={articleLoading}
+        error={articleError}
         render={() => {
           if (!article || !schema) {
             return (
@@ -750,14 +767,7 @@ const ComposedPage = compose(
   withEditor,
   withInNativeApp,
   withRouter,
-  withMarkAsReadMutation,
-  graphql(getDocument, {
-    options: ({ router: { asPath } }) => ({
-      variables: {
-        path: cleanAsPath(asPath)
-      }
-    })
-  })
+  withMarkAsReadMutation
 )(ArticlePage)
 
 export default ComposedPage

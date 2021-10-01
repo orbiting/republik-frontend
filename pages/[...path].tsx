@@ -5,8 +5,8 @@ import createGetStaticProps from '../lib/helpers/createGetStaticProps'
 import { GetStaticPaths } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { BasePageProps } from './_app'
-import { getDocument } from '../components/Article/graphql/getDocument'
 import { gql } from '@apollo/client'
+import { getPublicDocumentData } from '../components/Article/graphql/getDocument'
 
 type Params = {
   path: string[]
@@ -21,13 +21,12 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 
 export const getStaticProps = createGetStaticProps<BasePageProps, Params>(
   async (client, params) => {
-    console.log('FETCHING GET STATIC PROPS!!!')
     const path = '/' + params.path.join('/')
 
     const {
       data: { article }
     } = await client.query({
-      query: getDocument,
+      query: getPublicDocumentData,
       variables: {
         path
       }
@@ -39,7 +38,7 @@ export const getStaticProps = createGetStaticProps<BasePageProps, Params>(
           payNoteTryOrBuy: Math.random(),
           payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
         },
-        revalidate: 10
+        revalidate: 1
       }
     }
 

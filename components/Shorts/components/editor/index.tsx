@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import { Slate, Editable, withReact } from 'slate-react'
@@ -14,7 +14,11 @@ import {
   withNormalizations,
   withTemplate
 } from './Element'
-import { CustomElement, CustomElementsType } from '../custom-types'
+import {
+  CustomDescendant,
+  CustomElement,
+  CustomElementsType
+} from '../custom-types'
 import Actions from './ui/Actions'
 // @ts-ignore
 import { Label, plainButtonRule } from '@project-r/styleguide'
@@ -30,13 +34,14 @@ const styles = {
 }
 
 const Editor: React.FC<{
-  initValue: CustomElement[]
+  value: CustomDescendant[]
+  setValue: (t: CustomDescendant[]) => void
   reset: () => void
   localStorageId?: string
-}> = ({ initValue, reset, localStorageId }) => {
+}> = ({ value, setValue, reset, localStorageId }) => {
   const editor = useMemo(
     () =>
-      withTemplate(initValue)(
+      withTemplate(value as CustomElement[])(
         withCharLimit(
           withNormalizations(
             withBreaksDisabled(
@@ -47,7 +52,6 @@ const Editor: React.FC<{
       ),
     []
   )
-  const [value, setValue] = useState<Descendant[]>(initValue)
   const containerRef = React.useRef<HTMLDivElement>(null)
 
   const renderElement = useCallback(props => {

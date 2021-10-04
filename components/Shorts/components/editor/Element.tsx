@@ -12,11 +12,12 @@ import { useSlate } from 'slate-react'
 import { editorAttrsKey, config, configKeys } from '../elements'
 import { ToolbarButton } from './ui/Toolbar'
 import {
+  CustomDescendant,
   CustomEditor,
   CustomElement,
   CustomElementsType,
   NormalizeFn
-} from '../custom-types'
+} from "../custom-types";
 // @ts-ignore
 import { useColorContext } from '@project-r/styleguide'
 
@@ -178,31 +179,31 @@ export const withElementsAttrs = (editor: CustomEditor): CustomEditor => {
   return editor
 }
 
-// TODO: this one is doing weird things...
-//  (Maybe instead of normalisation tweaking the insert/delete functions
-//  would do the trick?)
 const matchStructure: NormalizeFn<CustomElement> = ([node, path], editor) => {
   if (!SlateElement.isElement(node)) return
   const template = config[node.type].structure
 
   if (!template) return
 
-  template.some((templateEl, i) => {
+  console.log('normalisation', node, path)
+
+  for (let i = 0; i < template.length; i++) {
+    const templateEl = template[i]
+    const currentEl = node.children[i]
     if (
-      node.children.length <= i ||
-      (SlateElement.isElement(node.children[i]) &&
-        // @ts-ignore
-        node.children[i].type !== templateEl.type)
+      SlateElement.isElement(currentEl) &&
+      currentEl.type !== templateEl.type
     ) {
-      Transforms.insertNodes(
+      console.log('insert', templateEl, 'at', path.concat(i))
+      return Transforms.insertNodes(
         editor,
-        { type: templateEl.type, children: [] },
+        { ...templateEl, children: [] },
         {
           at: path.concat(i)
         }
       )
     }
-  })
+  }
 }
 
 const BASE_NORMALIZATIONS = [matchStructure]
@@ -212,13 +213,13 @@ export const withNormalizations = (editor: CustomEditor): CustomEditor => {
   editor.normalizeNode = ([node, path]) => {
     configKeys.forEach(elKey => {
       if (matchElement(elKey)(node)) {
-        normalizeNode([node, path])
         const customNormalizations = BASE_NORMALIZATIONS.concat(
           config[elKey].normalizations || []
         )
         customNormalizations.forEach(normalizeFn =>
           normalizeFn([node as CustomElement, path], editor)
         )
+        normalizeNode([node, path])
       }
     })
   }

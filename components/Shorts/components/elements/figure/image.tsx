@@ -17,7 +17,9 @@ const Component: React.FC<{
   return (
     <div {...attributes}>
       <div contentEditable={false}>
-        <FigureImage {...element} />
+        <FigureImage
+          {...{ ...element, src: element.src || '/static/placeholder.png' }}
+        />
       </div>
       {children}
     </div>

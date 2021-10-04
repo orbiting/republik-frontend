@@ -79,15 +79,15 @@ const getTree = (customElement?: CustomElementsType): CustomElement[] => {
 }
 
 const TemplatePicker: React.FC<{
-  setInitValue: (t: CustomElement[]) => void
-}> = ({ setInitValue }) => (
+  setValue: (t: CustomElement[]) => void
+}> = ({ setValue }) => (
   <div {...styles.chartWrapper}>
     {templates.map(template => {
       return (
         <div
           key={template.label}
           {...styles.chartButton}
-          onClick={() => setInitValue(getTree(template.customElement))}
+          onClick={() => setValue(getTree(template.customElement))}
         >
           <template.icon size={24} />
           <span {...styles.chartButtonText}>{template.label}</span>

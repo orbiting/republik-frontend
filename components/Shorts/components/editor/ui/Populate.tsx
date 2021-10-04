@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
-import { CustomElement, CustomText } from '../../custom-types'
+import { CustomDescendant, CustomElement } from '../../custom-types'
 import { config as elConfig } from '../../elements'
 import { Element as SlateElement } from 'slate'
 
 const DataForms: React.FC<{
-  nodes: (CustomElement | CustomText)[]
-  setNodes: (n: (CustomElement | CustomText)[]) => void
+  nodes: CustomDescendant[]
+  setNodes: (n: CustomDescendant[]) => void
 }> = ({ nodes, setNodes }) => {
   return (
     <div>

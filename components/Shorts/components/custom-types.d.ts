@@ -127,6 +127,8 @@ export type CustomElement =
   | QuestionnaireChoiceElement
   | LinkPreviewElement
 
+export type CustomDescendant = CustomElement | CustomText
+
 // TODO: infer this from CustomElement (see above)
 export type CustomElementsType =
   | 'headline'

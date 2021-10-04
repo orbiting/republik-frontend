@@ -36,9 +36,9 @@ const styles = {
 }
 
 const Drafts: React.FC<{
-  setInitValue: (t: CustomElement[]) => void
+  setValue: (t: CustomElement[]) => void
   setLocalStorageId: (id: string) => void
-}> = ({ setInitValue, setLocalStorageId }) => {
+}> = ({ setValue, setLocalStorageId }) => {
   const [drafts, setDrafts] = useShortDrafts([])
   const [colorScheme] = useColorContext()
 
@@ -64,7 +64,7 @@ const Drafts: React.FC<{
               href='#'
               key={draft.id}
               onClick={() => {
-                setInitValue(draft.value)
+                setValue(draft.value)
                 setLocalStorageId(draft.id)
               }}
               {...styles.link}

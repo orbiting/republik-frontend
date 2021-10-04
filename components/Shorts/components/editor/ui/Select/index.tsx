@@ -4,12 +4,12 @@ import TemplatePicker from './Templates'
 import Drafts from './Drafts'
 
 const Select: React.FC<{
-  setInitValue: (t: CustomElement[]) => void
+  setValue: (t: CustomElement[]) => void
   setLocalStorageId: (id: string) => void
-}> = ({ setInitValue, setLocalStorageId }) => (
+}> = ({ setValue, setLocalStorageId }) => (
   <>
-    <TemplatePicker setInitValue={setInitValue} />
-    <Drafts setInitValue={setInitValue} setLocalStorageId={setLocalStorageId} />
+    <TemplatePicker setValue={setValue} />
+    <Drafts setValue={setValue} setLocalStorageId={setLocalStorageId} />
   </>
 )
 

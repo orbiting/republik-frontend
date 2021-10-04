@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
 // @ts-ignore
 import { Overlay, OverlayToolbar, OverlayBody } from '@project-r/styleguide'
-import { CustomElement, CustomText } from './components/custom-types'
+import {
+  CustomDescendant,
+  CustomElement,
+  CustomText
+} from './components/custom-types'
 import Select from './components/editor/ui/Select'
 import Populate from './components/editor/ui/Populate'
 import Editor from './components/editor'
 import { config as elConfig } from './components/elements'
 import { Element as SlateElement } from 'slate'
 
-const needsData = (value: (CustomElement | CustomText)[]): boolean =>
-  value.some(
+const needsData = (value: (CustomElement | CustomText)[]): boolean => {
+  return value.some(
     node =>
       SlateElement.isElement(node) &&
       ((elConfig[node.type].dataRequired || []).some(
@@ -18,6 +22,7 @@ const needsData = (value: (CustomElement | CustomText)[]): boolean =>
       ) ||
         needsData(node.children))
   )
+}
 
 enum Step {
   Select,
@@ -25,18 +30,18 @@ enum Step {
   Edit
 }
 
-const getStep = (value: CustomElement[]): Step => {
+const getStep = (value: CustomDescendant[]): Step => {
   if (!value.length) return 0
   else if (needsData(value)) return 1
   return 2
 }
 
 const EditorOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [initValue, setInitValue] = useState<CustomElement[]>([])
+  const [value, setValue] = useState<CustomDescendant[]>([])
   const [localStorageId, setLocalStorageId] = useState<string>()
-  const step = getStep(initValue)
+  const step = getStep(value)
   const reset = () => {
-    setInitValue([])
+    setValue([])
     setLocalStorageId(undefined)
   }
 
@@ -48,19 +53,15 @@ const EditorOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {
             [Step.Select]: (
               <Select
-                setInitValue={setInitValue}
+                setValue={setValue}
                 setLocalStorageId={setLocalStorageId}
               />
             ),
-            [Step.Populate]: (
-              <Populate
-                nodes={initValue}
-                setNodes={v => setInitValue(v as CustomElement[])}
-              />
-            ),
+            [Step.Populate]: <Populate nodes={value} setNodes={setValue} />,
             [Step.Edit]: (
               <Editor
-                initValue={initValue}
+                value={value}
+                setValue={setValue}
                 reset={reset}
                 localStorageId={localStorageId}
               />

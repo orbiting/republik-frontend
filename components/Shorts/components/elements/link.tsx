@@ -6,7 +6,7 @@ import {
   InsertFn,
   LinkElement,
   NormalizeFn
-} from '../custom-types'
+} from '../../custom-types'
 // @ts-ignore
 import { Editorial } from '@project-r/styleguide'
 
@@ -53,5 +53,5 @@ export const config: ElementConfigI = {
     editUi: true,
     formatText: true
   },
-  button: { icon: MdLink }
+  button: { icon: MdLink, toolbar: 'hovering' }
 }

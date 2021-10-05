@@ -1,4 +1,4 @@
-import { ElementsConfig, EditorAttr } from '../custom-types'
+import { EditorAttr, ElementsConfig } from "../../custom-types";
 import { config as link } from './link'
 import { config as paragraph } from './paragraph'
 import { config as headline } from './headline'
@@ -46,4 +46,4 @@ export const configKeys: (keyof ElementsConfig)[] = Object.keys(
   config
 ) as (keyof ElementsConfig)[]
 
-export const editorAttrsKey: EditorAttr[] = ['isVoid', 'isInline']
+export const coreEditorAttrs: EditorAttr[] = ['isVoid', 'isInline']

@@ -1,5 +1,5 @@
 import React, { Attributes, Fragment, ReactElement } from 'react'
-import { BreakElement, ElementConfigI } from '../custom-types'
+import { BreakElement, ElementConfigI } from '../../custom-types'
 import { MdKeyboardReturn } from '@react-icons/all-files/md/MdKeyboardReturn'
 
 const Component: React.FC<{
@@ -14,7 +14,7 @@ const Component: React.FC<{
 
 const node: BreakElement = {
   type: 'break',
-  // this may not be needed
+  // TODO: this may not be needed
   children: [{ text: '' }]
 }
 
@@ -26,5 +26,5 @@ export const config: ElementConfigI = {
     isVoid: true
   },
   // TODO: specify which toolbar it belongs to here
-  button: { icon: MdKeyboardReturn }
+  button: { icon: MdKeyboardReturn, toolbar: 'fixed' }
 }

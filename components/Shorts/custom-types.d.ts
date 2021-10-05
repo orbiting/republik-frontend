@@ -129,6 +129,8 @@ export type CustomElement =
 
 export type CustomDescendant = CustomElement | CustomText
 
+export type CustomNode = CustomEditor | CustomDescendant
+
 // TODO: infer this from CustomElement (see above)
 export type CustomElementsType =
   | 'headline'
@@ -151,9 +153,12 @@ export type CustomElementsType =
   | 'questionnaireChoice'
   | 'linkPreview'
 
+export type ToolbarType = 'hovering' | 'fixed'
+
 interface ButtonI {
   icon: IconType
   small?: boolean
+  toolbar: ToolbarType
 }
 
 interface EditorAttrsI {
@@ -219,6 +224,10 @@ export interface DraftI {
   title: string
   id: string
   value: CustomElement[]
+}
+
+export type EditorConfig = {
+  maxSigns: number
 }
 
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor

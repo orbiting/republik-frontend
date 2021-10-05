@@ -4,7 +4,7 @@ import { useSlate } from 'slate-react'
 import { config, configKeys } from '../marks'
 import { ToolbarButton } from './ui/Toolbar'
 import { Placeholder } from './ui/Placeholder'
-import { CustomEditor, CustomMarksType, CustomText } from '../custom-types'
+import { CustomEditor, CustomMarksType, CustomText } from '../../custom-types'
 
 const isMarkActive = (editor: CustomEditor, mKey: CustomMarksType): boolean => {
   const marks = Editor.marks(editor)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { CustomElement } from '../../../custom-types'
+import { CustomElement } from '../../../../custom-types'
 import TemplatePicker from './Templates'
 import Drafts from './Drafts'
 

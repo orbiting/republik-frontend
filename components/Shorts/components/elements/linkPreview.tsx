@@ -3,7 +3,7 @@ import {
   dataRequiredType,
   ElementConfigI,
   LinkPreviewElement
-} from '../custom-types'
+} from '../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 // @ts-ignore
 import { Embed } from '@project-r/styleguide/lib/components/Discussion/Internal/Comment/Embed'
@@ -80,7 +80,7 @@ const Component: React.FC<{
   children: ReactElement
   element: LinkPreviewElement
 }> = ({ attributes, children, element }) => (
-  <div {...attributes} contentEditable={false}>
+  <div {...attributes}>
     {element.src && (
       <LinkPreview path={element.src.replace(PUBLIC_BASE_URL, '')} />
     )}
@@ -100,6 +100,7 @@ export const config: ElementConfigI = {
   DataForm,
   dataRequired,
   attrs: {
+    isVoid: true,
     editUi: true
   }
 }

@@ -12,7 +12,7 @@ import {
   CustomElement,
   CustomElementsType,
   TemplateButtonI
-} from '../../../custom-types'
+} from '../../../../custom-types'
 import { config as elConfig } from '../../../elements'
 
 const styles = {

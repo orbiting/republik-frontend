@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { CustomElement, CustomText } from '../../custom-types'
+import { CustomElement, CustomText } from '../../../custom-types'
 
 const styles = {
   placeholder: css({

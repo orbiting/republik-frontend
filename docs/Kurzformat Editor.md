@@ -173,9 +173,7 @@ const Component: React.FC<{
 }> = ({ attributes, children, element }) => {
   return (
     <div {...attributes}>
-      <div contentEditable={false}>
-        <FigureImage {...element} />
-      </div>
+      <FigureImage {...element} />
       {children}
     </div>
   )
@@ -269,14 +267,13 @@ const Component: React.FC<{
 export const config: NodeConfigI = {
   Component,
   button: {
-  	toolbar: 'floating',
+  	toolbar: 'hovering',
 	icon: MdStrikethroughS
   }
 }
 ```
-*To be implemented:* Toolbar in config.
 
-The `button` configuration works for marks and elements alike. We offer two `toolbar` options: `floating` xor `fixed`.
+The `button` configuration works for marks and elements alike. We offer two `toolbar` options: `hovering` xor `fixed`.
 
 > You may or may not have noticed that this `Component` is, in fact, a span. It is expected from mark components that they behave and keep themselves inline (no divs here).
 
@@ -595,13 +592,16 @@ export const LeafComponent: React.FC<{
 
 The last important feature of something named "kurzformat" is the length – or rather, the shortness – for which we use the `withCharLimit` decorator. 
 
-This decorator intercepts Slate's `insertText`, `insertFragment` and `insertNode` and triggers an early return wheneverr the aggregate of all text in the editor is more than `MAX_SIGNS` (currently 3000).
-
-*To be implemented:* Create an editor config and migrate `MAX_SIGNS` there.
+This decorator intercepts Slate's `insertText`, `insertFragment` and `insertNode` and triggers an early return wheneverr the aggregate of all text in the editor is more than the number of `maxSigns` specified in the editor config (currently 3000).
 
 ## Config Options
 
-### Shared Config Options
+### Mark/Element Config
+
+Name | Description
+:--- | ---:
+Component | Slate compliant React component
+button | *see above*
 
 #### `button`
 
@@ -610,11 +610,10 @@ Name | Description
 icon | React icon
 small | boolean
 
-### Element Config
+### Element-specific Config
 
 Name | Description
 :--- | ---:
-Component | Slate compliant React component
 insert | function
 node | Slate node
 DataForm | data form
@@ -623,7 +622,6 @@ normalizations | array of normalisers
 placeholder | string
 structure | array of `structure elements`
 attrs | *see below*
-button | *see below*
 
 #### `structure element`
 
@@ -642,11 +640,8 @@ editUi | boolean
 formatText | boolean
 disableBreaks | boolean
 
-### Mark Config
+### Editor Config
 
 Name | Description
 :--- | ---:
-Component | React component
-button | *see above*
-
-
+maxSigns | number

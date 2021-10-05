@@ -9,8 +9,7 @@ import { EditableElement } from './ui/Edit'
 import { LeafComponent } from './Mark'
 import {
   withBreaksDisabled,
-  withCharLimit,
-  withElementsAttrs,
+  withElAttrsConfig,
   withNormalizations,
   withTemplate
 } from './Element'
@@ -18,12 +17,13 @@ import {
   CustomDescendant,
   CustomElement,
   CustomElementsType
-} from '../custom-types'
+} from '../../custom-types'
 import Actions from './ui/Actions'
 // @ts-ignore
 import { Label, plainButtonRule } from '@project-r/styleguide'
 import { MdChevronLeft } from '@react-icons/all-files/md/MdChevronLeft'
 import { css } from 'glamor'
+import { withCharLimit } from './ui/CharCount'
 
 const styles = {
   discreteButton: css({
@@ -45,7 +45,7 @@ const Editor: React.FC<{
         withCharLimit(
           withNormalizations(
             withBreaksDisabled(
-              withElementsAttrs(withReact(withHistory(createEditor())))
+              withElAttrsConfig(withReact(withHistory(createEditor())))
             )
           )
         )

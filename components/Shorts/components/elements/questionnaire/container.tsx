@@ -1,4 +1,4 @@
-import { ElementConfigI } from '../../custom-types'
+import { ElementConfigI } from '../../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 import { css } from 'glamor'
 

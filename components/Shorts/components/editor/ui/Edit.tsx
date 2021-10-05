@@ -12,7 +12,7 @@ import { css } from 'glamor'
 import { Field, useColorContext } from '@project-r/styleguide'
 import { hasAncestor } from '../../Styleguide/Callout'
 import { config as elementsConfig } from '../../elements'
-import { CustomElement } from '../../custom-types'
+import { CustomElement } from '../../../custom-types'
 
 const styles = {
   boxWrapper: css({

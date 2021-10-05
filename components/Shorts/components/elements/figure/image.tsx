@@ -5,7 +5,7 @@ import {
   dataRequiredType,
   ElementConfigI,
   FigureImageElement
-} from '../../custom-types'
+} from '../../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 import ImageInput from '../../Publikator/ImageInput'
 
@@ -16,11 +16,7 @@ const Component: React.FC<{
 }> = ({ attributes, children, element }) => {
   return (
     <div {...attributes}>
-      <div contentEditable={false}>
-        <FigureImage
-          {...{ ...element, src: element.src || '/static/placeholder.png' }}
-        />
-      </div>
+      <FigureImage {...element} />
       {children}
     </div>
   )

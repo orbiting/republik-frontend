@@ -1,7 +1,6 @@
 import React, {
   MouseEvent,
   ReactElement,
-  Ref,
   useEffect,
   useRef,
   useState
@@ -9,30 +8,29 @@ import React, {
 // @ts-ignore
 import ReactDOM from 'react-dom'
 import { css } from 'glamor'
-
 // @ts-ignore
 import { useColorContext, Label } from '@project-r/styleguide'
 import IconButton from '../../Styleguide/IconButton'
-
 import { MarkButton } from '../Mark'
-import { CharCount, ElementButton } from '../Element'
+import { ElementButton } from '../Element'
 import {
   ButtonI,
   CustomEditor,
   CustomElement,
-  CustomElementsType
-} from '../../custom-types'
-import { config as elConfig } from '../../elements'
-import { configKeys as mKeys } from '../../marks'
+  ToolbarType
+} from '../../../custom-types'
+import { config as elConfig, configKeys as elKeys } from '../../elements'
+import { config as mConfig, configKeys as mKeys } from '../../marks'
 import { useSlate, ReactEditor } from 'slate-react'
 import {
   Editor,
-  Text,
-  Node,
   Range,
   Element as SlateElement,
-  BasePoint
+  BasePoint,
+  Node,
+  Text
 } from 'slate'
+import { CharCount } from './CharCount'
 
 const styles = {
   fixedToolbar: css({
@@ -62,6 +60,83 @@ const styles = {
   })
 }
 
+const getParentElement = (
+  editor: CustomEditor,
+  anchor: BasePoint,
+  focus: BasePoint
+): CustomEditor | CustomElement => {
+  let [parentElement] = Node.common(
+    editor,
+    Editor.path(editor, anchor),
+    Editor.path(editor, focus)
+  )
+  if (Text.isText(parentElement)) {
+    parentElement = Node.parent(editor, Editor.path(editor, anchor))
+  }
+  return parentElement
+}
+
+const allowsHoveringToolbar = (
+  editor: CustomEditor,
+  selection: Range
+): boolean => {
+  const parentElement = getParentElement(
+    editor,
+    selection.anchor,
+    selection.focus
+  )
+  return (
+    SlateElement.isElement(parentElement) &&
+    !!elConfig[parentElement.type].attrs?.formatText
+  )
+}
+
+const hasVisibleSelection = (editor: CustomEditor, selection: Range): boolean =>
+  !Range.isCollapsed(selection) &&
+  ReactEditor.isFocused(editor) &&
+  Editor.string(editor, selection) !== ''
+
+const showHoveringToolbar = (editor: CustomEditor): boolean => {
+  const { selection } = editor
+  return (
+    !!selection &&
+    hasVisibleSelection(editor, selection) &&
+    allowsHoveringToolbar(editor, selection)
+  )
+}
+
+const calcHoverPosition = (
+  element: HTMLDivElement,
+  container: HTMLDivElement | null
+): {
+  top?: number
+  left?: number
+} => {
+  const rect = window
+    .getSelection()
+    ?.getRangeAt(0)
+    ?.getBoundingClientRect()
+  if (!rect) return {}
+
+  const top = rect.top + window.pageYOffset - element.offsetHeight
+  const centered = rect.left - element.offsetWidth / 2 + rect.width / 2
+  const left = container
+    ? Math.min(
+        container.getBoundingClientRect().right - // right edge
+          element.getBoundingClientRect().width,
+        Math.max(
+          container.getBoundingClientRect().left, // left edge
+          centered
+        )
+      )
+    : centered
+
+  return {
+    top,
+    left
+  }
+}
+
 export const ToolbarButton: React.FC<{
   button: ButtonI
   onClick: () => void
@@ -79,7 +154,22 @@ export const ToolbarButton: React.FC<{
   />
 )
 
-export const FixedToolbar = () => {
+const ToolbarButtons: React.FC<{ type: ToolbarType }> = ({ type }) => (
+  <>
+    {mKeys
+      .filter(mKey => mConfig[mKey]?.button?.toolbar === type)
+      .map(mKey => (
+        <MarkButton key={mKey} mKey={mKey} />
+      ))}
+    {elKeys
+      .filter(elKey => elConfig[elKey]?.button?.toolbar === type)
+      .map(elKey => (
+        <ElementButton key={elKey} elKey={elKey} />
+      ))}
+  </>
+)
+
+export const FixedToolbar: React.FC = () => {
   const editor = useSlate()
   const [colorScheme] = useColorContext()
   const [hasSelection, setSelection] = useState<boolean>(false)
@@ -96,34 +186,11 @@ export const FixedToolbar = () => {
         <CharCount />
       </Label>
       <div {...styles.buttonGroup} style={{ marginLeft: 'auto' }}>
-        {['break' as CustomElementsType].map(elKey => (
-          <ElementButton key={elKey} elKey={elKey} disabled={!hasSelection} />
-        ))}
+        <ToolbarButtons type='fixed' />
       </div>
     </div>
   )
 }
-
-export const FormattingToolbar = React.forwardRef(
-  (props, ref: Ref<HTMLDivElement>) => {
-    const [colorScheme] = useColorContext()
-    return (
-      <div
-        ref={ref}
-        {...colorScheme.set('backgroundColor', 'overlay')}
-        {...colorScheme.set('boxShadow', 'overlayShadow')}
-        {...styles.hoveringToolbar}
-      >
-        {mKeys.map(mKey => (
-          <MarkButton key={mKey} mKey={mKey} />
-        ))}
-        {['link' as CustomElementsType].map(elKey => (
-          <ElementButton key={elKey} elKey={elKey} />
-        ))}
-      </div>
-    )
-  }
-)
 
 export const Portal: React.FC<{ children: ReactElement }> = ({ children }) => {
   return typeof document === 'object'
@@ -131,86 +198,40 @@ export const Portal: React.FC<{ children: ReactElement }> = ({ children }) => {
     : null
 }
 
-const getParentElement = (
-  editor: CustomEditor,
-  anchor: BasePoint,
-  focus: BasePoint
-): CustomEditor | CustomElement => {
-  let [parentElement] = Node.common(
-    editor,
-    Editor.path(editor, anchor),
-    Editor.path(editor, focus)
-  )
-  if (Text.isText(parentElement)) {
-    parentElement = Node.parent(editor, Editor.path(editor, anchor))
-  }
-  return parentElement
-}
-
 export const HoveringToolbar: React.FC<{
   containerRef: React.RefObject<HTMLDivElement>
 }> = ({ containerRef }) => {
+  const [colorScheme] = useColorContext()
   const ref = useRef<HTMLDivElement>(null)
   const editor = useSlate()
 
   useEffect(() => {
     const el = ref.current
-    const { selection } = editor
-
     if (!el) {
       return
     }
-
-    if (
-      !selection ||
-      Range.isCollapsed(selection) ||
-      !ReactEditor.isFocused(editor) ||
-      Editor.string(editor, selection) === ''
-    ) {
+    if (showHoveringToolbar(editor)) {
+      const { top, left } = calcHoverPosition(el, containerRef.current)
+      el.style.opacity = '1'
+      el.style.width = 'auto'
+      el.style.height = 'auto'
+      el.style.left = `${left}px`
+      el.style.top = `${top}px`
+    } else {
       el.removeAttribute('style')
-      return
     }
-
-    const parentElement = getParentElement(
-      editor,
-      selection.anchor,
-      selection.focus
-    )
-    if (
-      !SlateElement.isElement(parentElement) ||
-      !elConfig[parentElement.type].attrs?.formatText
-    ) {
-      el.removeAttribute('style')
-      return
-    }
-
-    const rect = window
-      .getSelection()
-      ?.getRangeAt(0)
-      ?.getBoundingClientRect()
-    if (!rect) return
-    el.style.opacity = '1'
-    el.style.width = 'auto'
-    el.style.height = 'auto'
-    el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
-    // TODO: remove magic numbers (fallback BS)
-    el.style.left = `${Math.min(
-      containerRef?.current && ref?.current
-        ? containerRef.current.getBoundingClientRect().right -
-            ref?.current?.getBoundingClientRect().width
-        : 10000,
-      Math.max(
-        containerRef?.current
-          ? containerRef.current.getBoundingClientRect().left
-          : 0,
-        rect.left - el.offsetWidth / 2 + rect.width / 2
-      )
-    )}px`
   })
 
   return (
     <Portal>
-      <FormattingToolbar ref={ref} />
+      <div
+        ref={ref}
+        {...colorScheme.set('backgroundColor', 'overlay')}
+        {...colorScheme.set('boxShadow', 'overlayShadow')}
+        {...styles.hoveringToolbar}
+      >
+        <ToolbarButtons type='hovering' />
+      </div>
     </Portal>
   )
 }

@@ -4,22 +4,19 @@ import {
   Element as SlateElement,
   Transforms,
   Node,
-  Descendant,
   BasePoint
 } from 'slate'
 import { useSlate } from 'slate-react'
 
-import { editorAttrsKey, config, configKeys } from '../elements'
+import { config, configKeys, coreEditorAttrs } from '../elements'
 import { ToolbarButton } from './ui/Toolbar'
 import {
-  CustomDescendant,
   CustomEditor,
   CustomElement,
   CustomElementsType,
   NormalizeFn
-} from "../custom-types";
-// @ts-ignore
-import { useColorContext } from '@project-r/styleguide'
+} from '../../custom-types'
+import { getElConfig, testSomeChildEl } from './helpers/element'
 
 export const matchElement = (elKey: CustomElementsType) => (n: any): boolean =>
   !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === elKey
@@ -53,49 +50,6 @@ export const ElementButton: React.FC<{
       }
     />
   )
-}
-
-export const MAX_SIGNS = 3000
-
-export const getCharCount = (nodes: (Descendant | Node)[]): number =>
-  nodes.map(node => Node.string(node).length).reduce((a, b) => a + b, 0)
-
-export const CharCount: React.FC = () => {
-  const editor = useSlate()
-  const [colorScheme] = useColorContext()
-  const countdown = MAX_SIGNS - getCharCount(editor.children)
-  return (
-    <span {...colorScheme.set('color', countdown < 100 ? 'error' : 'textSoft')}>
-      ✂️ {countdown} Zeichen
-    </span>
-  )
-}
-
-export const withCharLimit = (editor: CustomEditor): CustomEditor => {
-  const { insertText, insertFragment, insertNode } = editor
-
-  editor.insertText = text => {
-    if (getCharCount(editor.children) >= MAX_SIGNS) {
-      return
-    }
-    insertText(text)
-  }
-
-  editor.insertFragment = nodes => {
-    if (getCharCount(editor.children) + getCharCount(nodes) >= MAX_SIGNS) {
-      return
-    }
-    insertFragment(nodes)
-  }
-
-  editor.insertNode = node => {
-    if (getCharCount(editor.children) + getCharCount([node]) >= MAX_SIGNS) {
-      return
-    }
-    insertNode(node)
-  }
-
-  return editor
 }
 
 export const withTemplate = (template: CustomElement[]) => (
@@ -133,22 +87,12 @@ export const withTemplate = (template: CustomElement[]) => (
   return editor
 }
 
-const hasNoBreakAncestor = (
-  editor: CustomEditor,
-  path?: BasePoint
-): boolean => {
-  if (!path) return false
-  for (const [node] of Node.ancestors(editor, Editor.path(editor, path))) {
-    const currentType = SlateElement.isElement(node) && node.type
-    if (
-      currentType &&
-      config[currentType as CustomElementsType]?.attrs?.disableBreaks
-    ) {
-      return true
-    }
-  }
-  return false
-}
+const hasNoBreakAncestor = (editor: CustomEditor, path?: BasePoint): boolean =>
+  testSomeChildEl(
+    node => !!getElConfig(node)?.attrs?.disableBreaks,
+    editor,
+    path
+  )
 
 // TODO: jump to next node instead of just disabling breaks
 //  move this in the normalisation logic
@@ -170,8 +114,8 @@ export const withBreaksDisabled = (editor: CustomEditor): CustomEditor => {
   return editor
 }
 
-export const withElementsAttrs = (editor: CustomEditor): CustomEditor => {
-  editorAttrsKey.forEach(attr => {
+export const withElAttrsConfig = (editor: CustomEditor): CustomEditor => {
+  coreEditorAttrs.forEach(attr => {
     const editorCheck = editor[attr]
     editor[attr] = element =>
       (config[element.type]?.attrs || {})[attr] || editorCheck(element)

@@ -8,7 +8,7 @@ import {
   plainButtonRule
   // @ts-ignore
 } from '@project-r/styleguide'
-import { CustomElement, DraftI } from '../../../custom-types'
+import { CustomElement, DraftI } from '../../../../custom-types'
 import { useShortDrafts } from '../../../../../../lib/shortDrafts'
 import { MdClose } from '@react-icons/all-files/md/MdClose'
 

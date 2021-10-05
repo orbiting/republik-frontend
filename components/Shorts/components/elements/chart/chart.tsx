@@ -5,7 +5,7 @@ import {
   DataFormType,
   dataRequiredType,
   ElementConfigI
-} from '../../custom-types'
+} from '../../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
 
 const Component: React.FC<{
@@ -15,9 +15,7 @@ const Component: React.FC<{
 }> = ({ attributes, children, element }) => {
   return (
     <div {...attributes}>
-      <div contentEditable={false}>
-        <Chart {...JSON.parse(JSON.stringify(element))} />
-      </div>
+      <Chart {...JSON.parse(JSON.stringify(element))} />
       {children}
     </div>
   )
@@ -32,5 +30,8 @@ const dataRequired: dataRequiredType<ChartElement> = ['values', 'config']
 export const config: ElementConfigI = {
   Component,
   DataForm,
-  dataRequired
+  dataRequired,
+  attrs: {
+    isVoid: true
+  }
 }

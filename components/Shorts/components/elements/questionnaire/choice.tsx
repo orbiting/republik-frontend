@@ -1,4 +1,4 @@
-import { ElementConfigI } from '../../custom-types'
+import { ElementConfigI } from '../../../custom-types'
 import React, { Attributes, ReactElement, useState } from 'react'
 import { css } from 'glamor'
 import {
@@ -170,7 +170,7 @@ const Component: React.FC<{
   const [answer, setAnswer] = useState<string>('')
   return (
     <div {...attributes}>
-      <div contentEditable={false} {...styles.content}>
+      <div {...styles.content}>
         {answer ? (
           <div {...styles.mobileBorder}>
             <AnswersChart answer={answer} />
@@ -193,5 +193,8 @@ const Component: React.FC<{
 }
 
 export const config: ElementConfigI = {
-  Component
+  Component,
+  attrs: {
+    isVoid: true
+  }
 }

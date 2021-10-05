@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { CustomDescendant, CustomElement } from '../../custom-types'
+import { CustomDescendant, CustomElement } from '../../../custom-types'
 import { config as elConfig } from '../../elements'
 import { Element as SlateElement } from 'slate'
 

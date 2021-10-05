@@ -5,7 +5,7 @@ import {
   CustomDescendant,
   CustomElement,
   CustomText
-} from './components/custom-types'
+} from './custom-types'
 import Select from './components/editor/ui/Select'
 import Populate from './components/editor/ui/Populate'
 import Editor from './components/editor'

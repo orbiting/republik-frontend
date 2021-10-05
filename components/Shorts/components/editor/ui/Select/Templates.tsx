@@ -9,11 +9,12 @@ import { MdLink } from '@react-icons/all-files/md/MdLink'
 // @ts-ignore
 import { mediaQueries, fontStyles } from '@project-r/styleguide'
 import {
-  CustomElement,
+  CustomDescendant,
   CustomElementsType,
+  NodeStructureT,
   TemplateButtonI
 } from '../../../../custom-types'
-import { config as elConfig } from '../../../elements'
+import { buildNode } from '../../helpers/normalization'
 
 const styles = {
   chartWrapper: css({
@@ -66,20 +67,15 @@ const templates: TemplateButtonI[] = [
   { customElement: 'linkPreview', label: 'Link', icon: MdLink }
 ]
 
-const getChildren = (element: { type: CustomElementsType }): CustomElement => ({
-  ...element,
-  children: elConfig[element.type].structure?.map(getChildren) || [{ text: '' }]
-})
-
-const getTree = (customElement?: CustomElementsType): CustomElement[] => {
-  const template = BASE_TEMPLATE.concat(customElement || []).map(e => ({
+const getTree = (customElement?: CustomElementsType): CustomDescendant[] => {
+  const structure = BASE_TEMPLATE.concat(customElement || []).map(e => ({
     type: e
-  }))
-  return template.map(getChildren)
+  })) as NodeStructureT[]
+  return structure.map(s => buildNode(s, true))
 }
 
 const TemplatePicker: React.FC<{
-  setValue: (t: CustomElement[]) => void
+  setValue: (t: CustomDescendant[]) => void
 }> = ({ setValue }) => (
   <div {...styles.chartWrapper}>
     {templates.map(template => {

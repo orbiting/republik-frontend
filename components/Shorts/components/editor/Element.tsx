@@ -13,10 +13,10 @@ import { ToolbarButton } from './ui/Toolbar'
 import {
   CustomEditor,
   CustomElement,
-  CustomElementsType,
-  NormalizeFn
+  CustomElementsType
 } from '../../custom-types'
 import { getElConfig, testSomeChildEl } from './helpers/element'
+import { matchStructure } from './helpers/normalization'
 
 export const matchElement = (elKey: CustomElementsType) => (n: any): boolean =>
   !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === elKey
@@ -123,41 +123,12 @@ export const withElAttrsConfig = (editor: CustomEditor): CustomEditor => {
   return editor
 }
 
-const matchStructure: NormalizeFn<CustomElement> = ([node, path], editor) => {
-  if (!SlateElement.isElement(node)) return
-  const template = config[node.type].structure
-
-  if (!template) return
-
-  console.log('normalisation', node, path)
-
-  for (let i = 0; i < template.length; i++) {
-    const templateEl = template[i]
-    const currentEl = node.children[i]
-    if (
-      SlateElement.isElement(currentEl) &&
-      currentEl.type !== templateEl.type
-    ) {
-      console.log('insert', templateEl, 'at', path.concat(i))
-      return Transforms.insertNodes(
-        editor,
-        { ...templateEl, children: [] },
-        {
-          at: path.concat(i)
-        }
-      )
-    }
-  }
-}
-
-const BASE_NORMALIZATIONS = [matchStructure]
-
 export const withNormalizations = (editor: CustomEditor): CustomEditor => {
   const { normalizeNode } = editor
   editor.normalizeNode = ([node, path]) => {
     configKeys.forEach(elKey => {
       if (matchElement(elKey)(node)) {
-        const customNormalizations = BASE_NORMALIZATIONS.concat(
+        const customNormalizations = [matchStructure].concat(
           config[elKey].normalizations || []
         )
         customNormalizations.forEach(normalizeFn =>

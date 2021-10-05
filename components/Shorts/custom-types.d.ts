@@ -55,6 +55,10 @@ export type FigureCaptionElement = SharedElement & {
   type: 'figureCaption'
 }
 
+export type FigureBylineElement = SharedElement & {
+  type: 'figureByline'
+}
+
 export type PullQuoteElement = SharedElement & {
   type: 'pullQuote'
 }
@@ -114,6 +118,7 @@ export type CustomElement =
   | FigureElement
   | FigureImageElement
   | FigureCaptionElement
+  | FigureBylineElement
   | PullQuoteElement
   | PullQuoteTextElement
   | PullQuoteSourceElement
@@ -140,6 +145,7 @@ export type CustomElementsType =
   | 'figure'
   | 'figureImage'
   | 'figureCaption'
+  | 'figureByline'
   | 'pullQuote'
   | 'pullQuoteText'
   | 'pullQuoteSource'
@@ -194,8 +200,10 @@ export type DataFormType<E> = React.FC<{
 
 export type dataRequiredType<E> = (keyof E)[]
 
-export type ElementStructureT = {
-  type: CustomElementsType
+type StructureNodesType = CustomElementsType | 'text'
+
+export type NodeStructureT = {
+  type: StructureNodesType | StructureNodesType[]
   repeat?: boolean
 }
 
@@ -207,7 +215,7 @@ export interface ElementConfigI extends NodeConfigI {
   dataRequired?: dataRequiredType
   normalizations?: NormalizeFn[]
   placeholder?: string
-  structure?: ElementStructureT[]
+  structure?: NodeStructureT[]
 }
 
 export type ElementsConfig = {

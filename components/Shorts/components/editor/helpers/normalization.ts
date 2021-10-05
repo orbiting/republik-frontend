@@ -12,7 +12,7 @@ import { config as elConfig, config } from '../../elements'
 const TEXT = { text: '' }
 
 const isAllowedType = (
-  elType: CustomElementsType,
+  elType: StructureNodesType,
   allowedTypes: StructureNodesType | StructureNodesType[]
 ): boolean =>
   Array.isArray(allowedTypes)
@@ -20,7 +20,7 @@ const isAllowedType = (
     : allowedTypes === elType
 
 const isCorrect = (node: CustomDescendant, template: NodeStructureT): boolean =>
-  (Text.isText(node) && template.type === 'text') ||
+  (Text.isText(node) && isAllowedType('text', template.type)) ||
   (SlateElement.isElement(node) && isAllowedType(node.type, template.type))
 
 export const getNodeType = (
@@ -55,10 +55,10 @@ export const matchStructure: NormalizeFn<CustomElement> = (
   if (!structure) return
 
   for (let i = 0; i < structure.length; i++) {
-    const structureNode = structure[i]
+    const template = structure[i]
     const currentNode = node.children[i]
-    if (!isCorrect(currentNode, structureNode)) {
-      const fillerNode = buildNode(structureNode)
+    if (!isCorrect(currentNode, template)) {
+      const fillerNode = buildNode(template)
       return Transforms.insertNodes(editor, fillerNode, {
         at: path.concat(i)
       })

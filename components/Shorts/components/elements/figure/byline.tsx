@@ -6,7 +6,6 @@ export const config: ElementConfigI = {
   Component: FigureByline,
   attrs: {
     formatText: true,
-    disableBreaks: true,
     isInline: true
   }
 }

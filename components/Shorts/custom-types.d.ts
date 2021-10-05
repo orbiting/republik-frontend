@@ -200,7 +200,7 @@ export type DataFormType<E> = React.FC<{
 
 export type dataRequiredType<E> = (keyof E)[]
 
-type StructureNodesType = CustomElementsType | 'text'
+export type StructureNodesType = CustomElementsType | 'text'
 
 export type NodeStructureT = {
   type: StructureNodesType | StructureNodesType[]

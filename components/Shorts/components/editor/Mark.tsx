@@ -48,7 +48,7 @@ export const LeafComponent: React.FC<{
     })
   return (
     <span {...attributes} style={{ position: 'relative' }}>
-      {!leaf.text && (
+      {!leaf.text && !leaf.bookend && (
         <Placeholder leaf={leaf} element={children.props.parent} />
       )}
       {children}

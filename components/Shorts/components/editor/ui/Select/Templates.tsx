@@ -14,7 +14,7 @@ import {
   NodeStructureT,
   TemplateButtonI
 } from '../../../../custom-types'
-import { buildNode } from '../../helpers/normalization'
+import { buildNode } from '../../helpers/structure'
 
 const styles = {
   chartWrapper: css({

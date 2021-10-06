@@ -20,7 +20,9 @@ const isAllowedType = (
     : allowedTypes === elType
 
 const isCorrect = (node: CustomDescendant, template: NodeStructureT): boolean =>
-  (Text.isText(node) && isAllowedType('text', template.type)) ||
+  (Text.isText(node) &&
+    isAllowedType('text', template.type) &&
+    node.bookend === template.bookend) ||
   (SlateElement.isElement(node) && isAllowedType(node.type, template.type))
 
 export const getNodeType = (
@@ -38,7 +40,7 @@ export const buildNode = (
 ): CustomDescendant => {
   const nodeType = getNodeType(template)
   return !nodeType
-    ? TEXT
+    ? { ...TEXT, bookend: template.bookend }
     : {
         type: nodeType,
         children: (withChildren &&

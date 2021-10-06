@@ -16,7 +16,7 @@ import {
   CustomElementsType
 } from '../../custom-types'
 import { getElConfig, testSomeChildEl } from './helpers/element'
-import { matchStructure } from './helpers/normalization'
+import { matchStructure } from './helpers/structure'
 
 export const matchElement = (elKey: CustomElementsType) => (n: any): boolean =>
   !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === elKey

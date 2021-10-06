@@ -16,6 +16,7 @@ export type CustomMarksType = keyof CustomMarks
 type PlainText = {
   text: string
   placeholder?: string
+  bookend?: boolean
 }
 
 export type CustomText = CustomMarks & PlainText
@@ -205,6 +206,7 @@ export type StructureNodesType = CustomElementsType | 'text'
 export type NodeStructureT = {
   type: StructureNodesType | StructureNodesType[]
   repeat?: boolean
+  bookend?: boolean
 }
 
 export interface ElementConfigI extends NodeConfigI {

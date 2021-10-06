@@ -4,7 +4,8 @@ import {
   Element as SlateElement,
   Transforms,
   Node,
-  BasePoint
+  BasePoint,
+  Text
 } from 'slate'
 import { useSlate } from 'slate-react'
 
@@ -13,10 +14,12 @@ import { ToolbarButton } from './ui/Toolbar'
 import {
   CustomEditor,
   CustomElement,
-  CustomElementsType
+  CustomElementsType,
+  CustomText,
+  NormalizeFn
 } from '../../custom-types'
 import { getElConfig, testSomeChildEl } from './helpers/element'
-import { matchStructure } from './helpers/structure'
+import { buildNode, matchStructure } from './helpers/structure'
 
 export const matchElement = (elKey: CustomElementsType) => (n: any): boolean =>
   !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === elKey
@@ -123,9 +126,32 @@ export const withElAttrsConfig = (editor: CustomEditor): CustomEditor => {
   return editor
 }
 
+// Bookends are a special type of leaf nodes.
+// As Slate requires the first and last inline nodes to be text nodes,
+// we use bookend
+const handleBookends: NormalizeFn<CustomText> = ([node, path], editor) => {
+  if (!node.bookend || !node.text) return
+  const previous = Editor.previous(editor, { at: path })
+  // TODO
+  //  const next = Editor.next(editor, { at: path })
+  if (previous && SlateElement.isElement(previous[0])) {
+    Transforms.insertNodes(
+      editor,
+      { text: node.text },
+      { at: previous[1].concat(previous[0].children.length) }
+    )
+    Transforms.select(editor, previous[1])
+    Transforms.insertText(editor, '', { at: path })
+  }
+}
+
 export const withNormalizations = (editor: CustomEditor): CustomEditor => {
   const { normalizeNode } = editor
   editor.normalizeNode = ([node, path]) => {
+    if (Text.isText(node)) {
+      handleBookends([node as CustomText, path], editor)
+    }
+    // norrm elements
     configKeys.forEach(elKey => {
       if (matchElement(elKey)(node)) {
         const customNormalizations = [matchStructure].concat(
@@ -134,9 +160,9 @@ export const withNormalizations = (editor: CustomEditor): CustomEditor => {
         customNormalizations.forEach(normalizeFn =>
           normalizeFn([node as CustomElement, path], editor)
         )
-        normalizeNode([node, path])
       }
     })
+    normalizeNode([node, path])
   }
   return editor
 }

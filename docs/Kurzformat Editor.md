@@ -425,7 +425,47 @@ export const config: ElementConfigI = {
 
 The same process runs recursively down the Slate tree, so descendants may also enjoy a round or two of structure matching. For instance, `chartLegend` could require `figureCaption` + `figureCredit`.
 
+`type` can either be a simple element type, or a whole array of them, like in `/elements/figure/container.tsx`:
+
+```javascript
+export const config: ElementConfigI = {
+  Component: FigureCaption,
+  structure: [
+    { type: ['text', 'link'], repeat: true },
+    { type: 'figureByline' },
+    { type: 'text', bookend: true }
+  ],
+  attrs: {
+    formatText: true
+  }
+}
+```
+
+The first type of the array is also the insert type for missing nodes (here `text`).
+
 *To be implemented:* Handle repetitions.
+
+### Bookend Nodes
+
+One of Slate's [built-in constraints](https://docs.slatejs.org/concepts/11-normalizing#built-in-constraints) is that inline nodes cannot be the first or last nodes of a parent block.
+
+This is a bit of a problem. See once more `FigureCaption`, where `FigureByline` should be the last element:
+
+```javascript
+export const config: ElementConfigI = {
+  Component: FigureCaption,
+  structure: [
+    { type: ['text', 'link'], repeat: true },
+    { type: 'figureByline' },
+    { type: 'text', bookend: true }
+  ],
+  attrs: {
+    formatText: true
+  }
+}
+```
+
+We solve the problem by adding an attribute called `bookend` to text nodes. A bookend nodes sit at either end of the structure and do not contain any text. If one starts writing inside a bookend node, the text gets reallocated to the nearest non-bookend node in the next normalisation phase.
 
 #### Custom Normalisers
 
@@ -588,7 +628,7 @@ export const LeafComponent: React.FC<{
 
 *To be implemented:* Better placeholder text // disable feature.
 
-### Character count
+### Character Count
 
 The last important feature of something named "kurzformat" is the length – or rather, the shortness – for which we use the `withCharLimit` decorator. 
 
@@ -627,7 +667,7 @@ attrs | *see below*
 
 Name | Description
 :--- | ---:
-type | custom element type (e.g. `figure`)
+type | custom element type (e.g. `figure`) or array of types
 repeat | array of min and max repeats
 
 #### `attrs`

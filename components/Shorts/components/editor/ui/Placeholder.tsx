@@ -1,6 +1,8 @@
 import React from 'react'
 import { css } from 'glamor'
 import { CustomElement, CustomText } from '../../../custom-types'
+import { Transforms } from 'slate'
+import { ReactEditor, useSlate } from 'slate-react'
 
 const styles = {
   block: css({
@@ -24,6 +26,17 @@ export const Placeholder: React.FC<{
   element: CustomElement
   leaf: CustomText
 }> = ({ element, leaf }) => {
+  const editor = useSlate()
+  const path = ReactEditor.findPath(editor, element)
   const text = element.type.replace(/([A-Z])/g, ' $1').toLowerCase()
-  return <span {...styles.inInline} onClick={() => console.log(text)} data-text={text} />
+  return (
+    <span
+      {...styles.inInline}
+      onClick={() => {
+        console.log(path)
+        Transforms.select(editor, path)
+      }}
+      data-text={text}
+    />
+  )
 }

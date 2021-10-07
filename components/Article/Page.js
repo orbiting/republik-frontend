@@ -84,8 +84,8 @@ import { cleanAsPath } from '../../lib/utils/link'
 import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
-import useMe from '../../lib/hooks/useMe'
 import { checkRoles } from '../../lib/apollo/withMe'
+import { useMe } from '../../lib/context/MeContext'
 
 const dynamicOptions = {
   loading: () => <Loader loading />,

@@ -18,6 +18,7 @@ import AppVariableContext from '../components/Article/AppVariableContext'
 import ColorSchemeSync from '../components/ColorScheme/Sync'
 import { APOLLO_STATE_PROP_NAME, useApollo } from '../lib/apollo/apolloClient'
 import { AppProps } from 'next/app'
+import MeContextProvider from '../lib/context/MeContext'
 
 if (typeof window !== 'undefined') {
   window.addEventListener('error', (event: ErrorEvent) => {
@@ -74,22 +75,13 @@ const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
                         name='viewport'
                         content='width=device-width, initial-scale=1'
                       />
-                      <script
-                        dangerouslySetInnerHTML={{
-                          __html: `
- function handleLoggedInState(){const fuckOff=localStorage.getItem('persisted-me')
-console.debug('persisted-me',fuckOff)
-if(fuckOff){document.body.setAttribute('data-logged-in','true')}else{document.body.removeAttribute('data-logged-in')}}
-if(typeof window!=='undefined'){window.addEventListener('storage',handleLoggedInState)}
-document.addEventListener('DOMContentLoaded',handleLoggedInState)
-                          `
-                        }}
-                      />
                     </Head>
-                    <Component
-                      serverContext={serverContext}
-                      {...otherPageProps}
-                    />
+                    <MeContextProvider>
+                      <Component
+                        serverContext={serverContext}
+                        {...otherPageProps}
+                      />
+                    </MeContextProvider>
                     <Track />
                     <AudioPlayer />
                     <MessageSync />

@@ -1,11 +1,7 @@
 import '../lib/polyfill'
 
 import React from 'react'
-import {
-  ApolloClient,
-  ApolloProvider,
-  NormalizedCacheObject
-} from '@apollo/client'
+import { ApolloProvider, NormalizedCacheObject } from '@apollo/client'
 import Head from 'next/head'
 
 import { ColorContextProvider } from '@project-r/styleguide'
@@ -77,6 +73,17 @@ const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
                       <meta
                         name='viewport'
                         content='width=device-width, initial-scale=1'
+                      />
+                      <script
+                        dangerouslySetInnerHTML={{
+                          __html: `
+ function handleLoggedInState(){const fuckOff=localStorage.getItem('persisted-me')
+console.debug('persisted-me',fuckOff)
+if(fuckOff){document.body.setAttribute('data-logged-in','true')}else{document.body.removeAttribute('data-logged-in')}}
+if(typeof window!=='undefined'){window.addEventListener('storage',handleLoggedInState)}
+document.addEventListener('DOMContentLoaded',handleLoggedInState)
+                          `
+                        }}
                       />
                     </Head>
                     <Component

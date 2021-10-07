@@ -32,18 +32,21 @@ type MeResponse = {
   me: Me
 }
 
+// Storage-key where user-data is persisted between sessions
+export const ME_STORAGE_KEY = 'persisted-me'
+
 const useMe = () => {
   const { data, loading, error, refetch } = useQuery<MeResponse>(meQuery, {})
 
   const me = useMemo(() => {
     if (data) return data.me
 
-    // TODO: Read data stored from last-login
     return undefined
   }, [data])
 
   useEffect(() => {
-    // TODO: Store the result from me-query
+    if (data && data.me)
+      localStorage.setItem(ME_STORAGE_KEY, JSON.stringify(data.me))
   }, [data])
 
   return {

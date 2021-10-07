@@ -3,11 +3,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:@next/next/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es6": true,
@@ -15,10 +14,10 @@
   },
    "rules": {
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": 0,
-    "react/jsx-no-target-blank": 0,
-    "react/display-name": 0,
-    "react/prop-types": 0,
+    "react-hooks/exhaustive-deps": "off",
+    "react/jsx-no-target-blank": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off",
     "no-unused-vars": "warn",
     "no-empty": "warn"
   },
@@ -29,17 +28,15 @@
   },
   "overrides": [
     {
-      "files": ["**/*.js", "**/*.jsx"],
+      "files": ["*.ts", "*.tsx"],
       "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
         "plugin:@next/next/recommended"
       ],
-      "parser": "babel-eslint",
-      "rules": {
-        "react/prop-types": "off"
-      }
+      "parser": "@typescript-eslint/parser"
     }
   ]
 }

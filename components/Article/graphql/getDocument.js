@@ -49,6 +49,8 @@ export const getDocument = gql`
         twitterTitle
         twitterImage
         twitterDescription
+        seoTitle
+        seoDescription
         shareText
         shareFontSize
         shareInverted

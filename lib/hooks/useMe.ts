@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client'
 import { checkRoles, meQuery } from '../apollo/withMe'
+import { useEffect, useMemo } from 'react'
 
 type Me = {
   id: string
   username: string
-  // First- and lastname
   name: string
   initials: string
   firstName: string
@@ -28,16 +28,31 @@ type Me = {
   progressConsent: boolean
 }
 
+type MeResponse = {
+  me: Me
+}
+
 const useMe = () => {
-  const { data, loading, error, refetch } = useQuery<Me>(meQuery)
+  const { data, loading, error, refetch } = useQuery<MeResponse>(meQuery, {})
+
+  const me = useMemo(() => {
+    if (data) return data.me
+
+    // TODO: Read data stored from last-login
+    return undefined
+  }, [data])
+
+  useEffect(() => {
+    // TODO: Store the result from me-query
+  }, [data])
 
   return {
-    me: data,
+    me: me,
     meLoading: loading,
     meError: error,
     meRefetch: refetch,
-    hasActiveMembership: !!data?.activeMembership,
-    hasAccess: checkRoles(data, ['member'])
+    hasActiveMembership: !!me?.activeMembership,
+    hasAccess: checkRoles(me, ['member'])
   }
 }
 

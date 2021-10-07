@@ -198,16 +198,11 @@ export const getDocument = gql`
 `
 
 export const getPublicDocumentData = gql`
-  query getDocument($path: String!) {
+  query getPublicDocumentData($path: String!) {
     article: document(path: $path) {
       id
       repoId
       content
-      subscribedBy(includeParents: true, onlyMe: true) {
-        nodes {
-          ...subInfo
-        }
-      }
       linkedDocuments {
         nodes {
           id
@@ -222,13 +217,6 @@ export const getPublicDocumentData = gql`
           }
         }
       }
-      unreadNotifications {
-        nodes {
-          ...notificationInfo
-        }
-      }
-      ...BookmarkOnDocument
-      ...UserProgressOnDocument
       meta {
         publishDate
         template
@@ -329,8 +317,6 @@ export const getPublicDocumentData = gql`
             document {
               id
               repoId
-              ...BookmarkOnDocument
-              ...UserProgressOnDocument
               meta {
                 title
                 publishDate
@@ -381,7 +367,81 @@ export const getPublicDocumentData = gql`
         estimatedConsumptionMinutes
         indicateGallery
         indicateVideo
-        prepublication
+      }
+    }
+  }
+`
+
+export const getUserDocumentData = gql`
+  query getUserDocumentData($path: String!) {
+    article: document(path: $path) {
+      id
+      subscribedBy(includeParents: true, onlyMe: true) {
+        nodes {
+          ...subInfo
+        }
+      }
+      unreadNotifications {
+        nodes {
+          ...notificationInfo
+        }
+      }
+      ...BookmarkOnDocument
+      ...UserProgressOnDocument
+      meta {
+        format {
+          id
+          meta {
+            path
+            title
+            color
+            kind
+            image
+            shareBackgroundImage
+            shareBackgroundImageInverted
+            section {
+              id
+              meta {
+                title
+              }
+            }
+            podcast {
+              podigeeSlug
+              spotifyUrl
+              googleUrl
+              appleUrl
+            }
+            newsletter {
+              name
+              free
+            }
+          }
+        }
+        section {
+          id
+          meta {
+            path
+            title
+            color
+            kind
+          }
+        }
+        dossier {
+          id
+          meta {
+            title
+            path
+          }
+        }
+        series {
+          episodes {
+            document {
+              id
+              ...BookmarkOnDocument
+              ...UserProgressOnDocument
+            }
+          }
+        }
       }
     }
   }

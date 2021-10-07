@@ -50,7 +50,6 @@ import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { splitByTitle } from '../../lib/utils/mdast'
-import withMe from '../../lib/apollo/withMe'
 import {
   ASSETS_SERVER_BASE_URL,
   PUBLIC_BASE_URL,
@@ -82,6 +81,8 @@ import { cleanAsPath } from '../../lib/utils/link'
 import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
+import useMe from '../../lib/hooks/useMe'
+import { checkRoles } from '../../lib/apollo/withMe'
 
 const dynamicOptions = {
   loading: () => <Loader loading />,
@@ -188,9 +189,6 @@ const EmptyComponent = ({ children }) => children
 const ArticlePage = ({
   router,
   t,
-  me,
-  isMember,
-  isEditor,
   inNativeApp,
   inNativeIOSApp,
   payNoteSeed,
@@ -205,6 +203,16 @@ const ArticlePage = ({
 
   const { asPath } = useRouter()
 
+  const { me } = useMe()
+
+  const { isMember, isEditor } = useMemo(
+    () => ({
+      isMember: checkRoles(me, ['member']),
+      isEditor: checkRoles(me, ['editor'])
+    }),
+    [me]
+  )
+
   const {
     data,
     refetch,
@@ -213,10 +221,14 @@ const ArticlePage = ({
   } = useQuery(getPublicDocumentData, {
     variables: {
       path: cleanAsPath(asPath)
-    },
-    fetchPolicy: 'cache-only'
+    }
   })
   const { article } = data ?? {}
+  /*const {} = useQuery(getUserDocumentData, {
+    variables: {
+      path: cleanAsPath(asPath)
+    }
+  })*/
 
   const articleMeta = article?.meta
   const articleContent = article?.content
@@ -762,7 +774,6 @@ const styles = {
 
 const ComposedPage = compose(
   withT,
-  withMe,
   withMembership,
   withEditor,
   withInNativeApp,

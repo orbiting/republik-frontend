@@ -1,7 +1,23 @@
-import React, { createContext, ReactNode, useContext, useMemo } from 'react'
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo
+} from 'react'
 import Head from 'next/head'
+import Script from 'next/script'
 import { ApolloError, useQuery } from '@apollo/client'
 import { checkRoles, meQuery } from '../apollo/withMe'
+import { css } from 'glamor'
+
+const IS_MEMBER_ATTRIBUTE = 'data-is-member'
+const MEMBERSHIP_STORAGE_KEY = 'is-member'
+
+// Rule to hide elements while a statically generated page is fetching the active-user
+css.global(`body[${IS_MEMBER_ATTRIBUTE}="true"] [data-hide-for-member]`, {
+  display: 'none'
+})
 
 type Me = {
   id: string
@@ -59,6 +75,17 @@ const MeContextProvider = ({ children }: Props) => {
     return undefined
   }, [data])
 
+  useEffect(() => {
+    if (!data) return
+    if (data && data.me) {
+      //document.body.removeAttribute(IS_MEMBER_ATTRIBUTE)
+      localStorage.setItem(
+        MEMBERSHIP_STORAGE_KEY,
+        String(checkRoles(data.me, ['member']))
+      )
+    }
+  }, [data])
+
   return (
     <MeContext.Provider
       value={{
@@ -70,19 +97,17 @@ const MeContextProvider = ({ children }: Props) => {
         hasAccess: checkRoles(me, ['member'])
       }}
     >
-      <Head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
- function handleLoggedInState(){const fuckOff=localStorage.getItem('persisted-me')
-console.debug('persisted-me',fuckOff)
-if(fuckOff){document.body.setAttribute('data-logged-in','true')}else{document.body.removeAttribute('data-logged-in')}}
-if(typeof window!=='undefined'){window.addEventListener('storage',handleLoggedInState)}
-document.addEventListener('DOMContentLoaded',handleLoggedInState)
-                          `
-          }}
-        />
-      </Head>
+      <Script
+        id='hide-elements-if-member-script'
+        dangerouslySetInnerHTML={{
+          __html: `
+          try {
+            const value = localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}");
+            document.body.setAttribute("${IS_MEMBER_ATTRIBUTE}", value);
+         } catch(e) {console.error(e)}
+          `
+        }}
+      />
       {children}
     </MeContext.Provider>
   )

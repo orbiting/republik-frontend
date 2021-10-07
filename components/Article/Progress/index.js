@@ -44,6 +44,7 @@ const Progress = ({
   submitProgressConsent,
   article,
   isArticle,
+  userProgress,
   router,
   upsertDocumentProgress
 }) => {
@@ -147,9 +148,9 @@ const Progress = ({
       percentage > 0 &&
       // ignore elements until min index
       element.index >= MIN_INDEX &&
-      (!article.userProgress ||
-        article.userProgress.nodeId !== element.nodeId ||
-        Math.floor(article.userProgress.percentage * 100) !==
+      (!userProgress ||
+        userProgress.nodeId !== element.nodeId ||
+        Math.floor(userProgress.percentage * 100) !==
           Math.floor(percentage * 100))
     ) {
       upsertDocumentProgress(article.id, percentage, element.nodeId)
@@ -160,13 +161,12 @@ const Progress = ({
     if (e) {
       e.preventDefault()
     }
-    const { userProgress } = article
     const { percentage, nodeId } = userProgress
 
     const progressElements = getProgressElements()
     const progressElement =
       !!nodeId &&
-      progressElements.find((element, index) => {
+      progressElements.find(element => {
         if (element.getAttribute('data-pos') === nodeId) {
           return true
         }

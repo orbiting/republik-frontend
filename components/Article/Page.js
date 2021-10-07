@@ -559,7 +559,10 @@ const ArticlePage = ({
                 show={!!router.query.gallery}
                 ref={galleryRef}
               >
-                <ProgressComponent article={article}>
+                <ProgressComponent
+                  article={article}
+                  userProgress={userProgress}
+                >
                   <article style={{ display: 'block' }}>
                     {splitContent.title && (
                       <div {...styles.titleBlock}>

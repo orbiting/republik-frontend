@@ -17,27 +17,21 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 type ApolloSSGQueryFunc<P, Q extends ParsedUrlQuery> = (
   client: ApolloClient<NormalizedCacheObject>,
   params: Q
-) => Promise<Partial<GetStaticPropsResult<P>>>
+) => Promise<GetStaticPropsResult<P>>
 
 /**
  * createGetStaticProps returns a getStaticProps-function that may fetch data
  * from the graphql api.
  * @param queryFunc
  */
-function createGetStaticProps<
-  P extends BasePageProps,
-  Q extends ParsedUrlQuery = ParsedUrlQuery
->(queryFunc: ApolloSSGQueryFunc<P, Q>): GetStaticProps<BasePageProps<P>> {
+function createGetStaticProps<P, Q extends ParsedUrlQuery = ParsedUrlQuery>(
+  queryFunc: ApolloSSGQueryFunc<P, Q>
+): GetStaticProps<BasePageProps<P>> {
   return async (
     ctx: GetStaticPropsContext<Q>
   ): Promise<GetStaticPropsResult<BasePageProps<P>>> => {
     const apolloClient = initializeApollo()
     const result = await queryFunc(apolloClient, ctx.params)
-
-    // TODO: Fix TypeScript warning
-    if (!('notFound' in result || 'redirect' in result)) {
-      result.props = {}
-    }
 
     // If the result has
     if ('props' in result) {

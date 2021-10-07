@@ -4,13 +4,17 @@ import Article from '../components/Article/Page'
 import createGetStaticProps from '../lib/helpers/createGetStaticProps'
 import { GetStaticPaths } from 'next'
 import { ParsedUrlQuery } from 'querystring'
-import { BasePageProps } from './_app'
 import { gql } from '@apollo/client'
 import { getPublicDocumentData } from '../components/Article/graphql/getDocument'
 
 type Params = {
   path: string[]
 } & ParsedUrlQuery
+
+type Props = {
+  payNoteTryOrBuy: number
+  payNoteSeed: number
+}
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
   return {
@@ -19,7 +23,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   }
 }
 
-export const getStaticProps = createGetStaticProps<BasePageProps, Params>(
+export const getStaticProps = createGetStaticProps<Props, Params>(
   async (client, params) => {
     const path = '/' + params.path.join('/')
 
@@ -38,7 +42,7 @@ export const getStaticProps = createGetStaticProps<BasePageProps, Params>(
           payNoteTryOrBuy: Math.random(),
           payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
         },
-        revalidate: 1
+        revalidate: 10
       }
     }
 

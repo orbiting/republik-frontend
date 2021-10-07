@@ -45,7 +45,10 @@ import Extract from './Extract'
 import { PayNote } from './PayNote'
 import Progress from './Progress'
 import PodcastButtons from './PodcastButtons'
-import { getPublicDocumentData } from './graphql/getDocument'
+import {
+  getPublicDocumentData,
+  getUserDocumentData
+} from './graphql/getDocument'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -213,22 +216,31 @@ const ArticlePage = ({
     [me]
   )
 
+  const cleanedPath = cleanAsPath(asPath)
+
+  // Fetch public article-data
   const {
-    data,
+    data: articleData,
     refetch,
     loading: articleLoading,
     error: articleError
   } = useQuery(getPublicDocumentData, {
     variables: {
-      path: cleanAsPath(asPath)
+      path: cleanedPath
     }
   })
-  const { article } = data ?? {}
-  /*const {} = useQuery(getUserDocumentData, {
+  const { article } = articleData ?? {}
+
+  // Fetch user article-data related to the active-user
+  const { data: userArticleData } = useQuery(getUserDocumentData, {
     variables: {
-      path: cleanAsPath(asPath)
+      path: cleanedPath
     }
-  })*/
+  })
+
+  const {
+    article: { userProgress }
+  } = userArticleData ?? { article: {} }
 
   const articleMeta = article?.meta
   const articleContent = article?.content
@@ -340,7 +352,11 @@ const ArticlePage = ({
   const isEditorialNewsletter = template === 'editorialNewsletter'
   const disableActionBar = meta?.disableActionBar
   const actionBar = article && !disableActionBar && (
-    <ActionBar mode='articleTop' document={article} />
+    <ActionBar
+      mode='articleTop'
+      document={article}
+      userProgress={userProgress}
+    />
   )
   const actionBarEnd = actionBar
     ? React.cloneElement(actionBar, {

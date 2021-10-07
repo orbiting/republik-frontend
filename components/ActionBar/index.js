@@ -35,6 +35,7 @@ import ShareButtons from './ShareButtons'
 const ActionBar = ({
   mode,
   document,
+  userProgress,
   t,
   inNativeApp,
   share,
@@ -118,6 +119,7 @@ const ActionBar = ({
     ...document.meta,
     url: `${PUBLIC_BASE_URL}${document.meta.path}`
   }
+
   const podcast =
     (meta && meta.podcast) ||
     (meta && meta.audioSource && meta.format && meta.format.meta.podcast)
@@ -202,11 +204,11 @@ const ActionBar = ({
     {
       title: t('article/actionbar/userprogress'),
       element:
-        document.userProgress && displayMinutes > 1 ? (
+        userProgress && displayMinutes > 1 ? (
           <UserProgress
             documentId={document.id}
             forceShortLabel={forceShortLabel}
-            userProgress={document.userProgress}
+            userProgress={userProgress}
             noCallout={
               mode === 'articleOverlay' ||
               mode === 'bookmark' ||
@@ -363,15 +365,12 @@ const ActionBar = ({
     {
       title: t('article/actionbar/userprogress'),
       element:
-        document.userProgress && displayMinutes > 1 ? (
-          <UserProgress
-            documentId={document.id}
-            userProgress={document.userProgress}
-          />
+        userProgress && displayMinutes > 1 ? (
+          <UserProgress documentId={document.id} userProgress={userProgress} />
         ) : (
           <></>
         ),
-      show: document.userProgress && displayMinutes > 1 && !podcast
+      show: userProgress && displayMinutes > 1 && !podcast
     },
     {
       title: t('PodcastButtons/play'),

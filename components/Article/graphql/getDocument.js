@@ -378,7 +378,7 @@ export const getPublicDocumentData = gql`
 // Fetch all of the users data that belong to the document with the given repoId
 export const getDocumentUserData = gql`
   query getDocumentUserState($repoId: ID!) {
-    document(repoId: $repoId) {
+    article: document(repoId: $repoId) {
       id
       subscribedBy(includeParents: true, onlyMe: true) {
         nodes {

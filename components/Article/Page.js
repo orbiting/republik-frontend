@@ -231,19 +231,16 @@ const ArticlePage = ({
   const { article } = articleData ?? {}
 
   // Fetch user article-data related to the active-user
-  const { data: userArticleData } = useQuery(getDocumentUserData, {
+  const { data: articleUserData } = useQuery(getDocumentUserData, {
     variables: {
       repoId: article.repoId
     }
   })
-
-  const {
-    article: { userProgress, userBookmark }
-  } = userArticleData ?? { article: {} }
+  const userData = articleUserData?.article
 
   const articleMeta = article?.meta
   const articleContent = article?.content
-  const articleUnreadNotifications = article?.unreadNotifications
+  const articleUnreadNotifications = userData?.unreadNotifications
   const routerQuery = router.query
 
   const { toggleAudioPlayer, audioPlayerVisible } = useContext(AudioContext)
@@ -351,11 +348,7 @@ const ArticlePage = ({
   const isEditorialNewsletter = template === 'editorialNewsletter'
   const disableActionBar = meta?.disableActionBar
   const actionBar = article && !disableActionBar && (
-    <ActionBar
-      mode='articleTop'
-      document={article}
-      userProgress={userProgress}
-    />
+    <ActionBar mode='articleTop' document={article} userData={userData} />
   )
   const actionBarEnd = actionBar
     ? React.cloneElement(actionBar, {
@@ -560,7 +553,7 @@ const ArticlePage = ({
               >
                 <ProgressComponent
                   article={article}
-                  userProgress={userProgress}
+                  userProgress={userData?.userProgress}
                 >
                   <article style={{ display: 'block' }}>
                     {splitContent.title && (

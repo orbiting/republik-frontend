@@ -35,7 +35,7 @@ import ShareButtons from './ShareButtons'
 const ActionBar = ({
   mode,
   document,
-  userProgress,
+  userData,
   t,
   inNativeApp,
   share,
@@ -204,11 +204,11 @@ const ActionBar = ({
     {
       title: t('article/actionbar/userprogress'),
       element:
-        userProgress && displayMinutes > 1 ? (
+        userData && userData.userProgress && displayMinutes > 1 ? (
           <UserProgress
             documentId={document.id}
             forceShortLabel={forceShortLabel}
-            userProgress={userProgress}
+            userProgress={userData.userProgress}
             noCallout={
               mode === 'articleOverlay' ||
               mode === 'bookmark' ||
@@ -220,7 +220,7 @@ const ActionBar = ({
           <></>
         ),
       modes: ['articleOverlay', 'feed', 'bookmark', 'seriesEpisode'],
-      show: true
+      show: userData
     },
     {
       title: t('feed/actionbar/chart'),
@@ -260,7 +260,9 @@ const ActionBar = ({
           discussionId={
             isDiscussion && meta.ownDiscussion && meta.ownDiscussion.id
           }
-          subscriptions={document.subscribedBy && document.subscribedBy.nodes}
+          subscriptions={
+            userData && userData.subscribedBy && userData.subscribedBy.nodes
+          }
           label={t('SubscribeMenu/title')}
           padded
         />
@@ -272,7 +274,7 @@ const ActionBar = ({
       title: t('bookmark/title/default'),
       element: (
         <BookmarkButton
-          bookmarked={!!document.userBookmark}
+          bookmarked={!!(userData && userData.userBookmark)}
           documentId={document.id}
           label={!forceShortLabel ? t('bookmark/label') : ''}
         />
@@ -365,12 +367,15 @@ const ActionBar = ({
     {
       title: t('article/actionbar/userprogress'),
       element:
-        userProgress && displayMinutes > 1 ? (
-          <UserProgress documentId={document.id} userProgress={userProgress} />
+        userData && userData.userProgress && displayMinutes > 1 ? (
+          <UserProgress
+            documentId={document.id}
+            userProgress={userData.userProgress}
+          />
         ) : (
           <></>
         ),
-      show: userProgress && displayMinutes > 1 && !podcast
+      show: userData && userData.userProgress && displayMinutes > 1 && !podcast
     },
     {
       title: t('PodcastButtons/play'),

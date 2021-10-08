@@ -100,7 +100,7 @@ const statusQuery = gql`
   ${userSurviveActionsFragment}
 `
 
-const numMembersNeeded = 25000
+const numMembersNeeded = 27000
 
 const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 
@@ -553,12 +553,12 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                     numberFormat: 's',
                     x: 'month',
                     timeParse: '%Y-%m',
-                    timeFormat: '%b %y',
+                    timeFormat: '%Y',
                     xInterval: 'month',
-                    xTicks: ['2018-01', '2019-01', '2020-01', currentKey],
+                    xTicks: ['2018-01', '2019-01', '2020-01', '2021-01'],
                     height: 300,
                     domain: [minValue, maxValue + 2000],
-                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000],
+                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000, 30000],
                     xAnnotations: [
                       {
                         x1: currentBucket.key,
@@ -595,7 +595,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                     xInterval: 'month',
                     height: 300,
                     domain: [minValue, maxValue + 2000],
-                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000],
+                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000, 30000],
                     yAnnotations: [
                       {
                         value: numMembersNeeded,
@@ -626,11 +626,11 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
 
               {md(mdComponents)`
 
-Mit konstant ${countFormat(
+Mit ${countFormat(
                 numMembersNeeded
               )} Abonnentinnen und Mitgliedern haben wir genügend Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
 
-Das aktuelle Ausgabenbudget haben wir im November 2020 [veröffentlicht und nach den verschiedenen Bereichen aufgeschlüsselt und erklärt](/vote/nov20#unser-gesamtbudget-erklaert-und-aufgeschluesselt).
+Diese Zahl leitet sich aus dem aktuellen Budget 2021/22 ab. [Erfahren Sie, wofür wir das Geld ausgeben und wie sich das Budget über die Zeit entwickelt hat](/2021/10/08/werfen-sie-einen-blick-in-unsere-geschaeftsbuecher).
 
 ## ${countFormat(lastSeen)} Mitglieder sind monatlich&nbsp;aktiv
 
@@ -654,15 +654,16 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
                     numberFormat: 's',
                     x: 'date',
                     timeParse: '%Y-%m',
-                    timeFormat: '%b %y',
+                    timeFormat: '%Y',
                     xTicks: [
                       '2018-01',
                       '2019-01',
-                      '2020-01'
+                      '2020-01',
+                      '2021-01'
                       // lastSeenBucket.key
                     ],
                     yNice: 0,
-                    yTicks: [0, 3000, 6000, 9000, 12000],
+                    yTicks: [0, 3000, 6000, 9000, 12000, 15000],
                     colorMap: {
                       Lesepositionen: '#9467bd',
                       Lesezeichen: '#e377c2',

@@ -234,6 +234,8 @@ export const getPublicDocumentData = gql`
         twitterTitle
         twitterImage
         twitterDescription
+        seoTitle
+        seoDescription
         shareText
         shareFontSize
         shareInverted

@@ -260,6 +260,26 @@ const ActionBar = ({
       show: showReadingTime
     },
     {
+      title: t('bookmark/title/default'),
+      element: (
+        <BookmarkButton
+          bookmarked={!!document.userBookmark}
+          documentId={document.id}
+          label={!forceShortLabel ? t('bookmark/label') : ''}
+          labelShort={mode === 'articleBottom' && t('bookmark/label')}
+        />
+      ),
+      modes: [
+        'articleTop',
+        'articleBottom',
+        'articleOverlay',
+        'feed',
+        'bookmark',
+        'seriesEpisode'
+      ],
+      show: !notBookmarkable
+    },
+    {
       title: t('SubscribeMenu/title'),
       element: (
         <SubscribeMenu
@@ -274,29 +294,6 @@ const ActionBar = ({
       ),
       modes: ['articleTop', 'articleBottom'],
       show: true
-    },
-    {
-      title: t('bookmark/title/default'),
-      element: (
-        <BookmarkButton
-          bookmarked={!!document.userBookmark}
-          documentId={document.id}
-          label={!forceShortLabel ? t('bookmark/label') : ''}
-          labelShort={
-            (mode === 'articleTop' || mode === 'articleBottom') &&
-            t('bookmark/label')
-          }
-        />
-      ),
-      modes: [
-        'articleTop',
-        'articleBottom',
-        'articleOverlay',
-        'feed',
-        'bookmark',
-        'seriesEpisode'
-      ],
-      show: !notBookmarkable
     },
     {
       title: t('PodcastButtons/play'),
@@ -358,6 +355,35 @@ const ActionBar = ({
       show: document.userProgress && displayMinutes > 1 && !podcast
     },
     {
+      title: t('article/actionbar/discussion'),
+      element: (
+        <DiscussionLinkButton
+          t={t}
+          document={document}
+          isOnArticlePage={[
+            'articleTop',
+            'articleBottom',
+            'articleOverlay'
+          ].includes(mode)}
+          forceShortLabel={forceShortLabel}
+          atArticleBottom={mode === 'articleBottom'}
+        />
+      ),
+      modes: [
+        'articleTop',
+        'articleBottom',
+        'articleOverlay',
+        'feed',
+        'seriesEpisode'
+      ],
+      show: !!discussionId
+    },
+    {
+      element: <br />,
+      modes: ['articleTop'],
+      show: true
+    },
+    {
       title: t('PodcastButtons/play'),
       Icon: PlayCircleIcon,
       onClick: e => {
@@ -386,30 +412,6 @@ const ActionBar = ({
       labelShort: t('PodcastButtons/title'),
       modes: ['articleTop'],
       show: !!podcast && meta.template !== 'format'
-    },
-    {
-      title: t('article/actionbar/discussion'),
-      element: (
-        <DiscussionLinkButton
-          t={t}
-          document={document}
-          isOnArticlePage={[
-            'articleTop',
-            'articleBottom',
-            'articleOverlay'
-          ].includes(mode)}
-          forceShortLabel={forceShortLabel}
-          atArticleBottom={mode === 'articleBottom'}
-        />
-      ),
-      modes: [
-        'articleTop',
-        'articleBottom',
-        'articleOverlay',
-        'feed',
-        'seriesEpisode'
-      ],
-      show: !!discussionId
     }
   ]
 
@@ -475,8 +477,7 @@ const ActionBar = ({
 const styles = {
   default: css({
     ' > *': {
-      display: 'inline-block',
-      verticalAlign: 'bottom',
+      display: 'inline-flex',
       marginBottom: 16
     }
   }),

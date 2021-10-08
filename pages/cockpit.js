@@ -595,7 +595,7 @@ Die Grundlage dafür ist ein Geschäftsmodell für werbefreien, unabhängigen, l
                     xInterval: 'month',
                     height: 300,
                     domain: [minValue, maxValue + 2000],
-                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000],
+                    yTicks: [-5000, 0, 5000, 10000, 15000, 20000, 25000, 30000],
                     yAnnotations: [
                       {
                         value: numMembersNeeded,
@@ -663,7 +663,7 @@ Der beste Journalismus nützt nichts, wenn ihn niemand sieht. Für ein gesundes 
                       // lastSeenBucket.key
                     ],
                     yNice: 0,
-                    yTicks: [0, 3000, 6000, 9000, 12000],
+                    yTicks: [0, 3000, 6000, 9000, 12000, 15000],
                     colorMap: {
                       Lesepositionen: '#9467bd',
                       Lesezeichen: '#e377c2',

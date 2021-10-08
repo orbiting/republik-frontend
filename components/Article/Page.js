@@ -68,7 +68,6 @@ import { AudioContext } from '../Audio/AudioProvider'
 import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
-import SSRCachingBoundary from '../SSRCachingBoundary'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
 import withMembership from '../Auth/withMembership'
 import { withEditor } from '../Auth/checkRoles'
@@ -651,21 +650,9 @@ const ArticlePage = ({
                         {!suppressFirstPayNote && payNote}
                       </div>
                     )}
-                    <SSRCachingBoundary
-                      cacheKey={[
-                        article.id,
-                        isMember && 'isMember',
-                        colorSchemeKey
-                      ]
-                        .filter(Boolean)
-                        .join(':')}
-                    >
-                      {() => (
-                        <ColorContextProvider colorSchemeKey={colorSchemeKey}>
-                          {renderSchema(splitContent.main)}
-                        </ColorContextProvider>
-                      )}
-                    </SSRCachingBoundary>
+                    <ColorContextProvider colorSchemeKey={colorSchemeKey}>
+                      {renderSchema(splitContent.main)}
+                    </ColorContextProvider>
                   </article>
                   <ActionBarOverlay
                     audioPlayerVisible={audioPlayerVisible}

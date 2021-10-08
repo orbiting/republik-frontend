@@ -16,9 +16,12 @@ import {
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { trackEvent } from '../../lib/matomo'
-import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 
 import copyToClipboard from 'clipboard-copy'
+import {
+  matchIOSUserAgent,
+  useUserAgent
+} from '../../lib/context/UserAgentContext'
 
 const ShareButtons = ({
   t,
@@ -32,10 +35,11 @@ const ShareButtons = ({
   fill,
   onClose,
   grid,
-  headers,
   inNativeApp
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
+  const userAgent = useUserAgent()
+
   useEffect(() => {
     if (copyLinkSuffix === 'success') {
       const timeout = setTimeout(() => {
@@ -147,8 +151,8 @@ const ShareButtons = ({
     }
   ].filter(Boolean)
 
-  const isIOS = matchIOSUserAgent(headers.userAgent)
-  const isAndroid = headers.userAgent && headers.userAgent.match(/android/i)
+  const isIOS = matchIOSUserAgent(userAgent)
+  const isAndroid = userAgent && userAgent.match(/android/i)
   return (
     <div {...styles.buttonGroup} {...(grid && styles.grid)}>
       {shareOptions.map(props => {
@@ -199,4 +203,4 @@ const styles = {
   })
 }
 
-export default compose(withInNativeApp, withT, withHeaders)(ShareButtons)
+export default compose(withInNativeApp, withT)(ShareButtons)

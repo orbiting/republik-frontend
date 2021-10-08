@@ -5,7 +5,6 @@ import { IconButton } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { trackEvent } from '../../lib/matomo'
-import withHeaders, { matchIOSUserAgent } from '../../lib/withHeaders'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 
 import {
@@ -17,6 +16,10 @@ import {
   AppleIcon,
   GoogleIcon
 } from '@project-r/styleguide/icons'
+import {
+  matchIOSUserAgent,
+  useUserAgent
+} from '../../lib/context/UserAgentContext'
 
 const styles = {
   buttonGroup: css({
@@ -49,10 +52,11 @@ const PodcastButtons = ({
   eventCategory = 'PodcastButtons',
   audioSource,
   onAudioClick,
-  headers,
   center
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
+  const userAgent = useUserAgent()
+
   useEffect(() => {
     if (copyLinkSuffix === 'success') {
       const timeout = setTimeout(() => {
@@ -68,10 +72,9 @@ const PodcastButtons = ({
 
   const mainFeed = `https://${podigeeSlug}.podigee.io/feed/mp3`
 
-  const isIOS = matchIOSUserAgent(headers.userAgent)
-  const isAndroid = headers.userAgent && headers.userAgent.match(/android/i)
-  const macOS =
-    headers.userAgent && headers.userAgent.match(/Mac OS X ([0-9_]+)/)
+  const isIOS = matchIOSUserAgent(userAgent)
+  const isAndroid = userAgent && userAgent.match(/android/i)
+  const macOS = userAgent && userAgent.match(/Mac OS X ([0-9_]+)/)
   const macOSVersion = macOS && parseFloat(macOS[1].replace(/_/g, '.'))
 
   const plattformWithApp = isIOS
@@ -181,4 +184,4 @@ const PodcastButtons = ({
   )
 }
 
-export default withT(withHeaders(PodcastButtons))
+export default withT(PodcastButtons)

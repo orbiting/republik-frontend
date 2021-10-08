@@ -8,7 +8,6 @@ import { ColorContextProvider } from '@project-r/styleguide'
 import { IconContextProvider } from '@project-r/styleguide/icons'
 
 import { ErrorBoundary, reportError } from '../lib/errors'
-import { HeadersProvider } from '../lib/withHeaders'
 import Track from '../components/Track'
 import MessageSync from '../components/NativeApp/MessageSync'
 import AudioProvider from '../components/Audio/AudioProvider'
@@ -19,6 +18,7 @@ import ColorSchemeSync from '../components/ColorScheme/Sync'
 import { APOLLO_STATE_PROP_NAME, useApollo } from '../lib/apollo/apolloClient'
 import { AppProps } from 'next/app'
 import MeContextProvider from '../lib/context/MeContext'
+import UserAgentProvider from '../lib/context/UserAgentContext'
 
 if (typeof window !== 'undefined') {
   window.addEventListener('error', (event: ErrorEvent) => {
@@ -54,7 +54,7 @@ const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
   const {
     // SSR only props
     providedApolloClient = undefined,
-    headers = undefined,
+    providedUserAgent = undefined,
     serverContext = undefined,
     ...otherPageProps
   } = pageProps
@@ -63,7 +63,7 @@ const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
   return (
     <ErrorBoundary>
       <ApolloProvider client={apolloClient}>
-        <HeadersProvider headers={headers}>
+        <UserAgentProvider providedValue={providedUserAgent}>
           <MediaProgressContext>
             <IconContextProvider value={{ style: { verticalAlign: 'middle' } }}>
               <AudioProvider>
@@ -90,7 +90,7 @@ const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
               </AudioProvider>
             </IconContextProvider>
           </MediaProgressContext>
-        </HeadersProvider>
+        </UserAgentProvider>
       </ApolloProvider>
     </ErrorBoundary>
   )

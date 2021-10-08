@@ -18,12 +18,9 @@ type DefaultSSRPageProps<P = unknown> = BasePageProps<P> & {
    */
   providedApolloClient?: ApolloClient<NormalizedCacheObject>
   /**
-   * Request headers
+   * UserAgent used during SSR.
    */
-  headers?: {
-    accept: string
-    userAgent: string
-  }
+  providedUserAgent?: string
   /**
    * NextPageContext available during SSR
    */
@@ -51,16 +48,6 @@ function withDefaultSSR(
       props = await originalGetInitialProps(ctx)
     }
 
-    // We forward the accept header for webp detection
-    // - never forward cookie to client!
-    const headers = !process.browser
-      ? {
-          accept: ctx.req.headers.accept,
-          userAgent: ctx.req.headers['user-agent']
-        }
-      : undefined
-    props.headers = headers
-
     // Run all GraphQL queries in the component tree
     // and extract the resulting data
     if (!process.browser) {
@@ -86,7 +73,7 @@ function withDefaultSSR(
           <AppTree
             pageProps={{
               providedApolloClient: apolloClient,
-              headers,
+              providedUserAgent: ctx.req.headers['user-agent'],
               serverContext: ctx,
               ...props
             }}

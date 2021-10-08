@@ -1,5 +1,5 @@
 import React from 'react'
-import { Highlight } from '../Elements'
+import { Highlight, A } from '../Elements'
 import Page from '../Page'
 
 const text = {
@@ -388,6 +388,51 @@ const text = {
         drei gefeierte Romane
       </Highlight>{' '}
       (zu Recht?).
+    </>
+  ),
+  September: p => (
+    <>
+      <Highlight {...p} ids={['xKXMaHXDk']}>
+        Weder wirklich Wahl noch Kampf in Deutschland
+      </Highlight>{' '}
+      – und{' '}
+      <Highlight {...p} ids={['2jNZ7zQn0']}>
+        die drängenden Zukunftsfragen
+      </Highlight>
+      ?{' '}
+      <Highlight {...p} ids={['AI7S0n4CH']}>
+        Dieser Berg könnte ein ganzes Dorf verschütten
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['xThOAU3NO']}>
+        Ein Brandstifter
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['97M-ikxIs']}>
+        eine Aufstreberin
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['3PY6oODim']}>
+        junge Vorbilder wider Willen
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['dvjX_OHye']}>
+        Warum Sie mit Arbeit niemals reich werden
+      </Highlight>{' '}
+      und Ihren Kindern{' '}
+      <Highlight {...p} ids={['Tt2Lw_bhv']}>
+        dieses Buch vorlesen sollten
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['XcJcDUPl3']}>
+        Mit Frau Adichie über den Tod reden
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['xg_PDr32v']}>
+        Corona an den Schweizer Schulen
+      </Highlight>{' '}
+      und leider wieder:{' '}
+      <A href='https://www.republik.ch/2021/09/27/covid19'>Post um 19 Uhr</A>.
     </>
   )
 }

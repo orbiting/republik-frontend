@@ -199,6 +199,7 @@ export const getDocument = gql`
   ${notificationInfo}
 `
 
+// Fetch all publicly available document-data
 export const getPublicDocumentData = gql`
   query getPublicDocumentData($path: String!) {
     article: document(path: $path) {
@@ -374,9 +375,10 @@ export const getPublicDocumentData = gql`
   }
 `
 
-export const getUserDocumentData = gql`
-  query getUserDocumentData($path: String!) {
-    article: document(path: $path) {
+// Fetch all of the users data that belong to the document with the given repoId
+export const getDocumentUserData = gql`
+  query getDocumentUserState($repoId: ID!) {
+    document(repoId: $repoId) {
       id
       subscribedBy(includeParents: true, onlyMe: true) {
         nodes {
@@ -388,63 +390,8 @@ export const getUserDocumentData = gql`
           ...notificationInfo
         }
       }
-      ...BookmarkOnDocument
       ...UserProgressOnDocument
-      meta {
-        format {
-          id
-          meta {
-            path
-            title
-            color
-            kind
-            image
-            shareBackgroundImage
-            shareBackgroundImageInverted
-            section {
-              id
-              meta {
-                title
-              }
-            }
-            podcast {
-              podigeeSlug
-              spotifyUrl
-              googleUrl
-              appleUrl
-            }
-            newsletter {
-              name
-              free
-            }
-          }
-        }
-        section {
-          id
-          meta {
-            path
-            title
-            color
-            kind
-          }
-        }
-        dossier {
-          id
-          meta {
-            title
-            path
-          }
-        }
-        series {
-          episodes {
-            document {
-              id
-              ...BookmarkOnDocument
-              ...UserProgressOnDocument
-            }
-          }
-        }
-      }
+      ...BookmarkOnDocument
     }
   }
   ${onDocumentFragment}

@@ -46,8 +46,8 @@ import { PayNote } from './PayNote'
 import Progress from './Progress'
 import PodcastButtons from './PodcastButtons'
 import {
-  getPublicDocumentData,
-  getUserDocumentData
+  getDocumentUserData,
+  getPublicDocumentData
 } from './graphql/getDocument'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
@@ -231,14 +231,14 @@ const ArticlePage = ({
   const { article } = articleData ?? {}
 
   // Fetch user article-data related to the active-user
-  const { data: userArticleData } = useQuery(getUserDocumentData, {
+  const { data: userArticleData } = useQuery(getDocumentUserData, {
     variables: {
-      path: cleanedPath
+      repoId: article.repoId
     }
   })
 
   const {
-    article: { userProgress }
+    article: { userProgress, userBookmark }
   } = userArticleData ?? { article: {} }
 
   const articleMeta = article?.meta

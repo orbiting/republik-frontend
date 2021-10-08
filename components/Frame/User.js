@@ -58,7 +58,7 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             </span>
           ))}
         {!me && (
-          <Fragment>
+          <div data-hide-if-member=''>
             <span {...styles.anonymous}>
               <AccountBoxIcon {...colorScheme.set('fill', 'text')} />
             </span>
@@ -69,7 +69,7 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             >
               {t('header/signin')}
             </span>
-          </Fragment>
+          </div>
         )}
       </span>
     </button>

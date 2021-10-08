@@ -284,6 +284,7 @@ const Header = ({
               ) : (
                 <Link href='/angebote' passHref>
                   <a
+                    data-hide-if-member=''
                     {...styles.button}
                     {...(isOnMarketingPage
                       ? styles.buttonMarketing

@@ -80,16 +80,18 @@ const MeContextProvider = ({ children }: Props) => {
   }, [me])
 
   useEffect(() => {
-    if (typeof localStorage === 'undefined' || loading) return
+    try {
+      if (loading) return
+      document.documentElement.removeAttribute(IS_MEMBER_ATTRIBUTE)
 
-    document.documentElement.removeAttribute(IS_MEMBER_ATTRIBUTE)
-
-    if (me && isMember) {
-      localStorage.setItem(MEMBERSHIP_STORAGE_KEY, 'true')
-    } else {
-      localStorage.removeItem(MEMBERSHIP_STORAGE_KEY)
-    }
-  }, [me, isMember])
+      if (me && isMember) {
+        localStorage.setItem(MEMBERSHIP_STORAGE_KEY, 'true')
+      } else {
+        localStorage.removeItem(MEMBERSHIP_STORAGE_KEY)
+      }
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+  }, [loading, me, isMember])
 
   return (
     <MeContext.Provider

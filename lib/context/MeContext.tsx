@@ -62,7 +62,7 @@ const MeContext = createContext<MeContextValues>({} as MeContextValues)
 export const useMe = (): MeContextValues => useContext(MeContext)
 
 type Props = {
-  children?: ReactNode
+  children: ReactNode
 }
 
 const MeContextProvider = ({ children }: Props) => {

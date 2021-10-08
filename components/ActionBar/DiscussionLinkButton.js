@@ -10,6 +10,7 @@ const DiscussionLinkButton = ({
   t,
   document,
   forceShortLabel,
+  atArticleBottom,
   isOnArticlePage
 }) => {
   const meta = document && document.meta
@@ -37,13 +38,23 @@ const DiscussionLinkButton = ({
       <IconButton
         Icon={DiscussionIcon}
         label={
-          forceShortLabel
+          atArticleBottom
+            ? t('feed/actionbar/discussion/long', {
+                count: discussionCount || ''
+              })
+            : forceShortLabel
             ? discussionCount
             : t('profile/documents/title/other', {
                 count: discussionCount || ''
               })
         }
-        labelShort={discussionCount || ''}
+        labelShort={
+          atArticleBottom
+            ? t('feed/actionbar/discussion/long', {
+                count: discussionCount || ''
+              })
+            : discussionCount || ''
+        }
         fillColorName='primary'
         onClick={
           isDiscussionPage && isOnArticlePage

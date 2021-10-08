@@ -252,6 +252,14 @@ const ActionBar = ({
       show: true
     },
     {
+      title: readingTimeTitle,
+      Icon: ReadingTimeIcon,
+      label: readingTimeLabel,
+      labelShort: readingTimeLabelShort,
+      modes: ['articleTop'],
+      show: showReadingTime
+    },
+    {
       title: t('SubscribeMenu/title'),
       element: (
         <SubscribeMenu
@@ -260,6 +268,7 @@ const ActionBar = ({
           }
           subscriptions={document.subscribedBy && document.subscribedBy.nodes}
           label={t('SubscribeMenu/title')}
+          labelShort={t('SubscribeMenu/title')}
           padded
         />
       ),
@@ -273,6 +282,10 @@ const ActionBar = ({
           bookmarked={!!document.userBookmark}
           documentId={document.id}
           label={!forceShortLabel ? t('bookmark/label') : ''}
+          labelShort={
+            (mode === 'articleTop' || mode === 'articleBottom') &&
+            t('bookmark/label')
+          }
         />
       ),
       modes: [
@@ -324,41 +337,11 @@ const ActionBar = ({
         }
       },
       label: !forceShortLabel ? t('article/actionbar/share') : '',
-      modes: ['articleTop', 'articleOverlay'],
+      labelShort:
+        (mode === 'articleBottom' || mode === 'articleTop') &&
+        t('article/actionbar/share'),
+      modes: ['articleTop', 'articleBottom', 'articleOverlay'],
       show: true
-    },
-    {
-      title: t('article/actionbar/discussion'),
-      element: (
-        <DiscussionLinkButton
-          t={t}
-          document={document}
-          isOnArticlePage={[
-            'articleTop',
-            'articleBottom',
-            'articleOverlay'
-          ].includes(mode)}
-          forceShortLabel={forceShortLabel}
-        />
-      ),
-      modes: [
-        'articleTop',
-        'articleBottom',
-        'articleOverlay',
-        'feed',
-        'seriesEpisode'
-      ],
-      show: !!discussionId
-    }
-  ]
-
-  const ActionItemsSecondary = [
-    {
-      title: readingTimeTitle,
-      Icon: ReadingTimeIcon,
-      label: readingTimeLabel,
-      labelShort: readingTimeLabelShort,
-      show: showReadingTime
     },
     {
       title: t('article/actionbar/userprogress'),
@@ -371,6 +354,7 @@ const ActionBar = ({
         ) : (
           <></>
         ),
+      modes: ['articleTop'],
       show: document.userProgress && displayMinutes > 1 && !podcast
     },
     {
@@ -386,6 +370,8 @@ const ActionBar = ({
         })
       },
       label: t('PodcastButtons/play'),
+      labelShort: t('PodcastButtons/play'),
+      modes: ['articleTop'],
       show: !!meta.audioSource
     },
     {
@@ -397,16 +383,40 @@ const ActionBar = ({
         setPodcastOverlayVisible(!podcastOverlayVisible)
       },
       label: t('PodcastButtons/title'),
+      labelShort: t('PodcastButtons/title'),
+      modes: ['articleTop'],
       show: !!podcast && meta.template !== 'format'
+    },
+    {
+      title: t('article/actionbar/discussion'),
+      element: (
+        <DiscussionLinkButton
+          t={t}
+          document={document}
+          isOnArticlePage={[
+            'articleTop',
+            'articleBottom',
+            'articleOverlay'
+          ].includes(mode)}
+          forceShortLabel={forceShortLabel}
+          atArticleBottom={mode === 'articleBottom'}
+        />
+      ),
+      modes: [
+        'articleTop',
+        'articleBottom',
+        'articleOverlay',
+        'feed',
+        'seriesEpisode'
+      ],
+      show: !!discussionId
     }
   ]
-  const hasSecondaryActionItems = !!ActionItemsSecondary.filter(
-    item => item.show
-  ).length
+
   return (
     <>
       <div
-        {...styles.topRow}
+        {...styles.default}
         {...(mode === 'articleOverlay' && { ...styles.overlay })}
         {...(!!centered && { ...styles.centered })}
       >
@@ -418,31 +428,16 @@ const ActionBar = ({
           )
         )}
       </div>
-      {mode === 'articleTop' && hasSecondaryActionItems && (
-        <div {...styles.bottomRow} {...(!!centered && { ...styles.centered })}>
-          {ActionItemsSecondary.filter(item => item.show).map(props => (
-            <Fragment key={props.title}>
-              {props.element || <IconButton {...props} />}
-            </Fragment>
-          ))}
-        </div>
-      )}
-      {(mode === 'articleBottom' || mode === 'seriesOverviewBottom') && (
-        <>
-          {!inNativeApp ? (
-            <Interaction.P style={{ marginTop: 24 }}>
-              <strong>{t('article/actionbar/share')}</strong>
-            </Interaction.P>
-          ) : null}
-          <ShareButtons
-            url={meta.url}
-            title={document.title}
-            tweet=''
-            emailSubject={emailSubject}
-            emailBody=''
-            emailAttachUrl
-          />
-        </>
+
+      {mode === 'seriesOverviewBottom' && (
+        <ShareButtons
+          url={meta.url}
+          title={document.title}
+          tweet=''
+          emailSubject={emailSubject}
+          emailBody=''
+          emailAttachUrl
+        />
       )}
 
       {/* OVERLAYS */}
@@ -478,19 +473,22 @@ const ActionBar = ({
 }
 
 const styles = {
-  topRow: css({
-    display: 'flex'
-  }),
-  bottomRow: css({
-    display: 'flex',
-    marginTop: 24
+  default: css({
+    ' > *': {
+      display: 'inline-block',
+      verticalAlign: 'bottom',
+      marginBottom: 16
+    }
   }),
   overlay: css({
     marginTop: 0,
     width: '100%',
     padding: '12px 16px',
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    ' > *': {
+      marginBottom: 0
+    }
   }),
   centered: css({
     justifyContent: 'center'

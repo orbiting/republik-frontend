@@ -627,16 +627,7 @@ const ArticlePage = ({
                   </ActionBarOverlay>
                 </ProgressComponent>
               </ArticleGallery>
-              {meta.template === 'article' &&
-                ownDiscussion &&
-                !ownDiscussion.closed &&
-                !linkedDiscussion &&
-                !isSeriesOverview &&
-                isMember && (
-                  <Center breakout={breakout}>
-                    <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
-                  </Center>
-                )}
+
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
                   <Discussion
@@ -649,6 +640,14 @@ const ArticlePage = ({
                   />
                 </Center>
               )}
+              {((isMember && meta.template === 'article') ||
+                (isEditorialNewsletter &&
+                  newsletterMeta &&
+                  newsletterMeta.free)) && (
+                <Center breakout={breakout}>
+                  <div ref={bottomActionBarRef}>{actionBarEnd}</div>
+                </Center>
+              )}
               {showNewsletterSignupBottom && (
                 <Center breakout={breakout}>
                   {format && !me && (
@@ -657,22 +656,6 @@ const ArticlePage = ({
                     </Interaction.P>
                   )}
                   <NewsletterSignUp {...newsletterMeta} />
-                </Center>
-              )}
-              {((isMember && meta.template === 'article') ||
-                (isEditorialNewsletter &&
-                  newsletterMeta &&
-                  newsletterMeta.free)) && (
-                <Center breakout={breakout}>
-                  <div ref={bottomActionBarRef}>{actionBarEnd}</div>
-                  {!!podcast && meta.template === 'article' && (
-                    <>
-                      <Interaction.H3>
-                        {t(`PodcastButtons/title`)}
-                      </Interaction.H3>
-                      <PodcastButtons {...podcast} />
-                    </>
-                  )}
                 </Center>
               )}
               {!!podcast && meta.template !== 'article' && (
@@ -733,9 +716,9 @@ const styles = {
   }),
   actionBarContainer: css({
     marginTop: 16,
-    marginBottom: 24,
+    marginBottom: 8,
     [mediaQueries.mUp]: {
-      marginBottom: 36
+      marginBottom: 16
     }
   }),
   flexCenter: css({

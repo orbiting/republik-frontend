@@ -2937,6 +2937,10 @@
       "value": "ungefähr {hours}{minutes}"
     },
     {
+      "key": "feed/actionbar/discussion/long",
+      "value": "Reden Sie mit: {count} Dialog Beiträge"
+    },
+    {
       "key": "feed/actionbar/edit",
       "value": "Im Publikator bearbeiten"
     },

@@ -39,7 +39,7 @@ import createSectionSchema from '@project-r/styleguide/lib/templates/Section'
 import createPageSchema from '@project-r/styleguide/lib/templates/Page'
 
 import ActionBarOverlay from './ActionBarOverlay'
-import SeriesNavButton from './SeriesNav'
+import SeriesNavBar from './SeriesNavBar'
 import TrialPayNoteMini from './TrialPayNoteMini'
 import Extract from './Extract'
 import { PayNote } from './PayNote'
@@ -329,8 +329,8 @@ const ArticlePage = ({
   const episodes = series?.episodes
   const darkMode = article?.content?.meta?.darkMode
 
-  const seriesNavButton = showSeriesNav && (
-    <SeriesNavButton
+  const seriesSecondaryNav = showSeriesNav && (
+    <SeriesNavBar
       showInlinePaynote={showInlinePaynote}
       me={me}
       series={series}
@@ -420,7 +420,7 @@ const ArticlePage = ({
       raw
       // Meta tags for a focus comment are rendered in Discussion/Commments.js
       meta={metaWithSocialImages}
-      secondaryNav={seriesNavButton}
+      secondaryNav={seriesSecondaryNav}
       formatColor={formatColor}
       hasOverviewNav={hasOverviewNav}
       stickySecondaryNav={hasOverviewNav}
@@ -693,6 +693,7 @@ const ArticlePage = ({
                   ActionBar={me && ActionBar}
                   Link={Link}
                   t={t}
+                  seriesDescription={false}
                 />
               )}
               {isSection && (

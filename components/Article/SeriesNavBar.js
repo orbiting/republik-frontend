@@ -71,14 +71,7 @@ const styles = {
   })
 }
 
-const SeriesNavigation = ({
-  t,
-  me,
-  showInlinePaynote,
-  series,
-  router,
-  repoId
-}) => {
+const SeriesNavBar = ({ t, me, showInlinePaynote, series, router, repoId }) => {
   const [colorScheme] = useColorContext()
   const [expanded, setExpanded] = useState(false)
   const [ref] = useBodyScrollLock(expanded)
@@ -181,6 +174,7 @@ const SeriesNavigation = ({
           onEpisodeClick={() => setExpanded(false)}
           // lazy load does not work properly in scroll component
           aboveTheFold
+          seriesDescription={true}
           t={t}
         />
       </div>
@@ -188,4 +182,4 @@ const SeriesNavigation = ({
   )
 }
 
-export default compose(withT, withRouter)(SeriesNavigation)
+export default compose(withT, withRouter)(SeriesNavBar)

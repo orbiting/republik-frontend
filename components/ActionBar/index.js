@@ -31,11 +31,12 @@ import BookmarkButton from './BookmarkButton'
 import DiscussionLinkButton from './DiscussionLinkButton'
 import UserProgress from './UserProgress'
 import ShareButtons from './ShareButtons'
+import { useQuery } from '@apollo/client'
+import { getDocumentUserData } from '../Article/graphql/getDocument'
 
 const ActionBar = ({
   mode,
   document,
-  userData,
   t,
   inNativeApp,
   share,
@@ -48,6 +49,14 @@ const ActionBar = ({
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
   const [podcastOverlayVisible, setPodcastOverlayVisible] = useState(false)
+
+  // Fetch user article-data related to the active-user
+  const { data: articleUserData } = useQuery(getDocumentUserData, {
+    variables: {
+      repoId: document.repoId
+    }
+  })
+  const userData = articleUserData?.article
 
   const { toggleAudioPlayer } = useContext(AudioContext)
   if (!document) {

@@ -630,7 +630,7 @@ Mit ${countFormat(
                 numMembersNeeded
               )} Abonnentinnen und Mitgliedern haben wir genügend Einnahmen, um den gesamten Betrieb zu finanzieren. Und wir haben die Mittel, um Neues auszuprobieren und Experimente zu machen.
 
-Diese Zahl leitet sich aus dem aktuellen Budget 2021/22 ab. [Erfahren Sie, wofür wir das Geld ausgeben und wie sich das Budget über die Zeit entwickelt hat](/2021/10/08/werfen-sie-einen-blick-in-unsere-buecher).
+Diese Zahl leitet sich aus dem aktuellen Budget 2021/22 ab. [Erfahren Sie, wofür wir das Geld ausgeben und wie sich das Budget über die Zeit entwickelt hat](/2021/10/08/werfen-sie-einen-blick-in-unsere-geschaeftsbuecher).
 
 ## ${countFormat(lastSeen)} Mitglieder sind monatlich&nbsp;aktiv
 

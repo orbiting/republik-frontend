@@ -45,7 +45,7 @@ type Me = {
 }
 
 type MeResponse = {
-  me: Me
+  me: Me | null
 }
 
 type MeContextValues = {
@@ -69,23 +69,27 @@ const MeContextProvider = ({ children }: Props) => {
   const { data, loading, error, refetch } = useQuery<MeResponse>(meQuery, {})
 
   const me = useMemo(() => {
-    if (!data) return undefined
-    if (data.me) return undefined
+    if (loading) return undefined
+    if (data.me) return data.me
 
     return undefined
   }, [data])
 
+  const isMember = useMemo(() => {
+    return me && checkRoles(me, ['member'])
+  }, [me])
+
   useEffect(() => {
-    if (!data) return
-    if (data.me) {
-      localStorage.setItem(
-        MEMBERSHIP_STORAGE_KEY,
-        String(checkRoles(data.me, ['member']))
-      )
+    if (typeof localStorage === 'undefined' || loading) return
+
+    document.documentElement.removeAttribute(IS_MEMBER_ATTRIBUTE)
+
+    if (me && isMember) {
+      localStorage.setItem(MEMBERSHIP_STORAGE_KEY, 'true')
     } else {
       localStorage.removeItem(MEMBERSHIP_STORAGE_KEY)
     }
-  }, [data])
+  }, [me, isMember])
 
   return (
     <MeContext.Provider
@@ -95,18 +99,13 @@ const MeContextProvider = ({ children }: Props) => {
         meError: error,
         meRefetch: refetch,
         hasActiveMembership: !!me?.activeMembership,
-        hasAccess: checkRoles(me, ['member'])
+        hasAccess: isMember
       }}
     >
       <NextHead>
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-          try {
-            const value = localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}");
-            document.documentElement.setAttribute("${IS_MEMBER_ATTRIBUTE}", value);
-         } catch(e) {console.error(e)}
-          `
+            __html: `try{if (localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}"))document.documentElement.setAttribute("${IS_MEMBER_ATTRIBUTE}", "true")} catch(e) {console.error(e)}`
           }}
         />
       </NextHead>

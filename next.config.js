@@ -43,20 +43,39 @@ module.exports = withBundleAnalyzer({
     ignoreDuringBuilds: true
   },
   async rewrites() {
-    return [
-      {
-        source: '/~:slug',
-        destination: '/~/:slug',
-      }
-    ]
+    return {
+      beforeFiles: [
+        {
+          source: '/',
+          has: [
+            {
+              type: 'cookie',
+              key: 'test' // does not work properly with http only ones
+            }
+          ],
+          destination: '/front'
+        }
+      ],
+      afterFiles: [
+        {
+          source: '/~:slug',
+          destination: '/~/:slug'
+        }
+      ]
+    }
   },
   async redirects() {
     return [
       {
         source: '/~/:slug',
         destination: '/~:slug',
-        permanent: true,
+        permanent: true
       },
+      {
+        source: '/front',
+        destination: '/',
+        permanent: true
+      }
     ]
-  },
+  }
 })

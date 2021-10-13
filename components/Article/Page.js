@@ -230,17 +230,9 @@ const ArticlePage = ({
   })
   const { article } = articleData ?? {}
 
-  // Fetch user article-data related to the active-user
-  const { data: articleUserData } = useQuery(getDocumentUserData, {
-    variables: {
-      repoId: article.repoId
-    }
-  })
-  const userData = articleUserData?.article
-
   const articleMeta = article?.meta
   const articleContent = article?.content
-  const articleUnreadNotifications = userData?.unreadNotifications
+  const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
 
   const { toggleAudioPlayer, audioPlayerVisible } = useContext(AudioContext)
@@ -348,7 +340,7 @@ const ArticlePage = ({
   const isEditorialNewsletter = template === 'editorialNewsletter'
   const disableActionBar = meta?.disableActionBar
   const actionBar = article && !disableActionBar && (
-    <ActionBar mode='articleTop' document={article} userData={userData} />
+    <ActionBar mode='articleTop' document={article} />
   )
   const actionBarEnd = actionBar
     ? React.cloneElement(actionBar, {
@@ -551,10 +543,7 @@ const ArticlePage = ({
                 show={!!router.query.gallery}
                 ref={galleryRef}
               >
-                <ProgressComponent
-                  article={article}
-                  userProgress={userData?.userProgress}
-                >
+                <ProgressComponent article={article}>
                   <article style={{ display: 'block' }}>
                     {splitContent.title && (
                       <div {...styles.titleBlock}>

@@ -45,11 +45,7 @@ import Extract from './Extract'
 import { PayNote } from './PayNote'
 import Progress from './Progress'
 import PodcastButtons from './PodcastButtons'
-import {
-  getDocument,
-  getDocumentUserData,
-  getPublicDocumentData
-} from './graphql/getDocument'
+import { getDocument } from './graphql/getDocument'
 import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'

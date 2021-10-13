@@ -25,6 +25,7 @@ const TrialPayNoteMini = ({ repoId, inline, context, index }) => {
 
   return (
     <div
+      data-hide-if-member=''
       {...colorScheme.set('backgroundColor', 'default')}
       {...styles.container}
     >

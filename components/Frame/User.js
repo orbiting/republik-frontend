@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import {
   mediaQueries,
@@ -19,7 +19,7 @@ const BUTTON_SIZE_MOBILE = 26
 const BUTTON_PADDING = (HEADER_HEIGHT - BUTTON_SIZE) / 2
 const BUTTON_PADDING_MOBILE = (HEADER_HEIGHT_MOBILE - BUTTON_SIZE_MOBILE) / 2
 
-const getInitials = me =>
+export const getInitials = me =>
   (me.name && me.name.trim()
     ? me.name.split(' ').filter((n, i, all) => i === 0 || all.length - 1 === i)
     : me.email
@@ -45,6 +45,15 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             : HEADER_HORIZONTAL_PADDING
         }}
       >
+        <div data-show-if-member='' {...styles.stack}>
+          <span
+            data-temporary-initials=''
+            {...styles.portrait}
+            {...colorScheme.set('backgroundColor', 'hover')}
+            {...colorScheme.set('color', 'text')}
+          />
+          <img data-temporary-portrait='' {...styles.portrait} />
+        </div>
         {me &&
           (me.portrait ? (
             <img src={me.portrait} {...styles.portrait} />
@@ -58,18 +67,20 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             </span>
           ))}
         {!me && (
-          <div data-hide-if-member=''>
-            <span {...styles.anonymous}>
-              <AccountBoxIcon {...colorScheme.set('fill', 'text')} />
-            </span>
-            <span
-              {...(isOnMarketingPage
-                ? styles.labelMarketing
-                : styles.labelDefault)}
-            >
-              {t('header/signin')}
-            </span>
-          </div>
+          <>
+            <div data-hide-if-member=''>
+              <span {...styles.anonymous}>
+                <AccountBoxIcon {...colorScheme.set('fill', 'text')} />
+              </span>
+              <span
+                {...(isOnMarketingPage
+                  ? styles.labelMarketing
+                  : styles.labelDefault)}
+              >
+                {t('header/signin')}
+              </span>
+            </div>
+          </>
         )}
       </span>
     </button>
@@ -136,6 +147,18 @@ const styles = {
     marginLeft: 5,
     [mediaQueries.mUp]: {
       display: 'inline-block'
+    }
+  }),
+  stack: css({
+    position: 'relative',
+    height: `${BUTTON_SIZE_MOBILE}px`,
+    width: `${BUTTON_SIZE_MOBILE}px`,
+    [mediaQueries.mUp]: {
+      height: `${BUTTON_SIZE}px`,
+      width: `${BUTTON_SIZE}px`
+    },
+    '& > *': {
+      position: 'absolute'
     }
   })
 }

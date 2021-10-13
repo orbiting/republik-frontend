@@ -46,6 +46,7 @@ import { PayNote } from './PayNote'
 import Progress from './Progress'
 import PodcastButtons from './PodcastButtons'
 import {
+  getDocument,
   getDocumentUserData,
   getPublicDocumentData
 } from './graphql/getDocument'
@@ -220,15 +221,21 @@ const ArticlePage = ({
   // Fetch public article-data
   const {
     data: articleData,
-    refetch,
     loading: articleLoading,
-    error: articleError
-  } = useQuery(getPublicDocumentData, {
+    error: articleError,
+    refetch
+  } = useQuery(getDocument, {
     variables: {
       path: cleanedPath
-    }
+    },
+    /*
+     Ensure cache is loaded from SSG and data is refetched,
+     once the website is loaded
+    */
+    fetchPolicy: 'cache-and-network'
   })
-  const { article } = articleData ?? {}
+
+  const article = articleData?.article
 
   const articleMeta = article?.meta
   const articleContent = article?.content
@@ -380,7 +387,7 @@ const ArticlePage = ({
   if (extract) {
     return (
       <Loader
-        loading={articleLoading}
+        loading={articleLoading && !articleData}
         error={articleError}
         render={() => {
           if (!article) {
@@ -456,7 +463,7 @@ const ArticlePage = ({
       pageColorSchemeKey={colorSchemeKey}
     >
       <Loader
-        loading={articleLoading}
+        loading={articleLoading && !articleData}
         error={articleError}
         render={() => {
           if (!article || !schema) {

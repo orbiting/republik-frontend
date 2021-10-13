@@ -5,7 +5,7 @@ import createGetStaticProps from '../lib/helpers/createGetStaticProps'
 import { GetStaticPaths } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { gql } from '@apollo/client'
-import { getPublicDocumentData } from '../components/Article/graphql/getDocument'
+import { getDocument } from '../components/Article/graphql/getDocument'
 
 type Params = {
   path: string[]
@@ -30,7 +30,7 @@ export const getStaticProps = createGetStaticProps<Props, Params>(
     const {
       data: { article }
     } = await client.query({
-      query: getPublicDocumentData,
+      query: getDocument,
       variables: {
         path
       }

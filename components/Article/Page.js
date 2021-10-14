@@ -239,10 +239,18 @@ const ArticlePage = ({
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
 
+  if (!articleLoading && !article && serverContext) {
+    serverContext.res.redirect(
+      302,
+      cleanAsPath(asPath).replace('/vorschau/', '/')
+    )
+    //serverContext.res.end()
+  }
+
   // Redirect to regular article page if no preview could be loaded
   useEffect(() => {
     if (isPreview && !articleLoading && !article) {
-      const articlePath = asPath.replace('/vorschau/', '/')
+      const articlePath = cleanAsPath(asPath).replace('/vorschau/', '/')
       push(articlePath)
     }
   }, [isPreview, article, articleLoading, articleError])

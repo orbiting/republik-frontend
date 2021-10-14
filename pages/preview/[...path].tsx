@@ -5,6 +5,7 @@ import ArticlePage from '../../components/Article/Page'
 
 ArticlePage.getInitialProps = () => {
   return {
+    isPreview: true,
     payNoteTryOrBuy: Math.random(),
     payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
   }

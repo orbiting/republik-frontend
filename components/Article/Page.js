@@ -192,6 +192,7 @@ const ArticlePage = ({
   inNativeIOSApp,
   payNoteSeed,
   payNoteTryOrBuy,
+  isPreview,
   hasActiveMembership,
   markAsReadMutation,
   serverContext
@@ -200,9 +201,10 @@ const ArticlePage = ({
   const bottomActionBarRef = useRef()
   const galleryRef = useRef()
 
-  const { asPath } = useRouter()
+  const { asPath, push, pathname, query, basePath } = useRouter()
 
   const { me } = useMe()
+  console.debug({ pathname, query, basePath })
 
   const { isMember, isEditor } = useMemo(
     () => ({
@@ -237,6 +239,14 @@ const ArticlePage = ({
   const articleContent = article?.content
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
+
+  // Redirect to regular article page if no preview could be loaded
+  useEffect(() => {
+    if (isPreview && !articleLoading && !article) {
+      const articlePath = asPath.replace('/preview', '')
+      push(articlePath)
+    }
+  }, [isPreview, article, articleLoading, articleError])
 
   const { toggleAudioPlayer, audioPlayerVisible } = useContext(AudioContext)
 

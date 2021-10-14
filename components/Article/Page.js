@@ -201,10 +201,9 @@ const ArticlePage = ({
   const bottomActionBarRef = useRef()
   const galleryRef = useRef()
 
-  const { asPath, push, pathname, query, basePath } = useRouter()
+  const { asPath, push } = useRouter()
 
   const { me } = useMe()
-  console.debug({ pathname, query, basePath })
 
   const { isMember, isEditor } = useMemo(
     () => ({

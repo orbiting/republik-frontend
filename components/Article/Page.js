@@ -652,9 +652,7 @@ const ArticlePage = ({
                         {!suppressFirstPayNote && payNote}
                       </div>
                     )}
-                    <ColorContextProvider colorSchemeKey={colorSchemeKey}>
-                      {renderSchema(splitContent.main)}
-                    </ColorContextProvider>
+                    {renderSchema(splitContent.main)}
                   </article>
                   <ActionBarOverlay
                     audioPlayerVisible={audioPlayerVisible}

@@ -508,7 +508,7 @@ export const PayNote = compose(
 
     return (
       <div
-        data-hide-if-member
+        data-hide-if-member='true'
         {...styles.banner}
         {...colorScheme.set('backgroundColor', isBefore ? 'hover' : 'alert')}
       >

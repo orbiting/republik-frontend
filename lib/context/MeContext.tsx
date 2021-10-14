@@ -16,15 +16,15 @@ const IS_MEMBER_ATTRIBUTE = 'data-is-member'
 const MEMBERSHIP_STORAGE_KEY = 'is-member'
 
 // Rule to hide elements while a statically generated page is fetching the active-user
-css.global(`[${IS_MEMBER_ATTRIBUTE}="true"] [data-hide-if-member]`, {
+css.global(`[${IS_MEMBER_ATTRIBUTE}="true"] [data-hide-if-member="true"]`, {
   display: 'none'
 })
 
-css.global('[data-show-if-member]', {
+css.global('[data-show-if-member="true"]', {
   display: 'none'
 })
 
-css.global(`[${IS_MEMBER_ATTRIBUTE}="true"] [data-show-if-member]`, {
+css.global(`[${IS_MEMBER_ATTRIBUTE}="true"] [data-show-if-member="true"]`, {
   display: 'block'
 })
 

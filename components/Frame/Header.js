@@ -268,7 +268,7 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              <div data-show-if-member=''>
+              <div data-show-if-member='true'>
                 <Toggle
                   expanded={isAnyNavExpanded}
                   title={t(
@@ -294,7 +294,7 @@ const Header = ({
               ) : (
                 <Link href='/angebote' passHref>
                   <a
-                    data-hide-if-member=''
+                    data-hide-if-member='true'
                     {...styles.button}
                     {...(isOnMarketingPage
                       ? styles.buttonMarketing

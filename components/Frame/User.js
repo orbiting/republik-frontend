@@ -45,7 +45,7 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             : HEADER_HORIZONTAL_PADDING
         }}
       >
-        <div data-show-if-member='' {...styles.stack}>
+        <div data-show-if-member='true' {...styles.stack}>
           <span
             data-temporary-initials=''
             {...styles.portrait}
@@ -68,7 +68,7 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
           ))}
         {!me && (
           <>
-            <div data-hide-if-member=''>
+            <div data-hide-if-member='true'>
               <span {...styles.anonymous}>
                 <AccountBoxIcon {...colorScheme.set('fill', 'text')} />
               </span>

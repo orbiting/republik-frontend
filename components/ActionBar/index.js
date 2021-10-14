@@ -9,7 +9,8 @@ import {
   PodcastIcon,
   FontSizeIcon,
   ShareIcon,
-  ChartIcon
+  ChartIcon,
+  EditIcon
 } from '@project-r/styleguide/icons'
 import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
@@ -19,7 +20,7 @@ import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import { trackEvent } from '../../lib/matomo'
 import { getDiscussionLinkProps } from './utils'
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, PUBLIKATOR_BASE_URL } from '../../lib/constants'
 import PdfOverlay, { getPdfUrl } from '../Article/PdfOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import ShareOverlay from './ShareOverlay'
@@ -31,6 +32,8 @@ import BookmarkButton from './BookmarkButton'
 import DiscussionLinkButton from './DiscussionLinkButton'
 import UserProgress from './UserProgress'
 import ShareButtons from './ShareButtons'
+import { useMe } from '../../lib/context/MeContext'
+import { checkRoles } from '../../lib/apollo/withMe'
 
 const ActionBar = ({
   mode,
@@ -43,6 +46,7 @@ const ActionBar = ({
   fontSize,
   isCentered
 }) => {
+  const { me } = useMe()
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
@@ -352,6 +356,20 @@ const ActionBar = ({
         'seriesEpisode'
       ],
       show: !!discussionId
+    },
+    {
+      title: t('feed/actionbar/edit'),
+      element: (
+        <IconButton
+          Icon={EditIcon}
+          href={`${PUBLIKATOR_BASE_URL}/repo/${document?.repoId}/tree`}
+          target='_blank'
+          title={t('feed/actionbar/edit')}
+          fill={'#E9A733'}
+        />
+      ),
+      modes: ['articleTop'],
+      show: document?.repoId && checkRoles(me, ['editor'])
     }
   ]
 

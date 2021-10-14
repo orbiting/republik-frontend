@@ -583,7 +583,7 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        {isEditor && repoId ? (
+                        {isEditor && repoId && disableActionBar ? (
                           <Center
                             breakout={breakout}
                             style={{ paddingBottom: 0, paddingTop: 30 }}

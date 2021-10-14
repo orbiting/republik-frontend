@@ -16,23 +16,17 @@ const IS_MEMBER_ATTRIBUTE = 'data-is-member'
 const MEMBERSHIP_STORAGE_KEY = 'is-member'
 
 // Rule to hide elements while a statically generated page is fetching the active-user
-css.global(
-  `[${IS_MEMBER_ATTRIBUTE}="true"] [data-hide-if-member], [${IS_MEMBER_ATTRIBUTE}="true"] .hideIfMember`,
-  {
-    display: 'none'
-  }
-)
-
-css.global('[data-show-if-member], .showIfMember', {
+css.global(`[${IS_MEMBER_ATTRIBUTE}="true"] [data-hide-if-member]`, {
   display: 'none'
 })
 
-css.global(
-  `[${IS_MEMBER_ATTRIBUTE}="true"] [data-show-if-member], [${IS_MEMBER_ATTRIBUTE}="true"] .showIfMember`,
-  {
-    display: 'block'
-  }
-)
+css.global('[data-show-if-member]', {
+  display: 'none'
+})
+
+css.global(`[${IS_MEMBER_ATTRIBUTE}="true"] [data-show-if-member]`, {
+  display: 'block'
+})
 
 type Me = {
   id: string

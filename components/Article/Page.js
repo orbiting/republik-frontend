@@ -242,7 +242,7 @@ const ArticlePage = ({
   // Redirect to regular article page if no preview could be loaded
   useEffect(() => {
     if (isPreview && !articleLoading && !article) {
-      const articlePath = asPath.replace('/preview', '')
+      const articlePath = asPath.replace('/vorschau/', '/')
       push(articlePath)
     }
   }, [isPreview, article, articleLoading, articleError])

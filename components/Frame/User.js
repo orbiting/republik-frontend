@@ -13,6 +13,7 @@ import {
 } from '../constants'
 import { AccountBoxIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
+import { MEMBER_PORTRAIT_STORAGE_KEY } from '../../lib/context/MeContext'
 
 const BUTTON_SIZE = 32
 const BUTTON_SIZE_MOBILE = 26
@@ -46,15 +47,29 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
         }}
       >
         {!me && (
-          <div data-show-if-member='true' {...styles.stack}>
-            <span
-              data-temporary-initials=''
-              {...styles.portrait}
-              {...colorScheme.set('backgroundColor', 'hover')}
-              {...colorScheme.set('color', 'text')}
+          <>
+            <div data-show-if-member='true' {...styles.stack}>
+              <span
+                data-temporary-initials=''
+                {...styles.portrait}
+                {...colorScheme.set('backgroundColor', 'hover')}
+                {...colorScheme.set('color', 'text')}
+              />
+              <img data-temporary-portrait='' {...styles.portrait} />
+            </div>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: [
+                  'try{',
+                  `const a=localStorage.getItem("${MEMBER_PORTRAIT_STORAGE_KEY}");`,
+                  '2<a.length',
+                  '?document.querySelector("[data-temporary-portrait]").setAttribute("src",decodeURI(a))',
+                  ':(document.querySelector("[data-temporary-initials]").textContent=a,document.querySelector("[data-temporary-portrait]").style.display="none")',
+                  '}catch(e){}'
+                ].join('')
+              }}
             />
-            <img data-temporary-portrait='' {...styles.portrait} />
-          </div>
+          </>
         )}
         {me &&
           (me.portrait ? (

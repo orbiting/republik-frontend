@@ -6,7 +6,6 @@ import React, {
   useMemo
 } from 'react'
 import NextHead from 'next/head'
-import Script from 'next/script'
 import { ApolloError, useQuery } from '@apollo/client'
 import { checkRoles, meQuery } from '../apollo/withMe'
 import { css } from 'glamor'
@@ -16,7 +15,7 @@ const HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE = 'data-has-active-membership'
 const HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY = 'has-active-membership'
 
 const MEMBER_PORTRAIT_ATTRIBUTE = 'data-member-portrait'
-const MEMBER_PORTRAIT_STORAGE_KEY = 'member-portrait'
+export const MEMBER_PORTRAIT_STORAGE_KEY = 'member-portrait'
 
 // Rule to hide elements while a statically generated page is fetching the active-user
 css.global(
@@ -159,19 +158,6 @@ const MeContextProvider = ({ children }: Props) => {
           }}
         />
       </NextHead>
-      <Script
-        id={'script-load-member-portrait'}
-        dangerouslySetInnerHTML={{
-          __html: [
-            'try{',
-            `const a=localStorage.getItem("${MEMBER_PORTRAIT_STORAGE_KEY}");`,
-            '2<a.length',
-            '?document.querySelector("[data-temporary-portrait]").setAttribute("src",decodeURI(a))',
-            ':(document.querySelector("[data-temporary-initials]").textContent=a,document.querySelector("[data-temporary-portrait]").style.display="none")',
-            '}catch(e){}'
-          ].join('')
-        }}
-      />
       {children}
     </MeContext.Provider>
   )

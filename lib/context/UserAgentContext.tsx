@@ -1,4 +1,10 @@
-import React, { createContext, ReactNode, useContext } from 'react'
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 
 export const matchIOSUserAgent = (value?: string): boolean =>
   value &&
@@ -17,11 +23,14 @@ type Props = {
 }
 
 const UserAgentProvider = ({ children, providedValue }: Props) => {
-  const navigatorUserAgent =
-    typeof navigator !== 'undefined' ? navigator.userAgent : undefined
+  const [userAgent, setUserAgent] = useState(providedValue)
+
+  useEffect(() => {
+    if (navigator) setUserAgent(navigator.userAgent)
+  }, [])
 
   return (
-    <UserAgentContext.Provider value={providedValue ?? navigatorUserAgent}>
+    <UserAgentContext.Provider value={userAgent}>
       {children}
     </UserAgentContext.Provider>
   )

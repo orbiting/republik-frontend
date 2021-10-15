@@ -202,21 +202,15 @@ const ArticlePage = ({
 
   const cleanedPath = cleanAsPath(asPath)
 
-  // Fetch public article-data
   const {
     data: articleData,
     loading: articleLoading,
     error: articleError,
-    refetch
+    refetch: articleRefetch
   } = useQuery(getDocument, {
     variables: {
       path: cleanedPath
-    },
-    /*
-     Ensure cache is loaded from SSG and data is refetched,
-     once the website is loaded
-    */
-    fetchPolicy: 'cache-and-network'
+    }
   })
 
   const article = articleData?.article
@@ -225,6 +219,13 @@ const ArticlePage = ({
   const articleContent = article?.content
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
+
+  // Refetch the article data for users with an activeMembership.
+  // This is done to update the article to the member-version (SSG provides public-version).
+  // The article is also refetched, when ever the path changes (when the user switches to an other article)
+  useEffect(() => {
+    if (hasActiveMembership && cleanedPath) articleRefetch()
+  }, [hasActiveMembership, cleanedPath])
 
   if (isPreview && !articleLoading && !article && serverContext) {
     serverContext.res.redirect(302, asPath.replace(/^\/vorschau\//, '/'))
@@ -290,7 +291,7 @@ const ArticlePage = ({
   const showInlinePaynote = !hasAccess || !!trialSignup
   useEffect(() => {
     if (trialSignup === 'success') {
-      refetch()
+      articleRefetch()
     }
   }, [trialSignup])
 

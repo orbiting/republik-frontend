@@ -12,21 +12,37 @@ import { checkRoles, meQuery } from '../apollo/withMe'
 import { css } from 'glamor'
 import { getInitials } from '../../components/Frame/User'
 
-const IS_MEMBER_ATTRIBUTE = 'data-is-member'
-const MEMBERSHIP_STORAGE_KEY = 'is-member'
+const HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE = 'data-has-active-membership'
+const HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY = 'has-active-membership'
+
+const MEMBER_PORTRAIT_ATTRIBUTE = 'data-member-portrait'
+const MEMBER_PORTRAIT_STORAGE_KEY = 'member-portrait'
 
 // Rule to hide elements while a statically generated page is fetching the active-user
-css.global(`[${IS_MEMBER_ATTRIBUTE}="true"] [data-hide-if-member="true"]`, {
-  display: 'none'
-})
+css.global(
+  `[${MEMBER_PORTRAIT_ATTRIBUTE}="true"] [data-hide-if-member="true"]`,
+  {
+    display: 'none'
+  }
+)
 
 css.global('[data-show-if-member="true"]', {
   display: 'none'
 })
 
-css.global(`[${IS_MEMBER_ATTRIBUTE}="true"] [data-show-if-member="true"]`, {
-  display: 'block'
-})
+css.global(
+  `[${MEMBER_PORTRAIT_ATTRIBUTE}="true"] [data-show-if-member="true"]`,
+  {
+    display: 'block'
+  }
+)
+
+css.global(
+  `[${HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE}="true"] [data-hide-if-active-membership="true"]`,
+  {
+    display: 'none'
+  }
+)
 
 type Me = {
   id: string
@@ -91,21 +107,30 @@ const MeContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (loading) return
-    document.documentElement.removeAttribute(IS_MEMBER_ATTRIBUTE)
-    const value =
-      me && isMember && hasActiveMembership
-        ? me.portrait ?? getInitials(me)
-        : false
+    //document.documentElement.removeAttribute(MEMBER_PORTRAIT_ATTRIBUTE)
+    //document.documentElement.removeAttribute(HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE)
+
+    const portraitValue = me ? me.portrait ?? getInitials(me) : false
 
     try {
-      if (value) {
-        localStorage.setItem(MEMBERSHIP_STORAGE_KEY, value)
+      if (portraitValue) {
+        localStorage.setItem(MEMBER_PORTRAIT_STORAGE_KEY, portraitValue)
       } else {
-        localStorage.removeItem(MEMBERSHIP_STORAGE_KEY)
+        localStorage.removeItem(MEMBER_PORTRAIT_STORAGE_KEY)
       }
+
+      if (hasActiveMembership) {
+        localStorage.setItem(
+          HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY,
+          String(hasActiveMembership)
+        )
+      } else {
+        localStorage.removeItem(HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY)
+      }
+
       // eslint-disable-next-line no-empty
     } catch (e) {}
-  }, [loading, me, isMember])
+  }, [loading, me, isMember, hasActiveMembership])
 
   return (
     <MeContext.Provider
@@ -124,9 +149,12 @@ const MeContextProvider = ({ children }: Props) => {
           dangerouslySetInnerHTML={{
             __html: [
               'try{',
-              `if (localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}"))`,
-              `document.documentElement.setAttribute("${IS_MEMBER_ATTRIBUTE}", "true")`,
-              '} catch(e) {}'
+              `const value = localStorage.getItem("${HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY}");`,
+              `if (value && value === "true")`,
+              `document.documentElement.setAttribute("${HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE}", value);`,
+              `if (localStorage.getItem("${MEMBER_PORTRAIT_STORAGE_KEY}"))`,
+              `document.documentElement.setAttribute("${MEMBER_PORTRAIT_ATTRIBUTE}", "true");`,
+              '} catch(e) {console.error(e)}'
             ].join('')
           }}
         />
@@ -137,11 +165,11 @@ const MeContextProvider = ({ children }: Props) => {
         dangerouslySetInnerHTML={{
           __html: [
             'try{',
-            `const a=localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}");`,
+            `const a=localStorage.getItem("${MEMBER_PORTRAIT_STORAGE_KEY}");`,
             '2<a.length',
             '?document.querySelector("[data-temporary-portrait]").setAttribute("src",decodeURI(a))',
             ':(document.querySelector("[data-temporary-initials]").textContent=a,document.querySelector("[data-temporary-portrait]").style.display="none")',
-            '}catch(e){}'
+            '}catch(e){console.error(e)}'
           ].join('')
         }}
       />

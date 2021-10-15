@@ -215,12 +215,12 @@ const ArticlePage = ({
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
 
-  // Refetch the article data for users with an activeMembership.
+  // Refetch the article data for members.
   // This is done to update the article to the member-version (SSG provides public-version).
   // The article is also refetched, when ever the path changes (when the user switches to an other article)
   useEffect(() => {
-    if (hasActiveMembership && cleanedPath) articleRefetch()
-  }, [hasActiveMembership, cleanedPath])
+    if (me) articleRefetch()
+  }, [me, cleanedPath])
 
   if (isPreview && !articleLoading && !article && serverContext) {
     serverContext.res.redirect(302, asPath.replace(/^\/vorschau\//, '/'))

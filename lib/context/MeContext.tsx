@@ -86,13 +86,7 @@ const MeContextProvider = ({ children }: Props) => {
     return undefined
   }, [data])
 
-  const { isMember, isEditor } = useMemo(
-    () => ({
-      isMember: checkRoles(me, ['member']),
-      isEditor: checkRoles(me, ['editor'])
-    }),
-    [me]
-  )
+  const isMember = checkRoles(me, ['member'])
 
   useEffect(() => {
     try {
@@ -118,24 +112,32 @@ const MeContextProvider = ({ children }: Props) => {
         meRefetch: refetch,
         hasActiveMembership: !!me?.activeMembership,
         hasAccess: isMember,
-        isEditor
+        isEditor: checkRoles(me, ['editor'])
       }}
     >
       <NextHead>
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              try{if (localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}"))document.documentElement.setAttribute("${IS_MEMBER_ATTRIBUTE}", "true")} catch(e) {console.error(e)} 
-            `
+            __html: [
+              'try{',
+              `if (localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}"))`,
+              `document.documentElement.setAttribute("${IS_MEMBER_ATTRIBUTE}", "true")`,
+              '} catch(e) {}'
+            ].join('')
           }}
         />
       </NextHead>
       <Script
         id={''}
         dangerouslySetInnerHTML={{
-          __html: `
-            try{const a=localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}");2<a.length?document.querySelector("[data-temporary-portrait]").setAttribute("src",decodeURI(a)):(document.querySelector("[data-temporary-initials]").textContent=a,document.querySelector("[data-temporary-portrait]").style.display="none")}catch(t){console.error(t)}
-          `
+          __html: [
+            'try{',
+            `const a=localStorage.getItem("${MEMBERSHIP_STORAGE_KEY}");`,
+            '2<a.length',
+            '?document.querySelector("[data-temporary-portrait]").setAttribute("src",decodeURI(a))',
+            ':(document.querySelector("[data-temporary-initials]").textContent=a,document.querySelector("[data-temporary-portrait]").style.display="none")',
+            '}catch(e){}'
+          ].join('')
         }}
       />
       {children}

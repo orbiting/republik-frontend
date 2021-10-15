@@ -65,8 +65,6 @@ import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
-import withMembership from '../Auth/withMembership'
-import { withEditor } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
@@ -191,7 +189,6 @@ const ArticlePage = ({
   payNoteSeed,
   payNoteTryOrBuy,
   isPreview,
-  hasActiveMembership,
   markAsReadMutation,
   serverContext
 }) => {
@@ -201,7 +198,7 @@ const ArticlePage = ({
 
   const { asPath, push } = useRouter()
 
-  const { me, hasAccess, isEditor } = useMe()
+  const { me, hasAccess, hasActiveMembership, isEditor } = useMe()
 
   const cleanedPath = cleanAsPath(asPath)
 
@@ -768,8 +765,6 @@ const styles = {
 
 const ComposedPage = compose(
   withT,
-  withMembership,
-  withEditor,
   withInNativeApp,
   withRouter,
   withMarkAsReadMutation

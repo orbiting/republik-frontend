@@ -87,14 +87,16 @@ const MeContextProvider = ({ children }: Props) => {
   }, [data])
 
   const isMember = checkRoles(me, ['member'])
+  const hasActiveMembership = !!me?.activeMembership
 
   useEffect(() => {
     if (loading) return
     document.documentElement.removeAttribute(IS_MEMBER_ATTRIBUTE)
-    const value = me && isMember
-      ? me.portrait ?? getInitials(me)
-      : false
-    
+    const value =
+      me && isMember && hasActiveMembership
+        ? me.portrait ?? getInitials(me)
+        : false
+
     try {
       if (value) {
         localStorage.setItem(MEMBERSHIP_STORAGE_KEY, value)
@@ -112,7 +114,7 @@ const MeContextProvider = ({ children }: Props) => {
         meLoading: loading,
         meError: error,
         meRefetch: refetch,
-        hasActiveMembership: !!me?.activeMembership,
+        hasActiveMembership,
         hasAccess: isMember,
         isEditor: checkRoles(me, ['editor'])
       }}

@@ -22,7 +22,8 @@ const SubscribeMenu = ({
   label,
   labelShort,
   me,
-  padded
+  padded,
+  disabled
 }) => {
   const checkIfSubscribedToAny = ({ data, subscriptions }) =>
     //checks if any of the subscription nodes is set to active
@@ -68,20 +69,13 @@ const SubscribeMenu = ({
     [data, subscriptions]
   )
 
-  if (
-    !formatSubscriptions?.length &&
-    !authorSubscriptions?.length &&
-    !discussionId
-  ) {
-    return null
-  }
-
   const Icon = React.forwardRef((props, ref) => (
     <IconButton
       Icon={isSubscribedToAny ? NotificationIcon : NotificationsNoneIcon}
       label={label}
       labelShort={labelShort}
       ref={ref}
+      disabled={disabled}
       {...props}
     />
   ))

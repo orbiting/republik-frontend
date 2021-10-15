@@ -269,7 +269,7 @@ const ActionBar = ({
         />
       ),
       modes: ['articleTop', 'articleBottom'],
-      show: meLoading || documentLoading || me
+      show: me || meLoading || documentLoading
     },
     // The subscription menu is available for all users with an active-membership.
     {

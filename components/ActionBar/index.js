@@ -33,7 +33,6 @@ import DiscussionLinkButton from './DiscussionLinkButton'
 import UserProgress from './UserProgress'
 import ShareButtons from './ShareButtons'
 import { useMe } from '../../lib/context/MeContext'
-import { checkRoles } from '../../lib/apollo/withMe'
 
 const ActionBar = ({
   mode,
@@ -46,7 +45,7 @@ const ActionBar = ({
   fontSize,
   isCentered
 }) => {
-  const { me } = useMe()
+  const { isEditor } = useMe()
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
@@ -369,7 +368,7 @@ const ActionBar = ({
         />
       ),
       modes: ['articleTop'],
-      show: document?.repoId && checkRoles(me, ['editor'])
+      show: document?.repoId && isEditor
     }
   ]
 

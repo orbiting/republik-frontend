@@ -79,7 +79,6 @@ import { cleanAsPath } from '../../lib/utils/link'
 import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
-import { checkRoles } from '../../lib/apollo/withMe'
 import { useMe } from '../../lib/context/MeContext'
 
 const dynamicOptions = {
@@ -202,15 +201,7 @@ const ArticlePage = ({
 
   const { asPath, push } = useRouter()
 
-  const { me } = useMe()
-
-  const { isMember, isEditor } = useMemo(
-    () => ({
-      isMember: checkRoles(me, ['member']),
-      isEditor: checkRoles(me, ['editor'])
-    }),
-    [me]
-  )
+  const { me, hasAccess, isEditor } = useMe()
 
   const cleanedPath = cleanAsPath(asPath)
 
@@ -299,7 +290,7 @@ const ArticlePage = ({
   const titleBreakout = isSeriesOverview
 
   const { trialSignup } = routerQuery
-  const showInlinePaynote = !isMember || !!trialSignup
+  const showInlinePaynote = !hasAccess || !!trialSignup
   useEffect(() => {
     if (trialSignup === 'success') {
       refetch()
@@ -517,7 +508,7 @@ const ArticlePage = ({
             meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
           const ProgressComponent =
-            isMember &&
+            hasAccess &&
             !isSection &&
             !isFormat &&
             !isPage &&
@@ -663,7 +654,7 @@ const ArticlePage = ({
                 !ownDiscussion.closed &&
                 !linkedDiscussion &&
                 !isSeriesOverview &&
-                isMember && (
+                hasAccess && (
                   <Center breakout={breakout}>
                     <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
                   </Center>
@@ -690,7 +681,7 @@ const ArticlePage = ({
                   <NewsletterSignUp {...newsletterMeta} />
                 </Center>
               )}
-              {((isMember && meta.template === 'article') ||
+              {((hasAccess && meta.template === 'article') ||
                 (isEditorialNewsletter &&
                   newsletterMeta &&
                   newsletterMeta.free)) && (

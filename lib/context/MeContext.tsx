@@ -65,6 +65,7 @@ type MeContextValues = {
   meRefetch: any
   hasActiveMembership: boolean
   hasAccess: boolean
+  isEditor: boolean
 }
 
 const MeContext = createContext<MeContextValues>({} as MeContextValues)
@@ -85,9 +86,13 @@ const MeContextProvider = ({ children }: Props) => {
     return undefined
   }, [data])
 
-  const isMember = useMemo(() => {
-    return me && checkRoles(me, ['member'])
-  }, [me])
+  const { isMember, isEditor } = useMemo(
+    () => ({
+      isMember: checkRoles(me, ['member']),
+      isEditor: checkRoles(me, ['editor'])
+    }),
+    [me]
+  )
 
   useEffect(() => {
     try {
@@ -112,7 +117,8 @@ const MeContextProvider = ({ children }: Props) => {
         meError: error,
         meRefetch: refetch,
         hasActiveMembership: !!me?.activeMembership,
-        hasAccess: isMember
+        hasAccess: isMember,
+        isEditor
       }}
     >
       <NextHead>

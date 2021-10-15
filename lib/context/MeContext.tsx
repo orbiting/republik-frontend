@@ -107,8 +107,8 @@ const MeContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (loading) return
-    //document.documentElement.removeAttribute(MEMBER_PORTRAIT_ATTRIBUTE)
-    //document.documentElement.removeAttribute(HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE)
+    document.documentElement.removeAttribute(MEMBER_PORTRAIT_ATTRIBUTE)
+    document.documentElement.removeAttribute(HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE)
 
     const portraitValue = me ? me.portrait ?? getInitials(me) : false
 

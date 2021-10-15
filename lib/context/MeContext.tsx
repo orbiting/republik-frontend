@@ -13,7 +13,7 @@ import { css } from 'glamor'
 import { getInitials } from '../../components/Frame/User'
 
 const HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE = 'data-has-active-membership'
-const HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY = 'has-active-membership'
+const HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY = 'me.hasActiveMembership'
 
 const MEMBER_PORTRAIT_ATTRIBUTE = 'data-member-portrait'
 const MEMBER_PORTRAIT_STORAGE_KEY = 'me.portraitOrInitials'

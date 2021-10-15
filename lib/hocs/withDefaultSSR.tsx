@@ -75,7 +75,6 @@ function withDefaultSSR(
           <AppTree
             pageProps={{
               providedApolloClient: apolloClient,
-              providedUserAgent: ctx.req.headers['user-agent'],
               serverContext: ctx,
               ...props
             }}

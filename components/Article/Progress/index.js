@@ -44,7 +44,6 @@ const Progress = ({
   submitProgressConsent,
   article,
   isArticle,
-  userProgress,
   router,
   upsertDocumentProgress
 }) => {
@@ -148,9 +147,9 @@ const Progress = ({
       percentage > 0 &&
       // ignore elements until min index
       element.index >= MIN_INDEX &&
-      (!userProgress ||
-        userProgress.nodeId !== element.nodeId ||
-        Math.floor(userProgress.percentage * 100) !==
+      (!article.userProgress ||
+        article.userProgress.nodeId !== element.nodeId ||
+        Math.floor(article.userProgress.percentage * 100) !==
           Math.floor(percentage * 100))
     ) {
       upsertDocumentProgress(article.id, percentage, element.nodeId)
@@ -161,7 +160,7 @@ const Progress = ({
     if (e) {
       e.preventDefault()
     }
-    const { percentage, nodeId } = userProgress
+    const { percentage, nodeId } = article.userProgress
 
     const progressElements = getProgressElements()
     const progressElement =

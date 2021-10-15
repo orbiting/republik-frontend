@@ -63,34 +63,36 @@ const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
   return (
     <ErrorBoundary>
       <ApolloProvider client={apolloClient}>
-        <UserAgentProvider providedValue={providedUserAgent}>
-          <MediaProgressContext>
-            <IconContextProvider value={{ style: { verticalAlign: 'middle' } }}>
-              <AudioProvider>
-                <AppVariableContext>
-                  <ColorContextProvider root colorSchemeKey='auto'>
-                    <ColorSchemeSync />
-                    <Head>
-                      <meta
-                        name='viewport'
-                        content='width=device-width, initial-scale=1'
-                      />
-                    </Head>
-                    <MeContextProvider>
+        <MeContextProvider>
+          <UserAgentProvider providedValue={providedUserAgent}>
+            <MediaProgressContext>
+              <IconContextProvider
+                value={{ style: { verticalAlign: 'middle' } }}
+              >
+                <AudioProvider>
+                  <AppVariableContext>
+                    <ColorContextProvider root colorSchemeKey='auto'>
+                      <ColorSchemeSync />
+                      <Head>
+                        <meta
+                          name='viewport'
+                          content='width=device-width, initial-scale=1'
+                        />
+                      </Head>
                       <Component
                         serverContext={serverContext}
                         {...otherPageProps}
                       />
-                    </MeContextProvider>
-                    <Track />
-                    <AudioPlayer />
-                    <MessageSync />
-                  </ColorContextProvider>
-                </AppVariableContext>
-              </AudioProvider>
-            </IconContextProvider>
-          </MediaProgressContext>
-        </UserAgentProvider>
+                      <Track />
+                      <AudioPlayer />
+                      <MessageSync />
+                    </ColorContextProvider>
+                  </AppVariableContext>
+                </AudioProvider>
+              </IconContextProvider>
+            </MediaProgressContext>
+          </UserAgentProvider>
+        </MeContextProvider>
       </ApolloProvider>
     </ErrorBoundary>
   )

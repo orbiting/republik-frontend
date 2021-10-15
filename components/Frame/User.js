@@ -45,15 +45,17 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             : HEADER_HORIZONTAL_PADDING
         }}
       >
-        <div data-show-if-member='true' {...styles.stack}>
-          <span
-            data-temporary-initials=''
-            {...styles.portrait}
-            {...colorScheme.set('backgroundColor', 'hover')}
-            {...colorScheme.set('color', 'text')}
-          />
-          <img data-temporary-portrait='' {...styles.portrait} />
-        </div>
+        {!me && (
+          <div data-show-if-member='true' {...styles.stack}>
+            <span
+              data-temporary-initials=''
+              {...styles.portrait}
+              {...colorScheme.set('backgroundColor', 'hover')}
+              {...colorScheme.set('color', 'text')}
+            />
+            <img data-temporary-portrait='' {...styles.portrait} />
+          </div>
+        )}
         {me &&
           (me.portrait ? (
             <img src={me.portrait} {...styles.portrait} />

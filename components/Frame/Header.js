@@ -268,16 +268,18 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              <div data-show-if-member='true'>
-                <Toggle
-                  expanded={isAnyNavExpanded}
-                  title={t(
-                    `header/nav/${
-                      expandedNav === 'main' ? 'close' : 'open'
-                    }/aria`
-                  )}
-                />
-              </div>
+              {!me && (
+                <div data-show-if-member='true'>
+                  <Toggle
+                    expanded={isAnyNavExpanded}
+                    title={t(
+                      `header/nav/${
+                        expandedNav === 'main' ? 'close' : 'open'
+                      }/aria`
+                    )}
+                  />
+                </div>
+              )}
               {me || inNativeApp || router.pathname === '/angebote' ? (
                 <Toggle
                   expanded={isAnyNavExpanded}

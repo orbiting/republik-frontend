@@ -13,7 +13,13 @@ export const matchIOSUserAgent = (value?: string): boolean =>
     // for web see https://stackoverflow.com/questions/56578799/tell-ipados-from-macos-on-the-web but that only works client side
     !!value.match(/Mac.+RepublikApp/))
 
-const UserAgentContext = createContext<string | undefined>(undefined)
+type UserAgentValues = {
+  userAgent: string
+  isIOS: boolean
+  isAndroid: boolean
+}
+
+const UserAgentContext = createContext<UserAgentValues>(undefined)
 
 export const useUserAgent = () => useContext(UserAgentContext)
 
@@ -30,7 +36,13 @@ const UserAgentProvider = ({ children, providedValue }: Props) => {
   }, [])
 
   return (
-    <UserAgentContext.Provider value={userAgent}>
+    <UserAgentContext.Provider
+      value={{
+        userAgent,
+        isIOS: matchIOSUserAgent(userAgent),
+        isAndroid: userAgent && !!userAgent.match(/android/i)
+      }}
+    >
       {children}
     </UserAgentContext.Provider>
   )

@@ -18,10 +18,7 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { trackEvent } from '../../lib/matomo'
 
 import copyToClipboard from 'clipboard-copy'
-import {
-  matchIOSUserAgent,
-  useUserAgent
-} from '../../lib/context/UserAgentContext'
+import { useUserAgent } from '../../lib/context/UserAgentContext'
 
 const ShareButtons = ({
   t,
@@ -38,7 +35,7 @@ const ShareButtons = ({
   inNativeApp
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
-  const userAgent = useUserAgent()
+  const { isAndroid, isIOS } = useUserAgent()
 
   useEffect(() => {
     if (copyLinkSuffix === 'success') {
@@ -151,8 +148,6 @@ const ShareButtons = ({
     }
   ].filter(Boolean)
 
-  const isIOS = matchIOSUserAgent(userAgent)
-  const isAndroid = userAgent && userAgent.match(/android/i)
   return (
     <div {...styles.buttonGroup} {...(grid && styles.grid)}>
       {shareOptions.map(props => {

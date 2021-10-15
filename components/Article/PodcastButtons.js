@@ -16,10 +16,7 @@ import {
   AppleIcon,
   GoogleIcon
 } from '@project-r/styleguide/icons'
-import {
-  matchIOSUserAgent,
-  useUserAgent
-} from '../../lib/context/UserAgentContext'
+import { useUserAgent } from '../../lib/context/UserAgentContext'
 
 const styles = {
   buttonGroup: css({
@@ -55,7 +52,7 @@ const PodcastButtons = ({
   center
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
-  const userAgent = useUserAgent()
+  const { userAgent, isAndroid, isIOS } = useUserAgent()
 
   useEffect(() => {
     if (copyLinkSuffix === 'success') {
@@ -72,8 +69,6 @@ const PodcastButtons = ({
 
   const mainFeed = `https://${podigeeSlug}.podigee.io/feed/mp3`
 
-  const isIOS = matchIOSUserAgent(userAgent)
-  const isAndroid = userAgent && userAgent.match(/android/i)
   const macOS = userAgent && userAgent.match(/Mac OS X ([0-9_]+)/)
   const macOSVersion = macOS && parseFloat(macOS[1].replace(/_/g, '.'))
 

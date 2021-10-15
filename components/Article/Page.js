@@ -340,7 +340,11 @@ const ArticlePage = ({
   const isEditorialNewsletter = template === 'editorialNewsletter'
   const disableActionBar = meta?.disableActionBar
   const actionBar = article && !disableActionBar && (
-    <ActionBar mode='articleTop' document={article} />
+    <ActionBar
+      mode='articleTop'
+      document={article}
+      documentLoading={articleLoading}
+    />
   )
   const actionBarEnd = actionBar
     ? React.cloneElement(actionBar, {

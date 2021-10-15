@@ -37,6 +37,7 @@ import { useMe } from '../../lib/context/MeContext'
 const ActionBar = ({
   mode,
   document,
+  documentLoading,
   t,
   inNativeApp,
   share,
@@ -45,7 +46,7 @@ const ActionBar = ({
   fontSize,
   isCentered
 }) => {
-  const { isEditor } = useMe()
+  const { me, meLoading, hasAccess, isEditor } = useMe()
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
@@ -255,23 +256,22 @@ const ActionBar = ({
       modes: ['articleTop'],
       show: true
     },
+    // The subscription menu is available for all logged-in users
     {
       title: t('SubscribeMenu/title'),
       element: (
         <SubscribeMenu
-          discussionId={
-            isDiscussion && meta.ownDiscussion && meta.ownDiscussion.id
-          }
-          subscriptions={
-            document && document.subscribedBy && document.subscribedBy.nodes
-          }
+          discussionId={isDiscussion && meta.ownDiscussion?.id}
+          subscriptions={document?.subscribedBy?.nodes}
           label={t('SubscribeMenu/title')}
           padded
+          disabled={meLoading || documentLoading}
         />
       ),
       modes: ['articleTop', 'articleBottom'],
-      show: true
+      show: meLoading || documentLoading || me
     },
+    // The subscription menu is available for all users with an active-membership.
     {
       title: t('bookmark/title/default'),
       element: (
@@ -279,6 +279,7 @@ const ActionBar = ({
           bookmarked={document && !!document.userBookmark}
           documentId={document.id}
           label={!forceShortLabel ? t('bookmark/label') : ''}
+          disabled={meLoading || documentLoading}
         />
       ),
       modes: [
@@ -289,7 +290,7 @@ const ActionBar = ({
         'bookmark',
         'seriesEpisode'
       ],
-      show: !notBookmarkable
+      show: !notBookmarkable && (meLoading || documentLoading || hasAccess)
     },
     {
       title: t('PodcastButtons/play'),

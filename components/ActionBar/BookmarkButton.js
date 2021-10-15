@@ -4,9 +4,8 @@ import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
 import { withRouter } from 'next/router'
 import { BookmarkIcon, BookmarkBorderIcon } from '@project-r/styleguide/icons'
-import { useColorContext, IconButton } from '@project-r/styleguide'
+import { IconButton } from '@project-r/styleguide'
 
-import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import {
   onDocumentFragment,
@@ -17,17 +16,16 @@ import { getRefetchQueries } from '../Bookmarks/queries'
 const Bookmark = ({
   t,
   bookmarked,
-  isMember,
   addDocumentToCollection,
   removeDocumentFromCollection,
   documentId,
   skipRefetch,
   router,
-  label
+  label,
+  disabled
 }) => {
   const [mutating, setMutating] = useState(false)
   const [error, setError] = useState(undefined)
-  const [colorScheme] = useColorContext()
   const Icon = bookmarked ? BookmarkIcon : BookmarkBorderIcon
 
   const toggle = () => {
@@ -51,10 +49,6 @@ const Bookmark = ({
 
   const title = t(`bookmark/title/${bookmarked ? 'bookmarked' : 'default'}`)
 
-  if (!isMember) {
-    return null
-  }
-
   return (
     <IconButton
       Icon={Icon}
@@ -62,6 +56,7 @@ const Bookmark = ({
       label={label}
       onClick={() => toggle()}
       fillColorName={error ? 'error' : mutating ? 'disabled' : 'text'}
+      disabled={disabled}
     />
   )
 }
@@ -129,6 +124,5 @@ export default compose(
     })
   }),
   withT,
-  withRouter,
-  withMembership
+  withRouter
 )(Bookmark)

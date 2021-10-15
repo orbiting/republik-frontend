@@ -128,7 +128,8 @@ const MeContextProvider = ({ children }: Props) => {
         />
       </NextHead>
       <Script
-        id={''}
+        id={'script-load-member-portrait'}
+        strategy='beforeInteractive'
         dangerouslySetInnerHTML={{
           __html: [
             'try{',

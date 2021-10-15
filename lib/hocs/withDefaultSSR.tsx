@@ -51,6 +51,8 @@ function withDefaultSSR(
     // Run all GraphQL queries in the component tree
     // and extract the resulting data
     if (!process.browser) {
+      props.providedUserAgent = ctx.req.headers['user-agent']
+
       const apolloClient = initializeApollo(null, {
         headers: ctx.req.headers,
         onResponse: response => {

@@ -154,14 +154,13 @@ const MeContextProvider = ({ children }: Props) => {
               `document.documentElement.setAttribute("${HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE}", value);`,
               `if (localStorage.getItem("${MEMBER_PORTRAIT_STORAGE_KEY}"))`,
               `document.documentElement.setAttribute("${MEMBER_PORTRAIT_ATTRIBUTE}", "true");`,
-              '} catch(e) {console.error(e)}'
+              '} catch(e) {}'
             ].join('')
           }}
         />
       </NextHead>
       <Script
         id={'script-load-member-portrait'}
-        strategy='beforeInteractive'
         dangerouslySetInnerHTML={{
           __html: [
             'try{',
@@ -169,7 +168,7 @@ const MeContextProvider = ({ children }: Props) => {
             '2<a.length',
             '?document.querySelector("[data-temporary-portrait]").setAttribute("src",decodeURI(a))',
             ':(document.querySelector("[data-temporary-initials]").textContent=a,document.querySelector("[data-temporary-portrait]").style.display="none")',
-            '}catch(e){console.error(e)}'
+            '}catch(e){}'
           ].join('')
         }}
       />

@@ -45,7 +45,7 @@ const FeuilletonPage = props => {
   }
   if (serverContext) {
     serverContext.res.redirect(302, '/')
-    serverContext.res.end()
+    throw new Error('redirect')
   } else {
     router.replace('/')
   }

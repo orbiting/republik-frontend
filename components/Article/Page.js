@@ -21,7 +21,6 @@ import {
   mediaQueries,
   TitleBlock,
   Editorial,
-  ColorContextProvider,
   TeaserEmbedComment,
   SHARE_IMAGE_HEIGHT,
   SHARE_IMAGE_WIDTH,
@@ -239,12 +238,9 @@ const ArticlePage = ({
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
 
-  if (!articleLoading && !article && serverContext) {
-    serverContext.res.redirect(
-      302,
-      cleanAsPath(asPath).replace('/vorschau/', '/')
-    )
-    //serverContext.res.end()
+  if (isPreview && !articleLoading && !article && serverContext) {
+    serverContext.res.redirect(302, asPath.replace(/^\/vorschau\//, '/'))
+    throw new Error('redirect')
   }
 
   // Redirect to regular article page if no preview could be loaded

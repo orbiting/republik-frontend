@@ -1,8 +1,9 @@
 import React from 'react'
 import Front from '../../components/Front'
 import { useRouter } from 'next/router'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
-const FrontPreviewPage = (): JSX.Element => {
+const FrontPreviewPage = ({ serverContext }) => {
   const router = useRouter()
 
   return (
@@ -11,8 +12,10 @@ const FrontPreviewPage = (): JSX.Element => {
       hasOverviewNav
       extractId={router.query.extractId}
       finite
+      serverContext={serverContext}
+      isPreview
     />
   )
 }
 
-export default FrontPreviewPage
+export default withDefaultSSR(FrontPreviewPage)

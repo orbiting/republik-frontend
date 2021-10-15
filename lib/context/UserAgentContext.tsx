@@ -32,7 +32,7 @@ const UserAgentProvider = ({ children, providedValue }: Props) => {
   const [userAgent, setUserAgent] = useState(providedValue)
 
   useEffect(() => {
-    if (navigator) setUserAgent(navigator.userAgent)
+    setUserAgent(navigator.userAgent)
   }, [])
 
   return (

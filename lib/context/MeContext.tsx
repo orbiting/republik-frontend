@@ -89,12 +89,14 @@ const MeContextProvider = ({ children }: Props) => {
   const isMember = checkRoles(me, ['member'])
 
   useEffect(() => {
+    if (loading) return
+    document.documentElement.removeAttribute(IS_MEMBER_ATTRIBUTE)
+    const value = me && isMember
+      ? me.portrait ?? getInitials(me)
+      : false
+    
     try {
-      if (loading) return
-      document.documentElement.removeAttribute(IS_MEMBER_ATTRIBUTE)
-
-      if (me && isMember) {
-        const value = me.portrait ?? getInitials(me)
+      if (value) {
         localStorage.setItem(MEMBERSHIP_STORAGE_KEY, value)
       } else {
         localStorage.removeItem(MEMBERSHIP_STORAGE_KEY)

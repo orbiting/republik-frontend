@@ -67,20 +67,18 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             </span>
           ))}
         {!me && (
-          <>
-            <div data-hide-if-member='true'>
-              <span {...styles.anonymous}>
-                <AccountBoxIcon {...colorScheme.set('fill', 'text')} />
-              </span>
-              <span
-                {...(isOnMarketingPage
-                  ? styles.labelMarketing
-                  : styles.labelDefault)}
-              >
-                {t('header/signin')}
-              </span>
-            </div>
-          </>
+          <div data-hide-if-member='true'>
+            <span {...styles.anonymous}>
+              <AccountBoxIcon {...colorScheme.set('fill', 'text')} />
+            </span>
+            <span
+              {...(isOnMarketingPage
+                ? styles.labelMarketing
+                : styles.labelDefault)}
+            >
+              {t('header/signin')}
+            </span>
+          </div>
         )}
       </span>
     </button>

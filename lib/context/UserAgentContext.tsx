@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useMemo } from 'react'
+import React, { createContext, ReactNode, useContext } from 'react'
 
 export const matchIOSUserAgent = (value?: string): boolean =>
   value &&
@@ -20,12 +20,8 @@ const UserAgentProvider = ({ children, providedValue }: Props) => {
   const navigatorUserAgent =
     typeof navigator !== 'undefined' ? navigator.userAgent : undefined
 
-  const userAgent = useMemo(() => {
-    return providedValue || navigatorUserAgent
-  }, [providedValue, navigatorUserAgent])
-
   return (
-    <UserAgentContext.Provider value={userAgent}>
+    <UserAgentContext.Provider value={providedValue ?? navigatorUserAgent}>
       {children}
     </UserAgentContext.Provider>
   )

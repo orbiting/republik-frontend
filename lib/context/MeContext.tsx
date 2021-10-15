@@ -16,7 +16,7 @@ const HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE = 'data-has-active-membership'
 const HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY = 'has-active-membership'
 
 const MEMBER_PORTRAIT_ATTRIBUTE = 'data-member-portrait'
-const MEMBER_PORTRAIT_STORAGE_KEY = 'member-portrait'
+const MEMBER_PORTRAIT_STORAGE_KEY = 'me.portraitOrInitials'
 
 // Rule to hide elements while a statically generated page is fetching the active-user
 css.global(

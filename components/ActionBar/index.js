@@ -265,11 +265,12 @@ const ActionBar = ({
           subscriptions={document?.subscribedBy?.nodes}
           label={t('SubscribeMenu/title')}
           padded
-          disabled={meLoading || documentLoading}
+          loading={meLoading || documentLoading}
+          attributes={{ ['data-show-if-me']: true }}
         />
       ),
       modes: ['articleTop', 'articleBottom'],
-      show: me || meLoading || documentLoading
+      show: me || meLoading
     },
     // The subscription menu is available for all users with an active-membership.
     {
@@ -280,6 +281,7 @@ const ActionBar = ({
           documentId={document.id}
           label={!forceShortLabel ? t('bookmark/label') : ''}
           disabled={meLoading || documentLoading}
+          attributes={{ ['data-show-if-active-membership']: true }}
         />
       ),
       modes: [
@@ -290,7 +292,7 @@ const ActionBar = ({
         'bookmark',
         'seriesEpisode'
       ],
-      show: !notBookmarkable && (meLoading || documentLoading || hasAccess)
+      show: !notBookmarkable && (meLoading || hasAccess)
     },
     {
       title: t('PodcastButtons/play'),

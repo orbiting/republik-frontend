@@ -22,7 +22,8 @@ const Bookmark = ({
   skipRefetch,
   router,
   label,
-  disabled
+  disabled,
+  attributes
 }) => {
   const [mutating, setMutating] = useState(false)
   const [error, setError] = useState(undefined)
@@ -57,6 +58,7 @@ const Bookmark = ({
       onClick={() => toggle()}
       fillColorName={error ? 'error' : mutating ? 'disabled' : 'text'}
       disabled={disabled}
+      attributes={attributes}
     />
   )
 }

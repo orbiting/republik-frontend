@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
 import {
-  colors,
   fontFamilies,
   fontStyles,
   Interaction,
@@ -128,59 +127,6 @@ export const Small = withInNativeApp(
       </div>
     )
   }
-)
-
-const PTiny = ({ children, note }) => (
-  <div
-    {...css({
-      marginTop: 10,
-      ...fontStyles.sansSerifRegular14,
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifRegular14,
-        lineHeight: 1.4
-      },
-      '& strong': {
-        fontFamily: fontFamilies.sansSerifMedium,
-        fontWeight: 'normal'
-      },
-      color: note ? colors.lightText : undefined
-    })}
-  >
-    {children}
-  </div>
-)
-
-export const Tiny = withInNativeApp(
-  ({ dangerousHTML, inNativeApp, note = false }) => {
-    const html = inNativeApp
-      ? dangerousHTML.replace(/'/g, '"').replace(/target="_blank"/g, '')
-      : dangerousHTML
-    return (
-      <div>
-        {html.split('\n\n').map((c, i) => (
-          <PTiny key={i} note={note}>
-            <RawHtml dangerouslySetInnerHTML={{ __html: c }} />
-          </PTiny>
-        ))}
-      </div>
-    )
-  }
-)
-
-export const Caption = ({ children }) => (
-  <div
-    {...css({
-      margin: '5px auto 0 auto',
-      width: '100%',
-      ...fontStyles.sansSerifRegular12,
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifRegular15,
-        lineHeight: '18px'
-      }
-    })}
-  >
-    {children}
-  </div>
 )
 
 const styles = {

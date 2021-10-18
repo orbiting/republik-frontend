@@ -14,32 +14,37 @@ import { getInitials } from '../../components/Frame/User'
 const HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE = 'data-has-active-membership'
 const HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY = 'me.hasActiveMembership'
 
-const MEMBER_PORTRAIT_ATTRIBUTE = 'data-member-portrait'
-export const MEMBER_PORTRAIT_STORAGE_KEY = 'me.portraitOrInitials'
+const ME_PORTRAIT_ATTRIBUTE = 'data-me-portrait'
+export const ME_PORTRAIT_STORAGE_KEY = 'me.portraitOrInitials'
 
 // Rule to hide elements while a statically generated page is fetching the active-user
-css.global(
-  `[${MEMBER_PORTRAIT_ATTRIBUTE}="true"] [data-hide-if-member="true"]`,
-  {
-    display: 'none'
-  }
-)
-
-css.global('[data-show-if-member="true"]', {
+css.global(`[${ME_PORTRAIT_ATTRIBUTE}="true"] [data-hide-if-me="true"]`, {
   display: 'none'
 })
 
-css.global(
-  `[${MEMBER_PORTRAIT_ATTRIBUTE}="true"] [data-show-if-member="true"]`,
-  {
-    display: 'block'
-  }
-)
+css.global('[data-show-if-me="true"]', {
+  display: 'none'
+})
+
+css.global(`[${ME_PORTRAIT_ATTRIBUTE}="true"] [data-show-if-me="true"]`, {
+  display: 'block'
+})
 
 css.global(
   `[${HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE}="true"] [data-hide-if-active-membership="true"]`,
   {
     display: 'none'
+  }
+)
+
+css.global('[data-show-if-active-membership="true"]', {
+  display: 'none'
+})
+
+css.global(
+  `[${HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE}="true"] [data-show-if-active-membership="true"]`,
+  {
+    display: 'block'
   }
 )
 
@@ -103,19 +108,30 @@ const MeContextProvider = ({ children }: Props) => {
 
   const isMember = checkRoles(me, ['member'])
   const hasActiveMembership = !!me?.activeMembership
+  const portraitOrInitials = me ? me.portrait ?? getInitials(me) : false
 
   useEffect(() => {
     if (loading) return
-    document.documentElement.removeAttribute(MEMBER_PORTRAIT_ATTRIBUTE)
-    document.documentElement.removeAttribute(HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE)
 
-    const portraitValue = me ? me.portrait ?? getInitials(me) : false
+    if (portraitOrInitials) {
+      document.documentElement.setAttribute(ME_PORTRAIT_ATTRIBUTE, 'true')
+    } else {
+      document.documentElement.removeAttribute(ME_PORTRAIT_ATTRIBUTE)
+    }
+    if (hasActiveMembership) {
+      document.documentElement.setAttribute(
+        HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE,
+        'true'
+      )
+    } else {
+      document.documentElement.removeAttribute(HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE)
+    }
 
     try {
-      if (portraitValue) {
-        localStorage.setItem(MEMBER_PORTRAIT_STORAGE_KEY, portraitValue)
+      if (portraitOrInitials) {
+        localStorage.setItem(ME_PORTRAIT_STORAGE_KEY, portraitOrInitials)
       } else {
-        localStorage.removeItem(MEMBER_PORTRAIT_STORAGE_KEY)
+        localStorage.removeItem(ME_PORTRAIT_STORAGE_KEY)
       }
 
       if (hasActiveMembership) {
@@ -129,7 +145,7 @@ const MeContextProvider = ({ children }: Props) => {
 
       // eslint-disable-next-line no-empty
     } catch (e) {}
-  }, [loading, me, isMember, hasActiveMembership])
+  }, [loading, portraitOrInitials, hasActiveMembership])
 
   return (
     <MeContext.Provider
@@ -151,8 +167,8 @@ const MeContextProvider = ({ children }: Props) => {
               `const value = localStorage.getItem("${HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY}");`,
               `if (value && value === "true")`,
               `document.documentElement.setAttribute("${HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE}", value);`,
-              `if (localStorage.getItem("${MEMBER_PORTRAIT_STORAGE_KEY}"))`,
-              `document.documentElement.setAttribute("${MEMBER_PORTRAIT_ATTRIBUTE}", "true");`,
+              `if (localStorage.getItem("${ME_PORTRAIT_STORAGE_KEY}"))`,
+              `document.documentElement.setAttribute("${ME_PORTRAIT_ATTRIBUTE}", "true");`,
               '} catch(e) {}'
             ].join('')
           }}

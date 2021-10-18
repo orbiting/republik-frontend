@@ -150,6 +150,10 @@ const getSchemaCreator = template => {
   const schema = schemaCreators[key]
 
   if (!schema) {
+    try {
+      console.error(`Unkown Schema ${key}`)
+    } catch (e) {}
+
     return () => {
       return
     }

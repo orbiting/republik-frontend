@@ -61,7 +61,7 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
               dangerouslySetInnerHTML={{
                 __html: [
                   'try{',
-                  `const a=localStorage.getItem("${ME_PORTRAIT_STORAGE_KEY}");`,
+                  `var a=localStorage.getItem("${ME_PORTRAIT_STORAGE_KEY}");`,
                   '2<a.length',
                   '?document.querySelector("[data-temporary-portrait]").setAttribute("src",decodeURI(a))',
                   ':(document.querySelector("[data-temporary-initials]").textContent=a,document.querySelector("[data-temporary-portrait]").style.display="none")',

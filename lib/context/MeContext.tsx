@@ -164,7 +164,7 @@ const MeContextProvider = ({ children }: Props) => {
           dangerouslySetInnerHTML={{
             __html: [
               'try{',
-              `const value = localStorage.getItem("${HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY}");`,
+              `var value = localStorage.getItem("${HAS_ACTIVE_MEMBERSHIP_STORAGE_KEY}");`,
               `if (value && value === "true")`,
               `document.documentElement.setAttribute("${HAS_ACTIVE_MEMBERSHIP_ATTRIBUTE}", value);`,
               `if (localStorage.getItem("${ME_PORTRAIT_STORAGE_KEY}"))`,

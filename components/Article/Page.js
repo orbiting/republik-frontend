@@ -197,7 +197,7 @@ const ArticlePage = ({
 
   const { asPath, push } = useRouter()
 
-  const { me, hasAccess, hasActiveMembership, isEditor } = useMe()
+  const { me, meLoading, hasAccess, hasActiveMembership, isEditor } = useMe()
 
   const cleanedPath = cleanAsPath(asPath)
 
@@ -219,12 +219,25 @@ const ArticlePage = ({
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
 
-  // Refetch the article data for members.
-  // This is done to update the article to the member-version (SSG provides public-version).
-  // The article is also refetched, when ever the path changes (when the user switches to an other article)
+  // Refetch when cached article is not issued for current user
+  // - SSG always provides issuedForUserId: null
+  // Things that can change
+  // - content member only parts like «also read»
+  // - personalized data for action bar
+  const needsRefetch =
+    !articleLoading &&
+    !meLoading &&
+    (article?.issuedForUserId || null) !== (me?.id || null)
   useEffect(() => {
-    if (me) articleRefetch()
-  }, [me, cleanedPath])
+    if (needsRefetch) {
+      articleRefetch()
+    }
+  }, [
+    needsRefetch,
+    // ensure effect is run when article or me changes
+    me?.id,
+    article?.id
+  ])
 
   if (isPreview && !articleLoading && !article && serverContext) {
     serverContext.res.redirect(302, asPath.replace(/^\/vorschau\//, '/'))
@@ -347,7 +360,7 @@ const ArticlePage = ({
     <ActionBar
       mode='articleTop'
       document={article}
-      documentLoading={articleLoading}
+      documentLoading={articleLoading || needsRefetch}
     />
   )
   const actionBarEnd = actionBar

@@ -99,13 +99,7 @@ type Props = {
 const MeContextProvider = ({ children }: Props) => {
   const { data, loading, error, refetch } = useQuery<MeResponse>(meQuery, {})
 
-  const me = useMemo(() => {
-    if (loading) return undefined
-    if (data.me) return data.me
-
-    return undefined
-  }, [data])
-
+  const me = data?.me
   const isMember = checkRoles(me, ['member'])
   const hasActiveMembership = !!me?.activeMembership
   const portraitOrInitials = me ? me.portrait ?? getInitials(me) : false

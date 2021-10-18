@@ -9,6 +9,7 @@ export const getDocument = gql`
       id
       repoId
       content
+      issuedForUserId
       subscribedBy(includeParents: true, onlyMe: true) {
         nodes {
           ...subInfo

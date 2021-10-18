@@ -23,6 +23,7 @@ import withMe from '../../lib/apollo/withMe'
 import { timeFormat } from '../../lib/utils/format'
 import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
+import AddressEditor, { withAddressData } from './AddressEditor'
 
 const { P } = Interaction
 
@@ -323,6 +324,7 @@ class Election extends Component {
       vt,
       showMeta,
       me,
+      addressData,
       colorRule
     } = this.props
     const { election } = data
@@ -352,6 +354,10 @@ class Election extends Component {
             dangerousDisabledHTML = vt('vote/election/notSignedIn')
           } else if (!election.userIsEligible) {
             dangerousDisabledHTML = vt('vote/election/notEligible')
+          }
+
+          if (election.userIsEligible && !addressData.voteMe?.address) {
+            return <AddressEditor />
           }
 
           const inProgress = !dangerousDisabledHTML
@@ -542,5 +548,6 @@ export default compose(
         slug
       }
     })
-  })
+  }),
+  withAddressData
 )(ElectionWrapper)

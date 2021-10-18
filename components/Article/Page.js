@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useMemo, useContext } from 'react'
 import { css } from 'glamor'
 import Link from 'next/link'
-import { useRouter, withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
 import compose from 'lodash/flowRight'
 import {
@@ -181,7 +181,6 @@ const runMetaFromQuery = (code, query) => {
 const EmptyComponent = ({ children }) => children
 
 const ArticlePage = ({
-  router,
   t,
   inNativeApp,
   inNativeIOSApp,
@@ -195,11 +194,11 @@ const ArticlePage = ({
   const bottomActionBarRef = useRef()
   const galleryRef = useRef()
 
-  const { asPath, push } = useRouter()
+  const router = useRouter()
 
   const { me, meLoading, hasAccess, hasActiveMembership, isEditor } = useMe()
 
-  const cleanedPath = cleanAsPath(asPath)
+  const cleanedPath = cleanAsPath(router.asPath)
 
   const {
     data: articleData,
@@ -240,17 +239,9 @@ const ArticlePage = ({
   ])
 
   if (isPreview && !articleLoading && !article && serverContext) {
-    serverContext.res.redirect(302, asPath.replace(/^\/vorschau\//, '/'))
+    serverContext.res.redirect(302, router.asPath.replace(/^\/vorschau\//, '/'))
     throw new Error('redirect')
   }
-
-  // Redirect to regular article page if no preview could be loaded
-  useEffect(() => {
-    if (isPreview && !articleLoading && !article) {
-      const articlePath = cleanAsPath(asPath).replace('/vorschau/', '/')
-      push(articlePath)
-    }
-  }, [isPreview, article, articleLoading, articleError])
 
   const { toggleAudioPlayer, audioPlayerVisible } = useContext(AudioContext)
 
@@ -783,7 +774,6 @@ const styles = {
 const ComposedPage = compose(
   withT,
   withInNativeApp,
-  withRouter,
   withMarkAsReadMutation
 )(ArticlePage)
 

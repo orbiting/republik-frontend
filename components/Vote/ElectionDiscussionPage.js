@@ -15,18 +15,16 @@ import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
-
-import {
-  ELECTION_COOP_MEMBERS_SLUG,
-  ELECTION_COOP_PRESIDENT_SLUG,
-  VOTING_COOP_BOARD_SLUG
-} from '../../lib/constants'
 import voteT from './voteT'
 import { Body, Section, Strong, Title } from './text'
 import Loader from '../Loader'
 import Link from 'next/link'
 
 const { P } = Interaction
+
+const ELECTION_COOP_MEMBERS_SLUG = 'gen18m'
+const ELECTION_COOP_PRESIDENT_SLUG = 'gen18m'
+const VOTING_COOP_BOARD_SLUG = 'gen18board'
 
 const DISCUSSION_TITLES = {
   [VOTING_COOP_BOARD_SLUG]: 'vote/discussion/board',

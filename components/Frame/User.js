@@ -50,21 +50,30 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
           <>
             <div data-show-if-me='true' {...styles.stack}>
               <span
+                suppressHydrationWarning
                 data-temporary-initials=''
                 {...styles.portrait}
+                {...styles.temporaryInitals}
                 {...colorScheme.set('backgroundColor', 'hover')}
                 {...colorScheme.set('color', 'text')}
               />
-              <img data-temporary-portrait='' {...styles.portrait} />
+              <img
+                suppressHydrationWarning
+                data-temporary-portrait=''
+                {...styles.portrait}
+                {...styles.temporaryPortrait}
+              />
             </div>
             <script
               dangerouslySetInnerHTML={{
                 __html: [
                   'try{',
                   `var a=localStorage.getItem("${ME_PORTRAIT_STORAGE_KEY}");`,
-                  '2<a.length',
-                  '?document.querySelector("[data-temporary-portrait]").setAttribute("src",decodeURI(a))',
-                  ':(document.querySelector("[data-temporary-initials]").textContent=a,document.querySelector("[data-temporary-portrait]").style.display="none")',
+                  'if(a.indexOf("/")!==-1){',
+                  'document.querySelector("[data-temporary-portrait]").setAttribute("src",a)',
+                  '}else if(a){',
+                  'document.querySelector("[data-temporary-initials]").setAttribute("data-initials",a);',
+                  '}',
                   '}catch(e){}'
                 ].join('')
               }}
@@ -138,6 +147,18 @@ const styles = {
       lineHeight: `${BUTTON_SIZE + 5}px`,
       height: `${BUTTON_SIZE}px`,
       width: `${BUTTON_SIZE}px`
+    }
+  }),
+  temporaryInitals: css({
+    ':before': {
+      // textContent is replaced by React while meLoading, we use a before element to work around that
+      content: 'attr(data-initials)'
+    }
+  }),
+  temporaryPortrait: css({
+    display: 'none',
+    '&[src]': {
+      display: 'inline-block'
     }
   }),
   anonymous: css({

@@ -69,6 +69,15 @@ const SubscribeMenu = ({
     [data, subscriptions]
   )
 
+  // ensure icon is only shown if there is something to subscribe to
+  if (
+    !formatSubscriptions?.length &&
+    !authorSubscriptions?.length &&
+    !discussionId
+  ) {
+    return null
+  }
+
   const Icon = React.forwardRef((props, ref) => (
     <IconButton
       Icon={isSubscribedToAny ? NotificationIcon : NotificationsNoneIcon}

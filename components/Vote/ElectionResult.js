@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import compose from 'lodash/flowRight'
 import { sum } from 'd3-array'
 
@@ -9,6 +9,41 @@ import voteT from './voteT'
 
 import withT from '../../lib/withT'
 import { countFormat, swissNumbers } from '../../lib/utils/format'
+import { gql } from '@apollo/client'
+import { graphql } from '@apollo/client/react/hoc'
+import Loader from '../Loader'
+
+const electionsQuery = gql`
+  query electionResults($slug: String!) {
+    election(slug: $slug) {
+      id
+      userHasSubmitted
+      userSubmitDate
+      userIsEligible
+      beginDate
+      endDate
+      turnout {
+        eligible
+        submitted
+      }
+      result {
+        candidacies {
+          count
+          elected
+          candidacy {
+            id
+            user {
+              id
+              username
+              name
+            }
+            recommendation
+          }
+        }
+      }
+    }
+  }
+`
 
 const percentFormat = swissNumbers.format('.1%')
 
@@ -42,8 +77,10 @@ const ELECTION_BAR_CONFIG_MULTIPLE = {
   link: 'href'
 }
 
-const ElectionResultSingle = ({ vt, t, data, title, footnote }) => {
-  const { id } = data
+const ElectionResult = compose(
+  voteT,
+  withT
+)(({ vt, t, data, title, footnote }) => {
   const results = data.result.candidacies.filter(result => result.candidacy)
   const filledCount = sum(results, r => r.count)
   const numElected = results.filter(r => r.elected).length
@@ -68,7 +105,7 @@ const ElectionResultSingle = ({ vt, t, data, title, footnote }) => {
   const { eligible, submitted } = data.turnout
 
   return (
-    <Fragment key={id}>
+    <div>
       <ChartTitle>{title}</ChartTitle>
       <Chart
         t={t}
@@ -88,8 +125,20 @@ const ElectionResultSingle = ({ vt, t, data, title, footnote }) => {
         })}
         {footnote ? <span> {footnote}</span> : null}
       </Editorial.Note>
-    </Fragment>
+    </div>
   )
-}
+})
 
-export default compose(voteT, withT)(ElectionResultSingle)
+const ElectionResultLoader = graphql(
+  electionsQuery
+)(({ title, footnote, data }) => (
+  <Loader
+    loading={data.loading}
+    error={data.error}
+    render={() => (
+      <ElectionResult title={title} footnote={footnote} data={data.election} />
+    )}
+  />
+))
+
+export default ElectionResultLoader

@@ -8,7 +8,6 @@ import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
 
-import { VOTING_COOP_201912_REPORT_SLUG } from '../constants'
 import voteT from '../voteT'
 import { Title } from '../text'
 import Loader from '../../Loader'
@@ -24,7 +23,7 @@ const styles = {
   })
 }
 
-const DISCUSSION_SLUG = VOTING_COOP_201912_REPORT_SLUG
+const DISCUSSION_SLUG = 'gen1819report'
 
 const DiscussionPage = ({ router, data, vt }) => {
   const meta = {
@@ -67,7 +66,7 @@ Während der [Abstimmung](/vote/dez19) vom 13. bis zum 23. Dezember 2019 möchte
 
 const query = gql`
   query discussionPage {
-  ${VOTING_COOP_201912_REPORT_SLUG}: voting(slug: "${VOTING_COOP_201912_REPORT_SLUG}") {
+  ${DISCUSSION_SLUG}: voting(slug: "${DISCUSSION_SLUG}") {
     id
     discussion {
       id

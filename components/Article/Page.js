@@ -100,17 +100,14 @@ const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {
 })
 const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
 const VoteCounter = dynamic(() => import('../Vote/VoteCounter'), dynamicOptions)
-const VoteResult = dynamic(
-  () => import('../Vote/VoteResultAuto'),
-  dynamicOptions
-)
+const VoteResult = dynamic(() => import('../Vote/VoteResult'), dynamicOptions)
 const ElectionCandidacy = dynamic(
   () => import('../Vote/ElectionCandidacy'),
   dynamicOptions
 )
 const Election = dynamic(() => import('../Vote/Election'), dynamicOptions)
 const ElectionResult = dynamic(
-  () => import('../Vote/ElectionResultAuto'),
+  () => import('../Vote/ElectionResult'),
   dynamicOptions
 )
 

@@ -8,7 +8,6 @@ import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
 
-import { VOTING_COOP_201907_BUDGET_SLUG } from '../constants'
 import voteT from '../voteT'
 import { Body, Section, Title } from '../text'
 import Loader from '../../Loader'
@@ -22,7 +21,7 @@ const styles = {
   })
 }
 
-const DISCUSSION_SLUG = VOTING_COOP_201907_BUDGET_SLUG
+const DISCUSSION_SLUG = 'gen19budget'
 
 const DiscussionPage = ({ router, data, vt }) => {
   const meta = {
@@ -61,7 +60,7 @@ const DiscussionPage = ({ router, data, vt }) => {
 
 const query = gql`
   query discussionPage {
-  ${VOTING_COOP_201907_BUDGET_SLUG}: voting(slug: "${VOTING_COOP_201907_BUDGET_SLUG}") {
+  ${DISCUSSION_SLUG}: voting(slug: "${DISCUSSION_SLUG}") {
     id
     discussion {
       id

@@ -151,20 +151,22 @@ const Contact = ({
     )
   }
 
+  const customStyle = electionBallot ? { marginRight: 16, marginBottom: 0 } : {}
+
   return (
     <Fragment>
       <div {...styles.icons} {...styles.contactRow}>
         {user.facebookId && (
           <IconButton
             Icon={FacebookIcon}
-            style={{ marginRight: electionBallot && 16 }}
+            style={customStyle}
             href={`https://www.facebook.com/${user.facebookId}`}
           />
         )}
         {user.twitterHandle && (
           <IconButton
             Icon={TwitterIcon}
-            style={{ marginRight: electionBallot && 16 }}
+            style={customStyle}
             href={`https://twitter.com/${user.twitterHandle}`}
           />
         )}
@@ -174,7 +176,10 @@ const Contact = ({
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
           <IconButton
             Icon={LanguageIcon}
-            style={{ marginRight: electionBallot && 0 }}
+            style={{
+              marginRight: electionBallot && 0,
+              marginBottom: electionBallot && 0
+            }}
             href={user.publicUrl}
           />
         )}

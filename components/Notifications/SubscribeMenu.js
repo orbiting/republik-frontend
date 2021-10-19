@@ -66,10 +66,7 @@ const SubscribeMenu = ({
         subscriptions.filter(node => node.object?.__typename === 'Document'),
       authorSubscriptions:
         subscriptions &&
-        subscriptions.filter(
-          node =>
-            node.object?.__typename === 'User' && node.object?.id !== me?.id
-        )
+        subscriptions.filter(node => node.object?.__typename === 'User')
     }),
     [data, subscriptions]
   )

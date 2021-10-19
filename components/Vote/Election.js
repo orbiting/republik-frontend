@@ -71,7 +71,9 @@ const query = gql`
           id
           name
           username
-          email
+          publicUrl
+          twitterHandle
+          facebookId
           statement
           portrait
           disclosures

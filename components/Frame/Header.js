@@ -194,6 +194,9 @@ const Header = ({
       }
     })
   }, [isOnMarketingPage, colorScheme, formatColor])
+
+  const showToggle = me || inNativeApp || router.pathname === '/angebote'
+
   return (
     <>
       <div
@@ -268,7 +271,7 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              {!me && (
+              {!showToggle && (
                 <div data-show-if-me='true'>
                   <Toggle
                     expanded={isAnyNavExpanded}
@@ -280,7 +283,7 @@ const Header = ({
                   />
                 </div>
               )}
-              {me || inNativeApp || router.pathname === '/angebote' ? (
+              {showToggle ? (
                 <Toggle
                   expanded={isAnyNavExpanded}
                   title={t(

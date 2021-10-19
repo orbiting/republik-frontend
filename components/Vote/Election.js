@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   A,
   Button,
@@ -6,7 +6,6 @@ import {
   fontFamilies,
   Interaction,
   mediaQueries,
-  InlineSpinner,
   RawHtml,
   useColorContext
 } from '@project-r/styleguide'
@@ -18,22 +17,12 @@ import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
 import withMe from '../../lib/apollo/withMe'
 import { timeFormat } from '../../lib/utils/format'
-import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import { IncumbentIcon } from './ElectionBallotRow'
+import ElectionConfirm from './ElectionConfirm'
 
 const { P } = Interaction
-
-const submitElectionBallotMutation = gql`
-  mutation submitElectionBallot($electionId: ID!, $candidacyIds: [ID!]!) {
-    submitElectionBallot(electionId: $electionId, candidacyIds: $candidacyIds) {
-      id
-      userHasSubmitted
-      userSubmitDate
-    }
-  }
-`
 
 const query = gql`
   query getElection($slug: String!) {
@@ -133,19 +122,10 @@ const styles = {
     justifyContent: 'center',
     backgroundColor: colors.primaryBg
   }),
-  sticky: css({
-    position: 'sticky',
-    bottom: 0
-  }),
-  confirm: css({
-    textAlign: 'center',
-    width: '80%',
-    margin: '10px 0 15px 0'
-  }),
   link: css({
     marginTop: 10
   }),
-  thankyou: css({
+  message: css({
     display: 'flex',
     width: '100%',
     height: '100%',
@@ -171,26 +151,42 @@ const sortNames = (c1, c2) => {
   return 0
 }
 
+export const ElectionHeader = ({ children }) => (
+  <div {...styles.header}>{children}</div>
+)
+
+export const ElectionActions = ({ children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div {...styles.actions} {...colorScheme.set('backgroundColor', 'alert')}>
+      {children}
+    </div>
+  )
+}
+
+const ElectionMessage = ({ message }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div {...styles.wrapper} style={{ marginBottom: 30 }}>
+      <div {...styles.message} {...colorScheme.set('backgroundColor', 'alert')}>
+        <RawHtml
+          type={P}
+          dangerouslySetInnerHTML={{
+            __html: message
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
 const Election = compose(
   voteT,
   withMe,
-  graphql(submitElectionBallotMutation, {
-    props: ({ mutate }) => ({
-      submitElectionBallot: (electionId, candidacyIds) => {
-        return mutate({
-          variables: {
-            electionId,
-            candidacyIds
-          }
-        })
-      }
-    })
-  }),
   withAddressData
 )(
   ({
     election,
-    submitElectionBallot,
     vt,
     addressData,
     me,
@@ -216,21 +212,7 @@ const Election = compose(
         .map(candidate => ({ candidate, selected: false }))
     )
     const [isDirty, setDirty] = useState(false)
-    const [isUpdating, setUpdating] = useState(false)
     const [isConfirm, setConfirm] = useState(false)
-    const [error, setError] = useState(null)
-    const [colorScheme] = useColorContext()
-    const colorRule = useMemo(
-      () => ({
-        header: css({
-          background: colorScheme.getCSSColor('default')
-        }),
-        alert: css({
-          backgroundColor: colorScheme.getCSSColor('alert')
-        })
-      }),
-      [colorScheme]
-    )
 
     useEffect(() => {
       setDirty(!!vote.some(item => item.selected))
@@ -249,73 +231,11 @@ const Election = compose(
       )
     }
 
-    const submitBallot = async () => {
-      setUpdating(true)
-      await submitElectionBallot(
-        election.id,
-        vote.map(item => item.candidate.id)
-      )
-        .then(() => {
-          setUpdating(false)
-          setError(null)
-        })
-        .catch(error => {
-          setUpdating(false)
-          setError(error)
-        })
-    }
-
     const reset = event => {
       event.preventDefault()
       setVote(vote.map(item => ({ ...item, selected: false })))
       setConfirm(false)
-      setError(null)
     }
-
-    const resetLink = (
-      <A href='#' {...styles.link} onClick={reset}>
-        {vt('vote/election/labelReset')}
-      </A>
-    )
-
-    const actions = (
-      <>
-        <Button
-          primary
-          onClick={() => (isConfirm ? submitBallot() : setConfirm(true))}
-        >
-          {isUpdating ? (
-            <InlineSpinner size={40} />
-          ) : (
-            vt(`vote/election/label${isConfirm ? 'Confirm' : 'Vote'}`)
-          )}
-        </Button>
-        {isDirty ? (
-          resetLink
-        ) : (
-          <div {...styles.link}>{vt('vote/election/help')}</div>
-        )}
-      </>
-    )
-
-    const { numSeats } = election
-    const givenVotes = vote.filter(item => item.selected).length
-    const remainingVotes = numSeats - givenVotes
-
-    const confirmation = (
-      <P {...styles.confirm}>
-        {givenVotes < numSeats
-          ? vt.pluralize('vote/election/labelConfirmCount', {
-              count: givenVotes,
-              numSeats,
-              remaining: remainingVotes
-            })
-          : vt.pluralize('vote/election/labelConfirmAll', {
-              numSeats,
-              count: givenVotes
-            })}
-      </P>
-    )
 
     const hasEnded = Date.now() > new Date(election.endDate)
 
@@ -336,60 +256,75 @@ const Election = compose(
       return <AddressEditor />
     }
 
+    const { numSeats } = election
+    const givenVotes = vote.filter(item => item.selected).length
+    const remainingVotes = numSeats - givenVotes
+
     const electionOpen = !message
-    const showHeader = electionOpen && election.numSeats > 1
+    const showHeader = electionOpen && numSeats > 1
     const hasIncumbent = vote.some(item => item.candidate.isIncumbent)
 
     return (
       <div {...styles.wrapper}>
-        {showHeader && (
-          <div {...styles.header} {...colorRule.header}>
-            <P>
-              <strong>
-                {vt('vote/election/votesRemaining', {
-                  count: remainingVotes,
-                  max: numSeats
-                })}
-              </strong>
-            </P>
-            {hasIncumbent && (
-              <small>
-                <IncumbentIcon width={10} />
-                {vt('vote/election/legendIncumbent')}
-              </small>
-            )}
-          </div>
-        )}
-        {message && (
-          <div {...styles.wrapper} style={{ marginBottom: 30 }}>
-            <div {...styles.thankyou} {...colorRule.alert}>
-              <RawHtml
-                type={P}
-                dangerouslySetInnerHTML={{
-                  __html: message
-                }}
-              />
-            </div>
-          </div>
-        )}
-        <div {...styles.wrapper}>
-          <ElectionBallot
+        {isConfirm ? (
+          <ElectionConfirm
+            election={election}
             vote={vote}
-            onChange={electionOpen ? toggleCandidate : undefined}
-            maxVotes={election.numSeats}
-            mandatory={mandatoryCandidates}
-            showMeta={showMeta}
-            discussionPath={discussionPath}
-            disabled={remainingVotes <= 0}
+            goBack={e => {
+              e.preventDefault()
+              setConfirm(false)
+            }}
           />
-          {electionOpen && (
-            <div {...styles.actions} {...colorRule.alert}>
-              {error && <ErrorMessage error={error} />}
-              {isConfirm && confirmation}
-              {actions}
+        ) : (
+          <>
+            {showHeader && (
+              <ElectionHeader>
+                <P>
+                  <strong>
+                    {remainingVotes
+                      ? vt('vote/election/votesRemaining', {
+                          count: remainingVotes,
+                          max: numSeats
+                        })
+                      : vt('vote/election/noVotesRemaining')}
+                  </strong>
+                </P>
+                {hasIncumbent && (
+                  <small>
+                    <IncumbentIcon width={10} />
+                    {vt('vote/election/legendIncumbent')}
+                  </small>
+                )}
+              </ElectionHeader>
+            )}
+            {message && <ElectionMessage message={message} />}
+            <div {...styles.wrapper}>
+              <ElectionBallot
+                vote={vote}
+                onChange={electionOpen ? toggleCandidate : undefined}
+                maxVotes={election.numSeats}
+                mandatory={mandatoryCandidates}
+                showMeta={showMeta}
+                discussionPath={discussionPath}
+                disabled={remainingVotes <= 0}
+              />
+              {electionOpen && (
+                <ElectionActions>
+                  <Button primary onClick={() => setConfirm(true)}>
+                    {vt('vote/election/labelVote')}
+                  </Button>
+                  {isDirty ? (
+                    <A href='#' {...styles.link} onClick={reset}>
+                      {vt('vote/election/labelReset')}
+                    </A>
+                  ) : (
+                    <div {...styles.link}>{vt('vote/election/help')}</div>
+                  )}
+                </ElectionActions>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     )
   }

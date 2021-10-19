@@ -110,7 +110,11 @@
     },
     {
       "key": "vote/election/votesRemaining",
-      "value": "Sie haben noch {count} von {max} Stimmen übrig!"
+      "value": "Sie haben noch {count} von {max} Stimmen übrig"
+    },
+    {
+      "key": "vote/election/noVotesRemaining",
+      "value": "Sie haben alle Ihre Stimmen verteilt"
     },
     {
       "key": "vote/election/legendStar",

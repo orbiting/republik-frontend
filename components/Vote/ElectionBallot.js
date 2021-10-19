@@ -5,8 +5,7 @@ import ElectionBallotRow from './ElectionBallotRow'
 
 const styles = {
   table: css({
-    width: '100%',
-    cursor: 'pointer'
+    width: '100%'
   })
 }
 
@@ -17,7 +16,7 @@ const ElectionBallot = ({
   onChange,
   showMeta,
   disabled,
-  discussionUrl
+  discussionPath
 }) => (
   <div {...styles.table}>
     {vote.map(({ candidate, selected }) => (
@@ -30,7 +29,7 @@ const ElectionBallot = ({
         onChange={onChange}
         disabled={disabled}
         showMeta={showMeta}
-        discussionUrl={discussionUrl}
+        discussionPath={discussionPath}
       />
     ))}
   </div>
@@ -43,7 +42,7 @@ ElectionBallot.propTypes = {
   onChange: PropTypes.func,
   showMeta: PropTypes.bool,
   disabled: PropTypes.bool,
-  discussionUrl: PropTypes.string
+  discussionPath: PropTypes.string
 }
 
 ElectionBallot.defaultProps = {

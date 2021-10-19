@@ -76,7 +76,6 @@ const query = gql`
           portrait
           disclosures
           gender
-          biography
           biographyContent
           credentials {
             isListed
@@ -175,7 +174,7 @@ const Election = compose(
     me,
     mandatoryCandidates,
     showMeta,
-    discussionUrl
+    discussionPath
   }) => {
     // TODO: sort candidates [recommended > veterans > other] + ABC (first names)
     const [vote, setVote] = useState(
@@ -338,7 +337,7 @@ const Election = compose(
             maxVotes={election.numSeats}
             mandatory={mandatoryCandidates}
             showMeta={showMeta}
-            discussionUrl={discussionUrl}
+            discussionPath={discussionPath}
             disabled={remainingVotes <= 0}
           />
           {electionOpen && (
@@ -362,7 +361,7 @@ const ElectionLoader = compose(
       }
     })
   })
-)(({ data, discussionUrl, mandatoryCandidates = [], showMeta = true }) => {
+)(({ data, discussionPath, mandatoryCandidates = [], showMeta = true }) => {
   return (
     <Loader
       loading={data.loading}
@@ -374,7 +373,7 @@ const ElectionLoader = compose(
             election={data.election}
             mandatoryCandidates={mandatoryCandidates}
             showMeta={showMeta}
-            discussionUrl={discussionUrl}
+            discussionPath={discussionPath}
           />
         )
       }}

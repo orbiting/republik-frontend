@@ -139,6 +139,7 @@ const ElectionBallotRow = props => {
     inNativeApp,
     profile
   } = props
+
   const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
   const { user: d } = candidate
@@ -163,6 +164,7 @@ const ElectionBallotRow = props => {
             style={{ transform: expanded && 'rotate(90deg)' }}
             onClick={e => {
               e.preventDefault()
+              e.stopPropagation()
               interactive && toggleExpanded(d.id)
             }}
           >

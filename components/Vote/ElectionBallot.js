@@ -11,43 +11,45 @@ const styles = {
 }
 
 const ElectionBallot = ({
-  candidacies,
-  selected,
+  vote,
   mandatory,
   maxVotes,
   onChange,
-  showMeta
+  showMeta,
+  disabled,
+  discussionUrl
 }) => (
   <div {...styles.table}>
-    {candidacies.map(d => (
+    {vote.map(({ candidate, selected }) => (
       <ElectionBallotRow
-        key={d.id}
+        key={candidate.id}
+        candidate={candidate}
+        selected={selected}
         maxVotes={maxVotes}
-        selected={selected.some(c => d.id === c.id)}
-        mandatory={mandatory.some(c => d.user.id === c.user.id)}
+        mandatory={mandatory.some(c => candidate.user.id === c.user.id)}
         onChange={onChange}
-        candidate={d}
-        disabled={selected.length >= maxVotes}
+        disabled={disabled}
         showMeta={showMeta}
+        discussionUrl={discussionUrl}
       />
     ))}
   </div>
 )
 
 ElectionBallot.propTypes = {
-  candidacies: PropTypes.array,
-  selected: PropTypes.array,
+  vote: PropTypes.array,
   mandatory: PropTypes.array,
   maxVotes: PropTypes.number,
-  disabled: PropTypes.bool
+  onChange: PropTypes.func,
+  showMeta: PropTypes.bool,
+  disabled: PropTypes.bool,
+  discussionUrl: PropTypes.string
 }
 
 ElectionBallot.defaultProps = {
-  candidacies: [],
-  selected: [],
+  vote: [],
   mandatory: [],
   maxVotes: 1,
-  disabled: false,
   showMeta: true
 }
 

@@ -301,18 +301,6 @@
       "value": "Danke an alle, die sich am demokratischen Experiment beteiligt haben."
     },
     {
-      "key": "vote/result/title",
-      "value": "So haben Sie entschieden"
-    },
-    {
-      "key": "vote/result/lead",
-      "value": "Willkommen zu den Resultaten der ersten Urabstimmung von Project R. Die Abstimmungen und Wahlen fanden vom 17. bis zum 28.&nbsp;Oktober 2018 statt. Die Gesamtstimmbeteiligung betrug 24,8&nbsp;%. Eingeladen waren alle Verlegerinnen und Verleger der «Republik», die 20’446 Mitglieder der Project R Genossenschaft. 5072 von Ihnen haben teilgenommen, herzlichen Dank!"
-    },
-    {
-      "key": "vote/result/after",
-      "value": "Vielen Dank für Ihr Vertrauen, Ihr Engagement, <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Ihre Fragen und Ihre Kritik</a>. Lesen Sie zu den Resultaten auch unseren <a href=\"https://project-r.construction/newsletter/2018-10-31-resultate-urabstimmung-umfrage\">Newsletter</a>."
-    },
-    {
       "key": "vote/votes",
       "value": "{formattedCount} Stimmen"
     },
@@ -347,10 +335,6 @@
     {
       "key": "vote/election/turnout",
       "value": "Wahlbeteiligung: {formattedPercent}. Es sind {formattedCount} Stimmen eingegangen, davon {formattedEmptyCount} leer."
-    },
-    {
-      "key": "vote/election/members/footnote",
-      "value": "4657 Personen haben gewählt, davon haben 2466, oder 53,0%, die Wahlempfehlung für den Genossenschaftsrat unverändert übernommen."
     }
   ]
 }

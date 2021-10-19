@@ -513,12 +513,16 @@ const CandidatesGender = ({ candidates }) => {
             : item
         ),
       [
-        { key: 'weiblich', value: 0 },
-        { key: 'divers', value: 0 },
-        { key: 'männlich', value: 0 }
+        { key: 'weiblich', value: 0, group: 'Genossenschaftsrat' },
+        { key: 'divers', value: 0, group: 'Genossenschaftsrat' },
+        { key: 'männlich', value: 0, group: 'Genossenschaftsrat' }
       ]
     )
     .map(getValueString(candidates))
+    .concat([
+      { key: 'weiblich', value: '0.3', group: 'R-Verlegerschaft' },
+      { key: 'männlich', value: '0.7', group: 'R-Verlegerschaft' }
+    ])
 
   return (
     <div {...styles.chart}>
@@ -528,11 +532,13 @@ const CandidatesGender = ({ candidates }) => {
           type: 'Bar',
           numberFormat: '%',
           color: 'key',
+          y: 'group',
           colorRange: ['#9467bd', 'neutral', '#2ca02c'],
           colorLegend: true,
           domain: [0, 1],
           sort: 'none',
-          colorSort: 'none'
+          colorSort: 'none',
+          highlight: "datum.group == 'Genossenschaftsrat'"
         }}
         values={values}
       />
@@ -558,13 +564,19 @@ const CandidatesAge = ({ candidates }) => {
             : item
         ),
       [
-        { key: 'Gen Z', value: 0.001 },
-        { key: 'Millenials', value: 0.001 },
-        { key: 'Gen X', value: 0.001 },
-        { key: 'Boomers', value: 0.001 }
+        { key: 'Gen Z', value: 0.001, group: 'Genossenschaftsrat' },
+        { key: 'Millenials', value: 0.001, group: 'Genossenschaftsrat' },
+        { key: 'Gen X', value: 0.001, group: 'Genossenschaftsrat' },
+        { key: 'Boomers', value: 0.001, group: 'Genossenschaftsrat' }
       ]
     )
     .map(getValueString(candidates))
+    .concat([
+      { key: 'Gen Z', value: '0.1', group: 'R-Verlegerschaft' },
+      { key: 'Millenials', value: '0.45', group: 'R-Verlegerschaft' },
+      { key: 'Gen X', value: '0.35', group: 'R-Verlegerschaft' },
+      { key: 'Boomers', value: '0.3', group: 'R-Verlegerschaft' }
+    ])
 
   return (
     <div {...styles.chart}>
@@ -574,6 +586,9 @@ const CandidatesAge = ({ candidates }) => {
           type: 'Bar',
           numberFormat: '.0%',
           y: 'key',
+          column: 'group',
+          columns: 2,
+          columnSort: 'none',
           showBarValues: true,
           sort: 'none'
         }}

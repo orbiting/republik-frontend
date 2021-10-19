@@ -324,9 +324,14 @@ export default compose(
         only: props.extractId
       }
     }),
-    props: ({ data, ownProps: { serverContext } }) => {
+    props: ({ data, ownProps: { serverContext, isPreview } }) => {
       if (serverContext && !data.loading && !data.front) {
-        serverContext.res.statusCode = 503
+        if (isPreview) {
+          serverContext.res.redirect(302, '/')
+          throw new Error('redirect')
+        } else {
+          serverContext.res.statusCode = 503
+        }
       }
 
       return {

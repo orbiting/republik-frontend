@@ -268,6 +268,18 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
+              {!me && (
+                <div data-show-if-me='true'>
+                  <Toggle
+                    expanded={isAnyNavExpanded}
+                    title={t(
+                      `header/nav/${
+                        expandedNav === 'main' ? 'close' : 'open'
+                      }/aria`
+                    )}
+                  />
+                </div>
+              )}
               {me || inNativeApp || router.pathname === '/angebote' ? (
                 <Toggle
                   expanded={isAnyNavExpanded}
@@ -284,6 +296,7 @@ const Header = ({
               ) : (
                 <Link href='/angebote' passHref>
                   <a
+                    data-hide-if-me='true'
                     {...styles.button}
                     {...(isOnMarketingPage
                       ? styles.buttonMarketing

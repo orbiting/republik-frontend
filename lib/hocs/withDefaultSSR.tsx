@@ -18,12 +18,9 @@ type DefaultSSRPageProps<P = unknown> = BasePageProps<P> & {
    */
   providedApolloClient?: ApolloClient<NormalizedCacheObject>
   /**
-   * Request headers
+   * UserAgent used during SSR.
    */
-  headers?: {
-    accept: string
-    userAgent: string
-  }
+  providedUserAgent?: string
   /**
    * NextPageContext available during SSR
    */
@@ -51,19 +48,11 @@ function withDefaultSSR(
       props = await originalGetInitialProps(ctx)
     }
 
-    // We forward the accept header for webp detection
-    // - never forward cookie to client!
-    const headers = !process.browser
-      ? {
-          accept: ctx.req.headers.accept,
-          userAgent: ctx.req.headers['user-agent']
-        }
-      : undefined
-    props.headers = headers
-
     // Run all GraphQL queries in the component tree
     // and extract the resulting data
     if (!process.browser) {
+      props.providedUserAgent = ctx.req.headers['user-agent']
+
       const apolloClient = initializeApollo(null, {
         headers: ctx.req.headers,
         onResponse: response => {
@@ -86,17 +75,18 @@ function withDefaultSSR(
           <AppTree
             pageProps={{
               providedApolloClient: apolloClient,
-              headers,
               serverContext: ctx,
               ...props
             }}
           />
         )
       } catch (error) {
-        // Prevent Apollo Client GraphQL errors from crashing SSR.
-        // Handle them in components via the data.error prop:
-        // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
-        console.error('Error while running `getDataFromTree`', error)
+        if (error.message !== 'redirect') {
+          // Prevent Apollo Client GraphQL errors from crashing SSR.
+          // Handle them in components via the data.error prop:
+          // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
+          console.error('Error while running `getDataFromTree`', error)
+        }
       }
 
       // Extract query data from the Apollo store

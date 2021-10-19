@@ -3,7 +3,7 @@ import SubscribeDebate from './SubscribeDebate'
 import SubscribeDocument from './SubscribeDocument'
 import SubscribeAuthors from './SubscribeAuthors'
 import { css } from 'glamor'
-import { A } from '@project-r/styleguide'
+import { A, Label } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import Link from 'next/link'
@@ -34,33 +34,38 @@ const SubscribeCallout = ({
   showAuthorFilter,
   userHasNoDocuments,
   setAnimate,
-  me
+  me,
+  t
 }) => {
+  const meSubscription = authorSubscriptions.find(
+    subscription => subscription.object.id === me?.id
+  )
+
   const authorSubscriptionsWithoutMe =
     authorSubscriptions &&
-    authorSubscriptions.filter(
-      subscription => subscription.object.id !== me?.id
-    )
+    authorSubscriptions.filter(subscription => subscription !== meSubscription)
+
   return (
     <div {...styles.container}>
-      {formatSubscriptions && formatSubscriptions.length !== 0 && (
+      {formatSubscriptions?.length > 0 && (
         <SubscribeDocument
           subscriptions={formatSubscriptions}
           setAnimate={setAnimate}
           style={{ marginBottom: 15 }}
         />
       )}
-      {authorSubscriptionsWithoutMe &&
-        authorSubscriptionsWithoutMe.length !== 0 && (
-          <SubscribeAuthors
-            onlyCommentFilter={discussionId}
-            showAuthorFilter={showAuthorFilter}
-            userHasNoDocuments={userHasNoDocuments}
-            subscriptions={authorSubscriptionsWithoutMe}
-            setAnimate={setAnimate}
-            style={{ marginBottom: 15 }}
-          />
-        )}
+      {authorSubscriptionsWithoutMe?.length > 0 ? (
+        <SubscribeAuthors
+          onlyCommentFilter={discussionId}
+          showAuthorFilter={showAuthorFilter}
+          userHasNoDocuments={userHasNoDocuments}
+          subscriptions={authorSubscriptionsWithoutMe}
+          setAnimate={setAnimate}
+          style={{ marginBottom: 15 }}
+        />
+      ) : (
+        meSubscription && <Label>{t('SubscribeCallout/onlyYourself')}</Label>
+      )}
       {discussionId && (
         <SubscribeDebate
           discussionId={discussionId}
@@ -73,4 +78,4 @@ const SubscribeCallout = ({
   )
 }
 
-export default withMe(SubscribeCallout)
+export default withMe(withT(SubscribeCallout))

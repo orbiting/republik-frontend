@@ -6,12 +6,6 @@ import {
 } from '@apollo/client'
 import { createLink } from './apolloLink'
 import deepMerge from '../deepMerge'
-import {
-  inNativeAppBrowser,
-  inNativeAppBrowserLegacy,
-  postMessage
-} from '../withInNativeApp'
-import { meQuery } from './withMe'
 import fetch from 'isomorphic-unfetch'
 
 const isDev = process.env.NODE_ENV && process.env.NODE_ENV === 'development'
@@ -48,7 +42,9 @@ function createApolloClient(
             // Since Meta doesn't have a key-field, update cached data
             // Source: https://www.apollographql.com/docs/react/caching/cache-field-behavior/#merging-non-normalized-objects
             meta: {
-              merge: mergeExistingData
+              merge: (existing, incoming) => {
+                return deepMerge({}, existing, incoming)
+              }
             }
           }
         },
@@ -125,26 +121,6 @@ export function initializeApollo(
   if (!process.browser) return _apolloClient
   // Create the Apollo Client once in the client
   if (!apolloClient) apolloClient = _apolloClient
-
-  if (inNativeAppBrowser) {
-    try {
-      // Post current user data to native app
-      const data = apolloClient.readQuery({ query: meQuery })
-      if (inNativeAppBrowserLegacy) {
-        postMessage({ type: 'initial-state', payload: data })
-      } else {
-        postMessage({ type: 'isSignedIn', payload: !!data?.me })
-      }
-    } catch (e) {
-      // readQuery throws if no me query is in the cache
-      postMessage({
-        type: 'warning',
-        data: {
-          error: 'me not available on page load'
-        }
-      })
-    }
-  }
 
   return apolloClient
 }

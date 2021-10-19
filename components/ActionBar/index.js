@@ -270,7 +270,11 @@ const ActionBar = ({
         />
       ),
       modes: ['articleTop', 'articleBottom'],
-      show: me || meLoading
+      show:
+        // only show if there is something to subscribe to
+        (isDiscussion || meta.format || meta.authors?.length) &&
+        // and signed in or loading me
+        (me || meLoading)
     },
     // The subscription menu is available for all users with an active-membership.
     {
@@ -391,9 +395,7 @@ const ActionBar = ({
             documentId={document.id}
             userProgress={document.userProgress}
           />
-        ) : (
-          <></>
-        ),
+        ) : null,
       show: document && document.userProgress && displayMinutes > 1 && !podcast
     },
     {

@@ -73,6 +73,9 @@ export const getDocument = gql`
           }
         }
         color
+        authors {
+          id
+        }
         format {
           id
           meta {

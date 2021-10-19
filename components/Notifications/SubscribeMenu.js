@@ -91,7 +91,6 @@ const SubscribeMenu = ({
       labelShort={labelShort}
       ref={ref}
       disabled={loading}
-      attributes={attributes}
       {...props}
     />
   ))
@@ -101,6 +100,7 @@ const SubscribeMenu = ({
       padded={padded}
       Element={Icon}
       initiallyOpen={router.query && !!router.query.mute}
+      attributes={attributes}
     >
       <SubscribeCallout
         showAuthorFilter={showAuthorFilter}

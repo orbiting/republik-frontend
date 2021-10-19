@@ -1,26 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import {
-  A,
-  Button,
-  colors,
-  fontFamilies,
-  Interaction,
-  mediaQueries,
-  InlineSpinner,
-  RawHtml,
-  useColorContext
-} from '@project-r/styleguide'
+import React, { useState } from 'react'
+import { A, Button, Interaction, InlineSpinner } from '@project-r/styleguide'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
 import { css } from 'glamor'
-import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
-import withMe from '../../lib/apollo/withMe'
-import { timeFormat } from '../../lib/utils/format'
 import ErrorMessage from '../ErrorMessage'
-import Loader from '../Loader'
-import AddressEditor, { withAddressData } from './AddressEditor'
 import { ElectionActions, ElectionHeader } from './Election'
 
 const { P } = Interaction
@@ -51,6 +36,18 @@ const styles = {
   })
 }
 
+const CandidatesLocation = ({ candidates }) => {
+  return <div>CANDIDATES LOCATION</div>
+}
+
+const CandidatesGender = ({ candidates }) => {
+  return <div>CANDIDATES GENDER</div>
+}
+
+const CandidatesAge = ({ candidates }) => {
+  return <div>CANDIDATES AGE</div>
+}
+
 const ElectionConfirm = compose(
   voteT,
   graphql(submitElectionBallotMutation, {
@@ -68,16 +65,20 @@ const ElectionConfirm = compose(
 )(({ election, vote, submitElectionBallot, goBack, vt }) => {
   const [isUpdating, setUpdating] = useState(false)
   const [error, setError] = useState(null)
+  const selectedCandidates = vote
+    .filter(item => item.selected)
+    .map(item => item.candidate)
 
   const submitBallot = async () => {
     setUpdating(true)
     await submitElectionBallot(
       election.id,
-      vote.map(item => item.candidate.id)
+      selectedCandidates.map(candidate => candidate.id)
     )
       .then(() => {
         setUpdating(false)
         setError(null)
+        goBack()
       })
       .catch(error => {
         setUpdating(false)
@@ -131,7 +132,9 @@ const ElectionConfirm = compose(
         </ElectionHeader>
       )}
       <div {...styles.wrapper}>
-        <span>CHARTS</span>
+        <CandidatesLocation candidates={selectedCandidates} />
+        <CandidatesGender candidates={selectedCandidates} />
+        <CandidatesAge candidates={selectedCandidates} />
         <ElectionActions>
           {error && <ErrorMessage error={error} />}
           {confirmation}

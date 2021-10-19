@@ -271,7 +271,7 @@ const Election = compose(
             election={election}
             vote={vote}
             goBack={e => {
-              e.preventDefault()
+              e?.preventDefault()
               setConfirm(false)
             }}
           />

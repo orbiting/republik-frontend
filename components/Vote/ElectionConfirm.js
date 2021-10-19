@@ -158,18 +158,6 @@ const styles = {
   })
 }
 
-const sortNames = (c1, c2) => {
-  let name1 = c1.user.name.toUpperCase()
-  let name2 = c2.user.name.toUpperCase()
-  if (name1 < name2) {
-    return -1
-  }
-  if (name1 > name2) {
-    return 1
-  }
-  return 0
-}
-
 const Election = compose(
   voteT,
   withMe,
@@ -197,22 +185,9 @@ const Election = compose(
     showMeta,
     discussionPath
   }) => {
+    // TODO: sort candidates [recommended > veterans > other] + ABC (first names)
     const [vote, setVote] = useState(
-      [...election.candidacies]
-        .sort((c1, c2) => {
-          if (
-            (c1.recommendation && !c2.recommendation) ||
-            (c1.isIncumbent && !c2.isIncumbent)
-          ) {
-            return -1
-          } else if (
-            (c2.recommendation && !c1.recommendation) ||
-            (c2.isIncumbent && !c1.isIncumbent)
-          ) {
-            return 1
-          } else return sortNames(c1, c2)
-        })
-        .map(candidate => ({ candidate, selected: false }))
+      election.candidacies.map(candidate => ({ candidate, selected: false }))
     )
     const [isDirty, setDirty] = useState(false)
     const [isUpdating, setUpdating] = useState(false)

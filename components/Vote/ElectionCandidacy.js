@@ -364,7 +364,6 @@ class ElectionCandidacy extends React.Component {
             twitterHandle,
             facebookId
           } = values
-          console.log(biographyContent)
           const parsedBirthday = birthdayParse(birthday)
 
           const candidacyPreview = me && {

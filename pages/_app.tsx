@@ -72,6 +72,7 @@ const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
                 <AudioProvider>
                   <AppVariableContext>
                     <ColorContextProvider root colorSchemeKey='auto'>
+                      <MessageSync />
                       <ColorSchemeSync />
                       <Head>
                         <meta
@@ -85,7 +86,6 @@ const WebApp = ({ Component, pageProps }: AppProps<BasePageProps>) => {
                       />
                       <Track />
                       <AudioPlayer />
-                      <MessageSync />
                     </ColorContextProvider>
                   </AppVariableContext>
                 </AudioProvider>

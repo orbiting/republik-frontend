@@ -68,6 +68,7 @@ const query = gql`
           portrait
           disclosures
           gender
+          birthday
           biographyContent
           credentials {
             isListed

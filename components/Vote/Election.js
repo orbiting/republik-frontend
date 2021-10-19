@@ -21,6 +21,7 @@ import { timeFormat } from '../../lib/utils/format'
 import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
 import AddressEditor, { withAddressData } from './AddressEditor'
+import { IncumbentIcon } from './ElectionBallotRow'
 
 const { P } = Interaction
 
@@ -337,6 +338,7 @@ const Election = compose(
 
     const electionOpen = !message
     const showHeader = electionOpen && election.numSeats > 1
+    const hasIncumbent = vote.some(item => item.candidate.isIncumbent)
 
     return (
       <div {...styles.wrapper}>
@@ -350,6 +352,12 @@ const Election = compose(
                 })}
               </strong>
             </P>
+            {hasIncumbent && (
+              <small>
+                <IncumbentIcon width={10} />
+                {vt('vote/election/legendIncumbent')}
+              </small>
+            )}
           </div>
         )}
         {message && (

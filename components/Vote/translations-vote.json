@@ -121,6 +121,10 @@
       "value": "Ihre Wahl für das Präsidium"
     },
     {
+      "key": "vote/election/legendIncumbent",
+      "value": ": Genossenschaftsrat 18-21"
+    },
+    {
       "key": "vote/election/labelConfirmCount/0",
       "value": "Wollen Sie leer einlegen?"
     },

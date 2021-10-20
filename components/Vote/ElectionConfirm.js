@@ -107,6 +107,9 @@ const getPercentString = total => item => ({
   value: String(item.value / total)
 })
 
+const mapGender = gender =>
+  gender === 'weiblich' || gender === 'männlich' ? gender : 'divers'
+
 const CandidatesGender = voteT(({ candidates, vt }) => {
   const candidatesWithGender = candidates.filter(
     candidate => candidate?.user?.gender
@@ -115,7 +118,7 @@ const CandidatesGender = voteT(({ candidates, vt }) => {
     .reduce(
       (acc, candidate) =>
         acc.map(item =>
-          item.key === candidate.user.gender
+          item.key === mapGender(candidate.user.gender)
             ? { ...item, value: item.value + 1 }
             : item
         ),

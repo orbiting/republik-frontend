@@ -76,7 +76,7 @@ const styles = {
 const CandidatesLocation = ({ candidates }) => {
   const values = candidates
     .filter(candidate => candidate.postalCodeGeo.countryCode === 'CH')
-    .reduce((acc, { postalCodeGeo }) => {
+    .reduce((acc, { postalCodeGeo, city }) => {
       const currentLocation = acc.find(
         point => point.postalCode === postalCodeGeo.postalCode
       )
@@ -85,6 +85,7 @@ const CandidatesLocation = ({ candidates }) => {
       } else {
         acc.push({
           ...postalCodeGeo,
+          city,
           count: 1
         })
       }
@@ -112,7 +113,7 @@ const CandidatesLocation = ({ candidates }) => {
           points: true,
           sizeRangeMax: 100,
           colorLegend: false,
-          tooltipLabel: 'Zürich, {postalCode}',
+          tooltipLabel: '{city} {postalCode}',
           tooltipBody: 'Kandidatinnen: 1'
         }}
         values={values}

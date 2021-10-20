@@ -6,8 +6,7 @@ import {
   Checkbox,
   fontStyles,
   mediaQueries,
-  Radio,
-  BrandMark
+  Radio
 } from '@project-r/styleguide'
 import { Strong } from './text'
 import {
@@ -34,10 +33,7 @@ const styles = {
   summaryInfo: css({
     display: 'flex',
     alignItems: 'center',
-    cursor: 'pointer',
-    '& :not(:first-child)': {
-      marginLeft: 15
-    }
+    cursor: 'pointer'
   }),
   summaryDesktop: css({
     [mediaQueries.onlyS]: {
@@ -57,12 +53,6 @@ const styles = {
     marginLeft: 24
   })
 }
-
-export const IncumbentIcon = ({ width = 14 }) => (
-  <div style={{ width, display: 'inline-block' }}>
-    <BrandMark />
-  </div>
-)
 
 const ElectionBallotRow = props => {
   const [expanded, setExpanded] = useState(props.expanded || false)
@@ -104,14 +94,20 @@ const ElectionBallotRow = props => {
           >
             <ChevronRightIcon />
           </div>
-          <Strong>{d.name}</Strong>
+          <span style={{ marginRight: 12 }}>
+            <Strong>{d.name}</Strong>
+            {candidate.isIncumbent && (
+              <span>
+                ,<em> bisherig</em>
+              </span>
+            )}
+          </span>
           <div {...styles.summaryDesktop}>{summary}</div>
         </div>
         {showMeta && (
           <div {...styles.icon}>
             {candidate.recommendation && <StarsIcon />}
             {mandatory && <FavoriteIcon />}
-            {candidate.isIncumbent && <IncumbentIcon />}
           </div>
         )}
         {onChange && (

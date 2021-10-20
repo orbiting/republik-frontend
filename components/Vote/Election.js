@@ -19,7 +19,6 @@ import withMe from '../../lib/apollo/withMe'
 import { timeFormat } from '../../lib/utils/format'
 import Loader from '../Loader'
 import AddressEditor, { withAddressData } from './AddressEditor'
-import { IncumbentIcon } from './ElectionBallotRow'
 import ElectionConfirm from './ElectionConfirm'
 
 const { P } = Interaction
@@ -102,7 +101,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    background: '#fff',
     zIndex: 10,
     [mediaQueries.onlyS]: {
       flexDirection: 'column-reverse',
@@ -152,9 +150,16 @@ const sortNames = (c1, c2) => {
   return 0
 }
 
-export const ElectionHeader = ({ children }) => (
-  <div {...styles.header}>{children}</div>
-)
+export const ElectionHeader = ({ children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div {...styles.header} {...colorScheme.set('backgroundColor', 'default')}>
+      <P>
+        <strong>{children}</strong>
+      </P>
+    </div>
+  )
+}
 
 export const ElectionActions = ({ children }) => {
   const [colorScheme] = useColorContext()
@@ -263,7 +268,6 @@ const Election = compose(
 
     const electionOpen = !message
     const showHeader = electionOpen && numSeats > 1
-    const hasIncumbent = vote.some(item => item.candidate.isIncumbent)
 
     return (
       <div {...styles.wrapper}>
@@ -280,22 +284,12 @@ const Election = compose(
           <>
             {showHeader && (
               <ElectionHeader>
-                <P>
-                  <strong>
-                    {remainingVotes
-                      ? vt('vote/election/votesRemaining', {
-                          count: remainingVotes,
-                          max: numSeats
-                        })
-                      : vt('vote/election/noVotesRemaining')}
-                  </strong>
-                </P>
-                {hasIncumbent && (
-                  <small>
-                    <IncumbentIcon width={10} />
-                    {vt('vote/election/legendIncumbent')}
-                  </small>
-                )}
+                {remainingVotes
+                  ? vt('vote/election/votesRemaining', {
+                      count: remainingVotes,
+                      max: numSeats
+                    })
+                  : vt('vote/election/noVotesRemaining')}
               </ElectionHeader>
             )}
             {message && <ElectionMessage message={message} />}

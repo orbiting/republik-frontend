@@ -23,6 +23,8 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   }
 }
 
+const REVALIDATE_SECONDS = 10
+
 export const getStaticProps = createGetStaticProps<Props, Params>(
   async (client, params) => {
     const path = '/' + params.path.join('/')
@@ -42,7 +44,7 @@ export const getStaticProps = createGetStaticProps<Props, Params>(
           payNoteTryOrBuy: Math.random(),
           payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
         },
-        revalidate: 10
+        revalidate: REVALIDATE_SECONDS
       }
     }
 
@@ -64,6 +66,7 @@ export const getStaticProps = createGetStaticProps<Props, Params>(
 
     if (redirection) {
       return {
+        revalidate: REVALIDATE_SECONDS,
         redirect: {
           destination: redirection.target,
           statusCode: redirection.status
@@ -72,7 +75,8 @@ export const getStaticProps = createGetStaticProps<Props, Params>(
     }
 
     return {
-      notFound: true
+      notFound: true,
+      revalidate: REVALIDATE_SECONDS
     }
   }
 )

@@ -28,7 +28,7 @@ import { Hint } from './Elements'
 const { H2, P } = Interaction
 
 const birthdayFormat = '%d.%m.%Y'
-const birthdayParse = swissTime.parse(birthdayFormat)
+export const birthdayParse = swissTime.parse(birthdayFormat)
 
 const fields = t => [
   {

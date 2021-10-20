@@ -13,6 +13,8 @@ import { css } from 'glamor'
 import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
 import { ElectionActions, ElectionHeader } from './Election'
+import Loader from '../Loader'
+import { birthdayParse } from '../Account/UpdateMe'
 const { P } = Interaction
 
 const submitElectionBallotMutation = gql`
@@ -21,6 +23,23 @@ const submitElectionBallotMutation = gql`
       id
       userHasSubmitted
       userSubmitDate
+    }
+  }
+`
+
+const membershipQuery = gql`
+  query MembershipStats {
+    membershipStats {
+      ages {
+        averageAge
+      }
+      names {
+        buckets {
+          key
+          sex
+          count
+        }
+      }
     }
   }
 `
@@ -40,457 +59,50 @@ const styles = {
     marginTop: 10
   }),
   chart: css({
-    marginBottom: 30
+    marginBottom: 45
   })
 }
 
 const CandidatesLocation = ({ candidates }) => {
-  const values = [
-    {
-      feature: 1,
-      value: 0.0586
-    },
-    {
-      feature: 2,
-      value: 0.0818
-    },
-    {
-      feature: 3,
-      value: 0.106
-    },
-    {
-      feature: 4,
-      value: 0.0989
-    },
-    {
-      feature: 5,
-      value: 0.0959
-    },
-    {
-      feature: 6,
-      value: 0.0909
-    },
-    {
-      feature: 7,
-      value: 0.0758
-    },
-    {
-      feature: 8,
-      value: 0.0919
-    },
-    {
-      feature: 9,
-      value: 0.106
-    },
-    {
-      feature: 10,
-      value: 0.0989
-    },
-    {
-      feature: 11,
-      value: 0.0374
-    },
-    {
-      feature: 12,
-      value: 0.0374
-    },
-    {
-      feature: 13,
-      value: 0.0435
-    },
-    {
-      feature: 14,
-      value: 0.0455
-    },
-    {
-      feature: 15,
-      value: 0.0576
-    },
-    {
-      feature: 16,
-      value: 0.0475
-    },
-    {
-      feature: 17,
-      value: 0.0899
-    },
-    {
-      feature: 18,
-      value: 0.0616
-    },
-    {
-      feature: 19,
-      value: 0.0768
-    },
-    {
-      feature: 20,
-      value: 0.0485
-    },
-    {
-      feature: 21,
-      value: 0.0203
-    },
-    {
-      feature: 22,
-      value: 0.0445
-    },
-    {
-      feature: 23,
-      value: 0.0485
-    },
-    {
-      feature: 24,
-      value: 0.0536
-    },
-    {
-      feature: 25,
-      value: 0.0264
-    },
-    {
-      feature: 26,
-      value: 0.0687
-    },
-    {
-      feature: 27,
-      value: 0.0768
-    },
-    {
-      feature: 28,
-      value: 0.0737
-    },
-    {
-      feature: 29,
-      value: 0.0838
-    },
-    {
-      feature: 30,
-      value: 0.0606
-    },
-    {
-      feature: 31,
-      value: 0.0788
-    },
-    {
-      feature: 32,
-      value: 0.0707
-    },
-    {
-      feature: 33,
-      value: 0.0717
-    },
-    {
-      feature: 34,
-      value: 0.0526
-    },
-    {
-      feature: 35,
-      value: 0.0727
-    },
-    {
-      feature: 36,
-      value: 0.0899
-    },
-    {
-      feature: 37,
-      value: 0.105
-    },
-    {
-      feature: 38,
-      value: 0.0788
-    },
-    {
-      feature: 39,
-      value: 0.0788
-    },
-    {
-      feature: 40,
-      value: 0.0445
-    },
-    {
-      feature: 41,
-      value: 0.0616
-    },
-    {
-      feature: 42,
-      value: 0.0536
-    },
-    {
-      feature: 43,
-      value: 0.0566
-    },
-    {
-      feature: 44,
-      value: 0.0606
-    },
-    {
-      feature: 45,
-      value: 0.0314
-    },
-    {
-      feature: 46,
-      value: 0.0395
-    },
-    {
-      feature: 47,
-      value: 0.0475
-    },
-    {
-      feature: 48,
-      value: 0.0193
-    },
-    {
-      feature: 49,
-      value: 0.0052
-    },
-    {
-      feature: 50,
-      value: 0.0637
-    },
-    {
-      feature: 51,
-      value: 0.0526
-    },
-    {
-      feature: 52,
-      value: 0.0465
-    },
-    {
-      feature: 53,
-      value: 0.0929
-    },
-    {
-      feature: 54,
-      value: 0.0889
-    },
-    {
-      feature: 55,
-      value: 0.0788
-    },
-    {
-      feature: 56,
-      value: 0.0828
-    },
-    {
-      feature: 57,
-      value: 0.0788
-    },
-    {
-      feature: 58,
-      value: 0.0979
-    },
-    {
-      feature: 59,
-      value: 0.0858
-    },
-    {
-      feature: 60,
-      value: 0.0536
-    },
-    {
-      feature: 61,
-      value: 0.0415
-    },
-    {
-      feature: 62,
-      value: 0.0526
-    },
-    {
-      feature: 63,
-      value: 0.0354
-    },
-    {
-      feature: 64,
-      value: 0.0062
-    },
-    {
-      feature: 65,
-      value: 0.0687
-    },
-    {
-      feature: 66,
-      value: 0.0526
-    },
-    {
-      feature: 67,
-      value: 0.0455
-    },
-    {
-      feature: 68,
-      value: 0.0506
-    },
-    {
-      feature: 69,
-      value: 0.0758
-    },
-    {
-      feature: 70,
-      value: 0.0727
-    },
-    {
-      feature: 71,
-      value: 0.0536
-    },
-    {
-      feature: 72,
-      value: 0.0707
-    },
-    {
-      feature: 73,
-      value: 0.0778
-    },
-    {
-      feature: 74,
-      value: 0.0667
-    },
-    {
-      feature: 75,
-      value: 0.0475
-    },
-    {
-      feature: 76,
-      value: 0.0475
-    },
-    {
-      feature: 77,
-      value: 0.0667
-    },
-    {
-      feature: 78,
-      value: 0.0516
-    },
-    {
-      feature: 79,
-      value: 0.0919
-    },
-    {
-      feature: 80,
-      value: 0.0516
-    },
-    {
-      feature: 81,
-      value: 0.0717
-    },
-    {
-      feature: 82,
-      value: 0.0475
-    },
-    {
-      feature: 83,
-      value: 0.0253
-    },
-    {
-      feature: 84,
-      value: 0.0485
-    },
-    {
-      feature: 85,
-      value: 0.0626
-    },
-    {
-      feature: 86,
-      value: 0.0788
-    },
-    {
-      feature: 87,
-      value: 0.0586
-    },
-    {
-      feature: 88,
-      value: 0.0445
-    },
-    {
-      feature: 89,
-      value: 0.0022
-    },
-    {
-      feature: 90,
-      value: 0.0626
-    },
-    {
-      feature: 91,
-      value: 0.0647
-    },
-    {
-      feature: 92,
-      value: 0.0788
-    },
-    {
-      feature: 93,
-      value: 0.0596
-    },
-    {
-      feature: 94,
-      value: 0.0465
-    },
-    {
-      feature: 95,
-      value: 0.0445
-    },
-    {
-      feature: 96,
-      value: 0.0536
-    },
-    {
-      feature: 97,
-      value: 0.0193
-    },
-    {
-      feature: 98,
-      value: 0.0052
-    },
-    {
-      feature: 99,
-      value: 0.0294
-    },
-    {
-      feature: 100,
-      value: 0.0667
-    },
-    {
-      feature: 101,
-      value: 0.0364
-    },
-    {
-      feature: 102,
-      value: 0.0334
-    },
-    {
-      feature: 103,
-      value: 0.0536
-    },
-    {
-      feature: 104,
-      value: 0.0465
-    },
-    {
-      feature: 105,
-      value: 0.0647
-    },
-    {
-      feature: 106,
-      value: 0.106
-    }
-  ].map(i => ({ ...i, value: String(i.value) }))
+  const values = candidates
+    .filter(candidate => candidate.postalCodeGeo.countryCode === 'CH')
+    .reduce((acc, { postalCodeGeo }) => {
+      const currentLocation = acc.find(
+        point => point.postalCode === postalCodeGeo.postalCode
+      )
+      if (currentLocation) {
+        currentLocation.count += 1
+      } else {
+        acc.push({
+          ...postalCodeGeo,
+          count: 1
+        })
+      }
+      return acc
+    }, [])
+    .map(point => ({
+      ...point,
+      lat: String(point.lat),
+      lon: String(point.lon),
+      value: String(point.count)
+    }))
 
   return (
     <div {...styles.chart}>
       <ChartLead>Geographische Verteilung</ChartLead>
       <Chart
         config={{
-          type: 'ProjectedMap',
+          type: 'SwissMap',
           heightRatio: 0.63,
-          choropleth: true,
-          colorLegend: true,
           features: {
             url:
-              'https://cdn.republik.space/s3/republik-assets/assets/geo/bfs-2019-ms-reg.json',
-            object: 'msreg'
+              'https://cdn.repub.ch/s3/republik-assets/assets/geo/ch-cantons-wo-lakes.json',
+            object: 'cantons'
           },
-          thresholds: [0.02, 0.04, 0.06, 0.08],
-          colorRange: ['#bbb', '#81b6d2', '#4b97c9', '#1864aa', '#08306b'],
-          colorLegendSize: 0.18,
-          legendTitle: 'Preisänderung',
-          numberFormat: '+.1%'
+          points: true,
+          sizeRangeMax: 100,
+          opacity: 0.7,
+          colorLegend: false
         }}
         values={values}
       />
@@ -498,13 +110,19 @@ const CandidatesLocation = ({ candidates }) => {
   )
 }
 
-const getValueString = candidates => item => ({
+const getPercentString = total => item => ({
   ...item,
-  value: String(item.value / candidates.length)
+  value: String(item.value / total)
 })
 
-const CandidatesGender = ({ candidates }) => {
-  const values = candidates
+const genderLabels = {
+  MALE: 'männlich',
+  FEMALE: 'weiblich',
+  BOTH: 'divers'
+}
+
+const CandidatesGender = ({ candidates, membershipStats }) => {
+  const candidateValues = candidates
     .reduce(
       (acc, candidate) =>
         acc.map(item =>
@@ -518,11 +136,31 @@ const CandidatesGender = ({ candidates }) => {
         { key: 'männlich', value: 0, group: 'Genossenschaftsrat' }
       ]
     )
-    .map(getValueString(candidates))
-    .concat([
-      { key: 'weiblich', value: '0.3', group: 'R-Verlegerschaft' },
-      { key: 'männlich', value: '0.7', group: 'R-Verlegerschaft' }
-    ])
+    .map(getPercentString(candidates.length))
+
+  let membershipValues = membershipStats.names.buckets.reduce(
+    (acc, name) => {
+      const currentSex = name.sex
+      if (!currentSex) return acc
+      const currentGender = acc.find(d => d.key === genderLabels[currentSex])
+      currentGender.value += name.count
+      return acc
+    },
+    [
+      { key: 'weiblich', value: 0, group: 'Project R Verlegerschaft' },
+      { key: 'divers', value: 0, group: 'Project R Verlegerschaft' },
+      { key: 'männlich', value: 0, group: 'Project R Verlegerschaft' }
+    ]
+  )
+  const totalMembershipValues = membershipValues.reduce(
+    (acc, current) => acc + current.value,
+    0
+  )
+  membershipValues = membershipValues.map(
+    getPercentString(totalMembershipValues)
+  )
+
+  const values = candidateValues.concat(membershipValues)
 
   return (
     <div {...styles.chart}>
@@ -546,37 +184,27 @@ const CandidatesGender = ({ candidates }) => {
   )
 }
 
-const CandidatesAge = ({ candidates }) => {
-  const getAgeBucket = birthday => {
-    const birthYear = Number(birthday.split('.')[2])
-    if (birthYear <= 1964) return 'Boomers'
-    else if (birthYear <= 1980) return 'Gen X'
-    else if (birthYear <= 1996) return 'Millenials'
-    return 'Gen Z'
-  }
+const getAge = birthday => {
+  const birthdayParsed = birthdayParse(birthday)
+  return Math.floor(
+    (new Date() - new Date(birthdayParsed).getTime()) / 3.15576e10
+  )
+}
 
-  const values = candidates
-    .reduce(
-      (acc, candidate) =>
-        acc.map(item =>
-          item.key === getAgeBucket(candidate.user.birthday)
-            ? { ...item, value: item.value + 1 }
-            : item
-        ),
-      [
-        { key: 'Gen Z', value: 0.001, group: 'Genossenschaftsrat' },
-        { key: 'Millenials', value: 0.001, group: 'Genossenschaftsrat' },
-        { key: 'Gen X', value: 0.001, group: 'Genossenschaftsrat' },
-        { key: 'Boomers', value: 0.001, group: 'Genossenschaftsrat' }
-      ]
-    )
-    .map(getValueString(candidates))
-    .concat([
-      { key: 'Gen Z', value: '0.1', group: 'R-Verlegerschaft' },
-      { key: 'Millenials', value: '0.45', group: 'R-Verlegerschaft' },
-      { key: 'Gen X', value: '0.35', group: 'R-Verlegerschaft' },
-      { key: 'Boomers', value: '0.3', group: 'R-Verlegerschaft' }
-    ])
+const CandidatesAge = ({ candidates, membershipStats }) => {
+  const averageCandidateAge =
+    candidates.reduce(
+      (acc, candidate) => acc + getAge(candidate.user.birthday),
+      0
+    ) / candidates.length
+
+  const values = [
+    { key: 'Genossenschaftsrat', value: String(averageCandidateAge) },
+    {
+      key: 'Project R Verlegerschaft',
+      value: String(membershipStats.ages.averageAge)
+    }
+  ]
 
   return (
     <div {...styles.chart}>
@@ -584,13 +212,10 @@ const CandidatesAge = ({ candidates }) => {
       <Chart
         config={{
           type: 'Bar',
-          numberFormat: '.0%',
           y: 'key',
-          column: 'group',
-          columns: 2,
-          columnSort: 'none',
           showBarValues: true,
-          sort: 'none'
+          sort: 'none',
+          highlight: "datum.key == 'Genossenschaftsrat'"
         }}
         values={values}
       />
@@ -612,7 +237,7 @@ const ElectionConfirm = compose(
       }
     })
   })
-)(({ election, vote, submitElectionBallot, goBack, vt }) => {
+)(({ election, vote, submitElectionBallot, goBack, vt, membershipStats }) => {
   const [isUpdating, setUpdating] = useState(false)
   const [error, setError] = useState(null)
   const selectedCandidates = vote
@@ -683,8 +308,14 @@ const ElectionConfirm = compose(
       )}
       <div {...styles.wrapper}>
         <CandidatesLocation candidates={selectedCandidates} />
-        <CandidatesGender candidates={selectedCandidates} />
-        <CandidatesAge candidates={selectedCandidates} />
+        <CandidatesGender
+          candidates={selectedCandidates}
+          membershipStats={membershipStats}
+        />
+        <CandidatesAge
+          candidates={selectedCandidates}
+          membershipStats={membershipStats}
+        />
         <ElectionActions>
           {error && <ErrorMessage error={error} />}
           {confirmation}
@@ -695,4 +326,21 @@ const ElectionConfirm = compose(
   )
 })
 
-export default ElectionConfirm
+const ElectionConfirmLoader = graphql(
+  membershipQuery
+)(({ election, vote, goBack, data }) => (
+  <Loader
+    loading={data.loading}
+    error={data.error}
+    render={() => (
+      <ElectionConfirm
+        election={election}
+        vote={vote}
+        goBack={goBack}
+        membershipStats={data.membershipStats}
+      />
+    )}
+  />
+))
+
+export default ElectionConfirmLoader

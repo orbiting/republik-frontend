@@ -71,7 +71,7 @@ const styles = {
 
 const CandidatesLocation = ({ candidates }) => {
   const values = candidates
-    .filter(candidate => candidate.postalCodeGeo.countryCode === 'CH')
+    .filter(candidate => candidate.postalCodeGeo?.countryCode === 'CH')
     .reduce((acc, { postalCodeGeo, city }) => {
       const currentLocation = acc.find(
         point => point.postalCode === postalCodeGeo.postalCode
@@ -131,6 +131,7 @@ const genderLabels = {
 
 const CandidatesGender = ({ candidates, membershipStats }) => {
   const candidateValues = candidates
+    .filter(candidate => candidate?.user?.gender)
     .reduce(
       (acc, candidate) =>
         acc.map(item =>
@@ -201,10 +202,10 @@ const getAge = birthday => {
 
 const CandidatesAge = ({ candidates, membershipStats }) => {
   const averageCandidateAge =
-    candidates.reduce(
-      (acc, candidate) => acc + getAge(candidate.user.birthday),
-      0
-    ) / candidates.length
+    candidates
+      .filter(candidate => candidate.user?.birthday)
+      .reduce((acc, candidate) => acc + getAge(candidate.user.birthday), 0) /
+    candidates.length
 
   const values = [
     { key: 'Genossenschaftsrat', value: String(averageCandidateAge) },

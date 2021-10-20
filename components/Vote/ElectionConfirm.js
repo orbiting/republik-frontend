@@ -48,7 +48,7 @@ const styles = {
     marginTop: 10
   }),
   chart: css({
-    marginBottom: 60
+    marginBottom: 45
   })
 }
 
@@ -156,14 +156,14 @@ const getAge = birthday => {
 
 const getLabel = age =>
   age < 30
-    ? '<30'
+    ? '< 30'
     : age < 40
     ? '30-40'
     : age < 50
     ? '40-50'
     : age < 60
     ? '50-60'
-    : '>60'
+    : '> 60'
 
 const CandidatesAge = voteT(({ candidates, vt }) => {
   const candidatesWithBirthday = candidates.filter(
@@ -178,11 +178,11 @@ const CandidatesAge = voteT(({ candidates, vt }) => {
             : item
         ),
       [
-        { key: '<30', value: 0.001 },
-        { key: '30-40', value: 0.001 },
-        { key: '40-50', value: 0.001 },
-        { key: '50-60', value: 0.001 },
-        { key: '>60', value: 0.001 }
+        { key: '< 30', value: 0 },
+        { key: '30-40', value: 0 },
+        { key: '40-50', value: 0 },
+        { key: '50-60', value: 0 },
+        { key: '> 60', value: 0 }
       ]
     )
     .map(getPercentString(candidatesWithBirthday.length))
@@ -195,9 +195,8 @@ const CandidatesAge = voteT(({ candidates, vt }) => {
           type: 'TimeBar',
           x: 'key',
           xScale: 'ordinal',
-          unit: 'der Kandidatinnen',
           numberFormat: '.0%',
-          domain: [0, 1]
+          xUnit: 'Jahre'
         }}
         values={values}
       />

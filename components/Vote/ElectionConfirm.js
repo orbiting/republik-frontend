@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   A,
   Button,
   Interaction,
   InlineSpinner,
   FigureImage,
-  Figure
+  Figure,
+  useHeaderHeight
 } from '@project-r/styleguide'
 import { Chart, ChartLead } from '@project-r/styleguide/chart'
 import compose from 'lodash/flowRight'
@@ -17,7 +18,7 @@ import ErrorMessage from '../ErrorMessage'
 import { ElectionActions, ElectionHeader } from './Election'
 import Loader from '../Loader'
 import { birthdayParse } from '../Account/UpdateMe'
-import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import { scrollIt } from '../../lib/utils/scroll'
 const { P } = Interaction
 
 const submitElectionBallotMutation = gql`
@@ -249,6 +250,16 @@ const ElectionConfirm = compose(
 )(({ election, vote, submitElectionBallot, goBack, vt, membershipStats }) => {
   const [isUpdating, setUpdating] = useState(false)
   const [error, setError] = useState(null)
+  const ref = useRef()
+  const [headerHeight] = useHeaderHeight()
+
+  useEffect(() => {
+    const { top } = ref.current.getBoundingClientRect()
+    const { pageYOffset } = window
+    const target = pageYOffset + top - headerHeight - 80
+    scrollIt(target, 100)
+  }, [])
+
   const selectedCandidates = vote
     .filter(item => item.selected)
     .map(item => item.candidate)
@@ -309,7 +320,7 @@ const ElectionConfirm = compose(
       <ElectionHeader>
         So sieht das von Ihnen gewählten Genossenschaftsrat aus:
       </ElectionHeader>
-      <div {...styles.wrapper}>
+      <div {...styles.wrapper} ref={ref}>
         {!givenVotes ? (
           <Figure>
             <FigureImage src={emptyGifLink} maxWidth={500} alt='Leer' />

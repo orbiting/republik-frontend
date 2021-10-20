@@ -7,12 +7,7 @@ import {
   FigureImage,
   Figure
 } from '@project-r/styleguide'
-import {
-  ChartTitle,
-  Chart,
-  ChartLead,
-  ChartLegend
-} from '@project-r/styleguide/chart'
+import { Chart, ChartLead } from '@project-r/styleguide/chart'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'

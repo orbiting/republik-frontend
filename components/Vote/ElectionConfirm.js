@@ -16,7 +16,6 @@ import { css } from 'glamor'
 import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
 import { ElectionActions, ElectionHeader } from './Election'
-import Loader from '../Loader'
 import { birthdayParse } from '../Account/UpdateMe'
 import { scrollIt } from '../../lib/utils/scroll'
 const { P } = Interaction
@@ -27,23 +26,6 @@ const submitElectionBallotMutation = gql`
       id
       userHasSubmitted
       userSubmitDate
-    }
-  }
-`
-
-const membershipQuery = gql`
-  query MembershipStats {
-    membershipStats {
-      ages {
-        averageAge
-      }
-      names {
-        buckets {
-          key
-          sex
-          count
-        }
-      }
     }
   }
 `
@@ -66,7 +48,7 @@ const styles = {
     marginTop: 10
   }),
   chart: css({
-    marginBottom: 45
+    marginBottom: 60
   })
 }
 
@@ -108,7 +90,8 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
             object: 'cantons'
           },
           points: true,
-          sizeRangeMax: 100,
+          sizeRangeMax: 300,
+          opacity: 0.5,
           colorLegend: false,
           tooltipLabel: '{city} {postalCode}',
           tooltipBody: 'Kandidatinnen: 1'
@@ -124,15 +107,11 @@ const getPercentString = total => item => ({
   value: String(item.value / total)
 })
 
-const genderLabels = {
-  MALE: 'männlich',
-  FEMALE: 'weiblich',
-  BOTH: 'divers'
-}
-
-const CandidatesGender = voteT(({ candidates, membershipStats, vt }) => {
-  const candidateValues = candidates
-    .filter(candidate => candidate?.user?.gender)
+const CandidatesGender = voteT(({ candidates, vt }) => {
+  const candidatesWithGender = candidates.filter(
+    candidate => candidate?.user?.gender
+  )
+  const values = candidatesWithGender
     .reduce(
       (acc, candidate) =>
         acc.map(item =>
@@ -141,36 +120,12 @@ const CandidatesGender = voteT(({ candidates, membershipStats, vt }) => {
             : item
         ),
       [
-        { key: 'weiblich', value: 0, group: 'Genossenschaftsrat' },
-        { key: 'divers', value: 0, group: 'Genossenschaftsrat' },
-        { key: 'männlich', value: 0, group: 'Genossenschaftsrat' }
+        { key: 'weiblich', value: 0 },
+        { key: 'divers', value: 0 },
+        { key: 'männlich', value: 0 }
       ]
     )
-    .map(getPercentString(candidates.length))
-
-  let membershipValues = membershipStats.names.buckets.reduce(
-    (acc, name) => {
-      const currentSex = name.sex
-      if (!currentSex) return acc
-      const currentGender = acc.find(d => d.key === genderLabels[currentSex])
-      currentGender.value += name.count
-      return acc
-    },
-    [
-      { key: 'weiblich', value: 0, group: 'Project R Verlegerschaft' },
-      { key: 'divers', value: 0, group: 'Project R Verlegerschaft' },
-      { key: 'männlich', value: 0, group: 'Project R Verlegerschaft' }
-    ]
-  )
-  const totalMembershipValues = membershipValues.reduce(
-    (acc, current) => acc + current.value,
-    0
-  )
-  membershipValues = membershipValues.map(
-    getPercentString(totalMembershipValues)
-  )
-
-  const values = candidateValues.concat(membershipValues)
+    .map(getPercentString(candidatesWithGender.length))
 
   return (
     <div {...styles.chart}>
@@ -180,13 +135,11 @@ const CandidatesGender = voteT(({ candidates, membershipStats, vt }) => {
           type: 'Bar',
           numberFormat: '%',
           color: 'key',
-          y: 'group',
           colorRange: ['#9467bd', 'neutral', '#2ca02c'],
           colorLegend: true,
           domain: [0, 1],
           sort: 'none',
-          colorSort: 'none',
-          highlight: "datum.group == 'Genossenschaftsrat'"
+          colorSort: 'none'
         }}
         values={values}
       />
@@ -201,31 +154,50 @@ const getAge = birthday => {
   )
 }
 
-const CandidatesAge = voteT(({ candidates, membershipStats, vt }) => {
-  const averageCandidateAge =
-    candidates
-      .filter(candidate => candidate.user?.birthday)
-      .reduce((acc, candidate) => acc + getAge(candidate.user.birthday), 0) /
-    candidates.length
+const getLabel = age =>
+  age < 30
+    ? '<30'
+    : age < 40
+    ? '30-40'
+    : age < 50
+    ? '40-50'
+    : age < 60
+    ? '50-60'
+    : '>60'
 
-  const values = [
-    { key: 'Genossenschaftsrat', value: String(averageCandidateAge) },
-    {
-      key: 'Project R Verlegerschaft',
-      value: String(membershipStats.ages.averageAge)
-    }
-  ]
+const CandidatesAge = voteT(({ candidates, vt }) => {
+  const candidatesWithBirthday = candidates.filter(
+    candidate => candidate.user?.birthday
+  )
+  const values = candidatesWithBirthday
+    .reduce(
+      (acc, candidate) =>
+        acc.map(item =>
+          item.key === getLabel(getAge(candidate.user.birthday))
+            ? { ...item, value: item.value + 1 }
+            : item
+        ),
+      [
+        { key: '<30', value: 0.001 },
+        { key: '30-40', value: 0.001 },
+        { key: '40-50', value: 0.001 },
+        { key: '50-60', value: 0.001 },
+        { key: '>60', value: 0.001 }
+      ]
+    )
+    .map(getPercentString(candidatesWithBirthday.length))
 
   return (
     <div {...styles.chart}>
       <ChartLead>{vt('vote/election/confirm/age/header')}</ChartLead>
       <Chart
         config={{
-          type: 'Bar',
-          y: 'key',
-          showBarValues: true,
-          sort: 'none',
-          highlight: "datum.key == 'Genossenschaftsrat'"
+          type: 'TimeBar',
+          x: 'key',
+          xScale: 'ordinal',
+          unit: 'der Kandidatinnen',
+          numberFormat: '.0%',
+          domain: [0, 1]
         }}
         values={values}
       />
@@ -326,14 +298,8 @@ const ElectionConfirm = compose(
         ) : (
           <>
             <CandidatesLocation candidates={selectedCandidates} />
-            <CandidatesGender
-              candidates={selectedCandidates}
-              membershipStats={membershipStats}
-            />
-            <CandidatesAge
-              candidates={selectedCandidates}
-              membershipStats={membershipStats}
-            />
+            <CandidatesGender candidates={selectedCandidates} />
+            <CandidatesAge candidates={selectedCandidates} />
           </>
         )}
         <ElectionActions>
@@ -346,21 +312,4 @@ const ElectionConfirm = compose(
   )
 })
 
-const ElectionConfirmLoader = graphql(
-  membershipQuery
-)(({ election, vote, goBack, data }) => (
-  <Loader
-    loading={data.loading}
-    error={data.error}
-    render={() => (
-      <ElectionConfirm
-        election={election}
-        vote={vote}
-        goBack={goBack}
-        membershipStats={data.membershipStats}
-      />
-    )}
-  />
-))
-
-export default ElectionConfirmLoader
+export default ElectionConfirm

@@ -154,11 +154,11 @@
     },
     {
       "key": "vote/election/labelVote",
-      "value": "Wählen"
+      "value": "Weiter"
     },
     {
       "key": "vote/election/labelConfirm",
-      "value": "Wahl bestätigen"
+      "value": "Wählen"
     },
     {
       "key": "vote/election/labelReset",

@@ -94,14 +94,11 @@ const ElectionBallotRow = props => {
           >
             <ChevronRightIcon />
           </div>
-          <span style={{ marginRight: 12 }}>
-            <Strong>{d.name}</Strong>
-            {candidate.isIncumbent && (
-              <span>
-                ,<em> bisherig</em>
-              </span>
-            )}
-          </span>
+          <Strong>
+            {d.name}
+            {candidate.isIncumbent ? ' (bisher)' : ''}
+            <span {...styles.summaryDesktop}>,&nbsp;</span>
+          </Strong>
           <div {...styles.summaryDesktop}>{summary}</div>
         </div>
         {showMeta && (

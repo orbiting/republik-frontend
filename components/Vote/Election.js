@@ -96,12 +96,12 @@ const styles = {
   }),
   header: css({
     position: 'sticky',
-    padding: '20px 0',
+    padding: '13px 0',
     top: 0,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 100,
     [mediaQueries.onlyS]: {
       flexDirection: 'column-reverse',
       textAlign: 'center',
@@ -119,6 +119,9 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'sticky',
+    bottom: 0,
+    zIndex: 10,
     backgroundColor: colors.primaryBg
   }),
   link: css({

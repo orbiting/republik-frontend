@@ -47,7 +47,8 @@ const membershipQuery = gql`
   }
 `
 
-const emptyGifLink = `${CDN_FRONTEND_BASE_URL}/vote/empty.gif`
+const emptyGifLink =
+  'https://cdn.repub.ch/s3/republik-assets/assets/vote/empty.gif'
 
 const styles = {
   wrapper: css({

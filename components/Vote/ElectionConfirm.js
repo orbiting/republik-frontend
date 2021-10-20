@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { A, Button, Interaction, InlineSpinner } from '@project-r/styleguide'
+import {
+  A,
+  Button,
+  Interaction,
+  InlineSpinner,
+  FigureImage,
+  Figure
+} from '@project-r/styleguide'
 import {
   ChartTitle,
   Chart,
@@ -15,6 +22,7 @@ import ErrorMessage from '../ErrorMessage'
 import { ElectionActions, ElectionHeader } from './Election'
 import Loader from '../Loader'
 import { birthdayParse } from '../Account/UpdateMe'
+import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 const { P } = Interaction
 
 const submitElectionBallotMutation = gql`
@@ -43,6 +51,8 @@ const membershipQuery = gql`
     }
   }
 `
+
+const emptyGifLink = `${CDN_FRONTEND_BASE_URL}/vote/empty.gif`
 
 const styles = {
   wrapper: css({
@@ -101,8 +111,9 @@ const CandidatesLocation = ({ candidates }) => {
           },
           points: true,
           sizeRangeMax: 100,
-          opacity: 0.7,
-          colorLegend: false
+          colorLegend: false,
+          tooltipLabel: 'Zürich, {postalCode}',
+          tooltipBody: 'Kandidatinnen: 1'
         }}
         values={values}
       />
@@ -208,7 +219,7 @@ const CandidatesAge = ({ candidates, membershipStats }) => {
 
   return (
     <div {...styles.chart}>
-      <ChartLead>Altersgruppe</ChartLead>
+      <ChartLead>Durchschnittsalter</ChartLead>
       <Chart
         config={{
           type: 'Bar',
@@ -297,25 +308,27 @@ const ElectionConfirm = compose(
 
   return (
     <>
-      {givenVotes && (
-        <ElectionHeader>
-          <P>
-            <strong>
-              So sieht das von Ihnen gewählten Genossenschaftsrat aus:
-            </strong>
-          </P>
-        </ElectionHeader>
-      )}
+      <ElectionHeader>
+        So sieht das von Ihnen gewählten Genossenschaftsrat aus:
+      </ElectionHeader>
       <div {...styles.wrapper}>
-        <CandidatesLocation candidates={selectedCandidates} />
-        <CandidatesGender
-          candidates={selectedCandidates}
-          membershipStats={membershipStats}
-        />
-        <CandidatesAge
-          candidates={selectedCandidates}
-          membershipStats={membershipStats}
-        />
+        {!givenVotes ? (
+          <Figure>
+            <FigureImage src={emptyGifLink} maxWidth={500} alt='Leer' />
+          </Figure>
+        ) : (
+          <>
+            <CandidatesLocation candidates={selectedCandidates} />
+            <CandidatesGender
+              candidates={selectedCandidates}
+              membershipStats={membershipStats}
+            />
+            <CandidatesAge
+              candidates={selectedCandidates}
+              membershipStats={membershipStats}
+            />
+          </>
+        )}
         <ElectionActions>
           {error && <ErrorMessage error={error} />}
           {confirmation}

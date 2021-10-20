@@ -167,7 +167,8 @@ const predefinedNotes = generateNotes(
   {
     trialSignup: 'any',
     hasActiveMembership: false,
-    isEligibleForTrial: true
+    isEligibleForTrial: true,
+    inNativeIOSApp: true
   },
   'trialForm'
 )
@@ -179,17 +180,6 @@ const predefinedNotes = generateNotes(
         inNativeIOSApp: false
       },
       'button'
-    )
-  )
-  .concat(
-    generateNotes(
-      IOS_VARIATIONS,
-      {
-        hasActiveMembership: false,
-        isEligibleForTrial: false,
-        inNativeIOSApp: true
-      },
-      null
     )
   )
   .concat(
@@ -274,7 +264,7 @@ const getPayNote = (
     meetTarget({
       ...subject,
       // tmp: disallow generic trials pending new strategie
-      isEligibleForTrial: false
+      isEligibleForTrial: subject.inNativeIOSApp
     })
   )
 

@@ -70,7 +70,7 @@ const styles = {
   })
 }
 
-const CandidatesLocation = ({ candidates }) => {
+const CandidatesLocation = voteT(({ candidates, vt }) => {
   const values = candidates
     .filter(candidate => candidate.postalCodeGeo?.countryCode === 'CH')
     .reduce((acc, { postalCodeGeo, city }) => {
@@ -97,7 +97,7 @@ const CandidatesLocation = ({ candidates }) => {
 
   return (
     <div {...styles.chart}>
-      <ChartLead>Geographische Verteilung</ChartLead>
+      <ChartLead>{vt('vote/election/confirm/geo/header')}</ChartLead>
       <Chart
         config={{
           type: 'SwissMap',
@@ -117,7 +117,7 @@ const CandidatesLocation = ({ candidates }) => {
       />
     </div>
   )
-}
+})
 
 const getPercentString = total => item => ({
   ...item,
@@ -130,7 +130,7 @@ const genderLabels = {
   BOTH: 'divers'
 }
 
-const CandidatesGender = ({ candidates, membershipStats }) => {
+const CandidatesGender = voteT(({ candidates, membershipStats, vt }) => {
   const candidateValues = candidates
     .filter(candidate => candidate?.user?.gender)
     .reduce(
@@ -174,7 +174,7 @@ const CandidatesGender = ({ candidates, membershipStats }) => {
 
   return (
     <div {...styles.chart}>
-      <ChartLead>Geschlechtsparität</ChartLead>
+      <ChartLead>{vt('vote/election/confirm/gender/header')}</ChartLead>
       <Chart
         config={{
           type: 'Bar',
@@ -192,7 +192,7 @@ const CandidatesGender = ({ candidates, membershipStats }) => {
       />
     </div>
   )
-}
+})
 
 const getAge = birthday => {
   const birthdayParsed = birthdayParse(birthday)
@@ -201,7 +201,7 @@ const getAge = birthday => {
   )
 }
 
-const CandidatesAge = ({ candidates, membershipStats }) => {
+const CandidatesAge = voteT(({ candidates, membershipStats, vt }) => {
   const averageCandidateAge =
     candidates
       .filter(candidate => candidate.user?.birthday)
@@ -218,7 +218,7 @@ const CandidatesAge = ({ candidates, membershipStats }) => {
 
   return (
     <div {...styles.chart}>
-      <ChartLead>Durchschnittsalter</ChartLead>
+      <ChartLead>{vt('vote/election/confirm/age/header')}</ChartLead>
       <Chart
         config={{
           type: 'Bar',
@@ -231,7 +231,7 @@ const CandidatesAge = ({ candidates, membershipStats }) => {
       />
     </div>
   )
-}
+})
 
 const ElectionConfirm = compose(
   voteT,
@@ -310,16 +310,14 @@ const ElectionConfirm = compose(
         )}
       </Button>
       <A href='#' {...styles.link} onClick={goBack}>
-        Zurück
+        {vt('vote/election/confirm/back')}
       </A>
     </>
   )
 
   return (
     <>
-      <ElectionHeader>
-        So sieht das von Ihnen gewählten Genossenschaftsrat aus:
-      </ElectionHeader>
+      <ElectionHeader>{vt('vote/election/confirm/header')}</ElectionHeader>
       <div {...styles.wrapper} ref={ref}>
         {!givenVotes ? (
           <Figure>

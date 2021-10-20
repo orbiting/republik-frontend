@@ -177,6 +177,26 @@
       "value": "Diskussion"
     },
     {
+      "key": "vote/election/confirm/header",
+      "value": "So sieht das von Ihnen gewählten Genossenschaftsrat aus:\n"
+    },
+    {
+      "key": "vote/election/confirm/back",
+      "value": "Zurück"
+    },
+    {
+      "key": "vote/election/confirm/geo/header",
+      "value": "Geographische Verteilung"
+    },
+    {
+      "key": "vote/election/confirm/gender/header",
+      "value": "Geschlechtsparität"
+    },
+    {
+      "key": "vote/election/confirm/age/header",
+      "value": "Durchschnittsalter"
+    },
+    {
       "key": "vote/voting/labelVote",
       "value": "Abstimmen"
     },

@@ -76,12 +76,12 @@ module.exports = withBundleAnalyzer({
       {
         source: '/ud/report',
         destination: 'https://ultradashboard.republik.ch/dashboard/15',
-        permanent: true
+        permanent: false
       },
       {
         source: '/ud/daily',
         destination: 'https://ultradashboard.republik.ch/dashboard/17',
-        permanent: true
+        permanent: false
       }
     ]
   }

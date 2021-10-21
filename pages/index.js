@@ -9,13 +9,10 @@ import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
-import { useInNativeApp } from '../lib/withInNativeApp'
 
-import SignInPage from './anmelden'
 import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const IndexPage = ({ t, isMember, router }) => {
-  const { inNativeApp } = useInNativeApp()
   if (
     router.query.stale !== 'marketing' &&
     (isMember || router.query.extractId)
@@ -29,10 +26,6 @@ const IndexPage = ({ t, isMember, router }) => {
         finite
       />
     )
-  }
-
-  if (inNativeApp) {
-    return <SignInPage />
   }
 
   const meta = {

@@ -4,9 +4,10 @@ import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
 
 import withT from '../../lib/withT'
-import withInNativeApp from '../../lib/withInNativeApp'
+import { useInNativeApp, ColorContext } from '../../lib/withInNativeApp'
 import UserGuidance from '../Account/UserGuidance'
 import ErrorMessage from '../ErrorMessage'
+import MarketingTrialForm from './MarketingTrialForm'
 
 import Lead from './Lead'
 import Carpet from './Carpet'
@@ -19,14 +20,9 @@ import MiniFront from './MiniFront'
 import Community from './Community'
 import Pledge from './Pledge'
 
-const Marketing = ({
-  t,
-  data: { loading, error, meGuidance },
-  inNativeApp,
-  inNativeIOSApp
-}) => {
+const Marketing = ({ t, data: { loading, error, meGuidance } }) => {
   const hasActiveMembership = meGuidance && !!meGuidance.activeMembership
-
+  const { inNativeApp, inNativeIOSApp } = useInNativeApp()
   return (
     <>
       {!loading && meGuidance && !hasActiveMembership && !inNativeIOSApp && (
@@ -36,12 +32,13 @@ const Marketing = ({
       <Lead t={t} />
       <MiniFront t={t} />
       <Carpet t={t} />
-      <Reasons t={t} />
+      <Reasons t={t} inNativeApp={inNativeApp} />
+      {inNativeApp && <MarketingTrialForm t={t} />}
       <Sections t={t} />
       <Team t={t} />
       <Community t={t} />
       <Vision t={t} />
-      <Pledge />
+      {inNativeApp ? <MarketingTrialForm t={t} /> : <Pledge />}
       <Logo />
     </>
   )
@@ -61,4 +58,4 @@ const query = gql`
   }
 `
 
-export default compose(withT, withInNativeApp, graphql(query))(Marketing)
+export default compose(withT, graphql(query))(Marketing)

@@ -167,7 +167,8 @@ const predefinedNotes = generateNotes(
   {
     trialSignup: 'any',
     hasActiveMembership: false,
-    isEligibleForTrial: true
+    isEligibleForTrial: true,
+    inNativeIOSApp: true
   },
   'trialForm'
 )
@@ -263,7 +264,6 @@ const getPayNote = (
 ) => {
   const targetedCustomPaynotes = customPayNotes
     .map(generateKey)
-    .map(disableForIOS)
     .map(enableForTrialSignup)
     .filter(meetTarget(subject))
 
@@ -274,7 +274,7 @@ const getPayNote = (
     meetTarget({
       ...subject,
       // tmp: disallow generic trials pending new strategie
-      isEligibleForTrial: false
+      isEligibleForTrial: subject.inNativeIOSApp
     })
   )
 
@@ -464,6 +464,7 @@ export const PayNote = compose(
 )(
   ({
     inNativeIOSApp,
+    inNativeApp,
     me,
     hasAccess,
     hasActiveMembership,

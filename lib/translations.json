@@ -345,6 +345,10 @@
       "value": "Sie haben einen Gutschein? {claimLink}"
     },
     {
+      "key": "marketing/trynote/cta",
+      "value": "21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik."
+    },
+    {
       "key": "marketing/community/title/plain",
       "value": "Unsere Verlegerinnen und Verleger"
     },
@@ -2935,6 +2939,10 @@
     {
       "key": "feed/actionbar/readingTime/title",
       "value": "ungefähr {hours}{minutes}"
+    },
+    {
+      "key": "feed/actionbar/discussion/long",
+      "value": "Reden Sie mit: {count} Dialog Beiträge"
     },
     {
       "key": "feed/actionbar/edit",
@@ -5674,7 +5682,7 @@
     },
     {
       "key": "components/Card/Group/promo/trial",
-      "value": "Möchten Sie die Republik 14 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
+      "value": "Möchten Sie die Republik 21 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
     },
     {
       "key": "components/Card/Group/promo/abo",
@@ -5822,7 +5830,7 @@
     },
     {
       "key": "components/Card/MyList/trial",
-      "value": "Möchten Sie die Republik 14 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
+      "value": "Möchten Sie die Republik 21 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
     },
     {
       "key": "components/Card/Preferences/medianSmartspiders",
@@ -6238,27 +6246,27 @@
     },
     {
       "key": "article/tryNote/191106-v2/before",
-      "value": "<b>Testen Sie die Republik 14 Tage lang gratis und unverbindlich.</b>"
+      "value": "<b>Testen Sie die Republik 21 Tage lang gratis und unverbindlich.</b>"
     },
     {
       "key": "article/tryNote/191106-v2/after",
-      "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich.</b>"
+      "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 21 Tage, gratis und unverbindlich.</b>"
     },
     {
       "key": "article/tryNote/191106-v3/before",
-      "value": "<b>Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?</b> Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
+      "value": "<b>Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?</b> Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 21 Tage lang gratis.</b>"
     },
     {
       "key": "article/tryNote/191106-v3/after",
-      "value": "<b>{count} Menschen machen die Republik heute schon möglich. Und Sie?</b> Sind Sie noch nicht überzeugt und wollen Sie mehr wissen? Dann <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich. "
+      "value": "<b>{count} Menschen machen die Republik heute schon möglich. Und Sie?</b> Sind Sie noch nicht überzeugt und wollen Sie mehr wissen? Dann <b>testen Sie die Republik einfach 21 Tage lang gratis</b> und unverbindlich. "
     },
     {
       "key": "article/tryNote/191106-v4/before",
-      "value": "<b>Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!</b> Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> – und entscheiden Sie anschliessend."
+      "value": "<b>Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!</b> Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 21 Tage lang gratis</b> – und entscheiden Sie anschliessend."
     },
     {
       "key": "article/tryNote/191106-v4/after",
-      "value": "<b>Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!</b> Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
+      "value": "<b>Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!</b> Mit einer Testmitgliedschaft lesen Sie ab sofort und 21 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
     },
     {
       "key": "article/payNote/191108-v1/before",

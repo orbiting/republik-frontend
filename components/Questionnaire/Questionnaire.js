@@ -3,7 +3,7 @@ import Loader from '../Loader'
 
 import { css } from 'glamor'
 import compose from 'lodash/flowRight'
-import { CheckCircleIcon } from '@project-r/styleguide/icons'
+import { CheckCircleIcon } from '@project-r/styleguide'
 
 import {
   colors,

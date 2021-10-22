@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { CloseIcon, ArrowDownwardIcon } from '@project-r/styleguide/icons'
+import { CloseIcon, ArrowDownwardIcon } from '@project-r/styleguide'
 import datetime from './datetime'
 
 import withT from '../../../lib/withT'

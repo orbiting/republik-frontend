@@ -1,11 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import {
-  FacebookIcon,
-  TwitterIcon,
-  InstagramIcon
-} from '@project-r/styleguide/icons'
+import { FacebookIcon, TwitterIcon, InstagramIcon } from '@project-r/styleguide'
 import { IconButton } from '@project-r/styleguide'
 
 const styles = {

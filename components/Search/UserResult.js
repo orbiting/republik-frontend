@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
-import { CheckIcon } from '@project-r/styleguide/icons'
+import { CheckIcon } from '@project-r/styleguide'
 
 import {
   Editorial,

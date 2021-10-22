@@ -11,7 +11,7 @@ import {
   HEADER_HEIGHT_MOBILE,
   HEADER_HORIZONTAL_PADDING
 } from '../constants'
-import { AccountBoxIcon } from '@project-r/styleguide/icons'
+import { AccountBoxIcon } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { ME_PORTRAIT_STORAGE_KEY } from '../../lib/context/MeContext'
 

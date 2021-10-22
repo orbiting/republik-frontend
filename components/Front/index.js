@@ -13,7 +13,7 @@ import { withRouter } from 'next/router'
 import StatusError from '../StatusError'
 import Head from 'next/head'
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
-import { CheckCircleIcon } from '@project-r/styleguide/icons'
+import { CheckCircleIcon } from '@project-r/styleguide'
 
 import { withEditor, withTester } from '../Auth/checkRoles'
 import withT from '../../lib/withT'

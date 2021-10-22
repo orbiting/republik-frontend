@@ -10,7 +10,7 @@ import {
   fontStyles,
   useColorContext
 } from '@project-r/styleguide'
-import { DiscussionIcon } from '@project-r/styleguide/icons'
+import { DiscussionIcon } from '@project-r/styleguide'
 import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'

@@ -13,7 +13,7 @@ import {
   plainButtonRule,
   useColorContext
 } from '@project-r/styleguide'
-import { AddIcon, RemoveIcon } from '@project-r/styleguide/icons'
+import { AddIcon, RemoveIcon } from '@project-r/styleguide'
 import compose from 'lodash/flowRight'
 import { css } from 'glamor'
 

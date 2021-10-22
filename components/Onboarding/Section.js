@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 
-import { DoneIcon } from '@project-r/styleguide/icons'
+import { DoneIcon } from '@project-r/styleguide'
 import {
   Button,
   Loader,

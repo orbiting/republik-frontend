@@ -2,10 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { convertStyleToRem, fontStyles } from '@project-r/styleguide'
-import {
-  NotificationIcon,
-  NotificationsOffIcon
-} from '@project-r/styleguide/icons'
+import { NotificationIcon, NotificationsOffIcon } from '@project-r/styleguide'
 
 const DEFAULT_SIZE = 24
 

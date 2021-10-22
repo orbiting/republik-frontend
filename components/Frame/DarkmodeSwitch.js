@@ -6,7 +6,7 @@ import {
   Label,
   useColorContext
 } from '@project-r/styleguide'
-import { DarkmodeIcon } from '@project-r/styleguide/icons'
+import { DarkmodeIcon } from '@project-r/styleguide'
 import { useInNativeApp } from '../../lib/withInNativeApp'
 
 import { useColorSchemeKeyPreference } from '../ColorScheme/lib'

@@ -11,7 +11,7 @@ import {
   ColorContextProvider,
   useColorContext
 } from '@project-r/styleguide'
-import { OpenSourceIcon } from '@project-r/styleguide/icons'
+import { OpenSourceIcon } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'

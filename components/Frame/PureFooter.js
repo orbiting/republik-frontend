@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
-import { FacebookIcon, TwitterIcon } from '@project-r/styleguide/icons'
+import { FacebookIcon, TwitterIcon } from '@project-r/styleguide'
 import {
   mediaQueries,
   fontFamilies,

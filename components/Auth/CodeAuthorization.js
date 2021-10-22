@@ -14,7 +14,7 @@ import {
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { scrollIt } from '../../lib/utils/scroll'
-import { DoneIcon } from '@project-r/styleguide/icons'
+import { DoneIcon } from '@project-r/styleguide'
 
 import withAuthorizeSession from './withAuthorizeSession'
 

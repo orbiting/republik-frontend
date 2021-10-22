@@ -28,7 +28,7 @@ import {
   SeriesNav
 } from '@project-r/styleguide'
 import { EditIcon } from '@project-r/styleguide'
-import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
+import { createRequire } from '@project-r/styleguide'
 import {
   createArticleSchema,
   createFormatSchema,

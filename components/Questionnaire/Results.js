@@ -6,8 +6,7 @@ import { gql } from '@apollo/client'
 import { ascending } from 'd3-array'
 import { csvFormat } from 'd3-dsv'
 
-import Chart, { ChartTitle } from '@project-r/styleguide/lib/components/Chart'
-
+import { Chart, ChartTitle } from '@project-r/styleguide'
 import { Editorial } from '@project-r/styleguide'
 
 import Loader from '../Loader'

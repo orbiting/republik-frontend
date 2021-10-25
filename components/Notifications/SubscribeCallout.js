@@ -29,8 +29,8 @@ const SettingsLink = withT(({ t }) => (
 
 const SubscribeCallout = ({
   discussionId,
-  formatSubscriptions,
-  authorSubscriptions,
+  formatSubscriptions = [],
+  authorSubscriptions = [],
   showAuthorFilter,
   userHasNoDocuments,
   setAnimate,
@@ -41,20 +41,20 @@ const SubscribeCallout = ({
     subscription => subscription.object.id === me?.id
   )
 
-  const authorSubscriptionsWithoutMe =
-    authorSubscriptions &&
-    authorSubscriptions.filter(subscription => subscription !== meSubscription)
+  const authorSubscriptionsWithoutMe = authorSubscriptions.filter(
+    subscription => subscription !== meSubscription
+  )
 
   return (
     <div {...styles.container}>
-      {formatSubscriptions?.length > 0 && (
+      {formatSubscriptions.length > 0 && (
         <SubscribeDocument
           subscriptions={formatSubscriptions}
           setAnimate={setAnimate}
           style={{ marginBottom: 15 }}
         />
       )}
-      {authorSubscriptionsWithoutMe?.length > 0 ? (
+      {authorSubscriptionsWithoutMe.length > 0 ? (
         <SubscribeAuthors
           onlyCommentFilter={discussionId}
           showAuthorFilter={showAuthorFilter}

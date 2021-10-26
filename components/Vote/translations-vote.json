@@ -178,7 +178,7 @@
     },
     {
       "key": "vote/election/confirm/header",
-      "value": "So sieht das von Ihnen gewählten Genossenschaftsrat aus:\n"
+      "value": "Wie repräsentativ ist Ihre Auswahl?\n"
     },
     {
       "key": "vote/election/confirm/back",

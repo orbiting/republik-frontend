@@ -47,7 +47,7 @@ const styles = {
     marginTop: 10
   }),
   chart: css({
-    marginBottom: 15
+    marginBottom: 20
   })
 }
 

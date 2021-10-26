@@ -198,7 +198,7 @@
     },
     {
       "key": "vote/voting/labelConfirm",
-      "value": "Stimme bestätigen"
+      "value": "Bestätigen"
     },
     {
       "key": "vote/voting/thankyou",
@@ -209,8 +209,12 @@
       "value": "Zurücksetzen"
     },
     {
-      "key": "vote/voting/help",
-      "value": "Sie können auch leer einlegen. Eingelegte Stimmen können nicht mehr zurückgenommen werden."
+      "key": "vote/voting/help/blank",
+      "value": "Sie können auch leer einlegen."
+    },
+    {
+      "key": "vote/voting/help/confirm",
+      "value": "Diese Stimme kann nicht mehr zurückgenommen werden."
     },
     {
       "key": "vote/common/thankyou",

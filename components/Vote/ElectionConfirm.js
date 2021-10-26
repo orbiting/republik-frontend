@@ -18,6 +18,7 @@ import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
 import { ElectionActions } from './Election'
 import { scrollIt } from '../../lib/utils/scroll'
+import { sharedStyles } from './text'
 const { P } = Interaction
 
 const submitElectionBallotMutation = gql`
@@ -42,12 +43,6 @@ const styles = {
     textAlign: 'center',
     width: '80%',
     margin: '10px 0 15px 0'
-  }),
-  buttons: css({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10
   }),
   chart: css({
     marginBottom: 20
@@ -288,7 +283,7 @@ const ElectionConfirm = compose(
   )
 
   const actions = (
-    <div {...styles.buttons}>
+    <div {...sharedStyles.buttons}>
       <Button primary onClick={submitBallot}>
         {isUpdating ? (
           <InlineSpinner size={40} />

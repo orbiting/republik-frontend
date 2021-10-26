@@ -21,6 +21,7 @@ import { timeFormat } from '../../lib/utils/format'
 import Loader from '../Loader'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import ElectionConfirm from './ElectionConfirm'
+import { Box, sharedStyles } from './text'
 
 const { P } = Interaction
 
@@ -120,17 +121,7 @@ const styles = {
     justifyContent: 'center',
     position: 'sticky',
     bottom: 0,
-    zIndex: 9,
-    backgroundColor: colors.primaryBg
-  }),
-  link: css({
-    marginBottom: 10
-  }),
-  buttons: css({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10
+    zIndex: 9
   }),
   message: css({
     display: 'flex',
@@ -175,11 +166,10 @@ export const ElectionHeader = ({ children }) => {
 }
 
 export const ElectionActions = ({ children }) => {
-  const [colorScheme] = useColorContext()
   return (
-    <div {...styles.actions} {...colorScheme.set('backgroundColor', 'alert')}>
-      {children}
-    </div>
+    <Box>
+      <div {...styles.actions}>{children}</div>
+    </Box>
   )
 }
 
@@ -232,7 +222,6 @@ const Election = compose(
     )
     const [isDirty, setDirty] = useState(false)
     const [isConfirm, setConfirm] = useState(false)
-    const [colorScheme] = useColorContext()
 
     useEffect(() => {
       setDirty(!!vote.some(item => item.selected))
@@ -319,18 +308,20 @@ const Election = compose(
               />
               {electionOpen && (
                 <ElectionActions>
-                  <div {...styles.buttons}>
+                  <div {...sharedStyles.buttons}>
                     <Button primary onClick={() => setConfirm(true)}>
                       {vt('vote/election/labelVote')}
                     </Button>
-                    <Interaction.P style={{ marginLeft: 30 }}>
-                      <A href='#' onClick={reset}>
-                        {vt('vote/election/labelReset')}
-                      </A>
-                    </Interaction.P>
+                    {isDirty && (
+                      <Interaction.P style={{ marginLeft: 30 }}>
+                        <A href='#' onClick={reset}>
+                          {vt('vote/election/labelReset')}
+                        </A>
+                      </Interaction.P>
+                    )}
                   </div>
                   {!isDirty && (
-                    <div {...styles.link}>{vt('vote/election/help')}</div>
+                    <div {...sharedStyles.hint}>{vt('vote/election/help')}</div>
                   )}
                 </ElectionActions>
               )}

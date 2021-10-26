@@ -6,12 +6,28 @@ import {
   Interaction,
   mediaQueries,
   RawHtml,
-  A
+  A,
+  useColorContext
 } from '@project-r/styleguide'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 const { H2, Headline } = Interaction
+
+export const sharedStyles = {
+  hint: css({
+    marginTop: 10
+  }),
+  buttons: css({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }),
+  box: css({
+    padding: 10
+  })
+}
 
 export const Section = ({ children }) => (
   <section
@@ -128,6 +144,15 @@ export const Small = withInNativeApp(
     )
   }
 )
+
+export const Box = ({ children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div {...sharedStyles.box} {...colorScheme.set('backgroundColor', 'alert')}>
+      {children}
+    </div>
+  )
+}
 
 const styles = {
   list: css({

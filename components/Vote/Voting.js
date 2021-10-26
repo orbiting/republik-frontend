@@ -4,14 +4,11 @@ import { css } from 'glamor'
 import {
   A,
   Button,
-  colors,
-  fontStyles,
   InlineSpinner,
   Interaction,
   Radio,
   RawHtml,
-  Loader,
-  useColorContext
+  Loader
 } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
@@ -22,8 +19,9 @@ import { graphql } from '@apollo/client/react/hoc'
 import ErrorMessage from '../ErrorMessage'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import SignIn from '../Auth/SignIn'
+import { Box, sharedStyles } from './text'
 
-const { H3, P } = Interaction
+const { P } = Interaction
 
 const POLL_STATES = {
   START: 'START',
@@ -32,37 +30,6 @@ const POLL_STATES = {
 }
 
 const styles = {
-  card: css({
-    margin: '40px auto',
-    padding: 25,
-    maxWidth: 550,
-    width: '100%'
-  }),
-  cardTitle: css({
-    fontSize: 22,
-    ...fontStyles.sansSerifMedium
-  }),
-  cardBody: css({
-    marginTop: 15,
-    position: 'relative'
-  }),
-  cardActions: css({
-    marginTop: 15,
-    minHeight: 90,
-    textAlign: 'center',
-    '& button': {
-      display: 'block',
-      margin: '10px auto'
-    }
-  }),
-  optionText: css({
-    fontSize: 19
-  }),
-  link: css({
-    marginTop: 10,
-    textAlign: 'center',
-    ...fontStyles.sansSerifRegular14
-  }),
   thankyou: css({
     padding: '30px 20px',
     display: 'flex',
@@ -71,20 +38,19 @@ const styles = {
     textAlign: 'center'
   }),
   confirm: css({
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 10
+  }),
+  content: css({
+    width: '80%',
+    margin: '10px auto 0 auto'
+  }),
+  buttons: css({
+    padding: '15px 0'
   })
 }
 
 const messageDateFormat = timeFormat('%e. %B %Y')
-
-const Card = ({ children }) => {
-  const [colorScheme] = useColorContext()
-  return (
-    <div {...styles.card} {...colorScheme.set('backgroundColor', 'alert')}>
-      {children}
-    </div>
-  )
-}
 
 class Voting extends React.Component {
   constructor(props) {
@@ -118,8 +84,8 @@ class Voting extends React.Component {
                     `vote/voting/option${
                       voting.options.find(o => o.id === selectedValue).label
                     }`
-                  )} stimmen?`
-                : 'Leer einlegen?'}
+                  )} stimmen? `
+                : `Leer einlegen? `}
             </P>
           </div>
         )
@@ -158,15 +124,17 @@ class Voting extends React.Component {
       const { pollState, updating } = this.state
 
       const resetLink = (
-        <A href='#' {...styles.link} onClick={this.reset}>
-          {vt('vote/voting/labelReset')}
-        </A>
+        <Interaction.P style={{ marginLeft: 30 }}>
+          <A href='#' onClick={this.reset}>
+            {vt('vote/voting/labelReset')}
+          </A>
+        </Interaction.P>
       )
 
       switch (pollState) {
         case POLL_STATES.START:
           return (
-            <Fragment>
+            <div {...sharedStyles.buttons}>
               <Button
                 key={'vote/voting/labelVote'}
                 primary
@@ -179,12 +147,11 @@ class Voting extends React.Component {
               >
                 {vt('vote/voting/labelVote')}
               </Button>
-              <div {...styles.link}>{vt('vote/voting/help')}</div>
-            </Fragment>
+            </div>
           )
         case POLL_STATES.DIRTY:
           return (
-            <Fragment>
+            <div {...sharedStyles.buttons}>
               <Button
                 key={'vote/voting/labelVote'}
                 primary
@@ -198,11 +165,11 @@ class Voting extends React.Component {
                 {vt('vote/voting/labelVote')}
               </Button>
               {resetLink}
-            </Fragment>
+            </div>
           )
         case POLL_STATES.READY:
           return (
-            <Fragment>
+            <div {...sharedStyles.buttons}>
               <Button
                 key={'vote/voting/labelVote'}
                 primary
@@ -218,7 +185,7 @@ class Voting extends React.Component {
                 )}
               </Button>
               {updating ? <A>&nbsp;</A> : resetLink}
-            </Fragment>
+            </div>
           )
         default:
           return null
@@ -258,7 +225,7 @@ class Voting extends React.Component {
 
       if (dangerousDisabledHTML) {
         return (
-          <div {...styles.cardBody}>
+          <>
             <div {...styles.thankyou}>
               <RawHtml
                 type={P}
@@ -268,35 +235,36 @@ class Voting extends React.Component {
               />
             </div>
             {showSignIn && <SignIn />}
-          </div>
+          </>
         )
       } else {
         return (
-          <div {...styles.cardBody}>
-            {voting.options.map(({ id, label }) => (
-              <Fragment key={id}>
-                <Radio
-                  black
-                  value={id}
-                  checked={id === selectedValue}
-                  disabled={!!updating}
-                  onChange={() =>
-                    this.setState({
-                      selectedValue: id,
-                      pollState: POLL_STATES.DIRTY
-                    })
-                  }
-                >
-                  <span {...styles.optionText}>
-                    {vt(`vote/voting/option${label}`)}
-                  </span>
-                </Radio>
-                <br />
-              </Fragment>
-            ))}
+          <>
+            <div {...styles.buttons}>
+              {voting.options.map(({ id, label }) => (
+                <Fragment key={id}>
+                  <Radio
+                    black
+                    value={id}
+                    checked={id === selectedValue}
+                    disabled={!!updating}
+                    onChange={() =>
+                      this.setState({
+                        selectedValue: id,
+                        pollState: POLL_STATES.DIRTY
+                      })
+                    }
+                  >
+                    <span style={{ marginRight: 30 }}>
+                      {vt(`vote/voting/option${label}`)}
+                    </span>
+                  </Radio>
+                </Fragment>
+              ))}
+            </div>
             {this.renderConfirmation()}
-            <div {...styles.cardActions}>{this.renderActions()}</div>
-          </div>
+            {this.renderActions()}
+          </>
         )
       }
     }
@@ -317,11 +285,17 @@ class Voting extends React.Component {
           const { error } = this.state
 
           return (
-            <Card>
-              <H3>{description || voting.description}</H3>
-              {error && <ErrorMessage error={error} />}
-              {this.renderVotingBody()}
-            </Card>
+            <Box>
+              <div>
+                <div {...styles.content}>
+                  <P>
+                    <strong>{description || voting.description}</strong>
+                  </P>
+                  {error && <ErrorMessage error={error} />}
+                  {this.renderVotingBody()}
+                </div>
+              </div>
+            </Box>
           )
         }}
       />

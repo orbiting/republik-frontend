@@ -23,7 +23,7 @@ const EmployeeLink = ({ employee, children }) => (
   </Link>
 )
 
-const Team = ({ t, data: { loading, employees } }) => {
+const Team = ({ t, data: { loading, error, employees } }) => {
   const [colorScheme] = useColorContext()
   return (
     <SectionContainer>
@@ -33,6 +33,7 @@ const Team = ({ t, data: { loading, employees } }) => {
       />
       <Loader
         loading={loading}
+        error={error}
         style={{ minHeight: 400 }}
         render={() => (
           <TeaserFrontTileRow autoColumns>

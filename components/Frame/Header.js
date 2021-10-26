@@ -194,6 +194,11 @@ const Header = ({
       }
     })
   }, [isOnMarketingPage, colorScheme, formatColor])
+
+  const showTrialButton = inNativeApp && isOnMarketingPage
+  const showToggle =
+    me || (inNativeApp && !showTrialButton) || router.pathname === '/angebote'
+
   return (
     <>
       <div
@@ -268,7 +273,7 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              {!me && (
+              {!showToggle && (
                 <div data-show-if-me='true'>
                   <Toggle
                     expanded={isAnyNavExpanded}
@@ -280,7 +285,7 @@ const Header = ({
                   />
                 </div>
               )}
-              {me || router.pathname === '/angebote' ? (
+              {showToggle ? (
                 <Toggle
                   expanded={isAnyNavExpanded}
                   title={t(
@@ -293,7 +298,7 @@ const Header = ({
                     isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
                   }
                 />
-              ) : inNativeApp && isOnMarketingPage ? (
+              ) : showTrialButton ? (
                 <Link href='#probelesen' passHref>
                   <a
                     data-hide-if-me='true'
@@ -307,33 +312,31 @@ const Header = ({
                   </a>
                 </Link>
               ) : (
-                !inNativeApp && (
-                  <Link href='/angebote' passHref>
-                    <a
-                      data-hide-if-me='true'
-                      {...styles.button}
-                      {...(isOnMarketingPage
-                        ? styles.buttonMarketing
-                        : formatColor
-                        ? styles.buttonFormatColor
-                        : styles.buttonGeneric)}
-                      {...buttonColorRule}
-                    >
-                      {isOnMarketingPage ? (
-                        <span>{t('marketing/page/carpet/button')}</span>
-                      ) : (
-                        <>
-                          <span {...styles.buttonTextMobile}>
-                            {t('marketing/page/carpet/buttonsmall')}
-                          </span>
-                          <span {...styles.buttonText}>
-                            {t('marketing/page/carpet/button')}
-                          </span>
-                        </>
-                      )}
-                    </a>
-                  </Link>
-                )
+                <Link href='/angebote' passHref>
+                  <a
+                    data-hide-if-me='true'
+                    {...styles.button}
+                    {...(isOnMarketingPage
+                      ? styles.buttonMarketing
+                      : formatColor
+                      ? styles.buttonFormatColor
+                      : styles.buttonGeneric)}
+                    {...buttonColorRule}
+                  >
+                    {isOnMarketingPage ? (
+                      <span>{t('marketing/page/carpet/button')}</span>
+                    ) : (
+                      <>
+                        <span {...styles.buttonTextMobile}>
+                          {t('marketing/page/carpet/buttonsmall')}
+                        </span>
+                        <span {...styles.buttonText}>
+                          {t('marketing/page/carpet/button')}
+                        </span>
+                      </>
+                    )}
+                  </a>
+                </Link>
               )}
             </div>
           </div>

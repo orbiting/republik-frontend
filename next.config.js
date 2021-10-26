@@ -46,7 +46,7 @@ module.exports = withBundleAnalyzer({
     return [
       {
         source: '/~:slug',
-        destination: '/~/:slug',
+        destination: '/~/:slug'
       }
     ]
   },
@@ -55,8 +55,34 @@ module.exports = withBundleAnalyzer({
       {
         source: '/~/:slug',
         destination: '/~:slug',
-        permanent: true,
+        permanent: true
       },
+      {
+        source: '/pledge',
+        destination: '/angebote',
+        permanent: true
+      },
+      {
+        source: '/notifications',
+        destination: '/mitteilung',
+        permanent: true
+      },
+
+      {
+        source: '/merci',
+        destination: '/konto',
+        permanent: true
+      },
+      {
+        source: '/ud/report',
+        destination: 'https://ultradashboard.republik.ch/dashboard/15',
+        permanent: false
+      },
+      {
+        source: '/ud/daily',
+        destination: 'https://ultradashboard.republik.ch/dashboard/17',
+        permanent: false
+      }
     ]
-  },
+  }
 })

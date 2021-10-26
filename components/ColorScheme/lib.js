@@ -13,21 +13,21 @@ export const usePersistedOSColorSchemeKey = createPersistedState(
   OS_COLOR_SCHEME_KEY
 )
 
+const defaultKey = 'auto'
+
 export const useColorSchemeKeyPreference = () => {
   const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
   const inNewApp = inNativeApp && !inNativeAppLegacy
-  const defaultKey = inNewApp ? 'auto' : 'light'
   const [key, set] = usePersistedColorSchemeKey()
   const currentKey = key || defaultKey
 
   useEffect(() => {
-    if (!inNewApp) {
-      return
+    if (inNewApp) {
+      postMessage({
+        type: 'setColorScheme',
+        colorSchemeKey: currentKey
+      })
     }
-    postMessage({
-      type: 'setColorScheme',
-      colorSchemeKey: currentKey
-    })
   }, [inNewApp, currentKey])
 
   return [currentKey, set, defaultKey]

@@ -6,9 +6,10 @@ import {
   InlineSpinner,
   FigureImage,
   Figure,
-  useHeaderHeight
+  useHeaderHeight,
+  Label
 } from '@project-r/styleguide'
-import { Chart, ChartLead } from '@project-r/styleguide/chart'
+import { Chart } from '@project-r/styleguide/chart'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
@@ -16,7 +17,6 @@ import { css } from 'glamor'
 import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
 import { ElectionActions, ElectionHeader } from './Election'
-import { birthdayParse } from '../Account/UpdateMe'
 import { scrollIt } from '../../lib/utils/scroll'
 const { P } = Interaction
 
@@ -34,10 +34,9 @@ const emptyGifLink =
   'https://cdn.repub.ch/s3/republik-assets/assets/vote/empty.gif'
 
 const styles = {
-  wrapper: css({
-    width: '100%',
-    position: 'relative',
-    minHeight: 200
+  charts: css({
+    margin: '0 auto',
+    maxWidth: 360
   }),
   confirm: css({
     textAlign: 'center',
@@ -48,7 +47,7 @@ const styles = {
     marginTop: 10
   }),
   chart: css({
-    marginBottom: 45
+    marginBottom: 15
   })
 }
 
@@ -79,7 +78,6 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
 
   return (
     <div {...styles.chart}>
-      <ChartLead>{vt('vote/election/confirm/geo/header')}</ChartLead>
       <Chart
         config={{
           type: 'SwissMap',
@@ -90,7 +88,7 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
             object: 'cantons'
           },
           points: true,
-          sizeRangeMax: 300,
+          sizeRangeMax: 150,
           opacity: 0.5,
           colorLegend: false,
           tooltipLabel: '{city} {postalCode}',
@@ -132,30 +130,31 @@ const CandidatesGender = voteT(({ candidates, vt }) => {
 
   return (
     <div {...styles.chart}>
-      <ChartLead>{vt('vote/election/confirm/gender/header')}</ChartLead>
+      <Label>{vt('vote/election/confirm/gender/header')}</Label>
       <Chart
         config={{
           type: 'Bar',
-          numberFormat: '%',
+          numberFormat: '.0%',
           color: 'key',
-          colorRange: ['#9467bd', 'neutral', '#2ca02c'],
+          colorMap: {
+            weiblich: '#9467bd',
+            ['nichtbinär']: 'neutral',
+            ['männlich']: '#2ca02c'
+          },
+          colorSort: 'none',
           colorLegend: true,
+          colorLegendValues: ['weiblich', 'nichtbinär', 'männlich'],
           domain: [0, 1],
           sort: 'none',
-          colorSort: 'none'
+          inlineValue: true
         }}
-        values={values}
+        values={values.filter(v => v.value !== '0')}
       />
     </div>
   )
 })
 
-const getAge = birthday => {
-  const birthdayParsed = birthdayParse(birthday)
-  return Math.floor(
-    (new Date() - new Date(birthdayParsed).getTime()) / 3.15576e10
-  )
-}
+const getAge = birthYear => new Date().getFullYear() - birthYear
 
 const getLabel = age =>
   age < 30
@@ -176,7 +175,7 @@ const CandidatesAge = voteT(({ candidates, vt }) => {
     .reduce(
       (acc, candidate) =>
         acc.map(item =>
-          item.key === getLabel(getAge(candidate.user.birthday))
+          item.key === getLabel(getAge(candidate.yearOfBirth))
             ? { ...item, value: item.value + 1 }
             : item
         ),
@@ -185,23 +184,34 @@ const CandidatesAge = voteT(({ candidates, vt }) => {
         { key: '30-40', value: 0 },
         { key: '40-50', value: 0 },
         { key: '50-60', value: 0 },
-        { key: '> 60', value: 0 }
+        { key: '> 60 Jahre', value: 0 }
       ]
     )
     .map(getPercentString(candidatesWithBirthday.length))
 
   return (
     <div {...styles.chart}>
-      <ChartLead>{vt('vote/election/confirm/age/header')}</ChartLead>
+      <Label>{vt('vote/election/confirm/age/header')}</Label>
       <Chart
         config={{
-          type: 'TimeBar',
-          x: 'key',
-          xScale: 'ordinal',
+          type: 'Bar',
           numberFormat: '.0%',
-          xUnit: 'Jahre'
+          color: 'key',
+          colorMap: {
+            ['< 30']: '#1f77b4',
+            ['30-40']: '#ff7f0e',
+            ['40-50']: '#2ca02c',
+            ['50-60']: '#d62728',
+            ['> 60 Jahre']: '#9467bd'
+          },
+          colorSort: 'none',
+          colorLegend: true,
+          colorLegendValues: ['< 30', '30-40', '40-50', '50-60', '> 60 Jahre'],
+          domain: [0, 1],
+          sort: 'none',
+          inlineValue: true
         }}
-        values={values}
+        values={values.filter(v => v.value !== '0')}
       />
     </div>
   )
@@ -221,7 +231,7 @@ const ElectionConfirm = compose(
       }
     })
   })
-)(({ election, vote, submitElectionBallot, goBack, vt, membershipStats }) => {
+)(({ election, vote, submitElectionBallot, goBack, vt }) => {
   const [isUpdating, setUpdating] = useState(false)
   const [error, setError] = useState(null)
   const ref = useRef()
@@ -290,27 +300,29 @@ const ElectionConfirm = compose(
   )
 
   return (
-    <>
-      <ElectionHeader>{vt('vote/election/confirm/header')}</ElectionHeader>
-      <div {...styles.wrapper} ref={ref}>
+    <ElectionActions>
+      <div ref={ref} {...styles.confirm}>
+        <Interaction.P>
+          <strong>{vt('vote/election/confirm/header')}</strong>
+        </Interaction.P>
         {!givenVotes ? (
           <Figure>
             <FigureImage src={emptyGifLink} maxWidth={500} alt='Leer' />
           </Figure>
         ) : (
           <>
-            <CandidatesLocation candidates={selectedCandidates} />
-            <CandidatesGender candidates={selectedCandidates} />
-            <CandidatesAge candidates={selectedCandidates} />
+            <div {...styles.charts}>
+              <CandidatesLocation candidates={selectedCandidates} />
+              <CandidatesGender candidates={selectedCandidates} />
+              <CandidatesAge candidates={selectedCandidates} />
+            </div>
           </>
         )}
-        <ElectionActions>
-          {error && <ErrorMessage error={error} />}
-          {confirmation}
-          {actions}
-        </ElectionActions>
       </div>
-    </>
+      {error && <ErrorMessage error={error} />}
+      {confirmation}
+      {actions}
+    </ElectionActions>
   )
 })
 

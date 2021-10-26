@@ -185,16 +185,12 @@
       "value": "Bearbeiten"
     },
     {
-      "key": "vote/election/confirm/geo/header",
-      "value": "Geographische Verteilung"
-    },
-    {
       "key": "vote/election/confirm/gender/header",
       "value": "Geschlechtsparität"
     },
     {
       "key": "vote/election/confirm/age/header",
-      "value": "Durchschnittsalter"
+      "value": "Altersgruppen"
     },
     {
       "key": "vote/voting/labelVote",

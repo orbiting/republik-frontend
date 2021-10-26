@@ -124,7 +124,7 @@ const CandidatesGender = voteT(({ candidates, vt }) => {
         ),
       [
         { key: 'weiblich', value: 0 },
-        { key: 'divers', value: 0 },
+        { key: 'nichtbinär', value: 0 },
         { key: 'männlich', value: 0 }
       ]
     )

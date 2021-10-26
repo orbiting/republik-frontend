@@ -18,16 +18,21 @@ import Contact from '../Profile/Contact'
 
 const styles = {
   statement: css({
+    marginBottom: 15,
     [mediaQueries.onlyS]: {
       ...fontStyles.serifTitle22
     },
     ...fontStyles.serifTitle26
   }),
-  summaryMobile: css({
-    display: 'none',
+  roleMobile: css({
+    [mediaQueries.mUp]: {
+      display: 'none'
+    }
+  }),
+  roleDesktop: css({
+    marginTop: 15,
     [mediaQueries.onlyS]: {
-      marginBottom: 15,
-      display: 'block'
+      display: 'none'
     }
   }),
   detail: css({
@@ -75,10 +80,13 @@ const CandidateCard = compose(
   withInNativeApp,
   voteT,
   withT
-)(({ inNativeApp, vt, t, candidate, summary, discussionPath }) => {
+)(({ inNativeApp, vt, t, candidate, discussionPath }) => {
   const [colorScheme] = useColorContext()
   const target = inNativeApp ? undefined : '_blank'
   const { user: d } = candidate
+  const role =
+    candidate.credential ||
+    (d.credentials?.find(c => c.isListed) || {}).description
 
   return (
     <div {...styles.detail} {...colorScheme.set('backgroundColor', 'alert')}>
@@ -90,8 +98,7 @@ const CandidateCard = compose(
           {...styles.portrait}
         />
         <div {...styles.shortInfo}>
-          <div {...styles.summaryMobile}>{summary}</div>
-
+          {role && <div {...styles.roleMobile}>{role}</div>}
           {d.username && (
             <>
               <Contact user={d} electionBallot />
@@ -109,6 +116,7 @@ const CandidateCard = compose(
         <div {...styles.biography}>
           {d.biographyContent && renderCommentMdast(d.biographyContent)}
         </div>
+        {role && <div {...styles.roleDesktop}>{role}</div>}
         <div>
           {discussionPath && candidate.comment && candidate.comment.id && (
             <div>

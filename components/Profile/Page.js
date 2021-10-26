@@ -581,7 +581,6 @@ const LoadedProfile = props => {
                     expanded
                     maxVotes={0}
                     showMeta={false}
-                    profile
                   />
                 </div>
                 {isMe &&

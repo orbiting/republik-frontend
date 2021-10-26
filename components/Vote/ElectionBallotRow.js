@@ -19,7 +19,10 @@ import CandidateCard from './CandidateCard'
 const styles = {
   row: css({
     width: '100%',
-    marginBottom: 15
+    marginBottom: 8,
+    [mediaQueries.mUp]: {
+      marginBottom: 15
+    }
   }),
   summary: css({
     width: '100%',
@@ -34,6 +37,11 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer'
+  }),
+  summaryDetail: css({
+    [mediaQueries.mUp]: {
+      display: 'inline-block'
+    }
   }),
   summaryDesktop: css({
     [mediaQueries.onlyS]: {
@@ -78,9 +86,9 @@ const ElectionBallotRow = props => {
   const { user: d } = candidate
   const summary = `${
     candidate.yearOfBirth ? `${candidate.yearOfBirth},` : ''
-  } ${d.gender ? `${d.gender},` : ''} ${candidate.credential ||
-    (d.credentials?.find(c => c.isListed) || {}).description ||
-    ''} ${candidate.city ? `aus ${candidate.city}` : ''}`
+  } ${d.gender ? `${d.gender},` : ''} ${
+    candidate.city ? `${candidate.city}` : ''
+  }`
 
   const isDisabled = maxVotes > 1 && !selected && disabled
 
@@ -94,12 +102,14 @@ const ElectionBallotRow = props => {
           >
             <ChevronRightIcon />
           </div>
-          <Strong>
-            {d.name}
-            {candidate.isIncumbent ? ' (bisher)' : ''}
+          <div>
+            <Strong>
+              {d.name}
+              {candidate.isIncumbent ? ' (bisher)' : ''}
+            </Strong>
             <span {...styles.summaryDesktop}>,&nbsp;</span>
-          </Strong>
-          <div {...styles.summaryDesktop}>{summary}</div>
+            <div {...styles.summaryDetail}>{summary}</div>
+          </div>
         </div>
         {showMeta && (
           <div {...styles.icon}>
@@ -118,11 +128,7 @@ const ElectionBallotRow = props => {
         )}
       </div>
       {expanded && (
-        <CandidateCard
-          candidate={candidate}
-          summary={summary}
-          discussionPath={discussionPath}
-        />
+        <CandidateCard candidate={candidate} discussionPath={discussionPath} />
       )}
     </div>
   )

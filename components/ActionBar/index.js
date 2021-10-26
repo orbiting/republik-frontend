@@ -311,7 +311,7 @@ const ActionBar = ({
         })
       },
       label: t('PodcastButtons/play'),
-      modes: ['feed'],
+      modes: ['feed', 'seriesEpisode'],
       show: !!meta.audioSource
     },
     {

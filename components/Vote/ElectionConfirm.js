@@ -16,7 +16,7 @@ import { gql } from '@apollo/client'
 import { css } from 'glamor'
 import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
-import { ElectionActions, ElectionHeader } from './Election'
+import { ElectionActions } from './Election'
 import { scrollIt } from '../../lib/utils/scroll'
 const { P } = Interaction
 
@@ -43,8 +43,11 @@ const styles = {
     width: '80%',
     margin: '10px 0 15px 0'
   }),
-  link: css({
-    marginTop: 10
+  buttons: css({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 10
   }),
   chart: css({
     marginBottom: 20
@@ -285,7 +288,7 @@ const ElectionConfirm = compose(
   )
 
   const actions = (
-    <>
+    <div {...styles.buttons}>
       <Button primary onClick={submitBallot}>
         {isUpdating ? (
           <InlineSpinner size={40} />
@@ -293,24 +296,26 @@ const ElectionConfirm = compose(
           vt('vote/election/labelConfirm')
         )}
       </Button>
-      <A href='#' {...styles.link} onClick={goBack}>
-        {vt('vote/election/confirm/back')}
-      </A>
-    </>
+      <Interaction.P style={{ marginLeft: 30 }}>
+        <A href='#' {...styles.link} onClick={goBack}>
+          {vt('vote/election/confirm/back')}
+        </A>
+      </Interaction.P>
+    </div>
   )
 
   return (
     <ElectionActions>
       <div ref={ref} {...styles.confirm}>
-        <Interaction.P>
-          <strong>{vt('vote/election/confirm/header')}</strong>
-        </Interaction.P>
         {!givenVotes ? (
           <Figure>
             <FigureImage src={emptyGifLink} maxWidth={500} alt='Leer' />
           </Figure>
         ) : (
           <>
+            <Interaction.P>
+              <strong>{vt('vote/election/confirm/header')}</strong>
+            </Interaction.P>
             <div {...styles.charts}>
               <CandidatesLocation candidates={selectedCandidates} />
               <CandidatesGender candidates={selectedCandidates} />

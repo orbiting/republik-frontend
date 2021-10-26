@@ -162,7 +162,7 @@
     },
     {
       "key": "vote/election/labelReset",
-      "value": "Formular zurücksetzen"
+      "value": "Zurücksetzen"
     },
     {
       "key": "vote/election/help",
@@ -182,7 +182,7 @@
     },
     {
       "key": "vote/election/confirm/back",
-      "value": "Zurück"
+      "value": "Bearbeiten"
     },
     {
       "key": "vote/election/confirm/geo/header",

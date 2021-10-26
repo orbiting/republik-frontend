@@ -7,7 +7,8 @@ import {
   Interaction,
   mediaQueries,
   RawHtml,
-  useColorContext
+  useColorContext,
+  useHeaderHeight
 } from '@project-r/styleguide'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
@@ -97,11 +98,10 @@ const styles = {
   header: css({
     position: 'sticky',
     padding: '13px 0',
-    top: 0,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    zIndex: 100,
+    zIndex: 10,
     [mediaQueries.onlyS]: {
       flexDirection: 'column-reverse',
       textAlign: 'center',
@@ -114,18 +114,23 @@ const styles = {
     }
   }),
   actions: css({
-    padding: '10px 0',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'sticky',
     bottom: 0,
-    zIndex: 10,
+    zIndex: 9,
     backgroundColor: colors.primaryBg
   }),
   link: css({
-    marginTop: 10
+    marginBottom: 10
+  }),
+  buttons: css({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 10
   }),
   message: css({
     display: 'flex',
@@ -155,8 +160,13 @@ const sortNames = (c1, c2) => {
 
 export const ElectionHeader = ({ children }) => {
   const [colorScheme] = useColorContext()
+  const [headerHeight] = useHeaderHeight()
   return (
-    <div {...styles.header} {...colorScheme.set('backgroundColor', 'default')}>
+    <div
+      {...styles.header}
+      {...colorScheme.set('backgroundColor', 'default')}
+      style={{ top: headerHeight }}
+    >
       <P>
         <strong>{children}</strong>
       </P>
@@ -222,6 +232,7 @@ const Election = compose(
     )
     const [isDirty, setDirty] = useState(false)
     const [isConfirm, setConfirm] = useState(false)
+    const [colorScheme] = useColorContext()
 
     useEffect(() => {
       setDirty(!!vote.some(item => item.selected))
@@ -308,14 +319,17 @@ const Election = compose(
               />
               {electionOpen && (
                 <ElectionActions>
-                  <Button primary onClick={() => setConfirm(true)}>
-                    {vt('vote/election/labelVote')}
-                  </Button>
-                  {isDirty ? (
-                    <A href='#' {...styles.link} onClick={reset}>
-                      {vt('vote/election/labelReset')}
-                    </A>
-                  ) : (
+                  <div {...styles.buttons}>
+                    <Button primary onClick={() => setConfirm(true)}>
+                      {vt('vote/election/labelVote')}
+                    </Button>
+                    <Interaction.P style={{ marginLeft: 30 }}>
+                      <A href='#' onClick={reset}>
+                        {vt('vote/election/labelReset')}
+                      </A>
+                    </Interaction.P>
+                  </div>
+                  {!isDirty && (
                     <div {...styles.link}>{vt('vote/election/help')}</div>
                   )}
                 </ElectionActions>

@@ -169,7 +169,7 @@ const getLabel = age =>
 
 const CandidatesAge = voteT(({ candidates, vt }) => {
   const candidatesWithBirthday = candidates.filter(
-    candidate => candidate.user?.birthday
+    candidate => candidate.yearOfBirth
   )
   const values = candidatesWithBirthday
     .reduce(

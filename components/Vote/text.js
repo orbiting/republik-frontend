@@ -16,7 +16,8 @@ const { H2, Headline } = Interaction
 
 export const sharedStyles = {
   hint: css({
-    marginTop: 10
+    marginTop: 10,
+    textAlign: 'center'
   }),
   buttons: css({
     display: 'flex',

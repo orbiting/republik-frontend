@@ -137,20 +137,23 @@ class Voting extends React.Component {
       switch (pollState) {
         case POLL_STATES.START:
           return (
-            <div {...sharedStyles.buttons}>
-              <Button
-                key={'vote/voting/labelVote'}
-                primary
-                onClick={e => {
-                  e.preventDefault()
-                  this.setState({
-                    pollState: POLL_STATES.READY
-                  })
-                }}
-              >
-                {vt('vote/voting/labelVote')}
-              </Button>
-            </div>
+            <>
+              <div {...sharedStyles.buttons}>
+                <Button
+                  key={'vote/voting/labelVote'}
+                  primary
+                  onClick={e => {
+                    e.preventDefault()
+                    this.setState({
+                      pollState: POLL_STATES.READY
+                    })
+                  }}
+                >
+                  {vt('vote/voting/labelVote')}
+                </Button>
+              </div>
+              <div {...sharedStyles.hint}>{vt('vote/voting/help/blank')}</div>
+            </>
           )
         case POLL_STATES.DIRTY:
           return (

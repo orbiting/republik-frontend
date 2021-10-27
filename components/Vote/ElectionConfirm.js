@@ -163,7 +163,7 @@ const getLabel = age =>
     ? '40-50'
     : age < 60
     ? '50-60'
-    : '> 60'
+    : '> 60 Jahre'
 
 const CandidatesAge = voteT(({ candidates, vt }) => {
   const candidatesWithBirthday = candidates.filter(

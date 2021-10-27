@@ -152,7 +152,7 @@ class Voting extends React.Component {
                   {vt('vote/voting/labelVote')}
                 </Button>
               </div>
-              <div {...sharedStyles.hint}>{vt('vote/voting/help/blank')}</div>
+              <div {...sharedStyles.hint}>{vt('vote/common/help/blank')}</div>
             </>
           )
         case POLL_STATES.DIRTY:

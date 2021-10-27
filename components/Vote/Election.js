@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import {
   A,
   Button,
-  colors,
   fontFamilies,
   Interaction,
   mediaQueries,
@@ -318,7 +317,9 @@ const Election = compose(
                     )}
                   </div>
                   {!isDirty && (
-                    <div {...sharedStyles.hint}>{vt('vote/election/help')}</div>
+                    <div {...sharedStyles.hint}>
+                      {vt('vote/common/help/blank')}
+                    </div>
                   )}
                 </ElectionActions>
               )}

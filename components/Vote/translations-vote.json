@@ -165,10 +165,6 @@
       "value": "Zurücksetzen"
     },
     {
-      "key": "vote/election/help",
-      "value": "Sie können auch leer einlegen"
-    },
-    {
       "key": "vote/election/recommendation",
       "value": "Empfehlung von Project R:"
     },
@@ -209,12 +205,8 @@
       "value": "Zurücksetzen"
     },
     {
-      "key": "vote/voting/help/blank",
+      "key": "vote/common/help/blank",
       "value": "Sie können auch leer einlegen."
-    },
-    {
-      "key": "vote/voting/help/confirm",
-      "value": "Diese Stimme kann nicht mehr zurückgenommen werden."
     },
     {
       "key": "vote/common/thankyou",

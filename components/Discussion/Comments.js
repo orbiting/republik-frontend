@@ -83,6 +83,7 @@ const Comments = props => {
     isEditor,
     focusId,
     orderBy,
+    tag,
     discussionComments: { loading, error, discussion, fetchMore },
     meta,
     board,
@@ -293,6 +294,7 @@ const Comments = props => {
         const discussionContextValue = {
           isAdmin,
           highlightedCommentId: focusId,
+          selectedTag: tag,
 
           discussion,
 

@@ -42,8 +42,7 @@ const styles = {
     marginBottom: 10
   }),
   content: css({
-    width: '80%',
-    margin: '10px auto 0 auto'
+    padding: '0 15px'
   }),
   buttons: css({
     padding: '15px 0'
@@ -51,6 +50,10 @@ const styles = {
 }
 
 const messageDateFormat = timeFormat('%e. %B %Y')
+
+const VotingCard = ({ children }) => (
+  <Card style={{ margin: '40px auto', maxWidth: 550 }}>{children}</Card>
+)
 
 class Voting extends React.Component {
   constructor(props) {
@@ -285,7 +288,7 @@ class Voting extends React.Component {
           const { error } = this.state
 
           return (
-            <Card>
+            <VotingCard>
               <div>
                 <div {...styles.content}>
                   <P>
@@ -295,7 +298,7 @@ class Voting extends React.Component {
                   {this.renderVotingBody()}
                 </div>
               </div>
-            </Card>
+            </VotingCard>
           )
         }}
       />

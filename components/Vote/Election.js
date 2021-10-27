@@ -21,7 +21,7 @@ import { timeFormat } from '../../lib/utils/format'
 import Loader from '../Loader'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import ElectionConfirm from './ElectionConfirm'
-import { Box, sharedStyles } from './text'
+import { Card, sharedStyles } from './text'
 
 const { P } = Interaction
 
@@ -118,10 +118,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    position: 'sticky',
-    bottom: 0,
-    zIndex: 9
+    justifyContent: 'center'
   }),
   message: css({
     display: 'flex',
@@ -167,9 +164,9 @@ export const ElectionHeader = ({ children }) => {
 
 export const ElectionActions = ({ children }) => {
   return (
-    <Box>
+    <Card style={{ position: 'sticky', bottom: 0, zIndex: 9 }}>
       <div {...styles.actions}>{children}</div>
-    </Box>
+    </Card>
   )
 }
 

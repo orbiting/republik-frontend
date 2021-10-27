@@ -24,7 +24,7 @@ export const sharedStyles = {
     alignItems: 'center',
     justifyContent: 'center'
   }),
-  box: css({
+  card: css({
     padding: 10
   })
 }
@@ -145,10 +145,14 @@ export const Small = withInNativeApp(
   }
 )
 
-export const Box = ({ children }) => {
+export const Card = ({ children, style }) => {
   const [colorScheme] = useColorContext()
   return (
-    <div {...sharedStyles.box} {...colorScheme.set('backgroundColor', 'alert')}>
+    <div
+      {...sharedStyles.card}
+      style={style}
+      {...colorScheme.set('backgroundColor', 'alert')}
+    >
       {children}
     </div>
   )

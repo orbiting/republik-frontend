@@ -19,7 +19,7 @@ import { graphql } from '@apollo/client/react/hoc'
 import ErrorMessage from '../ErrorMessage'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import SignIn from '../Auth/SignIn'
-import { Box, sharedStyles } from './text'
+import { Card, sharedStyles } from './text'
 
 const { P } = Interaction
 
@@ -285,7 +285,7 @@ class Voting extends React.Component {
           const { error } = this.state
 
           return (
-            <Box>
+            <Card>
               <div>
                 <div {...styles.content}>
                   <P>
@@ -295,7 +295,7 @@ class Voting extends React.Component {
                   {this.renderVotingBody()}
                 </div>
               </div>
-            </Box>
+            </Card>
           )
         }}
       />

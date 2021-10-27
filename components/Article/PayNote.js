@@ -87,14 +87,7 @@ const memberShipQuery = gql`
 
 export const TRY_TO_BUY_RATIO = 0.5
 
-const TRY_VARIATIONS = [
-  'tryNote/191106-v2',
-  'tryNote/191106-v3',
-  'tryNote/191106-v4'
-]
-// old ones
-// ['payNote/191108-v1', 'payNote/191108-v2']
-// tmp: march
+const TRY_VARIATIONS = ['tryNote/211027-v1']
 const BUY_VARIATIONS = ['payNote/200313-v1']
 const THANK_YOU_VARIATIONS = ['tryNote/thankYou']
 const IOS_VARIATIONS = ['payNote/ios']
@@ -103,7 +96,8 @@ const DEFAULT_BUTTON_TARGET = '/angebote?package=ABO'
 
 export const MAX_PAYNOTE_SEED = Math.max(
   TRY_VARIATIONS.length,
-  BUY_VARIATIONS.length
+  BUY_VARIATIONS.length,
+  2 // broken with just 1
 )
 
 const generatePositionedNote = (variation, target, cta, position) => {

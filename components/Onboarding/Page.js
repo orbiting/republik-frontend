@@ -33,6 +33,7 @@ import Subscriptions, {
 } from './Sections/Subscriptions'
 import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
 import Link from 'next/link'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 const { P } = Interaction
 
@@ -102,7 +103,8 @@ class Page extends Component {
       router: {
         query,
         query: { context }
-      }
+      },
+      inNativeApp
     } = props
 
     this.sections = [
@@ -122,7 +124,8 @@ class Page extends Component {
         component: AppLogin,
         name: 'app-login',
         ref: React.createRef(),
-        visited: false
+        visited: false,
+        hide: inNativeApp
       },
       {
         component: Usability,
@@ -263,7 +266,10 @@ class Page extends Component {
 
                 <div {...styles.sections}>
                   {this.sections.map(
-                    ({ component: Component, name, ref, visited }) => {
+                    ({ component: Component, name, ref, visited, hide }) => {
+                      if (hide) {
+                        return
+                      }
                       return (
                         <Component
                           key={name}
@@ -381,4 +387,4 @@ class Page extends Component {
   }
 }
 
-export default compose(withT, withRouter)(Page)
+export default compose(withT, withRouter, withInNativeApp)(Page)

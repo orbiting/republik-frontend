@@ -26,20 +26,21 @@ export default function LeadSection({ t }) {
 
 const styles = {
   container: css({
-    minHeight: '60vh',
+    minHeight: '70vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
   }),
   lead: css({
-    ...fontStyles.serifRegular19,
+    ...fontStyles.serifRegular,
+    fontSize: 24,
+    lineHeight: '36px',
     textAlign: 'center',
     width: '100%',
     maxWidth: 960,
     marginBottom: 0,
     [mediaQueries.mUp]: {
-      ...fontStyles.serifRegular,
       fontSize: 36,
       lineHeight: '48px'
     }

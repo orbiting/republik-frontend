@@ -27,7 +27,7 @@ const styles = {
 }
 
 const TagLink = ({ tag }) => {
-  const { query } = useRouter()
+  const { pathname, query } = useRouter()
   const currentTag = query.tag
   const isSelected = tag === currentTag
   const isNotSelected = currentTag && !isSelected
@@ -37,11 +37,7 @@ const TagLink = ({ tag }) => {
   }
   return (
     <div {...styles.tagLink}>
-      <Link
-        href={{ pathname: '/[...path]', query: updatedQuery }}
-        scroll={false}
-        passHref
-      >
+      <Link href={{ pathname, query: updatedQuery }} scroll={false} passHref>
         <a>
           <FormatTag
             color={isNotSelected ? 'textSoft' : 'text'}

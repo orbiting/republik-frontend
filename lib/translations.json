@@ -6229,12 +6229,8 @@
       "value": "Sie haben alle auf Ihre Präferenzen Passenden durchgeswipt."
     },
     {
-      "key": "article/tryNote/thankYou/before",
-      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
-    },
-    {
-      "key": "article/tryNote/thankYou/after",
-      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
+      "key": "article/tryNote/thankYou",
+      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen."
     },
     {
       "key": "package/ABO/description",

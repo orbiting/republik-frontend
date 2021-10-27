@@ -339,24 +339,22 @@ const ElectionLoader = compose(
       }
     })
   })
-)(({ data, discussionPath, mandatoryCandidates = [], showMeta = true }) => {
-  return (
-    <Loader
-      loading={data.loading}
-      error={data.error}
-      render={() => {
-        if (!data?.election?.candidacies?.length) return null
-        return (
-          <Election
-            election={data.election}
-            mandatoryCandidates={mandatoryCandidates}
-            showMeta={showMeta}
-            discussionPath={discussionPath}
-          />
-        )
-      }}
-    />
-  )
-})
+)(({ data, discussionPath, mandatoryCandidates = [], showMeta = true }) => (
+  <Loader
+    loading={data.loading}
+    error={data.error}
+    render={() => {
+      if (!data?.election?.candidacies?.length) return null
+      return (
+        <Election
+          election={data.election}
+          mandatoryCandidates={mandatoryCandidates}
+          showMeta={showMeta}
+          discussionPath={discussionPath}
+        />
+      )
+    }}
+  />
+))
 
 export default ElectionLoader

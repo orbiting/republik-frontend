@@ -1,10 +1,14 @@
 import React from 'react'
 import { css } from 'glamor'
-import { Loader, FormatTag, useColorContext } from '@project-r/styleguide'
+import {
+  Loader,
+  FormatTag,
+  useColorContext,
+  useHeaderHeight
+} from '@project-r/styleguide'
 import { withDiscussionComments } from './graphql/enhancers/withDiscussionComments'
 import Link from 'next/link'
-import compose from 'lodash/flowRight'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
 const styles = {
   tagsContainer: css({
@@ -15,22 +19,21 @@ const styles = {
     borderTopWidth: 1,
     borderTopStyle: 'solid',
     position: 'sticky',
-    zIndex: 10,
-    top: 0
+    zIndex: 10
   }),
   tagLink: css({
     marginRight: 15
   })
 }
 
-const TagLink = compose(withRouter)(({ router, tag }) => {
-  const { query } = router
-  const currentTag = query.t
+const TagLink = ({ tag }) => {
+  const { query } = useRouter()
+  const currentTag = query.tag
   const isSelected = tag === currentTag
   const isNotSelected = currentTag && !isSelected
-  const updatedQuery = { ...query, t: tag }
+  const updatedQuery = { ...query, tag }
   if (isSelected) {
-    delete updatedQuery.t
+    delete updatedQuery.tag
   }
   return (
     <div {...styles.tagLink}>
@@ -49,16 +52,18 @@ const TagLink = compose(withRouter)(({ router, tag }) => {
       </Link>
     </div>
   )
-})
+}
 
 const TagFilter = ({ tags }) => {
   const [colorScheme] = useColorContext()
+  const [headerHeight] = useHeaderHeight()
 
   return (
     <div
       {...styles.tagsContainer}
       {...colorScheme.set('borderColor', 'divider')}
       {...colorScheme.set('background', 'default')}
+      style={{ top: headerHeight }}
     >
       {tags.map(tag => (
         <TagLink key={tag} tag={tag} />

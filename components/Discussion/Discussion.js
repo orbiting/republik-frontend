@@ -58,12 +58,15 @@ const Discussion = ({
 
       <div style={{ margin: rootCommentOverlay ? 0 : '20px 0' }}>
         <Comments
-          key={orderBy /* To remount of the whole component on change */}
+          key={
+            `${orderBy}-${tag}` /* To remount of the whole component on change */
+          }
           discussionId={discussionId}
           focusId={board ? undefined : focusId}
           depth={depth}
           parentId={parentId}
           orderBy={orderBy}
+          tag={tag}
           meta={meta}
           board={board}
           parent={board ? parent || focusId : undefined}

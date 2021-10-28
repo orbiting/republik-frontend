@@ -120,12 +120,11 @@ class Page extends Component {
         ref: React.createRef(),
         visited: false
       },
-      {
+      !inNativeApp && {
         component: AppLogin,
         name: 'app-login',
         ref: React.createRef(),
-        visited: false,
-        hide: inNativeApp
+        visited: false
       },
       {
         component: Usability,
@@ -266,10 +265,7 @@ class Page extends Component {
 
                 <div {...styles.sections}>
                   {this.sections.map(
-                    ({ component: Component, name, ref, visited, hide }) => {
-                      if (hide) {
-                        return
-                      }
+                    ({ component: Component, name, ref, visited }) => {
                       return (
                         <Component
                           key={name}

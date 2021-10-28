@@ -7,11 +7,14 @@ import React, {
 } from 'react'
 
 export const matchIOSUserAgent = (value?: string): boolean =>
-  value &&
+  !!value &&
   (!!value.match(/iPad|iPhone|iPod/) ||
     // iPad Pro in App
     // for web see https://stackoverflow.com/questions/56578799/tell-ipados-from-macos-on-the-web but that only works client side
     !!value.match(/Mac.+RepublikApp/))
+
+export const matchAndroidUserAgent = (value?: string): boolean =>
+  !!value && !!value.match(/android/i)
 
 type UserAgentValues = {
   userAgent: string
@@ -40,7 +43,7 @@ const UserAgentProvider = ({ children, providedValue }: Props) => {
       value={{
         userAgent,
         isIOS: matchIOSUserAgent(userAgent),
-        isAndroid: userAgent && !!userAgent.match(/android/i)
+        isAndroid: matchAndroidUserAgent(userAgent)
       }}
     >
       {children}

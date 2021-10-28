@@ -18,7 +18,6 @@ import { useRouter } from 'next/router'
 import compose from 'lodash/flowRight'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { gql } from '@apollo/client'
 import withMe from '../../lib/apollo/withMe'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 
@@ -61,44 +60,13 @@ const styles = {
   })
 }
 
-const memberShipQuery = gql`
-  query payNoteStats {
-    crowdfunding(name: "MARCH20") {
-      goals {
-        people
-        memberships
-        money
-      }
-    }
-    revenueStats {
-      surplus(min: "2019-11-30T23:00:00Z") {
-        total
-      }
-    }
-    membershipStats {
-      count
-      marchCount: countRange(
-        min: "2020-02-29T23:00:00Z"
-        max: "2020-03-31T23:00:00Z"
-      )
-    }
-  }
-`
-
 export const TRY_TO_BUY_RATIO = 0.5
 
 const TRY_VARIATIONS = ['tryNote/211027-v1']
 const BUY_VARIATIONS = ['payNote/200313-v1']
-const THANK_YOU_VARIATIONS = ['tryNote/thankYou']
 const IOS_VARIATIONS = ['payNote/ios']
 
 const DEFAULT_BUTTON_TARGET = '/angebote?package=ABO'
-
-export const MAX_PAYNOTE_SEED = Math.max(
-  TRY_VARIATIONS.length,
-  BUY_VARIATIONS.length,
-  2 // broken with just 1
-)
 
 const generatePositionedNote = (variation, target, cta, position) => {
   return {
@@ -159,7 +127,6 @@ const generateNotes = (variations, target, cta) =>
 const predefinedNotes = generateNotes(
   TRY_VARIATIONS,
   {
-    trialSignup: 'any',
     hasActiveMembership: false,
     isEligibleForTrial: true,
     inNativeIOSApp: true
@@ -187,17 +154,6 @@ const predefinedNotes = generateNotes(
       null
     )
   )
-  .concat(
-    generateNotes(
-      THANK_YOU_VARIATIONS,
-      {
-        trialSignup: '1',
-        campaignId: 'any',
-        isEligibleForTrial: false
-      },
-      'trialForm'
-    )
-  )
 
 const isEmpty = positionedNote =>
   (!positionedNote.cta ||
@@ -206,8 +162,6 @@ const isEmpty = positionedNote =>
 
 const meetTarget = target => payNote => {
   const targetKeys = new Set(Object.keys(payNote.target))
-  if (target.trialSignup) targetKeys.add('trialSignup')
-  if (target.campaignId) targetKeys.add('campaignId')
   return Array.from(targetKeys).every(
     key =>
       payNote.target[key] === 'any' ||
@@ -236,12 +190,6 @@ const disableForIOS = note => {
   }
 }
 
-const enableForTrialSignup = note => {
-  return note.before.cta === 'trialForm' || note.after.cta === 'trialForm'
-    ? { ...note, target: { ...note.target, trialSignup: 'any' } }
-    : note
-}
-
 const hasCta = cta => note => note.before.cta === cta
 
 const hasTryAndBuyCtas = notes =>
@@ -258,17 +206,17 @@ const getPayNote = (
 ) => {
   const targetedCustomPaynotes = customPayNotes
     .map(generateKey)
-    .map(enableForTrialSignup)
+    .map(disableForIOS)
     .filter(meetTarget(subject))
 
   if (customOnly || targetedCustomPaynotes.length)
-    return getElementFromSeed(targetedCustomPaynotes, seed, MAX_PAYNOTE_SEED)
+    return getElementFromSeed(targetedCustomPaynotes, seed)
 
   const targetedPredefinedNotes = predefinedNotes.filter(
     meetTarget({
       ...subject,
       // tmp: disallow generic trials pending new strategie
-      isEligibleForTrial: subject.inNativeIOSApp
+      isEligibleForTrial: subject.isEligibleForTrial && subject.inNativeIOSApp
     })
   )
 
@@ -277,23 +225,10 @@ const getPayNote = (
   if (hasTryAndBuyCtas(targetedPredefinedNotes)) {
     const desiredCta = tryOrBuy < TRY_TO_BUY_RATIO ? 'trialForm' : 'button'
     const abPredefinedNotes = targetedPredefinedNotes.filter(hasCta(desiredCta))
-    return getElementFromSeed(abPredefinedNotes, seed, MAX_PAYNOTE_SEED)
+    return getElementFromSeed(abPredefinedNotes, seed)
   }
 
-  return getElementFromSeed(targetedPredefinedNotes, seed, MAX_PAYNOTE_SEED)
-}
-
-const withCounts = (text, replacements) => {
-  let message = text
-  if (replacements) {
-    Object.keys(replacements).forEach(replacementKey => {
-      message = message.replace(
-        `{${replacementKey}}`,
-        replacements[replacementKey]
-      )
-    })
-  }
-  return message
+  return getElementFromSeed(targetedPredefinedNotes, seed)
 }
 
 const BuyButton = ({ payNote, payload }) => {
@@ -458,11 +393,9 @@ export const PayNote = compose(
 )(
   ({
     inNativeIOSApp,
-    inNativeApp,
     me,
     hasAccess,
     hasActiveMembership,
-    statReplacements = {},
     seed,
     tryOrBuy,
     documentId,
@@ -475,9 +408,8 @@ export const PayNote = compose(
     const { query } = useRouter()
     const subject = {
       inNativeIOSApp,
-      isEligibleForTrial: !me,
-      hasActiveMembership,
-      trialSignup: query.trialSignup
+      isEligibleForTrial: !me || !!query.trialSignup,
+      hasActiveMembership
     }
     const payNote = getPayNote(
       subject,
@@ -501,6 +433,11 @@ export const PayNote = compose(
     }
     const isBefore = position === 'before'
 
+    const content =
+      positionedNote.cta === 'trialForm' && query.trialSignup === 'success'
+        ? t('article/tryNote/thankYou')
+        : positionedNote.content
+
     return (
       <div
         data-hide-if-active-membership='true'
@@ -508,13 +445,7 @@ export const PayNote = compose(
         {...colorScheme.set('backgroundColor', isBefore ? 'hover' : 'alert')}
       >
         <Center>
-          <PayNoteContent
-            content={withCounts(
-              (statReplacements.reached && positionedNote.contentReached) ||
-                positionedNote.content,
-              statReplacements
-            )}
-          />
+          <PayNoteContent content={content} />
           <PayNoteCta
             payNote={positionedNote}
             payload={payload}

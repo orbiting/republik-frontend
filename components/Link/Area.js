@@ -27,9 +27,9 @@ class AreaLink extends Component {
 
     const { router, href } = this.props
 
-    // If the user presses the meta-key (CMD-key in case of MacOS) or
+    // If the user presses the meta-key (to handle MacOS) or
     // the ctrl-key (in case of all other OS) open the link in a new tab to
-    // properly emulate a link behaviour.
+    // properly emulate the expected link behaviour.
     if (e.metaKey || e.ctrlKey) {
       window.open(href, '_blank')
       return

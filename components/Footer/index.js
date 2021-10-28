@@ -263,11 +263,13 @@ const Footer = ({
                   <a {...navLinkStyle}>{t('nav/cockpit')}</a>
                 </FooterNavLink>
               </li>
-              <li>
-                <FooterNavLink href='/faq'>
-                  <a {...navLinkStyle}>{t('footer/me/faq')}</a>
-                </FooterNavLink>
-              </li>
+              {!inNativeIOSApp && (
+                <li>
+                  <FooterNavLink href='/faq'>
+                    <a {...navLinkStyle}>{t('footer/me/faq')}</a>
+                  </FooterNavLink>
+                </li>
+              )}
               <li>
                 <a
                   {...navLinkStyle}

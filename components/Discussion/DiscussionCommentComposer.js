@@ -41,7 +41,8 @@ const DiscussionCommentComposer = props => {
     discussionPreferences,
     parentId,
     inNativeIOSApp,
-    showPayNotes
+    showPayNotes,
+    selectedTag
   } = props
 
   /*
@@ -163,7 +164,7 @@ const DiscussionCommentComposer = props => {
               discussion: produce(discussion, draft => {
                 draft.displayAuthor = displayAuthor
               }),
-
+              selectedTag,
               actions: {
                 previewComment: props.previewComment,
                 openDiscussionPreferences: () => {

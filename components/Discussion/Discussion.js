@@ -48,6 +48,7 @@ const Discussion = ({
           <DiscussionCommentComposer
             discussionId={discussionId}
             orderBy={orderBy}
+            selectedTag={tag}
             focusId={focusId}
             depth={depth}
             parentId={parentId}
@@ -59,7 +60,9 @@ const Discussion = ({
       <div style={{ margin: rootCommentOverlay ? 0 : '20px 0' }}>
         <Comments
           key={
-            `${orderBy}-${tag}` /* To remount of the whole component on change */
+            `${orderBy}-${
+              tag ? tag : 'all'
+            }` /* To remount of the whole component on change */
           }
           discussionId={discussionId}
           focusId={board ? undefined : focusId}

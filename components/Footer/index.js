@@ -183,28 +183,33 @@ const Footer = ({
                 </>
               )}
               {!inNativeIOSApp && (
-                <li>
-                  <FooterNavLink
-                    href={{
-                      pathname: '/angebote',
-                      query: {
-                        group: hasActiveMembership ? 'GIVE' : undefined
-                      }
-                    }}
-                  >
-                    <a {...navLinkStyle}>
-                      {t(
-                        hasActiveMembership ? 'footer/me/give' : 'footer/offers'
-                      )}
-                    </a>
-                  </FooterNavLink>
-                </li>
+                <>
+                  <li>
+                    <FooterNavLink
+                      href={{
+                        pathname: '/angebote',
+                        query: {
+                          group: hasActiveMembership ? 'GIVE' : undefined
+                        }
+                      }}
+                    >
+                      <a {...navLinkStyle}>
+                        {t(
+                          hasActiveMembership
+                            ? 'footer/me/give'
+                            : 'footer/offers'
+                        )}
+                      </a>
+                    </FooterNavLink>
+                  </li>
+                  <li>
+                    <FooterNavLink href='/abholen'>
+                      <a {...navLinkStyle}>{t('footer/me/claim')}</a>
+                    </FooterNavLink>
+                  </li>
+                </>
               )}
-              <li>
-                <FooterNavLink href='/abholen'>
-                  <a {...navLinkStyle}>{t('footer/me/claim')}</a>
-                </FooterNavLink>
-              </li>
+
               {me && me.accessCampaigns.length > 0 && hasActiveMembership && (
                 <li>
                   <FooterNavLink

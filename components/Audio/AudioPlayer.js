@@ -8,8 +8,10 @@ import { AUDIO_PLAYER_HEIGHT } from '../constants'
 import Link from '../Link/Href'
 
 import BottomPanel from '../Frame/BottomPanel'
+import { useMe } from '../../lib/context/MeContext'
 
 const AudioPlayerFrontend = ({ t }) => {
+  const { meLoading } = useMe()
   return (
     <AudioContext.Consumer>
       {({
@@ -20,7 +22,7 @@ const AudioPlayerFrontend = ({ t }) => {
       }) => {
         return (
           <>
-            {audioState && (
+            {!meLoading && audioState && (
               <BottomPanel wide visible={audioPlayerVisible}>
                 <ProgressComponent isArticle={false}>
                   <AudioPlayer

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useMemo, useContext } from 'react'
 import { css } from 'glamor'
 import Link from 'next/link'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { renderMdast } from 'mdast-react-render'
 import compose from 'lodash/flowRight'
 import {
@@ -11,7 +11,7 @@ import {
   withQuery,
   withSubscription
 } from '@apollo/client/react/hoc'
-import { ApolloConsumer, ApolloProvider, gql } from '@apollo/client'
+import { ApolloConsumer, ApolloProvider, gql, useQuery } from '@apollo/client'
 
 import {
   Center,
@@ -21,7 +21,6 @@ import {
   mediaQueries,
   TitleBlock,
   Editorial,
-  ColorContextProvider,
   TeaserEmbedComment,
   SHARE_IMAGE_HEIGHT,
   SHARE_IMAGE_WIDTH,
@@ -50,7 +49,6 @@ import withT from '../../lib/withT'
 import { formatDate } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { splitByTitle } from '../../lib/utils/mdast'
-import withMe from '../../lib/apollo/withMe'
 import {
   ASSETS_SERVER_BASE_URL,
   PUBLIC_BASE_URL,
@@ -66,10 +64,7 @@ import { AudioContext } from '../Audio/AudioProvider'
 import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
-import SSRCachingBoundary from '../SSRCachingBoundary'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
-import withMembership from '../Auth/withMembership'
-import { withEditor } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
@@ -82,6 +77,7 @@ import { cleanAsPath } from '../../lib/utils/link'
 import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
+import { useMe } from '../../lib/context/MeContext'
 
 const dynamicOptions = {
   loading: () => <Loader loading />,
@@ -159,7 +155,10 @@ const getSchemaCreator = template => {
     try {
       console.error(`Unkown Schema ${key}`)
     } catch (e) {}
-    return () => {}
+
+    return () => {
+      return
+    }
   }
   return schema
 }
@@ -184,18 +183,12 @@ const runMetaFromQuery = (code, query) => {
 const EmptyComponent = ({ children }) => children
 
 const ArticlePage = ({
-  router,
   t,
-  me,
-  data,
-  data: { article, refetch },
-  isMember,
-  isEditor,
   inNativeApp,
   inNativeIOSApp,
   payNoteSeed,
   payNoteTryOrBuy,
-  hasActiveMembership,
+  isPreview,
   markAsReadMutation,
   serverContext
 }) => {
@@ -203,10 +196,54 @@ const ArticlePage = ({
   const bottomActionBarRef = useRef()
   const galleryRef = useRef()
 
+  const router = useRouter()
+
+  const { me, meLoading, hasAccess, hasActiveMembership, isEditor } = useMe()
+
+  const cleanedPath = cleanAsPath(router.asPath)
+
+  const {
+    data: articleData,
+    loading: articleLoading,
+    error: articleError,
+    refetch: articleRefetch
+  } = useQuery(getDocument, {
+    variables: {
+      path: cleanedPath
+    }
+  })
+
+  const article = articleData?.article
+
   const articleMeta = article?.meta
   const articleContent = article?.content
   const articleUnreadNotifications = article?.unreadNotifications
   const routerQuery = router.query
+
+  // Refetch when cached article is not issued for current user
+  // - SSG always provides issuedForUserId: null
+  // Things that can change
+  // - content member only parts like «also read»
+  // - personalized data for action bar
+  const needsRefetch =
+    !articleLoading &&
+    !meLoading &&
+    (article?.issuedForUserId || null) !== (me?.id || null)
+  useEffect(() => {
+    if (needsRefetch) {
+      articleRefetch()
+    }
+  }, [
+    needsRefetch,
+    // ensure effect is run when article or me changes
+    me?.id,
+    article?.id
+  ])
+
+  if (isPreview && !articleLoading && !article && serverContext) {
+    serverContext.res.redirect(302, router.asPath.replace(/^\/vorschau\//, '/'))
+    throw new Error('redirect')
+  }
 
   const { toggleAudioPlayer, audioPlayerVisible } = useContext(AudioContext)
 
@@ -256,10 +293,10 @@ const ArticlePage = ({
   const titleBreakout = isSeriesOverview
 
   const { trialSignup } = routerQuery
-  const showInlinePaynote = !isMember || !!trialSignup
+  const showInlinePaynote = !hasAccess || !!trialSignup
   useEffect(() => {
     if (trialSignup === 'success') {
-      refetch()
+      articleRefetch()
     }
   }, [trialSignup])
 
@@ -315,7 +352,11 @@ const ArticlePage = ({
   const isEditorialNewsletter = template === 'editorialNewsletter'
   const disableActionBar = meta?.disableActionBar
   const actionBar = article && !disableActionBar && (
-    <ActionBar mode='articleTop' document={article} />
+    <ActionBar
+      mode='articleTop'
+      document={article}
+      documentLoading={articleLoading || needsRefetch}
+    />
   )
   const actionBarEnd = actionBar
     ? React.cloneElement(actionBar, {
@@ -355,8 +396,8 @@ const ArticlePage = ({
   if (extract) {
     return (
       <Loader
-        loading={data.loading}
-        error={data.error}
+        loading={articleLoading && !articleData}
+        error={articleError}
         render={() => {
           if (!article) {
             return (
@@ -431,8 +472,8 @@ const ArticlePage = ({
       pageColorSchemeKey={colorSchemeKey}
     >
       <Loader
-        loading={data.loading}
-        error={data.error}
+        loading={articleLoading && !articleData}
+        error={articleError}
         render={() => {
           if (!article || !schema) {
             return (
@@ -476,7 +517,7 @@ const ArticlePage = ({
             meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
           const ProgressComponent =
-            isMember &&
+            hasAccess &&
             !isSection &&
             !isFormat &&
             !isPage &&
@@ -546,7 +587,7 @@ const ArticlePage = ({
                             </Editorial.Credit>
                           </TitleBlock>
                         )}
-                        {isEditor && repoId ? (
+                        {isEditor && repoId && disableActionBar ? (
                           <Center
                             breakout={breakout}
                             style={{ paddingBottom: 0, paddingTop: 30 }}
@@ -607,21 +648,7 @@ const ArticlePage = ({
                         {!suppressFirstPayNote && payNote}
                       </div>
                     )}
-                    <SSRCachingBoundary
-                      cacheKey={[
-                        article.id,
-                        isMember && 'isMember',
-                        colorSchemeKey
-                      ]
-                        .filter(Boolean)
-                        .join(':')}
-                    >
-                      {() => (
-                        <ColorContextProvider colorSchemeKey={colorSchemeKey}>
-                          {renderSchema(splitContent.main)}
-                        </ColorContextProvider>
-                      )}
-                    </SSRCachingBoundary>
+                    {renderSchema(splitContent.main)}
                   </article>
                   <ActionBarOverlay
                     audioPlayerVisible={audioPlayerVisible}
@@ -636,7 +663,7 @@ const ArticlePage = ({
                 !ownDiscussion.closed &&
                 !linkedDiscussion &&
                 !isSeriesOverview &&
-                isMember && (
+                hasAccess && (
                   <Center breakout={breakout}>
                     <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
                   </Center>
@@ -663,7 +690,7 @@ const ArticlePage = ({
                   <NewsletterSignUp {...newsletterMeta} />
                 </Center>
               )}
-              {((isMember && meta.template === 'article') ||
+              {((hasAccess && meta.template === 'article') ||
                 (isEditorialNewsletter &&
                   newsletterMeta &&
                   newsletterMeta.free)) && (
@@ -750,19 +777,8 @@ const styles = {
 
 const ComposedPage = compose(
   withT,
-  withMe,
-  withMembership,
-  withEditor,
   withInNativeApp,
-  withRouter,
-  withMarkAsReadMutation,
-  graphql(getDocument, {
-    options: ({ router: { asPath } }) => ({
-      variables: {
-        path: cleanAsPath(asPath)
-      }
-    })
-  })
+  withMarkAsReadMutation
 )(ArticlePage)
 
 export default ComposedPage

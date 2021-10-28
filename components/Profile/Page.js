@@ -711,7 +711,7 @@ export default compose(
         const targetSlug = redirect.username || redirect.id
         if (serverContext) {
           serverContext.res.redirect(301, `/~${targetSlug}`)
-          serverContext.res.end()
+          throw new Error('redirect')
         } else if (process.browser) {
           // SSR does two two-passes: data (with serverContext) & render (without)
           router.replace(`/~${targetSlug}`)

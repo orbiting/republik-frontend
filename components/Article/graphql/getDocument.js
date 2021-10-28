@@ -9,6 +9,7 @@ export const getDocument = gql`
       id
       repoId
       content
+      issuedForUserId
       subscribedBy(includeParents: true, onlyMe: true) {
         nodes {
           ...subInfo
@@ -72,6 +73,9 @@ export const getDocument = gql`
           }
         }
         color
+        authors {
+          id
+        }
         format {
           id
           meta {

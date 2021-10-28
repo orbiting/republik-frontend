@@ -12,6 +12,19 @@ import SubscribeCallout from './SubscribeCallout'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
 import withMe from '../../lib/apollo/withMe'
 
+const checkIfSubscribedToAny = ({ data, subscriptions, showAuthorFilter }) =>
+  //checks if any of the subscription nodes is set to active
+  (subscriptions &&
+    subscriptions.some(
+      subscription =>
+        subscription.active &&
+        (showAuthorFilter ||
+          subscription.object?.__typename !== 'User' ||
+          subscription.filters.includes('Document'))
+    )) ||
+  // or if a discussion is being followed
+  (data && getSelectedDiscussionPreference(data) !== 'NONE')
+
 const SubscribeMenu = ({
   data,
   router,
@@ -22,21 +35,10 @@ const SubscribeMenu = ({
   label,
   labelShort,
   me,
-  padded
+  padded,
+  loading,
+  attributes
 }) => {
-  const checkIfSubscribedToAny = ({ data, subscriptions }) =>
-    //checks if any of the subscription nodes is set to active
-    (subscriptions &&
-      subscriptions.some(
-        subscription =>
-          subscription.active &&
-          (showAuthorFilter ||
-            subscription.object?.__typename !== 'User' ||
-            subscription.filters.includes('Document'))
-      )) ||
-    // or if a discussion is being followed
-    (data && getSelectedDiscussionPreference(data) !== 'NONE')
-
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -54,21 +56,24 @@ const SubscribeMenu = ({
     authorSubscriptions
   } = useMemo(
     () => ({
-      isSubscribedToAny: checkIfSubscribedToAny({ data, subscriptions }),
+      isSubscribedToAny: checkIfSubscribedToAny({
+        data,
+        subscriptions,
+        showAuthorFilter
+      }),
       formatSubscriptions:
         subscriptions &&
         subscriptions.filter(node => node.object?.__typename === 'Document'),
       authorSubscriptions:
         subscriptions &&
-        subscriptions.filter(
-          node =>
-            node.object?.__typename === 'User' && node.object?.id !== me?.id
-        )
+        subscriptions.filter(node => node.object?.__typename === 'User')
     }),
     [data, subscriptions]
   )
 
+  // ensure icon is only shown if there is something to subscribe to
   if (
+    !loading &&
     !formatSubscriptions?.length &&
     !authorSubscriptions?.length &&
     !discussionId
@@ -82,6 +87,7 @@ const SubscribeMenu = ({
       label={label}
       labelShort={labelShort}
       ref={ref}
+      disabled={loading}
       {...props}
     />
   ))
@@ -91,6 +97,7 @@ const SubscribeMenu = ({
       padded={padded}
       Element={Icon}
       initiallyOpen={router.query && !!router.query.mute}
+      attributes={attributes}
     >
       <SubscribeCallout
         showAuthorFilter={showAuthorFilter}

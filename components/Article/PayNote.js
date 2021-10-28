@@ -18,7 +18,6 @@ import { useRouter } from 'next/router'
 import compose from 'lodash/flowRight'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { gql } from '@apollo/client'
 import withMe from '../../lib/apollo/withMe'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 
@@ -61,30 +60,6 @@ const styles = {
   })
 }
 
-const memberShipQuery = gql`
-  query payNoteStats {
-    crowdfunding(name: "MARCH20") {
-      goals {
-        people
-        memberships
-        money
-      }
-    }
-    revenueStats {
-      surplus(min: "2019-11-30T23:00:00Z") {
-        total
-      }
-    }
-    membershipStats {
-      count
-      marchCount: countRange(
-        min: "2020-02-29T23:00:00Z"
-        max: "2020-03-31T23:00:00Z"
-      )
-    }
-  }
-`
-
 export const TRY_TO_BUY_RATIO = 0.5
 
 const TRY_VARIATIONS = ['tryNote/211027-v1']
@@ -92,12 +67,6 @@ const BUY_VARIATIONS = ['payNote/200313-v1']
 const IOS_VARIATIONS = ['payNote/ios']
 
 const DEFAULT_BUTTON_TARGET = '/angebote?package=ABO'
-
-export const MAX_PAYNOTE_SEED = Math.max(
-  TRY_VARIATIONS.length,
-  BUY_VARIATIONS.length,
-  2 // broken with just 1
-)
 
 const generatePositionedNote = (variation, target, cta, position) => {
   return {
@@ -241,7 +210,7 @@ const getPayNote = (
     .filter(meetTarget(subject))
 
   if (customOnly || targetedCustomPaynotes.length)
-    return getElementFromSeed(targetedCustomPaynotes, seed, MAX_PAYNOTE_SEED)
+    return getElementFromSeed(targetedCustomPaynotes, seed)
 
   const targetedPredefinedNotes = predefinedNotes.filter(
     meetTarget({
@@ -256,23 +225,10 @@ const getPayNote = (
   if (hasTryAndBuyCtas(targetedPredefinedNotes)) {
     const desiredCta = tryOrBuy < TRY_TO_BUY_RATIO ? 'trialForm' : 'button'
     const abPredefinedNotes = targetedPredefinedNotes.filter(hasCta(desiredCta))
-    return getElementFromSeed(abPredefinedNotes, seed, MAX_PAYNOTE_SEED)
+    return getElementFromSeed(abPredefinedNotes, seed)
   }
 
-  return getElementFromSeed(targetedPredefinedNotes, seed, MAX_PAYNOTE_SEED)
-}
-
-const withCounts = (text, replacements) => {
-  let message = text
-  if (replacements) {
-    Object.keys(replacements).forEach(replacementKey => {
-      message = message.replace(
-        `{${replacementKey}}`,
-        replacements[replacementKey]
-      )
-    })
-  }
-  return message
+  return getElementFromSeed(targetedPredefinedNotes, seed)
 }
 
 const BuyButton = ({ payNote, payload }) => {

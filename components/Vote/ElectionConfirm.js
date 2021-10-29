@@ -7,7 +7,8 @@ import {
   FigureImage,
   Figure,
   useHeaderHeight,
-  Label
+  Label,
+  fontStyles
 } from '@project-r/styleguide'
 import { Chart } from '@project-r/styleguide/chart'
 import compose from 'lodash/flowRight'
@@ -46,6 +47,11 @@ const styles = {
   }),
   chart: css({
     marginBottom: 20
+  }),
+  mapLegend: css({
+    ...fontStyles.sansSerifRegular12,
+    fontFeatureSettings: '"tnum" 1, "kern" 1',
+    padding: '3px 0 6px'
   })
 }
 
@@ -74,6 +80,11 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
       value: String(point.count)
     }))
 
+  // TODO: this bit was very much tailored to the 2021 election
+  const showBelgium = candidates.some(
+    c => c.postalCodeGeo?.countryCode !== 'CH'
+  )
+
   return (
     <div {...styles.chart}>
       <Chart
@@ -94,7 +105,11 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
         }}
         values={values}
       />
-      <Label>Und noch eine Kandidatin aus Belgien.</Label>
+      {showBelgium && (
+        <div {...styles.mapLegend}>
+          Nicht angezeigt: eine Kandidatin im Belgien.
+        </div>
+      )}
     </div>
   )
 })

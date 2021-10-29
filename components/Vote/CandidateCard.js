@@ -116,7 +116,6 @@ const CandidateCard = compose(
         <div {...styles.biography}>
           {d.biographyContent && renderCommentMdast(d.biographyContent)}
         </div>
-        {role && <div {...styles.roleDesktop}>{role}</div>}
         <div>
           {discussionPath && candidate.comment && candidate.comment.id && (
             <div>
@@ -135,6 +134,7 @@ const CandidateCard = compose(
             </div>
           )}
         </div>
+        {role && <div {...styles.roleDesktop}>{role}</div>}
         {d.disclosures && (
           <div {...styles.moreInfo}>
             <Strong>{t('profile/disclosures/label')}:</Strong> {d.disclosures}

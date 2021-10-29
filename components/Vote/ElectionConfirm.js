@@ -94,6 +94,7 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
         }}
         values={values}
       />
+      <Label>Und noch eine Kandidatin aus Belgien.</Label>
     </div>
   )
 })

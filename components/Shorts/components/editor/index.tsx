@@ -51,10 +51,10 @@ const Editor: React.FC<{
 
   const RenderedElement: React.FC<PropsWithChildren<{
     element: CustomElement
-  }>> = ({ element, ...props }) => {
-    const Component = elementsConfig[element.type].Component
+  }>> = props => {
+    const Component = elementsConfig[props.element.type].Component
     return (
-      <EditableElement element={element}>
+      <EditableElement element={props.element}>
         <Component {...props} />
       </EditableElement>
     )

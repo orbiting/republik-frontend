@@ -1,6 +1,7 @@
 import React from 'react'
 import Frame from '../components/Frame'
 import Page from '../components/Imprint/Page'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const ImprintPage = () => {
   const meta = {
@@ -14,4 +15,4 @@ const ImprintPage = () => {
   )
 }
 
-export default ImprintPage
+export default withDefaultSSR(ImprintPage)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import Box from '../components/Frame/Box'
@@ -11,9 +11,9 @@ import withMembership, {
   UnauthorizedPage
 } from '../components/Auth/withMembership'
 
-import { Interaction, A, Loader, RawHtml } from '@project-r/styleguide'
+import { Interaction, Loader, RawHtml } from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const FeuilletonPage = props => {
   const { t, me, router, isMember, inNativeIOSApp, serverContext } = props
@@ -45,7 +45,7 @@ const FeuilletonPage = props => {
   }
   if (serverContext) {
     serverContext.res.redirect(302, '/')
-    serverContext.res.end()
+    throw new Error('redirect')
   } else {
     router.replace('/')
   }
@@ -57,9 +57,6 @@ const FeuilletonPage = props => {
   )
 }
 
-export default compose(
-  withMembership,
-  withInNativeApp,
-  withRouter,
-  withT
-)(FeuilletonPage)
+export default withDefaultSSR(
+  compose(withMembership, withInNativeApp, withRouter, withT)(FeuilletonPage)
+)

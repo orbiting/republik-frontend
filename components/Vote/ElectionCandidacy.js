@@ -16,8 +16,9 @@ import {
 import withT from '../../lib/withT'
 import FieldSet from '../FieldSet'
 
-import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { gql } from '@apollo/client'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
 import { formatDate, swissTime } from '../../lib/utils/format'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
@@ -363,7 +364,6 @@ class ElectionCandidacy extends React.Component {
             twitterHandle,
             facebookId
           } = values
-          console.log(biographyContent)
           const parsedBirthday = birthdayParse(birthday)
 
           const candidacyPreview = me && {

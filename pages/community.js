@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import List, { generateSeed } from '../components/Testimonial/List'
 import Share from '../components/Testimonial/Share'
 import TV from '../components/Testimonial/TV'
 import Image from '../components/Testimonial/Image'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 class CommunityPage extends Component {
   static async getInitialProps(ctx) {
@@ -48,4 +49,4 @@ class CommunityPage extends Component {
   }
 }
 
-export default compose(withRouter)(CommunityPage)
+export default withDefaultSSR(compose(withRouter)(CommunityPage))

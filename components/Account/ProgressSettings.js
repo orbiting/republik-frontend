@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { css } from 'glamor'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'

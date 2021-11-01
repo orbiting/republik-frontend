@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 
 import { Loader } from '@project-r/styleguide'
 

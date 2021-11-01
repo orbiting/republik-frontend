@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { compose, withApollo } from 'react-apollo'
+import compose from 'lodash/flowRight'
+import { withApollo } from '@apollo/client/react/hoc'
 import debounce from 'lodash/debounce'
 
 import ProgressPrompt from './ProgressPrompt'
@@ -159,13 +160,12 @@ const Progress = ({
     if (e) {
       e.preventDefault()
     }
-    const { userProgress } = article
-    const { percentage, nodeId } = userProgress
+    const { percentage, nodeId } = article.userProgress
 
     const progressElements = getProgressElements()
     const progressElement =
       !!nodeId &&
-      progressElements.find((element, index) => {
+      progressElements.find(element => {
         if (element.getAttribute('data-pos') === nodeId) {
           return true
         }

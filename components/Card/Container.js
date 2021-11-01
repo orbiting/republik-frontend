@@ -6,7 +6,7 @@ import { mediaQueries, useMediaQuery } from '@project-r/styleguide'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
-import Footer from '../Footer'
+import Footer from './Footer'
 
 export const BACKGROUND_COLOR = '#DEEFF5'
 

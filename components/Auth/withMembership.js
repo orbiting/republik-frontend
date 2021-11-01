@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -40,34 +40,12 @@ export const UnauthorizedMessage = compose(
                 <Interaction.P style={{ marginBottom: 20 }}>
                   {t('withMembership/ios/unauthorized/noMembership')}
                 </Interaction.P>
-                <Interaction.P style={{ marginBottom: 20 }}>
-                  {t.elements('withMembership/ios/unauthorized/claimText', {
-                    claimLink: (
-                      <Link href='/abholen' key='claim' passHref>
-                        <Editorial.A>
-                          {t('withMembership/ios/unauthorized/claimLink')}
-                        </Editorial.A>
-                      </Link>
-                    )
-                  })}
-                </Interaction.P>
               </Fragment>
             }
             beforeSignInForm={
               <Fragment>
                 <Interaction.P style={{ marginBottom: 20 }}>
                   {t('withMembership/ios/unauthorized/signIn')}
-                </Interaction.P>
-                <Interaction.P>
-                  {t.elements('withMembership/ios/unauthorized/claimText', {
-                    claimLink: (
-                      <Link href='/abholen' key='claim' passHref>
-                        <Editorial.A>
-                          {t('withMembership/ios/unauthorized/claimLink')}
-                        </Editorial.A>
-                      </Link>
-                    )
-                  })}
                 </Interaction.P>
               </Fragment>
             }

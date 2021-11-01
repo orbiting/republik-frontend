@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import {
   Container,
   RawHtml,
@@ -25,6 +25,7 @@ import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { useInNativeApp } from '../../lib/withInNativeApp'
 import LegacyAppNoticeBox from './LegacyAppNoticeBox'
+import { useMe } from '../../lib/context/MeContext'
 
 css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })
@@ -86,7 +87,6 @@ export const Content = ({ children, style }) => (
 
 const Frame = ({
   t,
-  me,
   children,
   raw,
   meta,
@@ -103,6 +103,7 @@ const Frame = ({
   pageColorSchemeKey
 }) => {
   const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
+  const { me } = useMe()
 
   const hasOverviewNav = isMember && wantOverviewNav
   const hasSecondaryNav = !!(secondaryNav || hasOverviewNav)
@@ -178,4 +179,4 @@ const Frame = ({
   )
 }
 
-export default compose(withMe, withMembership, withT)(Frame)
+export default compose(withMembership, withT)(Frame)

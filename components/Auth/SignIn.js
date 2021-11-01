@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, compose, withApollo } from 'react-apollo'
-import gql from 'graphql-tag'
-import isEmail from 'validator/lib/isEmail'
+import compose from 'lodash/flowRight'
+import { graphql, withApollo } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -98,7 +99,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const { t, label, beforeForm } = this.props
+    const { t, label, beforeForm, inNativeIOSApp } = this.props
     const {
       phrase,
       tokenType,
@@ -176,10 +177,14 @@ class SignIn extends Component {
               <Editorial.A>{t('signIn/privacy')}</Editorial.A>
             </Link>
             {' – '}
-            <Link href='/faq' passHref>
-              <Editorial.A>{t('signIn/faq')}</Editorial.A>
-            </Link>
-            {' – '}
+            {!inNativeIOSApp && (
+              <>
+                <Link href='/faq' passHref>
+                  <Editorial.A>{t('signIn/faq')}</Editorial.A>
+                </Link>
+                {' – '}
+              </>
+            )}
             {t('signIn/hint')}
           </>
         }
@@ -224,4 +229,4 @@ export const withSignIn = graphql(signInMutation, {
   })
 })
 
-export default compose(withApollo, withSignIn, withT)(SignIn)
+export default compose(withApollo, withSignIn, withT, withInNativeApp)(SignIn)

@@ -3,13 +3,15 @@ import { AudioContext } from './AudioProvider'
 import { AudioPlayer } from '@project-r/styleguide'
 import ProgressComponent from '../../components/Article/Progress'
 import withT from '../../lib/withT'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { AUDIO_PLAYER_HEIGHT } from '../constants'
 import Link from '../Link/Href'
 
 import BottomPanel from '../Frame/BottomPanel'
+import { useMe } from '../../lib/context/MeContext'
 
 const AudioPlayerFrontend = ({ t }) => {
+  const { meLoading } = useMe()
   return (
     <AudioContext.Consumer>
       {({
@@ -20,7 +22,7 @@ const AudioPlayerFrontend = ({ t }) => {
       }) => {
         return (
           <>
-            {audioState && (
+            {!meLoading && audioState && (
               <BottomPanel wide visible={audioPlayerVisible}>
                 <ProgressComponent isArticle={false}>
                   <AudioPlayer

@@ -1,4 +1,4 @@
-import { graphql } from 'react-apollo'
+import { graphql } from '@apollo/client/react/hoc'
 import { DISCUSSION_POLL_INTERVAL_MS } from '../../../../lib/constants'
 
 import { discussionCommentsCountQuery } from '../documents'

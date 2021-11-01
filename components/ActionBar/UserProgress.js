@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 
 import withT from '../../lib/withT'
 import datetime from '../Article/Progress/datetime'

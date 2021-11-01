@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo, Fragment } from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { css } from 'glamor'
 import {
   fontStyles,
@@ -184,30 +184,32 @@ const UserNav = ({
                         </NavLink>
                       )}
                       {!inNativeIOSApp && (
-                        <NavLink
-                          href={{
-                            pathname: '/angebote',
-                            query: { group: 'GIVE' }
-                          }}
-                          active={active}
-                          closeHandler={closeHandler}
-                          large
-                        >
-                          {t('nav/give')}
-                        </NavLink>
+                        <>
+                          <NavLink
+                            href={{
+                              pathname: '/angebote',
+                              query: { group: 'GIVE' }
+                            }}
+                            active={active}
+                            closeHandler={closeHandler}
+                            large
+                          >
+                            {t('nav/give')}
+                          </NavLink>
+                          <NavLink
+                            {...fontStyles.sansSerifLight16}
+                            href={{
+                              pathname: '/angebote',
+                              query: { package: 'DONATE' }
+                            }}
+                            active={active}
+                            closeHandler={closeHandler}
+                            large
+                          >
+                            {t('nav/donate')}
+                          </NavLink>
+                        </>
                       )}
-                      <NavLink
-                        {...fontStyles.sansSerifLight16}
-                        href={{
-                          pathname: '/angebote',
-                          query: { package: 'DONATE' }
-                        }}
-                        active={active}
-                        closeHandler={closeHandler}
-                        large
-                      >
-                        {t('nav/donate')}
-                      </NavLink>
                     </div>
                   </div>
                   <div {...styles.navSection}>

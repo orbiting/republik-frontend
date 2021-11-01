@@ -3,9 +3,10 @@ import { css } from 'glamor'
 import { ascending } from 'd3-array'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
-import { compose, graphql } from 'react-apollo'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
 import { useRouter } from 'next/router'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import {
   Editorial,

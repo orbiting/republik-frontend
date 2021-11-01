@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 

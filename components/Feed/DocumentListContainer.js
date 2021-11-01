@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 import Loader from '../Loader'
 import DocumentList from './DocumentList'
 import noop from 'lodash/noop'

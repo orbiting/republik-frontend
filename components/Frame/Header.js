@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 import {
   Logo,
@@ -194,6 +194,9 @@ const Header = ({
       }
     })
   }, [isOnMarketingPage, colorScheme, formatColor])
+
+  const showToggle = me || inNativeApp || router.pathname === '/angebote'
+
   return (
     <>
       <div
@@ -268,7 +271,19 @@ const Header = ({
           ) : null}
           <div {...styles.navBarItem}>
             <div {...styles.rightBarItem}>
-              {me || inNativeApp || router.pathname === '/angebote' ? (
+              {!showToggle && (
+                <div data-show-if-me='true'>
+                  <Toggle
+                    expanded={isAnyNavExpanded}
+                    title={t(
+                      `header/nav/${
+                        expandedNav === 'main' ? 'close' : 'open'
+                      }/aria`
+                    )}
+                  />
+                </div>
+              )}
+              {showToggle ? (
                 <Toggle
                   expanded={isAnyNavExpanded}
                   title={t(
@@ -284,6 +299,7 @@ const Header = ({
               ) : (
                 <Link href='/angebote' passHref>
                   <a
+                    data-hide-if-me='true'
                     {...styles.button}
                     {...(isOnMarketingPage
                       ? styles.buttonMarketing

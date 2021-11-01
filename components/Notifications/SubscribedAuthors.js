@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react'
-import { compose, graphql } from 'react-apollo'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
 import { myUserSubscriptions } from './enhancers'
 import {
+  Editorial,
   plainButtonRule,
   A,
   Interaction,
@@ -38,13 +40,6 @@ const styles = {
     marginBottom: 10,
     [mediaQueries.mUp]: {
       marginBottom: 0
-    }
-  }),
-  userLink: css({
-    color: 'inherit',
-    textDecoration: 'underline',
-    '&:visited': {
-      color: 'inherit'
     }
   }),
   checkbox: css({
@@ -147,8 +142,8 @@ const SubscribedAuthors = ({
                   key={author.object.id}
                 >
                   <div {...styles.author}>
-                    <Link href={`/~${author.userDetails.slug}`}>
-                      <A {...styles.userLink}>{author.object.name}</A>
+                    <Link href={`/~${author.userDetails.slug}`} passHref>
+                      <Editorial.A>{author.object.name}</Editorial.A>
                     </Link>
                   </div>
                   <div {...styles.checkbox}>

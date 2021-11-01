@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { onDocumentFragment } from '../../Bookmarks/fragments'
 import { userProgressFragment } from '../Progress/api'
 import { notificationInfo, subInfo } from '../../Notifications/enhancers'
@@ -9,6 +9,7 @@ export const getDocument = gql`
       id
       repoId
       content
+      issuedForUserId
       subscribedBy(includeParents: true, onlyMe: true) {
         nodes {
           ...subInfo
@@ -49,6 +50,8 @@ export const getDocument = gql`
         twitterTitle
         twitterImage
         twitterDescription
+        seoTitle
+        seoDescription
         shareText
         shareFontSize
         shareInverted
@@ -70,6 +73,9 @@ export const getDocument = gql`
           }
         }
         color
+        authors {
+          id
+        }
         format {
           id
           meta {

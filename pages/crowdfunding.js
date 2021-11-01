@@ -29,6 +29,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 import Link from 'next/link'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const styles = {
   mediaDiversity: css({
@@ -412,4 +413,4 @@ Die Republik kann nicht ein Projekt von wenigen sein. Ein neues Fundament für u
   )
 }
 
-export default withRouter(withT(withInNativeApp(Page)))
+export default withDefaultSSR(withRouter(withT(withInNativeApp(Page))))

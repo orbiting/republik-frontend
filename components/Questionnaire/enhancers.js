@@ -1,5 +1,5 @@
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { gql } from '@apollo/client'
+import { graphql } from '@apollo/client/react/hoc'
 
 const submitAnswerMutation = gql`
   mutation submitAnswer($answerId: ID!, $questionId: ID!, $payload: JSON) {

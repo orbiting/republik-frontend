@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import {
   mediaQueries,
@@ -6,16 +6,21 @@ import {
   plainButtonRule,
   useColorContext
 } from '@project-r/styleguide'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
+  HEADER_HORIZONTAL_PADDING
+} from '../constants'
 import { AccountBoxIcon } from '@project-r/styleguide/icons'
 import withT from '../../lib/withT'
+import { ME_PORTRAIT_STORAGE_KEY } from '../../lib/context/MeContext'
 
 const BUTTON_SIZE = 32
 const BUTTON_SIZE_MOBILE = 26
 const BUTTON_PADDING = (HEADER_HEIGHT - BUTTON_SIZE) / 2
 const BUTTON_PADDING_MOBILE = (HEADER_HEIGHT_MOBILE - BUTTON_SIZE_MOBILE) / 2
 
-const getInitials = me =>
+export const getInitials = me =>
   (me.name && me.name.trim()
     ? me.name.split(' ').filter((n, i, all) => i === 0 || all.length - 1 === i)
     : me.email
@@ -36,9 +41,45 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
         {...styles.button}
         {...colorScheme.set('color', 'text')}
         style={{
-          paddingLeft: backButton ? BUTTON_PADDING_MOBILE / 2 : 16
+          paddingLeft: backButton
+            ? BUTTON_PADDING_MOBILE / 2
+            : HEADER_HORIZONTAL_PADDING
         }}
       >
+        {!me && (
+          <>
+            <div data-show-if-me='true' {...styles.stack}>
+              <span
+                suppressHydrationWarning
+                data-temporary-initials=''
+                {...styles.portrait}
+                {...styles.temporaryInitals}
+                {...colorScheme.set('backgroundColor', 'hover')}
+                {...colorScheme.set('color', 'text')}
+              />
+              <img
+                suppressHydrationWarning
+                data-temporary-portrait=''
+                {...styles.portrait}
+                {...styles.temporaryPortrait}
+              />
+            </div>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: [
+                  'try{',
+                  `var a=localStorage.getItem("${ME_PORTRAIT_STORAGE_KEY}");`,
+                  'if(a.indexOf("/")!==-1){',
+                  'document.querySelector("[data-temporary-portrait]").setAttribute("src",a)',
+                  '}else if(a){',
+                  'document.querySelector("[data-temporary-initials]").setAttribute("data-initials",a);',
+                  '}',
+                  '}catch(e){}'
+                ].join('')
+              }}
+            />
+          </>
+        )}
         {me &&
           (me.portrait ? (
             <img src={me.portrait} {...styles.portrait} />
@@ -52,7 +93,7 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             </span>
           ))}
         {!me && (
-          <Fragment>
+          <div data-hide-if-me='true'>
             <span {...styles.anonymous}>
               <AccountBoxIcon {...colorScheme.set('fill', 'text')} />
             </span>
@@ -63,7 +104,7 @@ const User = ({ t, me, title, backButton, onClick, isOnMarketingPage }) => {
             >
               {t('header/signin')}
             </span>
-          </Fragment>
+          </div>
         )}
       </span>
     </button>
@@ -108,6 +149,18 @@ const styles = {
       width: `${BUTTON_SIZE}px`
     }
   }),
+  temporaryInitals: css({
+    ':before': {
+      // textContent is replaced by React while meLoading, we use a before element to work around that
+      content: 'attr(data-initials)'
+    }
+  }),
+  temporaryPortrait: css({
+    display: 'none',
+    '&[src]': {
+      display: 'inline-block'
+    }
+  }),
   anonymous: css({
     display: 'inline-block',
     '& svg': {
@@ -130,6 +183,18 @@ const styles = {
     marginLeft: 5,
     [mediaQueries.mUp]: {
       display: 'inline-block'
+    }
+  }),
+  stack: css({
+    position: 'relative',
+    height: `${BUTTON_SIZE_MOBILE}px`,
+    width: `${BUTTON_SIZE_MOBILE}px`,
+    [mediaQueries.mUp]: {
+      height: `${BUTTON_SIZE}px`,
+      width: `${BUTTON_SIZE}px`
+    },
+    '& > *': {
+      position: 'absolute'
     }
   })
 }

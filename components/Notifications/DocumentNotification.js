@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { TeaserFeed } from '@project-r/styleguide'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import withT from '../../lib/withT'
 import SubscribeCallout from './SubscribeCallout'
 

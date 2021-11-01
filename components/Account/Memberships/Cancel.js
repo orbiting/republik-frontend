@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react'
 import { css } from 'glamor'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import AutosizeInput from 'react-textarea-autosize'
 
 import { timeFormat } from '../../../lib/utils/format'

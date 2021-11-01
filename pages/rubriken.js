@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import Frame from '../components/Frame'
 import Index from '../components/Sections/Index'
 import withT from '../lib/withT'
@@ -7,6 +7,7 @@ import withT from '../lib/withT'
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 import { Center } from '@project-r/styleguide'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const FormatsPage = ({ t }) => {
   const meta = {
@@ -23,4 +24,4 @@ const FormatsPage = ({ t }) => {
   )
 }
 
-export default compose(withT)(FormatsPage)
+export default withDefaultSSR(compose(withT)(FormatsPage))

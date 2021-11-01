@@ -1,5 +1,5 @@
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 
 const getActiveDiscussions = gql`
   query getActiveDiscussions($lastDays: Int!, $first: Int) {

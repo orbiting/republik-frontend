@@ -10,6 +10,7 @@ import PledgeForm from '../components/Pledge/Form'
 import PledgeReceivePayment from '../components/Pledge/ReceivePayment'
 
 import { PSP_PLEDGE_ID_QUERY_KEYS } from '../components/Payment/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 class PledgePage extends Component {
   render() {
@@ -27,7 +28,7 @@ class PledgePage extends Component {
             query.hash ? `#${query.hash}` : ''
           }`
         )
-        serverContext.res.end()
+        throw new Error('redirect')
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
         router.replace({ pathname: '/cockpit', query: { token: query.token } })
@@ -41,7 +42,7 @@ class PledgePage extends Component {
             query.hash ? `#${query.hash}` : ''
           }`
         )
-        serverContext.res.end()
+        throw new Error('redirect')
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
         router.replace({
@@ -58,7 +59,7 @@ class PledgePage extends Component {
             query.hash ? `#${query.hash}` : ''
           }`
         )
-        serverContext.res.end()
+        throw new Error('redirect')
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
         router.replace({ pathname: '/konto', query: { token: query.token } })
@@ -83,4 +84,4 @@ class PledgePage extends Component {
   }
 }
 
-export default withRouter(PledgePage)
+export default withDefaultSSR(withRouter(PledgePage))

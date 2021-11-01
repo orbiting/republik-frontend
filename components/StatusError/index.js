@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
@@ -62,8 +63,7 @@ export default compose(
         statusCode,
         router,
         inNativeApp,
-        inNativeIOSApp,
-        me
+        inNativeIOSApp
       }
     }) => {
       const redirection = !data.error && !data.loading && data.redirection
@@ -82,7 +82,7 @@ export default compose(
         if (serverContext) {
           if (!inNativeApp || (!targetIsExternal && !restrictedIOSPath)) {
             serverContext.res.redirect(status || 302, target)
-            serverContext.res.end()
+            throw new Error('redirect')
           }
         } else if (process.browser) {
           // SSR does two two-passes: data (with serverContext) & render (without)

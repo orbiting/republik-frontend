@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 import withT from '../lib/withT'
 
@@ -22,6 +22,7 @@ import {
 } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const { P, A, Emphasis, Cursive, StrikeThrough } = Editorial
 
@@ -42,10 +43,7 @@ const styles = {
   })
 }
 
-export default compose(
-  withT,
-  withRouter
-)(({ router, t }) => {
+const Page = ({ router, t }) => {
   const meta = {
     pageTitle: t('markdown/pageTitle'),
     title: t('markdown/title'),
@@ -190,4 +188,6 @@ export default compose(
       </table>
     </Frame>
   )
-})
+}
+
+export default withDefaultSSR(compose(withT, withRouter)(Page))

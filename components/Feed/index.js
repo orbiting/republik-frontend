@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -13,7 +13,6 @@ import {
   Center,
   Interaction,
   IconButton,
-  A,
   useColorContext
 } from '@project-r/styleguide'
 import DocumentList from './DocumentList'

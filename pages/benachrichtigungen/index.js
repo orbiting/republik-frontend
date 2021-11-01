@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import Frame from '../../components/Frame'
 import Notifications from '../../components/Notifications'
 import withT from '../../lib/withT'
@@ -8,6 +8,7 @@ import SignIn from '../../components/Auth/SignIn'
 import { Interaction } from '@project-r/styleguide'
 
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const NotificationsPage = ({ t, me }) => {
   const meta = {
@@ -30,4 +31,4 @@ const NotificationsPage = ({ t, me }) => {
   )
 }
 
-export default compose(withMe, withT)(NotificationsPage)
+export default withDefaultSSR(compose(withMe, withT)(NotificationsPage))

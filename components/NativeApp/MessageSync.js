@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { graphql, compose, withApollo } from 'react-apollo'
-import gql from 'graphql-tag'
+import { gql, useApolloClient, useMutation } from '@apollo/client'
 import { parse } from 'url'
 import { useRouter } from 'next/router'
 
 import { useInNativeApp, postMessage } from '../../lib/withInNativeApp'
-import withMe from '../../lib/apollo/withMe'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import AppSignInOverlay from './AppSignInOverlay'
 import { useMediaProgress } from '../Audio/MediaProgress'
 import { usePersistedOSColorSchemeKey } from '../ColorScheme/lib'
+import { useMe } from '../../lib/context/MeContext'
 
-const upsertDeviceQuery = gql`
+let routeChangeStarted
+
+const upsertDeviceMutation = gql`
   mutation UpsertDevice($token: ID!, $information: DeviceInformationInput!) {
     upsertDevice(token: $token, information: $information) {
       id
@@ -31,10 +32,14 @@ const pendingAppSignInQuery = gql`
   }
 `
 
-const MessageSync = ({ upsertDevice, me, client }) => {
+const NewAppMessageSync = () => {
   const [signInQuery, setSignInQuery] = useState()
   const router = useRouter()
   const setOSColorScheme = usePersistedOSColorSchemeKey()[1]
+
+  const client = useApolloClient()
+  const { me } = useMe()
+  const [upsertDevice] = useMutation(upsertDeviceMutation)
 
   useEffect(() => {
     const handleRouteChange = url => {
@@ -117,15 +122,30 @@ const MessageSync = ({ upsertDevice, me, client }) => {
         if (content.value) {
           setOSColorScheme(content.value)
         }
+      } else if (content.type === 'back') {
+        routeChangeStarted = false
+        window.history.back()
+        setTimeout(() => {
+          if (!routeChangeStarted) {
+            router.replace('/')
+          }
+        }, 200)
       }
       postMessage({
         type: 'ackMessage',
         id: id
       })
     }
+
+    const setRouteChangeStarted = () => {
+      routeChangeStarted = true
+    }
+
     document.addEventListener('message', onMessage)
+    router.events.on('routeChangeStart', setRouteChangeStarted)
     return () => {
       document.removeEventListener('message', onMessage)
+      router.events.off('routeChangeStart', setRouteChangeStarted)
     }
   }, [me])
 
@@ -141,19 +161,38 @@ const MessageSync = ({ upsertDevice, me, client }) => {
   return null
 }
 
-export default compose(
-  WrappedComponent => {
-    const InNewAppOnly = props => {
-      const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
-      if (inNativeApp && !inNativeAppLegacy) {
-        return <WrappedComponent {...props} />
-      }
-      return null
-    }
+const SyncMe = () => {
+  const { inNativeAppLegacy } = useInNativeApp()
+  const { me, meLoading } = useMe()
 
-    return InNewAppOnly
-  },
-  withMe,
-  graphql(upsertDeviceQuery, { name: 'upsertDevice' }),
-  withApollo
-)(MessageSync)
+  useEffect(() => {
+    if (meLoading) {
+      return
+    }
+    // Post current user data to native app
+    if (inNativeAppLegacy) {
+      postMessage({ type: 'initial-state', payload: { me } })
+    } else {
+      postMessage({ type: 'isSignedIn', payload: !!me })
+    }
+  }, [me, meLoading, inNativeAppLegacy])
+
+  return null
+}
+
+const MessageSync = () => {
+  const { inNativeApp, inNativeAppLegacy } = useInNativeApp()
+
+  if (!inNativeApp) {
+    return null
+  }
+
+  return (
+    <>
+      <SyncMe />
+      {!inNativeAppLegacy && <NewAppMessageSync />}
+    </>
+  )
+}
+
+export default MessageSync

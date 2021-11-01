@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { gql } from '@apollo/client'
 import { css } from 'glamor'
 import { format } from 'url'
 
@@ -34,6 +34,7 @@ import { withSignOut } from '../Auth/SignOut'
 import SwitchBoard from '../Auth/SwitchBoard'
 import Consents, { getConsentsError } from '../Pledge/Consents'
 import Link from 'next/link'
+import { graphql } from '@apollo/client/react/hoc'
 
 const { H1, H2, P } = Interaction
 

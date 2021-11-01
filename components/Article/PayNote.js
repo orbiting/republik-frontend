@@ -15,10 +15,10 @@ import { css } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEvent, trackEventOnClick } from '../../lib/matomo'
 import { useRouter } from 'next/router'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { t } from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import withMe from '../../lib/apollo/withMe'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 
@@ -508,6 +508,7 @@ export const PayNote = compose(
 
     return (
       <div
+        data-hide-if-active-membership='true'
         {...styles.banner}
         {...colorScheme.set('backgroundColor', isBefore ? 'hover' : 'alert')}
       >

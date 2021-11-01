@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUIDefault from 'photoswipe/dist/photoswipe-ui-default'
 import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
@@ -8,8 +8,7 @@ import { Spinner } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import photoswipeStyle from './photoswipeStyle'
 import { ZINDEX_GALLERY } from '../constants'
-
-const removeQuery = (url = '') => url.split('?')[0]
+import { removeQuery } from '../../lib/utils/link'
 
 const MAX_SPREAD_ZOOM = 2
 
@@ -60,12 +59,13 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
       )
 
       gallery.listen('gettingData', function(index, item) {
-        const sizeInfo = imageSizeInfo(item.src)
+        const src = item.srcDark || item.src
+        const sizeInfo = imageSizeInfo(src)
         const maxWidth = Math.min(
           sizeInfo.width,
           Math.ceil((window.innerWidth * MAX_SPREAD_ZOOM) / 500) * 500
         )
-        const resizeUrl = imageResizeUrl(item.src, `${maxWidth}x`)
+        const resizeUrl = imageResizeUrl(src, `${maxWidth}x`)
         const aspectRatio = sizeInfo.height / sizeInfo.width
         item.src = resizeUrl
         item.w = maxWidth

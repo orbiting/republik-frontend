@@ -1,6 +1,7 @@
 import React, { Fragment, useMemo, useEffect, useState } from 'react'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import { css } from 'glamor'
 import {
   colors,
@@ -323,9 +324,14 @@ export default compose(
         only: props.extractId
       }
     }),
-    props: ({ data, ownProps: { serverContext } }) => {
+    props: ({ data, ownProps: { serverContext, isPreview } }) => {
       if (serverContext && !data.loading && !data.front) {
-        serverContext.res.statusCode = 503
+        if (isPreview) {
+          serverContext.res.redirect(302, '/')
+          throw new Error('redirect')
+        } else {
+          serverContext.res.statusCode = 503
+        }
       }
 
       return {

@@ -12,8 +12,9 @@ import {
 } from '@project-r/styleguide'
 import { DiscussionIcon } from '@project-r/styleguide/icons'
 import { css } from 'glamor'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 
 import {
   ELECTION_COOP_MEMBERS_SLUG,

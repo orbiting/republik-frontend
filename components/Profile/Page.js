@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import { gql } from '@apollo/client'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
 
@@ -690,13 +691,13 @@ export default compose(
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {
-        slug: router.query.path[0].replace('~', ''),
+        slug: router.query.slug,
         firstDocuments: 10,
         firstComments: 10
       }
     }),
     props: ({ data, ownProps: { serverContext, router, me } }) => {
-      const slug = router.query.path[0].replace('~', '')
+      const { slug } = router.query
       let redirect
       if (slug === 'me') {
         redirect = me
@@ -711,7 +712,7 @@ export default compose(
         const targetSlug = redirect.username || redirect.id
         if (serverContext) {
           serverContext.res.redirect(301, `/~${targetSlug}`)
-          serverContext.res.end()
+          throw new Error('redirect')
         } else if (process.browser) {
           // SSR does two two-passes: data (with serverContext) & render (without)
           router.replace(`/~${targetSlug}`)

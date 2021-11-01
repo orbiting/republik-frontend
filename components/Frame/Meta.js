@@ -20,8 +20,13 @@ const Meta = ({ data, data: { url, image } }) => {
 
   return (
     <Head>
-      <title>{title}</title>
-      <meta name='description' content={data.description} />
+      <title>{data.seoTitle || data.twitterTitle || title}</title>
+      <meta
+        name='description'
+        content={
+          data.seoDescription || data.twitterDescription || data.description
+        }
+      />
 
       <meta property='og:type' content='website' />
       {url && <meta property='og:url' content={url} />}

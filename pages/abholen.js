@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { compose } from 'react-apollo'
+import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 import isEmail from 'validator/lib/isEmail'
 
@@ -10,6 +10,7 @@ import ClaimMembership, {
 } from '../components/Account/Memberships/Claim'
 import Frame from '../components/Frame'
 import withT from '../lib/withT'
+import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const ALLOWED_CONTEXT = ['claim', 'access']
 
@@ -43,4 +44,4 @@ const Claim = ({ router: { query }, t }) => {
   )
 }
 
-export default compose(withRouter, withT)(Claim)
+export default withDefaultSSR(compose(withRouter, withT)(Claim))

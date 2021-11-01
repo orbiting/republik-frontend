@@ -6,7 +6,6 @@ import { MdShowChart } from '@react-icons/all-files/md/MdShowChart'
 import { MdFormatQuote } from '@react-icons/all-files/md/MdFormatQuote'
 import { MdPlaylistAddCheck } from '@react-icons/all-files/md/MdPlaylistAddCheck'
 import { MdLink } from '@react-icons/all-files/md/MdLink'
-// @ts-ignore
 import { mediaQueries, fontStyles } from '@project-r/styleguide'
 import {
   CustomDescendant,

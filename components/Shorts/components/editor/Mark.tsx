@@ -1,6 +1,6 @@
 import React, { Attributes, ReactElement } from 'react'
 import { Editor } from 'slate'
-import { useSlate } from 'slate-react'
+import { ReactEditor, useSlate } from 'slate-react'
 import { config, configKeys } from '../marks'
 import { ToolbarButton } from './ui/Toolbar'
 import { Placeholder } from './ui/Placeholder'
@@ -40,6 +40,10 @@ export const LeafComponent: React.FC<{
   children: ReactElement
   leaf: CustomText
 }> = ({ attributes, children, leaf }) => {
+  const editor = useSlate()
+  const parentEl = children.props.parent
+  const path = ReactEditor.findPath(editor, parentEl)
+
   configKeys
     .filter(mKey => leaf[mKey])
     .forEach(mKey => {
@@ -49,7 +53,7 @@ export const LeafComponent: React.FC<{
   return (
     <span {...attributes} style={{ position: 'relative' }}>
       {!leaf.text && !leaf.bookend && (
-        <Placeholder leaf={leaf} element={children.props.parent} />
+        <Placeholder leaf={leaf} element={parentEl} />
       )}
       {children}
     </span>

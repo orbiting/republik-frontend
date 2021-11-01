@@ -1,7 +1,6 @@
-// @ts-ignore
 import { FigureImage } from '@project-r/styleguide'
 import {
-  DataFormType,
+  DataFormProps,
   dataRequiredType,
   ElementConfigI,
   FigureImageElement
@@ -22,12 +21,12 @@ const Component: React.FC<{
   )
 }
 
-const DataForm: DataFormType<FigureImageElement> = ({
+const DataForm: React.FC<DataFormProps<FigureImageElement>> = ({
   element,
   setElement
 }) => (
   <ImageInput
-    onChange={(_: any, src: string) => {
+    onChange={(_: unknown, src: string) => {
       setElement({
         ...element,
         src

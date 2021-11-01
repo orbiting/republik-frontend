@@ -33,7 +33,7 @@ export const Placeholder: React.FC<{
     <span
       {...styles.inInline}
       onClick={() => {
-        console.log(path)
+        // console.log(path)
         Transforms.select(editor, path)
       }}
       data-text={text}

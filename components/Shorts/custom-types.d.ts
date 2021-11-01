@@ -86,8 +86,8 @@ export type ChartLeadElement = SharedElement & {
 
 export type ChartElement = SharedElement & {
   type: 'chart'
-  values?: object[]
-  config?: object
+  values?: Record<string, unknown>[]
+  config?: Record<string, unknown>
 }
 
 export type ChartLegendElement = SharedElement & {
@@ -186,7 +186,7 @@ export type InsertFn = (editor: CustomEditor) => void
 export type NormalizeFn<E> = (entry: [E, Path], editor: CustomEditor) => void
 
 export interface NodeConfigI {
-  Component: any
+  Component: React.FC
   button?: ButtonI
 }
 
@@ -194,10 +194,10 @@ export type MarksConfig = {
   [K in CustomMarksType]: NodeConfigI
 }
 
-export type DataFormType<E> = React.FC<{
+export type DataFormProps<E> = {
   element: E
   setElement: (el: E) => void
-}>
+}
 
 export type dataRequiredType<E> = (keyof E)[]
 

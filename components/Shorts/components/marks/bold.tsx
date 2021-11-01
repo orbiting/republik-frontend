@@ -1,5 +1,4 @@
 import { NodeConfigI } from '../../custom-types'
-// @ts-ignore
 import { Editorial } from '@project-r/styleguide'
 import { MdFormatBold } from '@react-icons/all-files/md/MdFormatBold'
 

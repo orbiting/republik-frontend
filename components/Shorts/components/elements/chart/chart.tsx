@@ -1,8 +1,7 @@
-// @ts-ignore
 import { Chart } from '@project-r/styleguide/lib/chart'
 import {
   ChartElement,
-  DataFormType,
+  DataFormProps,
   dataRequiredType,
   ElementConfigI
 } from '../../../custom-types'
@@ -21,9 +20,10 @@ const Component: React.FC<{
   )
 }
 
-const DataForm: DataFormType<ChartElement> = ({ element, setElement }) => (
-  <div>TODO</div>
-)
+const DataForm: React.FC<DataFormProps<ChartElement>> = ({
+  element,
+  setElement
+}) => <div>TODO</div>
 
 const dataRequired: dataRequiredType<ChartElement> = ['values', 'config']
 

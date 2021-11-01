@@ -1,4 +1,3 @@
-// @ts-ignore
 import { FigureCaption } from '@project-r/styleguide'
 import { ElementConfigI } from '../../../custom-types'
 

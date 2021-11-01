@@ -5,10 +5,8 @@ import React, {
   useRef,
   useState
 } from 'react'
-// @ts-ignore
 import ReactDOM from 'react-dom'
 import { css } from 'glamor'
-// @ts-ignore
 import { useColorContext, Label } from '@project-r/styleguide'
 import IconButton from '../../Styleguide/IconButton'
 import { MarkButton } from '../Mark'
@@ -143,7 +141,6 @@ export const ToolbarButton: React.FC<{
   disabled?: boolean
 }> = ({ button, onClick, disabled }) => (
   <IconButton
-    // @ts-ignore
     fillColorName={disabled ? 'textSoft' : 'text'}
     onMouseDown={(event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()

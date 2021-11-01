@@ -1,14 +1,7 @@
-import React, {
-  ChangeEvent,
-  ForwardedRef,
-  ReactElement,
-  useEffect,
-  useState
-} from 'react'
+import React, { ChangeEvent, ReactElement, useEffect, useState } from 'react'
 import { Transforms, Element as SlateElement } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 import { css } from 'glamor'
-// @ts-ignore
 import { Field, useColorContext } from '@project-r/styleguide'
 import { hasAncestor } from '../../Styleguide/Callout'
 import { config as elementsConfig } from '../../elements'
@@ -36,15 +29,6 @@ const styles = {
   })
 }
 
-const ElementWrapper = React.forwardRef(
-  (props: any, ref: ForwardedRef<HTMLDivElement | HTMLSpanElement>) =>
-    props.isInline ? (
-      <span {...props} ref={ref} />
-    ) : (
-      <div {...props} ref={ref} />
-    )
-)
-
 export const EditableElement: React.FC<{
   element: CustomElement
   children: ReactElement
@@ -53,7 +37,6 @@ export const EditableElement: React.FC<{
   const editRef = React.useRef<HTMLDivElement | HTMLSpanElement>(null)
 
   const handleClick = (event: MouseEvent) => {
-    // @ts-ignore
     if (!hasAncestor(event.target, node => node === editRef.current)) {
       edit(false)
     }
@@ -71,19 +54,25 @@ export const EditableElement: React.FC<{
   if (!elementConfig || !elementConfig.attrs?.editUi) {
     return <>{children}</>
   }
-  return (
-    <ElementWrapper
-      contentEditable={!isEdit}
-      isInline={elementConfig.attrs?.isInline}
-      onDoubleClick={(event: MouseEvent) => {
-        event.preventDefault()
-        edit(true)
-      }}
-      ref={editRef}
-    >
+
+  const EditableContent = (
+    <>
       {children}
       {isEdit && <EditBox element={element} />}
-    </ElementWrapper>
+    </>
+  )
+
+  return React.createElement(
+    elementConfig.attrs?.isInline ? 'span' : 'div',
+    {
+      contentEditable: !isEdit,
+      onDoubleClick: (event: MouseEvent) => {
+        event.preventDefault()
+        edit(true)
+      },
+      ref: editRef
+    },
+    EditableContent
   )
 }
 

@@ -1,11 +1,6 @@
 import React, { useState } from 'react'
-// @ts-ignore
 import { Overlay, OverlayToolbar, OverlayBody } from '@project-r/styleguide'
-import {
-  CustomDescendant,
-  CustomElement,
-  CustomText
-} from './custom-types'
+import { CustomDescendant, CustomElement, CustomText } from './custom-types'
 import Select from './components/editor/ui/Select'
 import Populate from './components/editor/ui/Populate'
 import Editor from './components/editor'
@@ -17,7 +12,6 @@ const needsData = (value: (CustomElement | CustomText)[]): boolean => {
     node =>
       SlateElement.isElement(node) &&
       ((elConfig[node.type].dataRequired || []).some(
-        // @ts-ignore
         requiredKey => !node[requiredKey]
       ) ||
         needsData(node.children))

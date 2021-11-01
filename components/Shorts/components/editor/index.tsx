@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react'
-import { createEditor, Descendant } from 'slate'
+import React, { PropsWithChildren, useCallback, useMemo } from 'react'
+import { createEditor } from 'slate'
 import { withHistory } from 'slate-history'
 import { Slate, Editable, withReact } from 'slate-react'
 
@@ -13,13 +13,8 @@ import {
   withNormalizations,
   withTemplate
 } from './Element'
-import {
-  CustomDescendant,
-  CustomElement,
-  CustomElementsType
-} from '../../custom-types'
+import { CustomDescendant, CustomElement } from '../../custom-types'
 import Actions from './ui/Actions'
-// @ts-ignore
 import { Label, plainButtonRule } from '@project-r/styleguide'
 import { MdChevronLeft } from '@react-icons/all-files/md/MdChevronLeft'
 import { css } from 'glamor'
@@ -54,24 +49,20 @@ const Editor: React.FC<{
   )
   const containerRef = React.useRef<HTMLDivElement>(null)
 
-  const renderElement = useCallback(props => {
-    const Component =
-      elementsConfig[props.element.type as CustomElementsType].Component
+  const RenderedElement: React.FC<PropsWithChildren<{
+    element: CustomElement
+  }>> = ({ element, ...props }) => {
+    const Component = elementsConfig[element.type].Component
     return (
-      <EditableElement element={props.element}>
+      <EditableElement element={element}>
         <Component {...props} />
       </EditableElement>
     )
-  }, [])
+  }
+
+  const renderElement = useCallback(RenderedElement, [])
 
   const renderLeaf = useCallback(props => <LeafComponent {...props} />, [])
-
-  // @ts-ignore
-  const ActionsT = Actions as React.FC<{
-    value: Descendant[]
-    reset: () => void
-    localStorageId?: string
-  }>
 
   return (
     <div ref={containerRef}>
@@ -90,7 +81,7 @@ const Editor: React.FC<{
         <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
         <FixedToolbar />
       </Slate>
-      <ActionsT value={value} reset={reset} localStorageId={localStorageId} />
+      <Actions value={value} reset={reset} localStorageId={localStorageId} />
     </div>
   )
 }

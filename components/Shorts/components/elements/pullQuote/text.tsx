@@ -1,4 +1,3 @@
-// @ts-ignore
 import { PullQuoteText } from '@project-r/styleguide'
 import { ElementConfigI } from '../../../custom-types'
 

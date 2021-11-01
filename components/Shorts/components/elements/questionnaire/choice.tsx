@@ -6,7 +6,6 @@ import {
   mediaQueries,
   fontFamilies,
   colors
-  // @ts-ignore
 } from '@project-r/styleguide'
 import { MdCheckCircle } from '@react-icons/all-files/md/MdCheckCircle'
 

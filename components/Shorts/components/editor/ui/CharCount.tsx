@@ -3,7 +3,6 @@ import { Descendant, Node } from 'slate'
 import { useSlate } from 'slate-react'
 import { CustomEditor } from '../../../custom-types'
 import editorConfig from '../../../config'
-// @ts-ignore
 import { useColorContext } from '@project-r/styleguide'
 
 const MAX_SIGNS = editorConfig.maxSigns

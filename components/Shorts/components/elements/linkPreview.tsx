@@ -1,16 +1,14 @@
 import {
-  DataFormType,
+  DataFormProps,
   dataRequiredType,
   ElementConfigI,
   LinkPreviewElement
 } from '../../custom-types'
 import React, { Attributes, ReactElement } from 'react'
-// @ts-ignore
 import { Embed } from '@project-r/styleguide/lib/components/Discussion/Internal/Comment/Embed'
-// @ts-ignore
 import { Loader } from '@project-r/styleguide'
 import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { graphql } from '@apollo/client/react/hoc'
 import { PUBLIC_BASE_URL } from '../../../../lib/constants'
 
 export const getPreview = gql`
@@ -88,7 +86,7 @@ const Component: React.FC<{
   </div>
 )
 
-const DataForm: DataFormType<LinkPreviewElement> = ({
+const DataForm: React.FC<DataFormProps<LinkPreviewElement>> = ({
   element,
   setElement
 }) => <div>TODO</div>

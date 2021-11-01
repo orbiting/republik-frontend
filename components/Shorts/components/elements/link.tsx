@@ -7,7 +7,6 @@ import {
   LinkElement,
   NormalizeFn
 } from '../../custom-types'
-// @ts-ignore
 import { Editorial } from '@project-r/styleguide'
 
 const unlink = (editor: CustomEditor, linkPath: Path): void => {

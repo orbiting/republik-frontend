@@ -1,12 +1,10 @@
 import React, { useMemo } from 'react'
-// @ts-ignore
 import { css } from 'glamor'
 import {
   Interaction,
   A,
   useColorContext,
   plainButtonRule
-  // @ts-ignore
 } from '@project-r/styleguide'
 import { CustomElement, DraftI } from '../../../../custom-types'
 import { useShortDrafts } from '../../../../../../lib/shortDrafts'

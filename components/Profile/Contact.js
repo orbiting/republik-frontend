@@ -176,10 +176,10 @@ const Contact = ({
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
           <IconButton
             Icon={LanguageIcon}
-            style={{
-              marginRight: electionBallot && 0,
-              marginBottom: electionBallot && 0
-            }}
+            style={electionBallot ? {
+              marginRight: 0,
+              marginBottom: 0
+            } : undefined}
             href={user.publicUrl}
           />
         )}

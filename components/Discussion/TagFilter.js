@@ -77,10 +77,12 @@ const TagFilterLoader = withDiscussionComments(({ discussionComments }) => (
     render={() => {
       const tags = discussionComments?.discussion?.tags
       if (!tags?.length) return null
-      const tagBuckets = [...discussionComments?.discussion?.tagBuckets].sort(
-        (a, b) => tags.indexOf(a.value) - tags.indexOf(b.value)
-      )
-      return <TagFilter tags={tagBuckets} />
+      const tagBuckets = discussionComments?.discussion?.tagBuckets
+      const allBuckets = tags.map(tag => ({
+        value: tag,
+        count: tagBuckets.find(t => t.value === tag)?.count || 0
+      }))
+      return <TagFilter tags={allBuckets} />
     }}
   />
 ))

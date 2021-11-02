@@ -290,11 +290,11 @@
     },
     {
       "key": "vote/election/notSignedIn",
-      "value": "Um an dieser Abstimmung teilnehmen zu können, müssen Sie sich anmelden und eine Jahresmitgliedschaft haben, die vor dem {beginDate} begonnen hat."
+      "value": "Um an dieser Wahl teilnehmen zu können, müssen Sie sich anmelden und eine Jahresmitgliedschaft haben, die vor dem {beginDate} begonnen hat."
     },
     {
       "key": "vote/election/notEligible",
-      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können nur Personen teilnehmen, die vor dem Abstimmungsbeginn eine Jahresmitgliedschaft erworben haben."
+      "value": "Bitte entschuldigen Sie. An dieser Wahl können nur Personen teilnehmen, die vor dem Wahlsbeginn eine Jahresmitgliedschaft erworben haben."
     },
     {
       "key": "vote/election/ended",

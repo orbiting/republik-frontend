@@ -6,8 +6,7 @@ import {
   Interaction,
   mediaQueries,
   RawHtml,
-  useColorContext,
-  useHeaderHeight
+  useColorContext
 } from '@project-r/styleguide'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
@@ -97,22 +96,7 @@ const styles = {
     minHeight: 200
   }),
   header: css({
-    position: 'sticky',
-    padding: '13px 0',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    zIndex: 10,
-    [mediaQueries.onlyS]: {
-      flexDirection: 'column-reverse',
-      textAlign: 'center',
-      margin: '0 0px',
-      marginTop: 5,
-      '& strong': {
-        fontFamily: fontFamilies.sansSerifMedium,
-        fontWeight: 'normal'
-      }
-    }
+    padding: '13px 0'
   }),
   actions: css({
     display: 'flex',
@@ -147,14 +131,8 @@ const sortNames = (c1, c2) => {
 }
 
 export const ElectionHeader = ({ children }) => {
-  const [colorScheme] = useColorContext()
-  const [headerHeight] = useHeaderHeight()
   return (
-    <div
-      {...styles.header}
-      {...colorScheme.set('backgroundColor', 'default')}
-      style={{ top: headerHeight }}
-    >
+    <div {...styles.header}>
       <P>
         <strong>{children}</strong>
       </P>
@@ -318,11 +296,9 @@ const Election = compose(
                       </Interaction.P>
                     )}
                   </div>
-                  {!isDirty && (
-                    <div {...sharedStyles.hint}>
-                      {vt('vote/common/help/blank')}
-                    </div>
-                  )}
+                  <div {...sharedStyles.hint}>
+                    {vt('vote/common/help/blank')}
+                  </div>
                 </ElectionActions>
               )}
             </div>

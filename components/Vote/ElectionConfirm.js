@@ -124,8 +124,11 @@ const getPercentString = total => item => ({
   value: String(item.value / total)
 })
 
-const mapGender = gender =>
-  gender === 'weiblich' || gender === 'männlich' ? gender : 'divers'
+const GENDER = {
+  weiblich: '#9467bd',
+  divers: 'neutral',
+  ['männlich']: '#2ca02c'
+}
 
 const CandidatesGender = voteT(({ candidates, vt }) => {
   const candidatesWithGender = candidates.filter(
@@ -135,15 +138,12 @@ const CandidatesGender = voteT(({ candidates, vt }) => {
     .reduce(
       (acc, candidate) =>
         acc.map(item =>
-          item.key === mapGender(candidate.user.gender)
+          item.key ===
+          (GENDER[candidate.user.gender] ? candidate.user.gender : 'divers')
             ? { ...item, value: item.value + 1 }
             : item
         ),
-      [
-        { key: 'weiblich', value: 0 },
-        { key: 'nichtbinär', value: 0 },
-        { key: 'männlich', value: 0 }
-      ]
+      Object.keys(GENDER).map(key => ({ key, value: 0 }))
     )
     .map(getPercentString(candidatesWithGender.length))
 
@@ -155,14 +155,10 @@ const CandidatesGender = voteT(({ candidates, vt }) => {
           type: 'Bar',
           numberFormat: '.0%',
           color: 'key',
-          colorMap: {
-            weiblich: '#9467bd',
-            ['nichtbinär']: 'neutral',
-            ['männlich']: '#2ca02c'
-          },
+          colorMap: GENDER,
           colorSort: 'none',
           colorLegend: true,
-          colorLegendValues: ['weiblich', 'nichtbinär', 'männlich'],
+          colorLegendValues: Object.keys(GENDER),
           domain: [0, 1],
           sort: 'none',
           inlineValue: true

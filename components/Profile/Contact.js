@@ -151,7 +151,7 @@ const Contact = ({
     )
   }
 
-  const customStyle = electionBallot ? { marginRight: 16, marginBottom: 0 } : {}
+  const customStyle = electionBallot ? { marginRight: 16, marginBottom: 0 } : undefined
 
   return (
     <Fragment>

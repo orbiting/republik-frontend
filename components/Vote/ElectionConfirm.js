@@ -99,12 +99,12 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
           sizeRangeMax: 150,
           opacity: 0.5,
           colorLegend: false,
-          tooltipLabel: '{city} {postalCode}',
+          tooltipLabel: '{city}, {postalCode}',
           tooltipBody: 'Kandidatinnen: {count}'
         }}
         values={values}
       />
-      {outsideSwitzerland?.length && (
+      {!!outsideSwitzerland.length && (
         <div {...styles.mapLegend}>
           Nicht angezeigt: {outsideSwitzerland.length} Kandidaturen von
           ausserhalb der Schweiz:{' '}

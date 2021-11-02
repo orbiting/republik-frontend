@@ -101,7 +101,7 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
           opacity: 0.5,
           colorLegend: false,
           tooltipLabel: '{city} {postalCode}',
-          tooltipBody: 'Kandidatinnen: 1'
+          tooltipBody: 'Kandidatinnen: {count}'
         }}
         values={values}
       />

@@ -24,7 +24,9 @@ export const sharedStyles = {
     justifyContent: 'center'
   }),
   card: css({
-    padding: 10
+    padding: 10,
+    outlineWidth: 1,
+    outlineStyle: 'solid'
   })
 }
 
@@ -139,6 +141,7 @@ export const Card = ({ children, style }) => {
       {...sharedStyles.card}
       style={style}
       {...colorScheme.set('backgroundColor', 'alert')}
+      {...colorScheme.set('outlineColor', 'default')}
     >
       {children}
     </div>

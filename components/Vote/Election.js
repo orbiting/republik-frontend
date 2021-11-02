@@ -262,12 +262,9 @@ const Election = compose(
           <>
             {showHeader && (
               <ElectionHeader>
-                {remainingVotes
-                  ? vt('vote/election/votesRemaining', {
-                      count: remainingVotes,
-                      max: numSeats
-                    })
-                  : vt('vote/election/noVotesRemaining')}
+                {vt('vote/election/votesAvailable', {
+                  count: numSeats
+                })}
               </ElectionHeader>
             )}
             {message && <ElectionMessage message={message} />}
@@ -297,7 +294,14 @@ const Election = compose(
                     )}
                   </div>
                   <div {...sharedStyles.hint}>
-                    {vt('vote/common/help/blank')}
+                    {!remainingVotes
+                      ? vt('vote/election/noVotesRemaining')
+                      : remainingVotes === numSeats
+                      ? vt('vote/common/help/blank')
+                      : vt('vote/election/votesRemaining', {
+                          count: remainingVotes,
+                          max: numSeats
+                        })}
                   </div>
                 </ElectionActions>
               )}

@@ -121,8 +121,12 @@
       "value": "Ihre Wahl ist am {submissionDate} bei uns eingegangen. Danke für Ihre Teilnahme!"
     },
     {
+      "key": "vote/election/votesAvailable",
+      "value": "Sie haben {count} Stimmen zu verteilen"
+    },
+    {
       "key": "vote/election/votesRemaining",
-      "value": "Sie haben noch {count} von {max} Stimmen übrig"
+      "value": "{count} von {max} Stimmen sind leer"
     },
     {
       "key": "vote/election/noVotesRemaining",

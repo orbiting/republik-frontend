@@ -85,8 +85,8 @@ const CandidateCard = compose(
   const target = inNativeApp ? undefined : '_blank'
   const { user: d } = candidate
   const role =
-    candidate.credential ||
-    (d.credentials?.find(c => c.isListed) || {}).description
+    (candidate.credential ||
+    d.credentials?.find(c => c.isListed))?.description
 
   return (
     <div {...styles.detail} {...colorScheme.set('backgroundColor', 'alert')}>

@@ -290,11 +290,11 @@
     },
     {
       "key": "vote/election/notSignedIn",
-      "value": "Sie müssen sich anmelden, um an dieser Wahl teilzunehmen.\n(Und vor dem 12.&nbsp;November eine Jahresmitgliedschaft erworben haben.)"
+      "value": "Um an dieser Abstimmung teilnehmen zu können, müssen Sie sich anmelden und eine Jahresmitgliedschaft haben, die vor dem {beginDate} begonnen hat."
     },
     {
       "key": "vote/election/notEligible",
-      "value": "Bitte entschuldigen Sie. An dieser Wahl können leider nur Personen teilnehmen, die vor dem Wahlbeginn eine Jahresmitgliedschaft erworben haben. Die Resultate sehen Sie hier ab dem 1.&nbsp;Dezember."
+      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können nur Personen teilnehmen, die vor dem Abstimmungsbeginn eine Jahresmitgliedschaft erworben haben."
     },
     {
       "key": "vote/election/ended",

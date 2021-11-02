@@ -84,11 +84,10 @@ const ElectionBallotRow = props => {
   const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
   const { user: d } = candidate
-  const summary = `${
-    candidate.yearOfBirth ? `${candidate.yearOfBirth},` : ''
-  } ${d.gender ? `${d.gender},` : ''} ${
-    candidate.city ? `${candidate.city}` : ''
-  }`
+  const summary = [candidate.yearOfBirth, d.gender, candidate.city].filter(
+    Boolean
+  )
+  const showSummary = !!summary.length
 
   const isDisabled = maxVotes > 1 && !selected && disabled
 
@@ -107,8 +106,10 @@ const ElectionBallotRow = props => {
               {d.name}
               {candidate.isIncumbent ? ' (bisher)' : ''}
             </Strong>
-            <span {...styles.summaryDesktop}>,&nbsp;</span>
-            <div {...styles.summaryDetail}>{summary}</div>
+            {showSummary && <span {...styles.summaryDesktop}>,&nbsp;</span>}
+            {showSummary && (
+              <div {...styles.summaryDetail}>{summary.join(', ')}</div>
+            )}
           </div>
         </div>
         {showMeta && (

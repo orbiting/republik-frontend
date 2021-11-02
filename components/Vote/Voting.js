@@ -60,7 +60,7 @@ const styles = {
     textAlign: 'center'
   }),
   confirm: css({
-    margin: '30px 0 15px'
+    margin: '20px 0'
   }),
   content: css({
     padding: '0 15px'

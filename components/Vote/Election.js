@@ -234,17 +234,17 @@ const Election = compose(
     setConfirm(false)
   }
 
-  const hasEnded = Date.now() > new Date(election.endDate)
-
   let message
   if (election.userHasSubmitted) {
-    message = vt('vote/election/thankyou', {
+    message = vt('vote/voting/thankyou', {
       submissionDate: messageDateFormat(new Date(election.userSubmitDate))
     })
-  } else if (hasEnded) {
+  } else if (Date.now() > new Date(election.endDate)) {
     message = vt('vote/election/ended')
   } else if (!me) {
-    message = vt('vote/election/notSignedIn')
+    message = vt('vote/election/notSignedIn', {
+      beginDate: timeFormat('%d.%m.%Y')(new Date(election.beginDate))
+    })
   } else if (!election.userIsEligible) {
     message = vt('vote/election/notEligible')
   }

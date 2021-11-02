@@ -29,10 +29,10 @@ const styles = {
 const TagLink = ({ tag }) => {
   const {
     pathname,
-    query: { tag: queryTag, ...restQuery }
+    query: { tag: activeTag, ...restQuery }
   } = useRouter()
-  const isSelected = tag === queryTag
-  const isInactive = queryTag && !isSelected
+  const isSelected = tag === activeTag
+  const isInactive = activeTag && !isSelected
   const targetQuery = isSelected ? restQuery : { ...restQuery, tag }
   if (isSelected) {
     delete targetQuery.tag

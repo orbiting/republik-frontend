@@ -24,7 +24,6 @@ import {
   Interaction,
   Editorial,
   timeahead,
-  Label,
   useCurrentMinute
 } from '@project-r/styleguide'
 
@@ -42,7 +41,7 @@ const DiscussionCommentComposer = props => {
     parentId,
     inNativeIOSApp,
     showPayNotes,
-    selectedTag
+    activeTag
   } = props
 
   /*
@@ -164,7 +163,7 @@ const DiscussionCommentComposer = props => {
               discussion: produce(discussion, draft => {
                 draft.displayAuthor = displayAuthor
               }),
-              selectedTag,
+              activeTag,
               actions: {
                 previewComment: props.previewComment,
                 openDiscussionPreferences: () => {

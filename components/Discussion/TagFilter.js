@@ -27,20 +27,22 @@ const styles = {
 }
 
 const TagLink = ({ tag }) => {
-  const { pathname, query } = useRouter()
-  const currentTag = query.tag
-  const isSelected = tag === currentTag
-  const isNotSelected = currentTag && !isSelected
-  const updatedQuery = { ...query, tag }
+  const {
+    pathname,
+    query: { tag: queryTag, ...restQuery }
+  } = useRouter()
+  const isSelected = tag === queryTag
+  const isInactive = queryTag && !isSelected
+  const targetQuery = isSelected ? restQuery : { ...restQuery, tag }
   if (isSelected) {
-    delete updatedQuery.tag
+    delete targetQuery.tag
   }
   return (
     <div {...styles.tagLink}>
-      <Link href={{ pathname, query: updatedQuery }} scroll={false} passHref>
+      <Link href={{ pathname, query: targetQuery }} scroll={false} passHref>
         <a>
           <FormatTag
-            color={isNotSelected ? 'textSoft' : 'text'}
+            color={isInactive ? 'textSoft' : 'text'}
             label={tag}
             count={12}
           />

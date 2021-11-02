@@ -61,7 +61,7 @@ const Discussion = ({
         <Comments
           key={
             `${orderBy}-${
-              tag ? tag : 'all'
+              tag || 'all'
             }` /* To remount of the whole component on change */
           }
           discussionId={discussionId}

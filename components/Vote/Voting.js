@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Fragment, useState } from 'react'
 import { css } from 'glamor'
 import {
   A,
@@ -7,8 +6,7 @@ import {
   InlineSpinner,
   Interaction,
   Radio,
-  RawHtml,
-  Loader
+  RawHtml
 } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
@@ -20,309 +18,9 @@ import ErrorMessage from '../ErrorMessage'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import SignIn from '../Auth/SignIn'
 import { Card, sharedStyles } from './text'
+import Loader from '../Loader'
 
 const { P } = Interaction
-
-const POLL_STATES = {
-  START: 'START',
-  DIRTY: 'DIRTY',
-  READY: 'READY'
-}
-
-const styles = {
-  thankyou: css({
-    padding: '30px 20px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center'
-  }),
-  confirm: css({
-    textAlign: 'center',
-    marginBottom: 10
-  }),
-  content: css({
-    padding: '0 15px'
-  }),
-  buttons: css({
-    padding: '15px 0'
-  })
-}
-
-const messageDateFormat = timeFormat('%e. %B %Y')
-
-const VotingCard = ({ children }) => (
-  <Card style={{ margin: '40px auto', maxWidth: 550 }}>{children}</Card>
-)
-
-class Voting extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      pollState: POLL_STATES.START,
-      selectedValue: null
-    }
-
-    this.reset = e => {
-      e.preventDefault()
-      this.setState({
-        selectedValue: null,
-        error: null,
-        pollState: POLL_STATES.START
-      })
-    }
-
-    this.renderConfirmation = () => {
-      const { pollState, selectedValue } = this.state
-      const {
-        vt,
-        data: { voting }
-      } = this.props
-      if (pollState === POLL_STATES.READY) {
-        return (
-          <div {...styles.confirm}>
-            <P>
-              {selectedValue
-                ? `Mit ${vt(
-                    `vote/voting/option${
-                      voting.options.find(o => o.id === selectedValue).label
-                    }`
-                  )} stimmen? `
-                : `Leer einlegen? `}
-            </P>
-          </div>
-        )
-      } else {
-        return null
-      }
-    }
-
-    this.submitVotingBallot = () => {
-      const { submitVotingBallot } = this.props
-      const {
-        data: { voting }
-      } = this.props
-      const { selectedValue } = this.state
-
-      this.setState({ updating: true })
-
-      submitVotingBallot(voting.id, selectedValue)
-        .then(() => {
-          this.setState({
-            updating: false,
-            error: null
-          })
-        })
-        .catch(error => {
-          this.setState({
-            pollState: POLL_STATES.DIRTY,
-            updating: false,
-            error
-          })
-        })
-    }
-
-    this.renderActions = () => {
-      const { vt } = this.props
-      const { pollState, updating } = this.state
-
-      const resetLink = (
-        <Interaction.P style={{ marginLeft: 30 }}>
-          <A href='#' onClick={this.reset}>
-            {vt('vote/voting/labelReset')}
-          </A>
-        </Interaction.P>
-      )
-
-      switch (pollState) {
-        case POLL_STATES.START:
-          return (
-            <>
-              <div {...sharedStyles.buttons}>
-                <Button
-                  key={'vote/voting/labelVote'}
-                  primary
-                  onClick={e => {
-                    e.preventDefault()
-                    this.setState({
-                      pollState: POLL_STATES.READY
-                    })
-                  }}
-                >
-                  {vt('vote/voting/labelVote')}
-                </Button>
-              </div>
-              <div {...sharedStyles.hint}>{vt('vote/common/help/blank')}</div>
-            </>
-          )
-        case POLL_STATES.DIRTY:
-          return (
-            <div {...sharedStyles.buttons}>
-              <Button
-                key={'vote/voting/labelVote'}
-                primary
-                onClick={e => {
-                  e.preventDefault()
-                  this.setState({
-                    pollState: POLL_STATES.READY
-                  })
-                }}
-              >
-                {vt('vote/voting/labelVote')}
-              </Button>
-              {resetLink}
-            </div>
-          )
-        case POLL_STATES.READY:
-          return (
-            <div {...sharedStyles.buttons}>
-              <Button
-                key={'vote/voting/labelVote'}
-                primary
-                onClick={e => {
-                  e.preventDefault()
-                  this.submitVotingBallot()
-                }}
-              >
-                {updating ? (
-                  <InlineSpinner size={40} />
-                ) : (
-                  vt('vote/voting/labelConfirm')
-                )}
-              </Button>
-              {updating ? <A>&nbsp;</A> : resetLink}
-            </div>
-          )
-        default:
-          return null
-      }
-    }
-
-    this.renderVotingBody = () => {
-      const {
-        vt,
-        data: { voting },
-        addressData,
-        me
-      } = this.props
-      const { selectedValue, updating } = this.state
-      const { P } = Interaction
-
-      let dangerousDisabledHTML
-      let showSignIn
-      if (voting.userHasSubmitted) {
-        dangerousDisabledHTML = vt('vote/voting/thankyou', {
-          submissionDate: messageDateFormat(new Date(voting.userSubmitDate))
-        })
-      } else if (Date.now() > new Date(voting.endDate)) {
-        dangerousDisabledHTML = vt('vote/voting/ended')
-      } else if (!me) {
-        dangerousDisabledHTML = vt('vote/voting/notSignedIn', {
-          beginDate: timeFormat('%d.%m.%Y')(new Date(voting.beginDate))
-        })
-        showSignIn = true
-      } else if (!voting.userIsEligible) {
-        dangerousDisabledHTML = vt('vote/voting/notEligible')
-      }
-
-      if (voting.userIsEligible && !addressData.voteMe?.address) {
-        return <AddressEditor />
-      }
-
-      if (dangerousDisabledHTML) {
-        return (
-          <>
-            <div {...styles.thankyou}>
-              <RawHtml
-                type={P}
-                dangerouslySetInnerHTML={{
-                  __html: dangerousDisabledHTML
-                }}
-              />
-            </div>
-            {showSignIn && <SignIn />}
-          </>
-        )
-      } else {
-        return (
-          <>
-            <div {...styles.buttons}>
-              {voting.options.map(({ id, label }) => (
-                <Fragment key={id}>
-                  <Radio
-                    black
-                    value={id}
-                    checked={id === selectedValue}
-                    disabled={!!updating}
-                    onChange={() =>
-                      this.setState({
-                        selectedValue: id,
-                        pollState: POLL_STATES.DIRTY
-                      })
-                    }
-                  >
-                    <span style={{ marginRight: 30 }}>
-                      {vt(`vote/voting/option${label}`)}
-                    </span>
-                  </Radio>
-                </Fragment>
-              ))}
-            </div>
-            {this.renderConfirmation()}
-            {this.renderActions()}
-          </>
-        )
-      }
-    }
-  }
-
-  render() {
-    const { data, description } = this.props
-    return (
-      <Loader
-        loading={data.loading}
-        error={data.error}
-        render={() => {
-          const { voting } = data
-          if (!voting) {
-            return null
-          }
-
-          const { error } = this.state
-
-          return (
-            <VotingCard>
-              <div>
-                <div {...styles.content}>
-                  <P>
-                    <strong>{description || voting.description}</strong>
-                  </P>
-                  {error && <ErrorMessage error={error} />}
-                  {this.renderVotingBody()}
-                </div>
-              </div>
-            </VotingCard>
-          )
-        }}
-      />
-    )
-  }
-}
-
-Voting.propTypes = {
-  slug: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    voting: PropTypes.shape({
-      description: PropTypes.string,
-      options: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string,
-          label: PropTypes.string
-        })
-      )
-    })
-  })
-}
 
 const submitVotingBallotMutation = gql`
   mutation submitVotingBallot($votingId: ID!, $optionId: ID) {
@@ -353,7 +51,32 @@ const query = gql`
   }
 `
 
-export default compose(
+const styles = {
+  thankyou: css({
+    padding: '30px 20px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
+  }),
+  confirm: css({
+    margin: '30px 0 15px'
+  }),
+  content: css({
+    padding: '0 15px'
+  }),
+  buttons: css({
+    padding: '15px 0'
+  })
+}
+
+const messageDateFormat = timeFormat('%e. %B %Y')
+
+const VotingCard = ({ children }) => (
+  <Card style={{ margin: '40px auto', maxWidth: 550 }}>{children}</Card>
+)
+
+const Voting = compose(
   voteT,
   withMe,
   graphql(submitVotingBallotMutation, {
@@ -368,12 +91,169 @@ export default compose(
       }
     })
   }),
+  withAddressData
+)(({ voting, submitVotingBallot, me, addressData, vt, description }) => {
+  const [selectedValue, selectValue] = useState(null)
+  const [isConfirm, setConfirm] = useState(false)
+  const [isUpdating, setUpdating] = useState(false)
+  const [error, setError] = useState(null)
+
+  const reset = e => {
+    e.preventDefault()
+    selectValue(null)
+    setError(null)
+    setConfirm(false)
+  }
+
+  const vote = () => {
+    setUpdating(true)
+    submitVotingBallot(voting.id, selectedValue)
+      .then(() => {
+        setUpdating(false)
+        setError(null)
+      })
+      .catch(error => {
+        setUpdating(false)
+        setError(error)
+      })
+  }
+
+  let dangerousDisabledHTML
+  let showSignIn
+  if (voting.userHasSubmitted) {
+    dangerousDisabledHTML = vt('vote/voting/thankyou', {
+      submissionDate: messageDateFormat(new Date(voting.userSubmitDate))
+    })
+  } else if (Date.now() > new Date(voting.endDate)) {
+    dangerousDisabledHTML = vt('vote/voting/ended')
+  } else if (!me) {
+    dangerousDisabledHTML = vt('vote/voting/notSignedIn', {
+      beginDate: timeFormat('%d.%m.%Y')(new Date(voting.beginDate))
+    })
+    showSignIn = true
+  } else if (!voting.userIsEligible) {
+    dangerousDisabledHTML = vt('vote/voting/notEligible')
+  }
+
+  if (voting.userIsEligible && !addressData.voteMe?.address) {
+    return <AddressEditor />
+  }
+
+  if (dangerousDisabledHTML) {
+    return (
+      <>
+        <div {...styles.thankyou}>
+          <RawHtml
+            type={P}
+            dangerouslySetInnerHTML={{
+              __html: dangerousDisabledHTML
+            }}
+          />
+        </div>
+        {showSignIn && <SignIn />}
+      </>
+    )
+  }
+
+  const resetLink = (
+    <Interaction.P style={{ marginLeft: 30 }}>
+      <A href='#' onClick={reset}>
+        {vt(`vote/common/${isConfirm ? 'back' : 'reset'}`)}
+      </A>
+    </Interaction.P>
+  )
+
+  const choice = (
+    <>
+      <div {...styles.buttons}>
+        {voting.options.map(({ id, label }) => (
+          <Fragment key={id}>
+            <Radio
+              black
+              value={id}
+              checked={id === selectedValue}
+              disabled={!!isUpdating}
+              onChange={() => selectValue(id)}
+            >
+              <span style={{ marginRight: 30 }}>
+                {vt(`vote/voting/option${label}`)}
+              </span>
+            </Radio>
+          </Fragment>
+        ))}
+      </div>
+      <div {...sharedStyles.buttons}>
+        <Button
+          key={'vote/voting/labelVote'}
+          primary
+          onClick={() => setConfirm(true)}
+        >
+          {vt('vote/common/continue')}
+        </Button>
+        {selectedValue !== null && resetLink}
+      </div>
+      <div {...sharedStyles.hint}>{vt('vote/common/help/blank')}</div>
+    </>
+  )
+
+  const confirmation = (
+    <>
+      <div {...styles.confirm}>
+        <P>
+          {selectedValue
+            ? `Mit ${vt(
+                `vote/voting/option${
+                  voting.options.find(o => o.id === selectedValue).label
+                }`
+              )} stimmen? `
+            : `Leer einlegen? `}
+        </P>
+      </div>
+      <div {...sharedStyles.buttons}>
+        <Button key={'vote/voting/labelVote'} primary onClick={vote}>
+          {isUpdating ? (
+            <InlineSpinner size={40} />
+          ) : (
+            vt('vote/voting/labelVote')
+          )}
+        </Button>
+        {isUpdating ? <A>&nbsp;</A> : resetLink}
+      </div>
+    </>
+  )
+
+  return (
+    <VotingCard>
+      <div>
+        <div {...styles.content}>
+          <P>
+            <strong>{description || voting.description}</strong>
+          </P>
+          {error && <ErrorMessage error={error} />}
+          {isConfirm ? confirmation : choice}
+        </div>
+      </div>
+    </VotingCard>
+  )
+})
+
+const VotingLoader = compose(
   graphql(query, {
     options: ({ slug }) => ({
       variables: {
         slug
       }
     })
-  }),
-  withAddressData
-)(Voting)
+  })
+)(({ data, description }) => (
+  <Loader
+    loading={data.loading}
+    error={data.error}
+    render={() => {
+      if (!data.voting) return null
+      return <Voting voting={data.voting} description={description} />
+    }}
+  />
+))
+
+export default VotingLoader

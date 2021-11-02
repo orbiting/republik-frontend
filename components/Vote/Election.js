@@ -298,12 +298,12 @@ const Election = compose(
               <ElectionActions>
                 <div {...sharedStyles.buttons}>
                   <Button primary onClick={() => setConfirm(true)}>
-                    {vt('vote/election/labelVote')}
+                    {vt('vote/common/continue')}
                   </Button>
                   {isDirty && (
                     <Interaction.P style={{ marginLeft: 30 }}>
                       <A href='#' onClick={reset}>
-                        {vt('vote/election/labelReset')}
+                        {vt('vote/common/reset')}
                       </A>
                     </Interaction.P>
                   )}

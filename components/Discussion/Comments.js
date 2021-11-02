@@ -17,7 +17,6 @@ import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
 import CommentLink, { getFocusHref, getFocusUrl } from './CommentLink'
-import { getDiscussionUrlObject } from './DiscussionLink'
 import { composerHints } from './constants'
 
 import {

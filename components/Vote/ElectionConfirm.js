@@ -310,7 +310,7 @@ const ElectionConfirm = compose(
       </Button>
       <Interaction.P style={{ marginLeft: 30 }}>
         <A href='#' {...styles.link} onClick={goBack}>
-          {vt('vote/election/confirm/back')}
+          {vt('vote/common/back')}
         </A>
       </Interaction.P>
     </div>

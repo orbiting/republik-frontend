@@ -105,6 +105,18 @@
       "value": "Wahlempfehlung übernehmen"
     },
     {
+      "key": "vote/common/continue",
+      "value": "Weiter"
+    },
+    {
+      "key": "vote/common/back",
+      "value": "Bearbeiten"
+    },
+    {
+      "key": "vote/common/reset",
+      "value": "Zurücksetzen"
+    },
+    {
       "key": "vote/election/thankyou",
       "value": "Ihre Wahl ist am {submissionDate} bei uns eingegangen. Danke für Ihre Teilnahme!"
     },
@@ -127,6 +139,10 @@
     {
       "key": "vote/election/legendIncumbent",
       "value": ": Genossenschaftsrat 18-21"
+    },
+    {
+      "key": "vote/election/labelConfirm",
+      "value": "Wählen"
     },
     {
       "key": "vote/election/labelConfirmCount/0",
@@ -153,18 +169,6 @@
       "value": "Wollen Sie Ihre Wahl durch die Empfehlung ersetzen?"
     },
     {
-      "key": "vote/election/labelVote",
-      "value": "Weiter"
-    },
-    {
-      "key": "vote/election/labelConfirm",
-      "value": "Wählen"
-    },
-    {
-      "key": "vote/election/labelReset",
-      "value": "Zurücksetzen"
-    },
-    {
       "key": "vote/election/recommendation",
       "value": "Empfehlung von Project R:"
     },
@@ -175,10 +179,6 @@
     {
       "key": "vote/election/confirm/header",
       "value": "Wie repräsentativ ist Ihre Auswahl?\n"
-    },
-    {
-      "key": "vote/election/confirm/back",
-      "value": "Bearbeiten"
     },
     {
       "key": "vote/election/confirm/gender/header",
@@ -193,16 +193,8 @@
       "value": "Abstimmen"
     },
     {
-      "key": "vote/voting/labelConfirm",
-      "value": "Bestätigen"
-    },
-    {
       "key": "vote/voting/thankyou",
       "value": "Ihre Stimme ist am {submissionDate} bei uns eingegangen.\nDanke für Ihre Teilnahme!"
-    },
-    {
-      "key": "vote/voting/labelReset",
-      "value": "Zurücksetzen"
     },
     {
       "key": "vote/common/help/blank",
@@ -210,7 +202,7 @@
     },
     {
       "key": "vote/common/thankyou",
-      "value": "Alles erledigt. Vielen Dank für Ihre Stimme! \n \nAm 31. Oktober werden wir hier die Resultate der Abstimmungen und Wahlen verkünden und einen angemessen staatstragenden Newsletter verschicken.\n \nZurück zur <a href='https://www.republik.ch/'>Republik</A>."
+      "value": "Alles erledigt. Vielen Dank für Ihre Stimme! \n \nAm 1.&nbsp;Dezember werden wir hier die Resultate der Abstimmungen und Wahlen verkünden und einen angemessen staatstragenden Newsletter verschicken.\n \nZurück zur <a href='https://www.republik.ch/'>Republik</A>."
     },
     {
       "key": "vote/voting/optionYES",
@@ -282,7 +274,7 @@
     },
     {
       "key": "common/signInBody",
-      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben."
+      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem Wahlbeginn eine Jahresmitgliedschaft erworben haben."
     },
     {
       "key": "vote/voting/notSignedIn",
@@ -298,11 +290,11 @@
     },
     {
       "key": "vote/election/notSignedIn",
-      "value": "Sie müssen sich anmelden, um an dieser Wahl teilzunehmen.\n(Und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben.)"
+      "value": "Sie müssen sich anmelden, um an dieser Wahl teilzunehmen.\n(Und vor dem 12.&nbsp;November eine Jahresmitgliedschaft erworben haben.)"
     },
     {
       "key": "vote/election/notEligible",
-      "value": "Bitte entschuldigen Sie. An dieser Wahl können leider nur Personen teilnehmen, die vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 31.&nbsp;Oktober."
+      "value": "Bitte entschuldigen Sie. An dieser Wahl können leider nur Personen teilnehmen, die vor dem Wahlbeginn eine Jahresmitgliedschaft erworben haben. Die Resultate sehen Sie hier ab dem 1.&nbsp;Dezember."
     },
     {
       "key": "vote/election/ended",
@@ -310,7 +302,7 @@
     },
     {
       "key": "vote/ended",
-      "value": "Guten Tag. Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 31.&nbsp;Oktober."
+      "value": "Guten Tag. Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 1.&nbsp;Dezember."
     },
     {
       "key": "vote/sm/title",

@@ -14,14 +14,12 @@ const { Headline } = Interaction
 
 export const sharedStyles = {
   hint: css({
-    marginTop: 10,
-    textAlign: 'center'
+    marginTop: 10
   }),
   buttons: css({
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: 'center'
   }),
   card: css({
     padding: 10,

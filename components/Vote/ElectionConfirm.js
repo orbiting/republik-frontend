@@ -19,6 +19,7 @@ import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
 import { ElectionActions } from './Election'
 import { sharedStyles } from './text'
+import { deduplicate } from '../../lib/utils/helpers'
 const { P } = Interaction
 
 const submitElectionBallotMutation = gql`
@@ -79,8 +80,7 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
       value: String(point.count)
     }))
 
-  // TODO: this bit was very much tailored to the 2021 election
-  const showBelgium = candidates.some(
+  const outsideSwitzerland = candidates.filter(
     c => c.postalCodeGeo?.countryCode !== 'CH'
   )
 
@@ -104,9 +104,15 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
         }}
         values={values}
       />
-      {showBelgium && (
+      {outsideSwitzerland?.length && (
         <div {...styles.mapLegend}>
-          Nicht angezeigt: eine Kandidatin im Belgien.
+          Nicht angezeigt: {outsideSwitzerland.length} Kandidaturen von
+          ausserhalb der Schweiz:{' '}
+          {outsideSwitzerland
+            .map(c => `${c.city} ${c.postalCodeGeo.countryName}`)
+            .filter(deduplicate)
+            .join(', ')}
+          .
         </div>
       )}
     </div>

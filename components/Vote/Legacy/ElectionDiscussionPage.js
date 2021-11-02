@@ -1,6 +1,6 @@
 import React from 'react'
-import Frame from '../../components/Frame'
-import Discussion from '../../components/Discussion/Discussion'
+import Frame from '../../Frame'
+import Discussion from '../../Discussion/Discussion'
 import { withRouter } from 'next/router'
 import {
   A,
@@ -15,9 +15,9 @@ import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
-import voteT from './voteT'
-import { Body, Section, Strong, Title } from './text'
-import Loader from '../Loader'
+import voteT from '../voteT'
+import { Body, Section, Strong, Title } from '../text'
+import Loader from '../../Loader'
 import Link from 'next/link'
 
 const { P } = Interaction

@@ -6,13 +6,11 @@ import {
   Interaction,
   mediaQueries,
   RawHtml,
-  A,
   useColorContext
 } from '@project-r/styleguide'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
-const { H2, Headline } = Interaction
+const { Headline } = Interaction
 
 export const sharedStyles = {
   hint: css({
@@ -48,18 +46,6 @@ export const Title = ({ children }) => (
   >
     {children}
   </Headline>
-)
-
-export const Heading = ({ id, children }) => (
-  <H2
-    id={`${id}`}
-    {...css({
-      marginTop: 100,
-      marginBottom: 20
-    })}
-  >
-    {children}
-  </H2>
 )
 
 export const Strong = ({ children }) => (
@@ -157,51 +143,4 @@ export const Card = ({ children, style }) => {
       {children}
     </div>
   )
-}
-
-const styles = {
-  list: css({
-    ...fontStyles.sansSerifRegular16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular21
-    }
-  }),
-  anchor: css({
-    display: 'block',
-    position: 'relative',
-    visibility: 'hidden',
-    top: -HEADER_HEIGHT_MOBILE,
-    [mediaQueries.lUp]: {
-      top: -HEADER_HEIGHT
-    }
-  })
-}
-
-export const mdComponents = {
-  h1: Title,
-  h2: ({ children }) => (
-    <div>
-      <a
-        {...styles.anchor}
-        id={React.Children.toArray(children)
-          .join('')
-          .split(' ')[0]
-          .replace(/ä/, 'a')
-          .replace(/ö/, 'o')
-          .replace(/ü/, 'u')
-          .toLowerCase()}
-      />
-      <Heading>{children}</Heading>
-    </div>
-  ),
-  a: A,
-  p: PMedium,
-  small: PSmall,
-  strong: ({ children }) => (
-    <span style={{ fontFamily: fontFamilies.sansSerifMedium }}>{children}</span>
-  ),
-  ul: ({ children }) => <ul {...styles.list}>{children}</ul>,
-  ol: ({ children }) => <ol {...styles.list}>{children}</ol>,
-  li: ({ children }) => <li>{children}</li>,
-  img: props => <img {...props} style={{ width: '100%' }} />
 }

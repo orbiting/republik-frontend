@@ -32,7 +32,7 @@ const Discussion = ({
       : discussionId === GENERAL_FEEDBACK_DISCUSSION_ID
       ? 'DATE'
       : 'AUTO')
-  const tag = query.tag
+  const activeTag = query.tag
 
   const depth = board ? 1 : DEFAULT_DEPTH
 
@@ -42,13 +42,16 @@ const Discussion = ({
         <>
           <TagFilter
             discussionId={discussionId}
-            depth={depth}
             orderBy={orderBy}
+            activeTag={activeTag}
+            focusId={focusId}
+            depth={depth}
+            parentId={parentId}
           />
           <DiscussionCommentComposer
             discussionId={discussionId}
             orderBy={orderBy}
-            selectedTag={tag}
+            activeTag={activeTag}
             focusId={focusId}
             depth={depth}
             parentId={parentId}
@@ -60,16 +63,15 @@ const Discussion = ({
       <div style={{ margin: rootCommentOverlay ? 0 : '20px 0' }}>
         <Comments
           key={
-            `${orderBy}-${
-              tag || 'all'
-            }` /* To remount of the whole component on change */
+            `${orderBy}-${activeTag ||
+              'all'}` /* To remount of the whole component on change */
           }
           discussionId={discussionId}
           focusId={board ? undefined : focusId}
           depth={depth}
           parentId={parentId}
           orderBy={orderBy}
-          tag={tag}
+          activeTag={activeTag}
           meta={meta}
           board={board}
           parent={board ? parent || focusId : undefined}

@@ -97,7 +97,7 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
-  const discussionUrlObject = getDiscussionUrlObject(discussion)
+  // const discussionUrlObject = getDiscussionUrlObject(discussion)
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
    */
@@ -388,31 +388,11 @@ const Comments = props => {
             {!rootCommentOverlay && (
               <div {...styles.orderByContainer}>
                 {board && (
-                  <OrderByLink
-                    href={discussionUrlObject}
-                    t={t}
-                    orderBy={resolvedOrderBy}
-                    value='HOT'
-                  />
+                  <OrderByLink t={t} orderBy={resolvedOrderBy} value='HOT' />
                 )}
-                <OrderByLink
-                  href={discussionUrlObject}
-                  t={t}
-                  orderBy={resolvedOrderBy}
-                  value='DATE'
-                />
-                <OrderByLink
-                  href={discussionUrlObject}
-                  t={t}
-                  orderBy={resolvedOrderBy}
-                  value='VOTES'
-                />
-                <OrderByLink
-                  href={discussionUrlObject}
-                  t={t}
-                  orderBy={resolvedOrderBy}
-                  value='REPLIES'
-                />
+                <OrderByLink t={t} orderBy={resolvedOrderBy} value='DATE' />
+                <OrderByLink t={t} orderBy={resolvedOrderBy} value='VOTES' />
+                <OrderByLink t={t} orderBy={resolvedOrderBy} value='REPLIES' />
                 <A
                   {...styles.reloadLink}
                   href={getFocusUrl(discussion)}
@@ -544,8 +524,11 @@ const EmptyDiscussion = ({ t }) => (
   <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
 )
 
-const OrderByLink = ({ t, orderBy, value, href }) => {
+const OrderByLink = ({ t, orderBy, value }) => {
   const [colorScheme] = useColorContext()
+  const { pathname, query } = useRouter()
+  const isSelected = orderBy === value
+  const targetQuery = { ...query, order: value }
   const hoverRule = useMemo(() => {
     return css({
       '@media (hover)': {
@@ -555,11 +538,8 @@ const OrderByLink = ({ t, orderBy, value, href }) => {
       }
     })
   }, [colorScheme])
-
-  const isSelected = orderBy === value
-  href.query = { ...href.query, order: value }
   return (
-    <Link href={href} scroll={false} passHref>
+    <Link href={{ pathname, query: targetQuery }} scroll={false} passHref>
       <a
         {...styles.orderBy}
         {...colorScheme.set('color', 'text')}

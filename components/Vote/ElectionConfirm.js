@@ -18,7 +18,6 @@ import { css } from 'glamor'
 import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
 import { ElectionActions } from './Election'
-import { scrollIt } from '../../lib/utils/scroll'
 import { sharedStyles } from './text'
 const { P } = Interaction
 
@@ -255,7 +254,7 @@ const ElectionConfirm = compose(
     const { top } = ref.current.getBoundingClientRect()
     const { pageYOffset } = window
     const target = pageYOffset + top - headerHeight - 80
-    scrollIt(target, 100)
+    window.scroll(0, target)
   }, [])
 
   const selectedCandidates = vote

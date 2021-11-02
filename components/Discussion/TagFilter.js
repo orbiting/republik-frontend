@@ -26,7 +26,7 @@ const styles = {
   })
 }
 
-const TagLink = ({ tag }) => {
+const TagLink = ({ tag, commentCount }) => {
   const {
     pathname,
     query: { tag: activeTag, ...restQuery }
@@ -44,7 +44,7 @@ const TagLink = ({ tag }) => {
           <FormatTag
             color={isInactive ? 'textSoft' : 'text'}
             label={tag}
-            count={12}
+            count={commentCount}
           />
         </a>
       </Link>
@@ -64,7 +64,7 @@ const TagFilter = ({ tags }) => {
       style={{ top: headerHeight }}
     >
       {tags.map(tag => (
-        <TagLink key={tag} tag={tag} />
+        <TagLink key={tag.value} tag={tag.value} commentCount={tag.count} />
       ))}
     </div>
   )
@@ -77,7 +77,10 @@ const TagFilterLoader = withDiscussionComments(({ discussionComments }) => (
     render={() => {
       const tags = discussionComments?.discussion?.tags
       if (!tags?.length) return null
-      return <TagFilter tags={tags} />
+      const tagBuckets = [...discussionComments?.discussion?.tagBuckets].sort(
+        (a, b) => tags.indexOf(a.value) - tags.indexOf(b.value)
+      )
+      return <TagFilter tags={tagBuckets} />
     }}
   />
 ))

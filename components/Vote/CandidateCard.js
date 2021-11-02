@@ -80,13 +80,12 @@ const CandidateCard = compose(
   withInNativeApp,
   voteT,
   withT
-)(({ inNativeApp, vt, t, candidate, discussionPath }) => {
+)(({ inNativeApp, vt, t, candidate, discussionPath, discussionTag }) => {
   const [colorScheme] = useColorContext()
   const target = inNativeApp ? undefined : '_blank'
   const { user: d } = candidate
-  const role =
-    (candidate.credential ||
-    d.credentials?.find(c => c.isListed))?.description
+  const role = (candidate.credential || d.credentials?.find(c => c.isListed))
+    ?.description
 
   return (
     <div {...styles.detail} {...colorScheme.set('backgroundColor', 'alert')}>
@@ -124,7 +123,8 @@ const CandidateCard = compose(
                   pathname: discussionPath,
                   query: {
                     discussion: candidate.election.slug,
-                    focus: candidate.comment.id
+                    focus: candidate.comment.id,
+                    tag: discussionTag
                   }
                 }}
                 passHref

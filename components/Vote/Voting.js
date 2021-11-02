@@ -73,7 +73,11 @@ const styles = {
 const messageDateFormat = timeFormat('%e. %B %Y')
 
 const VotingCard = ({ children }) => (
-  <Card style={{ margin: '40px auto', maxWidth: 550 }}>{children}</Card>
+  <Card style={{ margin: '40px auto', maxWidth: 550 }}>
+    <div>
+      <div {...styles.content}>{children}</div>
+    </div>
+  </Card>
 )
 
 const Voting = compose(
@@ -141,7 +145,7 @@ const Voting = compose(
 
   if (dangerousDisabledHTML) {
     return (
-      <>
+      <VotingCard>
         <div {...styles.thankyou}>
           <RawHtml
             type={P}
@@ -151,7 +155,7 @@ const Voting = compose(
           />
         </div>
         {showSignIn && <SignIn />}
-      </>
+      </VotingCard>
     )
   }
 
@@ -224,15 +228,11 @@ const Voting = compose(
 
   return (
     <VotingCard>
-      <div>
-        <div {...styles.content}>
-          <P>
-            <strong>{description || voting.description}</strong>
-          </P>
-          {error && <ErrorMessage error={error} />}
-          {isConfirm ? confirmation : choice}
-        </div>
-      </div>
+      <P>
+        <strong>{description || voting.description}</strong>
+      </P>
+      {error && <ErrorMessage error={error} />}
+      {isConfirm ? confirmation : choice}
     </VotingCard>
   )
 })

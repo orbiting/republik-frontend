@@ -190,137 +190,148 @@ const Election = compose(
   voteT,
   withMe,
   withAddressData
-)(({ election, vt, addressData, me, mandatoryCandidates, showMeta }) => {
-  const [vote, setVote] = useState(
-    [...election.candidacies]
-      .sort((c1, c2) => {
-        if (
-          (c1.recommendation && !c2.recommendation) ||
-          (c1.isIncumbent && !c2.isIncumbent)
-        ) {
-          return -1
-        } else if (
-          (c2.recommendation && !c1.recommendation) ||
-          (c2.isIncumbent && !c1.isIncumbent)
-        ) {
-          return 1
-        } else return sortNames(c1, c2)
-      })
-      .map(candidate => ({ candidate, selected: false }))
-  )
-  const [isDirty, setDirty] = useState(false)
-  const [isConfirm, setConfirm] = useState(false)
+)(
+  ({
+    election,
+    vt,
+    addressData,
+    me,
+    discussionTag,
+    mandatoryCandidates,
+    showMeta
+  }) => {
+    const [vote, setVote] = useState(
+      [...election.candidacies]
+        .sort((c1, c2) => {
+          if (
+            (c1.recommendation && !c2.recommendation) ||
+            (c1.isIncumbent && !c2.isIncumbent)
+          ) {
+            return -1
+          } else if (
+            (c2.recommendation && !c1.recommendation) ||
+            (c2.isIncumbent && !c1.isIncumbent)
+          ) {
+            return 1
+          } else return sortNames(c1, c2)
+        })
+        .map(candidate => ({ candidate, selected: false }))
+    )
+    const [isDirty, setDirty] = useState(false)
+    const [isConfirm, setConfirm] = useState(false)
 
-  useEffect(() => {
-    setDirty(!!vote.some(item => item.selected))
-  }, [vote])
+    useEffect(() => {
+      setDirty(!!vote.some(item => item.selected))
+    }, [vote])
 
-  const toggleCandidate = candidate => {
-    const allowMultiple = election.numSeats > 1
-    setVote(
-      vote.map(item =>
-        item.candidate.id === candidate.id
-          ? { ...item, selected: !item.selected }
-          : allowMultiple
-          ? item
-          : { ...item, selected: false }
+    const toggleCandidate = candidate => {
+      const allowMultiple = election.numSeats > 1
+      setVote(
+        vote.map(item =>
+          item.candidate.id === candidate.id
+            ? { ...item, selected: !item.selected }
+            : allowMultiple
+            ? item
+            : { ...item, selected: false }
+        )
       )
+    }
+
+    const reset = event => {
+      event.preventDefault()
+      setVote(vote.map(item => ({ ...item, selected: false })))
+      setConfirm(false)
+    }
+
+    let message
+    if (election.userHasSubmitted) {
+      message = vt('vote/voting/thankyou', {
+        submissionDate: messageDateFormat(new Date(election.userSubmitDate))
+      })
+    } else if (Date.now() > new Date(election.endDate)) {
+      message = vt('vote/election/ended')
+    } else if (!me) {
+      message = vt('vote/election/notSignedIn', {
+        beginDate: timeFormat('%d.%m.%Y')(new Date(election.beginDate))
+      })
+    } else if (!election.userIsEligible) {
+      message = vt('vote/election/notEligible')
+    }
+
+    if (election.userIsEligible && !addressData.voteMe?.address) {
+      return <AddressEditor />
+    }
+
+    const { numSeats } = election
+    const givenVotes = vote.filter(item => item.selected).length
+    const remainingVotes = numSeats - givenVotes
+
+    const electionOpen = !message
+    const showHeader = electionOpen && numSeats > 1
+
+    return (
+      <div {...styles.wrapper}>
+        {isConfirm ? (
+          <ElectionConfirm
+            election={election}
+            vote={vote}
+            goBack={e => {
+              e?.preventDefault()
+              setConfirm(false)
+            }}
+          />
+        ) : (
+          <>
+            {showHeader && (
+              <ElectionHeader>
+                {remainingVotes
+                  ? vt('vote/election/votesRemaining', {
+                      count: remainingVotes,
+                      max: numSeats
+                    })
+                  : vt('vote/election/noVotesRemaining')}
+              </ElectionHeader>
+            )}
+            {message && <ElectionMessage message={message} />}
+            <div {...styles.wrapper}>
+              <ElectionBallot
+                vote={vote}
+                onChange={electionOpen ? toggleCandidate : undefined}
+                maxVotes={election.numSeats}
+                mandatory={mandatoryCandidates}
+                showMeta={showMeta}
+                discussionPath={election?.discussion?.path}
+                discussionTag={discussionTag}
+                disabled={remainingVotes <= 0}
+              />
+              {electionOpen && (
+                <ElectionActions>
+                  <div {...sharedStyles.buttons}>
+                    <Button primary onClick={() => setConfirm(true)}>
+                      {vt('vote/common/continue')}
+                    </Button>
+                    {isDirty && (
+                      <Interaction.P style={{ marginLeft: 30 }}>
+                        <A href='#' onClick={reset}>
+                          {vt('vote/common/reset')}
+                        </A>
+                      </Interaction.P>
+                    )}
+                  </div>
+                  {!isDirty && (
+                    <div {...sharedStyles.hint}>
+                      {vt('vote/common/help/blank')}
+                    </div>
+                  )}
+                </ElectionActions>
+              )}
+            </div>
+          </>
+        )}
+      </div>
     )
   }
-
-  const reset = event => {
-    event.preventDefault()
-    setVote(vote.map(item => ({ ...item, selected: false })))
-    setConfirm(false)
-  }
-
-  let message
-  if (election.userHasSubmitted) {
-    message = vt('vote/voting/thankyou', {
-      submissionDate: messageDateFormat(new Date(election.userSubmitDate))
-    })
-  } else if (Date.now() > new Date(election.endDate)) {
-    message = vt('vote/election/ended')
-  } else if (!me) {
-    message = vt('vote/election/notSignedIn', {
-      beginDate: timeFormat('%d.%m.%Y')(new Date(election.beginDate))
-    })
-  } else if (!election.userIsEligible) {
-    message = vt('vote/election/notEligible')
-  }
-
-  if (election.userIsEligible && !addressData.voteMe?.address) {
-    return <AddressEditor />
-  }
-
-  const { numSeats } = election
-  const givenVotes = vote.filter(item => item.selected).length
-  const remainingVotes = numSeats - givenVotes
-
-  const electionOpen = !message
-  const showHeader = electionOpen && numSeats > 1
-
-  return (
-    <div {...styles.wrapper}>
-      {isConfirm ? (
-        <ElectionConfirm
-          election={election}
-          vote={vote}
-          goBack={e => {
-            e?.preventDefault()
-            setConfirm(false)
-          }}
-        />
-      ) : (
-        <>
-          {showHeader && (
-            <ElectionHeader>
-              {remainingVotes
-                ? vt('vote/election/votesRemaining', {
-                    count: remainingVotes,
-                    max: numSeats
-                  })
-                : vt('vote/election/noVotesRemaining')}
-            </ElectionHeader>
-          )}
-          {message && <ElectionMessage message={message} />}
-          <div {...styles.wrapper}>
-            <ElectionBallot
-              vote={vote}
-              onChange={electionOpen ? toggleCandidate : undefined}
-              maxVotes={election.numSeats}
-              mandatory={mandatoryCandidates}
-              showMeta={showMeta}
-              discussionPath={election?.discussion?.path}
-              disabled={remainingVotes <= 0}
-            />
-            {electionOpen && (
-              <ElectionActions>
-                <div {...sharedStyles.buttons}>
-                  <Button primary onClick={() => setConfirm(true)}>
-                    {vt('vote/common/continue')}
-                  </Button>
-                  {isDirty && (
-                    <Interaction.P style={{ marginLeft: 30 }}>
-                      <A href='#' onClick={reset}>
-                        {vt('vote/common/reset')}
-                      </A>
-                    </Interaction.P>
-                  )}
-                </div>
-                {!isDirty && (
-                  <div {...sharedStyles.hint}>
-                    {vt('vote/common/help/blank')}
-                  </div>
-                )}
-              </ElectionActions>
-            )}
-          </div>
-        </>
-      )}
-    </div>
-  )
-})
+)
 
 const ElectionLoader = compose(
   graphql(query, {
@@ -330,7 +341,7 @@ const ElectionLoader = compose(
       }
     })
   })
-)(({ data, mandatoryCandidates = [], showMeta = true }) => (
+)(({ data, discussionTag, mandatoryCandidates = [], showMeta = true }) => (
   <Loader
     loading={data.loading}
     error={data.error}
@@ -339,6 +350,7 @@ const ElectionLoader = compose(
       return (
         <Election
           election={data.election}
+          discussionTag={discussionTag}
           mandatoryCandidates={mandatoryCandidates}
           showMeta={showMeta}
         />

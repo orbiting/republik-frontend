@@ -16,7 +16,8 @@ const ElectionBallot = ({
   onChange,
   showMeta,
   disabled,
-  discussionPath
+  discussionPath,
+  discussionTag
 }) => (
   <div {...styles.table}>
     {vote.map(({ candidate, selected }) => (
@@ -30,6 +31,7 @@ const ElectionBallot = ({
         disabled={disabled}
         showMeta={showMeta}
         discussionPath={discussionPath}
+        discussionTag={discussionTag}
       />
     ))}
   </div>
@@ -42,7 +44,8 @@ ElectionBallot.propTypes = {
   onChange: PropTypes.func,
   showMeta: PropTypes.bool,
   disabled: PropTypes.bool,
-  discussionPath: PropTypes.string
+  discussionPath: PropTypes.string,
+  discussionTag: PropTypes.string
 }
 
 ElectionBallot.defaultProps = {

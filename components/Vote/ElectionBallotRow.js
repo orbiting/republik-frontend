@@ -72,7 +72,8 @@ const ElectionBallotRow = props => {
     disabled,
     mandatory,
     showMeta,
-    discussionPath
+    discussionPath,
+    discussionTag
   } = props
 
   const toggleExpanded = e => {
@@ -129,7 +130,11 @@ const ElectionBallotRow = props => {
         )}
       </div>
       {expanded && (
-        <CandidateCard candidate={candidate} discussionPath={discussionPath} />
+        <CandidateCard
+          candidate={candidate}
+          discussionPath={discussionPath}
+          discussionTag={discussionTag}
+        />
       )}
     </div>
   )
@@ -143,7 +148,8 @@ ElectionBallotRow.propTypes = {
   onChange: PropTypes.func,
   candidate: PropTypes.object.isRequired,
   showMeta: PropTypes.bool,
-  discussionPath: PropTypes.string
+  discussionPath: PropTypes.string,
+  discussionTag: PropTypes.string
 }
 
 ElectionBallotRow.defaultProps = {

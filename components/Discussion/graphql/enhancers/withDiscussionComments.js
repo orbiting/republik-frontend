@@ -37,7 +37,7 @@ export const withDiscussionComments = graphql(discussionQuery, {
             parentId,
             after,
             orderBy,
-            activeTag,
+            activeTag: parentId ? null : activeTag,
             depth: depth || 3,
             includeParent
           },

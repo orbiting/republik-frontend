@@ -122,15 +122,15 @@
     },
     {
       "key": "vote/election/votesAvailable",
-      "value": "Sie haben {count} Stimmen zu verteilen"
+      "value": "Sie haben {count} Stimmen zu verteilen."
     },
     {
       "key": "vote/election/votesRemaining",
-      "value": "{count} von {max} Stimmen sind leer"
+      "value": "{count} von {max} Stimmen sind noch leer."
     },
     {
       "key": "vote/election/noVotesRemaining",
-      "value": "Sie haben alle Ihre Stimmen verteilt"
+      "value": "Sie haben alle Ihre Stimmen verteilt."
     },
     {
       "key": "vote/election/legendStar",
@@ -186,7 +186,7 @@
     },
     {
       "key": "vote/election/confirm/gender/header",
-      "value": "Geschlechtsparität"
+      "value": "Geschlechterparität"
     },
     {
       "key": "vote/election/confirm/age/header",
@@ -206,7 +206,7 @@
     },
     {
       "key": "vote/common/thankyou",
-      "value": "Alles erledigt. Vielen Dank für Ihre Stimme! \n \nAm 1.&nbsp;Dezember werden wir hier die Resultate der Abstimmungen und Wahlen verkünden und einen angemessen staatstragenden Newsletter verschicken.\n \nZurück zur <a href='https://www.republik.ch/'>Republik</A>."
+      "value": "Alles erledigt. Vielen Dank für Ihre Stimme!\\n\\nWir melden uns sobald es Resultate gibt.\\n\\nZurück zur <a href='https://www.republik.ch/'>Republik</A>."
     },
     {
       "key": "vote/voting/optionYES",
@@ -306,7 +306,7 @@
     },
     {
       "key": "vote/ended",
-      "value": "Guten Tag. Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 1.&nbsp;Dezember."
+      "value": "Guten Tag. Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie in wenigen Tagen hier."
     },
     {
       "key": "vote/sm/title",

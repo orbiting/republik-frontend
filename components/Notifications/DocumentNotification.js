@@ -17,10 +17,14 @@ export default compose(withT)(({ t, node, isNew, me }) => {
       menu={
         <SubscribeCallout
           authorSubscriptions={
-            subscription.object.__typename === 'User' && [subscription]
+            subscription.object.__typename === 'User'
+              ? [subscription]
+              : undefined
           }
           formatSubscriptions={
-            subscription.object.__typename === 'Document' && [subscription]
+            subscription.object.__typename === 'Document'
+              ? [subscription]
+              : undefined
           }
         />
       }

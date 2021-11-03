@@ -270,7 +270,10 @@ const ActionBar = ({
       modes: ['articleTop', 'articleBottom'],
       show:
         // only show if there is something to subscribe to
-        (isDiscussion || meta.format || meta.authors?.length) &&
+        (isDiscussion ||
+          meta.template === 'format' ||
+          meta.format ||
+          meta.authors?.length) &&
         // and signed in or loading me
         (me || meLoading)
     },
@@ -309,7 +312,7 @@ const ActionBar = ({
         })
       },
       label: t('PodcastButtons/play'),
-      modes: ['feed'],
+      modes: ['feed', 'seriesEpisode'],
       show: !!meta.audioSource
     },
     {

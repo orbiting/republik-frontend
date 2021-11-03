@@ -23,7 +23,7 @@ const AudioPlayerFrontend = ({ t }) => {
         return (
           <>
             {!meLoading && audioState && (
-              <BottomPanel wide visible={audioPlayerVisible}>
+              <BottomPanel wide foreground={true} visible={audioPlayerVisible}>
                 <ProgressComponent isArticle={false}>
                   <AudioPlayer
                     key={audioState.mediaId || audioState.url}

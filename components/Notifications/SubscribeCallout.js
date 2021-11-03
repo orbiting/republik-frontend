@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SubscribeDebate from './SubscribeDebate'
 import SubscribeDocument from './SubscribeDocument'
 import SubscribeAuthors from './SubscribeAuthors'
@@ -76,6 +77,11 @@ const SubscribeCallout = ({
       <SettingsLink />
     </div>
   )
+}
+
+SubscribeCallout.propTypes = {
+  formatSubscriptions: PropTypes.array,
+  authorSubscriptions: PropTypes.array
 }
 
 export default withMe(withT(SubscribeCallout))

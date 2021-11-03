@@ -39,6 +39,7 @@ import { focusSelector } from '../../lib/utils/scroll'
 import { RootCommentOverlay } from './RootCommentOverlay'
 import { FeatureCommentOverlay } from './FeatureCommentOverlay'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
+import { rerouteDiscussion } from './DiscussionLink'
 
 const styles = {
   orderByContainer: css({
@@ -525,9 +526,11 @@ const EmptyDiscussion = ({ t }) => (
 
 const OrderByLink = ({ t, orderBy, value }) => {
   const [colorScheme] = useColorContext()
-  const { pathname, query } = useRouter()
+  const route = useRouter()
   const isSelected = orderBy === value
-  const targetQuery = { ...query, order: value }
+  const targetHref = rerouteDiscussion(route, {
+    order: value
+  })
   const hoverRule = useMemo(() => {
     return css({
       '@media (hover)': {
@@ -538,7 +541,7 @@ const OrderByLink = ({ t, orderBy, value }) => {
     })
   }, [colorScheme])
   return (
-    <Link href={{ pathname, query: targetQuery }} scroll={false} passHref>
+    <Link href={targetHref} scroll={false} passHref>
       <a
         {...styles.orderBy}
         {...colorScheme.set('color', 'text')}

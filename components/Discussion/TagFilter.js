@@ -9,6 +9,7 @@ import {
 import { withDiscussionComments } from './graphql/enhancers/withDiscussionComments'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { rerouteDiscussion } from './DiscussionLink'
 
 const styles = {
   tagsContainer: css({
@@ -27,20 +28,18 @@ const styles = {
 }
 
 const TagLink = ({ tag, commentCount }) => {
+  const route = useRouter()
   const {
-    pathname,
-    query: { tag: activeTag, ...restQuery }
-  } = useRouter()
+    query: { tag: activeTag }
+  } = route
   const isSelected = tag === activeTag
   const isInactive = activeTag && !isSelected
-  const targetQuery = isSelected ? restQuery : { ...restQuery, tag }
-  delete targetQuery.focus
-  if (isSelected) {
-    delete targetQuery.tag
-  }
+  const targetHref = rerouteDiscussion(route, {
+    tag: isSelected ? undefined : tag
+  })
   return (
     <div {...styles.tagLink}>
-      <Link href={{ pathname, query: targetQuery }} scroll={false} passHref>
+      <Link href={targetHref} scroll={false} passHref>
         <a>
           <FormatTag
             color={isInactive ? 'textSoft' : 'text'}

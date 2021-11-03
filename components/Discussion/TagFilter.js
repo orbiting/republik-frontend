@@ -33,7 +33,6 @@ const TagLink = ({ tag, commentCount }) => {
     query: { tag: activeTag }
   } = route
   const isSelected = tag === activeTag
-  const isInactive = activeTag && !isSelected
   const targetHref = rerouteDiscussion(route, {
     tag: isSelected ? undefined : tag
   })
@@ -42,8 +41,8 @@ const TagLink = ({ tag, commentCount }) => {
       <Link href={targetHref} scroll={false} passHref>
         <a>
           <FormatTag
-            color={isInactive ? 'textSoft' : 'text'}
-            label={tag}
+            color={isSelected ? 'text' : 'textSoft'}
+            label={tag || 'Alle'}
             count={commentCount}
           />
         </a>
@@ -52,7 +51,7 @@ const TagLink = ({ tag, commentCount }) => {
   )
 }
 
-const TagFilter = ({ tags }) => {
+const TagFilter = ({ tags, totalCount }) => {
   const [colorScheme] = useColorContext()
   const [headerHeight] = useHeaderHeight()
 
@@ -63,6 +62,7 @@ const TagFilter = ({ tags }) => {
       {...colorScheme.set('background', 'default')}
       style={{ top: headerHeight }}
     >
+      <TagLink key='all' tag={undefined} commentCount={totalCount} />
       {tags.map(tag => (
         <TagLink key={tag.value} tag={tag.value} commentCount={tag.count} />
       ))}
@@ -82,7 +82,11 @@ const TagFilterLoader = withDiscussionComments(({ discussionComments }) => (
         value: tag,
         count: tagBuckets.find(t => t.value === tag)?.count || 0
       }))
-      return <TagFilter tags={allBuckets} />
+      const totalCount = tagBuckets.reduce(
+        (acc, bucket) => acc + bucket.count,
+        0
+      )
+      return <TagFilter tags={allBuckets} totalCount={totalCount} />
     }}
   />
 ))

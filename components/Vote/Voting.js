@@ -60,7 +60,7 @@ const styles = {
     textAlign: 'center'
   }),
   confirm: css({
-    margin: '20px 0'
+    margin: '10px 0 15px'
   }),
   content: css({
     padding: '0 15px'
@@ -223,6 +223,7 @@ const Voting = compose(
         </Button>
         {isUpdating ? <A>&nbsp;</A> : resetLink}
       </div>
+      <div {...sharedStyles.hint}>{vt('vote/common/help/final')}</div>
     </>
   )
 

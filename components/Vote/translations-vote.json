@@ -205,6 +205,10 @@
       "value": "Sie können auch leer einlegen."
     },
     {
+      "key": "vote/common/help/final",
+      "value": "Eingelegte Stimmen sind definitiv."
+    },
+    {
       "key": "vote/common/thankyou",
       "value": "Alles erledigt. Vielen Dank für Ihre Stimme!\\n\\nWir melden uns sobald es Resultate gibt.\\n\\nZurück zur <a href='https://www.republik.ch/'>Republik</A>."
     },

@@ -339,6 +339,7 @@ const ElectionConfirm = compose(
       {error && <ErrorMessage error={error} />}
       {confirmation}
       {actions}
+      <div {...sharedStyles.hint}>{vt('vote/common/help/final')}</div>
     </ElectionActions>
   )
 })

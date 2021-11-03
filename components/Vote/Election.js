@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {
   A,
   Button,
-  fontFamilies,
   Interaction,
-  mediaQueries,
   RawHtml,
   useColorContext
 } from '@project-r/styleguide'

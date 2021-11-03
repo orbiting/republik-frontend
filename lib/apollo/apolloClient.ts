@@ -4,14 +4,8 @@ import {
   InMemoryCache,
   NormalizedCacheObject
 } from '@apollo/client'
-import { createLink, dataIdFromObject } from './initApollo'
+import { createLink } from './apolloLink'
 import deepMerge from '../deepMerge'
-import {
-  inNativeAppBrowser,
-  inNativeAppBrowserLegacy,
-  postMessage
-} from '../withInNativeApp'
-import { meQuery } from './withMe'
 import fetch from 'isomorphic-unfetch'
 
 const isDev = process.env.NODE_ENV && process.env.NODE_ENV === 'development'
@@ -25,8 +19,6 @@ if (!process.browser) {
 // Source: https://github.com/vercel/next.js/blob/canary/examples/with-apollo/lib/apolloClient.js
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-
-let apolloClient: ApolloClient<NormalizedCacheObject> = null
 
 type Options = {
   headers?: any
@@ -50,7 +42,9 @@ function createApolloClient(
             // Since Meta doesn't have a key-field, update cached data
             // Source: https://www.apollographql.com/docs/react/caching/cache-field-behavior/#merging-non-normalized-objects
             meta: {
-              merge: mergeExistingData
+              merge: (existing, incoming) => {
+                return deepMerge({}, existing, incoming)
+              }
             }
           }
         },
@@ -62,7 +56,6 @@ function createApolloClient(
           }
         }
       },
-      dataIdFromObject,
       // Generated with a script found in the apollo-client docs:
       // https://www.apollographql.com/docs/react/data/fragments/#generating-possibletypes-automatically
       possibleTypes: {
@@ -101,6 +94,9 @@ function createApolloClient(
   })
 }
 
+// Client only, initializeApollo only sets it when in browser
+let apolloClient: ApolloClient<NormalizedCacheObject> = null
+
 /**
  * Initialize an Apollo Client. On the client the Apollo Client is shared across
  * the whole application and on the server a new instance is generated with each execution.
@@ -126,26 +122,6 @@ export function initializeApollo(
   // Create the Apollo Client once in the client
   if (!apolloClient) apolloClient = _apolloClient
 
-  if (inNativeAppBrowser) {
-    try {
-      // Post current user data to native app
-      const data = apolloClient.readQuery({ query: meQuery })
-      if (inNativeAppBrowserLegacy) {
-        postMessage({ type: 'initial-state', payload: data })
-      } else {
-        postMessage({ type: 'isSignedIn', payload: !!data?.me })
-      }
-    } catch (e) {
-      // readQuery throws if no me query is in the cache
-      postMessage({
-        type: 'warning',
-        data: {
-          error: 'me not available on page load'
-        }
-      })
-    }
-  }
-
   return apolloClient
 }
 
@@ -157,14 +133,19 @@ export function initializeApollo(
  * will reuse the existing cache.
  *
  * @param pageProps
+ * @param providedApolloClient
  * @returns {ApolloClient<unknown>|ApolloClient<any>}
  */
 export function useApollo<P extends unknown>(
-  pageProps: P
+  pageProps: P,
+  providedApolloClient?: ApolloClient<NormalizedCacheObject>
 ): ApolloClient<NormalizedCacheObject> {
   const apolloCache =
     pageProps && pageProps[APOLLO_STATE_PROP_NAME]
       ? pageProps[APOLLO_STATE_PROP_NAME]
       : null
-  return useMemo(() => initializeApollo(apolloCache), [apolloCache])
+  return useMemo(() => providedApolloClient || initializeApollo(apolloCache), [
+    apolloCache,
+    providedApolloClient
+  ])
 }

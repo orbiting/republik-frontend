@@ -9,6 +9,7 @@ export const getDocument = gql`
       id
       repoId
       content
+      issuedForUserId
       subscribedBy(includeParents: true, onlyMe: true) {
         nodes {
           ...subInfo
@@ -49,6 +50,8 @@ export const getDocument = gql`
         twitterTitle
         twitterImage
         twitterDescription
+        seoTitle
+        seoDescription
         shareText
         shareFontSize
         shareInverted
@@ -70,6 +73,9 @@ export const getDocument = gql`
           }
         }
         color
+        authors {
+          id
+        }
         format {
           id
           meta {
@@ -145,6 +151,13 @@ export const getDocument = gql`
                 template
                 estimatedReadingMinutes
                 estimatedConsumptionMinutes
+                audioSource {
+                  mp3
+                  aac
+                  ogg
+                  mediaId
+                  durationMs
+                }
                 ownDiscussion {
                   id
                   closed

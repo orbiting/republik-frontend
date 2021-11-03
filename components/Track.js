@@ -1,11 +1,8 @@
-import { useEffect } from 'react'
-import Router from 'next/router'
+import { useEffect, useRef } from 'react'
+import { useRouter } from 'next/router'
 
 import { parse, format } from 'url'
 
-import { usePrevious } from '@project-r/styleguide'
-
-import withMe from '../lib/apollo/withMe'
 import track from '../lib/matomo'
 import { payload, getUtmParams } from '../lib/utils/track'
 import { useInNativeApp } from '../lib/withInNativeApp'
@@ -13,6 +10,7 @@ import { useInNativeApp } from '../lib/withInNativeApp'
 import { PUBLIC_BASE_URL } from '../lib/constants'
 
 import { PSP_PLEDGE_ID_QUERY_KEYS } from './Payment/constants'
+import { useMe } from '../lib/context/MeContext'
 
 const trackRoles = me =>
   track([
@@ -74,9 +72,17 @@ const trackUrl = url => {
   track(['trackPageView'])
 }
 
-const Track = ({ me }) => {
-  const prevMe = usePrevious(me)
+const Track = () => {
+  const { me, meLoading } = useMe()
+  const lastMeRef = useRef()
+  const router = useRouter()
+
   useEffect(() => {
+    if (meLoading) {
+      return
+    }
+    const prevMe = lastMeRef.current
+
     if (prevMe !== me && (!prevMe || !me || prevMe.email !== me.email)) {
       if (prevMe !== undefined) {
         // start new visit with potentially different roles
@@ -84,9 +90,10 @@ const Track = ({ me }) => {
         track(['deleteCookies'])
       }
       trackRoles(me)
+      lastMeRef.current = me
     }
     payload.disable(me?.activeMembership)
-  }, [me, prevMe])
+  }, [me, meLoading])
 
   const { inNativeAppVersion } = useInNativeApp()
   useEffect(() => {
@@ -98,7 +105,9 @@ const Track = ({ me }) => {
   }, [inNativeAppVersion])
 
   useEffect(() => {
-    trackUrl(window.location.href)
+    if (router.isReady) {
+      trackUrl(window.location.href)
+    }
 
     const onRouteChangeComplete = url => {
       // give pages time to set correct page title
@@ -108,13 +117,13 @@ const Track = ({ me }) => {
         trackUrl(`${PUBLIC_BASE_URL}${url}`)
       }, 600)
     }
-    Router.events.on('routeChangeComplete', onRouteChangeComplete)
+    router.events.on('routeChangeComplete', onRouteChangeComplete)
     return () => {
-      Router.events.off('routeChangeComplete', onRouteChangeComplete)
+      router.events.off('routeChangeComplete', onRouteChangeComplete)
     }
   }, [])
 
   return null
 }
 
-export default withMe(Track)
+export default Track

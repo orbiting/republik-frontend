@@ -160,13 +160,12 @@ const Progress = ({
     if (e) {
       e.preventDefault()
     }
-    const { userProgress } = article
-    const { percentage, nodeId } = userProgress
+    const { percentage, nodeId } = article.userProgress
 
     const progressElements = getProgressElements()
     const progressElement =
       !!nodeId &&
-      progressElements.find((element, index) => {
+      progressElements.find(element => {
         if (element.getAttribute('data-pos') === nodeId) {
           return true
         }

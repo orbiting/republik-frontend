@@ -41,5 +41,48 @@ module.exports = withBundleAnalyzer({
   // }
   eslint: {
     ignoreDuringBuilds: true
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/~:slug',
+        destination: '/~/:slug'
+      }
+    ]
+  },
+  async redirects() {
+    return [
+      {
+        source: '/~/:slug',
+        destination: '/~:slug',
+        permanent: true
+      },
+      {
+        source: '/pledge',
+        destination: '/angebote',
+        permanent: true
+      },
+      {
+        source: '/notifications',
+        destination: '/mitteilung',
+        permanent: true
+      },
+
+      {
+        source: '/merci',
+        destination: '/konto',
+        permanent: true
+      },
+      {
+        source: '/ud/report',
+        destination: 'https://ultradashboard.republik.ch/dashboard/15',
+        permanent: false
+      },
+      {
+        source: '/ud/daily',
+        destination: 'https://ultradashboard.republik.ch/dashboard/17',
+        permanent: false
+      }
+    ]
   }
 })

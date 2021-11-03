@@ -7,6 +7,7 @@ import { getDataFromTree } from '@apollo/client/react/ssr'
 import { NextPage, NextPageContext } from 'next'
 import { BasePageProps } from '../../pages/_app'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import { meQuery } from '../apollo/withMe'
 
 /**
  * Default Props used when rendering a page using SSR
@@ -17,12 +18,9 @@ type DefaultSSRPageProps<P = unknown> = BasePageProps<P> & {
    */
   providedApolloClient?: ApolloClient<NormalizedCacheObject>
   /**
-   * Request headers
+   * UserAgent used during SSR.
    */
-  headers?: {
-    accept: string
-    userAgent: string
-  }
+  providedUserAgent?: string
   /**
    * NextPageContext available during SSR
    */
@@ -53,14 +51,7 @@ function withDefaultSSR(
     // Run all GraphQL queries in the component tree
     // and extract the resulting data
     if (!process.browser) {
-      // We forward the accept header for webp detection
-      // - never forward cookie to client!
-      const headers = !process.browser
-        ? {
-            accept: ctx.req.headers.accept,
-            userAgent: ctx.req.headers['user-agent']
-          }
-        : undefined
+      props.providedUserAgent = ctx.req.headers['user-agent']
 
       const apolloClient = initializeApollo(null, {
         headers: ctx.req.headers,
@@ -75,22 +66,27 @@ function withDefaultSSR(
       })
 
       try {
+        await apolloClient.query({
+          query: meQuery
+        })
+
         // Run all GraphQL queries with a provided apolloClient
         await getDataFromTree(
           <AppTree
             pageProps={{
               providedApolloClient: apolloClient,
-              headers: headers,
               serverContext: ctx,
               ...props
             }}
           />
         )
       } catch (error) {
-        // Prevent Apollo Client GraphQL errors from crashing SSR.
-        // Handle them in components via the data.error prop:
-        // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
-        console.error('Error while running `getDataFromTree`', error)
+        if (error.message !== 'redirect') {
+          // Prevent Apollo Client GraphQL errors from crashing SSR.
+          // Handle them in components via the data.error prop:
+          // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
+          console.error('Error while running `getDataFromTree`', error)
+        }
       }
 
       // Extract query data from the Apollo store

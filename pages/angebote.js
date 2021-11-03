@@ -28,7 +28,7 @@ class PledgePage extends Component {
             query.hash ? `#${query.hash}` : ''
           }`
         )
-        serverContext.res.end()
+        throw new Error('redirect')
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
         router.replace({ pathname: '/cockpit', query: { token: query.token } })
@@ -42,7 +42,7 @@ class PledgePage extends Component {
             query.hash ? `#${query.hash}` : ''
           }`
         )
-        serverContext.res.end()
+        throw new Error('redirect')
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
         router.replace({
@@ -59,7 +59,7 @@ class PledgePage extends Component {
             query.hash ? `#${query.hash}` : ''
           }`
         )
-        serverContext.res.end()
+        throw new Error('redirect')
       } else if (process.browser) {
         // SSR does two two-passes: data (with serverContext) & render (without)
         router.replace({ pathname: '/konto', query: { token: query.token } })

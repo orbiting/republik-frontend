@@ -34,6 +34,7 @@ const TagLink = ({ tag, commentCount }) => {
   const isSelected = tag === activeTag
   const isInactive = activeTag && !isSelected
   const targetQuery = isSelected ? restQuery : { ...restQuery, tag }
+  delete targetQuery.focus
   if (isSelected) {
     delete targetQuery.tag
   }

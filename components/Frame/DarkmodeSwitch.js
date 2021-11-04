@@ -36,7 +36,6 @@ const DarkmodeSwitch = ({ t }) => {
       {...props}
     />
   ))
-  console.log(Icon)
 
   const calloutPaddingNativeApp = inNativeApp
     ? '15px 15px 25px'

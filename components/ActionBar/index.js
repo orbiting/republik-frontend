@@ -356,6 +356,11 @@ const ActionBar = ({
       show: true
     },
     {
+      element: <br />,
+      modes: ['articleTop'],
+      show: true
+    },
+    {
       title: t('article/actionbar/userprogress'),
       element:
         document.userProgress && displayMinutes > 1 ? (
@@ -368,49 +373,6 @@ const ActionBar = ({
         ),
       modes: ['articleTop'],
       show: document.userProgress && displayMinutes > 1 && !podcast
-    },
-    {
-      title: t('article/actionbar/discussion'),
-      element: (
-        <DiscussionLinkButton
-          t={t}
-          document={document}
-          isOnArticlePage={[
-            'articleTop',
-            'articleBottom',
-            'articleOverlay'
-          ].includes(mode)}
-          forceShortLabel={forceShortLabel}
-          atArticleBottom={mode === 'articleBottom'}
-        />
-      ),
-      modes: [
-        'articleTop',
-        'articleBottom',
-        'articleOverlay',
-        'feed',
-        'seriesEpisode'
-      ],
-      show: !!discussionId
-    },
-    {
-      element: <br />,
-      modes: ['articleTop'],
-      show: true
-    },
-    {
-      title: t('feed/actionbar/edit'),
-      element: (
-        <IconButton
-          Icon={EditIcon}
-          href={`${PUBLIKATOR_BASE_URL}/repo/${document?.repoId}/tree`}
-          target='_blank'
-          title={t('feed/actionbar/edit')}
-          fill={'#E9A733'}
-        />
-      ),
-      modes: ['articleTop'],
-      show: document?.repoId && isEditor
     },
     {
       title: t('PodcastButtons/play'),
@@ -441,6 +403,44 @@ const ActionBar = ({
       labelShort: t('PodcastButtons/title'),
       modes: ['articleTop'],
       show: !!podcast && meta.template !== 'format'
+    },
+    {
+      title: t('article/actionbar/discussion'),
+      element: (
+        <DiscussionLinkButton
+          t={t}
+          document={document}
+          isOnArticlePage={[
+            'articleTop',
+            'articleBottom',
+            'articleOverlay'
+          ].includes(mode)}
+          forceShortLabel={forceShortLabel}
+          atArticleBottom={mode === 'articleBottom'}
+        />
+      ),
+      modes: [
+        'articleTop',
+        'articleBottom',
+        'articleOverlay',
+        'feed',
+        'seriesEpisode'
+      ],
+      show: !!discussionId
+    },
+    {
+      title: t('feed/actionbar/edit'),
+      element: (
+        <IconButton
+          Icon={EditIcon}
+          href={`${PUBLIKATOR_BASE_URL}/repo/${document?.repoId}/tree`}
+          target='_blank'
+          title={t('feed/actionbar/edit')}
+          fill={'#E9A733'}
+        />
+      ),
+      modes: ['articleTop'],
+      show: document?.repoId && isEditor
     }
   ]
 

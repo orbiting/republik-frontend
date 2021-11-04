@@ -39,7 +39,7 @@ const DiscussionLinkButton = ({
         Icon={DiscussionIcon}
         label={
           atArticleBottom
-            ? t('feed/actionbar/discussion/long', {
+            ? t('profile/documents/title/other', {
                 count: discussionCount || ''
               })
             : forceShortLabel
@@ -48,13 +48,9 @@ const DiscussionLinkButton = ({
                 count: discussionCount || ''
               })
         }
-        labelShort={
-          atArticleBottom
-            ? t('feed/actionbar/discussion/long', {
-                count: discussionCount || ''
-              })
-            : discussionCount || ''
-        }
+        labelShort={t('profile/documents/title/other', {
+          count: discussionCount || ''
+        })}
         fillColorName='primary'
         onClick={
           isDiscussionPage && isOnArticlePage

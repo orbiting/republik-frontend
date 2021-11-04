@@ -9,7 +9,8 @@ import {
   PodcastIcon,
   FontSizeIcon,
   ShareIcon,
-  ChartIcon
+  ChartIcon,
+  EditIcon
 } from '@project-r/styleguide/icons'
 import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
@@ -19,7 +20,7 @@ import { splitByTitle } from '../../lib/utils/mdast'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 import { trackEvent } from '../../lib/matomo'
 import { getDiscussionLinkProps } from './utils'
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, PUBLIKATOR_BASE_URL } from '../../lib/constants'
 import PdfOverlay, { getPdfUrl } from '../Article/PdfOverlay'
 import FontSizeOverlay from '../FontSize/Overlay'
 import ShareOverlay from './ShareOverlay'
@@ -31,10 +32,12 @@ import BookmarkButton from './BookmarkButton'
 import DiscussionLinkButton from './DiscussionLinkButton'
 import UserProgress from './UserProgress'
 import ShareButtons from './ShareButtons'
+import { useMe } from '../../lib/context/MeContext'
 
 const ActionBar = ({
   mode,
   document,
+  documentLoading,
   t,
   inNativeApp,
   share,
@@ -43,6 +46,7 @@ const ActionBar = ({
   fontSize,
   isCentered
 }) => {
+  const { me, meLoading, hasAccess, isEditor } = useMe()
   const [pdfOverlayVisible, setPdfOverlayVisible] = useState(false)
   const [fontSizeOverlayVisible, setFontSizeOverlayVisible] = useState(false)
   const [shareOverlayVisible, setShareOverlayVisible] = useState(false)
@@ -118,6 +122,7 @@ const ActionBar = ({
     ...document.meta,
     url: `${PUBLIC_BASE_URL}${document.meta.path}`
   }
+
   const podcast =
     (meta && meta.podcast) ||
     (meta && meta.audioSource && meta.format && meta.format.meta.podcast)
@@ -202,7 +207,7 @@ const ActionBar = ({
     {
       title: t('article/actionbar/userprogress'),
       element:
-        document.userProgress && displayMinutes > 1 ? (
+        document && document.userProgress && displayMinutes > 1 ? (
           <UserProgress
             documentId={document.id}
             forceShortLabel={forceShortLabel}
@@ -218,7 +223,7 @@ const ActionBar = ({
           <></>
         ),
       modes: ['articleOverlay', 'feed', 'bookmark', 'seriesEpisode'],
-      show: true
+      show: !!document?.userProgress
     },
     {
       title: t('feed/actionbar/chart'),
@@ -251,6 +256,7 @@ const ActionBar = ({
       modes: ['articleTop'],
       show: true
     },
+    // The subscription menu is available for all logged-in users
     {
       title: readingTimeTitle,
       Icon: ReadingTimeIcon,
@@ -259,14 +265,17 @@ const ActionBar = ({
       modes: ['articleTop'],
       show: showReadingTime
     },
+    // The subscription menu is available for all users with an active-membership.
     {
       title: t('bookmark/title/default'),
       element: (
         <BookmarkButton
-          bookmarked={!!document.userBookmark}
+          bookmarked={document && !!document.userBookmark}
           documentId={document.id}
           label={!forceShortLabel ? t('bookmark/label') : ''}
           labelShort={mode === 'articleBottom' && t('bookmark/label')}
+          disabled={meLoading || documentLoading}
+          attributes={{ ['data-show-if-active-membership']: true }}
         />
       ),
       modes: [
@@ -277,23 +286,29 @@ const ActionBar = ({
         'bookmark',
         'seriesEpisode'
       ],
-      show: !notBookmarkable
+      show: !notBookmarkable && (meLoading || hasAccess)
     },
     {
       title: t('SubscribeMenu/title'),
       element: (
         <SubscribeMenu
-          discussionId={
-            isDiscussion && meta.ownDiscussion && meta.ownDiscussion.id
-          }
-          subscriptions={document.subscribedBy && document.subscribedBy.nodes}
+          discussionId={isDiscussion && meta.ownDiscussion?.id}
+          subscriptions={document?.subscribedBy?.nodes}
           label={t('SubscribeMenu/title')}
-          labelShort={t('SubscribeMenu/title')}
           padded
+          loading={meLoading || documentLoading}
+          attributes={{ ['data-show-if-me']: true }}
         />
       ),
       modes: ['articleTop', 'articleBottom'],
-      show: true
+      show:
+        // only show if there is something to subscribe to
+        (isDiscussion ||
+          meta.template === 'format' ||
+          meta.format ||
+          meta.authors?.length) &&
+        // and signed in or loading me
+        (me || meLoading)
     },
     {
       title: t('PodcastButtons/play'),
@@ -308,7 +323,7 @@ const ActionBar = ({
         })
       },
       label: t('PodcastButtons/play'),
-      modes: ['feed'],
+      modes: ['feed', 'seriesEpisode'],
       show: !!meta.audioSource
     },
     {
@@ -382,6 +397,20 @@ const ActionBar = ({
       element: <br />,
       modes: ['articleTop'],
       show: true
+    },
+    {
+      title: t('feed/actionbar/edit'),
+      element: (
+        <IconButton
+          Icon={EditIcon}
+          href={`${PUBLIKATOR_BASE_URL}/repo/${document?.repoId}/tree`}
+          target='_blank'
+          title={t('feed/actionbar/edit')}
+          fill={'#E9A733'}
+        />
+      ),
+      modes: ['articleTop'],
+      show: document?.repoId && isEditor
     },
     {
       title: t('PodcastButtons/play'),

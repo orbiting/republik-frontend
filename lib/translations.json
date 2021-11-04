@@ -6989,6 +6989,10 @@
       "value": "Allgemeine Einstellungen"
     },
     {
+      "key": "SubscribeCallout/onlyYourself",
+      "value": "Andere können hier Ihnen folgen."
+    },
+    {
       "key": "SubscribeMenu/title",
       "value": "Folgen"
     },

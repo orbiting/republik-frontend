@@ -20,7 +20,7 @@ const Pledge = ({ router, serverContext }) => {
           query.hash ? `#${query.hash}` : ''
         }`
       )
-      serverContext.res.end()
+      throw new Error('redirect')
     } else if (process.browser) {
       // SSR does two two-passes: data (with serverContext) & render (without)
       router.replace({ pathname: '/cockpit', query: { token: query.token } })
@@ -34,7 +34,7 @@ const Pledge = ({ router, serverContext }) => {
           query.hash ? `#${query.hash}` : ''
         }`
       )
-      serverContext.res.end()
+      throw new Error('redirect')
     } else if (process.browser) {
       // SSR does two two-passes: data (with serverContext) & render (without)
       router.replace({
@@ -51,7 +51,7 @@ const Pledge = ({ router, serverContext }) => {
           query.hash ? `#${query.hash}` : ''
         }`
       )
-      serverContext.res.end()
+      throw new Error('redirect')
     } else if (process.browser) {
       // SSR does two two-passes: data (with serverContext) & render (without)
       router.replace({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Highlight } from '../Elements'
+import { Highlight, A } from '../Elements'
 import Page from '../Page'
 
 const text = {
@@ -388,6 +388,101 @@ const text = {
         drei gefeierte Romane
       </Highlight>{' '}
       (zu Recht?).
+    </>
+  ),
+  September: p => (
+    <>
+      <Highlight {...p} ids={['xKXMaHXDk']}>
+        Weder wirklich Wahl noch Kampf in Deutschland
+      </Highlight>{' '}
+      – und{' '}
+      <Highlight {...p} ids={['2jNZ7zQn0']}>
+        die drängenden Zukunftsfragen
+      </Highlight>
+      ?{' '}
+      <Highlight {...p} ids={['AI7S0n4CH']}>
+        Dieser Berg könnte ein ganzes Dorf verschütten
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['xThOAU3NO']}>
+        Ein Brandstifter
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['97M-ikxIs']}>
+        eine Aufstreberin
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['3PY6oODim']}>
+        junge Vorbilder wider Willen
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['dvjX_OHye']}>
+        Warum Sie mit Arbeit niemals reich werden
+      </Highlight>{' '}
+      und Ihren Kindern{' '}
+      <Highlight {...p} ids={['Tt2Lw_bhv']}>
+        dieses Buch vorlesen sollten
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['XcJcDUPl3']}>
+        Mit Frau Adichie über den Tod reden
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['xg_PDr32v']}>
+        Corona an den Schweizer Schulen
+      </Highlight>{' '}
+      und leider wieder:{' '}
+      <A href='https://www.republik.ch/2021/09/27/covid19'>Post um 19 Uhr</A>.
+    </>
+  ),
+  Oktober: p => (
+    <>
+      <Highlight {...p} ids={['M23temriT']}>
+        Mit Sexarbeiterinnen reden anstatt über sie
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['bAL93AyoY']}>
+        Wie viele Sprachen spricht die Schweiz
+      </Highlight>
+      ? Helvetischer Alltagsrassismus{' '}
+      <Highlight {...p} ids={['qLIjnOXbD']}>
+        in den 1950er-Jahren
+      </Highlight>{' '}
+      <Highlight {...p} ids={['SpxRGG-Xp']}>
+        und heute
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['EdrcnMP5k']}>
+        Dieses Monument der Abschottung
+      </Highlight>{' '}
+      – und{' '}
+      <Highlight
+        {...p}
+        series='republik/article-serienmaster-das-haus-der-schande'
+      >
+        was ist mit der Geschichte der darin hängenden Kunstwerke
+      </Highlight>
+      ?{' '}
+      <Highlight {...p} ids={['9tT2vBJyC']}>
+        Hier explodierte 1945 die erste Atombombe der Welt
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['R4cGb_ESS']}>
+        Wollte Sebastian Kurz Österreichs liberale Demokratie kippen
+      </Highlight>
+      ? Dazu:{' '}
+      <A href='/2021/10/08/werfen-sie-einen-blick-in-unsere-geschaeftsbuecher'>
+        Ein erfreulicher Blick in die Geschäftsbücher der Republik
+      </A>
+      ,{' '}
+      <Highlight {...p} ids={['VmZa58Csr']}>
+        ein wenig Hoffnung für das Klima
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['iCJmpFOQ6']}>
+        nein, Instagram hört Ihr Handy (sehr wahrscheinlich) nicht ab
+      </Highlight>
+      .
     </>
   )
 }

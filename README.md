@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-The example env assumes a backend running on port 5000. The backend needs to run on the same TLD for cookie sharing.
+The example env assumes a backend running on port 5010. The backend needs to run on the same TLD for cookie sharing.
 
 #### Setup Local Backend
 
@@ -32,7 +32,7 @@ See «[How To Run: Setup the Backends](https://github.com/orbiting/docs/blob/mas
 Don't care about developing the backend? Just want to test something against our production backend? We have [yet another proxy](https://github.com/orbiting/proxy) for that:
 
 ```
-PORT=5000 TARGET=https://api.republik.ch CORS_ORIGIN=http://localhost:3010 npx yaproxy
+PORT=5010 TARGET=https://api.republik.ch CORS_ORIGIN=http://localhost:3010 npx yaproxy
 ```
 
 (Obvious )Warning: whatever you do here is for realz, if you login to your account and change things they are changed on republik.ch! 

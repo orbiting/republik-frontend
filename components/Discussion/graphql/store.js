@@ -14,11 +14,7 @@ import { debug } from '../debug'
  * from the submitComment mutation update function to merge the just created comment
  * into the discussion.
  */
-export const mergeComment = ({
-  comment,
-  initialParentId,
-  isOptimisticUpdate
-}) => draft => {
+export const mergeComment = ({ comment, initialParentId }) => draft => {
   const parentId = comment.parentIds[comment.parentIds.length - 1]
   const nodes = draft.discussion.comments.nodes
 
@@ -37,7 +33,7 @@ export const mergeComment = ({
     comments: emptyCommentsConnection
   })
 
-  bumpCounts({ comment, initialParentId, isOptimisticUpdate })(draft)
+  bumpCounts({ comment, initialParentId })(draft)
 }
 
 // we keep track of which cache keys we've already bumped
@@ -47,11 +43,9 @@ const bumpedKeys = new Set()
 /**
  * Give a new comment, bump the counts (totalCount, directTotalCount)
  */
-export const bumpCounts = ({
-  comment,
-  initialParentId,
-  isOptimisticUpdate
-}) => draft => {
+export const bumpCounts = ({ comment, initialParentId }) => draft => {
+  const isOptimisticUpdate = comment.content.optimistic
+
   const parentId = comment.parentIds[comment.parentIds.length - 1]
   const nodes = draft.discussion.comments.nodes
 
@@ -161,6 +155,8 @@ export const mergeComments = ({ parentId, appendAfter, comments }) => draft => {
 export const optimisticContent = text => ({
   content: {
     type: 'root',
+    // allows to detect optimistic responses in bumpCounts
+    optimistic: true,
     children: [
       {
         type: 'paragraph',

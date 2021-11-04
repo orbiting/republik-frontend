@@ -313,8 +313,12 @@ const ActionBar = ({
           path: meta.path
         })
       },
-      label: t('PodcastButtons/play'),
-      modes: ['feed'],
+      label:
+        // remove label if it is in series Nav and there is userprogress
+        mode === 'seriesEpisode' && !!document.userProgress
+          ? null
+          : t('PodcastButtons/play'),
+      modes: ['feed', 'seriesEpisode'],
       show: !!meta.audioSource
     },
     {

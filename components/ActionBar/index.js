@@ -257,27 +257,6 @@ const ActionBar = ({
       show: true
     },
     {
-      title: t('bookmark/title/default'),
-      element: (
-        <BookmarkButton
-          bookmarked={document && !!document.userBookmark}
-          documentId={document.id}
-          label={!forceShortLabel ? t('bookmark/label') : ''}
-          disabled={meLoading || documentLoading}
-          attributes={{ ['data-show-if-active-membership']: true }}
-        />
-      ),
-      modes: [
-        'articleTop',
-        'articleBottom',
-        'articleOverlay',
-        'feed',
-        'bookmark',
-        'seriesEpisode'
-      ],
-      show: !notBookmarkable && (meLoading || hasAccess)
-    },
-    {
       title: t('SubscribeMenu/title'),
       element: (
         <SubscribeMenu
@@ -298,6 +277,27 @@ const ActionBar = ({
           meta.authors?.length) &&
         // and signed in or loading me
         (me || meLoading)
+    },
+    {
+      title: t('bookmark/title/default'),
+      element: (
+        <BookmarkButton
+          bookmarked={document && !!document.userBookmark}
+          documentId={document.id}
+          label={!forceShortLabel ? t('bookmark/label') : ''}
+          disabled={meLoading || documentLoading}
+          attributes={{ ['data-show-if-active-membership']: true }}
+        />
+      ),
+      modes: [
+        'articleTop',
+        'articleBottom',
+        'articleOverlay',
+        'feed',
+        'bookmark',
+        'seriesEpisode'
+      ],
+      show: !notBookmarkable && (meLoading || hasAccess)
     },
     {
       title: t('PodcastButtons/play'),

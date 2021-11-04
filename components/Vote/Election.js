@@ -15,6 +15,7 @@ import voteT from './voteT'
 import withMe from '../../lib/apollo/withMe'
 import { timeFormat } from '../../lib/utils/format'
 import Loader from '../Loader'
+import SignIn from '../Auth/SignIn'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import ElectionConfirm from './ElectionConfirm'
 import { Card, sharedStyles } from './text'
@@ -103,15 +104,8 @@ const styles = {
     justifyContent: 'center'
   }),
   message: css({
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    padding: 30,
+    padding: 20,
+    marginBottom: 20,
     textAlign: 'center'
   })
 }
@@ -146,18 +140,15 @@ export const ElectionActions = ({ children }) => {
   )
 }
 
-const ElectionMessage = ({ message }) => {
+const ElectionAlert = ({ children }) => {
   const [colorScheme] = useColorContext()
   return (
-    <div {...styles.wrapper} style={{ marginBottom: 30 }}>
-      <div {...styles.message} {...colorScheme.set('backgroundColor', 'alert')}>
-        <RawHtml
-          type={P}
-          dangerouslySetInnerHTML={{
-            __html: message
-          }}
-        />
-      </div>
+    <div
+      {...styles.wrapper}
+      {...colorScheme.set('backgroundColor', 'alert')}
+      style={{ marginBottom: 30, padding: 20 }}
+    >
+      {children}
     </div>
   )
 }
@@ -219,19 +210,21 @@ const Election = compose(
       setConfirm(false)
     }
 
-    let message
+    let dangerousDisabledHTML
+    let showSignIn
     if (election.userHasSubmitted) {
-      message = vt('vote/voting/thankyou', {
+      dangerousDisabledHTML = vt('vote/voting/thankyou', {
         submissionDate: messageDateFormat(new Date(election.userSubmitDate))
       })
     } else if (Date.now() > new Date(election.endDate)) {
-      message = vt('vote/election/ended')
+      dangerousDisabledHTML = vt('vote/election/ended')
     } else if (!me) {
-      message = vt('vote/election/notSignedIn', {
+      dangerousDisabledHTML = vt('vote/election/notSignedIn', {
         beginDate: timeFormat('%d.%m.%Y')(new Date(election.beginDate))
       })
+      showSignIn = true
     } else if (!election.userIsEligible) {
-      message = vt('vote/election/notEligible')
+      dangerousDisabledHTML = vt('vote/election/notEligible')
     }
 
     if (election.userIsEligible && !addressData.voteMe?.address) {
@@ -242,7 +235,7 @@ const Election = compose(
     const givenVotes = vote.filter(item => item.selected).length
     const remainingVotes = numSeats - givenVotes
 
-    const electionOpen = !message
+    const electionOpen = !dangerousDisabledHTML
     const showHeader = electionOpen && numSeats > 1
 
     return (
@@ -265,7 +258,19 @@ const Election = compose(
                 })}
               </ElectionHeader>
             )}
-            {message && <ElectionMessage message={message} />}
+            {dangerousDisabledHTML && (
+              <ElectionAlert>
+                <div {...styles.message}>
+                  <RawHtml
+                    type={P}
+                    dangerouslySetInnerHTML={{
+                      __html: dangerousDisabledHTML
+                    }}
+                  />
+                </div>
+                {showSignIn && <SignIn />}
+              </ElectionAlert>
+            )}
             <div {...styles.wrapper}>
               <ElectionBallot
                 vote={vote}

@@ -52,18 +52,16 @@ const query = gql`
 `
 
 const styles = {
-  thankyou: css({
-    padding: '30px 20px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  message: css({
+    padding: 20,
+    marginBottom: 20,
     textAlign: 'center'
   }),
   confirm: css({
     margin: '10px 0 15px'
   }),
   content: css({
-    padding: '0 15px'
+    padding: 10
   }),
   buttons: css({
     padding: '15px 0'
@@ -74,9 +72,7 @@ const messageDateFormat = timeFormat('%e. %B %Y')
 
 const VotingCard = ({ children }) => (
   <Card style={{ margin: '40px auto', maxWidth: 550 }}>
-    <div>
-      <div {...styles.content}>{children}</div>
-    </div>
+    <div {...styles.content}>{children}</div>
   </Card>
 )
 
@@ -146,7 +142,7 @@ const Voting = compose(
   if (dangerousDisabledHTML) {
     return (
       <VotingCard>
-        <div {...styles.thankyou}>
+        <div {...styles.message}>
           <RawHtml
             type={P}
             dangerouslySetInnerHTML={{

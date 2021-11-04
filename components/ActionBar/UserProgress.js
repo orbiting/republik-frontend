@@ -9,7 +9,7 @@ import {
   HighlightOffIcon,
   CheckSmallIcon,
   ReadIcon as OutlinedReadIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import { withProgressApi } from '../Article/Progress/api'
 import { ProgressCircle, IconButton, CalloutMenu } from '@project-r/styleguide'
 

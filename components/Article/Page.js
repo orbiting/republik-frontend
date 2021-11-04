@@ -27,15 +27,17 @@ import {
   IconButton,
   SeriesNav
 } from '@project-r/styleguide'
-import { EditIcon } from '@project-r/styleguide/icons'
-import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
-import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
-import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
-import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
-import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
-import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
-import createSectionSchema from '@project-r/styleguide/lib/templates/Section'
-import createPageSchema from '@project-r/styleguide/lib/templates/Page'
+import { EditIcon } from '@project-r/styleguide'
+import { createRequire } from '@project-r/styleguide'
+import {
+  createArticleSchema,
+  createFormatSchema,
+  createDossierSchema,
+  createDiscussionSchema,
+  createNewsletterWebSchema,
+  createSectionSchema,
+  createPageSchema
+} from '@project-r/styleguide'
 
 import ActionBarOverlay from './ActionBarOverlay'
 import SeriesNavBar from './SeriesNavBar'
@@ -112,7 +114,7 @@ const schemaCreators = {
   format: createFormatSchema,
   dossier: createDossierSchema,
   discussion: createDiscussionSchema,
-  editorialNewsletter: createNewsletterSchema,
+  editorialNewsletter: createNewsletterWebSchema,
   section: createSectionSchema,
   page: createPageSchema
 }

@@ -16,7 +16,7 @@ import {
   A,
   plainButtonRule
 } from '@project-r/styleguide'
-import { BookmarkBorderIcon } from '@project-r/styleguide/icons'
+import { BookmarkBorderIcon } from '@project-r/styleguide'
 import { getCollectionItems, registerQueryVariables } from './queries'
 import Link from 'next/link'
 

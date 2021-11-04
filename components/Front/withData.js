@@ -1,7 +1,6 @@
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
-import { TeaserActiveDebates } from '@project-r/styleguide/lib/components/TeaserActiveDebates'
-import { TeaserMyMagazine } from '@project-r/styleguide/lib/components/TeaserMyMagazine'
+import { TeaserActiveDebates, TeaserMyMagazine } from '@project-r/styleguide'
 
 const feedQuery = gql`
   query getFrontFeed(

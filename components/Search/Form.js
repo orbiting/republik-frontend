@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { CloseIcon } from '@project-r/styleguide/icons'
+import { CloseIcon } from '@project-r/styleguide'
 import {
   Field,
   mediaQueries,

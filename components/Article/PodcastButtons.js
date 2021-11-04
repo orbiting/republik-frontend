@@ -15,7 +15,7 @@ import {
   RssFeedIcon,
   AppleIcon,
   GoogleIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import { useUserAgent } from '../../lib/context/UserAgentContext'
 
 const styles = {

@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import { IconButton } from '@project-r/styleguide'
-import { EtiquetteIcon, MarkdownIcon } from '@project-r/styleguide/icons'
+import { EtiquetteIcon, MarkdownIcon } from '@project-r/styleguide'
 
 const styles = {
   container: css({

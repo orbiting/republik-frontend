@@ -3,10 +3,7 @@ import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { withRouter } from 'next/router'
 import { CalloutMenu, IconButton } from '@project-r/styleguide'
-import {
-  NotificationIcon,
-  NotificationsNoneIcon
-} from '@project-r/styleguide/icons'
+import { NotificationIcon, NotificationsNoneIcon } from '@project-r/styleguide'
 import { discussionPreferencesQuery } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'

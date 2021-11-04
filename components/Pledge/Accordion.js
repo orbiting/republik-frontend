@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css, merge } from 'glamor'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
-import { ChevronRightIcon } from '@project-r/styleguide/icons'
+import { ChevronRightIcon } from '@project-r/styleguide'
 import { nest } from 'd3-collection'
 import { min, ascending } from 'd3-array'
 

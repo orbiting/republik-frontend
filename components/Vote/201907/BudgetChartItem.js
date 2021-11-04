@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import sharedStyles from '../../sharedStyles'
-import { ExpandMoreIcon, ExpandLessIcon } from '@project-r/styleguide/icons'
+import { ExpandMoreIcon, ExpandLessIcon } from '@project-r/styleguide'
 import {
   colors,
   fontFamilies,

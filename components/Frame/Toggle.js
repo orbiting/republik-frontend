@@ -1,5 +1,5 @@
 import React from 'react'
-import { CloseIcon, SearchMenuIcon } from '@project-r/styleguide/icons'
+import { CloseIcon, SearchMenuIcon } from '@project-r/styleguide'
 import {
   mediaQueries,
   plainButtonRule,

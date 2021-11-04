@@ -11,7 +11,7 @@ import {
   ShareIcon,
   ChartIcon,
   EditIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'

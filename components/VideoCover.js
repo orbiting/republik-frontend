@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
 import { VideoPlayer, mediaQueries } from '@project-r/styleguide'
-import { PlayIcon } from '@project-r/styleguide/icons'
+import { PlayIcon } from '@project-r/styleguide'
 
 import { scrollIt } from '../lib/utils/scroll'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_HEADER } from './constants'

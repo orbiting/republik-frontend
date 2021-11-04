@@ -19,7 +19,7 @@ import {
   ChartLead,
   ChartLegend,
   Chart
-} from '@project-r/styleguide/chart'
+} from '@project-r/styleguide'
 
 import md from 'markdown-in-js'
 

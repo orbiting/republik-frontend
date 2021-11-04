@@ -19,7 +19,7 @@ import {
   FavoriteIcon,
   StarsIcon,
   ChevronRightIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import voteT from './voteT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'

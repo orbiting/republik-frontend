@@ -26,7 +26,7 @@ import {
   RevertIcon,
   ListIcon,
   FilterListIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'

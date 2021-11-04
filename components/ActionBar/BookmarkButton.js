@@ -3,7 +3,7 @@ import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
 import { withRouter } from 'next/router'
-import { BookmarkIcon, BookmarkBorderIcon } from '@project-r/styleguide/icons'
+import { BookmarkIcon, BookmarkBorderIcon } from '@project-r/styleguide'
 import { IconButton } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'

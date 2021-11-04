@@ -5,7 +5,7 @@ import { css } from 'glamor'
 import ActionBar from '../ActionBar'
 import { imageResizeUrl } from 'mdast-react-render/lib/utils'
 import Link from 'next/link'
-import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
+import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide'
 import {
   mediaQueries,
   fontStyles,

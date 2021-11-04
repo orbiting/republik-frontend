@@ -16,7 +16,7 @@ import {
   RawHtml,
   IconButton
 } from '@project-r/styleguide'
-import { DiscussionIcon } from '@project-r/styleguide/icons'
+import { DiscussionIcon } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import voteT from '../voteT'
 import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../../../lib/constants'

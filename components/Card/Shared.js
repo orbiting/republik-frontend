@@ -4,7 +4,7 @@ import { sum, max } from 'd3-array'
 
 import { Interaction } from '@project-r/styleguide'
 
-import Chart from '@project-r/styleguide/lib/components/Chart'
+import { Chart } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { chfFormat } from '../../lib/utils/format'

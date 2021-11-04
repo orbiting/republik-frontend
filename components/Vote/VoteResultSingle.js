@@ -2,10 +2,7 @@ import React from 'react'
 import compose from 'lodash/flowRight'
 import { sum } from 'd3-array'
 
-import Chart, {
-  ChartTitle,
-  ChartLead
-} from '@project-r/styleguide/lib/components/Chart'
+import { Chart, ChartTitle, ChartLead } from '@project-r/styleguide'
 import { Editorial } from '@project-r/styleguide'
 
 import voteT from './voteT'

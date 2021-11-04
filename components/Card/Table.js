@@ -4,7 +4,7 @@ import { nest } from 'd3-collection'
 import { ascending, descending } from 'd3-array'
 
 import IgnoreIcon from './IgnoreIcon'
-import { FollowIcon, RevertIcon, CheckIcon } from '@project-r/styleguide/icons'
+import { FollowIcon, RevertIcon, CheckIcon } from '@project-r/styleguide'
 
 import {
   fontStyles,

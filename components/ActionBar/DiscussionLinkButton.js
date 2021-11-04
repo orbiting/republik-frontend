@@ -10,7 +10,6 @@ const DiscussionLinkButton = ({
   t,
   document,
   forceShortLabel,
-  atArticleBottom,
   isOnArticlePage
 }) => {
   const meta = document && document.meta
@@ -38,11 +37,7 @@ const DiscussionLinkButton = ({
       <IconButton
         Icon={DiscussionIcon}
         label={
-          atArticleBottom
-            ? t('profile/documents/title/other', {
-                count: discussionCount || ''
-              })
-            : forceShortLabel
+          forceShortLabel
             ? discussionCount
             : t('profile/documents/title/other', {
                 count: discussionCount || ''

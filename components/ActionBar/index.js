@@ -354,7 +354,6 @@ const ActionBar = ({
             'articleOverlay'
           ].includes(mode)}
           forceShortLabel={forceShortLabel}
-          atArticleBottom={mode === 'articleBottom'}
         />
       ),
       modes: [

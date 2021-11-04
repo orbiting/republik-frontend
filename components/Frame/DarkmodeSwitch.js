@@ -4,9 +4,9 @@ import {
   IconButton,
   Radio,
   Label,
-  useColorContext
+  useColorContext,
+  DarkmodeIcon
 } from '@project-r/styleguide'
-import { DarkmodeIcon } from '@project-r/styleguide'
 import { useInNativeApp } from '../../lib/withInNativeApp'
 
 import { useColorSchemeKeyPreference } from '../ColorScheme/lib'
@@ -36,6 +36,7 @@ const DarkmodeSwitch = ({ t }) => {
       {...props}
     />
   ))
+  console.log(Icon)
 
   const calloutPaddingNativeApp = inNativeApp
     ? '15px 15px 25px'

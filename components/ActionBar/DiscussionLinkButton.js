@@ -48,9 +48,7 @@ const DiscussionLinkButton = ({
                 count: discussionCount || ''
               })
         }
-        labelShort={t('profile/documents/title/other', {
-          count: discussionCount || ''
-        })}
+        labelShort={discussionCount || ''}
         fillColorName='primary'
         onClick={
           isDiscussionPage && isOnArticlePage

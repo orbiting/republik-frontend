@@ -256,16 +256,6 @@ const ActionBar = ({
       modes: ['articleTop'],
       show: true
     },
-    // The subscription menu is available for all logged-in users
-    {
-      title: readingTimeTitle,
-      Icon: ReadingTimeIcon,
-      label: readingTimeLabel,
-      labelShort: readingTimeLabelShort,
-      modes: ['articleTop'],
-      show: showReadingTime
-    },
-    // The subscription menu is available for all users with an active-membership.
     {
       title: t('bookmark/title/default'),
       element: (
@@ -273,7 +263,6 @@ const ActionBar = ({
           bookmarked={document && !!document.userBookmark}
           documentId={document.id}
           label={!forceShortLabel ? t('bookmark/label') : ''}
-          labelShort={mode === 'articleBottom' && t('bookmark/label')}
           disabled={meLoading || documentLoading}
           attributes={{ ['data-show-if-active-membership']: true }}
         />
@@ -349,16 +338,46 @@ const ActionBar = ({
         }
       },
       label: !forceShortLabel ? t('article/actionbar/share') : '',
-      labelShort:
-        (mode === 'articleBottom' || mode === 'articleTop') &&
-        t('article/actionbar/share'),
+      labelShort: mode === 'articleBottom' && t('article/actionbar/share'),
       modes: ['articleTop', 'articleBottom', 'articleOverlay'],
       show: true
+    },
+    {
+      title: t('article/actionbar/discussion'),
+      element: (
+        <DiscussionLinkButton
+          t={t}
+          document={document}
+          isOnArticlePage={[
+            'articleTop',
+            'articleBottom',
+            'articleOverlay'
+          ].includes(mode)}
+          forceShortLabel={forceShortLabel}
+          atArticleBottom={mode === 'articleBottom'}
+        />
+      ),
+      modes: [
+        'articleTop',
+        'articleBottom',
+        'articleOverlay',
+        'feed',
+        'seriesEpisode'
+      ],
+      show: !!discussionId
     },
     {
       element: <br />,
       modes: ['articleTop'],
       show: true
+    },
+    {
+      title: readingTimeTitle,
+      Icon: ReadingTimeIcon,
+      label: readingTimeLabel,
+      labelShort: readingTimeLabelShort,
+      modes: ['articleTop'],
+      show: showReadingTime
     },
     {
       title: t('article/actionbar/userprogress'),
@@ -403,30 +422,6 @@ const ActionBar = ({
       labelShort: t('PodcastButtons/title'),
       modes: ['articleTop'],
       show: !!podcast && meta.template !== 'format'
-    },
-    {
-      title: t('article/actionbar/discussion'),
-      element: (
-        <DiscussionLinkButton
-          t={t}
-          document={document}
-          isOnArticlePage={[
-            'articleTop',
-            'articleBottom',
-            'articleOverlay'
-          ].includes(mode)}
-          forceShortLabel={forceShortLabel}
-          atArticleBottom={mode === 'articleBottom'}
-        />
-      ),
-      modes: [
-        'articleTop',
-        'articleBottom',
-        'articleOverlay',
-        'feed',
-        'seriesEpisode'
-      ],
-      show: !!discussionId
     },
     {
       title: t('feed/actionbar/edit'),

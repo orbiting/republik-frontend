@@ -381,7 +381,7 @@ const ActionBar = ({
     {
       title: t('article/actionbar/userprogress'),
       element:
-        document.userProgress && displayMinutes > 1 ? (
+        document && document.userProgress && displayMinutes > 1 ? (
           <UserProgress
             documentId={document.id}
             userProgress={document.userProgress}
@@ -390,7 +390,7 @@ const ActionBar = ({
           <></>
         ),
       modes: ['articleTop'],
-      show: document.userProgress && displayMinutes > 1 && !podcast
+      show: document && document.userProgress && displayMinutes > 1 && !podcast
     },
     {
       title: t('PodcastButtons/play'),
@@ -405,7 +405,6 @@ const ActionBar = ({
         })
       },
       label: t('PodcastButtons/play'),
-      labelShort: t('PodcastButtons/play'),
       modes: ['articleTop'],
       show: !!meta.audioSource
     },
@@ -418,7 +417,6 @@ const ActionBar = ({
         setPodcastOverlayVisible(!podcastOverlayVisible)
       },
       label: t('PodcastButtons/title'),
-      labelShort: t('PodcastButtons/title'),
       modes: ['articleTop'],
       show: !!podcast && meta.template !== 'format'
     },

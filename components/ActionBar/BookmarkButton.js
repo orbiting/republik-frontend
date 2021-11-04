@@ -22,7 +22,6 @@ const Bookmark = ({
   skipRefetch,
   router,
   label,
-  labelShort,
   disabled,
   attributes
 }) => {
@@ -56,7 +55,6 @@ const Bookmark = ({
       Icon={Icon}
       title={title}
       label={label}
-      labelShort={labelShort}
       onClick={() => toggle()}
       fillColorName={error ? 'error' : mutating ? 'disabled' : 'text'}
       disabled={disabled}

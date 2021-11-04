@@ -471,9 +471,9 @@ const text = {
         Wollte Sebastian Kurz Österreichs liberale Demokratie kippen
       </Highlight>
       ? Dazu:{' '}
-      <Highlight {...p} ids={['U4KMWif8W']}>
+      <A href='/2021/10/08/werfen-sie-einen-blick-in-unsere-geschaeftsbuecher'>
         Ein erfreulicher Blick in die Geschäftsbücher der Republik
-      </Highlight>
+      </A>
       ,{' '}
       <Highlight {...p} ids={['VmZa58Csr']}>
         ein wenig Hoffnung für das Klima

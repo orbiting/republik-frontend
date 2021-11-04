@@ -39,7 +39,7 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 import { css } from 'glamor'
-import { TrendingFlatIcon } from '@project-r/styleguide/icons'
+import { TrendingFlatIcon } from '@project-r/styleguide'
 import NewsletterSignUp from '../../components/Auth/NewsletterSignUp'
 import Link from 'next/link'
 import { description } from './[slug]'

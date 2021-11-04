@@ -151,6 +151,13 @@ export const getDocument = gql`
                 template
                 estimatedReadingMinutes
                 estimatedConsumptionMinutes
+                audioSource {
+                  mp3
+                  aac
+                  ogg
+                  mediaId
+                  durationMs
+                }
                 ownDiscussion {
                   id
                   closed

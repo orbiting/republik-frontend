@@ -4,7 +4,7 @@ import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
 import { ascending } from 'd3-array'
 import { css } from 'glamor'
-import { ChevronRightIcon } from '@project-r/styleguide/icons'
+import { ChevronRightIcon } from '@project-r/styleguide'
 
 import {
   Loader,

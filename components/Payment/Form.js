@@ -15,7 +15,7 @@ import {
   Checkbox,
   Radio
 } from '@project-r/styleguide'
-import { LockIcon } from '@project-r/styleguide/icons'
+import { LockIcon } from '@project-r/styleguide'
 
 import { AutoForm as AddressForm, AddressView } from '../Account/AddressForm'
 

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
 
-import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide/icons'
+import { ArrowDownIcon, ArrowUpIcon } from '@project-r/styleguide'
 import {
   fontStyles,
   mediaQueries,

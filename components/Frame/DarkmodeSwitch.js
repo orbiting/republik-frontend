@@ -4,9 +4,9 @@ import {
   IconButton,
   Radio,
   Label,
-  useColorContext
+  useColorContext,
+  DarkmodeIcon
 } from '@project-r/styleguide'
-import { DarkmodeIcon } from '@project-r/styleguide/icons'
 import { useInNativeApp } from '../../lib/withInNativeApp'
 
 import { useColorSchemeKeyPreference } from '../ColorScheme/lib'

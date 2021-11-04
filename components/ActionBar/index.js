@@ -11,7 +11,7 @@ import {
   ShareIcon,
   ChartIcon,
   EditIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -313,8 +313,12 @@ const ActionBar = ({
           path: meta.path
         })
       },
-      label: t('PodcastButtons/play'),
-      modes: ['feed'],
+      label:
+        // remove label if it is in series Nav and there is userprogress
+        mode === 'seriesEpisode' && !!document.userProgress
+          ? null
+          : t('PodcastButtons/play'),
+      modes: ['feed', 'seriesEpisode'],
       show: !!meta.audioSource
     },
     {

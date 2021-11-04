@@ -10,7 +10,7 @@ import {
   Button,
   Checkbox
 } from '@project-r/styleguide'
-import { DownloadIcon } from '@project-r/styleguide/icons'
+import { DownloadIcon } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 

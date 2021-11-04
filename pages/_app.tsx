@@ -4,8 +4,10 @@ import React from 'react'
 import { ApolloProvider, NormalizedCacheObject } from '@apollo/client'
 import Head from 'next/head'
 
-import { ColorContextProvider } from '@project-r/styleguide'
-import { IconContextProvider } from '@project-r/styleguide/icons'
+import {
+  ColorContextProvider,
+  IconContextProvider
+} from '@project-r/styleguide'
 
 import { ErrorBoundary, reportError } from '../lib/errors'
 import Track from '../components/Track'

@@ -6,7 +6,7 @@ import { gql } from '@apollo/client'
 import { descending } from 'd3-array'
 import { css } from 'glamor'
 
-import { CheckIcon } from '@project-r/styleguide/icons'
+import { CheckIcon } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
@@ -25,7 +25,7 @@ import {
   colors,
   IconButton
 } from '@project-r/styleguide'
-import { DiscussionIcon } from '@project-r/styleguide/icons'
+import { DiscussionIcon } from '@project-r/styleguide'
 import Link from 'next/link'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 

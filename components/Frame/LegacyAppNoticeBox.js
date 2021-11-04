@@ -9,7 +9,7 @@ import {
 } from '@project-r/styleguide'
 import Box from './Box'
 import { useInNativeApp } from '../../lib/withInNativeApp'
-import { Breakout } from '@project-r/styleguide/lib/components/Center'
+import { Breakout } from '@project-r/styleguide'
 
 const styles = {
   actions: css({

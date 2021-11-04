@@ -10,7 +10,7 @@ import {
   MailOutlineIcon,
   NoteAddIcon,
   VpnKeyIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { withSupporter } from '../Auth/checkRoles'
@@ -151,7 +151,9 @@ const Contact = ({
     )
   }
 
-  const customStyle = electionBallot ? { marginRight: 16, marginBottom: 0 } : undefined
+  const customStyle = electionBallot
+    ? { marginRight: 16, marginBottom: 0 }
+    : undefined
 
   return (
     <Fragment>
@@ -176,10 +178,14 @@ const Contact = ({
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
           <IconButton
             Icon={LanguageIcon}
-            style={electionBallot ? {
-              marginRight: 0,
-              marginBottom: 0
-            } : undefined}
+            style={
+              electionBallot
+                ? {
+                    marginRight: 0,
+                    marginBottom: 0
+                  }
+                : undefined
+            }
             href={user.publicUrl}
           />
         )}

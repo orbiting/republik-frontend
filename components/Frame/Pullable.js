@@ -10,7 +10,7 @@ import {
   isBodyScrollLocked,
   useColorContext
 } from '@project-r/styleguide'
-import { ArrowDownwardIcon } from '@project-r/styleguide/icons'
+import { ArrowDownwardIcon } from '@project-r/styleguide'
 
 const styles = {
   container: css({

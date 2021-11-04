@@ -13,7 +13,7 @@ import {
   FavoriteIcon,
   StarsIcon,
   ChevronRightIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import CandidateCard from './CandidateCard'
 
 const styles = {

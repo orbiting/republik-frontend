@@ -8,7 +8,7 @@ import { timeFormat } from '../../lib/utils/format'
 import { t } from '../../lib/withT'
 
 import { Loader } from '@project-r/styleguide'
-import { Chart } from '@project-r/styleguide/chart'
+import { Chart } from '@project-r/styleguide'
 
 const getStats = gql`
   query getMembershipPeriodStats {

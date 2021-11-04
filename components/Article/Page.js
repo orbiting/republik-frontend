@@ -66,6 +66,7 @@ import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
 import ArticleGallery from '../Gallery/ArticleGallery'
+import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import SectionNav from '../Sections/SectionNav'
 import SectionFeed from '../Sections/SectionFeed'
 import HrefLink from '../Link/Href'
@@ -628,16 +629,6 @@ const ArticlePage = ({
                                 />
                               </Breakout>
                             )}
-                            {((hasAccess && meta.template === 'article') ||
-                              (isEditorialNewsletter &&
-                                newsletterMeta &&
-                                newsletterMeta.free)) && (
-                              <Center breakout={breakout}>
-                                <div ref={bottomActionBarRef}>
-                                  {actionBarEnd}
-                                </div>
-                              </Center>
-                            )}
                             {showNewsletterSignupTop && (
                               <div style={{ marginTop: 10 }}>
                                 <NewsletterSignUp {...newsletterMeta} />
@@ -663,6 +654,16 @@ const ArticlePage = ({
                   </ActionBarOverlay>
                 </ProgressComponent>
               </ArticleGallery>
+              {meta.template === 'article' &&
+                ownDiscussion &&
+                !ownDiscussion.closed &&
+                !linkedDiscussion &&
+                !isSeriesOverview &&
+                hasAccess && (
+                  <Center breakout={breakout}>
+                    <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
+                  </Center>
+                )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
                   <Discussion
@@ -683,6 +684,22 @@ const ArticlePage = ({
                     </Interaction.P>
                   )}
                   <NewsletterSignUp {...newsletterMeta} />
+                </Center>
+              )}
+              {((hasAccess && meta.template === 'article') ||
+                (isEditorialNewsletter &&
+                  newsletterMeta &&
+                  newsletterMeta.free)) && (
+                <Center breakout={breakout}>
+                  <div ref={bottomActionBarRef}>{actionBarEnd}</div>
+                  {!!podcast && meta.template === 'article' && (
+                    <>
+                      <Interaction.H3>
+                        {t(`PodcastButtons/title`)}
+                      </Interaction.H3>
+                      <PodcastButtons {...podcast} />
+                    </>
+                  )}
                 </Center>
               )}
               {!!podcast && meta.template !== 'article' && (
@@ -743,9 +760,9 @@ const styles = {
   }),
   actionBarContainer: css({
     marginTop: 16,
-    marginBottom: 8,
+    marginBottom: 24,
     [mediaQueries.mUp]: {
-      marginBottom: 16
+      marginBottom: 36
     }
   }),
   flexCenter: css({

@@ -434,6 +434,56 @@ const text = {
       und leider wieder:{' '}
       <A href='https://www.republik.ch/2021/09/27/covid19'>Post um 19 Uhr</A>.
     </>
+  ),
+  Oktober: p => (
+    <>
+      <Highlight {...p} ids={['M23temriT']}>
+        Mit Sexarbeiterinnen reden anstatt über sie
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['bAL93AyoY']}>
+        Wie viele Sprachen spricht die Schweiz
+      </Highlight>
+      ? Helvetischer Alltagsrassismus{' '}
+      <Highlight {...p} ids={['qLIjnOXbD']}>
+        in den 1950er-Jahren
+      </Highlight>{' '}
+      <Highlight {...p} ids={['SpxRGG-Xp']}>
+        und heute
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['EdrcnMP5k']}>
+        Dieses Monument der Abschottung
+      </Highlight>{' '}
+      – und{' '}
+      <Highlight
+        {...p}
+        series='republik/article-serienmaster-das-haus-der-schande'
+      >
+        was ist mit der Geschichte der darin hängenden Kunstwerke
+      </Highlight>
+      ?{' '}
+      <Highlight {...p} ids={['9tT2vBJyC']}>
+        Hier explodierte 1945 die erste Atombombe der Welt
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['R4cGb_ESS']}>
+        Wollte Sebastian Kurz Österreichs liberale Demokratie kippen
+      </Highlight>
+      ? Dazu:{' '}
+      <Highlight {...p} ids={['U4KMWif8W']}>
+        Ein erfreulicher Blick in die Geschäftsbücher der Republik
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['VmZa58Csr']}>
+        ein wenig Hoffnung für das Klima
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['iCJmpFOQ6']}>
+        nein, Instagram hört Ihr Handy (sehr wahrscheinlich) nicht ab
+      </Highlight>
+      .
+    </>
   )
 }
 

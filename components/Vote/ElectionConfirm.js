@@ -8,9 +8,9 @@ import {
   Figure,
   useHeaderHeight,
   Label,
-  fontStyles
+  fontStyles,
+  Chart
 } from '@project-r/styleguide'
-import { Chart } from '@project-r/styleguide/chart'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'

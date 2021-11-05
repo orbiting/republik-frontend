@@ -6,22 +6,21 @@ import {
   Checkbox,
   fontStyles,
   mediaQueries,
-  Radio
-} from '@project-r/styleguide'
-import { Strong } from './text'
-import {
+  Radio,
+  useColorContext,
   FavoriteIcon,
   StarsIcon,
   ChevronRightIcon
 } from '@project-r/styleguide'
+import { Strong } from './text'
 import CandidateCard from './CandidateCard'
 
 const styles = {
   row: css({
     width: '100%',
-    marginBottom: 8,
+    padding: '4px 0',
     [mediaQueries.mUp]: {
-      marginBottom: 15
+      padding: '7px 0'
     }
   }),
   summary: css({
@@ -63,6 +62,7 @@ const styles = {
 }
 
 const ElectionBallotRow = props => {
+  const [colorScheme] = useColorContext()
   const [expanded, setExpanded] = useState(props.expanded || false)
   const {
     candidate,
@@ -73,7 +73,8 @@ const ElectionBallotRow = props => {
     mandatory,
     showMeta,
     discussionPath,
-    discussionTag
+    discussionTag,
+    odd
   } = props
 
   const toggleExpanded = e => {
@@ -93,7 +94,11 @@ const ElectionBallotRow = props => {
   const isDisabled = maxVotes > 1 && !selected && disabled
 
   return (
-    <div {...styles.row}>
+    <div
+      {...styles.row}
+      {...colorScheme.set('backgroundColor', odd ? 'hover' : 'default')}
+      style={{ paddingBottom: expanded ? 0 : undefined }}
+    >
       <div {...styles.summary}>
         <div {...styles.summaryInfo} onClick={toggleExpanded}>
           <div

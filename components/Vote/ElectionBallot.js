@@ -20,9 +20,10 @@ const ElectionBallot = ({
   discussionTag
 }) => (
   <div {...styles.table}>
-    {vote.map(({ candidate, selected }) => (
+    {vote.map(({ candidate, selected }, i) => (
       <ElectionBallotRow
         key={candidate.id}
+        odd={i % 2}
         candidate={candidate}
         selected={selected}
         maxVotes={maxVotes}

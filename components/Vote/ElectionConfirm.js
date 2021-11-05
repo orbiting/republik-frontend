@@ -149,7 +149,9 @@ const CandidatesGender = voteT(({ candidates, vt }) => {
 
   return (
     <div {...styles.chart}>
-      <Label>{vt('vote/election/confirm/gender/header')}</Label>
+      <div style={{ marginBottom: 3 }}>
+        <Label>{vt('vote/election/confirm/gender/header')}</Label>
+      </div>
       <Chart
         config={{
           type: 'Bar',
@@ -206,7 +208,9 @@ const CandidatesAge = voteT(({ candidates, vt }) => {
 
   return (
     <div {...styles.chart}>
-      <Label>{vt('vote/election/confirm/age/header')}</Label>
+      <div style={{ marginBottom: 3 }}>
+        <Label>{vt('vote/election/confirm/age/header')}</Label>
+      </div>
       <Chart
         config={{
           type: 'Bar',

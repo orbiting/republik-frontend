@@ -38,7 +38,7 @@ const styles = {
   detail: css({
     display: 'flex',
     padding: 15,
-    margin: '8px 0',
+    marginTop: 8,
     [mediaQueries.onlyS]: {
       flexDirection: 'column'
     }

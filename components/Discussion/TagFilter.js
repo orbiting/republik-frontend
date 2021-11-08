@@ -59,7 +59,7 @@ const TagFilter = ({ discussion }) => {
     value: tag,
     count: tagBuckets.find(t => t.value === tag)?.count || 0
   }))
-  const totalCount = tagBuckets.reduce((acc, bucket) => acc + bucket.count, 0)
+  const totalCount = discussion.allComments.totalCount
   return (
     <div
       {...styles.tagsContainer}

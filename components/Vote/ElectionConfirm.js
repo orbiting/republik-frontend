@@ -305,6 +305,11 @@ const ElectionConfirm = compose(
 
   const actions = (
     <div {...sharedStyles.buttons}>
+      <div style={{ marginRight: 15 }}>
+        <Button disabled={isUpdating} onClick={goBack}>
+          {vt('vote/common/back')}
+        </Button>
+      </div>
       <Button primary onClick={submitBallot}>
         {isUpdating ? (
           <InlineSpinner size={40} />
@@ -312,11 +317,6 @@ const ElectionConfirm = compose(
           vt('vote/election/labelConfirm')
         )}
       </Button>
-      <Interaction.P style={{ marginLeft: 30 }}>
-        <A href='#' {...styles.link} onClick={goBack}>
-          {vt('vote/common/back')}
-        </A>
-      </Interaction.P>
     </div>
   )
 

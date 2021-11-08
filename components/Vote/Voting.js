@@ -210,6 +210,11 @@ const Voting = compose(
         </P>
       </div>
       <div {...sharedStyles.buttons}>
+        <div style={{ marginRight: 15 }}>
+          <Button disabled={isUpdating} onClick={reset}>
+            {vt('vote/common/back')}
+          </Button>
+        </div>
         <Button key={'vote/voting/labelVote'} primary onClick={vote}>
           {isUpdating ? (
             <InlineSpinner size={40} />
@@ -217,7 +222,6 @@ const Voting = compose(
             vt('vote/voting/labelVote')
           )}
         </Button>
-        {isUpdating ? <A>&nbsp;</A> : resetLink}
       </div>
       <div {...sharedStyles.hint}>{vt('vote/common/help/final')}</div>
     </>

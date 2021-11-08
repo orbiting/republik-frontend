@@ -92,18 +92,19 @@ export const bumpCounts = ({ comment, initialParentId }) => draft => {
 export const bumpTagCounts = ({ comment, initialParentId }) => draft => {
   const nodes = draft.discussion.comments.nodes
 
-  const rootComment = comment.parentIds?.length
-    ? nodes.find(n => n.id === comment.parentIds[0])
+  const parentId = comment.parentIds[0]
+  const rootComment = parentId
+    ? nodes.find(n => n.id === parentId)
     : comment
 
-  const tags = rootComment.tags
+  const affectedTags = rootComment?.tags
 
-  if (!tags?.length) return
+  if (!affectedTags?.length) return
 
-  for (const tag of tags) {
+  for (const tag of affectedTags) {
     const bucket = draft.discussion.tagBuckets?.find(b => b.value === tag)
     if (bucket) {
-      bucket.count++
+      bucket.count =+ 1
     }
   }
 }

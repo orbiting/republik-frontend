@@ -34,6 +34,7 @@ export const withSubmitComment = compose(
         discussionId,
         parentId: initialParentId,
         orderBy,
+        activeTag,
         depth,
         focusId,
         discussionDisplayAuthor: displayAuthor,
@@ -122,6 +123,7 @@ export const withSubmitComment = compose(
               discussionId,
               parentId: initialParentId,
               orderBy,
+              activeTag,
               depth,
               focusId,
               includeParent

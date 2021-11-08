@@ -33,11 +33,12 @@ const Discussion = ({
           <DiscussionCommentComposer
             discussionComments={discussionComments}
             discussionId={discussionId}
-            orderBy={orderBy}
-            activeTag={activeTag}
-            focusId={focusId}
-            depth={depth}
             parentId={parentId}
+            orderBy={orderBy}
+            depth={depth}
+            focusId={focusId}
+            includeParent={includeParent}
+            activeTag={activeTag}
             showPayNotes={showPayNotes}
           />
         </>
@@ -51,15 +52,15 @@ const Discussion = ({
           }
           discussionComments={discussionComments}
           discussionId={discussionId}
-          focusId={board ? undefined : focusId}
-          depth={depth}
           parentId={parentId}
           orderBy={orderBy}
+          depth={depth}
+          focusId={board ? undefined : focusId}
+          includeParent={includeParent}
           activeTag={activeTag}
           meta={meta}
           board={board}
           parent={board ? parent || focusId : undefined}
-          includeParent={includeParent}
           rootCommentOverlay={rootCommentOverlay}
         />
       </div>

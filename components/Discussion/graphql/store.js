@@ -102,7 +102,9 @@ export const bumpTagCounts = ({ comment, initialParentId }) => draft => {
 
   for (const tag of tags) {
     const bucket = draft.discussion.tagBuckets?.find(b => b.value === tag)
-    bucket.count++
+    if (bucket) {
+      bucket.count++
+    }
   }
 }
 

@@ -82,7 +82,6 @@ const CandidateCard = compose(
   withT
 )(({ inNativeApp, vt, t, candidate, discussionPath, discussionTag }) => {
   const [colorScheme] = useColorContext()
-  const target = inNativeApp ? undefined : '_blank'
   const { user: d } = candidate
   const role = (candidate.credential || d.credentials?.find(c => c.isListed))
     ?.description
@@ -103,7 +102,7 @@ const CandidateCard = compose(
               <Contact user={d} electionBallot />
               <div style={{ marginTop: 8 }}>
                 <Link href={`/~${d.username}`} passHref>
-                  <A target={target}>Profil</A>
+                  <A>Profil</A>
                 </Link>
               </div>
             </>
@@ -129,7 +128,7 @@ const CandidateCard = compose(
                 }}
                 passHref
               >
-                <A target={target}>{vt('vote/election/discussion')}</A>
+                <A>{vt('vote/election/discussion')}</A>
               </Link>
             </div>
           )}

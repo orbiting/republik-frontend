@@ -731,7 +731,12 @@ const ArticlePage = ({
                   variablesAsString={article.content.meta.feedQueryVariables}
                 />
               )}
-              {isFormat && <FormatFeed formatId={article.repoId} />}
+              {isFormat && (
+                <FormatFeed
+                  key={article?.issuedForUserId}
+                  formatId={article.repoId}
+                />
+              )}
               {(hasActiveMembership || isFormat) && (
                 <>
                   <br />

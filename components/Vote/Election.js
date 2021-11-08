@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   A,
   Button,
@@ -20,8 +20,6 @@ import AddressEditor, { withAddressData } from './AddressEditor'
 import ElectionConfirm from './ElectionConfirm'
 import { Card, sharedStyles } from './text'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
-
-const useGenElection = createPersistedState('republik-general-election')
 
 const { P } = Interaction
 
@@ -170,6 +168,11 @@ const Election = compose(
     mandatoryCandidates,
     showMeta
   }) => {
+    const electionId = election.id
+    const useGenElection = useMemo(
+      () => createPersistedState(`republik-general-election-${electionId}`),
+      [electionId]
+    )
     const [vote, setVote] = useGenElection(
       [...election.candidacies]
         .sort((c1, c2) => {

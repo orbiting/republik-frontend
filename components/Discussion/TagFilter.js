@@ -1,12 +1,10 @@
 import React from 'react'
 import { css } from 'glamor'
 import {
-  Loader,
   FormatTag,
   useColorContext,
   useHeaderHeight
 } from '@project-r/styleguide'
-import { withDiscussionComments } from './graphql/enhancers/withDiscussionComments'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { rerouteDiscussion } from './DiscussionLink'
@@ -51,10 +49,17 @@ const TagLink = ({ tag, commentCount }) => {
   )
 }
 
-const TagFilter = ({ tags, totalCount }) => {
+const TagFilter = ({ discussion }) => {
   const [colorScheme] = useColorContext()
   const [headerHeight] = useHeaderHeight()
-
+  const tags = discussion.tags
+  if (!tags?.length) return null
+  const tagBuckets = discussion.tagBuckets
+  const allBuckets = tags.map(tag => ({
+    value: tag,
+    count: tagBuckets.find(t => t.value === tag)?.count || 0
+  }))
+  const totalCount = tagBuckets.reduce((acc, bucket) => acc + bucket.count, 0)
   return (
     <div
       {...styles.tagsContainer}
@@ -63,32 +68,11 @@ const TagFilter = ({ tags, totalCount }) => {
       style={{ top: headerHeight }}
     >
       <TagLink key='all' tag={undefined} commentCount={totalCount} />
-      {tags.map(tag => (
+      {allBuckets.map(tag => (
         <TagLink key={tag.value} tag={tag.value} commentCount={tag.count} />
       ))}
     </div>
   )
 }
 
-const TagFilterLoader = withDiscussionComments(({ discussionComments }) => (
-  <Loader
-    loading={discussionComments.loading}
-    error={discussionComments.error}
-    render={() => {
-      const tags = discussionComments?.discussion?.tags
-      if (!tags?.length) return null
-      const tagBuckets = discussionComments?.discussion?.tagBuckets
-      const allBuckets = tags.map(tag => ({
-        value: tag,
-        count: tagBuckets.find(t => t.value === tag)?.count || 0
-      }))
-      const totalCount = tagBuckets.reduce(
-        (acc, bucket) => acc + bucket.count,
-        0
-      )
-      return <TagFilter tags={allBuckets} totalCount={totalCount} />
-    }}
-  />
-))
-
-export default TagFilterLoader
+export default TagFilter

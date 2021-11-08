@@ -11,7 +11,6 @@ import { isAdmin } from './graphql/enhancers/isAdmin'
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
 import { withCommentActions } from './graphql/enhancers/withCommentActions'
 import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
-import { withDiscussionComments } from './graphql/enhancers/withDiscussionComments'
 
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
@@ -84,7 +83,7 @@ const Comments = props => {
     focusId,
     orderBy,
     activeTag,
-    discussionComments: { loading, error, discussion, fetchMore },
+    discussionComments: { discussion, fetchMore },
     meta,
     board,
     parent,
@@ -122,21 +121,10 @@ const Comments = props => {
   ] = React.useState({})
   const fetchFocus = () => {
     /*
-     * If we're still loading, or not trying to focus a comment, there is nothing
-     * to do for us.
-     *
-     * If the discussion doesn't exist, someone else will hopefully render a nice
-     * 404 / not found message.
-     */
-    if (loading || !focusId || !discussion) {
-      return
-    }
-
-    /*
      * If we're loading the focused comment or encountered an error during the loading
      * process, return.
      */
-    if (focusLoading || focusError) {
+    if (!focusId || focusLoading || focusError) {
       return
     }
 
@@ -250,12 +238,8 @@ const Comments = props => {
 
   return (
     <Loader
-      loading={loading || (focusId && focusLoading)}
-      error={
-        error ||
-        (focusId && focusError) ||
-        (discussion === null && t('discussion/missing'))
-      }
+      loading={focusLoading}
+      error={focusError || (discussion === null && t('discussion/missing'))}
       render={() => {
         if (!discussion) return null
         const { focus } = discussion.comments
@@ -493,7 +477,6 @@ export default compose(
   isAdmin,
   withEditor,
   withSubmitComment,
-  withDiscussionComments,
   withMarkAsReadMutation,
   withInNativeApp
 )(Comments)

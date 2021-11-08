@@ -154,6 +154,27 @@ const ElectionAlert = ({ children }) => {
   )
 }
 
+const updateVote = (election, vote) =>
+  [...election.candidacies]
+    .sort((c1, c2) => {
+      if (
+        (c1.recommendation && !c2.recommendation) ||
+        (c1.isIncumbent && !c2.isIncumbent)
+      ) {
+        return -1
+      } else if (
+        (c2.recommendation && !c1.recommendation) ||
+        (c2.isIncumbent && !c1.isIncumbent)
+      ) {
+        return 1
+      } else return sortNames(c1, c2)
+    })
+    .map(candidate => ({
+      candidate,
+      selected:
+        vote.find(v => v.candidate.id === candidate.id)?.selected || false
+    }))
+
 const Election = compose(
   voteT,
   withMe,
@@ -173,25 +194,13 @@ const Election = compose(
       () => createPersistedState(`republik-general-election-${electionId}`),
       [electionId]
     )
-    const [vote, setVote] = useGenElection(
-      [...election.candidacies]
-        .sort((c1, c2) => {
-          if (
-            (c1.recommendation && !c2.recommendation) ||
-            (c1.isIncumbent && !c2.isIncumbent)
-          ) {
-            return -1
-          } else if (
-            (c2.recommendation && !c1.recommendation) ||
-            (c2.isIncumbent && !c1.isIncumbent)
-          ) {
-            return 1
-          } else return sortNames(c1, c2)
-        })
-        .map(candidate => ({ candidate, selected: false }))
-    )
+    const [vote, setVote] = useGenElection([])
     const [isDirty, setDirty] = useState(false)
     const [isConfirm, setConfirm] = useState(false)
+
+    useEffect(() => {
+      setVote(updateVote(election, vote))
+    }, [election])
 
     useEffect(() => {
       setDirty(!!vote.some(item => item.selected))

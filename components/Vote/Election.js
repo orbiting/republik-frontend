@@ -19,6 +19,9 @@ import SignIn from '../Auth/SignIn'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import ElectionConfirm from './ElectionConfirm'
 import { Card, sharedStyles } from './text'
+import createPersistedState from '../../lib/hooks/use-persisted-state'
+
+const useGenElection = createPersistedState('republik-general-election')
 
 const { P } = Interaction
 
@@ -167,7 +170,7 @@ const Election = compose(
     mandatoryCandidates,
     showMeta
   }) => {
-    const [vote, setVote] = useState(
+    const [vote, setVote] = useGenElection(
       [...election.candidacies]
         .sort((c1, c2) => {
           if (

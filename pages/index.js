@@ -3,19 +3,19 @@ import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import Frame from '../components/Frame'
+import { useInNativeApp } from '../lib/withInNativeApp'
+import SignInPage from './anmelden'
 import Front from '../components/Front'
 import Marketing from '../components/Marketing'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
-import { useInNativeApp } from '../lib/withInNativeApp'
 
-import SignInPage from './anmelden'
 import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const IndexPage = ({ t, isMember, router }) => {
-  const { inNativeApp } = useInNativeApp()
+  const { inNativeIOSApp, isMinimalNativeAppVersion } = useInNativeApp()
   if (
     router.query.stale !== 'marketing' &&
     (isMember || router.query.extractId)
@@ -31,7 +31,8 @@ const IndexPage = ({ t, isMember, router }) => {
     )
   }
 
-  if (inNativeApp) {
+  // only show marketing in ios app if it's the latest version
+  if (inNativeIOSApp && !isMinimalNativeAppVersion('2.1.0')) {
     return <SignInPage />
   }
 

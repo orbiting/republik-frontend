@@ -345,6 +345,10 @@
       "value": "Sie haben einen Gutschein? {claimLink}"
     },
     {
+      "key": "marketing/trynote/cta",
+      "value": "21 Tage kostenlos und unverbindlich Zugang zu allen Artikeln und Podcasts der Republik."
+    },
+    {
       "key": "marketing/community/title/plain",
       "value": "Unsere Verlegerinnen und Verleger"
     },
@@ -2937,6 +2941,10 @@
       "value": "ungefähr {hours}{minutes}"
     },
     {
+      "key": "feed/actionbar/discussion/long",
+      "value": "Reden Sie mit: {count} Dialog Beiträge"
+    },
+    {
       "key": "feed/actionbar/edit",
       "value": "Im Publikator bearbeiten"
     },
@@ -2965,20 +2973,12 @@
       "value": "Sie brauchen eine Mitgliedschaft, um die Beiträge zu lesen."
     },
     {
-      "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet. {buyLink}"
-    },
-    {
       "key": "article/payNote/ios/before",
-      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer über 25’000 Verlegerinnen und Verleger freigeschaltet."
+      "value": "<b>Danke für Ihre Neugier!</b> Dieser Beitrag wurde grosszügigerweise für Sie von einer unserer Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
       "value": "Kommen Sie ebenfalls an Bord!"
-    },
-    {
-      "key": "article/payNote/after",
-      "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
     },
     {
       "key": "article/payNote/ios/after",
@@ -5674,7 +5674,7 @@
     },
     {
       "key": "components/Card/Group/promo/trial",
-      "value": "Möchten Sie die Republik 14 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
+      "value": "Möchten Sie die Republik 14 Tage lang Probe lesen und die Wahl­debatte live mit­ver­fol­gen?"
     },
     {
       "key": "components/Card/Group/promo/abo",
@@ -5822,7 +5822,7 @@
     },
     {
       "key": "components/Card/MyList/trial",
-      "value": "Möchten Sie die Republik 14 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
+      "value": "Möchten Sie die Republik 14 Tage lang Probe lesen und die Wahl­debatte live mit­ver­fol­gen?"
     },
     {
       "key": "components/Card/Preferences/medianSmartspiders",
@@ -6229,68 +6229,8 @@
       "value": "Sie haben alle auf Ihre Präferenzen Passenden durchgeswipt."
     },
     {
-      "key": "article/tryNote/thankYou/before",
-      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
-    },
-    {
-      "key": "article/tryNote/thankYou/after",
-      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
-    },
-    {
-      "key": "article/tryNote/191106-v2/before",
-      "value": "<b>Testen Sie die Republik 14 Tage lang gratis und unverbindlich.</b>"
-    },
-    {
-      "key": "article/tryNote/191106-v2/after",
-      "value": "<b>Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich.</b>"
-    },
-    {
-      "key": "article/tryNote/191106-v3/before",
-      "value": "<b>Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?</b> Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191106-v3/after",
-      "value": "<b>{count} Menschen machen die Republik heute schon möglich. Und Sie?</b> Sind Sie noch nicht überzeugt und wollen Sie mehr wissen? Dann <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich. "
-    },
-    {
-      "key": "article/tryNote/191106-v4/before",
-      "value": "<b>Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!</b> Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> – und entscheiden Sie anschliessend."
-    },
-    {
-      "key": "article/tryNote/191106-v4/after",
-      "value": "<b>Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!</b> Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
-    },
-    {
-      "key": "article/payNote/191108-v1/before",
-      "value": "<b>Kommen Sie zur Republik!</b> Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
-    },
-    {
-      "key": "article/payNote/191108-v1/before/buy/button",
-      "value": "Ich bin dabei."
-    },
-    {
-      "key": "article/payNote/191108-v1/after",
-      "value": "<b>{count} Menschen machen die Republik heute schon möglich. </b> Wollen auch Sie, dass die noch junge Republik weiterhin unabhängigen, transparenten Journalismus betreiben kann? Dann kommen Sie als Mitglied oder Abonnentin an Bord! "
-    },
-    {
-      "key": "article/payNote/191108-v1/after/buy/button",
-      "value": "Ja – ich bin dabei!"
-    },
-    {
-      "key": "article/payNote/191108-v2/before",
-      "value": "<b>Wir sind die Republik.</b> Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur – und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
-    },
-    {
-      "key": "article/payNote/191108-v2/before/buy/button",
-      "value": "Natürlich!"
-    },
-    {
-      "key": "article/payNote/191108-v2/after",
-      "value": "<b>Sie haben in diesem Beitrag viele Worte gelesen, aber die wichtigsten drei fehlten.</b> Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
-    },
-    {
-      "key": "article/payNote/191108-v2/after/buy/button",
-      "value": "Ich bin an Bord."
+      "key": "article/tryNote/thankYou",
+      "value": "<b>Herzlich willkommen!</b> Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen."
     },
     {
       "key": "package/ABO/description",
@@ -6521,52 +6461,12 @@
       "value": "Google"
     },
     {
-      "key": "article/payNote/200225-v1/before",
-      "value": "Unabhängiger Journalismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
+      "key": "article/tryNote/211027-v1/before",
+      "value": "<b>Testen Sie die Republik 21 Tage lang gratis und unverbindlich.</b>"
     },
     {
-      "key": "article/payNote/200225-v1/before/reached",
-      "value": "Unabhängiger Jouranlismus kostet. Die Republik ist werbefrei und wird finanziert von ihren Leserinnen. Trotzdem können Sie diesen Beitrag lesen. Weil aktuell {count} Personen die Republik unterstützen. \n\n<b>Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!</b>"
-    },
-    {
-      "key": "article/payNote/200225-v1/before/buy/button",
-      "value": "Jahresmitgliedschaft"
-    },
-    {
-      "key": "article/payNote/200225-v1/before/secondary/label",
-      "value": "Einen Monat für 22.–"
-    },
-    {
-      "key": "article/payNote/200225-v1/before/secondary/link",
-      "value": "/angebote?package=MONTHLY_ABO"
-    },
-    {
-      "key": "article/payNote/200225-v1/before/note",
-      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
-    },
-    {
-      "key": "article/payNote/200225-v1/after",
-      "value": "Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
-    },
-    {
-      "key": "article/payNote/200225-v1/after/reached",
-      "value": "Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen, handeln Sie jetzt: Kommen Sie an Bord!"
-    },
-    {
-      "key": "article/payNote/200225-v1/after/buy/button",
-      "value": "Jahresmitgliedschaft"
-    },
-    {
-      "key": "article/payNote/200225-v1/after/secondary/label",
-      "value": "Einen Monat für 22.–"
-    },
-    {
-      "key": "article/payNote/200225-v1/after/secondary/link",
-      "value": "/angebote?package=MONTHLY_ABO"
-    },
-    {
-      "key": "article/payNote/200225-v1/after/note",
-      "value": "<a href=\"/\">Mehr Informationen zur Republik.</a>"
+      "key": "article/tryNote/211027-v1/after",
+      "value": "Erhalten Sie für 21 Tage kostenlos und unverbindlich Zugang zu allen Beiträgen der Republik – im Web, in der Republik-App oder als Newsletter:"
     },
     {
       "key": "article/payNote/200313-v1/before",

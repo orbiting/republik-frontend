@@ -195,7 +195,9 @@ const Header = ({
     })
   }, [isOnMarketingPage, colorScheme, formatColor])
 
-  const showToggle = me || inNativeApp || router.pathname === '/angebote'
+  const showTrialButton = inNativeApp && isOnMarketingPage
+  const showToggle =
+    me || (inNativeApp && !showTrialButton) || router.pathname === '/angebote'
 
   return (
     <>
@@ -296,6 +298,19 @@ const Header = ({
                     isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
                   }
                 />
+              ) : showTrialButton ? (
+                <Link href='#probelesen' passHref>
+                  <a
+                    data-hide-if-me='true'
+                    {...styles.button}
+                    {...(formatColor
+                      ? styles.buttonFormatColor
+                      : styles.buttonGeneric)}
+                    {...buttonColorRule}
+                  >
+                    <span>{t('marketing/preview/button/label')}</span>
+                  </a>
+                </Link>
               ) : (
                 <Link href='/angebote' passHref>
                   <a

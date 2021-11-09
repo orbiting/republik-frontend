@@ -18,9 +18,7 @@ export default function LeadSection({ t }) {
         <h2 {...styles.lead}>{t('marketing/page/lead/subtitle')}</h2>
       </Container>
       <Container {...styles.description}>
-        <Editorial.Lead>
-          {t('marketing/page/minifront/description')}
-        </Editorial.Lead>
+        <Editorial.P>{t('marketing/page/minifront/description')}</Editorial.P>
       </Container>
     </>
   )
@@ -28,26 +26,20 @@ export default function LeadSection({ t }) {
 
 const styles = {
   container: css({
-    height: '70vh',
-    minHeight: 360,
-    maxHeight: 600,
+    minHeight: '70vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    [mediaQueries.mUp]: {
-      height: '70vh',
-      minHeight: 600,
-      maxHeight: 'none'
-    }
+    justifyContent: 'center'
   }),
   lead: css({
     ...fontStyles.serifRegular,
     fontSize: 24,
     lineHeight: '36px',
     textAlign: 'center',
-    width: '90%',
+    width: '100%',
     maxWidth: 960,
+    marginBottom: 0,
     [mediaQueries.mUp]: {
       fontSize: 36,
       lineHeight: '48px'

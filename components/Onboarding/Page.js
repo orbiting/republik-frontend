@@ -103,7 +103,8 @@ class Page extends Component {
       router: {
         query,
         query: { context }
-      }
+      },
+      inNativeApp
     } = props
 
     this.sections = [
@@ -119,7 +120,7 @@ class Page extends Component {
         ref: React.createRef(),
         visited: false
       },
-      {
+      !inNativeApp && {
         component: AppLogin,
         name: 'app-login',
         ref: React.createRef(),

@@ -1,5 +1,3 @@
-import { getRandomInt } from '../lib/utils/helpers'
-import { MAX_PAYNOTE_SEED } from '../components/Article/PayNote'
 import Article from '../components/Article/Page'
 import createGetStaticProps from '../lib/helpers/createGetStaticProps'
 import { GetStaticPaths } from 'next'
@@ -42,7 +40,7 @@ export const getStaticProps = createGetStaticProps<Props, Params>(
       return {
         props: {
           payNoteTryOrBuy: Math.random(),
-          payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
+          payNoteSeed: Math.random()
         },
         revalidate: REVALIDATE_SECONDS
       }

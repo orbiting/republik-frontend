@@ -96,7 +96,6 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
-  // const discussionUrlObject = getDiscussionUrlObject(discussion)
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
    */

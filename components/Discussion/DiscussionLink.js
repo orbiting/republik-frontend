@@ -2,6 +2,31 @@ import React from 'react'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 import Link from 'next/link'
 
+export const rerouteDiscussion = (route, targetQuery) => {
+  const {
+    pathname,
+    query: { focus, ...restQuery }
+  } = route
+
+  const query = {
+    ...restQuery,
+    ...targetQuery
+  }
+
+  const params = ['tag', 'order']
+
+  params.forEach(param => {
+    if (query[param] === undefined) {
+      delete query[param]
+    }
+  })
+
+  return {
+    pathname,
+    query
+  }
+}
+
 export const getDiscussionUrlObject = discussion => {
   let tab
   if (discussion && discussion.document) {

@@ -19,7 +19,7 @@ import { discussionQuery, commentsSubscription } from '../documents'
 
 export const withDiscussionComments = graphql(discussionQuery, {
   props: ({
-    ownProps: { discussionId, orderBy, parentId: initialParentId },
+    ownProps: { discussionId, orderBy, activeTag, parentId: initialParentId },
     data: { fetchMore, subscribeToMore, ...data }
   }) => ({
     discussionComments: {
@@ -37,6 +37,7 @@ export const withDiscussionComments = graphql(discussionQuery, {
             parentId,
             after,
             orderBy,
+            activeTag,
             depth: depth || 3,
             includeParent
           },

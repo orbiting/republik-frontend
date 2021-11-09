@@ -1,40 +1,27 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import compose from 'lodash/flowRight'
 import { css } from 'glamor'
-import Link from 'next/link'
 
 import {
-  A,
   Checkbox,
-  DEFAULT_PROFILE_PICTURE,
   fontStyles,
   mediaQueries,
   Radio,
   useColorContext,
-  renderCommentMdast
-} from '@project-r/styleguide'
-import { Strong } from './text'
-import {
   FavoriteIcon,
   StarsIcon,
   ChevronRightIcon
 } from '@project-r/styleguide'
-import voteT from './voteT'
-import withInNativeApp from '../../lib/withInNativeApp'
-import withT from '../../lib/withT'
-import Contact from '../Profile/Contact'
+import { Strong } from './text'
+import CandidateCard from './CandidateCard'
 
 const styles = {
   row: css({
     width: '100%',
-    marginBottom: 15
-  }),
-  statement: css({
-    [mediaQueries.onlyS]: {
-      ...fontStyles.serifTitle22
-    },
-    ...fontStyles.serifTitle26
+    padding: '4px 0',
+    [mediaQueries.mUp]: {
+      padding: '7px 0'
+    }
   }),
   summary: css({
     width: '100%',
@@ -48,8 +35,11 @@ const styles = {
   summaryInfo: css({
     display: 'flex',
     alignItems: 'center',
-    '& :not(:first-child)': {
-      marginLeft: 15
+    cursor: 'pointer'
+  }),
+  summaryDetail: css({
+    [mediaQueries.mUp]: {
+      display: 'inline-block'
     }
   }),
   summaryDesktop: css({
@@ -57,132 +47,76 @@ const styles = {
       display: 'none'
     }
   }),
-  summaryMobile: css({
-    display: 'none',
-    [mediaQueries.onlyS]: {
-      marginBottom: 15,
-      display: 'block'
-    }
-  }),
-  detail: css({
-    display: 'flex',
-    padding: 15,
-    margin: '8px 0',
-    [mediaQueries.onlyS]: {
-      flexDirection: 'column'
-    }
-  }),
-  profile: css({
-    display: 'flex',
-    paddingRight: 15,
-    flexDirection: 'column',
-    alignItems: 'start',
-    '& img': {
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      filter: 'grayscale(1)'
-    },
-    [mediaQueries.onlyS]: {
-      flexDirection: 'row',
-      marginBottom: 15
-    }
-  }),
-  portrait: css({
-    display: 'block',
-    backgroundColor: '#E2E8E6',
-    width: 100,
-    height: 100,
-    minWidth: 100,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    filter: 'grayscale(1)'
-  }),
-  moreInfo: css({
-    marginTop: 15
-  }),
   icon: css({
+    marginLeft: 'auto',
     ...fontStyles.serifTitle22,
     transition: 'transform 0.3s',
+    display: 'flex',
     '& :not(:first-child)': {
       marginLeft: 8
     }
   }),
-  externalLinks: css({
-    display: 'flex'
-  }),
-  shortInfo: css({
-    [mediaQueries.onlyS]: {
-      paddingLeft: 15
-    }
+  selection: css({
+    marginLeft: 24
   })
 }
 
 const ElectionBallotRow = props => {
-  const [expanded, setExpanded] = useState(props.expanded || false)
   const [colorScheme] = useColorContext()
-
-  const toggleExpanded = () => {
-    setExpanded(expanded => !expanded)
-  }
-
+  const [expanded, setExpanded] = useState(props.expanded || false)
   const {
     candidate,
     maxVotes,
     selected,
     onChange,
     disabled,
-    interactive,
     mandatory,
-    vt,
-    t,
     showMeta,
-    inNativeApp,
-    profile
+    discussionPath,
+    discussionTag,
+    odd
   } = props
+
+  const toggleExpanded = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    setExpanded(expanded => !expanded)
+  }
+
   const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
   const { user: d } = candidate
+  const summary = [candidate.yearOfBirth, d.gender, candidate.city].filter(
+    Boolean
+  )
+  const showSummary = !!summary.length
 
-  const summary = `${
-    candidate.yearOfBirth ? `${candidate.yearOfBirth},` : ''
-  } ${d.gender ? `${d.gender},` : ''} ${candidate.credential ||
-    (d.credentials?.find(c => c.isListed) || {}).description ||
-    ''} ${candidate.city ? `aus ${candidate.city}` : ''}`
+  const isDisabled = maxVotes > 1 && !selected && disabled
 
-  const target = inNativeApp || profile ? undefined : '_blank'
   return (
-    <div {...styles.row}>
-      <div
-        {...styles.summary}
-        style={{ cursor: onChange ? 'pointer' : 'default' }}
-        onClick={onChange ? () => onChange(candidate) : undefined}
-      >
-        <div {...styles.summaryInfo}>
+    <div
+      {...styles.row}
+      {...colorScheme.set('backgroundColor', odd ? 'hover' : 'default')}
+      style={{ paddingBottom: expanded ? 0 : undefined }}
+    >
+      <div {...styles.summary}>
+        <div {...styles.summaryInfo} onClick={toggleExpanded}>
           <div
             {...styles.icon}
             style={{ transform: expanded && 'rotate(90deg)' }}
-            onClick={e => {
-              e.preventDefault()
-              interactive && toggleExpanded(d.id)
-            }}
           >
             <ChevronRightIcon />
           </div>
-          {interactive ? (
-            <A
-              href='#'
-              onClick={e => {
-                e.preventDefault()
-                e.stopPropagation()
-                toggleExpanded(d.id)
-              }}
-            >
+          <div>
+            <Strong>
               {d.name}
-            </A>
-          ) : (
-            d.name
-          )}
-          <div {...styles.summaryDesktop}>{summary}</div>
+              {candidate.isIncumbent ? ' (bisher)' : ''}
+            </Strong>
+            {showSummary && <span {...styles.summaryDesktop}>,&nbsp;</span>}
+            {showSummary && (
+              <div {...styles.summaryDetail}>{summary.join(', ')}</div>
+            )}
+          </div>
         </div>
         {showMeta && (
           <div {...styles.icon}>
@@ -190,95 +124,37 @@ const ElectionBallotRow = props => {
             {mandatory && <FavoriteIcon />}
           </div>
         )}
-        {maxVotes > 0 && onChange && (
-          <>
+        {onChange && (
+          <div {...styles.selection}>
             <SelectionComponent
-              disabled={maxVotes > 1 && !selected && disabled}
+              disabled={isDisabled}
               checked={selected}
               onChange={() => onChange(candidate)}
             />
-          </>
+          </div>
         )}
       </div>
       {expanded && (
-        <div
-          {...styles.detail}
-          {...colorScheme.set('backgroundColor', 'alert')}
-        >
-          <div {...styles.profile}>
-            <div
-              style={{
-                backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})`
-              }}
-              {...styles.portrait}
-            />
-            <div {...styles.shortInfo}>
-              <div {...styles.summaryMobile}>{summary}</div>
-
-              {!profile && d.username && (
-                <>
-                  <Contact user={d} electionBallot />
-                  <div style={{ marginTop: 8 }}>
-                    <Link href={`/~${d.username}`} passHref>
-                      <A target={target}>Profil</A>
-                    </Link>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-          <div>
-            <div {...styles.statement}>{d.statement || 'Ihr Statement'}</div>
-            <div {...styles.biography}>
-              {d.biographyContent && renderCommentMdast(d.biographyContent)}
-            </div>
-            <div>
-              {candidate.comment && candidate.comment.id && (
-                <div>
-                  <Link
-                    href={{
-                      pathname: '/vote/genossenschaft/diskutieren',
-                      query: {
-                        discussion: candidate.election.slug,
-                        focus: candidate.comment.id
-                      }
-                    }}
-                    passHref
-                  >
-                    <A target={target}>{vt('vote/election/discussion')}</A>
-                  </Link>
-                </div>
-              )}
-            </div>
-            {d.disclosures && (
-              <div {...styles.moreInfo}>
-                <Strong>{t('profile/disclosures/label')}:</Strong>{' '}
-                {d.disclosures}
-              </div>
-            )}
-            {candidate.recommendation && (
-              <div {...styles.moreInfo}>
-                <Strong>{vt('vote/election/recommendation')}</Strong>{' '}
-                {candidate.recommendation}
-              </div>
-            )}
-          </div>
-        </div>
+        <CandidateCard
+          candidate={candidate}
+          discussionPath={discussionPath}
+          discussionTag={discussionTag}
+        />
       )}
     </div>
   )
 }
 
 ElectionBallotRow.propTypes = {
-  profile: PropTypes.bool,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
   maxVotes: PropTypes.number,
   expanded: PropTypes.bool,
-  interactive: PropTypes.bool,
   onChange: PropTypes.func,
   candidate: PropTypes.object.isRequired,
-  showMeta: PropTypes.bool
+  showMeta: PropTypes.bool,
+  discussionPath: PropTypes.string,
+  discussionTag: PropTypes.string
 }
 
 ElectionBallotRow.defaultProps = {
@@ -286,8 +162,7 @@ ElectionBallotRow.defaultProps = {
   disabled: false,
   maxVotes: 1,
   expanded: false,
-  interactive: true,
   showMeta: true
 }
 
-export default compose(withInNativeApp, voteT, withT)(ElectionBallotRow)
+export default ElectionBallotRow

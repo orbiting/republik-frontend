@@ -57,6 +57,9 @@ const query = gql`
             id
           }
         }
+        credential {
+          description
+        }
         user {
           id
           name

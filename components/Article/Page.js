@@ -98,12 +98,14 @@ const ReasonsVideo = dynamic(() => import('../About/ReasonsVideo'), {
 })
 const Votebox = dynamic(() => import('../Vote/Voting'), dynamicOptions)
 const VoteCounter = dynamic(() => import('../Vote/VoteCounter'), dynamicOptions)
-const VoteResult = dynamic(
-  () => import('../Vote/VoteResultAuto'),
-  dynamicOptions
-)
+const VoteResult = dynamic(() => import('../Vote/VoteResult'), dynamicOptions)
 const ElectionCandidacy = dynamic(
   () => import('../Vote/ElectionCandidacy'),
+  dynamicOptions
+)
+const Election = dynamic(() => import('../Vote/Election'), dynamicOptions)
+const ElectionResult = dynamic(
+  () => import('../Vote/ElectionResult'),
   dynamicOptions
 )
 
@@ -319,7 +321,9 @@ const ArticlePage = ({
           VOTE_COUNTER: VoteCounter,
           VOTE_RESULT: VoteResult,
           TESTIMONIAL_LIST: TestimonialList,
-          ELECTION_CANDIDACY: ElectionCandidacy
+          ELECTION_CANDIDACY: ElectionCandidacy,
+          ELECTION: Election,
+          ELECTION_RESULT: ElectionResult
         },
         titleMargin: false,
         titleBreakout,

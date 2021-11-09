@@ -8,7 +8,6 @@ import produce from '../../lib/immer'
 
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
-import { withDiscussionComments } from './graphql/enhancers/withDiscussionComments'
 import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
 
 import DiscussionPreferences from './DiscussionPreferences'
@@ -24,7 +23,6 @@ import {
   Interaction,
   Editorial,
   timeahead,
-  Label,
   useCurrentMinute
 } from '@project-r/styleguide'
 
@@ -41,7 +39,8 @@ const DiscussionCommentComposer = props => {
     discussionPreferences,
     parentId,
     inNativeIOSApp,
-    showPayNotes
+    showPayNotes,
+    activeTag
   } = props
 
   /*
@@ -163,7 +162,7 @@ const DiscussionCommentComposer = props => {
               discussion: produce(discussion, draft => {
                 draft.displayAuthor = displayAuthor
               }),
-
+              activeTag,
               actions: {
                 previewComment: props.previewComment,
                 openDiscussionPreferences: () => {
@@ -219,7 +218,6 @@ export default compose(
   withMe,
   withDiscussionDisplayAuthor,
   withDiscussionPreferences,
-  withDiscussionComments,
   withSubmitComment,
   withInNativeApp
 )(DiscussionCommentComposer)

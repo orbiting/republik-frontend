@@ -11,13 +11,11 @@ import { isAdmin } from './graphql/enhancers/isAdmin'
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
 import { withCommentActions } from './graphql/enhancers/withCommentActions'
 import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
-import { withDiscussionComments } from './graphql/enhancers/withDiscussionComments'
 
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
 import CommentLink, { getFocusHref, getFocusUrl } from './CommentLink'
-import { getDiscussionUrlObject } from './DiscussionLink'
 import { composerHints } from './constants'
 
 import {
@@ -40,6 +38,7 @@ import { focusSelector } from '../../lib/utils/scroll'
 import { RootCommentOverlay } from './RootCommentOverlay'
 import { FeatureCommentOverlay } from './FeatureCommentOverlay'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
+import { rerouteDiscussion } from './DiscussionLink'
 
 const styles = {
   orderByContainer: css({
@@ -83,7 +82,8 @@ const Comments = props => {
     isEditor,
     focusId,
     orderBy,
-    discussionComments: { loading, error, discussion, fetchMore },
+    activeTag,
+    discussionComments: { discussion, fetchMore },
     meta,
     board,
     parent,
@@ -96,7 +96,6 @@ const Comments = props => {
   } = props
 
   const router = useRouter()
-  const discussionUrlObject = getDiscussionUrlObject(discussion)
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
    */
@@ -121,21 +120,10 @@ const Comments = props => {
   ] = React.useState({})
   const fetchFocus = () => {
     /*
-     * If we're still loading, or not trying to focus a comment, there is nothing
-     * to do for us.
-     *
-     * If the discussion doesn't exist, someone else will hopefully render a nice
-     * 404 / not found message.
-     */
-    if (loading || !focusId || !discussion) {
-      return
-    }
-
-    /*
      * If we're loading the focused comment or encountered an error during the loading
      * process, return.
      */
-    if (focusLoading || focusError) {
+    if (!focusId || focusLoading || focusError) {
       return
     }
 
@@ -249,12 +237,8 @@ const Comments = props => {
 
   return (
     <Loader
-      loading={loading || (focusId && focusLoading)}
-      error={
-        error ||
-        (focusId && focusError) ||
-        (discussion === null && t('discussion/missing'))
-      }
+      loading={focusLoading}
+      error={focusError || (discussion === null && t('discussion/missing'))}
       render={() => {
         if (!discussion) return null
         const { focus } = discussion.comments
@@ -293,6 +277,7 @@ const Comments = props => {
         const discussionContextValue = {
           isAdmin,
           highlightedCommentId: focusId,
+          activeTag,
 
           discussion,
 
@@ -386,31 +371,11 @@ const Comments = props => {
             {!rootCommentOverlay && (
               <div {...styles.orderByContainer}>
                 {board && (
-                  <OrderByLink
-                    href={discussionUrlObject}
-                    t={t}
-                    orderBy={resolvedOrderBy}
-                    value='HOT'
-                  />
+                  <OrderByLink t={t} orderBy={resolvedOrderBy} value='HOT' />
                 )}
-                <OrderByLink
-                  href={discussionUrlObject}
-                  t={t}
-                  orderBy={resolvedOrderBy}
-                  value='DATE'
-                />
-                <OrderByLink
-                  href={discussionUrlObject}
-                  t={t}
-                  orderBy={resolvedOrderBy}
-                  value='VOTES'
-                />
-                <OrderByLink
-                  href={discussionUrlObject}
-                  t={t}
-                  orderBy={resolvedOrderBy}
-                  value='REPLIES'
-                />
+                <OrderByLink t={t} orderBy={resolvedOrderBy} value='DATE' />
+                <OrderByLink t={t} orderBy={resolvedOrderBy} value='VOTES' />
+                <OrderByLink t={t} orderBy={resolvedOrderBy} value='REPLIES' />
                 <A
                   {...styles.reloadLink}
                   href={getFocusUrl(discussion)}
@@ -511,7 +476,6 @@ export default compose(
   isAdmin,
   withEditor,
   withSubmitComment,
-  withDiscussionComments,
   withMarkAsReadMutation,
   withInNativeApp
 )(Comments)
@@ -542,8 +506,13 @@ const EmptyDiscussion = ({ t }) => (
   <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
 )
 
-const OrderByLink = ({ t, orderBy, value, href }) => {
+const OrderByLink = ({ t, orderBy, value }) => {
   const [colorScheme] = useColorContext()
+  const route = useRouter()
+  const isSelected = orderBy === value
+  const targetHref = rerouteDiscussion(route, {
+    order: value
+  })
   const hoverRule = useMemo(() => {
     return css({
       '@media (hover)': {
@@ -553,11 +522,8 @@ const OrderByLink = ({ t, orderBy, value, href }) => {
       }
     })
   }, [colorScheme])
-
-  const isSelected = orderBy === value
-  href.query = { ...href.query, order: value }
   return (
-    <Link href={href} scroll={false} passHref>
+    <Link href={targetHref} scroll={false} passHref>
       <a
         {...styles.orderBy}
         {...colorScheme.set('color', 'text')}

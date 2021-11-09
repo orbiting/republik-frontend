@@ -55,6 +55,10 @@ export const discussion = gql`
     collapsable
     tagRequired
     tags
+    tagBuckets {
+      value
+      count
+    }
   }
 `
 

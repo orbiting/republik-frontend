@@ -34,6 +34,7 @@ export const mergeComment = ({ comment, initialParentId }) => draft => {
   })
 
   bumpCounts({ comment, initialParentId })(draft)
+  bumpTagCounts({ comment, initialParentId })(draft)
 }
 
 // we keep track of which cache keys we've already bumped
@@ -56,6 +57,7 @@ export const bumpCounts = ({ comment, initialParentId }) => draft => {
      * increment 'directTotalCount' if it was a root comment.
      */
     draft.discussion.comments.totalCount += 1
+    draft.discussion.allComments.totalCount += 1 // all tags: used for filter count
     if (!parentId) {
       draft.discussion.comments.directTotalCount += 1
     }
@@ -80,6 +82,27 @@ export const bumpCounts = ({ comment, initialParentId }) => draft => {
       if (!isOptimisticUpdate) {
         bumpedKeys.add(commentCommentsKey)
       }
+    }
+  }
+}
+
+/**
+ * Give a new comment, bump the tag buckets counts
+ */
+export const bumpTagCounts = ({ comment, initialParentId }) => draft => {
+  const nodes = draft.discussion.comments.nodes
+
+  const parentId = comment.parentIds[0]
+  const rootComment = parentId ? nodes.find(n => n.id === parentId) : comment
+
+  const affectedTags = rootComment?.tags
+
+  if (!affectedTags?.length) return
+
+  for (const tag of affectedTags) {
+    const bucket = draft.discussion.tagBuckets?.find(b => b.value === tag)
+    if (bucket) {
+      bucket.count += 1
     }
   }
 }

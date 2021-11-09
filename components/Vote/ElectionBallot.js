@@ -2,58 +2,60 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
+import { isSelected } from './Election'
 
 const styles = {
   table: css({
-    width: '100%',
-    cursor: 'pointer'
+    width: '100%'
   })
 }
 
-class ElectionBallot extends React.Component {
-  render() {
-    const {
-      candidacies,
-      selected,
-      mandatory,
-      maxVotes,
-      onChange,
-      showMeta
-    } = this.props
-
-    return (
-      <div {...styles.table}>
-        {candidacies.map(d => (
-          <ElectionBallotRow
-            key={d.id}
-            maxVotes={maxVotes}
-            selected={selected.some(c => d.id === c.id)}
-            mandatory={mandatory.some(c => d.user.id === c.user.id)}
-            onChange={onChange}
-            candidate={d}
-            disabled={selected.length >= maxVotes}
-            showMeta={showMeta}
-          />
-        ))}
-      </div>
-    )
-  }
-}
+const ElectionBallot = ({
+  candidates,
+  vote,
+  mandatory,
+  maxVotes,
+  onChange,
+  showMeta,
+  disabled,
+  discussionPath,
+  discussionTag
+}) => (
+  <div {...styles.table}>
+    {candidates.map((candidate, i) => (
+      <ElectionBallotRow
+        key={candidate.id}
+        odd={i % 2}
+        candidate={candidate}
+        selected={isSelected(candidate, vote)}
+        maxVotes={maxVotes}
+        mandatory={mandatory.some(c => candidate.user.id === c.user.id)}
+        onChange={onChange}
+        disabled={disabled}
+        showMeta={showMeta}
+        discussionPath={discussionPath}
+        discussionTag={discussionTag}
+      />
+    ))}
+  </div>
+)
 
 ElectionBallot.propTypes = {
-  candidacies: PropTypes.array,
-  selected: PropTypes.array,
+  candidates: PropTypes.array,
+  vote: PropTypes.array,
   mandatory: PropTypes.array,
   maxVotes: PropTypes.number,
-  disabled: PropTypes.bool
+  onChange: PropTypes.func,
+  showMeta: PropTypes.bool,
+  disabled: PropTypes.bool,
+  discussionPath: PropTypes.string,
+  discussionTag: PropTypes.string
 }
 
 ElectionBallot.defaultProps = {
-  candidacies: [],
-  selected: [],
+  vote: [],
   mandatory: [],
   maxVotes: 1,
-  disabled: false,
   showMeta: true
 }
 

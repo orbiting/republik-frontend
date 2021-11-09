@@ -113,8 +113,13 @@ const MembersLocation = ({ members, isElected }) => {
       />
       {!!outsideSwitzerland.length && (
         <div {...styles.mapLegend}>
-          Nicht angezeigt: {outsideSwitzerland.length}{' '}
-          {isElected ? 'Mandate' : 'Kandidaturen'} von ausserhalb der Schweiz:{' '}
+          Nicht angezeigt:{' '}
+          {outsideSwitzerland.length === 1
+            ? `${isElected ? 'ein Mandat' : 'eine Kandidatur'}`
+            : `${outsideSwitzerland.length} ${
+                isElected ? 'Mandate' : 'Kandidaturen'
+              }`}{' '}
+          ausserhalb der Schweiz:{' '}
           {outsideSwitzerland
             .map(c => `${c.city} ${c.postalCodeGeo.countryName}`)
             .filter(deduplicate)
@@ -180,16 +185,25 @@ const MembersGender = voteT(({ members, vt }) => {
 
 const getAge = birthYear => new Date().getFullYear() - birthYear
 
+const AGES = {
+  ['<\u200930']: '#1f77b4',
+  ['30\u201340']: '#ff7f0e',
+  ['40\u201350']: '#2ca02c',
+  ['50\u201360']: '#d62728',
+  ['>\u200960 Jahre']: '#9467bd'
+}
+const AGE_KEYS = Object.keys(AGES)
+
 const getLabel = age =>
   age < 30
-    ? '< 30'
+    ? AGE_KEYS[0]
     : age < 40
-    ? '30-40'
+    ? AGE_KEYS[1]
     : age < 50
-    ? '40-50'
+    ? AGE_KEYS[2]
     : age < 60
-    ? '50-60'
-    : '> 60 Jahre'
+    ? AGE_KEYS[3]
+    : AGE_KEYS[4]
 
 const MembersAge = voteT(({ members, vt }) => {
   const membersWithBirthday = members.filter(member => member.yearOfBirth)
@@ -203,13 +217,7 @@ const MembersAge = voteT(({ members, vt }) => {
             ? { ...item, value: item.value + 1 }
             : item
         ),
-      [
-        { key: '< 30', value: 0 },
-        { key: '30-40', value: 0 },
-        { key: '40-50', value: 0 },
-        { key: '50-60', value: 0 },
-        { key: '> 60 Jahre', value: 0 }
-      ]
+      AGE_KEYS.map(key => ({ key, value: 0 }))
     )
     .map(getPercentString(membersWithBirthday.length))
 
@@ -223,16 +231,10 @@ const MembersAge = voteT(({ members, vt }) => {
           type: 'Bar',
           numberFormat: '.0%',
           color: 'key',
-          colorMap: {
-            ['< 30']: '#1f77b4',
-            ['30-40']: '#ff7f0e',
-            ['40-50']: '#2ca02c',
-            ['50-60']: '#d62728',
-            ['> 60 Jahre']: '#9467bd'
-          },
+          colorMap: AGES,
           colorSort: 'none',
           colorLegend: true,
-          colorLegendValues: ['< 30', '30-40', '40-50', '50-60', '> 60 Jahre'],
+          colorLegendValues: AGE_KEYS,
           domain: [0, 1],
           sort: 'none',
           inlineValue: true

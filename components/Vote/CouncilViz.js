@@ -1,0 +1,226 @@
+import React from 'react'
+import { Interaction, Label, fontStyles, Chart } from '@project-r/styleguide'
+import { css } from 'glamor'
+import voteT from './voteT'
+import { deduplicate } from '../../lib/utils/helpers'
+const { P } = Interaction
+
+const styles = {
+  container: css({
+    textAlign: 'center'
+  }),
+  charts: css({
+    margin: '0 auto',
+    maxWidth: 360
+  }),
+  text: css({
+    textAlign: 'center',
+    width: '80%',
+    margin: '10px 0 15px 0'
+  }),
+  chart: css({
+    marginBottom: 20
+  }),
+  mapLegend: css({
+    ...fontStyles.sansSerifRegular12,
+    fontFeatureSettings: '"tnum" 1, "kern" 1',
+    padding: '3px 0 6px'
+  })
+}
+
+const MembersLocation = ({ members, isElected }) => {
+  const values = members
+    .filter(member => member.postalCodeGeo?.countryCode === 'CH')
+    .reduce((acc, { postalCodeGeo, city }) => {
+      const currentLocation = acc.find(
+        point => point.postalCode === postalCodeGeo.postalCode
+      )
+      if (currentLocation) {
+        currentLocation.count += 1
+      } else {
+        acc.push({
+          ...postalCodeGeo,
+          city,
+          count: 1
+        })
+      }
+      return acc
+    }, [])
+    .map(point => ({
+      ...point,
+      lat: String(point.lat),
+      lon: String(point.lon),
+      value: String(point.count)
+    }))
+
+  const outsideSwitzerland = members.filter(
+    c => c.postalCodeGeo?.countryCode !== 'CH'
+  )
+
+  return (
+    <div {...styles.chart}>
+      <Chart
+        config={{
+          type: 'SwissMap',
+          heightRatio: 0.63,
+          features: {
+            url:
+              'https://cdn.repub.ch/s3/republik-assets/assets/geo/ch-cantons-wo-lakes.json',
+            object: 'cantons'
+          },
+          points: true,
+          sizeRangeMax: 150,
+          opacity: 0.5,
+          colorLegend: false,
+          tooltipLabel: '{city}, {postalCode}',
+          tooltipBody: `${isElected ? 'Rätinnen' : 'Kandidatinnen'}: {count}`
+        }}
+        values={values}
+      />
+      {!!outsideSwitzerland.length && (
+        <div {...styles.mapLegend}>
+          Nicht angezeigt: {outsideSwitzerland.length}{' '}
+          {isElected ? 'Mandate' : 'Kandidaturen'} von ausserhalb der Schweiz:{' '}
+          {outsideSwitzerland
+            .map(c => `${c.city} ${c.postalCodeGeo.countryName}`)
+            .filter(deduplicate)
+            .join(', ')}
+          .
+        </div>
+      )}
+    </div>
+  )
+}
+
+const getPercentString = total => item => ({
+  ...item,
+  value: String(item.value / total)
+})
+
+const GENDER = {
+  weiblich: '#9467bd',
+  divers: 'neutral',
+  ['männlich']: '#2ca02c'
+}
+
+const MembersGender = voteT(({ members, vt }) => {
+  const membersWithGender = members.filter(member => member?.user?.gender)
+  const values = membersWithGender
+    .reduce(
+      (acc, member) =>
+        acc.map(item =>
+          item.key ===
+          (GENDER[member.user.gender] ? member.user.gender : 'divers')
+            ? { ...item, value: item.value + 1 }
+            : item
+        ),
+      Object.keys(GENDER).map(key => ({ key, value: 0 }))
+    )
+    .map(getPercentString(membersWithGender.length))
+
+  return (
+    <div {...styles.chart}>
+      <div style={{ marginBottom: 3 }}>
+        <Label>{vt('vote/election/confirm/gender/header')}</Label>
+      </div>
+      <Chart
+        config={{
+          type: 'Bar',
+          numberFormat: '.0%',
+          color: 'key',
+          colorMap: GENDER,
+          colorSort: 'none',
+          colorLegend: true,
+          colorLegendValues: Object.keys(GENDER),
+          domain: [0, 1],
+          sort: 'none',
+          inlineValue: true
+        }}
+        values={values.filter(v => v.value !== '0')}
+      />
+    </div>
+  )
+})
+
+const getAge = birthYear => new Date().getFullYear() - birthYear
+
+const getLabel = age =>
+  age < 30
+    ? '< 30'
+    : age < 40
+    ? '30-40'
+    : age < 50
+    ? '40-50'
+    : age < 60
+    ? '50-60'
+    : '> 60 Jahre'
+
+const MembersAge = voteT(({ members, vt }) => {
+  const membersWithBirthday = members.filter(member => member.yearOfBirth)
+  const values = membersWithBirthday
+    .reduce(
+      (acc, member) =>
+        acc.map(item =>
+          item.key === getLabel(getAge(member.yearOfBirth))
+            ? { ...item, value: item.value + 1 }
+            : item
+        ),
+      [
+        { key: '< 30', value: 0 },
+        { key: '30-40', value: 0 },
+        { key: '40-50', value: 0 },
+        { key: '50-60', value: 0 },
+        { key: '> 60 Jahre', value: 0 }
+      ]
+    )
+    .map(getPercentString(membersWithBirthday.length))
+
+  return (
+    <div {...styles.chart}>
+      <div style={{ marginBottom: 3 }}>
+        <Label>{vt('vote/election/confirm/age/header')}</Label>
+      </div>
+      <Chart
+        config={{
+          type: 'Bar',
+          numberFormat: '.0%',
+          color: 'key',
+          colorMap: {
+            ['< 30']: '#1f77b4',
+            ['30-40']: '#ff7f0e',
+            ['40-50']: '#2ca02c',
+            ['50-60']: '#d62728',
+            ['> 60 Jahre']: '#9467bd'
+          },
+          colorSort: 'none',
+          colorLegend: true,
+          colorLegendValues: ['< 30', '30-40', '40-50', '50-60', '> 60 Jahre'],
+          domain: [0, 1],
+          sort: 'none',
+          inlineValue: true
+        }}
+        values={values.filter(v => v.value !== '0')}
+      />
+    </div>
+  )
+})
+
+export const CouncilViz = ({ title, members, text, isElected = true }) => {
+  return (
+    <div {...styles.container}>
+      {title && (
+        <Interaction.P>
+          <strong>{title}</strong>
+        </Interaction.P>
+      )}
+      <div {...styles.charts}>
+        <MembersLocation members={members} isElected={isElected} />
+        <MembersGender members={members} />
+        <MembersAge members={members} />
+      </div>
+      {text && <P {...styles.text}>{text}</P>}
+    </div>
+  )
+}
+
+export default CouncilViz

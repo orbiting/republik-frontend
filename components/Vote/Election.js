@@ -194,7 +194,11 @@ const Election = compose(
       () => createPersistedState(`republik-election-${electionId}`),
       [electionId]
     )
-    const [vote, setVote] = useGenElection([])
+    const [rawVote, setRawVote] = useGenElection()
+    const vote = useMemo(() => rawVote || [], [rawVote])
+    const setVote = ids => {
+      setRawVote(ids?.length ? ids : undefined)
+    }
     const [isDirty, setDirty] = useState(false)
     const [isConfirm, setConfirm] = useState(false)
 

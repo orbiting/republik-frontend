@@ -188,7 +188,7 @@ const Election = compose(
   }) => {
     const electionId = election.id
     const useGenElection = useMemo(
-      () => createPersistedState(`republik-general-election-${electionId}`),
+      () => createPersistedState(`republik-election-${electionId}`),
       [electionId]
     )
     const [vote, setVote] = useGenElection([])

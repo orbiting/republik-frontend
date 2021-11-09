@@ -4,8 +4,7 @@ import compose from 'lodash/flowRight'
 import { withApollo } from '@apollo/client/react/hoc'
 import debounce from 'lodash/debounce'
 
-import ProgressPrompt from './ProgressPrompt'
-import { mediaQueries } from '@project-r/styleguide'
+import { mediaQueries, A } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import { scrollIt } from '../../../lib/utils/scroll'
@@ -15,15 +14,26 @@ import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
 import { withProgressApi } from './api'
 import { useMediaProgress } from '../../Audio/MediaProgress'
 import { withRouter } from 'next/router'
+import Link from 'next/link'
 
 const MIN_INDEX = 2
+
+export const getFeatureDescription = t =>
+  t.elements('article/progressprompt/description/feature', {
+    link: PROGRESS_EXPLAINER_PATH ? (
+      <Link href={PROGRESS_EXPLAINER_PATH} key='link' passHref>
+        <A>{t('article/progressprompt/description/feature/link')}</A>
+      </Link>
+    ) : null
+  })
 
 class ProgressContextProvider extends React.Component {
   getChildContext() {
     return {
       getMediaProgress: this.props.value.getMediaProgress,
       saveMediaProgress: this.props.value.saveMediaProgress,
-      restoreArticleProgress: this.props.value.restoreArticleProgress
+      restoreArticleProgress: this.props.value.restoreArticleProgress,
+      showConsentPrompt: this.props.value.showConsentPrompt
     }
   }
   render() {
@@ -34,14 +44,13 @@ class ProgressContextProvider extends React.Component {
 ProgressContextProvider.childContextTypes = {
   getMediaProgress: PropTypes.func,
   saveMediaProgress: PropTypes.func,
-  restoreArticleProgress: PropTypes.func
+  restoreArticleProgress: PropTypes.func,
+  showConsentPrompt: PropTypes.bool
 }
 
 const Progress = ({
   children,
   me,
-  revokeProgressConsent,
-  submitProgressConsent,
   article,
   isArticle,
   router,
@@ -213,21 +222,16 @@ const Progress = ({
     article.meta &&
     article.meta.path !== PROGRESS_EXPLAINER_PATH
 
-  const progressPrompt = showConsentPrompt && (
-    <ProgressPrompt
-      onSubmitConsent={submitProgressConsent}
-      onRevokeConsent={revokeProgressConsent}
-    />
-  )
-
   return (
     <ProgressContextProvider
-      value={{ getMediaProgress, saveMediaProgress, restoreArticleProgress }}
+      value={{
+        getMediaProgress,
+        saveMediaProgress,
+        restoreArticleProgress,
+        showConsentPrompt
+      }}
     >
-      <div ref={refContainer}>
-        {progressPrompt || null}
-        {children}
-      </div>
+      <div ref={refContainer}>{children}</div>
     </ProgressContextProvider>
   )
 }

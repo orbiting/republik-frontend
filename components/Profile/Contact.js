@@ -10,7 +10,7 @@ import {
   MailOutlineIcon,
   NoteAddIcon,
   VpnKeyIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { withSupporter } from '../Auth/checkRoles'

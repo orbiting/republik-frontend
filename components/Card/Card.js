@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { css } from 'glamor'
 
 import { Interaction, colors, IconButton } from '@project-r/styleguide'
-import { CheckIcon, DiscussionIcon } from '@project-r/styleguide/icons'
+import { CheckIcon, DiscussionIcon } from '@project-r/styleguide'
 
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { countFormat } from '../../lib/utils/format'

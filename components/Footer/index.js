@@ -11,7 +11,7 @@ import {
   ColorContextProvider,
   useColorContext
 } from '@project-r/styleguide'
-import { OpenSourceIcon } from '@project-r/styleguide/icons'
+import { OpenSourceIcon } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -183,28 +183,33 @@ const Footer = ({
                 </>
               )}
               {!inNativeIOSApp && (
-                <li>
-                  <FooterNavLink
-                    href={{
-                      pathname: '/angebote',
-                      query: {
-                        group: hasActiveMembership ? 'GIVE' : undefined
-                      }
-                    }}
-                  >
-                    <a {...navLinkStyle}>
-                      {t(
-                        hasActiveMembership ? 'footer/me/give' : 'footer/offers'
-                      )}
-                    </a>
-                  </FooterNavLink>
-                </li>
+                <>
+                  <li>
+                    <FooterNavLink
+                      href={{
+                        pathname: '/angebote',
+                        query: {
+                          group: hasActiveMembership ? 'GIVE' : undefined
+                        }
+                      }}
+                    >
+                      <a {...navLinkStyle}>
+                        {t(
+                          hasActiveMembership
+                            ? 'footer/me/give'
+                            : 'footer/offers'
+                        )}
+                      </a>
+                    </FooterNavLink>
+                  </li>
+                  <li>
+                    <FooterNavLink href='/abholen'>
+                      <a {...navLinkStyle}>{t('footer/me/claim')}</a>
+                    </FooterNavLink>
+                  </li>
+                </>
               )}
-              <li>
-                <FooterNavLink href='/abholen'>
-                  <a {...navLinkStyle}>{t('footer/me/claim')}</a>
-                </FooterNavLink>
-              </li>
+
               {me && me.accessCampaigns.length > 0 && hasActiveMembership && (
                 <li>
                   <FooterNavLink
@@ -258,11 +263,13 @@ const Footer = ({
                   <a {...navLinkStyle}>{t('nav/cockpit')}</a>
                 </FooterNavLink>
               </li>
-              <li>
-                <FooterNavLink href='/faq'>
-                  <a {...navLinkStyle}>{t('footer/me/faq')}</a>
-                </FooterNavLink>
-              </li>
+              {!inNativeIOSApp && (
+                <li>
+                  <FooterNavLink href='/faq'>
+                    <a {...navLinkStyle}>{t('footer/me/faq')}</a>
+                  </FooterNavLink>
+                </li>
+              )}
               <li>
                 <a
                   {...navLinkStyle}

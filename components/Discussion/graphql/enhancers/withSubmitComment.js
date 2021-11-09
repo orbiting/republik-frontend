@@ -82,8 +82,6 @@ export const withSubmitComment = compose(
           optimisticResponse: {
             __typename: 'Mutation',
             submitComment: {
-              // allows to detect
-              isOptimisticResponse: true,
               __typename: 'Comment',
               id,
               ...optimisticContent(content),
@@ -136,8 +134,7 @@ export const withSubmitComment = compose(
                 proxy.readQuery({ query: discussionQuery, variables }),
                 mergeComment({
                   comment,
-                  initialParentId,
-                  isOptimisticUpdate: comment.isOptimisticResponse
+                  initialParentId
                 })
               )
             })

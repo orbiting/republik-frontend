@@ -33,7 +33,7 @@ import {
   mediaQueries,
   colors
 } from '@project-r/styleguide'
-import { DiscussionIcon } from '@project-r/styleguide/icons'
+import { DiscussionIcon } from '@project-r/styleguide'
 
 import { ListWithQuery as TestimonialList } from '../Testimonial/List'
 

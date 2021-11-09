@@ -10,7 +10,7 @@ import withT from '../lib/withT'
 import withInNativeApp from '../lib/withInNativeApp'
 import { intersperse } from '../lib/utils/helpers'
 
-import { CloseIcon } from '@project-r/styleguide/icons'
+import { CloseIcon } from '@project-r/styleguide'
 
 import {
   HEADER_HEIGHT,

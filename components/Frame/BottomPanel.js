@@ -10,7 +10,6 @@ const styles = {
   container: css({
     position: 'fixed',
     right: 0,
-    zIndex: zIndex.callout,
     transition: 'opacity ease-out 0.3s',
     margin: `0 ${MARGIN}px`,
     [mediaQueries.mUp]: {
@@ -24,7 +23,13 @@ const styles = {
   })
 }
 
-const BottomPanel = ({ children, visible, offset = 0, wide = false }) => {
+const BottomPanel = ({
+  children,
+  visible,
+  offset = 0,
+  wide = false,
+  foreground = false
+}) => {
   const [colorScheme] = useColorContext()
   const { inIOSVersion, inNativeApp } = useInNativeApp()
 
@@ -49,7 +54,8 @@ const BottomPanel = ({ children, visible, offset = 0, wide = false }) => {
     <div
       style={{
         opacity: visible ? 1 : 0,
-        pointerEvents: visible ? undefined : 'none'
+        pointerEvents: visible ? undefined : 'none',
+        zIndex: foreground ? zIndex.foreground : zIndex.callout
       }}
       {...bottomRule}
       {...colorScheme.set('backgroundColor', 'overlay')}

@@ -17,7 +17,7 @@ import {
   useColorContext,
   ColorHtmlBodyColors
 } from '@project-r/styleguide'
-import { BackIcon } from '@project-r/styleguide/icons'
+import { BackIcon } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import Link from 'next/link'

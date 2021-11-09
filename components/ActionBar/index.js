@@ -11,7 +11,7 @@ import {
   ShareIcon,
   ChartIcon,
   EditIcon
-} from '@project-r/styleguide/icons'
+} from '@project-r/styleguide'
 import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -206,24 +206,22 @@ const ActionBar = ({
     },
     {
       title: t('article/actionbar/userprogress'),
-      element:
-        document && document.userProgress && displayMinutes > 1 ? (
-          <UserProgress
-            documentId={document.id}
-            forceShortLabel={forceShortLabel}
-            userProgress={document.userProgress}
-            noCallout={
-              mode === 'articleOverlay' ||
-              mode === 'bookmark' ||
-              mode === 'seriesEpisode'
-            }
-            noScroll={mode === 'feed'}
-          />
-        ) : (
-          <></>
-        ),
+      element: (
+        <UserProgress
+          documentId={document.id}
+          forceShortLabel={forceShortLabel}
+          userProgress={document.userProgress}
+          noCallout={
+            mode === 'articleOverlay' ||
+            mode === 'bookmark' ||
+            mode === 'seriesEpisode'
+          }
+          noScroll={mode === 'feed'}
+          displayMinutes={displayMinutes}
+        />
+      ),
       modes: ['articleOverlay', 'feed', 'bookmark', 'seriesEpisode'],
-      show: !!document?.userProgress
+      show: !!document
     },
     {
       title: t('feed/actionbar/chart'),
@@ -272,7 +270,10 @@ const ActionBar = ({
       modes: ['articleTop', 'articleBottom'],
       show:
         // only show if there is something to subscribe to
-        (isDiscussion || meta.format || meta.authors?.length) &&
+        (isDiscussion ||
+          meta.template === 'format' ||
+          meta.format ||
+          meta.authors?.length) &&
         // and signed in or loading me
         (me || meLoading)
     },
@@ -310,8 +311,12 @@ const ActionBar = ({
           path: meta.path
         })
       },
-      label: t('PodcastButtons/play'),
-      modes: ['feed'],
+      label:
+        // remove label if it is in series Nav and there is userprogress
+        mode === 'seriesEpisode' && !!document.userProgress
+          ? null
+          : t('PodcastButtons/play'),
+      modes: ['feed', 'seriesEpisode'],
       show: !!meta.audioSource
     },
     {
@@ -389,14 +394,14 @@ const ActionBar = ({
     },
     {
       title: t('article/actionbar/userprogress'),
-      element:
-        document && document.userProgress && displayMinutes > 1 ? (
-          <UserProgress
-            documentId={document.id}
-            userProgress={document.userProgress}
-          />
-        ) : null,
-      show: document && document.userProgress && displayMinutes > 1 && !podcast
+      element: (
+        <UserProgress
+          documentId={document.id}
+          userProgress={document.userProgress}
+          displayMinutes={displayMinutes}
+        />
+      ),
+      show: !!document
     },
     {
       title: t('PodcastButtons/play'),

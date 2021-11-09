@@ -8,7 +8,7 @@ import {
   HeaderHeightProvider,
   useColorContext
 } from '@project-r/styleguide'
-import { BackIcon } from '@project-r/styleguide/icons'
+import { BackIcon } from '@project-r/styleguide'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'

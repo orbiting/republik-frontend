@@ -26,6 +26,9 @@ type Options = {
 }
 
 function mergeExistingData(existing, incoming) {
+  // Null values should be overwritten by the incoming value
+  if (!existing) return incoming
+
   return { ...existing, ...incoming }
 }
 

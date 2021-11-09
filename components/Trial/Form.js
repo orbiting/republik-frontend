@@ -16,7 +16,7 @@ import Consents, { getConsentsError } from '../Pledge/Consents'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import { ArrowForwardIcon } from '@project-r/styleguide/icons'
+import { ArrowForwardIcon } from '@project-r/styleguide'
 import {
   Button,
   Field,

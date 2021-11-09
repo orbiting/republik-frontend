@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 
 import withT from '../../lib/withT'
 
-import { CloseIcon } from '@project-r/styleguide/icons'
+import { CloseIcon } from '@project-r/styleguide'
 
 const styles = {
   img: css({

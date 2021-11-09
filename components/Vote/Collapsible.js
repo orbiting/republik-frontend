@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { ChevronRightIcon, ExpandMoreIcon } from '@project-r/styleguide/icons'
+import { ChevronRightIcon, ExpandMoreIcon } from '@project-r/styleguide'
 import {
   fontFamilies,
   fontStyles,

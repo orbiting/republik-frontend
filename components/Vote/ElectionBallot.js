@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
+import { isSelected } from './Election'
 
 const styles = {
   table: css({
@@ -10,6 +11,7 @@ const styles = {
 }
 
 const ElectionBallot = ({
+  candidates,
   vote,
   mandatory,
   maxVotes,
@@ -20,12 +22,12 @@ const ElectionBallot = ({
   discussionTag
 }) => (
   <div {...styles.table}>
-    {vote.map(({ candidate, selected }, i) => (
+    {candidates.map((candidate, i) => (
       <ElectionBallotRow
         key={candidate.id}
         odd={i % 2}
         candidate={candidate}
-        selected={selected}
+        selected={isSelected(candidate, vote)}
         maxVotes={maxVotes}
         mandatory={mandatory.some(c => candidate.user.id === c.user.id)}
         onChange={onChange}
@@ -39,6 +41,7 @@ const ElectionBallot = ({
 )
 
 ElectionBallot.propTypes = {
+  candidates: PropTypes.array,
   vote: PropTypes.array,
   mandatory: PropTypes.array,
   maxVotes: PropTypes.number,

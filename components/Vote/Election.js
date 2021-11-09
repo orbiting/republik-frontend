@@ -154,26 +154,23 @@ const ElectionAlert = ({ children }) => {
   )
 }
 
-const updateVote = (election, vote) =>
-  [...election.candidacies]
-    .sort((c1, c2) => {
-      if (
-        (c1.recommendation && !c2.recommendation) ||
-        (c1.isIncumbent && !c2.isIncumbent)
-      ) {
-        return -1
-      } else if (
-        (c2.recommendation && !c1.recommendation) ||
-        (c2.isIncumbent && !c1.isIncumbent)
-      ) {
-        return 1
-      } else return sortNames(c1, c2)
-    })
-    .map(candidate => ({
-      candidate,
-      selected:
-        vote.find(v => v.candidate.id === candidate.id)?.selected || false
-    }))
+const sortCandidates = candidates =>
+  candidates.sort((c1, c2) => {
+    if (
+      (c1.recommendation && !c2.recommendation) ||
+      (c1.isIncumbent && !c2.isIncumbent)
+    ) {
+      return -1
+    } else if (
+      (c2.recommendation && !c1.recommendation) ||
+      (c2.isIncumbent && !c1.isIncumbent)
+    ) {
+      return 1
+    } else return sortNames(c1, c2)
+  })
+
+export const isSelected = (candidate, vote) =>
+  vote.find(v => v === candidate.id)
 
 const Election = compose(
   voteT,
@@ -199,29 +196,23 @@ const Election = compose(
     const [isConfirm, setConfirm] = useState(false)
 
     useEffect(() => {
-      setVote(updateVote(election, vote))
-    }, [election])
-
-    useEffect(() => {
-      setDirty(!!vote.some(item => item.selected))
+      setDirty(vote.length > 0)
     }, [vote])
 
     const toggleCandidate = candidate => {
-      const allowMultiple = election.numSeats > 1
+      if (election.numSeats === 1) {
+        return setVote([candidate.id])
+      }
       setVote(
-        vote.map(item =>
-          item.candidate.id === candidate.id
-            ? { ...item, selected: !item.selected }
-            : allowMultiple
-            ? item
-            : { ...item, selected: false }
-        )
+        isSelected(candidate, vote)
+          ? vote.filter(v => v !== candidate.id)
+          : vote.concat(candidate.id)
       )
     }
 
-    const reset = event => {
+    const resetVote = event => {
       event.preventDefault()
-      setVote(vote.map(item => ({ ...item, selected: false })))
+      setVote([])
       setConfirm(false)
     }
 
@@ -247,18 +238,22 @@ const Election = compose(
     }
 
     const { numSeats } = election
-    const givenVotes = vote.filter(item => item.selected).length
+    const givenVotes = vote.length
     const remainingVotes = numSeats - givenVotes
 
     const electionOpen = !dangerousDisabledHTML
     const showHeader = electionOpen && numSeats > 1
+
+    const candidates = sortCandidates([...election.candidacies])
 
     return (
       <div {...styles.wrapper}>
         {isConfirm ? (
           <ElectionConfirm
             election={election}
+            candidates={candidates}
             vote={vote}
+            resetVote={resetVote}
             goBack={e => {
               e?.preventDefault()
               setConfirm(false)
@@ -288,6 +283,7 @@ const Election = compose(
             )}
             <div {...styles.wrapper}>
               <ElectionBallot
+                candidates={candidates}
                 vote={vote}
                 onChange={electionOpen ? toggleCandidate : undefined}
                 maxVotes={election.numSeats}
@@ -305,7 +301,7 @@ const Election = compose(
                     </Button>
                     {isDirty && (
                       <Interaction.P style={{ marginLeft: 30 }}>
-                        <A href='#' onClick={reset}>
+                        <A href='#' onClick={resetVote}>
                           {vt('vote/common/reset')}
                         </A>
                       </Interaction.P>

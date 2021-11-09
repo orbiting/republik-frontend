@@ -109,9 +109,9 @@ const CandidatesLocation = voteT(({ candidates, vt }) => {
           {outsideSwitzerland.length === 1
             ? 'eine Kandidatur'
             : `${outsideSwitzerland.length} Kandidaturen`}{' '}
-          ausserhalb der Schweiz:{' '}
+          ausserhalb der Schweiz in{' '}
           {outsideSwitzerland
-            .map(c => `${c.city} ${c.postalCodeGeo.countryName}`)
+            .map(c => `${c.city} (${c.postalCodeGeo.countryName})`)
             .filter(deduplicate)
             .join(', ')}
           .

@@ -12,7 +12,6 @@ import {
 } from '@project-r/styleguide'
 import { Strong } from './text'
 import voteT from './voteT'
-import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
 import Contact from '../Profile/Contact'
 
@@ -77,10 +76,9 @@ const styles = {
 }
 
 const CandidateCard = compose(
-  withInNativeApp,
   voteT,
   withT
-)(({ inNativeApp, vt, t, candidate, discussionPath, discussionTag }) => {
+)(({ vt, t, candidate, discussionPath, discussionTag }) => {
   const [colorScheme] = useColorContext()
   const { user: d } = candidate
   const role = (candidate.credential || d.credentials?.find(c => c.isListed))

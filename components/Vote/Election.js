@@ -57,6 +57,9 @@ const query = gql`
             id
           }
         }
+        credential {
+          description
+        }
         user {
           id
           name
@@ -188,10 +191,14 @@ const Election = compose(
   }) => {
     const electionId = election.id
     const useGenElection = useMemo(
-      () => createPersistedState(`republik-general-election-${electionId}`),
+      () => createPersistedState(`republik-election-${electionId}`),
       [electionId]
     )
-    const [vote, setVote] = useGenElection([])
+    const [rawVote, setRawVote] = useGenElection()
+    const vote = useMemo(() => rawVote || [], [rawVote])
+    const setVote = ids => {
+      setRawVote(ids?.length ? ids : undefined)
+    }
     const [isDirty, setDirty] = useState(false)
     const [isConfirm, setConfirm] = useState(false)
 
@@ -211,7 +218,9 @@ const Election = compose(
     }
 
     const resetVote = event => {
-      event.preventDefault()
+      if (event) {
+        event.preventDefault()
+      }
       setVote([])
       setConfirm(false)
     }

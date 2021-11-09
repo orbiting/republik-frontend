@@ -32,7 +32,7 @@ const IndexPage = ({ t, isMember, router }) => {
   }
 
   // only show marketing in ios app if it's the latest version
-  if (inNativeIOSApp && isMinimalNativeAppVersion('2.1.0')) {
+  if (inNativeIOSApp && !isMinimalNativeAppVersion('2.1.0')) {
     return <SignInPage />
   }
 

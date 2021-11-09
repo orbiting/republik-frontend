@@ -25,9 +25,9 @@ type Options = {
   onResponse?: any
 }
 
-function mergeExistingData(existing, incoming) {
-  // Null values should be overwritten by the incoming value
-  if (!existing) return incoming
+function mergeNullableData(existing, incoming) {
+  // only merge truthy objects
+  if (!existing || !incoming) return incoming
 
   return { ...existing, ...incoming }
 }
@@ -54,7 +54,7 @@ function createApolloClient(
         Discussion: {
           fields: {
             userPreference: {
-              merge: mergeExistingData
+              merge: mergeNullableData
             }
           }
         }

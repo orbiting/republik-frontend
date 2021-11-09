@@ -218,7 +218,9 @@ const Election = compose(
     }
 
     const resetVote = event => {
-      event.preventDefault()
+      if (event) {
+        event.preventDefault()
+      }
       setVote([])
       setConfirm(false)
     }

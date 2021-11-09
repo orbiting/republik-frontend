@@ -54,26 +54,24 @@ const UserProgress = (
       />
     ))
     return (
-      <>
-        <CalloutMenu Element={ProgressConsentIcon} padded>
-          <Label>{getFeatureDescription(t)}</Label>
-          <div {...styles.consent}>
-            <IconButton
-              style={{ marginBottom: 16 }}
-              Icon={OutlinedReadIcon}
-              onClick={submitProgressConsent}
-              label={t('article/progressprompt/button/confirm')}
-              labelShort={t('article/progressprompt/button/confirm')}
-            />
-            <IconButton
-              Icon={HighlightOffIcon}
-              onClick={revokeProgressConsent}
-              label={t('article/progressprompt/button/reject')}
-              labelShort={t('article/progressprompt/button/reject')}
-            />
-          </div>
-        </CalloutMenu>
-      </>
+      <CalloutMenu Element={ProgressConsentIcon} padded>
+        <Label>{getFeatureDescription(t)}</Label>
+        <div {...styles.consent}>
+          <IconButton
+            style={{ marginBottom: 16 }}
+            Icon={OutlinedReadIcon}
+            onClick={submitProgressConsent}
+            label={t('article/progressprompt/button/confirm')}
+            labelShort={t('article/progressprompt/button/confirm')}
+          />
+          <IconButton
+            Icon={HighlightOffIcon}
+            onClick={revokeProgressConsent}
+            label={t('article/progressprompt/button/reject')}
+            labelShort={t('article/progressprompt/button/reject')}
+          />
+        </div>
+      </CalloutMenu>
     )
   }
 

@@ -26,7 +26,7 @@ const ISSUES = [
   { issue: 2, hideInNativeIOSApp: true },
   { issue: 3, hideInNativeIOSApp: true },
   { issue: 4, hideInNativeIOSApp: true },
-  { issue: 5 }
+  { issue: 5, hideInNativeIOSApp: true }
 ]
 
 const UserGuidance = ({ t, inNativeIOSApp, signOut }) => (

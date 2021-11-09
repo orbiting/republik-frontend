@@ -32,6 +32,7 @@ import Subscriptions, {
   fragments as fragmentsSubscriptions
 } from './Sections/Subscriptions'
 import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
+import withInNativeApp from '../../lib/withInNativeApp'
 import Link from 'next/link'
 
 const { P } = Interaction
@@ -196,7 +197,8 @@ class Page extends Component {
       router: {
         query: { context }
       },
-      t
+      t,
+      inNativeIOSApp
     } = this.props
     const { expandedSection } = this.state
 
@@ -339,7 +341,7 @@ class Page extends Component {
                           </A>
                         </Link>
                       ),
-                      linkFaq: (
+                      linkFaq: !inNativeIOSApp && (
                         <Link key='route' href='/faq' passHref>
                           <A>
                             {t.first([
@@ -381,4 +383,4 @@ class Page extends Component {
   }
 }
 
-export default compose(withT, withRouter)(Page)
+export default compose(withT, withRouter, withInNativeApp)(Page)

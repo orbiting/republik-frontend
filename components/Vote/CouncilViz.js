@@ -119,9 +119,9 @@ const MembersLocation = ({ members, isElected }) => {
             : `${outsideSwitzerland.length} ${
                 isElected ? 'Mandate' : 'Kandidaturen'
               }`}{' '}
-          ausserhalb der Schweiz:{' '}
+          ausserhalb der Schweiz in{' '}
           {outsideSwitzerland
-            .map(c => `${c.city} ${c.postalCodeGeo.countryName}`)
+            .map(c => `${c.city} (${c.postalCodeGeo.countryName})`)
             .filter(deduplicate)
             .join(', ')}
           .

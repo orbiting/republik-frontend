@@ -17,7 +17,7 @@ import { graphql } from '@apollo/client/react/hoc'
 import ErrorMessage from '../ErrorMessage'
 import AddressEditor, { withAddressData } from './AddressEditor'
 import SignIn from '../Auth/SignIn'
-import { Card, sharedStyles } from './text'
+import { NarrowCard, sharedStyles } from './text'
 import Loader from '../Loader'
 
 const { P } = Interaction
@@ -60,21 +60,12 @@ const styles = {
   confirm: css({
     margin: '10px 0 15px'
   }),
-  content: css({
-    padding: 10
-  }),
   buttons: css({
     padding: '15px 0'
   })
 }
 
 const messageDateFormat = timeFormat('%e. %B %Y')
-
-const VotingCard = ({ children }) => (
-  <Card style={{ margin: '40px auto', maxWidth: 550 }}>
-    <div {...styles.content}>{children}</div>
-  </Card>
-)
 
 const Voting = compose(
   voteT,
@@ -141,7 +132,7 @@ const Voting = compose(
 
   if (dangerousDisabledHTML) {
     return (
-      <VotingCard>
+      <NarrowCard>
         <div {...styles.message}>
           <RawHtml
             type={P}
@@ -151,7 +142,7 @@ const Voting = compose(
           />
         </div>
         {showSignIn && <SignIn />}
-      </VotingCard>
+      </NarrowCard>
     )
   }
 
@@ -228,13 +219,13 @@ const Voting = compose(
   )
 
   return (
-    <VotingCard>
+    <NarrowCard>
       <P>
         <strong>{description || voting.description}</strong>
       </P>
       {error && <ErrorMessage error={error} />}
       {isConfirm ? confirmation : choice}
-    </VotingCard>
+    </NarrowCard>
   )
 })
 

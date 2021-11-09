@@ -25,6 +25,9 @@ export const sharedStyles = {
     padding: 10,
     outlineWidth: 1,
     outlineStyle: 'solid'
+  }),
+  narrowCard: css({
+    padding: 10
   })
 }
 
@@ -145,3 +148,9 @@ export const Card = ({ children, style }) => {
     </div>
   )
 }
+
+export const NarrowCard = ({ children }) => (
+  <Card style={{ margin: '40px auto', maxWidth: 550 }}>
+    <div {...sharedStyles.narrowCard}>{children}</div>
+  </Card>
+)

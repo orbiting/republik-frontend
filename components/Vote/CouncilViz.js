@@ -3,7 +3,41 @@ import { Interaction, Label, fontStyles, Chart } from '@project-r/styleguide'
 import { css } from 'glamor'
 import voteT from './voteT'
 import { deduplicate } from '../../lib/utils/helpers'
+import { gql } from '@apollo/client'
+import compose from 'lodash/flowRight'
+import { graphql } from '@apollo/client/react/hoc'
+import Loader from '../Loader'
+import { NarrowCard } from './text'
 const { P } = Interaction
+
+const query = gql`
+  query getCouncil($slug: String!) {
+    election(slug: $slug) {
+      id
+      result {
+        candidacies {
+          candidacy {
+            id
+            yearOfBirth
+            city
+            user {
+              id
+              gender
+            }
+            postalCodeGeo {
+              countryName
+              countryCode
+              postalCode
+              lat
+              lon
+            }
+          }
+          elected
+        }
+      }
+    }
+  }
+`
 
 const styles = {
   container: css({
@@ -16,7 +50,7 @@ const styles = {
   text: css({
     textAlign: 'center',
     width: '80%',
-    margin: '10px 0 15px 0'
+    margin: '30px auto 15px auto'
   }),
   chart: css({
     marginBottom: 20
@@ -105,6 +139,8 @@ const GENDER = {
 
 const MembersGender = voteT(({ members, vt }) => {
   const membersWithGender = members.filter(member => member?.user?.gender)
+  if (!membersWithGender.length) return null
+
   const values = membersWithGender
     .reduce(
       (acc, member) =>
@@ -157,6 +193,8 @@ const getLabel = age =>
 
 const MembersAge = voteT(({ members, vt }) => {
   const membersWithBirthday = members.filter(member => member.yearOfBirth)
+  if (!membersWithBirthday.length) return null
+
   const values = membersWithBirthday
     .reduce(
       (acc, member) =>
@@ -223,4 +261,30 @@ export const CouncilViz = ({ title, members, text, isElected = true }) => {
   )
 }
 
-export default CouncilViz
+const CouncilLoader = compose(
+  graphql(query, {
+    options: ({ slug }) => ({
+      variables: {
+        slug
+      }
+    })
+  })
+)(({ data, title, text }) => (
+  <Loader
+    loading={data.loading}
+    error={data.error}
+    render={() => {
+      if (!data?.election?.result?.candidacies?.length) return null
+      const members = data.election.result.candidacies
+        .filter(c => c.elected)
+        .map(c => c.candidacy)
+      return (
+        <NarrowCard>
+          <CouncilViz title={title} members={members} text={text} />
+        </NarrowCard>
+      )
+    }}
+  />
+))
+
+export default CouncilLoader

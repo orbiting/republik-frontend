@@ -15,7 +15,7 @@ import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
 import { ElectionActions, isSelected } from './Election'
 import { sharedStyles } from './text'
-import CouncilViz from './CouncilViz'
+import { CouncilViz } from './CouncilViz'
 const { P } = Interaction
 
 const submitElectionBallotMutation = gql`
@@ -35,7 +35,7 @@ const styles = {
   confirm: css({
     textAlign: 'center',
     width: '80%',
-    margin: '10px 0 15px 0'
+    margin: '10px auto 15px auto'
   })
 }
 

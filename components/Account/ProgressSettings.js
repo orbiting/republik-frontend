@@ -10,7 +10,7 @@ import ErrorMessage from '../ErrorMessage'
 import { P } from './Elements'
 import { Loader, InlineSpinner, Checkbox } from '@project-r/styleguide'
 
-import { getFeatureDescription } from '../Article/Progress/ProgressPrompt'
+import { getFeatureDescription } from '../Article/Progress'
 import { withProgressApi } from '../Article/Progress/api'
 
 const styles = {

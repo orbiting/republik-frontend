@@ -3198,11 +3198,11 @@
     },
     {
       "key": "article/progressprompt/headline",
-      "value": "Position merken"
+      "value": "Leseposition merken?"
     },
     {
       "key": "article/progressprompt/description/feature",
-      "value": "Springen Sie direkt an die Stelle zurück, an der Sie einen Text, ein Video oder ein Hörstück unterbrochen haben. Mehr Lesekomfort, für den wir allerdings Ihr persönliches Leseverhalten in der Republik aufzeichnen müssen. {link}"
+      "value": "Springen Sie an die Stelle zurück, an der Sie einen Text oder ein Hörstück unterbrochen haben. Wenn Sie die Funktion aktivieren, wird ihr Leseverhalten in der Republik aufgezeichnet. {link}"
     },
     {
       "key": "article/progressprompt/description/feature/link",
@@ -3214,11 +3214,11 @@
     },
     {
       "key": "article/progressprompt/button/confirm",
-      "value": "Ja"
+      "value": "Leseposition aktivieren"
     },
     {
       "key": "article/progressprompt/button/reject",
-      "value": "Nein"
+      "value": "Nicht aktivieren"
     },
     {
       "key": "article/progressprompt/description/settings",

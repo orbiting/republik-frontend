@@ -206,24 +206,22 @@ const ActionBar = ({
     },
     {
       title: t('article/actionbar/userprogress'),
-      element:
-        document && document.userProgress && displayMinutes > 1 ? (
-          <UserProgress
-            documentId={document.id}
-            forceShortLabel={forceShortLabel}
-            userProgress={document.userProgress}
-            noCallout={
-              mode === 'articleOverlay' ||
-              mode === 'bookmark' ||
-              mode === 'seriesEpisode'
-            }
-            noScroll={mode === 'feed'}
-          />
-        ) : (
-          <></>
-        ),
+      element: (
+        <UserProgress
+          documentId={document.id}
+          forceShortLabel={forceShortLabel}
+          userProgress={document.userProgress}
+          noCallout={
+            mode === 'articleOverlay' ||
+            mode === 'bookmark' ||
+            mode === 'seriesEpisode'
+          }
+          noScroll={mode === 'feed'}
+          displayMinutes={displayMinutes}
+        />
+      ),
       modes: ['articleOverlay', 'feed', 'bookmark', 'seriesEpisode'],
-      show: !!document?.userProgress
+      show: !!document
     },
     {
       title: t('feed/actionbar/chart'),
@@ -396,14 +394,14 @@ const ActionBar = ({
     },
     {
       title: t('article/actionbar/userprogress'),
-      element:
-        document && document.userProgress && displayMinutes > 1 ? (
-          <UserProgress
-            documentId={document.id}
-            userProgress={document.userProgress}
-          />
-        ) : null,
-      show: document && document.userProgress && displayMinutes > 1 && !podcast
+      element: (
+        <UserProgress
+          documentId={document.id}
+          userProgress={document.userProgress}
+          displayMinutes={displayMinutes}
+        />
+      ),
+      show: !!document
     },
     {
       title: t('PodcastButtons/play'),

@@ -15,7 +15,7 @@ import voteT from './voteT'
 import ErrorMessage from '../ErrorMessage'
 import { ElectionActions, isSelected } from './Election'
 import { sharedStyles } from './text'
-import { CouncilViz } from './CouncilViz'
+import { ElectionDiversity } from './ElectionDiversity'
 const { P } = Interaction
 
 const submitElectionBallotMutation = gql`
@@ -137,7 +137,7 @@ const ElectionConfirm = compose(
               <FigureImage src={emptyGifLink} maxWidth={500} alt='Leer' />
             </Figure>
           ) : (
-            <CouncilViz
+            <ElectionDiversity
               title={vt('vote/election/confirm/header')}
               isElected={false}
               members={selectedCandidates}

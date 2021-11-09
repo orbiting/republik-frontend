@@ -245,7 +245,12 @@ const MembersAge = voteT(({ members, vt }) => {
   )
 })
 
-export const CouncilViz = ({ title, members, text, isElected = true }) => {
+export const ElectionDiversity = ({
+  title,
+  members,
+  text,
+  isElected = true
+}) => {
   return (
     <div {...styles.container}>
       {title && (
@@ -263,7 +268,7 @@ export const CouncilViz = ({ title, members, text, isElected = true }) => {
   )
 }
 
-const CouncilLoader = compose(
+const ElectionResultDiversity = compose(
   graphql(query, {
     options: ({ slug }) => ({
       variables: {
@@ -282,11 +287,11 @@ const CouncilLoader = compose(
         .map(c => c.candidacy)
       return (
         <NarrowCard>
-          <CouncilViz title={title} members={members} text={text} />
+          <ElectionDiversity title={title} members={members} text={text} />
         </NarrowCard>
       )
     }}
   />
 ))
 
-export default CouncilLoader
+export default ElectionResultDiversity

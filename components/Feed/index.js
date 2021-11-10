@@ -1,17 +1,25 @@
-import React, { useEffect, useRef } from 'react'
-import compose from 'lodash/flowRight'
-import { graphql } from '@apollo/client/react/hoc'
+import React, { useEffect, useState } from 'react'
 import { css } from 'glamor'
 import { gql } from '@apollo/client'
+import { graphql } from '@apollo/client/react/hoc'
+import compose from 'lodash/flowRight'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import Loader from '../Loader'
+import { MdAdd } from '@react-icons/all-files/md/MdAdd'
 
-import { mediaQueries, Center, Interaction } from '@project-r/styleguide'
+import {
+  mediaQueries,
+  Center,
+  Interaction,
+  IconButton,
+  useColorContext
+} from '@project-r/styleguide'
 import DocumentList from './DocumentList'
 import { makeLoadMore } from './DocumentListContainer'
 import { documentFragment } from './fragments'
+import EditorOverlay from '../Shorts/EditorOverlay'
 
 const styles = {
   container: css({
@@ -20,6 +28,16 @@ const styles = {
     [mediaQueries.mUp]: {
       paddingTop: 40
     }
+  }),
+  editorLink: css({
+    position: 'fixed',
+    bottom: 20,
+    right: 30,
+    borderRadius: 50,
+    height: 50,
+    width: 50,
+    padding: 7,
+    zIndex: 10
   })
 }
 
@@ -75,6 +93,8 @@ const Feed = ({
     subscribeToMore
   }
 }) => {
+  const [colorScheme] = useColorContext()
+  const [showEditor, setShowEditor] = useState(false)
   const mapNodes = node => node.entity
 
   useEffect(() => {
@@ -107,6 +127,18 @@ const Feed = ({
 
   return (
     <Frame hasOverviewNav stickySecondaryNav raw meta={meta}>
+      <div
+        {...styles.editorLink}
+        {...colorScheme.set('backgroundColor', 'overlay')}
+        {...colorScheme.set('boxShadow', 'overlayShadow')}
+      >
+        <IconButton
+          Icon={MdAdd}
+          size={36}
+          onClick={() => setShowEditor(true)}
+        />
+        {showEditor && <EditorOverlay onClose={() => setShowEditor(false)} />}
+      </div>
       <Center {...styles.container}>
         <Loader
           error={error}

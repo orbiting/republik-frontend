@@ -4,8 +4,6 @@ import {
   Overlay,
   OverlayBody,
   OverlayToolbar,
-  OverlayToolbarClose,
-  Interaction,
   mediaQueries,
   fontStyles,
   Editorial,

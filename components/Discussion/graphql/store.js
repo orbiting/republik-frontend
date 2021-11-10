@@ -26,7 +26,12 @@ export const mergeComment = ({
    * If the active tag and the comment tag don't match,
    * we don't insert the new comment in the tree.
    */
-  if (comment.tags?.length && !comment.tags.find(t => t === activeTag)) return
+  if (
+    activeTag &&
+    comment.tags?.length &&
+    !comment.tags.find(t => t === activeTag)
+  )
+    return
 
   const parentId = comment.parentIds[comment.parentIds.length - 1]
   const nodes = draft.discussion.comments.nodes

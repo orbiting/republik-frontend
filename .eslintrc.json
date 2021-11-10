@@ -1,16 +1,18 @@
 {
-  "plugins": ["react", "react-hooks", "prettier"],
+  "plugins": ["react", "react-hooks", "prettier", "cypress"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "plugin:@next/next/recommended"
+    "plugin:@next/next/recommended",
+    "plugin:cypress/recommended"
   ],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es6": true,
-    "node": true
+    "node": true,
+    "cypress/globals": true
   },
    "rules": {
     "react-hooks/rules-of-hooks": "error",
@@ -19,7 +21,13 @@
     "react/display-name": "off",
     "react/prop-types": "off",
     "no-unused-vars": "warn",
-    "no-empty": "warn"
+    "no-empty": "warn",
+     "cypress/no-assigning-return-values": "error",
+     "cypress/no-unnecessary-waiting": "error",
+     "cypress/assertion-before-screenshot": "warn",
+     "cypress/no-force": "warn",
+     "cypress/no-async-tests": "error",
+     "cypress/no-pause": "error"
   },
   "settings": {
     "react": {

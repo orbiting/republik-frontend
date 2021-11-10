@@ -62,8 +62,7 @@ export const makeLoadMore = ({
     }
   })
 
-const DocumentListContainer = props => {
-  const {
+const DocumentListContainer = ({
     query,
     variables,
     getConnection,
@@ -75,7 +74,7 @@ const DocumentListContainer = props => {
     feedProps,
     refetchOnUnmount,
     showTotal
-  } = props
+}) => {
 
   const { loading, error, data, fetchMore, refetch } = useQuery(query, {
     variables

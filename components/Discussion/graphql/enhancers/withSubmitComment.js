@@ -136,7 +136,8 @@ export const withSubmitComment = compose(
                 proxy.readQuery({ query: discussionQuery, variables }),
                 mergeComment({
                   comment,
-                  initialParentId
+                  initialParentId,
+                  activeTag
                 })
               )
             })

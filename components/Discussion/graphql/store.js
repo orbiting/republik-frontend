@@ -14,7 +14,25 @@ import { debug } from '../debug'
  * from the submitComment mutation update function to merge the just created comment
  * into the discussion.
  */
-export const mergeComment = ({ comment, initialParentId }) => draft => {
+export const mergeComment = ({
+  comment,
+  initialParentId,
+  activeTag
+}) => draft => {
+  bumpCounts({ comment, initialParentId })(draft)
+  bumpTagCounts({ comment, initialParentId })(draft)
+
+  /*
+   * If the active tag and the comment tag don't match,
+   * we don't insert the new comment in the tree.
+   */
+  if (
+    activeTag &&
+    comment.tags?.length &&
+    !comment.tags.find(t => t === activeTag)
+  )
+    return
+
   const parentId = comment.parentIds[comment.parentIds.length - 1]
   const nodes = draft.discussion.comments.nodes
 
@@ -32,9 +50,6 @@ export const mergeComment = ({ comment, initialParentId }) => draft => {
     ...comment,
     comments: emptyCommentsConnection
   })
-
-  bumpCounts({ comment, initialParentId })(draft)
-  bumpTagCounts({ comment, initialParentId })(draft)
 }
 
 // we keep track of which cache keys we've already bumped

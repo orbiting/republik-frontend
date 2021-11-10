@@ -121,12 +121,7 @@ export const bumpTagCounts = ({ comment, initialParentId }) => draft => {
  * Merge multiple comments (a whole CommentConnection) into the Discussion draft. This
  * function is used in the discussionQuery fetchMore code path.
  */
-export const mergeComments = ({
-  parentId,
-  appendAfter,
-  comments,
-  activeTag
-}) => draft => {
+export const mergeComments = ({ parentId, appendAfter, comments }) => draft => {
   const nodes = draft.discussion.comments.nodes
 
   /*

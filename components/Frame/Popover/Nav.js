@@ -150,7 +150,7 @@ const Nav = ({
                   active={active}
                   closeHandler={closeHandler}
                 >
-                  Wählen
+                  Urabstimmung
                 </NavLink>
                 <NavLink
                   inline

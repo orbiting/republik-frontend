@@ -132,6 +132,6 @@
     "topojson": "^3.0.2",
     "useragent": "^2.3.0",
     "uuid": "^3.4.0",
-    "validator": "^9.4.1"
+    "validator": "^13.7.0"
   }
 }

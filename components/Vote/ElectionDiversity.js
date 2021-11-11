@@ -187,10 +187,10 @@ const getAge = birthYear => new Date().getFullYear() - birthYear
 
 const AGES = {
   ['<\u200930']: '#1f77b4',
-  ['30\u201340']: '#ff7f0e',
-  ['40\u201350']: '#2ca02c',
-  ['50\u201360']: '#d62728',
-  ['>\u200960 Jahre']: '#9467bd'
+  ['30\u201339']: '#ff7f0e',
+  ['40\u201349']: '#2ca02c',
+  ['50\u201359']: '#d62728',
+  ['>=\u200960 Jahre']: '#9467bd'
 }
 const AGE_KEYS = Object.keys(AGES)
 

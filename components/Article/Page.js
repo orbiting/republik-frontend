@@ -736,13 +736,14 @@ const ArticlePage = ({
               )}
               {isSection && (
                 <SectionFeed
+                  key={`sectionFeed${article?.issuedForUserId}`}
                   formats={article.linkedDocuments.nodes.map(n => n.id)}
                   variablesAsString={article.content.meta.feedQueryVariables}
                 />
               )}
               {isFormat && (
                 <FormatFeed
-                  key={article?.issuedForUserId}
+                  key={`formatFeed${article?.issuedForUserId}`}
                   formatId={article.repoId}
                 />
               )}

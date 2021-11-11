@@ -186,11 +186,11 @@ const MembersGender = voteT(({ members, vt }) => {
 const getAge = birthYear => new Date().getFullYear() - birthYear
 
 const AGES = {
-  ['<\u200930']: '#1f77b4',
-  ['30\u201339']: '#ff7f0e',
-  ['40\u201349']: '#2ca02c',
-  ['50\u201359']: '#d62728',
-  ['>=\u200960 Jahre']: '#9467bd'
+  ['jünger als 30']: '#1f77b4',
+  ['30 bis 39']: '#ff7f0e',
+  ['40 bis 49']: '#2ca02c',
+  ['50 bis 59']: '#d62728',
+  ['60 Jahre und älter']: '#9467bd'
 }
 const AGE_KEYS = Object.keys(AGES)
 

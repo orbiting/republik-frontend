@@ -23,7 +23,7 @@ import Link from 'next/link'
 const { P } = Interaction
 
 const ELECTION_COOP_MEMBERS_SLUG = 'gen18m'
-const ELECTION_COOP_PRESIDENT_SLUG = 'gen18m'
+const ELECTION_COOP_PRESIDENT_SLUG = 'gen18p'
 const VOTING_COOP_BOARD_SLUG = 'gen18board'
 
 const DISCUSSION_TITLES = {

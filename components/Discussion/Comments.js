@@ -29,7 +29,8 @@ import {
   mediaQueries,
   useMediaQuery,
   inQuotes,
-  useColorContext
+  useColorContext,
+  Tabs
 } from '@project-r/styleguide'
 
 import { withEditor } from '../Auth/checkRoles'
@@ -68,7 +69,8 @@ const styles = {
     margin: '20px 0'
   }),
   reloadLink: css({
-    float: 'right',
+    display: 'flex',
+    flexDirection: 'row-reverse',
     lineHeight: pxToRem('25px'),
     fontSize: pxToRem('16px'),
     cursor: 'pointer'
@@ -94,7 +96,6 @@ const Comments = props => {
     markAsReadMutation,
     inNativeApp
   } = props
-
   const router = useRouter()
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
@@ -369,13 +370,26 @@ const Comments = props => {
         return (
           <>
             {!rootCommentOverlay && (
-              <div {...styles.orderByContainer}>
-                {board && (
-                  <OrderByLink t={t} orderBy={resolvedOrderBy} value='HOT' />
-                )}
-                <OrderByLink t={t} orderBy={resolvedOrderBy} value='DATE' />
-                <OrderByLink t={t} orderBy={resolvedOrderBy} value='VOTES' />
-                <OrderByLink t={t} orderBy={resolvedOrderBy} value='REPLIES' />
+              <>
+                <Tabs
+                  tabBorder={false}
+                  activeValue={resolvedOrderBy}
+                  onChange={item =>
+                    router.push(
+                      rerouteDiscussion(router, {
+                        order: item.value
+                      })
+                    )
+                  }
+                  items={['HOT', 'DATE', 'VOTES', 'REPLIES']
+                    .filter(item => (board ? true : item !== 'HOT'))
+                    .map(item => {
+                      return {
+                        value: item,
+                        text: t(`components/Discussion/OrderBy/${item}`)
+                      }
+                    })}
+                />
                 <A
                   {...styles.reloadLink}
                   href={getFocusUrl(discussion)}
@@ -383,8 +397,7 @@ const Comments = props => {
                 >
                   {t('components/Discussion/reload')}
                 </A>
-                <br style={{ clear: 'both' }} />
-              </div>
+              </>
             )}
 
             <DiscussionContext.Provider value={discussionContextValue}>
@@ -505,33 +518,3 @@ const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
 const EmptyDiscussion = ({ t }) => (
   <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
 )
-
-const OrderByLink = ({ t, orderBy, value }) => {
-  const [colorScheme] = useColorContext()
-  const route = useRouter()
-  const isSelected = orderBy === value
-  const targetHref = rerouteDiscussion(route, {
-    order: value
-  })
-  const hoverRule = useMemo(() => {
-    return css({
-      '@media (hover)': {
-        ':hover': {
-          color: colorScheme.getCSSColor('textSoft')
-        }
-      }
-    })
-  }, [colorScheme])
-  return (
-    <Link href={targetHref} scroll={false} passHref>
-      <a
-        {...styles.orderBy}
-        {...colorScheme.set('color', 'text')}
-        {...styles[isSelected ? 'selected' : 'regular']}
-        {...(!isSelected && hoverRule)}
-      >
-        {t(`components/Discussion/OrderBy/${value}`)}
-      </a>
-    </Link>
-  )
-}

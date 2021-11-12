@@ -3,25 +3,29 @@ import { css } from 'glamor'
 import {
   FormatTag,
   useColorContext,
-  useHeaderHeight
+  useHeaderHeight,
+  Scroller,
+  mediaQueries
 } from '@project-r/styleguide'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { rerouteDiscussion } from './DiscussionLink'
 
 const styles = {
-  tagsContainer: css({
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    padding: '15px 0',
-    borderTopWidth: 1,
-    borderTopStyle: 'solid',
+  container: css({
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
     position: 'sticky',
-    zIndex: 10
+    zIndex: 10,
+    margin: '24px -15px',
+    [mediaQueries.mUp]: {
+      margin: '24px 0'
+    }
   }),
-  tagLink: css({
-    marginRight: 15
+  tagLinkContainer: css({
+    // FormatTag have margin: '0 5px 15px' to keep in mind
+    padding: '15px 0 10px',
+    marginRight: 10
   })
 }
 
@@ -35,7 +39,7 @@ const TagLink = ({ tag, commentCount }) => {
     tag: isSelected ? undefined : tag
   })
   return (
-    <div {...styles.tagLink}>
+    <div {...styles.tagLinkContainer}>
       <Link href={targetHref} scroll={false} passHref>
         <a>
           <FormatTag
@@ -52,25 +56,38 @@ const TagLink = ({ tag, commentCount }) => {
 const TagFilter = ({ discussion }) => {
   const [colorScheme] = useColorContext()
   const [headerHeight] = useHeaderHeight()
+  const route = useRouter()
+  const {
+    query: { tag: activeTag }
+  } = route
   const tags = discussion.tags
   if (!tags?.length) return null
   const tagBuckets = discussion.tagBuckets
-  const allBuckets = tags.map(tag => ({
-    value: tag,
-    count: tagBuckets.find(t => t.value === tag)?.count || 0
-  }))
   const totalCount = discussion.allComments.totalCount
+
   return (
     <div
-      {...styles.tagsContainer}
-      {...colorScheme.set('borderColor', 'divider')}
+      {...styles.container}
       {...colorScheme.set('background', 'default')}
+      {...colorScheme.set('borderColor', 'divider')}
       style={{ top: headerHeight }}
     >
-      <TagLink key='all' tag={undefined} commentCount={totalCount} />
-      {allBuckets.map(tag => (
-        <TagLink key={tag.value} tag={tag.value} commentCount={tag.count} />
-      ))}
+      <Scroller
+        breakoutWidth={15}
+        activeScrollItemIndex={tags.findIndex(tag => tag === activeTag)}
+      >
+        {['Alle', ...tags].map(tag => (
+          <TagLink
+            key={tag}
+            tag={tag}
+            commentCount={
+              tag === 'Alle'
+                ? totalCount
+                : tagBuckets.find(t => t.value === tag)?.count || 0
+            }
+          />
+        ))}
+      </Scroller>
     </div>
   )
 }

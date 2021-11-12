@@ -11,9 +11,9 @@ import {
   ShareIcon,
   ChartIcon,
   EditIcon,
+  EtiquetteIcon,
   IconButton,
-  Interaction,
-  OutlineSmsFailedIcon
+  Interaction
 } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -78,7 +78,7 @@ const ActionBar = ({
               padded
             />
             <IconButton
-              Icon={OutlineSmsFailedIcon}
+              Icon={EtiquetteIcon}
               label={t('components/Discussion/etiquette')}
               labelShort={t('components/Discussion/etiquette')}
               href='/etikette'

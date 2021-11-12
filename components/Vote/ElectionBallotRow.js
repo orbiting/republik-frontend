@@ -57,7 +57,8 @@ const styles = {
     }
   }),
   selection: css({
-    marginLeft: 24
+    marginLeft: 24,
+    paddingRight: 10
   })
 }
 

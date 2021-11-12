@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import { IconButton } from '@project-r/styleguide'
-import { EtiquetteIcon, MarkdownIcon } from '@project-r/styleguide'
+import { TextFormatIcon } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -14,14 +14,7 @@ const SecondaryActions = ({ t }) => (
   <div {...styles.container}>
     <IconButton
       size={28}
-      Icon={EtiquetteIcon}
-      href='/etikette'
-      target='_blank'
-      title={t('components/Discussion/etiquette')}
-    />
-    <IconButton
-      size={28}
-      Icon={MarkdownIcon}
+      Icon={TextFormatIcon}
       href='/markdown'
       target='_blank'
       title={t('components/Discussion/markdown/title')}

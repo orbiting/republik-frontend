@@ -73,8 +73,8 @@ const TagFilter = ({ discussion }) => {
       style={{ top: headerHeight }}
     >
       <Scroller
-        breakoutWidth={15}
-        activeScrollItemIndex={tags.findIndex(tag => tag === activeTag)}
+        breakoutPadding={15}
+        activeChildIndex={tags.findIndex(tag => tag === activeTag)}
       >
         {['Alle', ...tags].map(tag => (
           <TagLink

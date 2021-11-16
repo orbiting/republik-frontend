@@ -30,7 +30,8 @@ import {
   useMediaQuery,
   inQuotes,
   useColorContext,
-  Tabs
+  Scroller,
+  TabButton
 } from '@project-r/styleguide'
 
 import { withEditor } from '../Auth/checkRoles'
@@ -371,25 +372,28 @@ const Comments = props => {
           <>
             {!rootCommentOverlay && (
               <>
-                <Tabs
-                  tabBorder={false}
-                  activeValue={resolvedOrderBy}
-                  onChange={item =>
-                    router.push(
-                      rerouteDiscussion(router, {
-                        order: item.value
-                      })
-                    )
-                  }
-                  items={['HOT', 'DATE', 'VOTES', 'REPLIES']
+                <Scroller>
+                  {['HOT', 'DATE', 'VOTES', 'REPLIES']
                     .filter(item => (board ? true : item !== 'HOT'))
                     .map(item => {
-                      return {
-                        value: item,
-                        text: t(`components/Discussion/OrderBy/${item}`)
-                      }
+                      return (
+                        <Link
+                          href={rerouteDiscussion(router, {
+                            order: item
+                          })}
+                          scroll={false}
+                          passHref
+                          key={item}
+                        >
+                          <TabButton
+                            border={false}
+                            text={t(`components/Discussion/OrderBy/${item}`)}
+                            isActive={item === resolvedOrderBy}
+                          />
+                        </Link>
+                      )
                     })}
-                />
+                </Scroller>
                 <A
                   {...styles.reloadLink}
                   href={getFocusUrl(discussion)}

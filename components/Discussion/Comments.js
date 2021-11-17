@@ -363,7 +363,9 @@ const Comments = props => {
 
           Link: CommentLink,
           composerHints: composerHints(t),
-          composerSecondaryActions: <SecondaryActions />
+          // isReply is set to true since all composers inside the comments-tree
+          // will compose replies to other comments
+          composerSecondaryActions: <SecondaryActions isReply={true} />
         }
 
         return (

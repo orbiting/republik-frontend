@@ -13,7 +13,6 @@ const styles = {
 const SecondaryActions = ({ t }) => (
   <div {...styles.container}>
     <IconButton
-      size={28}
       Icon={TextFormatIcon}
       href='/markdown'
       target='_blank'

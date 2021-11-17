@@ -1,5 +1,5 @@
 import React from 'react'
-import { format } from 'url'
+import { parse, format } from 'url'
 
 import {
   GENERAL_FEEDBACK_DISCUSSION_ID,
@@ -32,9 +32,13 @@ export const getFocusHref = (discussion, comment) => {
       query: { t: 'article', id: discussion.id, ...focusParams }
     }
   } else if (discussion.path) {
+    const { pathname, query } = parse(discussion.path, true)
     return {
-      pathname: discussion.path,
-      query: focusParams
+      pathname,
+      query: {
+        ...query,
+        ...focusParams
+      }
     }
   }
 }

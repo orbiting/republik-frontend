@@ -25,11 +25,8 @@ import {
   SHARE_IMAGE_HEIGHT,
   SHARE_IMAGE_WIDTH,
   IconButton,
-  SeriesNav
-} from '@project-r/styleguide'
-import { EditIcon } from '@project-r/styleguide'
-import { createRequire } from '@project-r/styleguide'
-import {
+  SeriesNav,
+  Loader as SmallLoader,
   createArticleSchema,
   createFormatSchema,
   createDossierSchema,
@@ -38,6 +35,8 @@ import {
   createSectionSchema,
   createPageSchema
 } from '@project-r/styleguide'
+import { EditIcon } from '@project-r/styleguide'
+import { createRequire } from '@project-r/styleguide'
 
 import ActionBarOverlay from './ActionBarOverlay'
 import SeriesNavBar from './SeriesNavBar'
@@ -58,7 +57,7 @@ import {
 } from '../../lib/constants'
 import ShareImage from './ShareImage'
 import FontSizeSync from '../FontSize/Sync'
-import Loader from '../Loader'
+import PageLoader from '../Loader'
 import Frame from '../Frame'
 import ActionBar from '../ActionBar'
 import { BrowserOnlyActionBar } from './BrowserOnly'
@@ -82,7 +81,7 @@ import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
 
 const dynamicOptions = {
-  loading: () => <Loader loading />,
+  loading: () => <SmallLoader loading />,
   ssr: false
 }
 const Manifest = dynamic(() => import('../About/Manifest'), {
@@ -402,7 +401,7 @@ const ArticlePage = ({
   const extract = router.query.extract
   if (extract) {
     return (
-      <Loader
+      <PageLoader
         loading={articleLoading && !articleData}
         error={articleError}
         render={() => {
@@ -478,7 +477,7 @@ const ArticlePage = ({
       stickySecondaryNav={hasOverviewNav}
       pageColorSchemeKey={colorSchemeKey}
     >
-      <Loader
+      <PageLoader
         loading={articleLoading && !articleData}
         error={articleError}
         render={() => {

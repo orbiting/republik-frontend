@@ -145,6 +145,14 @@ const Nav = ({
                 }}
               >
                 <NavLink
+                  large
+                  href='/vote/2021'
+                  active={active}
+                  closeHandler={closeHandler}
+                >
+                  Urabstimmung
+                </NavLink>
+                <NavLink
                   inline
                   large
                   href='/cockpit'

@@ -11,15 +11,26 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { rerouteDiscussion } from './DiscussionLink'
 
+const BREAKOUT_PADDING = 15
+
 const styles = {
   container: css({
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
     position: 'sticky',
     zIndex: 10,
-    margin: '24px -15px',
+    margin: `24px -${BREAKOUT_PADDING}px`
+  }),
+  hr: css({
+    margin: 0,
+    display: 'block',
+    border: 0,
+    position: 'absolute',
+    bottom: 0,
+    height: 1,
+    left: 0,
+    right: 0,
     [mediaQueries.mUp]: {
-      margin: '24px 0'
+      left: BREAKOUT_PADDING,
+      right: BREAKOUT_PADDING
     }
   }),
   tagLinkContainer: css({
@@ -69,25 +80,25 @@ const TagFilter = ({ discussion }) => {
     <div
       {...styles.container}
       {...colorScheme.set('background', 'default')}
-      {...colorScheme.set('borderColor', 'divider')}
       style={{ top: headerHeight }}
     >
       <Scroller
-        breakoutPadding={15}
+        innerPadding={BREAKOUT_PADDING}
         activeChildIndex={tags.findIndex(tag => tag === activeTag)}
       >
-        {['Alle', ...tags].map(tag => (
+        {[undefined, ...tags].map((tag, i) => (
           <TagLink
-            key={tag}
+            key={tag || i}
             tag={tag}
             commentCount={
-              tag === 'Alle'
+              !tag
                 ? totalCount
                 : tagBuckets.find(t => t.value === tag)?.count || 0
             }
           />
         ))}
       </Scroller>
+      <hr {...styles.hr} {...colorScheme.set('backgroundColor', 'divider')} />
     </div>
   )
 }

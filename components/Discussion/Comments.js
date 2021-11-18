@@ -353,7 +353,10 @@ const Comments = props => {
               (comment => {
                 setFeatureComment(comment)
                 return Promise.resolve({ ok: true })
-              })
+              }),
+            toEtiquette: () => {
+              if (process.browser) router.push('/etikette')
+            }
           },
 
           clock: {

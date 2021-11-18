@@ -1934,7 +1934,7 @@
     },
     {
       "key": "styleguide/CommentActions/answer",
-      "value": "antworten"
+      "value": "Antworten"
     },
     {
       "key": "styleguide/CommentActions/unpublish",
@@ -1950,7 +1950,7 @@
     },
     {
       "key": "styleguide/CommentActions/edit",
-      "value": "bearbeiten"
+      "value": "Beitrag bearbeiten"
     },
     {
       "key": "styleguide/CommentActions/upvote",
@@ -1959,6 +1959,10 @@
     {
       "key": "styleguide/CommentActions/report",
       "value": "Anstössigen Inhalt melden"
+    },
+    {
+      "key": "styleguide/CommentActions/reportWithAmount",
+      "value": "Anstössigen Inhalt melden ({amount})"
     },
     {
       "key": "styleguide/CommentActions/reportMessage",
@@ -2002,7 +2006,7 @@
     },
     {
       "key": "styleguide/CommentActions/featured",
-      "value": "Am {date} um {time} Uhr redaktionell hervorgehobenes Zitat: {text}"
+      "value": "Hervorgehoben am {date} um {time} Uhr."
     },
     {
       "key": "styleguide/Collapsable/expand",

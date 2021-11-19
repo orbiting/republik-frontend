@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import compose from 'lodash/flowRight'
 import withT from '../../lib/withT'
@@ -59,151 +59,159 @@ DiscussionPreferences.propTypes = {
 
 export default compose(withT, withDiscussionPreferences)(DiscussionPreferences)
 
-class DiscussionPreferencesEditor extends PureComponent {
-  constructor(props) {
-    super(props)
-
-    this.state = (() => {
-      if (!props.userPreference) {
-        return { anonymity: false, credential: null }
-      }
-
-      const { anonymity } = props.userPreference
-      const credential = props.userPreference.credential || props.autoCredential
-      return {
-        anonymity,
-        credential: credential ? credential.description : null
-      }
-    })()
-
-    this.onChangeAnonymity = (_, anonymity) => {
-      this.setState({ anonymity })
-    }
-
-    this.onSave = () => {
-      const { onClose, setDiscussionPreferences } = this.props
-      const { anonymity, credential } = this.state
-
-      setDiscussionPreferences(anonymity, credential).then(
-        () => {
-          onClose()
-        },
-        e => {
-          // ToDo Handle Error
-          // console.warn(e)
-        }
-      )
-    }
+function getInitialState(userPreference, rules, autoCredential) {
+  if (!userPreference) {
+    return { anonymity: false, credential: null }
   }
 
-  render() {
-    const { t, credentials, rules, onClose } = this.props
+  const { anonymity } = userPreference
+  const credential = userPreference.credential || autoCredential
+  return {
+    anonymity,
+    credential: credential ? credential.description : null
+  }
+}
 
-    const anonymity = (() => {
-      switch (rules.anonymity) {
-        case 'ALLOWED':
-          return {
-            disabled: false,
-            value: this.state.anonymity
-          }
-        case 'ENFORCED':
-          return {
-            disabled: true,
-            value: true
-          }
-        case 'FORBIDDEN':
-          return {
-            disabled: true,
-            value: false
-          }
-        default: {
-          console.warn(
-            `DiscussionPreferencesForm: unknown anonymity permission: ${rules.anonymity}`
-          )
-          return {
-            disabled: true,
-            value: false
-          }
+const DiscussionPreferencesEditor = ({
+  userPreference,
+  autoCredential,
+  t,
+  credentials,
+  rules,
+  onClose,
+  setDiscussionPreferences
+}) => {
+  const [state, setState] = useState(
+    getInitialState(userPreference, rules, autoCredential)
+  )
+
+  const handleSubmit = async formState => {
+    try {
+      await setDiscussionPreferences(formState.anonymity, formState.credential)
+      onClose()
+    } catch (error) {}
+  }
+
+  const anonymity = useMemo(() => {
+    switch (rules.anonymity) {
+      case 'ALLOWED':
+        return {
+          disabled: false,
+          value: state.anonymity
+        }
+      case 'ENFORCED':
+        return {
+          disabled: true,
+          value: true
+        }
+      case 'FORBIDDEN':
+        return {
+          disabled: true,
+          value: false
+        }
+      default: {
+        console.warn(
+          `DiscussionPreferencesForm: unknown anonymity permission: ${rules.anonymity}`
+        )
+        return {
+          disabled: true,
+          value: false
         }
       }
-    })()
+    }
+  }, [rules])
 
-    const existingCredential = credentials.find(
-      c => c.description === this.state.credential
-    )
-    const isListedCredential = existingCredential && existingCredential.isListed
+  const existingCredential = credentials.find(
+    c => c.description === state.credential
+  )
+  const isListedCredential = existingCredential && existingCredential.isListed
 
-    const credentialSuggestions = credentials.filter(
-      c => c.description !== this.state.credential
-    )
+  const credentialSuggestions = credentials.filter(
+    c => c.description !== state.credential
+  )
 
-    return (
-      <div>
-        <OverlayToolbar onClose={onClose} />
-        <OverlayBody>
-          <Interaction.P>
-            {t('components/DiscussionPreferences/explain')}
-          </Interaction.P>
-          <br />
-          {(this.state.anonymity || rules.anonymity !== 'FORBIDDEN') && (
-            <div style={{ marginBottom: 12 }}>
-              <Checkbox
-                disabled={anonymity.disabled}
-                checked={anonymity.value}
-                onChange={this.onChangeAnonymity}
-              >
-                {t('components/DiscussionPreferences/commentAnonymously')}
-              </Checkbox>
-              <br style={{ clear: 'both' }} />
-              <Label>
-                {t(
-                  'components/DiscussionPreferences/commentAnonymously/disclaimer'
-                )}
-              </Label>
-            </div>
+  return (
+    <form
+      onSubmit={event => {
+        event.preventDefault()
+        handleSubmit(state)
+      }}
+    >
+      <OverlayToolbar onClose={onClose} />
+      <OverlayBody>
+        <Interaction.P>
+          {t('components/DiscussionPreferences/explain')}
+        </Interaction.P>
+        <br />
+        {(state.anonymity || rules.anonymity !== 'FORBIDDEN') && (
+          <div style={{ marginBottom: 12 }}>
+            <Checkbox
+              /*
+               Possible anonymity rules are 
+               ['ALLOWED', 'ENFORCED', 'FORBIDDEN']
+               THe checkbox should only be enabled if the rule is 'ALLOWED'
+               */
+              disabled={!rules?.anonymity === 'ALLOWED'}
+              checked={state.anonymity}
+              onChange={(_, val) => {
+                setState(curr => ({
+                  ...curr,
+                  anonymity: val
+                }))
+              }}
+            >
+              {t('components/DiscussionPreferences/commentAnonymously')}
+            </Checkbox>
+            <br style={{ clear: 'both' }} />
+            <Label>
+              {t(
+                'components/DiscussionPreferences/commentAnonymously/disclaimer'
+              )}
+            </Label>
+          </div>
+        )}
+
+        <Field
+          label={t('components/DiscussionPreferences/credentialLabel')}
+          value={state.credential}
+          onChange={(_, value) => {
+            setState(curr => ({
+              ...curr,
+              credential: value
+            }))
+          }}
+        />
+        {isListedCredential && this.state.anonymity && (
+          <div style={{ marginBottom: 10 }}>
+            <Label>
+              {t('components/DiscussionPreferences/credentialAnonymityWarning')}
+            </Label>
+          </div>
+        )}
+        <Button type='submit'>
+          {t('components/DiscussionPreferences/save')}
+        </Button>
+        <Interaction.P>
+          {!!credentialSuggestions.length && (
+            <Label style={{ display: 'block', margin: '20px 0 5px 0' }}>
+              {t('components/DiscussionPreferences/existingCredentialLabel')}
+            </Label>
           )}
-
-          <Field
-            label={t('components/DiscussionPreferences/credentialLabel')}
-            value={this.state.credential}
-            onChange={(_, value) => {
-              this.setState({ credential: value })
-            }}
-          />
-          {isListedCredential && this.state.anonymity && (
-            <div style={{ marginBottom: 10 }}>
-              <Label>
-                {t(
-                  'components/DiscussionPreferences/credentialAnonymityWarning'
-                )}
-              </Label>
-            </div>
-          )}
-          <Button onClick={this.onSave}>
-            {t('components/DiscussionPreferences/save')}
-          </Button>
-          <Interaction.P>
-            {!!credentialSuggestions.length && (
-              <Label style={{ display: 'block', margin: '20px 0 5px 0' }}>
-                {t('components/DiscussionPreferences/existingCredentialLabel')}
-              </Label>
-            )}
-            {credentialSuggestions.map(c => (
-              <A
-                key={c.description}
-                href='#use'
-                style={{ display: 'block' }}
-                onClick={e => {
-                  e.preventDefault()
-                  this.setState({ credential: c.description })
-                }}
-              >
-                <Credential {...c} />
-              </A>
-            ))}
-          </Interaction.P>
-        </OverlayBody>
-      </div>
-    )
-  }
+          {credentialSuggestions.map(c => (
+            <A
+              key={c.description}
+              href='#use'
+              style={{ display: 'block' }}
+              onClick={e => {
+                e.preventDefault()
+                this.setState({ credential: c.description })
+              }}
+            >
+              <Credential {...c} />
+            </A>
+          ))}
+        </Interaction.P>
+      </OverlayBody>
+    </form>
+  )
 }

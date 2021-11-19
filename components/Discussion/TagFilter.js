@@ -4,23 +4,19 @@ import {
   FormatTag,
   useColorContext,
   useHeaderHeight,
-  Scroller,
-  mediaQueries
+  Scroller
 } from '@project-r/styleguide'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { rerouteDiscussion } from './DiscussionLink'
 
-const BREAKOUT_PADDING = 15
+const BREAKOUT_PADDING = 15 // Center.PADDING
 
 const styles = {
   container: css({
     position: 'sticky',
     zIndex: 10,
-    margin: `24px -${BREAKOUT_PADDING}px`,
-    [mediaQueries.mUp]: {
-      margin: '24px 0'
-    }
+    margin: '24px 0'
   }),
   hr: css({
     margin: 0,
@@ -67,20 +63,18 @@ const TagLink = ({ tag, commentCount }) => {
 const TagFilter = ({ discussion }) => {
   const [colorScheme] = useColorContext()
   const [headerHeight] = useHeaderHeight()
-  const [isMobile, setIsMobile] = useState(false)
   const route = useRouter()
   const {
     query: { tag: activeTag }
   } = route
 
+  const [isEdge2Edge, setEdge2Edge] = useState(false)
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (mobile !== isMobile) {
-        setIsMobile(mobile)
-      }
+      setEdge2Edge(window.innerWidth <= 665 + BREAKOUT_PADDING) // Center.MAX_WIDTH + BREAKOUT_PADDING
     }
     window.addEventListener('resize', handleResize)
+    handleResize()
     return () => {
       window.removeEventListener('resize', handleResize)
     }
@@ -95,10 +89,16 @@ const TagFilter = ({ discussion }) => {
     <div
       {...styles.container}
       {...colorScheme.set('background', 'default')}
-      style={{ top: headerHeight }}
+      style={{
+        top: headerHeight,
+        ...(isEdge2Edge && {
+          marginLeft: -BREAKOUT_PADDING,
+          marginRight: -BREAKOUT_PADDING
+        })
+      }}
     >
       <Scroller
-        innerPadding={isMobile ? BREAKOUT_PADDING : 0}
+        innerPadding={isEdge2Edge ? BREAKOUT_PADDING : 0}
         activeChildIndex={tags.findIndex(tag => tag === activeTag)}
       >
         {[undefined, ...tags].map((tag, i) => (

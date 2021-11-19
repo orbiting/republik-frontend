@@ -48,6 +48,7 @@ export const discussionPreferencesQuery = gql`
   query discussionPreferences($discussionId: ID!) {
     me {
       id
+      name
       credentials {
         description
         verified
@@ -55,6 +56,7 @@ export const discussionPreferencesQuery = gql`
       }
       defaultDiscussionNotificationOption
       discussionNotificationChannels
+      portrait
     }
     discussion(id: $discussionId) {
       ...Discussion

@@ -2245,6 +2245,10 @@
       "value": "vor {count} y"
     },
     {
+      "key": "components/DiscussionPreferences/profilePreview",
+      "value": "So erscheint ihr Profil im Dialog"
+    },
+    {
       "key": "components/DiscussionPreferences/save",
       "value": "Speichern"
     },
@@ -2253,12 +2257,16 @@
       "value": "Anonym teilnehmen"
     },
     {
-      "key": "components/DiscussionPreferences/commentAnonymously/disclaimer",
-      "value": "Ihre Identität ist für administrative Zwecke nachvollziehbar. Whistleblowerin? Schreiben Sie der Redaktion via Signal, PGP-Mail oder der guten, alten Post."
+      "key": "components/DiscussionPreferences/commentAnonymously/description",
+      "value": "Sie können aus Gründen der Privatsphäre anonym am Dialog teilnehmen. Ihre Identität bleibt für administrative Zwecke nachvollziehbar."
     },
     {
       "key": "components/DiscussionPreferences/credentialLabel",
-      "value": "Rolle"
+      "value": "Aktive Rolle"
+    },
+    {
+      "key": "components/DiscussionPreferences/credential/description",
+      "value": "Bitte geben Sie an, aus welcher Perspektive Sie schreiben (z.B. in Ihrer Rolle als Grossvater, als Lehrperson, als Rechtsexpertin)"
     },
     {
       "key": "components/DiscussionPreferences/existingCredentialLabel",

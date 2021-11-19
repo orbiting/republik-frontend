@@ -97,12 +97,14 @@ const styles = {
   previewWrapper: css({
     padding: 20,
     paddingTop: 20 + OverlayToolbar.height,
+    borderBottom: '1px solid',
     '& > p': {
       marginTop: 0,
       marginBottom: 10
     }
   }),
   formWrapper: css({
+    marginTop: 20,
     padding: 20,
     paddingTop: 0,
     // The iPhone X Space
@@ -163,9 +165,7 @@ const DiscussionPreferencesEditor = ({
       <OverlayBody noPadding>
         <div
           {...styles.previewWrapper}
-          {...css({
-            backgroundColor: colorScheme.getCSSColor('hover')
-          })}
+          {...colorScheme.set('borderBottomColor', 'divider')}
         >
           <Interaction.P>
             {t('components/DiscussionPreferences/profilePreview')}

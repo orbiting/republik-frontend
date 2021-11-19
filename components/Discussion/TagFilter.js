@@ -80,8 +80,12 @@ const TagFilter = ({ discussion }) => {
     }
   }, [])
 
-  const tags = discussion.tags
-  if (!tags?.length) return null
+  if (!discussion.tags?.length) {
+    return null
+  }
+
+  // undefined for all tag at the start
+  const tags = [undefined, ...discussion.tags]
   const tagBuckets = discussion.tagBuckets
   const totalCount = discussion.allComments.totalCount
 
@@ -101,7 +105,7 @@ const TagFilter = ({ discussion }) => {
         innerPadding={isEdge2Edge ? BREAKOUT_PADDING : 0}
         activeChildIndex={tags.findIndex(tag => tag === activeTag)}
       >
-        {[undefined, ...tags].map((tag, i) => (
+        {tags.map((tag, i) => (
           <TagLink
             key={tag || i}
             tag={tag}

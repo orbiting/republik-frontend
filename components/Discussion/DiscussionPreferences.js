@@ -59,13 +59,31 @@ DiscussionPreferences.propTypes = {
 
 export default compose(withT, withDiscussionPreferences)(DiscussionPreferences)
 
-function getInitialState(userPreference, rules, autoCredential) {
-  if (!userPreference) {
-    return { anonymity: false, credential: null }
+function getInitialState(
+  userPreferences = {},
+  rules = {},
+  autoCredential = null
+) {
+  let { anonymity = false, credential = autoCredential } = userPreferences
+
+  switch (rules.anonymity) {
+    case 'ALLOWED':
+      // when allowed keep state given in userPreferences
+      break
+    case 'FORBIDDEN':
+      anonymity = false
+      break
+    case 'ENFORCED':
+      anonymity = true
+      break
+    default:
+      console.warn(
+        `DiscussionPreferencesForm: unknown anonymity permission: ${rules.anonymity}`
+      )
+      anonymity = false
+      break
   }
 
-  const { anonymity } = userPreference
-  const credential = userPreference.credential || autoCredential
   return {
     anonymity,
     credential: credential ? credential.description : null
@@ -84,42 +102,16 @@ const DiscussionPreferencesEditor = ({
   const [state, setState] = useState(
     getInitialState(userPreference, rules, autoCredential)
   )
+  const [error, setError] = useState(null)
 
   const handleSubmit = async formState => {
     try {
       await setDiscussionPreferences(formState.anonymity, formState.credential)
       onClose()
-    } catch (error) {}
-  }
-
-  const anonymity = useMemo(() => {
-    switch (rules.anonymity) {
-      case 'ALLOWED':
-        return {
-          disabled: false,
-          value: state.anonymity
-        }
-      case 'ENFORCED':
-        return {
-          disabled: true,
-          value: true
-        }
-      case 'FORBIDDEN':
-        return {
-          disabled: true,
-          value: false
-        }
-      default: {
-        console.warn(
-          `DiscussionPreferencesForm: unknown anonymity permission: ${rules.anonymity}`
-        )
-        return {
-          disabled: true,
-          value: false
-        }
-      }
+    } catch (error) {
+      setError('Error submitting discussion preferences')
     }
-  }, [rules])
+  }
 
   const existingCredential = credentials.find(
     c => c.description === state.credential
@@ -151,7 +143,7 @@ const DiscussionPreferencesEditor = ({
                ['ALLOWED', 'ENFORCED', 'FORBIDDEN']
                THe checkbox should only be enabled if the rule is 'ALLOWED'
                */
-              disabled={!rules?.anonymity === 'ALLOWED'}
+              disabled={rules?.anonymity !== 'ALLOWED'}
               checked={state.anonymity}
               onChange={(_, val) => {
                 setState(curr => ({

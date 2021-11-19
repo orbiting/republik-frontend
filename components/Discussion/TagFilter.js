@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 import {
   FormatTag,
@@ -17,7 +17,10 @@ const styles = {
   container: css({
     position: 'sticky',
     zIndex: 10,
-    margin: `24px -${BREAKOUT_PADDING}px`
+    margin: `24px -${BREAKOUT_PADDING}px`,
+    [mediaQueries.mUp]: {
+      margin: '24px 0'
+    }
   }),
   hr: css({
     margin: 0,
@@ -27,16 +30,13 @@ const styles = {
     bottom: 0,
     height: 1,
     left: 0,
-    right: 0,
-    [mediaQueries.mUp]: {
-      left: BREAKOUT_PADDING,
-      right: BREAKOUT_PADDING
-    }
+    right: 0
   }),
   tagLinkContainer: css({
     // FormatTag have margin: '0 5px 15px' to keep in mind
     padding: '15px 0 10px',
-    marginRight: 10
+    marginRight: 10,
+    whiteSpace: 'nowrap'
   })
 }
 
@@ -67,10 +67,25 @@ const TagLink = ({ tag, commentCount }) => {
 const TagFilter = ({ discussion }) => {
   const [colorScheme] = useColorContext()
   const [headerHeight] = useHeaderHeight()
+  const [isMobile, setIsMobile] = useState(false)
   const route = useRouter()
   const {
     query: { tag: activeTag }
   } = route
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < mediaQueries.mBreakPoint
+      if (mobile !== isMobile) {
+        setIsMobile(mobile)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   const tags = discussion.tags
   if (!tags?.length) return null
   const tagBuckets = discussion.tagBuckets
@@ -83,7 +98,7 @@ const TagFilter = ({ discussion }) => {
       style={{ top: headerHeight }}
     >
       <Scroller
-        innerPadding={BREAKOUT_PADDING}
+        innerPadding={isMobile ? BREAKOUT_PADDING : 0}
         activeChildIndex={tags.findIndex(tag => tag === activeTag)}
       >
         {[undefined, ...tags].map((tag, i) => (

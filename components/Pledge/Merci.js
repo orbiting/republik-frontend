@@ -20,8 +20,8 @@ import { EMAIL_CONTACT, ONBOARDING_PACKAGES } from '../../lib/constants'
 
 import {
   A,
-  Interaction,
-  RawHtml,
+  H1,
+  P,
   InlineSpinner,
   Button,
   Lead,
@@ -31,8 +31,6 @@ import {
 import RawHtmlTranslation from '../RawHtmlTranslation'
 import { withRouter } from 'next/router'
 import Link from 'next/link'
-
-const { H1, P } = Interaction
 
 export const gotoMerci = query => {
   // workaround for apollo cache issues
@@ -265,7 +263,7 @@ class Merci extends Component {
     const noNameSuffix = me ? '' : '/noName'
 
     return (
-      <Fragment>
+      <>
         <MainContainer>
           <Content style={{ paddingBottom: 0 }}>
             <H1>
@@ -280,15 +278,18 @@ class Merci extends Component {
                 }
               )}
             </H1>
-            <RawHtml
-              type={Lead}
-              dangerouslySetInnerHTML={{
-                __html: t.first([
-                  `merci/lead/package/${query.package || 'UNKOWN'}`,
-                  'merci/lead'
-                ])
-              }}
-            />
+            <Lead>
+              {t.first([
+                `merci/lead/package/${query.package || 'UNKOWN'}`,
+                'merci/lead'
+              ])}
+            </Lead>
+            {query.package === 'PROLONG' && (
+              <>
+                <P>{t('merci/paragraph1/package/PROLONG')}</P>
+                <P>{t('merci/paragraph2/package/PROLONG')}</P>
+              </>
+            )}
             <WithMembership
               render={() => (
                 <>
@@ -297,20 +298,18 @@ class Merci extends Component {
                       {t('merci/action/read')}
                     </Button>
                   </Link>
-                  {me && !me.hasPublicProfile && (
-                    <Link href={`/~${me.username || me.id}`} passHref>
-                      <Button style={buttonStyle}>
-                        {t('merci/action/profile')}
-                      </Button>
-                    </Link>
-                  )}
+                  <Link href='/dialog' passHref>
+                    <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
+                      {t('merci/action/dialog')}
+                    </Button>
+                  </Link>
                 </>
               )}
             />
           </Content>
         </MainContainer>
         <Account query={query} merci />
-      </Fragment>
+      </>
     )
   }
 }

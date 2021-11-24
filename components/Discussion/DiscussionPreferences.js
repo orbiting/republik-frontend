@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import compose from 'lodash/flowRight'
 import withT from '../../lib/withT'
 import {
+  A,
   Loader,
   Field,
   Checkbox,
@@ -19,6 +20,7 @@ import {
 
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 import { css } from 'glamor'
+import Credential from '../Credential'
 
 export const DiscussionPreferences = ({
   t,
@@ -118,7 +120,12 @@ const styles = {
     marginBottom: 24,
     '& > *:not(:last-child)': {
       display: 'block',
-      marginBottom: 12
+      marginBottom: 10
+    }
+  }),
+  suggestedCredentialsWrapper: css({
+    '& > *:not(:last-child)': {
+      marginBottom: 10
     }
   })
 }
@@ -222,7 +229,9 @@ const DiscussionPreferencesEditor = ({
             </div>
           )}
           <div {...styles.fieldWrapper}>
-            <Interaction.H2>Rolle definieren</Interaction.H2>
+            <Interaction.H2>
+              {t('components/DiscussionPreferences/credentialHeading')}
+            </Interaction.H2>
             <Label>
               {t('components/DiscussionPreferences/credential/description')}
             </Label>
@@ -243,6 +252,32 @@ const DiscussionPreferencesEditor = ({
                     'components/DiscussionPreferences/credentialAnonymityWarning'
                   )}
                 </Label>
+              </div>
+            )}
+            {credentialSuggestions && (
+              <div {...styles.suggestedCredentialsWrapper}>
+                <Interaction.H3>
+                  {t(
+                    'components/DiscussionPreferences/existingCredentialLabel'
+                  )}
+                </Interaction.H3>
+                <div style={{ marginLeft: 10 }}>
+                  {credentialSuggestions.map(item => (
+                    <A
+                      key={item.description}
+                      href='#'
+                      style={{ display: 'block' }}
+                      onClick={() =>
+                        setState(curr => ({
+                          ...curr,
+                          credential: item.description
+                        }))
+                      }
+                    >
+                      <Credential {...item} />
+                    </A>
+                  ))}
+                </div>
               </div>
             )}
           </div>

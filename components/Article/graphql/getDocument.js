@@ -84,7 +84,7 @@ export const getDocument = gql`
             color
             kind
             image
-            shareImageLogo
+            shareLogo
             shareBackgroundImage
             shareBackgroundImageInverted
             section {

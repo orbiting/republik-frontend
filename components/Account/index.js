@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import { max } from 'd3-array'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'
@@ -27,7 +26,7 @@ import withMembership from '../Auth/withMembership'
 import NotificationsLegacy from './NotificationsLegacy'
 import Box from '../Frame/Box'
 
-import { H1, Interaction, mediaQueries } from '@project-r/styleguide'
+import { Interaction, mediaQueries } from '@project-r/styleguide'
 
 import query from './belongingsQuery'
 
@@ -38,7 +37,7 @@ import { APP_OPTIONS } from '../../lib/constants'
 
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
 
-const { H2, P } = Interaction
+const { H1, H2, P } = Interaction
 
 const styles = {
   accountAnchor: css({
@@ -99,7 +98,9 @@ class Account extends Component {
             return (
               <MainContainer>
                 <Content>
-                  <H1>{t('account/signedOut/title')}</H1>
+                  <H1 style={{ marginBottom: 22 }}>
+                    {t('account/signedOut/title')}
+                  </H1>
                   <P>{t('account/signedOut/signIn')}</P>
                   <SignIn email={query.email} />
                 </Content>
@@ -114,7 +115,7 @@ class Account extends Component {
               <MainContainer>
                 <Content>
                   {!merci && (
-                    <H1>
+                    <H1 style={{ marginBottom: 22 }}>
                       {t.first(
                         [
                           me.name && 'Account/title/name',

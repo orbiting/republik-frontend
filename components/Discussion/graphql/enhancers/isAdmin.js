@@ -8,4 +8,4 @@ import withAuthorization from '../../../Auth/withAuthorization'
  *   }
  */
 
-export const isAdmin = withAuthorization(['admin', 'editor'], 'isAdmin')
+export const isAdmin = withAuthorization(['admin', 'moderator'], 'isAdmin')

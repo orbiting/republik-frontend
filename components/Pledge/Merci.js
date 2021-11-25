@@ -20,8 +20,8 @@ import { EMAIL_CONTACT, ONBOARDING_PACKAGES } from '../../lib/constants'
 
 import {
   A,
-  H1,
-  P,
+  Interaction,
+  RawHtml,
   InlineSpinner,
   Button,
   Lead,
@@ -31,6 +31,8 @@ import {
 import RawHtmlTranslation from '../RawHtmlTranslation'
 import { withRouter } from 'next/router'
 import Link from 'next/link'
+
+const { P, H1 } = Interaction
 
 export const gotoMerci = query => {
   // workaround for apollo cache issues
@@ -278,17 +280,22 @@ class Merci extends Component {
                 }
               )}
             </H1>
-            <Lead>
-              {t.first([
-                `merci/lead/package/${query.package || 'UNKOWN'}`,
-                'merci/lead'
-              ])}
-            </Lead>
+            <RawHtml
+              type={Lead}
+              dangerouslySetInnerHTML={{
+                __html: t.first([
+                  `merci/lead/package/${query.package || 'UNKOWN'}`,
+                  'merci/lead'
+                ])
+              }}
+            />
             {query.package === 'PROLONG' && (
-              <>
-                <P>{t('merci/paragraph1/package/PROLONG')}</P>
-                <P>{t('merci/paragraph2/package/PROLONG')}</P>
-              </>
+              <RawHtml
+                type={P}
+                dangerouslySetInnerHTML={{
+                  __html: t('merci/paragraph/package/PROLONG')
+                }}
+              />
             )}
             <WithMembership
               render={() => (

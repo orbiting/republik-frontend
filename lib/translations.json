@@ -4385,12 +4385,8 @@
       "value": "Willkommen an Bord!"
     },
     {
-      "key": "merci/paragraph1/package/PROLONG",
-      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum!"
-    },
-    {
-      "key": "merci/paragraph2/package/PROLONG",
-      "value": "Gemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart."
+      "key": "merci/paragraph/package/PROLONG",
+      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum! <br /> <br /> Gemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart. <br /> <br />"
     },
     {
       "key": "pledge/title/member",

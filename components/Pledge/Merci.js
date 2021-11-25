@@ -32,7 +32,7 @@ import RawHtmlTranslation from '../RawHtmlTranslation'
 import { withRouter } from 'next/router'
 import Link from 'next/link'
 
-const { H1, P } = Interaction
+const { P, H1 } = Interaction
 
 export const gotoMerci = query => {
   // workaround for apollo cache issues
@@ -265,7 +265,7 @@ class Merci extends Component {
     const noNameSuffix = me ? '' : '/noName'
 
     return (
-      <Fragment>
+      <>
         <MainContainer>
           <Content style={{ paddingBottom: 0 }}>
             <H1>
@@ -289,6 +289,14 @@ class Merci extends Component {
                 ])
               }}
             />
+            {query.package === 'PROLONG' && (
+              <RawHtml
+                type={P}
+                dangerouslySetInnerHTML={{
+                  __html: t('merci/paragraph/package/PROLONG')
+                }}
+              />
+            )}
             <WithMembership
               render={() => (
                 <>
@@ -297,20 +305,18 @@ class Merci extends Component {
                       {t('merci/action/read')}
                     </Button>
                   </Link>
-                  {me && !me.hasPublicProfile && (
-                    <Link href={`/~${me.username || me.id}`} passHref>
-                      <Button style={buttonStyle}>
-                        {t('merci/action/profile')}
-                      </Button>
-                    </Link>
-                  )}
+                  <Link href='/dialog' passHref>
+                    <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
+                      {t('merci/action/dialog')}
+                    </Button>
+                  </Link>
                 </>
               )}
             />
           </Content>
         </MainContainer>
         <Account query={query} merci />
-      </Fragment>
+      </>
     )
   }
 }

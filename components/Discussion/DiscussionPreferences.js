@@ -145,6 +145,11 @@ const styles = {
     '& > *:not(:last-child)': {
       marginBottom: 10
     }
+  }),
+  suggestedCredentialsContainer: css({
+    margin: '0 10',
+    display: 'flex',
+    flexDirection: 'column'
   })
 }
 
@@ -162,6 +167,10 @@ const DiscussionPreferencesEditor = ({
   const [state, setState] = useState(
     getInitialState(userPreference, rules, autoCredential)
   )
+  const [
+    showAllSuggestedCredentials,
+    setShowAllSuggestedCredentials
+  ] = useState(false)
 
   const handleSubmit = async formState => {
     try {
@@ -190,6 +199,26 @@ const DiscussionPreferencesEditor = ({
       portrait: !state.anonymity && me.portrait
     }
   }, [state.anonymity, state.credential, credentialSuggestions, me])
+
+  const suggestedCredentialButtonStyling = useMemo(
+    () =>
+      css({
+        all: 'unset',
+        cursor: 'pointer',
+        padding: 10,
+        '@media(hover)': {
+          ':hover': {
+            backgroundColor: colorScheme.getCSSColor('hover')
+          }
+        },
+        '&:not(:last-child)': {
+          borderBottomWidth: 1,
+          borderBottomStyle: 'solid',
+          borderBottomColor: colorScheme.getCSSColor('divider')
+        }
+      }),
+    [colorScheme]
+  )
 
   return (
     <form
@@ -287,36 +316,41 @@ const DiscussionPreferencesEditor = ({
                     'components/DiscussionPreferences/existingCredentialLabel'
                   )}
                 </Interaction.H3>
-                <div style={{ marginLeft: 10 }}>
-                  {credentialSuggestions.map(item => (
-                    <div
-                      key={item.description}
-                      {...css({
-                        padding: '10px 0',
-                        '&:not(:last-child)': {
-                          borderBottom: '1px solid',
-                          borderBottomColor: colorScheme.getCSSColor('divider')
-                        },
-                        '&:hover': {
-                          backgroundColor: colorScheme.getCSSColor('hover')
-                        }
-                      })}
-                    >
-                      <A
-                        href='#'
-                        style={{ display: 'block' }}
+                <div {...styles.suggestedCredentialsContainer}>
+                  {credentialSuggestions
+                    .slice(
+                      0,
+                      showAllSuggestedCredentials
+                        ? credentialSuggestions.length - 1
+                        : 4
+                    )
+                    .map(item => (
+                      <button
+                        key={item.description}
                         onClick={() =>
                           setState(curr => ({
                             ...curr,
                             credential: item.description
                           }))
                         }
+                        {...suggestedCredentialButtonStyling}
                       >
-                        <Credential {...item} />
-                      </A>
-                    </div>
-                  ))}
+                        <Credential
+                          {...item}
+                          textColor={colorScheme.getCSSColor('text')}
+                        />
+                      </button>
+                    ))}
                 </div>
+                {!showAllSuggestedCredentials &&
+                  credentialSuggestions.length >= 5 && (
+                    <A
+                      href='#'
+                      onClick={() => setShowAllSuggestedCredentials(true)}
+                    >
+                      {t('components/DiscussionPreferences/showAllCredentials')}
+                    </A>
+                  )}
               </div>
             )}
           </div>

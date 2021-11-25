@@ -24,8 +24,8 @@ import {
   RawHtml,
   InlineSpinner,
   Button,
-  Lead,
-  Loader
+  Loader,
+  Meta
 } from '@project-r/styleguide'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
@@ -264,6 +264,14 @@ class Merci extends Component {
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
     const noNameSuffix = me ? '' : '/noName'
 
+    const paragraphs = t
+      .first([
+        `merci/paragraph/package/${query.package || 'UNKOWN'}`,
+        'merci/paragraph'
+      ])
+      .split('\n\n')
+      .filter(Boolean)
+
     return (
       <>
         <MainContainer>
@@ -280,23 +288,17 @@ class Merci extends Component {
                 }
               )}
             </H1>
-            <RawHtml
-              type={Lead}
-              dangerouslySetInnerHTML={{
-                __html: t.first([
+            <div style={{ margin: '22px 0' }}>
+              <Meta.Lead>
+                {t.first([
                   `merci/lead/package/${query.package || 'UNKOWN'}`,
                   'merci/lead'
-                ])
-              }}
-            />
-            {query.package === 'PROLONG' && (
-              <RawHtml
-                type={P}
-                dangerouslySetInnerHTML={{
-                  __html: t('merci/paragraph/package/PROLONG')
-                }}
-              />
-            )}
+                ])}
+              </Meta.Lead>
+            </div>
+            {paragraphs.map((paragraph, i) => (
+              <Meta.P key={`p${i}`}>{paragraph}</Meta.P>
+            ))}
             <WithMembership
               render={() => (
                 <>

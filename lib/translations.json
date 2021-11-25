@@ -3402,27 +3402,63 @@
     },
     {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br /><br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens."
+    },
+    {
+      "key": "merci/paragraph",
+      "value": "Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
     },
     {
       "key": "merci/lead/package/ABO_GIVE_MONTHS",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
     },
     {
       "key": "merci/lead/package/DONATE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit!<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit!"
     },
     {
       "key": "merci/lead/package/DONATE_POT",
-      "value": "Vielen Dank für Ihre Grosszügigkeit!<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit!"
+    },
+    {
+      "key": "merci/title/package/PROLONG",
+      "value": "{name}, danke für Ihre Verlängerung."
+    },
+    {
+      "key": "merci/title/package/PROLONG/noName",
+      "value": "Danke für Ihre Verlängerung."
+    },
+    {
+      "key": "merci/lead/package/PROLONG",
+      "value": "Danke für Ihr Vertrauen und Ihre Unterstützung."
+    },
+    {
+      "key": "package/PROLONG/ABO_GIVE_MONTHS/pageTitle",
+      "value": "Willkommen an Bord!"
+    },
+    {
+      "key": "merci/paragraph/package/PROLONG",
+      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum!\n\nGemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart."
+    },
+    {
+      "key": "merci/title/package/UNKOWN",
+      "value": "Danke, {name}"
+    },
+    {
+      "key": "merci/title/package/UNKOWN/noName",
+      "value": "Danke"
+    },
+    {
+      "key": "merci/lead/package/UNKOWN",
+      "value": "Vielen Dank für Ihre Unterstützung!"
     },
     {
       "key": "merci/lead/package/TABLEBOOK",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
     },
     {
       "key": "merci/action/read",
@@ -4369,26 +4405,6 @@
       "value": "Keine Bürokratie mehr: zukünftige Verlängerungen meiner Mitgliedschaft automatisch von meiner Kreditkarte abbuchen."
     },
     {
-      "key": "merci/title/package/PROLONG",
-      "value": "{name}, danke für Ihre Verlängerung."
-    },
-    {
-      "key": "merci/title/package/PROLONG/noName",
-      "value": "Danke für Ihre Verlängerung."
-    },
-    {
-      "key": "merci/lead/package/PROLONG",
-      "value": "Danke für Ihr Vertrauen und Ihre Unterstützung."
-    },
-    {
-      "key": "package/PROLONG/ABO_GIVE_MONTHS/pageTitle",
-      "value": "Willkommen an Bord!"
-    },
-    {
-      "key": "merci/paragraph/package/PROLONG",
-      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum! <br /> <br /> Gemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart. <br /> <br />"
-    },
-    {
       "key": "pledge/title/member",
       "value": "Das Angebot"
     },
@@ -4655,18 +4671,6 @@
     {
       "key": "option/suffix/endDate",
       "value": " bis {formattedEndDate}"
-    },
-    {
-      "key": "merci/title/package/UNKOWN",
-      "value": "Danke, {name}"
-    },
-    {
-      "key": "merci/title/package/UNKOWN/noName",
-      "value": "Danke"
-    },
-    {
-      "key": "merci/lead/package/UNKOWN",
-      "value": "Vielen Dank für Ihre Unterstützung! <br />"
     },
     {
       "key": "crowdfunding/status/goal/people",

@@ -99,15 +99,22 @@ const styles = {
   previewWrapper: css({
     padding: 20,
     paddingTop: 20 + OverlayToolbar.height,
+    paddingBottom: 0,
     borderBottom: '1px solid',
+    [mediaQueries.mUp]: {
+      paddingBottom: 20
+    },
     '& > p': {
       marginTop: 0,
       marginBottom: 10
     }
   }),
   commentHeaderWrapper: css({
-    margin: '40 20',
-    padding: '20'
+    margin: '0px -20px',
+    padding: 20,
+    [mediaQueries.mUp]: {
+      margin: 0
+    }
   }),
   formWrapper: css({
     marginTop: 20,
@@ -269,19 +276,32 @@ const DiscussionPreferencesEditor = ({
                 </Interaction.H3>
                 <div style={{ marginLeft: 10 }}>
                   {credentialSuggestions.map(item => (
-                    <A
+                    <div
                       key={item.description}
-                      href='#'
-                      style={{ display: 'block' }}
-                      onClick={() =>
-                        setState(curr => ({
-                          ...curr,
-                          credential: item.description
-                        }))
-                      }
+                      {...css({
+                        padding: '10px 0',
+                        '&:not(:last-child)': {
+                          borderBottom: '1px solid',
+                          borderBottomColor: colorScheme.getCSSColor('divider')
+                        },
+                        '&:hover': {
+                          backgroundColor: colorScheme.getCSSColor('alert')
+                        }
+                      })}
                     >
-                      <Credential {...item} />
-                    </A>
+                      <A
+                        href='#'
+                        style={{ display: 'block' }}
+                        onClick={() =>
+                          setState(curr => ({
+                            ...curr,
+                            credential: item.description
+                          }))
+                        }
+                      >
+                        <Credential {...item} />
+                      </A>
+                    </div>
                   ))}
                 </div>
               </div>

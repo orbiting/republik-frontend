@@ -2245,6 +2245,10 @@
       "value": "vor {count} y"
     },
     {
+      "key": "components/DiscussionPreferences/modalTitle",
+      "value": "Dialog Teilnahme anpassen"
+    },
+    {
       "key": "components/DiscussionPreferences/profilePreview",
       "value": "So erscheint ihr Profil im Dialog"
     },

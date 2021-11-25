@@ -105,6 +105,10 @@ const styles = {
       marginBottom: 10
     }
   }),
+  commentHeaderWrapper: css({
+    margin: '40 20',
+    padding: '20'
+  }),
   formWrapper: css({
     marginTop: 20,
     padding: 20,
@@ -168,7 +172,10 @@ const DiscussionPreferencesEditor = ({
         handleSubmit(state)
       }}
     >
-      <OverlayToolbar title='Dialog Teilnahme anpassen' onClose={onClose} />
+      <OverlayToolbar
+        title={t('components/DiscussionPreferences/modalTitle')}
+        onClose={onClose}
+      />
       <OverlayBody noPadding>
         <div
           {...styles.previewWrapper}
@@ -178,9 +185,8 @@ const DiscussionPreferencesEditor = ({
             {t('components/DiscussionPreferences/profilePreview')}
           </Interaction.P>
           <div
-            {...css({
-              margin: '40 20'
-            })}
+            {...styles.commentHeaderWrapper}
+            {...colorScheme.set('backgroundColor', 'hover')}
           >
             <CommentHeaderProfile
               t={t}

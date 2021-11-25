@@ -80,10 +80,31 @@ const calculateMinPrice = (pkg, values, userPrice) => {
   return absolutMinPrice
 }
 
-const getPrice = ({ values, pkg, userPrice }) => {
+const getPrice = ({ values, pkg, userPrice, router }) => {
   if (values.price !== undefined) {
     return values.price
   } else {
+    if (pkg.suggestedTotal) {
+      const regularMinPrice = calculateMinPrice(pkg, values, false)
+      if (
+        pkg.suggestedTotal < regularMinPrice &&
+        !userPrice &&
+        process.browser
+      ) {
+        router.replace(
+          {
+            pathname: 'pledge',
+            query: {
+              ...router.query,
+              userPrice: '1'
+            }
+          },
+          undefined,
+          { shallow: true }
+        )
+      }
+      return pkg.suggestedTotal
+    }
     if (userPrice) {
       return ''
     }

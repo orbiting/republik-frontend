@@ -561,6 +561,7 @@ const query = gql`
         name
         group
         paymentMethods
+        suggestedTotal
         options {
           id
           price

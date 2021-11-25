@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import compose from 'lodash/flowRight'
 import withT from '../../lib/withT'
@@ -64,6 +64,13 @@ DiscussionPreferences.propTypes = {
 
 export default compose(withT, withDiscussionPreferences)(DiscussionPreferences)
 
+/**
+ * Get the initial-state of the discussion-preferences form.
+ * @param userPreferences
+ * @param rules
+ * @param autoCredential
+ * @returns {{credential: (*|null), anonymity: boolean}}
+ */
 function getInitialState(
   userPreferences = {},
   rules = {},
@@ -172,6 +179,18 @@ const DiscussionPreferencesEditor = ({
     c => c.description !== state.credential
   )
 
+  const previewData = useMemo(() => {
+    const credentialInSuggestions = credentials.find(
+      value => value.description === state.credential
+    )
+
+    return {
+      credential: credentialInSuggestions || { description: state.credential },
+      name: state.anonymity ? t('discussion/displayUser/anonymous') : me.name,
+      portrait: !state.anonymity && me.portrait
+    }
+  }, [state.anonymity, state.credential, credentialSuggestions, me])
+
   return (
     <form
       onSubmit={event => {
@@ -197,15 +216,9 @@ const DiscussionPreferencesEditor = ({
           >
             <CommentHeaderProfile
               t={t}
-              profilePicture={!state.anonymity && me.portrait}
-              name={
-                !state.anonymity
-                  ? me.name
-                  : t('discussion/displayUser/anonymous')
-              }
-              credential={{
-                description: state.credential
-              }}
+              profilePicture={previewData.portrait}
+              name={previewData.name}
+              credential={previewData.credential}
             />
           </div>
         </div>
@@ -285,7 +298,7 @@ const DiscussionPreferencesEditor = ({
                           borderBottomColor: colorScheme.getCSSColor('divider')
                         },
                         '&:hover': {
-                          backgroundColor: colorScheme.getCSSColor('alert')
+                          backgroundColor: colorScheme.getCSSColor('hover')
                         }
                       })}
                     >

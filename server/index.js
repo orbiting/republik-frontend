@@ -164,6 +164,14 @@ app.prepare().then(() => {
     )
   })
 
+  server.options('*', (req, res, next) => {
+    if (req.url === '*') {
+      return res.sendStatus(400)
+    }
+
+    next()
+  })
+
   server.use(express.static('public'))
   server.all('*', (req, res) => {
     return handler(req, res)

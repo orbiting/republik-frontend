@@ -193,6 +193,7 @@ app.prepare().then(() => {
 
   const ROUTES_WITH_RATE_LIMIT = [
     '^/$',
+    '^/angebote',
     '^/community',
     '^/dialog',
     '^/wahltindaer'

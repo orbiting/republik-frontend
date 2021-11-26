@@ -43,7 +43,7 @@ class CommunityPage extends Component {
 
     return (
       <Frame>
-        <List seed={seed} id={query.id} isPage />
+        <p>Bald wieder verfügbar.</p>
       </Frame>
     )
   }

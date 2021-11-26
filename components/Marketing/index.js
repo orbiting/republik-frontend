@@ -30,13 +30,13 @@ const Marketing = ({ t, data: { loading, error, meGuidance } }) => {
       )}
       {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
       <Lead t={t} />
-      <MiniFront t={t} />
-      <Carpet t={t} />
+      {/* <MiniFront t={t} /> 
+      <Carpet t={t} /> */}
       <Reasons t={t} inNativeApp={inNativeApp} />
       {inNativeApp && <MarketingTrialForm t={t} />}
       <Sections t={t} />
-      <Team t={t} />
-      <Community t={t} />
+      {/* <Team t={t} />
+      <Community t={t} /> */}
       <Vision t={t} />
       {inNativeApp ? <MarketingTrialForm t={t} /> : <Pledge />}
       <Logo />

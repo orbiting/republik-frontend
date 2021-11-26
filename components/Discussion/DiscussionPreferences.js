@@ -121,6 +121,11 @@ const styles = {
     padding: 20,
     [mediaQueries.mUp]: {
       margin: 0
+    },
+    display: 'flex',
+    flexDirection: 'column',
+    '& > *:not(:last-child)': {
+      marginBottom: 10
     }
   }),
   formWrapper: css({
@@ -236,13 +241,13 @@ const DiscussionPreferencesEditor = ({
           {...styles.previewWrapper}
           {...colorScheme.set('borderBottomColor', 'divider')}
         >
-          <Interaction.P>
-            {t('components/DiscussionPreferences/profilePreview')}
-          </Interaction.P>
           <div
             {...styles.commentHeaderWrapper}
             {...colorScheme.set('backgroundColor', 'hover')}
           >
+            <Label>
+              {t('components/DiscussionPreferences/profilePreview')}
+            </Label>
             <CommentHeaderProfile
               t={t}
               profilePicture={previewData.portrait}
@@ -254,9 +259,9 @@ const DiscussionPreferencesEditor = ({
         <div {...styles.formWrapper}>
           {rules.anonymity !== 'FORBIDDEN' && (
             <div {...styles.fieldWrapper}>
-              <Interaction.H2>
+              <Interaction.H3>
                 {t('components/DiscussionPreferences/commentAnonymously')}
-              </Interaction.H2>
+              </Interaction.H3>
               <Label>
                 {t(
                   'components/DiscussionPreferences/commentAnonymously/description'
@@ -284,9 +289,9 @@ const DiscussionPreferencesEditor = ({
             </div>
           )}
           <div {...styles.fieldWrapper}>
-            <Interaction.H2>
+            <Interaction.H3>
               {t('components/DiscussionPreferences/credentialHeading')}
-            </Interaction.H2>
+            </Interaction.H3>
             <Label>
               {t('components/DiscussionPreferences/credential/description')}
             </Label>
@@ -311,11 +316,11 @@ const DiscussionPreferencesEditor = ({
             )}
             {credentialSuggestions && (
               <div {...styles.suggestedCredentialsWrapper}>
-                <Interaction.H3>
+                <Label>
                   {t(
                     'components/DiscussionPreferences/existingCredentialLabel'
                   )}
-                </Interaction.H3>
+                </Label>
                 <div {...styles.suggestedCredentialsContainer}>
                   {credentialSuggestions
                     .slice(
@@ -354,9 +359,18 @@ const DiscussionPreferencesEditor = ({
               </div>
             )}
           </div>
-          <Button type='submit'>
-            {t('components/DiscussionPreferences/save')}
-          </Button>
+          <div
+            {...css({
+              width: '100%',
+              [mediaQueries.mUp]: {
+                maxWidth: 'max-content'
+              }
+            })}
+          >
+            <Button type='submit' block>
+              {t('components/DiscussionPreferences/save')}
+            </Button>
+          </div>
         </div>
       </OverlayBody>
     </form>

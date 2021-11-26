@@ -177,7 +177,7 @@ app.prepare().then(() => {
   // page failing for to many requests
   const rateLimiter = rateLimit({
     windowMs: 60 * 1000,
-    max: function(req, res) {
+    max: function(req) {
       const {
         headers: { cookie }
       } = req
@@ -192,6 +192,7 @@ app.prepare().then(() => {
   })
 
   const ROUTES_WITH_RATE_LIMIT = [
+    '^/[0-9]{4}/?$', // e.g. /2021
     '^/$',
     '^/angebote',
     '^/community',

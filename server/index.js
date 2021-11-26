@@ -191,7 +191,7 @@ app.prepare().then(() => {
     message: 'Too many requests. Try again later.'
   })
 
-  server.use(['^/$', '^/community*', '^/dialog*'], rateLimiter)
+  server.use(['^/$', '^/community', '^/dialog'], rateLimiter)
   server.use(express.static('public'))
   server.all('*', (req, res) => {
     return handler(req, res)

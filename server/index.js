@@ -177,11 +177,22 @@ app.prepare().then(() => {
   // page failing for to many requests
   const rateLimiter = rateLimit({
     windowMs: 60 * 1000,
-    max: 10,
-    message: 'Too many requests. Try again in a minute'
+    max: 5,
+    message: 'Too many requests. Try again later.'
   })
+  server.use(['^/$', '^/community*', '^/dialog*'], (req, res, next) => {
+    const {
+      headers: { cookie }
+    } = req
 
-  server.use(['^/$', '^/community*', '^/dialog*'], rateLimiter)
+    // If no session cookie is in the request, pass it on to the rate-limiter
+    if (!cookie || !cookie?.includes('connect.sid')) {
+      return rateLimiter(req, res, next)
+    }
+    console.debug('Logged in user')
+
+    next()
+  })
 
   server.use(express.static('public'))
   server.all('*', (req, res) => {

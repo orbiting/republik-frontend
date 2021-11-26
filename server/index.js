@@ -186,12 +186,19 @@ app.prepare().then(() => {
       if (cookie && cookie.includes('connect.sid')) {
         return 20
       }
-      return 10
+      return 5
     },
     message: 'Too many requests. Try again later.'
   })
 
-  server.use(['^/$', '^/community', '^/dialog'], rateLimiter)
+  const ROUTES_WITH_RATE_LIMIT = [
+    '^/$',
+    '^/community',
+    '^/dialog',
+    '^/wahltindaer'
+  ]
+
+  server.use(ROUTES_WITH_RATE_LIMIT, rateLimiter)
   server.use(express.static('public'))
   server.all('*', (req, res) => {
     return handler(req, res)

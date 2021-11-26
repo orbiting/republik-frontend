@@ -189,7 +189,6 @@ app.prepare().then(() => {
     if (!cookie || !cookie?.includes('connect.sid')) {
       return rateLimiter(req, res, next)
     }
-    console.debug('Logged in user')
 
     next()
   })

@@ -31,6 +31,7 @@ const electionsQuery = gql`
           elected
           candidacy {
             id
+            isIncumbent
             user {
               id
               username
@@ -87,7 +88,9 @@ const ElectionResult = compose(
   const values = results.map(result => ({
     value: String(result.count),
     elected: result.elected ? '1' : '0',
-    label: result.candidacy.user.name,
+    label: `${result.candidacy.user.name}${
+      result.candidacy.user.isIncumbent ? ' (bisher)' : ''
+    }`,
     href: `/~${result.candidacy.user.username || result.candidacy.user.id}`,
     category: result.elected
       ? vt.pluralize('vote/election/elected', {

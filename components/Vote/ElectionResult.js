@@ -89,7 +89,7 @@ const ElectionResult = compose(
     value: String(result.count),
     elected: result.elected ? '1' : '0',
     label: `${result.candidacy.user.name}${
-      result.candidacy.user.isIncumbent ? ' (bisher)' : ''
+      result.candidacy.isIncumbent ? ' (bisher)' : ''
     }`,
     href: `/~${result.candidacy.user.username || result.candidacy.user.id}`,
     category: result.elected

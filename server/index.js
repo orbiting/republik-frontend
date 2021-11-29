@@ -182,7 +182,7 @@ app.prepare().then(() => {
         headers: { cookie }
       } = req
 
-      // If no session cookie is in the request, pass it on to the rate-limiter
+      // If user is logged in, 20 requests per minute are allowed. Otherwise, only 5 requests/min allowed.
       if (cookie && cookie.includes('connect.sid')) {
         return 20
       }

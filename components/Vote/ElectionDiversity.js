@@ -155,7 +155,11 @@ const MembersGender = voteT(({ members, vt }) => {
             ? { ...item, value: item.value + 1 }
             : item
         ),
-      Object.keys(GENDER).map(key => ({ key, value: 0 }))
+      Object.keys(GENDER).map(key => ({
+        key,
+        value: 0,
+        pos: key === 'weiblich' ? 'left' : 'right'
+      }))
     )
     .map(getPercentString(membersWithGender.length))
 
@@ -175,7 +179,8 @@ const MembersGender = voteT(({ members, vt }) => {
           colorLegendValues: Object.keys(GENDER),
           domain: [0, 1],
           sort: 'none',
-          inlineValue: true
+          inlineValue: true,
+          inlineLabelPosition: 'pos'
         }}
         values={values.filter(v => v.value !== '0')}
       />

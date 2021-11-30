@@ -31,18 +31,17 @@ import { gql } from '@apollo/client'
 import DetailsForm from '../../components/Account/DetailsForm'
 import {
   Interaction,
-  RawHtml,
-  colors,
   Figure,
   FigureImage,
-  Button
+  Button,
+  Meta
 } from '@project-r/styleguide'
 import { css } from 'glamor'
-import { TrendingFlatIcon } from '@project-r/styleguide'
 import NewsletterSignUp from '../../components/Auth/NewsletterSignUp'
 import Link from 'next/link'
 import { description } from './[slug]'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
+import ErrorMessage from '../../components/ErrorMessage'
 
 const SLUG = '1-minute'
 
@@ -89,35 +88,6 @@ const gifLink = `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/crowd/scha
 const styles = {
   intro: css({
     margin: '35px 0'
-  }),
-  arrow: css({
-    marginRight: 15,
-    minWidth: 16,
-    color: colors.lightText
-  }),
-  thankYouItem: css({
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'left',
-    alignItems: 'center',
-    marginBottom: 20
-  }),
-  socialButtons: css({
-    marginLeft: 30,
-    marginTop: 30
-  }),
-  spinnerWrapper: css({
-    display: 'inline-block',
-    height: 0,
-    marginLeft: 15,
-    verticalAlign: 'middle',
-    '& > span': {
-      display: 'inline'
-    }
-  }),
-  checkboxLabel: css({
-    display: 'inline-block',
-    marginTop: -8
   })
 }
 
@@ -166,31 +136,16 @@ const getWillingnessToHelp = questions => {
   return answer1 && answer1.payload.value[0]
 }
 
-const ThankYouItem = compose(withT)(({ t, tKey }) => {
-  return (
-    <div {...styles.thankYouItem}>
-      <TrendingFlatIcon {...styles.arrow} />
-      <RawHtml
-        type={P}
-        dangerouslySetInnerHTML={{
-          __html: t(tKey)
-        }}
-      />
-    </div>
-  )
-})
-
 const ThankYou = compose(withT)(({ t }) => {
   return (
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
       <div {...styles.intro}>
-        <RawHtml
-          type={P}
-          dangerouslySetInnerHTML={{
-            __html: t('questionnaire/crowd/submitted/intro')
-          }}
-        />
+        {t('questionnaire/crowd/submitted/intro')
+          .split('\n\n')
+          .map((paragraph, i) => (
+            <Meta.P key={`p${i}`}>{paragraph}</Meta.P>
+          ))}
       </div>
       <NewsletterSignUp free skipTitle name='ACCOMPLICE' />
       <P>{t('questionnaire/crowd/submitted/optout')}</P>
@@ -203,12 +158,7 @@ const NoThanks = compose(withT)(({ t }) => {
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
       <div {...styles.intro}>
-        <RawHtml
-          type={P}
-          dangerouslySetInnerHTML={{
-            __html: t('questionnaire/crowd/submitted/declined/intro')
-          }}
-        />
+        <P>{t('questionnaire/crowd/submitted/declined/intro')}</P>
         <Link href='/' passHref>
           <Button primary style={{ marginTop: 20 }}>
             {t('merci/action/read')}
@@ -439,16 +389,15 @@ class QuestionnaireCrowdPage extends Component {
         )}
         {showResults && (
           <>
-            <P
+            <ErrorMessage
               style={{
                 marginTop: 100,
-                marginBottom: 20,
-                color: colors.error
+                marginBottom: 20
               }}
             >
               Diese Resultate werden{' '}
               <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
-            </P>
+            </ErrorMessage>
             <Results canDownload slug={SLUG} />
           </>
         )}

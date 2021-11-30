@@ -92,7 +92,9 @@ const NewsletterSubscriptions = props => (
 
       const { status } = data.me.newsletterSettings
       const subscriptions = data.me.newsletterSettings.subscriptions.filter(
-        props.filter || Boolean
+        props.onlyName
+          ? subscription => subscription.name === props.onlyName
+          : Boolean
       )
 
       return (
@@ -102,7 +104,7 @@ const NewsletterSubscriptions = props => (
               <Mutation mutation={RESUBSCRIBE_EMAIL}>
                 {(mutate, { loading, error, data: mutationData }) => (
                   <>
-                    {status === 'unsubscribed' && (
+                    {status !== 'pending' && (
                       <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
                     )}
                     {/* Show if the status has been set to pending */}
@@ -170,14 +172,19 @@ const NewsletterSubscriptions = props => (
                       }}
                     >
                       <span {...styles.label}>
-                        {props.label ||
-                          t(`account/newsletterSubscriptions/${name}/label`)}
+                        {props.onlyName
+                          ? t(
+                              `account/newsletterSubscriptions/onlyName/${
+                                subscribed ? 'subscribed' : 'subscribe'
+                              }`
+                            )
+                          : t(`account/newsletterSubscriptions/${name}/label`)}
                         {mutating && (
                           <span {...styles.spinnerWrapper}>
                             <InlineSpinner size={24} />
                           </span>
                         )}
-                        {!props.label && (
+                        {!props.onlyName && (
                           <>
                             <br />
                             <Label style={{ color: 'inherit' }}>

@@ -32,8 +32,7 @@ const SignUp = ({
         <NewsletterSubscriptions
           black={black}
           skipBox={skipBox}
-          label={t('Auth/NewsletterSignUp/settingLabel')}
-          filter={subscription => subscription.name === name}
+          onlyName={name}
         />
       </>
     )

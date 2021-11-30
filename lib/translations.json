@@ -921,6 +921,14 @@
       "value": "unregelmässig"
     },
     {
+      "key": "account/newsletterSubscriptions/onlyName/subscribe",
+      "value": "abonnieren"
+    },
+    {
+      "key": "account/newsletterSubscriptions/onlyName/subscribed",
+      "value": "abonniert"
+    },
+    {
       "key": "account/authSettings/title",
       "value": "Anmeldung"
     },
@@ -6711,10 +6719,6 @@
     {
       "key": "Auth/NewsletterSignUp/settingTitle",
       "value": "Newsletter per E-Mail"
-    },
-    {
-      "key": "Auth/NewsletterSignUp/settingLabel",
-      "value": "abonniert"
     },
     {
       "key": "Notifications/title/0",

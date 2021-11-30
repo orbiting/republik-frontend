@@ -155,10 +155,10 @@ const MembersGender = voteT(({ members, vt }) => {
             ? { ...item, value: item.value + 1 }
             : item
         ),
-      Object.keys(GENDER).map(key => ({
+      Object.keys(GENDER).map((key, idx) => ({
         key,
         value: 0,
-        pos: key === 'weiblich' ? 'left' : 'right'
+        pos: idx === 0 ? 'left' : 'right'
       }))
     )
     .map(getPercentString(membersWithGender.length))

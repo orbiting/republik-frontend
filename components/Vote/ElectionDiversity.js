@@ -3,41 +3,8 @@ import { Interaction, Label, fontStyles, Chart } from '@project-r/styleguide'
 import { css } from 'glamor'
 import voteT from './voteT'
 import { deduplicate } from '../../lib/utils/helpers'
-import { gql } from '@apollo/client'
-import compose from 'lodash/flowRight'
-import { graphql } from '@apollo/client/react/hoc'
-import Loader from '../Loader'
 import { NarrowCard } from './text'
 const { P } = Interaction
-
-const query = gql`
-  query getCouncil($slug: String!) {
-    election(slug: $slug) {
-      id
-      result {
-        candidacies {
-          candidacy {
-            id
-            yearOfBirth
-            city
-            user {
-              id
-              gender
-            }
-            postalCodeGeo {
-              countryName
-              countryCode
-              postalCode
-              lat
-              lon
-            }
-          }
-          elected
-        }
-      }
-    }
-  }
-`
 
 const styles = {
   container: css({
@@ -252,51 +219,29 @@ const MembersAge = voteT(({ members, vt }) => {
 
 export const ElectionDiversity = ({
   title,
-  members,
+  members = [],
   text,
   isElected = true
-}) => {
-  return (
-    <div {...styles.container}>
-      {title && (
-        <Interaction.P>
-          <strong>{title}</strong>
-        </Interaction.P>
-      )}
-      <div {...styles.charts}>
-        <MembersLocation members={members} isElected={isElected} />
-        <MembersGender members={members} />
-        <MembersAge members={members} />
-      </div>
-      {text && <P {...styles.text}>{text}</P>}
+}) => (
+  <div {...styles.container}>
+    {title && (
+      <Interaction.P>
+        <strong>{title}</strong>
+      </Interaction.P>
+    )}
+    <div {...styles.charts}>
+      <MembersLocation members={members} isElected={isElected} />
+      <MembersGender members={members} />
+      <MembersAge members={members} />
     </div>
-  )
-}
+    {text && <P {...styles.text}>{text}</P>}
+  </div>
+)
 
-const ElectionResultDiversity = compose(
-  graphql(query, {
-    options: ({ slug }) => ({
-      variables: {
-        slug
-      }
-    })
-  })
-)(({ data, title, text }) => (
-  <Loader
-    loading={data.loading}
-    error={data.error}
-    render={() => {
-      if (!data?.election?.result?.candidacies?.length) return null
-      const members = data.election.result.candidacies
-        .filter(c => c.elected)
-        .map(c => c.candidacy)
-      return (
-        <NarrowCard>
-          <ElectionDiversity title={title} members={members} text={text} />
-        </NarrowCard>
-      )
-    }}
-  />
-))
+const ElectionResultDiversity = ({ members, title, text }) => (
+  <NarrowCard>
+    <ElectionDiversity title={title} members={members} text={text} />
+  </NarrowCard>
+)
 
 export default ElectionResultDiversity

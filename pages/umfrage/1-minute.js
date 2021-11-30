@@ -35,8 +35,7 @@ import {
   colors,
   Figure,
   FigureImage,
-  Button,
-  useColorContext
+  Button
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { TrendingFlatIcon } from '@project-r/styleguide'
@@ -182,34 +181,19 @@ const ThankYouItem = compose(withT)(({ t, tKey }) => {
 })
 
 const ThankYou = compose(withT)(({ t }) => {
-  const [colorScheme] = useColorContext()
   return (
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
       <div {...styles.intro}>
-        <P>{t('questionnaire/crowd/submitted/intro')}</P>
+        <RawHtml
+          type={P}
+          dangerouslySetInnerHTML={{
+            __html: t('questionnaire/crowd/submitted/intro')
+          }}
+        />
       </div>
-      <div>
-        <ThankYouItem tKey='questionnaire/crowd/submitted/list/0' />
-        <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
-        <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
-      </div>
-
-      <div
-        style={{
-          padding: '10px 15px',
-          marginTop: 30
-        }}
-        {...colorScheme.set('background', 'alert')}
-      >
-        <Interaction.H2>
-          {t('questionnaire/crowd/submitted/newsletter')}
-        </Interaction.H2>
-        <Interaction.P style={{ margin: '10px 0' }}>
-          {t('questionnaire/crowd/submitted/newsletter/description')}
-        </Interaction.P>
-        <NewsletterSignUp black skipBox free name='ACCOMPLICE' />
-      </div>
+      <NewsletterSignUp black free name='ACCOMPLICE' />
+      <P>{t('questionnaire/crowd/submitted/optout')}</P>
     </div>
   )
 })

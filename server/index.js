@@ -7,6 +7,7 @@ const compression = require('compression')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const chalk = require('chalk')
+const rateLimit = require('express-rate-limit')
 
 const DEV = process.env.NODE_ENV ? process.env.NODE_ENV !== 'production' : true
 if (DEV || process.env.DOTENV) {
@@ -172,6 +173,34 @@ app.prepare().then(() => {
     next()
   })
 
+  // Rate limiting added on 26.11.2021 to prevent
+  // page failing for to many requests
+  const rateLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: function(req) {
+      const {
+        headers: { cookie }
+      } = req
+
+      // If user is logged in, 20 requests per minute are allowed. Otherwise, only 5 requests/min allowed.
+      if (cookie && cookie.includes('connect.sid')) {
+        return 20
+      }
+      return 5
+    },
+    message: 'Too many requests. Try again later.'
+  })
+
+  const ROUTES_WITH_RATE_LIMIT = [
+    '^/[0-9]{4}/?$', // e.g. /2021
+    '^/$',
+    '^/angebote',
+    '^/community',
+    '^/dialog',
+    '^/wahltindaer'
+  ]
+
+  server.use(ROUTES_WITH_RATE_LIMIT, rateLimiter)
   server.use(express.static('public'))
   server.all('*', (req, res) => {
     return handler(req, res)

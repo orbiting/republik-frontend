@@ -31,6 +31,9 @@ const styles = {
   label: css({
     display: 'block',
     paddingLeft: '28px'
+  }),
+  line: css({
+    margin: '15px 0'
   })
 }
 
@@ -151,46 +154,64 @@ const NewsletterSubscriptions = props => (
             <Mutation key={name} mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
               {(mutate, { loading: mutating, error }) => {
                 return (
-                  <p>
-                    <Checkbox
-                      black={props.black}
-                      checked={subscribed}
-                      disabled={mutating || status === 'unsubscribed'}
-                      onChange={(_, checked) => {
-                        mutate({
-                          variables: {
-                            name,
-                            subscribed: checked
-                          }
-                        })
-                      }}
-                    >
-                      <span {...styles.label}>
-                        {props.onlyName
-                          ? t(
-                              `account/newsletterSubscriptions/onlyName/${
-                                subscribed ? 'subscribed' : 'subscribe'
-                              }`
-                            )
-                          : t(`account/newsletterSubscriptions/${name}/label`)}
-                        {mutating && (
-                          <span {...styles.spinnerWrapper}>
-                            <InlineSpinner size={24} />
-                          </span>
-                        )}
-                        {!props.onlyName && (
-                          <>
-                            <br />
-                            <Label style={{ color: 'inherit' }}>
-                              {t(
-                                `account/newsletterSubscriptions/${name}/frequency`
+                  <p {...styles.line}>
+                    {props.onlyName && !subscribed && !mutating ? (
+                      <Button
+                        primary
+                        onClick={() => {
+                          mutate({
+                            variables: {
+                              name,
+                              subscribed: true
+                            }
+                          })
+                        }}
+                      >
+                        {t('account/newsletterSubscriptions/button/subscribe')}
+                      </Button>
+                    ) : (
+                      <Checkbox
+                        black={props.black}
+                        checked={subscribed}
+                        disabled={mutating || status === 'unsubscribed'}
+                        onChange={(_, checked) => {
+                          mutate({
+                            variables: {
+                              name,
+                              subscribed: checked
+                            }
+                          })
+                        }}
+                      >
+                        <span {...styles.label}>
+                          {props.onlyName
+                            ? t(
+                                `account/newsletterSubscriptions/onlyName/${
+                                  subscribed ? 'subscribed' : 'subscribe'
+                                }`
+                              )
+                            : t(
+                                `account/newsletterSubscriptions/${name}/label`
                               )}
-                            </Label>
-                          </>
-                        )}
-                        {error && <ErrorMessage error={error} />}
-                      </span>
-                    </Checkbox>
+                          {mutating && (
+                            <span {...styles.spinnerWrapper}>
+                              <InlineSpinner size={24} />
+                            </span>
+                          )}
+                          {!props.onlyName && (
+                            <>
+                              <br />
+                              <Label style={{ color: 'inherit' }}>
+                                {t(
+                                  `account/newsletterSubscriptions/${name}/frequency`
+                                )}
+                              </Label>
+                            </>
+                          )}
+                        </span>
+                      </Checkbox>
+                    )}
+                    {error && <ErrorMessage error={error} />}
                   </p>
                 )
               }}

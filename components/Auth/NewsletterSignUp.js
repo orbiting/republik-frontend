@@ -15,7 +15,6 @@ const SignUp = ({
   me,
   name,
   free,
-  black,
   skipBox,
   t,
   requestSubscription,
@@ -30,7 +29,7 @@ const SignUp = ({
           <strong>{t('Auth/NewsletterSignUp/settingTitle')}</strong>
         </Interaction.P>
         <NewsletterSubscriptions
-          black={black}
+          free={free}
           skipBox={skipBox}
           onlyName={name}
         />
@@ -43,7 +42,6 @@ const SignUp = ({
   return (
     <EmailForm
       {...state}
-      black={black}
       label={t('Auth/NewsletterSignUp/submit')}
       onChange={setState}
       onSubmit={e => {

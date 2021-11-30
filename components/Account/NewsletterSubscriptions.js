@@ -148,7 +148,7 @@ const NewsletterSubscriptions = props => (
               </Mutation>
             </Box>
           )}
-          {!isMember && (
+          {!isMember && !props.free && (
             <Box style={{ margin: '10px 0', padding: 15 }}>
               <P>{t('account/newsletterSubscriptions/noMembership')}</P>
             </Box>

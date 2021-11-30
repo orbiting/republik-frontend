@@ -192,7 +192,7 @@ const ThankYou = compose(withT)(({ t }) => {
           }}
         />
       </div>
-      <NewsletterSignUp name='ACCOMPLICE' />
+      <NewsletterSignUp free name='ACCOMPLICE' />
       <P>{t('questionnaire/crowd/submitted/optout')}</P>
     </div>
   )

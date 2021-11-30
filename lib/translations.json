@@ -694,7 +694,7 @@
     },
     {
       "key": "Account/Update/details/title",
-      "value": "Bitte überprüfen Sie Ihre Angaben und korrigieren beziehungs­weise ergänzen Sie."
+      "value": "Bitte überprüfen Sie Ihre Angaben und korrigieren beziehungsweise ergänzen Sie sie."
     },
     {
       "key": "Account/noActiveMembership/before",
@@ -919,6 +919,18 @@
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/frequency",
       "value": "unregelmässig"
+    },
+    {
+      "key": "account/newsletterSubscriptions/onlyName/subscribe",
+      "value": "abonnieren"
+    },
+    {
+      "key": "account/newsletterSubscriptions/onlyName/subscribed",
+      "value": "abonniert"
+    },
+    {
+      "key": "account/newsletterSubscriptions/button/subscribe",
+      "value": "Abonnieren"
     },
     {
       "key": "account/authSettings/title",
@@ -4186,11 +4198,11 @@
     },
     {
       "key": "questionnaire/choice/helpMultiple",
-      "value": "Sie dürfen mehrere Optionen auswählen."
+      "value": "Sie können mehrere Optionen auswählen."
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "Komplizen-Formular"
+      "value": "Republik-Komplizin werden"
     },
     {
       "key": "questionnaire/crowd/description",
@@ -4198,7 +4210,7 @@
     },
     {
       "key": "questionnaire/crowd/intro",
-      "value": "Schön, sind Sie hier! Helfen Sie mit, damit die Republik besser, bekannter und schon bald selbsttragend wird. Dieses kleine Formular hilft uns, Ihnen die passende Unterstützungsmöglichkeit über den Komplizen-Newsletter vorzuschlagen.\n"
+      "value": "Schön, sind Sie hier! Helfen Sie mit, damit die Republik besser und bekannter wird. Dieses kleine Formular hilft uns, Sie ein wenig besser kennenzulernen. Am Schluss können Sie den Komplizen-Newsletter abonnieren."
     },
     {
       "key": "questionnaire/crowd/question1",
@@ -4210,31 +4222,15 @@
     },
     {
       "key": "questionnaire/crowd/submitted/title",
-      "value": "Vielen Dank!"
+      "value": "Komplizen-Newsletter abonnieren"
     },
     {
       "key": "questionnaire/crowd/submitted/intro",
-      "value": "Vielen Dank für Ihre Bereitschaft, die Republik als Komplizin zu unterstützen. Was Sie immer tun können:"
+      "value": "Vielen Dank für Ihre Bereitschaft, unser gemeinsames Unternehmen als Komplizin zu unterstützen. Ohne das Engagement vieler Menschen wie Sie wären wir nicht an dem Punkt, an dem wir heute sind.\n\nDürfen wir Ihnen den Komplizen-Newsletter zustellen? Er ist der wichtigste Informationskanal für unsere Komplizen. Er wird rund 4 bis 6 Mal im Jahr verschickt und informiert Sie über Veranstaltungen und Aktionen sowie aktuelle Möglichkeiten, die Republik besser und bekannter zu machen."
     },
     {
-      "key": "questionnaire/crowd/submitted/list/0",
-      "value": "Teilen Sie Ihren Lieblingsartikel mit Freunden und sprechen Sie über <a href='/'>die Republik</a>. "
-    },
-    {
-      "key": "questionnaire/crowd/submitted/list/1",
-      "value": "<a href='/teilen'>Teilen Sie Ihren Zugang</a> zum Magazin mit Interessierten."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/list/2",
-      "value": "Schreiben Sie sich für den Komplizen-Newsletter ein und bleiben Sie über Mitmach-Möglichkeiten informiert."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/newsletter",
-      "value": "Komplizen-Newsletter"
-    },
-    {
-      "key": "questionnaire/crowd/submitted/newsletter/description",
-      "value": "Informationen zu Mitmach-Möglichkeiten. In unregelmässigem Abstand werden Sie über aktuelle Aktionen und Veranstaltungen der Republik informiert."
+      "key": "questionnaire/crowd/submitted/optout",
+      "value": "Sie können sich jederzeit wieder aus der Liste austragen."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",
@@ -6727,10 +6723,6 @@
     {
       "key": "Auth/NewsletterSignUp/settingTitle",
       "value": "Newsletter per E-Mail"
-    },
-    {
-      "key": "Auth/NewsletterSignUp/settingLabel",
-      "value": "abonniert"
     },
     {
       "key": "Notifications/title/0",

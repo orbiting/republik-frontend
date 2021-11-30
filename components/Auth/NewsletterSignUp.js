@@ -15,26 +15,22 @@ const SignUp = ({
   me,
   name,
   free,
-  black,
-  skipBox,
   t,
   requestSubscription,
-  context = 'newsletter'
+  context = 'newsletter',
+  skipTitle
 }) => {
   const [state, setState] = useState(() => checkEmail({ value: '', t }))
   const [serverState, setServerState] = useState({})
   if (me || !free) {
     return (
       <>
-        <Interaction.P>
-          <strong>{t('Auth/NewsletterSignUp/settingTitle')}</strong>
-        </Interaction.P>
-        <NewsletterSubscriptions
-          black={black}
-          skipBox={skipBox}
-          label={t('Auth/NewsletterSignUp/settingLabel')}
-          filter={subscription => subscription.name === name}
-        />
+        {!skipTitle && (
+          <Interaction.P>
+            <strong>{t('Auth/NewsletterSignUp/settingTitle')}</strong>
+          </Interaction.P>
+        )}
+        <NewsletterSubscriptions free={free} onlyName={name} />
       </>
     )
   }
@@ -44,7 +40,6 @@ const SignUp = ({
   return (
     <EmailForm
       {...state}
-      black={black}
       label={t('Auth/NewsletterSignUp/submit')}
       onChange={setState}
       onSubmit={e => {
@@ -66,7 +61,7 @@ const SignUp = ({
             context
           }
         })
-          .then(({ data }) => {
+          .then(() => {
             setServerState({ loading: false, success: true })
           })
           .catch(error => {

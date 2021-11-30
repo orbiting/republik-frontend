@@ -18,10 +18,6 @@ import {
 import { withMembership } from '../Auth/checkRoles'
 import { newsletterFragment, newsletterSettingsFragment } from './enhancers'
 
-const NoBox = ({ children, style: { margin } = {} }) => (
-  <div style={{ margin }}>{children}</div>
-)
-
 const styles = {
   spinnerWrapper: css({
     display: 'inline-block',
@@ -80,13 +76,11 @@ const NewsletterSubscriptions = props => (
         return <Loader loading={loading} error={error} />
       }
 
-      const Box = props.skipBox ? NoBox : FrameBox
-
       if (!data.me || !data.me.newsletterSettings) {
         return (
-          <Box style={{ margin: '10px 0', padding: 15 }}>
+          <FrameBox style={{ margin: '10px 0', padding: 15 }}>
             <P>{t('account/newsletterSubscriptions/unauthorized')}</P>
-          </Box>
+          </FrameBox>
         )
       }
 
@@ -100,7 +94,7 @@ const NewsletterSubscriptions = props => (
       return (
         <Fragment>
           {status !== 'subscribed' && (
-            <Box style={{ margin: '10px 0', padding: 15 }}>
+            <FrameBox style={{ margin: '10px 0', padding: 15 }}>
               <Mutation mutation={RESUBSCRIBE_EMAIL}>
                 {(mutate, { loading, error, data: mutationData }) => (
                   <>
@@ -146,12 +140,12 @@ const NewsletterSubscriptions = props => (
                   </>
                 )}
               </Mutation>
-            </Box>
+            </FrameBox>
           )}
           {!isMember && !props.free && (
-            <Box style={{ margin: '10px 0', padding: 15 }}>
+            <FrameBox style={{ margin: '10px 0', padding: 15 }}>
               <P>{t('account/newsletterSubscriptions/noMembership')}</P>
-            </Box>
+            </FrameBox>
           )}
           {subscriptions.map(({ name, subscribed }) => (
             <Mutation key={name} mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>

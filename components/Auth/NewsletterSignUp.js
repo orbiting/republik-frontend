@@ -15,7 +15,6 @@ const SignUp = ({
   me,
   name,
   free,
-  skipBox,
   t,
   requestSubscription,
   context = 'newsletter'
@@ -28,11 +27,7 @@ const SignUp = ({
         <Interaction.P>
           <strong>{t('Auth/NewsletterSignUp/settingTitle')}</strong>
         </Interaction.P>
-        <NewsletterSubscriptions
-          free={free}
-          skipBox={skipBox}
-          onlyName={name}
-        />
+        <NewsletterSubscriptions free={free} onlyName={name} />
       </>
     )
   }

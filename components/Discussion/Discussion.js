@@ -49,7 +49,7 @@ const Discussion = ({
         discussionId,
         orderBy,
         activeTag,
-        depth: depth,
+        depth: depth || DEFAULT_DEPTH,
         includeParent
       }
     }
@@ -73,7 +73,7 @@ const Discussion = ({
           after,
           orderBy,
           activeTag,
-          depth: depth,
+          depth: depth || DEFAULT_DEPTH,
           includeParent
         },
         updateQuery: (previousResult, { fetchMoreResult: { discussion } }) => {

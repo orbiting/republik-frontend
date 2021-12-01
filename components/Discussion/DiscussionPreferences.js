@@ -105,10 +105,11 @@ function getInitialState(
 const styles = {
   previewWrapper: css({
     padding: 20,
-    paddingTop: 20 + OverlayToolbar.height,
+    paddingTop: OverlayToolbar.height,
     paddingBottom: 0,
     borderBottom: '1px solid',
     [mediaQueries.mUp]: {
+      paddingTop: 20 + OverlayToolbar.height,
       paddingBottom: 20
     },
     '& > p': {

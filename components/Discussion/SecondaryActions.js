@@ -34,7 +34,7 @@ const SecondaryActions = ({ t, isReply = false }) => (
   </div>
 )
 
-SecondaryActions.PropTypes = {
+SecondaryActions.propTypes = {
   t: PropTypes.func.isRequired,
   isReply: PropTypes.bool
 }

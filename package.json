@@ -19,7 +19,8 @@
     "translations": "npm run translations-raw && git add -p lib/translations.json && git checkout -- lib/translations.json",
     "translations-vote": "NODE_OPTIONS='-r dotenv/config' gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "analyze": "ANALYZE=true next build",
-    "sg:link": "./scripts/sg_link.sh","preinstall": "npm run sg:unlink",
+    "sg:link": "./scripts/sg_link.sh",
+    "preinstall": "npm run sg:unlink",
     "sg:unlink": "./scripts/sg_unlink.sh",
     "yaproxy": "CORS_ORIGIN=http://localhost:3010,http://localhost:3005,http://localhost:3006 PORT=5010 TARGET=https://api.republik.ch yaproxy",
     "yaproxy:staging": "CORS_ORIGIN=http://localhost:3010,http://localhost:3005,http://localhost:3006 PORT=5010 TARGET=https://api.republik.love yaproxy",
@@ -79,7 +80,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.15",
     "@next/bundle-analyzer": "^10.2.3",
-    "@project-r/styleguide": "^13.2.2",
+    "@project-r/styleguide": "https://s3.eu-central-1.amazonaws.com/republik-assets-dev/npm/project-r-styleguide-feature-6e57aaf.tgz",
     "@stripe/react-stripe-js": "^1.5.0",
     "@use-it/event-listener": "^0.1.6",
     "apollo-fetch": "^0.7.0",

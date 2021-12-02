@@ -34,7 +34,7 @@ import {
   TabButton
 } from '@project-r/styleguide'
 
-import { withEditor } from '../Auth/checkRoles'
+import { withEditor, withModerator } from '../Auth/checkRoles'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import { RootCommentOverlay } from './RootCommentOverlay'
@@ -82,6 +82,7 @@ const Comments = props => {
   const {
     t,
     isAdmin,
+    isModerator,
     isEditor,
     focusId,
     orderBy,
@@ -278,6 +279,7 @@ const Comments = props => {
          */
         const discussionContextValue = {
           isAdmin,
+          isModerator,
           highlightedCommentId: focusId,
           activeTag,
 
@@ -496,6 +498,7 @@ export default compose(
   withDiscussionDisplayAuthor,
   withCommentActions,
   isAdmin,
+  withModerator,
   withEditor,
   withSubmitComment,
   withMarkAsReadMutation,

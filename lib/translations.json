@@ -6362,11 +6362,11 @@
     },
     {
       "key": "prolongNecessary/before",
-      "value": "Der Republik treu bleiben: {link}"
+      "value": "Ihre Verlängerung steht an: {link}"
     },
     {
       "key": "prolongNecessary/before/linkText",
-      "value": "Jetzt verlängern"
+      "value": "Jetzt bezahlen"
     },
     {
       "key": "package/customize/price/payMore/2",

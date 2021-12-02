@@ -34,7 +34,8 @@ import {
   Figure,
   FigureImage,
   Button,
-  Meta
+  Meta,
+  Label
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import NewsletterSignUp from '../../components/Auth/NewsletterSignUp'
@@ -148,7 +149,7 @@ const ThankYou = compose(withT)(({ t }) => {
           ))}
       </div>
       <NewsletterSignUp free skipTitle name='ACCOMPLICE' />
-      <P>{t('questionnaire/crowd/submitted/optout')}</P>
+      <Label>{t('questionnaire/crowd/submitted/optout')}</Label>
     </div>
   )
 })

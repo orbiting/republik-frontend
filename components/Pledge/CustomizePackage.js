@@ -377,6 +377,9 @@ class CustomizePackage extends Component {
     const hasMask = !!goodies.find(
       option => option.reward && option.reward.name === 'MASK'
     )
+    const hasFondue = !!goodies.find(
+      option => option.reward && option.reward.name === 'FONDUE'
+    )
     const goodieNames = goodies
       .map(option => option.reward.name)
       .sort((a, b) => ascending(a, b))
@@ -585,6 +588,12 @@ class CustomizePackage extends Component {
         <img
           {...styles.packageImage}
           src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask.jpg`}
+        />
+      )) ||
+      (hasFondue && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/fondue.jpg`}
         />
       ))
 

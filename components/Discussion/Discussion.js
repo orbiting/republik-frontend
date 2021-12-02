@@ -48,7 +48,8 @@ const Discussion = ({
     loading,
     fetchMore,
     subscribeToMore,
-    refetch
+    refetch,
+    previousData
   } = useQuery(discussionQuery, {
     variables: {
       discussionId,
@@ -60,8 +61,9 @@ const Discussion = ({
       focusId
     }
   })
+
   const discussionComments = {
-    ...data,
+    ...(data || previousData),
     refetch,
     fetchMore: ({
       parentId,
@@ -148,16 +150,16 @@ const Discussion = ({
 
   return (
     <Loader
-      loading={loading}
+      loading={loading && !discussionComments.discussion}
       error={error}
       render={() => {
-        if (!data.discussion) return null
+        if (!discussionComments.discussion) return null
 
         return (
           <div data-discussion-id={discussionId}>
             {!rootCommentOverlay && (
               <>
-                <TagFilter discussion={data.discussion} />
+                <TagFilter discussion={discussionComments.discussion} />
                 <DiscussionCommentComposer
                   discussionComments={discussionComments}
                   discussionId={discussionId}

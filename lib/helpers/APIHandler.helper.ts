@@ -19,7 +19,10 @@ export function withAcceptedMethods(
   methods: HTTPMethod[]
 ): NextApiHandler {
   return (req: NextApiRequest, res: NextApiResponse) => {
-    if ((methods as string[]).includes(req.method)) {
+    if (
+      req.method === 'OPTIONS' ||
+      (methods as string[]).includes(req.method)
+    ) {
       handler(req, res)
     } else {
       res.status(405).end()

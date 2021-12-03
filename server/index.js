@@ -5,17 +5,12 @@ const dotenv = require('dotenv')
 const next = require('next')
 const compression = require('compression')
 const helmet = require('helmet')
-const bodyParser = require('body-parser')
-const chalk = require('chalk')
 const rateLimit = require('express-rate-limit')
 
 const DEV = process.env.NODE_ENV ? process.env.NODE_ENV !== 'production' : true
 if (DEV || process.env.DOTENV) {
   dotenv.config()
 }
-
-const pgp = require('./pgp')
-const useragent = require('./useragent')
 
 const PORT = process.env.PORT || 3005
 
@@ -119,8 +114,6 @@ app.prepare().then(() => {
       })
     )
   }
-
-  server.use(pgp)
 
   // tmp unavailable
   server.get('/vote', (req, res) => {

@@ -6249,6 +6249,14 @@
       "value": "Bestellen Sie das Republik Fondue aus der letzten Folge <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Geschmackssache</a>"
     },
     {
+      "key": "package/PROLONG/description/goodies/FONDUE",
+      "value": "Bestellen Sie das Republik Fondue aus der letzten Folge <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Geschmackssache</a>"
+    },
+    {
+      "key": "package/ABO_GIVE/description/goodies/FONDUE",
+      "value": "Bestellen Sie das Republik Fondue aus der letzten Folge <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Geschmackssache</a>"
+    },
+    {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu."
     },

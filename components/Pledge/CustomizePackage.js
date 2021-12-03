@@ -361,36 +361,6 @@ class CustomizePackage extends Component {
     const regularMinPrice = calculateMinPrice(pkg, values, false)
     const fixedPrice = pkg.name === 'MONTHLY_ABO'
 
-    const goodies = pkg.options.filter(
-      option =>
-        option.reward &&
-        option.reward.__typename === 'Goodie' &&
-        option.maxAmount > 0
-    )
-    const hasNotebook = !!goodies.find(
-      option => option.reward && option.reward.name === 'NOTEBOOK'
-    )
-    const hasTotebag = !!goodies.find(
-      option => option.reward && option.reward.name === 'TOTEBAG'
-    )
-    const hasTablebook = !!goodies.find(
-      option => option.reward && option.reward.name === 'TABLEBOOK'
-    )
-    const hasMask = !!goodies.find(
-      option => option.reward && option.reward.name === 'MASK'
-    )
-    const hasFondue = !!goodies.find(
-      option => option.reward && option.reward.name === 'FONDUE'
-    )
-    const goodieNames = goodies
-      .map(option => option.reward.name)
-      .sort((a, b) => ascending(a, b))
-    const deliveryNote = t(
-      `pledge/notice/goodies/delivery/${goodieNames.join('_')}`,
-      undefined,
-      null
-    )
-
     const onPriceChange = (_, value, shouldValidate) => {
       const price = String(value).length
         ? Math.round(parseInt(value, 10)) * 100 || 0
@@ -544,64 +514,6 @@ class CustomizePackage extends Component {
       `package/${pkg.name}/description`
     ].filter(Boolean)
     const description = t.first(descriptionKeys)
-    const goodiesDescription =
-      !!goodieNames.length &&
-      t.first(
-        descriptionKeys.map(key => {
-          return `${key}/goodies/${goodieNames.join('_')}`
-        }),
-        undefined,
-        null
-      )
-
-    const goodiesImage =
-      (hasMask && hasNotebook && hasTotebag && hasTablebook && (
-        <img
-          {...styles.packageImage}
-          style={{ maxWidth: 180, paddingLeft: 10 }}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_tablebook_totebag.jpg`}
-        />
-      )) ||
-      (hasMask && hasNotebook && hasTotebag && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_totebag.jpg`}
-        />
-      )) ||
-      (hasNotebook && hasTotebag && hasTablebook && (
-        <img
-          {...styles.packageImage}
-          style={{ maxWidth: 180, paddingLeft: 10 }}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_tablebook_totebag.jpg`}
-        />
-      )) ||
-      (hasNotebook && hasTotebag && (
-        <PackageImage style={{ maxWidth: 115 }} name='moleskine_totebag' dark />
-      )) ||
-      (hasNotebook && !hasTotebag && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
-        />
-      )) ||
-      (hasTablebook && !hasNotebook && !hasTotebag && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
-        />
-      )) ||
-      (hasMask && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask.jpg`}
-        />
-      )) ||
-      (hasFondue && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/fondue.jpg`}
-        />
-      ))
 
     const queryWithoutFilter = { ...query }
     delete queryWithoutFilter.filter
@@ -1186,11 +1098,6 @@ class CustomizePackage extends Component {
           }}
           fields={optionGroups.filter(group => !!group.isGoodies)[0]?.fields}
         />
-        {deliveryNote && (
-          <div style={{ marginBottom: 20 }}>
-            <Label>{deliveryNote}</Label>
-          </div>
-        )}
         {!!userPrice && (
           <div>
             <P>{t('package/customize/userPrice/beforeReason')}</P>

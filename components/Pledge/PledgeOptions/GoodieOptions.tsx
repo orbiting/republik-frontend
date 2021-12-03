@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { Interaction } from '@project-r/styleguide'
+import { Interaction, Label } from '@project-r/styleguide'
 import Goodie from './Goodie'
 import FieldSet, { styles as fieldSetStyles } from '../../FieldSet'
 
@@ -34,15 +34,19 @@ export type FieldType = {
 type FieldsType = {
   fields: FieldType[]
   onChange: (fields) => void
-  t: () => void
+  t: (string: string) => void
 }
 
-const styles = { goodieContainer: css({ marginBottom: 24 }) }
+const styles = {
+  goodieContainer: css({ marginBottom: 24 }),
+  delivery: css({ marginBottom: 24 })
+}
 
 function GoodieOptions({ fields, onChange, t }: FieldsType) {
   if (!fields) {
     return null
   }
+
   console.log(fields)
   return (
     <>
@@ -70,6 +74,9 @@ function GoodieOptions({ fields, onChange, t }: FieldsType) {
             />
           )
         })}
+      </div>
+      <div {...styles.delivery}>
+        <Label>{t('pledge/notice/goodies/delivery')}</Label>
       </div>
     </>
   )

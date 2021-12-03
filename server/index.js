@@ -132,20 +132,6 @@ app.prepare().then(() => {
     return app.render(req, res, '/503', req.query)
   })
 
-  // Report Error
-  server.post('/api/reportError', bodyParser.text(), (req, res) => {
-    console.warn(
-      chalk.yellow(
-        'reportError from',
-        useragent(req.get('User-Agent')),
-        req.body
-      )
-    )
-    res.statusCode = 200
-    res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ ack: true }))
-  })
-
   // iOS app universal links setup
   // - manual mapping needed to set content type json
   server.use('/.well-known/apple-app-site-association', (req, res) => {

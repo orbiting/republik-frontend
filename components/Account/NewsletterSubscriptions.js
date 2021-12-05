@@ -18,10 +18,6 @@ import {
 import { withMembership } from '../Auth/checkRoles'
 import { newsletterFragment, newsletterSettingsFragment } from './enhancers'
 
-const NoBox = ({ children, style: { margin } = {} }) => (
-  <div style={{ margin }}>{children}</div>
-)
-
 const styles = {
   spinnerWrapper: css({
     display: 'inline-block',
@@ -35,6 +31,9 @@ const styles = {
   label: css({
     display: 'block',
     paddingLeft: '28px'
+  }),
+  line: css({
+    margin: '15px 0'
   })
 }
 
@@ -80,29 +79,29 @@ const NewsletterSubscriptions = props => (
         return <Loader loading={loading} error={error} />
       }
 
-      const Box = props.skipBox ? NoBox : FrameBox
-
       if (!data.me || !data.me.newsletterSettings) {
         return (
-          <Box style={{ margin: '10px 0', padding: 15 }}>
+          <FrameBox style={{ margin: '10px 0', padding: 15 }}>
             <P>{t('account/newsletterSubscriptions/unauthorized')}</P>
-          </Box>
+          </FrameBox>
         )
       }
 
       const { status } = data.me.newsletterSettings
       const subscriptions = data.me.newsletterSettings.subscriptions.filter(
-        props.filter || Boolean
+        props.onlyName
+          ? subscription => subscription.name === props.onlyName
+          : Boolean
       )
 
       return (
         <Fragment>
           {status !== 'subscribed' && (
-            <Box style={{ margin: '10px 0', padding: 15 }}>
+            <FrameBox style={{ margin: '10px 0', padding: 15 }}>
               <Mutation mutation={RESUBSCRIBE_EMAIL}>
                 {(mutate, { loading, error, data: mutationData }) => (
                   <>
-                    {status === 'unsubscribed' && (
+                    {status !== 'pending' && (
                       <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
                     )}
                     {/* Show if the status has been set to pending */}
@@ -144,52 +143,75 @@ const NewsletterSubscriptions = props => (
                   </>
                 )}
               </Mutation>
-            </Box>
+            </FrameBox>
           )}
-          {!isMember && (
-            <Box style={{ margin: '10px 0', padding: 15 }}>
+          {!isMember && !props.free && (
+            <FrameBox style={{ margin: '10px 0', padding: 15 }}>
               <P>{t('account/newsletterSubscriptions/noMembership')}</P>
-            </Box>
+            </FrameBox>
           )}
           {subscriptions.map(({ name, subscribed }) => (
             <Mutation key={name} mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
               {(mutate, { loading: mutating, error }) => {
                 return (
-                  <p>
-                    <Checkbox
-                      black={props.black}
-                      checked={subscribed}
-                      disabled={mutating || status === 'unsubscribed'}
-                      onChange={(_, checked) => {
-                        mutate({
-                          variables: {
-                            name,
-                            subscribed: checked
-                          }
-                        })
-                      }}
-                    >
-                      <span {...styles.label}>
-                        {props.label ||
-                          t(`account/newsletterSubscriptions/${name}/label`)}
-                        {mutating && (
-                          <span {...styles.spinnerWrapper}>
-                            <InlineSpinner size={24} />
-                          </span>
-                        )}
-                        {!props.label && (
-                          <>
-                            <br />
-                            <Label style={{ color: 'inherit' }}>
-                              {t(
-                                `account/newsletterSubscriptions/${name}/frequency`
+                  <p {...styles.line}>
+                    {props.onlyName && !subscribed && !mutating ? (
+                      <Button
+                        primary
+                        onClick={() => {
+                          mutate({
+                            variables: {
+                              name,
+                              subscribed: true
+                            }
+                          })
+                        }}
+                      >
+                        {t('account/newsletterSubscriptions/button/subscribe')}
+                      </Button>
+                    ) : (
+                      <Checkbox
+                        black={props.black}
+                        checked={subscribed}
+                        disabled={mutating || status === 'unsubscribed'}
+                        onChange={(_, checked) => {
+                          mutate({
+                            variables: {
+                              name,
+                              subscribed: checked
+                            }
+                          })
+                        }}
+                      >
+                        <span {...styles.label}>
+                          {props.onlyName
+                            ? t(
+                                `account/newsletterSubscriptions/onlyName/${
+                                  subscribed ? 'subscribed' : 'subscribe'
+                                }`
+                              )
+                            : t(
+                                `account/newsletterSubscriptions/${name}/label`
                               )}
-                            </Label>
-                          </>
-                        )}
-                        {error && <ErrorMessage error={error} />}
-                      </span>
-                    </Checkbox>
+                          {mutating && (
+                            <span {...styles.spinnerWrapper}>
+                              <InlineSpinner size={24} />
+                            </span>
+                          )}
+                          {!props.onlyName && (
+                            <>
+                              <br />
+                              <Label style={{ color: 'inherit' }}>
+                                {t(
+                                  `account/newsletterSubscriptions/${name}/frequency`
+                                )}
+                              </Label>
+                            </>
+                          )}
+                        </span>
+                      </Checkbox>
+                    )}
+                    {error && <ErrorMessage error={error} />}
                   </p>
                 )
               }}

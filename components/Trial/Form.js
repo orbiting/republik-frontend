@@ -16,7 +16,7 @@ import Consents, { getConsentsError } from '../Pledge/Consents'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import { ArrowForwardIcon } from '@project-r/styleguide'
+import { ArrowForwardIcon, plainButtonRule } from '@project-r/styleguide'
 import {
   Button,
   Field,
@@ -49,6 +49,11 @@ const styles = {
     '> *': {
       marginBottom: 16
     }
+  }),
+  circleButton: css(plainButtonRule, {
+    padding: 4,
+    borderRadius: '50%',
+    lineHeight: 0
   })
 }
 
@@ -309,12 +314,21 @@ const Form = props => {
                   (loading ? (
                     <InlineSpinner size='30px' />
                   ) : (
-                    <ArrowForwardIcon
-                      style={{ cursor: 'pointer' }}
-                      size={30}
-                      onClick={requestAccess}
-                      {...colorScheme.set('fill', 'text')}
-                    />
+                    <button
+                      {...css(
+                        styles.circleButton,
+                        !!email.value &&
+                          !email.error &&
+                          colorScheme.set('backgroundColor', 'primary')
+                      )}
+                    >
+                      <ArrowForwardIcon
+                        style={{ cursor: 'pointer' }}
+                        size={22}
+                        onClick={requestAccess}
+                        {...colorScheme.set('fill', 'text')}
+                      />
+                    </button>
                   ))
                 }
                 onChange={(_, value, shouldValidate) =>

@@ -10,20 +10,19 @@ import {
   Interaction,
   mediaQueries,
   InlineSpinner,
-  fontFamilies,
   RawHtml
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import withT from '../../lib/withT'
 import withAuthorization from '../Auth/withAuthorization'
-import { errorToString } from '../../lib/utils/errors'
 import StatusError from '../StatusError'
 import { withQuestionnaireMutation, withQuestionnaireReset } from './enhancers'
 import Questions from './Questions'
 import QuestionnaireClosed from './QuestionnaireClosed'
 import QuestionnaireActions from './QuestionnaireActions'
 import { withRouter } from 'next/router'
+import ErrorMessage from '../ErrorMessage'
 
 const { Headline, P } = Interaction
 
@@ -43,23 +42,6 @@ const styles = {
     [mediaQueries.onlyS]: {
       top: HEADER_HEIGHT_MOBILE - 1
     }
-  }),
-  strong: css({
-    fontFamily: fontFamilies.sansSerifMedium
-  }),
-  error: css({
-    color: colors.error,
-    fontFamily: fontFamilies.sansSerifMedium
-  }),
-  closed: css({
-    marginTop: 35,
-    background: colors.primaryBg,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 30,
-    textAlign: 'center',
-    marginBottom: 30
   }),
   progressIcon: css({
     marginLeft: 5,
@@ -204,20 +186,22 @@ class Questionnaire extends Component {
               </div>
               {hideCount && error && (
                 <div {...styles.count}>
-                  <P {...styles.error}>{errorToString(error)}</P>
+                  <ErrorMessage style={{ margin: 0 }} error={error} />
                 </div>
               )}
               {!hideCount && (
                 <div {...styles.count}>
                   {error ? (
-                    <P {...styles.error}>{errorToString(error)}</P>
+                    <ErrorMessage style={{ margin: 0 }} error={error} />
                   ) : (
                     <>
-                      <P {...styles.strong}>
-                        {t('questionnaire/header', {
-                          questionCount,
-                          userAnswerCount
-                        })}
+                      <P>
+                        <strong>
+                          {t('questionnaire/header', {
+                            questionCount,
+                            userAnswerCount
+                          })}
+                        </strong>
                       </P>
                       {questionCount === userAnswerCount ? (
                         <div {...styles.progressIcon}>

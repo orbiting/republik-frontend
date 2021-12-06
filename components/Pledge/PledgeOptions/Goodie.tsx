@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import { css } from 'glamor'
-import { Dropdown, mediaQueries, fontStyles } from '@project-r/styleguide'
+import {
+  Dropdown,
+  mediaQueries,
+  fontStyles,
+  RawHtml,
+  Label,
+  useColorContext
+} from '@project-r/styleguide'
 import { PledgeOptionType } from './GoodieOptions'
 import { CDN_FRONTEND_BASE_URL } from '../../../lib/constants'
 
@@ -9,6 +16,8 @@ type PledgeOptionComponentType = {
   onChange: (item) => void
   t: (string) => void
 }
+
+const IMAGE_SIZE = 64
 
 const styles = {
   container: css({
@@ -28,18 +37,26 @@ const styles = {
     flexDirection: 'row'
   }),
   selection: css({
-    minWidth: 100
+    minWidth: 100,
+    marginLeft: IMAGE_SIZE + 16,
+    [mediaQueries.mUp]: {
+      marginLeft: 0
+    }
   }),
   goodieImage: css({
-    width: 64,
-    height: 64,
+    width: IMAGE_SIZE,
+    height: IMAGE_SIZE,
     marginRight: 16,
     backgroundColor: 'gray'
   }),
   text: css({
     display: 'flex',
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginRight: 0,
+    [mediaQueries.mUp]: {
+      marginRight: 16
+    }
   }),
   label: css({
     ...fontStyles.sansSerifMedium19,
@@ -53,6 +70,7 @@ const styles = {
 
 function GoodieOption({ option, onChange, t }: PledgeOptionComponentType) {
   const [goodieAmount, setGoodieAmount] = useState(option.defaultAmount)
+  const [colorScheme] = useColorContext()
   const amountArray = Array.from({ length: option.maxAmount + 1 }, (v, i) => i)
   const dropdownItems = amountArray.map(amount => ({
     value: amount,
@@ -66,22 +84,24 @@ function GoodieOption({ option, onChange, t }: PledgeOptionComponentType) {
           {option.reward.__typename === 'Goodie' && (
             <img
               {...styles.goodieImage}
-              src={`${CDN_FRONTEND_BASE_URL}/static/packages/${option.reward.name}.jpg`}
+              {...colorScheme.set('backgroundColor', 'hover')}
+              src={`${CDN_FRONTEND_BASE_URL}/static/packages/${option.reward.name}.png`}
             />
           )}
 
           <div {...styles.text}>
             <p {...styles.label}>
-              <>{t(`${optionType}/label/${option.reward.name}`)}</>
+              <>{`${t(
+                `${optionType}/label/${option.reward.name}`
+              )}, CHF ${option.price / 100} `}</>
             </p>
-            <p {...styles.description}>
-              <>
-                <span style={{ fontWeight: 'bolder' }}>
-                  <>{`CHF ${option.price / 100} `}</>
-                </span>
-                {t(`${optionType}/description/${option.reward.name}`)}
-              </>
-            </p>
+            <RawHtml
+              type={Label}
+              error={false}
+              dangerouslySetInnerHTML={{
+                __html: t(`${optionType}/description/${option.reward.name}`)
+              }}
+            />
           </div>
         </div>
         <div {...styles.selection}>

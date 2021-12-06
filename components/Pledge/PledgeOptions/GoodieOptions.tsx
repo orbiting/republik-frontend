@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { Interaction, Label } from '@project-r/styleguide'
+import { Interaction } from '@project-r/styleguide'
 import Goodie from './Goodie'
 import FieldSet, { styles as fieldSetStyles } from '../../FieldSet'
 
@@ -73,9 +73,6 @@ function GoodieOptions({ fields, onChange, t }: FieldsType) {
             />
           )
         })}
-      </div>
-      <div {...styles.delivery}>
-        <Label>{t('pledge/notice/goodies/delivery')}</Label>
       </div>
     </>
   )

@@ -9,11 +9,9 @@ import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 import { format } from 'url'
 import GoodieOptions from './PledgeOptions/GoodieOptions'
-import { useColorContext } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
-import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 import { shouldIgnoreClick } from '../../lib/utils/link'
@@ -186,31 +184,6 @@ const SmallP = ({ children, ...props }) => (
     {children}
   </p>
 )
-
-const PackageImage = ({ style, name, dark }) => {
-  const [colorScheme] = useColorContext()
-
-  return (
-    <>
-      <img
-        {...styles.packageImage}
-        {...colorScheme.set('display', dark ? 'displayLight' : 'block')}
-        style={style}
-        src={`${CDN_FRONTEND_BASE_URL}/static/packages/${name}.png`}
-        alt=''
-      />
-      {dark && (
-        <img
-          {...styles.packageImage}
-          {...colorScheme.set('display', 'displayDark')}
-          style={style}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/${name}_dark.png`}
-          alt=''
-        />
-      )}
-    </>
-  )
-}
 
 class CustomizePackage extends Component {
   constructor(props) {
@@ -1094,7 +1067,7 @@ class CustomizePackage extends Component {
         <GoodieOptions
           t={t}
           onChange={fields => {
-            this.calculateNextPrice(fields)
+            onChange(this.calculateNextPrice(fields))
           }}
           fields={optionGroups.filter(group => !!group.isGoodies)[0]?.fields}
         />

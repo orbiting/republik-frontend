@@ -47,7 +47,6 @@ function GoodieOptions({ fields, onChange, t }: FieldsType) {
     return null
   }
 
-  console.log(fields)
   return (
     <>
       <Interaction.H3>Zusätzliche Angebote</Interaction.H3>

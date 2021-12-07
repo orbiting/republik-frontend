@@ -6325,6 +6325,10 @@
       "value": "Republik-Maske"
     },
     {
+      "key": "package/customize/price/payMore/userPrice",
+      "value": "Können Sie Ihr Investment erhöhen?"
+    },
+    {
       "key": "package/customize/price/payMore/DONATE_POT",
       "value": "Vorschläge"
     },

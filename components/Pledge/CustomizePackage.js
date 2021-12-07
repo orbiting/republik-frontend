@@ -6,6 +6,7 @@ import { nest } from 'd3-collection'
 import { sum, min, ascending } from 'd3-array'
 import { timeDay } from 'd3-time'
 import compose from 'lodash/flowRight'
+import omit from 'lodash/omit'
 import { withRouter } from 'next/router'
 import { format } from 'url'
 import GoodieOptions from './PledgeOptions/GoodieOptions'
@@ -78,10 +79,31 @@ const calculateMinPrice = (pkg, values, userPrice) => {
   return absolutMinPrice
 }
 
-const getPrice = ({ values, pkg, userPrice }) => {
+const getPrice = ({ values, pkg, userPrice, router }) => {
   if (values.price !== undefined) {
     return values.price
   } else {
+    if (pkg.suggestedTotal) {
+      const regularMinPrice = calculateMinPrice(pkg, values, false)
+      if (
+        pkg.suggestedTotal < regularMinPrice &&
+        !userPrice &&
+        process.browser
+      ) {
+        router.replace(
+          {
+            pathname: 'angebote',
+            query: {
+              ...router.query,
+              userPrice: '1'
+            }
+          },
+          undefined,
+          { shallow: true }
+        )
+      }
+      return pkg.suggestedTotal
+    }
     if (userPrice) {
       return ''
     }
@@ -276,7 +298,9 @@ class CustomizePackage extends Component {
     const { router } = this.props
     const query = { ...router.query }
     delete query.userPrice
-    router.replace({ pathname: 'pledge', query }, undefined, { shallow: true })
+    router.replace({ pathname: 'angebote', query }, undefined, {
+      shallow: true
+    })
   }
   componentWillUnmount() {
     this.resetPrice()
@@ -407,14 +431,13 @@ class CustomizePackage extends Component {
           pkg.name === 'ABO_GIVE_MONTHS' ||
           pkg.name === 'ABO_GIVE'
         ? []
+        : userPrice
+        ? [{ value: regularMinPrice, key: 'normal' }]
         : [
-            userPrice && { value: regularMinPrice, key: 'normal' },
-            !userPrice &&
-              price >= minPrice &&
+            price >= minPrice &&
               bonusValue && { value: minPrice + bonusValue, key: 'bonus' },
-            !userPrice &&
-              price >= minPrice && { value: minPrice * 1.5, key: '1.5' },
-            !userPrice && price >= minPrice && { value: minPrice * 2, key: '2' }
+            price >= minPrice && { value: minPrice * 1.5, key: '1.5' },
+            price >= minPrice && { value: minPrice * 2, key: '2' }
           ].filter(Boolean)
     const payMoreReached = payMoreSuggestions
       .filter(({ value }) => price >= value)
@@ -1138,10 +1161,14 @@ class CustomizePackage extends Component {
               {payMoreSuggestions.length > 0 && (
                 <Fragment>
                   <Interaction.Emphasis>
-                    {t.first([
-                      `package/customize/price/payMore/${pkg.name}`,
-                      'package/customize/price/payMore'
-                    ])}
+                    {t.first(
+                      [
+                        userPrice &&
+                          'package/customize/price/payMore/userPrice',
+                        `package/customize/price/payMore/${pkg.name}`,
+                        'package/customize/price/payMore'
+                      ].filter(Boolean)
+                    )}
                   </Interaction.Emphasis>
                   <ul {...styles.ul}>
                     {payMoreSuggestions.map(({ value, key }) => {
@@ -1309,20 +1336,20 @@ class CustomizePackage extends Component {
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...query, price: undefined }
+                      query: omit(query, ['price', 'userPrice'])
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
                         return
                       }
                       e.preventDefault()
-                      onPriceChange(undefined, minPrice / 100, true)
+                      onPriceChange(undefined, regularMinPrice / 100, true)
 
                       router
                         .replace(
                           {
                             pathname: '/angebote',
-                            query: { ...query, price: undefined }
+                            query: omit(query, ['price', 'userPrice'])
                           },
                           undefined,
                           { shallow: true }
@@ -1347,7 +1374,7 @@ class CustomizePackage extends Component {
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...query, price: undefined, userPrice: 1 }
+                      query: { ...omit(query, ['price']), userPrice: 1 }
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
@@ -1380,7 +1407,7 @@ class CustomizePackage extends Component {
                         .replace(
                           {
                             pathname: '/angebote',
-                            query: { ...query, price: undefined, userPrice: 1 }
+                            query: { ...omit(query, ['price']), userPrice: 1 }
                           },
                           undefined,
                           { shallow: true }

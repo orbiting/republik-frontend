@@ -6289,20 +6289,28 @@
       "value": "Ob als Statement-Piece oder praktische Ergänzung Ihrer MNS-Kollektion: Die Republik-Maske sieht mit weissen Rs auf schwarzem Grund verrrrrrdammt gut aus. Die dreilagige Stoffmaske ist ausserdem mit <a href=\"https://www.republik.ch/maske\" target=\"_blank\">HeiQ Viroblock</a> behandelt."
     },
     {
-      "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Hinweis: Bücher liefern wir bis Ende Mai."
+      "key": "Goodie/label/FONDUE",
+      "value": "Republik Fondue"
     },
     {
-      "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "key": "Goodie/description/FONDUE",
+      "value": "Eine eigens von Hauskulinariker Michael Rüegg <a href=\"https://www.republik.ch/fondue\" target=\"_blank\">entworfene Mischung</a>. Es hät, solangs hät. Die Lieferung erflogt am 22.12.21."
     },
     {
-      "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "key": "Goodie/label/NOTEBOOK",
+      "value": "Republik Notitzbuch"
     },
     {
-      "key": "pledge/notice/goodies/delivery/MASK",
-      "value": "Hinweis: Masken liefern wir innerhalb von 7 Werktagen."
+      "key": "Goodie/description/NOTEBOOK",
+      "value": "Ein Moleskin Notitzbuch mit Republik-Gravierung. Lieferung innerhalb von 7 Werktagen."
+    },
+    {
+      "key": "Goodie/label/TOTEBAG",
+      "value": "Republik Tasche"
+    },
+    {
+      "key": "Goodie/description/TOTEBAG",
+      "value": "Mit Logo auf der Vorderseite und Manifest auf der Rückseite. Lieferung innerhalb von 7 Werktagen."
     },
     {
       "key": "option/TABLEBOOK/label/other",
@@ -6315,6 +6323,10 @@
     {
       "key": "option/MASK/label/1",
       "value": "Republik-Maske"
+    },
+    {
+      "key": "package/customize/price/payMore/userPrice",
+      "value": "Können Sie Ihr Investment erhöhen?"
     },
     {
       "key": "package/customize/price/payMore/DONATE_POT",

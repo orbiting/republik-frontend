@@ -148,12 +148,10 @@ class Pledge extends Component {
       : null
     if (pkg) {
       if (query.userPrice) {
-        // do not offer goodies unless userPrice true
+        // only offer userPrice true options
         pkg = {
           ...pkg,
-          options: pkg.options.filter(
-            option => option.reward.__typename !== 'Goodie' || option.userPrice
-          )
+          options: pkg.options.filter(option => option.userPrice)
         }
       }
       const hasAccessGrantedAndNot =
@@ -561,6 +559,7 @@ const query = gql`
         name
         group
         paymentMethods
+        suggestedTotal
         options {
           id
           price

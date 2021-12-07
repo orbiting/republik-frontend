@@ -68,7 +68,7 @@ class PledgePage extends Component {
 
     return (
       <Frame>
-        <NarrowContainer>
+        <NarrowContainer style={{ padding: 0 }}>
           {pledgeId ? (
             <PledgeReceivePayment
               crowdfundingName={CROWDFUNDING_PLEDGE}

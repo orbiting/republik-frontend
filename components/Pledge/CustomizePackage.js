@@ -93,7 +93,7 @@ const getPrice = ({ values, pkg, userPrice, router }) => {
       ) {
         router.replace(
           {
-            pathname: 'pledge',
+            pathname: 'angebote',
             query: {
               ...router.query,
               userPrice: '1'
@@ -322,7 +322,9 @@ class CustomizePackage extends Component {
     const { router } = this.props
     const query = { ...router.query }
     delete query.userPrice
-    router.replace({ pathname: 'pledge', query }, undefined, { shallow: true })
+    router.replace({ pathname: 'angebote', query }, undefined, {
+      shallow: true
+    })
   }
   componentWillUnmount() {
     this.resetPrice()

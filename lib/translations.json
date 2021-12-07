@@ -490,7 +490,7 @@
     },
     {
       "key": "marketing/page/sections/description/kolumnen",
-      "value": "Die Köpfe der Republik: Am Dienstag regelmässig eine Kolumne von Daniel Strassberg und Mely Kiyak, jeden Samstag von Daniel Binswanger und ebenfalls samstags die Kunstkolumne «Milkyways»."
+      "value": "Regelmässig eine Kolumne – am Dienstag von Daniel Strassberg und jeden Samstag von Daniel Binswanger. Dazu alle zwei Wochen dienstags Nicoletta Cimminos Audio-Kolumne «Sprachnotizen»."
     },
     {
       "key": "marketing/page/sections/title/kolumnen",
@@ -694,7 +694,7 @@
     },
     {
       "key": "Account/Update/details/title",
-      "value": "Bitte überprüfen Sie Ihre Angaben und korrigieren beziehungs­weise ergänzen Sie."
+      "value": "Bitte überprüfen Sie Ihre Angaben und korrigieren beziehungsweise ergänzen Sie sie."
     },
     {
       "key": "Account/noActiveMembership/before",
@@ -919,6 +919,18 @@
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/frequency",
       "value": "unregelmässig"
+    },
+    {
+      "key": "account/newsletterSubscriptions/onlyName/subscribe",
+      "value": "abonnieren"
+    },
+    {
+      "key": "account/newsletterSubscriptions/onlyName/subscribed",
+      "value": "abonniert"
+    },
+    {
+      "key": "account/newsletterSubscriptions/button/subscribe",
+      "value": "Abonnieren"
     },
     {
       "key": "account/authSettings/title",
@@ -3402,39 +3414,71 @@
     },
     {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br /><br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens."
+    },
+    {
+      "key": "merci/paragraph",
+      "value": "Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
     },
     {
       "key": "merci/lead/package/ABO_GIVE_MONTHS",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
     },
     {
       "key": "merci/lead/package/DONATE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit!<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit!"
     },
     {
       "key": "merci/lead/package/DONATE_POT",
-      "value": "Vielen Dank für Ihre Grosszügigkeit!<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit!"
+    },
+    {
+      "key": "merci/title/package/PROLONG",
+      "value": "{name}, danke für Ihre Verlängerung."
+    },
+    {
+      "key": "merci/title/package/PROLONG/noName",
+      "value": "Danke für Ihre Verlängerung."
+    },
+    {
+      "key": "merci/lead/package/PROLONG",
+      "value": "Danke für Ihr Vertrauen und Ihre Unterstützung."
+    },
+    {
+      "key": "package/PROLONG/ABO_GIVE_MONTHS/pageTitle",
+      "value": "Willkommen an Bord!"
+    },
+    {
+      "key": "merci/paragraph/package/PROLONG",
+      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum!\n\nGemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart."
+    },
+    {
+      "key": "merci/title/package/UNKOWN",
+      "value": "Danke, {name}"
+    },
+    {
+      "key": "merci/title/package/UNKOWN/noName",
+      "value": "Danke"
+    },
+    {
+      "key": "merci/lead/package/UNKOWN",
+      "value": "Vielen Dank für Ihre Unterstützung!"
     },
     {
       "key": "merci/lead/package/TABLEBOOK",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
     },
     {
       "key": "merci/action/read",
       "value": "Magazin lesen"
     },
     {
-      "key": "merci/action/questionnaire",
-      "value": "Komplize werden\n"
-    },
-    {
-      "key": "merci/action/profile",
-      "value": "Gesicht zeigen"
+      "key": "merci/action/dialog",
+      "value": "Am Dialog teilnehmen"
     },
     {
       "key": "merci/share/title",
@@ -4154,11 +4198,11 @@
     },
     {
       "key": "questionnaire/choice/helpMultiple",
-      "value": "Sie dürfen mehrere Optionen auswählen."
+      "value": "Sie können mehrere Optionen auswählen."
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "Komplizen-Formular"
+      "value": "Republik-Komplizin werden"
     },
     {
       "key": "questionnaire/crowd/description",
@@ -4166,7 +4210,7 @@
     },
     {
       "key": "questionnaire/crowd/intro",
-      "value": "Schön, sind Sie hier! Helfen Sie mit, damit die Republik besser, bekannter und schon bald selbsttragend wird. Dieses kleine Formular hilft uns, Ihnen die passende Unterstützungsmöglichkeit über den Komplizen-Newsletter vorzuschlagen.\n"
+      "value": "Schön, sind Sie hier! Helfen Sie mit, damit die Republik besser und bekannter wird. Dieses kleine Formular hilft uns, Sie ein wenig besser kennenzulernen. Am Schluss können Sie den Komplizen-Newsletter abonnieren."
     },
     {
       "key": "questionnaire/crowd/question1",
@@ -4178,31 +4222,15 @@
     },
     {
       "key": "questionnaire/crowd/submitted/title",
-      "value": "Vielen Dank!"
+      "value": "Komplizen-Newsletter abonnieren"
     },
     {
       "key": "questionnaire/crowd/submitted/intro",
-      "value": "Vielen Dank für Ihre Bereitschaft, die Republik als Komplizin zu unterstützen. Was Sie immer tun können:"
+      "value": "Vielen Dank für Ihre Bereitschaft, unser gemeinsames Unternehmen als Komplizin zu unterstützen. Ohne das Engagement vieler Menschen wie Sie wären wir nicht an dem Punkt, an dem wir heute sind.\n\nDürfen wir Ihnen den Komplizen-Newsletter zustellen? Er ist der wichtigste Informationskanal für unsere Komplizen. Er wird rund 4 bis 6 Mal im Jahr verschickt und informiert Sie über Veranstaltungen und Aktionen sowie aktuelle Möglichkeiten, die Republik besser und bekannter zu machen."
     },
     {
-      "key": "questionnaire/crowd/submitted/list/0",
-      "value": "Teilen Sie Ihren Lieblingsartikel mit Freunden und sprechen Sie über <a href='/'>die Republik</a>. "
-    },
-    {
-      "key": "questionnaire/crowd/submitted/list/1",
-      "value": "<a href='/teilen'>Teilen Sie Ihren Zugang</a> zum Magazin mit Interessierten."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/list/2",
-      "value": "Schreiben Sie sich für den Komplizen-Newsletter ein und bleiben Sie über Mitmach-Möglichkeiten informiert."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/newsletter",
-      "value": "Komplizen-Newsletter"
-    },
-    {
-      "key": "questionnaire/crowd/submitted/newsletter/description",
-      "value": "Informationen zu Mitmach-Möglichkeiten. In unregelmässigem Abstand werden Sie über aktuelle Aktionen und Veranstaltungen der Republik informiert."
+      "key": "questionnaire/crowd/submitted/optout",
+      "value": "Sie können sich jederzeit wieder aus der Liste austragen."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",
@@ -4371,22 +4399,6 @@
     {
       "key": "pledge/submit/PROLONG/autoPay",
       "value": "Keine Bürokratie mehr: zukünftige Verlängerungen meiner Mitgliedschaft automatisch von meiner Kreditkarte abbuchen."
-    },
-    {
-      "key": "merci/title/package/PROLONG",
-      "value": "{name}, danke, dass Sie der Republik vertrauen. Danke für Ihre Erneuerung."
-    },
-    {
-      "key": "merci/title/package/PROLONG/noName",
-      "value": "Danke, dass Sie der Republik vertrauen. Danke für Ihre Erneuerung."
-    },
-    {
-      "key": "merci/lead/package/PROLONG",
-      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung!<br />"
-    },
-    {
-      "key": "package/PROLONG/ABO_GIVE_MONTHS/pageTitle",
-      "value": "Willkommen an Bord!"
     },
     {
       "key": "pledge/title/member",
@@ -4655,18 +4667,6 @@
     {
       "key": "option/suffix/endDate",
       "value": " bis {formattedEndDate}"
-    },
-    {
-      "key": "merci/title/package/UNKOWN",
-      "value": "Danke, {name}"
-    },
-    {
-      "key": "merci/title/package/UNKOWN/noName",
-      "value": "Danke"
-    },
-    {
-      "key": "merci/lead/package/UNKOWN",
-      "value": "Vielen Dank für Ihre Unterstützung! <br />"
     },
     {
       "key": "crowdfunding/status/goal/people",
@@ -6338,11 +6338,11 @@
     },
     {
       "key": "prolongNecessary/before",
-      "value": "Der Republik treu bleiben: {link}"
+      "value": "Ihre Verlängerung steht an: {link}"
     },
     {
       "key": "prolongNecessary/before/linkText",
-      "value": "Jetzt verlängern"
+      "value": "Jetzt bezahlen"
     },
     {
       "key": "package/customize/price/payMore/2",
@@ -6723,10 +6723,6 @@
     {
       "key": "Auth/NewsletterSignUp/settingTitle",
       "value": "Newsletter per E-Mail"
-    },
-    {
-      "key": "Auth/NewsletterSignUp/settingLabel",
-      "value": "abonniert"
     },
     {
       "key": "Notifications/title/0",

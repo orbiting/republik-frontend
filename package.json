@@ -79,7 +79,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.15",
     "@next/bundle-analyzer": "^10.2.3",
-    "@project-r/styleguide": "^13.0.4",
+    "@project-r/styleguide": "^13.2.2",
     "@stripe/react-stripe-js": "^1.5.0",
     "@use-it/event-listener": "^0.1.6",
     "apollo-fetch": "^0.7.0",
@@ -107,6 +107,7 @@
     "downshift": "^2.2.3",
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
+    "express-rate-limit": "^5.5.1",
     "glamor": "^2.20.40",
     "graphql": "^14.7.0",
     "helmet": "^3.23.3",

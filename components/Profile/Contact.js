@@ -19,6 +19,9 @@ import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
 import { DEFAULT_VALUES } from './Page'
 
+const isHTTPUrl = url =>
+  isURL(url, { require_protocol: true, protocols: ['http', 'https'] })
+
 const fields = t => [
   {
     label: t('profile/contact/facebook/label'),
@@ -33,7 +36,7 @@ const fields = t => [
     name: 'publicUrl',
     validator: value =>
       !!value &&
-      !isURL(value, { require_protocol: true, protocols: ['http', 'https'] }) &&
+      !isHTTPUrl(value) &&
       value !== DEFAULT_VALUES.publicUrl &&
       t('profile/contact/publicUrl/error')
   }
@@ -175,20 +178,22 @@ const Contact = ({
         {user.email && (
           <IconButton Icon={MailOutlineIcon} href={`mailto:${user.email}`} />
         )}
-        {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
-          <IconButton
-            Icon={LanguageIcon}
-            style={
-              electionBallot
-                ? {
-                    marginRight: 0,
-                    marginBottom: 0
-                  }
-                : undefined
-            }
-            href={user.publicUrl}
-          />
-        )}
+        {user.publicUrl &&
+          user.publicUrl !== DEFAULT_VALUES.publicUrl &&
+          isHTTPUrl(user.publicUrl) && (
+            <IconButton
+              Icon={LanguageIcon}
+              style={
+                electionBallot
+                  ? {
+                      marginRight: 0,
+                      marginBottom: 0
+                    }
+                  : undefined
+              }
+              href={user.publicUrl}
+            />
+          )}
         {isSupporter && showSupportLink && ADMIN_BASE_URL && (
           <IconButton
             Icon={NoteAddIcon}

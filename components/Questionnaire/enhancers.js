@@ -145,12 +145,27 @@ export const withAnswerMutation = graphql(submitAnswerMutation, {
             variables: { slug }
           }
           const data = proxy.readQuery(queryObj)
-          const questionIx = data.questionnaire.questions.findIndex(
+          const questionIndex = data.questionnaire.questions.findIndex(
             q => q.id === questionId
           )
-          data.questionnaire.questions[questionIx].userAnswer =
-            submitAnswer.userAnswer
-          proxy.writeQuery({ ...queryObj, data })
+          const newData = {
+            ...data,
+            questionnaire: {
+              ...data.questionnaire,
+              questions: [
+                ...data.questionnaire.questions.slice(0, questionIndex),
+                {
+                  ...data.questionnaire.questions[questionIndex],
+                  userAnswer: submitAnswer.userAnswer
+                },
+                ...data.questionnaire.questions.slice(questionIndex + 1)
+              ]
+            }
+          }
+          proxy.writeQuery({
+            ...queryObj,
+            data: newData
+          })
         }
       })
     }

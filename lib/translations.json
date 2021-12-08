@@ -6298,11 +6298,11 @@
     },
     {
       "key": "Goodie/label/NOTEBOOK",
-      "value": "Republik Notitzbuch"
+      "value": "Republik Notizbuch"
     },
     {
       "key": "Goodie/description/NOTEBOOK",
-      "value": "Ein Moleskin Notitzbuch mit Republik-Gravierung. Lieferung innerhalb von 7 Werktagen."
+      "value": "Ein Moleskin Notizbuch mit Republik-Gravierung. Lieferung innerhalb von 7 Werktagen."
     },
     {
       "key": "Goodie/label/TOTEBAG",
@@ -6323,6 +6323,14 @@
     {
       "key": "option/MASK/label/1",
       "value": "Republik-Maske"
+    },
+    {
+      "key": "option/FONDUE/label/other",
+      "value": "Republik-Fondues"
+    },
+    {
+      "key": "option/FONDUE/label/1",
+      "value": "Republik-Fondue"
     },
     {
       "key": "package/customize/price/payMore/userPrice",

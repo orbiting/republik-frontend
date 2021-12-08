@@ -322,8 +322,6 @@ class CustomizePackage extends Component {
 
     const { query } = router
 
-    const accessGrantedOnly = query.filter === 'pot'
-
     const price = getPrice(this.props)
     const configurableFields = pkg.options.reduce((fields, option) => {
       if (option.minAmount !== option.maxAmount) {
@@ -459,9 +457,7 @@ class CustomizePackage extends Component {
       .key(d =>
         d.option.optionGroup
           ? d.option.optionGroup
-          : [d.option.reward.__typename, d.option.accessGranted]
-              .filter(Boolean)
-              .join()
+          : [d.option.reward.__typename].filter(Boolean).join()
       )
       .entries(
         configurableFields.filter(
@@ -496,7 +492,6 @@ class CustomizePackage extends Component {
           fields,
           selectedGroupOption,
           membership,
-          groupWithAccessGranted: options.some(o => o.accessGranted),
           isAboGive,
           additionalPeriods
         }
@@ -510,7 +505,6 @@ class CustomizePackage extends Component {
         `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
       ownMembership &&
         `package/${pkg.name}/${ownMembership.type.name}/description`,
-      accessGrantedOnly && `package/${pkg.name}/accessGrantedOnly/description`,
       `package/${crowdfundingName}/${pkg.name}/description`,
       `package/${pkg.name}/description`
     ].filter(Boolean)
@@ -530,8 +524,6 @@ class CustomizePackage extends Component {
                 ownMembership &&
                   new Date(ownMembership.graceEndDate) < new Date() &&
                   `package/${pkg.name}/reactivate/pageTitle`,
-                accessGrantedOnly &&
-                  `package/${pkg.name}/accessGrantedOnly/title`,
                 `package/${pkg.name}/pageTitle`,
                 `package/${pkg.name}/title`
               ].filter(Boolean)
@@ -560,101 +552,6 @@ class CustomizePackage extends Component {
             )}
           </P>
         ))}
-        {pkg.name === 'ABO_GIVE' && accessGrantedOnly && (
-          <div {...styles.smallP} style={{ marginTop: -5, marginBottom: 15 }}>
-            <Editorial.A
-              href={format({
-                pathname: '/angebote',
-                query: accessGrantedOnly
-                  ? queryWithoutFilter
-                  : { ...query, filter: 'pot' }
-              })}
-              onClick={e => {
-                if (shouldIgnoreClick(e)) {
-                  return
-                }
-                e.preventDefault()
-
-                const fullPackages = this.props.packages.find(
-                  p => p.name === pkg.name
-                )
-                if (fullPackages) {
-                  fullPackages.options.forEach(optionFull => {
-                    const optionFiltered = pkg.options.find(
-                      d =>
-                        d.reward &&
-                        d.reward.__typename === optionFull.reward.__typename &&
-                        d.reward.name === optionFull.reward.name
-                    )
-                    if (!optionFiltered) {
-                      return
-                    }
-                    onChange(
-                      FieldSet.utils.fieldsState({
-                        field: getOptionFieldKey(optionFull),
-                        value: Math.min(
-                          Math.max(
-                            getOptionValue(optionFiltered, values),
-                            optionFull.minAmount
-                          ),
-                          optionFull.maxAmount
-                        ),
-                        error: undefined,
-                        dirty: true
-                      })
-                    )
-                  })
-                }
-
-                router
-                  .push(
-                    {
-                      pathname: '/angebote',
-                      query: accessGrantedOnly
-                        ? queryWithoutFilter
-                        : { ...query, filter: 'pot' }
-                    },
-                    undefined,
-                    {
-                      shallow: true
-                    }
-                  )
-                  .then(() => {
-                    this.resetPrice()
-                  })
-              }}
-            >
-              {t(
-                `package/customize/ABO_GIVE/${
-                  accessGrantedOnly ? 'rm' : 'add'
-                }AccessGrantedOnly`
-              )}
-            </Editorial.A>{' '}
-            {accessGrantedOnly && (
-              <Editorial.A
-                href={format({
-                  pathname: '/angebote',
-                  query: { package: 'DONATE_POT' }
-                })}
-                onClick={e => {
-                  if (shouldIgnoreClick(e)) {
-                    return
-                  }
-                  e.preventDefault()
-                  router.push(
-                    { pathname: '/angebote', query: { package: 'DONATE_POT' } },
-                    undefined,
-                    {
-                      shallow: true
-                    }
-                  )
-                }}
-              >
-                {t('package/customize/ABO_GIVE/donate')}
-              </Editorial.A>
-            )}
-          </div>
-        )}
 
         {optionGroups.map(
           (
@@ -666,7 +563,6 @@ class CustomizePackage extends Component {
               options,
               selectedGroupOption,
               membership,
-              groupWithAccessGranted,
               isAboGive,
               additionalPeriods
             },
@@ -762,16 +658,6 @@ class CustomizePackage extends Component {
                           ? [
                               `option/${pkg.name}/${option.reward.name}/label/give`,
                               `option/${option.reward.name}/label/give`
-                            ]
-                          : []),
-                        ...(option.accessGranted
-                          ? [
-                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/${labelValue}`,
-                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/other`,
-                              `option/${pkg.name}/${option.reward.name}/accessGranted/label`,
-                              `option/${option.reward.name}/accessGranted/label/${labelValue}`,
-                              `option/${option.reward.name}/accessGranted/label/other`,
-                              `option/${option.reward.name}/accessGranted/label`
                             ]
                           : []),
                         ...(field.interval
@@ -1045,37 +931,6 @@ class CustomizePackage extends Component {
                   )}
                 {isAboGive && (!nextGroup || !nextGroup.isAboGive) && (
                   <div style={{ height: 30 }} />
-                )}
-                {groupWithAccessGranted && accessGrantedOnly && (
-                  <div style={{ marginBottom: 20 }}>
-                    <P>{t('package/customize/messageToClaimers/before')}</P>
-                    <Field
-                      label={t('package/customize/messageToClaimers/label')}
-                      value={values.messageToClaimers}
-                      renderInput={({ ref, ...inputProps }) => (
-                        <AutosizeInput
-                          {...inputProps}
-                          {...fieldSetStyles.autoSize}
-                          inputRef={ref}
-                        />
-                      )}
-                      onChange={(_, value, shouldValidate) => {
-                        onChange(
-                          FieldSet.utils.fieldsState({
-                            field: 'messageToClaimers',
-                            value,
-                            dirty: shouldValidate
-                          })
-                        )
-                      }}
-                    />
-                    <RawHtml
-                      type={Label}
-                      dangerouslySetInnerHTML={{
-                        __html: t('package/customize/messageToClaimers/note')
-                      }}
-                    />
-                  </div>
                 )}
               </Fragment>
             )

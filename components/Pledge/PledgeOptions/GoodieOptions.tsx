@@ -13,7 +13,6 @@ type GoodieRewardType = {
 export type PledgeOptionType = {
   reward: GoodieRewardType
   __typename: 'PackageOption'
-  accessGranted: boolean
   defaultAmount: number
   id: string
   maxAmount: number

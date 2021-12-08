@@ -2378,7 +2378,7 @@
     },
     {
       "key": "package/ABO_GIVE_MONTHS/description",
-      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazuschenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik."
     },
     {
       "key": "package/BENEFACTOR/title",
@@ -6559,50 +6559,6 @@
     {
       "key": "package/ABO_GIVE/description",
       "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik."
-    },
-    {
-      "key": "package/ABO_GIVE/accessGrantedOnly/title",
-      "value": "Wachstum schenken"
-    },
-    {
-      "key": "package/ABO_GIVE/accessGrantedOnly/description",
-      "value": "Kaufen Sie eine Mitgliedschaft und vertrauen Sie uns die Aufgabe an, eine passende Empfängerin für Ihr Geschenk zu finden."
-    },
-    {
-      "key": "package/customize/ABO_GIVE/addAccessGrantedOnly",
-      "value": "Keine Idee wem schenken? Überlassen Sie die Auswahl uns."
-    },
-    {
-      "key": "package/customize/ABO_GIVE/rmAccessGrantedOnly",
-      "value": "Lieber selber verschenken?"
-    },
-    {
-      "key": "package/customize/ABO_GIVE/donate",
-      "value": "Oder beliebigen Betrag beitragen?"
-    },
-    {
-      "key": "package/customize/messageToClaimers/before",
-      "value": "Sie können eine Nachricht für den Empfänger hinterlegen. Dieser erfährt so oder so Ihren Namen und Sie werden darüber benachrichtigt, wer Ihr Geschenk erhalten hat."
-    },
-    {
-      "key": "package/customize/messageToClaimers/label",
-      "value": "Nachricht für Empfänger"
-    },
-    {
-      "key": "package/customize/messageToClaimers/note",
-      "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder übermitteln Sie Ihre Grüsse. Falls Sie mit dem Beschenkten in Kontakt treten möchten, geben Sie hier Ihre E-Mail Adresse an."
-    },
-    {
-      "key": "package/ABO_GIVE/description/goodies/MASK_NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazuschenken? Zur Auswahl stehen das Buch «Republik bei Stromausfall» für CHF 58, die Republik-Tasche oder das Republik-Notizbuch für je CHF 20. Und im Dezember 2020 die <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> für CHF 10."
-    },
-    {
-      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazuschenken? Zur Auswahl steht das Buch «Republik bei Stromausfall» für CHF 58, die Republik-Tasche oder das Republik-Notizbuch für je CHF 20. Die Objekte werden Ihnen geschickt."
-    },
-    {
-      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazuschenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je CHF 20. Die Objekte werden Ihnen geschickt."
     },
     {
       "key": "package/customize/price/payMore/threemonth",

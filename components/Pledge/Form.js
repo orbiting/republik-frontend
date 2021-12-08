@@ -109,7 +109,6 @@ class Pledge extends Component {
 
     if (pledge) {
       values.reason = pledge.reason
-      values.messageToClaimers = pledge.messageToClaimers
       values.price = pledge.total
       pledge.options.forEach(option => {
         values[getOptionFieldKey(option)] = option.amount
@@ -154,23 +153,6 @@ class Pledge extends Component {
           options: pkg.options.filter(option => option.userPrice)
         }
       }
-      const hasAccessGrantedAndNot =
-        pkg.options.some(option => option.accessGranted) &&
-        pkg.options.some(option => !option.accessGranted)
-      if (hasAccessGrantedAndNot) {
-        const showAccessGranted = query.filter === 'pot'
-        pkg = {
-          ...pkg,
-          options: pkg.options
-            .filter(option => option.accessGranted === showAccessGranted)
-            .map(option => ({
-              ...option,
-              defaultAmount: showAccessGranted
-                ? Math.min(option.maxAmount, 1)
-                : option.defaultAmount
-            }))
-        }
-      }
     }
 
     return pkg
@@ -180,7 +162,6 @@ class Pledge extends Component {
     const pkg = this.getPkg({ query })
     const userPrice = !!query.userPrice
 
-    let hasAccessGranted
     let requireShippingAddress = pkg ? pkg.name === 'BENEFACTOR' : false
     const options = pkg
       ? pkg.options.map(option => {
@@ -193,9 +174,6 @@ class Pledge extends Component {
               : // can be '', but PackageOptionInput needs Int! here
                 +values[fieldKey]
           if (amount) {
-            if (option.accessGranted) {
-              hasAccessGranted = true
-            }
             if (option.reward?.__typename === 'Goodie') {
               requireShippingAddress = true
             }
@@ -236,9 +214,6 @@ class Pledge extends Component {
       total: values.price || undefined,
       options,
       reason: userPrice ? values.reason : undefined,
-      messageToClaimers: hasAccessGranted
-        ? values.messageToClaimers
-        : undefined,
       id: pledge ? pledge.id : undefined,
       pledgeShippingAddress: pledge ? pledge.shippingAddress : undefined,
       pledgeUser: pledge ? pledge.user : undefined,
@@ -520,7 +495,6 @@ const query = gql`
           maxAmount
           defaultAmount
           templateId
-          accessGranted
           reward {
             __typename
             ... on MembershipType {
@@ -569,7 +543,6 @@ const query = gql`
           defaultAmount
           templateId
           optionGroup
-          accessGranted
           reward {
             __typename
             ... on MembershipType {

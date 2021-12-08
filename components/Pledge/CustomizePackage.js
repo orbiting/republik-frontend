@@ -267,10 +267,10 @@ class CustomizePackage extends Component {
       }
     })
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { onChange, pkg, values, userPrice, t } = this.props
 
-    if (values.price === undefined) {
+    if (values.price === undefined || userPrice !== prevProps.userPrice) {
       const price = getPrice(this.props)
       const minPrice = calculateMinPrice(pkg, values, userPrice)
       onChange({

@@ -13,6 +13,7 @@ import { CDN_FRONTEND_BASE_URL } from '../../../lib/constants'
 
 type PledgeOptionComponentType = {
   option: PledgeOptionType
+  value: number
   onChange: (item) => void
   t: (string) => void
 }
@@ -68,11 +69,18 @@ const styles = {
   })
 }
 
-function GoodieOption({ option, onChange, t }: PledgeOptionComponentType) {
-  const [goodieAmount, setGoodieAmount] = useState(option.defaultAmount)
+function GoodieOption({
+  value,
+  option,
+  onChange,
+  t
+}: PledgeOptionComponentType) {
   const [colorScheme] = useColorContext()
-  const amountArray = Array.from({ length: option.maxAmount + 1 }, (v, i) => i)
-  const dropdownItems = amountArray.map(amount => ({
+  const amounts = Array.from(
+    { length: option.maxAmount - option.minAmount + 1 },
+    (_, index) => index + option.minAmount
+  )
+  const dropdownItems = amounts.map(amount => ({
     value: amount,
     text: amount
   }))
@@ -81,13 +89,11 @@ function GoodieOption({ option, onChange, t }: PledgeOptionComponentType) {
     <>
       <div {...styles.container}>
         <div {...styles.info}>
-          {option.reward.__typename === 'Goodie' && (
-            <img
-              {...styles.goodieImage}
-              {...colorScheme.set('backgroundColor', 'hover')}
-              src={`${CDN_FRONTEND_BASE_URL}/static/packages/${option.reward.name.toLowerCase()}.png`}
-            />
-          )}
+          <img
+            {...styles.goodieImage}
+            {...colorScheme.set('backgroundColor', 'hover')}
+            src={`${CDN_FRONTEND_BASE_URL}/static/packages/${option.reward.name.toLowerCase()}.png`}
+          />
 
           <div {...styles.text}>
             <p {...styles.label}>
@@ -108,10 +114,8 @@ function GoodieOption({ option, onChange, t }: PledgeOptionComponentType) {
           <Dropdown
             label='Anzahl'
             items={dropdownItems}
-            value={goodieAmount}
+            value={value}
             onChange={item => {
-              console.log(item)
-              setGoodieAmount(item.value)
               onChange(item.value)
             }}
           />

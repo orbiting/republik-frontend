@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 import { Interaction } from '@project-r/styleguide'
 import Goodie from './Goodie'
-import FieldSet, { styles as fieldSetStyles } from '../../FieldSet'
+import FieldSet from '../../FieldSet'
 
 type GoodieRewardType = {
   __typename: 'Goodie'
@@ -33,6 +33,7 @@ export type FieldType = {
 
 type FieldsType = {
   fields: FieldType[]
+  values: Record<string, number>
   onChange: (fields) => void
   t: (string: string) => void
 }
@@ -42,7 +43,7 @@ const styles = {
   delivery: css({ marginBottom: 24 })
 }
 
-function GoodieOptions({ fields, onChange, t }: FieldsType) {
+function GoodieOptions({ fields, values, onChange, t }: FieldsType) {
   if (!fields.length) {
     return null
   }
@@ -63,11 +64,14 @@ function GoodieOptions({ fields, onChange, t }: FieldsType) {
             })
             onChange(nextFields)
           }
+          const value =
+            values[field.key] === undefined ? field.default : values[field.key]
 
           return (
             <Goodie
               key={field.key}
               option={field.option}
+              value={value}
               onChange={value => onFieldChange(undefined, value, false)}
               t={t}
             />

@@ -3381,10 +3381,6 @@
       "value": "Guten Tag, {name}"
     },
     {
-      "key": "merci/title/package/DONATE_POT",
-      "value": "Guten Tag, {name}"
-    },
-    {
       "key": "merci/title/package/ABO_GIVE/noName",
       "value": "Guten Tag"
     },
@@ -3405,10 +3401,6 @@
       "value": "Guten Tag"
     },
     {
-      "key": "merci/title/package/DONATE_POT/noName",
-      "value": "Guten Tag"
-    },
-    {
       "key": "merci/lead",
       "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens."
     },
@@ -3426,10 +3418,6 @@
     },
     {
       "key": "merci/lead/package/DONATE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit!"
-    },
-    {
-      "key": "merci/lead/package/DONATE_POT",
       "value": "Vielen Dank für Ihre Grosszügigkeit!"
     },
     {
@@ -6341,10 +6329,6 @@
       "value": "Können Sie Ihr Investment erhöhen?"
     },
     {
-      "key": "package/customize/price/payMore/DONATE_POT",
-      "value": "Vorschläge"
-    },
-    {
       "key": "package/customize/price/payMore/ABO_GIVE_MONTHS",
       "value": "Möchten Sie Ihr Investment erhöhen?"
     },
@@ -6553,10 +6537,6 @@
       "value": "Wachstum spenden"
     },
     {
-      "key": "package/DONATE_POT/description",
-      "value": "Spenden Sie der Republik Wachstum. Pro 240 Franken, die zusammenkommen, schenken wir sorgfältig ausgewählten Personen eine Mitgliedschaft für ein Jahr."
-    },
-    {
       "key": "package/ABO_GIVE/price",
       "value": "{formattedCHF}"
     },
@@ -6579,10 +6559,6 @@
     {
       "key": "package/customize/price/payMore/ayear",
       "value": "Ein ganzes Jahr {formattedCHF}"
-    },
-    {
-      "key": "package/customize/price/payRegular/DONATE_POT",
-      "value": "Betrag zurücksetzen"
     },
     {
       "key": "package/customize/price/payMore/thx/ayear",

@@ -262,7 +262,7 @@ class Merci extends Component {
     }
 
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
-    const noNameSuffix = me ? '' : '/noName'
+    const noNameSuffix = me?.name ? '' : '/noName'
 
     const paragraphs = t
       .first([
@@ -284,7 +284,7 @@ class Merci extends Component {
                   `merci/title${noNameSuffix}`
                 ],
                 {
-                  name: me && me.name
+                  name: me?.name
                 }
               )}
             </H1>

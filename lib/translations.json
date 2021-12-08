@@ -6285,12 +6285,20 @@
       "value": "Ob als Statement-Piece oder praktische Ergänzung Ihrer MNS-Kollektion: Die Republik-Maske sieht mit weissen Rs auf schwarzem Grund verrrrrrdammt gut aus. Die dreilagige Stoffmaske ist ausserdem mit <a href=\"https://www.republik.ch/maske\" target=\"_blank\">HeiQ Viroblock</a> behandelt."
     },
     {
+      "key": "Goodies/title",
+      "value": "Noch etwas Handfestes?"
+    },
+    {
+      "key": "Goodie/dropdown/lable",
+      "value": "Anzahl"
+    },
+    {
       "key": "Goodie/label/FONDUE",
       "value": "Republik Fondue"
     },
     {
       "key": "Goodie/description/FONDUE",
-      "value": "Eine eigens von Hauskulinariker Michael Rüegg <a href=\"https://www.republik.ch/fondue\" target=\"_blank\">entworfene Mischung</a>. Es hät, solangs hät. Die Lieferung erflogt am 22.12.21."
+      "value": "Eine eigens von Hauskulinariker Michael Rüegg <a href=\"https://www.republik.ch/fondue\" target=\"_blank\">entworfene Mischung</a>. Für 2 Personen. Es hät, solangs hät. Liefertermin: 23.12.2021."
     },
     {
       "key": "Goodie/label/NOTEBOOK",

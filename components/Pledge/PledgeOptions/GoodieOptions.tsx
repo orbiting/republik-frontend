@@ -38,8 +38,7 @@ type FieldsType = {
 }
 
 const styles = {
-  goodieContainer: css({ marginBottom: 24 }),
-  delivery: css({ marginBottom: 24 })
+  goodieContainer: css({ marginBottom: 24 })
 }
 
 function GoodieOptions({ fields, values, onChange, t }: FieldsType) {
@@ -49,7 +48,7 @@ function GoodieOptions({ fields, values, onChange, t }: FieldsType) {
 
   return (
     <>
-      <Interaction.H3>Zusätzliche Angebote</Interaction.H3>
+      <Interaction.H3>{t('Goodies/title')}</Interaction.H3>
 
       <div {...styles.goodieContainer}>
         {fields.map(field => {

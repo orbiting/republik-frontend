@@ -23,10 +23,7 @@ const IMAGE_SIZE = 64
 const styles = {
   container: css({
     display: 'flex',
-    marginBottom: 16,
-    ':first-child': {
-      marginTop: 16
-    },
+    margin: '16px 0',
     flexDirection: 'column',
     justifyContent: 'space-between',
     [mediaQueries.mUp]: {
@@ -47,8 +44,7 @@ const styles = {
   goodieImage: css({
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
-    marginRight: 16,
-    backgroundColor: 'gray'
+    marginRight: 16
   }),
   text: css({
     display: 'flex',
@@ -107,7 +103,7 @@ function GoodieOption({
         </div>
         <div {...styles.selection}>
           <Dropdown
-            label='Anzahl'
+            label={t(`${optionType}/dropdown/lable`)}
             items={dropdownItems}
             value={value}
             onChange={item => {

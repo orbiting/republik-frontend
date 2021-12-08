@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import {
   Dropdown,
@@ -62,10 +62,6 @@ const styles = {
   label: css({
     ...fontStyles.sansSerifMedium19,
     margin: 0
-  }),
-  description: css({
-    ...fontStyles.sansSerifRegular15,
-    margin: 0
   })
 }
 
@@ -97,9 +93,8 @@ function GoodieOption({
 
           <div {...styles.text}>
             <p {...styles.label}>
-              <>{`${t(
-                `${optionType}/label/${option.reward.name}`
-              )}, CHF ${option.price / 100} `}</>
+              {t(`${optionType}/label/${option.reward.name}`)}
+              {`, CHF ${option.price / 100}`}
             </p>
             <RawHtml
               type={Label}

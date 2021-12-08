@@ -2341,10 +2341,6 @@
       "value": "{formattedCHF}"
     },
     {
-      "key": "package/price/goodie",
-      "value": "{formattedCHF}"
-    },
-    {
       "key": "package/price/free",
       "value": "kostenlos"
     },

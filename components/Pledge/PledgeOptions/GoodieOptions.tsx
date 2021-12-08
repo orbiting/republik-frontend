@@ -7,7 +7,7 @@ import FieldSet from '../../FieldSet'
 type GoodieRewardType = {
   __typename: 'Goodie'
   id: string
-  name: 'FONDUE' | 'NOTEBOOK' | 'MASK' | 'TABLEBOOK'
+  name: 'FONDUE' | 'NOTEBOOK' | 'TOTEBAG'
 }
 
 export type PledgeOptionType = {
@@ -54,16 +54,6 @@ function GoodieOptions({ fields, values, onChange, t }: FieldsType) {
 
       <div {...styles.goodieContainer}>
         {fields.map(field => {
-          const onFieldChange = (_, value, shouldValidate) => {
-            let error
-            const nextFields = FieldSet.utils.fieldsState({
-              field: field.key,
-              value,
-              error,
-              dirty: shouldValidate
-            })
-            onChange(nextFields)
-          }
           const value =
             values[field.key] === undefined ? field.default : values[field.key]
 
@@ -72,7 +62,16 @@ function GoodieOptions({ fields, values, onChange, t }: FieldsType) {
               key={field.key}
               option={field.option}
               value={value}
-              onChange={value => onFieldChange(undefined, value, false)}
+              onChange={value =>
+                onChange(
+                  FieldSet.utils.fieldsState({
+                    field: field.key,
+                    value,
+                    error: undefined,
+                    dirty: true
+                  })
+                )
+              }
               t={t}
             />
           )

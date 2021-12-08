@@ -5,7 +5,7 @@ import {
   mediaQueries,
   fontStyles,
   RawHtml,
-  Label,
+  Interaction,
   useColorContext
 } from '@project-r/styleguide'
 import { PledgeOptionType } from './GoodieOptions'
@@ -55,8 +55,11 @@ const styles = {
       marginRight: 16
     }
   }),
-  label: css({
-    ...fontStyles.sansSerifMedium19,
+  label: css(Interaction.fontRule, {
+    ...fontStyles.sansSerifRegular15,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular17
+    },
     margin: 0
   })
 }
@@ -76,7 +79,6 @@ function GoodieOption({
     value: amount,
     text: amount
   }))
-  const optionType = option.reward.__typename
   return (
     <>
       <div {...styles.container}>
@@ -89,21 +91,23 @@ function GoodieOption({
 
           <div {...styles.text}>
             <p {...styles.label}>
-              {t(`${optionType}/label/${option.reward.name}`)}
-              {`, CHF ${option.price / 100}`}
+              <strong>
+                {t(`Goodie/label/${option.reward.name}`)}
+                {`, CHF ${option.price / 100}`}
+              </strong>
+              <br />
+              <RawHtml
+                error={false}
+                dangerouslySetInnerHTML={{
+                  __html: t(`Goodie/description/${option.reward.name}`)
+                }}
+              />
             </p>
-            <RawHtml
-              type={Label}
-              error={false}
-              dangerouslySetInnerHTML={{
-                __html: t(`${optionType}/description/${option.reward.name}`)
-              }}
-            />
           </div>
         </div>
         <div {...styles.selection}>
           <Dropdown
-            label={t(`${optionType}/dropdown/lable`)}
+            label={t('Goodie/dropdown/label')}
             items={dropdownItems}
             value={value}
             onChange={item => {

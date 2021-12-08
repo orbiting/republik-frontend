@@ -567,7 +567,7 @@ class CustomizePackage extends Component {
             },
             gi
           ) => {
-            const reset = group && optionGroups && !checkboxGroup && (
+            const reset = group && optionGroups.length > 1 && !checkboxGroup && (
               <Fragment>
                 <span
                   style={{
@@ -614,6 +614,15 @@ class CustomizePackage extends Component {
             const nextGroup = optionGroups[gi + 1]
             const prevGroup = optionGroups[gi - 1]
 
+            const firstField = fields[0]
+            const firstKey = firstField.key
+            const firstValue =
+              values[firstKey] === undefined
+                ? firstField.default
+                : values[firstKey]
+            // this is false for PROLONG with userPrice=1
+            const isActuallyConfigurable = pkg.options.length > 1 || !firstValue
+
             return (
               <Fragment key={groupKey}>
                 {isAboGive && (!prevGroup || !prevGroup.isAboGive) && (
@@ -636,227 +645,229 @@ class CustomizePackage extends Component {
                     compact
                   />
                 )}
-                <div {...styles[group ? 'group' : 'grid']}>
-                  {fields.map((field, i) => {
-                    const option = field.option
-                    const fieldKey = field.key
-                    const elementKey = [option.id, fieldKey].join('-')
-                    const value =
-                      values[fieldKey] === undefined
-                        ? field.default
-                        : values[fieldKey]
+                {isActuallyConfigurable && (
+                  <div {...styles[group ? 'group' : 'grid']}>
+                    {fields.map((field, i) => {
+                      const option = field.option
+                      const fieldKey = field.key
+                      const elementKey = [option.id, fieldKey].join('-')
+                      const value =
+                        values[fieldKey] === undefined
+                          ? field.default
+                          : values[fieldKey]
 
-                    const isBooleanOption = field.min === 0 && field.max === 1
-                    const isCheckboxOption = checkboxGroup
+                      const isBooleanOption = field.min === 0 && field.max === 1
+                      const isCheckboxOption = checkboxGroup
 
-                    // always use singular for checkbox
-                    const labelValue = isCheckboxOption ? 1 : value
-                    const label = t.first(
-                      [
-                        ...(isAboGive
-                          ? [
-                              `option/${pkg.name}/${option.reward.name}/label/give`,
-                              `option/${option.reward.name}/label/give`
-                            ]
-                          : []),
-                        ...(field.interval
-                          ? [
-                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
-                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/other`,
-                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label`,
-                              `option/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
-                              `option/${option.reward.name}/interval/${field.interval}/label/other`,
-                              `option/${option.reward.name}/interval/${field.interval}/label`
-                            ]
-                          : []),
-                        `option/${pkg.name}/${option.reward.name}/label/${labelValue}`,
-                        `option/${pkg.name}/${option.reward.name}/label/other`,
-                        `option/${pkg.name}/${option.reward.name}/label`,
-                        `option/${option.reward.name}/label/${labelValue}`,
-                        `option/${option.reward.name}/label/other`,
-                        `option/${option.reward.name}/label`
-                      ],
-                      {
-                        count: value
-                      }
-                    )
-
-                    const onFieldChange = (_, value, shouldValidate) => {
-                      let error
-                      const parsedValue = String(value).length
-                        ? parseInt(value, 10) || 0
-                        : ''
-
-                      if (parsedValue > field.max) {
-                        error = t('package/customize/option/error/max', {
-                          label,
-                          maxAmount: field.max
-                        })
-                      }
-                      if (parsedValue < field.min) {
-                        error = t('package/customize/option/error/min', {
-                          label,
-                          minAmount: field.min
-                        })
-                      }
-
-                      let fields = FieldSet.utils.fieldsState({
-                        field: fieldKey,
-                        value: parsedValue,
-                        error,
-                        dirty: shouldValidate
-                      })
-                      if (group) {
-                        // unselect all other options from group
-                        options
-                          .filter(other => other !== option)
-                          .forEach(other => {
-                            fields = FieldSet.utils.mergeField({
-                              field: getOptionFieldKey(other),
-                              value: 0,
-                              error: undefined,
-                              dirty: false
-                            })(fields)
-                          })
-                      }
-                      if (parsedValue && userPrice && !option.userPrice) {
-                        this.resetUserPrice()
-                      }
-                      onChange(this.calculateNextPrice(fields))
-                    }
-
-                    if (isBooleanOption && (group || isCheckboxOption)) {
-                      const children = (
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            verticalAlign: 'top',
-                            marginRight: 20,
-                            marginTop: isCheckboxOption ? -2 : 0
-                          }}
-                        >
-                          <Interaction.Emphasis>{label}</Interaction.Emphasis>
-                          <br />
-                          {t.first(
-                            [
-                              option.price === 0 && 'package/price/free',
-                              isAboGive && `package/${pkg.name}/price/give`,
-                              `package/${pkg.name}/price`,
-                              'package/price'
-                            ].filter(Boolean),
-                            {
-                              formattedCHF: chfFormat(option.price / 100)
-                            }
-                          )}
-                        </span>
+                      // always use singular for checkbox
+                      const labelValue = isCheckboxOption ? 1 : value
+                      const label = t.first(
+                        [
+                          ...(isAboGive
+                            ? [
+                                `option/${pkg.name}/${option.reward.name}/label/give`,
+                                `option/${option.reward.name}/label/give`
+                              ]
+                            : []),
+                          ...(field.interval
+                            ? [
+                                `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
+                                `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/other`,
+                                `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label`,
+                                `option/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
+                                `option/${option.reward.name}/interval/${field.interval}/label/other`,
+                                `option/${option.reward.name}/interval/${field.interval}/label`
+                              ]
+                            : []),
+                          `option/${pkg.name}/${option.reward.name}/label/${labelValue}`,
+                          `option/${pkg.name}/${option.reward.name}/label/other`,
+                          `option/${pkg.name}/${option.reward.name}/label`,
+                          `option/${option.reward.name}/label/${labelValue}`,
+                          `option/${option.reward.name}/label/other`,
+                          `option/${option.reward.name}/label`
+                        ],
+                        {
+                          count: value
+                        }
                       )
-                      if (isCheckboxOption) {
-                        const checkboxElement = (
-                          <Checkbox
-                            key={elementKey}
-                            checked={!!value}
-                            onChange={(_, checked) => {
-                              onFieldChange(
-                                undefined,
-                                +checked,
-                                dirty[fieldKey]
-                              )
-                            }}
-                          >
-                            {children}
-                          </Checkbox>
-                        )
 
-                        if (!group) {
-                          return (
-                            <div
-                              key={elementKey}
-                              {...styles.span}
-                              {...styles.group}
-                              style={{
-                                width: '100%'
-                              }}
-                            >
-                              {checkboxElement}
-                            </div>
-                          )
+                      const onFieldChange = (_, value, shouldValidate) => {
+                        let error
+                        const parsedValue = String(value).length
+                          ? parseInt(value, 10) || 0
+                          : ''
+
+                        if (parsedValue > field.max) {
+                          error = t('package/customize/option/error/max', {
+                            label,
+                            maxAmount: field.max
+                          })
+                        }
+                        if (parsedValue < field.min) {
+                          error = t('package/customize/option/error/min', {
+                            label,
+                            minAmount: field.min
+                          })
                         }
 
-                        return checkboxElement
+                        let fields = FieldSet.utils.fieldsState({
+                          field: fieldKey,
+                          value: parsedValue,
+                          error,
+                          dirty: shouldValidate
+                        })
+                        if (group) {
+                          // unselect all other options from group
+                          options
+                            .filter(other => other !== option)
+                            .forEach(other => {
+                              fields = FieldSet.utils.mergeField({
+                                field: getOptionFieldKey(other),
+                                value: 0,
+                                error: undefined,
+                                dirty: false
+                              })(fields)
+                            })
+                        }
+                        if (parsedValue && userPrice && !option.userPrice) {
+                          this.resetUserPrice()
+                        }
+                        onChange(this.calculateNextPrice(fields))
                       }
-                      return (
-                        <Fragment key={elementKey}>
+
+                      if (isBooleanOption && (group || isCheckboxOption)) {
+                        const children = (
                           <span
                             style={{
                               display: 'inline-block',
-                              whiteSpace: 'nowrap',
-                              marginBottom: 10
+                              verticalAlign: 'top',
+                              marginRight: 20,
+                              marginTop: isCheckboxOption ? -2 : 0
                             }}
                           >
-                            <Radio
-                              value='1'
+                            <Interaction.Emphasis>{label}</Interaction.Emphasis>
+                            <br />
+                            {t.first(
+                              [
+                                option.price === 0 && 'package/price/free',
+                                isAboGive && `package/${pkg.name}/price/give`,
+                                `package/${pkg.name}/price`,
+                                'package/price'
+                              ].filter(Boolean),
+                              {
+                                formattedCHF: chfFormat(option.price / 100)
+                              }
+                            )}
+                          </span>
+                        )
+                        if (isCheckboxOption) {
+                          const checkboxElement = (
+                            <Checkbox
+                              key={elementKey}
                               checked={!!value}
-                              onChange={() => {
-                                onFieldChange(undefined, 1, dirty[fieldKey])
+                              onChange={(_, checked) => {
+                                onFieldChange(
+                                  undefined,
+                                  +checked,
+                                  dirty[fieldKey]
+                                )
                               }}
                             >
                               {children}
-                            </Radio>
-                          </span>{' '}
-                        </Fragment>
-                      )
-                    }
+                            </Checkbox>
+                          )
 
-                    return (
-                      <div
-                        key={elementKey}
-                        {...styles.span}
-                        style={{
-                          width:
-                            fields.length === 1 ||
-                            (fields.length === 3 && i === 0)
-                              ? '100%'
-                              : '50%'
-                        }}
-                      >
-                        <div>
-                          <Field
-                            ref={
-                              i === 0 && !group && gi === 0
-                                ? this.focusRefSetter
-                                : undefined
-                            }
-                            label={label}
-                            error={dirty[fieldKey] && errors[fieldKey]}
-                            value={value || ''}
-                            onInc={
-                              value < field.max &&
-                              (() => {
-                                onFieldChange(
-                                  undefined,
-                                  value + 1,
-                                  dirty[fieldKey]
-                                )
-                              })
-                            }
-                            onDec={
-                              value > field.min &&
-                              (() => {
-                                onFieldChange(
-                                  undefined,
-                                  value - 1,
-                                  dirty[fieldKey]
-                                )
-                              })
-                            }
-                            onChange={onFieldChange}
-                          />
+                          if (!group) {
+                            return (
+                              <div
+                                key={elementKey}
+                                {...styles.span}
+                                {...styles.group}
+                                style={{
+                                  width: '100%'
+                                }}
+                              >
+                                {checkboxElement}
+                              </div>
+                            )
+                          }
+
+                          return checkboxElement
+                        }
+                        return (
+                          <Fragment key={elementKey}>
+                            <span
+                              style={{
+                                display: 'inline-block',
+                                whiteSpace: 'nowrap',
+                                marginBottom: 10
+                              }}
+                            >
+                              <Radio
+                                value='1'
+                                checked={!!value}
+                                onChange={() => {
+                                  onFieldChange(undefined, 1, dirty[fieldKey])
+                                }}
+                              >
+                                {children}
+                              </Radio>
+                            </span>{' '}
+                          </Fragment>
+                        )
+                      }
+
+                      return (
+                        <div
+                          key={elementKey}
+                          {...styles.span}
+                          style={{
+                            width:
+                              fields.length === 1 ||
+                              (fields.length === 3 && i === 0)
+                                ? '100%'
+                                : '50%'
+                          }}
+                        >
+                          <div>
+                            <Field
+                              ref={
+                                i === 0 && !group && gi === 0
+                                  ? this.focusRefSetter
+                                  : undefined
+                              }
+                              label={label}
+                              error={dirty[fieldKey] && errors[fieldKey]}
+                              value={value || ''}
+                              onInc={
+                                value < field.max &&
+                                (() => {
+                                  onFieldChange(
+                                    undefined,
+                                    value + 1,
+                                    dirty[fieldKey]
+                                  )
+                                })
+                              }
+                              onDec={
+                                value > field.min &&
+                                (() => {
+                                  onFieldChange(
+                                    undefined,
+                                    value - 1,
+                                    dirty[fieldKey]
+                                  )
+                                })
+                              }
+                              onChange={onFieldChange}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )
-                  })}
-                  {reset}
-                </div>
+                      )
+                    })}
+                    {reset}
+                  </div>
+                )}
                 {additionalPeriods &&
                   !!additionalPeriods.length &&
                   !!selectedGroupOption && (

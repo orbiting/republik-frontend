@@ -153,6 +153,14 @@ class Pledge extends Component {
           options: pkg.options.filter(option => option.userPrice)
         }
       }
+      // the frontend no longer supports accessGranted and strips those options
+      const hasAccessGranted = pkg.options.some(option => option.accessGranted)
+      if (hasAccessGranted) {
+        pkg = {
+          ...pkg,
+          options: pkg.options.filter(option => !option.accessGranted)
+        }
+      }
     }
 
     return pkg
@@ -495,6 +503,7 @@ const query = gql`
           maxAmount
           defaultAmount
           templateId
+          accessGranted
           reward {
             __typename
             ... on MembershipType {
@@ -543,6 +552,7 @@ const query = gql`
           defaultAmount
           templateId
           optionGroup
+          accessGranted
           reward {
             __typename
             ... on MembershipType {

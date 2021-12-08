@@ -296,11 +296,13 @@ class CustomizePackage extends Component {
   }
   resetUserPrice() {
     const { router } = this.props
-    const query = { ...router.query }
-    delete query.userPrice
-    router.replace({ pathname: 'angebote', query }, undefined, {
-      shallow: true
-    })
+    router.replace(
+      { pathname: 'angebote', query: omit(router.query, ['userPrice']) },
+      undefined,
+      {
+        shallow: true
+      }
+    )
   }
   componentWillUnmount() {
     this.resetPrice()
@@ -509,9 +511,6 @@ class CustomizePackage extends Component {
       `package/${pkg.name}/description`
     ].filter(Boolean)
     const description = t.first(descriptionKeys)
-
-    const queryWithoutFilter = { ...query }
-    delete queryWithoutFilter.filter
 
     return (
       <div>

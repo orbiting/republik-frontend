@@ -446,7 +446,7 @@ const Comments = props => {
 
               {showPreferences && (
                 <DiscussionPreferences
-                  key='discussionPreferenes'
+                  key='discussionPreferences'
                   discussionId={discussion.id}
                   onClose={() => {
                     setShowPreferences(false)

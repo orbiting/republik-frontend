@@ -43,7 +43,7 @@ const styles = {
 }
 
 function GoodieOptions({ fields, onChange, t }: FieldsType) {
-  if (!fields) {
+  if (!fields.length) {
     return null
   }
 

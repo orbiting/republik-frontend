@@ -501,10 +501,9 @@ class CustomizePackage extends Component {
           additionalPeriods
         }
       })
-
     const multipleThings =
-      configurableFields.length &&
-      (optionGroups.length > 1 || !optionGroups[0].group)
+      optionGroups.length > 1 ||
+      (configurableFields.length > 1 && configurableGoodieFields.length > 0)
 
     const descriptionKeys = [
       ownMembership &&

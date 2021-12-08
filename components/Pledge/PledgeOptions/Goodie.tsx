@@ -73,7 +73,7 @@ function GoodieOption({
   const [colorScheme] = useColorContext()
   const amounts = Array.from(
     { length: option.maxAmount - option.minAmount + 1 },
-    (_, index) => index + option.minAmount
+    (_, index) => String(index + option.minAmount)
   )
   const dropdownItems = amounts.map(amount => ({
     value: amount,
@@ -109,9 +109,9 @@ function GoodieOption({
           <Dropdown
             label={t('Goodie/dropdown/label')}
             items={dropdownItems}
-            value={value}
+            value={String(value)}
             onChange={item => {
-              onChange(item.value)
+              onChange(+item.value)
             }}
           />
         </div>

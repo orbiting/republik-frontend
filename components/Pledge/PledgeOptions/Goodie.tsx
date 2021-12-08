@@ -85,7 +85,7 @@ function GoodieOption({ option, onChange, t }: PledgeOptionComponentType) {
             <img
               {...styles.goodieImage}
               {...colorScheme.set('backgroundColor', 'hover')}
-              src={`${CDN_FRONTEND_BASE_URL}/static/packages/${option.reward.name}.png`}
+              src={`${CDN_FRONTEND_BASE_URL}/static/packages/${option.reward.name.toLowerCase()}.png`}
             />
           )}
 

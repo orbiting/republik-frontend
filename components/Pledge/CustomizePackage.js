@@ -440,7 +440,8 @@ class CustomizePackage extends Component {
     const payMoreReached = payMoreSuggestions
       .filter(({ value }) => price >= value)
       .pop()
-    const payingMoreThanRegular = regularMinPrice < price
+    const payingMoreThanRegular =
+      regularMinPrice < price && pkg.name !== 'DONATE'
     const offerUserPrice =
       !userPrice &&
       !payingMoreThanRegular &&

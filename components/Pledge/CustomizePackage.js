@@ -1206,22 +1206,24 @@ class CustomizePackage extends Component {
                         return
                       }
                       e.preventDefault()
-                      onPriceChange(undefined, regularMinPrice / 100, true)
-
-                      router
-                        .replace(
-                          {
-                            pathname: '/angebote',
-                            query: omit(query, ['price', 'userPrice'])
-                          },
-                          undefined,
-                          { shallow: true }
-                        )
-                        .then(() => {
-                          if (this.focusRef && this.focusRef.input) {
-                            this.focusRef.focus()
-                          }
+                      this.setState({ customPrice: false })
+                      onChange(
+                        FieldSet.utils.fieldsState({
+                          field: 'price',
+                          value: regularMinPrice,
+                          error: undefined,
+                          dirty: true
                         })
+                      )
+
+                      router.replace(
+                        {
+                          pathname: '/angebote',
+                          query: omit(query, ['price', 'userPrice'])
+                        },
+                        undefined,
+                        { shallow: true }
+                      )
                     }}
                   >
                     {t.first(

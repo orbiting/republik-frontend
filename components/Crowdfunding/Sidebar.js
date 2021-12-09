@@ -53,15 +53,7 @@ const styles = {
 }
 
 const SidebarInner = props => {
-  const {
-    t,
-    onChange,
-    crowdfunding,
-    title,
-    links,
-    packages,
-    primaryQuery
-  } = props
+  const { t, crowdfunding, title, links, packages, primaryQuery } = props
 
   const [hover, setHover] = useState()
 

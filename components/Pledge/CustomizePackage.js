@@ -6,14 +6,13 @@ import { nest } from 'd3-collection'
 import { sum, min, ascending } from 'd3-array'
 import { timeDay } from 'd3-time'
 import compose from 'lodash/flowRight'
+import omit from 'lodash/omit'
 import { withRouter } from 'next/router'
 import { format } from 'url'
-
-import { useColorContext } from '@project-r/styleguide'
+import GoodieOptions from './PledgeOptions/GoodieOptions'
 
 import withT from '../../lib/withT'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
-import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 import { shouldIgnoreClick } from '../../lib/utils/link'
@@ -187,31 +186,6 @@ const SmallP = ({ children, ...props }) => (
   </p>
 )
 
-const PackageImage = ({ style, name, dark }) => {
-  const [colorScheme] = useColorContext()
-
-  return (
-    <>
-      <img
-        {...styles.packageImage}
-        {...colorScheme.set('display', dark ? 'displayLight' : 'block')}
-        style={style}
-        src={`${CDN_FRONTEND_BASE_URL}/static/packages/${name}.png`}
-        alt=''
-      />
-      {dark && (
-        <img
-          {...styles.packageImage}
-          {...colorScheme.set('display', 'displayDark')}
-          style={style}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/${name}_dark.png`}
-          alt=''
-        />
-      )}
-    </>
-  )
-}
-
 class CustomizePackage extends Component {
   constructor(props) {
     super(props)
@@ -231,7 +205,9 @@ class CustomizePackage extends Component {
       },
       userPrice
     )
+
     let price = values.price
+
     if (!this.state.customPrice || minPrice > price) {
       price = minPrice !== absolutMinPrice ? minPrice : ''
       if (this.state.customPrice) {
@@ -248,6 +224,31 @@ class CustomizePackage extends Component {
       error: priceError(price, minPrice, t)
     })(nextFields)
   }
+  getPriceWithSuggestion() {
+    const { pkg, values, userPrice, router } = this.props
+
+    if (values.price === undefined && pkg.suggestedTotal) {
+      if (process.browser) {
+        this.setState({ customPrice: true })
+        const regularMinPrice = calculateMinPrice(pkg, values, false)
+        if (pkg.suggestedTotal < regularMinPrice && !userPrice) {
+          router.replace(
+            {
+              pathname: 'angebote',
+              query: {
+                ...router.query,
+                userPrice: '1'
+              }
+            },
+            undefined,
+            { shallow: true }
+          )
+        }
+      }
+      return pkg.suggestedTotal
+    }
+    return getPrice(this.props)
+  }
   componentDidMount() {
     if (this.focusRef && this.focusRef.focus) {
       this.focusRef.focus()
@@ -258,7 +259,7 @@ class CustomizePackage extends Component {
 
     const { onChange, pkg, values, userPrice, t } = this.props
 
-    const price = getPrice(this.props)
+    const price = this.getPriceWithSuggestion()
     const minPrice = calculateMinPrice(pkg, values, userPrice)
     onChange({
       values: {
@@ -270,11 +271,11 @@ class CustomizePackage extends Component {
       }
     })
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { onChange, pkg, values, userPrice, t } = this.props
 
-    if (values.price === undefined) {
-      const price = getPrice(this.props)
+    if (values.price === undefined || userPrice !== prevProps.userPrice) {
+      const price = this.getPriceWithSuggestion()
       const minPrice = calculateMinPrice(pkg, values, userPrice)
       onChange({
         values: {
@@ -299,9 +300,13 @@ class CustomizePackage extends Component {
   }
   resetUserPrice() {
     const { router } = this.props
-    const query = { ...router.query }
-    delete query.userPrice
-    router.replace({ pathname: 'pledge', query }, undefined, { shallow: true })
+    router.replace(
+      { pathname: 'angebote', query: omit(router.query, ['userPrice']) },
+      undefined,
+      {
+        shallow: true
+      }
+    )
   }
   componentWillUnmount() {
     this.resetPrice()
@@ -323,9 +328,7 @@ class CustomizePackage extends Component {
 
     const { query } = router
 
-    const accessGrantedOnly = query.filter === 'pot'
-
-    const price = getPrice(this.props)
+    const price = this.getPriceWithSuggestion()
     const configurableFields = pkg.options.reduce((fields, option) => {
       if (option.minAmount !== option.maxAmount) {
         fields.push({
@@ -358,33 +361,6 @@ class CustomizePackage extends Component {
     const minPrice = calculateMinPrice(pkg, values, userPrice)
     const regularMinPrice = calculateMinPrice(pkg, values, false)
     const fixedPrice = pkg.name === 'MONTHLY_ABO'
-
-    const goodies = pkg.options.filter(
-      option =>
-        option.reward &&
-        option.reward.__typename === 'Goodie' &&
-        option.maxAmount > 0
-    )
-    const hasNotebook = !!goodies.find(
-      option => option.reward && option.reward.name === 'NOTEBOOK'
-    )
-    const hasTotebag = !!goodies.find(
-      option => option.reward && option.reward.name === 'TOTEBAG'
-    )
-    const hasTablebook = !!goodies.find(
-      option => option.reward && option.reward.name === 'TABLEBOOK'
-    )
-    const hasMask = !!goodies.find(
-      option => option.reward && option.reward.name === 'MASK'
-    )
-    const goodieNames = goodies
-      .map(option => option.reward.name)
-      .sort((a, b) => ascending(a, b))
-    const deliveryNote = t(
-      `pledge/notice/goodies/delivery/${goodieNames.join('_')}`,
-      undefined,
-      null
-    )
 
     const onPriceChange = (_, value, shouldValidate) => {
       const price = String(value).length
@@ -449,31 +425,25 @@ class CustomizePackage extends Component {
         })
     )
     const payMoreSuggestions =
-      pkg.name === 'DONATE_POT'
-        ? [
-            { value: 6000, key: 'threemonth' },
-            { value: 12000, key: 'halfayear' },
-            { value: 24000, key: 'ayear' }
-          ]
-        : pkg.name === 'DONATE' ||
-          pkg.name === 'ABO_GIVE_MONTHS' ||
-          pkg.name === 'ABO_GIVE'
+      pkg.name === 'DONATE' ||
+      pkg.name === 'ABO_GIVE_MONTHS' ||
+      pkg.name === 'ABO_GIVE'
         ? []
+        : userPrice
+        ? [{ value: regularMinPrice, key: 'normal' }]
         : [
-            userPrice && { value: regularMinPrice, key: 'normal' },
-            !userPrice &&
-              price >= minPrice &&
+            price >= minPrice &&
               bonusValue && { value: minPrice + bonusValue, key: 'bonus' },
-            !userPrice &&
-              price >= minPrice && { value: minPrice * 1.5, key: '1.5' },
-            !userPrice && price >= minPrice && { value: minPrice * 2, key: '2' }
+            price >= minPrice && { value: minPrice * 1.5, key: '1.5' },
+            price >= minPrice && { value: minPrice * 2, key: '2' }
           ].filter(Boolean)
     const payMoreReached = payMoreSuggestions
       .filter(({ value }) => price >= value)
       .pop()
+    const payingMoreThanRegular = regularMinPrice < price
     const offerUserPrice =
       !userPrice &&
-      !payMoreReached &&
+      !payingMoreThanRegular &&
       pkg.name === 'PROLONG' &&
       pkg.options.every(option => {
         return (
@@ -481,15 +451,20 @@ class CustomizePackage extends Component {
         )
       })
 
+    const configurableGoodieFields = configurableFields.filter(
+      field => field.option.reward.__typename === 'Goodie'
+    )
     const optionGroups = nest()
       .key(d =>
         d.option.optionGroup
           ? d.option.optionGroup
-          : [d.option.reward.__typename, d.option.accessGranted]
-              .filter(Boolean)
-              .join()
+          : [d.option.reward.__typename].filter(Boolean).join()
       )
-      .entries(configurableFields)
+      .entries(
+        configurableFields.filter(
+          field => !configurableGoodieFields.includes(field)
+        )
+      )
       .map(({ key: groupKey, values: fields }) => {
         const options = fields
           .map(field => field.option)
@@ -518,78 +493,23 @@ class CustomizePackage extends Component {
           fields,
           selectedGroupOption,
           membership,
-          groupWithAccessGranted: options.some(o => o.accessGranted),
           isAboGive,
-          isGoodies: groupKey === 'Goodie',
           additionalPeriods
         }
       })
     const multipleThings =
-      configurableFields.length &&
-      (optionGroups.length > 1 || !optionGroups[0].group)
+      optionGroups.length > 1 ||
+      (configurableFields.length > 1 && configurableGoodieFields.length > 0)
 
     const descriptionKeys = [
       ownMembership &&
         `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
       ownMembership &&
         `package/${pkg.name}/${ownMembership.type.name}/description`,
-      accessGrantedOnly && `package/${pkg.name}/accessGrantedOnly/description`,
       `package/${crowdfundingName}/${pkg.name}/description`,
       `package/${pkg.name}/description`
     ].filter(Boolean)
     const description = t.first(descriptionKeys)
-    const goodiesDescription =
-      !!goodieNames.length &&
-      t.first(
-        descriptionKeys.map(key => `${key}/goodies/${goodieNames.join('_')}`),
-        undefined,
-        null
-      )
-    const goodiesImage =
-      (hasMask && hasNotebook && hasTotebag && hasTablebook && (
-        <img
-          {...styles.packageImage}
-          style={{ maxWidth: 180, paddingLeft: 10 }}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_tablebook_totebag.jpg`}
-        />
-      )) ||
-      (hasMask && hasNotebook && hasTotebag && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask_moleskine_totebag.jpg`}
-        />
-      )) ||
-      (hasNotebook && hasTotebag && hasTablebook && (
-        <img
-          {...styles.packageImage}
-          style={{ maxWidth: 180, paddingLeft: 10 }}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_tablebook_totebag.jpg`}
-        />
-      )) ||
-      (hasNotebook && hasTotebag && (
-        <PackageImage style={{ maxWidth: 115 }} name='moleskine_totebag' dark />
-      )) ||
-      (hasNotebook && !hasTotebag && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
-        />
-      )) ||
-      (hasTablebook && !hasNotebook && !hasTotebag && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/tablebook.jpg`}
-        />
-      )) ||
-      (hasMask && (
-        <img
-          {...styles.packageImage}
-          src={`${CDN_FRONTEND_BASE_URL}/static/packages/mask.jpg`}
-        />
-      ))
-
-    const queryWithoutFilter = { ...query }
-    delete queryWithoutFilter.filter
 
     return (
       <div>
@@ -602,8 +522,6 @@ class CustomizePackage extends Component {
                 ownMembership &&
                   new Date(ownMembership.graceEndDate) < new Date() &&
                   `package/${pkg.name}/reactivate/pageTitle`,
-                accessGrantedOnly &&
-                  `package/${pkg.name}/accessGrantedOnly/title`,
                 `package/${pkg.name}/pageTitle`,
                 `package/${pkg.name}/title`
               ].filter(Boolean)
@@ -625,7 +543,6 @@ class CustomizePackage extends Component {
         </div>
         {description.split('\n\n').map((text, i) => (
           <P style={{ marginBottom: 10 }} key={i}>
-            {i === 0 && !goodiesDescription && goodiesImage}
             {text.indexOf('<') !== -1 ? (
               <RawHtml dangerouslySetInnerHTML={{ __html: text }} />
             ) : (
@@ -633,101 +550,7 @@ class CustomizePackage extends Component {
             )}
           </P>
         ))}
-        {pkg.name === 'ABO_GIVE' && accessGrantedOnly && (
-          <div {...styles.smallP} style={{ marginTop: -5, marginBottom: 15 }}>
-            <Editorial.A
-              href={format({
-                pathname: '/angebote',
-                query: accessGrantedOnly
-                  ? queryWithoutFilter
-                  : { ...query, filter: 'pot' }
-              })}
-              onClick={e => {
-                if (shouldIgnoreClick(e)) {
-                  return
-                }
-                e.preventDefault()
 
-                const fullPackages = this.props.packages.find(
-                  p => p.name === pkg.name
-                )
-                if (fullPackages) {
-                  fullPackages.options.forEach(optionFull => {
-                    const optionFiltered = pkg.options.find(
-                      d =>
-                        d.reward &&
-                        d.reward.__typename === optionFull.reward.__typename &&
-                        d.reward.name === optionFull.reward.name
-                    )
-                    if (!optionFiltered) {
-                      return
-                    }
-                    onChange(
-                      FieldSet.utils.fieldsState({
-                        field: getOptionFieldKey(optionFull),
-                        value: Math.min(
-                          Math.max(
-                            getOptionValue(optionFiltered, values),
-                            optionFull.minAmount
-                          ),
-                          optionFull.maxAmount
-                        ),
-                        error: undefined,
-                        dirty: true
-                      })
-                    )
-                  })
-                }
-
-                router
-                  .push(
-                    {
-                      pathname: '/angebote',
-                      query: accessGrantedOnly
-                        ? queryWithoutFilter
-                        : { ...query, filter: 'pot' }
-                    },
-                    undefined,
-                    {
-                      shallow: true
-                    }
-                  )
-                  .then(() => {
-                    this.resetPrice()
-                  })
-              }}
-            >
-              {t(
-                `package/customize/ABO_GIVE/${
-                  accessGrantedOnly ? 'rm' : 'add'
-                }AccessGrantedOnly`
-              )}
-            </Editorial.A>{' '}
-            {accessGrantedOnly && (
-              <Editorial.A
-                href={format({
-                  pathname: '/angebote',
-                  query: { package: 'DONATE_POT' }
-                })}
-                onClick={e => {
-                  if (shouldIgnoreClick(e)) {
-                    return
-                  }
-                  e.preventDefault()
-                  router.push(
-                    { pathname: '/angebote', query: { package: 'DONATE_POT' } },
-                    undefined,
-                    {
-                      shallow: true
-                    }
-                  )
-                }}
-              >
-                {t('package/customize/ABO_GIVE/donate')}
-              </Editorial.A>
-            )}
-          </div>
-        )}
         {optionGroups.map(
           (
             {
@@ -738,79 +561,72 @@ class CustomizePackage extends Component {
               options,
               selectedGroupOption,
               membership,
-              groupWithAccessGranted,
               isAboGive,
-              isGoodies,
               additionalPeriods
             },
             gi
           ) => {
-            const reset = group &&
-              optionGroups.filter(og => !og.isGoodies).length > 1 &&
-              !checkboxGroup && (
-                <Fragment>
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      whiteSpace: 'nowrap'
+            const reset = group && optionGroups.length > 1 && !checkboxGroup && (
+              <Fragment>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  <Radio
+                    value='0'
+                    checked={!selectedGroupOption}
+                    onChange={() => {
+                      if (userPrice) {
+                        this.resetUserPrice()
+                      }
+                      onChange(
+                        this.calculateNextPrice(
+                          options.reduce((fields, option) => {
+                            return FieldSet.utils.mergeField({
+                              field: getOptionFieldKey(option),
+                              value: 0,
+                              error: undefined,
+                              dirty: false
+                            })(fields)
+                          }, {})
+                        )
+                      )
                     }}
                   >
-                    <Radio
-                      value='0'
-                      checked={!selectedGroupOption}
-                      onChange={() => {
-                        if (userPrice) {
-                          this.resetUserPrice()
-                        }
-                        onChange(
-                          this.calculateNextPrice(
-                            options.reduce((fields, option) => {
-                              return FieldSet.utils.mergeField({
-                                field: getOptionFieldKey(option),
-                                value: 0,
-                                error: undefined,
-                                dirty: false
-                              })(fields)
-                            }, {})
-                          )
-                        )
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        verticalAlign: 'top',
+                        marginRight: 20,
+                        whiteSpace: 'nowrap'
                       }}
                     >
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          verticalAlign: 'top',
-                          marginRight: 20,
-                          whiteSpace: 'nowrap'
-                        }}
-                      >
-                        {t(`option/${pkg.name}/resetGroup`, {}, null)}
-                      </span>
-                    </Radio>
-                  </span>
-                </Fragment>
-              )
+                      {t(`option/${pkg.name}/resetGroup`, {}, null)}
+                    </span>
+                  </Radio>
+                </span>
+              </Fragment>
+            )
 
             const nextGroup = optionGroups[gi + 1]
             const prevGroup = optionGroups[gi - 1]
+
+            const firstField = fields[0]
+            const firstKey = firstField.key
+            const firstValue =
+              values[firstKey] === undefined
+                ? firstField.default
+                : values[firstKey]
+            // this is false for PROLONG with userPrice=1
+            const isActuallyConfigurable = pkg.options.length > 1 || !firstValue
 
             return (
               <Fragment key={groupKey}>
                 {isAboGive && (!prevGroup || !prevGroup.isAboGive) && (
                   <P style={{ marginTop: 30 }}>
                     {t('package/customize/group/aboGive')}
-                  </P>
-                )}
-                {isGoodies && goodiesDescription && (
-                  <P>
-                    {goodiesImage}
-                    {goodiesDescription.indexOf('<') !== -1 ? (
-                      <RawHtml
-                        dangerouslySetInnerHTML={{ __html: goodiesDescription }}
-                      />
-                    ) : (
-                      goodiesDescription
-                    )}
                   </P>
                 )}
                 {membership && (
@@ -828,239 +644,232 @@ class CustomizePackage extends Component {
                     compact
                   />
                 )}
-                <div {...styles[group ? 'group' : 'grid']}>
-                  {fields.map((field, i) => {
-                    const option = field.option
-                    const fieldKey = field.key
-                    const elementKey = [option.id, fieldKey].join('-')
-                    const value =
-                      values[fieldKey] === undefined
-                        ? field.default
-                        : values[fieldKey]
+                {isActuallyConfigurable && (
+                  <div {...styles[group ? 'group' : 'grid']}>
+                    {fields.map((field, i) => {
+                      const option = field.option
+                      const fieldKey = field.key
+                      const elementKey = [option.id, fieldKey].join('-')
+                      const value =
+                        values[fieldKey] === undefined
+                          ? field.default
+                          : values[fieldKey]
 
-                    const isBooleanOption = field.min === 0 && field.max === 1
-                    const isCheckboxOption =
-                      checkboxGroup || (isGoodies && isBooleanOption)
+                      const isBooleanOption = field.min === 0 && field.max === 1
+                      const isCheckboxOption = checkboxGroup
 
-                    // always use singular for goodie checkbox
-                    const labelValue = isCheckboxOption ? 1 : value
-                    const label = t.first(
-                      [
-                        ...(isAboGive
-                          ? [
-                              `option/${pkg.name}/${option.reward.name}/label/give`,
-                              `option/${option.reward.name}/label/give`
-                            ]
-                          : []),
-                        ...(option.accessGranted
-                          ? [
-                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/${labelValue}`,
-                              `option/${pkg.name}/${option.reward.name}/accessGranted/label/other`,
-                              `option/${pkg.name}/${option.reward.name}/accessGranted/label`,
-                              `option/${option.reward.name}/accessGranted/label/${labelValue}`,
-                              `option/${option.reward.name}/accessGranted/label/other`,
-                              `option/${option.reward.name}/accessGranted/label`
-                            ]
-                          : []),
-                        ...(field.interval
-                          ? [
-                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
-                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/other`,
-                              `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label`,
-                              `option/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
-                              `option/${option.reward.name}/interval/${field.interval}/label/other`,
-                              `option/${option.reward.name}/interval/${field.interval}/label`
-                            ]
-                          : []),
-                        `option/${pkg.name}/${option.reward.name}/label/${labelValue}`,
-                        `option/${pkg.name}/${option.reward.name}/label/other`,
-                        `option/${pkg.name}/${option.reward.name}/label`,
-                        `option/${option.reward.name}/label/${labelValue}`,
-                        `option/${option.reward.name}/label/other`,
-                        `option/${option.reward.name}/label`
-                      ],
-                      {
-                        count: value
-                      }
-                    )
-
-                    const onFieldChange = (_, value, shouldValidate) => {
-                      let error
-                      const parsedValue = String(value).length
-                        ? parseInt(value, 10) || 0
-                        : ''
-
-                      if (parsedValue > field.max) {
-                        error = t('package/customize/option/error/max', {
-                          label,
-                          maxAmount: field.max
-                        })
-                      }
-                      if (parsedValue < field.min) {
-                        error = t('package/customize/option/error/min', {
-                          label,
-                          minAmount: field.min
-                        })
-                      }
-
-                      let fields = FieldSet.utils.fieldsState({
-                        field: fieldKey,
-                        value: parsedValue,
-                        error,
-                        dirty: shouldValidate
-                      })
-                      if (group) {
-                        // unselect all other options from group
-                        options
-                          .filter(other => other !== option)
-                          .forEach(other => {
-                            fields = FieldSet.utils.mergeField({
-                              field: getOptionFieldKey(other),
-                              value: 0,
-                              error: undefined,
-                              dirty: false
-                            })(fields)
-                          })
-                      }
-                      if (parsedValue && userPrice && !option.userPrice) {
-                        this.resetUserPrice()
-                      }
-                      onChange(this.calculateNextPrice(fields))
-                    }
-
-                    if (isBooleanOption && (group || isCheckboxOption)) {
-                      const children = (
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            verticalAlign: 'top',
-                            marginRight: 20,
-                            marginTop: isCheckboxOption ? -2 : 0
-                          }}
-                        >
-                          <Interaction.Emphasis>{label}</Interaction.Emphasis>
-                          <br />
-                          {t.first(
-                            [
-                              option.price === 0 && 'package/price/free',
-                              isGoodies && 'package/price/goodie',
-                              isAboGive && `package/${pkg.name}/price/give`,
-                              `package/${pkg.name}/price`,
-                              'package/price'
-                            ].filter(Boolean),
-                            {
-                              formattedCHF: chfFormat(option.price / 100)
-                            }
-                          )}
-                        </span>
+                      // always use singular for checkbox
+                      const labelValue = isCheckboxOption ? 1 : value
+                      const label = t.first(
+                        [
+                          ...(isAboGive
+                            ? [
+                                `option/${pkg.name}/${option.reward.name}/label/give`,
+                                `option/${option.reward.name}/label/give`
+                              ]
+                            : []),
+                          ...(field.interval
+                            ? [
+                                `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
+                                `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/other`,
+                                `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label`,
+                                `option/${option.reward.name}/interval/${field.interval}/label/${labelValue}`,
+                                `option/${option.reward.name}/interval/${field.interval}/label/other`,
+                                `option/${option.reward.name}/interval/${field.interval}/label`
+                              ]
+                            : []),
+                          `option/${pkg.name}/${option.reward.name}/label/${labelValue}`,
+                          `option/${pkg.name}/${option.reward.name}/label/other`,
+                          `option/${pkg.name}/${option.reward.name}/label`,
+                          `option/${option.reward.name}/label/${labelValue}`,
+                          `option/${option.reward.name}/label/other`,
+                          `option/${option.reward.name}/label`
+                        ],
+                        {
+                          count: value
+                        }
                       )
-                      if (isCheckboxOption) {
-                        const checkboxElement = (
-                          <Checkbox
-                            key={elementKey}
-                            checked={!!value}
-                            onChange={(_, checked) => {
-                              onFieldChange(
-                                undefined,
-                                +checked,
-                                dirty[fieldKey]
-                              )
-                            }}
-                          >
-                            {children}
-                          </Checkbox>
-                        )
 
-                        if (!group) {
-                          return (
-                            <div
-                              key={elementKey}
-                              {...styles.span}
-                              {...styles.group}
-                              style={{
-                                width: '100%'
-                              }}
-                            >
-                              {checkboxElement}
-                            </div>
-                          )
+                      const onFieldChange = (_, value, shouldValidate) => {
+                        let error
+                        const parsedValue = String(value).length
+                          ? parseInt(value, 10) || 0
+                          : ''
+
+                        if (parsedValue > field.max) {
+                          error = t('package/customize/option/error/max', {
+                            label,
+                            maxAmount: field.max
+                          })
+                        }
+                        if (parsedValue < field.min) {
+                          error = t('package/customize/option/error/min', {
+                            label,
+                            minAmount: field.min
+                          })
                         }
 
-                        return checkboxElement
+                        let fields = FieldSet.utils.fieldsState({
+                          field: fieldKey,
+                          value: parsedValue,
+                          error,
+                          dirty: shouldValidate
+                        })
+                        if (group) {
+                          // unselect all other options from group
+                          options
+                            .filter(other => other !== option)
+                            .forEach(other => {
+                              fields = FieldSet.utils.mergeField({
+                                field: getOptionFieldKey(other),
+                                value: 0,
+                                error: undefined,
+                                dirty: false
+                              })(fields)
+                            })
+                        }
+                        if (parsedValue && userPrice && !option.userPrice) {
+                          this.resetUserPrice()
+                        }
+                        onChange(this.calculateNextPrice(fields))
                       }
-                      return (
-                        <Fragment key={elementKey}>
+
+                      if (isBooleanOption && (group || isCheckboxOption)) {
+                        const children = (
                           <span
                             style={{
                               display: 'inline-block',
-                              whiteSpace: 'nowrap',
-                              marginBottom: 10
+                              verticalAlign: 'top',
+                              marginRight: 20,
+                              marginTop: isCheckboxOption ? -2 : 0
                             }}
                           >
-                            <Radio
-                              value='1'
+                            <Interaction.Emphasis>{label}</Interaction.Emphasis>
+                            <br />
+                            {t.first(
+                              [
+                                option.price === 0 && 'package/price/free',
+                                isAboGive && `package/${pkg.name}/price/give`,
+                                `package/${pkg.name}/price`,
+                                'package/price'
+                              ].filter(Boolean),
+                              {
+                                formattedCHF: chfFormat(option.price / 100)
+                              }
+                            )}
+                          </span>
+                        )
+                        if (isCheckboxOption) {
+                          const checkboxElement = (
+                            <Checkbox
+                              key={elementKey}
                               checked={!!value}
-                              onChange={() => {
-                                onFieldChange(undefined, 1, dirty[fieldKey])
+                              onChange={(_, checked) => {
+                                onFieldChange(
+                                  undefined,
+                                  +checked,
+                                  dirty[fieldKey]
+                                )
                               }}
                             >
                               {children}
-                            </Radio>
-                          </span>{' '}
-                        </Fragment>
-                      )
-                    }
+                            </Checkbox>
+                          )
 
-                    return (
-                      <div
-                        key={elementKey}
-                        {...styles.span}
-                        style={{
-                          width:
-                            fields.length === 1 ||
-                            (fields.length === 3 && i === 0)
-                              ? '100%'
-                              : '50%'
-                        }}
-                      >
-                        <div>
-                          <Field
-                            ref={
-                              i === 0 && !group && gi === 0
-                                ? this.focusRefSetter
-                                : undefined
-                            }
-                            label={label}
-                            error={dirty[fieldKey] && errors[fieldKey]}
-                            value={value || ''}
-                            onInc={
-                              value < field.max &&
-                              (() => {
-                                onFieldChange(
-                                  undefined,
-                                  value + 1,
-                                  dirty[fieldKey]
-                                )
-                              })
-                            }
-                            onDec={
-                              value > field.min &&
-                              (() => {
-                                onFieldChange(
-                                  undefined,
-                                  value - 1,
-                                  dirty[fieldKey]
-                                )
-                              })
-                            }
-                            onChange={onFieldChange}
-                          />
+                          if (!group) {
+                            return (
+                              <div
+                                key={elementKey}
+                                {...styles.span}
+                                {...styles.group}
+                                style={{
+                                  width: '100%'
+                                }}
+                              >
+                                {checkboxElement}
+                              </div>
+                            )
+                          }
+
+                          return checkboxElement
+                        }
+                        return (
+                          <Fragment key={elementKey}>
+                            <span
+                              style={{
+                                display: 'inline-block',
+                                whiteSpace: 'nowrap',
+                                marginBottom: 10
+                              }}
+                            >
+                              <Radio
+                                value='1'
+                                checked={!!value}
+                                onChange={() => {
+                                  onFieldChange(undefined, 1, dirty[fieldKey])
+                                }}
+                              >
+                                {children}
+                              </Radio>
+                            </span>{' '}
+                          </Fragment>
+                        )
+                      }
+
+                      return (
+                        <div
+                          key={elementKey}
+                          {...styles.span}
+                          style={{
+                            width:
+                              fields.length === 1 ||
+                              (fields.length === 3 && i === 0)
+                                ? '100%'
+                                : '50%'
+                          }}
+                        >
+                          <div>
+                            <Field
+                              ref={
+                                i === 0 && !group && gi === 0
+                                  ? this.focusRefSetter
+                                  : undefined
+                              }
+                              label={label}
+                              error={dirty[fieldKey] && errors[fieldKey]}
+                              value={value || ''}
+                              renderInput={props => (
+                                <input inputMode='numeric' {...props} />
+                              )}
+                              onInc={
+                                value < field.max &&
+                                (() => {
+                                  onFieldChange(
+                                    undefined,
+                                    value + 1,
+                                    dirty[fieldKey]
+                                  )
+                                })
+                              }
+                              onDec={
+                                value > field.min &&
+                                (() => {
+                                  onFieldChange(
+                                    undefined,
+                                    value - 1,
+                                    dirty[fieldKey]
+                                  )
+                                })
+                              }
+                              onChange={onFieldChange}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )
-                  })}
-                  {reset}
-                </div>
+                      )
+                    })}
+                    {reset}
+                  </div>
+                )}
                 {additionalPeriods &&
                   !!additionalPeriods.length &&
                   !!selectedGroupOption && (
@@ -1135,46 +944,18 @@ class CustomizePackage extends Component {
                 {isAboGive && (!nextGroup || !nextGroup.isAboGive) && (
                   <div style={{ height: 30 }} />
                 )}
-                {groupWithAccessGranted && accessGrantedOnly && (
-                  <div style={{ marginBottom: 20 }}>
-                    <P>{t('package/customize/messageToClaimers/before')}</P>
-                    <Field
-                      label={t('package/customize/messageToClaimers/label')}
-                      value={values.messageToClaimers}
-                      renderInput={({ ref, ...inputProps }) => (
-                        <AutosizeInput
-                          {...inputProps}
-                          {...fieldSetStyles.autoSize}
-                          inputRef={ref}
-                        />
-                      )}
-                      onChange={(_, value, shouldValidate) => {
-                        onChange(
-                          FieldSet.utils.fieldsState({
-                            field: 'messageToClaimers',
-                            value,
-                            dirty: shouldValidate
-                          })
-                        )
-                      }}
-                    />
-                    <RawHtml
-                      type={Label}
-                      dangerouslySetInnerHTML={{
-                        __html: t('package/customize/messageToClaimers/note')
-                      }}
-                    />
-                  </div>
-                )}
               </Fragment>
             )
           }
         )}
-        {deliveryNote && (
-          <div style={{ marginBottom: 20 }}>
-            <Label>{deliveryNote}</Label>
-          </div>
-        )}
+        <GoodieOptions
+          t={t}
+          values={values}
+          onChange={fields => {
+            onChange(this.calculateNextPrice(fields))
+          }}
+          fields={configurableGoodieFields}
+        />
         {!!userPrice && (
           <div>
             <P>{t('package/customize/userPrice/beforeReason')}</P>
@@ -1225,6 +1006,7 @@ class CustomizePackage extends Component {
               }
               error={dirty.price && errors.price}
               value={price ? price / 100 : ''}
+              renderInput={props => <input inputMode='numeric' {...props} />}
               onDec={
                 price - 1000 >= minPrice &&
                 (() => {
@@ -1242,10 +1024,14 @@ class CustomizePackage extends Component {
               {payMoreSuggestions.length > 0 && (
                 <Fragment>
                   <Interaction.Emphasis>
-                    {t.first([
-                      `package/customize/price/payMore/${pkg.name}`,
-                      'package/customize/price/payMore'
-                    ])}
+                    {t.first(
+                      [
+                        userPrice &&
+                          'package/customize/price/payMore/userPrice',
+                        `package/customize/price/payMore/${pkg.name}`,
+                        'package/customize/price/payMore'
+                      ].filter(Boolean)
+                    )}
                   </Interaction.Emphasis>
                   <ul {...styles.ul}>
                     {payMoreSuggestions.map(({ value, key }) => {
@@ -1408,40 +1194,47 @@ class CustomizePackage extends Component {
                   </ul>
                 </Fragment>
               )}
-              {payMoreReached && (
+              {payingMoreThanRegular && (
                 <Fragment>
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...query, price: undefined }
+                      query: omit(query, ['price', 'userPrice'])
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
                         return
                       }
                       e.preventDefault()
-                      onPriceChange(undefined, minPrice / 100, true)
-
-                      router
-                        .replace(
-                          {
-                            pathname: '/angebote',
-                            query: { ...query, price: undefined }
-                          },
-                          undefined,
-                          { shallow: true }
-                        )
-                        .then(() => {
-                          if (this.focusRef && this.focusRef.input) {
-                            this.focusRef.focus()
-                          }
+                      this.setState({ customPrice: false })
+                      onChange(
+                        FieldSet.utils.fieldsState({
+                          field: 'price',
+                          value: regularMinPrice,
+                          error: undefined,
+                          dirty: true
                         })
+                      )
+
+                      router.replace(
+                        {
+                          pathname: '/angebote',
+                          query: omit(query, ['price', 'userPrice'])
+                        },
+                        undefined,
+                        { shallow: true }
+                      )
                     }}
                   >
-                    {t.first([
-                      `package/customize/price/payRegular/${pkg.name}`,
-                      'package/customize/price/payRegular'
-                    ])}
+                    {t.first(
+                      [
+                        `package/customize/price/payRegular/${pkg.name}`,
+                        'package/customize/price/payRegular'
+                      ],
+                      {
+                        formattedCHF: chfFormat(regularMinPrice / 100)
+                      }
+                    )}
                   </Editorial.A>
                   <br />
                 </Fragment>
@@ -1451,7 +1244,7 @@ class CustomizePackage extends Component {
                   <Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...query, price: undefined, userPrice: 1 }
+                      query: { ...omit(query, ['price']), userPrice: 1 }
                     })}
                     onClick={e => {
                       if (shouldIgnoreClick(e)) {
@@ -1484,7 +1277,7 @@ class CustomizePackage extends Component {
                         .replace(
                           {
                             pathname: '/angebote',
-                            query: { ...query, price: undefined, userPrice: 1 }
+                            query: { ...omit(query, ['price']), userPrice: 1 }
                           },
                           undefined,
                           { shallow: true }

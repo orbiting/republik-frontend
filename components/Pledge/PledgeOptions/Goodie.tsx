@@ -36,7 +36,8 @@ const styles = {
   goodieImage: css({
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
-    marginRight: 16
+    marginRight: 16,
+    flexShrink: 0
   }),
   label: css(Interaction.fontRule, {
     flexGrow: 1,

@@ -4,7 +4,6 @@ import {
   Dropdown,
   mediaQueries,
   fontStyles,
-  RawHtml,
   Interaction,
   useColorContext
 } from '@project-r/styleguide'
@@ -96,12 +95,7 @@ function GoodieOption({
                 {`, CHF ${option.price / 100}`}
               </strong>
               <br />
-              <RawHtml
-                error={false}
-                dangerouslySetInnerHTML={{
-                  __html: t(`Goodie/description/${option.reward.name}`)
-                }}
-              />
+              {t(`Goodie/description/${option.reward.name}`)}
             </p>
           </div>
         </div>

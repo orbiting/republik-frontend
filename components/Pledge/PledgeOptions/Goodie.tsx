@@ -33,33 +33,27 @@ const styles = {
     display: 'flex',
     flexDirection: 'row'
   }),
+  goodieImage: css({
+    width: IMAGE_SIZE,
+    height: IMAGE_SIZE,
+    marginRight: 16
+  }),
+  label: css(Interaction.fontRule, {
+    flexGrow: 1,
+    marginRight: 0,
+    ...fontStyles.sansSerifRegular15,
+    [mediaQueries.mUp]: {
+      marginRight: 16,
+      ...fontStyles.sansSerifRegular17
+    },
+    margin: 0
+  }),
   selection: css({
     minWidth: 100,
     marginLeft: IMAGE_SIZE + 16,
     [mediaQueries.mUp]: {
       marginLeft: 0
     }
-  }),
-  goodieImage: css({
-    width: IMAGE_SIZE,
-    height: IMAGE_SIZE,
-    marginRight: 16
-  }),
-  text: css({
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    marginRight: 0,
-    [mediaQueries.mUp]: {
-      marginRight: 16
-    }
-  }),
-  label: css(Interaction.fontRule, {
-    ...fontStyles.sansSerifRegular15,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular17
-    },
-    margin: 0
   })
 }
 
@@ -88,16 +82,14 @@ function GoodieOption({
             src={`${CDN_FRONTEND_BASE_URL}/static/packages/${option.reward.name.toLowerCase()}.png`}
           />
 
-          <div {...styles.text}>
-            <p {...styles.label}>
-              <strong>
-                {t(`Goodie/label/${option.reward.name}`)}
-                {`, CHF ${option.price / 100}`}
-              </strong>
-              <br />
-              {t(`Goodie/description/${option.reward.name}`)}
-            </p>
-          </div>
+          <p {...styles.label}>
+            <strong>
+              {t(`Goodie/label/${option.reward.name}`)}
+              {`, CHF ${option.price / 100}`}
+            </strong>
+            <br />
+            {t(`Goodie/description/${option.reward.name}`)}
+          </p>
         </div>
         <div {...styles.selection}>
           <Dropdown

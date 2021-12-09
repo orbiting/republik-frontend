@@ -79,31 +79,10 @@ const calculateMinPrice = (pkg, values, userPrice) => {
   return absolutMinPrice
 }
 
-const getPrice = ({ values, pkg, userPrice, router }) => {
+const getPrice = ({ values, pkg, userPrice }) => {
   if (values.price !== undefined) {
     return values.price
   } else {
-    if (pkg.suggestedTotal) {
-      const regularMinPrice = calculateMinPrice(pkg, values, false)
-      if (
-        pkg.suggestedTotal < regularMinPrice &&
-        !userPrice &&
-        process.browser
-      ) {
-        router.replace(
-          {
-            pathname: 'angebote',
-            query: {
-              ...router.query,
-              userPrice: '1'
-            }
-          },
-          undefined,
-          { shallow: true }
-        )
-      }
-      return pkg.suggestedTotal
-    }
     if (userPrice) {
       return ''
     }
@@ -245,6 +224,31 @@ class CustomizePackage extends Component {
       error: priceError(price, minPrice, t)
     })(nextFields)
   }
+  getPriceWithSuggestion() {
+    const { pkg, values, userPrice, router } = this.props
+
+    if (values.price === undefined && pkg.suggestedTotal) {
+      if (process.browser) {
+        this.setState({ customPrice: true })
+        const regularMinPrice = calculateMinPrice(pkg, values, false)
+        if (pkg.suggestedTotal < regularMinPrice && !userPrice) {
+          router.replace(
+            {
+              pathname: 'angebote',
+              query: {
+                ...router.query,
+                userPrice: '1'
+              }
+            },
+            undefined,
+            { shallow: true }
+          )
+        }
+      }
+      return pkg.suggestedTotal
+    }
+    return getPrice(this.props)
+  }
   componentDidMount() {
     if (this.focusRef && this.focusRef.focus) {
       this.focusRef.focus()
@@ -255,7 +259,7 @@ class CustomizePackage extends Component {
 
     const { onChange, pkg, values, userPrice, t } = this.props
 
-    const price = getPrice(this.props)
+    const price = this.getPriceWithSuggestion()
     const minPrice = calculateMinPrice(pkg, values, userPrice)
     onChange({
       values: {
@@ -271,7 +275,7 @@ class CustomizePackage extends Component {
     const { onChange, pkg, values, userPrice, t } = this.props
 
     if (values.price === undefined || userPrice !== prevProps.userPrice) {
-      const price = getPrice(this.props)
+      const price = this.getPriceWithSuggestion()
       const minPrice = calculateMinPrice(pkg, values, userPrice)
       onChange({
         values: {
@@ -324,7 +328,7 @@ class CustomizePackage extends Component {
 
     const { query } = router
 
-    const price = getPrice(this.props)
+    const price = this.getPriceWithSuggestion()
     const configurableFields = pkg.options.reduce((fields, option) => {
       if (option.minAmount !== option.maxAmount) {
         fields.push({
@@ -436,9 +440,10 @@ class CustomizePackage extends Component {
     const payMoreReached = payMoreSuggestions
       .filter(({ value }) => price >= value)
       .pop()
+    const payingMoreThanRegular = regularMinPrice < price
     const offerUserPrice =
       !userPrice &&
-      !payMoreReached &&
+      !payingMoreThanRegular &&
       pkg.name === 'PROLONG' &&
       pkg.options.every(option => {
         return (
@@ -1185,7 +1190,7 @@ class CustomizePackage extends Component {
                   </ul>
                 </Fragment>
               )}
-              {payMoreReached && (
+              {payingMoreThanRegular && (
                 <Fragment>
                   <Editorial.A
                     href={format({
@@ -1215,10 +1220,15 @@ class CustomizePackage extends Component {
                         })
                     }}
                   >
-                    {t.first([
-                      `package/customize/price/payRegular/${pkg.name}`,
-                      'package/customize/price/payRegular'
-                    ])}
+                    {t.first(
+                      [
+                        `package/customize/price/payRegular/${pkg.name}`,
+                        'package/customize/price/payRegular'
+                      ],
+                      {
+                        formattedCHF: chfFormat(regularMinPrice / 100)
+                      }
+                    )}
                   </Editorial.A>
                   <br />
                 </Fragment>

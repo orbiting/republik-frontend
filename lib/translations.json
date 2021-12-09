@@ -3373,10 +3373,6 @@
       "value": "Guten Tag, {name}"
     },
     {
-      "key": "merci/title/package/TABLEBOOK",
-      "value": "Guten Tag, {name}"
-    },
-    {
       "key": "merci/title/package/MASK",
       "value": "Guten Tag, {name}"
     },
@@ -3393,52 +3389,44 @@
       "value": "Guten Tag"
     },
     {
-      "key": "merci/title/package/TABLEBOOK/noName",
-      "value": "Guten Tag"
-    },
-    {
       "key": "merci/title/package/MASK/noName",
       "value": "Guten Tag"
     },
     {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens."
-    },
-    {
-      "key": "merci/paragraph",
-      "value": "Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.\n\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.\n\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
       "key": "merci/lead/package/ABO_GIVE_MONTHS",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.\n\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
       "key": "merci/lead/package/DONATE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit!"
+      "value": "Vielen Dank für Ihre Grosszügigkeit!\n\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
-      "key": "merci/title/package/PROLONG",
-      "value": "{name}, danke für Ihre Verlängerung."
-    },
-    {
-      "key": "merci/title/package/PROLONG/noName",
-      "value": "Danke für Ihre Verlängerung."
+      "key": "merci/lead/package/UNKOWN",
+      "value": "Vielen Dank für Ihre Unterstützung!"
     },
     {
       "key": "merci/lead/package/PROLONG",
-      "value": "Danke für Ihr Vertrauen und Ihre Unterstützung."
+      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum!\n\nGemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart."
+    },
+    {
+      "key": "merci/title/package/PROLONG",
+      "value": "{name}, danke für Ihre Verlängerung, für Ihr Vertrauen und für Ihre Unterstützung."
+    },
+    {
+      "key": "merci/title/package/PROLONG/noName",
+      "value": "Danke für Ihre Verlängerung, für Ihr Vertrauen und für Ihre Unterstützung."
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/pageTitle",
       "value": "Willkommen an Bord!"
-    },
-    {
-      "key": "merci/paragraph/package/PROLONG",
-      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum!\n\nGemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart."
     },
     {
       "key": "merci/title/package/UNKOWN",
@@ -3447,14 +3435,6 @@
     {
       "key": "merci/title/package/UNKOWN/noName",
       "value": "Danke"
-    },
-    {
-      "key": "merci/lead/package/UNKOWN",
-      "value": "Vielen Dank für Ihre Unterstützung!"
-    },
-    {
-      "key": "merci/lead/package/TABLEBOOK",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
     },
     {
       "key": "merci/action/read",
@@ -6221,56 +6201,16 @@
       "value": "Es freut uns, dass Sie dabei sind! Mit Ihrem jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. Sie erhalten ab sofort unser Magazin."
     },
     {
-      "key": "package/ABO/description/goodies/TABLEBOOK",
-      "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
-    },
-    {
-      "key": "package/ABO/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die zu ihrer Jahresmitgliedschaft kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
-    },
-    {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu."
-    },
-    {
-      "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",
-      "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
-    },
-    {
-      "key": "package/BENEFACTOR/description/goodies/MASK",
-      "value": "Und für begrenzte Zeit zudem auf Wunsch eine exklusive <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a>."
     },
     {
       "key": "package/PROLONG/description",
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen."
     },
     {
-      "key": "package/PROLONG/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
-    },
-    {
-      "key": "package/PROLONG/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
-    },
-    {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen. Durch Ihren jährlichen Beitrag werden Sie Mitglied der Project R Genossenschaft."
-    },
-    {
-      "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
-    },
-    {
-      "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können. "
-    },
-    {
-      "key": "package/TABLEBOOK/description",
-      "value": "Die «Republik bei Stromausfall» ist eine auf 2000 Exemplare limitierte, gedruckte Edition der liebsten Geschichten und Bilder unserer Autorinnen und Autoren – auf rund 600 Seiten. Wie es sich für einen Sammel­band gehört, enthält er ein launiges Vorwort. Und jedem ausgewählten Text ist ein kleiner persönlicher Essay vorangestellt."
-    },
-    {
-      "key": "package/MASK/description",
-      "value": "Ob als Statement-Piece oder praktische Ergänzung Ihrer MNS-Kollektion: Die Republik-Maske sieht mit weissen Rs auf schwarzem Grund verrrrrrdammt gut aus. Die dreilagige Stoffmaske ist ausserdem mit <a href=\"https://www.republik.ch/maske\" target=\"_blank\">HeiQ Viroblock</a> behandelt."
     },
     {
       "key": "Goodies/title",
@@ -6286,7 +6226,7 @@
     },
     {
       "key": "Goodie/description/FONDUE",
-      "value": "Eine eigens von Hauskulinariker Michael Rüegg <a href=\"https://www.republik.ch/fondue\" target=\"_blank\">entworfene Mischung</a>. Für 2 Personen. Es hät, solangs hät. Liefertermin: 23.12.2021."
+      "value": "Eine von Hauskulinariker Michael Rüegg entworfene Mischung. Für 2 Personen. Versand am 22.12.21."
     },
     {
       "key": "Goodie/label/NOTEBOOK",

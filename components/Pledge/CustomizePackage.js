@@ -838,6 +838,9 @@ class CustomizePackage extends Component {
                               label={label}
                               error={dirty[fieldKey] && errors[fieldKey]}
                               value={value || ''}
+                              renderInput={props => (
+                                <input inputMode='numeric' {...props} />
+                              )}
                               onInc={
                                 value < field.max &&
                                 (() => {
@@ -1003,6 +1006,7 @@ class CustomizePackage extends Component {
               }
               error={dirty.price && errors.price}
               value={price ? price / 100 : ''}
+              renderInput={props => <input inputMode='numeric' {...props} />}
               onDec={
                 price - 1000 >= minPrice &&
                 (() => {

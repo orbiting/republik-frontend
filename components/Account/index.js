@@ -1,4 +1,6 @@
-import React, { Fragment, Component } from 'react'
+import React, { useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 import { css } from 'glamor'
@@ -18,7 +20,7 @@ import AccessGrants from '../Access/Grants'
 import AuthSettings from './AuthSettings'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
 import ProgressSettings from './ProgressSettings'
-import PledgeList from './PledgeList'
+import PledgeList from './Transactions/PledgeList'
 import Onboarding from './Onboarding'
 import Access from './Access'
 import SignIn from '../Auth/SignIn'
@@ -26,9 +28,14 @@ import withMembership from '../Auth/withMembership'
 import NotificationsLegacy from './NotificationsLegacy'
 import Box from '../Frame/Box'
 
-import { Interaction, mediaQueries } from '@project-r/styleguide'
+import {
+  Interaction,
+  mediaQueries,
+  Scroller,
+  TabButton
+} from '@project-r/styleguide'
 
-import query from './belongingsQuery'
+import belongingsQuery from './belongingsQuery'
 
 import MembershipList from './Memberships/List'
 import PaymentSources from './PaymentSources'
@@ -60,8 +67,25 @@ const AccountAnchor = ({ children, id }) => {
   )
 }
 
-class Account extends Component {
-  componentDidMount() {
+const Account = ({
+  loading,
+  error,
+  me,
+  t,
+  hasMemberships,
+  hasActiveMemberships,
+  hasAccessGrants,
+  acceptedStatue,
+  paymentMethodCompany,
+  hasPledges,
+  merci,
+  inNativeIOSApp,
+  isMember
+}) => {
+  const { query, pathname } = useRouter()
+  const activeTab = query.tab || 'MEMBERSHIP'
+
+  useEffect(() => {
     if (window.location.hash.substr(1).length > 0) {
       const node = document.getElementById(window.location.hash.substr(1))
 
@@ -69,152 +93,135 @@ class Account extends Component {
         node.scrollIntoView()
       }
     }
-  }
+  }, [])
 
-  render() {
-    const {
-      loading,
-      error,
-      me,
-      t,
-      query,
-      hasMemberships,
-      hasActiveMemberships,
-      hasAccessGrants,
-      acceptedStatue,
-      paymentMethodCompany,
-      hasPledges,
-      merci,
-      inNativeIOSApp,
-      isMember
-    } = this.props
-
-    return (
-      <Loader
-        loading={loading}
-        error={error}
-        render={() => {
-          if (!me) {
-            return (
-              <MainContainer>
-                <Content>
-                  <H1 style={{ marginBottom: 22 }}>
-                    {t('account/signedOut/title')}
-                  </H1>
-                  <P>{t('account/signedOut/signIn')}</P>
-                  <SignIn email={query.email} />
-                </Content>
-              </MainContainer>
-            )
-          }
-
+  return (
+    <Loader
+      loading={loading}
+      error={error}
+      render={() => {
+        if (!me) {
           return (
-            <Fragment>
-              {hasAccessGrants && !hasActiveMemberships && <AccessGrants />}
-              {!hasAccessGrants && !hasMemberships && <UserGuidance />}
-              <MainContainer>
-                <Content>
-                  {!merci && (
-                    <H1 style={{ marginBottom: 22 }}>
-                      {t.first(
-                        [
-                          me.name && 'Account/title/name',
-                          'Account/title'
-                        ].filter(Boolean),
-                        {
-                          name: me.name
-                        }
-                      )}
-                    </H1>
-                  )}
-
-                  <Anchors />
-
-                  {inNativeIOSApp && (
-                    <Box style={{ padding: 14, marginBottom: 20 }}>
-                      <P>{t('account/ios/box')}</P>
-                    </Box>
-                  )}
-
-                  {isMember && (
-                    <AccountAnchor id='onboarding'>
-                      <Onboarding />
-                    </AccountAnchor>
-                  )}
-
-                  {!inNativeIOSApp && (
-                    <AccountAnchor id='abos'>
-                      <MembershipList highlightId={query.id} />
-                      {paymentMethodCompany && (
-                        <PaymentSources
-                          company={paymentMethodCompany}
-                          query={query}
-                        />
-                      )}
-                    </AccountAnchor>
-                  )}
-
-                  {hasActiveMemberships && (
-                    <AccountAnchor id='teilen'>
-                      <Access />
-                    </AccountAnchor>
-                  )}
-
-                  <AccountAnchor id='email'>
-                    <UpdateEmail />
-                  </AccountAnchor>
-
-                  <AccountAnchor id='account'>
-                    <UpdateMe
-                      acceptedStatue={acceptedStatue}
-                      hasMemberships={hasMemberships}
-                    />
-                  </AccountAnchor>
-
-                  {!inNativeIOSApp && (
-                    <AccountAnchor id='pledges'>
-                      {(hasPledges || !hasMemberships) && (
-                        <H2>{t('account/pledges/title')}</H2>
-                      )}
-                      <PledgeList highlightId={query.id} />
-                    </AccountAnchor>
-                  )}
-
-                  <AccountAnchor id='newsletter'>
-                    <H2>{t('account/newsletterSubscriptions/title')}</H2>
-                    <NewsletterSubscriptions />
-                  </AccountAnchor>
-
-                  <AccountAnchor id='benachrichtigungen'>
-                    <NotificationsLegacy />
-                  </AccountAnchor>
-
-                  <AccountAnchor id='position'>
-                    <H2>{t('account/progress/title')}</H2>
-                    <ProgressSettings />
-                  </AccountAnchor>
-
-                  {APP_OPTIONS && (
-                    <AccountAnchor id='anmeldung'>
-                      <H2>{t('account/authSettings/title')}</H2>
-                      <AuthSettings />
-                    </AccountAnchor>
-                  )}
-                </Content>
-              </MainContainer>
-            </Fragment>
+            <MainContainer>
+              <Content>
+                <H1 style={{ marginBottom: 22 }}>
+                  {t('account/signedOut/title')}
+                </H1>
+                <P>{t('account/signedOut/signIn')}</P>
+                <SignIn email={query.email} />
+              </Content>
+            </MainContainer>
           )
-        }}
-      />
-    )
-  }
+        }
+
+        return (
+          <>
+            {hasAccessGrants && !hasActiveMemberships && <AccessGrants />}
+            {!hasAccessGrants && !hasMemberships && <UserGuidance />}
+            <MainContainer>
+              <Content>
+                {inNativeIOSApp && (
+                  <Box style={{ padding: 14, marginBottom: 20 }}>
+                    <P>{t('account/ios/box')}</P>
+                  </Box>
+                )}
+                <Scroller>
+                  {['MEMBERSHIP', 'TRANSACTIONS', 'SETTINGS'].map((n, i) => (
+                    <Link
+                      href={{
+                        pathname,
+                        query: { tab: n }
+                      }}
+                      scroll={false}
+                      passHref
+                      key={n}
+                    >
+                      <TabButton
+                        key={n}
+                        text={t(`account/tabs/${n}`)}
+                        isActive={n === activeTab}
+                      />
+                    </Link>
+                  ))}
+                </Scroller>
+
+                <Anchors tab={activeTab} />
+
+                {isMember && <Onboarding />}
+
+                {!inNativeIOSApp && (
+                  <AccountAnchor id='abos'>
+                    <MembershipList highlightId={query.id} />
+                    {paymentMethodCompany && (
+                      <PaymentSources
+                        company={paymentMethodCompany}
+                        query={query}
+                      />
+                    )}
+                  </AccountAnchor>
+                )}
+
+                {hasActiveMemberships && (
+                  <AccountAnchor id='teilen'>
+                    <Access />
+                  </AccountAnchor>
+                )}
+
+                <AccountAnchor id='email'>
+                  <UpdateEmail />
+                </AccountAnchor>
+
+                <AccountAnchor id='account'>
+                  <UpdateMe
+                    acceptedStatue={acceptedStatue}
+                    hasMemberships={hasMemberships}
+                  />
+                </AccountAnchor>
+
+                {!inNativeIOSApp && (
+                  <AccountAnchor id='pledges'>
+                    {(hasPledges || !hasMemberships) && (
+                      <H2>{t('account/pledges/title')}</H2>
+                    )}
+                    <PledgeList highlightId={query.id} />
+                  </AccountAnchor>
+                )}
+
+                <AccountAnchor id='newsletter'>
+                  <H2>{t('account/newsletterSubscriptions/title')}</H2>
+                  <NewsletterSubscriptions />
+                </AccountAnchor>
+
+                <AccountAnchor id='benachrichtigungen'>
+                  <NotificationsLegacy />
+                </AccountAnchor>
+
+                <AccountAnchor id='position'>
+                  <H2>{t('account/progress/title')}</H2>
+                  <ProgressSettings />
+                </AccountAnchor>
+
+                {APP_OPTIONS && (
+                  <AccountAnchor id='anmeldung'>
+                    <H2>{t('account/authSettings/title')}</H2>
+                    <AuthSettings />
+                  </AccountAnchor>
+                )}
+              </Content>
+            </MainContainer>
+          </>
+        )
+      }}
+    />
+  )
 }
+
 export default compose(
   withMe,
   withT,
   withInNativeApp,
   withMembership,
-  graphql(query, {
+  graphql(belongingsQuery, {
     props: ({ data }) => {
       const isReady = !data.loading && !data.error && data.me
       const hasMemberships =

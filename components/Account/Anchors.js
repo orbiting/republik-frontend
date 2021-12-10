@@ -18,9 +18,8 @@ import Link from 'next/link'
 const styles = {
   anchorList: css({
     listStyleType: 'none',
-    margin: 0,
+    margin: '24px 0',
     padding: 0,
-    paddingBottom: 80,
     overflow: 'hidden'
   }),
   anchorListItem: css({

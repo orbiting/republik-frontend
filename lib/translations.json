@@ -1221,6 +1221,18 @@
       "value": "Einrichtungsassistent"
     },
     {
+      "key": "account/tabs/MEMBERSHIP",
+      "value": "Abonnement"
+    },
+    {
+      "key": "account/tabs/TRANSACTIONS",
+      "value": "Transaktionen"
+    },
+    {
+      "key": "account/tabs/SETTINGS",
+      "value": "Einstellungen"
+    },
+    {
       "key": "profile/documents/title/other",
       "value": "{count} Beiträge"
     },

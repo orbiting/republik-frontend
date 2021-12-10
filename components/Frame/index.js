@@ -79,7 +79,7 @@ export const MainContainer = ({ children }) => (
   <Container style={{ maxWidth: '840px' }}>{children}</Container>
 )
 
-export const Content = ({ children, style }) => (
+export const Content = ({ children, style = undefined }) => (
   <div {...styles.content} style={style}>
     {children}
   </div>

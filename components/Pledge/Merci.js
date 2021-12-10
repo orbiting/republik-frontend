@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import compose from 'lodash/flowRight'
 import { format } from 'url'
 
@@ -10,8 +10,6 @@ import { withSignIn } from '../Auth/SignIn'
 import { WithMembership } from '../Auth/withMembership'
 import ErrorMessage from '../ErrorMessage'
 
-import Account from '../Account'
-
 import { Content, MainContainer } from '../Frame'
 
 import ClaimPledge from './Claim'
@@ -21,7 +19,6 @@ import { EMAIL_CONTACT, ONBOARDING_PACKAGES } from '../../lib/constants'
 import {
   A,
   Interaction,
-  RawHtml,
   InlineSpinner,
   Button,
   Loader,
@@ -317,7 +314,6 @@ class Merci extends Component {
             />
           </Content>
         </MainContainer>
-        <Account query={query} merci />
       </>
     )
   }

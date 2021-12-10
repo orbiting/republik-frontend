@@ -18,7 +18,7 @@ export default withT(({ t }) => {
   return (
     <div {...styles.container} {...colorScheme.set('backgroundColor', 'hover')}>
       <P>
-        <Emphasis>{`${t('Account/Onboarding/title')}: `}</Emphasis>
+        <Emphasis>🔧 {`${t('Account/Onboarding/title')}: `}</Emphasis>
         {t.elements('Account/Onboarding/text', {
           link: (
             <Link key='link' href='/einrichten' passHref>

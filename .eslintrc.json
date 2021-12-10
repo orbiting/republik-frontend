@@ -36,6 +36,15 @@
         "plugin:prettier/recommended",
         "plugin:@next/next/recommended"
       ],
+      "rules": {
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "off",
+        "react/jsx-no-target-blank": "off",
+        "react/display-name": "off",
+        "react/prop-types": "off",
+        "no-unused-vars": "warn",
+        "no-empty": "warn"
+      },
       "parser": "@typescript-eslint/parser"
     }
   ]

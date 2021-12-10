@@ -173,7 +173,7 @@ const Checkout = () => {
           }}
           selectedMembershipOption={selectedMembershipOption}
         />
-        {/* <MembershipSelector
+        <MembershipSelector
           membershipOptions={options2}
           onMembershipSelect={option => {
             setSelectedMembershipOption(option)
@@ -212,12 +212,12 @@ const Checkout = () => {
             setOwnPrice(ownPrice)
           }}
           selectedMembershipOption={selectedMembershipOption}
-        /> */}
+        />
         {/* Gönner Upsell, should only be visible if regular options */}
         {/* <Link passHref href='/'>
           <Editorial.A>Gönner werden</Editorial.A>
         </Link>
-        */}
+       
         <GiftMembershipSelector />
         <GoodieSelector />
         {/* 

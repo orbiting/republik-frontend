@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import compose from 'lodash/flowRight'
 import { format } from 'url'
 
@@ -21,7 +21,6 @@ import { EMAIL_CONTACT, ONBOARDING_PACKAGES } from '../../lib/constants'
 import {
   A,
   Interaction,
-  RawHtml,
   InlineSpinner,
   Button,
   Loader,
@@ -262,13 +261,10 @@ class Merci extends Component {
     }
 
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
-    const noNameSuffix = me ? '' : '/noName'
+    const noNameSuffix = me?.name ? '' : '/noName'
 
-    const paragraphs = t
-      .first([
-        `merci/paragraph/package/${query.package || 'UNKOWN'}`,
-        'merci/paragraph'
-      ])
+    const leads = t
+      .first([`merci/lead/package/${query.package || 'UNKOWN'}`, 'merci/lead'])
       .split('\n\n')
       .filter(Boolean)
 
@@ -284,20 +280,14 @@ class Merci extends Component {
                   `merci/title${noNameSuffix}`
                 ],
                 {
-                  name: me && me.name
+                  name: me?.name
                 }
               )}
             </H1>
-            <div style={{ margin: '22px 0' }}>
-              <Meta.Lead>
-                {t.first([
-                  `merci/lead/package/${query.package || 'UNKOWN'}`,
-                  'merci/lead'
-                ])}
-              </Meta.Lead>
-            </div>
-            {paragraphs.map((paragraph, i) => (
-              <Meta.P key={`p${i}`}>{paragraph}</Meta.P>
+            {leads.map((lead, i) => (
+              <div key={`lead${i}`} style={{ margin: '22px 0' }}>
+                <Meta.Lead>{lead}</Meta.Lead>
+              </div>
             ))}
             <WithMembership
               render={() => (

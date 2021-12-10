@@ -5,7 +5,7 @@ import { NarrowContainer } from '@project-r/styleguide'
 
 import { CROWDFUNDING_PLEDGE } from '../lib/constants'
 
-import Frame from '../components/Frame'
+import Frame, { Content } from '../components/Frame'
 import PledgeForm from '../components/Pledge/Form'
 import PledgeReceivePayment from '../components/Pledge/ReceivePayment'
 
@@ -67,17 +67,22 @@ class PledgePage extends Component {
     }
 
     return (
-      <Frame>
-        <NarrowContainer style={{ padding: 0 }}>
-          {pledgeId ? (
-            <PledgeReceivePayment
-              crowdfundingName={CROWDFUNDING_PLEDGE}
-              pledgeId={pledgeId}
-              query={query}
-            />
-          ) : (
-            <PledgeForm crowdfundingName={CROWDFUNDING_PLEDGE} query={query} />
-          )}
+      <Frame raw>
+        <NarrowContainer>
+          <Content>
+            {pledgeId ? (
+              <PledgeReceivePayment
+                crowdfundingName={CROWDFUNDING_PLEDGE}
+                pledgeId={pledgeId}
+                query={query}
+              />
+            ) : (
+              <PledgeForm
+                crowdfundingName={CROWDFUNDING_PLEDGE}
+                query={query}
+              />
+            )}
+          </Content>
         </NarrowContainer>
       </Frame>
     )

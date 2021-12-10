@@ -2,18 +2,17 @@ import React from 'react'
 import { css } from 'glamor'
 import { Interaction } from '@project-r/styleguide'
 import Goodie from './Goodie'
-import FieldSet, { styles as fieldSetStyles } from '../../FieldSet'
+import FieldSet from '../../FieldSet'
 
 type GoodieRewardType = {
   __typename: 'Goodie'
   id: string
-  name: 'FONDUE' | 'NOTEBOOK' | 'MASK' | 'TABLEBOOK'
+  name: 'FONDUE' | 'NOTEBOOK' | 'TOTEBAG'
 }
 
 export type PledgeOptionType = {
   reward: GoodieRewardType
   __typename: 'PackageOption'
-  accessGranted: boolean
   defaultAmount: number
   id: string
   maxAmount: number
@@ -33,42 +32,44 @@ export type FieldType = {
 
 type FieldsType = {
   fields: FieldType[]
+  values: Record<string, number>
   onChange: (fields) => void
   t: (string: string) => void
 }
 
 const styles = {
-  goodieContainer: css({ marginBottom: 24 }),
-  delivery: css({ marginBottom: 24 })
+  goodieContainer: css({ marginBottom: 24 })
 }
 
-function GoodieOptions({ fields, onChange, t }: FieldsType) {
-  if (!fields) {
+function GoodieOptions({ fields, values, onChange, t }: FieldsType) {
+  if (!fields.length) {
     return null
   }
 
   return (
     <>
-      <Interaction.H3>Zusätzliche Angebote</Interaction.H3>
+      <Interaction.H3>{t('Goodies/title')}</Interaction.H3>
 
       <div {...styles.goodieContainer}>
         {fields.map(field => {
-          const onFieldChange = (_, value, shouldValidate) => {
-            let error
-            const nextFields = FieldSet.utils.fieldsState({
-              field: field.key,
-              value,
-              error,
-              dirty: shouldValidate
-            })
-            onChange(nextFields)
-          }
+          const value =
+            values[field.key] === undefined ? field.default : values[field.key]
 
           return (
             <Goodie
               key={field.key}
               option={field.option}
-              onChange={value => onFieldChange(undefined, value, false)}
+              value={value}
+              onChange={value =>
+                onChange(
+                  FieldSet.utils.fieldsState({
+                    field: field.key,
+                    value,
+                    error: undefined,
+                    dirty: true
+                  })
+                )
+              }
               t={t}
             />
           )

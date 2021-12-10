@@ -146,6 +146,55 @@ const options5 = [
   }
 ]
 
+const options6 = [
+  {
+    label: 'Eigener Preis',
+    description:
+      'Journalismus kostet. Was ist er Ihnen wert? Wählen Sie einen Preis, der Ihnen gerecht scheint.',
+    price: 378,
+    userPrice: true,
+    minUserPrice: 1,
+    suggestedPrice: 37800,
+    reward: {
+      __typename: 'MembershipType',
+      name: 'ABO'
+    }
+  },
+  {
+    id: '123123-123123-123123',
+    label: 'Regulär',
+    description:
+      'Mit Ihrem Beitrag garantieren Sie das Fortbestehen der Republik und des unabhängigen Journalismus.',
+    price: 24000,
+    reward: {
+      __typename: 'MembershipType',
+      name: 'ABO'
+    }
+  },
+  {
+    id: '123123-123123-123123',
+    label: 'Grosszügig',
+    description:
+      'Mit Ihrem Beitrag garantieren Sie das Fortbestehen der Republik und ermöglichen vergünstigte Mitgliedschaften.',
+    price: 36000,
+    reward: {
+      __typename: 'MembershipType',
+      name: 'ABO'
+    }
+  },
+  {
+    id: '123123-123123-123123',
+    label: 'Tollkühn',
+    description:
+      'Mit Ihrem Beitrag setzen Sie sich energisch für das Fortbestehen der Republik ein und ermöglichen vergünstigte Mitgliedschaften.',
+    price: 48000,
+    reward: {
+      __typename: 'MembershipType',
+      name: 'ABO'
+    }
+  }
+]
+
 const Checkout = () => {
   const [selectedMembershipOption, setSelectedMembershipOption] = useState(
     options[0] || {}
@@ -205,6 +254,16 @@ const Checkout = () => {
         />
         <MembershipSelector
           membershipOptions={options5}
+          onMembershipSelect={option => {
+            setSelectedMembershipOption(option)
+          }}
+          onOwnPriceSelect={ownPrice => {
+            setOwnPrice(ownPrice)
+          }}
+          selectedMembershipOption={selectedMembershipOption}
+        />
+        <MembershipSelector
+          membershipOptions={options6}
           onMembershipSelect={option => {
             setSelectedMembershipOption(option)
           }}

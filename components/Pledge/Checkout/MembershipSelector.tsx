@@ -128,7 +128,7 @@ const MembershipSelector = ({
               <div
                 {...styles.infocontainer}
                 style={{
-                  order: isDesktop ? 3 : index,
+                  order: isDesktop ? 9 : index,
                   display: selected ? 'inherit' : 'none'
                 }}
               >

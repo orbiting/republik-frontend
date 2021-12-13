@@ -14,7 +14,7 @@ const styles = {
     minWidth: 180
   }),
   settings: css({
-    margin: '5px 0 0'
+    margin: '10px 0 0'
   })
 }
 
@@ -52,7 +52,6 @@ const SubscribeCallout = ({
         <SubscribeDocument
           subscriptions={formatSubscriptions}
           setAnimate={setAnimate}
-          style={{ marginBottom: 15 }}
         />
       )}
       {authorSubscriptionsWithoutMe.length > 0 ? (
@@ -62,17 +61,12 @@ const SubscribeCallout = ({
           userHasNoDocuments={userHasNoDocuments}
           subscriptions={authorSubscriptionsWithoutMe}
           setAnimate={setAnimate}
-          style={{ marginBottom: 15 }}
         />
       ) : (
         meSubscription && <Label>{t('SubscribeCallout/onlyYourself')}</Label>
       )}
       {discussionId && (
-        <SubscribeDebate
-          discussionId={discussionId}
-          setAnimate={setAnimate}
-          style={{ marginBottom: 15 }}
-        />
+        <SubscribeDebate discussionId={discussionId} setAnimate={setAnimate} />
       )}
       <SettingsLink />
     </div>

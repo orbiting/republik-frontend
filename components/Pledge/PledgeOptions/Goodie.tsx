@@ -14,7 +14,7 @@ type PledgeOptionComponentType = {
   option: PledgeOptionType
   value: number
   onChange: (item) => void
-  t: (string) => void
+  t: (string) => string
 }
 
 const IMAGE_SIZE = 64

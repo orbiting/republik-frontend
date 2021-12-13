@@ -34,7 +34,7 @@ type FieldsType = {
   fields: FieldType[]
   values: Record<string, number>
   onChange: (fields) => void
-  t: (string: string) => void
+  t: (string: string) => string
 }
 
 const styles = {

@@ -6,6 +6,7 @@ import compose from 'lodash/flowRight'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
 import { ErrorLabel } from '../ErrorMessage'
+import SubscribeCalloutTitle from './SubscribeCalloutTitle'
 
 const styles = {
   radio: css({
@@ -31,11 +32,9 @@ export const getSelectedDiscussionPreference = data =>
 
 const SubscribeDebate = ({
   t,
-  discussionId,
   discussionPreferences,
   setDiscussionPreferences,
-  setAnimate,
-  style
+  setAnimate
 }) => {
   const [isMutating, setIsMutating] = useState()
   const [serverError, setServerError] = useState()
@@ -72,12 +71,12 @@ const SubscribeDebate = ({
   }
 
   return (
-    <div style={style}>
-      <h4>
+    <>
+      <SubscribeCalloutTitle>
         {t('SubscribeDebate/title', {
           debate: inQuotes(discussionPreferences.discussion.title)
         })}
-      </h4>
+      </SubscribeCalloutTitle>
       <div {...styles.radio}>
         {notificationOptions.map(option => (
           <div key={option.value}>
@@ -93,7 +92,7 @@ const SubscribeDebate = ({
         ))}
       </div>
       {serverError && <ErrorLabel error={serverError} />}
-    </div>
+    </>
   )
 }
 

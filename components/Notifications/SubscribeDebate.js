@@ -5,6 +5,7 @@ import { Radio, inQuotes } from '@project-r/styleguide'
 import compose from 'lodash/flowRight'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withDiscussionPreferences } from '../Discussion/graphql/enhancers/withDiscussionPreferences'
+import { ErrorLabel } from '../ErrorMessage'
 
 const styles = {
   radio: css({
@@ -36,32 +37,39 @@ const SubscribeDebate = ({
   setAnimate,
   style
 }) => {
-  const [selectedValue, setSelectedValue] = useState(undefined)
+  const [isMutating, setIsMutating] = useState()
+  const [serverError, setServerError] = useState()
+  if (
+    !discussionPreferences ||
+    !discussionPreferences.me ||
+    !discussionPreferences.discussion ||
+    !setDiscussionPreferences
+  ) {
+    return null
+  }
 
   const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
     value: option,
     text: t(`SubscribeDebate/option/${option}/label`)
   }))
 
-  useEffect(() => {
-    setSelectedValue(getSelectedDiscussionPreference(discussionPreferences))
-  }, [discussionPreferences])
+  const selectedValue = getSelectedDiscussionPreference(discussionPreferences)
 
   const updatePreferences = option => e => {
     e.stopPropagation(e)
-    setSelectedValue(option.value)
-    setDiscussionPreferences(undefined, undefined, option.value).then(() => {
-      setAnimate && setAnimate(true)
-    })
+    setIsMutating(true)
+    setDiscussionPreferences(undefined, undefined, option.value).then(
+      () => {
+        setIsMutating(false)
+        setServerError()
+        setAnimate && setAnimate(true)
+      },
+      reason => {
+        setIsMutating(false)
+        setServerError(reason)
+      }
+    )
   }
-
-  if (
-    !discussionPreferences ||
-    !discussionPreferences.me ||
-    !discussionPreferences.discussion ||
-    !setDiscussionPreferences
-  )
-    return null
 
   return (
     <div style={style}>
@@ -74,6 +82,7 @@ const SubscribeDebate = ({
         {notificationOptions.map(option => (
           <div key={option.value}>
             <Radio
+              disabled={isMutating}
               value={option.value}
               checked={selectedValue === option.value}
               onChange={updatePreferences(option)}
@@ -83,6 +92,7 @@ const SubscribeDebate = ({
           </div>
         ))}
       </div>
+      {serverError && <ErrorLabel error={serverError} />}
     </div>
   )
 }

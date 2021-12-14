@@ -3,8 +3,6 @@ import { css } from 'glamor'
 import Link from 'next/link'
 import { Scroller, TabButton, mediaQueries } from '@project-r/styleguide'
 
-type AccountTabProps = { pathname: string; t: (s: any) => string }
-
 const styles = {
   container: css({
     margin: '24px 0',
@@ -14,7 +12,7 @@ const styles = {
   })
 }
 
-const AccountTabs = ({ pathname, t }: AccountTabProps) => {
+const AccountTabs = ({ pathname, t }) => {
   console.log(pathname)
   return (
     <div {...styles.container}>

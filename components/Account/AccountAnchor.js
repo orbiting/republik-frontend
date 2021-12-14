@@ -15,13 +15,7 @@ const styles = {
   })
 }
 
-const AccountAnchor = ({
-  children,
-  id
-}: {
-  children: ReactNode
-  id: string
-}) => {
+const AccountAnchor = ({ children, id }) => {
   return (
     <div style={{ marginBottom: 64 }}>
       <a {...styles.accountAnchor} id={id} />

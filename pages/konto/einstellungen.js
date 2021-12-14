@@ -14,7 +14,7 @@ import AuthSettings from '../../components/Account/AuthSettings'
 
 import { APP_OPTIONS } from '../../lib/constants'
 
-const SettingsPage = ({ t }: { t: (s: any) => string }) => {
+const SettingsPage = ({ t }) => {
   const { pathname } = useRouter()
   return (
     <Frame raw>

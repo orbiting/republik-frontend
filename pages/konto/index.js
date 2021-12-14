@@ -7,9 +7,9 @@ import withT from '../../lib/withT'
 import Merci from '../../components/Pledge/Merci'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 import AccountTabs from '../../components/Account/AccountTabs'
-import { Content, MainContainer } from '../../components/Frame'
+import { MainContainer } from '../../components/Frame'
 
-const AccountPage = ({ t }: { t: (s: any) => string }) => {
+const AccountPage = ({ t }) => {
   const meta = {
     title: t('pages/account/title')
   }

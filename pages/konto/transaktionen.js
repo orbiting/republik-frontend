@@ -8,7 +8,7 @@ import AccountTabs from '../../components/Account/AccountTabs'
 import { MainContainer } from '../../components/Frame'
 import PledgeList from '../../components/Account/PledgeList'
 
-const TransactionPage = ({ t }: { t: (s: any) => string }) => {
+const TransactionPage = ({ t }) => {
   const { query, pathname } = useRouter()
   return (
     <Frame raw>

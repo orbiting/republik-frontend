@@ -172,17 +172,6 @@ class PledgeList extends Component {
             </AccountItem>
           )
         })}
-        <div style={{ marginTop: 30 }}>
-          <Link
-            href={{
-              pathname: '/angebote',
-              query: { group: 'GIVE' }
-            }}
-            passHref
-          >
-            <A>{t('account/pledges/promo')}</A>
-          </Link>
-        </div>
       </Fragment>
     )
   }

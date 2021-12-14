@@ -29,7 +29,7 @@ import belongingsQuery from './belongingsQuery'
 import MembershipList from './Memberships/List'
 import PaymentSources from './PaymentSources'
 
-import AccountAnchor from './AccountAnchor'
+import AccountSection from './AccountSection'
 
 const { H1, H2, P } = Interaction
 
@@ -88,7 +88,7 @@ const Account = ({
             {isMember && <Onboarding />}
 
             {!inNativeIOSApp && (
-              <AccountAnchor id='abos'>
+              <AccountSection id='abos' title={t('memberships/title/other')}>
                 <MembershipList highlightId={query.id} />
                 {paymentMethodCompany && (
                   <PaymentSources
@@ -96,34 +96,28 @@ const Account = ({
                     query={query}
                   />
                 )}
-              </AccountAnchor>
+              </AccountSection>
             )}
 
             {hasActiveMemberships && (
-              <AccountAnchor id='teilen'>
+              <AccountSection
+                id='teilen'
+                title={t('Account/Access/Campaigns/title')}
+              >
                 <Access />
-              </AccountAnchor>
+              </AccountSection>
             )}
 
-            <AccountAnchor id='email'>
+            <AccountSection id='email' title={t('Account/Update/email/label')}>
               <UpdateEmail />
-            </AccountAnchor>
+            </AccountSection>
 
-            <AccountAnchor id='account'>
+            <AccountSection id='account' title={t('Account/Update/title')}>
               <UpdateMe
                 acceptedStatue={acceptedStatue}
                 hasMemberships={hasMemberships}
               />
-            </AccountAnchor>
-
-            <AccountAnchor id='newsletter'>
-              <H2>{t('account/newsletterSubscriptions/title')}</H2>
-              <NewsletterSubscriptions />
-            </AccountAnchor>
-
-            <AccountAnchor id='benachrichtigungen'>
-              <NotificationsLegacy />
-            </AccountAnchor>
+            </AccountSection>
           </>
         )
       }}

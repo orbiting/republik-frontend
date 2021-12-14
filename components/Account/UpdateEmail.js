@@ -177,14 +177,11 @@ class UpdateEmail extends Component {
             this.renderEditButton()
           )
           return (
-            <div style={{ marginBottom: 80 }}>
-              <H2 style={{ marginBottom: 8 }}>
-                {t('Account/Update/email/label')}
-              </H2>
+            <>
               <P>{me.email || ''}</P>
               <br />
               {body}
-            </div>
+            </>
           )
         }}
       />

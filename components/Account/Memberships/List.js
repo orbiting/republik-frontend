@@ -37,12 +37,7 @@ class MembershipsList extends Component {
           }
 
           return (
-            <div>
-              <H2>
-                {t.pluralize('memberships/title', {
-                  count: memberships.length
-                })}
-              </H2>
+            <>
               {!activeMembership && (
                 <Box style={{ padding: '15px 20px', margin: '1em 0em' }}>
                   <P>{t('memberships/noActive')}</P>
@@ -57,7 +52,7 @@ class MembershipsList extends Component {
                   hasWaitingMemberships={hasWaitingMemberships}
                 />
               ))}
-            </div>
+            </>
           )
         }}
       />

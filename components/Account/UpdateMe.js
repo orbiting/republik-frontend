@@ -146,7 +146,7 @@ class UpdateMe extends Component {
     this.autoEdit()
   }
   render() {
-    const { t, detailsData, style, hasMemberships } = this.props
+    const { t, detailsData, hasMemberships } = this.props
     const { values, dirty, updating, isEditing, errors } = this.state
     const { loading, error, me } = detailsData
 
@@ -167,12 +167,9 @@ class UpdateMe extends Component {
             .filter(Boolean)
 
           return (
-            <div style={style}>
+            <>
               {!isEditing ? (
                 <div>
-                  <H2 style={{ marginBottom: 30 }}>
-                    {t('Account/Update/title')}
-                  </H2>
                   <P>
                     {intersperse(
                       [me.name, me.phoneNumber].filter(Boolean),
@@ -347,7 +344,7 @@ class UpdateMe extends Component {
                   )}
                 </div>
               )}
-            </div>
+            </>
           )
         }}
       />

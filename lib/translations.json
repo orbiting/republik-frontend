@@ -1233,6 +1233,10 @@
       "value": "Einstellungen"
     },
     {
+      "key": "account/tabs/NOTIFICATIONS",
+      "value": "Benachrichtigungen"
+    },
+    {
       "key": "profile/documents/title/other",
       "value": "{count} Beiträge"
     },
@@ -6690,7 +6694,7 @@
     },
     {
       "key": "Notifications/settings/back",
-      "value": "Ihre Liste"
+      "value": "Zu Ihren Benachrichtigungen"
     },
     {
       "key": "Notifications/settings/title",

@@ -21,7 +21,8 @@ const AccountTabs = ({ pathname, t }) => {
           { path: '/konto', name: 'MEMBERSHIP' },
           { path: '/konto/transaktionen', name: 'TRANSACTIONS' },
           { path: '/konto/einstellungen', name: 'SETTINGS' },
-          { path: '/benachrichtigungen', name: 'NOTIFICATIONS' }
+          { path: '/konto/newsletter', name: 'NEWSLETTER' },
+          { path: '/benachrichtigungen/einstellungen', name: 'NOTIFICATIONS' }
         ].map((n, i) => (
           <Link href={n.path} scroll={false} passHref key={n.name}>
             <TabButton

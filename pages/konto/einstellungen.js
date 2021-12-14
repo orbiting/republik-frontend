@@ -8,7 +8,7 @@ import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 import Frame, { MainContainer } from '../../components/Frame'
 
 import AccountTabs from '../../components/Account/AccountTabs'
-import AccountAnchor from '../../components/Account/AccountAnchor'
+import AccountSection from '../../components/Account/AccountSection'
 import ProgressSettings from '../../components/Account/ProgressSettings'
 import AuthSettings from '../../components/Account/AuthSettings'
 
@@ -21,16 +21,17 @@ const SettingsPage = ({ t }) => {
       <MainContainer>
         <AccountTabs pathname={pathname} t={t} />
 
-        <AccountAnchor id='position'>
-          <Interaction.H2>{t('account/progress/title')}</Interaction.H2>
+        <AccountSection id='position' title={t('account/progress/title')}>
           <ProgressSettings />
-        </AccountAnchor>
+        </AccountSection>
 
         {APP_OPTIONS && (
-          <AccountAnchor id='anmeldung'>
-            <Interaction.H2>{t('account/authSettings/title')}</Interaction.H2>
+          <AccountSection
+            id='anmeldung'
+            title={t('account/authSettings/title')}
+          >
             <AuthSettings />
-          </AccountAnchor>
+          </AccountSection>
         )}
       </MainContainer>
     </Frame>

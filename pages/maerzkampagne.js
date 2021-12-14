@@ -173,17 +173,18 @@ const Page = ({
   const primaryQuery = shouldBuyProlong
     ? { package: 'PROLONG', ...tokenParams }
     : activeMembership
-    ? { package: 'ABO_GIVE', filter: 'pot' }
+    ? undefined
     : { package: 'ABO' }
-  const pledgeLink = inNativeIOSApp ? null : (
-    <Link href={{ pathname: '/angebote', query: primaryQuery }} passHref>
-      <A>
-        {activeMembership && !shouldBuyProlong
-          ? 'Wachstum schenken'
-          : 'Jetzt mitmachen!'}
-      </A>
-    </Link>
-  )
+  const pledgeLink =
+    inNativeIOSApp || !primaryQuery ? null : (
+      <Link href={{ pathname: '/angebote', query: primaryQuery }} passHref>
+        <A>
+          {activeMembership && !shouldBuyProlong
+            ? 'Wachstum schenken'
+            : 'Jetzt mitmachen!'}
+        </A>
+      </Link>
+    )
 
   const links = [
     !activeMembership && {
@@ -219,29 +220,10 @@ const Page = ({
           },
           title: defaultBenefactor ? 'Gönner bleiben' : 'Gönner werden',
           price: 100000
-        },
-        {
-          name: 'ABO_GIVE',
-          params: { filter: 'pot' },
-          title: 'Wachstum schenken',
-          price: 24000
         }
       ]
     : activeMembership
-    ? [
-        {
-          name: 'ABO_GIVE',
-          params: { filter: 'pot' },
-          title: 'Wachstum schenken',
-          price: 24000
-        },
-        {
-          name: 'DONATE_POT',
-          params: { price: 6000 },
-          title: 'Wachstum spenden',
-          price: 6000
-        }
-      ]
+    ? []
     : [
         {
           name: 'MONTHLY_ABO',
@@ -257,11 +239,6 @@ const Page = ({
           name: 'BENEFACTOR',
           title: 'Gönner-Mitgliedschaft',
           price: 100000
-        },
-        {
-          name: 'ABO_GIVE',
-          params: { filter: 'pot' },
-          title: 'Wachstum schenken'
         }
       ]
 
@@ -608,16 +585,18 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
               {t('cockpit/ios')}
             </Interaction.P>
           ) : (
-            <Link
-              href={{ pathname: '/angebote', query: primaryQuery }}
-              passHref
-            >
-              <Button primary style={{ minWidth: 300 }}>
-                {activeMembership && !shouldBuyProlong
-                  ? 'Wachstum schenken'
-                  : 'Jetzt mitmachen!'}
-              </Button>
-            </Link>
+            primaryQuery && (
+              <Link
+                href={{ pathname: '/angebote', query: primaryQuery }}
+                passHref
+              >
+                <Button primary style={{ minWidth: 300 }}>
+                  {activeMembership && !shouldBuyProlong
+                    ? 'Wachstum schenken'
+                    : 'Jetzt mitmachen!'}
+                </Button>
+              </Link>
+            )
           )}
 
           <div style={{ margin: '15px 0 40px' }}>

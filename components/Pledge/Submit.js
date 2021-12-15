@@ -855,7 +855,6 @@ const submitPledge = gql`
     $options: [PackageOptionInput!]!
     $user: UserInput
     $reason: String
-    $messageToClaimers: String
     $consents: [String!]
     $accessToken: ID
     $payload: JSON
@@ -870,7 +869,6 @@ const submitPledge = gql`
         address: $address
         shippingAddress: $shippingAddress
         reason: $reason
-        messageToClaimers: $messageToClaimers
         accessToken: $accessToken
         payload: $payload
       }

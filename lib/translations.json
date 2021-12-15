@@ -965,30 +965,6 @@
       "value": "E-Mail"
     },
     {
-      "key": "account/discussionNotificationChannels/WEB/label",
-      "value": "Browser (Beta)"
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/hint/live",
-      "value": "Sie erhalten Browser-Benachrichtungen, während Sie eine Debattenseite in einem beliebigen Browserfenster offen haben."
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/hint/unsupported",
-      "value": "Ihr Browser unterstützt leider keine Benachrichtungen."
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/hint/denied",
-      "value": "Sie haben Benachrichtungen in Ihrem Browser geblockt. Bitte aktualisieren Sie Ihre Browsereinstellungen, so dass Benachrichtigungen für https://www.republik.ch erlaubt sind."
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/hint/default",
-      "value": "Um auch wirklich Browser-Benachrichtungen zu erhalten, müssen Sie Ihrem Browser das erlauben:"
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/enable",
-      "value": "Browser-Benachrichtungen erlauben"
-    },
-    {
       "key": "account/discussionNotificationChannels/APP/label",
       "value": "App"
     },
@@ -1749,10 +1725,6 @@
       "value": "neu laden"
     },
     {
-      "key": "components/Discussion/Notification/noChannels",
-      "value": "Benachrichtigungen aktivieren"
-    },
-    {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",
       "value": "Meine und von abonnierten Profilen"
     },
@@ -1765,76 +1737,8 @@
       "value": "Keine"
     },
     {
-      "key": "components/Discussion/NotificationChannel/EMAIL/label",
-      "value": "E-Mail"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/WEB/label",
-      "value": "Browser"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/APP/label",
-      "value": "Via App"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
-      "value": "E-Mail und Browser"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/EMAIL_APP/label",
-      "value": "Via E-Mail und App"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/WEB_APP/label",
-      "value": "Via Browser und App"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
-      "value": "Via E-Mail, Browser und App"
-    },
-    {
-      "key": "components/Discussion/info/MY_CHILDREN",
-      "value": "{types} für Antworten auf meine Beiträge und Beiträge von abonnierten Profilen"
-    },
-    {
-      "key": "components/Discussion/info/ALL",
-      "value": "{types} für alle neuen Beiträge"
-    },
-    {
-      "key": "components/Discussion/info/NONE",
-      "value": "Keine Benachrichtigungen"
-    },
-    {
-      "key": "components/Discussion/Notification/dropdown/label",
-      "value": "Benachrichtigungen bei Beiträgen"
-    },
-    {
-      "key": "components/Discussion/Notification/dropdown/MY_CHILDREN/label",
-      "value": "Meine und von abonnierten Profilen"
-    },
-    {
-      "key": "components/Discussion/Notification/dropdown/ALL/label",
-      "value": "Alle neuen"
-    },
-    {
-      "key": "components/Discussion/Notification/dropdown/NONE/label",
-      "value": "Keine"
-    },
-    {
       "key": "components/Discussion/Notification/settings",
       "value": "Allgemeine Einstellungen"
-    },
-    {
-      "key": "components/Discussion/Notification/enable",
-      "value": "Browser-Benachrichtigungen aktivieren?"
-    },
-    {
-      "key": "components/Discussion/WelcomeNotification/title",
-      "value": "Willkommen!"
-    },
-    {
-      "key": "components/Discussion/WelcomeNotification/body",
-      "value": "Sie haben Benachrichtungen erfolgreich aktiviert."
     },
     {
       "key": "components/Discussion/etiquette",
@@ -2365,10 +2269,6 @@
       "value": "{formattedCHF}"
     },
     {
-      "key": "package/price/goodie",
-      "value": "{formattedCHF}"
-    },
-    {
       "key": "package/price/free",
       "value": "kostenlos"
     },
@@ -2406,7 +2306,7 @@
     },
     {
       "key": "package/ABO_GIVE_MONTHS/description",
-      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazuschenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik."
     },
     {
       "key": "package/BENEFACTOR/title",
@@ -3401,15 +3301,7 @@
       "value": "Guten Tag, {name}"
     },
     {
-      "key": "merci/title/package/TABLEBOOK",
-      "value": "Guten Tag, {name}"
-    },
-    {
       "key": "merci/title/package/MASK",
-      "value": "Guten Tag, {name}"
-    },
-    {
-      "key": "merci/title/package/DONATE_POT",
       "value": "Guten Tag, {name}"
     },
     {
@@ -3425,60 +3317,44 @@
       "value": "Guten Tag"
     },
     {
-      "key": "merci/title/package/TABLEBOOK/noName",
-      "value": "Guten Tag"
-    },
-    {
       "key": "merci/title/package/MASK/noName",
       "value": "Guten Tag"
     },
     {
-      "key": "merci/title/package/DONATE_POT/noName",
-      "value": "Guten Tag"
-    },
-    {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens."
-    },
-    {
-      "key": "merci/paragraph",
-      "value": "Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.\n\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.\n\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
       "key": "merci/lead/package/ABO_GIVE_MONTHS",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.\n\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
       "key": "merci/lead/package/DONATE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit!"
+      "value": "Vielen Dank für Ihre Grosszügigkeit!\n\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen."
     },
     {
-      "key": "merci/lead/package/DONATE_POT",
-      "value": "Vielen Dank für Ihre Grosszügigkeit!"
-    },
-    {
-      "key": "merci/title/package/PROLONG",
-      "value": "{name}, danke für Ihre Verlängerung."
-    },
-    {
-      "key": "merci/title/package/PROLONG/noName",
-      "value": "Danke für Ihre Verlängerung."
+      "key": "merci/lead/package/UNKOWN",
+      "value": "Vielen Dank für Ihre Unterstützung!"
     },
     {
       "key": "merci/lead/package/PROLONG",
-      "value": "Danke für Ihr Vertrauen und Ihre Unterstützung."
+      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum!\n\nGemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart."
+    },
+    {
+      "key": "merci/title/package/PROLONG",
+      "value": "{name}, danke für Ihre Verlängerung, für Ihr Vertrauen und für Ihre Unterstützung."
+    },
+    {
+      "key": "merci/title/package/PROLONG/noName",
+      "value": "Danke für Ihre Verlängerung, für Ihr Vertrauen und für Ihre Unterstützung."
     },
     {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/pageTitle",
       "value": "Willkommen an Bord!"
-    },
-    {
-      "key": "merci/paragraph/package/PROLONG",
-      "value": "Wir freuen uns sehr, Sie weiterhin an Bord zu wissen, denn mutiger Journalismus braucht ein aufmerksames, neugieriges, furchtloses Publikum!\n\nGemeinsam schützen wir die Medienvielfalt, die Informationsfreiheit und die Demokratie: Wir hören zu und diskutieren über drängende Fragen der Gegenwart."
     },
     {
       "key": "merci/title/package/UNKOWN",
@@ -3487,14 +3363,6 @@
     {
       "key": "merci/title/package/UNKOWN/noName",
       "value": "Danke"
-    },
-    {
-      "key": "merci/lead/package/UNKOWN",
-      "value": "Vielen Dank für Ihre Unterstützung!"
-    },
-    {
-      "key": "merci/lead/package/TABLEBOOK",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung."
     },
     {
       "key": "merci/action/read",
@@ -6261,72 +6129,48 @@
       "value": "Es freut uns, dass Sie dabei sind! Mit Ihrem jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. Sie erhalten ab sofort unser Magazin."
     },
     {
-      "key": "package/ABO/description/goodies/TABLEBOOK",
-      "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
-    },
-    {
-      "key": "package/ABO/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die zu ihrer Jahresmitgliedschaft kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
-    },
-    {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu."
-    },
-    {
-      "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",
-      "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen."
-    },
-    {
-      "key": "package/BENEFACTOR/description/goodies/MASK",
-      "value": "Und für begrenzte Zeit zudem auf Wunsch eine exklusive <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a>."
     },
     {
       "key": "package/PROLONG/description",
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen."
     },
     {
-      "key": "package/PROLONG/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
-    },
-    {
-      "key": "package/PROLONG/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können."
-    },
-    {
       "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen. Durch Ihren jährlichen Beitrag werden Sie Mitglied der Project R Genossenschaft."
     },
     {
-      "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/TABLEBOOK",
-      "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) zu bestellen. "
+      "key": "Goodies/title",
+      "value": "Noch etwas Handfestes?"
     },
     {
-      "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/MASK",
-      "value": "Sie gehören ausserdem – Glückwunsch! – zu denjenigen, die mit ihrer Verlängerung kostenlos eine <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> bestellen können. "
+      "key": "Goodie/dropdown/label",
+      "value": "Anzahl"
     },
     {
-      "key": "package/TABLEBOOK/description",
-      "value": "Die «Republik bei Stromausfall» ist eine auf 2000 Exemplare limitierte, gedruckte Edition der liebsten Geschichten und Bilder unserer Autorinnen und Autoren – auf rund 600 Seiten. Wie es sich für einen Sammel­band gehört, enthält er ein launiges Vorwort. Und jedem ausgewählten Text ist ein kleiner persönlicher Essay vorangestellt."
+      "key": "Goodie/label/FONDUE",
+      "value": "Republik Fondue"
     },
     {
-      "key": "package/MASK/description",
-      "value": "Ob als Statement-Piece oder praktische Ergänzung Ihrer MNS-Kollektion: Die Republik-Maske sieht mit weissen Rs auf schwarzem Grund verrrrrrdammt gut aus. Die dreilagige Stoffmaske ist ausserdem mit <a href=\"https://www.republik.ch/maske\" target=\"_blank\">HeiQ Viroblock</a> behandelt."
+      "key": "Goodie/description/FONDUE",
+      "value": "Eine von Hauskulinariker Michael Rüegg entworfene Mischung. Für 2 Personen. Versand am 22.12.21."
     },
     {
-      "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Hinweis: Bücher liefern wir bis Ende Mai."
+      "key": "Goodie/label/NOTEBOOK",
+      "value": "Republik Notizbuch"
     },
     {
-      "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "key": "Goodie/description/NOTEBOOK",
+      "value": "Ein Moleskin Notizbuch mit Republik-Gravierung. Lieferung innerhalb von 7 Werktagen."
     },
     {
-      "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",
-      "value": "Hinweis: Bücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "key": "Goodie/label/TOTEBAG",
+      "value": "Republik Tasche"
     },
     {
-      "key": "pledge/notice/goodies/delivery/MASK",
-      "value": "Hinweis: Masken liefern wir innerhalb von 7 Werktagen."
+      "key": "Goodie/description/TOTEBAG",
+      "value": "Mit Logo auf der Vorderseite und Manifest auf der Rückseite. Lieferung innerhalb von 7 Werktagen."
     },
     {
       "key": "option/TABLEBOOK/label/other",
@@ -6341,8 +6185,16 @@
       "value": "Republik-Maske"
     },
     {
-      "key": "package/customize/price/payMore/DONATE_POT",
-      "value": "Vorschläge"
+      "key": "option/FONDUE/label/other",
+      "value": "Republik-Fondues"
+    },
+    {
+      "key": "option/FONDUE/label/1",
+      "value": "Republik-Fondue"
+    },
+    {
+      "key": "package/customize/price/payMore/userPrice",
+      "value": "Können Sie Ihr Investment erhöhen?"
     },
     {
       "key": "package/customize/price/payMore/ABO_GIVE_MONTHS",
@@ -6378,7 +6230,7 @@
     },
     {
       "key": "package/customize/price/payRegular",
-      "value": "Auf den regulären Beitrag zurücksetzen"
+      "value": "Auf den regulären Betrag zurücksetzen"
     },
     {
       "key": "package/PROLONG/pageTitle/reactivate",
@@ -6553,10 +6405,6 @@
       "value": "Wachstum spenden"
     },
     {
-      "key": "package/DONATE_POT/description",
-      "value": "Spenden Sie der Republik Wachstum. Pro 240 Franken, die zusammenkommen, schenken wir sorgfältig ausgewählten Personen eine Mitgliedschaft für ein Jahr."
-    },
-    {
       "key": "package/ABO_GIVE/price",
       "value": "{formattedCHF}"
     },
@@ -6569,50 +6417,6 @@
       "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik."
     },
     {
-      "key": "package/ABO_GIVE/accessGrantedOnly/title",
-      "value": "Wachstum schenken"
-    },
-    {
-      "key": "package/ABO_GIVE/accessGrantedOnly/description",
-      "value": "Kaufen Sie eine Mitgliedschaft und vertrauen Sie uns die Aufgabe an, eine passende Empfängerin für Ihr Geschenk zu finden."
-    },
-    {
-      "key": "package/customize/ABO_GIVE/addAccessGrantedOnly",
-      "value": "Keine Idee wem schenken? Überlassen Sie die Auswahl uns."
-    },
-    {
-      "key": "package/customize/ABO_GIVE/rmAccessGrantedOnly",
-      "value": "Lieber selber verschenken?"
-    },
-    {
-      "key": "package/customize/ABO_GIVE/donate",
-      "value": "Oder beliebigen Betrag beitragen?"
-    },
-    {
-      "key": "package/customize/messageToClaimers/before",
-      "value": "Sie können eine Nachricht für den Empfänger hinterlegen. Dieser erfährt so oder so Ihren Namen und Sie werden darüber benachrichtigt, wer Ihr Geschenk erhalten hat."
-    },
-    {
-      "key": "package/customize/messageToClaimers/label",
-      "value": "Nachricht für Empfänger"
-    },
-    {
-      "key": "package/customize/messageToClaimers/note",
-      "value": "Geben Sie einen Lesetipp, ein Plädoyer für die Republik oder übermitteln Sie Ihre Grüsse. Falls Sie mit dem Beschenkten in Kontakt treten möchten, geben Sie hier Ihre E-Mail Adresse an."
-    },
-    {
-      "key": "package/ABO_GIVE/description/goodies/MASK_NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazuschenken? Zur Auswahl stehen das Buch «Republik bei Stromausfall» für CHF 58, die Republik-Tasche oder das Republik-Notizbuch für je CHF 20. Und im Dezember 2020 die <a href=\"https://www.republik.ch/maske\" target=\"_blank\">Republik-Maske</a> für CHF 10."
-    },
-    {
-      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazuschenken? Zur Auswahl steht das Buch «Republik bei Stromausfall» für CHF 58, die Republik-Tasche oder das Republik-Notizbuch für je CHF 20. Die Objekte werden Ihnen geschickt."
-    },
-    {
-      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TOTEBAG",
-      "value": "Etwas Handfestes dazuschenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je CHF 20. Die Objekte werden Ihnen geschickt."
-    },
-    {
       "key": "package/customize/price/payMore/threemonth",
       "value": "Drei Monate {formattedCHF}"
     },
@@ -6623,10 +6427,6 @@
     {
       "key": "package/customize/price/payMore/ayear",
       "value": "Ein ganzes Jahr {formattedCHF}"
-    },
-    {
-      "key": "package/customize/price/payRegular/DONATE_POT",
-      "value": "Betrag zurücksetzen"
     },
     {
       "key": "package/customize/price/payMore/thx/ayear",

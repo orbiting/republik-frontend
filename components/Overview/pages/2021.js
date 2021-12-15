@@ -471,9 +471,9 @@ const text = {
         Wollte Sebastian Kurz Österreichs liberale Demokratie kippen
       </Highlight>
       ? Dazu:{' '}
-      <A href='/2021/10/08/werfen-sie-einen-blick-in-unsere-geschaeftsbuecher'>
+      <Highlight {...p} ids={['XFnLlnh9AV']}>
         Ein erfreulicher Blick in die Geschäftsbücher der Republik
-      </A>
+      </Highlight>
       ,{' '}
       <Highlight {...p} ids={['VmZa58Csr']}>
         ein wenig Hoffnung für das Klima
@@ -481,6 +481,63 @@ const text = {
       und{' '}
       <Highlight {...p} ids={['iCJmpFOQ6']}>
         nein, Instagram hört Ihr Handy (sehr wahrscheinlich) nicht ab
+      </Highlight>
+      .
+    </>
+  ),
+  November: p => (
+    <>
+      Über{' '}
+      <Highlight {...p} ids={['kxo7a6FCR']}>
+        unabhängige Richter
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['swZ0CS6xh']}>
+        die Zukunft der Pflege
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['pKQBBnsBv']}>
+        den neuen Präsidenten der FDP
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['9LVIQbncEb']}>
+        Warum die Schweiz eine der niedrigsten Impfquoten Westeuropas hat
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['W27-u1IOQ']}>
+        wie Chile zum Impfweltmeister werden konnte
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['LKCOlcE3f']}>
+        So steht es nach bald zwei Jahren Corona um unsere Grundrechte
+      </Highlight>{' '}
+      – und die Einsicht:{' '}
+      <Highlight {...p} ids={['5RQllI9KB']}>
+        Was jetzt kommt, wird schmerzhaft
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['icRhWZS0N']}>
+        Von der Klimakonferenz in Glasgow
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['nPWnWAg-F']}>
+        vom Assange-Prozess in London
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['53-a94svB']}>
+        Aichinger lesen
+      </Highlight>
+      ,{' '}
+      <Highlight {...p} ids={['OBuzvdWr1']}>
+        Goya anschauen
+      </Highlight>{' '}
+      oder einfach{' '}
+      <Highlight {...p} ids={['mALn7V-p-']}>
+        Paella kochen
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['gKKL8G_Jhl']}>
+        die neue Audio-Kolumne von Nicoletta Cimmino hören
       </Highlight>
       .
     </>

@@ -109,7 +109,6 @@ class Pledge extends Component {
 
     if (pledge) {
       values.reason = pledge.reason
-      values.messageToClaimers = pledge.messageToClaimers
       values.price = pledge.total
       pledge.options.forEach(option => {
         values[getOptionFieldKey(option)] = option.amount
@@ -148,29 +147,18 @@ class Pledge extends Component {
       : null
     if (pkg) {
       if (query.userPrice) {
-        // do not offer goodies unless userPrice true
+        // only offer userPrice true options
         pkg = {
           ...pkg,
-          options: pkg.options.filter(
-            option => option.reward.__typename !== 'Goodie' || option.userPrice
-          )
+          options: pkg.options.filter(option => option.userPrice)
         }
       }
-      const hasAccessGrantedAndNot =
-        pkg.options.some(option => option.accessGranted) &&
-        pkg.options.some(option => !option.accessGranted)
-      if (hasAccessGrantedAndNot) {
-        const showAccessGranted = query.filter === 'pot'
+      // the frontend no longer supports accessGranted and strips those options
+      const hasAccessGranted = pkg.options.some(option => option.accessGranted)
+      if (hasAccessGranted) {
         pkg = {
           ...pkg,
-          options: pkg.options
-            .filter(option => option.accessGranted === showAccessGranted)
-            .map(option => ({
-              ...option,
-              defaultAmount: showAccessGranted
-                ? Math.min(option.maxAmount, 1)
-                : option.defaultAmount
-            }))
+          options: pkg.options.filter(option => !option.accessGranted)
         }
       }
     }
@@ -182,7 +170,6 @@ class Pledge extends Component {
     const pkg = this.getPkg({ query })
     const userPrice = !!query.userPrice
 
-    let hasAccessGranted
     let requireShippingAddress = pkg ? pkg.name === 'BENEFACTOR' : false
     const options = pkg
       ? pkg.options.map(option => {
@@ -195,9 +182,6 @@ class Pledge extends Component {
               : // can be '', but PackageOptionInput needs Int! here
                 +values[fieldKey]
           if (amount) {
-            if (option.accessGranted) {
-              hasAccessGranted = true
-            }
             if (option.reward?.__typename === 'Goodie') {
               requireShippingAddress = true
             }
@@ -238,9 +222,6 @@ class Pledge extends Component {
       total: values.price || undefined,
       options,
       reason: userPrice ? values.reason : undefined,
-      messageToClaimers: hasAccessGranted
-        ? values.messageToClaimers
-        : undefined,
       id: pledge ? pledge.id : undefined,
       pledgeShippingAddress: pledge ? pledge.shippingAddress : undefined,
       pledgeUser: pledge ? pledge.user : undefined,
@@ -329,6 +310,8 @@ class Pledge extends Component {
       ''
     )
 
+    const hasFondue =
+      pkg && pkg.options.some(option => option.reward.name === 'FONDUE')
     const meta = statementTitle
       ? {
           title: t('pledge/form/statement/share/title', statement),
@@ -350,7 +333,11 @@ class Pledge extends Component {
             queryGroup && `pledge/meta/group/${queryGroup}/description`,
             'pledge/meta/description'
           ]),
-          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
+          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/${
+            hasFondue && pkg?.group === 'GIVE'
+              ? 'fondue.jpg?size=1200x630'
+              : 'logo.png'
+          }`
         }
 
     return (
@@ -561,6 +548,7 @@ const query = gql`
         name
         group
         paymentMethods
+        suggestedTotal
         options {
           id
           price

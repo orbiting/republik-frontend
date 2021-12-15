@@ -1,7 +1,7 @@
 import React from 'react'
 import { errorToString } from '../lib/utils/errors'
 
-import { useColorContext, Interaction } from '@project-r/styleguide'
+import { useColorContext, Interaction, Label } from '@project-r/styleguide'
 
 const { P } = Interaction
 
@@ -23,6 +23,18 @@ const ErrorMessage = ({ error, style, children }) => {
         {children}
       </span>
     </P>
+  )
+}
+
+export const ErrorLabel = ({ error, children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <Label>
+      <span {...colorScheme.set('color', 'error')}>
+        {error && errorToString(error)}
+        {children}
+      </span>
+    </Label>
   )
 }
 

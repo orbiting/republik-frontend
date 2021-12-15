@@ -4,8 +4,7 @@ import { Label } from '@project-r/styleguide'
 
 export const DISCUSSION_NOTIFICATION_CHANNELS = [
   'EMAIL',
-  APP_OPTIONS && 'APP',
-  'WEB'
+  APP_OPTIONS && 'APP'
 ].filter(Boolean)
 
 export const DISCUSSION_NOTIFICATION_OPTIONS = ['MY_CHILDREN', 'ALL', 'NONE']

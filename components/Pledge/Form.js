@@ -310,6 +310,8 @@ class Pledge extends Component {
       ''
     )
 
+    const hasFondue =
+      pkg && pkg.options.some(option => option.reward?.name === 'FONDUE')
     const meta = statementTitle
       ? {
           title: t('pledge/form/statement/share/title', statement),
@@ -331,7 +333,11 @@ class Pledge extends Component {
             queryGroup && `pledge/meta/group/${queryGroup}/description`,
             'pledge/meta/description'
           ]),
-          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
+          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/${
+            hasFondue && pkg?.group === 'GIVE'
+              ? 'fondue.jpg?size=1200x630'
+              : 'logo.png'
+          }`
         }
 
     return (

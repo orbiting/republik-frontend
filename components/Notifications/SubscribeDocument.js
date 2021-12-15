@@ -1,13 +1,14 @@
 import React from 'react'
 import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
-import { css } from 'glamor'
-import { fontStyles } from '@project-r/styleguide'
+import SubscribeCalloutTitle from './SubscribeCalloutTitle'
 
-const SubscribeDocument = ({ t, subscriptions, setAnimate, style }) => {
+const SubscribeDocument = ({ t, subscriptions, setAnimate }) => {
   return (
-    <div style={style}>
-      <h4 {...styles.title}>{t('SubscribeDocument/title')}</h4>
+    <>
+      <SubscribeCalloutTitle>
+        {t('SubscribeDocument/title')}
+      </SubscribeCalloutTitle>
       {subscriptions.map(subscription => (
         <SubscribeCheckbox
           key={subscription.id}
@@ -16,16 +17,8 @@ const SubscribeDocument = ({ t, subscriptions, setAnimate, style }) => {
           callout
         />
       ))}
-    </div>
+    </>
   )
-}
-
-const styles = {
-  title: css({
-    margin: '0 0 12px',
-    fontWeight: 'inherit',
-    ...fontStyles.sansSerifMedium
-  })
 }
 
 export default withT(SubscribeDocument)

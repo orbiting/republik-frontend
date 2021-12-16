@@ -12,12 +12,6 @@ import {
 } from '@project-r/styleguide'
 
 const styles = {
-  item: css({
-    padding: 10,
-    marginLeft: -10,
-    marginRight: -10,
-    marginBottom: 30
-  }),
   p: css({
     margin: 0,
     ...fontStyles.sansSerifRegular16
@@ -34,7 +28,6 @@ export const Item = withT(
     const [colorScheme] = useColorContext()
     return (
       <div
-        {...styles.item}
         {...colorScheme.set(
           'backgroundColor',
           highlighted ? 'alert' : 'default'

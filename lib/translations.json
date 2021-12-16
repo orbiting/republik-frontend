@@ -829,6 +829,10 @@
       "value": "zurücksetzen"
     },
     {
+      "key": "account/transactions/title",
+      "value": "Transaktionen"
+    },
+    {
       "key": "account/paymentSource/saving",
       "value": "verifizieren"
     },
@@ -1198,11 +1202,11 @@
     },
     {
       "key": "account/tabs/MEMBERSHIP",
-      "value": "Abonnement"
+      "value": "Abo"
     },
     {
       "key": "account/tabs/TRANSACTIONS",
-      "value": "Transaktionen"
+      "value": "Einkäufe"
     },
     {
       "key": "account/tabs/SETTINGS",
@@ -1211,6 +1215,10 @@
     {
       "key": "account/tabs/NOTIFICATIONS",
       "value": "Benachrichtigungen"
+    },
+    {
+      "key": "account/tabs/NEWSLETTER",
+      "value": "Newsletter"
     },
     {
       "key": "profile/documents/title/other",
@@ -6682,7 +6690,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/title",
-      "value": "Newsletter per E-Mail"
+      "value": "E-mail Newsletter abonnieren"
     },
     {
       "key": "SubscribeCallout/Comment",

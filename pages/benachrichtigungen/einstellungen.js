@@ -22,7 +22,7 @@ const NotificationsSettingsPage = ({ t, me }) => {
           <NotificationsSettings />
         ) : (
           <>
-            <Interaction.H1 style={{ marginBottom: 40 }}>
+            <Interaction.H1 style={{ margin: '48px 0' }}>
               {t('Notifications/settings/title')}
             </Interaction.H1>
             <SignIn />

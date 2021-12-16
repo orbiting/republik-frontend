@@ -6,18 +6,18 @@ import {
   TeaserSectionTitle,
   plainButtonRule,
   A,
-  Interaction
+  Interaction,
+  useColorContext
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import SubscribeCheckbox from './SubscribeCheckbox'
 import withT from '../../lib/withT'
 import { ONBOARDING_SECTIONS_REPO_IDS } from '../../lib/constants'
 import { withMembership } from '../Auth/checkRoles'
-import Box from '../Frame/Box'
 
 const styles = {
   checkboxes: css({
-    margin: '20px 0'
+    margin: '8px 0 16px'
   })
 }
 
@@ -46,7 +46,7 @@ const getVisibleSections = (sections, prevShown = []) =>
 
 const SubscribedDocuments = ({ t, data: { sections }, isMember }) => {
   const [showAll, setShowAll] = useState(false)
-
+  const [colorScheme] = useColorContext()
   const sectionNodes = sections && sections.nodes
   const sectionsWithFormat = React.useMemo(() => {
     return sectionNodes
@@ -75,20 +75,17 @@ const SubscribedDocuments = ({ t, data: { sections }, isMember }) => {
 
   return (
     <>
-      <Interaction.P style={{ marginBottom: 10 }}>
+      <Interaction.P style={{ marginBottom: 16 }}>
         {t.pluralize('Notifications/settings/formats/summary', {
           count: totalSubs
         })}
       </Interaction.P>
       {(showAll ? sectionsWithFormat : visibleSections).map(section => (
-        <div key={section.id}>
-          <div
-            style={{
-              color: '#979797'
-            }}
-          >
-            <TeaserSectionTitle small>{section.meta.title}</TeaserSectionTitle>
-          </div>
+        <div
+          {...colorScheme.set('color', section.meta?.color || 'textSoft')}
+          key={section.id}
+        >
+          <TeaserSectionTitle small>{section.meta.title}</TeaserSectionTitle>
           <FormatCheckboxes formats={section.formats.nodes} />
         </div>
       ))}

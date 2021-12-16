@@ -19,10 +19,10 @@ const AccountTabs = ({ pathname, t }) => {
       <Scroller>
         {[
           { path: '/konto', name: 'MEMBERSHIP' },
-          { path: '/konto/transaktionen', name: 'TRANSACTIONS' },
-          { path: '/konto/einstellungen', name: 'SETTINGS' },
           { path: '/konto/newsletter', name: 'NEWSLETTER' },
-          { path: '/benachrichtigungen/einstellungen', name: 'NOTIFICATIONS' }
+          { path: '/benachrichtigungen/einstellungen', name: 'NOTIFICATIONS' },
+          { path: '/konto/einstellungen', name: 'SETTINGS' },
+          { path: '/konto/transaktionen', name: 'TRANSACTIONS' }
         ].map((n, i) => (
           <Link href={n.path} scroll={false} passHref key={n.name}>
             <TabButton

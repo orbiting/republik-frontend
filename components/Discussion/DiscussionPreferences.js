@@ -21,6 +21,8 @@ import {
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 import { css } from 'glamor'
 import Credential from '../Credential'
+import { errorToString } from '../../lib/utils/errors'
+import ErrorMessage from '../ErrorMessage'
 
 export const DiscussionPreferences = ({
   t,
@@ -173,6 +175,8 @@ const DiscussionPreferencesEditor = ({
   const [state, setState] = useState(
     getInitialState(userPreference, rules, autoCredential)
   )
+  const [error, setError] = useState(null)
+
   const [
     showAllSuggestedCredentials,
     setShowAllSuggestedCredentials
@@ -180,10 +184,11 @@ const DiscussionPreferencesEditor = ({
 
   const handleSubmit = async formState => {
     try {
+      setError(null)
       await setDiscussionPreferences(formState.anonymity, formState.credential)
       onClose()
     } catch (error) {
-      // TODO Show form error
+      setError(errorToString(error))
     }
   }
 
@@ -364,6 +369,7 @@ const DiscussionPreferencesEditor = ({
               </div>
             </div>
           )}
+          {error && <ErrorMessage error={error} />}
           <div
             {...css({
               width: '100%',

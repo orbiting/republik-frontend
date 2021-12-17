@@ -182,7 +182,9 @@ const DiscussionPreferencesEditor = ({
     try {
       await setDiscussionPreferences(formState.anonymity, formState.credential)
       onClose()
-    } catch (error) {}
+    } catch (error) {
+      // TODO Show form error
+    }
   }
 
   const existingCredential = credentials.find(
@@ -258,37 +260,6 @@ const DiscussionPreferencesEditor = ({
           </div>
         </div>
         <div {...styles.formWrapper}>
-          {rules.anonymity !== 'FORBIDDEN' && (
-            <div {...styles.fieldWrapper}>
-              <Interaction.H3>
-                {t('components/DiscussionPreferences/commentAnonymously')}
-              </Interaction.H3>
-              <Label>
-                {t(
-                  'components/DiscussionPreferences/commentAnonymously/description'
-                )}
-              </Label>
-              <div>
-                <Checkbox
-                  /*
-                 Possible anonymity rules are
-                 ['ALLOWED', 'ENFORCED', 'FORBIDDEN']
-                 THe checkbox should only be enabled if the rule is 'ALLOWED'
-                 */
-                  disabled={rules?.anonymity !== 'ALLOWED'}
-                  checked={state.anonymity}
-                  onChange={(_, val) => {
-                    setState(curr => ({
-                      ...curr,
-                      anonymity: val
-                    }))
-                  }}
-                >
-                  {t('components/DiscussionPreferences/commentAnonymously')}
-                </Checkbox>
-              </div>
-            </div>
-          )}
           <div {...styles.fieldWrapper}>
             <Interaction.H3>
               {t('components/DiscussionPreferences/credentialHeading')}
@@ -360,6 +331,39 @@ const DiscussionPreferencesEditor = ({
               </div>
             )}
           </div>
+          {rules.anonymity !== 'FORBIDDEN' && (
+            <div {...styles.fieldWrapper}>
+              <Interaction.H3>
+                {t('components/DiscussionPreferences/commentAnonymously')}
+              </Interaction.H3>
+              <Label>
+                {t(
+                  'components/DiscussionPreferences/commentAnonymously/description'
+                )}
+              </Label>
+              <div>
+                <Checkbox
+                  /*
+                 Possible anonymity rules are
+                 ['ALLOWED', 'ENFORCED', 'FORBIDDEN']
+                 THe checkbox should only be enabled if the rule is 'ALLOWED'
+                 */
+                  disabled={rules?.anonymity !== 'ALLOWED'}
+                  checked={state.anonymity}
+                  onChange={(_, val) => {
+                    setState(curr => ({
+                      ...curr,
+                      anonymity: val
+                    }))
+                  }}
+                >
+                  {t(
+                    'components/DiscussionPreferences/commentAnonymouslyLabel'
+                  )}
+                </Checkbox>
+              </div>
+            </div>
+          )}
           <div
             {...css({
               width: '100%',

@@ -601,6 +601,10 @@
       "value": "Willkommen, {name}"
     },
     {
+      "key": "Account/Update/name/label",
+      "value": "Name"
+    },
+    {
       "key": "Account/Update/address/label",
       "value": "Adresse"
     },

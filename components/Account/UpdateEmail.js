@@ -15,7 +15,8 @@ import {
   Button,
   A,
   Field,
-  Interaction
+  Interaction,
+  Label
 } from '@project-r/styleguide'
 
 const { P, H2 } = Interaction
@@ -178,9 +179,13 @@ class UpdateEmail extends Component {
           )
           return (
             <>
+              <P>
+                <Label>{t('Account/Update/email/label')}</Label>
+              </P>
               <P>{me.email || ''}</P>
-              <br />
               {body}
+              <br />
+              <br />
             </>
           )
         }}

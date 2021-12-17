@@ -108,11 +108,9 @@ const Account = ({
               </AccountSection>
             )}
 
-            <AccountSection id='email' title={t('Account/Update/email/label')}>
-              <UpdateEmail />
-            </AccountSection>
-
             <AccountSection id='account' title={t('Account/Update/title')}>
+              <UpdateEmail />
+
               <UpdateMe
                 acceptedStatue={acceptedStatue}
                 hasMemberships={hasMemberships}

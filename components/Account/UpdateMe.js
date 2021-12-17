@@ -171,6 +171,8 @@ class UpdateMe extends Component {
               {!isEditing ? (
                 <div>
                   <P>
+                    <Label>{t('Account/Update/name/label')}</Label>
+                    <br />
                     {intersperse(
                       [me.name, me.phoneNumber].filter(Boolean),
                       (_, i) => (

@@ -70,7 +70,7 @@ const ActionBar = ({
             }}
           />
         )}
-        {discussion && (
+        {discussion && me && (
           <>
             <SubscribeMenu
               discussionId={discussion}

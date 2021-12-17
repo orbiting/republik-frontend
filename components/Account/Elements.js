@@ -15,6 +15,11 @@ const styles = {
   p: css({
     margin: 0,
     ...fontStyles.sansSerifRegular16
+  }),
+  container: css({
+    '&:not(:last-child)': css({
+      marginBottom: 24
+    })
   })
 }
 
@@ -28,6 +33,7 @@ export const Item = withT(
     const [colorScheme] = useColorContext()
     return (
       <div
+        {...styles.container}
         {...colorScheme.set(
           'backgroundColor',
           highlighted ? 'alert' : 'default'

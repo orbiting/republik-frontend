@@ -11,6 +11,7 @@ import Box from '../Frame/Box'
 import Link from 'next/link'
 import AccountTabs from '../../components/Account/AccountTabs'
 import AccountSection from '../../components/Account/AccountSection'
+import NotificationFeedMini from '../../components/Notifications/NotificationFeedMini'
 
 export default compose(
   withT,
@@ -28,11 +29,14 @@ export default compose(
           </Interaction.P>
         </Box>
       )}
-      <div style={{ marginBottom: 64 }}>
+      <AccountSection title='Neuste Benachrichtigungen'>
+        <NotificationFeedMini />
+        <br />
         <Link href='/benachrichtigungen' passHref>
           <A>{t('Notifications/settings/back')}</A>
         </Link>
-      </div>
+      </AccountSection>
+
       <AccountSection title={t('Notifications/settings/formats')}>
         <SubscribedDocuments />
       </AccountSection>

@@ -1,22 +1,16 @@
 import React, { Component, Fragment } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
+import { A } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-
 import { timeFormat, chfFormat } from '../../lib/utils/format'
 import track from '../../lib/matomo'
-
 import List, { Item } from '../List'
 import { Item as AccountItem } from './Elements'
-
 import GiveMemberships from './Memberships/Give'
-
 import query from './belongingsQuery'
-
-import { A } from '@project-r/styleguide'
-import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
 

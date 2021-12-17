@@ -1198,7 +1198,7 @@
     },
     {
       "key": "Account/Onboarding/text",
-      "value": "Mit dem Wichtigsten hilft dieser kurze {link}."
+      "value": "Mit dem Wichtigsten hilft der kurze {link}."
     },
     {
       "key": "Account/Onboarding/link",
@@ -6694,7 +6694,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/title",
-      "value": "E-mail Newsletter abonnieren"
+      "value": "E-mail-Newsletter abonnieren"
     },
     {
       "key": "SubscribeCallout/Comment",

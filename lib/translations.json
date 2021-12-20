@@ -6449,6 +6449,14 @@
       "value": "Laden Sie Ihre Freunde auf eine Tour durch die Republik ein."
     },
     {
+      "key": "Account/Access/Page/noCampaign",
+      "value": "Um die Republik zu teilen, brauchen Sie ein aktives Abonnement."
+    },
+    {
+      "key": "Account/Access/Page/link",
+      "value": "Republik abonnieren"
+    },
+    {
       "key": "pages/access/title",
       "value": "Republik teilen"
     },

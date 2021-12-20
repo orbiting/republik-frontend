@@ -2,12 +2,14 @@ import React from 'react'
 import compose from 'lodash/flowRight'
 import { gql } from '@apollo/client'
 import { graphql } from '@apollo/client/react/hoc'
+import Link from 'next/link'
 
 import Campaign from './Campaign'
 import Loader from '../../Loader'
 
-import { Interaction } from '@project-r/styleguide'
+import { Interaction, Button } from '@project-r/styleguide'
 import withT from '../../../lib/withT'
+import useInNativeApp from '../../../lib/withInNativeApp'
 
 const query = gql`
   query accessCampaigns {
@@ -39,6 +41,7 @@ const query = gql`
 `
 
 const Campaigns = ({ t, data, grantAccess, revokeAccess }) => {
+  const { inNativeIOSApp } = useInNativeApp()
   return (
     <>
       <Interaction.H1 style={{ marginBottom: 60 }}>
@@ -50,6 +53,22 @@ const Campaigns = ({ t, data, grantAccess, revokeAccess }) => {
         render={() => {
           if (!data.me) {
             return null
+          }
+          if (!data.me.accessCampaigns) {
+            return (
+              <>
+                <Interaction.P>
+                  {t('Account/Access/Page/noCampaign')}
+                </Interaction.P>
+                {!inNativeIOSApp && (
+                  <Link href='/angebote' passHref>
+                    <Button style={{ marginTop: 24, marginBottom: 24 }} primary>
+                      {t('Account/Access/Page/link')}
+                    </Button>
+                  </Link>
+                )}
+              </>
+            )
           }
           return (
             <>

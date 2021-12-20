@@ -29,6 +29,7 @@ export default compose(
           </Interaction.P>
         </Box>
       )}
+
       <AccountSection title='Neuste Benachrichtigungen'>
         <NotificationFeedMini />
         <br />
@@ -37,16 +38,16 @@ export default compose(
         </Link>
       </AccountSection>
 
+      <AccountSection title={t('Notifications/settings/discussion')}>
+        <NotificationOptions />
+      </AccountSection>
+
       <AccountSection title={t('Notifications/settings/formats')}>
         <SubscribedDocuments />
       </AccountSection>
 
       <AccountSection title={t('Notifications/settings/authors')}>
         <SubscribedAuthors />
-      </AccountSection>
-
-      <AccountSection title={t('Notifications/settings/discussion')}>
-        <NotificationOptions />
       </AccountSection>
     </>
   )

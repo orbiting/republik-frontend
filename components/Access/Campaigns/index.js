@@ -9,6 +9,7 @@ import Loader from '../../Loader'
 
 import { Interaction, Button } from '@project-r/styleguide'
 import withT from '../../../lib/withT'
+import useInNativeApp from '../../../lib/withInNativeApp'
 
 const query = gql`
   query accessCampaigns {
@@ -40,6 +41,7 @@ const query = gql`
 `
 
 const Campaigns = ({ t, data, grantAccess, revokeAccess }) => {
+  const { inNativeIOSApp } = useInNativeApp()
   return (
     <>
       <Interaction.H1 style={{ marginBottom: 60 }}>
@@ -58,11 +60,13 @@ const Campaigns = ({ t, data, grantAccess, revokeAccess }) => {
                 <Interaction.P>
                   {t('Account/Access/Page/noCampaign')}
                 </Interaction.P>
-                <Link href='/angebote' passHref>
-                  <Button style={{ marginTop: 24, marginBottom: 24 }} primary>
-                    {t('Account/Access/Page/link')}
-                  </Button>
-                </Link>
+                {!inNativeIOSApp && (
+                  <Link href='/angebote' passHref>
+                    <Button style={{ marginTop: 24, marginBottom: 24 }} primary>
+                      {t('Account/Access/Page/link')}
+                    </Button>
+                  </Link>
+                )}
               </>
             )
           }

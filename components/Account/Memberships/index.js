@@ -3,37 +3,32 @@ import { useRouter } from 'next/router'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 
-import withT from '../../lib/withT'
-import withMe from '../../lib/apollo/withMe'
-import { useMe } from '../../lib/context/MeContext'
-import { useInNativeApp } from '../../lib/withInNativeApp'
+import withT from '../../../lib/withT'
+import { useMe } from '../../../lib/context/MeContext'
+import { useInNativeApp } from '../../../lib/withInNativeApp'
 
-import Loader from '../Loader'
-import UserGuidance from './UserGuidance'
-import UpdateMe from './UpdateMe'
-import UpdateEmail from './UpdateEmail'
+import Loader from '../../Loader'
+import UserGuidance from '../UserGuidance'
+import UpdateMe from '../UserInfo/UpdateMe'
+import UpdateEmail from '../UserInfo/UpdateEmail'
 
-import AccessGrants from '../Access/Grants'
-import NewsletterSubscriptions from './NewsletterSubscriptions'
-import Onboarding from './Onboarding'
-import Access from './Access'
-import SignIn from '../Auth/SignIn'
-import withMembership from '../Auth/withMembership'
-import NotificationsLegacy from './NotificationsLegacy'
-import Box from '../Frame/Box'
+import AccessGrants from '../../Access/Grants'
+import Onboarding from '../Onboarding'
+import Access from '../Access'
+import SignIn from '../../Auth/SignIn'
+import withMembership from '../../Auth/withMembership'
+import Box from '../../Frame/Box'
 
 import { Interaction } from '@project-r/styleguide'
 
-import belongingsQuery from './belongingsQuery'
+import belongingsQuery from '../belongingsQuery'
+import MembershipList from '../Memberships/List'
+import PaymentSources from '../PaymentSources'
+import AccountSection from '../AccountSection'
 
-import MembershipList from './Memberships/List'
-import PaymentSources from './PaymentSources'
+const { H1, P } = Interaction
 
-import AccountSection from './AccountSection'
-
-const { H1, H2, P } = Interaction
-
-const Account = ({
+const Memberships = ({
   loading,
   error,
   t,
@@ -84,8 +79,6 @@ const Account = ({
                 <P>{t('account/ios/box')}</P>
               </Box>
             )}
-
-            {isMember && <Onboarding />}
 
             {!inNativeIOSApp && (
               <AccountSection id='abos' title={t('memberships/title/other')}>
@@ -155,4 +148,4 @@ export default compose(
       }
     }
   })
-)(Account)
+)(Memberships)

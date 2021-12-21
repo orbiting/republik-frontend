@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import compose from 'lodash/flowRight'
-import { intersperse } from '../../lib/utils/helpers'
-import { errorToString } from '../../lib/utils/errors'
-import { swissTime } from '../../lib/utils/format'
+import { intersperse } from '../../../lib/utils/helpers'
+import { errorToString } from '../../../lib/utils/errors'
+import { swissTime } from '../../../lib/utils/format'
 
-import withT from '../../lib/withT'
+import withT from '../../../lib/withT'
 import AddressForm, {
   DEFAULT_COUNTRY,
   fields as addressFields,
   isEmptyAddress
-} from './AddressForm'
+} from '../AddressForm'
 
 import {
   Loader,
@@ -21,9 +21,9 @@ import {
   colors
 } from '@project-r/styleguide'
 
-import FieldSet from '../FieldSet'
-import { withMyDetails, withMyDetailsMutation } from './enhancers'
-import { Hint } from './Elements'
+import FieldSet from '../../FieldSet'
+import { withMyDetails, withMyDetailsMutation } from '../enhancers'
+import { Hint } from '../Elements'
 
 const { H2, P } = Interaction
 
@@ -146,7 +146,7 @@ class UpdateMe extends Component {
     this.autoEdit()
   }
   render() {
-    const { t, detailsData, hasMemberships } = this.props
+    const { t, detailsData, style, hasMemberships } = this.props
     const { values, dirty, updating, isEditing, errors } = this.state
     const { loading, error, me } = detailsData
 
@@ -167,12 +167,10 @@ class UpdateMe extends Component {
             .filter(Boolean)
 
           return (
-            <>
+            <div style={style}>
               {!isEditing ? (
                 <div>
                   <P>
-                    <Label>{t('Account/Update/name/label')}</Label>
-                    <br />
                     {intersperse(
                       [me.name, me.phoneNumber].filter(Boolean),
                       (_, i) => (
@@ -346,7 +344,7 @@ class UpdateMe extends Component {
                   )}
                 </div>
               )}
-            </>
+            </div>
           )
         }}
       />

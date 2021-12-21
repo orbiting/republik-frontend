@@ -834,7 +834,7 @@
     },
     {
       "key": "account/transactions/title",
-      "value": "Transaktionen"
+      "value": "Ihre Einkäufe"
     },
     {
       "key": "account/paymentSource/saving",
@@ -1203,6 +1203,10 @@
     {
       "key": "Account/Onboarding/link",
       "value": "Einrichtungsassistent"
+    },
+    {
+      "key": "account/tabs/OVERVIEW",
+      "value": "Übersicht"
     },
     {
       "key": "account/tabs/MEMBERSHIP",

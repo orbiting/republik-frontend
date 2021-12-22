@@ -78,7 +78,11 @@ function getInitialState(
   rules = {},
   autoCredential = null
 ) {
-  let { anonymity = false, credential = autoCredential } = userPreferences
+  let { anonymity = false, credential } = userPreferences
+
+  if (!credential && autoCredential) {
+    credential = autoCredential
+  }
 
   switch (rules.anonymity) {
     case 'ALLOWED':

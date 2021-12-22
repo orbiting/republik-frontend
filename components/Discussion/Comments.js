@@ -41,6 +41,7 @@ import { RootCommentOverlay } from './RootCommentOverlay'
 import { FeatureCommentOverlay } from './FeatureCommentOverlay'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
 import { rerouteDiscussion } from './DiscussionLink'
+import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 
 const styles = {
   orderByContainer: css({
@@ -96,7 +97,8 @@ const Comments = props => {
     discussionId,
     rootCommentOverlay,
     markAsReadMutation,
-    inNativeApp
+    inNativeApp,
+    discussionPreferences
   } = props
   const router = useRouter()
   /*
@@ -210,6 +212,13 @@ const Comments = props => {
         })
     }
   }
+
+  const noPreferences = discussion.userPreference.notifications === null
+  const autoCredential =
+    noPreferences &&
+    !discussion.userPreference.anonymity &&
+    discussionPreferences.me &&
+    discussionPreferences.me.credentials.find(c => c.isListed)
 
   const markNotificationsAsRead = () => {
     if (!discussion) return
@@ -447,6 +456,7 @@ const Comments = props => {
               {showPreferences && (
                 <DiscussionPreferences
                   key='discussionPreferences'
+                  autoCredential={autoCredential}
                   discussionId={discussion.id}
                   onClose={() => {
                     setShowPreferences(false)
@@ -502,6 +512,7 @@ export default compose(
   withEditor,
   withSubmitComment,
   withMarkAsReadMutation,
+  withDiscussionPreferences,
   withInNativeApp
 )(Comments)
 

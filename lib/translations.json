@@ -2194,7 +2194,7 @@
     },
     {
       "key": "components/DiscussionPreferences/credential/description",
-      "value": "Bitte geben Sie an, aus welcher Perspektive Sie schreiben (z.B. in Ihrer Rolle als Grossvater, als Lehrperson, als Rechtsexpertin)"
+      "value": "Bitte geben Sie an, aus welcher Perspektive Sie schreiben (z. B. in Ihrer Rolle als Grossvater, als Lehrperson, als Rechtsexpertin)"
     },
     {
       "key": "components/DiscussionPreferences/existingCredentialLabel",

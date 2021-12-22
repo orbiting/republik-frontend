@@ -1878,7 +1878,11 @@
     },
     {
       "key": "styleguide/CommentActions/reportWithAmount",
-      "value": "Anstössigen Inhalt melden ({amount})"
+      "value": "Inhalt ({amount}) gemeldet"
+    },
+    {
+      "key": "styleguide/CommentActions/reported",
+      "value": "Inhalt gemeldet"
     },
     {
       "key": "styleguide/CommentActions/reportMessage",

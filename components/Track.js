@@ -12,41 +12,6 @@ import { PUBLIC_BASE_URL } from '../lib/constants'
 import { PSP_PLEDGE_ID_QUERY_KEYS } from './Payment/constants'
 import { useMe } from '../lib/context/MeContext'
 
-function redactURL(rawURL) {
-  const url = new URL(rawURL, PUBLIC_BASE_URL)
-
-  // Redact receive payment psp payloads
-  if (url.pathname === '/angebote' || url.pathname === '/en') {
-    const key = PSP_PLEDGE_ID_QUERY_KEYS.find(key => url.searchParams.has(key))
-    if (key) {
-      // redact all query params
-      const newSearchParams = new URLSearchParams()
-      newSearchParams.set(key, 'R*')
-      url.searchParams = newSearchParams
-    }
-  }
-
-  const queryParamsBlacklist = [
-    'email',
-    'token',
-    // rm fb and google click ids
-    'fbclid',
-    'gclid'
-  ]
-
-  if (url.pathname === '/abholen') {
-    queryParamsBlacklist.push('code')
-  }
-
-  for (const key of queryParamsBlacklist) {
-    if (url.searchParams.has(key)) {
-      url.searchParams.set(key, 'R')
-    }
-  }
-
-  return url
-}
-
 const trackRoles = me =>
   track([
     'setCustomDimension',
@@ -61,13 +26,47 @@ const trackRoles = me =>
 
 const trackUrl = url => {
   // sanitize url
-  const sanitizedUrl = redactURL(url)
-  payload.record('paths', sanitizedUrl.pathname)
-  const referrer = getUtmParams(sanitizedUrl.searchParams)
+  const urlObject = parse(url, true)
+  const { query, pathname } = urlObject
+
+  // Redact receive payment psp payloads
+  if (pathname === '/angebote' || pathname === '/en') {
+    const key = PSP_PLEDGE_ID_QUERY_KEYS.find(key => query[key])
+    if (key) {
+      // redact all query params
+      urlObject.query = { [key]: 'R*' }
+    }
+  }
+  // Redact email and token for notification, pledge and sign in pages
+  if (query.email) {
+    query.email = 'R'
+  }
+  if (query.token) {
+    query.token = 'R'
+  }
+  if (pathname === '/abholen') {
+    if (query.code) {
+      query.code = 'R'
+    }
+  }
+  // rm fb and google click ids
+  if (query.fbclid) {
+    query.fbclid = 'R'
+  }
+  if (query.gclid) {
+    query.gclid = 'R'
+  }
+  // ensure query string is calculated from query object
+  urlObject.search = undefined
+
+  const sanitizedUrl = format(urlObject)
+
+  payload.record('paths', parse(sanitizedUrl).path)
+  const referrer = getUtmParams(query)
   if (Object.keys(referrer).length) {
     payload.record('referrers', referrer)
   }
-  console.debug('trackUrl', sanitizedUrl)
+
   track(['setCustomUrl', sanitizedUrl])
   track(['setDocumentTitle', document.title])
   track(['trackPageView'])

@@ -889,12 +889,20 @@
       "value": "montags bis freitags um 5 Uhr"
     },
     {
+      "key": "account/newsletterSubscriptions/DAILY/description",
+      "value": "Jeden morgen die Geschichten der Republik."
+    },
+    {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
       "value": "Republik – Der Wochenüberblick"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
       "value": "samstags"
+    },
+    {
+      "key": "account/newsletterSubscriptions/WEEKLY/description",
+      "value": "Zum Wochenende ein Rückblick über die Woche, die tragenden Geschichten der Republik und was sonst noch so alles wichtig war."
     },
     {
       "key": "account/newsletterSubscriptions/PRODUCT/label",
@@ -913,12 +921,20 @@
       "value": "unregelmässig"
     },
     {
+      "key": "account/newsletterSubscriptions/PROJECTR/description",
+      "value": "Project R ist die gemeinnützige Genossenschaft hinter der «Republik». Project R fördert die Demokratie, indem sie den Journalismus als vierte Gewalt stärkt."
+    },
+    {
       "key": "account/newsletterSubscriptions/COVID19/label",
       "value": "Covid-19-Uhr-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
       "value": "montags um 19 Uhr"
+    },
+    {
+      "key": "account/newsletterSubscriptions/COVID19/description",
+      "value": "Brauchbares zur Pandemie – jeden Montag um 19 Uhr. Informationen für alle. Auch ohne Republik-Abo oder Mitgliedschaft."
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/label",

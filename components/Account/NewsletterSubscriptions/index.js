@@ -2,40 +2,16 @@ import React, { Fragment } from 'react'
 import compose from 'lodash/flowRight'
 import { Query, Mutation } from '@apollo/client/react/components'
 import { gql } from '@apollo/client'
-import { css } from 'glamor'
-import withT from '../../lib/withT'
-import ErrorMessage from '../ErrorMessage'
+import { Loader, InlineSpinner, Button } from '@project-r/styleguide'
+import withT from '../../../lib/withT'
+import ErrorMessage from '../../ErrorMessage'
 
-import FrameBox from '../Frame/Box'
-import { P } from './Elements'
-import {
-  Loader,
-  InlineSpinner,
-  Checkbox,
-  Label,
-  Button
-} from '@project-r/styleguide'
-import { withMembership } from '../Auth/checkRoles'
-import { newsletterFragment, newsletterSettingsFragment } from './enhancers'
+import FrameBox from '../../Frame/Box'
+import { P } from '../Elements'
 
-const styles = {
-  spinnerWrapper: css({
-    display: 'inline-block',
-    height: 0,
-    marginLeft: 15,
-    verticalAlign: 'middle',
-    '& > span': {
-      display: 'inline'
-    }
-  }),
-  label: css({
-    display: 'block',
-    paddingLeft: '28px'
-  }),
-  line: css({
-    margin: '15px 0'
-  })
-}
+import { withMembership } from '../../Auth/checkRoles'
+import { newsletterFragment, newsletterSettingsFragment } from '../enhancers'
+import NewsletterItem from './NewsletterItem'
 
 export const RESUBSCRIBE_EMAIL = gql`
   mutation resubscribeEmail($userId: ID!) {
@@ -70,11 +46,9 @@ export const NEWSLETTER_SETTINGS = gql`
   ${newsletterSettingsFragment}
 `
 
-const NewsletterSubscriptions = props => (
+const NewsletterSubscriptions = ({ t, isMember, free, onlyName }) => (
   <Query query={NEWSLETTER_SETTINGS}>
     {({ loading, error, data }) => {
-      const { t, isMember } = props
-
       if (loading || error) {
         return <Loader loading={loading} error={error} />
       }
@@ -89,13 +63,15 @@ const NewsletterSubscriptions = props => (
 
       const { status } = data.me.newsletterSettings
       const subscriptions = data.me.newsletterSettings.subscriptions.filter(
-        props.onlyName
-          ? subscription => subscription.name === props.onlyName
-          : Boolean
+        onlyName ? subscription => subscription.name === onlyName : Boolean
       )
 
       return (
         <Fragment>
+          <p style={{ marginBottom: 36 }}>
+            Abonnieren Sie hier kostenlos unsee Newsletter und wir informieren
+            Sie über die neusten Beiträge.
+          </p>
           {status !== 'subscribed' && (
             <FrameBox style={{ margin: '10px 0', padding: 15 }}>
               <Mutation mutation={RESUBSCRIBE_EMAIL}>
@@ -145,7 +121,7 @@ const NewsletterSubscriptions = props => (
               </Mutation>
             </FrameBox>
           )}
-          {!isMember && !props.free && (
+          {!isMember && !free && (
             <FrameBox style={{ margin: '10px 0', padding: 15 }}>
               <P>{t('account/newsletterSubscriptions/noMembership')}</P>
             </FrameBox>
@@ -154,8 +130,9 @@ const NewsletterSubscriptions = props => (
             <Mutation key={name} mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
               {(mutate, { loading: mutating, error }) => {
                 return (
-                  <p {...styles.line}>
-                    {props.onlyName && !subscribed && !mutating ? (
+                  <>
+                    {onlyName && !subscribed && !mutating ? (
+                      // renders just a button
                       <Button
                         primary
                         onClick={() => {
@@ -170,10 +147,12 @@ const NewsletterSubscriptions = props => (
                         {t('account/newsletterSubscriptions/button/subscribe')}
                       </Button>
                     ) : (
-                      <Checkbox
-                        black={props.black}
-                        checked={subscribed}
-                        disabled={mutating || status === 'unsubscribed'}
+                      <NewsletterItem
+                        subscribed={subscribed}
+                        mutating={mutating}
+                        name={name}
+                        t={t}
+                        status={status}
                         onChange={(_, checked) => {
                           mutate({
                             variables: {
@@ -182,37 +161,10 @@ const NewsletterSubscriptions = props => (
                             }
                           })
                         }}
-                      >
-                        <span {...styles.label}>
-                          {props.onlyName
-                            ? t(
-                                `account/newsletterSubscriptions/onlyName/${
-                                  subscribed ? 'subscribed' : 'subscribe'
-                                }`
-                              )
-                            : t(
-                                `account/newsletterSubscriptions/${name}/label`
-                              )}
-                          {mutating && (
-                            <span {...styles.spinnerWrapper}>
-                              <InlineSpinner size={24} />
-                            </span>
-                          )}
-                          {!props.onlyName && (
-                            <>
-                              <br />
-                              <Label style={{ color: 'inherit' }}>
-                                {t(
-                                  `account/newsletterSubscriptions/${name}/frequency`
-                                )}
-                              </Label>
-                            </>
-                          )}
-                        </span>
-                      </Checkbox>
+                      />
                     )}
                     {error && <ErrorMessage error={error} />}
-                  </p>
+                  </>
                 )
               }}
             </Mutation>

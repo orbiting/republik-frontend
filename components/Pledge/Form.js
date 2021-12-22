@@ -311,7 +311,7 @@ class Pledge extends Component {
     )
 
     const hasFondue =
-      pkg && pkg.options.some(option => option.reward.name === 'FONDUE')
+      pkg && pkg.options.some(option => option.reward?.name === 'FONDUE')
     const meta = statementTitle
       ? {
           title: t('pledge/form/statement/share/title', statement),

@@ -79,6 +79,7 @@ import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
+import StatementDiscussion from '../StatementsDiscussion/StatementDiscussion'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,
@@ -285,6 +286,8 @@ const ArticlePage = ({
       },
     [articleMeta, articleContent, metaJSONStringFromQuery]
   )
+
+  console.debug('Article', meta)
 
   const hasMeta = !!meta
   const podcast =
@@ -676,14 +679,21 @@ const ArticlePage = ({
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
-                  <Discussion
-                    discussionId={ownDiscussion.id}
-                    focusId={router.query.focus}
-                    parent={router.query.parent}
-                    mute={!!router.query.mute}
-                    board={ownDiscussion.isBoard}
-                    showPayNotes
-                  />
+                  {meta?.discussionType === 'statements' ? (
+                    <StatementDiscussion
+                      discussionId={ownDiscussion.id}
+                      tagMappings={meta.tagMappings}
+                    />
+                  ) : (
+                    <Discussion
+                      discussionId={ownDiscussion.id}
+                      focusId={router.query.focus}
+                      parent={router.query.parent}
+                      mute={!!router.query.mute}
+                      board={ownDiscussion.isBoard}
+                      showPayNotes
+                    />
+                  )}
                 </Center>
               )}
               {showNewsletterSignupBottom && (

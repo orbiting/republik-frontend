@@ -60,7 +60,6 @@ const styles = {
 }
 
 const PleaComment = ({ comment, tagMappings = [], t }) => {
-  const { discussion } = useContext(DiscussionContext)
   const [colorScheme] = useColorContext()
 
   const tag = comment.tags.length > 0 && comment.tags[0]

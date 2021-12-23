@@ -21,7 +21,7 @@ import withT from '../../lib/withT'
 import { styles as fieldSetStyles } from '../FieldSet'
 import ErrorMessage from '../ErrorMessage'
 
-import { featureCommentMutation } from './graphql/documents'
+import { FEATURE_COMMENT_MUTATION } from './graphql/documents'
 import { css } from 'glamor'
 
 const TARGETS = ['DEFAULT', 'MARKETING']
@@ -43,7 +43,7 @@ const TargetCheckbox = ({ t, targets, setTargets, targetKey }) => (
 
 export const FeatureCommentOverlay = compose(
   withT,
-  graphql(featureCommentMutation)
+  graphql(FEATURE_COMMENT_MUTATION)
 )(({ t, discussion, comment, onClose, mutate }) => {
   const [mutatingState, setMutatingState] = useState({})
   const [targets, setTargets] = useState(

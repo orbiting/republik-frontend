@@ -8,7 +8,7 @@ import withT from '../../../../lib/withT'
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'
 import {
   discussionQuery,
-  submitCommentMutation,
+  SUBMIT_COMMENT_MUTATION,
   commentPreviewQuery
 } from '../documents'
 import { toRejectedString } from '../utils'
@@ -27,7 +27,7 @@ export const withSubmitComment = compose(
   withT,
   withDiscussionDisplayAuthor,
   withApollo,
-  graphql(submitCommentMutation, {
+  graphql(SUBMIT_COMMENT_MUTATION, {
     props: ({
       ownProps: {
         t,

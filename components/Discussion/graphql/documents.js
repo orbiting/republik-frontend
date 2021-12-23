@@ -189,7 +189,7 @@ export const commentPreviewQuery = gql`
  * MUTATIONS
  */
 
-export const submitCommentMutation = gql`
+export const SUBMIT_COMMENT_MUTATION = gql`
   mutation submitComment(
     $discussionId: ID!
     $parentId: ID
@@ -217,7 +217,7 @@ export const submitCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const upvoteCommentMutation = gql`
+export const UPVOTE_COMMENT_MUTATION = gql`
   mutation upvoteCommentMutation($commentId: ID!) {
     upvoteComment(id: $commentId) {
       ...Comment
@@ -226,7 +226,7 @@ export const upvoteCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const reportCommentMutation = gql`
+export const REPORT_COMMENT_MUTATION = gql`
   mutation reportCommentMutation($commentId: ID!) {
     reportComment(id: $commentId) {
       ...Comment
@@ -235,7 +235,7 @@ export const reportCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const featureCommentMutation = gql`
+export const FEATURE_COMMENT_MUTATION = gql`
   mutation featureCommentMutation(
     $commentId: ID!
     $content: String
@@ -248,7 +248,7 @@ export const featureCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const downvoteCommentMutation = gql`
+export const DOWN_VOTE_COMMENT_ACTION = gql`
   mutation downvoteComment($commentId: ID!) {
     downvoteComment(id: $commentId) {
       ...Comment
@@ -257,7 +257,7 @@ export const downvoteCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const unvoteCommentMutation = gql`
+export const UP_VOTE_COMMENT_ACTION = gql`
   mutation unvoteComment($commentId: ID!) {
     unvoteComment(id: $commentId) {
       ...Comment
@@ -266,7 +266,7 @@ export const unvoteCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const editCommentMutation = gql`
+export const EDIT_COMMENT_MUTATION = gql`
   mutation editComment($commentId: ID!, $content: String!, $tags: [String!]) {
     editComment(id: $commentId, content: $content, tags: $tags) {
       ...Comment
@@ -275,7 +275,7 @@ export const editCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const unpublishCommentMutation = gql`
+export const UNPUBLISH_COMMENT_MUTATION = gql`
   mutation unpublishComment($commentId: ID!) {
     unpublishComment(id: $commentId) {
       ...Comment

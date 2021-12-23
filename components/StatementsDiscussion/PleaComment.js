@@ -64,7 +64,8 @@ const PleaComment = ({
   comment,
   tagMappings = [],
   t,
-  actions: { handleUpVote, handleDownVote, handleUnVote }
+  actions: { handleUpVote, handleDownVote, handleUnVote },
+  disableVoting = false
 }) => {
   const [colorScheme] = useColorContext()
 
@@ -110,6 +111,7 @@ const PleaComment = ({
       <div {...styles.voteWrapper}>
         <VoteButtons
           t={t}
+          disabled={disableVoting}
           comment={comment}
           handleUpVote={handleUpVote}
           handleDownVote={handleDownVote}

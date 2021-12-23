@@ -2,7 +2,6 @@ import React from 'react'
 import PleaComment from './PleaComment'
 import { css } from 'glamor'
 import ColorContextHelper from './helpers/ColorContextHelper'
-import withT from '../../lib/withT'
 
 const styles = {
   wrapper: css({
@@ -12,7 +11,13 @@ const styles = {
   })
 }
 
-const PleadingList = ({ pleadings, tagMappings, t, actions }) => (
+const PleadingList = ({
+  pleadings,
+  tagMappings,
+  t,
+  actions,
+  disableVoting
+}) => (
   <ColorContextHelper tagMappings={tagMappings}>
     <div {...styles.wrapper}>
       {pleadings?.length > 0 &&
@@ -23,6 +28,7 @@ const PleadingList = ({ pleadings, tagMappings, t, actions }) => (
               tagMappings={tagMappings}
               t={t}
               actions={actions}
+              disableVoting={disableVoting}
             />
           </div>
         ))}
@@ -30,4 +36,4 @@ const PleadingList = ({ pleadings, tagMappings, t, actions }) => (
   </ColorContextHelper>
 )
 
-export default withT(PleadingList)
+export default PleadingList

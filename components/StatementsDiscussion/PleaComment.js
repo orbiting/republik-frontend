@@ -65,8 +65,6 @@ const PleaComment = ({ comment, tagMappings = [], t }) => {
 
   const tag = comment.tags.length > 0 && comment.tags[0]
 
-  console.log(`The Tag is |${tag}|`)
-
   const tagMapper = useMemo(() => {
     const tagMapping = tagMappings.find(m => stripTag(m.tag) === stripTag(tag))
 

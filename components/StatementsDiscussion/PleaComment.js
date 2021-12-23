@@ -4,7 +4,8 @@ import {
   fontStyles,
   mediaQueries,
   DiscussionContext,
-  useColorContext
+  useColorContext,
+  VoteButtons
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { getUniqueColorTagName } from './helpers/colorHelper'
@@ -103,7 +104,9 @@ const PleaComment = ({ comment, tagMappings = [], t }) => {
         </p>
       </div>
       <div {...styles.textWrapper}>{commentText}</div>
-      <div {...styles.voteWrapper}></div>
+      <div {...styles.voteWrapper}>
+        <VoteButtons t={t} comment={comment} />
+      </div>
     </div>
   )
 }

@@ -60,7 +60,12 @@ const styles = {
   })
 }
 
-const PleaComment = ({ comment, tagMappings = [], t }) => {
+const PleaComment = ({
+  comment,
+  tagMappings = [],
+  t,
+  actions: { handleUpVote, handleDownVote, handleUnVote }
+}) => {
   const [colorScheme] = useColorContext()
 
   const tag = comment.tags.length > 0 && comment.tags[0]
@@ -103,7 +108,13 @@ const PleaComment = ({ comment, tagMappings = [], t }) => {
       </div>
       <div {...styles.textWrapper}>{commentText}</div>
       <div {...styles.voteWrapper}>
-        <VoteButtons t={t} comment={comment} />
+        <VoteButtons
+          t={t}
+          comment={comment}
+          handleUpVote={handleUpVote}
+          handleDownVote={handleDownVote}
+          handleUnVote={handleUnVote}
+        />
       </div>
     </div>
   )

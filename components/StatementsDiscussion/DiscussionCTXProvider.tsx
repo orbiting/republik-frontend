@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useMemo } from 'react'
-import { DiscussionContext } from '@project-r/styleguide/src/lib'
-import { useMutation } from '@apollo/client'
+import { DiscussionContext } from '@project-r/styleguide'
+import { useMutation, useQuery } from '@apollo/client'
 import {
   DOWN_VOTE_COMMENT_ACTION,
   EDIT_COMMENT_MUTATION,
@@ -11,9 +11,10 @@ import {
   UP_VOTE_COMMENT_ACTION,
   UPVOTE_COMMENT_MUTATION
 } from '../Discussion/graphql/documents'
-import { useMe } from '../../lib/context/MeContext'
 import deepMerge from '../../lib/deepMerge'
-import { options } from 'colorette'
+import GET_PLEADINGS_QUERY from './graphql/GetPleadings.graphql'
+import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
+import { useRouter } from 'next/router'
 
 type DiscussionOptions = {
   actions: {
@@ -36,11 +37,12 @@ const DEFAULT_OPTIONS = {
 }
 
 type Props = {
-  children: ReactNode
+  children?: ReactNode
   discussionId: string
   focusId?: string
   options?: DiscussionOptions
-  ignoreDefaultOptions: boolean
+  ignoreDefaultOptions?: boolean
+  board?: boolean
 }
 
 const DiscussionCTXProvider: FC<Props> = ({
@@ -48,9 +50,38 @@ const DiscussionCTXProvider: FC<Props> = ({
   discussionId,
   focusId,
   options,
-  ignoreDefaultOptions = false
+  ignoreDefaultOptions = false,
+  board
 }) => {
+  const { query } = useRouter()
+  const orderBy =
+    query.order ||
+    (board
+      ? 'HOT'
+      : discussionId === GENERAL_FEEDBACK_DISCUSSION_ID
+      ? 'DATE'
+      : 'AUTO')
+
+  const activeTag = query.tag
+
   // TODO: fetch discussion
+  const {
+    data: { discussion } = {},
+    error,
+    loading,
+    fetchMore,
+    subscribeToMore,
+    refetch,
+    previousData
+  } = useQuery(GET_PLEADINGS_QUERY, {
+    variables: {
+      discussionId,
+      orderBy,
+      activeTag,
+      focusId: focusId,
+      first: 50
+    }
+  })
 
   // TODO: implement fetch-more
 
@@ -79,36 +110,45 @@ const DiscussionCTXProvider: FC<Props> = ({
       return options
     }
 
-    return deepMerge({}, DEFAULT_OPTIONS, passedOptions)
+    return deepMerge({}, DEFAULT_OPTIONS, options)
   }, [options, ignoreDefaultOptions])
 
   const availableActions = useMemo(() => {
-    const actions = {}
+    const actions: Record<string, any> = {}
 
     if (settings.actions.canComment) {
       // TODO: implement
     }
 
     if (settings.actions.canEdit) {
-      actions.edit = editCommentMutation
+      actions.handleEdit = editCommentMutation
     }
 
     if (settings.actions.canUnpublish) {
-      actions.unpublish = unpublishCommentMutation
+      actions.handleUnpublish = unpublishCommentMutation
     }
 
     if (settings.actions.canReport) {
-      actions.report = reportCommentMutation
+      actions.handleReport = reportCommentMutation
     }
 
     if (settings.actions.canFeature) {
-      actions.feature = featureCommentMutation
+      actions.handleFeature = featureCommentMutation
     }
 
     if (settings.actions.canVote) {
-      actions.upVote = upVoteCommentMutation
-      actions.downVote = downVoteCommentMutation
-      actions.unVote = unVoteCommentMutation
+      actions.handleUpVote = commentId =>
+        upVoteCommentMutation({
+          variables: { commentId: commentId }
+        })
+      actions.handleDownVote = commentId =>
+        downVoteCommentMutation({
+          variables: { commentId: commentId }
+        })
+      actions.handleUnvote = commentId =>
+        unVoteCommentMutation({
+          variables: { commentId: commentId }
+        })
     }
 
     return actions
@@ -116,9 +156,12 @@ const DiscussionCTXProvider: FC<Props> = ({
 
   const ctxValue = useMemo(() => {
     return {
+      discussion,
+      loading: loading,
+      error: error,
       actions: availableActions
     }
-  }, [discussionId, options])
+  }, [discussion, loading, error, availableActions])
 
   return (
     <DiscussionContext.Provider value={ctxValue}>
@@ -126,3 +169,5 @@ const DiscussionCTXProvider: FC<Props> = ({
     </DiscussionContext.Provider>
   )
 }
+
+export default DiscussionCTXProvider

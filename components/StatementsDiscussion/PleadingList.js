@@ -12,12 +12,7 @@ const styles = {
   })
 }
 
-const PleadingList = ({
-  pleadings,
-  tagMappings,
-  t,
-  actions: { handleUpVote, handleDownVote, handleUnVote }
-}) => (
+const PleadingList = ({ pleadings, tagMappings, t, actions }) => (
   <ColorContextHelper tagMappings={tagMappings}>
     <div {...styles.wrapper}>
       {pleadings?.length > 0 &&
@@ -27,9 +22,7 @@ const PleadingList = ({
               comment={pleading}
               tagMappings={tagMappings}
               t={t}
-              handleUpVote={handleUpVote}
-              handleDownVote={handleDownVote}
-              handleUnVote={handleUnVote}
+              actions={actions}
             />
           </div>
         ))}

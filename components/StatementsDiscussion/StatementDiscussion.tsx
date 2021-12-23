@@ -1,48 +1,13 @@
-import React, { ReactElement, useMemo } from 'react'
-import { useRouter } from 'next/router'
-import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
-import GET_PLEADINGS_QUERY from './graphql/GetPleadings.graphql'
-import { useQuery } from '@apollo/client'
-import { DiscussionContext } from '../../../styleguide'
+import React, { ReactElement, useContext, useMemo } from 'react'
+import { DiscussionContext } from '@project-r/styleguide'
 import PleadingList from './PleadingList'
 
 type Props = {
-  discussionId: string
   tagMappings: any
 }
 
-const StatementDiscussion = ({
-  discussionId,
-  tagMappings
-}: Props): ReactElement => {
-  /*
-   * DiscussionOrder ('HOT' | 'DATE' | 'VOTES' | 'REPLIES')
-   * If 'AUTO' DiscussionOrder is returned by backend via resolvedOrderBy
-   */
-  const router = useRouter()
-  const { query } = router
-  const orderBy =
-    query.order ||
-    (discussionId === GENERAL_FEEDBACK_DISCUSSION_ID ? 'DATE' : 'AUTO')
-  const activeTag = query.tag
-
-  const {
-    data: { discussion } = {},
-    error,
-    loading,
-    fetchMore,
-    subscribeToMore,
-    refetch,
-    previousData
-  } = useQuery(GET_PLEADINGS_QUERY, {
-    variables: {
-      discussionId,
-      orderBy,
-      activeTag,
-      focusId: query.focusId,
-      first: 50
-    }
-  })
+const StatementDiscussion = ({ tagMappings }: Props): ReactElement => {
+  const { discussion, loading, error, actions } = useContext(DiscussionContext)
 
   const filteredStatements = useMemo(
     () =>
@@ -54,10 +19,22 @@ const StatementDiscussion = ({
     [discussion]
   )
 
+  if (loading || error) {
+    return <p>Loading</p>
+  }
+
+  console.debug('Actions', actions)
+
   return (
-    <DiscussionContext.Provider value={{}}>
-      <PleadingList pleadings={filteredStatements} tagMappings={tagMappings} />
-    </DiscussionContext.Provider>
+    <PleadingList
+      pleadings={filteredStatements}
+      tagMappings={tagMappings}
+      actions={{
+        handleUpVote: actions.handleUpVote,
+        handleDownVote: actions.handleDownVote,
+        handleUnVote: actions.handleUnVote
+      }}
+    />
   )
 }
 

@@ -80,6 +80,7 @@ import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
 import StatementDiscussion from '../StatementsDiscussion/StatementDiscussion'
+import DiscussionCTXProvider from '../StatementsDiscussion/DiscussionCTXProvider'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,
@@ -286,8 +287,6 @@ const ArticlePage = ({
       },
     [articleMeta, articleContent, metaJSONStringFromQuery]
   )
-
-  console.debug('Article', meta)
 
   const hasMeta = !!meta
   const podcast =
@@ -680,10 +679,9 @@ const ArticlePage = ({
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
                   {meta?.discussionType === 'statements' ? (
-                    <StatementDiscussion
-                      discussionId={ownDiscussion.id}
-                      tagMappings={meta.tagMappings}
-                    />
+                    <DiscussionCTXProvider discussionId={ownDiscussion.id}>
+                      <StatementDiscussion tagMappings={meta.tagMappings} />
+                    </DiscussionCTXProvider>
                   ) : (
                     <Discussion
                       discussionId={ownDiscussion.id}

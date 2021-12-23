@@ -17,8 +17,6 @@ const ColorContextHelper = ({ children, tagMappings = [] }) => {
       colorsObject.dark[colorName] = color.dark
     })
 
-    console.debug('localColors', colorsObject, tagMappings)
-
     return colorsObject
   }, [tagMappings])
 

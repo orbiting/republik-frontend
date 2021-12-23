@@ -65,7 +65,7 @@ export const discussionPreferencesQuery = gql`
   ${fragments.discussion}
 `
 
-export const discussionQuery = gql`
+export const DISCUSSION_QUERY = gql`
   query discussion(
     $discussionId: ID!
     $parentId: ID

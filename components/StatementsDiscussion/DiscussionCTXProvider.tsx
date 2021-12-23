@@ -2,7 +2,7 @@ import React, { FC, ReactNode, useMemo } from 'react'
 import { DiscussionContext } from '@project-r/styleguide'
 import { useMutation, useQuery } from '@apollo/client'
 import {
-  discussionQuery,
+  DISCUSSION_QUERY,
   DOWN_VOTE_COMMENT_ACTION,
   EDIT_COMMENT_MUTATION,
   FEATURE_COMMENT_MUTATION,
@@ -78,7 +78,7 @@ const DiscussionCTXProvider: FC<Props> = ({
     subscribeToMore,
     refetch,
     previousData
-  } = useQuery(discussionQuery, {
+  } = useQuery(DISCUSSION_QUERY, {
     variables: {
       discussionId,
       orderBy,

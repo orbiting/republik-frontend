@@ -213,10 +213,12 @@ const Comments = props => {
     }
   }
 
-  const noPreferences = discussion.userPreference.notifications === null
+  const noPreferences =
+    discussion && discussion.userPreference?.notifications === null
   const autoCredential =
     noPreferences &&
-    !discussion.userPreference.anonymity &&
+    discussion &&
+    !discussion.userPreference?.anonymity &&
     discussionPreferences.me &&
     discussionPreferences.me.credentials.find(c => c.isListed)
 

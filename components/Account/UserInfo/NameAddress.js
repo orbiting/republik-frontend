@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import compose from 'lodash/flowRight'
+import { css } from 'glamor'
 import { intersperse } from '../../../lib/utils/helpers'
 import { errorToString } from '../../../lib/utils/errors'
 import { swissTime } from '../../../lib/utils/format'
@@ -17,18 +18,25 @@ import {
   Interaction,
   Label,
   Button,
-  A,
   colors
 } from '@project-r/styleguide'
 
 import FieldSet from '../../FieldSet'
 import { withMyDetails, withMyDetailsMutation } from '../enhancers'
-import { Hint } from '../Elements'
+import { Hint, EditButton } from '../Elements'
 
-const { H2, P } = Interaction
+const { P, Emphasis } = Interaction
 
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
+
+const styles = {
+  buttonsContainer: css({
+    display: 'flex',
+    gap: 16,
+    flexWrap: 'wrap'
+  })
+}
 
 const fields = t => [
   {
@@ -88,6 +96,54 @@ const getValues = me => {
     ...addressState
   }
 }
+
+export const UserNameAddress = compose(
+  withT,
+  withMyDetails
+)(({ t, detailsData }) => {
+  const { loading, error, me } = detailsData
+  return (
+    <Loader
+      loading={loading || !me}
+      error={error}
+      render={() => (
+        <div>
+          <Label key='name'>{t('Account/Update/name/label')}</Label>
+          <P style={{ marginBottom: 8 }}>
+            {intersperse([me.name, me.phoneNumber].filter(Boolean), (_, i) => (
+              <br key={i} />
+            ))}
+          </P>
+          {!!me.birthday && (
+            <>
+              <Label key='birthday'>{t('Account/Update/birthday/label')}</Label>
+              <P style={{ marginBottom: 8 }}>{me.birthday || '21.07.1987'}</P>
+            </>
+          )}
+          {!!me.address && (
+            <>
+              <Label>{t('Account/Update/address/label')}</Label>
+              <P>
+                {intersperse(
+                  [
+                    me.address.name,
+                    me.address.line1,
+                    me.address.line2,
+                    `${me.address.postalCode} ${me.address.city}`,
+                    me.address.country
+                  ].filter(Boolean),
+                  (_, i) => (
+                    <br key={i} />
+                  )
+                )}
+              </P>
+            </>
+          )}
+        </div>
+      )}
+    />
+  )
+})
 
 class UpdateMe extends Component {
   constructor(props) {
@@ -170,84 +226,41 @@ class UpdateMe extends Component {
             <div style={style}>
               {!isEditing ? (
                 <div>
-                  <P>
-                    {intersperse(
-                      [me.name, me.phoneNumber].filter(Boolean),
-                      (_, i) => (
-                        <br key={i} />
-                      )
-                    )}
-                  </P>
-                  {!!me.birthday && (
-                    <P>
-                      <Label key='birthday'>
-                        {t('Account/Update/birthday/label')}
-                      </Label>
-                      <br />
-                      {me.birthday}
-                    </P>
-                  )}
-                  {!!me.address && (
-                    <Fragment>
-                      <P>
-                        <Label>{t('Account/Update/address/label')}</Label>
-                        <br />
-                      </P>
-                      <P>
-                        {intersperse(
-                          [
-                            me.address.name,
-                            me.address.line1,
-                            me.address.line2,
-                            `${me.address.postalCode} ${me.address.city}`,
-                            me.address.country
-                          ].filter(Boolean),
-                          (_, i) => (
-                            <br key={i} />
-                          )
-                        )}
-                      </P>
-                    </Fragment>
-                  )}
-                  <br />
-                  <A
-                    href='#'
-                    onClick={e => {
-                      e.preventDefault()
-                      this.startEditing()
-                    }}
-                  >
+                  <UserNameAddress />
+                  <EditButton onClick={() => this.startEditing()}>
                     {t('Account/Update/edit')}
-                  </A>
+                  </EditButton>
                 </div>
               ) : (
                 <div>
-                  <H2>{t('Account/Update/title')}</H2>
-                  <br />
-                  <FieldSet
-                    values={values}
-                    errors={errors}
-                    dirty={dirty}
-                    onChange={fields => {
-                      this.setState(FieldSet.utils.mergeFields(fields))
-                    }}
-                    fields={meFields}
-                  />
-                  <Hint t={t} tKey={'Account/Update/birthday/hint/plain'} />
-                  <br />
-                  <br />
-                  <br />
-                  <AddressForm
-                    values={values}
-                    errors={errors}
-                    dirty={dirty}
-                    onChange={fields => {
-                      this.setState(FieldSet.utils.mergeFields(fields))
-                    }}
-                  />
-                  <br />
-                  <br />
-                  <br />
+                  <Label>
+                    <Emphasis>Name</Emphasis>
+                  </Label>
+                  <div style={{ margin: '8px 0 36px' }}>
+                    <FieldSet
+                      values={values}
+                      errors={errors}
+                      dirty={dirty}
+                      onChange={fields => {
+                        this.setState(FieldSet.utils.mergeFields(fields))
+                      }}
+                      fields={meFields}
+                    />
+                    <Hint t={t} tKey={'Account/Update/birthday/hint/plain'} />
+                  </div>
+                  <Label>
+                    <Emphasis>Adresse</Emphasis>
+                  </Label>
+                  <div style={{ margin: '8px 0 0' }}>
+                    <AddressForm
+                      values={values}
+                      errors={errors}
+                      dirty={dirty}
+                      onChange={fields => {
+                        this.setState(FieldSet.utils.mergeFields(fields))
+                      }}
+                    />
+                  </div>
                   {updating ? (
                     <div style={{ textAlign: 'center' }}>
                       <InlineSpinner />
@@ -272,8 +285,12 @@ class UpdateMe extends Component {
                           {this.state.error}
                         </div>
                       )}
-                      <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
+                      <div
+                        {...styles.buttonsContainer}
+                        style={{ opacity: errorMessages.length ? 0.5 : 1 }}
+                      >
                         <Button
+                          primary
                           onClick={() => {
                             if (errorMessages.length) {
                               this.setState(state =>
@@ -328,17 +345,14 @@ class UpdateMe extends Component {
                         >
                           {t('Account/Update/submit')}
                         </Button>
-                        <div style={{ marginTop: 10 }}>
-                          <A
-                            href='#'
-                            onClick={e => {
-                              e.preventDefault()
-                              this.stopEditing()
-                            }}
-                          >
-                            {t('Account/Update/cancel')}
-                          </A>
-                        </div>
+                        <Button
+                          onClick={e => {
+                            e.preventDefault()
+                            this.stopEditing()
+                          }}
+                        >
+                          {t('Account/Update/cancel')}
+                        </Button>
                       </div>
                     </div>
                   )}

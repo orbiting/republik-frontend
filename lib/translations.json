@@ -6462,11 +6462,11 @@
     },
     {
       "key": "Account/Access/Legacy/text",
-      "value": "{link}"
+      "value": "Laden Sie Ihre Freunde und Feinde ein, die Republik zu testen. Ermöglicht den Empfangenden einen 21-tägigen Probezugriff zur Republik. {link}"
     },
     {
       "key": "Account/Access/Legacy/link",
-      "value": "Laden Sie Ihre Freunde auf eine Tour durch die Republik ein."
+      "value": "Republik teilen"
     },
     {
       "key": "Account/Access/Page/noCampaign",

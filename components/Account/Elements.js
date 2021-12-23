@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
+import Link from 'next/link'
 
 import withT from '../../lib/withT'
 import { timeFormat } from '../../lib/utils/format'
@@ -8,7 +9,9 @@ import {
   Interaction,
   Label,
   fontStyles,
-  useColorContext
+  useColorContext,
+  plainButtonRule,
+  A
 } from '@project-r/styleguide'
 
 const styles = {
@@ -20,6 +23,10 @@ const styles = {
     '&:not(:last-child)': css({
       marginBottom: 24
     })
+  }),
+  hintareaText: css({
+    ...fontStyles.sansSerifRegular18,
+    margin: 0
   })
 }
 
@@ -42,7 +49,7 @@ export const Item = withT(
       >
         <H3>{title}</H3>
         {!compact && (
-          <Fragment>
+          <>
             <Label>
               {t('account/item/label', {
                 formattedDate: dayFormat(createdAt),
@@ -50,13 +57,35 @@ export const Item = withT(
               })}
             </Label>
             <br />
-          </Fragment>
+          </>
         )}
         {children}
       </div>
     )
   }
 )
+
+export const EditButton = ({ children, onClick, href }) => {
+  const [colorScheme] = useColorContext()
+  const buttonStyleRules = useMemo(
+    () =>
+      css(plainButtonRule, {
+        ...fontStyles.sansSerifMedium14,
+        color: colorScheme.getCSSColor('primary'),
+        '@media (hover)': {
+          ':hover': {
+            color: colorScheme.getCSSColor('primaryHover')
+          }
+        }
+      }),
+    [colorScheme]
+  )
+  return (
+    <button {...buttonStyleRules} onClick={onClick}>
+      {children}
+    </button>
+  )
+}
 
 export const P = ({ children, ...props }) => (
   <p {...props} {...styles.p}>
@@ -69,12 +98,24 @@ export const Hint = ({ t, tKey }) => {
   return (
     <Label
       style={{
-        marginTop: -10,
-        marginBottom: 10,
+        marginTop: -12,
+        marginBottom: 12,
         display: 'block'
       }}
     >
-      <span {...colorScheme.set('color', 'disabled')}>{t(tKey)}</span>
+      <span {...colorScheme.set('color', 'textSoft')}>{t(tKey)}</span>
     </Label>
+  )
+}
+
+export const HintArea = ({ color = 'hover', children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div
+      style={{ padding: '8px 16px' }}
+      {...colorScheme.set('backgroundColor', color)}
+    >
+      <p {...styles.hintareaText}>{children}</p>
+    </div>
   )
 }

@@ -30,14 +30,6 @@ export default compose(
         </Box>
       )}
 
-      <AccountSection title='Neuste Benachrichtigungen'>
-        <NotificationFeedMini />
-        <br />
-        <Link href='/benachrichtigungen' passHref>
-          <A>{t('Notifications/settings/back')}</A>
-        </Link>
-      </AccountSection>
-
       <AccountSection title={t('Notifications/settings/discussion')}>
         <NotificationOptions />
       </AccountSection>

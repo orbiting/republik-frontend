@@ -11,17 +11,24 @@ import {
   Field,
   Interaction,
   Label,
-  useColorContext
+  mediaQueries
 } from '@project-r/styleguide'
 
 import { errorToString } from '../../../lib/utils/errors'
 import withT from '../../../lib/withT'
 import withMe from '../../../lib/apollo/withMe'
 import { query } from '../enhancers'
+import { EditButton, HintArea } from '../Elements'
 
-const { P, Emphasis } = Interaction
+const { P } = Interaction
 
 const styles = {
+  container: css({
+    margin: '16px 0 24px 0',
+    [mediaQueries.mUp]: {
+      margin: '24px 0 36px 0'
+    }
+  }),
   spinner: css({
     display: 'flex',
     alignItems: 'center'
@@ -29,8 +36,25 @@ const styles = {
   alertContainer: css({
     padding: 8,
     margin: '16px 0'
+  }),
+  buttonsContainer: css({
+    display: 'flex',
+    gap: 16,
+    flexWrap: 'wrap'
   })
 }
+
+export const UserEmail = compose(
+  withMe,
+  withT
+)(({ me, t }) => {
+  return (
+    <>
+      <Label>{t('Account/Update/email/label')}</Label>
+      <P>{me.email}</P>
+    </>
+  )
+})
 
 const InlineLoader = ({ children }) => (
   <div {...styles.spinner}>
@@ -39,19 +63,7 @@ const InlineLoader = ({ children }) => (
   </div>
 )
 
-const AlertField = ({ children }) => {
-  const [colorScheme] = useColorContext()
-  return (
-    <div
-      {...styles.alertContainer}
-      {...colorScheme.set('backgroundColor', 'hover')}
-    >
-      <P {...colorScheme.set('color', 'error')}> {children}</P>
-    </div>
-  )
-}
-
-const UserEmail = ({ t, me, loading, error, updateEmail }) => {
+const UpdateEmail = ({ t, me, loading, error, updateEmail }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
   const [value, setValue] = useState('')
@@ -85,48 +97,48 @@ const UserEmail = ({ t, me, loading, error, updateEmail }) => {
   }
 
   return (
-    <>
-      <Emphasis>
-        <Label>{t('Account/Update/email/label')}</Label>
-      </Emphasis>
-      <Loader
-        loading={loading || !me}
-        error={error}
-        render={() => (
-          <>
-            <P>{me.email || ''}</P>
-            {isUpdating ? (
-              <InlineLoader>{t('Account/Update/email/updating')}</InlineLoader>
-            ) : isEditing ? (
-              <>
-                <AlertField>{t('Account/Update/email/hint')}</AlertField>
-                <Field
-                  name='email'
-                  type='email'
-                  label={t('Account/Update/email/form/label')}
-                  error={errorValue}
-                  onChange={(e, value, shouldValidate) => {
-                    e.preventDefault()
-                    updateValue(value, shouldValidate)
-                  }}
-                  value={value}
-                />
-                <Button disabled={!!errorValue} onClick={() => submit()}>
+    <Loader
+      loading={loading || !me}
+      error={error}
+      render={() => (
+        <>
+          {isUpdating ? (
+            <InlineLoader>{t('Account/Update/email/updating')}</InlineLoader>
+          ) : isEditing ? (
+            <div {...styles.container}>
+              <HintArea>{t('Account/Update/email/hint')}</HintArea>
+              <Field
+                name='email'
+                type='email'
+                label={t('Account/Update/email/form/label')}
+                error={errorValue}
+                onChange={(e, value, shouldValidate) => {
+                  e.preventDefault()
+                  updateValue(value, shouldValidate)
+                }}
+                value={value}
+              />
+              <div {...styles.buttonsContainer}>
+                <Button
+                  primary
+                  disabled={!!errorValue}
+                  onClick={() => submit()}
+                >
                   {t('Account/Update/email/submit')}
                 </Button>
                 <Button onClick={() => setIsEditing(false)}>
                   {t('Account/Update/cancel')}
                 </Button>
-              </>
-            ) : (
-              <Button onClick={() => setIsEditing(true)}>
-                {t('Account/Update/email/edit')}
-              </Button>
-            )}
-          </>
-        )}
-      />
-    </>
+              </div>
+            </div>
+          ) : (
+            <EditButton onClick={() => setIsEditing(true)}>
+              {t('Account/Update/email/edit')}
+            </EditButton>
+          )}
+        </>
+      )}
+    />
   )
 }
 
@@ -155,4 +167,4 @@ export default compose(
   }),
   withT,
   withMe
-)(UserEmail)
+)(UpdateEmail)

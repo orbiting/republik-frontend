@@ -4,6 +4,18 @@ import { mediaQueries, Interaction } from '@project-r/styleguide'
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
 
 const styles = {
+  container: css({
+    marginBottom: 36,
+    [mediaQueries.mUp]: {
+      marginBottom: 48
+    }
+  }),
+  title: css({
+    marginBottom: 12,
+    [mediaQueries.mUp]: {
+      marginBottom: 16
+    }
+  }),
   accountAnchor: css({
     display: 'block',
     visibility: 'hidden',
@@ -17,8 +29,8 @@ const styles = {
 
 const AccountSection = ({ children, id, title }) => {
   return (
-    <div style={{ marginBottom: 64 }}>
-      <Interaction.H2 style={{ marginBottom: 16 }}>{title}</Interaction.H2>
+    <div {...styles.container}>
+      <Interaction.H3 {...styles.title}>{title}</Interaction.H3>
       <a {...styles.accountAnchor} id={id} />
       {children}
     </div>

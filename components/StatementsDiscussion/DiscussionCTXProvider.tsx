@@ -2,6 +2,7 @@ import React, { FC, ReactNode, useMemo } from 'react'
 import { DiscussionContext } from '@project-r/styleguide'
 import { useMutation, useQuery } from '@apollo/client'
 import {
+  discussionQuery,
   DOWN_VOTE_COMMENT_ACTION,
   EDIT_COMMENT_MUTATION,
   FEATURE_COMMENT_MUTATION,
@@ -15,6 +16,7 @@ import deepMerge from '../../lib/deepMerge'
 import GET_PLEADINGS_QUERY from './graphql/GetPleadings.graphql'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 import { useRouter } from 'next/router'
+import uuid from 'uuid/v4'
 
 type DiscussionOptions = {
   actions: {
@@ -30,6 +32,7 @@ type DiscussionOptions = {
 
 const DEFAULT_OPTIONS = {
   actions: {
+    canComment: true,
     canReply: true,
     canVote: true,
     canUnpublish: true
@@ -64,6 +67,8 @@ const DiscussionCTXProvider: FC<Props> = ({
 
   const activeTag = query.tag
 
+  const depth = board ? 1 : 3
+
   // TODO: fetch discussion
   const {
     data: { discussion } = {},
@@ -73,11 +78,12 @@ const DiscussionCTXProvider: FC<Props> = ({
     subscribeToMore,
     refetch,
     previousData
-  } = useQuery(GET_PLEADINGS_QUERY, {
+  } = useQuery(discussionQuery, {
     variables: {
       discussionId,
       orderBy,
       activeTag,
+      depth: depth,
       focusId: focusId,
       first: 50
     }
@@ -118,6 +124,20 @@ const DiscussionCTXProvider: FC<Props> = ({
 
     if (settings.actions.canComment) {
       // TODO: implement
+      actions.handleSubmit = (
+        content,
+        tags,
+        { parentId } = { parentId: null }
+      ) =>
+        createCommentMutation({
+          variables: {
+            discussionId: discussion.id,
+            parentId: parentId,
+            content: content,
+            tags: tags,
+            id: uuid()
+          }
+        })
     }
 
     if (settings.actions.canEdit) {
@@ -145,23 +165,24 @@ const DiscussionCTXProvider: FC<Props> = ({
         downVoteCommentMutation({
           variables: { commentId: commentId }
         })
-      actions.handleUnvote = commentId =>
+      actions.handleUnVote = commentId =>
         unVoteCommentMutation({
           variables: { commentId: commentId }
         })
     }
 
     return actions
-  }, [discussionId, settings])
+  }, [discussion, settings])
 
   const ctxValue = useMemo(() => {
     return {
       discussion,
       loading: loading,
       error: error,
+      refetch,
       actions: availableActions
     }
-  }, [discussion, loading, error, availableActions])
+  }, [discussion, loading, error, refetch, availableActions])
 
   return (
     <DiscussionContext.Provider value={ctxValue}>

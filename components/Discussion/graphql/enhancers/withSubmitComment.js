@@ -7,7 +7,7 @@ import withT from '../../../../lib/withT'
 
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'
 import {
-  DISCUSSION_QUERY,
+  discussionQuery,
   SUBMIT_COMMENT_MUTATION,
   commentPreviewQuery
 } from '../documents'
@@ -130,10 +130,10 @@ export const withSubmitComment = compose(
             }
 
             proxy.writeQuery({
-              query: DISCUSSION_QUERY,
+              query: discussionQuery,
               variables,
               data: produce(
-                proxy.readQuery({ query: DISCUSSION_QUERY, variables }),
+                proxy.readQuery({ query: discussionQuery, variables }),
                 mergeComment({
                   comment,
                   initialParentId,

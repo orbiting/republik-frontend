@@ -65,7 +65,7 @@ export const discussionPreferencesQuery = gql`
   ${fragments.discussion}
 `
 
-export const DISCUSSION_QUERY = gql`
+export const discussionQuery = gql`
   query discussion(
     $discussionId: ID!
     $parentId: ID
@@ -331,7 +331,7 @@ export const webNotificationSubscription = gql`
   }
 `
 
-export const commentsSubscription = gql`
+export const COMMENT_SUBSCRIPTION = gql`
   subscription discussionComments($discussionId: ID!) {
     comment(discussionId: $discussionId) {
       mutation

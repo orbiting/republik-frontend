@@ -15,8 +15,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
     refetch,
     actions,
     fetchMore,
-    orderBy,
-    activeTag
+    orderBy
   } = useContext(DiscussionContext)
   const { me } = useMe()
 

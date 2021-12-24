@@ -1,8 +1,8 @@
-import { Scroller, TabButton } from '../../../styleguide'
 import Link from 'next/link'
 import { rerouteDiscussion } from './DiscussionLink'
 import React from 'react'
 import { useRouter } from 'next/router'
+import { Scroller, TabButton } from '@project-r/styleguide'
 
 const OrderByTabs = ({ t, resolvedOrderBy, board }) => {
   const router = useRouter()

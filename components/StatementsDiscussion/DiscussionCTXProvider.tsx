@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useMemo } from 'react'
+import React, { FC, ReactNode, useMemo } from 'react'
 import { DiscussionContext } from '@project-r/styleguide'
 import deepMerge from '../../lib/deepMerge'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'

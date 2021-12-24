@@ -20,7 +20,6 @@
     "translations-vote": "NODE_OPTIONS='-r dotenv/config' gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "analyze": "ANALYZE=true next build",
     "sg:link": "./scripts/sg_link.sh",
-    "preinstall": "npm run sg:unlink",
     "sg:unlink": "./scripts/sg_unlink.sh",
     "yaproxy": "CORS_ORIGIN=http://localhost:3010,http://localhost:3005,http://localhost:3006 PORT=5010 TARGET=https://api.republik.ch yaproxy",
     "yaproxy:staging": "CORS_ORIGIN=http://localhost:3010,http://localhost:3005,http://localhost:3006 PORT=5010 TARGET=https://api.republik.love yaproxy",

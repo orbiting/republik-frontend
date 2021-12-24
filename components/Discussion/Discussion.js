@@ -7,7 +7,7 @@ import Comments from './Comments'
 import TagFilter from './TagFilter'
 import Loader from '../Loader'
 import { useQuery } from '@apollo/client'
-import { commentsSubscription, DISCUSSION_QUERY } from './graphql/documents'
+import { COMMENT_SUBSCRIPTION, DISCUSSION_QUERY } from './graphql/documents'
 import produce from '../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from './graphql/store'
 import { debug } from './debug'
@@ -96,7 +96,7 @@ const Discussion = ({
     },
     subscribe: () => {
       return subscribeToMore({
-        document: commentsSubscription,
+        document: COMMENT_SUBSCRIPTION,
         variables: { discussionId },
         onError(...args) {
           debug('subscribe:onError', args)

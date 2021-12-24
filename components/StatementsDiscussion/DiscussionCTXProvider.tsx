@@ -1,29 +1,11 @@
 import React, { FC, ReactNode, useEffect, useMemo } from 'react'
 import { DiscussionContext } from '@project-r/styleguide'
-import { useMutation, useQuery } from '@apollo/client'
-import {
-  COMMENT_SUBSCRIPTION,
-  DISCUSSION_QUERY,
-  DOWN_VOTE_COMMENT_ACTION,
-  EDIT_COMMENT_MUTATION,
-  FEATURE_COMMENT_MUTATION,
-  REPORT_COMMENT_MUTATION,
-  SUBMIT_COMMENT_MUTATION,
-  UNPUBLISH_COMMENT_MUTATION,
-  UP_VOTE_COMMENT_ACTION,
-  UPVOTE_COMMENT_MUTATION
-} from '../Discussion/graphql/documents'
 import deepMerge from '../../lib/deepMerge'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 import { useRouter } from 'next/router'
 import uuid from 'uuid/v4'
-import produce from '../../lib/immer'
-import {
-  bumpCounts,
-  mergeComment,
-  mergeComments
-} from '../Discussion/graphql/store'
 import useDiscussionData from './hooks/useDiscussionData'
+import useDiscussionMutations from './hooks/useDiscussionMutations'
 
 type DiscussionOptions = {
   actions: {
@@ -89,18 +71,16 @@ const DiscussionCTXProvider: FC<Props> = ({
     }
   )
 
-  const [createCommentMutation] = useMutation(SUBMIT_COMMENT_MUTATION)
-
-  const [editCommentMutation] = useMutation(EDIT_COMMENT_MUTATION)
-  const [unpublishCommentMutation] = useMutation(UNPUBLISH_COMMENT_MUTATION)
-  const [reportCommentMutation] = useMutation(REPORT_COMMENT_MUTATION)
-
-  const [featureCommentMutation] = useMutation(FEATURE_COMMENT_MUTATION)
-
-  // Vote-Actions
-  const [upVoteCommentMutation] = useMutation(UPVOTE_COMMENT_MUTATION)
-  const [downVoteCommentMutation] = useMutation(DOWN_VOTE_COMMENT_ACTION)
-  const [unVoteCommentMutation] = useMutation(UP_VOTE_COMMENT_ACTION)
+  const {
+    createCommentMutation,
+    editCommentMutation,
+    unpublishCommentMutation,
+    reportCommentMutation,
+    featureCommentMutation,
+    upVoteCommentMutation,
+    downVoteCommentMutation,
+    unVoteCommentMutation
+  } = useDiscussionMutations()
 
   /**
    * Return the settings of the discussion.

@@ -6,8 +6,9 @@ import Loader from '../Loader'
 import StatementComposer from './StatementComposer'
 import withT from '../../lib/withT'
 import TagFilter from '../Discussion/TagFilter'
+import OrderByTabs from '../Discussion/OrderByTabs'
 
-const StatementDiscussion = ({ tagMappings, t }) => {
+const StatementDiscussion = ({ t, tagMappings }) => {
   const { discussion, loading, error, refetch, actions } = useContext(
     DiscussionContext
   )
@@ -22,6 +23,8 @@ const StatementDiscussion = ({ tagMappings, t }) => {
         : [],
     [discussion]
   )
+
+  console.debug(discussion)
 
   return (
     <Loader
@@ -39,17 +42,23 @@ const StatementDiscussion = ({ tagMappings, t }) => {
               />
             )}
           </div>
-          <PleadingList
-            t={t}
-            pleadings={filteredStatements}
-            tagMappings={tagMappings}
-            actions={{
-              handleUpVote: actions.handleUpVote,
-              handleDownVote: actions.handleDownVote,
-              handleUnVote: actions.handleUnVote
-            }}
-            disableVoting={!me && !discussion.userCanComment}
-          />
+          <div>
+            <OrderByTabs
+              t={t}
+              resolvedOrderBy={discussion.comments.resolvedOrderBy}
+            />
+            <PleadingList
+              t={t}
+              pleadings={filteredStatements}
+              tagMappings={tagMappings}
+              actions={{
+                handleUpVote: actions.handleUpVote,
+                handleDownVote: actions.handleDownVote,
+                handleUnVote: actions.handleUnVote
+              }}
+              disableVoting={!me && !discussion.userCanComment}
+            />
+          </div>
         </div>
       )}
     />

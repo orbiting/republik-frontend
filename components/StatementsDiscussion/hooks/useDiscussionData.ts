@@ -1,15 +1,14 @@
+import { useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import {
-  COMMENT_SUBSCRIPTION,
-  DISCUSSION_QUERY
-} from '../../Discussion/graphql/documents'
+import { COMMENT_SUBSCRIPTION } from '../../Discussion/graphql/documents'
 import produce from '../../../lib/immer'
 import {
   bumpCounts,
   mergeComment,
   mergeComments
 } from '../../Discussion/graphql/store'
-import { useEffect } from 'react'
+
+import { ENHANCED_DISCUSSION_QUERY } from '../graphql/DiscussionQuery.graphql'
 
 // TODO: Type the discussion object!
 type DiscussionData = {
@@ -26,6 +25,7 @@ type DiscussionOptions = {
   depth?: number
   focusId?: string
   parentId?: string
+  first?: number
 }
 
 function useDiscussionData(discussionId: string, options?: DiscussionOptions) {
@@ -36,13 +36,25 @@ function useDiscussionData(discussionId: string, options?: DiscussionOptions) {
     fetchMore,
     subscribeToMore,
     refetch
-  } = useQuery<DiscussionData>(DISCUSSION_QUERY, {
+  } = useQuery<DiscussionData>(ENHANCED_DISCUSSION_QUERY, {
     variables: {
       discussionId,
       orderBy: options.orderBy,
       activeTag: options.activeTag,
       depth: options.depth,
-      focusId: options.focusId
+      focusId: options.focusId,
+      first: options.first || 100
+    },
+    onCompleted: () => {
+      console.debug('Finished fetching discussion data', discussion, {
+        variables: {
+          discussionId,
+          orderBy: options.orderBy,
+          activeTag: options.activeTag,
+          depth: options.depth,
+          focusId: options.focusId
+        }
+      })
     }
   })
 
@@ -72,6 +84,17 @@ function useDiscussionData(discussionId: string, options?: DiscussionOptions) {
         includeParent
       },
       updateQuery: (previousResult, { fetchMoreResult: { discussion } }) => {
+        console.debug('Upading Discussion Query:', {
+          variables: {
+            discussionId,
+            parentId,
+            after,
+            orderBy: options.orderBy,
+            activeTag: options.activeTag,
+            depth: depth || 3,
+            includeParent
+          }
+        })
         return produce(
           previousResult,
           mergeComments({
@@ -136,7 +159,9 @@ function useDiscussionData(discussionId: string, options?: DiscussionOptions) {
   })
 
   useEffect(() => {
-    subscribeToComments()
+    if (discussion && subscribeToComments) {
+      subscribeToComments()
+    }
   }, [discussion, subscribeToComments])
 
   return {

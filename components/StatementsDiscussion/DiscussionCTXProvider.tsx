@@ -63,6 +63,8 @@ const DiscussionCTXProvider: FC<Props> = ({
   const { discussion, error, loading, refetch, fetchMore } = useDiscussionData(
     discussionId,
     {
+      // TODO: Don't hard-code this
+      first: 100,
       orderBy,
       activeTag,
       depth,
@@ -159,7 +161,9 @@ const DiscussionCTXProvider: FC<Props> = ({
       error: error,
       fetchMore,
       refetch,
-      actions: availableActions
+      actions: availableActions,
+      orderBy,
+      activeTag
     }
   }, [discussion, loading, error, refetch, availableActions])
 

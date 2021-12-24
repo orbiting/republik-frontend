@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import { DiscussionContext } from '@project-r/styleguide'
-import PleadingList from './PleadingList'
+import { DiscussionContext, StatementList } from '@project-r/styleguide'
 import { useMe } from '../../lib/context/MeContext'
 import Loader from '../Loader'
 import StatementComposer from './StatementComposer'
@@ -9,9 +8,16 @@ import TagFilter from '../Discussion/TagFilter'
 import OrderByTabs from '../Discussion/OrderByTabs'
 
 const StatementDiscussion = ({ t, tagMappings }) => {
-  const { discussion, loading, error, refetch, actions } = useContext(
-    DiscussionContext
-  )
+  const {
+    discussion,
+    loading,
+    error,
+    refetch,
+    actions,
+    fetchMore,
+    orderBy,
+    activeTag
+  } = useContext(DiscussionContext)
   const { me } = useMe()
 
   const filteredStatements = useMemo(
@@ -24,11 +30,20 @@ const StatementDiscussion = ({ t, tagMappings }) => {
     [discussion]
   )
 
-  console.debug(discussion)
+  const loadMore = () => {
+    if (!discussion) return
+    const lastNode =
+      discussion.comments.nodes[discussion.comments.nodes.length - 1]
+    const endCursor = discussion.comments.pageInfo.endCursor
+    fetchMore({
+      after: endCursor,
+      appendAfter: lastNode.id
+    })
+  }
 
   return (
     <Loader
-      loading={loading}
+      loading={loading || !discussion}
       error={error}
       render={() => (
         <div>
@@ -45,11 +60,11 @@ const StatementDiscussion = ({ t, tagMappings }) => {
           <div>
             <OrderByTabs
               t={t}
-              resolvedOrderBy={discussion.comments.resolvedOrderBy}
+              resolvedOrderBy={discussion.comments.resolvedOrderBy || orderBy}
             />
-            <PleadingList
+            <StatementList
               t={t}
-              pleadings={filteredStatements}
+              comments={filteredStatements}
               tagMappings={tagMappings}
               actions={{
                 handleUpVote: actions.handleUpVote,
@@ -57,6 +72,11 @@ const StatementDiscussion = ({ t, tagMappings }) => {
                 handleUnVote: actions.handleUnVote
               }}
               disableVoting={!me && !discussion.userCanComment}
+              loadMore={loadMore}
+              moreAvailableCount={
+                discussion.comments.totalCount -
+                discussion.comments.nodes.length
+              }
             />
           </div>
         </div>

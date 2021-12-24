@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import {
-  commentsSubscription,
+  COMMENT_SUBSCRIPTION,
   DISCUSSION_QUERY
 } from '../../Discussion/graphql/documents'
 import produce from '../../../lib/immer'
@@ -10,6 +10,15 @@ import {
   mergeComments
 } from '../../Discussion/graphql/store'
 import { useEffect } from 'react'
+
+// TODO: Type the discussion object!
+type DiscussionData = {
+  discussion: any
+}
+
+type CommentSubscriptionData = {
+  comment: any
+}
 
 type DiscussionOptions = {
   orderBy: string
@@ -27,7 +36,7 @@ function useDiscussionData(discussionId: string, options?: DiscussionOptions) {
     fetchMore,
     subscribeToMore,
     refetch
-  } = useQuery(DISCUSSION_QUERY, {
+  } = useQuery<DiscussionData>(DISCUSSION_QUERY, {
     variables: {
       discussionId,
       orderBy: options.orderBy,
@@ -74,8 +83,8 @@ function useDiscussionData(discussionId: string, options?: DiscussionOptions) {
       }
     })
 
-  const subscribeToComments = subscribeToMore({
-    document: commentsSubscription,
+  const subscribeToComments = subscribeToMore<CommentSubscriptionData>({
+    document: COMMENT_SUBSCRIPTION,
     variables: { discussionId },
     onError(...args) {
       console.debug('subscribe:onError', args)

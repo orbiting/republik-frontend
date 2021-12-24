@@ -67,25 +67,25 @@ const DiscussionCTXProvider: FC<Props> = ({
 }) => {
   const { query } = useRouter()
   const orderBy =
-    query.order ||
+    (query.order as string) ||
     (board
       ? 'HOT'
       : discussionId === GENERAL_FEEDBACK_DISCUSSION_ID
       ? 'DATE'
       : 'AUTO')
 
-  const activeTag = query.tag
+  const activeTag = query.tag as string
 
   const depth = board ? 1 : 3
 
-  // TODO: fetch discussion
   const { discussion, error, loading, refetch, fetchMore } = useDiscussionData(
     discussionId,
     {
       orderBy,
       activeTag,
       depth,
-      focusId
+      focusId,
+      parentId
     }
   )
 

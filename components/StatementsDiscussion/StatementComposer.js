@@ -4,7 +4,7 @@ import {
   CommentComposerPlaceholder
 } from '@project-r/styleguide'
 
-const StatementComposer = ({ t, refetch, submitHandler }) => {
+const StatementComposer = ({ t, refetch, submitHandler, tags }) => {
   const [active, setActive] = useState(false)
 
   const handleSubmit = async (value, tags) => {
@@ -29,6 +29,7 @@ const StatementComposer = ({ t, refetch, submitHandler }) => {
         onClose={() => setActive(false)}
         onSubmit={({ text, tags }) => handleSubmit(text, tags)}
         onSubmitLabel={t('styleguide/CommentComposer/answer')}
+        tagValue={tags && tags.length > 0 ? tags[0] : undefined}
       />
     )
   }

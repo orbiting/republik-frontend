@@ -77,6 +77,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
                 t={t}
                 refetch={refetch}
                 submitHandler={actions.handleSubmit}
+                tags={discussion.tags}
               />
             )}
           </div>

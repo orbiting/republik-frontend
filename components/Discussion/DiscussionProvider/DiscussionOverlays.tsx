@@ -1,9 +1,6 @@
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 
-import { FeatureCommentOverlay } from '../FeatureCommentOverlay'
-import { RootCommentOverlay } from '../RootCommentOverlay'
-import { getFocusHref } from '../CommentLink'
 import ShareOverlay from '../ShareOverlay'
 import { DiscussionContext } from './context/DiscussionContext'
 

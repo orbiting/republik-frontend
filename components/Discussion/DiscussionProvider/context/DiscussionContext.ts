@@ -12,6 +12,8 @@ interface DiscussionContextValue {
   discussion: Discussion | null
   loading: boolean
   error?: ApolloError
+  fetchMore: any
+  refetch
   overlays: {
     shareOverlay: OverlayState<string>
     featureOverlay: OverlayState<Comment>

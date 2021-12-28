@@ -1,16 +1,36 @@
 import { useEffect } from 'react'
-import { useQuery } from '@apollo/client'
+import {
+  ApolloError,
+  ApolloQueryResult,
+  RefetchQueriesFunction,
+  useQuery
+} from '@apollo/client'
 import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
 import produce from '../../../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from '../../graphql/store'
 
 import { ENHANCED_DISCUSSION_QUERY } from '../graphql/DiscussionQuery.graphql'
 
-// TODO: Type the discussion object!
-type DiscussionData = {
-  discussion: any
+// Todo: Type Discussion object
+type DiscussionObject = any
+
+// Data returned by the discussion query
+type DiscussionQueryData = {
+  // TODO: Type the discussion object!
+  discussion: DiscussionObject
 }
 
+// Variables for the discussion query
+type DiscussionQueryVariables = {
+  discussionId: string
+  orderBy: string
+  depth: number
+  first: number
+  focusId?: string
+  activeTag?: string
+}
+
+// TODO: Add proper type
 type CommentSubscriptionData = {
   comment: any
 }
@@ -24,7 +44,27 @@ type DiscussionOptions = {
   first?: number
 }
 
-function useDiscussionData(discussionId: string, options?: DiscussionOptions) {
+// Data returned by the hook
+type DiscussionData = {
+  discussion?: DiscussionObject
+  loading: boolean
+  error: ApolloError
+  refetch: (
+    variables: DiscussionQueryVariables
+  ) => Promise<ApolloQueryResult<DiscussionQueryData>>
+  fetchMore: ({
+    parentId,
+    after,
+    appendAfter,
+    depth,
+    includeParent
+  }) => Promise<ApolloQueryResult<DiscussionQueryData>>
+}
+
+function useDiscussionData(
+  discussionId: string,
+  options?: DiscussionOptions
+): DiscussionData {
   const {
     data: { discussion } = {},
     error,
@@ -32,27 +72,30 @@ function useDiscussionData(discussionId: string, options?: DiscussionOptions) {
     fetchMore,
     subscribeToMore,
     refetch
-  } = useQuery<DiscussionData>(ENHANCED_DISCUSSION_QUERY, {
-    variables: {
-      discussionId,
-      orderBy: options.orderBy,
-      activeTag: options.activeTag,
-      depth: options.depth,
-      focusId: options.focusId,
-      first: options.first || 100
-    },
-    onCompleted: () => {
-      console.debug('Finished fetching discussion data', discussion, {
-        variables: {
-          discussionId,
-          orderBy: options.orderBy,
-          activeTag: options.activeTag,
-          depth: options.depth,
-          focusId: options.focusId
-        }
-      })
+  } = useQuery<DiscussionQueryData, DiscussionQueryVariables>(
+    ENHANCED_DISCUSSION_QUERY,
+    {
+      variables: {
+        discussionId,
+        orderBy: options.orderBy,
+        depth: options.depth,
+        first: options.first || 100,
+        focusId: options.focusId,
+        activeTag: options.activeTag
+      },
+      onCompleted: () => {
+        console.debug('Finished fetching discussion data', discussion, {
+          variables: {
+            discussionId,
+            orderBy: options.orderBy,
+            activeTag: options.activeTag,
+            depth: options.depth,
+            focusId: options.focusId
+          }
+        })
+      }
     }
-  })
+  )
 
   /**
    * Merge previous and next comments when fetching more

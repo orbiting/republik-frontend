@@ -6,7 +6,7 @@ import useDiscussionData from './hooks/useDiscussionData'
 import useDiscussionMutations from './hooks/useDiscussionMutations'
 import deepMerge from '../../../lib/deepMerge'
 import useOverlay from './hooks/useOverlay'
-import DiscussionOverlays from './DiscussionOverlays'
+import DiscussionOverlays from './components/DiscussionOverlays'
 import DiscussionContext from './context/DiscussionContext'
 
 type DiscussionOptions = {

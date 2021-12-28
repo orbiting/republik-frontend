@@ -1,10 +1,5 @@
 import { useEffect } from 'react'
-import {
-  ApolloError,
-  ApolloQueryResult,
-  RefetchQueriesFunction,
-  useQuery
-} from '@apollo/client'
+import { ApolloError, ApolloQueryResult, useQuery } from '@apollo/client'
 import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
 import produce from '../../../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from '../../graphql/store'

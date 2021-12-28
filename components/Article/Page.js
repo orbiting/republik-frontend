@@ -679,7 +679,10 @@ const ArticlePage = ({
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
                   {meta?.discussionType === 'statements' ? (
-                    <DiscussionProvider discussionId={ownDiscussion.id}>
+                    <DiscussionProvider
+                      discussionId={ownDiscussion.id}
+                      defaultOrderBy={'DATE'}
+                    >
                       <StatementDiscussion tagMappings={meta.tagMappings} />
                     </DiscussionProvider>
                   ) : (

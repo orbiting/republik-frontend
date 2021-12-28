@@ -85,6 +85,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
             <OrderByTabs
               t={t}
               resolvedOrderBy={discussion.comments.resolvedOrderBy || orderBy}
+              availableOrderBy={['DATE', 'VOTES']}
             />
             <StatementList
               t={t}

@@ -6,7 +6,7 @@ import useDiscussionData from './hooks/useDiscussionData'
 import useDiscussionMutations from './hooks/useDiscussionMutations'
 import deepMerge from '../../../lib/deepMerge'
 import useOverlay from './hooks/useOverlay'
-import DiscussionOverlays from './DiscussionOverlays'
+import DiscussionOverlays from './components/DiscussionOverlays'
 import DiscussionContext from './context/DiscussionContext'
 
 type DiscussionOptions = {
@@ -38,6 +38,7 @@ type Props = {
   ignoreDefaultOptions?: boolean
   board?: boolean
   parentId?: string
+  defaultOrderBy?: string
 }
 
 const DiscussionProvider: FC<Props> = ({
@@ -47,11 +48,13 @@ const DiscussionProvider: FC<Props> = ({
   options,
   ignoreDefaultOptions = false,
   board,
-  parentId
+  parentId,
+  defaultOrderBy
 }) => {
   const { query } = useRouter()
   const orderBy =
     (query.order as string) ||
+    defaultOrderBy ||
     (board
       ? 'HOT'
       : discussionId === GENERAL_FEEDBACK_DISCUSSION_ID
@@ -173,8 +176,8 @@ const DiscussionProvider: FC<Props> = ({
 
   return (
     <DiscussionContext.Provider value={ctxValue}>
-      <DiscussionOverlays />
       {children}
+      <DiscussionOverlays />
     </DiscussionContext.Provider>
   )
 }

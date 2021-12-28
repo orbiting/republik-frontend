@@ -22,16 +22,11 @@ import {
   Loader,
   DiscussionContext,
   CommentList,
-  A,
   fontStyles,
   convertStyleToRem,
-  pxToRem,
   mediaQueries,
   useMediaQuery,
-  inQuotes,
-  useColorContext,
-  Scroller,
-  TabButton
+  inQuotes
 } from '@project-r/styleguide'
 
 import { withEditor, withModerator } from '../Auth/checkRoles'
@@ -40,7 +35,6 @@ import { focusSelector } from '../../lib/utils/scroll'
 import { RootCommentOverlay } from './RootCommentOverlay'
 import { FeatureCommentOverlay } from './FeatureCommentOverlay'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
-import { rerouteDiscussion } from './DiscussionLink'
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 import CommentsOptions from './CommentsOptions'
 

@@ -1,7 +1,7 @@
-import { createContext, useContext } from 'react'
-import { ApolloError } from '@apollo/client'
-import { OverlayState } from '../hooks/useOverlay'
+import { useContext } from 'react'
+import { DiscussionContext } from '@project-r/styleguide'
 
+/*
 // TODO: Add proper type
 export type Discussion = any
 
@@ -22,6 +22,9 @@ interface DiscussionContextValue {
 export const DiscussionContext = createContext<DiscussionContextValue>(
   {} as DiscussionContextValue
 )
+ */
+
+export default DiscussionContext
 
 export const useDiscussion = () => {
   return useContext<DiscussionContextValue>(DiscussionContext)

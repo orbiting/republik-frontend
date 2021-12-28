@@ -1,17 +1,13 @@
-import React, { useContext } from 'react'
-import { useRouter } from 'next/router'
+import React from 'react'
 
 import ShareOverlay from '../ShareOverlay'
-import { DiscussionContext } from './context/DiscussionContext'
+import { useDiscussion } from './context/DiscussionContext'
 
 const DiscussionOverlays = () => {
-  const router = useRouter()
   const {
     discussion,
     overlays: { shareOverlay }
-  } = useContext(DiscussionContext)
-
-  // TODO: Add discussion-preferences overlay
+  } = useDiscussion()
 
   return (
     <div>
@@ -36,7 +32,7 @@ const DiscussionOverlays = () => {
         />
       )*/}
 
-      {shareOverlay.open && shareOverlay.data && (
+      {shareOverlay.open && (
         <ShareOverlay
           discussionId={discussion.id}
           onClose={() => {

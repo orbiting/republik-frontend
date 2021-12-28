@@ -27,5 +27,5 @@ export const DiscussionContext = createContext<DiscussionContextValue>(
 export default DiscussionContext
 
 export const useDiscussion = () => {
-  return useContext<DiscussionContextValue>(DiscussionContext)
+  return useContext(DiscussionContext)
 }

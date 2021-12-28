@@ -66,7 +66,8 @@ function useDiscussionData(
     loading,
     fetchMore,
     subscribeToMore,
-    refetch
+    refetch,
+    previousData
   } = useQuery<DiscussionQueryData, DiscussionQueryVariables>(
     ENHANCED_DISCUSSION_QUERY,
     {
@@ -199,7 +200,7 @@ function useDiscussionData(
   }, [discussion, subscribeToComments])
 
   return {
-    discussion,
+    discussion: discussion || previousData,
     loading,
     error,
     refetch,

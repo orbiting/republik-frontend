@@ -1,11 +1,13 @@
 import React, { FC, ReactNode, useMemo } from 'react'
-import { DiscussionContext } from '@project-r/styleguide'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../../lib/constants'
 import { useRouter } from 'next/router'
 import uuid from 'uuid/v4'
 import useDiscussionData from './hooks/useDiscussionData'
 import useDiscussionMutations from './hooks/useDiscussionMutations'
 import deepMerge from '../../../lib/deepMerge'
+import useOverlay from './hooks/useOverlay'
+import DiscussionOverlays from './DiscussionOverlays'
+import { DiscussionContext } from './context/DiscussionContext'
 
 type DiscussionOptions = {
   actions: {
@@ -83,6 +85,10 @@ const DiscussionProvider: FC<Props> = ({
     downVoteCommentMutation,
     unVoteCommentMutation
   } = useDiscussionMutations()
+
+  const preferencesOverlay = useOverlay()
+  const shareOverlay = useOverlay()
+  const featureOverlay = useOverlay()
 
   /**
    * Return the settings of the discussion.
@@ -163,12 +169,18 @@ const DiscussionProvider: FC<Props> = ({
       refetch,
       actions: availableActions,
       orderBy,
-      activeTag
+      activeTag,
+      overlays: {
+        preferencesOverlay,
+        shareOverlay,
+        featureOverlay
+      }
     }
   }, [discussion, loading, error, refetch, availableActions])
 
   return (
     <DiscussionContext.Provider value={ctxValue}>
+      <DiscussionOverlays />
       {children}
     </DiscussionContext.Provider>
   )

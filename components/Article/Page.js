@@ -80,7 +80,7 @@ import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
 import StatementDiscussion from '../StatementsDiscussion/StatementDiscussion'
-import DiscussionCTXProvider from '../Discussion/DiscussionProvider/DiscussionCTXProvider'
+import DiscussionProvider from '../Discussion/DiscussionProvider/DiscussionProvider'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,
@@ -679,9 +679,9 @@ const ArticlePage = ({
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
                   {meta?.discussionType === 'statements' ? (
-                    <DiscussionCTXProvider discussionId={ownDiscussion.id}>
+                    <DiscussionProvider discussionId={ownDiscussion.id}>
                       <StatementDiscussion tagMappings={meta.tagMappings} />
-                    </DiscussionCTXProvider>
+                    </DiscussionProvider>
                   ) : (
                     <Discussion
                       discussionId={ownDiscussion.id}

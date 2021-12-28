@@ -85,9 +85,7 @@ const DiscussionProvider: FC<Props> = ({
     unVoteCommentMutation
   } = useDiscussionMutations()
 
-  const preferencesOverlay = useOverlay()
-  const shareOverlay = useOverlay()
-  const featureOverlay = useOverlay()
+  const shareOverlay = useOverlay<string>()
 
   /**
    * Return the settings of the discussion.
@@ -159,23 +157,19 @@ const DiscussionProvider: FC<Props> = ({
     return actions
   }, [discussion, settings])
 
-  const ctxValue = useMemo(() => {
-    return {
-      discussion,
-      loading: loading,
-      error: error,
-      fetchMore,
-      refetch,
-      actions: availableActions,
-      orderBy,
-      activeTag,
-      overlays: {
-        preferencesOverlay,
-        shareOverlay,
-        featureOverlay
-      }
+  const ctxValue = {
+    discussion,
+    loading: loading,
+    error: error,
+    fetchMore,
+    refetch,
+    actions: availableActions,
+    orderBy,
+    activeTag,
+    overlays: {
+      shareOverlay
     }
-  }, [discussion, loading, error, refetch, availableActions])
+  }
 
   return (
     <DiscussionContext.Provider value={ctxValue}>

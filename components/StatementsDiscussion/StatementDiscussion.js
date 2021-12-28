@@ -1,11 +1,12 @@
 import React, { useContext, useMemo } from 'react'
-import { DiscussionContext, StatementList } from '@project-r/styleguide'
+import { StatementList } from '@project-r/styleguide'
 import { useMe } from '../../lib/context/MeContext'
 import Loader from '../Loader'
 import StatementComposer from './StatementComposer'
 import withT from '../../lib/withT'
 import TagFilter from '../Discussion/TagFilter'
 import OrderByTabs from '../Discussion/OrderByTabs'
+import { DiscussionContext } from '../Discussion/DiscussionProvider/context/DiscussionContext'
 
 const StatementDiscussion = ({ t, tagMappings }) => {
   const {

@@ -33,7 +33,6 @@ const DEFAULT_OPTIONS = {
 type Props = {
   children?: ReactNode
   discussionId: string
-  focusId?: string
   options?: DiscussionOptions
   ignoreDefaultOptions?: boolean
   board?: boolean
@@ -43,7 +42,6 @@ type Props = {
 const DiscussionProvider: FC<Props> = ({
   children,
   discussionId,
-  focusId,
   options,
   ignoreDefaultOptions = false,
   board,
@@ -59,6 +57,7 @@ const DiscussionProvider: FC<Props> = ({
       : 'AUTO')
 
   const activeTag = query.tag as string
+  const focusId = query.focus as string
 
   const depth = board ? 1 : 3
 

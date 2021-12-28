@@ -3,29 +3,12 @@ import { ApolloError, ApolloQueryResult, useQuery } from '@apollo/client'
 import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
 import produce from '../../../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from '../../graphql/store'
-import { ENHANCED_DISCUSSION_QUERY } from '../graphql/DiscussionQuery.graphql'
-
-// Todo: Type Discussion object
-type DiscussionObject = any
-
-// Data returned by the discussion query
-type DiscussionQueryData = {
-  // TODO: Type the discussion object!
-  discussion: DiscussionObject
-}
-
-// Variables for the discussion query
-type DiscussionQueryVariables = {
-  discussionId: string
-  orderBy: string
-  depth: number
-  first: number
-  focusId?: string
-  activeTag?: string
-  parentId?: string
-  after?: string
-  includeParent?: boolean
-}
+import {
+  DiscussionObject,
+  DiscussionQueryData,
+  DiscussionQueryVariables,
+  ENHANCED_DISCUSSION_QUERY
+} from '../graphql/DiscussionQuery.graphql'
 
 // TODO: Add proper type
 type CommentSubscriptionData = {

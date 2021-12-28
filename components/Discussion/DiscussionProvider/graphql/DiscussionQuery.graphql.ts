@@ -1,6 +1,28 @@
 import { gql } from '@apollo/client'
 import * as fragments from '../../graphql/fragments'
 
+// Todo: Type Discussion object
+export type DiscussionObject = any
+
+// Data returned by the discussion query
+export type DiscussionQueryData = {
+  // TODO: Type the discussion object!
+  discussion: DiscussionObject
+}
+
+// Variables for the discussion query
+export type DiscussionQueryVariables = {
+  discussionId: string
+  parentId?: string
+  after?: string
+  orderBy: string
+  depth: number
+  focusId?: string
+  includeParent?: boolean
+  activeTag?: string
+  first: number
+}
+
 export const ENHANCED_DISCUSSION_QUERY = gql`
   query discussion(
     $discussionId: ID!

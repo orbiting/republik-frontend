@@ -3,10 +3,7 @@ import { ApolloError, ApolloQueryResult, useQuery } from '@apollo/client'
 import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
 import produce from '../../../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from '../../graphql/store'
-
 import { ENHANCED_DISCUSSION_QUERY } from '../graphql/DiscussionQuery.graphql'
-import { set } from 'immer/dist/utils/common'
-import statementDiscussion from '../../../StatementsDiscussion/StatementDiscussion'
 
 // Todo: Type Discussion object
 type DiscussionObject = any
@@ -25,11 +22,18 @@ type DiscussionQueryVariables = {
   first: number
   focusId?: string
   activeTag?: string
+  parentId?: string
+  after?: string
+  includeParent?: boolean
 }
 
 // TODO: Add proper type
 type CommentSubscriptionData = {
   comment: any
+}
+
+type CommentSubscriptionVariables = {
+  discussionId: string
 }
 
 type DiscussionOptions = {
@@ -41,6 +45,10 @@ type DiscussionOptions = {
   first?: number
 }
 
+type FetchMoreParams = DiscussionQueryVariables & {
+  appendAfter?: string
+}
+
 // Data returned by the hook
 type DiscussionData = {
   discussion?: DiscussionObject
@@ -49,13 +57,9 @@ type DiscussionData = {
   refetch: (
     variables: DiscussionQueryVariables
   ) => Promise<ApolloQueryResult<DiscussionQueryData>>
-  fetchMore: ({
-    parentId,
-    after,
-    appendAfter,
-    depth,
-    includeParent
-  }) => Promise<ApolloQueryResult<DiscussionQueryData>>
+  fetchMore: (
+    params: FetchMoreParams
+  ) => Promise<ApolloQueryResult<DiscussionQueryData>>
 }
 
 function useDiscussionData(
@@ -109,7 +113,7 @@ function useDiscussionData(
     appendAfter,
     depth,
     includeParent
-  }) =>
+  }: FetchMoreParams) =>
     fetchMore({
       variables: {
         discussionId,
@@ -120,18 +124,10 @@ function useDiscussionData(
         depth: depth || 3,
         includeParent
       },
+      // Explanation: updateQuery is deprecated and not typed in TS
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       updateQuery: (previousResult, { fetchMoreResult: { discussion } }) => {
-        console.debug('Upading Discussion Query:', {
-          variables: {
-            discussionId,
-            parentId,
-            after,
-            orderBy: options.orderBy,
-            activeTag: options.activeTag,
-            depth: depth || 3,
-            includeParent
-          }
-        })
         return produce(
           previousResult,
           mergeComments({
@@ -143,14 +139,16 @@ function useDiscussionData(
       }
     })
 
-  const subscribeToComments = subscribeToMore<CommentSubscriptionData>({
+  const subscribeToComments = subscribeToMore<
+    CommentSubscriptionData,
+    CommentSubscriptionVariables
+  >({
     document: COMMENT_SUBSCRIPTION,
     variables: { discussionId },
     onError(...args) {
       console.debug('subscribe:onError', args)
     },
     updateQuery: (previousResult, { subscriptionData }) => {
-      console.debug('subscribe:updateQuery', subscriptionData.data)
       const initialParentId = options.parentId
 
       /*

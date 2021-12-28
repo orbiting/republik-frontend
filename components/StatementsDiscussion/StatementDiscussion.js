@@ -5,10 +5,11 @@ import Loader from '../Loader'
 import StatementComposer from './StatementComposer'
 import withT from '../../lib/withT'
 import TagFilter from '../Discussion/TagFilter'
-import OrderByTabs from '../Discussion/OrderByTabs'
 import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
 import { postMessage, useInNativeApp } from '../../lib/withInNativeApp'
-import { getFocusUrl } from '../Discussion/CommentLink'
+import { getFocusHref, getFocusUrl } from '../Discussion/CommentLink'
+import CommentsOptions from '../Discussion/CommentsOptions'
+import { useRouter } from 'next/router'
 
 const StatementDiscussion = ({ t, tagMappings }) => {
   const {
@@ -23,6 +24,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
   } = useDiscussion()
   const { me } = useMe()
   const { inNativeApp } = useInNativeApp()
+  const router = useRouter()
 
   const filteredStatements = useMemo(
     () =>
@@ -64,6 +66,20 @@ const StatementDiscussion = ({ t, tagMappings }) => {
     return Promise.resolve({ ok: true })
   }
 
+  const handleReload = e => {
+    e.preventDefault()
+    const href = getFocusHref(discussion)
+    if (href) {
+      router.replace(href).then(() => {
+        refetch({
+          focusId: undefined
+        })
+      })
+    } else {
+      refetch()
+    }
+  }
+
   return (
     <Loader
       loading={loading || !discussion}
@@ -82,9 +98,12 @@ const StatementDiscussion = ({ t, tagMappings }) => {
             )}
           </div>
           <div>
-            <OrderByTabs
+            <CommentsOptions
               t={t}
               resolvedOrderBy={discussion.comments.resolvedOrderBy || orderBy}
+              handleReload={handleReload}
+              discussion={discussion}
+              router={router}
             />
             <StatementList
               t={t}

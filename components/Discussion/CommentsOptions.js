@@ -1,4 +1,4 @@
-import { A, pxToRem, Scroller, TabButton } from '../../../styleguide'
+import { A, pxToRem, Scroller, TabButton } from '@project-r/styleguide'
 import Link from 'next/link'
 import { rerouteDiscussion } from './DiscussionLink'
 import { getFocusUrl } from './CommentLink'

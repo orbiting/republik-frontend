@@ -1,12 +1,8 @@
 import { useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import { COMMENT_SUBSCRIPTION } from '../../Discussion/graphql/documents'
-import produce from '../../../lib/immer'
-import {
-  bumpCounts,
-  mergeComment,
-  mergeComments
-} from '../../Discussion/graphql/store'
+import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
+import produce from '../../../../lib/immer'
+import { bumpCounts, mergeComment, mergeComments } from '../../graphql/store'
 
 import { ENHANCED_DISCUSSION_QUERY } from '../graphql/DiscussionQuery.graphql'
 

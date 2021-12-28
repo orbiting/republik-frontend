@@ -80,7 +80,7 @@ import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
 import StatementDiscussion from '../StatementsDiscussion/StatementDiscussion'
-import DiscussionCTXProvider from '../StatementsDiscussion/DiscussionCTXProvider'
+import DiscussionCTXProvider from '../Discussion/DiscussionProvider/DiscussionCTXProvider'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,

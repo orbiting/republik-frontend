@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import * as fragments from '../../Discussion/graphql/fragments'
+import * as fragments from '../../graphql/fragments'
 
 export const ENHANCED_DISCUSSION_QUERY = gql`
   query discussion(

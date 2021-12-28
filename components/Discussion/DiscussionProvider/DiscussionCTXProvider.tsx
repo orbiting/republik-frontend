@@ -1,11 +1,11 @@
 import React, { FC, ReactNode, useMemo } from 'react'
 import { DiscussionContext } from '@project-r/styleguide'
-import deepMerge from '../../lib/deepMerge'
-import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
+import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../../lib/constants'
 import { useRouter } from 'next/router'
 import uuid from 'uuid/v4'
 import useDiscussionData from './hooks/useDiscussionData'
 import useDiscussionMutations from './hooks/useDiscussionMutations'
+import deepMerge from '../../../lib/deepMerge'
 
 type DiscussionOptions = {
   actions: {

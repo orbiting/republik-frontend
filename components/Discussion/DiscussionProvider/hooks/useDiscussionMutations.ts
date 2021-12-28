@@ -8,7 +8,7 @@ import {
   UNPUBLISH_COMMENT_MUTATION,
   UP_VOTE_COMMENT_ACTION,
   UPVOTE_COMMENT_MUTATION
-} from '../../Discussion/graphql/documents'
+} from '../../graphql/documents'
 
 function useDiscussionMutations() {
   const [createCommentMutation] = useMutation(SUBMIT_COMMENT_MUTATION)

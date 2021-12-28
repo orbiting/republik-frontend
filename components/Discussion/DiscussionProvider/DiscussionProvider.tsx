@@ -38,7 +38,7 @@ type Props = {
   parentId?: string
 }
 
-const DiscussionCTXProvider: FC<Props> = ({
+const DiscussionProvider: FC<Props> = ({
   children,
   discussionId,
   focusId,
@@ -174,4 +174,4 @@ const DiscussionCTXProvider: FC<Props> = ({
   )
 }
 
-export default DiscussionCTXProvider
+export default DiscussionProvider

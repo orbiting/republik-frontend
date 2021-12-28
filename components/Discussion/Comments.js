@@ -42,6 +42,7 @@ import { FeatureCommentOverlay } from './FeatureCommentOverlay'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
 import { rerouteDiscussion } from './DiscussionLink'
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
+import CommentsOptions from './CommentsOptions'
 
 const styles = {
   orderByContainer: css({
@@ -69,13 +70,6 @@ const styles = {
   }),
   emptyDiscussion: css({
     margin: '20px 0'
-  }),
-  reloadLink: css({
-    display: 'flex',
-    flexDirection: 'row-reverse',
-    lineHeight: pxToRem('25px'),
-    fontSize: pxToRem('16px'),
-    cursor: 'pointer'
   })
 }
 
@@ -389,37 +383,14 @@ const Comments = props => {
         return (
           <>
             {!rootCommentOverlay && (
-              <>
-                <Scroller>
-                  {['HOT', 'DATE', 'VOTES', 'REPLIES']
-                    .filter(item => (board ? true : item !== 'HOT'))
-                    .map(item => {
-                      return (
-                        <Link
-                          href={rerouteDiscussion(router, {
-                            order: item
-                          })}
-                          scroll={false}
-                          passHref
-                          key={item}
-                        >
-                          <TabButton
-                            border={false}
-                            text={t(`components/Discussion/OrderBy/${item}`)}
-                            isActive={item === resolvedOrderBy}
-                          />
-                        </Link>
-                      )
-                    })}
-                </Scroller>
-                <A
-                  {...styles.reloadLink}
-                  href={getFocusUrl(discussion)}
-                  onClick={onReload}
-                >
-                  {t('components/Discussion/reload')}
-                </A>
-              </>
+              <CommentsOptions
+                t={t}
+                router={router}
+                discussion={discussion}
+                board={board}
+                handleReload={onReload}
+                resolvedOrderBy={resolvedOrderBy}
+              />
             )}
 
             <DiscussionContext.Provider value={discussionContextValue}>

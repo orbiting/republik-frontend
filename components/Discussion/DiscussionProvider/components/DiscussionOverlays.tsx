@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ShareOverlay from '../ShareOverlay'
-import { useDiscussion } from './context/DiscussionContext'
+import ShareOverlay from '../../ShareOverlay'
+import { useDiscussion } from '../context/DiscussionContext'
 
 const DiscussionOverlays = () => {
   const {

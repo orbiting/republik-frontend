@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type OverlayState<T> = {
+export type OverlayState<T> = {
   data: T | null
   open: boolean
   setOpen: (open: boolean) => void

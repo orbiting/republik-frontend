@@ -16,7 +16,6 @@ interface DiscussionContextValue {
   refetch
   overlays: {
     shareOverlay: OverlayState<string>
-    featureOverlay: OverlayState<Comment>
   }
 }
 
@@ -24,6 +23,6 @@ export const DiscussionContext = createContext<DiscussionContextValue>(
   {} as DiscussionContextValue
 )
 
-const useDiscussion = () => {
+export const useDiscussion = () => {
   return useContext<DiscussionContextValue>(DiscussionContext)
 }

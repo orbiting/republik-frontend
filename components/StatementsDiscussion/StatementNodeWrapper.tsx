@@ -32,12 +32,13 @@ const StatementNodeWrapper = ({
   }, [comment, actions, me?.roles, t])
 
   if (editMode) {
+    console.debug(`Comment Tag`, comment.tags)
     return (
       <StatementComposer
         t={t}
         availableTags={discussion.tags}
         initialText={comment.text}
-        tagValue={comment.tag}
+        tagValue={comment.tags.length > 0 && comment.tags[0]}
         submitHandler={(content, tags) => {
           return actions
             .editCommentHandler(comment.id, content, tags)

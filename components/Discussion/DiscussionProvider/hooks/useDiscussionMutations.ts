@@ -12,7 +12,7 @@ import {
 import { toRejectedString } from '../../graphql/utils'
 import uuid from 'uuid/v4'
 
-export type DiscussionActions = {
+export type DiscussionMutations = {
   submitCommentHandler: any
   editCommentHandler: any
   unpublishCommentHandler: any
@@ -22,7 +22,7 @@ export type DiscussionActions = {
   unVoteCommentHandler: any
 }
 
-function useDiscussionActions(): DiscussionActions {
+function useDiscussionMutations(): DiscussionMutations {
   const [submitCommentMutation] = useMutation(SUBMIT_COMMENT_MUTATION)
 
   const [editCommentMutation] = useMutation(EDIT_COMMENT_MUTATION)
@@ -116,4 +116,4 @@ function useDiscussionActions(): DiscussionActions {
   }
 }
 
-export default useDiscussionActions
+export default useDiscussionMutations

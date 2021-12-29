@@ -93,7 +93,11 @@ const StatementDiscussion = ({ t, tagMappings }) => {
               <StatementComposer
                 t={t}
                 refetch={refetch}
-                submitHandler={actions.submitCommentHandler}
+                submitHandler={(content, tags) =>
+                  actions.submitCommentHandler(content, tags, {
+                    discussionId: discussion.id
+                  })
+                }
                 tags={discussion.tags}
               />
             )}

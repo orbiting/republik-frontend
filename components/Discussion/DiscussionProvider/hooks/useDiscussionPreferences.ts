@@ -25,13 +25,15 @@ type SetDiscussionPreferencesMutationVariables = {
 // TODO: Define type
 type SetDiscussionPreferencesMutationResult = Record<string, any>
 
+export type SetDiscussionPreferencesHandler = (
+  data: SetDiscussionPreferencesMutationVariables
+) => Promise<FetchResult<SetDiscussionPreferencesMutationResult>>
+
 type DiscussionPreferences = {
   discussionPreferences: DiscussionPreferencesQueryData
   loading: boolean
   error?: ApolloError
-  setDiscussionPreferencesHandler: (
-    data: SetDiscussionPreferencesMutationVariables
-  ) => Promise<FetchResult<SetDiscussionPreferencesMutationResult>>
+  setDiscussionPreferencesHandler: SetDiscussionPreferencesHandler
 }
 
 function useDiscussionPreferences(discussionId: string): DiscussionPreferences {

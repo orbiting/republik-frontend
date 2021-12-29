@@ -38,7 +38,8 @@ function useDiscussionMutations(): DiscussionMutations {
 
   async function submitCommentHandler(
     content,
-    { tags, parentId, discussionId }
+    tags,
+    { discussionId, parentId }
   ) {
     return submitCommentMutation({
       variables: {

@@ -12,7 +12,7 @@ import {
 import { toRejectedString } from '../../graphql/utils'
 import uuid from 'uuid/v4'
 
-type DiscussionActions = {
+export type DiscussionActions = {
   submitCommentHandler: any
   editCommentHandler: any
   unpublishCommentHandler: any

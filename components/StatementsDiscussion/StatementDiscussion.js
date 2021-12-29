@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { StatementList } from '@project-r/styleguide'
 import { useMe } from '../../lib/context/MeContext'
 import Loader from '../Loader'
@@ -10,6 +10,7 @@ import { postMessage, useInNativeApp } from '../../lib/withInNativeApp'
 import { getFocusHref, getFocusUrl } from '../Discussion/CommentLink'
 import CommentsOptions from '../Discussion/CommentsOptions'
 import { useRouter } from 'next/router'
+import StatementNodeWrapper from './StatementNodeWrapper'
 
 const StatementDiscussion = ({ t, tagMappings }) => {
   const {
@@ -88,11 +89,11 @@ const StatementDiscussion = ({ t, tagMappings }) => {
         <div>
           <div>
             <TagFilter discussion={discussion} />
-            {actions.handleSubmit && (
+            {actions.submitCommentHandler && (
               <StatementComposer
                 t={t}
                 refetch={refetch}
-                submitHandler={actions.handleSubmit}
+                submitHandler={actions.submitCommentHandler}
                 tags={discussion.tags}
               />
             )}
@@ -109,19 +110,27 @@ const StatementDiscussion = ({ t, tagMappings }) => {
               t={t}
               comments={filteredStatements}
               tagMappings={tagMappings}
-              actions={{
+              /*actions={{
                 handleUpVote: actions.handleUpVote,
                 handleDownVote: actions.handleDownVote,
                 handleUnVote: actions.handleUnVote,
                 handleShare: shareComment
               }}
-              disableVoting={!me && !discussion.userCanComment}
+              disableVoting={!me && !discussion.userCanComment}*/
               loadMore={loadMore}
               moreAvailableCount={
                 discussion.comments.totalCount -
                 discussion.comments.nodes.length
               }
-            />
+            >
+              {filteredStatements.map(comment => (
+                <StatementNodeWrapper
+                  key={comment.id}
+                  comment={comment}
+                  tagMappings={tagMappings}
+                />
+              ))}
+            </StatementList>
           </div>
         </div>
       )}

@@ -7,10 +7,11 @@ import Comments from './Comments'
 import TagFilter from './TagFilter'
 import Loader from '../Loader'
 import { useQuery } from '@apollo/client'
-import { COMMENT_SUBSCRIPTION, discussionQuery } from './graphql/documents'
+import { COMMENT_SUBSCRIPTION } from './graphql/documents'
 import produce from '../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from './graphql/store'
 import { debug } from './debug'
+import { DISCUSSION_QUERY } from './DiscussionProvider/graphql/DiscussionQuery.graphql'
 
 const DEFAULT_DEPTH = 3
 
@@ -50,7 +51,7 @@ const Discussion = ({
     subscribeToMore,
     refetch,
     previousData
-  } = useQuery(discussionQuery, {
+  } = useQuery(DISCUSSION_QUERY, {
     variables: {
       discussionId,
       orderBy,

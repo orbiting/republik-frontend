@@ -6,14 +6,11 @@ import produce from '../../../../lib/immer'
 import withT from '../../../../lib/withT'
 
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'
-import {
-  discussionQuery,
-  SUBMIT_COMMENT_MUTATION,
-  commentPreviewQuery
-} from '../documents'
+import { SUBMIT_COMMENT_MUTATION, commentPreviewQuery } from '../documents'
 import { toRejectedString } from '../utils'
 import { mergeComment, optimisticContent } from '../store'
 import { debug } from '../../debug'
+import { DISCUSSION_QUERY } from '../../DiscussionProvider/graphql/DiscussionQuery.graphql'
 
 /**
  * Provides the component with
@@ -130,10 +127,10 @@ export const withSubmitComment = compose(
             }
 
             proxy.writeQuery({
-              query: discussionQuery,
+              query: DISCUSSION_QUERY,
               variables,
               data: produce(
-                proxy.readQuery({ query: discussionQuery, variables }),
+                proxy.readQuery({ query: DISCUSSION_QUERY, variables }),
                 mergeComment({
                   comment,
                   initialParentId,

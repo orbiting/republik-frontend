@@ -31,7 +31,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
     () =>
       discussion && discussion.comments
         ? discussion.comments.nodes.filter(
-            comment => !comment.adminUnpublished && !comment.unpublished
+            comment => comment.published && !comment.adminUnpublished
           )
         : [],
     [discussion]
@@ -110,13 +110,6 @@ const StatementDiscussion = ({ t, tagMappings }) => {
               t={t}
               comments={filteredStatements}
               tagMappings={tagMappings}
-              /*actions={{
-                handleUpVote: actions.handleUpVote,
-                handleDownVote: actions.handleDownVote,
-                handleUnVote: actions.handleUnVote,
-                handleShare: shareComment
-              }}
-              disableVoting={!me && !discussion.userCanComment}*/
               loadMore={loadMore}
               moreAvailableCount={
                 discussion.comments.totalCount -

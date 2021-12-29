@@ -35,7 +35,7 @@ const StatementNodeWrapper = ({
     return (
       <StatementComposer
         t={t}
-        tags={discussion.tags}
+        availableTags={discussion.tags}
         initialText={comment.text}
         tagValue={comment.tag}
         submitHandler={(content, tags) => {

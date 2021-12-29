@@ -98,7 +98,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
                     discussionId: discussion.id
                   })
                 }
-                tags={discussion.tags}
+                availableTags={discussion.tags}
               />
             )}
           </div>

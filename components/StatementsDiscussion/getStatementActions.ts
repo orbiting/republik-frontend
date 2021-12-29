@@ -1,12 +1,22 @@
+import { Dispatch, SetStateAction } from 'react'
 import { EditIcon, ReportIcon, UnpublishIcon } from '@project-r/styleguide'
 import { DiscussionMutations } from '../Discussion/DiscussionProvider/hooks/useDiscussionMutations'
 
-function getStatementActions(
-  comment: nerver,
-  actions: DiscussionMutations,
-  roles: string[],
+type Options = {
+  comment: any
+  actions: DiscussionMutations
+  roles: string[]
   t: any
-) {
+  setEditMode: Dispatch<SetStateAction<boolean>>
+}
+
+function getStatementActions({
+  comment,
+  actions,
+  roles,
+  t,
+  setEditMode
+}: Options) {
   const items = []
 
   if (
@@ -33,14 +43,13 @@ function getStatementActions(
     })
   }
 
-  // TODO: Implement edit statement
-  /*if (comment.userCanEdit && !comment.adminUnpublished) {
+  if (comment.userCanEdit && !comment.adminUnpublished) {
     items.push({
       icon: EditIcon,
       label: t('styleguide/CommentActions/edit'),
-      action: () =>
+      onClick: () => setEditMode(true)
     })
-  }*/
+  }
 
   const canUnpublish = roles.includes('admin') || roles.includes('moderator')
 

@@ -44,7 +44,7 @@ export const discussionFragmentQuery = gql`
   ${fragments.discussion}
 `
 
-export const discussionPreferencesQuery = gql`
+export const DISCUSSION_PREFERENCES_QUERY = gql`
   query discussionPreferences($discussionId: ID!) {
     me {
       id
@@ -225,7 +225,7 @@ export const updateNotificationSettingsMutation = gql`
   }
 `
 
-export const setDiscussionPreferencesMutation = gql`
+export const SET_DISCUSSION_PREFERENCES_MUTATION = gql`
   mutation setDiscussionPreferences(
     $discussionId: ID!
     $discussionPreferences: DiscussionPreferencesInput!

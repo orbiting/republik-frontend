@@ -64,7 +64,6 @@ const DiscussionProvider: FC<Props> = ({
   const { discussion, error, loading, refetch, fetchMore } = useDiscussionData(
     discussionId,
     {
-      first: 100,
       orderBy,
       activeTag,
       depth,

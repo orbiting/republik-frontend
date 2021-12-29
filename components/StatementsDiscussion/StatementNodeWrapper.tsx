@@ -15,14 +15,12 @@ const StatementNodeWrapper = ({
   tagMappings
 }: Props): ReactElement => {
   const { t } = useTranslation()
-  const { actions, discussion } = useDiscussion()
-  const {
-    me: { roles }
-  } = useMe()
+  const { actions } = useDiscussion()
+  const { me } = useMe()
 
   const menuItems = useMemo(() => {
-    return getStatementActions(comment, actions, roles, t)
-  }, [comment, actions, discussion])
+    return getStatementActions(comment, actions, me?.roles ?? [], t)
+  }, [comment, actions, me?.roles, t])
 
   return (
     <StatementNode
@@ -32,7 +30,7 @@ const StatementNodeWrapper = ({
         handleUpVote: actions.upVoteCommentHandler,
         handleDownVote: actions.downVoteCommentHandler,
         handleUnVote: actions.unVoteCommentHandler,
-        handleShare: actions
+        handleShare: actions.shareHandler
       }}
       menuItems={menuItems}
       tagMappings={tagMappings}

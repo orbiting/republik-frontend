@@ -1,9 +1,9 @@
 import { EditIcon, ReportIcon, UnpublishIcon } from '@project-r/styleguide'
-import { DiscussionActions } from '../Discussion/DiscussionProvider/hooks/useDiscussionActions'
+import { DiscussionMutations } from '../Discussion/DiscussionProvider/hooks/useDiscussionMutations'
 
 function getStatementActions(
   comment: nerver,
-  actions: DiscussionActions,
+  actions: DiscussionMutations,
   roles: string[],
   t: any
 ) {
@@ -25,7 +25,7 @@ function getStatementActions(
           ? t('styleguide/CommentActions/reported')
           : t('styleguide/CommentActions/report'),
       disabled: !!comment.userReportedAt,
-      action: () => {
+      onClick: () => {
         if (window.confirm(t('styleguide/CommentActions/reportMessage'))) {
           actions.reportCommentHandler(comment)
         }
@@ -53,7 +53,21 @@ function getStatementActions(
     items.push({
       icon: UnpublishIcon,
       label: t('styleguide/CommentActions/unpublish'),
-      action: () => actions.unpublishCommentHandler(comment)
+      onClick: () => {
+        const message = t(
+          `styleguide/CommentActions/unpublish/confirm${
+            comment.userCanEdit ? '' : '/admin'
+          }`,
+          {
+            name: comment.displayAuthor.name
+          }
+        )
+        if (!window.confirm(message)) {
+          return
+        } else {
+          return actions.unpublishCommentHandler(comment)
+        }
+      }
     })
   }
 

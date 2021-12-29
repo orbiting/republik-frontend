@@ -6,6 +6,9 @@ import useDiscussionMutations from './hooks/useDiscussionMutations'
 import useOverlay from './hooks/useOverlay'
 import DiscussionOverlays from './components/DiscussionOverlays'
 import DiscussionContext from './context/DiscussionContext'
+import { postMessage, useInNativeApp } from '../../../lib/withInNativeApp'
+import { getFocusUrl } from '../CommentLink'
+import { useTranslation } from '../../../lib/withT'
 
 type Props = {
   children?: ReactNode
@@ -47,6 +50,36 @@ const DiscussionProvider: FC<Props> = ({
 
   const actions = useDiscussionMutations()
 
+  // TODO: Abstract into overlay actions hook
+
+  const { inNativeApp } = useInNativeApp()
+  const { t } = useTranslation()
+
+  function shareHandler(comment) {
+    if (inNativeApp) {
+      postMessage({
+        type: 'share',
+        payload: {
+          title: discussion.title,
+          url: getFocusUrl(discussion, comment),
+          subject: t(
+            'discussion/share/emailSubject',
+            {
+              title: discussion.title
+            },
+            ''
+          ),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          dialogTitle: t('article/share/title')
+        }
+      })
+    } else {
+      shareOverlay.handleOpen(getFocusUrl(discussion, comment))
+    }
+    return Promise.resolve({ ok: true })
+  }
+
   const shareOverlay = useOverlay<string>()
 
   const ctxValue = {
@@ -55,7 +88,10 @@ const DiscussionProvider: FC<Props> = ({
     error: error,
     fetchMore,
     refetch,
-    actions,
+    actions: {
+      ...actions,
+      shareHandler
+    },
     orderBy,
     activeTag,
     overlays: {

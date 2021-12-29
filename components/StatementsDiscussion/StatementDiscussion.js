@@ -1,13 +1,11 @@
 import React, { useMemo } from 'react'
 import { StatementList } from '@project-r/styleguide'
-import { useMe } from '../../lib/context/MeContext'
 import Loader from '../Loader'
 import StatementComposer from './StatementComposer'
 import withT from '../../lib/withT'
 import TagFilter from '../Discussion/TagFilter'
 import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
-import { postMessage, useInNativeApp } from '../../lib/withInNativeApp'
-import { getFocusHref, getFocusUrl } from '../Discussion/CommentLink'
+import { getFocusHref } from '../Discussion/CommentLink'
 import CommentsOptions from '../Discussion/CommentsOptions'
 import { useRouter } from 'next/router'
 import StatementNodeWrapper from './StatementNodeWrapper'
@@ -20,11 +18,8 @@ const StatementDiscussion = ({ t, tagMappings }) => {
     refetch,
     actions,
     fetchMore,
-    orderBy,
-    overlays: { shareOverlay }
+    orderBy
   } = useDiscussion()
-  const { me } = useMe()
-  const { inNativeApp } = useInNativeApp()
   const router = useRouter()
 
   const filteredStatements = useMemo(
@@ -46,25 +41,6 @@ const StatementDiscussion = ({ t, tagMappings }) => {
       after: endCursor,
       appendAfter: lastNode.id
     })
-  }
-
-  const shareComment = async comment => {
-    if (inNativeApp) {
-      postMessage({
-        type: 'share',
-        payload: {
-          title: discussion.title,
-          url: getFocusUrl(discussion, comment),
-          subject: t('discussion/share/emailSubject', {
-            title: discussion.title
-          }),
-          dialogTitle: t('article/share/title')
-        }
-      })
-    } else {
-      shareOverlay.handleOpen(getFocusUrl(discussion, comment))
-    }
-    return Promise.resolve({ ok: true })
   }
 
   const handleReload = e => {

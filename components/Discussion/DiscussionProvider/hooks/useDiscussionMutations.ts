@@ -52,10 +52,10 @@ function useDiscussionMutations(): DiscussionMutations {
     }).catch(err => ({ error: `${err}` }))
   }
 
-  async function editCommentHandler(comment, content, tags) {
+  async function editCommentHandler(commentId, content, tags) {
     return editCommentMutation({
       variables: {
-        commentId: comment.id,
+        commentId,
         content,
         tags
       }

@@ -7,7 +7,7 @@ import {
   DiscussionObject,
   DiscussionQueryData,
   DiscussionQueryVariables,
-  ENHANCED_DISCUSSION_QUERY
+  DISCUSSION_QUERY
 } from '../graphql/DiscussionQuery.graphql'
 
 // TODO: Add proper type
@@ -25,7 +25,6 @@ type DiscussionOptions = {
   depth?: number
   focusId?: string
   parentId?: string
-  first?: number
 }
 
 type FetchMoreParams = DiscussionQueryVariables & {
@@ -58,13 +57,12 @@ function useDiscussionData(
     refetch,
     previousData
   } = useQuery<DiscussionQueryData, DiscussionQueryVariables>(
-    ENHANCED_DISCUSSION_QUERY,
+    DISCUSSION_QUERY,
     {
       variables: {
         discussionId,
         orderBy: options.orderBy,
         depth: options.depth,
-        first: options.first || 100,
         focusId: options.focusId,
         activeTag: options.activeTag
       },

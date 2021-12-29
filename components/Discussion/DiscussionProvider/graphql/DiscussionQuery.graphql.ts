@@ -20,10 +20,9 @@ export type DiscussionQueryVariables = {
   focusId?: string
   includeParent?: boolean
   activeTag?: string
-  first: number
 }
 
-export const ENHANCED_DISCUSSION_QUERY = gql`
+export const DISCUSSION_QUERY = gql`
   query discussion(
     $discussionId: ID!
     $parentId: ID
@@ -33,7 +32,6 @@ export const ENHANCED_DISCUSSION_QUERY = gql`
     $focusId: ID
     $includeParent: Boolean
     $activeTag: String
-    $first: Int!
   ) {
     me {
       id
@@ -46,7 +44,7 @@ export const ENHANCED_DISCUSSION_QUERY = gql`
         parentId: $parentId
         after: $after
         orderBy: $orderBy
-        first: $first
+        first: 100
         flatDepth: $depth
         focusId: $focusId
         includeParent: $includeParent
@@ -57,7 +55,7 @@ export const ENHANCED_DISCUSSION_QUERY = gql`
         parentId: $parentId
         after: $after
         orderBy: $orderBy
-        first: $first
+        first: 100
         flatDepth: $depth
         focusId: $focusId
         includeParent: $includeParent

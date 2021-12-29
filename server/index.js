@@ -194,6 +194,7 @@ app.prepare().then(() => {
       },
       message: 'Too many requests. Try again later.'
     })
+    console.log('ROUTES_WITH_RATE_LIMIT', ROUTES_WITH_RATE_LIMIT)
     server.use(ROUTES_WITH_RATE_LIMIT, rateLimiter)
   }
   server.use(express.static('public'))

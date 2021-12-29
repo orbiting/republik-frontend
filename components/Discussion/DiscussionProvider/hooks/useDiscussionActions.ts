@@ -9,7 +9,6 @@ import {
   UP_VOTE_COMMENT_ACTION,
   UPVOTE_COMMENT_MUTATION
 } from '../../graphql/documents'
-import { func } from 'prop-types'
 import { toRejectedString } from '../../graphql/utils'
 import uuid from 'uuid/v4'
 
@@ -18,9 +17,9 @@ type DiscussionActions = {
   editCommentHandler: any
   unpublishCommentHandler: any
   reportCommentHandler: any
-  upvoteCommentHandler: any
-  downvoteCommentHandler: any
-  unvoteCommentHandler: any
+  upVoteCommentHandler: any
+  downVoteCommentHandler: any
+  unVoteCommentHandler: any
 }
 
 function useDiscussionActions(): DiscussionActions {

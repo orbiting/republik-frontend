@@ -1,10 +1,21 @@
-import React, { ReactElement, useMemo, useState } from 'react'
+import React, { FC, ReactElement, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { StatementNode } from '@project-r/styleguide'
 import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
 import { useTranslation } from '../../lib/withT'
 import { useMe } from '../../lib/context/MeContext'
 import getStatementActions from './getStatementActions'
 import StatementComposer from './StatementComposer'
+import { getFocusHref } from '../Discussion/CommentLink'
+
+function getLinkComponent(discussion, comment) {
+  const WrappedLink: FC = ({ children }) => (
+    <Link href={getFocusHref(discussion, comment)} passHref>
+      {children}
+    </Link>
+  )
+  return WrappedLink
+}
 
 type Props = {
   comment: any
@@ -40,6 +51,10 @@ const StatementNodeWrapper = ({
     return focusedComment && focusedComment.id === comment.id
   }, [discussion?.comments, comment])
 
+  const FocusLink = useMemo(() => {
+    return getLinkComponent(discussion, comment)
+  }, [discussion, comment])
+
   if (editMode) {
     return (
       <StatementComposer
@@ -73,6 +88,7 @@ const StatementNodeWrapper = ({
       tagMappings={tagMappings}
       isHighlighted={isFocused}
       disableVoting={!discussion.userCanComment}
+      Link={FocusLink}
     />
   )
 }

@@ -2,26 +2,45 @@ import { DiscussionObject } from '../graphql/DiscussionQuery.graphql'
 import { useEffect, useState } from 'react'
 import { focusSelector } from '../../../../lib/utils/scroll'
 
+/**
+ * Helper hook to highlight and navigate to the closest comment in the current discussion
+ * @param discussion
+ */
 function useDiscussionFocusHelper(discussion?: DiscussionObject) {
   const [currentFocusId, setCurrentFocusId] = useState(null)
-  const [focusLoading, setFocusLoading] = useState(false)
+  const [focusLoading, setFocusLoading] = useState(true)
   const [focusError, setFocusError] = useState(null)
 
+  // TODO: Refactor - better readability
+  /**
+   * If the focused comment inside the discussion changes
+   * update the internal state.
+   */
   useEffect(() => {
-    if (!discussion || !discussion?.comments?.focus) {
+    // While the discussion is loading, assume focus is also loading
+    if (!discussion) {
+      setFocusLoading(true)
       return
     }
 
-    if (currentFocusId === discussion.comments.focus.id) {
+    // If no focus is given or the last focus hasn't changed
+    // stop loading
+    if (
+      !discussion?.comments?.focus ||
+      currentFocusId === discussion.comments.focus.id
+    ) {
+      setFocusLoading(false)
       return
     }
-
-    console.debug('New focus target', discussion.comments.focus.id)
 
     setCurrentFocusId(discussion.comments.focus.id)
     setFocusLoading(true)
   }, [discussion, currentFocusId])
 
+  /**
+   * Search for the focused comment inside the comments of the discussion
+   * In case a reply is focused, query for the missing data.
+   */
   useEffect(() => {
     if (
       !discussion ||
@@ -33,29 +52,28 @@ function useDiscussionFocusHelper(discussion?: DiscussionObject) {
       return
     }
 
-    console.debug('looking for focused target')
+    // Check if the focused comment is present inside fetched discussion-data
     const foundFocusableComment = discussion.comments.nodes.find(
       comment => comment.id === currentFocusId
     )
 
     if (foundFocusableComment) {
-      console.debug('found focused target')
-      setFocusLoading(false)
+      const selector = `[data-comment-id='${currentFocusId}']`
+
       /*
        * Wrap 'focusSelector()' in a timeout to work around a bug. See
        * https://github.com/orbiting/republik-frontend/issues/243 for more
        * details
        */
       setTimeout(() => {
-        console.debug(
-          'navigating to focused target',
-          `[data-comment-id='${currentFocusId}']`
-        )
-        focusSelector(`[data-comment-id='${currentFocusId}']`)
+        // When the comment has been found
+        focusSelector(selector)
+        setFocusLoading(false)
       }, 50)
-    } else {
-      // TODO: Run additional queries to fetch the focused comment
     }
+
+    // TODO: If the comment is not found and has parentIds,
+    // fetch the replies for the closest parentId
   }, [discussion, currentFocusId, focusLoading])
 
   return {

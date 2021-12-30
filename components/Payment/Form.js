@@ -159,7 +159,7 @@ const PaymentMethodLabel = ({
   )
 }
 
-const { H2, P } = Interaction
+const { H2, P, H3 } = Interaction
 
 class PaymentForm extends Component {
   constructor(...args) {
@@ -289,7 +289,7 @@ class PaymentForm extends Component {
             />
           </div>
         )}
-        <H2>
+        <H3>
           {t.first(
             [
               context &&
@@ -297,7 +297,7 @@ class PaymentForm extends Component {
               `payment/title${!hasChoice ? '/single' : ''}`
             ].filter(Boolean)
           )}
-        </H2>
+        </H3>
         <div {...styles.secureContainer}>
           <LockIcon size={16} />
           <span {...styles.secureText}>{t('payment/secure')}</span>

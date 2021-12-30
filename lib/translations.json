@@ -3421,6 +3421,10 @@
       "value": "Abonnements"
     },
     {
+      "key": "memberships/title/payment",
+      "value": "Zahlungsart"
+    },
+    {
       "key": "memberships/giver/giveable/show",
       "value": "Mitgliedschaft verschenken?"
     },

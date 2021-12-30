@@ -12,47 +12,59 @@ import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 import AccountTabs from '../../components/Account/AccountTabs'
 import AccountSection from '../../components/Account/AccountSection'
 import { MainContainer } from '../../components/Frame'
-import { UserEmail } from '../../components/Account/UserInfo/Email'
-import { EditButton, HintArea } from '../../components/Account/Elements'
+import Memberships from '../../components/Account/Memberships'
+import { HintArea } from '../../components/Account/Elements'
+import NameAddress from '../../components/Account/UserInfo/NameAddress'
+import UpdateEmail, { UserEmail } from '../../components/Account/UserInfo/Email'
 
-const { Emphasis, P } = Interaction
+const { Emphasis } = Interaction
 
 const styles = {
   container: css({
     display: 'flex',
     flexDirection: 'column-reverse',
     [mediaQueries.mUp]: {
-      flexDirection: 'row'
+      flexDirection: 'row',
+      gap: 32
     }
   }),
-  column: css({
-    flex: 1
-  })
+  column: css({ flex: 1 })
 }
 
 const AccountPage = ({ t, me, isMember }) => {
   const meta = {
     title: t('pages/account/title')
   }
-  const { pathname } = useRouter()
-  const hasActiveMemberships =
-    me.memberships &&
-    !!me.memberships.length &&
-    me.memberships.some(m => m.active)
+  const { pathname, query } = useRouter()
+  const postPledge = query.id || query.claim
+
+  const hasMemberships = me?.memberships && !!me?.memberships.length
+  const acceptedStatue =
+    me.pledges &&
+    !!me.pledges.length &&
+    !!me.pledges.find(
+      pledge =>
+        pledge.package.name !== 'MONTHLY_ABO' &&
+        pledge.package.name !== 'DONATE'
+    )
   return (
     <Frame meta={meta} raw>
       <MainContainer>
         <AccountTabs pathname={pathname} t={t} />
         <div {...styles.container}>
           <div {...styles.column}>
-            <AccountSection id='aboutme' title={t('Account/Update/title')}>
-              <UserEmail />
-              <EditButton onClick={() => {}}>
-                {t('Account/Update/email/edit')}
-              </EditButton>
+            <Memberships query={query} merci={postPledge} />
+            <AccountSection id='account' title={t('Account/Update/title')}>
+              <div style={{ marginBottom: 24 }}>
+                <UserEmail />
+                <UpdateEmail />
+              </div>
+              <NameAddress
+                acceptedStatue={acceptedStatue}
+                hasMemberships={hasMemberships}
+              />
             </AccountSection>
           </div>
-
           <div {...styles.column}>
             {isMember && (
               <AccountSection

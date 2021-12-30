@@ -2,22 +2,19 @@ import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
-import { css } from 'glamor'
 
 import withT from '../../../lib/withT'
 import { useInNativeApp } from '../../../lib/withInNativeApp'
 
 import Loader from '../../Loader'
 import UserGuidance from '../UserGuidance'
-import NameAddress from '../UserInfo/NameAddress'
-import UpdateEmail, { UserEmail } from '../UserInfo/Email'
 
 import AccessGrants from '../../Access/Grants'
 import SignIn from '../../Auth/SignIn'
 import withMembership from '../../Auth/withMembership'
 import Box from '../../Frame/Box'
 
-import { Interaction, mediaQueries } from '@project-r/styleguide'
+import { Interaction } from '@project-r/styleguide'
 
 import belongingsQuery from '../belongingsQuery'
 import MembershipList from '../Memberships/List'
@@ -25,17 +22,6 @@ import PaymentSources from '../PaymentSources'
 import AccountSection from '../AccountSection'
 
 const { H1, P } = Interaction
-
-const styles = {
-  updateContainer: css({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 24,
-    [mediaQueries.mUp]: {
-      flexDirection: 'row'
-    }
-  })
-}
 
 const Memberships = ({
   loading,
@@ -45,7 +31,6 @@ const Memberships = ({
   hasMemberships,
   hasActiveMemberships,
   hasAccessGrants,
-  acceptedStatue,
   paymentMethodCompany
 }) => {
   const { query } = useRouter()
@@ -102,21 +87,6 @@ const Memberships = ({
                 <PaymentSources company={paymentMethodCompany} query={query} />
               </AccountSection>
             )}
-
-            <AccountSection id='account' title={t('Account/Update/title')}>
-              <div {...styles.updateContainer}>
-                <div style={{ flex: 1 }}>
-                  <NameAddress
-                    acceptedStatue={acceptedStatue}
-                    hasMemberships={hasMemberships}
-                  />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <UserEmail />
-                  <UpdateEmail />
-                </div>
-              </div>
-            </AccountSection>
           </>
         )
       }}
@@ -157,13 +127,6 @@ export default compose(
         loading: data.loading,
         error: data.error,
         hasPledges,
-        acceptedStatue:
-          hasPledges &&
-          !!data.me.pledges.find(
-            pledge =>
-              pledge.package.name !== 'MONTHLY_ABO' &&
-              pledge.package.name !== 'DONATE'
-          ),
         hasMemberships,
         hasActiveMemberships,
         hasAccessGrants,

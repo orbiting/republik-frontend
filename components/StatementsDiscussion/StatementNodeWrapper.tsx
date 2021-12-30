@@ -18,7 +18,11 @@ const StatementNodeWrapper = ({
   const [editMode, setEditMode] = useState(false)
 
   const { t } = useTranslation()
-  const { discussion, actions } = useDiscussion()
+  const {
+    discussion,
+    actions,
+    overlays: { preferencesOverlay }
+  } = useDiscussion()
   const { me } = useMe()
 
   const menuItems = useMemo(() => {
@@ -39,11 +43,12 @@ const StatementNodeWrapper = ({
         availableTags={discussion.tags}
         initialText={comment.text}
         tagValue={comment.tags.length > 0 && comment.tags[0]}
-        submitHandler={(content, tags) => {
+        onSubmit={(content, tags) => {
           return actions
             .editCommentHandler(comment.id, content, tags)
             .then(() => setEditMode(false))
         }}
+        onOpenPreferences={preferencesOverlay.handleOpen}
         onClose={() => setEditMode(false)}
         refetch={undefined}
       />

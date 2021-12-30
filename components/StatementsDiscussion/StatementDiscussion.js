@@ -18,7 +18,8 @@ const StatementDiscussion = ({ t, tagMappings }) => {
     refetch,
     actions,
     fetchMore,
-    orderBy
+    orderBy,
+    overlays: { preferencesOverlay }
   } = useDiscussion()
   const router = useRouter()
 
@@ -69,11 +70,12 @@ const StatementDiscussion = ({ t, tagMappings }) => {
               <StatementComposer
                 t={t}
                 refetch={refetch}
-                submitHandler={(content, tags) =>
+                onSubmit={(content, tags) =>
                   actions.submitCommentHandler(content, tags, {
                     discussionId: discussion.id
                   })
                 }
+                onOpenPreferences={preferencesOverlay.handleOpen}
                 availableTags={discussion.tags}
               />
             )}

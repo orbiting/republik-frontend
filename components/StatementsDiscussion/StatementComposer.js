@@ -7,19 +7,20 @@ import PropTypes from 'prop-types'
 
 const StatementComposer = ({
   t,
-  submitHandler,
+  onSubmit,
   availableTags,
   refetch,
   // Props below are used for editing a comment
   initialText,
   tagValue,
-  onClose
+  onClose,
+  onOpenPreferences
 }) => {
   const [active, setActive] = useState(!!initialText)
 
   const handleSubmit = async (value, tags) => {
     try {
-      await submitHandler(value, tags)
+      await onSubmit(value, tags)
       setActive(false)
       if (refetch) {
         refetch()
@@ -37,7 +38,6 @@ const StatementComposer = ({
       <CommentComposer
         t={t}
         isRoot
-        hideHeader
         onClose={() => {
           if (onClose) {
             onClose()
@@ -46,7 +46,8 @@ const StatementComposer = ({
           }
         }}
         onSubmit={({ text, tags }) => handleSubmit(text, tags)}
-        onSubmitLabel={t('styleguide/CommentComposer/answer')}
+        onSubmitLabel={t('submitComment/rootSubmitLabel')}
+        onOpenPreferences={onOpenPreferences}
         initialText={initialText}
         tagValue={
           availableTags && availableTags.length > 0
@@ -70,7 +71,7 @@ export default StatementComposer
 
 StatementComposer.propTypes = {
   t: PropTypes.func.isRequired,
-  submitHandler: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   availableTags: PropTypes.arrayOf(PropTypes.string),
   refetch: PropTypes.func,
   initialText: PropTypes.string,

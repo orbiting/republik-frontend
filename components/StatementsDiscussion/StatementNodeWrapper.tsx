@@ -35,8 +35,12 @@ const StatementNodeWrapper = ({
     })
   }, [comment, actions, me?.roles, t])
 
+  const isFocused = useMemo(() => {
+    const focusedComment = discussion?.comments?.focus ?? null
+    return focusedComment && focusedComment.id === comment.id
+  }, [discussion?.comments, comment])
+
   if (editMode) {
-    console.debug(`Comment Tag`, comment.tags)
     return (
       <StatementComposer
         t={t}
@@ -67,6 +71,7 @@ const StatementNodeWrapper = ({
       }}
       menuItems={menuItems}
       tagMappings={tagMappings}
+      isHighlighted={isFocused}
     />
   )
 }

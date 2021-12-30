@@ -1,8 +1,8 @@
 import { useMutation } from '@apollo/client'
+import uuid from 'uuid/v4'
 import {
   DOWN_VOTE_COMMENT_ACTION,
   EDIT_COMMENT_MUTATION,
-  FEATURE_COMMENT_MUTATION,
   REPORT_COMMENT_MUTATION,
   SUBMIT_COMMENT_MUTATION,
   UNPUBLISH_COMMENT_MUTATION,
@@ -10,7 +10,6 @@ import {
   UPVOTE_COMMENT_MUTATION
 } from '../../graphql/documents'
 import { toRejectedString } from '../../graphql/utils'
-import uuid from 'uuid/v4'
 
 export type DiscussionMutations = {
   submitCommentHandler: any
@@ -29,18 +28,15 @@ function useDiscussionMutations(): DiscussionMutations {
   const [unpublishCommentMutation] = useMutation(UNPUBLISH_COMMENT_MUTATION)
   const [reportCommentMutation] = useMutation(REPORT_COMMENT_MUTATION)
 
-  const [featureCommentMutation] = useMutation(FEATURE_COMMENT_MUTATION)
+  // TODO: Implement with overlay
+  //const [featureCommentMutation] = useMutation(FEATURE_COMMENT_MUTATION)
 
   // Vote-Actions
   const [upVoteCommentMutation] = useMutation(UPVOTE_COMMENT_MUTATION)
   const [downVoteCommentMutation] = useMutation(DOWN_VOTE_COMMENT_ACTION)
   const [unVoteCommentMutation] = useMutation(UP_VOTE_COMMENT_ACTION)
 
-  async function submitCommentHandler(
-    content,
-    tags,
-    { discussionId, parentId }
-  ) {
+  function submitCommentHandler(content, tags, { discussionId, parentId }) {
     return submitCommentMutation({
       variables: {
         id: uuid(),
@@ -52,7 +48,7 @@ function useDiscussionMutations(): DiscussionMutations {
     }).catch(err => ({ error: `${err}` }))
   }
 
-  async function editCommentHandler(commentId, content, tags) {
+  function editCommentHandler(commentId, content, tags) {
     return editCommentMutation({
       variables: {
         commentId,
@@ -62,7 +58,7 @@ function useDiscussionMutations(): DiscussionMutations {
     }).catch(toRejectedString)
   }
 
-  async function unpublishCommentHandler(commentId) {
+  function unpublishCommentHandler(commentId) {
     return unpublishCommentMutation({
       variables: {
         commentId: commentId
@@ -70,7 +66,7 @@ function useDiscussionMutations(): DiscussionMutations {
     }).catch(toRejectedString)
   }
 
-  async function reportCommentHandler(commentId) {
+  function reportCommentHandler(commentId) {
     return reportCommentMutation({
       variables: {
         commentId: commentId
@@ -80,7 +76,7 @@ function useDiscussionMutations(): DiscussionMutations {
 
   // TODO: Feature comment
 
-  async function upVoteCommentHandler(commentId) {
+  function upVoteCommentHandler(commentId) {
     return upVoteCommentMutation({
       variables: {
         commentId: commentId
@@ -88,7 +84,7 @@ function useDiscussionMutations(): DiscussionMutations {
     }).catch(toRejectedString)
   }
 
-  async function downVoteCommentHandler(commentId) {
+  function downVoteCommentHandler(commentId) {
     return downVoteCommentMutation({
       variables: {
         commentId: commentId
@@ -96,7 +92,7 @@ function useDiscussionMutations(): DiscussionMutations {
     }).catch(toRejectedString)
   }
 
-  async function unVoteCommentHandler(commentId) {
+  function unVoteCommentHandler(commentId) {
     return unVoteCommentMutation({
       variables: {
         commentId: commentId

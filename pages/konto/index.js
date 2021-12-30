@@ -22,7 +22,7 @@ const { Emphasis } = Interaction
 const styles = {
   container: css({
     display: 'flex',
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
     [mediaQueries.mUp]: {
       flexDirection: 'row',
       gap: 32
@@ -52,21 +52,8 @@ const AccountPage = ({ t, me, isMember }) => {
       <MainContainer>
         <AccountTabs pathname={pathname} t={t} />
         <div {...styles.container}>
-          <div {...styles.column}>
-            <Memberships query={query} merci={postPledge} />
-            <AccountSection id='account' title={t('Account/Update/title')}>
-              <div style={{ marginBottom: 24 }}>
-                <UserEmail />
-                <UpdateEmail />
-              </div>
-              <NameAddress
-                acceptedStatue={acceptedStatue}
-                hasMemberships={hasMemberships}
-              />
-            </AccountSection>
-          </div>
-          <div {...styles.column}>
-            {isMember && (
+          {isMember && (
+            <div {...styles.column}>
               <AccountSection
                 id='onboarding'
                 title={t('Account/Onboarding/title')}
@@ -83,8 +70,11 @@ const AccountPage = ({ t, me, isMember }) => {
                   })}
                 </HintArea>
               </AccountSection>
-            )}
-            {true && (
+            </div>
+          )}
+
+          {true && (
+            <div {...styles.column}>
               <AccountSection
                 id='teilen'
                 title={t('Account/Access/Campaigns/title')}
@@ -101,9 +91,20 @@ const AccountPage = ({ t, me, isMember }) => {
                   })}
                 </HintArea>
               </AccountSection>
-            )}
-          </div>
+            </div>
+          )}
         </div>
+        <Memberships query={query} merci={postPledge} />
+        <AccountSection id='account' title={t('Account/Update/title')}>
+          <div style={{ marginBottom: 24 }}>
+            <UserEmail />
+            <UpdateEmail />
+          </div>
+          <NameAddress
+            acceptedStatue={acceptedStatue}
+            hasMemberships={hasMemberships}
+          />
+        </AccountSection>
       </MainContainer>
     </Frame>
   )

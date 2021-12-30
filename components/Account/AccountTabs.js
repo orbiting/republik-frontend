@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { css } from 'glamor'
 import Link from 'next/link'
 import {
@@ -26,16 +26,20 @@ const TabArray = [
 ]
 
 const AccountTabs = ({ pathname, t }) => {
+  const [activeChildIndex, setActiveChildIndex] = useState(
+    TabArray.findIndex(item => item.path === pathname)
+  )
   const [colorScheme] = useColorContext()
   return (
     <div {...styles.container}>
-      <Scroller innerPadding={15}>
+      <Scroller innerPadding={15} activeChildIndex={activeChildIndex}>
         {TabArray.map((n, i) => (
           <Link href={n.path} scroll={false} passHref key={n.name}>
             <TabButton
               key={n.name}
               text={t(`account/tabs/${n.name}`)}
               isActive={n.path === pathname}
+              onClick={() => setActiveChildIndex(i)}
             />
           </Link>
         ))}

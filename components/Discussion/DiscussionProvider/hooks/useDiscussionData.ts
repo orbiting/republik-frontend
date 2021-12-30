@@ -65,17 +65,6 @@ function useDiscussionData(
         depth: options.depth,
         focusId: options.focusId,
         activeTag: options.activeTag
-      },
-      onCompleted: () => {
-        console.debug('Finished fetching discussion data', discussion, {
-          variables: {
-            discussionId,
-            orderBy: options.orderBy,
-            activeTag: options.activeTag,
-            depth: options.depth,
-            focusId: options.focusId
-          }
-        })
       }
     }
   )

@@ -84,6 +84,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
               resolvedOrderBy={discussion.comments.resolvedOrderBy || orderBy}
               handleReload={handleReload}
               discussion={discussion}
+              discussionType='statements'
               router={router}
             />
             <StatementList

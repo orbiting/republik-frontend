@@ -37,7 +37,7 @@ function getStatementActions({
       disabled: !!comment.userReportedAt,
       onClick: () => {
         if (window.confirm(t('styleguide/CommentActions/reportMessage'))) {
-          actions.reportCommentHandler(comment)
+          actions.reportCommentHandler(comment.id)
         }
       }
     })
@@ -74,7 +74,7 @@ function getStatementActions({
         if (!window.confirm(message)) {
           return
         } else {
-          return actions.unpublishCommentHandler(comment)
+          return actions.unpublishCommentHandler(comment.id)
         }
       }
     })

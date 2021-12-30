@@ -9,6 +9,7 @@ import { getFocusHref } from '../Discussion/CommentLink'
 import CommentsOptions from '../Discussion/CommentsOptions'
 import { useRouter } from 'next/router'
 import StatementNodeWrapper from './StatementNodeWrapper'
+import DiscussionComposerWrapper from '../Discussion/DiscussionProvider/components/DiscussionComposerWrapper'
 
 const StatementDiscussion = ({ t, tagMappings }) => {
   const {
@@ -67,17 +68,19 @@ const StatementDiscussion = ({ t, tagMappings }) => {
           <div>
             <TagFilter discussion={discussion} />
             {actions.submitCommentHandler && (
-              <StatementComposer
-                t={t}
-                refetch={refetch}
-                onSubmit={(content, tags) =>
-                  actions.submitCommentHandler(content, tags, {
-                    discussionId: discussion.id
-                  })
-                }
-                onOpenPreferences={preferencesOverlay.handleOpen}
-                availableTags={discussion.tags}
-              />
+              <DiscussionComposerWrapper isTopLevel showPayNotes={false}>
+                <StatementComposer
+                  t={t}
+                  refetch={refetch}
+                  onSubmit={(content, tags) =>
+                    actions.submitCommentHandler(content, tags, {
+                      discussionId: discussion.id
+                    })
+                  }
+                  onOpenPreferences={preferencesOverlay.handleOpen}
+                  availableTags={discussion.tags}
+                />
+              </DiscussionComposerWrapper>
             )}
           </div>
           <div>

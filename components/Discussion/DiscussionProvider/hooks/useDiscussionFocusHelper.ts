@@ -9,7 +9,8 @@ import { focusSelector } from '../../../../lib/utils/scroll'
 function useDiscussionFocusHelper(discussion?: DiscussionObject) {
   const [currentFocusId, setCurrentFocusId] = useState(null)
   const [focusLoading, setFocusLoading] = useState(true)
-  const [focusError, setFocusError] = useState(null)
+  // TODO: Implement detection of focus errors
+  const [focusError] = useState(null)
 
   // TODO: Refactor - better readability
   /**

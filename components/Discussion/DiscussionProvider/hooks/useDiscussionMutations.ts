@@ -62,44 +62,44 @@ function useDiscussionMutations(): DiscussionMutations {
     }).catch(toRejectedString)
   }
 
-  async function unpublishCommentHandler(comment) {
+  async function unpublishCommentHandler(commentId) {
     return unpublishCommentMutation({
       variables: {
-        commentId: comment.id
+        commentId: commentId
       }
     }).catch(toRejectedString)
   }
 
-  async function reportCommentHandler(comment) {
+  async function reportCommentHandler(commentId) {
     return reportCommentMutation({
       variables: {
-        commentId: comment.id
+        commentId: commentId
       }
     }).catch(toRejectedString)
   }
 
   // TODO: Feature comment
 
-  async function upVoteCommentHandler(comment) {
+  async function upVoteCommentHandler(commentId) {
     return upVoteCommentMutation({
       variables: {
-        commentId: comment.id
+        commentId: commentId
       }
     }).catch(toRejectedString)
   }
 
-  async function downVoteCommentHandler(comment) {
+  async function downVoteCommentHandler(commentId) {
     return downVoteCommentMutation({
       variables: {
-        commentId: comment.id
+        commentId: commentId
       }
     }).catch(toRejectedString)
   }
 
-  async function unVoteCommentHandler(comment) {
+  async function unVoteCommentHandler(commentId) {
     return unVoteCommentMutation({
       variables: {
-        commentId: comment.id
+        commentId: commentId
       }
     }).catch(toRejectedString)
   }

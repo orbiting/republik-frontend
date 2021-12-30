@@ -2,47 +2,55 @@ import React from 'react'
 
 import ShareOverlay from '../../ShareOverlay'
 import { useDiscussion } from '../context/DiscussionContext'
+import { DiscussionPreferences } from '../../DiscussionPreferences'
+import useDiscussionPreferences from '../hooks/useDiscussionPreferences'
+import { useTranslation } from '../../../../lib/withT'
 
 const DiscussionOverlays = () => {
+  const { t } = useTranslation()
   const {
     discussion,
-    overlays: { shareOverlay }
+    overlays: { preferencesOverlay, shareOverlay }
   } = useDiscussion()
+  const {
+    discussionPreferences,
+    loading,
+    error,
+    setDiscussionPreferencesHandler
+  } = useDiscussionPreferences(discussion?.id)
+  const noPreferences = discussion?.userPreference.notifications === null
+  const autoCredential =
+    noPreferences &&
+    !discussion.userPreference.anonymity &&
+    discussionPreferences.me &&
+    discussionPreferences.me.credentials.find(c => c.isListed)
 
   return (
-    <div>
-      {/*featureComment && (
-        <FeatureCommentOverlay
-          discussion={discussion}
-          comment={featureComment}
-          onClose={() => {
-            setFeatureComment()
-          }}
-        />
-      )*/}
-
-      {/*!!parent && (
-        <RootCommentOverlay
+    <>
+      {preferencesOverlay.open && (
+        <DiscussionPreferences
+          t={t}
           discussionId={discussion.id}
-          parent={parent}
-          onClose={() => {
-            const href = getFocusHref(discussion)
-            return href && router.push(href)
+          discussionPreferences={{
+            ...discussionPreferences,
+            loading,
+            error
           }}
+          setDiscussionPreferences={setDiscussionPreferencesHandler}
+          onClose={preferencesOverlay.handleClose}
+          autoCredential={autoCredential}
         />
-      )*/}
+      )}
 
       {shareOverlay.open && (
         <ShareOverlay
           discussionId={discussion.id}
-          onClose={() => {
-            shareOverlay.handleClose()
-          }}
+          onClose={shareOverlay.handleClose}
           url={shareOverlay.data}
           title={discussion.title}
         />
       )}
-    </div>
+    </>
   )
 }
 

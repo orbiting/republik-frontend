@@ -8,7 +8,10 @@ import { toRejectedString } from '../../graphql/utils'
 type DiscussionNotificationOption = 'MY_CHILDREN' | 'ALL' | 'NONE'
 
 // TODO: Define type
-type DiscussionPreferencesQueryData = Record<string, any>
+type DiscussionPreferencesQueryData = {
+  me: any
+  discussion: any
+}
 
 // TODO: Define type
 type DiscussionPreferencesQueryVariables = Record<string, any>
@@ -17,7 +20,7 @@ type SetDiscussionPreferencesMutationVariables = {
   discussionId: string
   discussionPreferences: {
     anonymity?: boolean
-    credential?: boolean
+    credential?: string
     notifications?: DiscussionNotificationOption
   }
 }
@@ -26,7 +29,9 @@ type SetDiscussionPreferencesMutationVariables = {
 type SetDiscussionPreferencesMutationResult = Record<string, any>
 
 export type SetDiscussionPreferencesHandler = (
-  data: SetDiscussionPreferencesMutationVariables
+  anonymity: boolean,
+  credential: string,
+  notifications?: DiscussionNotificationOption
 ) => Promise<FetchResult<SetDiscussionPreferencesMutationResult>>
 
 type DiscussionPreferences = {
@@ -51,13 +56,24 @@ function useDiscussionPreferences(discussionId: string): DiscussionPreferences {
 
   /**
    * Update the discussionPreferences and trigger a refetch from the server
-   * @param data
+   * @param anonymity
+   * @param credential
+   * @param notifications
    */
   async function setDiscussionPreferencesHandler(
-    data: SetDiscussionPreferencesMutationVariables
+    anonymity: boolean,
+    credential: string,
+    notifications?: DiscussionNotificationOption
   ) {
     return setDiscussionPreferencesMutation({
-      variables: data
+      variables: {
+        discussionId,
+        discussionPreferences: {
+          anonymity,
+          credential,
+          notifications
+        }
+      }
     })
       .then(result => {
         refetch()

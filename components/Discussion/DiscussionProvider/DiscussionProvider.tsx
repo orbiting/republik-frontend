@@ -80,6 +80,7 @@ const DiscussionProvider: FC<Props> = ({
     return Promise.resolve({ ok: true })
   }
 
+  const preferencesOverlay = useOverlay()
   const shareOverlay = useOverlay<string>()
 
   const ctxValue = {
@@ -95,13 +96,14 @@ const DiscussionProvider: FC<Props> = ({
     orderBy,
     activeTag,
     overlays: {
+      preferencesOverlay,
       shareOverlay
     }
   }
 
   return (
     <DiscussionContext.Provider value={ctxValue}>
-      <DiscussionOverlays />
+      {discussion && <DiscussionOverlays />}
       {children}
     </DiscussionContext.Provider>
   )

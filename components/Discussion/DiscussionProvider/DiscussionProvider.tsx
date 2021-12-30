@@ -9,6 +9,7 @@ import DiscussionContext from './context/DiscussionContext'
 import { postMessage, useInNativeApp } from '../../../lib/withInNativeApp'
 import { getFocusUrl } from '../CommentLink'
 import { useTranslation } from '../../../lib/withT'
+import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 
 type Props = {
   children?: ReactNode
@@ -50,6 +51,11 @@ const DiscussionProvider: FC<Props> = ({
 
   const actions = useDiscussionMutations()
 
+  const { loading: focusLoading, error: focusError } = useDiscussionFocusHelper(
+    discussion,
+    focusId
+  )
+
   // TODO: Abstract into overlay actions hook
 
   const { inNativeApp } = useInNativeApp()
@@ -85,8 +91,8 @@ const DiscussionProvider: FC<Props> = ({
 
   const ctxValue = {
     discussion,
-    loading: loading,
-    error: error,
+    loading: loading || focusLoading,
+    error: error || focusError,
     fetchMore,
     refetch,
     actions: {
@@ -103,8 +109,8 @@ const DiscussionProvider: FC<Props> = ({
 
   return (
     <DiscussionContext.Provider value={ctxValue}>
-      {discussion && <DiscussionOverlays />}
       {children}
+      {discussion && <DiscussionOverlays />}
     </DiscussionContext.Provider>
   )
 }

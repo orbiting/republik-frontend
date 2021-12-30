@@ -52,8 +52,7 @@ const DiscussionProvider: FC<Props> = ({
   const actions = useDiscussionMutations()
 
   const { loading: focusLoading, error: focusError } = useDiscussionFocusHelper(
-    discussion,
-    focusId
+    discussion
   )
 
   // TODO: Abstract into overlay actions hook

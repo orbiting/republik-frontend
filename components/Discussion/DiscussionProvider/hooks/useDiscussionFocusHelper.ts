@@ -2,10 +2,7 @@ import { DiscussionObject } from '../graphql/DiscussionQuery.graphql'
 import { useEffect, useState } from 'react'
 import { focusSelector } from '../../../../lib/utils/scroll'
 
-function useDiscussionFocusHelper(
-  discussion?: DiscussionObject,
-  focusId?: string
-) {
+function useDiscussionFocusHelper(discussion?: DiscussionObject) {
   const [currentFocusId, setCurrentFocusId] = useState(null)
   const [focusLoading, setFocusLoading] = useState(false)
   const [focusError, setFocusError] = useState(null)

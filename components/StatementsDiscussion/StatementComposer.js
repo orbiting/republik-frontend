@@ -46,7 +46,11 @@ const StatementComposer = ({
           }
         }}
         onSubmit={({ text, tags }) => handleSubmit(text, tags)}
-        onSubmitLabel={t('submitComment/rootSubmitLabel')}
+        onSubmitLabel={
+          !initialText
+            ? t('submitComment/rootSubmitLabel')
+            : t('styleguide/comment/edit/submit')
+        }
         onOpenPreferences={onOpenPreferences}
         initialText={initialText}
         tagValue={

@@ -27,7 +27,8 @@ import Link from 'next/link'
 const knownYears = {
   2018: { path: '/2018' },
   2019: { path: '/2019' },
-  2020: { path: '/2020' }
+  2020: { path: '/2020' },
+  2021: { path: '/' }
 }
 
 const getAll = gql`

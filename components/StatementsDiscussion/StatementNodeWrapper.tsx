@@ -72,7 +72,7 @@ const StatementNodeWrapper = ({
       menuItems={menuItems}
       tagMappings={tagMappings}
       isHighlighted={isFocused}
-      disableVoting={discussion.userCanComment}
+      disableVoting={!discussion.userCanComment}
     />
   )
 }

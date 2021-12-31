@@ -201,10 +201,6 @@
       "value": "Ihre Stimme ist am {submissionDate} bei uns eingegangen.\nDanke für Ihre Teilnahme!"
     },
     {
-      "key": "vote/voting/empty/error",
-      "value": "Sie dürfen nicht leer einlegen."
-    },
-    {
       "key": "vote/common/help/blank",
       "value": "Sie können auch leer einlegen."
     },

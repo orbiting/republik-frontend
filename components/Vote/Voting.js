@@ -152,14 +152,6 @@ const Voting = compose(
     )
   }
 
-  const resetLink = (
-    <Interaction.P style={{ marginLeft: 30 }}>
-      <A href='#' onClick={reset}>
-        {vt(`vote/common/${isConfirm ? 'back' : 'reset'}`)}
-      </A>
-    </Interaction.P>
-  )
-
   const choice = (
     <>
       <div {...styles.buttons}>
@@ -194,7 +186,13 @@ const Voting = compose(
         >
           {vt('vote/common/continue')}
         </Button>
-        {voting.allowEmptyBallots && selectedValue !== null && resetLink}
+        {voting.allowEmptyBallots && selectedValue !== null && (
+          <Interaction.P style={{ marginLeft: 30 }}>
+            <A href='#' onClick={reset}>
+              {vt(`vote/common/${isConfirm ? 'back' : 'reset'}`)}
+            </A>
+          </Interaction.P>
+        )}
       </div>
       {voting.allowEmptyBallots && (
         <div {...sharedStyles.hint}>{vt('vote/common/help/blank')}</div>

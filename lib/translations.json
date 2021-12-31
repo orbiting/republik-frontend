@@ -965,30 +965,6 @@
       "value": "E-Mail"
     },
     {
-      "key": "account/discussionNotificationChannels/WEB/label",
-      "value": "Browser (Beta)"
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/hint/live",
-      "value": "Sie erhalten Browser-Benachrichtungen, während Sie eine Debattenseite in einem beliebigen Browserfenster offen haben."
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/hint/unsupported",
-      "value": "Ihr Browser unterstützt leider keine Benachrichtungen."
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/hint/denied",
-      "value": "Sie haben Benachrichtungen in Ihrem Browser geblockt. Bitte aktualisieren Sie Ihre Browsereinstellungen, so dass Benachrichtigungen für https://www.republik.ch erlaubt sind."
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/hint/default",
-      "value": "Um auch wirklich Browser-Benachrichtungen zu erhalten, müssen Sie Ihrem Browser das erlauben:"
-    },
-    {
-      "key": "account/discussionNotificationChannels/WEB/enable",
-      "value": "Browser-Benachrichtungen erlauben"
-    },
-    {
       "key": "account/discussionNotificationChannels/APP/label",
       "value": "App"
     },
@@ -1749,10 +1725,6 @@
       "value": "neu laden"
     },
     {
-      "key": "components/Discussion/Notification/noChannels",
-      "value": "Benachrichtigungen aktivieren"
-    },
-    {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",
       "value": "Meine und von abonnierten Profilen"
     },
@@ -1765,76 +1737,8 @@
       "value": "Keine"
     },
     {
-      "key": "components/Discussion/NotificationChannel/EMAIL/label",
-      "value": "E-Mail"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/WEB/label",
-      "value": "Browser"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/APP/label",
-      "value": "Via App"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
-      "value": "E-Mail und Browser"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/EMAIL_APP/label",
-      "value": "Via E-Mail und App"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/WEB_APP/label",
-      "value": "Via Browser und App"
-    },
-    {
-      "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
-      "value": "Via E-Mail, Browser und App"
-    },
-    {
-      "key": "components/Discussion/info/MY_CHILDREN",
-      "value": "{types} für Antworten auf meine Beiträge und Beiträge von abonnierten Profilen"
-    },
-    {
-      "key": "components/Discussion/info/ALL",
-      "value": "{types} für alle neuen Beiträge"
-    },
-    {
-      "key": "components/Discussion/info/NONE",
-      "value": "Keine Benachrichtigungen"
-    },
-    {
-      "key": "components/Discussion/Notification/dropdown/label",
-      "value": "Benachrichtigungen bei Beiträgen"
-    },
-    {
-      "key": "components/Discussion/Notification/dropdown/MY_CHILDREN/label",
-      "value": "Meine und von abonnierten Profilen"
-    },
-    {
-      "key": "components/Discussion/Notification/dropdown/ALL/label",
-      "value": "Alle neuen"
-    },
-    {
-      "key": "components/Discussion/Notification/dropdown/NONE/label",
-      "value": "Keine"
-    },
-    {
       "key": "components/Discussion/Notification/settings",
       "value": "Allgemeine Einstellungen"
-    },
-    {
-      "key": "components/Discussion/Notification/enable",
-      "value": "Browser-Benachrichtigungen aktivieren?"
-    },
-    {
-      "key": "components/Discussion/WelcomeNotification/title",
-      "value": "Willkommen!"
-    },
-    {
-      "key": "components/Discussion/WelcomeNotification/body",
-      "value": "Sie haben Benachrichtungen erfolgreich aktiviert."
     },
     {
       "key": "components/Discussion/etiquette",
@@ -6226,7 +6130,7 @@
     },
     {
       "key": "Goodie/description/FONDUE",
-      "value": "Eine von Hauskulinariker Michael Rüegg entworfene Mischung. Für 2 Personen. Versand am 22.12.21."
+      "value": "Eine von Hauskulinariker Michael Rüegg entworfene Mischung. Für 2 Personen. Versand am 26.01.22. Nur innerhalb der Schweiz möglich."
     },
     {
       "key": "Goodie/label/NOTEBOOK",
@@ -6515,6 +6419,14 @@
     {
       "key": "Account/Access/Legacy/link",
       "value": "Laden Sie Ihre Freunde auf eine Tour durch die Republik ein."
+    },
+    {
+      "key": "Account/Access/Page/noCampaign",
+      "value": "Um die Republik zu teilen, brauchen Sie ein aktives Abonnement."
+    },
+    {
+      "key": "Account/Access/Page/link",
+      "value": "Republik abonnieren"
     },
     {
       "key": "pages/access/title",

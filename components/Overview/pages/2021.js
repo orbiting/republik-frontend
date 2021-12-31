@@ -541,6 +541,56 @@ const text = {
       </Highlight>
       .
     </>
+  ),
+  Dezember: p => (
+    <>
+      Die{' '}
+      <Highlight {...p} ids={['LKlVqoufe']}>
+        Sage vom sauberen Strom
+      </Highlight>{' '}
+      und scheinbar{' '}
+      <Highlight {...p} ids={['Lw9c-1LN3']}>
+        faire Smartphones
+      </Highlight>
+      . Wie viel{' '}
+      <Highlight {...p} ids={['kwTVz6_j3']}>
+        finanzielle Unterstützung Schweizer Verlage von Google erhalten haben –
+        und weshalb diese Hilfe zwiespältig ist
+      </Highlight>
+      . Warum{' '}
+      <Highlight {...p} ids={['2WTZry2in']}>
+        vegan allein auch nicht die Lösung ist
+      </Highlight>{' '}
+      und{' '}
+      <Highlight {...p} ids={['riEIoP6Mf']}>
+        wie die Medizin Frauen im Stich lässt
+      </Highlight>
+      .{' '}
+      <Highlight {...p} ids={['aR281Gm5S']}>
+        Wie es sich anfühlt, wenn man sich auf seine Nase nicht mehr verlassen
+        kann
+      </Highlight>
+      , und{' '}
+      <Highlight {...p} ids={['a4zNEgFuI']}>
+        wie die Klimakrise die Schweizer Landwirtschaft trifft
+      </Highlight>
+      . Ausserdem mit der Serie «
+      <Highlight
+        {...p}
+        series='republik/article-serienuebersicht-sozialdemokratie'
+      >
+        Rot regiert
+      </Highlight>
+      » auf einer Reise durch drei Sozialdemokratien Europas, ein{' '}
+      <Highlight {...p} ids={['vhKcUGgOf']}>
+        Blick ins aufgerüstete Weltall
+      </Highlight>{' '}
+      und die{' '}
+      <Highlight {...p} ids={['Jo85-Lifd']}>
+        Würdigung eines Ungeretteten
+      </Highlight>
+      .
+    </>
   )
 }
 

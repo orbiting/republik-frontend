@@ -22,8 +22,7 @@ const DiscussionOverlays = () => {
   const autoCredential =
     noPreferences &&
     !discussion?.userPreference?.anonymity &&
-    discussionPreferences.me &&
-    discussionPreferences.me?.credentials.find(c => c.isListed)
+    discussionPreferences?.me?.credentials?.find(c => c.isListed)
 
   return (
     <>

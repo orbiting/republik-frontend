@@ -43,6 +43,8 @@ const query = gql`
       userSubmitDate
       userHasSubmitted
       userIsEligible
+      requireAddress
+      allowEmptyBallots
       options {
         id
         label
@@ -84,14 +86,14 @@ const Voting = compose(
   }),
   withAddressData
 )(({ voting, submitVotingBallot, me, addressData, vt, description }) => {
-  const [selectedValue, selectValue] = useState(null)
+  const [selectedValue, setSelectedValue] = useState(null)
   const [isConfirm, setConfirm] = useState(false)
   const [isUpdating, setUpdating] = useState(false)
   const [error, setError] = useState(null)
 
   const reset = e => {
     e.preventDefault()
-    selectValue(null)
+    setSelectedValue(null)
     setError(null)
     setConfirm(false)
   }
@@ -126,7 +128,11 @@ const Voting = compose(
     dangerousDisabledHTML = vt('vote/voting/notEligible')
   }
 
-  if (voting.userIsEligible && !addressData.voteMe?.address) {
+  if (
+    voting.userIsEligible &&
+    voting.requireAddress &&
+    !addressData.voteMe?.address
+  ) {
     return <AddressEditor />
   }
 
@@ -160,11 +166,13 @@ const Voting = compose(
         {voting.options.map(({ id, label }) => (
           <Fragment key={id}>
             <Radio
-              black
               value={id}
               checked={id === selectedValue}
               disabled={!!isUpdating}
-              onChange={() => selectValue(id)}
+              onChange={() => {
+                setSelectedValue(id)
+                setError(null)
+              }}
             >
               <span style={{ marginRight: 30 }}>
                 {vt(`vote/voting/option${label}`)}
@@ -175,15 +183,22 @@ const Voting = compose(
       </div>
       <div {...sharedStyles.buttons}>
         <Button
-          key={'vote/voting/labelVote'}
-          primary
-          onClick={() => setConfirm(true)}
+          primary={voting.allowEmptyBallots || selectedValue !== null}
+          onClick={() => {
+            if (!voting.allowEmptyBallots && selectedValue === null) {
+              setError(vt('vote/voting/empty/error'))
+            } else {
+              setConfirm(true)
+            }
+          }}
         >
           {vt('vote/common/continue')}
         </Button>
-        {selectedValue !== null && resetLink}
+        {voting.allowEmptyBallots && selectedValue !== null && resetLink}
       </div>
-      <div {...sharedStyles.hint}>{vt('vote/common/help/blank')}</div>
+      {voting.allowEmptyBallots && (
+        <div {...sharedStyles.hint}>{vt('vote/common/help/blank')}</div>
+      )}
     </>
   )
 
@@ -206,7 +221,7 @@ const Voting = compose(
             {vt('vote/common/back')}
           </Button>
         </div>
-        <Button key={'vote/voting/labelVote'} primary onClick={vote}>
+        <Button primary onClick={vote}>
           {isUpdating ? (
             <InlineSpinner size={40} />
           ) : (

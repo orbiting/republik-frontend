@@ -109,65 +109,64 @@ function useDiscussionData(
       }
     })
 
-  const subscribeToComments = subscribeToMore<
-    CommentSubscriptionData,
-    CommentSubscriptionVariables
-  >({
-    document: COMMENT_SUBSCRIPTION,
-    variables: { discussionId },
-    onError(...args) {
-      console.debug('subscribe:onError', args)
-    },
-    updateQuery: (previousResult, { subscriptionData }) => {
-      const initialParentId = options.parentId
+  const initialParentId = options.parentId
+  const loadedDiscussionId = discussion?.id
+  useEffect(() => {
+    if (!loadedDiscussionId) {
+      return
+    }
+    return subscribeToMore<
+      CommentSubscriptionData,
+      CommentSubscriptionVariables
+    >({
+      document: COMMENT_SUBSCRIPTION,
+      variables: { discussionId: loadedDiscussionId },
+      onError(...args) {
+        console.debug('subscribe:onError', args)
+      },
+      updateQuery: (previousResult, { subscriptionData }) => {
+        /*
+         * Regardless of what we do here, the Comment object in the cache will be updated.
+         * We only have to take care of updating objects other than the Comment, like in
+         * this case update the Discussion object. This is why we only care about the
+         * 'CREATED' mutation and ignore 'DELETED' (which can't happen anyways) and 'UPDATED'.
+         */
+        if (
+          subscriptionData.data &&
+          subscriptionData.data.comment.mutation === 'CREATED'
+        ) {
+          const comment = subscriptionData.data.comment.node
 
-      /*
-       * Regardless of what we do here, the Comment object in the cache will be updated.
-       * We only have to take care of updating objects other than the Comment, like in
-       * this case update the Discussion object. This is why we only care about the
-       * 'CREATED' mutation and ignore 'DELETED' (which can't happen anyways) and 'UPDATED'.
-       */
-      if (
-        subscriptionData.data &&
-        subscriptionData.data.comment.mutation === 'CREATED'
-      ) {
-        const comment = subscriptionData.data.comment.node
+          if (initialParentId && !comment.parentIds.includes(initialParentId)) {
+            return previousResult
+          }
 
-        if (initialParentId && !comment.parentIds.includes(initialParentId)) {
+          /*
+           * Ignore updates related to comments we created in the current client session.
+           * If this is the first comment in the discussion, show it immediately. Otherwise
+           * just bump the counts and let the user click the "Load More" buttons.
+           */
+          if (previousResult.discussion.comments.totalCount === 0) {
+            return produce(
+              previousResult,
+              mergeComment({
+                comment,
+                initialParentId,
+                activeTag: options.activeTag
+              })
+            )
+          } else {
+            return produce(
+              previousResult,
+              bumpCounts({ comment, initialParentId })
+            )
+          }
+        } else {
           return previousResult
         }
-
-        /*
-         * Ignore updates related to comments we created in the current client session.
-         * If this is the first comment in the discussion, show it immediately. Otherwise
-         * just bump the counts and let the user click the "Load More" buttons.
-         */
-        if (previousResult.discussion.comments.totalCount === 0) {
-          return produce(
-            previousResult,
-            mergeComment({
-              comment,
-              initialParentId,
-              activeTag: options.activeTag
-            })
-          )
-        } else {
-          return produce(
-            previousResult,
-            bumpCounts({ comment, initialParentId })
-          )
-        }
-      } else {
-        return previousResult
       }
-    }
-  })
-
-  useEffect(() => {
-    if (discussion && subscribeToComments) {
-      subscribeToComments()
-    }
-  }, [discussion, subscribeToComments])
+    })
+  }, [loadedDiscussionId, initialParentId])
 
   /**
    * --- FOCUS LOGIC ---

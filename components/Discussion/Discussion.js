@@ -65,6 +65,7 @@ const Discussion = ({
 
   const discussionComments = {
     ...(data || previousData),
+    loading,
     refetch,
     fetchMore: ({
       parentId,

@@ -48,7 +48,7 @@ const Comments = props => {
     focusId,
     orderBy,
     activeTag,
-    discussionComments: { discussion, fetchMore },
+    discussionComments: { discussion, loading, fetchMore },
     meta,
     board,
     parent,
@@ -88,7 +88,7 @@ const Comments = props => {
      * If we're loading the focused comment or encountered an error during the loading
      * process, return.
      */
-    if (!focusId || focusLoading || focusError) {
+    if (!focusId || loading || focusLoading || focusError) {
       return
     }
 
@@ -389,7 +389,6 @@ const Comments = props => {
 
               {showPreferences && (
                 <DiscussionPreferences
-                  key='discussionPreferences'
                   autoCredential={autoCredential}
                   discussionId={discussion.id}
                   onClose={() => {

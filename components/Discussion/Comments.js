@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -22,8 +21,6 @@ import {
   Loader,
   DiscussionContext,
   CommentList,
-  fontStyles,
-  convertStyleToRem,
   mediaQueries,
   useMediaQuery,
   inQuotes
@@ -39,29 +36,6 @@ import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPre
 import CommentsOptions from './CommentsOptions'
 
 const styles = {
-  orderByContainer: css({
-    margin: '20px 0'
-  }),
-  orderBy: css({
-    ...convertStyleToRem(fontStyles.sansSerifRegular16),
-    outline: 'none',
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    padding: '0',
-    cursor: 'pointer',
-    marginRight: '20px',
-    [mediaQueries.mUp]: {
-      marginRight: '40px'
-    }
-  }),
-  regular: css({
-    textDecoration: 'none'
-  }),
-  selected: css({
-    textDecoration: 'underline',
-    textDecorationSkip: 'ink'
-  }),
   emptyDiscussion: css({
     margin: '20px 0'
   })
@@ -207,8 +181,7 @@ const Comments = props => {
     noPreferences &&
     discussion &&
     !discussion.userPreference?.anonymity &&
-    discussionPreferences.me &&
-    discussionPreferences.me.credentials.find(c => c.isListed)
+    discussionPreferences?.me?.credentials?.find(c => c.isListed)
 
   const markNotificationsAsRead = () => {
     if (!discussion) return
@@ -356,10 +329,7 @@ const Comments = props => {
               (comment => {
                 setFeatureComment(comment)
                 return Promise.resolve({ ok: true })
-              }),
-            toEtiquette: () => {
-              if (process.browser) router.push('/etikette')
-            }
+              })
           },
 
           clock: {

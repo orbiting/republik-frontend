@@ -18,22 +18,32 @@ type RewardType = {
   __typename: string
 }
 
+type VariantType = {
+  price: number
+  label: string
+  description: string
+  ownPrice: boolean
+  suggested?: boolean
+}
+
 type OptionType = {
   id?: string
-  label: string
+  name: string
   reward: RewardType
-  price: number
-  userPrice?: boolean
-  minUserPrice?: number
-  suggestedPrice?: number
-  description?: string
+  variants: VariantType[]
+}
+
+type Package = {
+  name: string
+  suggestedTotal?: number
+  options: OptionType[]
 }
 
 type MembershipSelectorTypes = {
-  membershipOptions: OptionType[]
-  onMembershipSelect: (option: OptionType) => void
+  pkg: Package
+  onVariantSelect: (variant: VariantType) => void
   onOwnPriceSelect: (price: number) => void
-  selectedMembershipOption: OptionType
+  selectedVariant: VariantType
 }
 
 const styles = {
@@ -75,18 +85,27 @@ const styles = {
     padding: '8px 0px 16px 0px',
     display: 'flex',
     flexDirection: 'column',
-    width: '100%'
+    width: '100%',
+    order: 9
   })
 }
 
 const MembershipSelector = ({
-  membershipOptions,
-  onMembershipSelect,
+  pkg,
+  onVariantSelect,
   onOwnPriceSelect,
-  selectedMembershipOption
+  selectedVariant
 }: MembershipSelectorTypes) => {
   const [colorScheme] = useColorContext()
   const isDesktop = useMediaQuery(mediaQueries.mUp)
+
+  const membershipVariants = useMemo(() => {
+    // necessary for PROLONG, which has both BENEFACTOR and ABO options
+    const options = []
+    pkg.options.forEach(option => options.push(...option.variants))
+    return options
+  }, [pkg])
+
   const buttonStyle = useMemo(
     () =>
       css({
@@ -107,39 +126,41 @@ const MembershipSelector = ({
       }),
     []
   )
+
   return (
     <>
       <div {...styles.container}>
-        {membershipOptions.map((option: OptionType, index) => {
-          const selected = option.label === selectedMembershipOption.label
+        {membershipVariants.map((variant: VariantType, index) => {
+          const { price, label, description, ownPrice } = variant
+          const selected = label === selectedVariant.label
           return (
             <>
               <button
-                key={option.id}
+                key={label}
                 {...plainButtonRule}
                 {...styles.button}
                 {...(selected ? selectedButtonStyle : buttonStyle)}
-                onClick={() => onMembershipSelect(option)}
+                onClick={() => onVariantSelect(variant)}
                 style={{ order: index }}
               >
-                <span {...styles.label}>{option.label}</span>
-                {!option.userPrice && <span>CHF {option.price / 100}</span>}
+                <span {...styles.label}>{label}</span>
+                {!ownPrice && <span>CHF {price / 100}</span>}
               </button>
               <div
                 {...styles.infocontainer}
                 style={{
-                  order: isDesktop ? 9 : index,
+                  order: !isDesktop && index,
                   display: selected ? 'inherit' : 'none'
                 }}
               >
-                {option.userPrice && (
+                {ownPrice && (
                   <Field
                     label='Betrag in CHF'
-                    value={option.suggestedPrice / 100}
+                    value={price / 100}
                     onChange={onOwnPriceSelect}
                   />
                 )}
-                <Label>{option.description}</Label>
+                <Label>{description}</Label>
               </div>
             </>
           )

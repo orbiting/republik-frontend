@@ -678,9 +678,11 @@ const ArticlePage = ({
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
-                  {meta?.discussionType === 'statements' ? (
+                  {articleContent?.meta?.discussionType === 'statements' ? (
                     <DiscussionProvider discussionId={ownDiscussion.id}>
-                      <StatementDiscussion tagMappings={meta.tagMappings} />
+                      <StatementDiscussion
+                        tagMappings={articleContent.meta.tagMappings}
+                      />
                     </DiscussionProvider>
                   ) : (
                     <Discussion

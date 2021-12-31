@@ -56,15 +56,6 @@ export const getDocument = gql`
         shareFontSize
         shareInverted
         shareTextPosition
-        discussionType
-        tagMappings {
-          tag
-          text
-          color {
-            light
-            dark
-          }
-        }
         ownDiscussion {
           id
           closed

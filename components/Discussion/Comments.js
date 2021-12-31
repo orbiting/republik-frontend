@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
-import { isAdmin } from './graphql/enhancers/isAdmin'
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
 import { withCommentActions } from './graphql/enhancers/withCommentActions'
 import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
@@ -44,7 +43,6 @@ const styles = {
 const Comments = props => {
   const {
     t,
-    isAdmin,
     isModerator,
     isEditor,
     focusId,
@@ -250,7 +248,6 @@ const Comments = props => {
          * Construct the value for the DiscussionContext.
          */
         const discussionContextValue = {
-          isAdmin,
           isModerator,
           highlightedCommentId: focusId,
           activeTag,
@@ -444,7 +441,6 @@ export default compose(
   withT,
   withDiscussionDisplayAuthor,
   withCommentActions,
-  isAdmin,
   withModerator,
   withEditor,
   withSubmitComment,

@@ -10,8 +10,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row-reverse',
     lineHeight: pxToRem('25px'),
-    fontSize: pxToRem('16px'),
-    cursor: 'pointer'
+    fontSize: pxToRem('16px')
   })
 }
 

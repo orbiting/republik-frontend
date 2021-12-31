@@ -77,7 +77,6 @@ const StatementDiscussion = ({ t, tagMappings }) => {
                       discussionId: discussion.id
                     })
                   }
-                  onOpenPreferences={preferencesOverlay.handleOpen}
                   availableTags={discussion.tags}
                 />
               </DiscussionComposerWrapper>

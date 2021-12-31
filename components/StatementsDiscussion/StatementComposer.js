@@ -13,8 +13,7 @@ const StatementComposer = ({
   // Props below are used for editing a comment
   initialText,
   tagValue,
-  onClose,
-  onOpenPreferences
+  onClose
 }) => {
   const [active, setActive] = useState(!!initialText)
 
@@ -51,7 +50,6 @@ const StatementComposer = ({
             ? t('submitComment/rootSubmitLabel')
             : t('styleguide/comment/edit/submit')
         }
-        onOpenPreferences={onOpenPreferences}
         initialText={initialText}
         tagValue={
           availableTags && availableTags.length > 0

@@ -67,7 +67,6 @@ const StatementNodeWrapper = ({
             .editCommentHandler(comment.id, content, tags)
             .then(() => setEditMode(false))
         }}
-        onOpenPreferences={preferencesOverlay.handleOpen}
         onClose={() => setEditMode(false)}
         refetch={undefined}
       />

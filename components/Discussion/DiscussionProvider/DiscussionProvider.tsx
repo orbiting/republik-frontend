@@ -96,7 +96,11 @@ const DiscussionProvider: FC<Props> = ({
     refetch,
     actions: {
       ...actions,
-      shareHandler
+      shareHandler,
+      openDiscussionPreferences: () => {
+        preferencesOverlay.handleOpen()
+        return Promise.resolve({ ok: true })
+      }
     },
     orderBy,
     activeTag,

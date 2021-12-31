@@ -164,6 +164,10 @@ const DiscussionCommentComposer = props => {
               }),
               activeTag,
               actions: {
+                openDiscussionPreferences: () => {
+                  setShowPreferences(true)
+                  return Promise.resolve({ ok: true })
+                },
                 previewComment: props.previewComment
               },
               composerHints: composerHints(t),
@@ -180,7 +184,6 @@ const DiscussionCommentComposer = props => {
                   }}
                   onSubmit={submitComment}
                   onSubmitLabel={t('submitComment/rootSubmitLabel')}
-                  onOpenPreferences={() => setShowPreferences(true)}
                 />
 
                 {showPreferences && (

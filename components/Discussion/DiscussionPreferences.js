@@ -110,13 +110,13 @@ function getInitialState(
 
 const styles = {
   previewWrapper: css({
-    padding: 20,
-    paddingTop: OverlayToolbar.height,
-    paddingBottom: 0,
-    borderBottom: '1px solid',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    padding: `0 ${OverlayBody.PADDING}px`,
+    margin: `-${OverlayBody.PADDING}px -${OverlayBody.PADDING}px ${OverlayBody.PADDING}px`,
     [mediaQueries.mUp]: {
-      paddingTop: 20 + OverlayToolbar.height,
-      paddingBottom: 20
+      marginTop: 0,
+      paddingBottom: OverlayBody.PADDING
     },
     '& > p': {
       marginTop: 0,
@@ -133,17 +133,6 @@ const styles = {
     flexDirection: 'column',
     '& > *:not(:last-child)': {
       marginBottom: 10
-    }
-  }),
-  formWrapper: css({
-    marginTop: 20,
-    padding: 20,
-    paddingTop: 0,
-    // The iPhone X Space
-    // - thank you Apple for overlaying websites
-    paddingBottom: 120,
-    [mediaQueries.mUp]: {
-      paddingBottom: 20
     }
   }),
   fieldWrapper: css({
@@ -248,7 +237,7 @@ const DiscussionPreferencesEditor = ({
         title={t('components/DiscussionPreferences/modalTitle')}
         onClose={onClose}
       />
-      <OverlayBody noPadding>
+      <OverlayBody>
         <div
           {...styles.previewWrapper}
           {...colorScheme.set('borderBottomColor', 'divider')}
@@ -268,124 +257,118 @@ const DiscussionPreferencesEditor = ({
             />
           </div>
         </div>
-        <div {...styles.formWrapper}>
-          <div {...styles.fieldWrapper}>
-            <Interaction.H3>
-              {t('components/DiscussionPreferences/credentialHeading')}
-            </Interaction.H3>
-            <Label>
-              {t('components/DiscussionPreferences/credential/description')}
-            </Label>
-            <Field
-              label={t('components/DiscussionPreferences/credentialLabel')}
-              value={state.credential}
-              onChange={(_, val) => {
-                setState(curr => ({
-                  ...curr,
-                  credential: val
-                }))
-              }}
-            />
-            {isListedCredential && state.anonymity && (
-              <div style={{ marginBottom: 10 }}>
-                <Label>
-                  {t(
-                    'components/DiscussionPreferences/credentialAnonymityWarning'
-                  )}
-                </Label>
-              </div>
-            )}
-            {credentialSuggestions && (
-              <div {...styles.suggestedCredentialsWrapper}>
-                <Label>
-                  {t(
-                    'components/DiscussionPreferences/existingCredentialLabel'
-                  )}
-                </Label>
-                <div {...styles.suggestedCredentialsContainer}>
-                  {credentialSuggestions
-                    .slice(
-                      0,
-                      showAllSuggestedCredentials
-                        ? credentialSuggestions.length - 1
-                        : 4
-                    )
-                    .map(item => (
-                      <button
-                        key={item.description}
-                        onClick={() =>
-                          setState(curr => ({
-                            ...curr,
-                            credential: item.description
-                          }))
-                        }
-                        {...suggestedCredentialButtonStyling}
-                      >
-                        <Credential
-                          {...item}
-                          textColor={colorScheme.getCSSColor('text')}
-                        />
-                      </button>
-                    ))}
-                </div>
-                {!showAllSuggestedCredentials &&
-                  credentialSuggestions.length >= 5 && (
-                    <A
-                      href='#'
-                      onClick={() => setShowAllSuggestedCredentials(true)}
-                    >
-                      {t('components/DiscussionPreferences/showAllCredentials')}
-                    </A>
-                  )}
-              </div>
-            )}
-          </div>
-          {rules.anonymity !== 'FORBIDDEN' && (
-            <div {...styles.fieldWrapper}>
-              <Interaction.H3>
-                {t('components/DiscussionPreferences/commentAnonymously')}
-              </Interaction.H3>
+        <div {...styles.fieldWrapper}>
+          <Interaction.H3>
+            {t('components/DiscussionPreferences/credentialHeading')}
+          </Interaction.H3>
+          <Label>
+            {t('components/DiscussionPreferences/credential/description')}
+          </Label>
+          <Field
+            label={t('components/DiscussionPreferences/credentialLabel')}
+            value={state.credential}
+            onChange={(_, val) => {
+              setState(curr => ({
+                ...curr,
+                credential: val
+              }))
+            }}
+          />
+          {isListedCredential && state.anonymity && (
+            <div style={{ marginBottom: 10 }}>
               <Label>
                 {t(
-                  'components/DiscussionPreferences/commentAnonymously/description'
+                  'components/DiscussionPreferences/credentialAnonymityWarning'
                 )}
               </Label>
-              <div>
-                <Checkbox
-                  /*
+            </div>
+          )}
+          {credentialSuggestions && (
+            <div {...styles.suggestedCredentialsWrapper}>
+              <Label>
+                {t('components/DiscussionPreferences/existingCredentialLabel')}
+              </Label>
+              <div {...styles.suggestedCredentialsContainer}>
+                {credentialSuggestions
+                  .slice(
+                    0,
+                    showAllSuggestedCredentials
+                      ? credentialSuggestions.length - 1
+                      : 4
+                  )
+                  .map(item => (
+                    <button
+                      key={item.description}
+                      onClick={() =>
+                        setState(curr => ({
+                          ...curr,
+                          credential: item.description
+                        }))
+                      }
+                      {...suggestedCredentialButtonStyling}
+                    >
+                      <Credential
+                        {...item}
+                        textColor={colorScheme.getCSSColor('text')}
+                      />
+                    </button>
+                  ))}
+              </div>
+              {!showAllSuggestedCredentials &&
+                credentialSuggestions.length >= 5 && (
+                  <A
+                    href='#'
+                    onClick={() => setShowAllSuggestedCredentials(true)}
+                  >
+                    {t('components/DiscussionPreferences/showAllCredentials')}
+                  </A>
+                )}
+            </div>
+          )}
+        </div>
+        {rules.anonymity !== 'FORBIDDEN' && (
+          <div {...styles.fieldWrapper}>
+            <Interaction.H3>
+              {t('components/DiscussionPreferences/commentAnonymously')}
+            </Interaction.H3>
+            <Label>
+              {t(
+                'components/DiscussionPreferences/commentAnonymously/description'
+              )}
+            </Label>
+            <div>
+              <Checkbox
+                /*
                  Possible anonymity rules are
                  ['ALLOWED', 'ENFORCED', 'FORBIDDEN']
                  THe checkbox should only be enabled if the rule is 'ALLOWED'
                  */
-                  disabled={rules?.anonymity !== 'ALLOWED'}
-                  checked={state.anonymity}
-                  onChange={(_, val) => {
-                    setState(curr => ({
-                      ...curr,
-                      anonymity: val
-                    }))
-                  }}
-                >
-                  {t(
-                    'components/DiscussionPreferences/commentAnonymouslyLabel'
-                  )}
-                </Checkbox>
-              </div>
+                disabled={rules?.anonymity !== 'ALLOWED'}
+                checked={state.anonymity}
+                onChange={(_, val) => {
+                  setState(curr => ({
+                    ...curr,
+                    anonymity: val
+                  }))
+                }}
+              >
+                {t('components/DiscussionPreferences/commentAnonymouslyLabel')}
+              </Checkbox>
             </div>
-          )}
-          {error && <ErrorMessage error={error} />}
-          <div
-            {...css({
-              width: '100%',
-              [mediaQueries.mUp]: {
-                maxWidth: 'max-content'
-              }
-            })}
-          >
-            <Button type='submit' block>
-              {t('components/DiscussionPreferences/save')}
-            </Button>
           </div>
+        )}
+        {error && <ErrorMessage error={error} />}
+        <div
+          {...css({
+            width: '100%',
+            [mediaQueries.mUp]: {
+              maxWidth: 'max-content'
+            }
+          })}
+        >
+          <Button type='submit' block>
+            {t('components/DiscussionPreferences/save')}
+          </Button>
         </div>
       </OverlayBody>
     </form>

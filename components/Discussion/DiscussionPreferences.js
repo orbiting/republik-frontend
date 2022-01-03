@@ -322,7 +322,10 @@ const DiscussionPreferencesEditor = ({
                 credentialSuggestions.length >= 5 && (
                   <A
                     href='#'
-                    onClick={() => setShowAllSuggestedCredentials(true)}
+                    onClick={e => {
+                      e.preventDefault()
+                      setShowAllSuggestedCredentials(true)
+                    }}
                   >
                     {t('components/DiscussionPreferences/showAllCredentials')}
                   </A>

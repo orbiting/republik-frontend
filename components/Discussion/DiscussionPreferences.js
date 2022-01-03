@@ -266,6 +266,10 @@ const DiscussionPreferencesEditor = ({
           </Label>
           <Field
             label={t('components/DiscussionPreferences/credentialLabel')}
+            error={
+              state.credential?.length > 40 &&
+              t('components/DiscussionPreferences/credentialLabel/tooLong')
+            }
             value={state.credential}
             onChange={(_, val) => {
               setState(curr => ({

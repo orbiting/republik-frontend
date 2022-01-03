@@ -2197,6 +2197,10 @@
       "value": "Aktive Rolle"
     },
     {
+      "key": "components/DiscussionPreferences/credentialLabel/tooLong",
+      "value": "Aktive Rolle, maximal 40 Zeichen"
+    },
+    {
       "key": "components/DiscussionPreferences/credential/description",
       "value": "Bitte geben Sie an, aus welcher Perspektive Sie schreiben (z. B. in Ihrer Rolle als Grossvater, als Lehrperson, als Rechtsexpertin)"
     },

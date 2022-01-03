@@ -92,14 +92,19 @@ const MembershipSelector = ({
   pkg,
   onSuggestionSelect
 }: MembershipSelectorTypes) => {
-  const suggestions = useMemo(() => {
+  const membershipSuggestions = useMemo(() => {
     const options = []
-    pkg.options.forEach(option => options.push(...option.suggestions))
+    pkg.options.forEach(
+      option =>
+        // Filter out Goodie Suggestions
+        option.reward?.__typename !== 'Goodie' &&
+        options.push(...option.suggestions)
+    )
     return options
   }, [pkg])
 
   const favorite = useMemo(() => {
-    return suggestions.find(v => v.favorite === true)
+    return membershipSuggestions.find(v => v.favorite === true)
   }, [pkg])
 
   const [selectedSuggestion, setSelectedSuggestion] = useState(
@@ -131,7 +136,7 @@ const MembershipSelector = ({
   return (
     <>
       <div {...styles.container}>
-        {suggestions.map((suggestion: SuggestionType, index) => {
+        {membershipSuggestions.map((suggestion: SuggestionType, index) => {
           const { price, label, description, userPrice } = suggestion
           const selected = label === selectedSuggestion.label
           return (

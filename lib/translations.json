@@ -2166,11 +2166,11 @@
     },
     {
       "key": "components/DiscussionPreferences/modalTitle",
-      "value": "Dialog-Teilnahme anpassen"
+      "value": "Diskussionsteilnahme anpassen"
     },
     {
       "key": "components/DiscussionPreferences/profilePreview",
-      "value": "So erscheint Ihr Profil im Dialog"
+      "value": "So erscheint Ihr Profil"
     },
     {
       "key": "components/DiscussionPreferences/save",
@@ -2186,7 +2186,7 @@
     },
     {
       "key": "components/DiscussionPreferences/commentAnonymously/description",
-      "value": "Sie können aus Gründen der Privatsphäre anonym an dieser Diskussion teilnehmen. Die Anonymität gilt für alle hier veröffentlichten Beiträge. Ihre Identität bleibt für administrative Zwecke nachvollziehbar."
+      "value": "Sie können auch anonym teilnehmen. Die Anonymität gilt für alle in dieser Diskussion veröffentlichten Beiträge. Ihre Identität bleibt für administrative Zwecke nachvollziehbar."
     },
     {
       "key": "components/DiscussionPreferences/credentialHeading",

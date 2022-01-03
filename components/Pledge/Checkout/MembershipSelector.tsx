@@ -39,7 +39,10 @@ type Package = {
 
 type MembershipSelectorTypes = {
   pkg: Package
-  onSuggestionSelect: (suggestion: SuggestionType) => void
+  onSuggestionSelect: ({
+    suggestion: SuggestionType,
+    selectedPrice: number
+  }) => void
   onOwnPriceSelect: (price: number) => void
   selectedSuggestion: SuggestionType
 }
@@ -148,7 +151,10 @@ const MembershipSelector = ({
                 {...(selected ? buttonStyle.selected : buttonStyle.default)}
                 onClick={() => {
                   setSelectedSuggestion(suggestion)
-                  onSuggestionSelect(suggestion)
+                  onSuggestionSelect({
+                    suggestion,
+                    selectedPrice: suggestion.price
+                  })
                 }}
                 style={{ order: index }}
               >
@@ -165,12 +171,14 @@ const MembershipSelector = ({
                 {userPrice && (
                   <Field
                     label='Betrag in CHF'
-                    value={ownPrice || price}
+                    value={(ownPrice && ownPrice / 100) || price / 100}
                     onChange={(_, value) => {
-                      suggestion.price = value
                       setSelectedSuggestion(suggestion)
-                      setOwnPrice(value)
-                      onSuggestionSelect(suggestion)
+                      setOwnPrice(value * 100)
+                      onSuggestionSelect({
+                        suggestion,
+                        selectedPrice: value * 100
+                      })
                     }}
                   />
                 )}

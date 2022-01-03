@@ -313,15 +313,26 @@ const Checkout = () => {
   return (
     <Frame raw>
       <Center>
-        <PackageABO pkg={packages.find(pkg => pkg.name === 'BENEFACTOR')} />
+        {packages.map(pkg => (
+          <>
+            <h2>Package {pkg.name}</h2>
+            <MembershipSelector
+              pkg={pkg}
+              onSuggestionSelect={suggestion => console.log(suggestion)}
+            />
+          </>
+        ))}
+        {/* <PackageABO pkg={packages.find(pkg => pkg.name === 'ABO')} />
         <br />
         <PackagePROLONG />
         <br />
-        <PackageBENEFACTOR />
+        <PackageBENEFACTOR
+          pkg={packages.find(pkg => pkg.name === 'BENEFACTOR')}
+        />
         <br />
         <PackagePROLONG_BENEFACTOR />
         <br />
-        <PackagePROLONG_EDU />
+        <PackagePROLONG_EDU /> */}
       </Center>
     </Frame>
   )

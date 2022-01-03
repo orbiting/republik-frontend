@@ -4,7 +4,7 @@ import { graphql } from '@apollo/client/react/hoc'
 import { withRouter } from 'next/router'
 import { CalloutMenu, IconButton } from '@project-r/styleguide'
 import { NotificationIcon, NotificationsNoneIcon } from '@project-r/styleguide'
-import { discussionPreferencesQuery } from '../Discussion/graphql/documents'
+import { DISCUSSION_PREFERENCES_QUERY } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
 import withMe from '../../lib/apollo/withMe'
@@ -109,7 +109,7 @@ const SubscribeMenu = ({
 }
 
 export default compose(
-  graphql(discussionPreferencesQuery, {
+  graphql(DISCUSSION_PREFERENCES_QUERY, {
     skip: props => !props.discussionId
   }),
   withRouter,

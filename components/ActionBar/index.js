@@ -10,9 +10,11 @@ import {
   FontSizeIcon,
   ShareIcon,
   ChartIcon,
-  EditIcon
+  EditIcon,
+  EtiquetteIcon,
+  IconButton,
+  Interaction
 } from '@project-r/styleguide'
-import { IconButton, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
@@ -68,12 +70,20 @@ const ActionBar = ({
             }}
           />
         )}
-        {discussion && (
-          <SubscribeMenu
-            discussionId={discussion}
-            label={t('SubscribeMenu/title')}
-            padded
-          />
+        {discussion && me && (
+          <>
+            <SubscribeMenu
+              discussionId={discussion}
+              label={t('SubscribeMenu/title')}
+              padded
+            />
+            <IconButton
+              Icon={EtiquetteIcon}
+              label={t('components/Discussion/etiquette')}
+              labelShort={t('components/Discussion/etiquette')}
+              href='/etikette'
+            />
+          </>
         )}
         {share && (
           <IconButton

@@ -1,13 +1,11 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
-import { isAdmin } from './graphql/enhancers/isAdmin'
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
 import { withCommentActions } from './graphql/enhancers/withCommentActions'
 import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
@@ -22,71 +20,35 @@ import {
   Loader,
   DiscussionContext,
   CommentList,
-  A,
-  fontStyles,
-  convertStyleToRem,
-  pxToRem,
   mediaQueries,
   useMediaQuery,
-  inQuotes,
-  useColorContext,
-  Scroller,
-  TabButton
+  inQuotes
 } from '@project-r/styleguide'
 
-import { withEditor } from '../Auth/checkRoles'
+import { withEditor, withModerator } from '../Auth/checkRoles'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import { RootCommentOverlay } from './RootCommentOverlay'
 import { FeatureCommentOverlay } from './FeatureCommentOverlay'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
-import { rerouteDiscussion } from './DiscussionLink'
+import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
+import CommentsOptions from './CommentsOptions'
 
 const styles = {
-  orderByContainer: css({
-    margin: '20px 0'
-  }),
-  orderBy: css({
-    ...convertStyleToRem(fontStyles.sansSerifRegular16),
-    outline: 'none',
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    padding: '0',
-    cursor: 'pointer',
-    marginRight: '20px',
-    [mediaQueries.mUp]: {
-      marginRight: '40px'
-    }
-  }),
-  regular: css({
-    textDecoration: 'none'
-  }),
-  selected: css({
-    textDecoration: 'underline',
-    textDecorationSkip: 'ink'
-  }),
   emptyDiscussion: css({
     margin: '20px 0'
-  }),
-  reloadLink: css({
-    display: 'flex',
-    flexDirection: 'row-reverse',
-    lineHeight: pxToRem('25px'),
-    fontSize: pxToRem('16px'),
-    cursor: 'pointer'
   })
 }
 
 const Comments = props => {
   const {
     t,
-    isAdmin,
+    isModerator,
     isEditor,
     focusId,
     orderBy,
     activeTag,
-    discussionComments: { discussion, fetchMore },
+    discussionComments: { discussion, loading, fetchMore },
     meta,
     board,
     parent,
@@ -95,7 +57,8 @@ const Comments = props => {
     discussionId,
     rootCommentOverlay,
     markAsReadMutation,
-    inNativeApp
+    inNativeApp,
+    discussionPreferences
   } = props
   const router = useRouter()
   /*
@@ -125,7 +88,7 @@ const Comments = props => {
      * If we're loading the focused comment or encountered an error during the loading
      * process, return.
      */
-    if (!focusId || focusLoading || focusError) {
+    if (!focusId || loading || focusLoading || focusError) {
       return
     }
 
@@ -210,6 +173,14 @@ const Comments = props => {
     }
   }
 
+  const noPreferences =
+    discussion && discussion.userPreference?.notifications === null
+  const autoCredential =
+    noPreferences &&
+    discussion &&
+    !discussion.userPreference?.anonymity &&
+    discussionPreferences?.me?.credentials?.find(c => c.isListed)
+
   const markNotificationsAsRead = () => {
     if (!discussion) return
     const { comments } = discussion
@@ -277,7 +248,7 @@ const Comments = props => {
          * Construct the value for the DiscussionContext.
          */
         const discussionContextValue = {
-          isAdmin,
+          isModerator,
           highlightedCommentId: focusId,
           activeTag,
 
@@ -365,43 +336,22 @@ const Comments = props => {
 
           Link: CommentLink,
           composerHints: composerHints(t),
-          composerSecondaryActions: <SecondaryActions />
+          // isReply is set to true since all composers inside the comments-tree
+          // will compose replies to other comments
+          composerSecondaryActions: <SecondaryActions isReply={true} />
         }
 
         return (
           <>
             {!rootCommentOverlay && (
-              <>
-                <Scroller>
-                  {['HOT', 'DATE', 'VOTES', 'REPLIES']
-                    .filter(item => (board ? true : item !== 'HOT'))
-                    .map(item => {
-                      return (
-                        <Link
-                          href={rerouteDiscussion(router, {
-                            order: item
-                          })}
-                          scroll={false}
-                          passHref
-                          key={item}
-                        >
-                          <TabButton
-                            border={false}
-                            text={t(`components/Discussion/OrderBy/${item}`)}
-                            isActive={item === resolvedOrderBy}
-                          />
-                        </Link>
-                      )
-                    })}
-                </Scroller>
-                <A
-                  {...styles.reloadLink}
-                  href={getFocusUrl(discussion)}
-                  onClick={onReload}
-                >
-                  {t('components/Discussion/reload')}
-                </A>
-              </>
+              <CommentsOptions
+                t={t}
+                router={router}
+                discussion={discussion}
+                board={board}
+                handleReload={onReload}
+                resolvedOrderBy={resolvedOrderBy}
+              />
             )}
 
             <DiscussionContext.Provider value={discussionContextValue}>
@@ -439,7 +389,7 @@ const Comments = props => {
 
               {showPreferences && (
                 <DiscussionPreferences
-                  key='discussionPreferenes'
+                  autoCredential={autoCredential}
                   discussionId={discussion.id}
                   onClose={() => {
                     setShowPreferences(false)
@@ -490,10 +440,11 @@ export default compose(
   withT,
   withDiscussionDisplayAuthor,
   withCommentActions,
-  isAdmin,
+  withModerator,
   withEditor,
   withSubmitComment,
   withMarkAsReadMutation,
+  withDiscussionPreferences,
   withInNativeApp
 )(Comments)
 

@@ -17,3 +17,7 @@ export const withMembership = withAuthorization(['member'], 'isMember')
 export const withEditor = withAuthorization(['editor'], 'isEditor')
 export const withSupporter = withAuthorization(['supporter'], 'isSupporter')
 export const withTester = withAuthorization(['tester'], 'isTester')
+export const withModerator = withAuthorization(
+  ['moderator', 'admin'],
+  'isModerator'
+)

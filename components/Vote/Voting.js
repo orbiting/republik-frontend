@@ -43,6 +43,8 @@ const query = gql`
       userSubmitDate
       userHasSubmitted
       userIsEligible
+      requireAddress
+      allowEmptyBallots
       options {
         id
         label
@@ -83,151 +85,177 @@ const Voting = compose(
     })
   }),
   withAddressData
-)(({ voting, submitVotingBallot, me, addressData, vt, description }) => {
-  const [selectedValue, selectValue] = useState(null)
-  const [isConfirm, setConfirm] = useState(false)
-  const [isUpdating, setUpdating] = useState(false)
-  const [error, setError] = useState(null)
+)(
+  ({
+    voting,
+    submitVotingBallot,
+    me,
+    addressData,
+    vt,
+    description,
+    messages
+  }) => {
+    const [selectedValue, setSelectedValue] = useState(null)
+    const [isConfirm, setConfirm] = useState(false)
+    const [isUpdating, setUpdating] = useState(false)
+    const [error, setError] = useState(null)
 
-  const reset = e => {
-    e.preventDefault()
-    selectValue(null)
-    setError(null)
-    setConfirm(false)
-  }
+    const reset = e => {
+      e.preventDefault()
+      setSelectedValue(null)
+      setError(null)
+      setConfirm(false)
+    }
 
-  const vote = () => {
-    setUpdating(true)
-    submitVotingBallot(voting.id, selectedValue)
-      .then(() => {
-        setUpdating(false)
-        setError(null)
-      })
-      .catch(error => {
-        setUpdating(false)
-        setError(error)
-      })
-  }
+    const vote = () => {
+      setUpdating(true)
+      submitVotingBallot(voting.id, selectedValue)
+        .then(() => {
+          setUpdating(false)
+          setError(null)
+        })
+        .catch(error => {
+          setUpdating(false)
+          setError(error)
+        })
+    }
 
-  let dangerousDisabledHTML
-  let showSignIn
-  if (voting.userHasSubmitted) {
-    dangerousDisabledHTML = vt('vote/voting/thankyou', {
-      submissionDate: messageDateFormat(new Date(voting.userSubmitDate))
-    })
-  } else if (Date.now() > new Date(voting.endDate)) {
-    dangerousDisabledHTML = vt('vote/voting/ended')
-  } else if (!me) {
-    dangerousDisabledHTML = vt('vote/voting/notSignedIn', {
-      beginDate: timeFormat('%d.%m.%Y')(new Date(voting.beginDate))
-    })
-    showSignIn = true
-  } else if (!voting.userIsEligible) {
-    dangerousDisabledHTML = vt('vote/voting/notEligible')
-  }
+    let dangerousDisabledHTML
+    let showSignIn
+    if (voting.userHasSubmitted) {
+      dangerousDisabledHTML =
+        messages.thankyou ||
+        vt('vote/voting/thankyou', {
+          submissionDate: messageDateFormat(new Date(voting.userSubmitDate))
+        })
+    } else if (Date.now() > new Date(voting.endDate)) {
+      dangerousDisabledHTML = messages.ended || vt('vote/voting/ended')
+    } else if (!me) {
+      dangerousDisabledHTML =
+        messages.notSignedIn ||
+        vt('vote/voting/notSignedIn', {
+          beginDate: timeFormat('%d.%m.%Y')(new Date(voting.beginDate))
+        })
+      showSignIn = true
+    } else if (!voting.userIsEligible) {
+      dangerousDisabledHTML =
+        messages.notEligible || vt('vote/voting/notEligible')
+    }
 
-  if (voting.userIsEligible && !addressData.voteMe?.address) {
-    return <AddressEditor />
-  }
+    if (
+      voting.userIsEligible &&
+      voting.requireAddress &&
+      !addressData.voteMe?.address
+    ) {
+      return <AddressEditor />
+    }
 
-  if (dangerousDisabledHTML) {
+    if (dangerousDisabledHTML) {
+      return (
+        <NarrowCard>
+          <div {...styles.message}>
+            <RawHtml
+              type={P}
+              dangerouslySetInnerHTML={{
+                __html: dangerousDisabledHTML
+              }}
+            />
+          </div>
+          {showSignIn && <SignIn />}
+        </NarrowCard>
+      )
+    }
+
+    const choice = (
+      <>
+        <div {...styles.buttons}>
+          {voting.options.map(({ id, label }) => (
+            <Fragment key={id}>
+              <Radio
+                value={id}
+                checked={id === selectedValue}
+                disabled={!!isUpdating}
+                onChange={() => {
+                  setSelectedValue(id)
+                  setError(null)
+                }}
+              >
+                <span style={{ marginRight: 30 }}>
+                  {vt(`vote/voting/option${label}`)}
+                </span>
+              </Radio>
+            </Fragment>
+          ))}
+        </div>
+        <div {...sharedStyles.buttons}>
+          <Button
+            primary={voting.allowEmptyBallots || selectedValue !== null}
+            onClick={() => {
+              if (!voting.allowEmptyBallots && selectedValue === null) {
+                setError(vt('vote/voting/empty/error'))
+              } else {
+                setConfirm(true)
+              }
+            }}
+          >
+            {vt('vote/common/continue')}
+          </Button>
+          {voting.allowEmptyBallots && selectedValue !== null && (
+            <Interaction.P style={{ marginLeft: 30 }}>
+              <A href='#' onClick={reset}>
+                {vt(`vote/common/${isConfirm ? 'back' : 'reset'}`)}
+              </A>
+            </Interaction.P>
+          )}
+        </div>
+        {voting.allowEmptyBallots && (
+          <div {...sharedStyles.hint}>{vt('vote/common/help/blank')}</div>
+        )}
+      </>
+    )
+
+    const confirmation = (
+      <>
+        <div {...styles.confirm}>
+          <P>
+            {selectedValue
+              ? `Mit ${vt(
+                  `vote/voting/option${
+                    voting.options.find(o => o.id === selectedValue).label
+                  }`
+                )} stimmen? `
+              : `Leer einlegen? `}
+          </P>
+        </div>
+        <div {...sharedStyles.buttons}>
+          <div style={{ marginRight: 15 }}>
+            <Button disabled={isUpdating} onClick={reset}>
+              {vt('vote/common/back')}
+            </Button>
+          </div>
+          <Button primary onClick={vote}>
+            {isUpdating ? (
+              <InlineSpinner size={40} />
+            ) : (
+              vt('vote/voting/labelVote')
+            )}
+          </Button>
+        </div>
+        <div {...sharedStyles.hint}>{vt('vote/common/help/final')}</div>
+      </>
+    )
+
     return (
       <NarrowCard>
-        <div {...styles.message}>
-          <RawHtml
-            type={P}
-            dangerouslySetInnerHTML={{
-              __html: dangerousDisabledHTML
-            }}
-          />
-        </div>
-        {showSignIn && <SignIn />}
+        <P>
+          <strong>{description || voting.description}</strong>
+        </P>
+        {error && <ErrorMessage error={error} />}
+        {isConfirm ? confirmation : choice}
       </NarrowCard>
     )
   }
-
-  const resetLink = (
-    <Interaction.P style={{ marginLeft: 30 }}>
-      <A href='#' onClick={reset}>
-        {vt(`vote/common/${isConfirm ? 'back' : 'reset'}`)}
-      </A>
-    </Interaction.P>
-  )
-
-  const choice = (
-    <>
-      <div {...styles.buttons}>
-        {voting.options.map(({ id, label }) => (
-          <Fragment key={id}>
-            <Radio
-              black
-              value={id}
-              checked={id === selectedValue}
-              disabled={!!isUpdating}
-              onChange={() => selectValue(id)}
-            >
-              <span style={{ marginRight: 30 }}>
-                {vt(`vote/voting/option${label}`)}
-              </span>
-            </Radio>
-          </Fragment>
-        ))}
-      </div>
-      <div {...sharedStyles.buttons}>
-        <Button
-          key={'vote/voting/labelVote'}
-          primary
-          onClick={() => setConfirm(true)}
-        >
-          {vt('vote/common/continue')}
-        </Button>
-        {selectedValue !== null && resetLink}
-      </div>
-      <div {...sharedStyles.hint}>{vt('vote/common/help/blank')}</div>
-    </>
-  )
-
-  const confirmation = (
-    <>
-      <div {...styles.confirm}>
-        <P>
-          {selectedValue
-            ? `Mit ${vt(
-                `vote/voting/option${
-                  voting.options.find(o => o.id === selectedValue).label
-                }`
-              )} stimmen? `
-            : `Leer einlegen? `}
-        </P>
-      </div>
-      <div {...sharedStyles.buttons}>
-        <div style={{ marginRight: 15 }}>
-          <Button disabled={isUpdating} onClick={reset}>
-            {vt('vote/common/back')}
-          </Button>
-        </div>
-        <Button key={'vote/voting/labelVote'} primary onClick={vote}>
-          {isUpdating ? (
-            <InlineSpinner size={40} />
-          ) : (
-            vt('vote/voting/labelVote')
-          )}
-        </Button>
-      </div>
-      <div {...sharedStyles.hint}>{vt('vote/common/help/final')}</div>
-    </>
-  )
-
-  return (
-    <NarrowCard>
-      <P>
-        <strong>{description || voting.description}</strong>
-      </P>
-      {error && <ErrorMessage error={error} />}
-      {isConfirm ? confirmation : choice}
-    </NarrowCard>
-  )
-})
+)
 
 const VotingLoader = compose(
   graphql(query, {
@@ -237,13 +265,19 @@ const VotingLoader = compose(
       }
     })
   })
-)(({ data, description }) => (
+)(({ data, description, messages }) => (
   <Loader
     loading={data.loading}
     error={data.error}
     render={() => {
       if (!data.voting) return null
-      return <Voting voting={data.voting} description={description} />
+      return (
+        <Voting
+          voting={data.voting}
+          description={description}
+          messages={messages}
+        />
+      )
     }}
   />
 ))

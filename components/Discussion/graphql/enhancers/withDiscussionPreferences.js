@@ -4,8 +4,8 @@ import { graphql } from '@apollo/client/react/hoc'
 import produce from '../../../../lib/immer'
 
 import {
-  discussionPreferencesQuery,
-  setDiscussionPreferencesMutation
+  DISCUSSION_PREFERENCES_QUERY,
+  SET_DISCUSSION_PREFERENCES_MUTATION
 } from '../documents'
 import { toRejectedString } from '../utils'
 
@@ -19,8 +19,8 @@ import { toRejectedString } from '../utils'
  */
 
 export const withDiscussionPreferences = compose(
-  graphql(discussionPreferencesQuery, { name: 'discussionPreferences' }),
-  graphql(setDiscussionPreferencesMutation, {
+  graphql(DISCUSSION_PREFERENCES_QUERY, { name: 'discussionPreferences' }),
+  graphql(SET_DISCUSSION_PREFERENCES_MUTATION, {
     props: ({ ownProps: { discussionId }, mutate }) => ({
       setDiscussionPreferences: (anonymity, credential, notifications) => {
         return mutate({
@@ -35,11 +35,11 @@ export const withDiscussionPreferences = compose(
           update: (proxy, { data: { setDiscussionPreferences } }) => {
             const variables = { discussionId }
             const data = proxy.readQuery({
-              query: discussionPreferencesQuery,
+              query: DISCUSSION_PREFERENCES_QUERY,
               variables
             })
             proxy.writeQuery({
-              query: discussionPreferencesQuery,
+              query: DISCUSSION_PREFERENCES_QUERY,
               variables,
               data: produce(data, draft => {
                 draft.discussion.userPreference =

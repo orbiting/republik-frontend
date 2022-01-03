@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { css } from 'glamor'
-import Link from 'next/link'
 
 import {
   mediaQueries,
@@ -9,7 +8,6 @@ import {
   useMediaQuery,
   Field,
   fontStyles,
-  Editorial,
   Label
 } from '@project-r/styleguide'
 
@@ -18,19 +16,19 @@ type RewardType = {
   __typename: string
 }
 
-type VariantType = {
+type SuggestionType = {
   price: number
   label: string
   description: string
-  ownPrice: boolean
-  suggested?: boolean
+  userPrice: boolean
+  favorite?: boolean
 }
 
 type OptionType = {
   id?: string
   name: string
   reward: RewardType
-  variants: VariantType[]
+  suggestions: SuggestionType[]
 }
 
 type Package = {
@@ -41,9 +39,9 @@ type Package = {
 
 type MembershipSelectorTypes = {
   pkg: Package
-  onVariantSelect: (variant: VariantType) => void
+  onSuggestionSelect: (suggestion: SuggestionType) => void
   onOwnPriceSelect: (price: number) => void
-  selectedVariant: VariantType
+  selectedSuggestion: SuggestionType
 }
 
 const styles = {
@@ -92,23 +90,29 @@ const styles = {
 
 const MembershipSelector = ({
   pkg,
-  onVariantSelect,
-  onOwnPriceSelect,
-  selectedVariant
+  onSuggestionSelect
 }: MembershipSelectorTypes) => {
-  const [colorScheme] = useColorContext()
-  const isDesktop = useMediaQuery(mediaQueries.mUp)
-
-  const membershipVariants = useMemo(() => {
-    // necessary for PROLONG, which has both BENEFACTOR and ABO options
+  const suggestions = useMemo(() => {
     const options = []
-    pkg.options.forEach(option => options.push(...option.variants))
+    pkg.options.forEach(option => options.push(...option.suggestions))
     return options
   }, [pkg])
 
+  const favorite = useMemo(() => {
+    return suggestions.find(v => v.favorite === true)
+  }, [pkg])
+
+  const [selectedSuggestion, setSelectedSuggestion] = useState(
+    favorite || pkg.options[0].suggestions[0] || {}
+  )
+  const [ownPrice, setOwnPrice] = useState()
+
+  const [colorScheme] = useColorContext()
+  const isDesktop = useMediaQuery(mediaQueries.mUp)
+
   const buttonStyle = useMemo(
-    () =>
-      css({
+    () => ({
+      default: css({
         backgroundColor: colorScheme.getCSSColor('hover'),
         '@media (hover)': {
           ':hover': {
@@ -116,35 +120,35 @@ const MembershipSelector = ({
           }
         }
       }),
-    []
-  )
-  const selectedButtonStyle = useMemo(
-    () =>
-      css({
+      selected: css({
         backgroundColor: colorScheme.getCSSColor('text'),
         color: colorScheme.getCSSColor('default')
-      }),
+      })
+    }),
     []
   )
 
   return (
     <>
       <div {...styles.container}>
-        {membershipVariants.map((variant: VariantType, index) => {
-          const { price, label, description, ownPrice } = variant
-          const selected = label === selectedVariant.label
+        {suggestions.map((suggestion: SuggestionType, index) => {
+          const { price, label, description, userPrice } = suggestion
+          const selected = label === selectedSuggestion.label
           return (
             <>
               <button
                 key={label}
                 {...plainButtonRule}
                 {...styles.button}
-                {...(selected ? selectedButtonStyle : buttonStyle)}
-                onClick={() => onVariantSelect(variant)}
+                {...(selected ? buttonStyle.selected : buttonStyle.default)}
+                onClick={() => {
+                  setSelectedSuggestion(suggestion)
+                  onSuggestionSelect(suggestion)
+                }}
                 style={{ order: index }}
               >
                 <span {...styles.label}>{label}</span>
-                {!ownPrice && <span>CHF {price / 100}</span>}
+                {!userPrice && <span>CHF {price / 100}</span>}
               </button>
               <div
                 {...styles.infocontainer}
@@ -153,11 +157,16 @@ const MembershipSelector = ({
                   display: selected ? 'inherit' : 'none'
                 }}
               >
-                {ownPrice && (
+                {userPrice && (
                   <Field
                     label='Betrag in CHF'
-                    value={price / 100}
-                    onChange={onOwnPriceSelect}
+                    value={ownPrice || price}
+                    onChange={(_, value) => {
+                      suggestion.price = value
+                      setSelectedSuggestion(suggestion)
+                      setOwnPrice(value)
+                      onSuggestionSelect(suggestion)
+                    }}
                   />
                 )}
                 <Label>{description}</Label>

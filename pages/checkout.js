@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from 'react'
-import Link from 'next/link'
-import { Center, Editorial, Interaction } from '@project-r/styleguide'
+import React, { useState } from 'react'
+import { Center, Editorial } from '@project-r/styleguide'
 import Frame from '../components/Frame'
 import MembershipSelector from '../components/Pledge/Checkout/MembershipSelector'
 
@@ -13,27 +12,27 @@ const packageABO = {
     {
       id: 1234,
       name: 'ABO',
-      variants: [
+      suggestions: [
         {
           price: 24000,
           label: 'Regulär',
           description:
             'Mit Ihrem Beitrag garantieren Sie das Fortbestehen der Republik und des unabhängigen Journalismus.',
-          ownPrice: false
+          userPrice: false
         },
         {
           price: 36000,
           label: 'Grosszügig',
           description:
             'Mit Ihrem Beitrag garantieren Sie das Fortbestehen der Republik und ermöglichen vergünstigte Mitgliedschaften.',
-          ownPrice: false
+          userPrice: false
         },
         {
           price: 48000,
           label: 'Tollkühn',
           description:
             'Mit Ihrem Beitrag setzen Sie sich energisch für das Fortbestehen der Republik ein und ermöglichen vergünstigte Mitgliedschaften.',
-          ownPrice: false
+          userPrice: false
         }
       ],
       reward: {
@@ -51,24 +50,24 @@ const packageBENEFACTOR = {
     {
       id: 1234,
       name: 'BENEFACTOR',
-      variants: [
+      suggestions: [
         {
           price: 100000,
           label: 'Gönner',
           description: 'Sie sind toll',
-          ownPrice: false
+          userPrice: false
         },
         {
           price: 150000,
           label: 'Grosszügiger Gönner',
           description: 'Sie sind grosszügig und toll.',
-          ownPrice: false
+          userPrice: false
         },
         {
           price: 200000,
           label: 'Tollkühner Gönner',
           description: 'Sie sind tollkühn und toll',
-          ownPrice: false
+          userPrice: false
         }
       ]
     }
@@ -82,21 +81,21 @@ const packagePROLONG = {
     {
       id: 1234,
       name: 'ABO',
-      variants: [
+      suggestions: [
         {
           price: 32200,
           label: 'Eigener Preis',
           description: 'Verlängern Sie um denselbern Beitrag wie letztes Jahr.',
-          ownPrice: true,
-          suggested: true
+          userPrice: true,
+          favorite: true
         },
         {
           price: 24000,
           label: 'Regulär',
           description:
             'Mit Ihrem Beitrag garantieren Sie das Fortbestehen der Republik und des unabhängigen Journalismus.',
-          ownPrice: false,
-          suggested: false
+          userPrice: false,
+          favorite: false
         }
       ],
       reward: {
@@ -107,13 +106,13 @@ const packagePROLONG = {
     {
       id: 5678,
       name: 'BENEFACTOR',
-      variants: [
+      suggestions: [
         {
           price: 100000,
           label: 'Gönner',
           description: 'Sie werden Gönner.',
-          ownPrice: false,
-          suggested: false
+          userPrice: false,
+          favorite: false
         }
       ],
       reward: {
@@ -131,14 +130,14 @@ const packagePROLONG_BENEFACTOR = {
     {
       id: 1234,
       name: 'ABO',
-      variants: [
+      suggestions: [
         {
           price: 24000,
           label: 'Regulär',
           description:
             'Mit Ihrem Beitrag garantieren Sie das Fortbestehen der Republik und des unabhängigen Journalismus.',
-          ownPrice: false,
-          suggested: false
+          userPrice: false,
+          favorite: false
         }
       ],
       reward: {
@@ -149,13 +148,13 @@ const packagePROLONG_BENEFACTOR = {
     {
       id: 5678,
       name: 'BENEFACTOR',
-      variants: [
+      suggestions: [
         {
           price: 100000,
           label: 'Gönner',
           description: 'Sie werden Gönner.',
-          ownPrice: false,
-          suggested: true
+          userPrice: false,
+          favorite: true
         }
       ],
       reward: {
@@ -173,21 +172,21 @@ const packagePROLONG_EDU = {
     {
       id: 1234,
       name: 'ABO',
-      variants: [
+      suggestions: [
         {
           price: 14000,
           label: 'Ausbildungs-Abo',
           description: 'Ausbildung Description',
-          ownPrice: false,
-          suggested: true
+          userPrice: false,
+          favorite: true
         },
         {
           price: 24000,
           label: 'Regulär',
           description:
             'Mit Ihrem Beitrag garantieren Sie das Fortbestehen der Republik und des unabhängigen Journalismus.',
-          ownPrice: false,
-          suggested: false
+          userPrice: false,
+          favorite: false
         }
       ],
       reward: {
@@ -199,22 +198,14 @@ const packagePROLONG_EDU = {
 }
 
 const PackageABO = () => {
-  const [selectedVariant, setSelectedVariant] = useState(
-    packageABO.options[0].variants[0] || {}
-  )
-  const [ownPrice, setOwnPrice] = useState(null)
   return (
     <>
       <h2>Package ABO</h2>
       <MembershipSelector
         pkg={packageABO}
-        onVariantSelect={variant => {
-          setSelectedVariant(variant)
+        onSuggestionSelect={suggestion => {
+          console.log(suggestion)
         }}
-        onOwnPriceSelect={ownPrice => {
-          setOwnPrice(ownPrice)
-        }}
-        selectedVariant={selectedVariant}
       />
       <Editorial.A>Gönner werden</Editorial.A>
     </>
@@ -222,97 +213,60 @@ const PackageABO = () => {
 }
 
 const PackageBENEFACTOR = () => {
-  const [selectedVariant, setSelectedVariant] = useState(
-    packageBENEFACTOR.options[0].variants[0] || {}
-  )
-  const [ownPrice, setOwnPrice] = useState(null)
-
   return (
     <>
       <h2>Package BENEFACTOR</h2>
       <MembershipSelector
         pkg={packageBENEFACTOR}
-        onVariantSelect={variant => {
-          setSelectedVariant(variant)
+        onSuggestionSelect={suggestion => {
+          console.log(suggestion)
         }}
-        onOwnPriceSelect={ownPrice => {
-          setOwnPrice(ownPrice)
-        }}
-        selectedVariant={selectedVariant}
       />
     </>
   )
 }
 
 const PackagePROLONG = () => {
-  const variants = useMemo(() => {
-    const options = []
-    packagePROLONG.options.forEach(option => options.push(...option.variants))
-    return options
-  }, [packagePROLONG])
-
-  const selected = variants.find(v => v.suggested === true)
-
-  const [selectedVariant, setSelectedVariant] = useState(
-    selected || packagePROLONG.options[0].variants[0] || {}
-  )
-  const [ownPrice, setOwnPrice] = useState(null)
   return (
     <>
       <h2>Package PROLONG ABO</h2>
       <MembershipSelector
         pkg={packagePROLONG}
-        onVariantSelect={variant => {
-          setSelectedVariant(variant)
+        onSuggestionSelect={suggestion => {
+          console.log(suggestion)
         }}
-        onOwnPriceSelect={ownPrice => {
-          setOwnPrice(ownPrice)
-        }}
-        selectedVariant={selectedVariant}
       />
     </>
   )
 }
 
 const PackagePROLONG_BENEFACTOR = () => {
-  const [selectedVariant, setSelectedVariant] = useState(
-    packagePROLONG_BENEFACTOR.options[1].variants[0] || {}
-  )
-  const [ownPrice, setOwnPrice] = useState(null)
   return (
     <>
       <h2>Package PROLONG BENEFACTOR</h2>
       <MembershipSelector
         pkg={packagePROLONG_BENEFACTOR}
-        onVariantSelect={variant => {
-          setSelectedVariant(variant)
+        onSuggestionSelect={suggestion => {
+          console.log(suggestion)
         }}
-        onOwnPriceSelect={ownPrice => {
-          setOwnPrice(ownPrice)
-        }}
-        selectedVariant={selectedVariant}
       />
     </>
   )
 }
 
 const PackagePROLONG_EDU = () => {
-  const [selectedVariant, setSelectedVariant] = useState(
-    packagePROLONG_EDU.options[0].variants[0] || {}
+  const [selectedSuggestion, setSelectedSuggestion] = useState(
+    packagePROLONG_EDU.options[0].suggestions[0] || {}
   )
-  const [ownPrice, setOwnPrice] = useState(null)
+  const [userPrice, setuserPrice] = useState(null)
   return (
     <>
       <h2>Package PROLONG_EDU</h2>
       <MembershipSelector
         pkg={packagePROLONG_EDU}
-        onVariantSelect={variant => {
-          setSelectedVariant(variant)
+        onSuggestionSelect={suggestion => {
+          console.log(suggestion)
         }}
-        onOwnPriceSelect={ownPrice => {
-          setOwnPrice(ownPrice)
-        }}
-        selectedVariant={selectedVariant}
       />
     </>
   )

@@ -70,7 +70,7 @@ function useDiscussionPreferences(discussionId: string): DiscussionPreferences {
         discussionId,
         discussionPreferences: {
           anonymity,
-          credential,
+          credential: credential?.trim() || null,
           notifications
         }
       }

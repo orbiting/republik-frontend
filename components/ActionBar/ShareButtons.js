@@ -90,10 +90,14 @@ const ShareButtons = ({
       href: url,
       icon: LinkIcon,
       title: t('article/actionbar/link/title'),
-      label: t(
-        `article/actionbar/link/label${
-          copyLinkSuffix ? `/${copyLinkSuffix}` : ''
-        }`
+      label: (
+        <span style={{ display: 'inline-block', minWidth: 88 }}>
+          {t(
+            `article/actionbar/link/label${
+              copyLinkSuffix ? `/${copyLinkSuffix}` : ''
+            }`
+          )}
+        </span>
       ),
       onClick: e => {
         e.preventDefault()

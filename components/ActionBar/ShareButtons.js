@@ -149,7 +149,7 @@ const ShareButtons = ({
   ].filter(Boolean)
 
   return (
-    <div {...styles.buttonGroup} {...(grid && styles.grid)}>
+    <div {...styles.shared} {...styles[grid ? 'center' : 'left']}>
       {shareOptions.map(props => {
         if (props.name === 'threema' && !isIOS && !isAndroid) {
           // only show threema on mobile devices
@@ -178,23 +178,31 @@ const ShareButtons = ({
 }
 
 const styles = {
-  buttonGroup: css({
+  shared: css({
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    '& > a': {
-      flex: 'auto',
-      marginTop: 15,
-      marginBottom: 15,
-      flexGrow: 0
-    },
     '@media print': {
       display: 'none'
+    },
+    '& > a': {
+      flex: 'auto',
+      flexGrow: 0
     }
   }),
-  grid: css({
+  left: css({
+    justifyContent: 'flex-start',
+    '& > a': {
+      marginTop: 15
+    }
+  }),
+  center: css({
+    display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    '& > a': {
+      margin: 15
+    }
   })
 }
 

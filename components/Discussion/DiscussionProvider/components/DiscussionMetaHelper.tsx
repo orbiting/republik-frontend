@@ -30,7 +30,7 @@ const DiscussionMetaHelper = () => {
             authorName: metaFocus.displayAuthor.name,
             quotedDiscussionTitle: inQuotes(discussion.title)
           }),
-          description: metaFocus.preview,
+          description: metaFocus.preview ? metaFocus.preview.string : undefined,
           url: getFocusUrl(discussion, discussion.comments.focus)
         }}
       />

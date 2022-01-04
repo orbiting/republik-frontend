@@ -1,28 +1,12 @@
 {
   "data": [
     {
-      "key": "vote/201907/discussion/title",
-      "value": "Fragen Sie!"
-    },
-    {
-      "key": "vote/201907/discussion/intro",
-      "value": "Während der <a href='/vote/juli19'>Abstimmung</a> vom 4. bis zum 14. Juli 2019 möchten wir mit Ihnen diskutieren. Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Wir freuen uns auf Ihren Beitrag.\n\n<ul>\n<li>Haben Sie Verständnisfragen?</li>\n<li>Was können wir bei der nächsten Abstimmung besser machen?</li>\n<li>Oder brauchen Sie technische Unterstützung beim Abstimmen?</li>\n</ul>"
-    },
-    {
-      "key": "vote/201912/discussion/title",
-      "value": "Fragen Sie!"
-    },
-    {
       "key": "info/description",
       "value": "Urabstimmung der Project R Genossenschaft"
     },
     {
       "key": "info/title",
       "value": "Ihre Stimme für Project R!"
-    },
-    {
-      "key": "info/marketing/intro",
-      "value": "Die Mitglieder der Project R Genossenschaft können hier in den nächsten Wochen für den Genossenschaftsrat kandidieren und an der Wahl vom 17. bis 28. Oktober teilnehmen. \n\n<strong>Sie haben ein Monatsabonnement?</strong> <br />\nDann sind Sie nicht Mitglied der Genossenschaft: Sie können nicht kandidieren, wählen und abstimmen. Sie möchten das dennoch tun? Wechseln Sie bis zum 16. Oktober auf ein <a href=\"https://www.republik.ch/angebote?package=ABO\">Jahresabonnement</a>.\n"
     },
     {
       "key": "info/candidacy/previewLabel",
@@ -197,8 +181,20 @@
       "value": "Abstimmen"
     },
     {
+      "key": "vote/voting/confirmAnswer",
+      "value": "Mit {answer} stimmen?"
+    },
+    {
+      "key": "vote/voting/confirmEmpty",
+      "value": "Leer einlegen?"
+    },
+    {
       "key": "vote/voting/thankyou",
       "value": "Ihre Stimme ist am {submissionDate} bei uns eingegangen.\nDanke für Ihre Teilnahme!"
+    },
+    {
+      "key": "vote/voting/empty/error",
+      "value": "Sie dürfen nicht leer einlegen."
     },
     {
       "key": "vote/common/help/blank",
@@ -207,10 +203,6 @@
     {
       "key": "vote/common/help/final",
       "value": "Eingelegte Stimmen sind definitiv."
-    },
-    {
-      "key": "vote/common/thankyou",
-      "value": "Alles erledigt. Vielen Dank für Ihre Stimme!\\n\\nWir melden uns sobald es Resultate gibt.\\n\\nZurück zur <a href='https://www.republik.ch/'>Republik</A>."
     },
     {
       "key": "vote/voting/optionYES",
@@ -229,60 +221,12 @@
       "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober fanden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie Ihre Fragen unter <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Dafür finden sie unten die Debatte <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
     },
     {
-      "key": "vote/discussion/boardTitle",
-      "value": "Project-R-Crew"
-    },
-    {
-      "key": "vote/discussion/boardIntro",
-      "value": "Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Hier ist der richtige Ort dafür. \n\n<ul>\n<li>Haben Sie Fragen zur Jahresrechnung?</li>\n<li>Regt sich beim Budget Widerspruch in Ihnen?</li>\n<li>Oder brauchen Sie technische Unterstützung beim Abstimmen und Wählen?</li>\n</ul>\n\nLesen Sie dazu auch «<a href='https://www.republik.ch/2018/10/17/ihre-entscheidung'>Ihre Entscheidung</A>»."
-    },
-    {
-      "key": "vote/discussion/presidentTitle",
-      "value": "Präsidium"
-    },
-    {
-      "key": "vote/discussion/presidentIntro",
-      "value": "Hier können Sie alles fragen, was Sie für Ihre Wahlentscheidung brauchen. Wichtig: Wir wünschen uns einen sachlich-konstruktiven Ton. Bitte vermeiden Sie darum Wahlkampfrhetorik. Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Sie könnten den Kandidatinnen beispielsweise zu folgenden Themen auf den Zahn fühlen:\n\n<ul>\n<lI>Wie würden Sie den Rat organisieren?</li>\n<li>Was finden Sie wichtig beim Aufbau des Rates?</li>\n<li>Welche Themenschwerpunkte möchten Sie setzen?</li>\n</ul>\n"
-    },
-    {
-      "key": "vote/discussion/membersTitle",
-      "value": "Genossenschaftsrat"
-    },
-    {
-      "key": "vote/discussion/membersIntro",
-      "value": "Fragen Sie Ihre Kandidatinnen! Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Hier ein paar Fragen, die wir spannend fänden:\n\n<ul>\n<li>Wofür möchten Sie sich im Rat einsetzen?</li>\n<li>Was ist Ihre Motivation, für den Rat zu kandidieren?</li>\n<li>Welche Qualitäten und Ideen bringen Sie ins Gremium?</li>\n</ul>"
-    },
-    {
-      "key": "common/moreInfo",
-      "value": "Weitere Informationen"
-    },
-    {
-      "key": "common/hamburgerEntry",
-      "value": "Urabstimmung"
-    },
-    {
       "key": "common/missingUsername",
       "value": "Profil URL fehlt"
     },
     {
-      "key": "common/missingAddressTitle",
-      "value": "Bevor Sie abstimmen"
-    },
-    {
       "key": "common/missingAddressBody",
       "value": "Um an der Urabstimmung teilnehmen zu können, bitten wir Sie, uns Ihre Adresse anzugeben. Danke!"
-    },
-    {
-      "key": "common/missingAddressDisabledMessage",
-      "value": "Bitte geben Sie Ihre <a href=\"#adresse\">Adresse</a> an, bevor Sie teilnehmen."
-    },
-    {
-      "key": "common/signInTitle",
-      "value": "Melden Sie sich an."
-    },
-    {
-      "key": "common/signInBody",
-      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem Wahlbeginn eine Jahresmitgliedschaft erworben haben."
     },
     {
       "key": "vote/voting/notSignedIn",

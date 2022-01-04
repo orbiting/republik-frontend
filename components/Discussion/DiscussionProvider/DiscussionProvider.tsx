@@ -95,6 +95,7 @@ const DiscussionProvider: FC<Props> = ({
   const shareOverlay = useOverlay<string>()
 
   const ctxValue = {
+    id: discussionId,
     discussion,
     loading: loading || focusLoading,
     error: error || focusError,

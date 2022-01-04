@@ -207,7 +207,10 @@ const ArticlePage = ({
 
   const { me, meLoading, hasAccess, hasActiveMembership, isEditor } = useMe()
 
-  const cleanedPath = cleanAsPath(router.asPath)
+  const cleanedPath = cleanAsPath(
+    // In case /ssr is prefixed due to ssr-fallback remove it
+    router.asPath.replace(/\^\/ssr/, '')
+  )
 
   const {
     data: articleData,

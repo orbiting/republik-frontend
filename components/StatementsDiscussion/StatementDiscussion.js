@@ -9,6 +9,7 @@ import CommentsOptions from '../Discussion/CommentsOptions'
 import { useRouter } from 'next/router'
 import StatementNodeWrapper from './StatementNodeWrapper'
 import DiscussionComposerWrapper from '../Discussion/DiscussionProvider/components/DiscussionComposerWrapper'
+import { getFocusHref } from '../Discussion/CommentLink'
 
 const StatementDiscussion = ({ t, tagMappings }) => {
   const {
@@ -41,9 +42,16 @@ const StatementDiscussion = ({ t, tagMappings }) => {
 
   const handleReload = e => {
     e.preventDefault()
-    refetch({
-      discussionId: discussion.id
-    })
+    const href = getFocusHref(discussion)
+    if (href) {
+      router.replace(href).then(() => {
+        refetch({
+          focusId: undefined
+        })
+      })
+    } else {
+      refetch()
+    }
   }
 
   return (

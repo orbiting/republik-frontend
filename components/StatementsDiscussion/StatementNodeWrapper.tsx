@@ -8,9 +8,9 @@ import getStatementActions from './getStatementActions'
 import StatementComposer from './StatementComposer'
 import { getFocusHref } from '../Discussion/CommentLink'
 
-function getLinkComponent(discussion, comment) {
+function getLinkComponent(href) {
   const WrappedLink: FC = ({ children }) => (
-    <Link href={getFocusHref(discussion, comment)} passHref>
+    <Link href={href} passHref>
       {children}
     </Link>
   )
@@ -52,8 +52,19 @@ const StatementNodeWrapper = ({
   }, [discussion?.comments, comment])
 
   const FocusLink = useMemo(() => {
-    return getLinkComponent(discussion, comment)
+    return getLinkComponent(getFocusHref(discussion, comment))
   }, [discussion, comment])
+
+  const ProfileLink = useMemo(() => {
+    let href
+    // Create a link to the user profile or for anonymous users a link to the comment
+    if (comment?.displayAuthor?.slug) {
+      href = `/~${comment.displayAuthor.slug}`
+    } else {
+      href = getFocusHref(discussion, comment)
+    }
+    return getLinkComponent(href)
+  }, [discussion, comment?.displayAuthor])
 
   if (editMode) {
     return (
@@ -87,7 +98,8 @@ const StatementNodeWrapper = ({
       tagMappings={tagMappings}
       isHighlighted={isFocused}
       disableVoting={!discussion.userCanComment}
-      Link={FocusLink}
+      FocusLink={FocusLink}
+      ProfileLink={ProfileLink}
     />
   )
 }

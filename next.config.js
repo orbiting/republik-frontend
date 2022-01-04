@@ -57,7 +57,7 @@ module.exports = withBundleAnalyzer({
           {
             type: 'header',
             key: 'User-Agent',
-            value: '(Googlebot|facebookexternalhit|Twitterbot)'
+            value: '.*(Googlebot|facebookexternalhit|Twitterbot).*'
           }
         ]
       }

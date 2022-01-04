@@ -56,6 +56,7 @@ const StatementComposer = ({
             ? tagValue ?? availableTags[0]
             : undefined
         }
+        placeholder={t('components/Discussion/Statement/Placeholder')}
       />
     )
   }
@@ -65,6 +66,7 @@ const StatementComposer = ({
       displayAuthor={{}}
       onClick={() => setActive(true)}
       onSubmitLabel={t('styleguide/CommentComposer/answer')}
+      placeholder={t('components/Discussion/Statement/Placeholder')}
     />
   )
 }

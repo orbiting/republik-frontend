@@ -1741,6 +1741,10 @@
       "value": "Allgemeine Einstellungen"
     },
     {
+      "key": "components/Discussion/Statement/Placeholder",
+      "value": "Plädoyer verfassen..."
+    },
+    {
       "key": "components/Discussion/etiquette",
       "value": "Etikette"
     },

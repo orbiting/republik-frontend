@@ -50,8 +50,8 @@ module.exports = withBundleAnalyzer({
       },
       // Rewrite for crawlers when a comment is focused inside a debate on the article-site
       {
-        source: '/:path',
-        destination: '/ssr/:path',
+        source: '/:path*',
+        destination: '/_ssr/:path*',
         has: [
           { type: 'query', key: 'focus' },
           {
@@ -60,23 +60,16 @@ module.exports = withBundleAnalyzer({
             value: '(Googlebot|facebookexternalhit|Twitterbot)'
           }
         ]
-      },
-      // Rewrite to ssg page if not crawler
-      {
-        source: '/ssr/:path',
-        destination: '/:path',
-        has: [
-          {
-            type: 'header',
-            key: 'User-Agent',
-            value: '(?!(Googlebot|facebookexternalhit|Twitterbot))'
-          }
-        ]
       }
     ]
   },
   async redirects() {
     return [
+      {
+        source: '/_ssr/:path*',
+        destination: '/:path*',
+        permanent: true
+      },
       {
         source: '/~/:slug',
         destination: '/~:slug',

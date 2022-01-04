@@ -64,6 +64,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
                     })
                   }
                   availableTags={discussion.tags}
+                  displayAuthor={discussion?.displayAuthor}
                 />
               </DiscussionComposerWrapper>
             )}

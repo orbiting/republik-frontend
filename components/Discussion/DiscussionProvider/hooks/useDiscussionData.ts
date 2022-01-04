@@ -168,43 +168,14 @@ function useDiscussionData(
     })
   }, [loadedDiscussionId, initialParentId])
 
-  /**
-   * --- FOCUS LOGIC ---
-   */
-  const [focusState, setFocusState] = useState({
-    focusId: options.focusId,
-    loading: !!options.focusId,
-    error: undefined
-  })
-
-  useEffect(() => {
-    if (options.focusId != focusState.focusId) {
-      setFocusState(state => ({
-        ...state,
-        focusId: options.focusId
-      }))
-    }
-  }, [options.focusId, focusState.focusId])
-
-  useEffect(() => {
-    if (loading || !discussion || !focusState.loading) {
-      return
-    }
-
-    if (discussion && discussion.comments.focus) {
-      const focusedComment = discussion.comments.nodes.find(
-        comment => comment.id === discussion.comments.focus.id
-      )
-
-      if (focusedComment) {
-        setFocusState(state => ({ ...state, loading: false }))
-      }
-    }
-  }, [loading, discussion, focusState])
+  const focusId = options.focusId
+  const focusLoading = !discussion?.comments?.nodes?.find(
+    comment => comment.id === focusId
+  )
 
   return {
     discussion: discussion || previousData,
-    loading: loading || focusState.loading,
+    loading: loading || focusLoading,
     error,
     refetch,
     fetchMore: enhancedFetchMore

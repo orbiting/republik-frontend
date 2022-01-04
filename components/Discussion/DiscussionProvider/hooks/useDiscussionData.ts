@@ -191,7 +191,6 @@ function useDiscussionData(
       return
     }
 
-    console.debug('looking for focused comment')
     if (discussion && discussion.comments.focus) {
       const focusedComment = discussion.comments.nodes.find(
         comment => comment.id === discussion.comments.focus.id
@@ -199,7 +198,6 @@ function useDiscussionData(
 
       if (focusedComment) {
         setFocusState(state => ({ ...state, loading: false }))
-        console.debug('FOUND FOCUSED COMMENT!')
       }
     }
   }, [loading, discussion, focusState])

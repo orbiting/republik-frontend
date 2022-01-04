@@ -21,8 +21,6 @@ const DiscussionMetaHelper = () => {
   if (discussion.comments.focus) {
     const metaFocus = discussion.comments.focus
 
-    console.debug('render comment meta')
-
     return (
       <Meta
         data={{
@@ -40,7 +38,6 @@ const DiscussionMetaHelper = () => {
   }
 
   if (discussion) {
-    console.debug('render discuission meta')
     return (
       <Meta
         data={{

@@ -53,9 +53,8 @@ const StatementDiscussion = ({ t, tagMappings }) => {
       render={() => (
         <div>
           <div>
-            <TagFilter discussion={discussion} />
             {actions.submitCommentHandler && (
-              <DiscussionComposerWrapper isTopLevel showPayNotes={false}>
+              <DiscussionComposerWrapper isTopLevel showPayNotes>
                 <StatementComposer
                   t={t}
                   refetch={refetch}
@@ -70,6 +69,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
             )}
           </div>
           <div>
+            <TagFilter discussion={discussion} />
             <CommentsOptions
               t={t}
               resolvedOrderBy={discussion.comments.resolvedOrderBy || orderBy}

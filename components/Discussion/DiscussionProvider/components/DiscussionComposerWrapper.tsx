@@ -3,7 +3,12 @@ import { useDiscussion } from '../context/DiscussionContext'
 import { useInNativeApp } from '../../../../lib/withInNativeApp'
 import { useMe } from '../../../../lib/context/MeContext'
 import Box from '../../../Frame/Box'
-import { Editorial, Interaction } from '@project-r/styleguide'
+import {
+  Editorial,
+  Interaction,
+  timeahead,
+  useCurrentMinute
+} from '@project-r/styleguide'
 import Link from 'next/link'
 import { useTranslation } from '../../../../lib/withT'
 
@@ -29,6 +34,11 @@ const DiscussionComposerWrapper = ({
   const { discussion } = useDiscussion()
   const { me } = useMe()
   const { t } = useTranslation()
+
+  const now = useCurrentMinute()
+  function timeAheadFromNow(dateString) {
+    return timeahead(t, (now - Date.parse(dateString)) / 1000)
+  }
 
   const isHiddenTopLevelComposer = useMemo(() => {
     return isTopLevel && !!discussion?.rules?.disableTopLevelComments
@@ -76,6 +86,23 @@ const DiscussionComposerWrapper = ({
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     /* @ts-ignore */
     return <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
+  }
+
+  const waitUntilDate =
+    discussion.userWaitUntil && new Date(discussion.userWaitUntil)
+
+  if (waitUntilDate && waitUntilDate > new Date()) {
+    return (
+      <Box style={{ padding: '15px 20px' }}>
+        <Interaction.P>
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
+          {t('styleguide/CommentComposer/wait', {
+            time: timeAheadFromNow(waitUntilDate)
+          })}
+        </Interaction.P>
+      </Box>
+    )
   }
 
   return <>{children}</>

@@ -217,7 +217,7 @@ const notificationCountQuery = gql`
   ${notificationInfo}
 `
 
-const MARK_NOTIFICATION_AS_READ_MUTATION = gql`
+export const MARK_NOTIFICATION_AS_READ_MUTATION = gql`
   mutation markNotificationAsRead($id: ID!) {
     markNotificationAsRead(id: $id) {
       ...notificationInfo

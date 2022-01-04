@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../../lib/constants'
 import { useRouter } from 'next/router'
 import useDiscussionData from './hooks/useDiscussionData'
@@ -11,6 +11,9 @@ import { getFocusUrl } from '../CommentLink'
 import { useTranslation } from '../../../lib/withT'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 import DiscussionMetaHelper from './components/DiscussionMetaHelper'
+import { useMutation } from '@apollo/client'
+import { MARK_NOTIFICATION_AS_READ_MUTATION } from '../../Notifications/enhancers'
+import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
 
 type Props = {
   children?: ReactNode
@@ -51,6 +54,8 @@ const DiscussionProvider: FC<Props> = ({
   )
 
   const actions = useDiscussionMutations()
+
+  useDiscussionNotificationHelper(discussion)
 
   const { loading: focusLoading, error: focusError } = useDiscussionFocusHelper(
     discussion

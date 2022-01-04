@@ -10,6 +10,7 @@ import { postMessage, useInNativeApp } from '../../../lib/withInNativeApp'
 import { getFocusUrl } from '../CommentLink'
 import { useTranslation } from '../../../lib/withT'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
+import DiscussionMetaHelper from './components/DiscussionMetaHelper'
 
 type Props = {
   children?: ReactNode
@@ -114,7 +115,12 @@ const DiscussionProvider: FC<Props> = ({
     <DiscussionContext.Provider value={ctxValue}>
       <div data-discussion-id={discussionId}>
         {children}
-        {discussion && <DiscussionOverlays />}
+        {discussion && (
+          <>
+            <DiscussionOverlays />
+            <DiscussionMetaHelper />
+          </>
+        )}
       </div>
     </DiscussionContext.Provider>
   )

@@ -24,12 +24,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
   const router = useRouter()
 
   const filteredStatements = useMemo(
-    () =>
-      discussion && discussion.comments
-        ? discussion.comments.nodes.filter(
-            comment => comment.published && !comment.adminUnpublished
-          )
-        : [],
+    () => (discussion && discussion.comments ? discussion.comments.nodes : []),
     [discussion]
   )
 

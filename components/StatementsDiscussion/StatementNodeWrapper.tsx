@@ -7,6 +7,7 @@ import { useMe } from '../../lib/context/MeContext'
 import getStatementActions from './getStatementActions'
 import StatementComposer from './StatementComposer'
 import { getFocusHref } from '../Discussion/CommentLink'
+import { format } from 'url'
 
 type Props = {
   comment: any
@@ -42,10 +43,10 @@ const StatementNodeWrapper = ({
     return focusedComment && focusedComment.id === comment.id
   }, [discussion?.comments, comment])
 
-  const focusHref = useMemo(() => getFocusHref(discussion, comment), [
-    discussion,
-    comment
-  ])
+  const focusHref = useMemo(() => {
+    const urlObject = getFocusHref(discussion, comment)
+    return format(urlObject)
+  }, [discussion, comment])
 
   const profileHref = useMemo(
     () =>

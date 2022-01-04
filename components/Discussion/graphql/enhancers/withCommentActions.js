@@ -18,37 +18,37 @@ import * as docs from '../documents'
  */
 
 export const withCommentActions = compose(
-  graphql(docs.upvoteCommentMutation, {
+  graphql(docs.UPVOTE_COMMENT_MUTATION, {
     props: ({ mutate }) => ({
       upvoteComment: comment =>
         mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
     })
   }),
-  graphql(docs.downvoteCommentMutation, {
+  graphql(docs.DOWN_VOTE_COMMENT_ACTION, {
     props: ({ mutate }) => ({
       downvoteComment: comment =>
         mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
     })
   }),
-  graphql(docs.unvoteCommentMutation, {
+  graphql(docs.UP_VOTE_COMMENT_ACTION, {
     props: ({ mutate }) => ({
       unvoteComment: comment =>
         mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
     })
   }),
-  graphql(docs.reportCommentMutation, {
+  graphql(docs.REPORT_COMMENT_MUTATION, {
     props: ({ mutate }) => ({
       reportComment: comment =>
         mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
     })
   }),
-  graphql(docs.unpublishCommentMutation, {
+  graphql(docs.UNPUBLISH_COMMENT_MUTATION, {
     props: ({ mutate }) => ({
       unpublishComment: comment =>
         mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
     })
   }),
-  graphql(docs.editCommentMutation, {
+  graphql(docs.EDIT_COMMENT_MUTATION, {
     props: ({ mutate }) => ({
       editComment: (comment, content, tags) => {
         return mutate({

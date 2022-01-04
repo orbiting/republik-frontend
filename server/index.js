@@ -147,34 +147,30 @@ app.prepare().then(() => {
     next()
   })
 
-  // Rate limiting added on 26.11.2021 to prevent
-  // page failing for to many requests
-  const rateLimiter = rateLimit({
-    windowMs: 60 * 1000,
-    max: function(req) {
-      const {
-        headers: { cookie }
-      } = req
+  const ROUTES_WITH_RATE_LIMIT = (process.env.ROUTES_WITH_RATE_LIMIT || '')
+    .split(';')
+    .filter(Boolean)
+  if (ROUTES_WITH_RATE_LIMIT.length) {
+    // Rate limiting added on 26.11.2021 to prevent
+    // page failing for to many requests
+    const rateLimiter = rateLimit({
+      windowMs: 60 * 1000,
+      max: function(req) {
+        const {
+          headers: { cookie }
+        } = req
 
-      // If user is logged in, 20 requests per minute are allowed. Otherwise, only 5 requests/min allowed.
-      if (cookie && cookie.includes('connect.sid')) {
-        return 20
-      }
-      return 5
-    },
-    message: 'Too many requests. Try again later.'
-  })
-
-  const ROUTES_WITH_RATE_LIMIT = [
-    '^/[0-9]{4}/?$', // e.g. /2021
-    '^/$',
-    '^/angebote',
-    '^/community',
-    '^/dialog',
-    '^/wahltindaer'
-  ]
-
-  server.use(ROUTES_WITH_RATE_LIMIT, rateLimiter)
+        // If user is logged in, 20 requests per minute are allowed. Otherwise, only 5 requests/min allowed.
+        if (cookie && cookie.includes('connect.sid')) {
+          return 20
+        }
+        return 5
+      },
+      message: 'Too many requests. Try again later.'
+    })
+    console.log('ROUTES_WITH_RATE_LIMIT', ROUTES_WITH_RATE_LIMIT)
+    server.use(ROUTES_WITH_RATE_LIMIT, rateLimiter)
+  }
   server.use(express.static('public'))
   server.all('*', (req, res) => {
     return handler(req, res)

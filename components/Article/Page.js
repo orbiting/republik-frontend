@@ -79,6 +79,8 @@ import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
+import StatementDiscussion from '../StatementsDiscussion/StatementDiscussion'
+import DiscussionProvider from '../Discussion/DiscussionProvider/DiscussionProvider'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,
@@ -676,14 +678,22 @@ const ArticlePage = ({
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
-                  <Discussion
-                    discussionId={ownDiscussion.id}
-                    focusId={router.query.focus}
-                    parent={router.query.parent}
-                    mute={!!router.query.mute}
-                    board={ownDiscussion.isBoard}
-                    showPayNotes
-                  />
+                  {articleContent?.meta?.discussionType === 'statements' ? (
+                    <DiscussionProvider discussionId={ownDiscussion.id}>
+                      <StatementDiscussion
+                        tagMappings={articleContent.meta.tagMappings}
+                      />
+                    </DiscussionProvider>
+                  ) : (
+                    <Discussion
+                      discussionId={ownDiscussion.id}
+                      focusId={router.query.focus}
+                      parent={router.query.parent}
+                      mute={!!router.query.mute}
+                      board={ownDiscussion.isBoard}
+                      showPayNotes
+                    />
+                  )}
                 </Center>
               )}
               {showNewsletterSignupBottom && (

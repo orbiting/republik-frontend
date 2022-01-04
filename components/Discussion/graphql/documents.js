@@ -44,10 +44,11 @@ export const discussionFragmentQuery = gql`
   ${fragments.discussion}
 `
 
-export const discussionPreferencesQuery = gql`
+export const DISCUSSION_PREFERENCES_QUERY = gql`
   query discussionPreferences($discussionId: ID!) {
     me {
       id
+      name
       credentials {
         description
         verified
@@ -55,87 +56,13 @@ export const discussionPreferencesQuery = gql`
       }
       defaultDiscussionNotificationOption
       discussionNotificationChannels
-    }
-    discussion(id: $discussionId) {
-      ...Discussion
-    }
-  }
-  ${fragments.discussion}
-`
-
-export const discussionQuery = gql`
-  query discussion(
-    $discussionId: ID!
-    $parentId: ID
-    $after: String
-    $orderBy: DiscussionOrder!
-    $depth: Int!
-    $focusId: ID
-    $includeParent: Boolean
-    $activeTag: String
-  ) {
-    me {
-      id
-      name
       portrait
     }
     discussion(id: $discussionId) {
       ...Discussion
-      allComments: comments(
-        parentId: $parentId
-        after: $after
-        orderBy: $orderBy
-        first: 100
-        flatDepth: $depth
-        focusId: $focusId
-        includeParent: $includeParent
-      ) {
-        totalCount
-      }
-      comments(
-        parentId: $parentId
-        after: $after
-        orderBy: $orderBy
-        first: 100
-        flatDepth: $depth
-        focusId: $focusId
-        includeParent: $includeParent
-        tag: $activeTag
-      ) {
-        totalCount
-        resolvedOrderBy
-        directTotalCount
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-        focus {
-          id
-          parentIds
-          preview(length: 300) {
-            string
-          }
-          displayAuthor {
-            id
-            name
-          }
-        }
-        nodes {
-          ...Comment
-          comments {
-            totalCount
-            directTotalCount
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-          }
-        }
-      }
     }
   }
   ${fragments.discussion}
-  ${fragments.comment}
 `
 
 export const commentPreviewQuery = gql`
@@ -187,7 +114,7 @@ export const commentPreviewQuery = gql`
  * MUTATIONS
  */
 
-export const submitCommentMutation = gql`
+export const SUBMIT_COMMENT_MUTATION = gql`
   mutation submitComment(
     $discussionId: ID!
     $parentId: ID
@@ -215,7 +142,7 @@ export const submitCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const upvoteCommentMutation = gql`
+export const UPVOTE_COMMENT_MUTATION = gql`
   mutation upvoteCommentMutation($commentId: ID!) {
     upvoteComment(id: $commentId) {
       ...Comment
@@ -224,7 +151,7 @@ export const upvoteCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const reportCommentMutation = gql`
+export const REPORT_COMMENT_MUTATION = gql`
   mutation reportCommentMutation($commentId: ID!) {
     reportComment(id: $commentId) {
       ...Comment
@@ -233,7 +160,7 @@ export const reportCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const featureCommentMutation = gql`
+export const FEATURE_COMMENT_MUTATION = gql`
   mutation featureCommentMutation(
     $commentId: ID!
     $content: String
@@ -246,7 +173,7 @@ export const featureCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const downvoteCommentMutation = gql`
+export const DOWN_VOTE_COMMENT_ACTION = gql`
   mutation downvoteComment($commentId: ID!) {
     downvoteComment(id: $commentId) {
       ...Comment
@@ -255,7 +182,7 @@ export const downvoteCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const unvoteCommentMutation = gql`
+export const UP_VOTE_COMMENT_ACTION = gql`
   mutation unvoteComment($commentId: ID!) {
     unvoteComment(id: $commentId) {
       ...Comment
@@ -264,7 +191,7 @@ export const unvoteCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const editCommentMutation = gql`
+export const EDIT_COMMENT_MUTATION = gql`
   mutation editComment($commentId: ID!, $content: String!, $tags: [String!]) {
     editComment(id: $commentId, content: $content, tags: $tags) {
       ...Comment
@@ -273,7 +200,7 @@ export const editCommentMutation = gql`
   ${fragments.comment}
 `
 
-export const unpublishCommentMutation = gql`
+export const UNPUBLISH_COMMENT_MUTATION = gql`
   mutation unpublishComment($commentId: ID!) {
     unpublishComment(id: $commentId) {
       ...Comment
@@ -298,7 +225,7 @@ export const updateNotificationSettingsMutation = gql`
   }
 `
 
-export const setDiscussionPreferencesMutation = gql`
+export const SET_DISCUSSION_PREFERENCES_MUTATION = gql`
   mutation setDiscussionPreferences(
     $discussionId: ID!
     $discussionPreferences: DiscussionPreferencesInput!
@@ -329,7 +256,7 @@ export const webNotificationSubscription = gql`
   }
 `
 
-export const commentsSubscription = gql`
+export const COMMENT_SUBSCRIPTION = gql`
   subscription discussionComments($discussionId: ID!) {
     comment(discussionId: $discussionId) {
       mutation

@@ -112,8 +112,10 @@ const DiscussionProvider: FC<Props> = ({
 
   return (
     <DiscussionContext.Provider value={ctxValue}>
-      {children}
-      {discussion && <DiscussionOverlays />}
+      <div data-discussion-id={discussionId}>
+        {children}
+        {discussion && <DiscussionOverlays />}
+      </div>
     </DiscussionContext.Provider>
   )
 }

@@ -37,21 +37,6 @@ const DiscussionMetaHelper = () => {
     )
   }
 
-  if (discussion) {
-    return (
-      <Meta
-        data={{
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          title: t('discussion/meta/title', {
-            quotedDiscussionTitle: inQuotes(discussion.title)
-          }),
-          url: getFocusUrl(discussion)
-        }}
-      />
-    )
-  }
-
   return <></>
 }
 

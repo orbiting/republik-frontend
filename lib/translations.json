@@ -1945,6 +1945,10 @@
       "value": "Beitrag teilen"
     },
     {
+      "key": "styleguide/CommentActions/share/short",
+      "value": "Teilen"
+    },
+    {
       "key": "styleguide/CommentTeaser/comment/link",
       "value": "Beitrag in {link}"
     },

@@ -181,6 +181,14 @@
       "value": "Abstimmen"
     },
     {
+      "key": "vote/voting/confirmAnswer",
+      "value": "Mit {answer} stimmen?"
+    },
+    {
+      "key": "vote/voting/confirmEmpty",
+      "value": "Leer einlegen?"
+    },
+    {
       "key": "vote/voting/thankyou",
       "value": "Ihre Stimme ist am {submissionDate} bei uns eingegangen.\nDanke für Ihre Teilnahme!"
     },

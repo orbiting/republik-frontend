@@ -13,7 +13,8 @@ const StatementComposer = ({
   // Props below are used for editing a comment
   initialText,
   tagValue,
-  onClose
+  onClose,
+  displayAuthor
 }) => {
   const [active, setActive] = useState(!!initialText)
 
@@ -56,15 +57,17 @@ const StatementComposer = ({
             ? tagValue ?? availableTags[0]
             : undefined
         }
+        placeholder={t('components/Discussion/Statement/Placeholder')}
       />
     )
   }
   return (
     <CommentComposerPlaceholder
       t={t}
-      displayAuthor={{}}
+      displayAuthor={displayAuthor ?? {}}
       onClick={() => setActive(true)}
       onSubmitLabel={t('styleguide/CommentComposer/answer')}
+      placeholder={t('components/Discussion/Statement/Placeholder')}
     />
   )
 }
@@ -78,5 +81,6 @@ StatementComposer.propTypes = {
   refetch: PropTypes.func,
   initialText: PropTypes.string,
   tagValue: PropTypes.string,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  displayAuthor: PropTypes.object
 }

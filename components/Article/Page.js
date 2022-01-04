@@ -460,7 +460,7 @@ const ArticlePage = ({
     )}`
 
   const metaWithSocialImages =
-    meta && meta.discussionId && router.query.focus
+    meta?.ownDiscussion?.id && router.query.focus
       ? undefined
       : meta && {
           ...meta,

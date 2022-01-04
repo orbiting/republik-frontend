@@ -9,6 +9,7 @@ import { useTranslation } from '../../../../lib/withT'
 const DiscussionOverlays = () => {
   const { t } = useTranslation()
   const {
+    id,
     discussion,
     overlays: { preferencesOverlay, shareOverlay }
   } = useDiscussion()
@@ -17,7 +18,7 @@ const DiscussionOverlays = () => {
     loading,
     error,
     setDiscussionPreferencesHandler
-  } = useDiscussionPreferences(discussion?.id)
+  } = useDiscussionPreferences(id)
   const noPreferences = discussion?.userPreference?.notifications === null
   const autoCredential =
     noPreferences &&

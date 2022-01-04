@@ -93,7 +93,7 @@ const Voting = compose(
     addressData,
     vt,
     description,
-    messages
+    messages = {}
   }) => {
     const [selectedValue, setSelectedValue] = useState(null)
     const [isConfirm, setConfirm] = useState(false)

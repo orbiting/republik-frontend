@@ -53,13 +53,12 @@ module.exports = withBundleAnalyzer({
         source: '/:path*',
         destination: '/_ssr/:path*',
         has: [
-          { type: 'query', key: 'focus' }
-          // Try to disable to see if Twitter checks if it's UA based
-          // {
-          //   type: 'header',
-          //   key: 'User-Agent',
-          //   value: '(Googlebot|facebookexternalhit|Twitterbot)'
-          // }
+          { type: 'query', key: 'focus' },
+          {
+            type: 'header',
+            key: 'User-Agent',
+            value: '(Googlebot|facebookexternalhit|Twitterbot)'
+          }
         ]
       }
     ]

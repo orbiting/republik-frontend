@@ -57,6 +57,7 @@ const DiscussionProvider: FC<Props> = ({
 
   const { loading: focusLoading, error: focusError } = useDiscussionFocusHelper(
     focusId,
+    loading,
     discussion
   )
 

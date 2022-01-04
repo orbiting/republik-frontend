@@ -11,8 +11,6 @@ import { getFocusUrl } from '../CommentLink'
 import { useTranslation } from '../../../lib/withT'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 import DiscussionMetaHelper from './components/DiscussionMetaHelper'
-import { useMutation } from '@apollo/client'
-import { MARK_NOTIFICATION_AS_READ_MUTATION } from '../../Notifications/enhancers'
 import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
 
 type Props = {
@@ -58,6 +56,7 @@ const DiscussionProvider: FC<Props> = ({
   useDiscussionNotificationHelper(discussion)
 
   const { loading: focusLoading, error: focusError } = useDiscussionFocusHelper(
+    focusId,
     discussion
   )
 
@@ -97,8 +96,8 @@ const DiscussionProvider: FC<Props> = ({
   const ctxValue = {
     id: discussionId,
     discussion,
-    loading: loading || focusLoading,
-    error: error || focusError,
+    loading: loading,
+    error: error,
     fetchMore,
     refetch,
     actions: {
@@ -111,6 +110,10 @@ const DiscussionProvider: FC<Props> = ({
     },
     orderBy,
     activeTag,
+    focus: {
+      loading: focusLoading,
+      error: focusError
+    },
     overlays: {
       preferencesOverlay,
       shareOverlay

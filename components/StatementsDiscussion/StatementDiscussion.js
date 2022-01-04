@@ -19,7 +19,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
     actions,
     fetchMore,
     orderBy,
-    overlays: { preferencesOverlay }
+    focus: { error: focusError }
   } = useDiscussion()
   const router = useRouter()
 
@@ -88,6 +88,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
                 discussion.comments.totalCount -
                 discussion.comments.nodes.length
               }
+              focusError={focusError?.message}
             >
               {filteredStatements.map(comment => (
                 <StatementNodeWrapper

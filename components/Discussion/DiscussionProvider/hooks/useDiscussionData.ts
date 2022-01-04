@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ApolloError, ApolloQueryResult, useQuery } from '@apollo/client'
 import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
 import produce from '../../../../lib/immer'
@@ -168,14 +168,9 @@ function useDiscussionData(
     })
   }, [loadedDiscussionId, initialParentId])
 
-  const focusId = options.focusId
-  const focusLoading = !discussion?.comments?.nodes?.find(
-    comment => comment.id === focusId
-  )
-
   return {
     discussion: discussion || previousData,
-    loading: loading || focusLoading,
+    loading: loading,
     error,
     refetch,
     fetchMore: enhancedFetchMore

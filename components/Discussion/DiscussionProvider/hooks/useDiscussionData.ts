@@ -37,7 +37,7 @@ type DiscussionData = {
   loading: boolean
   error: ApolloError
   refetch: (
-    variables: DiscussionQueryVariables
+    variables: Partial<DiscussionQueryVariables>
   ) => Promise<ApolloQueryResult<DiscussionQueryData>>
   fetchMore: (
     params: FetchMoreParams

@@ -5,7 +5,6 @@ import StatementComposer from './StatementComposer'
 import withT from '../../lib/withT'
 import TagFilter from '../Discussion/TagFilter'
 import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
-import { getFocusHref } from '../Discussion/CommentLink'
 import CommentsOptions from '../Discussion/CommentsOptions'
 import { useRouter } from 'next/router'
 import StatementNodeWrapper from './StatementNodeWrapper'
@@ -47,16 +46,9 @@ const StatementDiscussion = ({ t, tagMappings }) => {
 
   const handleReload = e => {
     e.preventDefault()
-    const href = getFocusHref(discussion)
-    if (href) {
-      router.replace(href).then(() => {
-        refetch({
-          focusId: undefined
-        })
-      })
-    } else {
-      refetch()
-    }
+    refetch({
+      discussionId: discussion.id
+    })
   }
 
   return (

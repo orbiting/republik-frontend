@@ -38,8 +38,9 @@ const DiscussionOverlays = () => {
           }}
           setDiscussionPreferences={setDiscussionPreferencesHandler}
           onClose={preferencesOverlay.handleClose}
-          /* tmp disabled since currently not handled in statement submit
-          autoCredential={autoCredential} */
+          autoCredential={
+            undefined /* autoCredential // tmp disabled since currently not handled in statement submit */
+          }
         />
       )}
 

@@ -15,17 +15,8 @@ import {
 } from '@project-r/styleguide'
 
 import { gql } from '@apollo/client'
-import { swissNumbers } from '../../lib/utils/format'
+import { countFormat } from '../../lib/utils/format'
 import VoteCountdown from './VoteCountdown'
-
-const count3Format = swissNumbers.format('.0f')
-const count4Format = swissNumbers.format(',.0f')
-const format = value => {
-  if (String(Math.round(value)).length > 3) {
-    return count4Format(value)
-  }
-  return count3Format(value)
-}
 
 const HEIGHT = 8
 
@@ -172,11 +163,11 @@ const GoalBar = ({
         return (
           <div {...styles.container}>
             <P {...colorScheme.set('color', 'text')}>
-              <span {...styles.primaryNumber}>{format(submitted)}</span>
+              <span {...styles.primaryNumber}>{countFormat(submitted)}</span>
               <span {...styles.label}>
                 {caption
-                  .replace('{currentGoal}', format(endGoal?.number))
-                  .replace('{firstGoal}', format(firstGoal?.number))}
+                  .replace('{currentGoal}', countFormat(endGoal?.number))
+                  .replace('{firstGoal}', countFormat(firstGoal?.number))}
               </span>
             </P>
             {endGoal && (
@@ -229,7 +220,7 @@ const GoalBar = ({
                               'secondary'
                             )}
                           >
-                            {format(currentGoal.number)}
+                            {countFormat(currentGoal.number)}
                           </div>
                           {!!hover.description && (
                             <div
@@ -254,7 +245,7 @@ const GoalBar = ({
                       dangerouslySetInnerHTML={{
                         __html: hover.description.replace(
                           '{count}',
-                          format(hover.number)
+                          countFormat(hover.number)
                         )
                       }}
                     />

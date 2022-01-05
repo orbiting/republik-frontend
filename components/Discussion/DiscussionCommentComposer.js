@@ -170,8 +170,7 @@ const DiscussionCommentComposer = props => {
                 },
                 previewComment: props.previewComment
               },
-              composerHints: composerHints(t),
-              composerSecondaryActions: <SecondaryActions />
+              composerHints: composerHints(t)
             }
 
             return (
@@ -184,6 +183,7 @@ const DiscussionCommentComposer = props => {
                   }}
                   onSubmit={submitComment}
                   onSubmitLabel={t('submitComment/rootSubmitLabel')}
+                  secondaryActions={<SecondaryActions />}
                 />
 
                 {showPreferences && (

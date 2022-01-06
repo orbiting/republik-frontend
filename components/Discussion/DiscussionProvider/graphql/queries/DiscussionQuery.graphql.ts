@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
-import * as fragments from '../../../graphql/fragments'
 import { DISCUSSION_FRAGMENT } from '../fragments/DiscussionFragment.graphql'
 import { makeQueryHook } from '../../../../../lib/helpers/AbstractApolloGQLHooks.helper'
+import { COMMENT_FRAGMENT } from '../fragments/CommentFragment.graphql'
 
 // Todo: Type Discussion object
 export type DiscussionObject = any
@@ -96,7 +96,7 @@ export const DISCUSSION_QUERY = gql`
     }
   }
   ${DISCUSSION_FRAGMENT}
-  ${fragments.COMMENT_FRAGMENT}
+  ${COMMENT_FRAGMENT}
 `
 
 export const useDiscussionQuery = makeQueryHook<

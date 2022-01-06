@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import * as fragments from '../../graphql/fragments'
+import { DISCUSSION_FRAGMENT } from './DiscussionFragment.graphql'
 
 // Todo: Type Discussion object
 export type DiscussionObject = any
@@ -93,6 +94,6 @@ export const DISCUSSION_QUERY = gql`
       }
     }
   }
-  ${fragments.discussion}
+  ${DISCUSSION_FRAGMENT}
   ${fragments.comment}
 `

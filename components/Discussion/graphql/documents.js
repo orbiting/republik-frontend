@@ -10,6 +10,7 @@
 
 import { gql } from '@apollo/client'
 import * as fragments from './fragments'
+import { DISCUSSION_FRAGMENT } from '../DiscussionProvider/graphql/DiscussionFragment.graphql'
 
 /*
  * QUERIES
@@ -24,7 +25,7 @@ export const discussionCommentsCountQuery = gql`
       }
     }
   }
-  ${fragments.discussion}
+  ${DISCUSSION_FRAGMENT}
 `
 export const discussionDisplayAuthorQuery = gql`
   query discussionDisplayAuthor($discussionId: ID!) {
@@ -32,7 +33,7 @@ export const discussionDisplayAuthorQuery = gql`
       ...Discussion
     }
   }
-  ${fragments.discussion}
+  ${DISCUSSION_FRAGMENT}
 `
 
 export const discussionFragmentQuery = gql`
@@ -41,7 +42,7 @@ export const discussionFragmentQuery = gql`
       ...Discussion
     }
   }
-  ${fragments.discussion}
+  ${DISCUSSION_FRAGMENT}
 `
 
 export const commentPreviewQuery = gql`
@@ -216,7 +217,7 @@ export const SET_DISCUSSION_PREFERENCES_MUTATION = gql`
       ...Discussion
     }
   }
-  ${fragments.discussion}
+  ${DISCUSSION_FRAGMENT}
 `
 
 /*

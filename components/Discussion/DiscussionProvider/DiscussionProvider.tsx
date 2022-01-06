@@ -104,7 +104,7 @@ const DiscussionProvider: FC<Props> = ({
     actions: {
       ...actions,
       shareHandler,
-      openDiscussionPreferences: () => {
+      preferencesHandler: () => {
         preferencesOverlay.handleOpen()
         return Promise.resolve({ ok: true })
       }

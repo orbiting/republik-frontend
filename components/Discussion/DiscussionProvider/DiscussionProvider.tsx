@@ -12,6 +12,7 @@ import { useTranslation } from '../../../lib/withT'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 import DiscussionMetaHelper from './components/DiscussionMetaHelper'
 import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
+import useDiscussionPreferences from './hooks/useDiscussionPreferences'
 
 type Props = {
   children?: ReactNode
@@ -50,6 +51,8 @@ const DiscussionProvider: FC<Props> = ({
       parentId
     }
   )
+
+  const preferences = useDiscussionPreferences(discussionId)
 
   const actions = useDiscussionMutations()
 
@@ -103,14 +106,11 @@ const DiscussionProvider: FC<Props> = ({
     refetch,
     actions: {
       ...actions,
-      shareHandler,
-      preferencesHandler: () => {
-        preferencesOverlay.handleOpen()
-        return Promise.resolve({ ok: true })
-      }
+      shareHandler
     },
     orderBy,
     activeTag,
+    preferences,
     focus: {
       loading: focusLoading,
       error: focusError

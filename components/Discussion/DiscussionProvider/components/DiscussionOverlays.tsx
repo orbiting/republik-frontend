@@ -17,7 +17,7 @@ const DiscussionOverlays = () => {
     preferences,
     loading,
     error,
-    setDiscussionPreferencesHandler
+    updateDiscussionPreferencesHandler
   } = useDiscussionPreferences(id)
   const noPreferences = discussion?.userPreference?.notifications === null
   const autoCredential =
@@ -36,7 +36,7 @@ const DiscussionOverlays = () => {
             loading,
             error
           }}
-          setDiscussionPreferences={setDiscussionPreferencesHandler}
+          setDiscussionPreferences={updateDiscussionPreferencesHandler}
           onClose={preferencesOverlay.handleClose}
           autoCredential={autoCredential}
         />

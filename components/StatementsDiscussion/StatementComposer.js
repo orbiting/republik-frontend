@@ -26,9 +26,12 @@ const StatementComposer = ({
   initialTagValue
 }) => {
   const { t } = useTranslation()
-  const { discussion, actions } = useDiscussion()
+  const { discussion, preferences, actions, overlays } = useDiscussion()
+
   const { discussionId, displayAuthor, tags, rules } = discussion
-  const { submitHandler, editCommentHandler, preferencesHandler } = actions
+  const { submitHandler, editCommentHandler } = actions
+  const { preferencesOverlay } = overlays
+
   const [active, setActive] = useState(!!initialText)
 
   // Create the submit-handler. In case a commentId was given, handle as edit
@@ -78,7 +81,7 @@ const StatementComposer = ({
             setActive(false)
           }
         }}
-        onOpenPreferences={preferencesHandler}
+        onOpenPreferences={() => preferencesOverlay.setOpen(true)}
         onPreviewComment={() => console.debug('NOT IMPLEMENTED YET')}
         hintValidators={composerHints(t)}
         displayAuthor={displayAuthor}

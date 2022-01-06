@@ -3,29 +3,52 @@ import {
   CommentComposer,
   CommentComposerPlaceholder
 } from '@project-r/styleguide'
-import PropTypes from 'prop-types'
+import PropTypes, { InferProps } from 'prop-types'
+import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
+import { useTranslation } from '../../lib/withT'
 
+const propTypes = {
+  onClose: PropTypes.func,
+  commentId: PropTypes.string,
+  initialText: PropTypes.string,
+  initialTagValue: PropTypes.string
+}
+
+/**
+ * Container component around a CommentComposer to be used inside a statement-discussion.
+ */
 const StatementComposer = ({
-  t,
-  onSubmit,
-  availableTags,
-  refetch,
-  // Props below are used for editing a comment
-  initialText,
-  tagValue,
   onClose,
-  displayAuthor
+  // Props below are used for editing a comment
+  commentId,
+  initialText,
+  initialTagValue
 }) => {
+  const { t } = useTranslation()
+  const { discussion, actions } = useDiscussion()
+  const { discussionId, displayAuthor, tags } = discussion
+  const { submitHandler, editCommentHandler, preferencesHandler } = actions
   const [active, setActive] = useState(!!initialText)
 
   const handleSubmit = async (value, tags) => {
     try {
-      await onSubmit(value, tags)
-      setActive(false)
-      if (refetch) {
-        refetch()
+      let response
+      if (!commentId) {
+        // A comment on the root-level
+        response = await submitHandler(value, tags, {
+          discussionId
+        })
+      } else {
+        response = await editCommentHandler(commentId, value, tags)
       }
-      return { ok: true }
+
+      setActive(false)
+
+      if (onClose) {
+        onClose()
+      }
+
+      return response
     } catch (err) {
       return {
         error: err
@@ -52,12 +75,12 @@ const StatementComposer = ({
             : t('styleguide/comment/edit/submit')
         }
         initialText={initialText}
-        tagValue={
-          availableTags && availableTags.length > 0
-            ? tagValue ?? availableTags[0]
-            : undefined
+        initialTag={
+          tags && tags.length > 0 ? initialTagValue ?? tags[0] : undefined
         }
         placeholder={t('components/Discussion/Statement/Placeholder')}
+        displayAuthor={displayAuthor}
+        onOpenPreferences={preferencesHandler}
       />
     )
   }
@@ -74,13 +97,4 @@ const StatementComposer = ({
 
 export default StatementComposer
 
-StatementComposer.propTypes = {
-  t: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  availableTags: PropTypes.arrayOf(PropTypes.string),
-  refetch: PropTypes.func,
-  initialText: PropTypes.string,
-  tagValue: PropTypes.string,
-  onClose: PropTypes.func,
-  displayAuthor: PropTypes.object
-}
+StatementComposer.propTypes = propTypes

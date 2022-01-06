@@ -10,7 +10,7 @@
 
 import { gql } from '@apollo/client'
 import * as fragments from './fragments'
-import { DISCUSSION_FRAGMENT } from '../DiscussionProvider/graphql/DiscussionFragment.graphql'
+import { DISCUSSION_FRAGMENT } from '../DiscussionProvider/graphql/fragments/DiscussionFragment.graphql'
 
 /*
  * QUERIES

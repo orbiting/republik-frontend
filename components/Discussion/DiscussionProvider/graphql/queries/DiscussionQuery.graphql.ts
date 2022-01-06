@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
-import * as fragments from '../../graphql/fragments'
-import { DISCUSSION_FRAGMENT } from './DiscussionFragment.graphql'
+import * as fragments from '../../../graphql/fragments'
+import { DISCUSSION_FRAGMENT } from '../fragments/DiscussionFragment.graphql'
 
 // Todo: Type Discussion object
 export type DiscussionObject = any

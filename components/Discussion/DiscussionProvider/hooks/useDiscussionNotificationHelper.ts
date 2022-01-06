@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { MARK_NOTIFICATION_AS_READ_MUTATION } from '../../../Notifications/enhancers'
-import { DiscussionObject } from '../graphql/DiscussionQuery.graphql'
+import { DiscussionObject } from '../graphql/queries/DiscussionQuery.graphql'
 
 function useDiscussionNotificationHelper(discussion: DiscussionObject) {
   /* ---- Handle notifications ---- */

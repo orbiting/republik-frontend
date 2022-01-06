@@ -1,20 +1,13 @@
 import { ApolloError, useMutation, useQuery, FetchResult } from '@apollo/client'
+import { SET_DISCUSSION_PREFERENCES_MUTATION } from '../../graphql/documents'
+import { toRejectedString } from '../../graphql/utils'
 import {
   DISCUSSION_PREFERENCES_QUERY,
-  SET_DISCUSSION_PREFERENCES_MUTATION
-} from '../../graphql/documents'
-import { toRejectedString } from '../../graphql/utils'
+  DiscussionPreferencesQueryResult,
+  DiscussionPreferencesQueryVariables
+} from '../graphql/queries/DiscussionPreferencesQuery.graphql'
 
 type DiscussionNotificationOption = 'MY_CHILDREN' | 'ALL' | 'NONE'
-
-// TODO: Define type
-type DiscussionPreferencesQueryData = {
-  me: any
-  discussion: any
-}
-
-// TODO: Define type
-type DiscussionPreferencesQueryVariables = Record<string, any>
 
 type SetDiscussionPreferencesMutationVariables = {
   discussionId: string
@@ -35,7 +28,7 @@ export type SetDiscussionPreferencesHandler = (
 ) => Promise<FetchResult<SetDiscussionPreferencesMutationResult>>
 
 type DiscussionPreferences = {
-  preferences: DiscussionPreferencesQueryData
+  preferences?: DiscussionPreferencesQueryResult
   loading: boolean
   error?: ApolloError
   updateDiscussionPreferencesHandler: SetDiscussionPreferencesHandler
@@ -43,7 +36,7 @@ type DiscussionPreferences = {
 
 function useDiscussionPreferences(discussionId: string): DiscussionPreferences {
   const { data, loading, error, refetch } = useQuery<
-    DiscussionPreferencesQueryData,
+    DiscussionPreferencesQueryResult,
     DiscussionPreferencesQueryVariables
   >(DISCUSSION_PREFERENCES_QUERY, {
     variables: { discussionId }

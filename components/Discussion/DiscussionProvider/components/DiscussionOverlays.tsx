@@ -14,7 +14,7 @@ const DiscussionOverlays = () => {
     overlays: { preferencesOverlay, shareOverlay }
   } = useDiscussion()
   const {
-    discussionPreferences,
+    preferences,
     loading,
     error,
     setDiscussionPreferencesHandler
@@ -23,7 +23,7 @@ const DiscussionOverlays = () => {
   const autoCredential =
     noPreferences &&
     !discussion?.userPreference?.anonymity &&
-    discussionPreferences?.me?.credentials?.find(c => c.isListed)
+    preferences?.me?.credentials?.find(c => c.isListed)
 
   return (
     <>
@@ -32,7 +32,7 @@ const DiscussionOverlays = () => {
           t={t}
           discussionId={discussion.id}
           discussionPreferences={{
-            ...discussionPreferences,
+            ...preferences,
             loading,
             error
           }}

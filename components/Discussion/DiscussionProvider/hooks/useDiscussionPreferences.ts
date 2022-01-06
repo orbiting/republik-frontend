@@ -35,7 +35,7 @@ export type SetDiscussionPreferencesHandler = (
 ) => Promise<FetchResult<SetDiscussionPreferencesMutationResult>>
 
 type DiscussionPreferences = {
-  discussionPreferences: DiscussionPreferencesQueryData
+  preferences: DiscussionPreferencesQueryData
   loading: boolean
   error?: ApolloError
   setDiscussionPreferencesHandler: SetDiscussionPreferencesHandler
@@ -83,7 +83,7 @@ function useDiscussionPreferences(discussionId: string): DiscussionPreferences {
   }
 
   return {
-    discussionPreferences: data,
+    preferences: data,
     loading,
     error,
     setDiscussionPreferencesHandler

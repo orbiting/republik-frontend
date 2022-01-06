@@ -38,7 +38,7 @@ type DiscussionPreferences = {
   preferences: DiscussionPreferencesQueryData
   loading: boolean
   error?: ApolloError
-  setDiscussionPreferencesHandler: SetDiscussionPreferencesHandler
+  updateDiscussionPreferencesHandler: SetDiscussionPreferencesHandler
 }
 
 function useDiscussionPreferences(discussionId: string): DiscussionPreferences {
@@ -60,7 +60,7 @@ function useDiscussionPreferences(discussionId: string): DiscussionPreferences {
    * @param credential
    * @param notifications
    */
-  async function setDiscussionPreferencesHandler(
+  async function updateDiscussionPreferencesHandler(
     anonymity: boolean,
     credential: string,
     notifications?: DiscussionNotificationOption
@@ -86,7 +86,7 @@ function useDiscussionPreferences(discussionId: string): DiscussionPreferences {
     preferences: data,
     loading,
     error,
-    setDiscussionPreferencesHandler
+    updateDiscussionPreferencesHandler
   }
 }
 

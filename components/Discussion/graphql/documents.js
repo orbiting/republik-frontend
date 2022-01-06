@@ -44,27 +44,6 @@ export const discussionFragmentQuery = gql`
   ${fragments.discussion}
 `
 
-export const DISCUSSION_PREFERENCES_QUERY = gql`
-  query discussionPreferences($discussionId: ID!) {
-    me {
-      id
-      name
-      credentials {
-        description
-        verified
-        isListed
-      }
-      defaultDiscussionNotificationOption
-      discussionNotificationChannels
-      portrait
-    }
-    discussion(id: $discussionId) {
-      ...Discussion
-    }
-  }
-  ${fragments.discussion}
-`
-
 export const commentPreviewQuery = gql`
   query commentPreview(
     $discussionId: ID!

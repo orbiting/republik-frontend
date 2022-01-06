@@ -251,9 +251,11 @@ const DiscussionPreferencesEditor = ({
             </Label>
             <CommentHeaderProfile
               t={t}
-              profilePicture={previewData.portrait}
-              name={previewData.name}
-              credential={previewData.credential}
+              displayAuthor={{
+                name: previewData.name,
+                profilePicture: previewData.portrait,
+                credential: previewData.credential
+              }}
             />
           </div>
         </div>

@@ -59,10 +59,10 @@ const StatementNodeWrapper = ({
   if (editMode) {
     return (
       <StatementComposer
+        onClose={() => setEditMode(false)}
         commentId={comment.id}
         initialText={comment.text}
         initialTagValue={comment.tags.length > 0 && comment.tags[0]}
-        onClose={() => setEditMode(false)}
       />
     )
   }

@@ -3,9 +3,10 @@ import {
   CommentComposer,
   CommentComposerPlaceholder
 } from '@project-r/styleguide'
-import PropTypes, { InferProps } from 'prop-types'
+import PropTypes from 'prop-types'
 import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
 import { useTranslation } from '../../lib/withT'
+import { composerHints } from '../Discussion/constants'
 
 const propTypes = {
   onClose: PropTypes.func,
@@ -26,10 +27,11 @@ const StatementComposer = ({
 }) => {
   const { t } = useTranslation()
   const { discussion, actions } = useDiscussion()
-  const { discussionId, displayAuthor, tags } = discussion
+  const { discussionId, displayAuthor, tags, rules } = discussion
   const { submitHandler, editCommentHandler, preferencesHandler } = actions
   const [active, setActive] = useState(!!initialText)
 
+  // Create the submit-handler. In case a commentId was given, handle as edit
   const handleSubmit = async (value, tags) => {
     try {
       let response
@@ -61,6 +63,14 @@ const StatementComposer = ({
       <CommentComposer
         t={t}
         isRoot
+        discussionId={discussion.id}
+        commentId={commentId}
+        onSubmit={({ text, tags }) => handleSubmit(text, tags)}
+        onSubmitLabel={
+          !initialText
+            ? t('submitComment/rootSubmitLabel')
+            : t('styleguide/comment/edit/submit')
+        }
         onClose={() => {
           if (onClose) {
             onClose()
@@ -68,19 +78,17 @@ const StatementComposer = ({
             setActive(false)
           }
         }}
-        onSubmit={({ text, tags }) => handleSubmit(text, tags)}
-        onSubmitLabel={
-          !initialText
-            ? t('submitComment/rootSubmitLabel')
-            : t('styleguide/comment/edit/submit')
-        }
+        onOpenPreferences={preferencesHandler}
+        onPreviewComment={() => console.debug('NOT IMPLEMENTED YET')}
+        hintValidators={composerHints(t)}
+        displayAuthor={displayAuthor}
+        placeholder={t('components/Discussion/Statement/Placeholder')}
+        maxLength={rules?.maxLength}
+        tags={tags}
         initialText={initialText}
         initialTag={
           tags && tags.length > 0 ? initialTagValue ?? tags[0] : undefined
         }
-        placeholder={t('components/Discussion/Statement/Placeholder')}
-        displayAuthor={displayAuthor}
-        onOpenPreferences={preferencesHandler}
       />
     )
   }

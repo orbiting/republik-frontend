@@ -94,34 +94,6 @@ export const commentPreviewQuery = gql`
  * MUTATIONS
  */
 
-export const SUBMIT_COMMENT_MUTATION = gql`
-  mutation submitComment(
-    $discussionId: ID!
-    $parentId: ID
-    $id: ID!
-    $content: String!
-    $tags: [String!]!
-  ) {
-    submitComment(
-      id: $id
-      discussionId: $discussionId
-      parentId: $parentId
-      content: $content
-      tags: $tags
-    ) {
-      ...Comment
-      discussion {
-        id
-        userPreference {
-          notifications
-        }
-        userWaitUntil
-      }
-    }
-  }
-  ${COMMENT_FRAGMENT}
-`
-
 export const UPVOTE_COMMENT_MUTATION = gql`
   mutation upvoteCommentMutation($commentId: ID!) {
     upvoteComment(id: $commentId) {

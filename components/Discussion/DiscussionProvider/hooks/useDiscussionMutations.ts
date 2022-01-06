@@ -4,12 +4,12 @@ import {
   DOWN_VOTE_COMMENT_ACTION,
   EDIT_COMMENT_MUTATION,
   REPORT_COMMENT_MUTATION,
-  SUBMIT_COMMENT_MUTATION,
   UNPUBLISH_COMMENT_MUTATION,
   UP_VOTE_COMMENT_ACTION,
   UPVOTE_COMMENT_MUTATION
 } from '../../graphql/documents'
 import { toRejectedString } from '../../graphql/utils'
+import { useSubmitCommentMutation } from '../graphql/mutations/SubmitCommentMutation.graphql'
 
 export type DiscussionMutations = {
   submitCommentHandler: any
@@ -22,7 +22,7 @@ export type DiscussionMutations = {
 }
 
 function useDiscussionMutations(): DiscussionMutations {
-  const [submitCommentMutation] = useMutation(SUBMIT_COMMENT_MUTATION)
+  const [submitCommentMutation] = useSubmitCommentMutation()
 
   const [editCommentMutation] = useMutation(EDIT_COMMENT_MUTATION)
   const [unpublishCommentMutation] = useMutation(UNPUBLISH_COMMENT_MUTATION)

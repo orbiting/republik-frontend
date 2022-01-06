@@ -6,11 +6,12 @@ import produce from '../../../../lib/immer'
 import withT from '../../../../lib/withT'
 
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'
-import { SUBMIT_COMMENT_MUTATION, commentPreviewQuery } from '../documents'
+import { commentPreviewQuery } from '../documents'
 import { toRejectedString } from '../utils'
 import { mergeComment, optimisticContent } from '../store'
 import { debug } from '../../debug'
 import { DISCUSSION_QUERY } from '../../DiscussionProvider/graphql/queries/DiscussionQuery.graphql'
+import { SUBMIT_COMMENT_MUTATION } from '../../DiscussionProvider/graphql/mutations/SubmitCommentMutation.graphql'
 
 /**
  * Provides the component with

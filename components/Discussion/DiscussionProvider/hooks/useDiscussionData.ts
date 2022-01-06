@@ -4,7 +4,6 @@ import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
 import produce from '../../../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from '../../graphql/store'
 import {
-  DiscussionObject,
   DiscussionQuery,
   DiscussionQueryVariables,
   useDiscussionQuery
@@ -33,7 +32,7 @@ type FetchMoreParams = DiscussionQueryVariables & {
 
 // Data returned by the hook
 type DiscussionData = {
-  discussion?: DiscussionObject
+  discussion?: DiscussionQuery['discussion']
   loading: boolean
   error: ApolloError
   refetch: (

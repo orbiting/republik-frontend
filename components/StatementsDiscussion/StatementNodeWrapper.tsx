@@ -59,17 +59,10 @@ const StatementNodeWrapper = ({
   if (editMode) {
     return (
       <StatementComposer
-        t={t}
-        availableTags={discussion.tags}
+        commentId={comment.id}
         initialText={comment.text}
-        tagValue={comment.tags.length > 0 && comment.tags[0]}
-        onSubmit={(content, tags) => {
-          return actions
-            .editCommentHandler(comment.id, content, tags)
-            .then(() => setEditMode(false))
-        }}
+        initialTagValue={comment.tags.length > 0 && comment.tags[0]}
         onClose={() => setEditMode(false)}
-        refetch={undefined}
       />
     )
   }

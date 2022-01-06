@@ -63,17 +63,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
           <div>
             {actions.submitCommentHandler && (
               <DiscussionComposerWrapper isTopLevel showPayNotes>
-                <StatementComposer
-                  t={t}
-                  refetch={refetch}
-                  onSubmit={(content, tags) =>
-                    actions.submitCommentHandler(content, tags, {
-                      discussionId: discussion.id
-                    })
-                  }
-                  availableTags={discussion.tags}
-                  displayAuthor={discussion?.displayAuthor}
-                />
+                <StatementComposer />
               </DiscussionComposerWrapper>
             )}
           </div>

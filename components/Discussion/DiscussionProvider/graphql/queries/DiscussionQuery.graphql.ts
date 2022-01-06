@@ -1,15 +1,10 @@
 import { gql } from '@apollo/client'
 import * as fragments from '../../../graphql/fragments'
 import { DISCUSSION_FRAGMENT } from '../fragments/DiscussionFragment.graphql'
+import makeQueryHook from '../../../../../lib/hooks/makeQueryHook'
 
 // Todo: Type Discussion object
 export type DiscussionObject = any
-
-// Data returned by the discussion query
-export type DiscussionQueryData = {
-  // TODO: Type the discussion object!
-  discussion: DiscussionObject
-}
 
 // Variables for the discussion query
 export type DiscussionQueryVariables = {
@@ -21,6 +16,12 @@ export type DiscussionQueryVariables = {
   focusId?: string
   includeParent?: boolean
   activeTag?: string
+}
+
+// Data returned by the discussion query
+export type DiscussionQuery = {
+  // TODO: Type the discussion object!
+  discussion: DiscussionObject
 }
 
 export const DISCUSSION_QUERY = gql`
@@ -97,3 +98,8 @@ export const DISCUSSION_QUERY = gql`
   ${DISCUSSION_FRAGMENT}
   ${fragments.comment}
 `
+
+export const useDiscussionQuery = makeQueryHook<
+  DiscussionQuery,
+  DiscussionQueryVariables
+>(DISCUSSION_QUERY)

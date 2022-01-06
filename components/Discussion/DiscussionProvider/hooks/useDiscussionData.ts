@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
-import { ApolloError, ApolloQueryResult, useQuery } from '@apollo/client'
+import { ApolloError, ApolloQueryResult } from '@apollo/client'
 import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
 import produce from '../../../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from '../../graphql/store'
 import {
   DiscussionObject,
-  DiscussionQueryData,
+  DiscussionQuery,
   DiscussionQueryVariables,
-  DISCUSSION_QUERY
+  useDiscussionQuery
 } from '../graphql/queries/DiscussionQuery.graphql'
 
 // TODO: Add proper type
@@ -38,10 +38,10 @@ type DiscussionData = {
   error: ApolloError
   refetch: (
     variables: Partial<DiscussionQueryVariables>
-  ) => Promise<ApolloQueryResult<DiscussionQueryData>>
+  ) => Promise<ApolloQueryResult<DiscussionQuery>>
   fetchMore: (
     params: FetchMoreParams
-  ) => Promise<ApolloQueryResult<DiscussionQueryData>>
+  ) => Promise<ApolloQueryResult<DiscussionQuery>>
 }
 
 function useDiscussionData(
@@ -56,18 +56,15 @@ function useDiscussionData(
     subscribeToMore,
     refetch,
     previousData
-  } = useQuery<DiscussionQueryData, DiscussionQueryVariables>(
-    DISCUSSION_QUERY,
-    {
-      variables: {
-        discussionId,
-        orderBy: options.orderBy,
-        depth: options.depth,
-        focusId: options.focusId,
-        activeTag: options.activeTag
-      }
+  } = useDiscussionQuery({
+    variables: {
+      discussionId,
+      orderBy: options.orderBy,
+      depth: options.depth,
+      focusId: options.focusId,
+      activeTag: options.activeTag
     }
-  )
+  })
 
   /**
    * Merge previous and next comments when fetching more

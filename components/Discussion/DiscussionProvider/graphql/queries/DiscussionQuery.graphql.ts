@@ -1,10 +1,14 @@
 import { gql } from '@apollo/client'
-import { DISCUSSION_FRAGMENT } from '../fragments/DiscussionFragment.graphql'
+import {
+  DISCUSSION_FRAGMENT,
+  DiscussionFragmentType
+} from '../fragments/DiscussionFragment.graphql'
 import { makeQueryHook } from '../../../../../lib/helpers/AbstractApolloGQLHooks.helper'
-import { COMMENT_FRAGMENT } from '../fragments/CommentFragment.graphql'
-
-// Todo: Type Discussion object
-export type DiscussionObject = any
+import {
+  COMMENT_FRAGMENT,
+  CommentFragmentType
+} from '../fragments/CommentFragment.graphql'
+import Nullable from '../../../../../lib/types/Nullable'
 
 // Variables for the discussion query
 export type DiscussionQueryVariables = {
@@ -18,10 +22,59 @@ export type DiscussionQueryVariables = {
   activeTag?: string
 }
 
+type DiscussionOrder =
+  | 'AUTO'
+  | 'DATE'
+  | 'VOTES'
+  | 'HOT'
+  | 'REPLIES'
+  | 'FEATURED_AT'
+
 // Data returned by the discussion query
 export type DiscussionQuery = {
-  // TODO: Type the discussion object!
-  discussion: DiscussionObject
+  me: Nullable<{
+    id: string
+    name: Nullable<string>
+    portrait: Nullable<string>
+  }>
+  discussion: DiscussionFragmentType & {
+    allComments: {
+      totalCount: {
+        totalCount: number
+      }
+    }
+    comments: {
+      totalCount: number
+      resolvedOrderBy: Nullable<DiscussionOrder>
+      directTotalCount: Nullable<number>
+      pageInfo: Nullable<{
+        endCursor: Nullable<string>
+        hasNextPage: Nullable<boolean>
+      }>
+      focus: Nullable<{
+        id: string
+        parentIDs: string[]
+        preview: Nullable<{
+          string: string
+          more: boolean
+        }>
+        displayAuthor: {
+          id: string
+          name: string
+        }
+      }>
+      nodes: (CommentFragmentType & {
+        comments: {
+          totalCount: number
+          directTotalCount: Nullable<number>
+          pageInfo: Nullable<{
+            endCursor: Nullable<string>
+            hasNextPage: Nullable<boolean>
+          }>
+        }
+      })[]
+    }
+  }
 }
 
 export const DISCUSSION_QUERY = gql`

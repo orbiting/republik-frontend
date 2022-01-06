@@ -8,12 +8,13 @@ import {
   DISCUSSION_FRAGMENT,
   DiscussionFragmentType
 } from '../fragments/DiscussionFragment.graphql'
+import makeQueryHook from '../../../../../lib/hooks/makeQueryHook'
 
 export type DiscussionPreferencesQueryVariables = {
   discussionId: string
 }
 
-export type DiscussionPreferencesQueryResult = {
+export type DiscussionPreferencesQuery = {
   me: {
     id: string
     name: Nullable<string>
@@ -49,3 +50,11 @@ export const DISCUSSION_PREFERENCES_QUERY = gql`
   }
   ${DISCUSSION_FRAGMENT}
 `
+
+/**
+ * Export a hook to directly query the `DiscussionPreferencesQuery`
+ */
+export const useDiscussionPreferencesQuery = makeQueryHook<
+  DiscussionPreferencesQuery,
+  DiscussionPreferencesQueryVariables
+>(DISCUSSION_PREFERENCES_QUERY)

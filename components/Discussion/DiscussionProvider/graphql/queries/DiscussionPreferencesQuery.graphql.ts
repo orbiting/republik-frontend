@@ -8,7 +8,7 @@ import {
   DISCUSSION_FRAGMENT,
   DiscussionFragmentType
 } from '../fragments/DiscussionFragment.graphql'
-import makeQueryHook from '../../../../../lib/hooks/makeQueryHook'
+import { makeQueryHook } from '../../../../../lib/helpers/AbstractApolloGQLHooks.helper'
 
 export type DiscussionPreferencesQueryVariables = {
   discussionId: string

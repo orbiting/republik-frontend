@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { notificationInfo } from '../../Notifications/enhancers'
 
-export const comment = gql`
+export const COMMENT_FRAGMENT = gql`
   fragment Comment on Comment {
     id
     text

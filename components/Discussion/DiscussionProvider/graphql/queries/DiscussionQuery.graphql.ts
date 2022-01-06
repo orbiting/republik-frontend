@@ -96,7 +96,7 @@ export const DISCUSSION_QUERY = gql`
     }
   }
   ${DISCUSSION_FRAGMENT}
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const useDiscussionQuery = makeQueryHook<

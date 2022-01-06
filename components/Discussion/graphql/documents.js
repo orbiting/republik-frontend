@@ -119,7 +119,7 @@ export const SUBMIT_COMMENT_MUTATION = gql`
       }
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const UPVOTE_COMMENT_MUTATION = gql`
@@ -128,7 +128,7 @@ export const UPVOTE_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const REPORT_COMMENT_MUTATION = gql`
@@ -137,7 +137,7 @@ export const REPORT_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const FEATURE_COMMENT_MUTATION = gql`
@@ -150,7 +150,7 @@ export const FEATURE_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const DOWN_VOTE_COMMENT_ACTION = gql`
@@ -159,7 +159,7 @@ export const DOWN_VOTE_COMMENT_ACTION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const UP_VOTE_COMMENT_ACTION = gql`
@@ -168,7 +168,7 @@ export const UP_VOTE_COMMENT_ACTION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const EDIT_COMMENT_MUTATION = gql`
@@ -177,7 +177,7 @@ export const EDIT_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const UNPUBLISH_COMMENT_MUTATION = gql`
@@ -186,7 +186,7 @@ export const UNPUBLISH_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `
 
 export const updateNotificationSettingsMutation = gql`
@@ -245,5 +245,5 @@ export const COMMENT_SUBSCRIPTION = gql`
       }
     }
   }
-  ${fragments.comment}
+  ${fragments.COMMENT_FRAGMENT}
 `

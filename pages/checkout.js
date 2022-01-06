@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { Center, Editorial } from '@project-r/styleguide'
 import Frame from '../components/Frame'
-import MembershipSelector from '../components/Pledge/Checkout/MembershipSelector'
+import MembershipSelector from '../components/Offer/Options/MembershipOptions'
 
 // objekt: 'ABO' | "BENEFACTOR" | "MONLY ABO" | "PROLONG" | "EDU" | "CUSTOM" | "ABO_GIVE" | "ABO_GIVE_MONTH",
 
@@ -280,6 +280,9 @@ const GET_PACKAGES = gql`
         name
         suggestedTotal
         options {
+          minAmount
+          maxAmount
+          defaultAmount
           suggestions {
             id
             price
@@ -295,6 +298,9 @@ const GET_PACKAGES = gql`
             }
             ... on MembershipType {
               name
+              minPeriods
+              maxPeriods
+              defaultPeriods
             }
           }
         }
@@ -317,22 +323,12 @@ const Checkout = () => {
           <>
             <h2>Package {pkg.name}</h2>
             <MembershipSelector
+              key={pkg.name}
               pkg={pkg}
               onSuggestionSelect={suggestion => console.log(suggestion)}
             />
           </>
         ))}
-        {/* <PackageABO pkg={packages.find(pkg => pkg.name === 'ABO')} />
-        <br />
-        <PackagePROLONG />
-        <br />
-        <PackageBENEFACTOR
-          pkg={packages.find(pkg => pkg.name === 'BENEFACTOR')}
-        />
-        <br />
-        <PackagePROLONG_BENEFACTOR />
-        <br />
-        <PackagePROLONG_EDU /> */}
       </Center>
     </Frame>
   )

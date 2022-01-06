@@ -8,7 +8,7 @@ import {
   DiscussionQueryData,
   DiscussionQueryVariables,
   DISCUSSION_QUERY
-} from '../graphql/DiscussionQuery.graphql'
+} from '../graphql/queries/DiscussionQuery.graphql'
 
 // TODO: Add proper type
 type CommentSubscriptionData = {

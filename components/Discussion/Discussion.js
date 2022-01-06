@@ -11,7 +11,7 @@ import { COMMENT_SUBSCRIPTION } from './graphql/documents'
 import produce from '../../lib/immer'
 import { bumpCounts, mergeComment, mergeComments } from './graphql/store'
 import { debug } from './debug'
-import { DISCUSSION_QUERY } from './DiscussionProvider/graphql/DiscussionQuery.graphql'
+import { DISCUSSION_QUERY } from './DiscussionProvider/graphql/queries/DiscussionQuery.graphql'
 
 const DEFAULT_DEPTH = 3
 

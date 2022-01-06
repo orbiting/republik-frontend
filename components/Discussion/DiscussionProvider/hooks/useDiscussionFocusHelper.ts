@@ -1,4 +1,4 @@
-import { DiscussionObject } from '../graphql/DiscussionQuery.graphql'
+import { DiscussionObject } from '../graphql/queries/DiscussionQuery.graphql'
 import { useEffect, useState } from 'react'
 import { focusSelector } from '../../../../lib/utils/scroll'
 import { useTranslation } from '../../../../lib/withT'

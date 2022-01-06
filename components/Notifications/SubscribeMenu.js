@@ -7,7 +7,7 @@ import { NotificationIcon, NotificationsNoneIcon } from '@project-r/styleguide'
 import SubscribeCallout from './SubscribeCallout'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
 import withMe from '../../lib/apollo/withMe'
-import { DISCUSSION_PREFERENCES_QUERY } from '../Discussion/DiscussionProvider/graphql/DiscussionPreferencesQuery.graphql'
+import { DISCUSSION_PREFERENCES_QUERY } from '../Discussion/DiscussionProvider/graphql/queries/DiscussionPreferencesQuery.graphql'
 
 const checkIfSubscribedToAny = ({ data, subscriptions, showAuthorFilter }) =>
   //checks if any of the subscription nodes is set to active

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 import { EditIcon, ReportIcon, UnpublishIcon } from '@project-r/styleguide'
-import { DiscussionMutations } from '../Discussion/DiscussionProvider/hooks/useDiscussionMutations'
+import { DiscussionMutations } from '../DiscussionProvider/hooks/useDiscussionMutations'
 
 type Options = {
   comment: any

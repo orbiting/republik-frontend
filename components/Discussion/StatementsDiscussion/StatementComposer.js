@@ -4,9 +4,9 @@ import {
   CommentComposerPlaceholder
 } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
-import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
-import { useTranslation } from '../../lib/withT'
-import { composerHints } from '../Discussion/constants'
+import { useDiscussion } from '../DiscussionProvider/context/DiscussionContext'
+import { useTranslation } from '../../../lib/withT'
+import { composerHints } from '../constants'
 
 const propTypes = {
   onClose: PropTypes.func,

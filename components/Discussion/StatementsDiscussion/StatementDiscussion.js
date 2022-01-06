@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react'
 import { StatementList } from '@project-r/styleguide'
-import Loader from '../Loader'
+import Loader from '../../Loader'
 import StatementComposer from './StatementComposer'
-import withT from '../../lib/withT'
-import TagFilter from '../Discussion/TagFilter'
-import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
-import CommentsOptions from '../Discussion/CommentsOptions'
+import withT from '../../../lib/withT'
+import TagFilter from '../TagFilter'
+import { useDiscussion } from '../DiscussionProvider/context/DiscussionContext'
+import CommentsOptions from '../CommentsOptions'
 import { useRouter } from 'next/router'
 import StatementNodeWrapper from './StatementNodeWrapper'
-import DiscussionComposerWrapper from '../Discussion/DiscussionProvider/components/DiscussionComposerWrapper'
-import { getFocusHref } from '../Discussion/CommentLink'
+import DiscussionComposerWrapper from '../DiscussionProvider/components/DiscussionComposerWrapper'
+import { getFocusHref } from '../CommentLink'
 
 const StatementDiscussion = ({ t, tagMappings }) => {
   const {

@@ -79,7 +79,7 @@ import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
-import StatementDiscussion from '../StatementsDiscussion/StatementDiscussion'
+import StatementDiscussion from '../Discussion/StatementsDiscussion/StatementDiscussion'
 import DiscussionProvider from '../Discussion/DiscussionProvider/DiscussionProvider'
 
 const dynamicOptions = {

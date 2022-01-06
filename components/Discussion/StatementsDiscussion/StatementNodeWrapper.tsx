@@ -1,12 +1,12 @@
-import React, { FC, ReactElement, useMemo, useState } from 'react'
-import Link from 'next/link'
+import React, { ReactElement, useMemo, useState } from 'react'
 import { StatementNode } from '@project-r/styleguide'
-import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
-import { useTranslation } from '../../lib/withT'
-import { useMe } from '../../lib/context/MeContext'
+import Link from 'next/link'
+import { useDiscussion } from '../DiscussionProvider/context/DiscussionContext'
+import { useTranslation } from '../../../lib/withT'
+import { useMe } from '../../../lib/context/MeContext'
 import getStatementActions from './getStatementActions'
 import StatementComposer from './StatementComposer'
-import { getFocusHref } from '../Discussion/CommentLink'
+import { getFocusHref } from '../CommentLink'
 import { format } from 'url'
 
 type Props = {

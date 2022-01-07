@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ApolloError, ApolloQueryResult, useQuery } from '@apollo/client'
 import { COMMENT_SUBSCRIPTION } from '../../graphql/documents'
 import produce from '../../../../lib/immer'
@@ -37,7 +37,7 @@ type DiscussionData = {
   loading: boolean
   error: ApolloError
   refetch: (
-    variables: DiscussionQueryVariables
+    variables: Partial<DiscussionQueryVariables>
   ) => Promise<ApolloQueryResult<DiscussionQueryData>>
   fetchMore: (
     params: FetchMoreParams
@@ -168,45 +168,9 @@ function useDiscussionData(
     })
   }, [loadedDiscussionId, initialParentId])
 
-  /**
-   * --- FOCUS LOGIC ---
-   */
-  const [focusState, setFocusState] = useState({
-    focusId: options.focusId,
-    loading: !!options.focusId,
-    error: undefined
-  })
-
-  useEffect(() => {
-    if (options.focusId != focusState.focusId) {
-      setFocusState(state => ({
-        ...state,
-        focusId: options.focusId
-      }))
-    }
-  }, [options.focusId, focusState.focusId])
-
-  useEffect(() => {
-    if (loading || !discussion || !focusState.loading) {
-      return
-    }
-
-    console.debug('looking for focused comment')
-    if (discussion && discussion.comments.focus) {
-      const focusedComment = discussion.comments.nodes.find(
-        comment => comment.id === discussion.comments.focus.id
-      )
-
-      if (focusedComment) {
-        setFocusState(state => ({ ...state, loading: false }))
-        console.debug('FOUND FOCUSED COMMENT!')
-      }
-    }
-  }, [loading, discussion, focusState])
-
   return {
     discussion: discussion || previousData,
-    loading: loading || focusState.loading,
+    loading: loading,
     error,
     refetch,
     fetchMore: enhancedFetchMore

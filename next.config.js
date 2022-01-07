@@ -47,11 +47,29 @@ module.exports = withBundleAnalyzer({
       {
         source: '/~:slug',
         destination: '/~/:slug'
+      },
+      // Rewrite for crawlers when a comment is focused inside a debate on the article-site
+      {
+        source: '/:path*',
+        destination: '/_ssr/:path*',
+        has: [
+          { type: 'query', key: 'focus' },
+          {
+            type: 'header',
+            key: 'User-Agent',
+            value: '.*(Googlebot|facebookexternalhit|Twitterbot).*'
+          }
+        ]
       }
     ]
   },
   async redirects() {
     return [
+      {
+        source: '/_ssr/:path*',
+        destination: '/:path*',
+        permanent: true
+      },
       {
         source: '/~/:slug',
         destination: '/~:slug',

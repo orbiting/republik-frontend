@@ -26,7 +26,7 @@ type SuggestionType = {
   favorite?: boolean
 }
 
-type OptionType = {
+export type OptionType = {
   id?: string
   name: string
   reward: RewardType
@@ -34,16 +34,21 @@ type OptionType = {
   maxAmount?: number
   defaultAmount?: number
   suggestions: SuggestionType[]
+  membership?: {
+    user: {
+      isUserOfCurrentSession: boolean
+    }
+  }
 }
 
-type Package = {
+export type PackageType = {
   name: string
   suggestedTotal?: number
   options: OptionType[]
 }
 
 type MembershipSelectorTypes = {
-  pkg: Package
+  pkg: PackageType
   onSuggestionSelect: ({
     suggestion: SuggestionType,
     selectedPrice: number
@@ -102,17 +107,22 @@ const styles = {
 
 const MembershipSelector = ({
   pkg,
+  //membershipOptions
   onSuggestionSelect
 }: MembershipSelectorTypes) => {
   const options = useMemo(() => {
-    return pkg.options.filter(option => option.reward?.__typename !== 'Goodie')
+    // filter out Goodies and GiftMemberships
+    return pkg.options.filter(
+      option => option.reward?.__typename !== 'Goodie'
+      // option.membership?.user?.isUserOfCurrentSession
+    )
   }, [pkg])
 
   const suggetions = useMemo(() => {
     return options.map(option => option.suggestions)
   }, [options]).flat()
 
-  const favoriteSuggestion = useMemo(() => {
+  const defaultSuggestion = useMemo(() => {
     return suggetions.find(suggestion => suggestion.favorite === true)
   }, [suggetions])
 
@@ -125,7 +135,7 @@ const MembershipSelector = ({
   )
 
   const [selectedSuggestion, setSelectedSuggestion] = useState(
-    favoriteSuggestion || pkg.options[0].suggestions[0]
+    defaultSuggestion || pkg.options[0].suggestions[0]
   )
   const [ownPrice, setOwnPrice] = useState()
   const [colorScheme] = useColorContext()

@@ -7,11 +7,11 @@ import {
   Interaction,
   useColorContext
 } from '@project-r/styleguide'
-import { PledgeOptionType } from './GoodieOptions'
+import { OptionType } from './PledgeOptionsTypes'
 import { CDN_FRONTEND_BASE_URL } from '../../../lib/constants'
 
 type PledgeOptionComponentType = {
-  option: PledgeOptionType
+  option: OptionType
   value: number
   onChange: (item) => void
   t: (string) => string

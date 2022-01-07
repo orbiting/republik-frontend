@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import { css } from 'glamor'
-
 import {
   mediaQueries,
   plainButtonRule,
@@ -10,52 +9,7 @@ import {
   Label
 } from '@project-r/styleguide'
 
-type RewardType = {
-  name: string
-  __typename: string
-  minPeriods: number
-  maxPeriods: number
-  defaultPeriods: number
-}
-
-type SuggestionType = {
-  price: number
-  label: string
-  description: string
-  userPrice: boolean
-  favorite?: boolean
-}
-
-export type OptionType = {
-  id?: string
-  name: string
-  reward: RewardType
-  minAmount?: number
-  maxAmount?: number
-  defaultAmount?: number
-  suggestions: SuggestionType[]
-  membership?: {
-    user: {
-      isUserOfCurrentSession: boolean
-    }
-  }
-}
-
-export type PackageType = {
-  name: string
-  suggestedTotal?: number
-  options: OptionType[]
-}
-
-type MembershipSelectorTypes = {
-  pkg: PackageType
-  onSuggestionSelect: ({
-    suggestion: SuggestionType,
-    selectedPrice: number
-  }) => void
-  onOwnPriceSelect: (price: number) => void
-  selectedSuggestion: SuggestionType
-}
+import { OptionType, SuggestionType } from './PledgeOptionsTypes'
 
 const styles = {
   suggestionsContainer: css({
@@ -105,19 +59,13 @@ const styles = {
   })
 }
 
-const MembershipSelector = ({
-  pkg,
-  //membershipOptions
-  onSuggestionSelect
-}: MembershipSelectorTypes) => {
-  const options = useMemo(() => {
-    // filter out Goodies and GiftMemberships
-    return pkg.options.filter(
-      option => option.reward?.__typename !== 'Goodie'
-      // option.membership?.user?.isUserOfCurrentSession
-    )
-  }, [pkg])
-
+const MembershipOptions = ({
+  options,
+  onChange
+}: {
+  options: OptionType[]
+  onChange: (options) => void
+}) => {
   const suggetions = useMemo(() => {
     return options.map(option => option.suggestions)
   }, [options]).flat()
@@ -135,7 +83,7 @@ const MembershipSelector = ({
   )
 
   const [selectedSuggestion, setSelectedSuggestion] = useState(
-    defaultSuggestion || pkg.options[0].suggestions[0]
+    defaultSuggestion || options[0].suggestions[0]
   )
   const [ownPrice, setOwnPrice] = useState()
   const [colorScheme] = useColorContext()
@@ -144,16 +92,16 @@ const MembershipSelector = ({
   const buttonStyle = useMemo(
     () => ({
       default: css({
-        backgroundColor: colorScheme.getCSSColor('hover'),
+        backgroundColor: colorScheme.getCSSColor('hover', undefined),
         '@media (hover)': {
           ':hover': {
-            backgroundColor: colorScheme.getCSSColor('divider')
+            backgroundColor: colorScheme.getCSSColor('divider', undefined)
           }
         }
       }),
       selected: css({
-        backgroundColor: colorScheme.getCSSColor('text'),
-        color: colorScheme.getCSSColor('default')
+        backgroundColor: colorScheme.getCSSColor('text', undefined),
+        color: colorScheme.getCSSColor('default', undefined)
       })
     }),
     []
@@ -174,7 +122,7 @@ const MembershipSelector = ({
                 {...(selected ? buttonStyle.selected : buttonStyle.default)}
                 onClick={() => {
                   setSelectedSuggestion(suggestion)
-                  onSuggestionSelect({
+                  onChange({
                     suggestion,
                     selectedPrice: suggestion.price
                   })
@@ -201,7 +149,7 @@ const MembershipSelector = ({
                     onChange={(_, value) => {
                       setSelectedSuggestion(suggestion)
                       setOwnPrice(value * 100)
-                      onSuggestionSelect({
+                      onChange({
                         suggestion,
                         selectedPrice: value * 100
                       })
@@ -244,4 +192,4 @@ const MembershipSelector = ({
   )
 }
 
-export default MembershipSelector
+export default MembershipOptions

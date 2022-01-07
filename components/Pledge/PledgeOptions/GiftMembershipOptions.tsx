@@ -1,20 +1,17 @@
 import React, { useMemo } from 'react'
-import { PackageType } from './MembershipOptions'
+import { OptionType } from './PledgeOptionsTypes'
 import GiftMembership from './GiftMembership'
 
 const GiftMembershipOptions = ({
-  pkg,
+  options,
   t
 }: {
-  pkg: PackageType
-  t: (string: string) => string
+  options: OptionType[]
+  t?: (string: string) => string
 }) => {
-  const options = useMemo(() => {
-    // filter out Goodies and GiftMemberships
-    return pkg.options.filter(
-      option => !option.membership.user.isUserOfCurrentSession
-    )
-  }, [pkg])
+  if (!options?.length) {
+    return null
+  }
   return (
     <div>
       {options.map(option => (

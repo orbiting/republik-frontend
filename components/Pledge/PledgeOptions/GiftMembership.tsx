@@ -7,7 +7,7 @@ import {
   Interaction,
   useColorContext
 } from '@project-r/styleguide'
-import { OptionType } from './MembershipOptions'
+import { OptionType } from './PledgeOptionsTypes'
 
 const styles = {
   container: css({
@@ -43,26 +43,22 @@ const GiftMembership = ({
   t
 }: {
   option: OptionType
-  t: (string) => string
+  t: (any) => any
 }) => {
   const suggestion = option.suggestions[0]
   return (
     <div {...styles.container}>
       <p {...styles.label}>
-        <strong>
-          {t(`Goodie/label/${option.reward.name}`)}
-          {`, CHF ${suggestion.price / 100}`}
-        </strong>
+        <strong>{suggestion.label}</strong>
         <br />
-        {t(`Goodie/description/${option.reward.name}`)}
+        {suggestion.description}
       </p>
       <div {...styles.selection}>
         <Checkbox
-          label={t('Goodie/dropdown/label')}
-          items={dropdownItems}
-          value={String(value)}
-          onChange={item => {
-            onChange(+item.value)
+          label={'Gift Membership'}
+          checked={false}
+          onChange={() => {
+            console.log('change')
           }}
         />
       </div>

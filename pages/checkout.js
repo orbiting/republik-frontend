@@ -283,6 +283,11 @@ const GET_PACKAGES = gql`
           minAmount
           maxAmount
           defaultAmount
+          membership {
+            user {
+              isUserOfCurrentSession
+            }
+          }
           suggestions {
             id
             price

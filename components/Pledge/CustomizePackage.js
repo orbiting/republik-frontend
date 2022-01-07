@@ -16,7 +16,7 @@ import { chfFormat, timeFormat } from '../../lib/utils/format'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 import { shouldIgnoreClick } from '../../lib/utils/link'
-import MemebershipSelector from './Checkout/MembershipSelector'
+
 import {
   A,
   Field,
@@ -514,7 +514,6 @@ class CustomizePackage extends Component {
 
     return (
       <div>
-        <MemebershipSelector />
         <div style={{ marginTop: 20, marginBottom: 10 }}>
           <Interaction.H2 style={{ marginBottom: 10 }}>
             {t.first(

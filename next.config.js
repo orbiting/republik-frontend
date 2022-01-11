@@ -11,22 +11,6 @@ module.exports = withBundleAnalyzer({
     config.externals['lru-cache'] = 'lru-cache'
     config.externals['react-dom/server'] = 'react-dom/server'
 
-    const alias = Object.assign({}, config.resolve.alias)
-    delete alias.url
-    config.resolve = {
-      ...config.resolve,
-      alias
-    }
-
-    // avoid «Automatic publicPath is not supported in this browser» exception in IE11
-    // https://github.com/webpack/webpack/blob/4837c3ddb9da8e676c73d97460e19689dd9d4691/lib/runtime/AutoPublicPathRuntimeModule.js#L58
-    if (
-      !config.output.publicPath &&
-      CDN_FRONTEND_BASE_URL &&
-      NODE_ENV === 'production'
-    ) {
-      config.output.publicPath = `${CDN_FRONTEND_BASE_URL}/_next/static/chunks/`
-    }
     return config
   },
   poweredByHeader: false,

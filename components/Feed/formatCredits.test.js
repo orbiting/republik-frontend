@@ -1,5 +1,4 @@
 import formatCredits from './formatCredits'
-import test from 'tape'
 
 const fixture = [
   {
@@ -184,9 +183,10 @@ const fixture = [
   }
 ]
 
-fixture.forEach(({ title, credits, expected }) => {
-  test(`formatCredits.${title}`, assert => {
-    assert.deepEqual(formatCredits(credits), expected)
-    assert.end()
+describe('/components/Feed/formatCredits.js', () => {
+  fixture.forEach(({ title, credits, expected }) => {
+    test(`should format credits (${title})`, () => {
+      expect(formatCredits(credits)).toEqual(expected)
+    })
   })
 })

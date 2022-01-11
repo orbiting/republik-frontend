@@ -76,26 +76,24 @@ const AccountPage = ({ t, me, isMember }) => {
             </div>
           )}
 
-          {true && (
-            <div {...styles.column}>
-              <AccountSection
-                id='teilen'
-                title={t('Account/Access/Campaigns/title')}
-              >
-                <HintArea>
-                  {t.elements('Account/Access/Legacy/text', {
-                    link: (
-                      <Link key='link' href='/teilen' passHref>
-                        <A>
-                          <Emphasis>{t('Account/Access/Legacy/link')}</Emphasis>
-                        </A>
-                      </Link>
-                    )
-                  })}
-                </HintArea>
-              </AccountSection>
-            </div>
-          )}
+          <div {...styles.column}>
+            <AccountSection
+              id='teilen'
+              title={t('Account/Access/Campaigns/title')}
+            >
+              <HintArea>
+                {t.elements('Account/Access/Legacy/text', {
+                  link: (
+                    <Link key='link' href='/teilen' passHref>
+                      <A>
+                        <Emphasis>{t('Account/Access/Legacy/link')}</Emphasis>
+                      </A>
+                    </Link>
+                  )
+                })}
+              </HintArea>
+            </AccountSection>
+          </div>
         </div>
         <Memberships />
         <AccountSection id='account' title={t('Account/Update/title')}>

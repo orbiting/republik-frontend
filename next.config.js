@@ -40,11 +40,6 @@ module.exports = withBundleAnalyzer({
       {
         source: '/~:slug',
         destination: '/~/:slug'
-      },
-      {
-        // TODO: not working yet
-        source: '/pgp/:userSlug',
-        destination: '/api/pgp/:userSlug'
       }
     ]
   },

@@ -16,6 +16,7 @@ const votingQuery = gql`
     voting(slug: $slug) {
       id
       description
+      allowEmptyBallots
       turnout {
         eligible
         submitted
@@ -52,16 +53,21 @@ const VOTE_BAR_CONFIG = {
 const VoteResult = compose(
   voteT,
   withT
-)(({ data, vt, t }) => {
+)(({ data, vt, t, options = {}, messages = {} }) => {
   const results = data.result.options.filter(result => result.option)
   const winner = results.find(result => result.winner)
   const filledCount = sum(results, r => r.count)
   const values = results.map(result => ({
     value: String(result.count / filledCount),
     option: vt(`vote/voting/option${result.option.label}`),
-    votes: vt('vote/votes', {
-      formattedCount: countFormat(result.count)
-    })
+    votes: messages.chartLabelVotes
+      ? messages.chartLabelVotes.replace(
+          '{formattedCount}',
+          countFormat(result.count)
+        )
+      : vt('vote/votes', {
+          formattedCount: countFormat(result.count)
+        })
   }))
   const empty = data.result.options.find(result => !result.option)
   const emptyVotes = empty ? empty.count : 0
@@ -69,32 +75,54 @@ const VoteResult = compose(
 
   return (
     <div>
-      <ChartTitle>{data.description}</ChartTitle>
-      {!!winner && (
+      <ChartTitle>{messages.description || data.description}</ChartTitle>
+      {options.hasChartLead && !!winner && (
         <ChartLead>
-          {vt(`vote/voting/winner/${winner.option.label}`, {
-            formattedPercent: percentFormat(winner.count / filledCount)
-          })}
+          {messages.chartLead
+            ? messages.chartLead.replace(
+                '{formattedPercent}',
+                percentFormat(winner.count / filledCount)
+              )
+            : vt(`vote/voting/winner/${winner.option.label}`, {
+                formattedPercent: percentFormat(winner.count / filledCount)
+              })}
         </ChartLead>
       )}
       <Chart t={t} config={VOTE_BAR_CONFIG} values={values} />
       <Editorial.Note style={{ marginTop: 10 }}>
-        {vt('vote/voting/turnout', {
-          formattedPercent: percentFormat(submitted / eligible),
-          formattedCount: countFormat(emptyVotes + filledCount),
-          formattedEmptyCount: countFormat(emptyVotes),
-          formattedFilledCount: countFormat(filledCount)
-        })}
+        {messages.footnote
+          ? messages.footnote
+              .replace(
+                '{formattedPercent}',
+                percentFormat(submitted / eligible)
+              )
+              .replace(
+                '{formattedCount}',
+                countFormat(emptyVotes + filledCount)
+              )
+              .replace('{formattedEmptyCount}', countFormat(emptyVotes))
+          : vt(
+              `vote/voting/turnout/${
+                data.allowEmptyBallots ? 'withEmpty' : 'withoutEmpty'
+              }`,
+              {
+                formattedPercent: percentFormat(submitted / eligible),
+                formattedCount: countFormat(emptyVotes + filledCount),
+                formattedEmptyCount: countFormat(emptyVotes)
+              }
+            )}
       </Editorial.Note>
     </div>
   )
 })
 
-const VoteResultLoader = graphql(votingQuery)(({ data }) => (
+const VoteResultLoader = graphql(votingQuery)(({ data, options, messages }) => (
   <Loader
     loading={data.loading}
     error={data.error}
-    render={() => <VoteResult data={data.voting} />}
+    render={() => (
+      <VoteResult data={data.voting} options={options} messages={messages} />
+    )}
   />
 ))
 

@@ -76,7 +76,7 @@ const VoteResult = compose(
   return (
     <div>
       <ChartTitle>{messages.description || data.description}</ChartTitle>
-      {options.hasChartLead && !!winner && (
+      {!options.hideChartLead && !!winner && (
         <ChartLead>
           {messages.chartLead
             ? messages.chartLead.replace(

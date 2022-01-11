@@ -93,7 +93,7 @@ const Voting = compose(
     addressData,
     vt,
     description,
-    messages
+    messages = {}
   }) => {
     const [selectedValue, setSelectedValue] = useState(null)
     const [isConfirm, setConfirm] = useState(false)
@@ -214,17 +214,21 @@ const Voting = compose(
       </>
     )
 
+    const confirmKey = selectedValue ? 'confirmAnswer' : 'confirmEmpty'
     const confirmation = (
       <>
         <div {...styles.confirm}>
           <P>
-            {selectedValue
-              ? `Mit ${vt(
-                  `vote/voting/option${
-                    voting.options.find(o => o.id === selectedValue).label
-                  }`
-                )} stimmen? `
-              : `Leer einlegen? `}
+            {(messages[confirmKey] || vt(`vote/voting/${confirmKey}`)).replace(
+              '{answer}',
+              selectedValue
+                ? vt(
+                    `vote/voting/option${
+                      voting.options.find(o => o.id === selectedValue).label
+                    }`
+                  )
+                : ''
+            )}{' '}
           </P>
         </div>
         <div {...sharedStyles.buttons}>
@@ -237,11 +241,13 @@ const Voting = compose(
             {isUpdating ? (
               <InlineSpinner size={40} />
             ) : (
-              vt('vote/voting/labelVote')
+              messages.labelVote || vt('vote/voting/labelVote')
             )}
           </Button>
         </div>
-        <div {...sharedStyles.hint}>{vt('vote/common/help/final')}</div>
+        <div {...sharedStyles.hint}>
+          {messages.final || vt('vote/common/help/final')}
+        </div>
       </>
     )
 

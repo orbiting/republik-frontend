@@ -1741,6 +1741,10 @@
       "value": "Allgemeine Einstellungen"
     },
     {
+      "key": "components/Discussion/Statement/Placeholder",
+      "value": "Plädoyer verfassen…"
+    },
+    {
       "key": "components/Discussion/etiquette",
       "value": "Etikette"
     },
@@ -1939,6 +1943,10 @@
     {
       "key": "styleguide/CommentActions/share",
       "value": "Beitrag teilen"
+    },
+    {
+      "key": "styleguide/CommentActions/share/short",
+      "value": "Teilen"
     },
     {
       "key": "styleguide/CommentTeaser/comment/link",

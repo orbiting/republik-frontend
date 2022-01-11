@@ -1,81 +1,75 @@
 import { DiscussionObject } from '../graphql/DiscussionQuery.graphql'
 import { useEffect, useState } from 'react'
 import { focusSelector } from '../../../../lib/utils/scroll'
+import { useTranslation } from '../../../../lib/withT'
 
 /**
  * Helper hook to highlight and navigate to the closest comment in the current discussion
+ * @param focusId
+ * @param discussionLoading
  * @param discussion
  */
-function useDiscussionFocusHelper(discussion?: DiscussionObject) {
-  const [currentFocusId, setCurrentFocusId] = useState(null)
-  const [focusLoading, setFocusLoading] = useState(true)
-  // TODO: Implement detection of focus errors
-  const [focusError] = useState(null)
+function useDiscussionFocusHelper(
+  focusId: string | null,
+  discussionLoading: boolean,
+  discussion?: DiscussionObject
+) {
+  const { t } = useTranslation()
+  const [currentFocusId, setCurrentFocusId] = useState<string | null>(null)
+  const [focusLoading, setFocusLoading] = useState(false)
+  const [focusError, setFocusError] = useState(null)
 
-  // TODO: Refactor - better readability
-  /**
-   * If the focused comment inside the discussion changes
-   * update the internal state.
-   */
+  function navigateToSelector(selector: string) {
+    /*
+     * Wrap 'focusSelector()' in a timeout to work around a bug. See
+     * https://github.com/orbiting/republik-frontend/issues/243 for more
+     * details
+     */
+    setTimeout(() => {
+      // When the comment has been found
+      focusSelector(selector)
+    }, 50)
+  }
+
+  // Sync input-focusId with state
   useEffect(() => {
-    // While the discussion is loading, assume focus is also loading
-    if (!discussion) {
+    if (focusId && focusId !== currentFocusId) {
+      setCurrentFocusId(focusId)
       setFocusLoading(true)
+      setFocusError(null)
+    }
+  }, [focusId, currentFocusId])
+
+  useEffect(() => {
+    if (!focusLoading || discussionLoading || !discussion) {
       return
     }
 
-    // If no focus is given or the last focus hasn't changed
-    // stop loading
+    // If the focus element could not be fetched assume 404
+    if (!discussion.comments?.focus) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      setFocusError(new Error(t('discussion/focus/notFound')))
+      setFocusLoading(false)
+      const selector = `[data-discussion-id='${discussion.id}']`
+      navigateToSelector(selector)
+      return
+    }
+
+    // At this point we know the focus exists
+
+    // Check if the focus is already present in the loaded comments
     if (
-      !discussion?.comments?.focus ||
-      currentFocusId === discussion.comments.focus.id
+      discussion.comments.nodes.find(comment => comment.id === currentFocusId)
     ) {
       setFocusLoading(false)
-      return
-    }
-
-    setCurrentFocusId(discussion.comments.focus.id)
-    setFocusLoading(true)
-  }, [discussion, currentFocusId])
-
-  /**
-   * Search for the focused comment inside the comments of the discussion
-   * In case a reply is focused, query for the missing data.
-   */
-  useEffect(() => {
-    if (
-      !discussion ||
-      !discussion?.comments ||
-      !currentFocusId ||
-      !focusLoading
-    ) {
-      // End
-      return
-    }
-
-    // Check if the focused comment is present inside fetched discussion-data
-    const foundFocusableComment = discussion.comments.nodes.find(
-      comment => comment.id === currentFocusId
-    )
-
-    if (foundFocusableComment) {
       const selector = `[data-comment-id='${currentFocusId}']`
-
-      /*
-       * Wrap 'focusSelector()' in a timeout to work around a bug. See
-       * https://github.com/orbiting/republik-frontend/issues/243 for more
-       * details
-       */
-      setTimeout(() => {
-        // When the comment has been found
-        focusSelector(selector)
-        setFocusLoading(false)
-      }, 50)
+      navigateToSelector(selector)
+      return
+    } else {
+      // TODO: implement logic to fetch by parentId etc.
     }
-
-    // TODO: If the comment is not found and has parentIds,
-    // fetch the replies for the closest parentId
-  }, [discussion, currentFocusId, focusLoading])
+  }, [discussion, discussionLoading, focusLoading, currentFocusId])
 
   return {
     loading: discussion && focusLoading,

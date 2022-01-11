@@ -94,7 +94,7 @@
     },
     {
       "key": "vote/common/back",
-      "value": "Bearbeiten"
+      "value": "Zurück"
     },
     {
       "key": "vote/common/reset",
@@ -179,6 +179,14 @@
     {
       "key": "vote/voting/labelVote",
       "value": "Abstimmen"
+    },
+    {
+      "key": "vote/voting/confirmAnswer",
+      "value": "Mit {answer} stimmen?"
+    },
+    {
+      "key": "vote/voting/confirmEmpty",
+      "value": "Leer einlegen?"
     },
     {
       "key": "vote/voting/thankyou",

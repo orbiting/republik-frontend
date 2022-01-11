@@ -7,15 +7,7 @@ import { useMe } from '../../lib/context/MeContext'
 import getStatementActions from './getStatementActions'
 import StatementComposer from './StatementComposer'
 import { getFocusHref } from '../Discussion/CommentLink'
-
-function getLinkComponent(discussion, comment) {
-  const WrappedLink: FC = ({ children }) => (
-    <Link href={getFocusHref(discussion, comment)} passHref>
-      {children}
-    </Link>
-  )
-  return WrappedLink
-}
+import { format } from 'url'
 
 type Props = {
   comment: any
@@ -51,9 +43,18 @@ const StatementNodeWrapper = ({
     return focusedComment && focusedComment.id === comment.id
   }, [discussion?.comments, comment])
 
-  const FocusLink = useMemo(() => {
-    return getLinkComponent(discussion, comment)
+  const focusHref = useMemo(() => {
+    const urlObject = getFocusHref(discussion, comment)
+    return format(urlObject)
   }, [discussion, comment])
+
+  const profileHref = useMemo(
+    () =>
+      comment?.displayAuthor?.slug
+        ? `~${comment.displayAuthor.slug}`
+        : focusHref,
+    [comment?.displayAuthor?.slug, focusHref]
+  )
 
   if (editMode) {
     return (
@@ -87,7 +88,9 @@ const StatementNodeWrapper = ({
       tagMappings={tagMappings}
       isHighlighted={isFocused}
       disableVoting={!discussion.userCanComment}
-      Link={FocusLink}
+      Link={Link}
+      focusHref={focusHref}
+      profileHref={profileHref}
     />
   )
 }

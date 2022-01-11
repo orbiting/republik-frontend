@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useCallback, useEffect, useReducer } from 'react'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../../lib/constants'
 import { useRouter } from 'next/router'
 import useDiscussionData from './hooks/useDiscussionData'
@@ -10,6 +10,8 @@ import { postMessage, useInNativeApp } from '../../../lib/withInNativeApp'
 import { getFocusUrl } from '../CommentLink'
 import { useTranslation } from '../../../lib/withT'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
+import DiscussionMetaHelper from './components/DiscussionMetaHelper'
+import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
 
 type Props = {
   children?: ReactNode
@@ -51,7 +53,11 @@ const DiscussionProvider: FC<Props> = ({
 
   const actions = useDiscussionMutations()
 
+  useDiscussionNotificationHelper(discussion)
+
   const { loading: focusLoading, error: focusError } = useDiscussionFocusHelper(
+    focusId,
+    loading,
     discussion
   )
 
@@ -89,9 +95,10 @@ const DiscussionProvider: FC<Props> = ({
   const shareOverlay = useOverlay<string>()
 
   const ctxValue = {
+    id: discussionId,
     discussion,
-    loading: loading || focusLoading,
-    error: error || focusError,
+    loading: loading,
+    error: error,
     fetchMore,
     refetch,
     actions: {
@@ -104,6 +111,10 @@ const DiscussionProvider: FC<Props> = ({
     },
     orderBy,
     activeTag,
+    focus: {
+      loading: focusLoading,
+      error: focusError
+    },
     overlays: {
       preferencesOverlay,
       shareOverlay
@@ -112,8 +123,15 @@ const DiscussionProvider: FC<Props> = ({
 
   return (
     <DiscussionContext.Provider value={ctxValue}>
-      {children}
-      {discussion && <DiscussionOverlays />}
+      <div data-discussion-id={discussionId}>
+        {children}
+        {discussion && (
+          <>
+            <DiscussionOverlays />
+            <DiscussionMetaHelper />
+          </>
+        )}
+      </div>
     </DiscussionContext.Provider>
   )
 }

@@ -5,11 +5,11 @@ import StatementComposer from './StatementComposer'
 import withT from '../../lib/withT'
 import TagFilter from '../Discussion/TagFilter'
 import { useDiscussion } from '../Discussion/DiscussionProvider/context/DiscussionContext'
-import { getFocusHref } from '../Discussion/CommentLink'
 import CommentsOptions from '../Discussion/CommentsOptions'
 import { useRouter } from 'next/router'
 import StatementNodeWrapper from './StatementNodeWrapper'
 import DiscussionComposerWrapper from '../Discussion/DiscussionProvider/components/DiscussionComposerWrapper'
+import { getFocusHref } from '../Discussion/CommentLink'
 
 const StatementDiscussion = ({ t, tagMappings }) => {
   const {
@@ -20,17 +20,12 @@ const StatementDiscussion = ({ t, tagMappings }) => {
     actions,
     fetchMore,
     orderBy,
-    overlays: { preferencesOverlay }
+    focus: { error: focusError }
   } = useDiscussion()
   const router = useRouter()
 
   const filteredStatements = useMemo(
-    () =>
-      discussion && discussion.comments
-        ? discussion.comments.nodes.filter(
-            comment => comment.published && !comment.adminUnpublished
-          )
-        : [],
+    () => (discussion && discussion.comments ? discussion.comments.nodes : []),
     [discussion]
   )
 
@@ -66,9 +61,8 @@ const StatementDiscussion = ({ t, tagMappings }) => {
       render={() => (
         <div>
           <div>
-            <TagFilter discussion={discussion} />
             {actions.submitCommentHandler && (
-              <DiscussionComposerWrapper isTopLevel showPayNotes={false}>
+              <DiscussionComposerWrapper isTopLevel showPayNotes>
                 <StatementComposer
                   t={t}
                   refetch={refetch}
@@ -78,11 +72,13 @@ const StatementDiscussion = ({ t, tagMappings }) => {
                     })
                   }
                   availableTags={discussion.tags}
+                  displayAuthor={discussion?.displayAuthor}
                 />
               </DiscussionComposerWrapper>
             )}
           </div>
           <div>
+            <TagFilter discussion={discussion} />
             <CommentsOptions
               t={t}
               resolvedOrderBy={discussion.comments.resolvedOrderBy || orderBy}
@@ -100,6 +96,7 @@ const StatementDiscussion = ({ t, tagMappings }) => {
                 discussion.comments.totalCount -
                 discussion.comments.nodes.length
               }
+              focusError={focusError?.message}
             >
               {filteredStatements.map(comment => (
                 <StatementNodeWrapper

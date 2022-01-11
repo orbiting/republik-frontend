@@ -217,7 +217,7 @@ const notificationCountQuery = gql`
   ${notificationInfo}
 `
 
-const markAsReadMutation = gql`
+export const MARK_NOTIFICATION_AS_READ_MUTATION = gql`
   mutation markNotificationAsRead($id: ID!) {
     markNotificationAsRead(id: $id) {
       ...notificationInfo
@@ -283,21 +283,24 @@ export const withNotificationCount = graphql(notificationCountQuery, {
 })
 
 const alreadyMarkedAsReadIds = []
-export const withMarkAsReadMutation = graphql(markAsReadMutation, {
-  props: ({ mutate }) => ({
-    markAsReadMutation: id => {
-      if (alreadyMarkedAsReadIds.includes(id)) {
-        return Promise.resolve()
-      }
-      alreadyMarkedAsReadIds.push(id)
-      return mutate({
-        variables: {
-          id
+export const withMarkAsReadMutation = graphql(
+  MARK_NOTIFICATION_AS_READ_MUTATION,
+  {
+    props: ({ mutate }) => ({
+      markAsReadMutation: id => {
+        if (alreadyMarkedAsReadIds.includes(id)) {
+          return Promise.resolve()
         }
-      })
-    }
-  })
-})
+        alreadyMarkedAsReadIds.push(id)
+        return mutate({
+          variables: {
+            id
+          }
+        })
+      }
+    })
+  }
+)
 
 export const withMarkAllAsReadMutation = graphql(markAllAsReadMutation, {
   props: ({ mutate }) => ({

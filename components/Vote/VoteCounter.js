@@ -15,17 +15,8 @@ import {
 } from '@project-r/styleguide'
 
 import { gql } from '@apollo/client'
-import { swissNumbers } from '../../lib/utils/format'
+import { countFormat } from '../../lib/utils/format'
 import VoteCountdown from './VoteCountdown'
-
-const count3Format = swissNumbers.format('.0f')
-const count4Format = swissNumbers.format(',.0f')
-const format = value => {
-  if (String(Math.round(value)).length > 3) {
-    return count4Format(value)
-  }
-  return count3Format(value)
-}
 
 const HEIGHT = 8
 
@@ -172,91 +163,96 @@ const GoalBar = ({
         return (
           <div {...styles.container}>
             <P {...colorScheme.set('color', 'text')}>
-              <span {...styles.primaryNumber}>{format(submitted)}</span>
+              <span {...styles.primaryNumber}>{countFormat(submitted)}</span>
               <span {...styles.label}>
                 {caption
-                  .replace('{currentGoal}', format(endGoal.number))
-                  .replace('{firstGoal}', format(firstGoal.number))}
+                  .replace('{currentGoal}', countFormat(endGoal?.number))
+                  .replace('{firstGoal}', countFormat(firstGoal?.number))}
               </span>
             </P>
-            <div
-              {...styles.bar}
-              {...colorScheme.set('backgroundColor', 'divider')}
-              style={{
-                zIndex: hover ? 1 : 0
-              }}
-            >
+            {endGoal && (
               <div
-                {...styles.barInner}
-                {...colorScheme.set('backgroundColor', 'primary')}
+                {...styles.bar}
+                {...colorScheme.set('backgroundColor', 'divider')}
                 style={{
-                  width: widthForGoal(endGoal.number, submitted)
+                  zIndex: hover ? 1 : 0
                 }}
-              />
-              {goals.length >= 1 &&
-                sortedGoals.reverse().map((currentGoal, i) => (
-                  <div
-                    key={i}
-                    {...merge(styles.goal, i === 0 && styles.currentGoal)}
-                    {...colorScheme.set('borderBottomColor', 'secondaryBg')}
-                    {...colorScheme.set('borderRightColor', 'default')}
-                    style={{
-                      width: widthForGoal(endGoal.number, currentGoal.number)
-                    }}
-                    onTouchStart={e => {
-                      e.preventDefault()
-                      setHover(currentGoal)
-                    }}
-                    onTouchEnd={() => setHover(undefined)}
-                    onMouseOver={() => setHover(currentGoal)}
-                    onMouseOut={() => setHover(undefined)}
-                  >
-                    {hover && currentGoal.number === hover.number && (
-                      <div {...styles.noInteraction}>
-                        <div
-                          {...styles.goalBar}
-                          {...colorScheme.set('backgroundColor', 'secondary')}
-                          style={{
-                            width: widthForGoal(currentGoal.number, submitted)
-                          }}
-                        />
-                        <div
-                          {...styles.goalNumber}
-                          {...colorScheme.set('color', 'secondary')}
-                          {...colorScheme.set('borderRightColor', 'secondary')}
-                        >
-                          {format(currentGoal.number)}
-                        </div>
-                        {!!hover.description && (
+              >
+                <div
+                  {...styles.barInner}
+                  {...colorScheme.set('backgroundColor', 'primary')}
+                  style={{
+                    width: widthForGoal(endGoal.number, submitted)
+                  }}
+                />
+                {goals.length >= 1 &&
+                  sortedGoals.reverse().map((currentGoal, i) => (
+                    <div
+                      key={i}
+                      {...merge(styles.goal, i === 0 && styles.currentGoal)}
+                      {...colorScheme.set('borderBottomColor', 'secondaryBg')}
+                      {...colorScheme.set('borderRightColor', 'default')}
+                      style={{
+                        width: widthForGoal(endGoal.number, currentGoal.number)
+                      }}
+                      onTouchStart={e => {
+                        e.preventDefault()
+                        setHover(currentGoal)
+                      }}
+                      onTouchEnd={() => setHover(undefined)}
+                      onMouseOver={() => setHover(currentGoal)}
+                      onMouseOut={() => setHover(undefined)}
+                    >
+                      {hover && currentGoal.number === hover.number && (
+                        <div {...styles.noInteraction}>
                           <div
-                            {...styles.arrow}
+                            {...styles.goalBar}
+                            {...colorScheme.set('backgroundColor', 'secondary')}
+                            style={{
+                              width: widthForGoal(currentGoal.number, submitted)
+                            }}
+                          />
+                          <div
+                            {...styles.goalNumber}
+                            {...colorScheme.set('color', 'secondary')}
                             {...colorScheme.set(
-                              'borderBottomColor',
+                              'borderRightColor',
                               'secondary'
                             )}
-                          />
-                        )}
-                      </div>
-                    )}
+                          >
+                            {countFormat(currentGoal.number)}
+                          </div>
+                          {!!hover.description && (
+                            <div
+                              {...styles.arrow}
+                              {...colorScheme.set(
+                                'borderBottomColor',
+                                'secondary'
+                              )}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                {!!hover && !!hover.description && (
+                  <div
+                    {...styles.box}
+                    {...colorScheme.set('backgroundColor', 'secondary')}
+                  >
+                    <span
+                      style={{ color: '#fff' }}
+                      dangerouslySetInnerHTML={{
+                        __html: hover.description.replace(
+                          '{count}',
+                          countFormat(hover.number)
+                        )
+                      }}
+                    />
                   </div>
-                ))}
-              {!!hover && !!hover.description && (
-                <div
-                  {...styles.box}
-                  {...colorScheme.set('backgroundColor', 'secondary')}
-                >
-                  <span
-                    style={{ color: '#fff' }}
-                    dangerouslySetInnerHTML={{
-                      __html: hover.description.replace(
-                        '{count}',
-                        format(hover.number)
-                      )
-                    }}
-                  />
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
             {showCountdown && (
               <VoteCountdown
                 endDate={voting.endDate}

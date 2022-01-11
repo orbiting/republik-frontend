@@ -19,7 +19,14 @@ export const sharedStyles = {
   buttons: css({
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    rowGap: 15,
+    [mediaQueries.onlyS]: {
+      '& button': {
+        minWidth: 0
+      }
+    }
   }),
   card: css({
     padding: 10,

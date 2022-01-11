@@ -27,7 +27,8 @@ import Link from 'next/link'
 const knownYears = {
   2018: { path: '/2018' },
   2019: { path: '/2019' },
-  2020: { path: '/2020' }
+  2020: { path: '/2020' },
+  2021: { path: '/' }
 }
 
 const getAll = gql`
@@ -65,7 +66,7 @@ const FrontOverview = ({
   me,
   year,
   text,
-  router: { query },
+  router: { query, pathname },
   t,
   serverContext,
   ...props
@@ -80,9 +81,10 @@ const FrontOverview = ({
       <Front extractId={query.extractId} {...knownYears[year]} {...props} />
     )
   }
+
   const startDate = new Date(`${year - 1}-12-31T23:00:00.000Z`)
   const endDate = new Date(`${year}-12-31T23:00:00.000Z`)
-  const interval = query.interval || 'monate'
+  const interval = pathname.match(/\/wochen$/) ? 'wochen' : 'monate'
   const formatDate = formatByInterval[interval]
 
   const meta = {

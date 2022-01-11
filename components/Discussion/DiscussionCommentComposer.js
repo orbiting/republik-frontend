@@ -164,10 +164,11 @@ const DiscussionCommentComposer = props => {
               }),
               activeTag,
               actions: {
-                previewComment: props.previewComment,
                 openDiscussionPreferences: () => {
                   setShowPreferences(true)
-                }
+                  return Promise.resolve({ ok: true })
+                },
+                previewComment: props.previewComment
               },
               composerHints: composerHints(t),
               composerSecondaryActions: <SecondaryActions />

@@ -8,10 +8,8 @@ import NotificationOptions from './NotificationOptions'
 import withT from '../../lib/withT'
 import { withMembership } from '../Auth/checkRoles'
 import Box from '../Frame/Box'
-import Link from 'next/link'
 import AccountTabs from '../../components/Account/AccountTabs'
 import AccountSection from '../../components/Account/AccountSection'
-import NotificationFeedMini from '../../components/Notifications/NotificationFeedMini'
 
 export default compose(
   withT,

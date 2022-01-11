@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { useRouter } from 'next/router'
@@ -36,8 +36,22 @@ const AccountPage = ({ t, me, isMember }) => {
   const meta = {
     title: t('pages/account/title')
   }
-  const { pathname, query } = useRouter()
+  const { pathname, query, router } = useRouter()
   const postPledge = query.id || query.claim
+
+  useEffect(() => {
+    // client side redirect for old urls
+    switch (window.location.hash) {
+      case '#newsletter':
+        router.replace('/konto/newsletter')
+        break
+      case '#anmeldung':
+        router.replace('/konto/einstellungen#anmeldung')
+        break
+      default:
+        break
+    }
+  }, [])
 
   const hasMemberships = me?.memberships && !!me?.memberships.length
   const acceptedStatue =

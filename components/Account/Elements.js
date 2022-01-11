@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
-import Link from 'next/link'
 
 import withT from '../../lib/withT'
 import { timeFormat } from '../../lib/utils/format'
@@ -10,8 +9,7 @@ import {
   Label,
   fontStyles,
   useColorContext,
-  plainButtonRule,
-  A
+  plainButtonRule
 } from '@project-r/styleguide'
 
 const styles = {
@@ -65,7 +63,7 @@ export const Item = withT(
   }
 )
 
-export const EditButton = ({ children, onClick, href }) => {
+export const EditButton = ({ children, onClick }) => {
   const [colorScheme] = useColorContext()
   const buttonStyleRules = useMemo(
     () =>

@@ -55,12 +55,14 @@ const GiftMembership = ({
       </p>
       <div {...styles.selection}>
         <Checkbox
-          label={'Gift Membership'}
+          name='Gift Membership'
           checked={false}
           onChange={() => {
             console.log('change')
           }}
-        />
+        >
+          auswählen
+        </Checkbox>
       </div>
     </div>
   )

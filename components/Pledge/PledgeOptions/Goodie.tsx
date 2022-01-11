@@ -43,9 +43,11 @@ const styles = {
     flexGrow: 1,
     marginRight: 0,
     ...fontStyles.sansSerifRegular15,
+    lineHeight: '18px',
     [mediaQueries.mUp]: {
       marginRight: 16,
-      ...fontStyles.sansSerifRegular17
+      ...fontStyles.sansSerifRegular16,
+      lineHeight: '22px'
     },
     margin: 0
   }),

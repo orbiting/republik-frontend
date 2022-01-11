@@ -77,7 +77,7 @@ const Checkout = ({ t }: { t: (any) => any }) => {
             price: 24000,
             label: 'Abo verlängern',
             description: 'Monatsabo verlängern',
-            userPrice: true,
+            userPrice: false,
             favorite: true
           }
         ],
@@ -103,7 +103,7 @@ const Checkout = ({ t }: { t: (any) => any }) => {
             price: 100000,
             label: 'Gönner werden',
             description: 'Gönner werden',
-            userPrice: false,
+            userPrice: true,
             favorite: false
           }
         ],
@@ -139,6 +139,28 @@ const Checkout = ({ t }: { t: (any) => any }) => {
           minPeriods: 1,
           maxPeriods: 1,
           defaultPeriods: 1
+        }
+      },
+      {
+        optionGroup: 'a0d7fc94-4641-4ba6-bd14-77f1207600ab',
+        minAmount: 0,
+        maxAmount: 1,
+        defaultAmount: 1,
+        membership: null,
+        suggestions: [
+          {
+            id:
+              'YTBkN2ZjOTQtNDY0MS00YmE2LWJkMTQtNzdmMTIwNzYwMGFiL3N1Z2dlc3Rpb24vMA==',
+            price: 3900,
+            label: 'Fondue',
+            description: 'Ein dolles Fondue von dollen Menschen',
+            userPrice: false,
+            favorite: false
+          }
+        ],
+        reward: {
+          __typename: 'Goodie',
+          name: 'FONDUE'
         }
       }
     ]

@@ -6,7 +6,9 @@ import {
   useColorContext,
   useMediaQuery,
   Field,
-  Label
+  Label,
+  Interaction,
+  fontStyles
 } from '@project-r/styleguide'
 
 import { OptionType, SuggestionType } from './PledgeOptionsTypes'
@@ -36,10 +38,23 @@ const styles = {
       }
     }
   }),
-  label: css({
+  label: css(Interaction.fontRule, {
+    margin: 0,
     paddingRight: 6,
+    ...fontStyles.sansSerifRegular15,
+    lineHeight: '18px',
     [mediaQueries.mUp]: {
-      paddingRight: 0
+      paddingRight: 0,
+      ...fontStyles.sansSerifRegular16,
+      lineHeight: '22px'
+    }
+  }),
+  labelSelected: css(Interaction.fontRule, {
+    ...fontStyles.sansSerifMedium15,
+    lineHeight: '18px',
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifMedium16,
+      lineHeight: '22px'
     }
   }),
   infocontainer: css({
@@ -92,16 +107,16 @@ const MembershipOptions = ({
   const buttonStyle = useMemo(
     () => ({
       default: css({
-        backgroundColor: colorScheme.getCSSColor('hover', undefined),
+        backgroundColor: colorScheme.getCSSColor('hover'),
         '@media (hover)': {
           ':hover': {
-            backgroundColor: colorScheme.getCSSColor('divider', undefined)
+            backgroundColor: colorScheme.getCSSColor('divider')
           }
         }
       }),
       selected: css({
-        backgroundColor: colorScheme.getCSSColor('text', undefined),
-        color: colorScheme.getCSSColor('default', undefined)
+        backgroundColor: colorScheme.getCSSColor('text'),
+        color: colorScheme.getCSSColor('default')
       })
     }),
     []
@@ -129,8 +144,15 @@ const MembershipOptions = ({
                 }}
                 style={{ order: index }}
               >
-                <span {...styles.label}>{label}</span>
-                {!userPrice && <span>CHF {price / 100}</span>}
+                <p {...styles.label}>
+                  <span {...(selected && styles.labelSelected)}>{label}</span>
+                  {!userPrice && (
+                    <>
+                      <br />
+                      <span>CHF {price / 100}</span>
+                    </>
+                  )}
+                </p>
               </button>
               <div
                 {...styles.infocontainer}
@@ -156,7 +178,7 @@ const MembershipOptions = ({
                     }}
                   />
                 )}
-                <Label>{description}</Label>
+                <p {...styles.label}>{description}</p>
               </div>
             </>
           )

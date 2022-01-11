@@ -5,12 +5,26 @@
   "env": {
     "development": {
       "presets": [
-        "next/babel"
+        [
+          "next/babel",
+          {
+            "preset-env": {
+              "targets": "defaults, IE 11, iOS 9"
+            }
+          }
+        ]
       ]
     },
     "production": {
       "presets": [
-        "next/babel"
+        [
+          "next/babel",
+          {
+            "preset-env": {
+              "targets": "defaults, IE 11, iOS 9"
+            }
+          }
+        ]
       ]
     },
     "test": {

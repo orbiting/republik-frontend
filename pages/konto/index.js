@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { mediaQueries, A, Interaction } from '@project-r/styleguide'
 
 import Frame from '../../components/Frame'
+import Merci from '../../components/Pledge/Merci'
 import withT from '../../lib/withT'
 import { withMembership } from '../../components/Auth/checkRoles'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
@@ -50,6 +51,8 @@ const AccountPage = ({ t, me, isMember }) => {
   return (
     <Frame meta={meta} raw>
       <MainContainer>
+        {postPledge && <Merci query={query} />}
+
         <AccountTabs pathname={pathname} t={t} />
         <div {...styles.container}>
           {isMember && (
@@ -94,7 +97,7 @@ const AccountPage = ({ t, me, isMember }) => {
             </div>
           )}
         </div>
-        <Memberships query={query} merci={postPledge} />
+        <Memberships />
         <AccountSection id='account' title={t('Account/Update/title')}>
           <div style={{ marginBottom: 24 }}>
             <UserEmail />

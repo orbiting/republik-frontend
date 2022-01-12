@@ -11,9 +11,10 @@ import { format } from 'url'
 import useVoteCommentHandlers from '../DiscussionProvider/hooks/actions/useVoteCommentHandlers'
 import useUnpublishCommentHandler from '../DiscussionProvider/hooks/actions/useUnpublishCommentHandler'
 import useReportCommentHandler from '../DiscussionProvider/hooks/actions/useReportCommentHandler'
+import { CommentFragmentType } from '../DiscussionProvider/graphql/fragments/CommentFragment.graphql'
 
 type Props = {
-  comment: any
+  comment: CommentFragmentType
   tagMappings: any
 }
 

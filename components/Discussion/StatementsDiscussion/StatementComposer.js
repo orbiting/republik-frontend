@@ -8,6 +8,7 @@ import { useDiscussion } from '../DiscussionProvider/context/DiscussionContext'
 import { useTranslation } from '../../../lib/withT'
 import { composerHints } from '../constants'
 import useDiscussionPreferences from '../DiscussionProvider/hooks/useDiscussionPreferences'
+import useSubmitCommentHandler from '../DiscussionProvider/hooks/actions/useSubmitCommentHandler'
 
 const propTypes = {
   onClose: PropTypes.func,
@@ -29,9 +30,10 @@ const StatementComposer = ({
   const { t } = useTranslation()
   const { id, discussion, actions, overlays } = useDiscussion()
   const { preferences } = useDiscussionPreferences(id)
+  const submitCommentHandler = useSubmitCommentHandler()
 
   const { discussionId, displayAuthor, tags, rules } = discussion
-  const { submitHandler, editCommentHandler } = actions
+  const { editCommentHandler } = actions
   const { preferencesOverlay } = overlays
 
   const [active, setActive] = useState(!!initialText)
@@ -42,7 +44,7 @@ const StatementComposer = ({
       let response
       if (!commentId) {
         // A comment on the root-level
-        response = await submitHandler(value, tags, {
+        response = await submitCommentHandler(value, tags, {
           discussionId
         })
       } else {

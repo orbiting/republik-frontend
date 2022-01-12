@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client'
-import uuid from 'uuid/v4'
 import {
   DOWN_VOTE_COMMENT_ACTION,
   EDIT_COMMENT_MUTATION,
@@ -9,10 +8,8 @@ import {
   UPVOTE_COMMENT_MUTATION
 } from '../../graphql/documents'
 import { toRejectedString } from '../../graphql/utils'
-import { useSubmitCommentMutation } from '../graphql/mutations/SubmitCommentMutation.graphql'
 
 export type DiscussionMutations = {
-  submitCommentHandler: any
   editCommentHandler: any
   unpublishCommentHandler: any
   reportCommentHandler: any
@@ -22,8 +19,6 @@ export type DiscussionMutations = {
 }
 
 function useDiscussionMutations(): DiscussionMutations {
-  const [submitCommentMutation] = useSubmitCommentMutation()
-
   const [editCommentMutation] = useMutation(EDIT_COMMENT_MUTATION)
   const [unpublishCommentMutation] = useMutation(UNPUBLISH_COMMENT_MUTATION)
   const [reportCommentMutation] = useMutation(REPORT_COMMENT_MUTATION)
@@ -35,18 +30,6 @@ function useDiscussionMutations(): DiscussionMutations {
   const [upVoteCommentMutation] = useMutation(UPVOTE_COMMENT_MUTATION)
   const [downVoteCommentMutation] = useMutation(DOWN_VOTE_COMMENT_ACTION)
   const [unVoteCommentMutation] = useMutation(UP_VOTE_COMMENT_ACTION)
-
-  function submitCommentHandler(content, tags, { discussionId, parentId }) {
-    return submitCommentMutation({
-      variables: {
-        id: uuid(),
-        discussionId,
-        parentId,
-        content,
-        tags
-      }
-    }).catch(err => ({ error: `${err}` }))
-  }
 
   function editCommentHandler(commentId, content, tags) {
     return editCommentMutation({
@@ -101,7 +84,6 @@ function useDiscussionMutations(): DiscussionMutations {
   }
 
   return {
-    submitCommentHandler,
     editCommentHandler,
     unpublishCommentHandler,
 

@@ -1,10 +1,8 @@
-import { ApolloError, useMutation, useQuery, FetchResult } from '@apollo/client'
+import { ApolloError, useMutation, FetchResult } from '@apollo/client'
 import { SET_DISCUSSION_PREFERENCES_MUTATION } from '../../graphql/documents'
 import { toRejectedString } from '../../graphql/utils'
 import {
-  DISCUSSION_PREFERENCES_QUERY,
   DiscussionPreferencesQuery,
-  DiscussionPreferencesQueryVariables,
   useDiscussionPreferencesQuery
 } from '../graphql/queries/DiscussionPreferencesQuery.graphql'
 
@@ -29,7 +27,7 @@ export type SetDiscussionPreferencesHandler = (
 ) => Promise<FetchResult<SetDiscussionPreferencesMutationResult>>
 
 type DiscussionPreferences = {
-  preferences?: DiscussionPreferencesQuery
+  preferences: DiscussionPreferencesQuery | undefined
   loading: boolean
   error?: ApolloError
   updateDiscussionPreferencesHandler: SetDiscussionPreferencesHandler

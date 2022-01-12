@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useCallback, useEffect, useReducer } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../../lib/constants'
 import { useRouter } from 'next/router'
 import useDiscussionData from './hooks/useDiscussionData'
@@ -12,7 +12,6 @@ import { useTranslation } from '../../../lib/withT'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 import DiscussionMetaHelper from './components/DiscussionMetaHelper'
 import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
-import useDiscussionPreferences from './hooks/useDiscussionPreferences'
 
 type Props = {
   children?: ReactNode
@@ -51,8 +50,6 @@ const DiscussionProvider: FC<Props> = ({
       parentId
     }
   )
-
-  const preferences = useDiscussionPreferences(discussionId)
 
   const actions = useDiscussionMutations()
 
@@ -110,7 +107,6 @@ const DiscussionProvider: FC<Props> = ({
     },
     orderBy,
     activeTag,
-    preferences,
     focus: {
       loading: focusLoading,
       error: focusError

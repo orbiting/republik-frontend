@@ -4,8 +4,8 @@ import { DiscussionContext } from '@project-r/styleguide'
 import { DiscussionQuery } from '../graphql/queries/DiscussionQuery.graphql'
 import { FetchDiscussionFunctionType } from '../hooks/useDiscussionData'
 import { DiscussionFocusHelperType } from '../hooks/useDiscussionFocusHelper'
-import { OverlayState } from '../hooks/useOverlay'
-import { CommentFragmentType } from '../graphql/fragments/CommentFragment.graphql'
+import { OverlayState } from '../hooks/overlays/useOverlay'
+import { ShareOverlayState } from '../hooks/overlays/useShareCommentOverlay'
 
 export interface DiscussionContextValue {
   id: string
@@ -14,15 +14,12 @@ export interface DiscussionContextValue {
   error: ApolloError | undefined
   fetchMore: FetchDiscussionFunctionType
   refetch: FetchDiscussionFunctionType
-  actions: {
-    shareHandler: (comment: CommentFragmentType) => Promise<unknown>
-  }
   orderBy: string
   activeTag: string | undefined
   focus: DiscussionFocusHelperType
   overlays: {
     preferencesOverlay: OverlayState<unknown>
-    shareOverlay: OverlayState<string>
+    shareOverlay: ShareOverlayState
   }
 }
 /*

@@ -29,9 +29,9 @@ const StatementNodeWrapper = ({
 
   const {
     discussion,
-    actions,
-    overlays: { preferencesOverlay }
+    overlays: { shareOverlay }
   } = useDiscussion()
+  const { shareHandler } = shareOverlay
   const {
     upVoteCommentHandler,
     downVoteCommentHandler,
@@ -51,7 +51,7 @@ const StatementNodeWrapper = ({
       t,
       setEditMode
     })
-  }, [comment, actions, me?.roles, t])
+  }, [comment, me?.roles, t, unpublishCommentHandler, reportCommentHandler])
 
   const isFocused = useMemo(() => {
     const focusedComment = discussion?.comments?.focus ?? null
@@ -90,7 +90,7 @@ const StatementNodeWrapper = ({
         handleUpVote: upVoteCommentHandler,
         handleDownVote: downVoteCommentHandler,
         handleUnVote: unVoteCommentHandler,
-        handleShare: actions.shareHandler
+        handleShare: shareHandler
       }}
       menuItems={menuItems}
       tagMappings={tagMappings}

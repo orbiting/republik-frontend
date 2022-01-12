@@ -2,18 +2,15 @@ import React, { FC, ReactNode } from 'react'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../../lib/constants'
 import { useRouter } from 'next/router'
 import useDiscussionData from './hooks/useDiscussionData'
-import useOverlay from './hooks/useOverlay'
+import useOverlay from './hooks/overlays/useOverlay'
 import DiscussionOverlays from './components/DiscussionOverlays'
 import DiscussionContext, {
   DiscussionContextValue
 } from './context/DiscussionContext'
-import { postMessage, useInNativeApp } from '../../../lib/withInNativeApp'
-import { getFocusUrl } from '../CommentLink'
-import { useTranslation } from '../../../lib/withT'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 import DiscussionMetaHelper from './components/DiscussionMetaHelper'
 import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
-import { CommentFragmentType } from './graphql/fragments/CommentFragment.graphql'
+import useShareCommentOverlay from './hooks/overlays/useShareCommentOverlay'
 
 /**
  * Wrapper component that provides the discussion data it's children.
@@ -59,40 +56,10 @@ const DiscussionProvider: FC<{
     discussion
   )
 
-  // TODO: Abstract into overlay actions hook
-
-  const { inNativeApp } = useInNativeApp()
-  const { t } = useTranslation()
-
-  function shareHandler(comment: CommentFragmentType): Promise<unknown> {
-    if (inNativeApp) {
-      postMessage({
-        type: 'share',
-        payload: {
-          title: discussion.title,
-          url: getFocusUrl(discussion, comment),
-          subject: t(
-            'discussion/share/emailSubject',
-            {
-              title: discussion.title
-            },
-            ''
-          ),
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          dialogTitle: t('article/share/title')
-        }
-      })
-    } else {
-      shareOverlay.handleOpen(getFocusUrl(discussion, comment))
-    }
-    return Promise.resolve({ ok: true })
-  }
-
   // Create overlay state that is meant to be accessed by all discussion-components
 
   const preferencesOverlay = useOverlay<unknown>()
-  const shareOverlay = useOverlay<string>()
+  const shareOverlay = useShareCommentOverlay(discussion)
 
   const contextValue: DiscussionContextValue = {
     id: discussionId,
@@ -101,9 +68,6 @@ const DiscussionProvider: FC<{
     error: error,
     fetchMore,
     refetch,
-    actions: {
-      shareHandler
-    },
     orderBy,
     activeTag,
     focus: {

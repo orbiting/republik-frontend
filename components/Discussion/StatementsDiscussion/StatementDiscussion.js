@@ -61,11 +61,9 @@ const StatementDiscussion = ({ t, tagMappings }) => {
       render={() => (
         <div>
           <div>
-            {actions.submitCommentHandler && (
-              <DiscussionComposerWrapper isTopLevel showPayNotes>
-                <StatementComposer />
-              </DiscussionComposerWrapper>
-            )}
+            <DiscussionComposerWrapper isTopLevel showPayNotes>
+              <StatementComposer />
+            </DiscussionComposerWrapper>
           </div>
           <div>
             <TagFilter discussion={discussion} />

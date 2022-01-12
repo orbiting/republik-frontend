@@ -31,6 +31,8 @@ export const DiscussionContext = createContext<DiscussionContextValue>(
 )
  */
 
+// TODO: One the dialog-components no longer directly use the discussion context
+// replace it with the above commented out code
 export default DiscussionContext
 
 export const useDiscussion = (): DiscussionContextValue => {

@@ -15,19 +15,17 @@ import DiscussionMetaHelper from './components/DiscussionMetaHelper'
 import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
 import { CommentFragmentType } from './graphql/fragments/CommentFragment.graphql'
 
-type Props = {
+/**
+ * Wrapper component that provides the discussion data it's children.
+ * It also handles logic for focusing on comments and displaying rendering of overlays.
+ * @constructor
+ */
+const DiscussionProvider: FC<{
   children?: ReactNode
   discussionId: string
   board?: boolean
   parentId?: string
-}
-
-const DiscussionProvider: FC<Props> = ({
-  children,
-  discussionId,
-  board,
-  parentId
-}) => {
+}> = ({ children, discussionId, board, parentId }) => {
   const { query } = useRouter()
   const orderBy =
     (query.order as string) ||
@@ -91,10 +89,12 @@ const DiscussionProvider: FC<Props> = ({
     return Promise.resolve({ ok: true })
   }
 
+  // Create overlay state that is meant to be accessed by all discussion-components
+
   const preferencesOverlay = useOverlay<unknown>()
   const shareOverlay = useOverlay<string>()
 
-  const ctxValue: DiscussionContextValue = {
+  const contextValue: DiscussionContextValue = {
     id: discussionId,
     discussion,
     loading: loading,
@@ -117,7 +117,7 @@ const DiscussionProvider: FC<Props> = ({
   }
 
   return (
-    <DiscussionContext.Provider value={ctxValue}>
+    <DiscussionContext.Provider value={contextValue}>
       <div data-discussion-id={discussionId}>
         {children}
         {discussion && (

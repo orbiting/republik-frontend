@@ -94,7 +94,7 @@
     },
     {
       "key": "vote/common/back",
-      "value": "Bearbeiten"
+      "value": "Zurück"
     },
     {
       "key": "vote/common/reset",
@@ -269,8 +269,12 @@
       "value": "{formattedCount} Stimmen"
     },
     {
-      "key": "vote/voting/turnout",
+      "key": "vote/voting/turnout/withEmpty",
       "value": "Stimmbeteiligung: {formattedPercent}. Es sind {formattedCount} Stimmen eingegangen, davon {formattedEmptyCount} leer."
+    },
+    {
+      "key": "vote/voting/turnout/withoutEmpty",
+      "value": "Stimmbeteiligung: {formattedPercent}. Es sind {formattedCount} Stimmen eingegangen."
     },
     {
       "key": "vote/voting/winner/YES",

@@ -9,6 +9,7 @@ import { useTranslation } from '../../../lib/withT'
 import { composerHints } from '../constants'
 import useDiscussionPreferences from '../DiscussionProvider/hooks/useDiscussionPreferences'
 import useSubmitCommentHandler from '../DiscussionProvider/hooks/actions/useSubmitCommentHandler'
+import useEditCommentHandler from '../DiscussionProvider/hooks/actions/useEditCommentHandler'
 
 const propTypes = {
   onClose: PropTypes.func,
@@ -28,12 +29,12 @@ const StatementComposer = ({
   initialTagValue
 }) => {
   const { t } = useTranslation()
-  const { id, discussion, actions, overlays } = useDiscussion()
+  const { id, discussion, overlays } = useDiscussion()
   const { preferences } = useDiscussionPreferences(id)
   const submitCommentHandler = useSubmitCommentHandler()
+  const editCommentHandler = useEditCommentHandler()
 
   const { discussionId, displayAuthor, tags, rules } = discussion
-  const { editCommentHandler } = actions
   const { preferencesOverlay } = overlays
 
   const [active, setActive] = useState(!!initialText)

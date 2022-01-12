@@ -7,7 +7,7 @@ import {
   useSubmitCommentMutation
 } from '../../graphql/mutations/SubmitCommentMutation.graphql'
 
-type SubmitCommentHandlerFunction = (
+export type SubmitCommentHandlerFunction = (
   content: string,
   tags: string[],
   options: {

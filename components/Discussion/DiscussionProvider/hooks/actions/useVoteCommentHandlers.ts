@@ -6,7 +6,7 @@ import {
 } from '../../../graphql/documents'
 import { toRejectedString } from '../../../graphql/utils'
 
-type VoteCommentHandlers = {
+export type VoteCommentHandlers = {
   upVoteCommentHandler: (commentId: string) => Promise<unknown>
   downVoteCommentHandler: (commentId: string) => Promise<unknown>
   unVoteCommentHandler: (commentId: string) => Promise<unknown>

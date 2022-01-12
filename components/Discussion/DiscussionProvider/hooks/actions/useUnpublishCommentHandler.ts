@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import { UNPUBLISH_COMMENT_MUTATION } from '../../../graphql/documents'
 import { toRejectedString } from '../../../graphql/utils'
 
-type UnpublishCommentHandler = (commentId: string) => Promise<never>
+export type UnpublishCommentHandler = (commentId: string) => Promise<unknown>
 
 function useUnpublishCommentHandler(): UnpublishCommentHandler {
   const [unpublishCommentMutation] = useMutation(UNPUBLISH_COMMENT_MUTATION)

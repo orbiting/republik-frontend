@@ -9,6 +9,8 @@ import StatementComposer from './StatementComposer'
 import { getFocusHref } from '../CommentLink'
 import { format } from 'url'
 import useVoteCommentHandlers from '../DiscussionProvider/hooks/actions/useVoteCommentHandlers'
+import useUnpublishCommentHandler from '../DiscussionProvider/hooks/actions/useUnpublishCommentHandler'
+import useReportCommentHandler from '../DiscussionProvider/hooks/actions/useReportCommentHandler'
 
 type Props = {
   comment: any
@@ -34,11 +36,16 @@ const StatementNodeWrapper = ({
     downVoteCommentHandler,
     unVoteCommentHandler
   } = useVoteCommentHandlers()
+  const unpublishCommentHandler = useUnpublishCommentHandler()
+  const reportCommentHandler = useReportCommentHandler()
 
   const menuItems = useMemo(() => {
     return getStatementActions({
       comment,
-      actions,
+      actions: {
+        unpublishCommentHandler,
+        reportCommentHandler
+      },
       roles: me?.roles ?? [],
       t,
       setEditMode

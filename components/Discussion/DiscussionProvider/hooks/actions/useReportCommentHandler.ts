@@ -2,7 +2,7 @@ import { toRejectedString } from '../../../graphql/utils'
 import { useMutation } from '@apollo/client'
 import { REPORT_COMMENT_MUTATION } from '../../../graphql/documents'
 
-type ReportCommentHandler = (commentId: string) => Promise<unknown>
+export type ReportCommentHandler = (commentId: string) => Promise<unknown>
 
 function useReportCommentHandler(): ReportCommentHandler {
   const [reportCommentMutation] = useMutation(REPORT_COMMENT_MUTATION)

@@ -1,9 +1,14 @@
 import { Dispatch, SetStateAction } from 'react'
 import { EditIcon, ReportIcon, UnpublishIcon } from '@project-r/styleguide'
+import { ReportCommentHandler } from '../DiscussionProvider/hooks/actions/useReportCommentHandler'
+import { UnpublishCommentHandler } from '../DiscussionProvider/hooks/actions/useUnpublishCommentHandler'
 
 type Options = {
   comment: any
-  actions: any
+  actions: {
+    reportCommentHandler: ReportCommentHandler
+    unpublishCommentHandler: UnpublishCommentHandler
+  }
   roles: string[]
   t: any
   setEditMode: Dispatch<SetStateAction<boolean>>

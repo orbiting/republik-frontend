@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import { EDIT_COMMENT_MUTATION } from '../../../graphql/documents'
 import { toRejectedString } from '../../../graphql/utils'
 
-type EditCommentHandler = (
+export type EditCommentHandler = (
   commentId: string,
   content: string,
   tags: string[]

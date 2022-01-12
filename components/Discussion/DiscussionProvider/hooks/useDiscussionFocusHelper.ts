@@ -1,7 +1,12 @@
-import { DiscussionObject } from '../graphql/queries/DiscussionQuery.graphql'
+import { DiscussionQuery } from '../graphql/queries/DiscussionQuery.graphql'
 import { useEffect, useState } from 'react'
 import { focusSelector } from '../../../../lib/utils/scroll'
 import { useTranslation } from '../../../../lib/withT'
+
+export type DiscussionFocusHelperType = {
+  loading: boolean
+  error: Error | null
+}
 
 /**
  * Helper hook to highlight and navigate to the closest comment in the current discussion
@@ -12,8 +17,8 @@ import { useTranslation } from '../../../../lib/withT'
 function useDiscussionFocusHelper(
   focusId: string | null,
   discussionLoading: boolean,
-  discussion?: DiscussionObject
-) {
+  discussion?: DiscussionQuery['discussion']
+): DiscussionFocusHelperType {
   const { t } = useTranslation()
   const [currentFocusId, setCurrentFocusId] = useState<string | null>(null)
   const [focusLoading, setFocusLoading] = useState(false)

@@ -30,17 +30,17 @@ type FetchMoreParams = DiscussionQueryVariables & {
   appendAfter?: string
 }
 
+export type FetchDiscussionFunctionType = (
+  params: FetchMoreParams
+) => Promise<ApolloQueryResult<DiscussionQuery>>
+
 // Data returned by the hook
 type DiscussionData = {
-  discussion?: DiscussionQuery['discussion']
+  discussion: DiscussionQuery['discussion'] | undefined
   loading: boolean
   error: ApolloError
-  refetch: (
-    variables: Partial<DiscussionQueryVariables>
-  ) => Promise<ApolloQueryResult<DiscussionQuery>>
-  fetchMore: (
-    params: FetchMoreParams
-  ) => Promise<ApolloQueryResult<DiscussionQuery>>
+  refetch: FetchDiscussionFunctionType
+  fetchMore: FetchDiscussionFunctionType
 }
 
 function useDiscussionData(
@@ -165,7 +165,7 @@ function useDiscussionData(
   }, [loadedDiscussionId, initialParentId])
 
   return {
-    discussion: discussion || previousData,
+    discussion: discussion || previousData?.discussion,
     loading: loading,
     error,
     refetch,

@@ -1,24 +1,32 @@
-import { useContext } from 'react'
+import { Context, useContext } from 'react'
+import { ApolloError } from '@apollo/client'
 import { DiscussionContext } from '@project-r/styleguide'
+import { DiscussionQuery } from '../graphql/queries/DiscussionQuery.graphql'
+import { FetchDiscussionFunctionType } from '../hooks/useDiscussionData'
+import { DiscussionMutations } from '../hooks/useDiscussionMutations'
+import { DiscussionFocusHelperType } from '../hooks/useDiscussionFocusHelper'
+import { OverlayState } from '../hooks/useOverlay'
+import { CommentFragmentType } from '../graphql/fragments/CommentFragment.graphql'
 
-/*
-// TODO: Add proper type
-export type Discussion = any
-
-// TODO: Type Comment received for a disucssion
-type Comment = any
-
-interface DiscussionContextValue {
-  discussion: Discussion | null
+export interface DiscussionContextValue {
+  id: string
+  discussion: DiscussionQuery['discussion'] | undefined
   loading: boolean
-  error?: ApolloError
-  fetchMore: any
-  refetch
+  error: ApolloError | undefined
+  fetchMore: FetchDiscussionFunctionType
+  refetch: FetchDiscussionFunctionType
+  actions: DiscussionMutations & {
+    shareHandler: (comment: CommentFragmentType) => Promise<unknown>
+  }
+  orderBy: string
+  activeTag: string | undefined
+  focus: DiscussionFocusHelperType
   overlays: {
+    preferencesOverlay: OverlayState<unknown>
     shareOverlay: OverlayState<string>
   }
 }
-
+/*
 export const DiscussionContext = createContext<DiscussionContextValue>(
   {} as DiscussionContextValue
 )
@@ -26,6 +34,6 @@ export const DiscussionContext = createContext<DiscussionContextValue>(
 
 export default DiscussionContext
 
-export const useDiscussion = () => {
-  return useContext(DiscussionContext)
+export const useDiscussion = (): DiscussionContextValue => {
+  return useContext(DiscussionContext as Context<DiscussionContextValue>)
 }

@@ -5,13 +5,16 @@ import useDiscussionData from './hooks/useDiscussionData'
 import useDiscussionMutations from './hooks/useDiscussionMutations'
 import useOverlay from './hooks/useOverlay'
 import DiscussionOverlays from './components/DiscussionOverlays'
-import DiscussionContext from './context/DiscussionContext'
+import DiscussionContext, {
+  DiscussionContextValue
+} from './context/DiscussionContext'
 import { postMessage, useInNativeApp } from '../../../lib/withInNativeApp'
 import { getFocusUrl } from '../CommentLink'
 import { useTranslation } from '../../../lib/withT'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 import DiscussionMetaHelper from './components/DiscussionMetaHelper'
 import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
+import { CommentFragmentType } from './graphql/fragments/CommentFragment.graphql'
 
 type Props = {
   children?: ReactNode
@@ -66,7 +69,7 @@ const DiscussionProvider: FC<Props> = ({
   const { inNativeApp } = useInNativeApp()
   const { t } = useTranslation()
 
-  function shareHandler(comment) {
+  function shareHandler(comment: CommentFragmentType): Promise<unknown> {
     if (inNativeApp) {
       postMessage({
         type: 'share',
@@ -91,10 +94,10 @@ const DiscussionProvider: FC<Props> = ({
     return Promise.resolve({ ok: true })
   }
 
-  const preferencesOverlay = useOverlay()
+  const preferencesOverlay = useOverlay<unknown>()
   const shareOverlay = useOverlay<string>()
 
-  const ctxValue = {
+  const ctxValue: DiscussionContextValue = {
     id: discussionId,
     discussion,
     loading: loading,

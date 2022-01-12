@@ -2,7 +2,6 @@ import React, { FC, ReactNode } from 'react'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../../lib/constants'
 import { useRouter } from 'next/router'
 import useDiscussionData from './hooks/useDiscussionData'
-import useDiscussionMutations from './hooks/useDiscussionMutations'
 import useOverlay from './hooks/useOverlay'
 import DiscussionOverlays from './components/DiscussionOverlays'
 import DiscussionContext, {
@@ -54,8 +53,6 @@ const DiscussionProvider: FC<Props> = ({
     }
   )
 
-  const actions = useDiscussionMutations()
-
   useDiscussionNotificationHelper(discussion)
 
   const { loading: focusLoading, error: focusError } = useDiscussionFocusHelper(
@@ -105,7 +102,6 @@ const DiscussionProvider: FC<Props> = ({
     fetchMore,
     refetch,
     actions: {
-      ...actions,
       shareHandler
     },
     orderBy,

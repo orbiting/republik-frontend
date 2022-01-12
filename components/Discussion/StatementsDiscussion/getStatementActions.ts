@@ -1,10 +1,9 @@
 import { Dispatch, SetStateAction } from 'react'
 import { EditIcon, ReportIcon, UnpublishIcon } from '@project-r/styleguide'
-import { DiscussionMutations } from '../DiscussionProvider/hooks/useDiscussionMutations'
 
 type Options = {
   comment: any
-  actions: DiscussionMutations
+  actions: any
   roles: string[]
   t: any
   setEditMode: Dispatch<SetStateAction<boolean>>

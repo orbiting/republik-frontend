@@ -3,7 +3,6 @@ import { ApolloError } from '@apollo/client'
 import { DiscussionContext } from '@project-r/styleguide'
 import { DiscussionQuery } from '../graphql/queries/DiscussionQuery.graphql'
 import { FetchDiscussionFunctionType } from '../hooks/useDiscussionData'
-import { DiscussionMutations } from '../hooks/useDiscussionMutations'
 import { DiscussionFocusHelperType } from '../hooks/useDiscussionFocusHelper'
 import { OverlayState } from '../hooks/useOverlay'
 import { CommentFragmentType } from '../graphql/fragments/CommentFragment.graphql'
@@ -15,7 +14,7 @@ export interface DiscussionContextValue {
   error: ApolloError | undefined
   fetchMore: FetchDiscussionFunctionType
   refetch: FetchDiscussionFunctionType
-  actions: DiscussionMutations & {
+  actions: {
     shareHandler: (comment: CommentFragmentType) => Promise<unknown>
   }
   orderBy: string

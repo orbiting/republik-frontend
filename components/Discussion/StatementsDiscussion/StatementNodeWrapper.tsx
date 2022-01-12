@@ -8,6 +8,7 @@ import getStatementActions from './getStatementActions'
 import StatementComposer from './StatementComposer'
 import { getFocusHref } from '../CommentLink'
 import { format } from 'url'
+import useVoteCommentHandlers from '../DiscussionProvider/hooks/actions/useVoteCommentHandlers'
 
 type Props = {
   comment: any
@@ -21,12 +22,18 @@ const StatementNodeWrapper = ({
   const [editMode, setEditMode] = useState(false)
 
   const { t } = useTranslation()
+  const { me } = useMe()
+
   const {
     discussion,
     actions,
     overlays: { preferencesOverlay }
   } = useDiscussion()
-  const { me } = useMe()
+  const {
+    upVoteCommentHandler,
+    downVoteCommentHandler,
+    unVoteCommentHandler
+  } = useVoteCommentHandlers()
 
   const menuItems = useMemo(() => {
     return getStatementActions({
@@ -72,9 +79,9 @@ const StatementNodeWrapper = ({
       comment={comment}
       t={t}
       actions={{
-        handleUpVote: actions.upVoteCommentHandler,
-        handleDownVote: actions.downVoteCommentHandler,
-        handleUnVote: actions.unVoteCommentHandler,
+        handleUpVote: upVoteCommentHandler,
+        handleDownVote: downVoteCommentHandler,
+        handleUnVote: unVoteCommentHandler,
         handleShare: actions.shareHandler
       }}
       menuItems={menuItems}

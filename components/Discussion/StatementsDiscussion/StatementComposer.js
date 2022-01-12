@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { useDiscussion } from '../DiscussionProvider/context/DiscussionContext'
 import { useTranslation } from '../../../lib/withT'
 import { composerHints } from '../constants'
+import useDiscussionPreferences from '../DiscussionProvider/hooks/useDiscussionPreferences'
 
 const propTypes = {
   onClose: PropTypes.func,
@@ -26,7 +27,8 @@ const StatementComposer = ({
   initialTagValue
 }) => {
   const { t } = useTranslation()
-  const { discussion, preferences, actions, overlays } = useDiscussion()
+  const { id, discussion, actions, overlays } = useDiscussion()
+  const { preferences } = useDiscussionPreferences(id)
 
   const { discussionId, displayAuthor, tags, rules } = discussion
   const { submitHandler, editCommentHandler } = actions
@@ -89,7 +91,7 @@ const StatementComposer = ({
         maxLength={rules?.maxLength}
         tags={tags}
         initialText={initialText}
-        initialTag={
+        initialTagValue={
           tags && tags.length > 0 ? initialTagValue ?? tags[0] : undefined
         }
       />

@@ -6,6 +6,8 @@ import { FetchDiscussionFunctionType } from '../hooks/useDiscussionData'
 import { DiscussionFocusHelperType } from '../hooks/useDiscussionFocusHelper'
 import { OverlayState } from '../hooks/overlays/useOverlay'
 import { ShareOverlayState } from '../hooks/overlays/useShareCommentOverlay'
+import { DiscussionCredential } from '../graphql/types/SharedTypes'
+import { CommentFragmentType } from '../graphql/fragments/CommentFragment.graphql'
 
 export interface DiscussionContextValue {
   id: string
@@ -18,8 +20,9 @@ export interface DiscussionContextValue {
   activeTag: string | undefined
   focus: DiscussionFocusHelperType
   overlays: {
-    preferencesOverlay: OverlayState<unknown>
     shareOverlay: ShareOverlayState
+    preferencesOverlay: OverlayState<DiscussionCredential>
+    featureOverlay: OverlayState<CommentFragmentType>
   }
 }
 /*

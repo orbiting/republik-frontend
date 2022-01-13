@@ -5,13 +5,14 @@ import { useDiscussion } from '../context/DiscussionContext'
 import { DiscussionPreferences } from '../../DiscussionPreferences'
 import useDiscussionPreferences from '../hooks/useDiscussionPreferences'
 import { useTranslation } from '../../../../lib/withT'
+import { FeatureCommentOverlay } from '../../FeatureCommentOverlay'
 
 const DiscussionOverlays = () => {
   const { t } = useTranslation()
   const {
     id,
     discussion,
-    overlays: { preferencesOverlay, shareOverlay }
+    overlays: { shareOverlay, preferencesOverlay, featureOverlay }
   } = useDiscussion()
   const {
     preferences,
@@ -41,6 +42,8 @@ const DiscussionOverlays = () => {
           autoCredential={preferencesOverlay.data}
         />
       )}
+
+      {featureOverlay.open && <FeatureCommentOverlay />}
 
       {shareOverlay.open && (
         <ShareOverlay

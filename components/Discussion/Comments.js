@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from 'glamor'
 import compose from 'lodash/flowRight'
 import { useRouter } from 'next/router'
 
@@ -33,12 +32,8 @@ import { FeatureCommentOverlay } from './FeatureCommentOverlay'
 import { withMarkAsReadMutation } from '../Notifications/enhancers'
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 import CommentsOptions from './CommentsOptions'
-
-const styles = {
-  emptyDiscussion: css({
-    margin: '20px 0'
-  })
-}
+import EmptyDiscussion from './shared/EmptyDiscussion'
+import makeCommentTree from './DiscussionProvider/helpers/makeCommentTree'
 
 const Comments = props => {
   const {
@@ -242,7 +237,7 @@ const Comments = props => {
         /*
          * Convert the flat comments list into a tree.
          */
-        const comments = asTree(discussion.comments)
+        const comments = makeCommentTree(discussion.comments)
 
         /*
          * Construct the value for the DiscussionContext.
@@ -447,29 +442,3 @@ export default compose(
   withDiscussionPreferences,
   withInNativeApp
 )(Comments)
-
-const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
-  const convertComment = node => ({
-    ...node,
-    comments: {
-      ...node.comments,
-      nodes: childrenOfComment(node.id)
-    }
-  })
-
-  const childrenOfComment = id =>
-    nodes
-      .filter(n => n.parentIds[n.parentIds.length - 1] === id)
-      .map(convertComment)
-
-  return {
-    totalCount,
-    directTotalCount,
-    pageInfo,
-    nodes: nodes.filter(n => n.parentIds.length === 0).map(convertComment)
-  }
-}
-
-const EmptyDiscussion = ({ t }) => (
-  <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
-)

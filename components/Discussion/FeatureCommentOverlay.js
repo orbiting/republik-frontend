@@ -4,7 +4,6 @@ import {
   Overlay,
   OverlayBody,
   OverlayToolbar,
-  OverlayToolbarClose,
   ActiveDebateTeaser,
   Field,
   Button,
@@ -13,16 +12,15 @@ import {
   CommentTeaser,
   Checkbox
 } from '@project-r/styleguide'
-import compose from 'lodash/flowRight'
-import { graphql } from '@apollo/client/react/hoc'
 import AutosizeInput from 'react-textarea-autosize'
 
-import withT from '../../lib/withT'
+import { useTranslation } from '../../lib/withT'
 import { styles as fieldSetStyles } from '../FieldSet'
 import ErrorMessage from '../ErrorMessage'
 
-import { FEATURE_COMMENT_MUTATION } from './graphql/documents'
 import { css } from 'glamor'
+import { useDiscussion } from './DiscussionProvider/context/DiscussionContext'
+import { useFeatureCommentMutation } from './DiscussionProvider/graphql/mutations/FeatureCommentMutation.graphql'
 
 const TARGETS = ['DEFAULT', 'MARKETING']
 
@@ -41,10 +39,15 @@ const TargetCheckbox = ({ t, targets, setTargets, targetKey }) => (
   </div>
 )
 
-export const FeatureCommentOverlay = compose(
-  withT,
-  graphql(FEATURE_COMMENT_MUTATION)
-)(({ t, discussion, comment, onClose, mutate }) => {
+export const FeatureCommentOverlay = ({ comment }) => {
+  const { t } = useTranslation()
+  const {
+    discussion,
+    overlays: { featureOverlay }
+  } = useDiscussion()
+
+  const [featureCommentMutation] = useFeatureCommentMutation()
+
   const [mutatingState, setMutatingState] = useState({})
   const [targets, setTargets] = useState(
     comment.featuredTargets || [TARGETS[0]]
@@ -52,10 +55,10 @@ export const FeatureCommentOverlay = compose(
   const [text, setText] = useState(comment.featuredText || comment.text)
   const [colorScheme] = useColorContext()
   return (
-    <Overlay onClose={onClose} mUpStyle={{ minHeight: 0 }}>
+    <Overlay onClose={featureOverlay.handleClose} mUpStyle={{ minHeight: 0 }}>
       <OverlayToolbar
         title={t('FeatureCommentOverlay/title')}
-        onClose={onClose}
+        onClose={featureOverlay.handleClose}
       />
       <OverlayBody>
         <div>
@@ -98,7 +101,7 @@ export const FeatureCommentOverlay = compose(
             setMutatingState({
               loading: true
             })
-            mutate({
+            featureCommentMutation({
               variables: {
                 commentId: comment.id,
                 content: targets.length ? text : null,
@@ -106,7 +109,7 @@ export const FeatureCommentOverlay = compose(
               }
             })
               .then(() => {
-                onClose()
+                featureOverlay.handleClose()
               })
               .catch(error => {
                 setMutatingState({
@@ -158,7 +161,7 @@ export const FeatureCommentOverlay = compose(
       </OverlayBody>
     </Overlay>
   )
-})
+}
 
 const styles = {
   checkbox: css({

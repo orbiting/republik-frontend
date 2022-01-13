@@ -112,19 +112,6 @@ export const REPORT_COMMENT_MUTATION = gql`
   ${COMMENT_FRAGMENT}
 `
 
-export const FEATURE_COMMENT_MUTATION = gql`
-  mutation featureCommentMutation(
-    $commentId: ID!
-    $content: String
-    $targets: [CommentFeaturedTarget!]
-  ) {
-    featureComment(id: $commentId, content: $content, targets: $targets) {
-      ...Comment
-    }
-  }
-  ${COMMENT_FRAGMENT}
-`
-
 export const DOWN_VOTE_COMMENT_ACTION = gql`
   mutation downvoteComment($commentId: ID!) {
     downvoteComment(id: $commentId) {

@@ -24,9 +24,6 @@ const AbstractDiscussion = ({ meta }: Props) => {
   } = useDiscussion()
 
   const comments = useMemo(() => {
-    if (!discussion || !discussion.comments) {
-      return []
-    }
     return makeCommentTree(discussion.comments)
   }, [discussion])
 

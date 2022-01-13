@@ -48,6 +48,13 @@ css.global('div:focus', {
   outline: 'none'
 })
 
+// Manually set hyphenate-character to U+002D
+// Used as a workaround for chrome on MacOS Monterrey
+// Underlying issue: https://bugs.chromium.org/p/chromium/issues/detail?id=1267606#c24
+css.global('body', {
+  WebkitHyphenateCharacter: "'\\2D'"
+})
+
 const styles = {
   bodyGrowerContainer: css({
     minHeight: '100vh',

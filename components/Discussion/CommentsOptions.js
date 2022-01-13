@@ -4,6 +4,7 @@ import { rerouteDiscussion } from './DiscussionLink'
 import { getFocusUrl } from './CommentLink'
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
+import PropTypes from 'prop-types'
 
 const styles = {
   reloadLink: css({
@@ -60,15 +61,27 @@ const CommentsOptions = ({
           )
         })}
       </Scroller>
-      <A
-        {...styles.reloadLink}
-        href={getFocusUrl(discussion)}
-        onClick={handleReload}
-      >
-        {t('components/Discussion/reload')}
-      </A>
+      {handleReload && (
+        <A
+          {...styles.reloadLink}
+          href={getFocusUrl(discussion)}
+          onClick={handleReload}
+        >
+          {t('components/Discussion/reload')}
+        </A>
+      )}
     </div>
   )
 }
 
 export default CommentsOptions
+
+CommentsOptions.propTypes = {
+  t: PropTypes.func.isRequired,
+  router: PropTypes.object.isRequired,
+  board: PropTypes.bool,
+  discussion: PropTypes.object.isRequired,
+  discussionType: PropTypes.string.isRequired,
+  handleReload: PropTypes.func.isRequired,
+  resolvedOrderBy: PropTypes.string.isRequired
+}

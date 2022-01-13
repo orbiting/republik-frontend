@@ -81,6 +81,7 @@ import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
 import StatementDiscussion from '../Discussion/StatementsDiscussion/StatementDiscussion'
 import DiscussionProvider from '../Discussion/DiscussionProvider/DiscussionProvider'
+import TempDiscussionComponent from '../Discussion/TempDiscussionComponent'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,
@@ -678,6 +679,7 @@ const ArticlePage = ({
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
+                  {/*
                   {articleContent?.meta?.discussionType === 'statements' ? (
                     <DiscussionProvider discussionId={ownDiscussion.id}>
                       <StatementDiscussion
@@ -694,6 +696,11 @@ const ArticlePage = ({
                       showPayNotes
                     />
                   )}
+                  */}
+                  <TempDiscussionComponent
+                    discussionId={ownDiscussion.id}
+                    meta={articleContent.meta}
+                  />
                 </Center>
               )}
               {showNewsletterSignupBottom && (

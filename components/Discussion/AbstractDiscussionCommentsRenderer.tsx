@@ -1,15 +1,13 @@
-import { DiscussionFragmentType } from './DiscussionProvider/graphql/fragments/DiscussionFragment.graphql'
 import { CommentFragmentType } from './DiscussionProvider/graphql/fragments/CommentFragment.graphql'
 import StatementNodeWrapper from './StatementsDiscussion/StatementNodeWrapper'
 import React from 'react'
-import { useTranslation } from '../../lib/withT'
-import { StatementList } from '../../../styleguide'
 import { FetchDiscussionFunctionType } from './DiscussionProvider/hooks/useDiscussionData'
+import EmptyDiscussion from './shared/EmptyDiscussion'
 
 type Props = {
   comments: CommentFragmentType[]
   fetchMore: FetchDiscussionFunctionType
-  meta?: DiscussionFragmentType['meta']
+  meta?: any
 }
 
 const AbstractDiscussionCommentsRenderer = ({
@@ -17,21 +15,23 @@ const AbstractDiscussionCommentsRenderer = ({
   fetchMore,
   meta
 }: Props) => {
-  const { t } = useTranslation()
+  if (comments.length === 0) {
+    return <EmptyDiscussion />
+  }
 
   if (meta?.discussionType === 'statements') {
-    const tagMapping = meta?.tagMapping ?? []
+    const tagMappings = meta?.tagMappings ?? []
 
     return (
-      <StatementList t={t} tagMappings={tagMapping}>
+      <>
         {comments.map(comment => (
           <StatementNodeWrapper
             key={comment.id}
             comment={comment}
-            tagMappings={tagMapping}
+            tagMappings={tagMappings}
           />
         ))}
-      </StatementList>
+      </>
     )
   }
 

@@ -1,8 +1,7 @@
 import React from 'react'
 import { DiscussionFragmentType } from './DiscussionProvider/graphql/fragments/DiscussionFragment.graphql'
 import DiscussionProvider from './DiscussionProvider/DiscussionProvider'
-import StatementDiscussion from './StatementsDiscussion/StatementDiscussion'
-import DialogDiscussion from './Dialog/DialogDiscussion'
+import AbstractDiscussion from './AbstractDiscussion'
 
 type Props = {
   discussionId: string
@@ -12,11 +11,7 @@ type Props = {
 const TempDiscussionComponent = ({ discussionId, meta }: Props) => {
   return (
     <DiscussionProvider discussionId={discussionId}>
-      {meta && meta?.discussionType === 'statements' ? (
-        <StatementDiscussion tagMappings={meta?.tagMappings} />
-      ) : (
-        <DialogDiscussion />
-      )}
+      <AbstractDiscussion meta={meta} />
     </DiscussionProvider>
   )
 }

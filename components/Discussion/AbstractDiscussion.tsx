@@ -1,19 +1,18 @@
+import React from 'react'
 import { useRouter } from 'next/router'
-import { Loader } from '@project-r/styleguide'
+import { Loader, DiscussionCommentsWrapper } from '@project-r/styleguide'
 import { useTranslation } from '../../lib/withT'
 import { useDiscussion } from './DiscussionProvider/context/DiscussionContext'
-import React, { useMemo } from 'react'
 import { getFocusHref } from './CommentLink'
 import DiscussionComposerWrapper from './DiscussionProvider/components/DiscussionComposerWrapper'
 import DiscussionComposer from './shared/DiscussionComposer'
 import TagFilter from './TagFilter'
 import CommentsOptions from './CommentsOptions'
-import { CommentFragmentType } from './DiscussionProvider/graphql/fragments/CommentFragment.graphql'
-import { DiscussionFragmentType } from './DiscussionProvider/graphql/fragments/DiscussionFragment.graphql'
 import AbstractDiscussionCommentsRenderer from './AbstractDiscussionCommentsRenderer'
+import DiscussionOptions from './shared/DiscussionOptions'
 
 type Props = {
-  meta: DiscussionFragmentType['meta']
+  meta: any
 }
 
 const AbstractDiscussion = ({ meta }: Props) => {
@@ -24,7 +23,6 @@ const AbstractDiscussion = ({ meta }: Props) => {
     discussion,
     loading,
     error,
-    refetch,
     fetchMore,
     orderBy,
     focus: { error: focusError }
@@ -39,20 +37,6 @@ const AbstractDiscussion = ({ meta }: Props) => {
       after: endCursor,
       appendAfter: lastNode.id
     })
-  }
-
-  const handleReload = e => {
-    e.preventDefault()
-    const href = getFocusHref(discussion)
-    if (href) {
-      router.replace(href).then(() => {
-        refetch({
-          focusId: undefined
-        })
-      })
-    } else {
-      refetch()
-    }
   }
 
   return (
@@ -70,28 +54,22 @@ const AbstractDiscussion = ({ meta }: Props) => {
             </DiscussionComposerWrapper>
           </div>
           <div>
-            <TagFilter discussion={discussion} />
-            <CommentsOptions
+            <DiscussionOptions meta={meta} />
+            <DiscussionCommentsWrapper
               t={t}
-              resolvedOrderBy={discussion.comments.resolvedOrderBy || orderBy}
-              handleReload={handleReload}
-              discussion={discussion}
-              discussionType='statements'
-              router={router}
-            />
-            <>
+              loadMore={loadMore}
+              moreAvailableCount={
+                discussion.comments.totalCount -
+                discussion.comments.nodes.length
+              }
+              tagMappings={meta?.tagMapping}
+            >
               <AbstractDiscussionCommentsRenderer
-                meta={meta}
                 comments={discussion.comments.nodes}
                 fetchMore={fetchMore}
+                meta={meta}
               />
-              <button onClick={loadMore}>
-                Load more : $
-                {discussion.comments.totalCount -
-                  discussion.comments.nodes.length}{' '}
-                more comments available
-              </button>
-            </>
+            </DiscussionCommentsWrapper>
           </div>
         </div>
       )}

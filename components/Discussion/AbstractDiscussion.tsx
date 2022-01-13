@@ -1,22 +1,18 @@
-import React from 'react'
-import { useRouter } from 'next/router'
+import React, { useMemo } from 'react'
 import { Loader, DiscussionCommentsWrapper } from '@project-r/styleguide'
 import { useTranslation } from '../../lib/withT'
 import { useDiscussion } from './DiscussionProvider/context/DiscussionContext'
-import { getFocusHref } from './CommentLink'
 import DiscussionComposerWrapper from './DiscussionProvider/components/DiscussionComposerWrapper'
 import DiscussionComposer from './shared/DiscussionComposer'
-import TagFilter from './TagFilter'
-import CommentsOptions from './CommentsOptions'
 import AbstractDiscussionCommentsRenderer from './AbstractDiscussionCommentsRenderer'
 import DiscussionOptions from './shared/DiscussionOptions'
+import makeCommentTree from './DiscussionProvider/helpers/makeCommentTree'
 
 type Props = {
   meta: any
 }
 
 const AbstractDiscussion = ({ meta }: Props) => {
-  const router = useRouter()
   const { t } = useTranslation()
 
   const {
@@ -24,9 +20,15 @@ const AbstractDiscussion = ({ meta }: Props) => {
     loading,
     error,
     fetchMore,
-    orderBy,
     focus: { error: focusError }
   } = useDiscussion()
+
+  const comments = useMemo(() => {
+    if (!discussion || !discussion.comments) {
+      return []
+    }
+    return makeCommentTree(discussion.comments)
+  }, [discussion])
 
   const loadMore = async (): Promise<unknown> => {
     if (!discussion) return
@@ -49,7 +51,11 @@ const AbstractDiscussion = ({ meta }: Props) => {
             <DiscussionComposerWrapper isTopLevel showPayNotes>
               <DiscussionComposer
                 isRootLevel
-                placeholder={t('components/Discussion/Statement/Placeholder')}
+                placeholder={
+                  meta?.discussionType === 'statements'
+                    ? 'components/Discussion/Statement/Placeholder'
+                    : undefined
+                }
               />
             </DiscussionComposerWrapper>
           </div>
@@ -58,14 +64,11 @@ const AbstractDiscussion = ({ meta }: Props) => {
             <DiscussionCommentsWrapper
               t={t}
               loadMore={loadMore}
-              moreAvailableCount={
-                discussion.comments.totalCount -
-                discussion.comments.nodes.length
-              }
+              moreAvailableCount={comments.totalCount - comments.nodes.length}
               tagMappings={meta?.tagMapping}
             >
               <AbstractDiscussionCommentsRenderer
-                comments={discussion.comments.nodes}
+                comments={comments.nodes}
                 fetchMore={fetchMore}
                 meta={meta}
               />

@@ -913,16 +913,20 @@
       "value": "unregelmässig"
     },
     {
+      "key": "account/newsletterSubscriptions/PRODUCT/description",
+      "value": "Umfragen und Produktinformationen"
+    },
+    {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
       "value": "Project R – Wichtige Updates"
     },
     {
-      "key": "account/newsletterSubscriptions/PROJECTR/frequency",
-      "value": "unregelmässig"
-    },
-    {
       "key": "account/newsletterSubscriptions/PROJECTR/description",
       "value": "Project R ist die gemeinnützige Genossenschaft hinter der «Republik». Project R fördert die Demokratie, indem sie den Journalismus als vierte Gewalt stärkt."
+    },
+    {
+      "key": "account/newsletterSubscriptions/PROJECTR/frequency",
+      "value": "unregelmässig"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/label",
@@ -934,7 +938,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/description",
-      "value": "Brauchbares zur Pandemie – jeden Montag um 19 Uhr. Informationen für alle. Auch ohne Republik-Abo oder Mitgliedschaft."
+      "value": "Brauchbares zur Pandemie – was man wissen sollte, obwohl es niemand mehr hören mag. Der kostenlose 19-Uhr-Newsletter ist unser Angebot zur Bewältigung der Corona-Pandemie. "
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/label",
@@ -6626,7 +6630,7 @@
     },
     {
       "key": "Auth/NewsletterSignUp/settingTitle",
-      "value": "Newsletter per E-Mail"
+      "value": "Newsletter per E-Mail abonnieren"
     },
     {
       "key": "Notifications/title/0",

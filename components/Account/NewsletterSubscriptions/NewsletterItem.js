@@ -9,7 +9,6 @@ import {
   fontStyles,
   useColorContext
 } from '@project-r/styleguide'
-import NewsletterIcon from './NewsletterIcon'
 
 const ICON_SIZE = 32
 const GAP_SIZE = 24
@@ -55,10 +54,9 @@ const styles = {
     }
   }),
   checkbox: css({
-    marginLeft: ICON_SIZE + GAP_SIZE,
     [mediaQueries.mUp]: {
-      width: 110,
-      paddingTop: 4
+      width: 148,
+      paddingTop: 6
     }
   })
 }
@@ -69,28 +67,25 @@ const NewsletterItem = ({
   mutating,
   name,
   t,
+  onlyName,
   status
 }) => {
   const [colorScheme] = useColorContext()
 
   return (
     <div {...styles.row} {...colorScheme.set('borderColor', 'divider')}>
-      <div {...styles.iconTextCol}>
-        <NewsletterIcon name={name} size={32} />
-        <div style={{ flex: 1 }}>
-          <Interaction.H3>
-            {t(`account/newsletterSubscriptions/${name}/label`)}
-          </Interaction.H3>
+      <div style={{ flex: 1 }}>
+        <Interaction.H3>
+          {t(`account/newsletterSubscriptions/${name}/label`)}
+        </Interaction.H3>
+        {!onlyName && (
           <p {...styles.description}>
             {t(`account/newsletterSubscriptions/${name}/description`)}
           </p>
-          <Label
-            {...styles.frequency}
-            {...colorScheme.set('color', 'textSoft')}
-          >
-            {t(`account/newsletterSubscriptions/${name}/frequency`)}
-          </Label>
-        </div>
+        )}
+        <Label {...styles.frequency} {...colorScheme.set('color', 'textSoft')}>
+          {t(`account/newsletterSubscriptions/${name}/frequency`)}
+        </Label>
       </div>
       <div {...styles.checkbox}>
         <Checkbox

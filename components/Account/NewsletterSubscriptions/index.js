@@ -68,10 +68,6 @@ const NewsletterSubscriptions = ({ t, isMember, free, onlyName }) => (
 
       return (
         <Fragment>
-          <p style={{ marginBottom: 36 }}>
-            Abonnieren Sie hier kostenlos unsee Newsletter und wir informieren
-            Sie über die neusten Beiträge.
-          </p>
           {status !== 'subscribed' && (
             <FrameBox style={{ margin: '10px 0', padding: 15 }}>
               <Mutation mutation={RESUBSCRIBE_EMAIL}>
@@ -153,6 +149,7 @@ const NewsletterSubscriptions = ({ t, isMember, free, onlyName }) => (
                         name={name}
                         t={t}
                         status={status}
+                        onlyName={onlyName}
                         onChange={(_, checked) => {
                           mutate({
                             variables: {

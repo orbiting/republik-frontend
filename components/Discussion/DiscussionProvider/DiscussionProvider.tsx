@@ -11,6 +11,7 @@ import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 import DiscussionMetaHelper from './components/DiscussionMetaHelper'
 import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
 import useShareCommentOverlay from './hooks/overlays/useShareCommentOverlay'
+import { DiscussionCredential } from './graphql/types/SharedTypes'
 
 /**
  * Wrapper component that provides the discussion data it's children.
@@ -58,7 +59,7 @@ const DiscussionProvider: FC<{
 
   // Create overlay state that is meant to be accessed by all discussion-components
 
-  const preferencesOverlay = useOverlay<unknown>()
+  const preferencesOverlay = useOverlay<DiscussionCredential>()
   const shareOverlay = useShareCommentOverlay(discussion)
 
   const contextValue: DiscussionContextValue = {

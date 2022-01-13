@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
 import { StatementList } from '@project-r/styleguide'
 import Loader from '../../Loader'
-import StatementComposer from './StatementComposer'
-import withT from '../../../lib/withT'
+import withT, { useTranslation } from '../../../lib/withT'
 import TagFilter from '../TagFilter'
 import { useDiscussion } from '../DiscussionProvider/context/DiscussionContext'
 import CommentsOptions from '../CommentsOptions'
@@ -10,19 +9,21 @@ import { useRouter } from 'next/router'
 import StatementNodeWrapper from './StatementNodeWrapper'
 import DiscussionComposerWrapper from '../DiscussionProvider/components/DiscussionComposerWrapper'
 import { getFocusHref } from '../CommentLink'
+import DiscussionComposer from '../shared/DiscussionComposer'
 
-const StatementDiscussion = ({ t, tagMappings }) => {
+const StatementDiscussion = ({ tagMappings }) => {
+  const router = useRouter()
+  const { t } = useTranslation()
+
   const {
     discussion,
     loading,
     error,
     refetch,
-    actions,
     fetchMore,
     orderBy,
     focus: { error: focusError }
   } = useDiscussion()
-  const router = useRouter()
 
   const filteredStatements = useMemo(
     () => (discussion && discussion.comments ? discussion.comments.nodes : []),
@@ -62,7 +63,10 @@ const StatementDiscussion = ({ t, tagMappings }) => {
         <div>
           <div>
             <DiscussionComposerWrapper isTopLevel showPayNotes>
-              <StatementComposer />
+              <DiscussionComposer
+                isRootLevel
+                placeholder={t('components/Discussion/Statement/Placeholder')}
+              />
             </DiscussionComposerWrapper>
           </div>
           <div>

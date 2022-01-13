@@ -5,13 +5,13 @@ import { useDiscussion } from '../DiscussionProvider/context/DiscussionContext'
 import { useTranslation } from '../../../lib/withT'
 import { useMe } from '../../../lib/context/MeContext'
 import getStatementActions from './getStatementActions'
-import StatementComposer from './StatementComposer'
 import { getFocusHref } from '../CommentLink'
 import { format } from 'url'
 import useVoteCommentHandlers from '../DiscussionProvider/hooks/actions/useVoteCommentHandlers'
 import useUnpublishCommentHandler from '../DiscussionProvider/hooks/actions/useUnpublishCommentHandler'
 import useReportCommentHandler from '../DiscussionProvider/hooks/actions/useReportCommentHandler'
 import { CommentFragmentType } from '../DiscussionProvider/graphql/fragments/CommentFragment.graphql'
+import DiscussionComposer from '../shared/DiscussionComposer'
 
 type Props = {
   comment: CommentFragmentType
@@ -73,11 +73,13 @@ const StatementNodeWrapper = ({
 
   if (editMode) {
     return (
-      <StatementComposer
+      <DiscussionComposer
+        isRootLevel={false}
         onClose={() => setEditMode(false)}
         commentId={comment.id}
         initialText={comment.text}
         initialTagValue={comment.tags.length > 0 && comment.tags[0]}
+        placeholder={t('components/Discussion/Statement/Placeholder')}
       />
     )
   }

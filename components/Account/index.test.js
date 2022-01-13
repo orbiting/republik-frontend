@@ -1,16 +1,13 @@
 import React from 'react'
-import test from 'tape'
-import { render } from '../../lib/utils/enzyme'
 import { Item } from './Elements'
+import { render, screen } from '@testing-library/react'
 
-test('account elements', assert => {
-  assert.plan(1)
+describe('/components/Account/index.js', () => {
+  it('should should render formatted createdAt', () => {
+    render(<Item createdAt={new Date(2018, 0, 15)} />)
 
-  const wrapper = render(<Item createdAt={new Date(2018, 0, 15)} />)
-
-  assert.equal(
-    wrapper.text().indexOf('15. Januar 2018') !== -1,
-    true,
-    'renders formatted createdAt'
-  )
+    expect(
+      screen.getByText('Erstellt am 15. Januar 2018 um 00:00')
+    ).toBeTruthy()
+  })
 })

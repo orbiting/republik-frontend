@@ -127,7 +127,7 @@ class Pledge extends Component {
       }
     } else {
       values.price = +query.price || undefined
-      values.reason = query.reason
+      values.reason = query.reason ? `${query.reason}` : undefined
     }
 
     this.state = {
@@ -250,7 +250,7 @@ class Pledge extends Component {
       this.setState(
         FieldSet.utils.mergeField({
           field: 'reason',
-          value: query.reason
+          value: `${query.reason}`
         })
       )
     }

@@ -32,7 +32,7 @@ export type DiscussionFragmentType = {
   closed: boolean
   collapsed: boolean
   isBoard: boolean
-  userPreferences: Nullable<DiscussionPreferences>
+  userPreference: Nullable<DiscussionPreferences>
   rules: DiscussionRules
   userWaitUntil: Nullable<DateTime>
   userCanComment: boolean

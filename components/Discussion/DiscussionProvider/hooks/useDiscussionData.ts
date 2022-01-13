@@ -31,7 +31,7 @@ type FetchMoreParams = DiscussionQueryVariables & {
 }
 
 export type FetchDiscussionFunctionType = (
-  params: FetchMoreParams
+  params?: Partial<FetchMoreParams>
 ) => Promise<ApolloQueryResult<DiscussionQuery>>
 
 // Data returned by the hook

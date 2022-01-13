@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 import Nullable from '../../../../../lib/types/Nullable'
 import {
+  DiscussionCredential,
   DiscussionNotificationChannel,
   DiscussionNotificationOption
 } from '../types/SharedTypes'
@@ -19,11 +20,7 @@ export type DiscussionPreferencesQuery = {
     id: string
     name: Nullable<string>
     portrait: Nullable<string>
-    credentials: {
-      description: string
-      verified: string
-      isListed: string
-    }[]
+    credentials: Omit<DiscussionCredential, 'id'>[]
     defaultDiscussionNotificationOption: DiscussionNotificationOption
     discussionNotificationChannels: DiscussionNotificationChannel[]
   }

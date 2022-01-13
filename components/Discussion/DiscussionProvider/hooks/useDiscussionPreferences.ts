@@ -18,7 +18,7 @@ type SetDiscussionPreferencesMutationVariables = {
 }
 
 // TODO: Define type
-type SetDiscussionPreferencesMutationResult = Record<string, any>
+type SetDiscussionPreferencesMutationResult = unknown
 
 export type SetDiscussionPreferencesHandler = (
   anonymity: boolean,

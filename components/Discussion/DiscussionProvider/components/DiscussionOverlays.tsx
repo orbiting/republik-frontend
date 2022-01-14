@@ -43,7 +43,9 @@ const DiscussionOverlays = () => {
         />
       )}
 
-      {featureOverlay.open && <FeatureCommentOverlay />}
+      {featureOverlay.open && (
+        <FeatureCommentOverlay comment={featureOverlay.data} />
+      )}
 
       {shareOverlay.open && (
         <ShareOverlay

@@ -80,6 +80,21 @@ const calculateMinPrice = (pkg, values, userPrice) => {
   return absolutMinPrice
 }
 
+const calculateGoodiePrice = (pkg, values) => {
+  return pkg.options
+    .filter(option => option.reward?.__typename === 'Goodie')
+    .reduce((price, option) => {
+      const amountValue = values[getOptionFieldKey(option)]
+      const amount =
+        amountValue !== undefined
+          ? amountValue
+          : option.defaultAmount || option.minAmount
+
+      // Price adopts to amount
+      return price + option.price * amount
+    }, 0)
+}
+
 const getPrice = ({ values, pkg, userPrice }) => {
   if (values.price !== undefined) {
     return values.price
@@ -195,6 +210,14 @@ class CustomizePackage extends Component {
       this.focusRef = ref
     }
   }
+  getGoodiePrice(nextFields = {}) {
+    const { pkg, values } = this.props
+
+    return calculateGoodiePrice(pkg, {
+      ...values,
+      ...nextFields.values
+    })
+  }
   calculateNextPrice(nextFields) {
     const { pkg, values, userPrice, t } = this.props
 
@@ -209,6 +232,15 @@ class CustomizePackage extends Component {
 
     let price = values.price
 
+    if (this.state.customPrice) {
+      const currentGoodiePrice = this.getGoodiePrice()
+      const nextGoodiePrice = this.getGoodiePrice(nextFields)
+
+      if (currentGoodiePrice !== nextGoodiePrice) {
+        price += nextGoodiePrice - currentGoodiePrice
+      }
+    }
+
     if (!this.state.customPrice || minPrice > price) {
       price = minPrice !== absolutMinPrice ? minPrice : ''
       if (this.state.customPrice) {
@@ -222,6 +254,8 @@ class CustomizePackage extends Component {
       })(nextFields)
     }
     return FieldSet.utils.mergeField({
+      field: 'price',
+      value: price,
       error: priceError(price, minPrice, t)
     })(nextFields)
   }
@@ -569,11 +603,11 @@ class CustomizePackage extends Component {
         <MembershipOptions
           options={membershipOptions}
           values={values}
-          errors={errors}
           onChange={fields => {
             onChange(this.calculateNextPrice(fields))
           }}
           onPriceChange={onPriceChange}
+          goodiePrice={this.getGoodiePrice()}
         />
         {pkg.name === 'REDUCED' && (
           <Field

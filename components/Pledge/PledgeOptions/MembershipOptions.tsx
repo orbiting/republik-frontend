@@ -77,15 +77,16 @@ const styles = {
 const MembershipOptions = ({
   options,
   values,
-  errors,
   onChange,
-  onPriceChange
+  onPriceChange,
+  goodiePrice
 }: {
   values: FieldSetValues
   errors: Record<string, any>
   options: OptionType[]
   onChange: (options) => void
   onPriceChange: (event: Event, value: number, shouldValidate: boolean) => void
+  goodiePrice: number
 }) => {
   const suggestions = useMemo(() => {
     return options.map(option => {
@@ -97,11 +98,6 @@ const MembershipOptions = ({
       return suggestionsWithOption
     })
   }, [options]).flat()
-
-  // possible move elsewhere or in effect
-  const defaultSuggestion = useMemo(() => {
-    return suggestions.find(suggestion => suggestion.favorite === true)
-  }, [suggestions])
 
   const requiresPeriodSelector = options.some(
     option => option.reward?.minPeriods !== option.reward?.maxPeriods
@@ -138,7 +134,7 @@ const MembershipOptions = ({
   const selectedSuggestion = suggestions
     .filter(
       suggestion =>
-        suggestion.price <= values.price &&
+        suggestion.price <= values.price - goodiePrice &&
         getOptionValue(suggestion.option, values) === 1
     )
     .sort((a, b) => descending(a.price, b.price))[0]

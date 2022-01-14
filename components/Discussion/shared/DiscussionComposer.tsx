@@ -110,9 +110,11 @@ const DiscussionComposer = ({
         commentId={commentId}
         onSubmit={({ text, tags = [] }) => handleSubmit(text, tags)}
         onSubmitLabel={
-          !initialText
-            ? t('submitComment/rootSubmitLabel')
-            : t('styleguide/comment/edit/submit')
+          initialText
+            ? t('styleguide/comment/edit/submit')
+            : parentId
+            ? t('styleguide/CommentComposer/answer')
+            : t('submitComment/rootSubmitLabel')
         }
         onClose={() => {
           if (onClose) {
@@ -143,7 +145,6 @@ const DiscussionComposer = ({
       t={t}
       displayAuthor={displayAuthor ?? {}}
       onClick={() => setActive(true)}
-      onSubmitLabel={t('styleguide/CommentComposer/answer')}
       placeholder={placeholder}
     />
   )

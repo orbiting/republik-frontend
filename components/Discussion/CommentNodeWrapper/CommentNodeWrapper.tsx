@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo, useState } from 'react'
+import React, { ReactElement, useCallback, useMemo, useState } from 'react'
 import { CommentNode } from '@project-r/styleguide'
 import { useTranslation } from '../../../lib/withT'
 import Link from 'next/link'
@@ -24,7 +24,9 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
   const { t } = useTranslation()
   const { me } = useMe()
   const {
+    id: discussionId,
     discussion,
+    fetchMore,
     overlays: { shareOverlay, featureOverlay }
   } = useDiscussion()
 
@@ -70,6 +72,16 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
     [comment?.displayAuthor?.slug, focusHref]
   )
 
+  const loadRemainingReplies = useCallback(async () => {
+    const replies = comment.comments?.nodes ?? []
+
+    await fetchMore({
+      discussionId: discussionId,
+      parentId: comment.id,
+      after: discussion.comments.pageInfo.endCursor
+    })
+  }, [discussionId, comment?.comments?.nodes, fetchMore])
+
   return (
     <CommentNode
       t={t}
@@ -82,7 +94,7 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
         handleDownVote: voteHandlers.downVoteCommentHandler,
         handleUnVote: voteHandlers.unVoteCommentHandler,
         handleReply: () => setIsReplying(true),
-        // handleLoadReplies: () => alert('TODO'),
+        handleLoadReplies: loadRemainingReplies,
         handleShare: shareOverlay.shareHandler
       }}
       menuItems={menuItems}

@@ -1,32 +1,34 @@
-import { Dispatch, SetStateAction } from 'react'
-import { EditIcon, ReportIcon, UnpublishIcon } from '@project-r/styleguide'
+import { CommentFragmentType } from '../DiscussionProvider/graphql/fragments/CommentFragment.graphql'
 import { ReportCommentHandler } from '../DiscussionProvider/hooks/actions/useReportCommentHandler'
 import { UnpublishCommentHandler } from '../DiscussionProvider/hooks/actions/useUnpublishCommentHandler'
+import { Dispatch, SetStateAction } from 'react'
+import { EditIcon, ReportIcon, UnpublishIcon } from '../../../../styleguide'
 
 type Options = {
-  comment: any
+  comment: CommentFragmentType
   actions: {
-    reportCommentHandler: ReportCommentHandler
-    unpublishCommentHandler: UnpublishCommentHandler
+    reportCommentHandler?: ReportCommentHandler
+    unpublishCommentHandler?: UnpublishCommentHandler
+    featureCommentHandler?: any
   }
   roles: string[]
   t: any
-  setEditMode: Dispatch<SetStateAction<boolean>>
+  setEditMode?: Dispatch<SetStateAction<boolean>>
 }
 
-function getStatementActions({
-  comment,
-  actions,
-  roles,
+function getCommentActions({
   t,
-  setEditMode
+  comment,
+  setEditMode,
+  roles,
+  actions
 }: Options) {
   const items = []
 
   if (
+    actions.reportCommentHandler &&
     comment.published &&
-    comment.userCanReport &&
-    actions.reportCommentHandler
+    comment.userCanReport
   ) {
     items.push({
       icon: ReportIcon,
@@ -39,15 +41,15 @@ function getStatementActions({
           ? t('styleguide/CommentActions/reported')
           : t('styleguide/CommentActions/report'),
       disabled: !!comment.userReportedAt,
-      onClick: () => {
+      onClick: async () => {
         if (window.confirm(t('styleguide/CommentActions/reportMessage'))) {
-          actions.reportCommentHandler(comment.id)
+          await actions.reportCommentHandler(comment.id)
         }
       }
     })
   }
 
-  if (comment.userCanEdit && !comment.adminUnpublished) {
+  if (setEditMode && comment.userCanEdit && !comment.adminUnpublished) {
     items.push({
       icon: EditIcon,
       label: t('styleguide/CommentActions/edit'),
@@ -58,10 +60,10 @@ function getStatementActions({
   const canUnpublish = roles.includes('admin') || roles.includes('moderator')
 
   if (
+    actions.unpublishCommentHandler &&
     comment.published &&
     !comment.adminUnpublished &&
-    (canUnpublish || comment.userCanEdit) &&
-    actions.unpublishCommentHandler
+    (canUnpublish || comment.userCanEdit)
   ) {
     items.push({
       icon: UnpublishIcon,
@@ -87,4 +89,4 @@ function getStatementActions({
   return items
 }
 
-export default getStatementActions
+export default getCommentActions

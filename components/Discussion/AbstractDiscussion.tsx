@@ -88,7 +88,6 @@ const AbstractDiscussion = ({ meta }: Props) => {
             >
               <AbstractDiscussionCommentsRenderer
                 comments={comments.nodes}
-                fetchMore={fetchMore}
                 isBoard={discussion?.isBoard}
                 meta={meta}
               />

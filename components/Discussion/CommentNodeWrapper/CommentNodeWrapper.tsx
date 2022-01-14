@@ -15,9 +15,10 @@ import DiscussionComposer from '../shared/DiscussionComposer'
 
 type Props = {
   comment: CommentTreeNode
+  isLast?: boolean
 }
 
-const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
+const CommentNodeWrapper = ({ comment, isLast }: Props): ReactElement => {
   const [isEditing, setIsEditing] = useState(false)
   const [isReplying, setIsReplying] = useState(false)
 
@@ -112,6 +113,7 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
         )
       }
       focusId={discussion?.comments?.focus?.id}
+      isLast={isLast}
     >
       {discussion?.userCanComment && isReplying && (
         <DiscussionComposer
@@ -120,8 +122,12 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
           initialActiveState={true}
         />
       )}
-      {comment.comments.nodes.map(reply => (
-        <CommentNodeWrapper key={reply.id} comment={reply} />
+      {comment.comments.nodes.map((reply, index) => (
+        <CommentNodeWrapper
+          key={reply.id}
+          comment={reply}
+          isLast={index === comment.comments.nodes.length - 1}
+        />
       ))}
     </CommentNode>
   )

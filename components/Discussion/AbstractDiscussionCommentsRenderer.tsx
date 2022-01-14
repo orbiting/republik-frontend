@@ -7,14 +7,12 @@ import { CommentTreeNode } from './DiscussionProvider/helpers/makeCommentTree'
 
 type Props = {
   comments: CommentTreeNode[]
-  fetchMore: FetchDiscussionFunctionType
   meta?: any
   isBoard?: boolean
 }
 
 const AbstractDiscussionCommentsRenderer = ({
   comments = [],
-  fetchMore,
   meta,
   isBoard
 }: Props) => {
@@ -44,8 +42,12 @@ const AbstractDiscussionCommentsRenderer = ({
 
   return (
     <>
-      {comments.map(comment => (
-        <CommentNodeWrapper key={comment.id} comment={comment} />
+      {comments.map((comment, index) => (
+        <CommentNodeWrapper
+          key={comment.id}
+          comment={comment}
+          isLast={index === comments.length - 1}
+        />
       ))}
     </>
   )

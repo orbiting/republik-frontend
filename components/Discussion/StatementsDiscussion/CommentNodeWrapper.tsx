@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { getFocusHref } from '../CommentLink'
 import { format } from 'url'
 import { useDiscussion } from '../DiscussionProvider/context/DiscussionContext'
+import useVoteCommentHandlers from '../DiscussionProvider/hooks/actions/useVoteCommentHandlers'
 
 type Props = {
   comment: CommentFragmentType
@@ -15,9 +16,14 @@ const CommentNodeWrapper = ({ comment }: Props) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isReplying, setIsReplying] = useState(false)
 
-  const { discussion } = useDiscussion()
-
   const { t } = useTranslation()
+  const {
+    discussion,
+    overlays: { shareOverlay }
+  } = useDiscussion()
+
+  // Handlers
+  const voteHandlers = useVoteCommentHandlers()
 
   const focusHref = useMemo(() => {
     const urlObject = getFocusHref(discussion, comment)
@@ -29,7 +35,23 @@ const CommentNodeWrapper = ({ comment }: Props) => {
   }
 
   return (
-    <CommentNode comment={comment} t={t} Link={Link} focusHref={focusHref}>
+    <CommentNode
+      t={t}
+      comment={comment}
+      Link={Link}
+      focusHref={focusHref}
+      actions={{
+        handleUpVote: voteHandlers.upVoteCommentHandler,
+        handleDownVote: voteHandlers.downVoteCommentHandler,
+        handleUnVote: voteHandlers.unVoteCommentHandler,
+        handleReply: () => setIsReplying(true),
+        handleLoadReplies: () => alert('TODO'),
+        handleShare: () => shareOverlay.shareHandler(comment)
+      }}
+      menuItems={[]}
+      userCanComment={discussion?.userCanComment}
+      userWaitUntil={discussion?.userWaitUntil}
+    >
       {isReplying && 'Reply-Composer'}
     </CommentNode>
   )

@@ -24,7 +24,7 @@ const propTypes = {
 }
 
 const DiscussionComposer = ({
-  isRootLevel,
+  isRootLevel = false,
   onClose,
   // Props below are used for editing a comment
   commentId,

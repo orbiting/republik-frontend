@@ -2,7 +2,16 @@ import { CommentFragmentType } from '../DiscussionProvider/graphql/fragments/Com
 import { ReportCommentHandler } from '../DiscussionProvider/hooks/actions/useReportCommentHandler'
 import { UnpublishCommentHandler } from '../DiscussionProvider/hooks/actions/useUnpublishCommentHandler'
 import { Dispatch, SetStateAction } from 'react'
-import { EditIcon, ReportIcon, UnpublishIcon } from '../../../../styleguide'
+import {
+  EditIcon,
+  FeaturedIcon,
+  ReportIcon,
+  UnpublishIcon
+} from '../../../../styleguide'
+import { timeFormat } from 'd3-time-format'
+
+const dateFormat = timeFormat('%d.%m.%Y')
+const hmFormat = timeFormat('%H:%M')
 
 type Options = {
   comment: CommentFragmentType
@@ -49,6 +58,21 @@ function getCommentActions({
     })
   }
 
+  if (actions.featureCommentHandler && comment.published) {
+    items.push({
+      icon: FeaturedIcon,
+      label: comment.featuredAt
+        ? t('styleguide/CommentActions/featured', {
+            date: dateFormat(new Date(comment.featuredAt)),
+            time: hmFormat(new Date(comment.featuredAt))
+          })
+        : t('styleguide/CommentActions/feature'),
+      onClick: async () => {
+        await actions.featureCommentHandler(comment)
+      }
+    })
+  }
+
   if (setEditMode && comment.userCanEdit && !comment.adminUnpublished) {
     items.push({
       icon: EditIcon,
@@ -68,7 +92,7 @@ function getCommentActions({
     items.push({
       icon: UnpublishIcon,
       label: t('styleguide/CommentActions/unpublish'),
-      onClick: () => {
+      onClick: async () => {
         const message = t(
           `styleguide/CommentActions/unpublish/confirm${
             comment.userCanEdit ? '' : '/admin'
@@ -80,7 +104,7 @@ function getCommentActions({
         if (!window.confirm(message)) {
           return
         } else {
-          return actions.unpublishCommentHandler(comment.id)
+          return await actions.unpublishCommentHandler(comment.id)
         }
       }
     })

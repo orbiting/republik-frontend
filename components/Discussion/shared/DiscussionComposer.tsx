@@ -52,12 +52,6 @@ const DiscussionComposer = ({
     return preferences.me.credentials.find(credential => credential.isListed)
   }, [preferences])
 
-  console.debug({
-    discussion,
-    preferences,
-    automaticCredential
-  })
-
   const submitCommentHandler = useSubmitCommentHandler()
   const editCommentHandler = useEditCommentHandler()
 

@@ -73,8 +73,6 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
   )
 
   const loadRemainingReplies = useCallback(async () => {
-    const replies = comment.comments?.nodes ?? []
-
     await fetchMore({
       discussionId: discussionId,
       parentId: comment.id,
@@ -101,7 +99,7 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
       userCanComment={discussion?.userCanComment}
       userWaitUntil={discussion?.userWaitUntil}
       editComposer={
-        discussion?.userCanComment &&
+        comment?.userCanEdit &&
         isEditing && (
           <DiscussionComposer
             onClose={() => setIsEditing(false)}
@@ -113,8 +111,9 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
           />
         )
       }
+      focusId={discussion?.comments?.focus?.id}
     >
-      {comment.userCanEdit && isReplying && (
+      {discussion?.userCanComment && isReplying && (
         <DiscussionComposer
           onClose={() => setIsReplying(false)}
           parentId={comment.id}

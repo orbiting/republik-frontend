@@ -1,13 +1,19 @@
 import { CommentFragmentType } from '../graphql/fragments/CommentFragment.graphql'
 
-type CommentsData = {
+export type CommentTreeNode = CommentFragmentType & {
+  comments: {
+    nodes: CommentTreeNode[]
+  }
+}
+
+type CommentsData<CommentType> = {
   totalCount: number
   directTotalCount: number
   pageInfo: {
     hasNextPage: boolean
     endCursor: string
   }
-  nodes: CommentFragmentType[]
+  nodes: CommentType[]
 }
 
 function makeCommentTree({
@@ -15,7 +21,7 @@ function makeCommentTree({
   pageInfo,
   directTotalCount,
   totalCount
-}: CommentsData): CommentsData {
+}: CommentsData<CommentFragmentType>): CommentsData<CommentTreeNode> {
   const convertComment = node => ({
     ...node,
     comments: {

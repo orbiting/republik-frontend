@@ -1,12 +1,12 @@
-import { CommentFragmentType } from './DiscussionProvider/graphql/fragments/CommentFragment.graphql'
-import StatementNodeWrapper from './StatementsDiscussion/StatementNodeWrapper'
 import React from 'react'
 import { FetchDiscussionFunctionType } from './DiscussionProvider/hooks/useDiscussionData'
 import EmptyDiscussion from './shared/EmptyDiscussion'
-import CommentNodeWrapper from './StatementsDiscussion/CommentNodeWrapper'
+import StatementNodeWrapper from './StatementNodeWrapper/StatementNodeWrapper'
+import CommentNodeWrapper from './CommentNodeWrapper/CommentNodeWrapper'
+import { CommentTreeNode } from './DiscussionProvider/helpers/makeCommentTree'
 
 type Props = {
-  comments: CommentFragmentType[]
+  comments: CommentTreeNode[]
   fetchMore: FetchDiscussionFunctionType
   meta?: any
 }

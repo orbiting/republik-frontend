@@ -3,7 +3,6 @@ import { ApolloError } from '@apollo/client'
 import { DiscussionContext } from '@project-r/styleguide'
 import { DiscussionQuery } from '../graphql/queries/DiscussionQuery.graphql'
 import { FetchDiscussionFunctionType } from '../hooks/useDiscussionData'
-import { DiscussionFocusHelperType } from '../hooks/useDiscussionFocusHelper'
 import { OverlayState } from '../hooks/overlays/useOverlay'
 import { ShareOverlayState } from '../hooks/overlays/useShareCommentOverlay'
 import { DiscussionCredential } from '../graphql/types/SharedTypes'
@@ -18,7 +17,6 @@ export interface DiscussionContextValue {
   refetch: FetchDiscussionFunctionType
   orderBy: string
   activeTag: string | undefined
-  focus: DiscussionFocusHelperType
   overlays: {
     shareOverlay: ShareOverlayState
     preferencesOverlay: OverlayState<DiscussionCredential>

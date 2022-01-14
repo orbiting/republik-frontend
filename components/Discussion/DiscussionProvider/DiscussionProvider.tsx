@@ -7,7 +7,6 @@ import DiscussionOverlays from './components/DiscussionOverlays'
 import DiscussionContext, {
   DiscussionContextValue
 } from './context/DiscussionContext'
-import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 import DiscussionMetaHelper from './components/DiscussionMetaHelper'
 import useDiscussionNotificationHelper from './hooks/useDiscussionNotificationHelper'
 import useShareCommentOverlay from './hooks/overlays/useShareCommentOverlay'
@@ -52,12 +51,6 @@ const DiscussionProvider: FC<{
 
   useDiscussionNotificationHelper(discussion)
 
-  const { loading: focusLoading, error: focusError } = useDiscussionFocusHelper(
-    focusId,
-    loading,
-    discussion
-  )
-
   // Create overlay state that is meant to be accessed by all discussion-components
 
   const shareOverlay = useShareCommentOverlay(discussion)
@@ -74,10 +67,7 @@ const DiscussionProvider: FC<{
     refetch,
     orderBy,
     activeTag,
-    focus: {
-      loading: focusLoading,
-      error: focusError
-    },
+
     overlays: {
       shareOverlay,
       preferencesOverlay,

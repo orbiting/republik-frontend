@@ -25,7 +25,7 @@ type Props = {
 const DiscussionOptions = ({ meta }: Props) => {
   const { t } = useTranslation()
   const router = useRouter()
-  const { discussion, refetch } = useDiscussion()
+  const { discussion, refetch, orderBy } = useDiscussion()
   const discussionType = meta?.discussionType
   const board = false // TODO
 
@@ -74,7 +74,7 @@ const DiscussionOptions = ({ meta }: Props) => {
               <TabButton
                 border={false}
                 text={t(`components/Discussion/OrderBy/${item}`)}
-                isActive={item === discussion.comments.resolvedOrderBy}
+                isActive={item === orderBy}
               />
             </Link>
           )

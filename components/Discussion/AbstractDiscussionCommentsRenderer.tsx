@@ -9,12 +9,14 @@ type Props = {
   comments: CommentTreeNode[]
   fetchMore: FetchDiscussionFunctionType
   meta?: any
+  isBoard?: boolean
 }
 
 const AbstractDiscussionCommentsRenderer = ({
   comments = [],
   fetchMore,
-  meta
+  meta,
+  isBoard
 }: Props) => {
   if (comments.length === 0) {
     return <EmptyDiscussion />
@@ -34,6 +36,10 @@ const AbstractDiscussionCommentsRenderer = ({
         ))}
       </>
     )
+  }
+
+  if (isBoard) {
+    return <p>Render board comments</p>
   }
 
   return (

@@ -20,7 +20,7 @@ export type DiscussionPreferencesQuery = {
     id: string
     name: Nullable<string>
     portrait: Nullable<string>
-    credentials: Omit<DiscussionCredential, 'id'>[]
+    credentials: DiscussionCredential[]
     defaultDiscussionNotificationOption: DiscussionNotificationOption
     discussionNotificationChannels: DiscussionNotificationChannel[]
   }
@@ -34,6 +34,7 @@ export const DISCUSSION_PREFERENCES_QUERY = gql`
       name
       portrait
       credentials {
+        id
         description
         verified
         isListed

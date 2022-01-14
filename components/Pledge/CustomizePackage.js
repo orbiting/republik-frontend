@@ -569,7 +569,8 @@ class CustomizePackage extends Component {
         <MembershipOptions
           options={membershipOptions}
           values={values}
-          onOptionChange={fields => {
+          errors={errors}
+          onChange={fields => {
             onChange(this.calculateNextPrice(fields))
           }}
           onPriceChange={onPriceChange}

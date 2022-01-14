@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { css } from 'glamor'
+import { descending } from 'd3-array'
 import {
   mediaQueries,
   plainButtonRule,
@@ -18,6 +19,7 @@ import {
   SuggestionType,
   FieldSetValues
 } from './PledgeOptionsTypes'
+import { errorToString } from '../../../lib/utils/errors'
 
 const styles = {
   suggestionsContainer: css({
@@ -72,24 +74,18 @@ const styles = {
   })
 }
 
-fieldstate = {
-  values: {
-    'membership-id': 1,
-    'a-gooide-id': 1,
-    price: 260
-  }
-}
-
 const MembershipOptions = ({
   options,
   values,
-  onOptionChange,
+  errors,
+  onChange,
   onPriceChange
 }: {
   values: FieldSetValues
+  errors: Record<string, any>
   options: OptionType[]
-  onOptionChange: (options) => void
-  onPriceChange: (value: number) => void
+  onChange: (options) => void
+  onPriceChange: (event: Event, value: number, shouldValidate: boolean) => void
 }) => {
   const suggestions = useMemo(() => {
     return options.map(option => {
@@ -102,6 +98,7 @@ const MembershipOptions = ({
     })
   }, [options]).flat()
 
+  // possible move elsewhere or in effect
   const defaultSuggestion = useMemo(() => {
     return suggestions.find(suggestion => suggestion.favorite === true)
   }, [suggestions])
@@ -135,36 +132,48 @@ const MembershipOptions = ({
         color: colorScheme.getCSSColor('default')
       })
     }),
-    []
+    [colorScheme]
   )
+
+  const selectedSuggestion = suggestions
+    .filter(
+      suggestion =>
+        suggestion.price <= values.price &&
+        getOptionValue(suggestion.option, values) === 1
+    )
+    .sort((a, b) => descending(a.price, b.price))[0]
 
   return (
     <>
       <div {...styles.suggestionsContainer}>
         {suggestions.map((suggestion: SuggestionType, index) => {
           const { price, label, description, userPrice, option } = suggestion
-          const selected =
-            values[getOptionFieldKey(option)]?.suggestionId === suggestion.id ||
-            defaultSuggestion?.id === suggestion.id ||
-            index === 0
+
+          const isSelected = selectedSuggestion === suggestion
+
           return (
             <>
               <button
                 key={label}
                 {...plainButtonRule}
                 {...styles.button}
-                {...(selected ? buttonStyle.selected : buttonStyle.default)}
+                {...(isSelected ? buttonStyle.selected : buttonStyle.default)}
                 onClick={() => {
-                  onOptionChange(
+                  onChange(
                     FieldSet.utils.fieldsState({
                       field: getOptionFieldKey(option),
-                      value: {
-                        suggestionId: suggestion.id,
-                        price: suggestion.price
-                      },
+                      value: 1,
                       error: undefined,
                       dirty: true
                     })
+                  )
+                  onPriceChange(
+                    undefined,
+                    (values.price -
+                      selectedSuggestion.price +
+                      suggestion.price) /
+                      100,
+                    true
                   )
                 }}
                 style={{ order: index }}
@@ -183,7 +192,7 @@ const MembershipOptions = ({
                 {...styles.infocontainer}
                 style={{
                   order: !isDesktop && index,
-                  display: selected ? 'inherit' : 'none'
+                  display: isSelected ? 'inherit' : 'none'
                 }}
               >
                 {userPrice && (
@@ -229,7 +238,7 @@ const MembershipOptions = ({
                   value={amount || option.defaultAmount}
                   onChange={(_, value) => {
                     setAmount(parseInt(value.toString()))
-                    onOptionChange(
+                    onChange(
                       FieldSet.utils.fieldsState({
                         field: getOptionFieldKey(option),
                         value: Math.min(
@@ -254,7 +263,7 @@ const MembershipOptions = ({
                   label={'Anzahl Monate'}
                   value={option.reward.defaultPeriods}
                   onChange={value =>
-                    onOptionChange(
+                    onChange(
                       FieldSet.utils.fieldsState({
                         field: getOptionFieldKey(option),
                         value: Math.min(

@@ -1,16 +1,10 @@
 import React from 'react'
-import {
-  Interaction,
-  Overlay,
-  OverlayBody,
-  OverlayToolbar,
-  OverlayToolbarClose
-} from '@project-r/styleguide'
-import Discussion from './Discussion'
+import { Overlay, OverlayBody, OverlayToolbar } from '@project-r/styleguide'
 import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
+import TempDiscussionComponent from './TempDiscussionComponent'
 
 export const RootCommentOverlay = compose(
   withRouter,
@@ -19,7 +13,7 @@ export const RootCommentOverlay = compose(
   <Overlay onClose={onClose}>
     <OverlayToolbar title={t('RootCommentOverlay/title')} onClose={onClose} />
     <OverlayBody style={{ paddingTop: 58 }}>
-      <Discussion
+      <TempDiscussionComponent
         discussionId={discussionId}
         focusId={router.query.focus}
         parentId={parent}

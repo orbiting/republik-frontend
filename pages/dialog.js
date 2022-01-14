@@ -26,7 +26,6 @@ import ActionBar from '../components/ActionBar'
 import { ListWithQuery as TestimonialList } from '../components/Testimonial/List'
 import React, { Fragment } from 'react'
 import ActiveDiscussions from '../components/Dialog/ActiveDiscussions'
-import Discussion from '../components/Discussion/Discussion'
 import LatestComments from '../components/Dialog/LatestComments'
 import compose from 'lodash/flowRight'
 import withMe from '../lib/apollo/withMe'
@@ -194,14 +193,6 @@ const FeedbackPage = props => {
               />
             </>
           )}
-          {/*activeDiscussionId && (
-            <Discussion
-              discussionId={activeDiscussionId}
-              focusId={query.focus}
-              mute={query && !!query.mute}
-              meta
-            />
-          )*/}
           {activeDiscussionId && (
             <TempDiscussionComponent discussionId={activeDiscussionId} />
           )}

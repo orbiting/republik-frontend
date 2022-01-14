@@ -62,7 +62,6 @@ import Frame from '../Frame'
 import ActionBar from '../ActionBar'
 import { BrowserOnlyActionBar } from './BrowserOnly'
 import { AudioContext } from '../Audio/AudioProvider'
-import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
@@ -677,24 +676,6 @@ const ArticlePage = ({
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
-                  {/*
-                  {articleContent?.meta?.discussionType === 'statements' ? (
-                    <DiscussionProvider discussionId={ownDiscussion.id}>
-                      <StatementDiscussion
-                        tagMappings={articleContent.meta.tagMappings}
-                      />
-                    </DiscussionProvider>
-                  ) : (
-                    <Discussion
-                      discussionId={ownDiscussion.id}
-                      focusId={router.query.focus}
-                      parent={router.query.parent}
-                      mute={!!router.query.mute}
-                      board={ownDiscussion.isBoard}
-                      showPayNotes
-                    />
-                  )}
-                  */}
                   <TempDiscussionComponent
                     discussionId={ownDiscussion.id}
                     meta={articleContent.meta}

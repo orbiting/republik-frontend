@@ -1,6 +1,5 @@
 import React from 'react'
 import Frame from '../../Frame'
-import Discussion from '../../Discussion/Discussion'
 import { withRouter } from 'next/router'
 import {
   A,
@@ -19,6 +18,7 @@ import voteT from '../voteT'
 import { Body, Section, Strong, Title } from '../text'
 import Loader from '../../Loader'
 import Link from 'next/link'
+import TempDiscussionComponent from '../../Discussion/TempDiscussionComponent'
 
 const { P } = Interaction
 
@@ -139,7 +139,7 @@ const DiscussionPage = ({ router, data, vt }) => {
                   </div>
                 </div>
                 <Body dangerousHTML={vt(`${translationKey}Intro`)} />
-                <Discussion
+                <TempDiscussionComponent
                   discussionId={discussionId}
                   focusId={router.query.focus}
                   mute={!!router.query.mute}

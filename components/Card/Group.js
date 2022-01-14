@@ -34,8 +34,6 @@ import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withMe from '../../lib/apollo/withMe'
 import { ZINDEX_HEADER } from '../constants'
 
-import Discussion from '../Discussion/Discussion'
-
 import Details from './Details'
 import Card, { styles as cardStyles, MEDIUM_MIN_WIDTH } from './Card'
 import Container from './Container'
@@ -48,6 +46,7 @@ import TrialForm from './TrialForm'
 
 import { cardColors } from './constants'
 import Link from 'next/link'
+import TempDiscussionComponent from '../Discussion/TempDiscussionComponent'
 
 const styles = {
   swipeIndicator: css({
@@ -1025,7 +1024,7 @@ const Group = ({
               />
             </Label>
             {group.discussion || query.discussion ? (
-              <Discussion
+              <TempDiscussionComponent
                 discussionId={query.discussion || group.discussion.id}
                 focusId={query.focus}
                 mute={!!query.mute}

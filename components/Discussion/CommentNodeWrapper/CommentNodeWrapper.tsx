@@ -102,7 +102,7 @@ const CommentNodeWrapper = ({ comment }: Props): ReactElement => {
         )
       }
     >
-      {comment.userCanEdit && isEditing && (
+      {comment.userCanEdit && isReplying && (
         <DiscussionComposer
           onClose={() => setIsReplying(false)}
           parentId={comment.id}

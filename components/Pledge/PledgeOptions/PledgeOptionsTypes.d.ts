@@ -7,11 +7,13 @@ export type RewardType = {
 }
 
 export type SuggestionType = {
+  id: string
   price: number
   label: string
   description: string
   userPrice: boolean
   favorite?: boolean
+  option?: OptionType
 }
 
 export type OptionType = {
@@ -34,4 +36,11 @@ export type PackageType = {
   name: string
   suggestedTotal?: number
   options: OptionType[]
+}
+
+export interface FieldSetValues extends Record<string, number> {
+  price?: number
+  customPrice?: number
+  reason?: string
+  [key: string]: { suggestionId: string; price: number }
 }

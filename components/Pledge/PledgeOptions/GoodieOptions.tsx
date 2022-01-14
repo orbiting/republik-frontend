@@ -2,13 +2,13 @@ import React from 'react'
 import { css } from 'glamor'
 import { Interaction } from '@project-r/styleguide'
 import Goodie from './Goodie'
-import { OptionType } from './PledgeOptionsTypes'
+import { OptionType, FieldSetValues } from './PledgeOptionsTypes'
 import FieldSet from '../../FieldSet'
 import { getOptionFieldKey } from '../CustomizePackage'
 
-type FieldsType = {
+type GoodieOptionsPropTypes = {
   options: OptionType[]
-  values: Record<string, number>
+  values: FieldSetValues
   onChange: (fields) => void
   t: (string: string) => string
 }
@@ -17,7 +17,12 @@ const styles = {
   goodieContainer: css({ marginBottom: 24 })
 }
 
-function GoodieOptions({ options, values, onChange, t }: FieldsType) {
+function GoodieOptions({
+  options,
+  values,
+  onChange,
+  t
+}: GoodieOptionsPropTypes) {
   if (!options?.length) {
     return null
   }

@@ -10,7 +10,8 @@ import omit from 'lodash/omit'
 import { withRouter } from 'next/router'
 import { format } from 'url'
 import GoodieOptions from './PledgeOptions/GoodieOptions'
-
+import MembershipOptions from './PledgeOptions/MembershipOptions'
+import GiftMembershipOptions from './PledgeOptions/GiftMembershipOptions'
 import withT from '../../lib/withT'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
 
@@ -113,7 +114,7 @@ export const getOptionFieldKey = option =>
 export const getOptionPeriodsFieldKey = option =>
   `${getOptionFieldKey(option)}-periods`
 
-const getOptionValue = (option, values) => {
+export const getOptionValue = (option, values) => {
   const fieldKey = getOptionFieldKey(option)
   return values[fieldKey] === undefined
     ? option.defaultAmount
@@ -512,6 +513,28 @@ class CustomizePackage extends Component {
     ].filter(Boolean)
     const description = t.first(descriptionKeys)
 
+    const membershipOptions = pkg.options.filter(
+      option =>
+        // No Goodies
+        option.reward?.__typename !== 'Goodie' &&
+        // No GiftMemberships
+        (option.membership === null ||
+          option.membership?.user?.isUserOfCurrentSession === true)
+    )
+
+    const goodieOptions = pkg.options.filter(
+      option => option.reward?.__typename === 'Goodie'
+    )
+
+    const giftMembershipOptions = pkg.options.filter(
+      option =>
+        // No Goodies
+        option.reward?.__typename !== 'Goodie' &&
+        // Only GiftMemberships
+        option.membership !== null &&
+        option.membership?.user?.isUserOfCurrentSession === false
+    )
+
     return (
       <div>
         <div style={{ marginTop: 20, marginBottom: 10 }}>
@@ -542,15 +565,59 @@ class CustomizePackage extends Component {
             <A>{t('package/customize/changePackage')}</A>
           </Link>
         </div>
-        {description.split('\n\n').map((text, i) => (
-          <P style={{ marginBottom: 10 }} key={i}>
-            {text.indexOf('<') !== -1 ? (
-              <RawHtml dangerouslySetInnerHTML={{ __html: text }} />
-            ) : (
-              text
+
+        <MembershipOptions
+          options={membershipOptions}
+          values={values}
+          onOptionChange={fields => {
+            onChange(this.calculateNextPrice(fields))
+          }}
+          onPriceChange={onPriceChange}
+        />
+        {pkg.name === 'REDUCED' && (
+          <Field
+            label={t('package/customize/userPrice/reason/label')}
+            ref={this.focusRefSetter}
+            error={dirty.reason && errors.reason}
+            value={values.reason}
+            renderInput={({ ref, ...inputProps }) => (
+              <AutosizeInput
+                {...inputProps}
+                {...fieldSetStyles.autoSize}
+                inputRef={ref}
+              />
             )}
-          </P>
-        ))}
+            onChange={(_, value, shouldValidate) => {
+              onChange(
+                FieldSet.utils.fieldsState({
+                  field: 'reason',
+                  value,
+                  error: reasonError(value, t),
+                  dirty: shouldValidate
+                })
+              )
+            }}
+          />
+        )}
+        <GoodieOptions
+          options={goodieOptions}
+          values={values}
+          onChange={fields => {
+            onChange(this.calculateNextPrice(fields))
+          }}
+          t={t}
+        />
+        <GiftMembershipOptions
+          options={giftMembershipOptions}
+          onChange={fields => {
+            onChange(this.calculateNextPrice(fields))
+          }}
+        />
+
+        <Interaction.P>
+          <Label>Total in CHF: </Label>
+          <strong>{price / 100}</strong>
+        </Interaction.P>
 
         {optionGroups.map(
           (
@@ -949,47 +1016,9 @@ class CustomizePackage extends Component {
             )
           }
         )}
-        <GoodieOptions
-          t={t}
-          values={values}
-          onChange={fields => {
-            onChange(this.calculateNextPrice(fields))
-          }}
-          fields={configurableGoodieFields}
-        />
-        {!!userPrice && (
-          <div>
-            <P>{t('package/customize/userPrice/beforeReason')}</P>
-            <div style={{ marginBottom: 20 }}>
-              <Field
-                label={t('package/customize/userPrice/reason/label')}
-                ref={this.focusRefSetter}
-                error={dirty.reason && errors.reason}
-                value={values.reason}
-                renderInput={({ ref, ...inputProps }) => (
-                  <AutosizeInput
-                    {...inputProps}
-                    {...fieldSetStyles.autoSize}
-                    inputRef={ref}
-                  />
-                )}
-                onChange={(_, value, shouldValidate) => {
-                  onChange(
-                    FieldSet.utils.fieldsState({
-                      field: 'reason',
-                      value,
-                      error: reasonError(value, t),
-                      dirty: shouldValidate
-                    })
-                  )
-                }}
-              />
-            </div>
-            <P>{t('package/customize/userPrice/beforePrice')}</P>
-          </div>
-        )}
+
         <div style={{ marginBottom: 20 }}>
-          {fixedPrice ? (
+          {/* {fixedPrice ? (
             <Interaction.P>
               <Label>{t('package/customize/price/label')}</Label>
               <br />
@@ -1019,10 +1048,11 @@ class CustomizePackage extends Component {
               }}
               onChange={onPriceChange}
             />
-          )}
+          )} */}
+
           {!fixedPrice && (
             <div {...styles.smallP}>
-              {payMoreSuggestions.length > 0 && (
+              {/* {payMoreSuggestions.length > 0 && (
                 <Fragment>
                   <Interaction.Emphasis>
                     {t.first(
@@ -1074,7 +1104,7 @@ class CustomizePackage extends Component {
                     </div>
                   )}
                 </Fragment>
-              )}
+              )} */}
               {pkg.name === 'ABO_GIVE_MONTHS' && (
                 <Fragment>
                   <Interaction.Emphasis>
@@ -1195,7 +1225,7 @@ class CustomizePackage extends Component {
                   </ul>
                 </Fragment>
               )}
-              {payingMoreThanRegular && (
+              {/* {payingMoreThanRegular && (
                 <Fragment>
                   <Editorial.A
                     href={format({
@@ -1239,8 +1269,8 @@ class CustomizePackage extends Component {
                   </Editorial.A>
                   <br />
                 </Fragment>
-              )}
-              {offerUserPrice && (
+              )} */}
+              {/* {offerUserPrice && (
                 <Fragment>
                   <Editorial.A
                     href={format({
@@ -1295,7 +1325,7 @@ class CustomizePackage extends Component {
                   </Editorial.A>
                   <br />
                 </Fragment>
-              )}
+              )} */}
             </div>
           )}
         </div>

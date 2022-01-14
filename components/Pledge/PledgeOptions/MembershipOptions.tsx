@@ -11,7 +11,13 @@ import {
   fontStyles
 } from '@project-r/styleguide'
 
-import { OptionType, SuggestionType } from './PledgeOptionsTypes'
+import FieldSet from '../../FieldSet'
+import { getOptionFieldKey, getOptionValue } from '../CustomizePackage'
+import {
+  OptionType,
+  SuggestionType,
+  FieldSetValues
+} from './PledgeOptionsTypes'
 
 const styles = {
   suggestionsContainer: css({
@@ -49,14 +55,6 @@ const styles = {
       lineHeight: '22px'
     }
   }),
-  labelSelected: css(Interaction.fontRule, {
-    ...fontStyles.sansSerifMedium15,
-    lineHeight: '18px',
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifMedium16,
-      lineHeight: '22px'
-    }
-  }),
   infocontainer: css({
     padding: '8px 0px 16px 0px',
     display: 'flex',
@@ -74,20 +72,39 @@ const styles = {
   })
 }
 
+fieldstate = {
+  values: {
+    'membership-id': 1,
+    'a-gooide-id': 1,
+    price: 260
+  }
+}
+
 const MembershipOptions = ({
   options,
-  onChange
+  values,
+  onOptionChange,
+  onPriceChange
 }: {
+  values: FieldSetValues
   options: OptionType[]
-  onChange: (options) => void
+  onOptionChange: (options) => void
+  onPriceChange: (value: number) => void
 }) => {
-  const suggetions = useMemo(() => {
-    return options.map(option => option.suggestions)
+  const suggestions = useMemo(() => {
+    return options.map(option => {
+      // append the option to each suggestion object to pass to fieldset
+      const suggestionsWithOption = option.suggestions.map(suggestion => ({
+        ...suggestion,
+        option
+      }))
+      return suggestionsWithOption
+    })
   }, [options]).flat()
 
   const defaultSuggestion = useMemo(() => {
-    return suggetions.find(suggestion => suggestion.favorite === true)
-  }, [suggetions])
+    return suggestions.find(suggestion => suggestion.favorite === true)
+  }, [suggestions])
 
   const requiresPeriodSelector = options.some(
     option => option.reward?.minPeriods !== option.reward?.maxPeriods
@@ -97,10 +114,9 @@ const MembershipOptions = ({
     option => option.minAmount !== option.maxAmount
   )
 
-  const [selectedSuggestion, setSelectedSuggestion] = useState(
-    defaultSuggestion || options[0].suggestions[0]
-  )
-  const [ownPrice, setOwnPrice] = useState()
+  const [ownPrice, setOwnPrice] = useState<number>()
+  const [amount, setAmount] = useState<number>()
+  const [period, setPeriod] = useState<number>()
   const [colorScheme] = useColorContext()
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 
@@ -125,9 +141,12 @@ const MembershipOptions = ({
   return (
     <>
       <div {...styles.suggestionsContainer}>
-        {suggetions.map((suggestion: SuggestionType, index) => {
-          const { price, label, description, userPrice } = suggestion
-          const selected = label === selectedSuggestion.label
+        {suggestions.map((suggestion: SuggestionType, index) => {
+          const { price, label, description, userPrice, option } = suggestion
+          const selected =
+            values[getOptionFieldKey(option)]?.suggestionId === suggestion.id ||
+            defaultSuggestion?.id === suggestion.id ||
+            index === 0
           return (
             <>
               <button
@@ -136,16 +155,22 @@ const MembershipOptions = ({
                 {...styles.button}
                 {...(selected ? buttonStyle.selected : buttonStyle.default)}
                 onClick={() => {
-                  setSelectedSuggestion(suggestion)
-                  onChange({
-                    suggestion,
-                    selectedPrice: suggestion.price
-                  })
+                  onOptionChange(
+                    FieldSet.utils.fieldsState({
+                      field: getOptionFieldKey(option),
+                      value: {
+                        suggestionId: suggestion.id,
+                        price: suggestion.price
+                      },
+                      error: undefined,
+                      dirty: true
+                    })
+                  )
                 }}
                 style={{ order: index }}
               >
                 <p {...styles.label}>
-                  <span {...(selected && styles.labelSelected)}>{label}</span>
+                  <span>{label}</span>
                   {!userPrice && (
                     <>
                       <br />
@@ -164,18 +189,28 @@ const MembershipOptions = ({
                 {userPrice && (
                   <Field
                     label='Betrag in CHF'
-                    value={(ownPrice && ownPrice / 100) || price / 100}
+                    value={values.customPrice || price}
                     renderInput={props => (
                       <input inputMode='numeric' {...props} />
                     )}
-                    onChange={(_, value) => {
-                      setSelectedSuggestion(suggestion)
-                      setOwnPrice(value * 100)
-                      onChange({
-                        suggestion,
-                        selectedPrice: value * 100
+                    onDec={
+                      price - 1000 >= minPrice &&
+                      (() => {
+                        onPriceChange(
+                          undefined,
+                          (price - 1000) / 100,
+                          dirty.price
+                        )
                       })
+                    }
+                    onInc={() => {
+                      onPriceChange(
+                        undefined,
+                        (price + 1000) / 100,
+                        dirty.price
+                      )
                     }}
+                    onChange={onPriceChange}
                   />
                 )}
                 <p {...styles.label}>{description}</p>
@@ -190,8 +225,25 @@ const MembershipOptions = ({
             <>
               {option.minAmount !== option.maxAmount && (
                 <Field
-                  label={'Anzahl Geschenitgliedschaften'}
-                  value={option.defaultAmount}
+                  label={'Anzahl Geschenkmitgliedschaften'}
+                  value={amount || option.defaultAmount}
+                  onChange={(_, value) => {
+                    setAmount(parseInt(value.toString()))
+                    onOptionChange(
+                      FieldSet.utils.fieldsState({
+                        field: getOptionFieldKey(option),
+                        value: Math.min(
+                          Math.max(
+                            getOptionValue(option, values),
+                            option.minAmount
+                          ),
+                          option.maxAmount
+                        ),
+                        error: undefined,
+                        dirty: true
+                      })
+                    )
+                  }}
                   renderInput={props => (
                     <input inputMode='numeric' {...props} />
                   )}
@@ -201,6 +253,22 @@ const MembershipOptions = ({
                 <Field
                   label={'Anzahl Monate'}
                   value={option.reward.defaultPeriods}
+                  onChange={value =>
+                    onOptionChange(
+                      FieldSet.utils.fieldsState({
+                        field: getOptionFieldKey(option),
+                        value: Math.min(
+                          Math.max(
+                            getOptionValue(option, values),
+                            numMembershipYears.minAmount
+                          ),
+                          numMembershipYears.maxAmount
+                        ),
+                        error: undefined,
+                        dirty: true
+                      })
+                    )
+                  }
                   renderInput={props => (
                     <input inputMode='numeric' {...props} />
                   )}

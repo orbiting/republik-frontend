@@ -61,7 +61,7 @@ const GiftMembership = ({
             console.log('change')
           }}
         >
-          auswählen
+          verlängern
         </Checkbox>
       </div>
     </div>

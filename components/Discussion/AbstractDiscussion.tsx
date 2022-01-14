@@ -80,7 +80,9 @@ const AbstractDiscussion = ({ meta }: Props) => {
             <DiscussionCommentsWrapper
               t={t}
               loadMore={loadMore}
-              moreAvailableCount={comments.totalCount - comments.nodes.length}
+              moreAvailableCount={
+                comments.directTotalCount - comments.nodes.length
+              }
               tagMappings={meta?.tagMappings}
             >
               <AbstractDiscussionCommentsRenderer

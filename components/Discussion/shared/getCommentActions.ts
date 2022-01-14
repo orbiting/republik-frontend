@@ -7,7 +7,7 @@ import {
   FeaturedIcon,
   ReportIcon,
   UnpublishIcon
-} from '../../../../styleguide'
+} from '@project-r/styleguide'
 import { timeFormat } from 'd3-time-format'
 
 const dateFormat = timeFormat('%d.%m.%Y')

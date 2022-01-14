@@ -16,13 +16,15 @@ export type SubmitCommentMutationVariables = {
   tags: string[]
 }
 
-export type SubmitCommentMutationResult = CommentFragmentType & {
-  discussion: {
-    id: string
-    userPreference: Nullable<{
-      notifications: Nullable<DiscussionNotificationOption>
-    }>
-    userWaitUntil: Nullable<DateTime>
+export type SubmitCommentMutationResult = {
+  submitComment: CommentFragmentType & {
+    discussion: {
+      id: string
+      userPreference: Nullable<{
+        notifications: Nullable<DiscussionNotificationOption>
+      }>
+      userWaitUntil: Nullable<DateTime>
+    }
   }
 }
 

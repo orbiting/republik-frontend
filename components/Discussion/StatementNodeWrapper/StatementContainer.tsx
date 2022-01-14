@@ -18,10 +18,7 @@ type Props = {
   tagMappings: any
 }
 
-const StatementNodeWrapper = ({
-  comment,
-  tagMappings
-}: Props): ReactElement => {
+const StatementContainer = ({ comment, tagMappings }: Props): ReactElement => {
   const [editMode, setEditMode] = useState(false)
 
   const { t } = useTranslation()
@@ -105,4 +102,4 @@ const StatementNodeWrapper = ({
   )
 }
 
-export default StatementNodeWrapper
+export default StatementContainer

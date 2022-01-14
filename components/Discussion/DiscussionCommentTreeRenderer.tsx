@@ -1,8 +1,8 @@
 import React from 'react'
 import { FetchDiscussionFunctionType } from './DiscussionProvider/hooks/useDiscussionData'
 import EmptyDiscussion from './shared/EmptyDiscussion'
-import StatementNodeWrapper from './StatementNodeWrapper/StatementNodeWrapper'
-import CommentNodeWrapper from './CommentNodeWrapper/CommentNodeWrapper'
+import StatementContainer from './StatementNodeWrapper/StatementContainer'
+import CommentContainer from './CommentNodeWrapper/CommentContainer'
 import { CommentTreeNode } from './DiscussionProvider/helpers/makeCommentTree'
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   isBoard?: boolean
 }
 
-const AbstractDiscussionCommentsRenderer = ({
+const DiscussionCommentTreeRenderer = ({
   comments = [],
   meta,
   isBoard
@@ -26,7 +26,7 @@ const AbstractDiscussionCommentsRenderer = ({
     return (
       <>
         {comments.map(comment => (
-          <StatementNodeWrapper
+          <StatementContainer
             key={comment.id}
             comment={comment}
             tagMappings={tagMappings}
@@ -43,7 +43,7 @@ const AbstractDiscussionCommentsRenderer = ({
   return (
     <>
       {comments.map((comment, index) => (
-        <CommentNodeWrapper
+        <CommentContainer
           key={comment.id}
           comment={comment}
           isLast={index === comments.length - 1}
@@ -53,4 +53,4 @@ const AbstractDiscussionCommentsRenderer = ({
   )
 }
 
-export default AbstractDiscussionCommentsRenderer
+export default DiscussionCommentTreeRenderer

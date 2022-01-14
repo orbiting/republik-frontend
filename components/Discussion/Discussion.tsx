@@ -8,7 +8,7 @@ import { useTranslation } from '../../lib/withT'
 import { useDiscussion } from './DiscussionProvider/context/DiscussionContext'
 import DiscussionComposerBarrier from './DiscussionProvider/components/DiscussionComposerBarrier'
 import DiscussionComposer from './shared/DiscussionComposer'
-import AbstractDiscussionCommentsRenderer from './AbstractDiscussionCommentsRenderer'
+import DiscussionCommentTreeRenderer from './DiscussionCommentTreeRenderer'
 import DiscussionOptions from './shared/DiscussionOptions'
 import makeCommentTree from './DiscussionProvider/helpers/makeCommentTree'
 import { css } from 'glamor'
@@ -24,7 +24,7 @@ type Props = {
   meta: any
 }
 
-const AbstractDiscussion = ({ meta }: Props) => {
+const Discussion = ({ meta }: Props) => {
   const { t } = useTranslation()
 
   const {
@@ -84,7 +84,7 @@ const AbstractDiscussion = ({ meta }: Props) => {
               tagMappings={meta?.tagMappings}
               errorMessage={focusError?.message}
             >
-              <AbstractDiscussionCommentsRenderer
+              <DiscussionCommentTreeRenderer
                 comments={comments.nodes}
                 isBoard={discussion?.isBoard}
                 meta={meta}
@@ -97,4 +97,4 @@ const AbstractDiscussion = ({ meta }: Props) => {
   )
 }
 
-export default AbstractDiscussion
+export default Discussion

@@ -18,7 +18,7 @@ type Props = {
   isLast?: boolean
 }
 
-const CommentNodeWrapper = ({ comment, isLast }: Props): ReactElement => {
+const CommentContainer = ({ comment, isLast }: Props): ReactElement => {
   const [isEditing, setIsEditing] = useState(false)
   const [isReplying, setIsReplying] = useState(false)
 
@@ -123,7 +123,7 @@ const CommentNodeWrapper = ({ comment, isLast }: Props): ReactElement => {
         />
       )}
       {comment.comments.nodes.map((reply, index) => (
-        <CommentNodeWrapper
+        <CommentContainer
           key={reply.id}
           comment={reply}
           isLast={index === comment.comments.nodes.length - 1}
@@ -133,4 +133,4 @@ const CommentNodeWrapper = ({ comment, isLast }: Props): ReactElement => {
   )
 }
 
-export default CommentNodeWrapper
+export default CommentContainer

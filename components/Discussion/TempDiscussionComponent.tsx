@@ -1,6 +1,6 @@
 import React from 'react'
 import DiscussionProvider from './DiscussionProvider/DiscussionProvider'
-import AbstractDiscussion from './AbstractDiscussion'
+import Discussion from './Discussion'
 
 type Props = {
   discussionId: string
@@ -10,7 +10,7 @@ type Props = {
 const TempDiscussionComponent = ({ discussionId, meta }: Props) => {
   return (
     <DiscussionProvider discussionId={discussionId}>
-      <AbstractDiscussion meta={meta} />
+      <Discussion meta={meta} />
     </DiscussionProvider>
   )
 }

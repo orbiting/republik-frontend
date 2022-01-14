@@ -53,7 +53,7 @@ export type DiscussionQuery = {
       }>
       focus: Nullable<{
         id: string
-        parentIDs: string[]
+        parentIds: string[]
         preview: Nullable<{
           string: string
           more: boolean

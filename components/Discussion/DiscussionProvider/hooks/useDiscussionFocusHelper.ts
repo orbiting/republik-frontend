@@ -1,7 +1,8 @@
-import { DiscussionQuery } from '../graphql/queries/DiscussionQuery.graphql'
 import { useEffect, useState } from 'react'
 import { focusSelector } from '../../../../lib/utils/scroll'
 import { useTranslation } from '../../../../lib/withT'
+import { useDiscussion } from '../context/DiscussionContext'
+import { errorToString } from '../../../../lib/utils/errors'
 
 export type DiscussionFocusHelperType = {
   loading: boolean
@@ -10,19 +11,15 @@ export type DiscussionFocusHelperType = {
 
 /**
  * Helper hook to highlight and navigate to the closest comment in the current discussion
- * @param focusId
- * @param discussionLoading
- * @param discussion
  */
-function useDiscussionFocusHelper(
-  focusId: string | null,
-  discussionLoading: boolean,
-  discussion?: DiscussionQuery['discussion']
-): DiscussionFocusHelperType {
-  const { t } = useTranslation()
+function useDiscussionFocusHelper(): DiscussionFocusHelperType {
   const [currentFocusId, setCurrentFocusId] = useState<string | null>(null)
   const [focusLoading, setFocusLoading] = useState(false)
   const [focusError, setFocusError] = useState(null)
+
+  const { t } = useTranslation()
+  const { loading: discussionLoading, discussion, fetchMore } = useDiscussion()
+  const focusId = discussion?.comments?.focus?.id
 
   function navigateToSelector(selector: string) {
     /*
@@ -71,9 +68,38 @@ function useDiscussionFocusHelper(
       const selector = `[data-comment-id='${currentFocusId}']`
       navigateToSelector(selector)
       return
-    } else {
-      // TODO: implement logic to fetch by parentId etc.
+    } else if (discussion.comments?.focus?.parentIds?.length > 0) {
+      const parentIds = Array.from(discussion.comments.focus.parentIds)
+      const reversedParentIDs = parentIds.reverse()
+      // Fetch the closest parentId that has been loaded
+      const closestLoadedParentId = reversedParentIDs.find(parentID =>
+        discussion.comments.nodes.find(comment => comment.id === parentID)
+      )
+
+      if (!closestLoadedParentId) {
+        alert('NO PARENT LOADED')
+        return
+      }
+
+      const distanceToParent =
+        reversedParentIDs.indexOf(closestLoadedParentId) + 1
+
+      console.debug('Fetching parent', {
+        distanceToParent,
+        closestLoadedParent: closestLoadedParentId,
+        reversedParentIDs
+      })
+
+      fetchMore({
+        discussionId: discussion.id,
+        parentId: closestLoadedParentId,
+        after: discussion.comments.pageInfo.endCursor,
+        depth: distanceToParent
+      })
+        .catch(errorToString)
+        .catch(setFocusError)
     }
+    console.debug('no focus?')
   }, [discussion, discussionLoading, focusLoading, currentFocusId])
 
   return {

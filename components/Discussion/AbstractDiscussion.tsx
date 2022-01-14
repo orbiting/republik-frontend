@@ -12,6 +12,7 @@ import AbstractDiscussionCommentsRenderer from './AbstractDiscussionCommentsRend
 import DiscussionOptions from './shared/DiscussionOptions'
 import makeCommentTree from './DiscussionProvider/helpers/makeCommentTree'
 import { css } from 'glamor'
+import useDiscussionFocusHelper from './DiscussionProvider/hooks/useDiscussionFocusHelper'
 
 const styles = {
   commentsWrapper: css({
@@ -28,11 +29,12 @@ const AbstractDiscussion = ({ meta }: Props) => {
 
   const {
     discussion,
-    loading,
-    error,
-    fetchMore,
-    focus: { error: focusError }
+    loading: discussionLoading,
+    error: discussionError,
+    fetchMore
   } = useDiscussion()
+
+  const { error: focusError } = useDiscussionFocusHelper()
 
   const comments = useMemo(() => {
     if (!discussion) {
@@ -59,8 +61,8 @@ const AbstractDiscussion = ({ meta }: Props) => {
 
   return (
     <Loader
-      loading={loading || !discussion}
-      error={error}
+      loading={discussionLoading || !discussion}
+      error={discussionError}
       render={() => (
         <div>
           <div>
@@ -84,6 +86,7 @@ const AbstractDiscussion = ({ meta }: Props) => {
                 comments.directTotalCount - comments.nodes.length
               }
               tagMappings={meta?.tagMappings}
+              errorMessage={focusError?.message}
             >
               <AbstractDiscussionCommentsRenderer
                 comments={comments.nodes}

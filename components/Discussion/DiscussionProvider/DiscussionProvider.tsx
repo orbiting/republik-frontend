@@ -65,9 +65,9 @@ const DiscussionProvider: FC<{
     error: error,
     fetchMore,
     refetch,
+    focusId,
     orderBy,
     activeTag,
-
     overlays: {
       shareOverlay,
       preferencesOverlay,

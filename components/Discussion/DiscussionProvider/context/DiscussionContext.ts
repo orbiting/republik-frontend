@@ -15,6 +15,7 @@ export interface DiscussionContextValue {
   error: ApolloError | undefined
   fetchMore: FetchDiscussionFunctionType
   refetch: FetchDiscussionFunctionType
+  focusId: string | undefined
   orderBy: string
   activeTag: string | undefined
   overlays: {

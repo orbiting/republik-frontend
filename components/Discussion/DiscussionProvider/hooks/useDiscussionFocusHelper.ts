@@ -18,8 +18,12 @@ function useDiscussionFocusHelper(): DiscussionFocusHelperType {
   const [focusError, setFocusError] = useState(null)
 
   const { t } = useTranslation()
-  const { loading: discussionLoading, discussion, fetchMore } = useDiscussion()
-  const focusId = discussion?.comments?.focus?.id
+  const {
+    loading: discussionLoading,
+    discussion,
+    focusId,
+    fetchMore
+  } = useDiscussion()
 
   function navigateToSelector(selector: string) {
     /*
@@ -31,6 +35,13 @@ function useDiscussionFocusHelper(): DiscussionFocusHelperType {
       // When the comment has been found
       focusSelector(selector)
     }, 50)
+  }
+
+  function handleFocusError(errorMessage: string) {
+    setFocusError(new Error(errorMessage))
+    setFocusLoading(false)
+    const selector = `[data-discussion-id='${discussion.id}']`
+    navigateToSelector(selector)
   }
 
   // Sync input-focusId with state
@@ -47,48 +58,53 @@ function useDiscussionFocusHelper(): DiscussionFocusHelperType {
       return
     }
 
+    // Check if the focus is already present in the loaded comments
+    const commentAlreadyLoaded = discussion.comments.nodes.find(
+      comment => comment.id === currentFocusId
+    )
+
     // If the focus element could not be fetched assume 404
-    if (!discussion.comments?.focus) {
+    if (currentFocusId && !discussion.comments?.focus) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      setFocusError(new Error(t('discussion/focus/notFound')))
-      setFocusLoading(false)
-      const selector = `[data-discussion-id='${discussion.id}']`
-      navigateToSelector(selector)
+      handleFocusError(t('discussion/focus/notFound'))
       return
     }
 
-    // At this point we know the focus exists
-
-    // Check if the focus is already present in the loaded comments
+    // If the element has no parents and hasn't been loaded by the query.
     if (
-      discussion.comments.nodes.find(comment => comment.id === currentFocusId)
+      !commentAlreadyLoaded &&
+      discussion.comments.focus.parentIds.length === 0
     ) {
+      handleFocusError(t('discussion/focus/missing'))
+      return
+    }
+
+    // In case the focus element has been loaded by the query
+    if (commentAlreadyLoaded) {
       setFocusLoading(false)
       const selector = `[data-comment-id='${currentFocusId}']`
       navigateToSelector(selector)
       return
-    } else if (discussion.comments?.focus?.parentIds?.length > 0) {
+    }
+
+    if (discussion.comments?.focus?.parentIds?.length > 0) {
       const parentIds = Array.from(discussion.comments.focus.parentIds)
       const reversedParentIDs = parentIds.reverse()
+
       // Fetch the closest parentId that has been loaded
       const closestLoadedParentId = reversedParentIDs.find(parentID =>
         discussion.comments.nodes.find(comment => comment.id === parentID)
       )
 
+      // In case no parent comment has been loaded show an error
       if (!closestLoadedParentId) {
-        alert('NO PARENT LOADED')
+        handleFocusError(t('discussion/focus/missing'))
         return
       }
 
       const distanceToParent =
         reversedParentIDs.indexOf(closestLoadedParentId) + 1
-
-      console.debug('Fetching parent', {
-        distanceToParent,
-        closestLoadedParent: closestLoadedParentId,
-        reversedParentIDs
-      })
 
       fetchMore({
         discussionId: discussion.id,
@@ -99,7 +115,6 @@ function useDiscussionFocusHelper(): DiscussionFocusHelperType {
         .catch(errorToString)
         .catch(setFocusError)
     }
-    console.debug('no focus?')
   }, [discussion, discussionLoading, focusLoading, currentFocusId])
 
   return {

@@ -65,16 +65,14 @@ const AbstractDiscussion = ({ meta }: Props) => {
       error={discussionError}
       render={() => (
         <div>
-          <DiscussionComposerWrapper isTopLevel showPayNotes>
-            <DiscussionComposer
-              isRootLevel
-              placeholder={
-                meta?.discussionType === 'statements'
-                  ? 'components/Discussion/Statement/Placeholder'
-                  : undefined
-              }
-            />
-          </DiscussionComposerWrapper>
+          <DiscussionComposer
+            isRootLevel
+            placeholder={
+              meta?.discussionType === 'statements'
+                ? 'components/Discussion/Statement/Placeholder'
+                : undefined
+            }
+          />
           <div {...styles.commentsWrapper}>
             <DiscussionOptions meta={meta} />
             <DiscussionCommentsWrapper

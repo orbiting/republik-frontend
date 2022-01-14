@@ -11,6 +11,7 @@ import useSubmitCommentHandler from '../DiscussionProvider/hooks/actions/useSubm
 import useEditCommentHandler from '../DiscussionProvider/hooks/actions/useEditCommentHandler'
 import useDiscussionPreferences from '../DiscussionProvider/hooks/useDiscussionPreferences'
 import SecondaryActions from '../SecondaryActions'
+import DiscussionComposerWrapper from '../DiscussionProvider/components/DiscussionComposerWrapper'
 
 const propTypes = {
   isRootLevel: PropTypes.bool,
@@ -94,53 +95,54 @@ const DiscussionComposer = ({
     }
   }
 
-  if (active) {
-    return (
-      <CommentComposer
-        t={t}
-        isRoot={isRootLevel}
-        discussionId={discussion.id}
-        parentId={parentId}
-        commentId={commentId}
-        onSubmit={({ text, tags = [] }) => handleSubmit(text, tags)}
-        onSubmitLabel={
-          initialText
-            ? t('styleguide/comment/edit/submit')
-            : parentId
-            ? t('styleguide/CommentComposer/answer')
-            : t('submitComment/rootSubmitLabel')
-        }
-        onClose={() => {
-          if (onClose) {
-            onClose()
-          } else {
-            setActive(false)
-          }
-        }}
-        onOpenPreferences={() =>
-          preferencesOverlay.handleOpen(automaticCredential)
-        }
-        onPreviewComment={() => console.debug('NOT IMPLEMENTED YET')}
-        hintValidators={composerHints(t)}
-        secondaryActions={<SecondaryActions isReply={!!parentId} />}
-        displayAuthor={displayAuthor}
-        placeholder={placeholder}
-        maxLength={rules?.maxLength}
-        tags={tags}
-        initialText={initialText}
-        initialTagValue={
-          tags && tags.length > 0 ? initialTagValue ?? tags[0] : undefined
-        }
-      />
-    )
-  }
   return (
-    <CommentComposerPlaceholder
-      t={t}
-      displayAuthor={displayAuthor ?? {}}
-      onClick={() => setActive(true)}
-      placeholder={placeholder}
-    />
+    <DiscussionComposerWrapper isTopLevel={isRootLevel} showPayNotes>
+      {active ? (
+        <CommentComposer
+          t={t}
+          isRoot={isRootLevel}
+          discussionId={discussion.id}
+          parentId={parentId}
+          commentId={commentId}
+          onSubmit={({ text, tags = [] }) => handleSubmit(text, tags)}
+          onSubmitLabel={
+            initialText
+              ? t('styleguide/comment/edit/submit')
+              : parentId
+              ? t('styleguide/CommentComposer/answer')
+              : t('submitComment/rootSubmitLabel')
+          }
+          onClose={() => {
+            if (onClose) {
+              onClose()
+            } else {
+              setActive(false)
+            }
+          }}
+          onOpenPreferences={() =>
+            preferencesOverlay.handleOpen(automaticCredential)
+          }
+          onPreviewComment={() => console.debug('NOT IMPLEMENTED YET')}
+          hintValidators={composerHints(t)}
+          secondaryActions={<SecondaryActions isReply={!!parentId} />}
+          displayAuthor={displayAuthor}
+          placeholder={placeholder}
+          maxLength={rules?.maxLength}
+          tags={tags}
+          initialText={initialText}
+          initialTagValue={
+            tags && tags.length > 0 ? initialTagValue ?? tags[0] : undefined
+          }
+        />
+      ) : (
+        <CommentComposerPlaceholder
+          t={t}
+          displayAuthor={displayAuthor ?? {}}
+          onClick={() => setActive(true)}
+          placeholder={placeholder}
+        />
+      )}
+    </DiscussionComposerWrapper>
   )
 }
 

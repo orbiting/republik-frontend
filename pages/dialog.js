@@ -31,7 +31,7 @@ import compose from 'lodash/flowRight'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import { withRouter } from 'next/router'
-import TempDiscussionComponent from '../components/Discussion/TempDiscussionComponent'
+import TempDiscussionComponent from '../components/Discussion/DiscussionProvider'
 
 const styles = {
   container: css({

@@ -75,10 +75,10 @@ import { cleanAsPath } from '../../lib/utils/link'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
-import CommentLink from '../Discussion/CommentLink'
+import CommentLink from '../Discussion/shared/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
-import TempDiscussionComponent from '../Discussion/TempDiscussionComponent'
+import TempDiscussionComponent from '../Discussion/DiscussionProvider'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,

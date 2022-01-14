@@ -9,8 +9,8 @@
  */
 
 import { gql } from '@apollo/client'
-import { DISCUSSION_FRAGMENT } from '../DiscussionProvider/graphql/fragments/DiscussionFragment.graphql'
-import { COMMENT_FRAGMENT } from '../DiscussionProvider/graphql/fragments/CommentFragment.graphql'
+import { DISCUSSION_FRAGMENT } from './fragments/DiscussionFragment.graphql'
+import { COMMENT_FRAGMENT } from './fragments/CommentFragment.graphql'
 
 /*
  * QUERIES

@@ -1,7 +1,7 @@
 import React from 'react'
 import { CommentTeaser, Interaction } from '@project-r/styleguide'
 import withT from '../../lib/withT'
-import CommentLink from '../Discussion/CommentLink'
+import CommentLink from '../Discussion/shared/CommentLink'
 import InfiniteScroll from '../Frame/InfiniteScroll'
 
 const Comments = ({ t, comments, loadMore }) => {

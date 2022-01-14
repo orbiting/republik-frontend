@@ -8,10 +8,10 @@ import withT from '../../../../lib/withT'
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'
 import { toRejectedString } from '../utils'
 import { mergeComment, optimisticContent } from '../store'
-import { debug } from '../../debug'
-import { DISCUSSION_QUERY } from '../../DiscussionProvider/graphql/queries/DiscussionQuery.graphql'
-import { SUBMIT_COMMENT_MUTATION } from '../../DiscussionProvider/graphql/mutations/SubmitCommentMutation.graphql'
-import { PREVIEW_COMMENT_QUERY } from '../../DiscussionProvider/graphql/queries/PreviewCommentQuery.graphql'
+import { debug } from '../../shared/debug'
+import { DISCUSSION_QUERY } from '../queries/DiscussionQuery.graphql'
+import { SUBMIT_COMMENT_MUTATION } from '../mutations/SubmitCommentMutation.graphql'
+import { PREVIEW_COMMENT_QUERY } from '../queries/PreviewCommentQuery.graphql'
 
 /**
  * Provides the component with

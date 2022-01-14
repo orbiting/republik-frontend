@@ -1,9 +1,9 @@
 import React from 'react'
-import { FetchDiscussionFunctionType } from './DiscussionProvider/hooks/useDiscussionData'
+import { FetchDiscussionFunctionType } from './hooks/useDiscussionData'
 import EmptyDiscussion from './shared/EmptyDiscussion'
-import StatementContainer from './StatementNodeWrapper/StatementContainer'
-import CommentContainer from './CommentNodeWrapper/CommentContainer'
-import { CommentTreeNode } from './DiscussionProvider/helpers/makeCommentTree'
+import StatementContainer from './CommentContainers/StatementContainer'
+import CommentContainer from './CommentContainers/CommentContainer'
+import { CommentTreeNode } from './helpers/makeCommentTree'
 
 type Props = {
   comments: CommentTreeNode[]

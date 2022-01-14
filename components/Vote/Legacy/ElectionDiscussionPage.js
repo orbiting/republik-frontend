@@ -18,7 +18,7 @@ import voteT from '../voteT'
 import { Body, Section, Strong, Title } from '../text'
 import Loader from '../../Loader'
 import Link from 'next/link'
-import TempDiscussionComponent from '../../Discussion/TempDiscussionComponent'
+import TempDiscussionComponent from '../../Discussion/DiscussionProvider'
 
 const { P } = Interaction
 

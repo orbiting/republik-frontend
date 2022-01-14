@@ -13,7 +13,7 @@ import { css } from 'glamor'
 
 import SectionTitle from './Common/SectionTitle'
 import SectionContainer from './Common/SectionContainer'
-import CommentLink from '../Discussion/CommentLink'
+import CommentLink from '../Discussion/shared/CommentLink'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 
 const Community = ({ t, data: { loading, error, featured } }) => {

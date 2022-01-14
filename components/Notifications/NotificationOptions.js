@@ -20,7 +20,7 @@ import {
 import {
   DISCUSSION_NOTIFICATION_CHANNELS,
   DISCUSSION_NOTIFICATION_OPTIONS
-} from '../Discussion/constants'
+} from '../Discussion/shared/constants'
 import { withUpdateNotificationSettings } from '../Discussion/graphql/enhancers/withUpdateNotificationSettings'
 import ErrorMessage from '../ErrorMessage'
 

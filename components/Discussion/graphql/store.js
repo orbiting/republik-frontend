@@ -7,7 +7,7 @@
  *  - optimisticContent(): …
  */
 
-import { debug } from '../debug'
+import { debug } from '../shared/debug'
 
 /**
  * Merge a single Comment into the Discussion (provided as a draft). This function is

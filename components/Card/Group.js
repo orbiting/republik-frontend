@@ -46,7 +46,7 @@ import TrialForm from './TrialForm'
 
 import { cardColors } from './constants'
 import Link from 'next/link'
-import TempDiscussionComponent from '../Discussion/TempDiscussionComponent'
+import TempDiscussionComponent from '../Discussion/DiscussionProvider'
 
 const styles = {
   swipeIndicator: css({

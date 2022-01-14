@@ -5,14 +5,14 @@ import {
   pxToRem
 } from '@project-r/styleguide'
 import { useTranslation } from '../../lib/withT'
-import { useDiscussion } from './DiscussionProvider/context/DiscussionContext'
-import DiscussionComposerBarrier from './DiscussionProvider/components/DiscussionComposerBarrier'
-import DiscussionComposer from './shared/DiscussionComposer'
+import { useDiscussion } from './context/DiscussionContext'
+import DiscussionComposerBarrier from './DiscussionComposer/DiscussionComposerBarrier'
+import DiscussionComposer from './DiscussionComposer/DiscussionComposer'
 import DiscussionCommentTreeRenderer from './DiscussionCommentTreeRenderer'
-import DiscussionOptions from './shared/DiscussionOptions'
-import makeCommentTree from './DiscussionProvider/helpers/makeCommentTree'
+import DiscussionOptions from './DiscussionOptions/DiscussionOptions'
+import makeCommentTree from './helpers/makeCommentTree'
 import { css } from 'glamor'
-import useDiscussionFocusHelper from './DiscussionProvider/hooks/useDiscussionFocusHelper'
+import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
 
 const styles = {
   commentsWrapper: css({

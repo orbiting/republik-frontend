@@ -1,5 +1,9 @@
 import React, { useMemo } from 'react'
-import { Loader, DiscussionCommentsWrapper } from '@project-r/styleguide'
+import {
+  Loader,
+  DiscussionCommentsWrapper,
+  pxToRem
+} from '@project-r/styleguide'
 import { useTranslation } from '../../lib/withT'
 import { useDiscussion } from './DiscussionProvider/context/DiscussionContext'
 import DiscussionComposerWrapper from './DiscussionProvider/components/DiscussionComposerWrapper'
@@ -7,6 +11,13 @@ import DiscussionComposer from './shared/DiscussionComposer'
 import AbstractDiscussionCommentsRenderer from './AbstractDiscussionCommentsRenderer'
 import DiscussionOptions from './shared/DiscussionOptions'
 import makeCommentTree from './DiscussionProvider/helpers/makeCommentTree'
+import { css } from 'glamor'
+
+const styles = {
+  commentsWrapper: css({
+    marginTop: pxToRem(20)
+  })
+}
 
 type Props = {
   meta: any
@@ -24,7 +35,15 @@ const AbstractDiscussion = ({ meta }: Props) => {
   } = useDiscussion()
 
   const comments = useMemo(() => {
-    return makeCommentTree(discussion.comments)
+    if (!discussion) {
+      return {
+        totalCount: 0,
+        directTotalCount: 0,
+        pageInfo: {},
+        nodes: []
+      }
+    }
+    return makeCommentTree(discussion?.comments)
   }, [discussion])
 
   const loadMore = async (): Promise<unknown> => {
@@ -56,13 +75,13 @@ const AbstractDiscussion = ({ meta }: Props) => {
               />
             </DiscussionComposerWrapper>
           </div>
-          <div>
+          <div {...styles.commentsWrapper}>
             <DiscussionOptions meta={meta} />
             <DiscussionCommentsWrapper
               t={t}
               loadMore={loadMore}
               moreAvailableCount={comments.totalCount - comments.nodes.length}
-              tagMappings={meta?.tagMapping}
+              tagMappings={meta?.tagMappings}
             >
               <AbstractDiscussionCommentsRenderer
                 comments={comments.nodes}

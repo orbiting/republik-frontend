@@ -3,6 +3,7 @@ import StatementNodeWrapper from './StatementsDiscussion/StatementNodeWrapper'
 import React from 'react'
 import { FetchDiscussionFunctionType } from './DiscussionProvider/hooks/useDiscussionData'
 import EmptyDiscussion from './shared/EmptyDiscussion'
+import CommentNodeWrapper from './StatementsDiscussion/CommentNodeWrapper'
 
 type Props = {
   comments: CommentFragmentType[]
@@ -35,7 +36,13 @@ const AbstractDiscussionCommentsRenderer = ({
     )
   }
 
-  return <>Regular Dialog: With {comments.length} comments</>
+  return (
+    <>
+      {comments.map(comment => (
+        <CommentNodeWrapper key={comment.id} comment={comment} />
+      ))}
+    </>
+  )
 }
 
 export default AbstractDiscussionCommentsRenderer

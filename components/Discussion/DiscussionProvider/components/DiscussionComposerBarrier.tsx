@@ -27,7 +27,7 @@ type Props = {
  * @param showPayNotes
  * @constructor
  */
-const DiscussionComposerWrapper = ({
+const DiscussionComposerBarrier = ({
   children,
   isTopLevel,
   showPayNotes
@@ -137,4 +137,4 @@ const DiscussionComposerWrapper = ({
   return <>{children}</>
 }
 
-export default DiscussionComposerWrapper
+export default DiscussionComposerBarrier

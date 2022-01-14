@@ -11,7 +11,7 @@ import useSubmitCommentHandler from '../DiscussionProvider/hooks/actions/useSubm
 import useEditCommentHandler from '../DiscussionProvider/hooks/actions/useEditCommentHandler'
 import useDiscussionPreferences from '../DiscussionProvider/hooks/useDiscussionPreferences'
 import SecondaryActions from '../SecondaryActions'
-import DiscussionComposerWrapper from '../DiscussionProvider/components/DiscussionComposerWrapper'
+import DiscussionComposerBarrier from '../DiscussionProvider/components/DiscussionComposerBarrier'
 
 const propTypes = {
   isRootLevel: PropTypes.bool,
@@ -96,7 +96,7 @@ const DiscussionComposer = ({
   }
 
   return (
-    <DiscussionComposerWrapper isTopLevel={isRootLevel} showPayNotes>
+    <DiscussionComposerBarrier isTopLevel={isRootLevel} showPayNotes>
       {active ? (
         <CommentComposer
           t={t}
@@ -142,7 +142,7 @@ const DiscussionComposer = ({
           placeholder={placeholder}
         />
       )}
-    </DiscussionComposerWrapper>
+    </DiscussionComposerBarrier>
   )
 }
 

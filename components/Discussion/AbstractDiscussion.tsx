@@ -6,7 +6,7 @@ import {
 } from '@project-r/styleguide'
 import { useTranslation } from '../../lib/withT'
 import { useDiscussion } from './DiscussionProvider/context/DiscussionContext'
-import DiscussionComposerWrapper from './DiscussionProvider/components/DiscussionComposerWrapper'
+import DiscussionComposerBarrier from './DiscussionProvider/components/DiscussionComposerBarrier'
 import DiscussionComposer from './shared/DiscussionComposer'
 import AbstractDiscussionCommentsRenderer from './AbstractDiscussionCommentsRenderer'
 import DiscussionOptions from './shared/DiscussionOptions'

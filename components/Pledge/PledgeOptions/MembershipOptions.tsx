@@ -7,19 +7,21 @@ import {
   useColorContext,
   useMediaQuery,
   Field,
-  Label,
   Interaction,
   fontStyles
 } from '@project-r/styleguide'
 
 import FieldSet from '../../FieldSet'
-import { getOptionFieldKey, getOptionValue } from '../CustomizePackage'
+import {
+  getOptionFieldKey,
+  getOptionPeriodsFieldKey,
+  getOptionValue
+} from '../CustomizePackage'
 import {
   OptionType,
   SuggestionType,
   FieldSetValues
 } from './PledgeOptionsTypes'
-import { errorToString } from '../../../lib/utils/errors'
 
 const styles = {
   suggestionsContainer: css({
@@ -106,10 +108,6 @@ const MembershipOptions = ({
   const requiresAmountSelector = options.some(
     option => option.minAmount !== option.maxAmount
   )
-
-  const [ownPrice, setOwnPrice] = useState<number>()
-  const [amount, setAmount] = useState<number>()
-  const [period, setPeriod] = useState<number>()
   const [colorScheme] = useColorContext()
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 
@@ -135,7 +133,7 @@ const MembershipOptions = ({
     .filter(
       suggestion =>
         suggestion.price <= values.price - goodiePrice &&
-        getOptionValue(suggestion.option, values) === 1
+        getOptionValue(suggestion.option, values) >= 1
     )
     .sort((a, b) => descending(a.price, b.price))[0]
 
@@ -231,17 +229,13 @@ const MembershipOptions = ({
               {option.minAmount !== option.maxAmount && (
                 <Field
                   label={'Anzahl Geschenkmitgliedschaften'}
-                  value={amount || option.defaultAmount}
+                  value={getOptionValue(option, values)}
                   onChange={(_, value) => {
-                    setAmount(parseInt(value.toString()))
                     onChange(
                       FieldSet.utils.fieldsState({
                         field: getOptionFieldKey(option),
                         value: Math.min(
-                          Math.max(
-                            getOptionValue(option, values),
-                            option.minAmount
-                          ),
+                          Math.max(+value, option.minAmount),
                           option.maxAmount
                         ),
                         error: undefined,
@@ -257,17 +251,18 @@ const MembershipOptions = ({
               {option.reward?.minPeriods !== option.reward?.maxPeriods && (
                 <Field
                   label={'Anzahl Monate'}
-                  value={option.reward.defaultPeriods}
-                  onChange={value =>
+                  value={
+                    values[getOptionPeriodsFieldKey(option)] === undefined
+                      ? option.reward.defaultPeriods
+                      : values[getOptionPeriodsFieldKey(option)]
+                  }
+                  onChange={(_, value) =>
                     onChange(
                       FieldSet.utils.fieldsState({
-                        field: getOptionFieldKey(option),
+                        field: getOptionPeriodsFieldKey(option),
                         value: Math.min(
-                          Math.max(
-                            getOptionValue(option, values),
-                            numMembershipYears.minAmount
-                          ),
-                          numMembershipYears.maxAmount
+                          Math.max(+value, option.reward.minPeriods),
+                          option.reward.maxPeriods
                         ),
                         error: undefined,
                         dirty: true

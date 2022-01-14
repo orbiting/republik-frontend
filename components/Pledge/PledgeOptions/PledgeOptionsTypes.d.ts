@@ -42,5 +42,4 @@ export interface FieldSetValues extends Record<string, number> {
   price?: number
   customPrice?: number
   reason?: string
-  [key: string]: { suggestionId: string; price: number }
 }

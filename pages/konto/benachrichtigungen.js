@@ -7,16 +7,16 @@ import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { Interaction } from '@project-r/styleguide'
 
-import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
 const NotificationsSettingsPage = ({ t, me }) => {
-  const meta = {
-    title: t('pages/notifications/settings/title'),
-    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
-  }
   return (
-    <Frame raw={!!me} meta={meta}>
+    <Frame
+      raw={!!me}
+      meta={{
+        title: t('pages/account/notifications/title')
+      }}
+    >
       <MainContainer>
         {me ? (
           <NotificationsSettings />

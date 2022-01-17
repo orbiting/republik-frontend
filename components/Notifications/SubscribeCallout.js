@@ -21,7 +21,7 @@ const styles = {
 const SettingsLink = withT(({ t }) => (
   <p {...styles.settings}>
     <small>
-      <Link key='link' href='/benachrichtigungen/einstellungen' passHref>
+      <Link key='link' href='/konto/benachrichtigungen' passHref>
         <A>{t('SubscribeCallout/settingsLink')}</A>
       </Link>
     </small>

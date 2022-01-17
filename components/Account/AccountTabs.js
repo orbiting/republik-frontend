@@ -20,7 +20,7 @@ const styles = {
 const TabArray = [
   { path: '/konto', name: 'MEMBERSHIP' },
   { path: '/konto/newsletter', name: 'NEWSLETTER' },
-  { path: '/benachrichtigungen/einstellungen', name: 'NOTIFICATIONS' },
+  { path: '/konto/benachrichtigungen', name: 'NOTIFICATIONS' },
   { path: '/konto/einstellungen', name: 'SETTINGS' },
   { path: '/konto/transaktionen', name: 'TRANSACTIONS' }
 ]

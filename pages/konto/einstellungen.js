@@ -15,7 +15,12 @@ import { APP_OPTIONS } from '../../lib/constants'
 const SettingsPage = ({ t }) => {
   const { pathname } = useRouter()
   return (
-    <Frame raw>
+    <Frame
+      raw
+      meta={{
+        title: t('pages/account/settings/title')
+      }}
+    >
       <MainContainer>
         <AccountTabs pathname={pathname} t={t} />
 

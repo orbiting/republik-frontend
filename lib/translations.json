@@ -1245,6 +1245,22 @@
       "value": "Newsletter"
     },
     {
+      "key": "pages/account/newsletter/title",
+      "value": "Newsletter – Konto"
+    },
+    {
+      "key": "pages/account/notifications/title",
+      "value": "Benachrichtigungen – Konto"
+    },
+    {
+      "key": "pages/account/settings/title",
+      "value": "Einstellungen – Konto"
+    },
+    {
+      "key": "pages/account/transactions/title",
+      "value": "Einkäufe – Konto"
+    },
+    {
       "key": "profile/documents/title/other",
       "value": "{count} Beiträge"
     },
@@ -6650,7 +6666,7 @@
     },
     {
       "key": "Notifications/empty/paragraph",
-      "value": "Sie haben noch keine Benachrichtigungen. In <a href=\"/benachrichtigungen/einstellungen\">Ihren Einstellungen</a> finden Sie Rubriken, die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
+      "value": "Sie haben noch keine Benachrichtigungen. In <a href=\"/konto/benachrichtigungen\">Ihren Einstellungen</a> finden Sie Rubriken, die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
     },
     {
       "key": "Notifications/settings",
@@ -6759,10 +6775,6 @@
     {
       "key": "Account/Notifications/Legacy/link",
       "value": "Zu den Einstellungen Ihrer Benachrichtigungen."
-    },
-    {
-      "key": "pages/notifications/settings/title",
-      "value": "Benachrichtigungen – Einstellungen"
     },
     {
       "key": "Onboarding/Sections/Newsletter/heading",

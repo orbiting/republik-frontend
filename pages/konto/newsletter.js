@@ -14,7 +14,12 @@ import { Interaction } from '@project-r/styleguide'
 const SettingsPage = ({ t }) => {
   const { pathname } = useRouter()
   return (
-    <Frame raw>
+    <Frame
+      raw
+      meta={{
+        title: t('pages/account/newsletter/title')
+      }}
+    >
       <MainContainer>
         <AccountTabs pathname={pathname} t={t} />
         <Interaction.P style={{ marginBottom: 20 }}>

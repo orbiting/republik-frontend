@@ -12,7 +12,12 @@ import AccountSection from '../../components/Account/AccountSection'
 const TransactionPage = ({ t }) => {
   const { query, pathname } = useRouter()
   return (
-    <Frame raw>
+    <Frame
+      raw
+      meta={{
+        title: t('pages/account/transactions/title')
+      }}
+    >
       <MainContainer>
         <AccountTabs pathname={pathname} t={t} />
         <PledgeList highlightId={query.id} />

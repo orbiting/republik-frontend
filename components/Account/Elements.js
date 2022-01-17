@@ -1,8 +1,13 @@
 import React, { useMemo } from 'react'
 import { css } from 'glamor'
+import { useRouter } from 'next/router'
+import compose from 'lodash/flowRight'
 
+import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { timeFormat } from '../../lib/utils/format'
+import { MainContainer, Content } from '../../components/Frame'
+import SignIn from '../../components/Auth/SignIn'
 
 import {
   Interaction,
@@ -117,3 +122,26 @@ export const HintArea = ({ color = 'hover', children }) => {
     </div>
   )
 }
+
+export const AccountPageContainer = compose(
+  withT,
+  withMe
+)(({ t, me, children }) => {
+  const { query } = useRouter()
+
+  return (
+    <MainContainer>
+      {!me ? (
+        <Content>
+          <Interaction.H1 style={{ marginBottom: 22 }}>
+            {t('account/signedOut/title')}
+          </Interaction.H1>
+          <Interaction.P>{t('account/signedOut/signIn')}</Interaction.P>
+          <SignIn email={query.email} />
+        </Content>
+      ) : (
+        children
+      )}
+    </MainContainer>
+  )
+})

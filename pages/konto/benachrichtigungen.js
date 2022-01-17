@@ -1,11 +1,10 @@
 import React from 'react'
 import compose from 'lodash/flowRight'
-import Frame, { MainContainer, Content } from '../../components/Frame'
+import Frame from '../../components/Frame'
 import NotificationsSettings from '../../components/Notifications/Settings'
-import SignIn from '../../components/Auth/SignIn'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-import { Interaction } from '@project-r/styleguide'
+import { AccountPageContainer } from '../../components/Account/Elements'
 
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
@@ -17,18 +16,9 @@ const NotificationsSettingsPage = ({ t, me }) => {
         title: t('pages/account/notifications/title')
       }}
     >
-      <MainContainer>
-        {me ? (
-          <NotificationsSettings />
-        ) : (
-          <Content>
-            <Interaction.H1 style={{ margin: '48px 0' }}>
-              {t('Notifications/settings/title')}
-            </Interaction.H1>
-            <SignIn />
-          </Content>
-        )}
-      </MainContainer>
+      <AccountPageContainer>
+        <NotificationsSettings />
+      </AccountPageContainer>
     </Frame>
   )
 }

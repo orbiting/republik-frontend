@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
-import Frame, { MainContainer } from '../../components/Frame'
+import Frame from '../../components/Frame'
 
 import AccountTabs from '../../components/Account/AccountTabs'
-import AccountSection from '../../components/Account/AccountSection'
+import { AccountPageContainer } from '../../components/Account/Elements'
 import NewsletterSubscriptions from '../../components/Account/NewsletterSubscriptions'
 import { Interaction } from '@project-r/styleguide'
 
@@ -20,13 +20,13 @@ const SettingsPage = ({ t }) => {
         title: t('pages/account/newsletter/title')
       }}
     >
-      <MainContainer>
+      <AccountPageContainer>
         <AccountTabs pathname={pathname} t={t} />
         <Interaction.P style={{ marginBottom: 20 }}>
           {t('pages/account/newsletter/lead')}
         </Interaction.P>
         <NewsletterSubscriptions />
-      </MainContainer>
+      </AccountPageContainer>
     </Frame>
   )
 }

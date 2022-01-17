@@ -5,9 +5,8 @@ import Frame from '../../components/Frame'
 import withT from '../../lib/withT'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 import AccountTabs from '../../components/Account/AccountTabs'
-import { MainContainer } from '../../components/Frame'
+import { AccountPageContainer } from '../../components/Account/Elements'
 import PledgeList from '../../components/Account/PledgeList'
-import AccountSection from '../../components/Account/AccountSection'
 
 const TransactionPage = ({ t }) => {
   const { query, pathname } = useRouter()
@@ -18,10 +17,10 @@ const TransactionPage = ({ t }) => {
         title: t('pages/account/transactions/title')
       }}
     >
-      <MainContainer>
+      <AccountPageContainer>
         <AccountTabs pathname={pathname} t={t} />
         <PledgeList highlightId={query.id} />
-      </MainContainer>
+      </AccountPageContainer>
     </Frame>
   )
 }

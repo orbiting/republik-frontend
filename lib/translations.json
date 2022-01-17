@@ -882,27 +882,27 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",
-      "value": "Republik – Das tägliche Update"
+      "value": "Das tägliche Update"
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags bis freitags um 5 Uhr"
+      "value": "Von Montag bis Freitag um 5 Uhr"
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/description",
-      "value": "Jeden morgen die Geschichten der Republik."
+      "value": "Die aktuellsten Beiträge der Republik. Jeden Morgen in Ihrem virtuellen Briefkasten."
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
-      "value": "Republik – Der Wochenüberblick"
+      "value": "Der Wochenüberblick"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
-      "value": "samstags"
+      "value": "Samstags um 5 Uhr"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/description",
-      "value": "Zum Wochenende ein Rückblick über die Woche, die tragenden Geschichten der Republik und was sonst noch so alles wichtig war."
+      "value": "Lektüre für das Wochenende samt Rückblick auf die wichtigsten Geschichten der vergangenen Woche."
     },
     {
       "key": "account/newsletterSubscriptions/PRODUCT/label",
@@ -918,15 +918,15 @@
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
-      "value": "Project R – Wichtige Updates"
+      "value": "Wichtige Updates von Project R"
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/description",
-      "value": "Project R ist die gemeinnützige Genossenschaft hinter der «Republik». Project R fördert die Demokratie, indem sie den Journalismus als vierte Gewalt stärkt."
+      "value": "Alles über unsere Unternehmung – von geplanten Veränderungen über anstehende Urabstimmungen bis hin zu wichtigen Entwicklungen in der Medienlandschaft. Kostenlos für alle Interessierten verfügbar."
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/frequency",
-      "value": "unregelmässig"
+      "value": "8 bis 12 Mal pro Jahr\n"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/label",
@@ -934,19 +934,23 @@
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
-      "value": "montags um 19 Uhr"
+      "value": "Montags um 19 Uhr"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/description",
-      "value": "Brauchbares zur Pandemie – was man wissen sollte, obwohl es niemand mehr hören mag. Der kostenlose 19-Uhr-Newsletter ist unser Angebot zur Bewältigung der Corona-Pandemie. "
+      "value": "Brauchbares zur Pandemie – was man wissen sollte, obwohl es niemand mehr hören mag. Der kostenlose Newsletter ist unser Angebot zur Bewältigung der Corona-Pandemie."
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/label",
-      "value": "Republik – Der Komplizen-Newsletter"
+      "value": "Der Komplizen-Newsletter"
+    },
+    {
+      "key": "account/newsletterSubscriptions/ACCOMPLICE/description",
+      "value": "Wir informieren Sie über Möglichkeiten, wie Sie die Zukunft der Republik mitgestalten und sich für Medienvielfalt engagieren können. Und Sie erhalten Einladungen zu Veranstaltungen und Neuigkeiten aus der Republik-Crew."
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/frequency",
-      "value": "unregelmässig"
+      "value": "4 bis 6 Mal pro Jahr"
     },
     {
       "key": "account/newsletterSubscriptions/onlyName/subscribe",

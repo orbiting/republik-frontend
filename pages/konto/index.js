@@ -12,11 +12,12 @@ import { withMembership } from '../../components/Auth/checkRoles'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 import AccountTabs from '../../components/Account/AccountTabs'
 import AccountSection from '../../components/Account/AccountSection'
-import { MainContainer } from '../../components/Frame'
+import { MainContainer, Content } from '../../components/Frame'
 import Memberships from '../../components/Account/Memberships'
 import { HintArea } from '../../components/Account/Elements'
 import NameAddress from '../../components/Account/UserInfo/NameAddress'
 import UpdateEmail, { UserEmail } from '../../components/Account/UserInfo/Email'
+import SignIn from '../../components/Auth/SignIn'
 
 const { Emphasis } = Interaction
 
@@ -55,7 +56,7 @@ const AccountPage = ({ t, me, isMember }) => {
 
   const hasMemberships = me?.memberships && !!me?.memberships.length
   const acceptedStatue =
-    me.pledges &&
+    me?.pledges &&
     !!me.pledges.length &&
     !!me.pledges.find(
       pledge =>
@@ -65,61 +66,77 @@ const AccountPage = ({ t, me, isMember }) => {
   return (
     <Frame meta={meta} raw>
       <MainContainer>
-        {postPledge && <Merci query={query} />}
+        {!me ? (
+          <Content>
+            <Interaction.H1 style={{ marginBottom: 22 }}>
+              {t('account/signedOut/title')}
+            </Interaction.H1>
+            <Interaction.P>{t('account/signedOut/signIn')}</Interaction.P>
+            <SignIn email={query.email} />
+          </Content>
+        ) : (
+          <>
+            {postPledge && <Merci query={query} />}
 
-        <AccountTabs pathname={pathname} t={t} />
-        <div {...styles.container}>
-          {isMember && (
-            <div {...styles.column}>
-              <AccountSection
-                id='onboarding'
-                title={t('Account/Onboarding/title')}
-              >
-                <HintArea>
-                  {t.elements('Account/Onboarding/text', {
-                    link: (
-                      <Link key='link' href='/einrichten' passHref>
-                        <A>
-                          <Emphasis>{t('Account/Onboarding/link')}</Emphasis>
-                        </A>
-                      </Link>
-                    )
-                  })}
-                </HintArea>
-              </AccountSection>
+            <AccountTabs pathname={pathname} t={t} />
+            <div {...styles.container}>
+              {isMember && (
+                <div {...styles.column}>
+                  <AccountSection
+                    id='onboarding'
+                    title={t('Account/Onboarding/title')}
+                  >
+                    <HintArea>
+                      {t.elements('Account/Onboarding/text', {
+                        link: (
+                          <Link key='link' href='/einrichten' passHref>
+                            <A>
+                              <Emphasis>
+                                {t('Account/Onboarding/link')}
+                              </Emphasis>
+                            </A>
+                          </Link>
+                        )
+                      })}
+                    </HintArea>
+                  </AccountSection>
+                </div>
+              )}
+
+              <div {...styles.column}>
+                <AccountSection
+                  id='teilen'
+                  title={t('Account/Access/Campaigns/title')}
+                >
+                  <HintArea>
+                    {t.elements('Account/Access/Legacy/text', {
+                      link: (
+                        <Link key='link' href='/teilen' passHref>
+                          <A>
+                            <Emphasis>
+                              {t('Account/Access/Legacy/link')}
+                            </Emphasis>
+                          </A>
+                        </Link>
+                      )
+                    })}
+                  </HintArea>
+                </AccountSection>
+              </div>
             </div>
-          )}
-
-          <div {...styles.column}>
-            <AccountSection
-              id='teilen'
-              title={t('Account/Access/Campaigns/title')}
-            >
-              <HintArea>
-                {t.elements('Account/Access/Legacy/text', {
-                  link: (
-                    <Link key='link' href='/teilen' passHref>
-                      <A>
-                        <Emphasis>{t('Account/Access/Legacy/link')}</Emphasis>
-                      </A>
-                    </Link>
-                  )
-                })}
-              </HintArea>
+            <Memberships />
+            <AccountSection id='account' title={t('Account/Update/title')}>
+              <div style={{ marginBottom: 24 }}>
+                <UserEmail />
+                <UpdateEmail />
+              </div>
+              <NameAddress
+                acceptedStatue={acceptedStatue}
+                hasMemberships={hasMemberships}
+              />
             </AccountSection>
-          </div>
-        </div>
-        <Memberships />
-        <AccountSection id='account' title={t('Account/Update/title')}>
-          <div style={{ marginBottom: 24 }}>
-            <UserEmail />
-            <UpdateEmail />
-          </div>
-          <NameAddress
-            acceptedStatue={acceptedStatue}
-            hasMemberships={hasMemberships}
-          />
-        </AccountSection>
+          </>
+        )}
       </MainContainer>
     </Frame>
   )

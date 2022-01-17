@@ -1,6 +1,6 @@
 import React from 'react'
 import compose from 'lodash/flowRight'
-import Frame, { MainContainer } from '../../components/Frame'
+import Frame, { MainContainer, Content } from '../../components/Frame'
 import NotificationsSettings from '../../components/Notifications/Settings'
 import SignIn from '../../components/Auth/SignIn'
 import withMe from '../../lib/apollo/withMe'
@@ -21,12 +21,12 @@ const NotificationsSettingsPage = ({ t, me }) => {
         {me ? (
           <NotificationsSettings />
         ) : (
-          <>
+          <Content>
             <Interaction.H1 style={{ margin: '48px 0' }}>
               {t('Notifications/settings/title')}
             </Interaction.H1>
             <SignIn />
-          </>
+          </Content>
         )}
       </MainContainer>
     </Frame>

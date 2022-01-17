@@ -853,6 +853,10 @@
       "value": "Erstellt am {formattedDate} um {formattedTime}"
     },
     {
+      "key": "pages/account/newsletter/lead",
+      "value": "Abonnieren Sie unsere Newsletter per E-Mail um auf dem Laufenden zu bleiben."
+    },
+    {
       "key": "account/newsletterSubscriptions/unauthorized",
       "value": "Sie müssen angemeldet sein, um Ihre Newsletter-Einstellungen zu ändern."
     },
@@ -882,7 +886,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",
-      "value": "Das tägliche Update"
+      "value": "7-Uhr-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
@@ -894,7 +898,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
-      "value": "Der Wochenüberblick"
+      "value": "Wochenend-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
@@ -905,20 +909,8 @@
       "value": "Lektüre für das Wochenende samt Rückblick auf die wichtigsten Geschichten der vergangenen Woche."
     },
     {
-      "key": "account/newsletterSubscriptions/PRODUCT/label",
-      "value": "Republik – Umfragen und Produktinformationen"
-    },
-    {
-      "key": "account/newsletterSubscriptions/PRODUCT/frequency",
-      "value": "unregelmässig"
-    },
-    {
-      "key": "account/newsletterSubscriptions/PRODUCT/description",
-      "value": "Umfragen und Produktinformationen"
-    },
-    {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
-      "value": "Wichtige Updates von Project R"
+      "value": "Project-R-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/description",
@@ -942,7 +934,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/label",
-      "value": "Der Komplizen-Newsletter"
+      "value": "Komplizen-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/description",
@@ -5118,7 +5110,7 @@
     },
     {
       "key": "Onboarding/Sections/Newsletter/preamble",
-      "value": "Mit den verschiedenen E-Mail-Newslettern halten wir Sie mit einem täglichen Update und einem Wochenrückblick auf dem Laufenden."
+      "value": "Mit den E-Mail-Newslettern halten wir Sie auf dem Laufenden."
     },
     {
       "key": "Onboarding/Sections/Newsletter/hint",
@@ -6518,11 +6510,11 @@
     },
     {
       "key": "Account/Access/Legacy/text",
-      "value": "Laden Sie Ihre Freunde und Feinde ein, die Republik zu testen. Ermöglicht den Empfangenden einen 21-tägigen Probezugriff zur Republik. {link}"
+      "value": "Ermöglichen Sie, Ihren Freunden und Feinden, {link}."
     },
     {
       "key": "Account/Access/Legacy/link",
-      "value": "Republik teilen"
+      "value": "ein kostenloses Probelesen"
     },
     {
       "key": "Account/Access/Page/noCampaign",

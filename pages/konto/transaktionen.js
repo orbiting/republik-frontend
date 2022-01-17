@@ -15,12 +15,7 @@ const TransactionPage = ({ t }) => {
     <Frame raw>
       <MainContainer>
         <AccountTabs pathname={pathname} t={t} />
-        <AccountSection
-          id='transactions'
-          title={t('account/transactions/title')}
-        >
-          <PledgeList highlightId={query.id} />
-        </AccountSection>
+        <PledgeList highlightId={query.id} />
       </MainContainer>
     </Frame>
   )

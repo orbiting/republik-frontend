@@ -9,6 +9,7 @@ import Frame, { MainContainer } from '../../components/Frame'
 import AccountTabs from '../../components/Account/AccountTabs'
 import AccountSection from '../../components/Account/AccountSection'
 import NewsletterSubscriptions from '../../components/Account/NewsletterSubscriptions'
+import { Interaction } from '@project-r/styleguide'
 
 const SettingsPage = ({ t }) => {
   const { pathname } = useRouter()
@@ -16,12 +17,10 @@ const SettingsPage = ({ t }) => {
     <Frame raw>
       <MainContainer>
         <AccountTabs pathname={pathname} t={t} />
-        <AccountSection
-          id='newsletter'
-          title={t('account/newsletterSubscriptions/title')}
-        >
-          <NewsletterSubscriptions />
-        </AccountSection>
+        <Interaction.P style={{ marginBottom: 20 }}>
+          {t('pages/account/newsletter/lead')}
+        </Interaction.P>
+        <NewsletterSubscriptions />
       </MainContainer>
     </Frame>
   )

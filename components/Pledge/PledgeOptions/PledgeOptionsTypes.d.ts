@@ -19,6 +19,7 @@ export type SuggestionType = {
 export type OptionType = {
   id?: string
   optionGroup: string
+  additionalPeriods: []
   reward: RewardType
   minAmount?: number
   maxAmount?: number

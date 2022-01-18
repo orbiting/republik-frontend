@@ -101,13 +101,6 @@ const MembershipOptions = ({
     })
   }, [options]).flat()
 
-  const requiresPeriodSelector = options.some(
-    option => option.reward?.minPeriods !== option.reward?.maxPeriods
-  )
-
-  const requiresAmountSelector = options.some(
-    option => option.minAmount !== option.maxAmount
-  )
   const [colorScheme] = useColorContext()
   const isDesktop = useMediaQuery(mediaQueries.mUp)
 
@@ -144,7 +137,13 @@ const MembershipOptions = ({
           const { price, label, description, userPrice, option } = suggestion
 
           const isSelected = selectedSuggestion === suggestion
+          // option.additionalPeriods is only true on PROLONG, which is where we don't need a period or amount selector
+          const requiresPeriodSelector =
+            !option.additionalPeriods &&
+            option.reward?.minPeriods !== option.reward?.maxPeriods
 
+          const requiresAmountSelector =
+            !option.additionalPeriods && option.minAmount !== option.maxAmount
           return (
             <>
               <button
@@ -216,68 +215,65 @@ const MembershipOptions = ({
                     onChange={onPriceChange}
                   />
                 )}
+
+                {requiresPeriodSelector || requiresAmountSelector ? (
+                  <div {...styles.fieldContainer}>
+                    {requiresPeriodSelector && (
+                      <Field
+                        label={'Anzahl Geschenkmitgliedschaften'}
+                        value={getOptionValue(option, values)}
+                        onChange={(_, value) => {
+                          onChange(
+                            FieldSet.utils.fieldsState({
+                              field: getOptionFieldKey(option),
+                              value: Math.min(
+                                Math.max(+value, option.minAmount),
+                                option.maxAmount
+                              ),
+                              error: undefined,
+                              dirty: true
+                            })
+                          )
+                        }}
+                        renderInput={props => (
+                          <input inputMode='numeric' {...props} />
+                        )}
+                      />
+                    )}
+                    {requiresAmountSelector && (
+                      <Field
+                        label={'Anzahl Monate'}
+                        value={
+                          values[getOptionPeriodsFieldKey(option)] === undefined
+                            ? option.reward.defaultPeriods
+                            : values[getOptionPeriodsFieldKey(option)]
+                        }
+                        onChange={(_, value) =>
+                          onChange(
+                            FieldSet.utils.fieldsState({
+                              field: getOptionPeriodsFieldKey(option),
+                              value: Math.min(
+                                Math.max(+value, option.reward.minPeriods),
+                                option.reward.maxPeriods
+                              ),
+                              error: undefined,
+                              dirty: true
+                            })
+                          )
+                        }
+                        renderInput={props => (
+                          <input inputMode='numeric' {...props} />
+                        )}
+                      />
+                    )}
+                  </div>
+                ) : null}
                 <p {...styles.label}>{description}</p>
               </div>
             </>
           )
         })}
       </div>
-      {requiresPeriodSelector || requiresAmountSelector ? (
-        <div {...styles.fieldContainer}>
-          {options.map(option => (
-            <>
-              {option.minAmount !== option.maxAmount && (
-                <Field
-                  label={'Anzahl Geschenkmitgliedschaften'}
-                  value={getOptionValue(option, values)}
-                  onChange={(_, value) => {
-                    onChange(
-                      FieldSet.utils.fieldsState({
-                        field: getOptionFieldKey(option),
-                        value: Math.min(
-                          Math.max(+value, option.minAmount),
-                          option.maxAmount
-                        ),
-                        error: undefined,
-                        dirty: true
-                      })
-                    )
-                  }}
-                  renderInput={props => (
-                    <input inputMode='numeric' {...props} />
-                  )}
-                />
-              )}
-              {option.reward?.minPeriods !== option.reward?.maxPeriods && (
-                <Field
-                  label={'Anzahl Monate'}
-                  value={
-                    values[getOptionPeriodsFieldKey(option)] === undefined
-                      ? option.reward.defaultPeriods
-                      : values[getOptionPeriodsFieldKey(option)]
-                  }
-                  onChange={(_, value) =>
-                    onChange(
-                      FieldSet.utils.fieldsState({
-                        field: getOptionPeriodsFieldKey(option),
-                        value: Math.min(
-                          Math.max(+value, option.reward.minPeriods),
-                          option.reward.maxPeriods
-                        ),
-                        error: undefined,
-                        dirty: true
-                      })
-                    )
-                  }
-                  renderInput={props => (
-                    <input inputMode='numeric' {...props} />
-                  )}
-                />
-              )}
-            </>
-          ))}
-        </div>
-      ) : null}
     </>
   )
 }

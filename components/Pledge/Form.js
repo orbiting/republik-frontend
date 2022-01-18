@@ -587,6 +587,7 @@ const query = gql`
             id
             user {
               id
+              isUserOfCurrentSession
             }
             claimerName
             createdAt
@@ -604,6 +605,14 @@ const query = gql`
               beginDate
               endDate
             }
+          }
+          suggestions {
+            id
+            price
+            label
+            description
+            userPrice
+            favorite
           }
           additionalPeriods {
             kind

@@ -1,9 +1,9 @@
 import React from 'react'
-import { FetchDiscussionFunctionType } from './hooks/useDiscussionData'
 import EmptyDiscussion from './shared/EmptyDiscussion'
 import StatementContainer from './CommentContainers/StatementContainer'
 import CommentContainer from './CommentContainers/CommentContainer'
 import { CommentTreeNode } from './helpers/makeCommentTree'
+import { BoardComment } from '../../../styleguide'
 
 type Props = {
   comments: CommentTreeNode[]
@@ -37,7 +37,17 @@ const DiscussionCommentTreeRenderer = ({
   }
 
   if (isBoard) {
-    return <p>Render board comments</p>
+    return (
+      <>
+        {comments.map(comment => (
+          <CommentContainer
+            key={comment.id}
+            CommentComponent={BoardComment}
+            comment={comment}
+          />
+        ))}
+      </>
+    )
   }
 
   return (

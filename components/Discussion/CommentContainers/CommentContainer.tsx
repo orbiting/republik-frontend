@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback, useMemo, useState } from 'react'
-import { CommentNode } from '@project-r/styleguide'
+import { CommentNode, CommentProps } from '@project-r/styleguide'
 import { useTranslation } from '../../../lib/withT'
 import Link from 'next/link'
 import { getFocusHref } from '../shared/CommentLink'
@@ -14,11 +14,16 @@ import useUnpublishCommentHandler from '../hooks/actions/useUnpublishCommentHand
 import DiscussionComposer from '../DiscussionComposer/DiscussionComposer'
 
 type Props = {
+  CommentComponent?: React.ElementType<CommentProps>
   comment: CommentTreeNode
   isLast?: boolean
 }
 
-const CommentContainer = ({ comment, isLast }: Props): ReactElement => {
+const CommentContainer = ({
+  CommentComponent = CommentNode,
+  comment,
+  isLast
+}: Props): ReactElement => {
   const [isEditing, setIsEditing] = useState(false)
   const [isReplying, setIsReplying] = useState(false)
 
@@ -82,7 +87,7 @@ const CommentContainer = ({ comment, isLast }: Props): ReactElement => {
   }, [discussionId, comment?.comments?.nodes, fetchMore])
 
   return (
-    <CommentNode
+    <CommentComponent
       t={t}
       comment={comment}
       Link={Link}
@@ -129,7 +134,7 @@ const CommentContainer = ({ comment, isLast }: Props): ReactElement => {
           isLast={index === comment.comments.nodes.length - 1}
         />
       ))}
-    </CommentNode>
+    </CommentComponent>
   )
 }
 

@@ -854,7 +854,7 @@
     },
     {
       "key": "pages/account/newsletter/lead",
-      "value": "Abonnieren Sie unsere Newsletter per E-Mail um auf dem Laufenden zu bleiben."
+      "value": "Abonnieren Sie unsere Newsletter per E-Mail, um auf dem Laufenden zu bleiben."
     },
     {
       "key": "account/newsletterSubscriptions/unauthorized",
@@ -6526,11 +6526,11 @@
     },
     {
       "key": "Account/Access/Legacy/text",
-      "value": "Ermöglichen Sie, Ihren Freunden und Feinden, {link}."
+      "value": "Ermöglichen Sie Ihren Freunden und Feinden {link}."
     },
     {
       "key": "Account/Access/Legacy/link",
-      "value": "ein kostenloses Probelesen"
+      "value": "kostenloses Probelesen"
     },
     {
       "key": "Account/Access/Page/noCampaign",

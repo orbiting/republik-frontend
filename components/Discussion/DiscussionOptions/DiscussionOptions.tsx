@@ -27,7 +27,7 @@ const DiscussionOptions = ({ meta }: Props) => {
   const router = useRouter()
   const { discussion, refetch, orderBy } = useDiscussion()
   const discussionType = meta?.discussionType
-  const board = false // TODO
+  const board = discussion?.isBoard
 
   const availableOrderBy = useMemo(() => {
     let items

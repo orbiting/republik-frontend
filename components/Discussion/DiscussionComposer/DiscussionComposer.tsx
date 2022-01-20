@@ -12,6 +12,7 @@ import useEditCommentHandler from '../hooks/actions/useEditCommentHandler'
 import useDiscussionPreferences from '../hooks/useDiscussionPreferences'
 import SecondaryActions from '../shared/SecondaryActions'
 import DiscussionComposerBarrier from './DiscussionComposerBarrier'
+import usePreviewCommentHandler from '../helpers/usePreviewCommentHandler'
 
 const propTypes = {
   isRootLevel: PropTypes.bool,
@@ -55,6 +56,7 @@ const DiscussionComposer = ({
 
   const submitCommentHandler = useSubmitCommentHandler()
   const editCommentHandler = useEditCommentHandler()
+  const previewCommentHandler = usePreviewCommentHandler()
 
   const [active, setActive] = useState(!!initialText || initialActiveState)
 
@@ -122,6 +124,7 @@ const DiscussionComposer = ({
           onOpenPreferences={() =>
             preferencesOverlay.handleOpen(automaticCredential)
           }
+          onPreviewComment={previewCommentHandler}
           hintValidators={composerHints(t)}
           secondaryActions={<SecondaryActions isReply={!!parentId} />}
           displayAuthor={displayAuthor}

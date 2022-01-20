@@ -1,13 +1,12 @@
 import { gql } from '@apollo/client'
 import { CommentFragmentType } from '../fragments/CommentFragment.graphql'
 import Nullable from '../../../../lib/types/Nullable'
-import { makeQueryHook } from '../../../../lib/helpers/AbstractApolloGQLHooks.helper'
 
 export type PreviewCommentQueryVariables = {
   discussionId: string
   content: string
-  parentId: string
-  id: string
+  parentId?: string
+  id?: string
 }
 
 export type PreviewCommentQuery = {
@@ -60,10 +59,3 @@ export const PREVIEW_COMMENT_QUERY = gql`
     }
   }
 `
-
-const usePreviewCommentQuery = makeQueryHook<
-  PreviewCommentQuery,
-  PreviewCommentQueryVariables
->(PREVIEW_COMMENT_QUERY)
-
-export default usePreviewCommentQuery

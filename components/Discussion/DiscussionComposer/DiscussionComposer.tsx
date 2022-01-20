@@ -122,7 +122,6 @@ const DiscussionComposer = ({
           onOpenPreferences={() =>
             preferencesOverlay.handleOpen(automaticCredential)
           }
-          onPreviewComment={() => console.debug('NOT IMPLEMENTED YET')}
           hintValidators={composerHints(t)}
           secondaryActions={<SecondaryActions isReply={!!parentId} />}
           displayAuthor={displayAuthor}

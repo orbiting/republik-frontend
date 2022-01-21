@@ -8,11 +8,16 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
+import {
+  FRAME_CONTENT_PADDING,
+  FRAME_CONTENT_PADDING_MOBILE
+} from '../constants'
+
 const styles = {
   container: css({
-    margin: '0 -15px 25px -15px',
+    margin: `0 -15px ${FRAME_CONTENT_PADDING_MOBILE}px -15px`,
     [mediaQueries.mUp]: {
-      margin: '0 -15px 50px -15px'
+      margin: `0 -15px ${FRAME_CONTENT_PADDING}px -15px`
     }
   })
 }

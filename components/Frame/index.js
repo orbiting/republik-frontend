@@ -18,10 +18,11 @@ import ProlongBox from './ProlongBox'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  SUBHEADER_HEIGHT
+  SUBHEADER_HEIGHT,
+  FRAME_CONTENT_PADDING,
+  FRAME_CONTENT_PADDING_MOBILE
 } from '../constants'
 import { withMembership } from '../Auth/checkRoles'
-import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { useInNativeApp } from '../../lib/withInNativeApp'
 import LegacyAppNoticeBox from './LegacyAppNoticeBox'
@@ -73,11 +74,11 @@ const styles = {
     flexGrow: 1
   }),
   content: css({
-    paddingTop: 25,
-    paddingBottom: 50,
+    paddingTop: FRAME_CONTENT_PADDING_MOBILE,
+    paddingBottom: FRAME_CONTENT_PADDING_MOBILE * 2,
     [mediaQueries.mUp]: {
-      paddingTop: 50,
-      paddingBottom: 100
+      paddingTop: FRAME_CONTENT_PADDING,
+      paddingBottom: FRAME_CONTENT_PADDING * 2
     }
   })
 }

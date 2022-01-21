@@ -21,6 +21,9 @@ export const LOGO_PADDING_MOBILE = Math.floor(
   (HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2
 )
 
+export const FRAME_CONTENT_PADDING = 50
+export const FRAME_CONTENT_PADDING_MOBILE = 25
+
 export const TESTIMONIAL_IMAGE_SIZE = 238
 
 export const ZINDEX_GALLERY = 50

@@ -66,6 +66,7 @@ const DiscussionContextProvider: FC<{
     focusId,
     orderBy,
     activeTag,
+    depth,
     overlays: {
       shareOverlay,
       preferencesOverlay,

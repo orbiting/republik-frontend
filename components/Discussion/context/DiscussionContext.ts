@@ -18,6 +18,7 @@ export interface DiscussionContextValue {
   focusId: string | undefined
   orderBy: string
   activeTag: string | undefined
+  depth: number
   overlays: {
     shareOverlay: ShareOverlayState
     preferencesOverlay: OverlayState<DiscussionCredential>

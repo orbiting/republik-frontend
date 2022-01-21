@@ -27,7 +27,7 @@ export type SubmitCommentHandlerFunction = (
 function useSubmitCommentHandler(): SubmitCommentHandlerFunction {
   const [submitCommentMutation] = useSubmitCommentMutation()
 
-  const { orderBy, focusId, activeTag } = useDiscussion()
+  const { orderBy, focusId, activeTag, depth } = useDiscussion()
 
   return async (
     content: string,
@@ -55,7 +55,7 @@ function useSubmitCommentHandler(): SubmitCommentHandlerFunction {
         const variables: DiscussionQueryVariables = {
           discussionId,
           orderBy: orderBy,
-          depth: 3,
+          depth: depth,
           focusId: focusId,
           activeTag: activeTag
         }

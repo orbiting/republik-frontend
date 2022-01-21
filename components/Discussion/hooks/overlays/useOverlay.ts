@@ -21,8 +21,8 @@ function useOverlay<T>(): OverlayState<T> {
   }
 
   function handleClose() {
-    setData(null)
     setOpen(false)
+    setData(null)
   }
 
   return {

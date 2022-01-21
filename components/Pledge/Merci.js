@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Children, Component } from 'react'
 import compose from 'lodash/flowRight'
 import { format } from 'url'
 
@@ -9,8 +9,6 @@ import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
 import { WithMembership } from '../Auth/withMembership'
 import ErrorMessage from '../ErrorMessage'
-
-import { Content } from '../Frame'
 
 import ClaimPledge from './Claim'
 
@@ -109,7 +107,7 @@ class Merci extends Component {
   }
 
   render() {
-    const { me, t, query } = this.props
+    const { me, t, query, children } = this.props
     const {
       polling,
       email,
@@ -119,15 +117,11 @@ class Merci extends Component {
     } = this.state
 
     if (query.claim) {
-      return (
-        <Content>
-          <ClaimPledge t={t} me={me} id={query.claim} pkg={query.package} />
-        </Content>
-      )
+      return <ClaimPledge t={t} me={me} id={query.claim} pkg={query.package} />
     }
     if (polling) {
       return (
-        <Content>
+        <>
           <P style={{ marginBottom: 15 }}>{t('merci/postpay/lead')}</P>
           <Poller
             tokenType={signInResponse.tokenType}
@@ -157,13 +151,13 @@ class Merci extends Component {
               </Link>
             )}
           </P>
-        </Content>
+        </>
       )
     }
 
     if (signInError && email && query.id) {
       return (
-        <Content>
+        <>
           <H1>{t('merci/postpay/signInError/title')}</H1>
           <P>
             <RawHtmlTranslation
@@ -238,16 +232,12 @@ class Merci extends Component {
               {t('merci/postpay/reclaim')}
             </A>
           </Link>
-        </Content>
+        </>
       )
     }
 
     if (me && ONBOARDING_PACKAGES.includes(query.package)) {
-      return (
-        <Content>
-          <Loader loading />
-        </Content>
-      )
+      return <Loader loading />
     }
 
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
@@ -260,41 +250,39 @@ class Merci extends Component {
 
     return (
       <>
-        <Content style={{ paddingBottom: 0 }}>
-          <H1>
-            {t.first(
-              [
-                `merci/title/package/${query.package ||
-                  'UNKOWN'}${noNameSuffix}`,
-                `merci/title${noNameSuffix}`
-              ],
-              {
-                name: me?.name
-              }
-            )}
-          </H1>
-          {leads.map((lead, i) => (
-            <div key={`lead${i}`} style={{ margin: '22px 0' }}>
-              <Meta.Lead>{lead}</Meta.Lead>
-            </div>
-          ))}
-          <WithMembership
-            render={() => (
-              <>
-                <Link href='/' passHref>
-                  <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
-                    {t('merci/action/read')}
-                  </Button>
-                </Link>
-                <Link href='/dialog' passHref>
-                  <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
-                    {t('merci/action/dialog')}
-                  </Button>
-                </Link>
-              </>
-            )}
-          />
-        </Content>
+        <H1>
+          {t.first(
+            [
+              `merci/title/package/${query.package || 'UNKOWN'}${noNameSuffix}`,
+              `merci/title${noNameSuffix}`
+            ],
+            {
+              name: me?.name
+            }
+          )}
+        </H1>
+        {leads.map((lead, i) => (
+          <div key={`lead${i}`} style={{ margin: '22px 0' }}>
+            <Meta.Lead>{lead}</Meta.Lead>
+          </div>
+        ))}
+        <WithMembership
+          render={() => (
+            <>
+              <Link href='/' passHref>
+                <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
+                  {t('merci/action/read')}
+                </Button>
+              </Link>
+              <Link href='/dialog' passHref>
+                <Button primary style={{ ...buttonStyle, marginTop: 10 }}>
+                  {t('merci/action/dialog')}
+                </Button>
+              </Link>
+            </>
+          )}
+        />
+        <div style={{ marginTop: 50 }}>{children}</div>
       </>
     )
   }

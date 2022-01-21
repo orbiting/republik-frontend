@@ -54,45 +54,22 @@ const AccountPage = ({ t, isMember }) => {
     }
   }, [])
 
-  return (
-    <Frame meta={meta}>
-      {postPledge && <Merci query={query} />}
-
-      <AccountEnforceMe>
-        <AccountTabs />
-        <div {...styles.container}>
-          {isMember && (
-            <div {...styles.column}>
-              <AccountSection
-                id='onboarding'
-                title={t('Account/Onboarding/title')}
-              >
-                <HintArea>
-                  {t.elements('Account/Onboarding/text', {
-                    link: (
-                      <Link key='link' href='/einrichten' passHref>
-                        <A>
-                          <Emphasis>{t('Account/Onboarding/link')}</Emphasis>
-                        </A>
-                      </Link>
-                    )
-                  })}
-                </HintArea>
-              </AccountSection>
-            </div>
-          )}
-
+  const account = (
+    <AccountEnforceMe>
+      <AccountTabs />
+      <div {...styles.container}>
+        {isMember && (
           <div {...styles.column}>
             <AccountSection
-              id='teilen'
-              title={t('Account/Access/Campaigns/title')}
+              id='onboarding'
+              title={t('Account/Onboarding/title')}
             >
               <HintArea>
-                {t.elements('Account/Access/Legacy/text', {
+                {t.elements('Account/Onboarding/text', {
                   link: (
-                    <Link key='link' href='/teilen' passHref>
+                    <Link key='link' href='/einrichten' passHref>
                       <A>
-                        <Emphasis>{t('Account/Access/Legacy/link')}</Emphasis>
+                        <Emphasis>{t('Account/Onboarding/link')}</Emphasis>
                       </A>
                     </Link>
                   )
@@ -100,16 +77,41 @@ const AccountPage = ({ t, isMember }) => {
               </HintArea>
             </AccountSection>
           </div>
+        )}
+
+        <div {...styles.column}>
+          <AccountSection
+            id='teilen'
+            title={t('Account/Access/Campaigns/title')}
+          >
+            <HintArea>
+              {t.elements('Account/Access/Legacy/text', {
+                link: (
+                  <Link key='link' href='/teilen' passHref>
+                    <A>
+                      <Emphasis>{t('Account/Access/Legacy/link')}</Emphasis>
+                    </A>
+                  </Link>
+                )
+              })}
+            </HintArea>
+          </AccountSection>
         </div>
-        <Memberships />
-        <AccountSection id='account' title={t('Account/Update/title')}>
-          <div style={{ marginBottom: 24 }}>
-            <UserEmail />
-            <UpdateEmail />
-          </div>
-          <NameAddress />
-        </AccountSection>
-      </AccountEnforceMe>
+      </div>
+      <Memberships />
+      <AccountSection id='account' title={t('Account/Update/title')}>
+        <div style={{ marginBottom: 24 }}>
+          <UserEmail />
+          <UpdateEmail />
+        </div>
+        <NameAddress />
+      </AccountSection>
+    </AccountEnforceMe>
+  )
+
+  return (
+    <Frame meta={meta}>
+      {postPledge ? <Merci query={query}>{account}</Merci> : account}
     </Frame>
   )
 }

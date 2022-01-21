@@ -114,7 +114,7 @@ const CommentContainer = ({
             commentId={comment.id}
             initialText={comment.text}
             initialTagValue={
-              comment?.tags?.length > 0 ? comment.tags[0] : undefined
+              comment?.tags?.[0]
             }
           />
         )

@@ -31,12 +31,12 @@ const styles = {
   column: css({ flex: 1 })
 }
 
-const AccountPage = ({ t, me, isMember }) => {
+const AccountPage = ({ t, isMember }) => {
   const meta = {
     title: t('pages/account/title')
   }
   const router = useRouter()
-  const { pathname, query } = router
+  const { query } = router
   const postPledge = query.id || query.claim
 
   useEffect(() => {
@@ -54,15 +54,6 @@ const AccountPage = ({ t, me, isMember }) => {
     }
   }, [])
 
-  const hasMemberships = me?.memberships && !!me?.memberships.length
-  const acceptedStatue =
-    me?.pledges &&
-    !!me.pledges.length &&
-    !!me.pledges.find(
-      pledge =>
-        pledge.package.name !== 'MONTHLY_ABO' &&
-        pledge.package.name !== 'DONATE'
-    )
   return (
     <Frame meta={meta}>
       {postPledge && <Merci query={query} />}
@@ -116,10 +107,7 @@ const AccountPage = ({ t, me, isMember }) => {
             <UserEmail />
             <UpdateEmail />
           </div>
-          <NameAddress
-            acceptedStatue={acceptedStatue}
-            hasMemberships={hasMemberships}
-          />
+          <NameAddress />
         </AccountSection>
       </AccountEnforceMe>
     </Frame>

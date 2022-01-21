@@ -24,6 +24,7 @@ import {
 import FieldSet from '../../FieldSet'
 import { withMyDetails, withMyDetailsMutation } from '../enhancers'
 import { Hint, EditButton } from '../Elements'
+import withMe from '../../../lib/apollo/withMe'
 
 const { P, Emphasis } = Interaction
 
@@ -176,17 +177,19 @@ class UpdateMe extends Component {
     })
   }
   autoEdit() {
-    if (this.props.me && !this.checked) {
+    if (!this.checked && this.props.detailsData.me) {
       this.checked = true
       const {
         t,
-        hasMemberships,
+        hasActiveMembership,
         detailsData: { me }
       } = this.props
 
       const errors = FieldSet.utils.getErrors(
-        fields(t).concat(hasMemberships || me.address ? addressFields(t) : []),
-        getValues(this.props.me)
+        fields(t).concat(
+          hasActiveMembership || me.address ? addressFields(t) : []
+        ),
+        getValues(me)
       )
 
       const errorMessages = Object.keys(errors)
@@ -202,7 +205,7 @@ class UpdateMe extends Component {
     this.autoEdit()
   }
   render() {
-    const { t, detailsData, style, hasMemberships } = this.props
+    const { t, detailsData, style, hasActiveMembership } = this.props
     const { values, dirty, updating, isEditing, errors } = this.state
     const { loading, error, me } = detailsData
 
@@ -213,7 +216,11 @@ class UpdateMe extends Component {
         render={() => {
           const meFields = fields(t)
           let errorFilter = () => true
-          if (!hasMemberships && !me.address && isEmptyAddress(values, me)) {
+          if (
+            !hasActiveMembership &&
+            !me.address &&
+            isEmptyAddress(values, me)
+          ) {
             errorFilter = key => meFields.find(field => field.name === key)
           }
 
@@ -366,4 +373,9 @@ class UpdateMe extends Component {
   }
 }
 
-export default compose(withMyDetails, withMyDetailsMutation, withT)(UpdateMe)
+export default compose(
+  withMe,
+  withMyDetails,
+  withMyDetailsMutation,
+  withT
+)(UpdateMe)

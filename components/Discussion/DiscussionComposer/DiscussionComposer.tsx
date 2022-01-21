@@ -83,12 +83,6 @@ const DiscussionComposer = ({
         response = await editCommentHandler(commentId, value, tags)
       }
 
-      setActive(false)
-
-      if (onClose) {
-        onClose()
-      }
-
       return response
     } catch (err) {
       return {
@@ -115,10 +109,9 @@ const DiscussionComposer = ({
               : t('submitComment/rootSubmitLabel')
           }
           onClose={() => {
+            setActive(false)
             if (onClose) {
               onClose()
-            } else {
-              setActive(false)
             }
           }}
           onOpenPreferences={() =>

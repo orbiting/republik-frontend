@@ -4,7 +4,8 @@ import compose from 'lodash/flowRight'
 import { withRouter } from 'next/router'
 
 import withT from '../../../lib/withT'
-import TempDiscussionComponent from '../DiscussionProvider'
+import DiscussionContextProvider from '../context/DiscussionContextProvider'
+import Discussion from '../Discussion'
 
 export const RootCommentOverlay = compose(
   withRouter,
@@ -13,13 +14,9 @@ export const RootCommentOverlay = compose(
   <Overlay onClose={onClose}>
     <OverlayToolbar title={t('RootCommentOverlay/title')} onClose={onClose} />
     <OverlayBody style={{ paddingTop: 58 }}>
-      <TempDiscussionComponent
-        discussionId={discussionId}
-        focusId={router.query.focus}
-        parentId={parent}
-        rootCommentOverlay
-        includeParent
-      />
+      <DiscussionContextProvider discussionId={discussionId} parentId={parent}>
+        <Discussion />
+      </DiscussionContextProvider>
     </OverlayBody>
   </Overlay>
 ))

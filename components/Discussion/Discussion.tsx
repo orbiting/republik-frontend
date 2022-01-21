@@ -21,7 +21,7 @@ const styles = {
 }
 
 type Props = {
-  meta: any
+  meta?: any
 }
 
 const Discussion = ({ meta }: Props) => {

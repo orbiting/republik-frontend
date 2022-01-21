@@ -78,7 +78,8 @@ import dynamic from 'next/dynamic'
 import CommentLink from '../Discussion/shared/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
-import TempDiscussionComponent from '../Discussion/DiscussionProvider'
+import DiscussionContextProvider from '../Discussion/context/DiscussionContextProvider'
+import Discussion from '../Discussion/Discussion'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,
@@ -676,10 +677,9 @@ const ArticlePage = ({
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
-                  <TempDiscussionComponent
-                    discussionId={ownDiscussion.id}
-                    meta={articleContent.meta}
-                  />
+                  <DiscussionContextProvider discussionId={ownDiscussion.id}>
+                    <Discussion meta={articleContent.meta} />
+                  </DiscussionContextProvider>
                 </Center>
               )}
               {showNewsletterSignupBottom && (

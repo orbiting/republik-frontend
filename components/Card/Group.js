@@ -46,7 +46,8 @@ import TrialForm from './TrialForm'
 
 import { cardColors } from './constants'
 import Link from 'next/link'
-import TempDiscussionComponent from '../Discussion/DiscussionProvider'
+import DiscussionContextProvider from '../Discussion/context/DiscussionContextProvider'
+import Discussion from '../Discussion/Discussion'
 
 const styles = {
   swipeIndicator: css({
@@ -1024,11 +1025,11 @@ const Group = ({
               />
             </Label>
             {group.discussion || query.discussion ? (
-              <TempDiscussionComponent
+              <DiscussionContextProvider
                 discussionId={query.discussion || group.discussion.id}
-                focusId={query.focus}
-                mute={!!query.mute}
-              />
+              >
+                <Discussion />
+              </DiscussionContextProvider>
             ) : (
               <Interaction.P>
                 {t('components/Card/Group/noDiscussion')}

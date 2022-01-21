@@ -31,7 +31,8 @@ import compose from 'lodash/flowRight'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import { withRouter } from 'next/router'
-import TempDiscussionComponent from '../components/Discussion/DiscussionProvider'
+import Discussion from '../components/Discussion/Discussion'
+import DiscussionContextProvider from '../components/Discussion/context/DiscussionContextProvider'
 
 const styles = {
   container: css({
@@ -194,7 +195,9 @@ const FeedbackPage = props => {
             </>
           )}
           {activeDiscussionId && (
-            <TempDiscussionComponent discussionId={activeDiscussionId} />
+            <DiscussionContextProvider discussionId={activeDiscussionId}>
+              <Discussion />
+            </DiscussionContextProvider>
           )}
           {!tab && (
             <WithMembership

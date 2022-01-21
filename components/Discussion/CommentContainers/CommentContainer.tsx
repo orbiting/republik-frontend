@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback, useMemo, useState } from 'react'
 import { CommentNode, CommentProps } from '@project-r/styleguide'
 import { useTranslation } from '../../../lib/withT'
 import Link from 'next/link'
-import { getFocusHref } from '../shared/CommentLink'
+import CommentLink, { getFocusHref } from '../shared/CommentLink'
 import { format } from 'url'
 import { useDiscussion } from '../context/DiscussionContext'
 import useVoteCommentHandlers from '../hooks/actions/useVoteCommentHandlers'
@@ -79,7 +79,7 @@ const CommentContainer = ({
     <CommentComponent
       t={t}
       comment={comment}
-      Link={Link}
+      Link={CommentLink}
       focusHref={format(getFocusHref(discussion, comment))}
       profileHref={
         comment.displayAuthor.slug

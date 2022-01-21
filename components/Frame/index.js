@@ -73,11 +73,11 @@ const styles = {
     flexGrow: 1
   }),
   content: css({
-    paddingTop: 40,
-    paddingBottom: 60,
+    paddingTop: 25,
+    paddingBottom: 50,
     [mediaQueries.mUp]: {
-      paddingTop: 80,
-      paddingBottom: 120
+      paddingTop: 50,
+      paddingBottom: 100
     }
   })
 }

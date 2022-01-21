@@ -9,7 +9,7 @@ import AccountTabs from '../../components/Account/AccountTabs'
 import AccountSection from '../../components/Account/AccountSection'
 import ProgressSettings from '../../components/Account/ProgressSettings'
 import AuthSettings from '../../components/Account/AuthSettings'
-import { AccountPageContainer } from '../../components/Account/Elements'
+import { AccountEnforceMe } from '../../components/Account/Elements'
 
 import { APP_OPTIONS } from '../../lib/constants'
 
@@ -17,12 +17,11 @@ const SettingsPage = ({ t }) => {
   const { pathname } = useRouter()
   return (
     <Frame
-      raw
       meta={{
         title: t('pages/account/settings/title')
       }}
     >
-      <AccountPageContainer>
+      <AccountEnforceMe>
         <AccountTabs pathname={pathname} t={t} />
 
         <AccountSection id='position' title={t('account/progress/title')}>
@@ -37,7 +36,7 @@ const SettingsPage = ({ t }) => {
             <AuthSettings />
           </AccountSection>
         )}
-      </AccountPageContainer>
+      </AccountEnforceMe>
     </Frame>
   )
 }

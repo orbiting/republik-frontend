@@ -10,9 +10,9 @@ import {
 
 const styles = {
   container: css({
-    margin: '24px -15px 24px -15px',
+    margin: '0 -15px 25px -15px',
     [mediaQueries.mUp]: {
-      margin: '48px -15px 48px -15px'
+      margin: '0 -15px 50px -15px'
     }
   })
 }

@@ -13,10 +13,7 @@ import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 import AccountTabs from '../../components/Account/AccountTabs'
 import AccountSection from '../../components/Account/AccountSection'
 import Memberships from '../../components/Account/Memberships'
-import {
-  HintArea,
-  AccountPageContainer
-} from '../../components/Account/Elements'
+import { HintArea, AccountEnforceMe } from '../../components/Account/Elements'
 import NameAddress from '../../components/Account/UserInfo/NameAddress'
 import UpdateEmail, { UserEmail } from '../../components/Account/UserInfo/Email'
 
@@ -67,10 +64,10 @@ const AccountPage = ({ t, me, isMember }) => {
         pledge.package.name !== 'DONATE'
     )
   return (
-    <Frame meta={meta} raw>
-      <AccountPageContainer>
-        {postPledge && <Merci query={query} />}
+    <Frame meta={meta}>
+      {postPledge && <Merci query={query} />}
 
+      <AccountEnforceMe>
         <AccountTabs pathname={pathname} t={t} />
         <div {...styles.container}>
           {isMember && (
@@ -124,7 +121,7 @@ const AccountPage = ({ t, me, isMember }) => {
             hasMemberships={hasMemberships}
           />
         </AccountSection>
-      </AccountPageContainer>
+      </AccountEnforceMe>
     </Frame>
   )
 }

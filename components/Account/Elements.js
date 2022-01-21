@@ -123,25 +123,21 @@ export const HintArea = ({ color = 'hover', children }) => {
   )
 }
 
-export const AccountPageContainer = compose(
+export const AccountEnforceMe = compose(
   withT,
   withMe
 )(({ t, me, children }) => {
   const { query } = useRouter()
 
-  return (
-    <MainContainer>
-      {!me ? (
-        <Content>
-          <Interaction.H1 style={{ marginBottom: 22 }}>
-            {t('account/signedOut/title')}
-          </Interaction.H1>
-          <Interaction.P>{t('account/signedOut/signIn')}</Interaction.P>
-          <SignIn email={query.email} />
-        </Content>
-      ) : (
-        children
-      )}
-    </MainContainer>
+  return !me ? (
+    <Content>
+      <Interaction.H1 style={{ marginBottom: 22 }}>
+        {t('account/signedOut/title')}
+      </Interaction.H1>
+      <Interaction.P>{t('account/signedOut/signIn')}</Interaction.P>
+      <SignIn email={query.email} />
+    </Content>
+  ) : (
+    children
   )
 })

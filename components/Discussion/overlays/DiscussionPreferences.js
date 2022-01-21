@@ -202,7 +202,7 @@ const DiscussionPreferencesEditor = ({
     return {
       credential: credentialInSuggestions || { description: state.credential },
       name: state.anonymity ? t('discussion/displayUser/anonymous') : me.name,
-      portrait: !state.anonymity && me.portrait
+      portrait: !state.anonymity ? me.portrait : undefined
     }
   }, [state.anonymity, state.credential, credentialSuggestions, me])
 

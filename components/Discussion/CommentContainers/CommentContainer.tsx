@@ -78,13 +78,15 @@ const CommentContainer = ({
     [comment?.displayAuthor?.slug, focusHref]
   )
 
-  const loadRemainingReplies = useCallback(async () => {
-    await fetchMore({
-      discussionId: discussionId,
-      parentId: comment.id,
-      after: discussion.comments.pageInfo.endCursor
+  const parentId = comment.id
+  const loadRemainingAfter = discussion?.comments?.pageInfo?.endCursor
+  const loadRemainingReplies = useCallback(() => {
+    return fetchMore({
+      discussionId,
+      parentId,
+      after: loadRemainingAfter
     })
-  }, [discussionId, comment?.comments?.nodes, fetchMore])
+  }, [discussionId, parentId, loadRemainingAfter, fetchMore])
 
   return (
     <CommentComponent

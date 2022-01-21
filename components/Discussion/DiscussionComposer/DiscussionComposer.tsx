@@ -47,6 +47,10 @@ const DiscussionComposer = ({
     updateDiscussionPreferencesHandler
   } = useDiscussionPreferences(discussionId)
 
+  const submitCommentHandler = useSubmitCommentHandler()
+  const editCommentHandler = useEditCommentHandler()
+  const previewCommentHandler = usePreviewCommentHandler()
+
   const automaticCredential = useMemo(() => {
     if (
       !preferences ||
@@ -60,10 +64,6 @@ const DiscussionComposer = ({
     }
     return preferences?.me?.credentials?.find(credential => credential.isListed)
   }, [preferences])
-
-  const submitCommentHandler = useSubmitCommentHandler()
-  const editCommentHandler = useEditCommentHandler()
-  const previewCommentHandler = usePreviewCommentHandler()
 
   const [active, setActive] = useState(!!initialText || initialActiveState)
 
@@ -136,8 +136,10 @@ const DiscussionComposer = ({
           onPreviewComment={previewCommentHandler}
           hintValidators={composerHints(t)}
           secondaryActions={<SecondaryActions isReply={!!parentId} />}
-          displayAuthor={displayAuthor}
-          autoCredential={automaticCredential}
+          displayAuthor={{
+            ...displayAuthor,
+            credential: displayAuthor?.credential || automaticCredential
+          }}
           placeholder={placeholder}
           maxLength={rules?.maxLength}
           tags={tags}

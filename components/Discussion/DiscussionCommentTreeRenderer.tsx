@@ -3,7 +3,7 @@ import EmptyDiscussion from './shared/EmptyDiscussion'
 import StatementContainer from './CommentContainers/StatementContainer'
 import CommentContainer from './CommentContainers/CommentContainer'
 import { CommentTreeNode } from './helpers/makeCommentTree'
-import { BoardComment } from '../../../styleguide'
+import { BoardComment } from '@project-r/styleguide'
 
 type Props = {
   comments: CommentTreeNode[]

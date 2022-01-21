@@ -55,19 +55,6 @@ const StatementContainer = ({ comment, tagMappings }: Props): ReactElement => {
     return focusedComment && focusedComment.id === comment.id
   }, [discussion?.comments, comment])
 
-  const focusHref = useMemo(() => {
-    const urlObject = getFocusHref(discussion, comment)
-    return format(urlObject)
-  }, [discussion, comment])
-
-  const profileHref = useMemo(
-    () =>
-      comment?.displayAuthor?.slug
-        ? `~${comment.displayAuthor.slug}`
-        : focusHref,
-    [comment?.displayAuthor?.slug, focusHref]
-  )
-
   if (editMode) {
     return (
       <DiscussionComposer
@@ -96,8 +83,12 @@ const StatementContainer = ({ comment, tagMappings }: Props): ReactElement => {
       isHighlighted={isFocused}
       disableVoting={!discussion.userCanComment}
       Link={Link}
-      focusHref={focusHref}
-      profileHref={profileHref}
+      focusHref={format(getFocusHref(discussion, comment))}
+      profileHref={
+        comment?.displayAuthor?.slug
+          ? `~${comment.displayAuthor.slug}`
+          : undefined
+      }
     />
   )
 }

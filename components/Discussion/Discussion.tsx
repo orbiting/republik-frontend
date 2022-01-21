@@ -6,10 +6,10 @@ import {
 } from '@project-r/styleguide'
 import { useTranslation } from '../../lib/withT'
 import { useDiscussion } from './context/DiscussionContext'
-import DiscussionComposerBarrier from './DiscussionComposer/DiscussionComposerBarrier'
 import DiscussionComposer from './DiscussionComposer/DiscussionComposer'
 import DiscussionCommentTreeRenderer from './DiscussionCommentTreeRenderer'
 import DiscussionOptions from './DiscussionOptions/DiscussionOptions'
+import TagFilter from './DiscussionOptions/TagFilter'
 import makeCommentTree from './helpers/makeCommentTree'
 import { css } from 'glamor'
 import useDiscussionFocusHelper from './hooks/useDiscussionFocusHelper'
@@ -65,6 +65,7 @@ const Discussion = ({ meta }: Props) => {
       error={discussionError}
       render={() => (
         <div>
+          <TagFilter discussion={discussion} />
           <DiscussionComposer
             isRootLevel
             placeholder={

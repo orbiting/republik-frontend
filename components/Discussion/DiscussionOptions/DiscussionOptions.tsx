@@ -1,4 +1,3 @@
-import TagFilter from './TagFilter'
 import { css } from 'glamor'
 import { A, pxToRem, Scroller, TabButton } from '@project-r/styleguide'
 import { useDiscussion } from '../context/DiscussionContext'
@@ -26,6 +25,7 @@ const DiscussionOptions = ({ meta }: Props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const { discussion, refetch, orderBy } = useDiscussion()
+  const resolvedOrderBy = discussion?.comments?.resolvedOrderBy
   const discussionType = meta?.discussionType
   const board = discussion?.isBoard
 
@@ -59,7 +59,6 @@ const DiscussionOptions = ({ meta }: Props) => {
 
   return (
     <div>
-      <TagFilter discussion={discussion} />
       <Scroller>
         {availableOrderBy.map(item => {
           return (
@@ -74,7 +73,7 @@ const DiscussionOptions = ({ meta }: Props) => {
               <TabButton
                 border={false}
                 text={t(`components/Discussion/OrderBy/${item}`)}
-                isActive={item === orderBy}
+                isActive={item === (resolvedOrderBy ?? orderBy)}
               />
             </Link>
           )

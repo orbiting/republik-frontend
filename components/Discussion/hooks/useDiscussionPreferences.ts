@@ -65,8 +65,7 @@ function useDiscussionPreferences(discussionId: string): DiscussionPreferences {
       }
     })
       .then(result => {
-        refetch()
-        return result
+        return refetch().then(() => result)
       })
       .catch(toRejectedString)
   }

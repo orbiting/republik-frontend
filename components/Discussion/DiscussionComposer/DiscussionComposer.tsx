@@ -48,7 +48,14 @@ const DiscussionComposer = ({
   } = useDiscussionPreferences(discussionId)
 
   const automaticCredential = useMemo(() => {
-    if (!preferences || preferences?.discussion?.userPreference?.anonymity) {
+    if (
+      !preferences ||
+      // the below line acts as a workaround for the case where the
+      // user has already defined his credential as null
+      preferences?.discussion?.userPreference?.notifications ||
+      preferences?.discussion?.userPreference?.anonymity ||
+      preferences?.discussion?.userPreference?.credential
+    ) {
       return null
     }
     return preferences?.me?.credentials?.find(credential => credential.isListed)
@@ -123,6 +130,7 @@ const DiscussionComposer = ({
           hintValidators={composerHints(t)}
           secondaryActions={<SecondaryActions isReply={!!parentId} />}
           displayAuthor={displayAuthor}
+          autoCredential={automaticCredential}
           placeholder={placeholder}
           maxLength={rules?.maxLength}
           tags={tags}

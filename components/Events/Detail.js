@@ -14,11 +14,11 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-import { CONTENT_PADDING } from '../constants'
-
 import ActionBar from '../ActionBar'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
+
+export const EVENT_PADDING = 60
 
 const BLOCK_PADDING_TOP = 10
 
@@ -33,7 +33,7 @@ const styles = {
     position: 'relative',
     wordWrap: 'break-word',
     [mediaQueries.mUp]: {
-      paddingLeft: CONTENT_PADDING
+      paddingLeft: EVENT_PADDING
     }
   }),
   hr: css({

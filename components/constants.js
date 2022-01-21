@@ -22,7 +22,6 @@ export const LOGO_PADDING_MOBILE = Math.floor(
 )
 
 export const TESTIMONIAL_IMAGE_SIZE = 238
-export const CONTENT_PADDING = 60
 
 export const ZINDEX_GALLERY = 50
 export const ZINDEX_LOADINGBAR = 49

@@ -166,7 +166,6 @@ export const mergeComments = ({ parentId, appendAfter, comments }) => draft => {
           /*
            * If we hit this, we have a bug somewhere.
            */
-          debug('mergeComments: node not found', { appendAfter })
           return parentIndex + 1
         }
       } else {

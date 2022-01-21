@@ -78,13 +78,7 @@ function useSubmitCommentHandler(): SubmitCommentHandlerFunction {
           )
         })
       }
-    })
-      .catch(err => {
-        console.debug('error in update')
-        console.error(err)
-        throw err
-      })
-      .catch(toRejectedString)
+    }).catch(toRejectedString)
   }
 }
 

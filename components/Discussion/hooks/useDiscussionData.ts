@@ -117,9 +117,6 @@ function useDiscussionData(
     >({
       document: COMMENT_SUBSCRIPTION,
       variables: { discussionId: loadedDiscussionId },
-      onError(...args) {
-        console.debug('subscribe:onError', args)
-      },
       updateQuery: (previousResult, { subscriptionData }) => {
         /*
          * Regardless of what we do here, the Comment object in the cache will be updated.

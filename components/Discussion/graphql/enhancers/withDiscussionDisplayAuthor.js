@@ -19,7 +19,6 @@ export const withDiscussionDisplayAuthor = graphql(
   discussionDisplayAuthorQuery,
   {
     props: ({ data: { discussion } }) => {
-      debug('withDiscussionDisplayAuthor', discussion)
       if (!discussion) {
         return {}
       }

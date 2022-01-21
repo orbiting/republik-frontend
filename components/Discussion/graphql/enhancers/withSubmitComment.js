@@ -116,7 +116,6 @@ export const withSubmitComment = compose(
             }
           },
           update: (proxy, { data: { submitComment: comment } }) => {
-            debug('submitComment', comment)
             const variables = {
               discussionId,
               parentId: initialParentId,

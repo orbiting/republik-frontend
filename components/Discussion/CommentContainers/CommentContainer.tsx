@@ -65,19 +65,6 @@ const CommentContainer = ({
     ]
   )
 
-  const focusHref = useMemo(() => {
-    const urlObject = getFocusHref(discussion, comment)
-    return format(urlObject)
-  }, [discussion, comment])
-
-  const profileHref = useMemo(
-    () =>
-      comment?.displayAuthor?.slug
-        ? `/~${comment.displayAuthor.slug}`
-        : focusHref,
-    [comment?.displayAuthor?.slug, focusHref]
-  )
-
   const parentId = comment.id
   const loadRemainingAfter = discussion?.comments?.pageInfo?.endCursor
   const loadRemainingReplies = useCallback(() => {
@@ -93,8 +80,12 @@ const CommentContainer = ({
       t={t}
       comment={comment}
       Link={Link}
-      focusHref={focusHref}
-      profileHref={profileHref}
+      focusHref={format(getFocusHref(discussion, comment))}
+      profileHref={
+        comment.displayAuthor.slug
+          ? `/~${comment.displayAuthor.slug}`
+          : undefined
+      }
       actions={{
         handleUpVote: voteHandlers.upVoteCommentHandler,
         handleDownVote: voteHandlers.downVoteCommentHandler,
@@ -113,9 +104,7 @@ const CommentContainer = ({
             onClose={() => setIsEditing(false)}
             commentId={comment.id}
             initialText={comment.text}
-            initialTagValue={
-              comment?.tags?.[0]
-            }
+            initialTagValue={comment?.tags?.[0]}
           />
         )
       }

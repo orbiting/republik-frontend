@@ -1,6 +1,5 @@
 import React from 'react'
 import compose from 'lodash/flowRight'
-import { useRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
@@ -14,7 +13,6 @@ import { AccountEnforceMe } from '../../components/Account/Elements'
 import { APP_OPTIONS } from '../../lib/constants'
 
 const SettingsPage = ({ t }) => {
-  const { pathname } = useRouter()
   return (
     <Frame
       meta={{
@@ -22,7 +20,7 @@ const SettingsPage = ({ t }) => {
       }}
     >
       <AccountEnforceMe>
-        <AccountTabs pathname={pathname} t={t} />
+        <AccountTabs />
 
         <AccountSection id='position' title={t('account/progress/title')}>
           <ProgressSettings />

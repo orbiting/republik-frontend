@@ -68,7 +68,7 @@ const AccountPage = ({ t, me, isMember }) => {
       {postPledge && <Merci query={query} />}
 
       <AccountEnforceMe>
-        <AccountTabs pathname={pathname} t={t} />
+        <AccountTabs />
         <div {...styles.container}>
           {isMember && (
             <div {...styles.column}>

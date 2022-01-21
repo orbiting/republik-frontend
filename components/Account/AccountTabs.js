@@ -7,11 +7,13 @@ import {
   mediaQueries,
   useColorContext
 } from '@project-r/styleguide'
+import { useRouter } from 'next/router'
 
 import {
   FRAME_CONTENT_PADDING,
   FRAME_CONTENT_PADDING_MOBILE
 } from '../constants'
+import withT from '../../lib/withT'
 
 const styles = {
   container: css({
@@ -30,7 +32,8 @@ const TabArray = [
   { path: '/konto/transaktionen', name: 'TRANSACTIONS' }
 ]
 
-const AccountTabs = ({ pathname, t }) => {
+const AccountTabs = ({ t }) => {
+  const { pathname } = useRouter()
   const [activeChildIndex, setActiveChildIndex] = useState(
     TabArray.findIndex(item => item.path === pathname)
   )
@@ -57,4 +60,4 @@ const AccountTabs = ({ pathname, t }) => {
   )
 }
 
-export default AccountTabs
+export default withT(AccountTabs)

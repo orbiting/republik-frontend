@@ -1,14 +1,14 @@
 import React from 'react'
-import compose from 'lodash/flowRight'
 import Frame from '../../components/Frame'
 import NotificationsSettings from '../../components/Notifications/Settings'
-import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
+
+import AccountTabs from '../../components/Account/AccountTabs'
 import { AccountEnforceMe } from '../../components/Account/Elements'
 
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 
-const NotificationsSettingsPage = ({ t, me }) => {
+const NotificationsSettingsPage = ({ t }) => {
   return (
     <Frame
       meta={{
@@ -16,10 +16,12 @@ const NotificationsSettingsPage = ({ t, me }) => {
       }}
     >
       <AccountEnforceMe>
+        <AccountTabs />
+
         <NotificationsSettings />
       </AccountEnforceMe>
     </Frame>
   )
 }
 
-export default withDefaultSSR(compose(withMe, withT)(NotificationsSettingsPage))
+export default withDefaultSSR(withT(NotificationsSettingsPage))

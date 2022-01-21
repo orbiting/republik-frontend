@@ -31,6 +31,8 @@ export const PREVIEW_COMMENT_QUERY = gql`
       id
       content
       contentLength
+      updatedAt
+      createdAt
       embed {
         ... on LinkPreview {
           url

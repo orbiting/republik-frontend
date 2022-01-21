@@ -11,6 +11,7 @@ const styles = {
     }
   }),
   title: css({
+    position: 'relative',
     marginBottom: 12,
     [mediaQueries.mUp]: {
       marginBottom: 16
@@ -18,8 +19,7 @@ const styles = {
   }),
   accountAnchor: css({
     display: 'block',
-    visibility: 'hidden',
-    position: 'relative',
+    position: 'absolute',
     top: -(HEADER_HEIGHT_MOBILE + 20),
     [mediaQueries.mUp]: {
       top: -(HEADER_HEIGHT + 20)
@@ -30,8 +30,12 @@ const styles = {
 const AccountSection = ({ children, id, title }) => {
   return (
     <div {...styles.container}>
-      <Interaction.H3 {...styles.title}>{title}</Interaction.H3>
-      <a {...styles.accountAnchor} id={id} />
+      <div {...styles.title}>
+        <Interaction.H3>
+          <a {...styles.accountAnchor} id={id} />
+          {title}
+        </Interaction.H3>
+      </div>
       {children}
     </div>
   )

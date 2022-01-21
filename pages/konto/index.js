@@ -38,7 +38,8 @@ const AccountPage = ({ t, me, isMember }) => {
   const meta = {
     title: t('pages/account/title')
   }
-  const { pathname, query, router } = useRouter()
+  const router = useRouter()
+  const { pathname, query } = router
   const postPledge = query.id || query.claim
 
   useEffect(() => {
@@ -50,7 +51,8 @@ const AccountPage = ({ t, me, isMember }) => {
       case '#anmeldung':
         router.replace('/konto/einstellungen#anmeldung')
         break
-      default:
+      case '#position':
+        router.replace('/konto/einstellungen#position')
         break
     }
   }, [])

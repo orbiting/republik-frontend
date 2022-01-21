@@ -58,7 +58,11 @@ function getCommentActions({
     })
   }
 
-  if (actions.featureCommentHandler && comment.published) {
+  if (
+    roles.includes('editor') &&
+    actions.featureCommentHandler &&
+    comment.published
+  ) {
     items.push({
       icon: FeaturedIcon,
       label: comment.featuredAt

@@ -90,7 +90,7 @@ const CommentContainer = ({
         handleUpVote: voteHandlers.upVoteCommentHandler,
         handleDownVote: voteHandlers.downVoteCommentHandler,
         handleUnVote: voteHandlers.unVoteCommentHandler,
-        handleReply: () => setIsReplying(true),
+        handleReply: me ? () => setIsReplying(true) : undefined,
         handleLoadReplies: loadRemainingReplies,
         handleShare: shareOverlay.shareHandler
       }}

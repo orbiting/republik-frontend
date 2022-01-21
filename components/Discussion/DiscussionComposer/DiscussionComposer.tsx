@@ -51,7 +51,7 @@ const DiscussionComposer = ({
     if (!preferences || preferences?.discussion?.userPreference?.anonymity) {
       return null
     }
-    return preferences.me.credentials.find(credential => credential.isListed)
+    return preferences?.me?.credentials?.find(credential => credential.isListed)
   }, [preferences])
 
   const submitCommentHandler = useSubmitCommentHandler()

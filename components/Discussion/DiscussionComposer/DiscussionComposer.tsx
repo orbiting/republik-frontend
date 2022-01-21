@@ -79,9 +79,16 @@ const DiscussionComposer = ({
 
       let response
 
-      if (!commentId) {
+      if (!commentId && !parentId) {
         // New root comment or a reply to a comment
         response = await submitCommentHandler(value, tags, {
+          discussionId,
+          parentId
+        })
+      } else if (!commentId && parentId) {
+        // New root comment or a reply to a comment
+        // No tags are passed since responses should not have tags!
+        response = await submitCommentHandler(value, [], {
           discussionId,
           parentId
         })

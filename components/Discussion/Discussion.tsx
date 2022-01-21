@@ -73,6 +73,9 @@ const Discussion = ({ meta }: Props) => {
                 ? 'components/Discussion/Statement/Placeholder'
                 : undefined
             }
+            initialTagValue={
+              discussion.tags?.length > 0 ? discussion.tags[0] : undefined
+            }
           />
           <div {...styles.commentsWrapper}>
             <DiscussionOptions meta={meta} />

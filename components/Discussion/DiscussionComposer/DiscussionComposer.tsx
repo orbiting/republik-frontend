@@ -143,9 +143,7 @@ const DiscussionComposer = ({
           tags={tags}
           initialText={initialText}
           initialTagValue={
-            tags && tags.length > 0
-              ? initialTagValue ?? activeTag ?? tags[0]
-              : undefined
+            tags && tags.length > 0 ? initialTagValue ?? activeTag : undefined
           }
         />
       ) : (

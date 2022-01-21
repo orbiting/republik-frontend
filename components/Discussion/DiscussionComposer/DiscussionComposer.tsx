@@ -83,7 +83,9 @@ const DiscussionComposer = ({
         response = await editCommentHandler(commentId, value, tags)
       }
 
-      return response
+      return {
+        ok: response
+      }
     } catch (err) {
       return {
         error: err

@@ -1,4 +1,4 @@
-import React, { Children, Component } from 'react'
+import React, { Component } from 'react'
 import compose from 'lodash/flowRight'
 import { format } from 'url'
 

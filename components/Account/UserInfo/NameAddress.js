@@ -241,7 +241,7 @@ class UpdateMe extends Component {
               ) : (
                 <div>
                   <Label>
-                    <Emphasis>Name</Emphasis>
+                    <Emphasis>{t('Account/Update/name/label')}</Emphasis>
                   </Label>
                   <div style={{ margin: '8px 0 36px' }}>
                     <FieldSet
@@ -256,7 +256,7 @@ class UpdateMe extends Component {
                     <Hint t={t} tKey={'Account/Update/birthday/hint/plain'} />
                   </div>
                   <Label>
-                    <Emphasis>Adresse</Emphasis>
+                    <Emphasis>{t('Account/Update/address/label')}</Emphasis>
                   </Label>
                   <div style={{ margin: '8px 0 0' }}>
                     <AddressForm

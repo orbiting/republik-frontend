@@ -73,11 +73,7 @@ const Memberships = ({
               </Box>
             )}
 
-            {!inNativeIOSApp && (
-              <AccountSection id='abos' title={t('memberships/title/other')}>
-                <MembershipList highlightId={query.id} />
-              </AccountSection>
-            )}
+            {!inNativeIOSApp && <MembershipList highlightId={query.id} />}
 
             {!inNativeIOSApp && paymentMethodCompany && (
               <AccountSection

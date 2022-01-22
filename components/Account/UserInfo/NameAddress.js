@@ -109,7 +109,7 @@ export const UserNameAddress = compose(
       error={error}
       render={() => (
         <div>
-          <Label key='name'>{t('Account/Update/name/label')}</Label>
+          <Label>{t('Account/Update/name/label')}</Label>
           <P style={{ marginBottom: 8 }}>
             {intersperse([me.name, me.phoneNumber].filter(Boolean), (_, i) => (
               <br key={i} />
@@ -117,8 +117,8 @@ export const UserNameAddress = compose(
           </P>
           {!!me.birthday && (
             <>
-              <Label key='birthday'>{t('Account/Update/birthday/label')}</Label>
-              <P style={{ marginBottom: 8 }}>{me.birthday || '21.07.1987'}</P>
+              <Label>{t('Account/Update/birthday/label')}</Label>
+              <P style={{ marginBottom: 8 }}>{me.birthday}</P>
             </>
           )}
           {!!me.address && (

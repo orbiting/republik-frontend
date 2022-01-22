@@ -73,7 +73,7 @@ export const EditButton = ({ children, onClick }) => {
   const buttonStyleRules = useMemo(
     () =>
       css(plainButtonRule, {
-        ...fontStyles.sansSerifMedium14,
+        ...fontStyles.sansSerifRegular16,
         color: colorScheme.getCSSColor('primary'),
         '@media (hover)': {
           ':hover': {

@@ -8,7 +8,6 @@ import { mediaQueries, A, Interaction } from '@project-r/styleguide'
 import Frame from '../../components/Frame'
 import Merci from '../../components/Pledge/Merci'
 import withT from '../../lib/withT'
-import { withMembership } from '../../components/Auth/checkRoles'
 import withDefaultSSR from '../../lib/hocs/withDefaultSSR'
 import AccountTabs from '../../components/Account/AccountTabs'
 import AccountSection from '../../components/Account/AccountSection'
@@ -16,6 +15,7 @@ import Memberships from '../../components/Account/Memberships'
 import { HintArea, AccountEnforceMe } from '../../components/Account/Elements'
 import NameAddress from '../../components/Account/UserInfo/NameAddress'
 import UpdateEmail, { UserEmail } from '../../components/Account/UserInfo/Email'
+import withMe from '../../lib/apollo/withMe'
 
 const { Emphasis } = Interaction
 
@@ -31,7 +31,7 @@ const styles = {
   column: css({ flex: 1 })
 }
 
-const AccountPage = ({ t, isMember }) => {
+const AccountPage = ({ t, hasAccess, hasActiveMembership }) => {
   const meta = {
     title: t('pages/account/title')
   }
@@ -58,7 +58,7 @@ const AccountPage = ({ t, isMember }) => {
     <AccountEnforceMe>
       <AccountTabs />
       <div {...styles.container}>
-        {isMember && (
+        {hasAccess && (
           <div {...styles.column}>
             <AccountSection
               id='onboarding'
@@ -79,24 +79,26 @@ const AccountPage = ({ t, isMember }) => {
           </div>
         )}
 
-        <div {...styles.column}>
-          <AccountSection
-            id='teilen'
-            title={t('Account/Access/Campaigns/title')}
-          >
-            <HintArea>
-              {t.elements('Account/Access/Legacy/text', {
-                link: (
-                  <Link key='link' href='/teilen' passHref>
-                    <A>
-                      <Emphasis>{t('Account/Access/Legacy/link')}</Emphasis>
-                    </A>
-                  </Link>
-                )
-              })}
-            </HintArea>
-          </AccountSection>
-        </div>
+        {hasActiveMembership && (
+          <div {...styles.column}>
+            <AccountSection
+              id='teilen'
+              title={t('Account/Access/Campaigns/title')}
+            >
+              <HintArea>
+                {t.elements('Account/Access/text', {
+                  link: (
+                    <Link key='link' href='/teilen' passHref>
+                      <A>
+                        <Emphasis>{t('Account/Access/link')}</Emphasis>
+                      </A>
+                    </Link>
+                  )
+                })}
+              </HintArea>
+            </AccountSection>
+          </div>
+        )}
       </div>
       <Memberships />
       <AccountSection id='account' title={t('Account/Update/title')}>
@@ -116,4 +118,4 @@ const AccountPage = ({ t, isMember }) => {
   )
 }
 
-export default withDefaultSSR(compose(withT, withMembership)(AccountPage))
+export default withDefaultSSR(compose(withT, withMe)(AccountPage))

@@ -6,7 +6,7 @@ import compose from 'lodash/flowRight'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { timeFormat } from '../../lib/utils/format'
-import { MainContainer, Content } from '../../components/Frame'
+import { Content } from '../../components/Frame'
 import SignIn from '../../components/Auth/SignIn'
 
 import {
@@ -20,16 +20,12 @@ import {
 const styles = {
   p: css({
     margin: 0,
-    ...fontStyles.sansSerifRegular16
+    ...fontStyles.sansSerifRegular18
   }),
   container: css({
     '&:not(:last-child)': css({
       marginBottom: 24
     })
-  }),
-  hintareaText: css({
-    ...fontStyles.sansSerifRegular18,
-    margin: 0
   })
 }
 
@@ -91,7 +87,7 @@ export const EditButton = ({ children, onClick }) => {
 }
 
 export const P = ({ children, ...props }) => (
-  <p {...props} {...styles.p}>
+  <p {...props} {...styles.p} {...Interaction.fontRule}>
     {children}
   </p>
 )
@@ -111,14 +107,14 @@ export const Hint = ({ t, tKey }) => {
   )
 }
 
-export const HintArea = ({ color = 'hover', children }) => {
+export const HintArea = ({ children }) => {
   const [colorScheme] = useColorContext()
   return (
     <div
       style={{ padding: '8px 16px' }}
-      {...colorScheme.set('backgroundColor', color)}
+      {...colorScheme.set('backgroundColor', 'hover')}
     >
-      <p {...styles.hintareaText}>{children}</p>
+      <p {...styles.p}>{children}</p>
     </div>
   )
 }

@@ -981,10 +981,6 @@
       "value": "Ihre Standardeinstellung für den Dialog:"
     },
     {
-      "key": "account/notificationOptions/title",
-      "value": "Benachrichtigungen"
-    },
-    {
       "key": "account/discussionNotificationChannels/EMAIL/label",
       "value": "E-Mail"
     },
@@ -1087,10 +1083,6 @@
     {
       "key": "account/pledges/payment/PAYMENTSLIP/paperInvoice/0",
       "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
-    },
-    {
-      "key": "account/pledges/promo",
-      "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
       "key": "Account/Access/Grants/message/claimed",
@@ -6525,11 +6517,11 @@
       "value": "Die Republik teilen\n"
     },
     {
-      "key": "Account/Access/Legacy/text",
+      "key": "Account/Access/text",
       "value": "Ermöglichen Sie Ihren Freunden und Feinden {link}."
     },
     {
-      "key": "Account/Access/Legacy/link",
+      "key": "Account/Access/link",
       "value": "kostenloses Probelesen"
     },
     {
@@ -6767,14 +6759,6 @@
     {
       "key": "Onboarding/Sections/Subscriptions/hint/link",
       "value": "Ihrer Benachrichtigungen"
-    },
-    {
-      "key": "Account/Notifications/Legacy/text",
-      "value": "{link}"
-    },
-    {
-      "key": "Account/Notifications/Legacy/link",
-      "value": "Zu den Einstellungen Ihrer Benachrichtigungen."
     },
     {
       "key": "Onboarding/Sections/Newsletter/heading",

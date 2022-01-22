@@ -10,7 +10,6 @@ import Loader from '../../Loader'
 import UserGuidance from '../UserGuidance'
 
 import AccessGrants from '../../Access/Grants'
-import SignIn from '../../Auth/SignIn'
 import withMembership from '../../Auth/withMembership'
 import Box from '../../Frame/Box'
 
@@ -21,13 +20,16 @@ import MembershipList from '../Memberships/List'
 import PaymentSources from '../PaymentSources'
 import AccountSection from '../AccountSection'
 
-const { H1, P } = Interaction
+const { P } = Interaction
+
+const AccountBox = ({ children }) => {
+  return <Box style={{ padding: 14, marginBottom: 20 }}>{children}</Box>
+}
 
 const Memberships = ({
   loading,
   error,
   t,
-  me,
   hasMemberships,
   hasActiveMemberships,
   hasAccessGrants,
@@ -51,26 +53,22 @@ const Memberships = ({
       loading={loading}
       error={error}
       render={() => {
-        if (!me) {
-          return (
-            <>
-              <H1 style={{ marginBottom: 22 }}>
-                {t('account/signedOut/title')}
-              </H1>
-              <P>{t('account/signedOut/signIn')}</P>
-              <SignIn email={query.email} />
-            </>
-          )
-        }
-
         return (
           <>
-            {hasAccessGrants && !hasActiveMemberships && <AccessGrants />}
-            {!hasAccessGrants && !hasMemberships && <UserGuidance />}
+            {hasAccessGrants && !hasActiveMemberships && (
+              <AccountBox>
+                <AccessGrants />
+              </AccountBox>
+            )}
+            {!hasAccessGrants && !hasMemberships && (
+              <AccountBox>
+                <UserGuidance />
+              </AccountBox>
+            )}
             {inNativeIOSApp && (
-              <Box style={{ padding: 14, marginBottom: 20 }}>
+              <AccountBox>
                 <P>{t('account/ios/box')}</P>
-              </Box>
+              </AccountBox>
             )}
 
             {!inNativeIOSApp && <MembershipList highlightId={query.id} />}
@@ -104,7 +102,6 @@ export default compose(
         isReady &&
         hasMemberships &&
         data.me.memberships.find(m => m.type.name === 'MONTHLY_ABO')
-      const hasPledges = isReady && data.me.pledges && !!data.me.pledges.length
       const hasAccessGrants =
         isReady && data.me.accessGrants && !!data.me.accessGrants.length
       const autoPayMembership =
@@ -122,7 +119,6 @@ export default compose(
       return {
         loading: data.loading,
         error: data.error,
-        hasPledges,
         hasMemberships,
         hasActiveMemberships,
         hasAccessGrants,

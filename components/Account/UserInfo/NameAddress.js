@@ -98,7 +98,7 @@ const getValues = me => {
   }
 }
 
-export const UserNameAddress = compose(
+const UserNameAddress = compose(
   withT,
   withMyDetails
 )(({ t, detailsData }) => {

@@ -150,6 +150,7 @@ export const possibleSubscriptions = gql`
         repoId
         meta {
           title
+          color
         }
         formats: linkedDocuments(feed: true) {
           nodes {

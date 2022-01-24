@@ -27,7 +27,12 @@ class SignIn extends Component {
 
     this.state = {
       ...checkEmail({
-        value: props.email || '',
+        // handle query.email being an array (&email=x&email=y)
+        value: props.email
+          ? Array.isArray(props.email)
+            ? props.email[0]
+            : props.email
+          : '',
         t: props.t
       }),
       polling: false,

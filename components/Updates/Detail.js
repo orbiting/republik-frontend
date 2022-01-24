@@ -13,13 +13,9 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
-import { CONTENT_PADDING } from '../constants'
-
 import ActionBar from '../ActionBar'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
-
-const BLOCK_PADDING_TOP = 10
 
 const styles = {
   title: css({
@@ -43,14 +39,6 @@ const styles = {
     borderBottom: `1px solid ${colors.divider}`,
     paddingBottom: 10,
     marginBottom: 60
-  }),
-  block: css({
-    padding: `${BLOCK_PADDING_TOP}px 0`,
-    borderTop: `1px solid ${colors.divider}`,
-    position: 'relative',
-    [mediaQueries.mUp]: {
-      paddingLeft: CONTENT_PADDING
-    }
   }),
   hr: css({
     height: 0,

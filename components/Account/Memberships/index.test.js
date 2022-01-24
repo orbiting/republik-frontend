@@ -1,5 +1,5 @@
 import React from 'react'
-import { Item } from './Elements'
+import { Item } from '../Elements'
 import { render, screen } from '@testing-library/react'
 
 describe('/components/Account/index.js', () => {

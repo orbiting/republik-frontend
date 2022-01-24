@@ -17,13 +17,12 @@ import {
 
 import { Content } from '../Frame'
 import { parseDate } from '../../lib/utils/format'
-import Event from './Detail'
+import Event, { EVENT_PADDING } from './Detail'
 import Loader from '../Loader'
 import Meta from '../Frame/Meta'
 import StatusError from '../StatusError'
 import withT from '../../lib/withT'
 
-import { CONTENT_PADDING } from '../constants'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import Link from 'next/link'
 
@@ -33,7 +32,7 @@ const styles = {
   sectionTitle: css({
     marginBottom: 15,
     [mediaQueries.mUp]: {
-      paddingLeft: CONTENT_PADDING
+      paddingLeft: EVENT_PADDING
     }
   })
 }

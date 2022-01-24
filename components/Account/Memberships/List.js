@@ -2,50 +2,45 @@ import React, { Component } from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 
+import { Interaction, Loader } from '@project-r/styleguide'
+
 import withT from '../../../lib/withT'
 import withMe from '../../../lib/apollo/withMe'
 
-import { Interaction, Loader } from '@project-r/styleguide'
-
 import query from '../belongingsQuery'
-
 import Manage from './Manage'
-
 import Box from '../../Frame/Box'
+import AccountSection from '../AccountSection'
 
-const { H2, P } = Interaction
+const MembershipsList = ({
+  memberships,
+  t,
+  loading,
+  error,
+  highlightId,
+  activeMembership,
+  hasWaitingMemberships
+}) => {
+  return (
+    <Loader
+      loading={loading}
+      error={error}
+      render={() => {
+        if (!memberships.length) {
+          return null
+        }
 
-class MembershipsList extends Component {
-  render() {
-    const {
-      memberships,
-      t,
-      loading,
-      error,
-      highlightId,
-      activeMembership,
-      hasWaitingMemberships
-    } = this.props
-
-    return (
-      <Loader
-        loading={loading}
-        error={error}
-        render={() => {
-          if (!memberships.length) {
-            return null
-          }
-
-          return (
-            <div>
-              <H2>
-                {t.pluralize('memberships/title', {
-                  count: memberships.length
-                })}
-              </H2>
+        return (
+          <>
+            <AccountSection
+              id='abos'
+              title={t.pluralize('memberships/title', {
+                count: memberships.length
+              })}
+            >
               {!activeMembership && (
                 <Box style={{ padding: '15px 20px', margin: '1em 0em' }}>
-                  <P>{t('memberships/noActive')}</P>
+                  <Interaction.P>{t('memberships/noActive')}</Interaction.P>
                 </Box>
               )}
               {memberships.map(membership => (
@@ -57,12 +52,12 @@ class MembershipsList extends Component {
                   hasWaitingMemberships={hasWaitingMemberships}
                 />
               ))}
-            </div>
-          )
-        }}
-      />
-    )
-  }
+            </AccountSection>
+          </>
+        )
+      }}
+    />
+  )
 }
 
 export default compose(

@@ -2,9 +2,8 @@ import React from 'react'
 import compose from 'lodash/flowRight'
 import { graphql } from '@apollo/client/react/hoc'
 
-import { Interaction, Editorial } from '@project-r/styleguide'
+import { Interaction, A } from '@project-r/styleguide'
 
-import { MainContainer } from '../Frame'
 import { timeFormat } from '../../lib/utils/format'
 import Box from '../Frame/Box'
 import query from '../Account/belongingsQuery'
@@ -25,28 +24,23 @@ const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
       new Date()
     )
 
-  return (
-    accessGrants.length > 0 && (
-      <Box>
-        <MainContainer>
-          <P>
-            {t.elements('Account/Access/Grants/message/claimed', {
-              maxEndAt: <span>{dayFormat(new Date(maxEndAt))}</span>
-            })}
-          </P>
-          {!inNativeIOSApp && (
-            <P>
-              <Link href='/angebote' key='pledge' passHref>
-                <Editorial.A>
-                  {t('Account/Access/Grants/link/pledges')}
-                </Editorial.A>
-              </Link>
-            </P>
-          )}
-        </MainContainer>
-      </Box>
-    )
-  )
+  return maxEndAt ? (
+    <P>
+      {t.elements('Account/Access/Grants/message/claimed', {
+        maxEndAt: <span>{dayFormat(new Date(maxEndAt))}</span>
+      })}
+      {!inNativeIOSApp && (
+        <>
+          {' '}
+          <Link href='/angebote' key='pledge' passHref>
+            <A>
+              <strong>{t('Account/Access/Grants/link/pledges')}</strong>
+            </A>
+          </Link>
+        </>
+      )}
+    </P>
+  ) : null
 }
 
 export default compose(

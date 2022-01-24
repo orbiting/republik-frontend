@@ -833,10 +833,6 @@
       "value": "zurücksetzen"
     },
     {
-      "key": "account/transactions/title",
-      "value": "Ihre Einkäufe"
-    },
-    {
       "key": "account/paymentSource/saving",
       "value": "verifizieren"
     },

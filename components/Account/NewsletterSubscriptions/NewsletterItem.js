@@ -1,5 +1,5 @@
 import React from 'react'
-import { css, useMemo } from 'glamor'
+import { css } from 'glamor'
 import {
   InlineSpinner,
   Checkbox,
@@ -9,7 +9,6 @@ import {
   useColorContext
 } from '@project-r/styleguide'
 
-const ICON_SIZE = 32
 const GAP_SIZE = 24
 
 const styles = {

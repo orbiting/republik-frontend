@@ -4,10 +4,12 @@ import { graphql } from '@apollo/client/react/hoc'
 import { gql } from '@apollo/client'
 
 import withT from '../../lib/withT'
-import { useInNativeApp, ColorContext } from '../../lib/withInNativeApp'
+import { useInNativeApp } from '../../lib/withInNativeApp'
 import UserGuidance from '../Account/UserGuidance'
 import ErrorMessage from '../ErrorMessage'
 import MarketingTrialForm from './MarketingTrialForm'
+import { MainContainer } from '../Frame'
+import Box from '../Frame/Box'
 
 import Lead from './Lead'
 import Carpet from './Carpet'
@@ -26,7 +28,11 @@ const Marketing = ({ t, data: { loading, error, meGuidance } }) => {
   return (
     <>
       {!loading && meGuidance && !hasActiveMembership && !inNativeIOSApp && (
-        <UserGuidance />
+        <Box>
+          <MainContainer>
+            <UserGuidance />
+          </MainContainer>
+        </Box>
       )}
       {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
       <Lead t={t} />

@@ -13,6 +13,7 @@ import withT from '../../lib/withT'
 const styles = {
   checkbox: css({
     display: 'inline-block',
+    marginBottom: 8,
     width: '100%',
     [mediaQueries.mUp]: {
       width: '50%'

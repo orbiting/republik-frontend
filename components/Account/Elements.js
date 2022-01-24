@@ -1,26 +1,31 @@
-import React, { Fragment } from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'glamor'
+import { useRouter } from 'next/router'
+import compose from 'lodash/flowRight'
 
+import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { timeFormat } from '../../lib/utils/format'
+import { Content } from '../../components/Frame'
+import SignIn from '../../components/Auth/SignIn'
 
 import {
   Interaction,
   Label,
   fontStyles,
-  useColorContext
+  useColorContext,
+  plainButtonRule
 } from '@project-r/styleguide'
 
 const styles = {
-  item: css({
-    padding: 10,
-    marginLeft: -10,
-    marginRight: -10,
-    marginBottom: 30
-  }),
   p: css({
     margin: 0,
-    ...fontStyles.sansSerifRegular16
+    ...fontStyles.sansSerifRegular18
+  }),
+  container: css({
+    '&:not(:last-child)': css({
+      marginBottom: 24
+    })
   })
 }
 
@@ -34,7 +39,7 @@ export const Item = withT(
     const [colorScheme] = useColorContext()
     return (
       <div
-        {...styles.item}
+        {...styles.container}
         {...colorScheme.set(
           'backgroundColor',
           highlighted ? 'alert' : 'default'
@@ -43,7 +48,7 @@ export const Item = withT(
       >
         <H3>{title}</H3>
         {!compact && (
-          <Fragment>
+          <>
             <Label>
               {t('account/item/label', {
                 formattedDate: dayFormat(createdAt),
@@ -51,7 +56,7 @@ export const Item = withT(
               })}
             </Label>
             <br />
-          </Fragment>
+          </>
         )}
         {children}
       </div>
@@ -59,8 +64,30 @@ export const Item = withT(
   }
 )
 
+export const EditButton = ({ children, onClick }) => {
+  const [colorScheme] = useColorContext()
+  const buttonStyleRules = useMemo(
+    () =>
+      css(plainButtonRule, {
+        ...fontStyles.sansSerifRegular16,
+        color: colorScheme.getCSSColor('primary'),
+        '@media (hover)': {
+          ':hover': {
+            color: colorScheme.getCSSColor('primaryHover')
+          }
+        }
+      }),
+    [colorScheme]
+  )
+  return (
+    <button {...buttonStyleRules} onClick={onClick}>
+      {children}
+    </button>
+  )
+}
+
 export const P = ({ children, ...props }) => (
-  <p {...props} {...styles.p}>
+  <p {...props} {...styles.p} {...Interaction.fontRule}>
     {children}
   </p>
 )
@@ -70,12 +97,43 @@ export const Hint = ({ t, tKey }) => {
   return (
     <Label
       style={{
-        marginTop: -10,
-        marginBottom: 10,
+        marginTop: -12,
+        marginBottom: 12,
         display: 'block'
       }}
     >
-      <span {...colorScheme.set('color', 'disabled')}>{t(tKey)}</span>
+      <span {...colorScheme.set('color', 'textSoft')}>{t(tKey)}</span>
     </Label>
   )
 }
+
+export const HintArea = ({ children }) => {
+  const [colorScheme] = useColorContext()
+  return (
+    <div
+      style={{ padding: '8px 16px' }}
+      {...colorScheme.set('backgroundColor', 'hover')}
+    >
+      <p {...styles.p}>{children}</p>
+    </div>
+  )
+}
+
+export const AccountEnforceMe = compose(
+  withT,
+  withMe
+)(({ t, me, children }) => {
+  const { query } = useRouter()
+
+  return !me ? (
+    <Content>
+      <Interaction.H1 style={{ marginBottom: 22 }}>
+        {t('account/signedOut/title')}
+      </Interaction.H1>
+      <Interaction.P>{t('account/signedOut/signIn')}</Interaction.P>
+      <SignIn email={query.email} />
+    </Content>
+  ) : (
+    children
+  )
+})

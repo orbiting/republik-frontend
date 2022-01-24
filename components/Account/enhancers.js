@@ -52,6 +52,7 @@ const mutation = gql`
     ) {
       id
       birthday
+      name
       firstName
       lastName
       ...PhoneAndAddressOnUser

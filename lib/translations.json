@@ -601,6 +601,10 @@
       "value": "Willkommen, {name}"
     },
     {
+      "key": "Account/Update/name/label",
+      "value": "Name"
+    },
+    {
       "key": "Account/Update/address/label",
       "value": "Adresse"
     },
@@ -845,6 +849,10 @@
       "value": "Erstellt am {formattedDate} um {formattedTime}"
     },
     {
+      "key": "pages/account/newsletter/lead",
+      "value": "Abonnieren Sie unsere Newsletter per E-Mail, um auf dem Laufenden zu bleiben."
+    },
+    {
       "key": "account/newsletterSubscriptions/unauthorized",
       "value": "Sie müssen angemeldet sein, um Ihre Newsletter-Einstellungen zu ändern."
     },
@@ -874,35 +882,39 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",
-      "value": "Republik – Das tägliche Update"
+      "value": "7-Uhr-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags bis freitags um 5 Uhr"
+      "value": "Von Montag bis Freitag um 5 Uhr"
+    },
+    {
+      "key": "account/newsletterSubscriptions/DAILY/description",
+      "value": "Die aktuellsten Beiträge der Republik. Jeden Morgen in Ihrem virtuellen Briefkasten."
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
-      "value": "Republik – Der Wochenüberblick"
+      "value": "Wochenend-Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
-      "value": "samstags"
+      "value": "Samstags um 5 Uhr"
     },
     {
-      "key": "account/newsletterSubscriptions/PRODUCT/label",
-      "value": "Republik – Umfragen und Produktinformationen"
-    },
-    {
-      "key": "account/newsletterSubscriptions/PRODUCT/frequency",
-      "value": "unregelmässig"
+      "key": "account/newsletterSubscriptions/WEEKLY/description",
+      "value": "Lektüre für das Wochenende samt Rückblick auf die wichtigsten Geschichten der vergangenen Woche."
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
-      "value": "Project R – Wichtige Updates"
+      "value": "Project-R-Newsletter"
+    },
+    {
+      "key": "account/newsletterSubscriptions/PROJECTR/description",
+      "value": "Alles über unsere Unternehmung – von geplanten Veränderungen über anstehende Urabstimmungen bis hin zu wichtigen Entwicklungen in der Medienlandschaft. Kostenlos für alle Interessierten verfügbar."
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/frequency",
-      "value": "unregelmässig"
+      "value": "8 bis 12 Mal pro Jahr\n"
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/label",
@@ -910,15 +922,23 @@
     },
     {
       "key": "account/newsletterSubscriptions/COVID19/frequency",
-      "value": "montags um 19 Uhr"
+      "value": "Montags um 19 Uhr"
+    },
+    {
+      "key": "account/newsletterSubscriptions/COVID19/description",
+      "value": "Brauchbares zur Pandemie – was man wissen sollte, obwohl es niemand mehr hören mag. Der kostenlose Newsletter ist unser Angebot zur Bewältigung der Corona-Pandemie."
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/label",
-      "value": "Republik – Der Komplizen-Newsletter"
+      "value": "Komplizen-Newsletter"
+    },
+    {
+      "key": "account/newsletterSubscriptions/ACCOMPLICE/description",
+      "value": "Wir informieren Sie über Möglichkeiten, wie Sie die Zukunft der Republik mitgestalten und sich für Medienvielfalt engagieren können. Und Sie erhalten Einladungen zu Veranstaltungen und Neuigkeiten aus der Republik-Crew."
     },
     {
       "key": "account/newsletterSubscriptions/ACCOMPLICE/frequency",
-      "value": "unregelmässig"
+      "value": "4 bis 6 Mal pro Jahr"
     },
     {
       "key": "account/newsletterSubscriptions/onlyName/subscribe",
@@ -955,10 +975,6 @@
     {
       "key": "account/notificationOptions/dialog",
       "value": "Ihre Standardeinstellung für den Dialog:"
-    },
-    {
-      "key": "account/notificationOptions/title",
-      "value": "Benachrichtigungen"
     },
     {
       "key": "account/discussionNotificationChannels/EMAIL/label",
@@ -1063,10 +1079,6 @@
     {
       "key": "account/pledges/payment/PAYMENTSLIP/paperInvoice/0",
       "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
-    },
-    {
-      "key": "account/pledges/promo",
-      "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
       "key": "Account/Access/Grants/message/claimed",
@@ -1190,11 +1202,51 @@
     },
     {
       "key": "Account/Onboarding/text",
-      "value": "Mit dem Wichtigsten hilft dieser kurze {link}."
+      "value": "Mit dem Wichtigsten hilft der kurze {link}."
     },
     {
       "key": "Account/Onboarding/link",
       "value": "Einrichtungsassistent"
+    },
+    {
+      "key": "account/tabs/OVERVIEW",
+      "value": "Übersicht"
+    },
+    {
+      "key": "account/tabs/MEMBERSHIP",
+      "value": "Abo"
+    },
+    {
+      "key": "account/tabs/TRANSACTIONS",
+      "value": "Einkäufe"
+    },
+    {
+      "key": "account/tabs/SETTINGS",
+      "value": "Einstellungen"
+    },
+    {
+      "key": "account/tabs/NOTIFICATIONS",
+      "value": "Benachrichtigungen"
+    },
+    {
+      "key": "account/tabs/NEWSLETTER",
+      "value": "Newsletter"
+    },
+    {
+      "key": "pages/account/newsletter/title",
+      "value": "Newsletter – Konto"
+    },
+    {
+      "key": "pages/account/notifications/title",
+      "value": "Benachrichtigungen – Konto"
+    },
+    {
+      "key": "pages/account/settings/title",
+      "value": "Einstellungen – Konto"
+    },
+    {
+      "key": "pages/account/transactions/title",
+      "value": "Einkäufe – Konto"
     },
     {
       "key": "profile/documents/title/other",
@@ -3417,6 +3469,10 @@
       "value": "Abonnements"
     },
     {
+      "key": "memberships/title/payment",
+      "value": "Zahlungsart"
+    },
+    {
       "key": "memberships/giver/giveable/show",
       "value": "Mitgliedschaft verschenken?"
     },
@@ -5058,7 +5114,7 @@
     },
     {
       "key": "Onboarding/Sections/Newsletter/preamble",
-      "value": "Mit den verschiedenen E-Mail-Newslettern halten wir Sie mit einem täglichen Update und einem Wochenrückblick auf dem Laufenden."
+      "value": "Mit den E-Mail-Newslettern halten wir Sie auf dem Laufenden."
     },
     {
       "key": "Onboarding/Sections/Newsletter/hint",
@@ -6457,12 +6513,12 @@
       "value": "Die Republik teilen\n"
     },
     {
-      "key": "Account/Access/Legacy/text",
-      "value": "{link}"
+      "key": "Account/Access/text",
+      "value": "Ermöglichen Sie Ihren Freunden und Feinden {link}."
     },
     {
-      "key": "Account/Access/Legacy/link",
-      "value": "Laden Sie Ihre Freunde auf eine Tour durch die Republik ein."
+      "key": "Account/Access/link",
+      "value": "kostenloses Probelesen"
     },
     {
       "key": "Account/Access/Page/noCampaign",
@@ -6598,7 +6654,7 @@
     },
     {
       "key": "Notifications/empty/paragraph",
-      "value": "Sie haben noch keine Benachrichtigungen. In <a href=\"/benachrichtigungen/einstellungen\">Ihren Einstellungen</a> finden Sie Rubriken, die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
+      "value": "Sie haben noch keine Benachrichtigungen. In <a href=\"/konto/benachrichtigungen\">Ihren Einstellungen</a> finden Sie Rubriken, die Sie abonnieren können. Und Benachrichtigungen aus den Debatten erscheinen auch hier, sobald Sie im <a href=\"/dialog\">Dialog</a> eine neue Antwort bekommen."
     },
     {
       "key": "Notifications/settings",
@@ -6634,7 +6690,7 @@
     },
     {
       "key": "Notifications/settings/back",
-      "value": "Ihre Liste"
+      "value": "Zu Ihren Benachrichtigungen"
     },
     {
       "key": "Notifications/settings/title",
@@ -6642,7 +6698,7 @@
     },
     {
       "key": "Notifications/settings/formats",
-      "value": "Meine Rubriken"
+      "value": "Abonnierte Rubriken"
     },
     {
       "key": "Notifications/settings/formats/show",
@@ -6701,24 +6757,12 @@
       "value": "Ihrer Benachrichtigungen"
     },
     {
-      "key": "Account/Notifications/Legacy/text",
-      "value": "{link}"
-    },
-    {
-      "key": "Account/Notifications/Legacy/link",
-      "value": "Zu den Einstellungen Ihrer Benachrichtigungen."
-    },
-    {
-      "key": "pages/notifications/settings/title",
-      "value": "Benachrichtigungen – Einstellungen"
-    },
-    {
       "key": "Onboarding/Sections/Newsletter/heading",
       "value": "Newsletter per E-Mail"
     },
     {
       "key": "account/newsletterSubscriptions/title",
-      "value": "Newsletter per E-Mail"
+      "value": "E-Mail-Newsletter abonnieren"
     },
     {
       "key": "SubscribeCallout/Comment",

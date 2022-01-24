@@ -26,7 +26,7 @@ const SignUp = ({
     return (
       <>
         {!skipTitle && (
-          <Interaction.P>
+          <Interaction.P style={{ marginBottom: 16 }}>
             <strong>{t('Auth/NewsletterSignUp/settingTitle')}</strong>
           </Interaction.P>
         )}

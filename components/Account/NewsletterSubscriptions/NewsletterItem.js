@@ -5,7 +5,6 @@ import {
   Checkbox,
   mediaQueries,
   Interaction,
-  Label,
   fontStyles,
   useColorContext
 } from '@project-r/styleguide'
@@ -103,9 +102,9 @@ const NewsletterItem = ({
         <p {...styles.description}>
           {t(`account/newsletterSubscriptions/${name}/description`)}
         </p>
-        <Label {...styles.frequency} {...colorScheme.set('color', 'textSoft')}>
+        <span {...styles.frequency} {...colorScheme.set('color', 'textSoft')}>
           {t(`account/newsletterSubscriptions/${name}/frequency`)}
-        </Label>
+        </span>
       </div>
       <div {...styles.checkbox}>{checkboxElement}</div>
     </div>

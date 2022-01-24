@@ -21,10 +21,10 @@ const styles = {
 }
 
 type Props = {
-  meta?: any
+  documentMeta?: any
 }
 
-const Discussion = ({ meta }: Props) => {
+const Discussion = ({ documentMeta }: Props) => {
   const { t } = useTranslation()
 
   const {
@@ -69,7 +69,7 @@ const Discussion = ({ meta }: Props) => {
           <DiscussionComposer
             isRootLevel
             placeholder={
-              meta?.discussionType === 'statements'
+              documentMeta?.discussionType === 'statements'
                 ? t('components/Discussion/Statement/Placeholder')
                 : undefined
             }
@@ -78,20 +78,20 @@ const Discussion = ({ meta }: Props) => {
             }
           />
           <div {...styles.commentsWrapper}>
-            <DiscussionOptions meta={meta} />
+            <DiscussionOptions documentMeta={documentMeta} />
             <DiscussionCommentsWrapper
               t={t}
               loadMore={loadMore}
               moreAvailableCount={
                 comments.directTotalCount - comments.nodes.length
               }
-              tagMappings={meta?.tagMappings}
+              tagMappings={documentMeta?.tagMappings}
               errorMessage={focusError?.message}
             >
               <DiscussionCommentTreeRenderer
                 comments={comments.nodes}
                 isBoard={discussion?.isBoard}
-                meta={meta}
+                documentMeta={documentMeta}
               />
             </DiscussionCommentsWrapper>
           </div>

@@ -18,15 +18,15 @@ const styles = {
 }
 
 type Props = {
-  meta?: any
+  documentMeta?: any
 }
 
-const DiscussionOptions = ({ meta }: Props) => {
+const DiscussionOptions = ({ documentMeta }: Props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const { discussion, refetch, orderBy } = useDiscussion()
   const resolvedOrderBy = discussion?.comments?.resolvedOrderBy
-  const discussionType = meta?.discussionType
+  const discussionType = documentMeta?.discussionType
   const board = discussion?.isBoard
 
   const availableOrderBy = useMemo(() => {

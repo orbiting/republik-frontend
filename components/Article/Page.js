@@ -678,7 +678,7 @@ const ArticlePage = ({
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
                   <DiscussionContextProvider discussionId={ownDiscussion.id}>
-                    <Discussion meta={articleContent.meta} />
+                    <Discussion documentMeta={articleContent.meta} />
                   </DiscussionContextProvider>
                 </Center>
               )}

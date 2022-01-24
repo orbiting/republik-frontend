@@ -7,21 +7,21 @@ import { BoardComment } from '@project-r/styleguide'
 
 type Props = {
   comments: CommentTreeNode[]
-  meta?: any
+  documentMeta?: any
   isBoard?: boolean
 }
 
 const DiscussionCommentTreeRenderer = ({
   comments = [],
-  meta,
+  documentMeta,
   isBoard
 }: Props) => {
   if (comments.length === 0) {
     return <EmptyDiscussion />
   }
 
-  if (meta?.discussionType === 'statements') {
-    const tagMappings = meta?.tagMappings ?? []
+  if (documentMeta?.discussionType === 'statements') {
+    const tagMappings = documentMeta?.tagMappings ?? []
 
     return (
       <>

@@ -72,39 +72,42 @@ const NewsletterItem = ({
 }) => {
   const [colorScheme] = useColorContext()
 
+  const checkboxElement = (
+    <Checkbox
+      checked={subscribed}
+      disabled={mutating || status === 'unsubscribed'}
+      onChange={onChange}
+    >
+      <span>
+        {t(
+          `account/newsletterSubscriptions/onlyName/${
+            subscribed ? 'subscribed' : 'subscribe'
+          }`
+        )}
+        <span {...styles.spinnerWrapper}>
+          {mutating && <InlineSpinner size={24} />}
+        </span>
+      </span>
+    </Checkbox>
+  )
+  if (onlyName) {
+    return checkboxElement
+  }
+
   return (
     <div {...styles.row} {...colorScheme.set('borderColor', 'divider')}>
       <div style={{ flex: 1 }}>
         <Interaction.H3>
           {t(`account/newsletterSubscriptions/${name}/label`)}
         </Interaction.H3>
-        {!onlyName && (
-          <p {...styles.description}>
-            {t(`account/newsletterSubscriptions/${name}/description`)}
-          </p>
-        )}
+        <p {...styles.description}>
+          {t(`account/newsletterSubscriptions/${name}/description`)}
+        </p>
         <Label {...styles.frequency} {...colorScheme.set('color', 'textSoft')}>
           {t(`account/newsletterSubscriptions/${name}/frequency`)}
         </Label>
       </div>
-      <div {...styles.checkbox}>
-        <Checkbox
-          checked={subscribed}
-          disabled={mutating || status === 'unsubscribed'}
-          onChange={onChange}
-        >
-          <span>
-            {t(
-              `account/newsletterSubscriptions/onlyName/${
-                subscribed ? 'subscribed' : 'subscribe'
-              }`
-            )}
-            <span {...styles.spinnerWrapper}>
-              {mutating && <InlineSpinner size={24} />}
-            </span>
-          </span>
-        </Checkbox>
-      </div>
+      <div {...styles.checkbox}>{checkboxElement}</div>
     </div>
   )
 }

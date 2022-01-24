@@ -24,6 +24,7 @@ type DiscussionOptions = {
   depth?: number
   focusId?: string
   parentId?: string
+  includeParent?: boolean
 }
 
 type FetchMoreParams = DiscussionQueryVariables & {
@@ -61,7 +62,9 @@ function useDiscussionData(
       orderBy: options.orderBy,
       depth: options.depth,
       focusId: options.focusId,
-      activeTag: options.activeTag
+      activeTag: options.activeTag,
+      parentId: options.parentId,
+      includeParent: options.includeParent
     }
   })
 

@@ -677,7 +677,10 @@ const ArticlePage = ({
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
-                  <DiscussionContextProvider discussionId={ownDiscussion.id}>
+                  <DiscussionContextProvider
+                    discussionId={ownDiscussion.id}
+                    isBoardRoot={ownDiscussion.isBoard}
+                  >
                     <Discussion
                       documentMeta={articleContent.meta}
                       showPayNotes

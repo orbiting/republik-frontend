@@ -4,17 +4,20 @@ import StatementContainer from './CommentContainers/StatementContainer'
 import CommentContainer from './CommentContainers/CommentContainer'
 import { CommentTreeNode } from './helpers/makeCommentTree'
 import { BoardComment } from '@project-r/styleguide'
+import { DiscussionQuery } from './graphql/queries/DiscussionQuery.graphql'
 
 type Props = {
   comments: CommentTreeNode[]
+  discussion: DiscussionQuery['discussion']
+  inRootCommentOverlay?: boolean
   documentMeta?: any
-  isBoard?: boolean
 }
 
 const DiscussionCommentTreeRenderer = ({
   comments = [],
   documentMeta,
-  isBoard
+  inRootCommentOverlay,
+  discussion
 }: Props) => {
   if (comments.length === 0) {
     return <EmptyDiscussion />
@@ -36,7 +39,7 @@ const DiscussionCommentTreeRenderer = ({
     )
   }
 
-  if (isBoard) {
+  if (discussion.isBoard && !inRootCommentOverlay) {
     return (
       <>
         {comments.map(comment => (
@@ -44,6 +47,7 @@ const DiscussionCommentTreeRenderer = ({
             key={comment.id}
             CommentComponent={BoardComment}
             comment={comment}
+            isBoard
           />
         ))}
       </>
@@ -57,6 +61,7 @@ const DiscussionCommentTreeRenderer = ({
           key={comment.id}
           comment={comment}
           isLast={index === comments.length - 1}
+          inRootCommentOverlay={inRootCommentOverlay}
         />
       ))}
     </>

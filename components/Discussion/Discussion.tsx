@@ -22,10 +22,15 @@ const styles = {
 
 type Props = {
   showPayNotes?: boolean
+  inRootCommentOverlay?: boolean
   documentMeta?: any
 }
 
-const Discussion = ({ documentMeta, showPayNotes }: Props) => {
+const Discussion = ({
+  documentMeta,
+  inRootCommentOverlay,
+  showPayNotes
+}: Props) => {
   const { t } = useTranslation()
 
   const {
@@ -65,22 +70,28 @@ const Discussion = ({ documentMeta, showPayNotes }: Props) => {
       loading={discussionLoading || !discussion}
       error={discussionError}
       render={() => (
-        <div>
-          <TagFilter discussion={discussion} />
-          <DiscussionComposer
-            isRootLevel
-            placeholder={
-              documentMeta?.discussionType === 'statements'
-                ? t('components/Discussion/Statement/Placeholder')
-                : undefined
-            }
-            initialTagValue={
-              discussion.tags?.length > 0 ? discussion.tags[0] : undefined
-            }
-            showPayNotes={showPayNotes}
-          />
+        <>
+          {!inRootCommentOverlay && (
+            <>
+              <TagFilter discussion={discussion} />
+              <DiscussionComposer
+                isRootLevel
+                placeholder={
+                  documentMeta?.discussionType === 'statements'
+                    ? t('components/Discussion/Statement/Placeholder')
+                    : undefined
+                }
+                initialTagValue={
+                  discussion.tags?.length > 0 ? discussion.tags[0] : undefined
+                }
+                showPayNotes={showPayNotes}
+              />
+            </>
+          )}
           <div {...styles.commentsWrapper}>
-            <DiscussionOptions documentMeta={documentMeta} />
+            {!inRootCommentOverlay && (
+              <DiscussionOptions documentMeta={documentMeta} />
+            )}
             <DiscussionCommentsWrapper
               t={t}
               loadMore={loadMore}
@@ -92,12 +103,13 @@ const Discussion = ({ documentMeta, showPayNotes }: Props) => {
             >
               <DiscussionCommentTreeRenderer
                 comments={comments.nodes}
-                isBoard={discussion?.isBoard}
+                discussion={discussion}
+                inRootCommentOverlay={inRootCommentOverlay}
                 documentMeta={documentMeta}
               />
             </DiscussionCommentsWrapper>
           </div>
-        </div>
+        </>
       )}
     />
   )

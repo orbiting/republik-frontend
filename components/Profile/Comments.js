@@ -54,7 +54,7 @@ const Comments = ({ t, comments, loadMore }) => {
               tags={comment.tags}
               parentIds={comment.parentIds}
               discussion={discussion}
-              Link={CommentLink}
+              CommentLink={CommentLink}
               t={t}
             />
           )

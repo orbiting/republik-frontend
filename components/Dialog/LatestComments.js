@@ -67,7 +67,7 @@ const LatestComments = ({ t, data, fetchMore }) => {
                   updatedAt={updatedAt}
                   tags={tags}
                   parentIds={parentIds}
-                  Link={CommentLink}
+                  CommentLink={CommentLink}
                   discussion={discussion}
                 />
               )

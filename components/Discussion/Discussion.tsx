@@ -70,7 +70,7 @@ const Discussion = ({ meta }: Props) => {
             isRootLevel
             placeholder={
               meta?.discussionType === 'statements'
-                ? 'components/Discussion/Statement/Placeholder'
+                ? t('components/Discussion/Statement/Placeholder')
                 : undefined
             }
             initialTagValue={

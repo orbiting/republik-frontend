@@ -54,7 +54,7 @@ const Community = ({ t, data: { loading, error, featured } }) => {
                         image
                       }
                     }}
-                    Link={CommentLink}
+                    CommentLink={CommentLink}
                     t={t}
                   />
                 </div>

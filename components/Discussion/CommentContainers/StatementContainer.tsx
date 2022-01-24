@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useDiscussion } from '../context/DiscussionContext'
 import { useTranslation } from '../../../lib/withT'
 import { useMe } from '../../../lib/context/MeContext'
-import { getFocusHref } from '../shared/CommentLink'
+import CommentLink, { getFocusHref } from '../shared/CommentLink'
 import { format } from 'url'
 import useVoteCommentHandlers from '../hooks/actions/useVoteCommentHandlers'
 import useUnpublishCommentHandler from '../hooks/actions/useUnpublishCommentHandler'
@@ -83,6 +83,7 @@ const StatementContainer = ({ comment, tagMappings }: Props): ReactElement => {
       isHighlighted={isFocused}
       disableVoting={!discussion.userCanComment}
       Link={Link}
+      CommentLink={CommentLink}
       focusHref={format(getFocusHref(discussion, comment))}
       profileHref={
         comment?.displayAuthor?.slug

@@ -16,7 +16,7 @@ export default compose(withT)(({ t, node }) => {
         // ToDo: support all path in styleguide
         node.highlights.filter(h => h.path === 'contentString')
       }
-      Link={CommentLink}
+      CommentLink={CommentLink}
       t={t}
     />
   )

@@ -79,7 +79,7 @@ const CommentContainer = ({
     <CommentComponent
       t={t}
       comment={comment}
-      Link={CommentLink}
+      CommentLink={CommentLink}
       focusHref={format(getFocusHref(discussion, comment))}
       profileHref={
         comment.displayAuthor.slug

@@ -15,7 +15,7 @@ export default compose(withT)(({ t, node, isNew }) => {
           title: node.object.discussion.title
         }}
         preview={node.object.preview}
-        Link={CommentLink}
+        CommentLink={CommentLink}
         t={t}
         highlighted={isNew}
         menu={

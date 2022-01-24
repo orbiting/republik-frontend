@@ -7,8 +7,6 @@
  *  - optimisticContent(): …
  */
 
-import { debug } from '../shared/debug'
-
 /**
  * Merge a single Comment into the Discussion (provided as a draft). This function is
  * from the submitComment mutation update function to merge the just created comment

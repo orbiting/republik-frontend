@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { inQuotes } from '@project-r/styleguide'
 
 import { useDiscussion } from '../DiscussionContext'
@@ -10,7 +10,13 @@ import { useTranslation } from '../../../../lib/withT'
  * Render meta tags for a focused comment.
  * @constructor
  */
-const DiscussionMetaHelper = () => {
+const DiscussionMetaHelper = ({
+  parentId,
+  includeParent
+}: {
+  parentId?: string
+  includeParent?: boolean
+}): ReactElement => {
   const { t } = useTranslation()
   const { discussion, loading, error } = useDiscussion()
 
@@ -18,9 +24,13 @@ const DiscussionMetaHelper = () => {
     return null
   }
 
-  if (discussion.comments.focus) {
-    const metaFocus = discussion.comments.focus
+  const metaFocus =
+    discussion.comments.focus ||
+    (includeParent &&
+      parentId &&
+      discussion.comments.nodes.find(n => n.id === parentId))
 
+  if (metaFocus) {
     return (
       <Meta
         data={{
@@ -30,6 +40,8 @@ const DiscussionMetaHelper = () => {
             authorName: metaFocus.displayAuthor.name,
             quotedDiscussionTitle: inQuotes(discussion.title)
           }),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           description: metaFocus.preview ? metaFocus.preview.string : undefined,
           url: getFocusUrl(discussion, discussion.comments.focus)
         }}

@@ -83,7 +83,10 @@ const DiscussionContextProvider: FC<{
         {discussion && (
           <>
             <DiscussionOverlays isBoardRoot={isBoardRoot} />
-            <DiscussionMetaHelper />
+            <DiscussionMetaHelper
+              parentId={parentId}
+              includeParent={includeParent}
+            />
           </>
         )}
       </div>

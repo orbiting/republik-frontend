@@ -193,8 +193,15 @@ const MembershipOptions = ({
                   }}
                   style={{ order: index }}
                 >
-                  <p {...styles.label}>{label}</p>
-                  {!userPrice && <p>CHF {price / 100}</p>}
+                  <p {...styles.label}>
+                    <span>{label}</span>
+                    {!userPrice && (
+                      <>
+                        <br />
+                        CHF {price / 100}
+                      </>
+                    )}
+                  </p>
                 </button>
               )}
               <div

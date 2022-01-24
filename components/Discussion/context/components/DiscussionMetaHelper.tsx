@@ -37,7 +37,7 @@ const DiscussionMetaHelper = () => {
     )
   }
 
-  return <></>
+  return null
 }
 
 export default DiscussionMetaHelper

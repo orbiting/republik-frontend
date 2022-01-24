@@ -3,9 +3,9 @@ import { css } from 'glamor'
 import {
   A,
   Center,
-  colors,
   DiscussionIcon,
   Editorial,
+  inQuotes,
   Interaction,
   mediaQueries
 } from '@project-r/styleguide'
@@ -27,12 +27,15 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 import React, { Fragment } from 'react'
 import ActiveDiscussions from '../components/Dialog/ActiveDiscussions'
 import LatestComments from '../components/Dialog/LatestComments'
-import compose from 'lodash/flowRight'
-import withMe from '../lib/apollo/withMe'
-import withT from '../lib/withT'
-import { withRouter } from 'next/router'
+import { useTranslation } from '../lib/withT'
+import { useRouter } from 'next/router'
 import Discussion from '../components/Discussion/Discussion'
 import DiscussionContextProvider from '../components/Discussion/context/DiscussionContextProvider'
+import { useDiscussion } from '../components/Discussion/context/DiscussionContext'
+import Meta from '../components/Frame/Meta'
+import { getFocusUrl } from '../components/Discussion/shared/CommentLink'
+import StatusError from '../components/StatusError'
+import { useMe } from '../lib/context/MeContext'
 
 const styles = {
   container: css({
@@ -58,37 +61,50 @@ const H3 = ({ style, children }) => (
   </div>
 )
 
-const FeedbackPage = props => {
-  const {
-    t,
-    me,
-    router: { query }
-  } = props
+const MaybeDiscussionContextProvider = ({ discussionId, children }) => {
+  if (discussionId) {
+    return (
+      <DiscussionContextProvider discussionId={discussionId}>
+        {children}
+      </DiscussionContextProvider>
+    )
+  }
+  return children
+}
 
-  const tab = query.t
+const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
+  const { t } = useTranslation()
+  const { query } = useRouter()
+  const { me } = useMe()
 
-  const activeDiscussionId =
-    tab === 'general'
-      ? GENERAL_FEEDBACK_DISCUSSION_ID
-      : tab === 'article' && query.id
+  const discussionContext = useDiscussion()
 
-  // meta tags for discussions are rendered in Discussion/Commments.js
-  const pageMeta = activeDiscussionId
-    ? undefined
-    : {
-        title: t('pages/feedback/title'),
-        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
-      }
+  if (
+    discussionContext &&
+    !discussionContext.loading &&
+    !discussionContext.error &&
+    !discussionContext.discussion
+  ) {
+    return <StatusError statusCode={404} serverContext={serverContext} />
+  }
+
+  // wait for loaded discussion object and skip if focus comment, handled by the provider
+  const metaData =
+    discussionContext?.discussion && !query.focus
+      ? {
+          title: t('discussion/meta/title', {
+            quotedDiscussionTitle: inQuotes(discussionContext.discussion.title)
+          }),
+          url: getFocusUrl(discussionContext.discussion)
+        }
+      : !discussionContext && {
+          title: t('pages/feedback/title'),
+          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
+        }
 
   return (
-    <Frame
-      hasOverviewNav={!tab}
-      raw
-      meta={pageMeta}
-      formatColor={colors.primary}
-      stickySecondaryNav={!tab}
-    >
-      {!!tab && <FontSizeSync />}
+    <>
+      {metaData && <Meta data={metaData} />}
       <Center>
         <div {...styles.container}>
           {!tab && (
@@ -101,7 +117,10 @@ const FeedbackPage = props => {
                     <Interaction.P>{t('feedback/lead')}</Interaction.P>
                     <Interaction.P style={{ marginTop: 10 }}>
                       <Link
-                        href={{ pathname: '/dialog', query: { t: 'general' } }}
+                        href={{
+                          pathname: '/dialog',
+                          query: { t: 'general' }
+                        }}
                         passHref
                       >
                         <A>{t('feedback/link/general')}</A>
@@ -114,7 +133,7 @@ const FeedbackPage = props => {
           )}
           {!!tab && (
             <div style={{ marginBottom: 30 }}>
-              <Editorial.Format color={colors.primary}>
+              <Editorial.Format color='primary'>
                 <Link href='/dialog' passHref>
                   <a style={{ color: 'inherit', textDecoration: 'none' }}>
                     {t('feedback/title')}
@@ -185,7 +204,7 @@ const FeedbackPage = props => {
                     >
                       {t('feedback/activeDiscussions/label')}
                       <span style={{ position: 'absolute', right: 0, top: -1 }}>
-                        <DiscussionIcon size={24} fill={colors.primary} />
+                        <DiscussionIcon size={24} fill='primary' />
                       </span>
                     </H3>
                     <ActiveDiscussions first={5} />
@@ -194,11 +213,7 @@ const FeedbackPage = props => {
               />
             </>
           )}
-          {activeDiscussionId && (
-            <DiscussionContextProvider discussionId={activeDiscussionId}>
-              <Discussion />
-            </DiscussionContextProvider>
-          )}
+          {activeDiscussionId && <Discussion />}
           {!tab && (
             <WithMembership
               render={() => (
@@ -211,8 +226,35 @@ const FeedbackPage = props => {
           )}
         </div>
       </Center>
+    </>
+  )
+}
+
+const DialogPage = ({ serverContext }) => {
+  const {
+    query: { t: tab, id }
+  } = useRouter()
+
+  const activeDiscussionId =
+    tab === 'general' ? GENERAL_FEEDBACK_DISCUSSION_ID : tab === 'article' && id
+
+  return (
+    <Frame
+      hasOverviewNav={!tab}
+      raw
+      formatColor='primary'
+      stickySecondaryNav={!tab}
+    >
+      {!!tab && <FontSizeSync />}
+      <MaybeDiscussionContextProvider discussionId={activeDiscussionId}>
+        <DialogContent
+          tab={tab}
+          activeDiscussionId={activeDiscussionId}
+          serverContext={serverContext}
+        />
+      </MaybeDiscussionContextProvider>
     </Frame>
   )
 }
 
-export default withDefaultSSR(compose(withMe, withT, withRouter)(FeedbackPage))
+export default withDefaultSSR(DialogPage)

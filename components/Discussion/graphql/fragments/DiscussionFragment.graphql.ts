@@ -60,6 +60,7 @@ export const DISCUSSION_FRAGMENT = gql`
     document {
       id
       meta {
+        title
         path
         twitterImage
         template

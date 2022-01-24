@@ -141,9 +141,7 @@ const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
                 </Link>
               </Editorial.Format>
               <Interaction.H1>
-                {tab === 'article' && (
-                  <DiscussionTitle discussionId={activeDiscussionId} />
-                )}
+                {tab === 'article' && <DiscussionTitle />}
                 {tab === 'general' && t('feedback/general/title')}
               </Interaction.H1>
               {tab === 'general' && (

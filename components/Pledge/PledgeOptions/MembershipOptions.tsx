@@ -8,7 +8,8 @@ import {
   useMediaQuery,
   Field,
   Interaction,
-  fontStyles
+  fontStyles,
+  Checkbox
 } from '@project-r/styleguide'
 
 import FieldSet from '../../FieldSet'
@@ -32,10 +33,15 @@ const styles = {
       flexDirection: 'row'
     }
   }),
+  disabled: css({
+    opacity: 0.5,
+    cursor: 'default'
+  }),
   button: css({
     flex: 1,
     padding: 12,
     textAlign: 'left',
+    flexWrap: 'wrap',
     display: 'flex',
     flexDirection: 'row',
     [mediaQueries.mUp]: {
@@ -48,8 +54,12 @@ const styles = {
       }
     }
   }),
+  buttonDisabled: css({
+    cursor: 'default'
+  }),
   label: css(Interaction.fontRule, {
     margin: 0,
+    wordBreak: 'break-all',
     paddingRight: 6,
     ...fontStyles.sansSerifRegular15,
     lineHeight: '18px',
@@ -78,6 +88,7 @@ const styles = {
 
 const MembershipOptions = ({
   options,
+  giftMembershipOptions,
   values,
   onChange,
   onPriceChange,
@@ -85,6 +96,7 @@ const MembershipOptions = ({
 }: {
   values: FieldSetValues
   errors: Record<string, any>
+  giftMembershipOptions: OptionType[]
   options: OptionType[]
   onChange: (options) => void
   onPriceChange: (event: Event, value: number, shouldValidate: boolean) => void
@@ -103,12 +115,13 @@ const MembershipOptions = ({
 
   const [colorScheme] = useColorContext()
   const isDesktop = useMediaQuery(mediaQueries.mUp)
+  const [selectionDisabled, setSelectionDisabled] = useState(false)
 
   const buttonStyle = useMemo(
     () => ({
       default: css({
         backgroundColor: colorScheme.getCSSColor('hover'),
-        '@media (hover)': {
+        '@media (hover)': !selectionDisabled && {
           ':hover': {
             backgroundColor: colorScheme.getCSSColor('divider')
           }
@@ -119,7 +132,7 @@ const MembershipOptions = ({
         color: colorScheme.getCSSColor('default')
       })
     }),
-    [colorScheme]
+    [colorScheme, selectionDisabled]
   )
 
   const selectedSuggestion = suggestions
@@ -130,9 +143,14 @@ const MembershipOptions = ({
     )
     .sort((a, b) => descending(a.price, b.price))[0]
 
+  const hasGiftMemberships = giftMembershipOptions.length > 0
+  console.log(options)
   return (
     <>
-      <div {...styles.suggestionsContainer}>
+      <div
+        {...styles.suggestionsContainer}
+        {...(selectionDisabled && styles.disabled)}
+      >
         {suggestions.map((suggestion: SuggestionType, index) => {
           const { price, label, description, userPrice, option } = suggestion
 
@@ -146,41 +164,39 @@ const MembershipOptions = ({
             !option.additionalPeriods && option.minAmount !== option.maxAmount
           return (
             <>
-              <button
-                key={label}
-                {...plainButtonRule}
-                {...styles.button}
-                {...(isSelected ? buttonStyle.selected : buttonStyle.default)}
-                onClick={() => {
-                  onChange(
-                    FieldSet.utils.fieldsState({
-                      field: getOptionFieldKey(option),
-                      value: 1,
-                      error: undefined,
-                      dirty: true
-                    })
-                  )
-                  onPriceChange(
-                    undefined,
-                    (values.price -
-                      selectedSuggestion.price +
-                      suggestion.price) /
-                      100,
-                    true
-                  )
-                }}
-                style={{ order: index }}
-              >
-                <p {...styles.label}>
-                  <span>{label}</span>
-                  {!userPrice && (
-                    <>
-                      <br />
-                      <span>CHF {price / 100}</span>
-                    </>
-                  )}
-                </p>
-              </button>
+              {/* only render buttons if there are more than one suggestions */}
+              {suggestions.length > 1 && (
+                <button
+                  disabled={selectionDisabled}
+                  key={label}
+                  {...plainButtonRule}
+                  {...styles.button}
+                  {...(isSelected ? buttonStyle.selected : buttonStyle.default)}
+                  {...(selectionDisabled && styles.buttonDisabled)}
+                  onClick={() => {
+                    onChange(
+                      FieldSet.utils.fieldsState({
+                        field: getOptionFieldKey(option),
+                        value: 1,
+                        error: undefined,
+                        dirty: true
+                      })
+                    )
+                    onPriceChange(
+                      undefined,
+                      (values.price -
+                        selectedSuggestion.price +
+                        suggestion.price) /
+                        100,
+                      true
+                    )
+                  }}
+                  style={{ order: index }}
+                >
+                  <p {...styles.label}>{label}</p>
+                  {!userPrice && <p>CHF {price / 100}</p>}
+                </button>
+              )}
               <div
                 {...styles.infocontainer}
                 style={{
@@ -190,28 +206,12 @@ const MembershipOptions = ({
               >
                 {userPrice && (
                   <Field
+                    disabled={selectionDisabled}
                     label='Betrag in CHF'
-                    value={values.customPrice || price}
+                    value={values.price || price}
                     renderInput={props => (
                       <input inputMode='numeric' {...props} />
                     )}
-                    onDec={
-                      price - 1000 >= minPrice &&
-                      (() => {
-                        onPriceChange(
-                          undefined,
-                          (price - 1000) / 100,
-                          dirty.price
-                        )
-                      })
-                    }
-                    onInc={() => {
-                      onPriceChange(
-                        undefined,
-                        (price + 1000) / 100,
-                        dirty.price
-                      )
-                    }}
                     onChange={onPriceChange}
                   />
                 )}
@@ -222,6 +222,7 @@ const MembershipOptions = ({
                       <Field
                         label={'Anzahl Geschenkmitgliedschaften'}
                         value={getOptionValue(option, values)}
+                        disabled={selectionDisabled}
                         onChange={(_, value) => {
                           onChange(
                             FieldSet.utils.fieldsState({
@@ -243,6 +244,7 @@ const MembershipOptions = ({
                     {requiresAmountSelector && (
                       <Field
                         label={'Anzahl Monate'}
+                        disabled={selectionDisabled}
                         value={
                           values[getOptionPeriodsFieldKey(option)] === undefined
                             ? option.reward.defaultPeriods
@@ -274,6 +276,16 @@ const MembershipOptions = ({
           )
         })}
       </div>
+      {hasGiftMemberships && (
+        <Checkbox
+          checked={selectionDisabled}
+          onChange={() => {
+            setSelectionDisabled(!selectionDisabled)
+          }}
+        >
+          nur Geschenkmitgliedschaften verlängern
+        </Checkbox>
+      )}
     </>
   )
 }

@@ -572,19 +572,6 @@ class CustomizePackage extends Component {
     return (
       <div>
         <div style={{ marginTop: 20, marginBottom: 10 }}>
-          <Interaction.H2 style={{ marginBottom: 10 }}>
-            {t.first(
-              [
-                ownMembership &&
-                  `package/${pkg.name}/${ownMembership.type.name}/pageTitle`,
-                ownMembership &&
-                  new Date(ownMembership.graceEndDate) < new Date() &&
-                  `package/${pkg.name}/reactivate/pageTitle`,
-                `package/${pkg.name}/pageTitle`,
-                `package/${pkg.name}/title`
-              ].filter(Boolean)
-            )}
-          </Interaction.H2>
           <Link
             href={{
               pathname: '/angebote',
@@ -598,10 +585,24 @@ class CustomizePackage extends Component {
           >
             <A>{t('package/customize/changePackage')}</A>
           </Link>
+          <Interaction.H2 style={{ marginTop: 10 }}>
+            {t.first(
+              [
+                ownMembership &&
+                  `package/${pkg.name}/${ownMembership.type.name}/pageTitle`,
+                ownMembership &&
+                  new Date(ownMembership.graceEndDate) < new Date() &&
+                  `package/${pkg.name}/reactivate/pageTitle`,
+                `package/${pkg.name}/pageTitle`,
+                `package/${pkg.name}/title`
+              ].filter(Boolean)
+            )}
+          </Interaction.H2>
         </div>
 
         <MembershipOptions
           options={membershipOptions}
+          giftMembershipOptions={giftMembershipOptions}
           values={values}
           onChange={fields => {
             onChange(this.calculateNextPrice(fields))
@@ -1087,59 +1088,6 @@ class CustomizePackage extends Component {
 
           {!fixedPrice && (
             <div {...styles.smallP}>
-              {/* {payMoreSuggestions.length > 0 && (
-                <Fragment>
-                  <Interaction.Emphasis>
-                    {t.first(
-                      [
-                        userPrice &&
-                          'package/customize/price/payMore/userPrice',
-                        `package/customize/price/payMore/${pkg.name}`,
-                        'package/customize/price/payMore'
-                      ].filter(Boolean)
-                    )}
-                  </Interaction.Emphasis>
-                  <ul {...styles.ul}>
-                    {payMoreSuggestions.map(({ value, key }) => {
-                      const label = t.elements(
-                        `package/customize/price/payMore/${key}`,
-                        {
-                          formattedCHF: chfFormat(value / 100)
-                        }
-                      )
-                      if (price >= value) {
-                        return <li key={key}>{label}</li>
-                      }
-                      return (
-                        <li key={key}>
-                          <Editorial.A
-                            href='#'
-                            onClick={e => {
-                              e.preventDefault()
-                              onPriceChange(undefined, value / 100, true)
-                              if (userPrice) {
-                                this.resetUserPrice()
-                              }
-                            }}
-                          >
-                            {label}
-                          </Editorial.A>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                  {!!payMoreReached && (
-                    <div {...styles.ulNote}>
-                      <Interaction.Emphasis>
-                        {t.first([
-                          `package/customize/price/payMore/thx/${payMoreReached.key}`,
-                          'package/customize/price/payMore/thx'
-                        ])}
-                      </Interaction.Emphasis>
-                    </div>
-                  )}
-                </Fragment>
-              )} */}
               {pkg.name === 'ABO_GIVE_MONTHS' && (
                 <Fragment>
                   <Interaction.Emphasis>

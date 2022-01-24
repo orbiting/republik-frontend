@@ -35,7 +35,6 @@ import { useDiscussion } from '../components/Discussion/context/DiscussionContex
 import Meta from '../components/Frame/Meta'
 import { getFocusUrl } from '../components/Discussion/shared/CommentLink'
 import StatusError from '../components/StatusError'
-import { useMe } from '../lib/context/MeContext'
 
 const styles = {
   container: css({
@@ -75,7 +74,6 @@ const MaybeDiscussionContextProvider = ({ discussionId, children }) => {
 const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
   const { t } = useTranslation()
   const { query } = useRouter()
-  const { me } = useMe()
 
   const discussionContext = useDiscussion()
 
@@ -153,13 +151,12 @@ const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
               <ActionBar discussion={activeDiscussionId} fontSize />
             </div>
           )}
-          <WithoutMembership
-            render={() => (
-              <>
-                <UnauthorizedMessage
-                  {...{
-                    me,
-                    unauthorizedTexts: {
+          {!discussionContext && (
+            <WithoutMembership
+              render={() => (
+                <>
+                  <UnauthorizedMessage
+                    unauthorizedTexts={{
                       title: ' ',
                       description: t.elements('feedback/unauthorized', {
                         buyLink: (
@@ -168,15 +165,15 @@ const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
                           </Link>
                         )
                       })
-                    }
-                  }}
-                />
-                <br />
-                <br />
-                <br />
-              </>
-            )}
-          />
+                    }}
+                  />
+                  <br />
+                  <br />
+                  <br />
+                </>
+              )}
+            />
+          )}
           {!tab && (
             <>
               <H3>{t('marketing/community/title/plain')}</H3>

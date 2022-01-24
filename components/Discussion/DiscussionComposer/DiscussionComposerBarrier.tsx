@@ -88,22 +88,17 @@ const DiscussionComposerBarrier = ({
   if (!discussion.closed && !me) {
     return (
       <UnauthorizedMessage
-        {...{
-          me,
-          unauthorizedTexts: {
-            title: ' ',
-            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-            /* @ts-ignore */
-            description: t.elements('feedback/unauthorized', {
-              buyLink: (
-                <Link href='/angebote' passHref>
-                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                  {/* @ts-ignore */}
-                  <A>{t('feedback/unauthorized/buyText')}</A>
-                </Link>
-              )
-            })
-          }
+        unauthorizedTexts={{
+          title: ' ',
+          description: t.elements('feedback/unauthorized', {
+            buyLink: (
+              <Link href='/angebote' passHref>
+                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                {/* @ts-ignore */}
+                <A>{t('feedback/unauthorized/buyText')}</A>
+              </Link>
+            )
+          })
         }}
       />
     )

@@ -21,10 +21,11 @@ const styles = {
 }
 
 type Props = {
+  showPayNotes?: boolean
   documentMeta?: any
 }
 
-const Discussion = ({ documentMeta }: Props) => {
+const Discussion = ({ documentMeta, showPayNotes }: Props) => {
   const { t } = useTranslation()
 
   const {
@@ -76,6 +77,7 @@ const Discussion = ({ documentMeta }: Props) => {
             initialTagValue={
               discussion.tags?.length > 0 ? discussion.tags[0] : undefined
             }
+            showPayNotes={showPayNotes}
           />
           <div {...styles.commentsWrapper}>
             <DiscussionOptions documentMeta={documentMeta} />

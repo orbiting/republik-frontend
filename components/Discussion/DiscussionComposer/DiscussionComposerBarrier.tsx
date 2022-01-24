@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useMemo } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
 import { useDiscussion } from '../context/DiscussionContext'
 import { useInNativeApp } from '../../../lib/withInNativeApp'
 import { useMe } from '../../../lib/context/MeContext'
@@ -12,7 +12,6 @@ import {
 } from '@project-r/styleguide'
 import Link from 'next/link'
 import { useTranslation } from '../../../lib/withT'
-import { UnauthorizedMessage } from '../../Auth/withMembership'
 
 type Props = {
   children: ReactNode
@@ -34,7 +33,7 @@ const DiscussionComposerBarrier = ({
 }: Props): ReactElement => {
   const { inNativeIOSApp } = useInNativeApp()
   const { discussion } = useDiscussion()
-  const { me } = useMe()
+  const { hasActiveMembership } = useMe()
   const { t } = useTranslation()
 
   const now = useCurrentMinute()
@@ -42,21 +41,23 @@ const DiscussionComposerBarrier = ({
     return timeahead(t, (now - Date.parse(dateString)) / 1000)
   }
 
-  const isHiddenTopLevelComposer = useMemo(() => {
-    return isTopLevel && !!discussion?.rules?.disableTopLevelComments
-  }, [discussion, isTopLevel])
-
-  const hidePayNote = useMemo(() => {
-    return !showPayNotes || inNativeIOSApp
-  }, [showPayNotes, inNativeIOSApp])
+  const isHiddenTopLevelComposer =
+    isTopLevel && !!discussion?.rules?.disableTopLevelComments
+  const hidePayNote = !showPayNotes || inNativeIOSApp
 
   if (!discussion || isHiddenTopLevelComposer) {
     return null
   }
 
-  // In case the user can't comment on the discussion
-  if (me && !discussion?.userCanComment) {
-    if (hidePayNote) {
+  if (discussion.closed) {
+    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+    /* @ts-ignore */
+    return <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
+  }
+
+  // In case the user can't comment on the discussion, e.g. not signed in or no membership
+  if (!discussion?.userCanComment) {
+    if (hidePayNote || hasActiveMembership) {
       return null
     }
 
@@ -85,36 +86,8 @@ const DiscussionComposerBarrier = ({
     )
   }
 
-  if (!discussion.closed && !me) {
-    return (
-      <UnauthorizedMessage
-        unauthorizedTexts={{
-          title: ' ',
-          description: t.elements('feedback/unauthorized', {
-            buyLink: (
-              <Link href='/angebote' passHref>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-ignore */}
-                <A>{t('feedback/unauthorized/buyText')}</A>
-              </Link>
-            )
-          })
-        }}
-      />
-    )
-  }
-
-  if (discussion.closed && me) {
-    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-    /* @ts-ignore */
-    return <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
-  }
-
-  // Handle discussion wait-until
-
   const waitUntilDate =
     discussion.userWaitUntil && new Date(discussion.userWaitUntil)
-
   if (waitUntilDate && waitUntilDate > new Date()) {
     return (
       <Box style={{ padding: '15px 20px' }}>

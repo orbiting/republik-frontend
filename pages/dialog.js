@@ -151,29 +151,27 @@ const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
               <ActionBar discussion={activeDiscussionId} fontSize />
             </div>
           )}
-          {!discussionContext && (
-            <WithoutMembership
-              render={() => (
-                <>
-                  <UnauthorizedMessage
-                    unauthorizedTexts={{
-                      title: ' ',
-                      description: t.elements('feedback/unauthorized', {
-                        buyLink: (
-                          <Link href='/angebote' passHref>
-                            <A>{t('feedback/unauthorized/buyText')}</A>
-                          </Link>
-                        )
-                      })
-                    }}
-                  />
-                  <br />
-                  <br />
-                  <br />
-                </>
-              )}
-            />
-          )}
+          <WithoutMembership
+            render={() => (
+              <>
+                <UnauthorizedMessage
+                  unauthorizedTexts={{
+                    title: ' ',
+                    description: t.elements('feedback/unauthorized', {
+                      buyLink: (
+                        <Link href='/angebote' passHref>
+                          <A>{t('feedback/unauthorized/buyText')}</A>
+                        </Link>
+                      )
+                    })
+                  }}
+                />
+                <br />
+                <br />
+                <br />
+              </>
+            )}
+          />
           {!tab && (
             <>
               <H3>{t('marketing/community/title/plain')}</H3>
@@ -208,7 +206,7 @@ const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
               />
             </>
           )}
-          {activeDiscussionId && <Discussion />}
+          {activeDiscussionId && <Discussion showPayNotes={false} />}
           {!tab && (
             <WithMembership
               render={() => (

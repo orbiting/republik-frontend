@@ -1,5 +1,15 @@
-import React, { ReactElement, useCallback, useMemo, useState } from 'react'
-import { CommentNode, CommentProps } from '@project-r/styleguide'
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+import {
+  CommentNode,
+  CommentProps,
+  readDiscussionCommentDraft
+} from '@project-r/styleguide'
 import { useTranslation } from '../../../lib/withT'
 import CommentLink, { getFocusHref } from '../shared/CommentLink'
 import { format } from 'url'
@@ -28,9 +38,6 @@ const CommentContainer = ({
   isBoard,
   inRootCommentOverlay
 }: Props): ReactElement => {
-  const [isEditing, setIsEditing] = useState(false)
-  const [isReplying, setIsReplying] = useState(false)
-
   const { t } = useTranslation()
   const { me } = useMe()
   const router = useRouter()
@@ -40,6 +47,16 @@ const CommentContainer = ({
     fetchMore,
     overlays: { shareOverlay, featureOverlay }
   } = useDiscussion()
+
+  const parentId = comment.id
+  const [isEditing, setIsEditing] = useState(false)
+  const [isReplying, setIsReplying] = useState(false)
+  useEffect(() => {
+    const draft = parentId && readDiscussionCommentDraft(discussionId, parentId)
+    if (draft) {
+      setIsReplying(true)
+    }
+  }, [discussionId, parentId])
 
   // Handlers
   const voteHandlers = useVoteCommentHandlers()
@@ -70,7 +87,6 @@ const CommentContainer = ({
     ]
   )
 
-  const parentId = comment.id
   const loadRemainingAfter = discussion?.comments?.pageInfo?.endCursor
   const loadRemainingReplies = useCallback(() => {
     if (isBoard && parentId) {
@@ -130,8 +146,8 @@ const CommentContainer = ({
       {discussion?.userCanComment && isReplying && (
         <DiscussionComposer
           onClose={() => setIsReplying(false)}
-          parentId={comment.id}
-          initialActiveState={true}
+          parentId={parentId}
+          initialActiveState
         />
       )}
       {!isBoard &&

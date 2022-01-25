@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   CommentComposer,
-  CommentComposerPlaceholder
+  CommentComposerPlaceholder,
+  readDiscussionCommentDraft
 } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
 import { useDiscussion } from '../context/DiscussionContext'
@@ -67,7 +68,13 @@ const DiscussionComposer = ({
     return preferences?.me?.credentials?.find(credential => credential.isListed)
   }, [preferences])
 
-  const [active, setActive] = useState(!!initialText || initialActiveState)
+  const [active, setActive] = useState(!!(initialText || initialActiveState))
+  useEffect(() => {
+    const draft = readDiscussionCommentDraft(discussionId, parentId)
+    if (draft) {
+      setActive(true)
+    }
+  }, [discussionId, parentId])
 
   // Create the submit-handler. In case a commentId was given, handle as edit
   const handleSubmit = async (value, tags) => {

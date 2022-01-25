@@ -15,20 +15,20 @@ import { useTranslation } from '../../../lib/withT'
 
 type Props = {
   children: ReactNode
-  isTopLevel?: boolean
+  isRoot?: boolean
   showPayNotes?: boolean
 }
 
 /**
  * Handle rendering of a DiscussionComposer
  * @param children
- * @param isTopLevel
+ * @param isRoot
  * @param showPayNotes
  * @constructor
  */
 const DiscussionComposerBarrier = ({
   children,
-  isTopLevel,
+  isRoot,
   showPayNotes
 }: Props): ReactElement => {
   const { inNativeIOSApp } = useInNativeApp()
@@ -42,7 +42,7 @@ const DiscussionComposerBarrier = ({
   }
 
   const isHiddenTopLevelComposer =
-    isTopLevel && !!discussion?.rules?.disableTopLevelComments
+    isRoot && !!discussion?.rules?.disableTopLevelComments
   const hidePayNote = !showPayNotes || inNativeIOSApp
 
   if (!discussion || isHiddenTopLevelComposer) {

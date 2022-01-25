@@ -58,7 +58,7 @@ const StatementContainer = ({ comment, tagMappings }: Props): ReactElement => {
   if (editMode) {
     return (
       <DiscussionComposer
-        isRootLevel={false}
+        isRoot
         onClose={() => setEditMode(false)}
         commentId={comment.id}
         initialText={comment.text}

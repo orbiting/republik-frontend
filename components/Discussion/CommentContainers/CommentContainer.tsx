@@ -116,6 +116,7 @@ const CommentContainer = ({
         isEditing && (
           <DiscussionComposer
             onClose={() => setIsEditing(false)}
+            isRoot={comment.parentIds.length === 0}
             commentId={comment.id}
             initialText={comment.text}
             initialTagValue={comment?.tags?.[0]}

@@ -75,7 +75,7 @@ const Discussion = ({
             <>
               <TagFilter discussion={discussion} />
               <DiscussionComposer
-                isRootLevel
+                isRoot
                 placeholder={
                   documentMeta?.discussionType === 'statements'
                     ? t('components/Discussion/Statement/Placeholder')

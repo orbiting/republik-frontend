@@ -16,7 +16,7 @@ import usePreviewCommentHandler from '../helpers/usePreviewCommentHandler'
 
 const propTypes = {
   showPayNotes: PropTypes.bool,
-  isRootLevel: PropTypes.bool,
+  isRoot: PropTypes.bool,
   onClose: PropTypes.func,
   commentId: PropTypes.string,
   parentId: PropTypes.string,
@@ -28,7 +28,7 @@ const propTypes = {
 
 const DiscussionComposer = ({
   showPayNotes,
-  isRootLevel = false,
+  isRoot = false,
   onClose,
   // Props below are used for editing a comment
   commentId,
@@ -110,14 +110,11 @@ const DiscussionComposer = ({
   }
 
   return (
-    <DiscussionComposerBarrier
-      isTopLevel={isRootLevel}
-      showPayNotes={showPayNotes}
-    >
+    <DiscussionComposerBarrier isRoot={isRoot} showPayNotes={showPayNotes}>
       {active ? (
         <CommentComposer
           t={t}
-          isRoot={isRootLevel}
+          isRoot={isRoot}
           discussionId={discussion.id}
           parentId={parentId}
           commentId={commentId}

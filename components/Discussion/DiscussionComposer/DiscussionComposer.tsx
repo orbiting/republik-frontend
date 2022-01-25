@@ -21,7 +21,6 @@ const propTypes = {
   commentId: PropTypes.string,
   parentId: PropTypes.string,
   initialText: PropTypes.string,
-  initialTagValue: PropTypes.string,
   initialActiveState: PropTypes.bool,
   placeholder: PropTypes.string
 }
@@ -34,7 +33,6 @@ const DiscussionComposer = ({
   commentId,
   parentId,
   initialText,
-  initialTagValue,
   initialActiveState,
   placeholder
 }: PropTypes.InferProps<typeof propTypes>) => {
@@ -149,9 +147,7 @@ const DiscussionComposer = ({
           maxLength={rules?.maxLength}
           tags={tags}
           initialText={initialText}
-          initialTagValue={
-            tags && tags.length > 0 ? initialTagValue ?? activeTag : undefined
-          }
+          initialTagValue={activeTag}
         />
       ) : (
         <CommentComposerPlaceholder

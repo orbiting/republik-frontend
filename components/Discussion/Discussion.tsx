@@ -81,9 +81,6 @@ const Discussion = ({
                     ? t('components/Discussion/Statement/Placeholder')
                     : undefined
                 }
-                initialTagValue={
-                  discussion.tags?.length > 0 ? discussion.tags[0] : undefined
-                }
                 showPayNotes={showPayNotes}
               />
             </>

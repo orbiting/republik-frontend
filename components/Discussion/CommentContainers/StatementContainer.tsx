@@ -62,7 +62,7 @@ const StatementContainer = ({ comment, tagMappings }: Props): ReactElement => {
         onClose={() => setEditMode(false)}
         commentId={comment.id}
         initialText={comment.text}
-        initialTagValue={comment.tags.length > 0 && comment.tags[0]}
+        initialTagValue={comment?.tags?.[0]}
         placeholder={t('components/Discussion/Statement/Placeholder')}
       />
     )

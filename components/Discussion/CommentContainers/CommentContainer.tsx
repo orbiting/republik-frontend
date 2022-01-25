@@ -102,7 +102,9 @@ const CommentContainer = ({
         handleUpVote: voteHandlers.upVoteCommentHandler,
         handleDownVote: voteHandlers.downVoteCommentHandler,
         handleUnVote: voteHandlers.unVoteCommentHandler,
-        handleReply: me ? () => setIsReplying(true) : undefined,
+        handleReply: discussion.userCanComment
+          ? () => setIsReplying(true)
+          : undefined,
         handleLoadReplies: loadRemainingReplies,
         handleShare: shareOverlay.shareHandler
       }}

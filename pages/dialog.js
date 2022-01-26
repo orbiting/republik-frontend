@@ -71,6 +71,7 @@ const MaybeDiscussionContextProvider = ({ discussionId, children }) => {
   return children
 }
 
+const SUPPORTED_TABS = ['general', 'article']
 const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
   const { t } = useTranslation()
   const { query } = useRouter()
@@ -78,10 +79,12 @@ const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
   const discussionContext = useDiscussion()
 
   if (
-    discussionContext &&
-    !discussionContext.loading &&
-    !discussionContext.error &&
-    !discussionContext.discussion
+    (discussionContext &&
+      !discussionContext.loading &&
+      !discussionContext.error &&
+      !discussionContext.discussion) ||
+    (tab === 'article' && !discussionContext) ||
+    (tab && !SUPPORTED_TABS.includes(t))
   ) {
     return <StatusError statusCode={404} serverContext={serverContext} />
   }

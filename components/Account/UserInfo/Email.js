@@ -48,12 +48,12 @@ export const UserEmail = compose(
   withMe,
   withT
 )(({ me, t }) => {
-  return (
+  return me ? (
     <>
       <Label>{t('Account/Update/email/label')}</Label>
       <P>{me.email}</P>
     </>
-  )
+  ) : null
 })
 
 const InlineLoader = ({ children }) => (

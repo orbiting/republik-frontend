@@ -115,13 +115,13 @@ const MembershipOptions = ({
 
   const [colorScheme] = useColorContext()
   const isDesktop = useMediaQuery(mediaQueries.mUp)
-  const [selectionDisabled, setSelectionDisabled] = useState(false)
+  const [disabledSuggestion, setDisabledSuggestion] = useState(null)
 
   const buttonStyle = useMemo(
     () => ({
       default: css({
         backgroundColor: colorScheme.getCSSColor('hover'),
-        '@media (hover)': !selectionDisabled && {
+        '@media (hover)': !disabledSuggestion && {
           ':hover': {
             backgroundColor: colorScheme.getCSSColor('divider')
           }
@@ -132,7 +132,7 @@ const MembershipOptions = ({
         color: colorScheme.getCSSColor('default')
       })
     }),
-    [colorScheme, selectionDisabled]
+    [colorScheme, disabledSuggestion]
   )
 
   const selectedSuggestion = suggestions
@@ -144,17 +144,18 @@ const MembershipOptions = ({
     .sort((a, b) => descending(a.price, b.price))[0]
 
   const hasGiftMemberships = giftMembershipOptions.length > 0
-  console.log(options)
   return (
     <>
       <div
         {...styles.suggestionsContainer}
-        {...(selectionDisabled && styles.disabled)}
+        {...(!!disabledSuggestion && styles.disabled)}
       >
         {suggestions.map((suggestion: SuggestionType, index) => {
           const { price, label, description, userPrice, option } = suggestion
 
-          const isSelected = selectedSuggestion === suggestion
+          const isSelected =
+            disabledSuggestion?.id === suggestion.id ||
+            selectedSuggestion === suggestion
           // option.additionalPeriods is only true on PROLONG, which is where we don't need a period or amount selector
           const requiresPeriodSelector =
             !option.additionalPeriods &&
@@ -167,12 +168,12 @@ const MembershipOptions = ({
               {/* only render buttons if there are more than one suggestions */}
               {suggestions.length > 1 && (
                 <button
-                  disabled={selectionDisabled}
+                  disabled={!!disabledSuggestion}
                   key={label}
                   {...plainButtonRule}
                   {...styles.button}
                   {...(isSelected ? buttonStyle.selected : buttonStyle.default)}
-                  {...(selectionDisabled && styles.buttonDisabled)}
+                  {...(!!disabledSuggestion && styles.buttonDisabled)}
                   onClick={() => {
                     onChange(
                       FieldSet.utils.fieldsState({
@@ -213,7 +214,7 @@ const MembershipOptions = ({
               >
                 {userPrice && (
                   <Field
-                    disabled={selectionDisabled}
+                    disabled={!!disabledSuggestion}
                     label='Betrag in CHF'
                     value={values.price || price}
                     renderInput={props => (
@@ -229,7 +230,7 @@ const MembershipOptions = ({
                       <Field
                         label={'Anzahl Geschenkmitgliedschaften'}
                         value={getOptionValue(option, values)}
-                        disabled={selectionDisabled}
+                        disabled={!!disabledSuggestion}
                         onChange={(_, value) => {
                           onChange(
                             FieldSet.utils.fieldsState({
@@ -251,7 +252,7 @@ const MembershipOptions = ({
                     {requiresAmountSelector && (
                       <Field
                         label={'Anzahl Monate'}
-                        disabled={selectionDisabled}
+                        disabled={!!disabledSuggestion}
                         value={
                           values[getOptionPeriodsFieldKey(option)] === undefined
                             ? option.reward.defaultPeriods
@@ -284,14 +285,32 @@ const MembershipOptions = ({
         })}
       </div>
       {hasGiftMemberships && (
-        <Checkbox
-          checked={selectionDisabled}
-          onChange={() => {
-            setSelectionDisabled(!selectionDisabled)
-          }}
-        >
-          nur Geschenkmitgliedschaften verlängern
-        </Checkbox>
+        <div style={{ marginBottom: 16 }}>
+          <Checkbox
+            black
+            checked={!!disabledSuggestion}
+            onChange={() => {
+              setDisabledSuggestion(
+                disabledSuggestion !== null ? null : selectedSuggestion
+              )
+              if (disabledSuggestion === null) {
+                onPriceChange(
+                  undefined,
+                  (values.price - selectedSuggestion.price) / 100,
+                  true
+                )
+              } else {
+                onPriceChange(
+                  undefined,
+                  (values.price + disabledSuggestion.price) / 100,
+                  true
+                )
+              }
+            }}
+          >
+            nur Geschenkmitgliedschaften verlängern
+          </Checkbox>
+        </div>
       )}
     </>
   )

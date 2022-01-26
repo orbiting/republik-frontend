@@ -12,6 +12,7 @@ export type SuggestionType = {
   label: string
   description: string
   userPrice: boolean
+  minPrice?: number
   favorite?: boolean
   option?: OptionType
 }

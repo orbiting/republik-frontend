@@ -2,7 +2,7 @@ import React from 'react'
 import { CommentTeaser, useColorContext } from '@project-r/styleguide'
 import compose from 'lodash/flowRight'
 import withT from '../../lib/withT'
-import CommentLink from '../Discussion/CommentLink'
+import CommentLink from '../Discussion/shared/CommentLink'
 import SubscribeCallout from './SubscribeCallout'
 
 export default compose(withT)(({ t, node, isNew }) => {
@@ -15,7 +15,7 @@ export default compose(withT)(({ t, node, isNew }) => {
           title: node.object.discussion.title
         }}
         preview={node.object.preview}
-        Link={CommentLink}
+        CommentLink={CommentLink}
         t={t}
         highlighted={isNew}
         menu={

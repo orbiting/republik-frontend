@@ -62,7 +62,6 @@ import Frame from '../Frame'
 import ActionBar from '../ActionBar'
 import { BrowserOnlyActionBar } from './BrowserOnly'
 import { AudioContext } from '../Audio/AudioProvider'
-import Discussion from '../Discussion/Discussion'
 import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
 import NewsletterSignUp from '../Auth/NewsletterSignUp'
@@ -76,11 +75,11 @@ import { cleanAsPath } from '../../lib/utils/link'
 
 // Identifier-based dynamic components mapping
 import dynamic from 'next/dynamic'
-import CommentLink from '../Discussion/CommentLink'
+import CommentLink from '../Discussion/shared/CommentLink'
 import { Mutation, Query, Subscription } from '@apollo/client/react/components'
 import { useMe } from '../../lib/context/MeContext'
-import StatementDiscussion from '../StatementsDiscussion/StatementDiscussion'
-import DiscussionProvider from '../Discussion/DiscussionProvider/DiscussionProvider'
+import DiscussionContextProvider from '../Discussion/context/DiscussionContextProvider'
+import Discussion from '../Discussion/Discussion'
 
 const dynamicOptions = {
   loading: () => <SmallLoader loading />,
@@ -460,7 +459,8 @@ const ArticlePage = ({
     )}`
 
   const metaWithSocialImages =
-    meta?.ownDiscussion?.id && router.query.focus
+    (meta?.ownDiscussion?.id && router.query.focus) ||
+    (meta?.ownDiscussion?.isBoard && router.query.parent)
       ? undefined
       : meta && {
           ...meta,
@@ -678,22 +678,15 @@ const ArticlePage = ({
                 )}
               {meta.template === 'discussion' && ownDiscussion && (
                 <Center breakout={breakout}>
-                  {articleContent?.meta?.discussionType === 'statements' ? (
-                    <DiscussionProvider discussionId={ownDiscussion.id}>
-                      <StatementDiscussion
-                        tagMappings={articleContent.meta.tagMappings}
-                      />
-                    </DiscussionProvider>
-                  ) : (
+                  <DiscussionContextProvider
+                    discussionId={ownDiscussion.id}
+                    isBoardRoot={ownDiscussion.isBoard}
+                  >
                     <Discussion
-                      discussionId={ownDiscussion.id}
-                      focusId={router.query.focus}
-                      parent={router.query.parent}
-                      mute={!!router.query.mute}
-                      board={ownDiscussion.isBoard}
+                      documentMeta={articleContent.meta}
                       showPayNotes
                     />
-                  )}
+                  </DiscussionContextProvider>
                 </Center>
               )}
               {showNewsletterSignupBottom && (

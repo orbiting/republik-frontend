@@ -66,6 +66,7 @@ const getComments = gql`
           name
           slug
           credential {
+            id
             description
             verified
           }
@@ -98,22 +99,6 @@ const getComments = gql`
               }
             }
           }
-        }
-      }
-    }
-  }
-`
-
-const getDiscussionDocumentMeta = gql`
-  query getDiscussionDocumentMeta($id: ID!) {
-    discussion(id: $id) {
-      id
-      document {
-        id
-        meta {
-          title
-          template
-          path
         }
       }
     }
@@ -172,19 +157,3 @@ export const withComments = (defaultProps = {}) =>
         })
     })
   })
-
-export const withDiscussionDocumentMeta = graphql(getDiscussionDocumentMeta, {
-  skip: props => !!props.meta || !props.discussionId,
-  options: props => ({
-    variables: {
-      id: props.discussionId
-    }
-  }),
-  props: ({ data, ownProps }) => ({
-    documentMeta:
-      data &&
-      data.discussion &&
-      data.discussion.document &&
-      data.discussion.document.meta
-  })
-})

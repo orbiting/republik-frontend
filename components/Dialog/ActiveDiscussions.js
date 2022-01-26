@@ -5,7 +5,7 @@ import compose from 'lodash/flowRight'
 import ArticleItem from './ArticleItem'
 import { withActiveDiscussions } from './enhancers'
 
-import DiscussionLink from '../Discussion/DiscussionLink'
+import DiscussionLink from '../Discussion/shared/DiscussionLink'
 
 import {
   Loader,

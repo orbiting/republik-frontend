@@ -9,7 +9,8 @@
  */
 
 import { gql } from '@apollo/client'
-import * as fragments from './fragments'
+import { DISCUSSION_FRAGMENT } from './fragments/DiscussionFragment.graphql'
+import { COMMENT_FRAGMENT } from './fragments/CommentFragment.graphql'
 
 /*
  * QUERIES
@@ -24,7 +25,7 @@ export const discussionCommentsCountQuery = gql`
       }
     }
   }
-  ${fragments.discussion}
+  ${DISCUSSION_FRAGMENT}
 `
 export const discussionDisplayAuthorQuery = gql`
   query discussionDisplayAuthor($discussionId: ID!) {
@@ -32,7 +33,7 @@ export const discussionDisplayAuthorQuery = gql`
       ...Discussion
     }
   }
-  ${fragments.discussion}
+  ${DISCUSSION_FRAGMENT}
 `
 
 export const discussionFragmentQuery = gql`
@@ -41,106 +42,12 @@ export const discussionFragmentQuery = gql`
       ...Discussion
     }
   }
-  ${fragments.discussion}
-`
-
-export const DISCUSSION_PREFERENCES_QUERY = gql`
-  query discussionPreferences($discussionId: ID!) {
-    me {
-      id
-      name
-      credentials {
-        description
-        verified
-        isListed
-      }
-      defaultDiscussionNotificationOption
-      discussionNotificationChannels
-      portrait
-    }
-    discussion(id: $discussionId) {
-      ...Discussion
-    }
-  }
-  ${fragments.discussion}
-`
-
-export const commentPreviewQuery = gql`
-  query commentPreview(
-    $discussionId: ID!
-    $content: String!
-    $parentId: ID
-    $id: ID
-  ) {
-    commentPreview(
-      content: $content
-      discussionId: $discussionId
-      parentId: $parentId
-      id: $id
-    ) {
-      id
-      content
-      contentLength
-      embed {
-        ... on LinkPreview {
-          url
-          title
-          description
-          imageUrl
-          imageAlt
-          siteName
-          siteImageUrl
-          updatedAt
-          __typename
-        }
-        ... on TwitterEmbed {
-          id
-          url
-          text
-          html
-          userName
-          userScreenName
-          userProfileImageUrl
-          image
-          createdAt
-          __typename
-        }
-      }
-    }
-  }
+  ${DISCUSSION_FRAGMENT}
 `
 
 /*
  * MUTATIONS
  */
-
-export const SUBMIT_COMMENT_MUTATION = gql`
-  mutation submitComment(
-    $discussionId: ID!
-    $parentId: ID
-    $id: ID!
-    $content: String!
-    $tags: [String!]!
-  ) {
-    submitComment(
-      id: $id
-      discussionId: $discussionId
-      parentId: $parentId
-      content: $content
-      tags: $tags
-    ) {
-      ...Comment
-      discussion {
-        id
-        userPreference {
-          notifications
-        }
-        userWaitUntil
-      }
-    }
-  }
-  ${fragments.comment}
-`
 
 export const UPVOTE_COMMENT_MUTATION = gql`
   mutation upvoteCommentMutation($commentId: ID!) {
@@ -148,7 +55,7 @@ export const UPVOTE_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${COMMENT_FRAGMENT}
 `
 
 export const REPORT_COMMENT_MUTATION = gql`
@@ -157,20 +64,7 @@ export const REPORT_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
-`
-
-export const FEATURE_COMMENT_MUTATION = gql`
-  mutation featureCommentMutation(
-    $commentId: ID!
-    $content: String
-    $targets: [CommentFeaturedTarget!]
-  ) {
-    featureComment(id: $commentId, content: $content, targets: $targets) {
-      ...Comment
-    }
-  }
-  ${fragments.comment}
+  ${COMMENT_FRAGMENT}
 `
 
 export const DOWN_VOTE_COMMENT_ACTION = gql`
@@ -179,7 +73,7 @@ export const DOWN_VOTE_COMMENT_ACTION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${COMMENT_FRAGMENT}
 `
 
 export const UP_VOTE_COMMENT_ACTION = gql`
@@ -188,7 +82,7 @@ export const UP_VOTE_COMMENT_ACTION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${COMMENT_FRAGMENT}
 `
 
 export const EDIT_COMMENT_MUTATION = gql`
@@ -197,7 +91,7 @@ export const EDIT_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${COMMENT_FRAGMENT}
 `
 
 export const UNPUBLISH_COMMENT_MUTATION = gql`
@@ -206,7 +100,7 @@ export const UNPUBLISH_COMMENT_MUTATION = gql`
       ...Comment
     }
   }
-  ${fragments.comment}
+  ${COMMENT_FRAGMENT}
 `
 
 export const updateNotificationSettingsMutation = gql`
@@ -237,7 +131,7 @@ export const SET_DISCUSSION_PREFERENCES_MUTATION = gql`
       ...Discussion
     }
   }
-  ${fragments.discussion}
+  ${DISCUSSION_FRAGMENT}
 `
 
 /*
@@ -265,5 +159,5 @@ export const COMMENT_SUBSCRIPTION = gql`
       }
     }
   }
-  ${fragments.comment}
+  ${COMMENT_FRAGMENT}
 `

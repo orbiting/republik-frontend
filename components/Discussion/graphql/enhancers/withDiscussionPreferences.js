@@ -3,11 +3,9 @@ import { graphql } from '@apollo/client/react/hoc'
 
 import produce from '../../../../lib/immer'
 
-import {
-  DISCUSSION_PREFERENCES_QUERY,
-  SET_DISCUSSION_PREFERENCES_MUTATION
-} from '../documents'
+import { SET_DISCUSSION_PREFERENCES_MUTATION } from '../documents'
 import { toRejectedString } from '../utils'
+import { DISCUSSION_PREFERENCES_QUERY } from '../queries/DiscussionPreferencesQuery.graphql'
 
 /**
  * Provides the component with:

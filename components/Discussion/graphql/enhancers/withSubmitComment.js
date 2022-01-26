@@ -6,11 +6,11 @@ import produce from '../../../../lib/immer'
 import withT from '../../../../lib/withT'
 
 import { withDiscussionDisplayAuthor } from './withDiscussionDisplayAuthor'
-import { SUBMIT_COMMENT_MUTATION, commentPreviewQuery } from '../documents'
 import { toRejectedString } from '../utils'
 import { mergeComment, optimisticContent } from '../store'
-import { debug } from '../../debug'
-import { DISCUSSION_QUERY } from '../../DiscussionProvider/graphql/DiscussionQuery.graphql'
+import { DISCUSSION_QUERY } from '../queries/DiscussionQuery.graphql'
+import { SUBMIT_COMMENT_MUTATION } from '../mutations/SubmitCommentMutation.graphql'
+import { PREVIEW_COMMENT_QUERY } from '../queries/PreviewCommentQuery.graphql'
 
 /**
  * Provides the component with
@@ -44,7 +44,7 @@ export const withSubmitComment = compose(
       previewComment: ({ content, discussionId, parentId, id }) => {
         return client
           .query({
-            query: commentPreviewQuery,
+            query: PREVIEW_COMMENT_QUERY,
             variables: {
               content,
               discussionId,
@@ -115,7 +115,6 @@ export const withSubmitComment = compose(
             }
           },
           update: (proxy, { data: { submitComment: comment } }) => {
-            debug('submitComment', comment)
             const variables = {
               discussionId,
               parentId: initialParentId,

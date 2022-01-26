@@ -7,8 +7,6 @@
  *  - optimisticContent(): …
  */
 
-import { debug } from '../debug'
-
 /**
  * Merge a single Comment into the Discussion (provided as a draft). This function is
  * from the submitComment mutation update function to merge the just created comment
@@ -166,7 +164,6 @@ export const mergeComments = ({ parentId, appendAfter, comments }) => draft => {
           /*
            * If we hit this, we have a bug somewhere.
            */
-          debug('mergeComments: node not found', { appendAfter })
           return parentIndex + 1
         }
       } else {

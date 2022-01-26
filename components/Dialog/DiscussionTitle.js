@@ -1,33 +1,29 @@
 import React from 'react'
-import compose from 'lodash/flowRight'
-
-import { withDiscussionDocumentMeta } from './enhancers'
-import withT from '../../lib/withT'
 import Link from '../Link/Href'
 import { inQuotes, A } from '@project-r/styleguide'
+import { useDiscussion } from '../Discussion/context/DiscussionContext'
+import { useTranslation } from '../../lib/withT'
 
-const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
-  const articleMeta = meta || documentMeta
-  if (!discussionId || !articleMeta || !articleMeta.title) {
+const AutoDiscussionTitle = () => {
+  const { discussion } = useDiscussion()
+  const { t } = useTranslation()
+
+  const documentMeta = discussion?.document?.meta
+  if (!documentMeta) {
     return null
   }
-
-  const ArticleLink = (
-    <Link href={articleMeta.path} passHref key='articlelink'>
-      <A href={articleMeta.path}>{inQuotes(articleMeta.title)}</A>
-    </Link>
-  )
 
   return (
     <>
       {t.elements('feedback/autoArticle/selected/headline', {
-        link: ArticleLink
+        link: (
+          <Link key='link' href={documentMeta.path} passHref>
+            <A href={documentMeta.path}>{inQuotes(documentMeta.title || '')}</A>
+          </Link>
+        )
       })}
     </>
   )
 }
 
-export default compose(
-  withT,
-  withDiscussionDocumentMeta
-)(ArticleDiscussionHeadline)
+export default AutoDiscussionTitle

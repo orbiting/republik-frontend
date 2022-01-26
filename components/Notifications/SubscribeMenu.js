@@ -4,10 +4,10 @@ import { graphql } from '@apollo/client/react/hoc'
 import { withRouter } from 'next/router'
 import { CalloutMenu, IconButton } from '@project-r/styleguide'
 import { NotificationIcon, NotificationsNoneIcon } from '@project-r/styleguide'
-import { DISCUSSION_PREFERENCES_QUERY } from '../Discussion/graphql/documents'
 import SubscribeCallout from './SubscribeCallout'
 import { getSelectedDiscussionPreference } from './SubscribeDebate'
 import withMe from '../../lib/apollo/withMe'
+import { DISCUSSION_PREFERENCES_QUERY } from '../Discussion/graphql/queries/DiscussionPreferencesQuery.graphql'
 
 const checkIfSubscribedToAny = ({ data, subscriptions, showAuthorFilter }) =>
   //checks if any of the subscription nodes is set to active
@@ -31,7 +31,6 @@ const SubscribeMenu = ({
   userHasNoDocuments,
   label,
   labelShort,
-  me,
   padded,
   loading,
   attributes
@@ -78,22 +77,28 @@ const SubscribeMenu = ({
     return null
   }
 
-  const Icon = React.forwardRef((props, ref) => (
-    <IconButton
-      Icon={isSubscribedToAny ? NotificationIcon : NotificationsNoneIcon}
-      label={label}
-      labelShort={labelShort}
-      ref={ref}
-      disabled={loading}
-      {...props}
-    />
-  ))
+  const Icon = isSubscribedToAny ? NotificationIcon : NotificationsNoneIcon
+
+  // Render disabled IconButton until loaded and ready
+  // - initiallyOpen is only respected on first CalloutMenu render
+  //   and router.query.mute only becomes available once router.isReady
+  // - while loading the callout menu looks empty
+  if (!router.isReady || loading) {
+    return (
+      <IconButton Icon={Icon} label={label} labelShort={labelShort} disabled />
+    )
+  }
 
   return (
     <CalloutMenu
       padded={padded}
-      Element={Icon}
-      initiallyOpen={router.query && !!router.query.mute}
+      Element={IconButton}
+      elementProps={{
+        Icon,
+        label,
+        labelShort
+      }}
+      initiallyOpen={!!router.query.mute}
       attributes={attributes}
     >
       <SubscribeCallout

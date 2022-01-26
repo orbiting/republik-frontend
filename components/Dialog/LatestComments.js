@@ -7,7 +7,7 @@ import { withComments } from './enhancers'
 import withT from '../../lib/withT'
 import InfiniteScroll from '../Frame/InfiniteScroll'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
-import CommentLink from '../Discussion/CommentLink'
+import CommentLink from '../Discussion/shared/CommentLink'
 
 const styles = {
   button: css({
@@ -67,7 +67,7 @@ const LatestComments = ({ t, data, fetchMore }) => {
                   updatedAt={updatedAt}
                   tags={tags}
                   parentIds={parentIds}
-                  Link={CommentLink}
+                  CommentLink={CommentLink}
                   discussion={discussion}
                 />
               )

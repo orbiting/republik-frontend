@@ -92,6 +92,7 @@ export const notificationsQuery = gql`
               slug
               profilePicture
               credential {
+                id
                 description
                 verified
               }

@@ -1901,6 +1901,14 @@
       "value": "abbrechen"
     },
     {
+      "key": "styleguide/CommentComposer/preview",
+      "value": "Vorschau"
+    },
+    {
+      "key": "styleguide/CommentComposer/exitPreview",
+      "value": "bearbeiten"
+    },
+    {
       "key": "styleguide/CommentComposer/formatting/asterisk",
       "value": "Damit das Gendersternchen im Kommentar als solches dargestellt wird, muss ein Backslash vorangestellt werden: Leser\\*in"
     },

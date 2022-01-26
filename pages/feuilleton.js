@@ -5,18 +5,15 @@ import { withRouter } from 'next/router'
 import Box from '../components/Frame/Box'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
-import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
-import withMembership, {
-  UnauthorizedPage
-} from '../components/Auth/withMembership'
+import withMembership from '../components/Auth/withMembership'
 
 import { Interaction, Loader, RawHtml } from '@project-r/styleguide'
 
 import withDefaultSSR from '../lib/hocs/withDefaultSSR'
 
 const FeuilletonPage = props => {
-  const { t, me, router, isMember, inNativeIOSApp, serverContext } = props
+  const { t, router, isMember, serverContext } = props
 
   if (isMember) {
     // does it's own meta
@@ -40,9 +37,6 @@ const FeuilletonPage = props => {
       />
     )
   }
-  if (inNativeIOSApp) {
-    return <UnauthorizedPage me={me} />
-  }
   if (serverContext) {
     serverContext.res.redirect(302, '/')
     throw new Error('redirect')
@@ -58,5 +52,5 @@ const FeuilletonPage = props => {
 }
 
 export default withDefaultSSR(
-  compose(withMembership, withInNativeApp, withRouter, withT)(FeuilletonPage)
+  compose(withMembership, withRouter, withT)(FeuilletonPage)
 )

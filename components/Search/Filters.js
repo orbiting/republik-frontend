@@ -58,10 +58,9 @@ const Filters = compose(
     })
   }, [colorScheme])
 
-  if (loading || error) return null
+  if (loading || error || !search?.aggregations) return null
 
   const { aggregations } = search
-  if (!aggregations) return null
 
   return (
     <ul {...styles.list}>

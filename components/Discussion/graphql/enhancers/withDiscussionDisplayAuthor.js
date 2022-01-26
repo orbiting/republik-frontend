@@ -1,6 +1,5 @@
 import { graphql } from '@apollo/client/react/hoc'
 
-import { debug } from '../../shared/debug'
 import { discussionDisplayAuthorQuery } from '../documents'
 
 /**

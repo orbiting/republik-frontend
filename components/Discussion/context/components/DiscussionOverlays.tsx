@@ -31,11 +31,6 @@ const DiscussionOverlays = ({
     error,
     updateDiscussionPreferencesHandler
   } = useDiscussionPreferences(id)
-  const noPreferences = discussion?.userPreference?.notifications === null
-  const autoCredential =
-    noPreferences &&
-    !discussion?.userPreference?.anonymity &&
-    preferences?.me?.credentials?.find(c => c.isListed)
 
   return (
     <>

@@ -77,6 +77,7 @@ const getSearchResults = gql`
               slug
               profilePicture
               credential {
+                id
                 description
                 verified
               }

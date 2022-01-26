@@ -69,6 +69,7 @@ export const COMMENT_FRAGMENT = gql`
       slug
       profilePicture
       credential {
+        id
         description
         verified
       }

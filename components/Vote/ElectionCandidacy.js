@@ -642,7 +642,9 @@ const updateCandidacy = gql`
         candidacies {
           id
           credential {
+            id
             description
+            verified
           }
           election {
             slug
@@ -683,7 +685,9 @@ const query = gql`
         city
         recommendation
         credential {
+          id
           description
+          verified
         }
       }
       address {

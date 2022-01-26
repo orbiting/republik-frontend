@@ -66,6 +66,7 @@ const getComments = gql`
           name
           slug
           credential {
+            id
             description
             verified
           }

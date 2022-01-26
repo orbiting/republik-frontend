@@ -82,6 +82,7 @@ export const DISCUSSION_FRAGMENT = gql`
     userPreference {
       anonymity
       credential {
+        id
         description
         verified
       }
@@ -100,6 +101,7 @@ export const DISCUSSION_FRAGMENT = gql`
       name
       slug
       credential {
+        id
         description
         verified
       }

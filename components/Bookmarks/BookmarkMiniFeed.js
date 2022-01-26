@@ -25,10 +25,10 @@ const BookmarkMiniFeed = ({ data, closeHandler, style }) => {
       error={data.error}
       render={() => {
         // only members have a bookmark collection
-        if (!data.me.collectionItems) {
+        if (!data.me?.collectionItems) {
           return null
         }
-        const nodes = data.me.collectionItems.nodes
+        const { nodes } = data.me.collectionItems
         return (
           <div
             {...styles.tilesContainer}

@@ -4,8 +4,7 @@ import {
   Checkbox,
   mediaQueries,
   fontStyles,
-  Interaction,
-  useColorContext
+  Interaction
 } from '@project-r/styleguide'
 import { OptionType } from './PledgeOptionsTypes'
 
@@ -40,8 +39,12 @@ const styles = {
 
 const GiftMembership = ({
   option,
+  value,
+  onChange,
   t
 }: {
+  value: number
+  onChange: (fields) => void
   option: OptionType
   t: (any) => any
 }) => {
@@ -56,12 +59,12 @@ const GiftMembership = ({
       <div {...styles.selection}>
         <Checkbox
           name='Gift Membership'
-          checked={false}
-          onChange={() => {
-            console.log('change')
+          checked={!!value}
+          onChange={(_, checked) => {
+            onChange(checked)
           }}
         >
-          verlängern
+          {`für ${option.price} verlängern`}
         </Checkbox>
       </div>
     </div>

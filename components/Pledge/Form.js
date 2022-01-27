@@ -517,7 +517,9 @@ const query = gql`
             label
             description
             userPrice
+            minUserPrice
             favorite
+            userPriceFallback
           }
           reward {
             __typename
@@ -612,7 +614,9 @@ const query = gql`
             label
             description
             userPrice
+            minUserPrice
             favorite
+            userPriceFallback
           }
           additionalPeriods {
             kind

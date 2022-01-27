@@ -19,20 +19,13 @@ import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 import { shouldIgnoreClick } from '../../lib/utils/link'
 
 import {
-  A,
-  Field,
-  Radio,
-  Checkbox,
   fontFamilies,
   Interaction,
-  Label,
   mediaQueries,
   Editorial,
-  fontStyles,
-  RawHtml
+  fontStyles
 } from '@project-r/styleguide'
 
-import ManageMembership from '../Account/Memberships/Manage'
 import Link from 'next/link'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -117,7 +110,7 @@ const priceError = (price, minPrice, t) => {
     })
   }
 }
-const reasonError = (value = '', t) => {
+export const reasonError = (value = '', t) => {
   return (
     value.trim().length === 0 && t('package/customize/userPrice/reason/error')
   )
@@ -333,16 +326,16 @@ class CustomizePackage extends Component {
       })
     )
   }
-  resetUserPrice() {
-    const { router } = this.props
-    router.replace(
-      { pathname: 'angebote', query: omit(router.query, ['userPrice']) },
-      undefined,
-      {
-        shallow: true
-      }
-    )
-  }
+  // resetUserPrice() {
+  //   const { router } = this.props
+  //   router.replace(
+  //     { pathname: 'angebote', query: omit(router.query, ['userPrice']) },
+  //     undefined,
+  //     {
+  //       shallow: true
+  //     }
+  //   )
+  // }
   componentWillUnmount() {
     this.resetPrice()
   }
@@ -397,15 +390,16 @@ class CustomizePackage extends Component {
     const regularMinPrice = calculateMinPrice(pkg, values, false)
     const fixedPrice = pkg.name === 'MONTHLY_ABO'
 
-    const onPriceChange = (_, value, shouldValidate) => {
+    const onPriceChange = (_, value, shouldValidate, suggestionMinPrice) => {
       const price = String(value).length
         ? Math.round(parseInt(value, 10)) * 100 || 0
         : 0
-      const error = priceError(price, minPrice, t)
 
-      if (userPrice && price >= regularMinPrice) {
-        this.resetUserPrice()
-      }
+      const error = priceError(price, suggestionMinPrice || minPrice, t)
+
+      // if (userPrice && price >= regularMinPrice) {
+      //   this.resetUserPrice()
+      // }
 
       this.setState({ customPrice: true })
       onChange(
@@ -583,9 +577,9 @@ class CustomizePackage extends Component {
             shallow
             passHref
           >
-            <A>{t('package/customize/changePackage')}</A>
+            <Editorial.A>{t('package/customize/changePackage')}</Editorial.A>
           </Link>
-          <Interaction.H2 style={{ marginTop: 10 }}>
+          <Interaction.H2 style={{ margin: '16px 0 24px 0' }}>
             {t.first(
               [
                 ownMembership &&
@@ -604,37 +598,15 @@ class CustomizePackage extends Component {
           options={membershipOptions}
           giftMembershipOptions={giftMembershipOptions}
           values={values}
+          errors={errors}
+          dirty={dirty}
           onChange={fields => {
             onChange(this.calculateNextPrice(fields))
           }}
           onPriceChange={onPriceChange}
           goodiePrice={this.getGoodiePrice()}
+          userPrice={userPrice}
         />
-        {pkg.name === 'REDUCED' && (
-          <Field
-            label={t('package/customize/userPrice/reason/label')}
-            ref={this.focusRefSetter}
-            error={dirty.reason && errors.reason}
-            value={values.reason}
-            renderInput={({ ref, ...inputProps }) => (
-              <AutosizeInput
-                {...inputProps}
-                {...fieldSetStyles.autoSize}
-                inputRef={ref}
-              />
-            )}
-            onChange={(_, value, shouldValidate) => {
-              onChange(
-                FieldSet.utils.fieldsState({
-                  field: 'reason',
-                  value,
-                  error: reasonError(value, t),
-                  dirty: shouldValidate
-                })
-              )
-            }}
-          />
-        )}
         <GoodieOptions
           options={goodieOptions}
           values={values}
@@ -651,11 +623,10 @@ class CustomizePackage extends Component {
         />
 
         <Interaction.P>
-          <Label>Total in CHF: </Label>
-          <strong>{price / 100}</strong>
+          Total in CHF: <strong>{price / 100}.-</strong>
         </Interaction.P>
 
-        {optionGroups.map(
+        {/* {optionGroups.map(
           (
             {
               group,
@@ -1051,7 +1022,7 @@ class CustomizePackage extends Component {
               </Fragment>
             )
           }
-        )}
+        )} */}
 
         <div style={{ marginBottom: 20 }}>
           {/* {fixedPrice ? (

@@ -1,22 +1,23 @@
 import React, { useMemo, useState } from 'react'
 import { css } from 'glamor'
 import { descending } from 'd3-array'
+import AutosizeInput from 'react-textarea-autosize'
 import {
   mediaQueries,
   plainButtonRule,
   useColorContext,
-  useMediaQuery,
   Field,
   Interaction,
   fontStyles,
   Checkbox
 } from '@project-r/styleguide'
 
-import FieldSet from '../../FieldSet'
+import FieldSet, { styles as fieldSetStyles } from '../../FieldSet'
 import {
   getOptionFieldKey,
   getOptionPeriodsFieldKey,
-  getOptionValue
+  getOptionValue,
+  reasonError
 } from '../CustomizePackage'
 import {
   OptionType,
@@ -59,7 +60,6 @@ const styles = {
   }),
   label: css(Interaction.fontRule, {
     margin: 0,
-    wordBreak: 'break-all',
     paddingRight: 6,
     ...fontStyles.sansSerifRegular15,
     lineHeight: '18px',
@@ -70,11 +70,11 @@ const styles = {
     }
   }),
   infocontainer: css({
-    padding: '8px 0px 16px 0px',
+    order: 9,
+    padding: '16px 0px 16px',
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
-    order: 9
+    width: '100%'
   }),
   fieldContainer: css({
     display: 'flex',
@@ -90,31 +90,47 @@ const MembershipOptions = ({
   options,
   giftMembershipOptions,
   values,
+  errors,
+  dirty,
   onChange,
   onPriceChange,
-  goodiePrice
+  goodiePrice,
+  userPrice: queryUserPrice
 }: {
   values: FieldSetValues
   errors: Record<string, any>
+  dirty: Record<string, any>
   giftMembershipOptions: OptionType[]
   options: OptionType[]
   onChange: (options) => void
   onPriceChange: (event: Event, value: number, shouldValidate: boolean) => void
   goodiePrice: number
+  userPrice: number
 }) => {
   const suggestions = useMemo(() => {
     return options.map(option => {
-      // append the option to each suggestion object to pass to fieldset
+      // append option to each suggestion object
       const suggestionsWithOption = option.suggestions.map(suggestion => ({
         ...suggestion,
         option
       }))
-      return suggestionsWithOption
+      if (queryUserPrice) {
+        return suggestionsWithOption.filter(
+          suggestion =>
+            !!suggestion.userPriceFallback || suggestion.price === 24000
+        )
+      } else {
+        // filter out userPriceFallback suggestion
+        return suggestionsWithOption.filter(
+          suggestion =>
+            !suggestion.userPriceFallback ||
+            (suggestion.userPriceFallback && suggestion.favorite)
+        )
+      }
     })
   }, [options]).flat()
 
   const [colorScheme] = useColorContext()
-  const isDesktop = useMediaQuery(mediaQueries.mUp)
   const [disabledSuggestion, setDisabledSuggestion] = useState(null)
 
   const buttonStyle = useMemo(
@@ -152,7 +168,6 @@ const MembershipOptions = ({
       >
         {suggestions.map((suggestion: SuggestionType, index) => {
           const { price, label, description, userPrice, option } = suggestion
-
           const isSelected =
             disabledSuggestion?.id === suggestion.id ||
             selectedSuggestion === suggestion
@@ -166,7 +181,7 @@ const MembershipOptions = ({
           return (
             <>
               {/* only render buttons if there are more than one suggestions */}
-              {suggestions.length > 1 && (
+              {suggestions.length > 1 ? (
                 <button
                   disabled={!!disabledSuggestion}
                   key={label}
@@ -196,32 +211,79 @@ const MembershipOptions = ({
                 >
                   <p {...styles.label}>
                     <span>{label}</span>
-                    {!userPrice && (
-                      <>
-                        <br />
-                        CHF {price / 100}
-                      </>
-                    )}
+                    <br />
+                    <span style={{ opacity: userPrice ? 0 : 1 }}>
+                      CHF {price / 100}
+                    </span>
                   </p>
                 </button>
-              )}
+              ) : null}
               <div
                 {...styles.infocontainer}
                 style={{
-                  order: !isDesktop && index,
                   display: isSelected ? 'inherit' : 'none'
                 }}
               >
+                <Interaction.P>{description}</Interaction.P>
+
                 {userPrice && (
-                  <Field
-                    disabled={!!disabledSuggestion}
-                    label='Betrag in CHF'
-                    value={values.price || price}
-                    renderInput={props => (
-                      <input inputMode='numeric' {...props} />
-                    )}
-                    onChange={onPriceChange}
-                  />
+                  <>
+                    <Field
+                      disabled={!!disabledSuggestion}
+                      label='Betrag in CHF'
+                      value={values.price / 100 || price / 100}
+                      renderInput={props => (
+                        <input inputMode='numeric' {...props} />
+                      )}
+                      error={dirty.price && errors.price}
+                      onChange={onPriceChange}
+                      onDec={
+                        values.price - 1000 >= suggestion.minUserPrice &&
+                        (() => {
+                          onPriceChange(
+                            undefined,
+                            (values.price - 1000) / 100,
+                            dirty.price
+                          )
+                        })
+                      }
+                      onInc={
+                        values.price + 1000 < suggestion.option.price &&
+                        (() => {
+                          onPriceChange(
+                            undefined,
+                            (values.price + 1000) / 100,
+                            dirty.price
+                          )
+                        })
+                      }
+                    />
+                    <Field
+                      // label={t('package/customize/userPrice/reason/label')}
+                      label='Grund'
+                      // ref={this.focusRefSetter}
+                      error={dirty.reason && errors.reason}
+                      value={values.reason}
+                      renderInput={({ ref, ...inputProps }) => (
+                        <AutosizeInput
+                          {...inputProps}
+                          {...fieldSetStyles.autoSize}
+                          inputRef={ref}
+                        />
+                      )}
+                      onChange={(_, value, shouldValidate) => {
+                        onChange(
+                          FieldSet.utils.fieldsState({
+                            field: 'reason',
+                            value,
+                            // error: reasonError(value.toString(), t),
+                            error: undefined,
+                            dirty: shouldValidate
+                          })
+                        )
+                      }}
+                    />
+                  </>
                 )}
 
                 {requiresPeriodSelector || requiresAmountSelector ? (
@@ -278,7 +340,6 @@ const MembershipOptions = ({
                     )}
                   </div>
                 ) : null}
-                <p {...styles.label}>{description}</p>
               </div>
             </>
           )
@@ -286,6 +347,7 @@ const MembershipOptions = ({
       </div>
       {hasGiftMemberships && (
         <div style={{ marginBottom: 16 }}>
+          gi
           <Checkbox
             black
             checked={!!disabledSuggestion}

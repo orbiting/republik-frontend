@@ -12,9 +12,10 @@ export type SuggestionType = {
   label: string
   description: string
   userPrice: boolean
-  minPrice?: number
+  minUserPrice?: number
   favorite?: boolean
   option?: OptionType
+  userPriceFallback: boolean
 }
 
 export type OptionType = {
@@ -26,6 +27,8 @@ export type OptionType = {
   maxAmount?: number
   defaultAmount?: number
   price?: number
+  userPrice: boolean
+  minUserPrice: number
   suggestions: SuggestionType[]
   membership?: {
     user: {

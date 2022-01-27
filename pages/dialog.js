@@ -84,7 +84,7 @@ const DialogContent = ({ tab, activeDiscussionId, serverContext }) => {
       !discussionContext.error &&
       !discussionContext.discussion) ||
     (tab === 'article' && !discussionContext) ||
-    (tab && !SUPPORTED_TABS.includes(t))
+    (tab && !SUPPORTED_TABS.includes(tab))
   ) {
     return <StatusError statusCode={404} serverContext={serverContext} />
   }

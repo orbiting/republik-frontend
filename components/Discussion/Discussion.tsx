@@ -67,8 +67,15 @@ const Discussion = ({
 
   return (
     <Loader
-      loading={discussionLoading || !discussion}
-      error={discussionError}
+      loading={discussionLoading}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      error={
+        discussionError ||
+        (!discussionLoading && !discussion
+          ? t('discussion/missing')
+          : undefined)
+      }
       render={() => (
         <>
           {!inRootCommentOverlay && (

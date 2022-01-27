@@ -98,7 +98,7 @@ const UpdateEmail = ({ t, me, loading, error, updateEmail }) => {
 
   return (
     <Loader
-      loading={loading || !me}
+      loading={loading || (!me && !error)}
       error={error}
       render={() => (
         <>

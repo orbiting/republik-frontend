@@ -105,7 +105,7 @@ const UserNameAddress = compose(
   const { loading, error, me } = detailsData
   return (
     <Loader
-      loading={loading || !me}
+      loading={loading || (!me && !error)}
       error={error}
       render={() => (
         <div>
@@ -211,7 +211,7 @@ class UpdateMe extends Component {
 
     return (
       <Loader
-        loading={loading || !me}
+        loading={loading || (!me && !error)}
         error={error}
         render={() => {
           const meFields = fields(t)

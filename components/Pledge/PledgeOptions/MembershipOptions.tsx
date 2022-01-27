@@ -288,32 +288,9 @@ const MembershipOptions = ({
 
                 {requiresPeriodSelector || requiresAmountSelector ? (
                   <div {...styles.fieldContainer}>
-                    {requiresPeriodSelector && (
-                      <Field
-                        label={'Anzahl Geschenkmitgliedschaften'}
-                        value={getOptionValue(option, values)}
-                        disabled={!!disabledSuggestion}
-                        onChange={(_, value) => {
-                          onChange(
-                            FieldSet.utils.fieldsState({
-                              field: getOptionFieldKey(option),
-                              value: Math.min(
-                                Math.max(+value, option.minAmount),
-                                option.maxAmount
-                              ),
-                              error: undefined,
-                              dirty: true
-                            })
-                          )
-                        }}
-                        renderInput={props => (
-                          <input inputMode='numeric' {...props} />
-                        )}
-                      />
-                    )}
                     {requiresAmountSelector && (
                       <Field
-                        label={'Anzahl Monate'}
+                        label={'Anzahl Abos'}
                         disabled={!!disabledSuggestion}
                         value={
                           values[getOptionPeriodsFieldKey(option)] === undefined
@@ -333,6 +310,29 @@ const MembershipOptions = ({
                             })
                           )
                         }
+                        renderInput={props => (
+                          <input inputMode='numeric' {...props} />
+                        )}
+                      />
+                    )}
+                    {requiresPeriodSelector && (
+                      <Field
+                        label={'Anzahl Monate'}
+                        value={getOptionValue(option, values)}
+                        disabled={!!disabledSuggestion}
+                        onChange={(_, value) => {
+                          onChange(
+                            FieldSet.utils.fieldsState({
+                              field: getOptionFieldKey(option),
+                              value: Math.min(
+                                Math.max(+value, option.minAmount),
+                                option.maxAmount
+                              ),
+                              error: undefined,
+                              dirty: true
+                            })
+                          )
+                        }}
                         renderInput={props => (
                           <input inputMode='numeric' {...props} />
                         )}

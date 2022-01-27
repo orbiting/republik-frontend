@@ -178,6 +178,7 @@ const MembershipOptions = ({
 
           const requiresAmountSelector =
             !option.additionalPeriods && option.minAmount !== option.maxAmount
+
           return (
             <>
               {/* only render buttons if there are more than one suggestions */}
@@ -258,31 +259,34 @@ const MembershipOptions = ({
                         })
                       }
                     />
-                    <Field
-                      // label={t('package/customize/userPrice/reason/label')}
-                      label='Grund'
-                      // ref={this.focusRefSetter}
-                      error={dirty.reason && errors.reason}
-                      value={values.reason}
-                      renderInput={({ ref, ...inputProps }) => (
-                        <AutosizeInput
-                          {...inputProps}
-                          {...fieldSetStyles.autoSize}
-                          inputRef={ref}
-                        />
-                      )}
-                      onChange={(_, value, shouldValidate) => {
-                        onChange(
-                          FieldSet.utils.fieldsState({
-                            field: 'reason',
-                            value,
-                            // error: reasonError(value.toString(), t),
-                            error: undefined,
-                            dirty: shouldValidate
-                          })
-                        )
-                      }}
-                    />
+                    {/* only show reasons if price is below regularMinPrice TODO: replace 24000 with regularMinPrice */}
+                    {values.price - goodiePrice <= 24000 && (
+                      <Field
+                        // label={t('package/customize/userPrice/reason/label')}
+                        label='Grund'
+                        // ref={this.focusRefSetter}
+                        error={dirty.reason && errors.reason}
+                        value={values.reason}
+                        renderInput={({ ref, ...inputProps }) => (
+                          <AutosizeInput
+                            {...inputProps}
+                            {...fieldSetStyles.autoSize}
+                            inputRef={ref}
+                          />
+                        )}
+                        onChange={(_, value, shouldValidate) => {
+                          onChange(
+                            FieldSet.utils.fieldsState({
+                              field: 'reason',
+                              value,
+                              // error: reasonError(value.toString(), t),
+                              error: undefined,
+                              dirty: shouldValidate
+                            })
+                          )
+                        }}
+                      />
+                    )}
                   </>
                 )}
 

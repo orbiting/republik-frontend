@@ -1,6 +1,6 @@
 # Republik Frontend
 
-## ⚠️⚠️⚠️ This repository has been moved to [republik/plattform](https://github.com/republik/plattform) ⚠️⚠️⚠️
+⚠️ This repository together with others has been merged into the [republik/plattform](https://github.com/republik/plattform) monorepo. Let's continue the journey there. ⚠️
 
 ## Usage
 

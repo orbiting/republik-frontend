@@ -1,6 +1,6 @@
 # Republik Frontend
 
-The front-end of [republik.ch](https://www.republik.ch/en).
+## ⚠️⚠️⚠️ This repository has been moved to [republik/plattform](https://github.com/republik/plattform) ⚠️⚠️⚠️
 
 ## Usage
 
